@@ -88,8 +88,8 @@ const Contact = () => {
     <section id="contact" className="section-padding bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-black dark:text-white">Get in Touch</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">Get in Touch</h2>
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-700 dark:text-gray-200">
             Ready to start a project or just want to learn more? Contact us today.
           </p>
         </div>
@@ -101,7 +101,7 @@ const Contact = () => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 dark:bg-gray-800 dark:border-gray-700"
+            className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-600"
           >
             {isSubmitted ? (
               <motion.div
@@ -111,7 +111,7 @@ const Contact = () => {
               >
                 <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Thank You!</h3>
-                <p className="text-gray-600 dark:text-gray-300">
+                <p className="text-gray-700 dark:text-gray-200">
                   Your message has been sent successfully. We'll get back to you within 24 hours.
                 </p>
               </motion.div>
@@ -119,7 +119,7 @@ const Contact = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                       Full Name *
                     </label>
                     <input
@@ -134,7 +134,7 @@ const Contact = () => {
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                       Email Address *
                     </label>
                     <input
@@ -152,7 +152,7 @@ const Contact = () => {
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="company" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="company" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                       Company
                     </label>
                     <input
@@ -166,7 +166,7 @@ const Contact = () => {
                     />
                   </div>
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                       Phone Number
                     </label>
                     <input
@@ -182,7 +182,7 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="service" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label htmlFor="service" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     Service Interest
                   </label>
                   <select
@@ -200,7 +200,7 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     Message *
                   </label>
                   <textarea
@@ -258,11 +258,11 @@ const Contact = () => {
                     className="flex items-start space-x-4 p-4 rounded-lg hover:bg-white dark:hover:bg-gray-800 hover:shadow-md transition-all duration-200 group"
                   >
                     <div className="flex-shrink-0 w-12 h-12 bg-primary-lighter dark:bg-primary-dark/30 rounded-lg flex items-center justify-center group-hover:bg-accent-light transition-colors duration-200">
-                      <info.icon className="w-6 h-6 text-primary" />
+                      <info.icon className="w-6 h-6 text-primary dark:text-primary-light" />
                     </div>
                     <div>
                       <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{info.title}</h4>
-                      <p className="text-gray-600 dark:text-gray-300">{info.value}</p>
+                      <p className="text-gray-700 dark:text-gray-200">{info.value}</p>
                     </div>
                   </motion.a>
                 ))}

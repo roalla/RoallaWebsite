@@ -46,12 +46,12 @@ const Footer = () => {
   ]
 
   return (
-    <footer className="bg-gray-800 dark:bg-black text-gray-300">
+    <footer className="bg-gray-900 dark:bg-black text-gray-200">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid md:grid-cols-3 gap-8">
           <div>
             <h3 className="text-xl font-bold text-white mb-4">Roalla Business Enablement Group</h3>
-            <p className="text-gray-400">Empowering your business for a digital-first world.</p>
+            <p className="text-gray-300">Empowering your business for a digital-first world.</p>
           </div>
           <div>
             <h3 className="text-xl font-bold text-white mb-4">Quick Links</h3>
@@ -76,7 +76,7 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        <div className="mt-12 pt-8 border-t border-gray-700 text-center text-gray-400">
+        <div className="mt-12 pt-8 border-t border-gray-700 text-center text-gray-300">
           <p>&copy; {currentYear} Roalla Business Enablement Group. All Rights Reserved.</p>
         </div>
       </div>

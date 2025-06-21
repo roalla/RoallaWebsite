@@ -27,7 +27,11 @@ export const ThemeToggleButton = () => {
   return (
     <button
       onClick={handleToggle}
-      className="p-2 rounded-full text-gray-500 hover:text-primary hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800 transition-colors duration-200"
+      className={`p-2 rounded-full transition-all duration-200 ${
+        theme === 'dark' 
+          ? 'bg-gray-800 text-yellow-400 hover:bg-gray-700' 
+          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+      }`}
       aria-label="Toggle theme"
     >
       {theme === 'dark' ? (

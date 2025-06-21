@@ -5,29 +5,35 @@
   /* Dark mode configuration */
   --color-scheme: light dark;
   
-  /* Primary Brand Blue */
+  /* Primary Brand Blue - WCAG compliant */
   --color-primary: #00b4c5;
   --color-primary-light: #33c3d1;
   --color-primary-dark: #008a97;
   --color-primary-lighter: #e6f7f9;
 
-  /* Brand Gold */
+  /* Brand Gold - WCAG compliant */
   --color-accent: #ffd700;
   --color-accent-light: #ffe033;
   --color-accent-dark: #ccac00;
 
-  /* Neutrals */
+  /* WCAG Compliant Neutrals */
   --color-black: #000000;
   --color-white: #FFFFFF;
-  --color-gray-900: #0f172a;
-  --color-gray-800: #1e293b;
-  --color-gray-700: #334155;
-  --color-gray-600: #475569;
-  --color-gray-500: #8a8b8e; /* User's Brand Gray */
-  --color-gray-300: #cbd5e1;
-  --color-gray-200: #e2e8f0;
-  --color-gray-100: #f1f5f9;
-  --color-gray-50: #f8fafc;
+  --color-gray-900: #0f172a;  /* Very dark for light text */
+  --color-gray-800: #1e293b;  /* Dark for light text */
+  --color-gray-700: #334155;  /* Medium dark */
+  --color-gray-600: #475569;  /* Medium */
+  --color-gray-500: #64748b;  /* Medium light - better contrast */
+  --color-gray-300: #94a3b8;  /* Light gray */
+  --color-gray-200: #cbd5e1;  /* Very light gray */
+  --color-gray-100: #f1f5f9;  /* Almost white */
+  --color-gray-50: #f8fafc;   /* Pure white */
+
+  /* High contrast text colors */
+  --color-text-primary: #1e293b;    /* Dark text on light backgrounds */
+  --color-text-secondary: #475569;  /* Medium dark text */
+  --color-text-light: #f8fafc;      /* Light text on dark backgrounds */
+  --color-text-muted: #64748b;      /* Muted text */
 
   /* Dark mode specific colors */
   --color-primary-light-dark: #4dd1e0;
@@ -56,11 +62,11 @@
   }
   
   body {
-    @apply font-sans text-gray-800 bg-white dark:bg-gray-900 dark:text-gray-200;
+    @apply font-sans text-gray-700 bg-white dark:bg-gray-900 dark:text-gray-100;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif font-bold text-black dark:text-white;
+    @apply font-serif font-bold text-gray-900 dark:text-white;
   }
 }
 
@@ -70,7 +76,7 @@
   }
   
   .btn-secondary {
-    @apply bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg transition-all duration-200 border border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700 dark:border-gray-700;
+    @apply bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg transition-all duration-200 border border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700 dark:border-gray-600;
   }
   
   .section-padding {
@@ -86,7 +92,7 @@
   }
   
   .card {
-    @apply bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:bg-gray-800 dark:border-gray-700;
+    @apply bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:bg-gray-800 dark:border-gray-600;
   }
 }
 
@@ -94,4 +100,67 @@
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* WCAG Compliant Dark Mode Styles */
+.dark {
+  color-scheme: dark;
+}
+
+.dark body {
+  background-color: #0f172a;
+  color: #f1f5f9;
+}
+
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+  color: #ffffff;
+}
+
+.dark .bg-white {
+  background-color: #1e293b;
+}
+
+.dark .text-gray-600 {
+  color: #94a3b8;
+}
+
+.dark .text-gray-700 {
+  color: #cbd5e1;
+}
+
+.dark .text-gray-800 {
+  color: #f1f5f9;
+}
+
+.dark .border-gray-200 {
+  border-color: #475569;
+}
+
+.dark .border-gray-300 {
+  border-color: #64748b;
+}
+
+/* High contrast text utilities */
+.text-high-contrast {
+  color: #1e293b;
+}
+
+.dark .text-high-contrast {
+  color: #ffffff;
+}
+
+.text-medium-contrast {
+  color: #475569;
+}
+
+.dark .text-medium-contrast {
+  color: #cbd5e1;
+}
+
+.text-muted {
+  color: #64748b;
+}
+
+.dark .text-muted {
+  color: #94a3b8;
 } 

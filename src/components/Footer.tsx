@@ -46,37 +46,37 @@ const Footer = () => {
   ]
 
   return (
-    <footer className="bg-secondary text-secondary-foreground">
+    <footer className="bg-gray-900 dark:bg-black text-gray-200">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid md:grid-cols-3 gap-8">
           <div>
-            <h3 className="text-xl font-bold text-foreground mb-4">Roalla Business Enablement Group</h3>
-            <p className="text-muted-foreground">Empowering your business for a digital-first world.</p>
+            <h3 className="text-xl font-bold text-white mb-4">Roalla Business Enablement Group</h3>
+            <p className="text-gray-300">Empowering your business for a digital-first world.</p>
           </div>
           <div>
-            <h3 className="text-xl font-bold text-foreground mb-4">Quick Links</h3>
+            <h3 className="text-xl font-bold text-white mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><Link href="/#services" className="text-muted-foreground hover:text-primary transition-colors">Services</Link></li>
-              <li><Link href="/#about" className="text-muted-foreground hover:text-primary transition-colors">About</Link></li>
-              <li><Link href="/#testimonials" className="text-muted-foreground hover:text-primary transition-colors">Testimonials</Link></li>
-              <li><Link href="/#contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link></li>
+              <li><Link href="/#services" className="hover:text-primary-light transition-colors">Services</Link></li>
+              <li><Link href="/#about" className="hover:text-primary-light transition-colors">About</Link></li>
+              <li><Link href="/#testimonials" className="hover:text-primary-light transition-colors">Testimonials</Link></li>
+              <li><Link href="/#contact" className="hover:text-primary-light transition-colors">Contact</Link></li>
             </ul>
           </div>
           <div>
-            <h3 className="text-xl font-bold text-foreground mb-4">Contact Us</h3>
+            <h3 className="text-xl font-bold text-white mb-4">Contact Us</h3>
             <ul className="space-y-2">
               <li className="flex items-center">
-                <Mail className="w-5 h-5 mr-3 text-primary" />
-                <a href="mailto:sales@roalla.com" className="text-muted-foreground hover:text-primary transition-colors">sales@roalla.com</a>
+                <Mail className="w-5 h-5 mr-3 text-primary-light" />
+                <a href="mailto:sales@roalla.com" className="hover:text-primary-light transition-colors">sales@roalla.com</a>
               </li>
               <li className="flex items-center">
-                <Phone className="w-5 h-5 mr-3 text-primary" />
-                <a href="tel:289-838-5868" className="text-muted-foreground hover:text-primary transition-colors">289-838-5868</a>
+                <Phone className="w-5 h-5 mr-3 text-primary-light" />
+                <a href="tel:289-838-5868" className="hover:text-primary-light transition-colors">289-838-5868</a>
               </li>
             </ul>
           </div>
         </div>
-        <div className="mt-12 pt-8 border-t border-muted-foreground/20 text-center text-muted-foreground">
+        <div className="mt-12 pt-8 border-t border-gray-700 text-center text-gray-300">
           <p>&copy; {currentYear} Roalla Business Enablement Group. All Rights Reserved.</p>
         </div>
       </div>

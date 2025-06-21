@@ -12,15 +12,15 @@ const Hero = () => {
   ]
 
   return (
-    <section id="home" className="relative bg-background pt-32 pb-20 lg:pt-48 lg:pb-28">
+    <section id="home" className="relative bg-white dark:bg-gray-900 pt-32 pb-20 lg:pt-48 lg:pb-28">
       <div className="absolute inset-0 bg-grid-gray-200/50 dark:bg-grid-gray-700/50 [mask-image:linear-gradient(to_bottom,white,transparent)]"></div>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight">
-            <span className="block text-foreground">Empowering Your Business</span>
+            <span className="block text-gray-900 dark:text-white">Empowering Your Business</span>
             <span className="block gradient-text">for a Digital-First World</span>
           </h1>
-          <p className="mt-6 max-w-2xl mx-auto text-lg sm:text-xl text-muted-foreground">
+          <p className="mt-6 max-w-2xl mx-auto text-lg sm:text-xl text-gray-700 dark:text-gray-200">
             We provide strategic consulting and implementation services that drive growth, efficiency, and innovation. Let&apos;s build your future, together.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
@@ -48,10 +48,10 @@ const Hero = () => {
                 key={stat.label}
                 className="text-center"
               >
-                <div className="card p-6">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-600 hover:shadow-xl transition-all duration-300">
                   <stat.icon className="w-8 h-8 text-primary mx-auto mb-3" />
-                  <div className="text-3xl font-bold text-card-foreground mb-1">{stat.value}</div>
-                  <div className="text-sm text-muted-foreground">{stat.label}</div>
+                  <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">{stat.value}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">{stat.label}</div>
                 </div>
               </div>
             ))}
@@ -59,10 +59,10 @@ const Hero = () => {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="mt-10 flex flex-col items-center text-muted-foreground">
+        <div className="mt-10 flex flex-col items-center text-gray-500 dark:text-gray-400">
           <span className="text-sm mb-2">Scroll to explore</span>
-          <div className="w-6 h-10 border-2 border-muted rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-muted-foreground rounded-full mt-2 animate-bounce"></div>
+          <div className="w-6 h-10 border-2 border-gray-300 dark:border-gray-600 rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-gray-500 dark:bg-gray-400 rounded-full mt-2 animate-bounce"></div>
           </div>
         </div>
       </div>

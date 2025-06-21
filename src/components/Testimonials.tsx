@@ -54,11 +54,11 @@ const Testimonials = () => {
   }
 
   return (
-    <section id="testimonials" className="section-padding bg-secondary">
+    <section id="testimonials" className="section-padding bg-gray-50 dark:bg-gray-800/50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">What Our Clients Say</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">What Our Clients Say</h2>
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-700 dark:text-gray-200">
             Real stories from businesses we&apos;ve helped to achieve their goals.
           </p>
         </div>
@@ -72,10 +72,10 @@ const Testimonials = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
               transition={{ duration: 0.5 }}
-              className="bg-gradient-to-br from-primary/20 to-secondary rounded-2xl p-8 md:p-12 relative"
+              className="bg-gradient-to-br from-primary-lighter to-gray-50 dark:from-primary-dark/20 dark:to-gray-800 rounded-2xl p-8 md:p-12 relative"
             >
               {/* Quote Icon */}
-              <div className="absolute top-6 right-6 text-primary/50 opacity-50">
+              <div className="absolute top-6 right-6 text-primary-light dark:text-primary-light opacity-50">
                 <Quote className="w-12 h-12" />
               </div>
 
@@ -87,21 +87,21 @@ const Testimonials = () => {
               </div>
 
               {/* Content */}
-              <blockquote className="text-xl md:text-2xl text-foreground mb-8 leading-relaxed">
+              <blockquote className="text-xl md:text-2xl text-gray-800 dark:text-gray-100 mb-8 leading-relaxed">
                 "{testimonials[currentIndex].content}"
               </blockquote>
 
               {/* Author */}
               <div className="flex items-center">
-                <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mr-4">
-                  <span className="text-primary font-bold text-lg">
+                <div className="w-16 h-16 bg-primary-lighter dark:bg-primary-dark/30 rounded-full flex items-center justify-center mr-4">
+                  <span className="text-primary-dark dark:text-primary-light font-bold text-lg">
                     {testimonials[currentIndex].name.split(' ').map(n => n[0]).join('')}
                   </span>
                 </div>
                 <div>
-                  <div className="font-semibold text-foreground">{testimonials[currentIndex].name}</div>
-                  <div className="text-muted-foreground">{testimonials[currentIndex].position}</div>
-                  <div className="text-sm text-primary">{testimonials[currentIndex].company}</div>
+                  <div className="font-semibold text-gray-900 dark:text-white">{testimonials[currentIndex].name}</div>
+                  <div className="text-gray-700 dark:text-gray-200">{testimonials[currentIndex].position}</div>
+                  <div className="text-sm text-primary dark:text-primary-light">{testimonials[currentIndex].company}</div>
                 </div>
               </div>
             </motion.div>
@@ -111,9 +111,9 @@ const Testimonials = () => {
           <div className="flex justify-center items-center mt-8 space-x-4">
             <button
               onClick={prevTestimonial}
-              className="p-3 rounded-full card hover:bg-muted transition-colors duration-200"
+              className="p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
             >
-              <ChevronLeft className="w-5 h-5 text-muted-foreground" />
+              <ChevronLeft className="w-5 h-5 text-gray-600 dark:text-gray-300" />
             </button>
             
             {/* Dots */}
@@ -123,7 +123,7 @@ const Testimonials = () => {
                   key={index}
                   onClick={() => setCurrentIndex(index)}
                   className={`w-3 h-3 rounded-full transition-colors duration-200 ${
-                    index === currentIndex ? 'bg-primary' : 'bg-muted'
+                    index === currentIndex ? 'bg-primary' : 'bg-gray-300 dark:bg-gray-600'
                   }`}
                 />
               ))}
@@ -131,9 +131,9 @@ const Testimonials = () => {
 
             <button
               onClick={nextTestimonial}
-              className="p-3 rounded-full card hover:bg-muted transition-colors duration-200"
+              className="p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
             >
-              <ChevronRight className="w-5 h-5 text-muted-foreground" />
+              <ChevronRight className="w-5 h-5 text-gray-600 dark:text-gray-300" />
             </button>
           </div>
         </div>
@@ -147,20 +147,20 @@ const Testimonials = () => {
           className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8"
         >
           <div className="text-center">
-            <div className="text-3xl font-bold text-primary mb-2">98%</div>
-            <div className="text-muted-foreground">Client Satisfaction</div>
+            <div className="text-3xl font-bold text-primary dark:text-primary-light mb-2">98%</div>
+            <div className="text-gray-700 dark:text-gray-200">Client Satisfaction</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-primary mb-2">4.9/5</div>
-            <div className="text-muted-foreground">Average Rating</div>
+            <div className="text-3xl font-bold text-primary dark:text-primary-light mb-2">4.9/5</div>
+            <div className="text-gray-700 dark:text-gray-200">Average Rating</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-primary mb-2">85%</div>
-            <div className="text-muted-foreground">Revenue Growth</div>
+            <div className="text-3xl font-bold text-primary dark:text-primary-light mb-2">85%</div>
+            <div className="text-gray-700 dark:text-gray-200">Revenue Growth</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-primary mb-2">12+</div>
-            <div className="text-muted-foreground">Industries Served</div>
+            <div className="text-3xl font-bold text-primary dark:text-primary-light mb-2">12+</div>
+            <div className="text-gray-700 dark:text-gray-200">Industries Served</div>
           </div>
         </motion.div>
       </div>

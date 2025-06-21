@@ -1,51 +1,41 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin, Clock, Send, CheckCircle } from 'lucide-react'
+import { Mail, Phone, MapPin, Clock, Send, CheckCircle, AlertCircle, Upload, Calendar, FileText } from 'lucide-react'
+
+interface FormData {
+  name: string
+  email: string
+  company: string
+  phone: string
+  service: string
+  message: string
+  budget: string
+  timeline: string
+  files: File[]
+}
+
+interface FormErrors {
+  [key: string]: string
+}
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     company: '',
     phone: '',
     service: '',
-    message: ''
+    message: '',
+    budget: '',
+    timeline: '',
+    files: []
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    
-    setIsSubmitting(false)
-    setIsSubmitted(true)
-    
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false)
-      setFormData({
-        name: '',
-        email: '',
-        company: '',
-        phone: '',
-        service: '',
-        message: ''
-      })
-    }, 3000)
-  }
+  const [errors, setErrors] = useState<FormErrors>({})
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const contactInfo = [
     {
@@ -60,18 +50,6 @@ const Contact = () => {
       value: '289-838-5868',
       href: 'tel:289-838-5868'
     },
-    {
-      icon: MapPin,
-      title: 'Office',
-      value: '123 Business Ave, Suite 100, City, State 12345',
-      href: '#'
-    },
-    {
-      icon: Clock,
-      title: 'Business Hours',
-      value: 'Mon-Fri: 9AM-6PM EST',
-      href: '#'
-    }
   ]
 
   const services = [
@@ -83,6 +61,158 @@ const Contact = () => {
     'Risk Management',
     'Other'
   ]
+
+  const budgets = [
+    'Under $5,000',
+    '$5,000 - $10,000',
+    '$10,000 - $25,000',
+    '$25,000 - $50,000',
+    '$50,000+',
+    'To be discussed'
+  ]
+
+  const timelines = [
+    'Immediate (1-2 weeks)',
+    'Short-term (1-3 months)',
+    'Medium-term (3-6 months)',
+    'Long-term (6+ months)',
+    'Ongoing partnership'
+  ]
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {}
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required'
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = 'Name must be at least 2 characters'
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address'
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message is required'
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = 'Message must be at least 10 characters'
+    }
+
+    if (formData.phone && !/^[\+]?[1-9][\d]{0,15}$/.test(formData.phone.replace(/[\s\-\(\)]/g, ''))) {
+      newErrors.phone = 'Please enter a valid phone number'
+    }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({ ...prev, [name]: value }))
+    
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }))
+    }
+  }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || [])
+    const validFiles = files.filter(file => {
+      const maxSize = 10 * 1024 * 1024 // 10MB
+      const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain', 'image/jpeg', 'image/png']
+      
+      if (file.size > maxSize) {
+        alert(`File ${file.name} is too large. Maximum size is 10MB.`)
+        return false
+      }
+      
+      if (!allowedTypes.includes(file.type)) {
+        alert(`File ${file.name} is not a supported file type.`)
+        return false
+      }
+      
+      return true
+    })
+    
+    setFormData(prev => ({ ...prev, files: [...prev.files, ...validFiles] }))
+  }
+
+  const removeFile = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      files: prev.files.filter((_, i) => i !== index)
+    }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!validateForm()) {
+      return
+    }
+
+    setIsSubmitting(true)
+    
+    try {
+      // Create FormData for file upload
+      const submitData = new FormData()
+      Object.entries(formData).forEach(([key, value]) => {
+        if (key === 'files') {
+          formData.files.forEach(file => {
+            submitData.append('files', file)
+          })
+        } else {
+          submitData.append(key, value)
+        }
+      })
+
+      // Simulate API call - replace with actual endpoint
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        body: submitData
+      })
+
+      if (response.ok) {
+        setIsSubmitted(true)
+        // Reset form after 3 seconds
+        setTimeout(() => {
+          setIsSubmitted(false)
+          setFormData({
+            name: '',
+            email: '',
+            company: '',
+            phone: '',
+            service: '',
+            message: '',
+            budget: '',
+            timeline: '',
+            files: []
+          })
+          if (fileInputRef.current) {
+            fileInputRef.current.value = ''
+          }
+        }, 3000)
+      } else {
+        throw new Error('Failed to submit form')
+      }
+    } catch (error) {
+      console.error('Form submission error:', error)
+      setErrors({ submit: 'Failed to submit form. Please try again.' })
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const formatFileSize = (bytes: number): string => {
+    if (bytes === 0) return '0 Bytes'
+    const k = 1024
+    const sizes = ['Bytes', 'KB', 'MB', 'GB']
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+  }
 
   return (
     <section id="contact" className="section-padding bg-white dark:bg-gray-900">
@@ -116,7 +246,18 @@ const Contact = () => {
                 </p>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+                {errors.submit && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 flex items-center"
+                  >
+                    <AlertCircle className="w-5 h-5 text-red-500 mr-2" />
+                    <span className="text-red-700 dark:text-red-300">{errors.submit}</span>
+                  </motion.div>
+                )}
+
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
@@ -129,9 +270,17 @@ const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                      aria-describedby={errors.name ? "name-error" : undefined}
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 ${
+                        errors.name ? 'border-red-300 dark:border-red-600' : 'border-gray-300 dark:border-gray-600'
+                      }`}
                       placeholder="Your full name"
                     />
+                    {errors.name && (
+                      <p id="name-error" className="mt-1 text-sm text-red-600 dark:text-red-400">
+                        {errors.name}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
@@ -144,9 +293,17 @@ const Contact = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                      aria-describedby={errors.email ? "email-error" : undefined}
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 ${
+                        errors.email ? 'border-red-300 dark:border-red-600' : 'border-gray-300 dark:border-gray-600'
+                      }`}
                       placeholder="your.email@company.com"
                     />
+                    {errors.email && (
+                      <p id="email-error" className="mt-1 text-sm text-red-600 dark:text-red-400">
+                        {errors.email}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -175,26 +332,71 @@ const Contact = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                      aria-describedby={errors.phone ? "phone-error" : undefined}
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 ${
+                        errors.phone ? 'border-red-300 dark:border-red-600' : 'border-gray-300 dark:border-gray-600'
+                      }`}
                       placeholder="289-838-5868"
                     />
+                    {errors.phone && (
+                      <p id="phone-error" className="mt-1 text-sm text-red-600 dark:text-red-400">
+                        {errors.phone}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="service" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+                      Service Interest
+                    </label>
+                    <select
+                      id="service"
+                      name="service"
+                      value={formData.service}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    >
+                      <option value="">Select a service</option>
+                      {services.map((service) => (
+                        <option key={service} value={service}>{service}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="budget" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+                      Budget Range
+                    </label>
+                    <select
+                      id="budget"
+                      name="budget"
+                      value={formData.budget}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    >
+                      <option value="">Select budget range</option>
+                      {budgets.map((budget) => (
+                        <option key={budget} value={budget}>{budget}</option>
+                      ))}
+                    </select>
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="service" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                    Service Interest
+                  <label htmlFor="timeline" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+                    Project Timeline
                   </label>
                   <select
-                    id="service"
-                    name="service"
-                    value={formData.service}
+                    id="timeline"
+                    name="timeline"
+                    value={formData.timeline}
                     onChange={handleChange}
                     className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   >
-                    <option value="">Select a service</option>
-                    {services.map((service) => (
-                      <option key={service} value={service}>{service}</option>
+                    <option value="">Select timeline</option>
+                    {timelines.map((timeline) => (
+                      <option key={timeline} value={timeline}>{timeline}</option>
                     ))}
                   </select>
                 </div>
@@ -210,28 +412,99 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     rows={5}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 resize-none"
-                    placeholder="Tell us about your business challenges and goals..."
+                    aria-describedby={errors.message ? "message-error" : undefined}
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 resize-none ${
+                      errors.message ? 'border-red-300 dark:border-red-600' : 'border-gray-300 dark:border-gray-600'
+                    }`}
+                    placeholder="Tell us about your project, goals, and how we can help..."
                   />
+                  {errors.message && (
+                    <p id="message-error" className="mt-1 text-sm text-red-600 dark:text-red-400">
+                      {errors.message}
+                    </p>
+                  )}
                 </div>
 
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      Send Message
-                      <Send className="ml-2 w-5 h-5" />
-                    </>
+                {/* File Upload */}
+                <div>
+                  <label htmlFor="files" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+                    Attach Files (Optional)
+                  </label>
+                  <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-primary dark:hover:border-primary-light transition-colors duration-200">
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      id="files"
+                      multiple
+                      onChange={handleFileChange}
+                      accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png"
+                      className="hidden"
+                    />
+                    <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                      Drop files here or click to upload
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      PDF, DOC, DOCX, TXT, JPG, PNG (max 10MB each)
+                    </p>
+                  </div>
+                  
+                  {/* File List */}
+                  {formData.files.length > 0 && (
+                    <div className="mt-4 space-y-2">
+                      {formData.files.map((file, index) => (
+                        <div key={index} className="flex items-center justify-between bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+                          <div className="flex items-center">
+                            <FileText className="w-4 h-4 text-gray-500 mr-2" />
+                            <span className="text-sm text-gray-700 dark:text-gray-200">{file.name}</span>
+                            <span className="text-xs text-gray-500 ml-2">({formatFileSize(file.size)})</span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => removeFile(index)}
+                            className="text-red-500 hover:text-red-700 dark:hover:text-red-400"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
                   )}
-                </button>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="btn-primary flex-1 inline-flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                          className="w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2"
+                        />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-5 h-5 mr-2" />
+                        Send Message
+                      </>
+                    )}
+                  </button>
+                  
+                  <a
+                    href="https://calendly.com/roalla/consultation"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-secondary inline-flex items-center justify-center"
+                  >
+                    <Calendar className="w-5 h-5 mr-2" />
+                    Schedule Call
+                  </a>
+                </div>
               </form>
             )}
           </motion.div>
@@ -246,43 +519,49 @@ const Contact = () => {
           >
             <div>
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Contact Information</h3>
-              <div className="space-y-6">
-                {contactInfo.map((info, index) => (
-                  <motion.a
+              <div className="space-y-4">
+                {contactInfo.map((info) => (
+                  <a
                     key={info.title}
                     href={info.href}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className="flex items-start space-x-4 p-4 rounded-lg hover:bg-white dark:hover:bg-gray-800 hover:shadow-md transition-all duration-200 group"
+                    className="flex items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 group"
                   >
-                    <div className="flex-shrink-0 w-12 h-12 bg-primary-lighter dark:bg-primary-dark/30 rounded-lg flex items-center justify-center group-hover:bg-accent-light transition-colors duration-200">
-                      <info.icon className="w-6 h-6 text-primary dark:text-primary-light" />
+                    <div className="w-12 h-12 bg-primary-lighter dark:bg-primary-dark/20 rounded-lg flex items-center justify-center mr-4 group-hover:bg-primary dark:group-hover:bg-primary-light transition-colors duration-200">
+                      <info.icon className="w-6 h-6 text-primary dark:text-primary-light group-hover:text-white transition-colors duration-200" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white mb-1">{info.title}</h4>
+                      <h4 className="font-semibold text-gray-900 dark:text-white">{info.title}</h4>
                       <p className="text-gray-700 dark:text-gray-200">{info.value}</p>
                     </div>
-                  </motion.a>
+                  </a>
                 ))}
               </div>
             </div>
 
-            {/* Consultation CTA */}
-            <div className="bg-gradient-to-br from-primary to-primary-dark rounded-2xl p-8 text-white">
-              <h3 className="text-2xl font-bold mb-4">Free Initial Consultation</h3>
-              <p className="text-primary-lighter mb-6">
-                Schedule a complimentary 30-minute consultation to discuss your business 
-                challenges and explore how we can help you achieve your goals.
-              </p>
-              <a
-                href="mailto:sales@roalla.com?subject=Free Consultation Request"
-                className="inline-flex items-center bg-white text-primary font-semibold py-3 px-6 rounded-lg hover:bg-gray-50 transition-colors duration-200"
-              >
-                Schedule Consultation
-                <Send className="ml-2 w-5 h-5" />
-              </a>
+            <div className="bg-gradient-to-br from-primary-lighter to-gray-50 dark:from-primary-dark/20 dark:to-gray-800/50 rounded-2xl p-8">
+              <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Response Time</h4>
+              <div className="flex items-center text-gray-700 dark:text-gray-200">
+                <Clock className="w-5 h-5 mr-2" />
+                <span>We typically respond within 24 hours</span>
+              </div>
+            </div>
+
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-600">
+              <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-4">What to Expect</h4>
+              <ul className="space-y-3 text-gray-700 dark:text-gray-200">
+                <li className="flex items-start">
+                  <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                  <span>Initial consultation within 24 hours</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                  <span>Customized proposal within 3-5 business days</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                  <span>Ongoing support throughout your project</span>
+                </li>
+              </ul>
             </div>
           </motion.div>
         </div>

@@ -17,7 +17,6 @@ const Footer = () => {
     company: [
       { name: 'About Us', href: '#about' },
       { name: 'Our Team', href: '#about' },
-      { name: 'Testimonials', href: '#testimonials' },
       { name: 'Case Studies', href: '#' },
       { name: 'Careers', href: '#' },
       { name: 'Contact', href: '#contact' }
@@ -58,7 +57,6 @@ const Footer = () => {
             <ul className="space-y-2">
               <li><Link href="/#services" className="hover:text-primary-light transition-colors">Services</Link></li>
               <li><Link href="/#about" className="hover:text-primary-light transition-colors">About</Link></li>
-              <li><Link href="/#testimonials" className="hover:text-primary-light transition-colors">Testimonials</Link></li>
               <li><Link href="/#contact" className="hover:text-primary-light transition-colors">Contact</Link></li>
             </ul>
           </div>

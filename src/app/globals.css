@@ -1,82 +1,80 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap');
-
-@theme {
-  /* Dark mode configuration */
-  --color-scheme: light dark;
-  
-  /* Primary Brand Blue - WCAG compliant */
-  --color-primary: #00b4c5;
-  --color-primary-light: #33c3d1;
-  --color-primary-dark: #008a97;
-  --color-primary-lighter: #e6f7f9;
-
-  /* Brand Gold - WCAG compliant */
-  --color-accent: #ffd700;
-  --color-accent-light: #ffe033;
-  --color-accent-dark: #ccac00;
-
-  /* WCAG Compliant Neutrals */
-  --color-black: #000000;
-  --color-white: #FFFFFF;
-  --color-gray-900: #0f172a;  /* Very dark for light text */
-  --color-gray-800: #1e293b;  /* Dark for light text */
-  --color-gray-700: #334155;  /* Medium dark */
-  --color-gray-600: #475569;  /* Medium */
-  --color-gray-500: #64748b;  /* Medium light - better contrast */
-  --color-gray-300: #94a3b8;  /* Light gray */
-  --color-gray-200: #cbd5e1;  /* Very light gray */
-  --color-gray-100: #f1f5f9;  /* Almost white */
-  --color-gray-50: #f8fafc;   /* Pure white */
-
-  /* High contrast text colors */
-  --color-text-primary: #1e293b;    /* Dark text on light backgrounds */
-  --color-text-secondary: #475569;  /* Medium dark text */
-  --color-text-light: #f8fafc;      /* Light text on dark backgrounds */
-  --color-text-muted: #64748b;      /* Muted text */
-
-  /* Dark mode specific colors */
-  --color-primary-light-dark: #4dd1e0;
-  --color-primary-dark-dark: #006d78;
-
-  --font-sans: 'Inter', 'system-ui', 'sans-serif';
-  --font-serif: 'Merriweather', 'serif';
-
-  --animation-fade-in: fadeIn 0.5s ease-in-out;
-  --animation-slide-up: slideUp 0.5s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 100px;
   }
   
   body {
-    @apply font-sans text-gray-700 bg-white dark:bg-gray-900 dark:text-gray-100;
+    @apply bg-white text-gray-900 font-sans transition-colors duration-300;
+    line-height: 1.6;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif font-bold text-gray-900 dark:text-white;
+    @apply font-serif font-bold text-gray-900;
+    line-height: 1.2;
+  }
+
+  *:focus {
+    outline: 2px solid #00b4c5;
+    outline-offset: 2px;
+  }
+
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: #00b4c5;
+    color: white;
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 1000;
+    transition: top 0.3s;
+  }
+
+  .skip-link:focus {
+    top: 6px;
+  }
+
+  button:focus,
+  a:focus {
+    outline: 2px solid #00b4c5;
+    outline-offset: 2px;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: 2px solid #00b4c5;
+    outline-offset: 2px;
+    border-color: #00b4c5;
+  }
+
+  @media (max-width: 768px) {
+    button,
+    a,
+    input,
+    select,
+    textarea {
+      min-height: 44px;
+      min-width: 44px;
+    }
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-primary hover:bg-primary-dark text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
+    @apply bg-primary hover:bg-primary-dark text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 active:translate-y-0;
   }
   
   .btn-secondary {
-    @apply bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg transition-all duration-200 border border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700 dark:border-gray-600;
+    @apply bg-gray-50 hover:bg-gray-100 text-gray-700 font-semibold py-3 px-6 rounded-lg transition-all duration-300 border border-gray-200 hover:border-primary;
   }
   
   .section-padding {
@@ -92,7 +90,7 @@
   }
   
   .card {
-    @apply bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:bg-gray-800 dark:border-gray-600;
+    @apply bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200;
   }
 }
 
@@ -100,90 +98,4 @@
   .text-balance {
     text-wrap: balance;
   }
-}
-
-/* WCAG Compliant Dark Mode Styles */
-.dark {
-  color-scheme: dark;
-
-  /* Body background and text */
-  --bg-default: var(--color-gray-900);
-  --text-default: var(--color-gray-100);
-  
-  /* Component backgrounds */
-  --bg-surface: var(--color-gray-800);
-  --bg-surface-hover: var(--color-gray-700);
-
-  /* Borders */
-  --border-default: var(--color-gray-700);
-  --border-subtle: var(--color-gray-600);
-
-  /* Text colors */
-  --text-primary: var(--color-white);
-  --text-secondary: var(--color-gray-200);
-  --text-muted: var(--color-gray-300);
-
-  /* Interactive colors */
-  --interactive-primary: var(--color-primary);
-  --interactive-primary-hover: var(--color-primary-light);
-  --interactive-secondary: var(--color-gray-700);
-  --interactive-secondary-hover: var(--color-gray-600);
-}
-
-.dark body {
-  background-color: var(--bg-default);
-  color: var(--text-default);
-}
-
-.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
-  color: var(--text-primary);
-}
-
-.dark .bg-white {
-  background-color: var(--bg-surface);
-}
-
-.dark .text-gray-600 {
-  color: var(--text-secondary);
-}
-
-.dark .text-gray-700 {
-  color: var(--text-muted);
-}
-
-.dark .text-gray-800 {
-  color: var(--text-default);
-}
-
-.dark .border-gray-200 {
-  border-color: var(--border-default);
-}
-
-.dark .border-gray-300 {
-  border-color: var(--border-subtle);
-}
-
-/* High contrast text utilities */
-.text-high-contrast {
-  color: #1e293b;
-}
-
-.dark .text-high-contrast {
-  color: #ffffff;
-}
-
-.text-medium-contrast {
-  color: #475569;
-}
-
-.dark .text-medium-contrast {
-  color: #cbd5e1;
-}
-
-.text-muted {
-  color: #64748b;
-}
-
-.dark .text-muted {
-  color: #94a3b8;
 } 

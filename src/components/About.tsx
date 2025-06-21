@@ -30,10 +30,8 @@ const About = () => {
   ]
 
   const achievements = [
-    { number: '15+', label: 'Years Experience' },
+    { number: '30+', label: 'Years Experience' },
     { number: '500+', label: 'Projects Completed' },
-    { number: '200+', label: 'Happy Clients' },
-    { number: '95%', label: 'Success Rate' }
   ]
 
   return (

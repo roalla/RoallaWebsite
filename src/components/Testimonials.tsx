@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Star, Quote } from 'lucide-react'
+import Image from 'next/image'
 
 const Testimonials = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -59,24 +60,14 @@ const Testimonials = () => {
   }
 
   return (
-    <section id="testimonials" className="section-padding bg-white">
-      <div className="container-custom">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            What Our <span className="gradient-text">Clients Say</span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Don't just take our word for it. Here's what business leaders have to say about 
-            their experience working with Roalla Business Enablement Group.
+    <section id="testimonials" className="section-padding bg-gray-50 dark:bg-gray-800/50">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-black dark:text-white">What Our Clients Say</h2>
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300">
+            Real stories from businesses we&apos;ve helped to achieve their goals.
           </p>
-        </motion.div>
+        </div>
 
         {/* Testimonials Carousel */}
         <div className="relative max-w-4xl mx-auto">
@@ -87,7 +78,7 @@ const Testimonials = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
               transition={{ duration: 0.5 }}
-              className="bg-gradient-to-br from-primary-lighter to-gray-50 rounded-2xl p-8 md:p-12 relative"
+              className="bg-gradient-to-br from-primary-lighter to-gray-50 dark:from-primary-dark/20 dark:to-gray-800 rounded-2xl p-8 md:p-12 relative"
             >
               {/* Quote Icon */}
               <div className="absolute top-6 right-6 text-primary-light opacity-50">
@@ -102,21 +93,21 @@ const Testimonials = () => {
               </div>
 
               {/* Content */}
-              <blockquote className="text-xl md:text-2xl text-gray-800 mb-8 leading-relaxed">
+              <blockquote className="text-xl md:text-2xl text-gray-800 dark:text-gray-200 mb-8 leading-relaxed">
                 "{testimonials[currentIndex].content}"
               </blockquote>
 
               {/* Author */}
               <div className="flex items-center">
-                <div className="w-16 h-16 bg-primary-lighter rounded-full flex items-center justify-center mr-4">
-                  <span className="text-primary-dark font-bold text-lg">
+                <div className="w-16 h-16 bg-primary-lighter dark:bg-primary-dark/30 rounded-full flex items-center justify-center mr-4">
+                  <span className="text-primary-dark dark:text-primary-light font-bold text-lg">
                     {testimonials[currentIndex].name.split(' ').map(n => n[0]).join('')}
                   </span>
                 </div>
                 <div>
-                  <div className="font-semibold text-gray-900">{testimonials[currentIndex].name}</div>
-                  <div className="text-gray-600">{testimonials[currentIndex].position}</div>
-                  <div className="text-sm text-primary">{testimonials[currentIndex].company}</div>
+                  <div className="font-semibold text-gray-900 dark:text-white">{testimonials[currentIndex].name}</div>
+                  <div className="text-gray-600 dark:text-gray-300">{testimonials[currentIndex].position}</div>
+                  <div className="text-sm text-primary dark:text-primary-light">{testimonials[currentIndex].company}</div>
                 </div>
               </div>
             </motion.div>
@@ -126,9 +117,9 @@ const Testimonials = () => {
           <div className="flex justify-center items-center mt-8 space-x-4">
             <button
               onClick={prevTestimonial}
-              className="p-3 rounded-full bg-white shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors duration-200"
+              className="p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
             >
-              <ChevronLeft className="w-5 h-5 text-gray-600" />
+              <ChevronLeft className="w-5 h-5 text-gray-600 dark:text-gray-300" />
             </button>
             
             {/* Dots */}
@@ -138,7 +129,7 @@ const Testimonials = () => {
                   key={index}
                   onClick={() => setCurrentIndex(index)}
                   className={`w-3 h-3 rounded-full transition-colors duration-200 ${
-                    index === currentIndex ? 'bg-primary' : 'bg-gray-300'
+                    index === currentIndex ? 'bg-primary' : 'bg-gray-300 dark:bg-gray-600'
                   }`}
                 />
               ))}
@@ -146,9 +137,9 @@ const Testimonials = () => {
 
             <button
               onClick={nextTestimonial}
-              className="p-3 rounded-full bg-white shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors duration-200"
+              className="p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
             >
-              <ChevronRight className="w-5 h-5 text-gray-600" />
+              <ChevronRight className="w-5 h-5 text-gray-600 dark:text-gray-300" />
             </button>
           </div>
         </div>
@@ -163,19 +154,19 @@ const Testimonials = () => {
         >
           <div className="text-center">
             <div className="text-3xl font-bold text-primary mb-2">98%</div>
-            <div className="text-gray-600">Client Satisfaction</div>
+            <div className="text-gray-600 dark:text-gray-300">Client Satisfaction</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold text-primary mb-2">4.9/5</div>
-            <div className="text-gray-600">Average Rating</div>
+            <div className="text-gray-600 dark:text-gray-300">Average Rating</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold text-primary mb-2">85%</div>
-            <div className="text-gray-600">Revenue Growth</div>
+            <div className="text-gray-600 dark:text-gray-300">Revenue Growth</div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold text-primary mb-2">12+</div>
-            <div className="text-gray-600">Industries Served</div>
+            <div className="text-gray-600 dark:text-gray-300">Industries Served</div>
           </div>
         </motion.div>
       </div>

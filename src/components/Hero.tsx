@@ -12,74 +12,40 @@ const Hero = () => {
   ]
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-lighter via-white to-gray-50 pt-16">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-      
-      <div className="container-custom relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center lg:text-left"
-          >
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight"
+    <section id="home" className="relative bg-white dark:bg-gray-900 pt-32 pb-20 lg:pt-48 lg:pb-28">
+      <div className="absolute inset-0 bg-grid-gray-200/50 dark:bg-grid-gray-700/50 [mask-image:linear-gradient(to_bottom,white,transparent)]"></div>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="text-center">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight">
+            <span className="block text-black dark:text-white">Empowering Your Business</span>
+            <span className="block gradient-text">for a Digital-First World</span>
+          </h1>
+          <p className="mt-6 max-w-2xl mx-auto text-lg sm:text-xl text-gray-600 dark:text-gray-300">
+            We provide strategic consulting and implementation services that drive growth, efficiency, and innovation. Let&apos;s build your future, together.
+          </p>
+          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="#contact"
+              className="btn-primary inline-flex items-center justify-center group"
             >
-              Transform Your Business with{' '}
-              <span className="gradient-text">Expert Consulting</span>
-            </motion.h1>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-xl text-gray-600 mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0"
+              Get Started Today
+              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
+            </a>
+            <a
+              href="#services"
+              className="btn-secondary inline-flex items-center justify-center"
             >
-              Strategic solutions for businesses and entrepreneurs. We help you navigate challenges, 
-              seize opportunities, and achieve sustainable growth in today's competitive landscape.
-            </motion.p>
-            
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
-            >
-              <a
-                href="#contact"
-                className="btn-primary inline-flex items-center justify-center group"
-              >
-                Get Started Today
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
-              </a>
-              <a
-                href="#services"
-                className="btn-secondary inline-flex items-center justify-center"
-              >
-                View Services
-              </a>
-            </motion.div>
-          </motion.div>
+              View Services
+            </a>
+          </div>
+        </div>
 
+        <div className="mt-10 grid lg:grid-cols-2 gap-12 items-center">
           {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="grid grid-cols-3 gap-6 lg:gap-8"
-          >
+          <div className="grid grid-cols-3 gap-6 lg:gap-8">
             {stats.map((stat, index) => (
-              <motion.div
+              <div
                 key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1 + index * 0.1 }}
                 className="text-center"
               >
                 <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
@@ -87,25 +53,18 @@ const Hero = () => {
                   <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
                   <div className="text-sm text-gray-600">{stat.label}</div>
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
 
         {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.5 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        >
-          <div className="flex flex-col items-center text-gray-500">
-            <span className="text-sm mb-2">Scroll to explore</span>
-            <div className="w-6 h-10 border-2 border-gray-300 rounded-full flex justify-center">
-              <div className="w-1 h-3 bg-gray-500 rounded-full mt-2 animate-bounce"></div>
-            </div>
+        <div className="mt-10 flex flex-col items-center text-gray-500">
+          <span className="text-sm mb-2">Scroll to explore</span>
+          <div className="w-6 h-10 border-2 border-gray-300 rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-gray-500 rounded-full mt-2 animate-bounce"></div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

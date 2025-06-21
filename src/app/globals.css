@@ -2,6 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap');
 
 @theme {
+  /* Dark mode configuration */
+  --color-scheme: light dark;
+  
   /* Primary Brand Blue */
   --color-primary: #00b4c5;
   --color-primary-light: #33c3d1;
@@ -25,6 +28,10 @@
   --color-gray-200: #e2e8f0;
   --color-gray-100: #f1f5f9;
   --color-gray-50: #f8fafc;
+
+  /* Dark mode specific colors */
+  --color-primary-light-dark: #4dd1e0;
+  --color-primary-dark-dark: #006d78;
 
   --font-sans: 'Inter', 'system-ui', 'sans-serif';
   --font-serif: 'Merriweather', 'serif';
@@ -79,4 +86,12 @@
   }
   
   .card {
-    @apply bg-white rounded-xl shadow-lg hover:shadow-xl tr
+    @apply bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:bg-gray-800 dark:border-gray-700;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+} 

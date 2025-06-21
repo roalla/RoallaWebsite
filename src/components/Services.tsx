@@ -53,60 +53,25 @@ const Services = () => {
   ]
 
   return (
-    <section id="services" className="section-padding bg-white">
-      <div className="container-custom">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Our <span className="gradient-text">Services</span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Comprehensive consulting solutions tailored to your business needs. 
-            We partner with you to achieve sustainable growth and lasting success.
+    <section id="services" className="section-padding bg-gray-50 dark:bg-gray-800/50">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-black dark:text-white">Our Services</h2>
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300">
+            We offer a range of services designed to help your business succeed in the digital age.
           </p>
-        </motion.div>
+        </div>
 
         {/* Services Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <motion.div
-              key={service.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="card p-8 hover:transform hover:-translate-y-2 group"
-            >
-              <div className="flex items-center justify-center w-16 h-16 bg-primary-lighter rounded-xl mb-6 group-hover:bg-accent-light transition-colors duration-300">
-                <service.icon className="w-8 h-8 text-primary" />
+            <div key={index} className="card p-8 text-center flex flex-col items-center">
+              <div className="bg-primary/10 dark:bg-primary-dark/20 p-4 rounded-full mb-6">
+                <service.icon className="w-8 h-8 text-primary dark:text-primary-light" />
               </div>
-              
-              <h3 className="text-xl font-bold text-gray-900 mb-4">{service.title}</h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">{service.description}</p>
-              
-              <ul className="space-y-2 mb-6">
-                {service.features.map((feature) => (
-                  <li key={feature} className="flex items-center text-sm text-gray-600">
-                    <div className="w-1.5 h-1.5 bg-primary rounded-full mr-3"></div>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-              
-              <a
-                href="#contact"
-                className="inline-flex items-center text-primary font-semibold hover:text-primary-dark transition-colors duration-200 group/link"
-              >
-                Learn More
-                <ArrowRight className="ml-2 w-4 h-4 group-hover/link:translate-x-1 transition-transform duration-200" />
-              </a>
-            </motion.div>
+              <h3 className="text-xl font-bold mb-4 text-black dark:text-white">{service.title}</h3>
+              <p className="text-gray-600 dark:text-gray-400 flex-grow">{service.description}</p>
+            </div>
           ))}
         </div>
 

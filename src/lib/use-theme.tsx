@@ -29,11 +29,17 @@ export function ThemeProvider({
   ...props
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(defaultTheme)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    const storedTheme = localStorage.getItem(storageKey) as Theme | null
-    if (storedTheme) {
-      setTheme(storedTheme)
+    setMounted(true)
+    try {
+      const storedTheme = localStorage.getItem(storageKey) as Theme | null
+      if (storedTheme && (storedTheme === 'light' || storedTheme === 'dark')) {
+        setTheme(storedTheme)
+      }
+    } catch (error) {
+      console.log('⚠️ Error reading theme from localStorage:', error)
     }
   }, [storageKey])
 
@@ -41,13 +47,22 @@ export function ThemeProvider({
     theme,
     setTheme: (newTheme: Theme) => {
       console.log('🎨 ThemeProvider: Setting theme to', newTheme)
-      const root = window.document.documentElement
-      root.classList.remove('light', 'dark')
-      root.classList.add(newTheme)
-      localStorage.setItem(storageKey, newTheme)
-      setTheme(newTheme)
-      console.log('✅ Theme applied successfully')
+      try {
+        const root = window.document.documentElement
+        root.classList.remove('light', 'dark')
+        root.classList.add(newTheme)
+        localStorage.setItem(storageKey, newTheme)
+        setTheme(newTheme)
+        console.log('✅ Theme applied successfully')
+      } catch (error) {
+        console.log('⚠️ Error setting theme:', error)
+      }
     },
+  }
+
+  // Prevent hydration mismatch by not rendering until mounted
+  if (!mounted) {
+    return <ThemeProviderContext.Provider {...props} value={initialState}>{children}</ThemeProviderContext.Provider>
   }
 
   return (

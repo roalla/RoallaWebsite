@@ -69,7 +69,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth light">
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -78,12 +78,21 @@ export default function RootLayout({
               try {
                 const theme = localStorage.getItem('vite-ui-theme') || 'light';
                 console.log('📖 Found theme in localStorage:', theme);
+                
+                // Remove any existing theme classes
+                document.documentElement.classList.remove('light', 'dark');
+                
+                // Add the current theme class
                 document.documentElement.classList.add(theme);
                 console.log('✅ Applied theme class:', theme);
                 console.log('📋 HTML classes:', document.documentElement.classList.toString());
               } catch (e) {
                 console.log('⚠️ Error reading localStorage:', e);
-                document.documentElement.classList.add('light');
+                // Ensure we have a theme class even if localStorage fails
+                if (!document.documentElement.classList.contains('light') && 
+                    !document.documentElement.classList.contains('dark')) {
+                  document.documentElement.classList.add('light');
+                }
                 console.log('✅ Applied default theme: light');
               }
             `,

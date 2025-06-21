@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { CheckCircle, Award, Clock, Heart } from 'lucide-react'
+import { CheckCircle, Award, Clock, Heart, Users } from 'lucide-react'
 import Image from 'next/image'
 
 const About = () => {
@@ -50,13 +50,14 @@ const About = () => {
             </p>
           </div>
           <div>
-            <Image
-              src="/placeholder-about.jpg"
-              alt="Our Team"
-              width={600}
-              height={400}
-              className="rounded-xl shadow-2xl"
-            />
+            {/* Fallback for missing image */}
+            <div className="w-full h-80 bg-gradient-to-br from-primary-lighter to-gray-100 dark:from-primary-dark/20 dark:to-gray-800 rounded-xl shadow-2xl flex items-center justify-center">
+              <div className="text-center">
+                <Users className="w-24 h-24 text-primary dark:text-primary-light mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white">Our Team</h3>
+                <p className="text-gray-700 dark:text-gray-200 mt-2">Professional consultants ready to help your business succeed</p>
+              </div>
+            </div>
           </div>
         </div>
 

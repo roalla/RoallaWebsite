@@ -3,7 +3,6 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Star, Quote } from 'lucide-react'
-import Image from 'next/image'
 
 const Testimonials = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -14,40 +13,35 @@ const Testimonials = () => {
       position: 'CEO, TechStart Inc.',
       company: 'Technology',
       content: 'Roalla Consulting transformed our business strategy completely. Their insights helped us scale from a startup to a market leader in just 18 months. The ROI was incredible.',
-      rating: 5,
-      image: '/api/placeholder/60/60'
+      rating: 5
     },
     {
       name: 'Michael Chen',
       position: 'Founder, GreenSolutions',
       company: 'Sustainability',
       content: 'Working with Roalla was a game-changer. They didn\'t just provide advice—they became true partners in our growth journey. Our revenue increased by 300% in the first year.',
-      rating: 5,
-      image: '/api/placeholder/60/60'
+      rating: 5
     },
     {
       name: 'Emily Rodriguez',
       position: 'COO, RetailPlus',
       company: 'Retail',
       content: 'The strategic planning and optimization strategies from Roalla Consulting helped us streamline operations and improve efficiency by 40%. Their expertise is unmatched.',
-      rating: 5,
-      image: '/api/placeholder/60/60'
+      rating: 5
     },
     {
       name: 'David Thompson',
       position: 'Managing Director, FinanceCorp',
       company: 'Financial Services',
       content: 'Roalla\'s risk management and growth strategies were exactly what we needed. They helped us navigate market challenges and achieve sustainable growth.',
-      rating: 5,
-      image: '/api/placeholder/60/60'
+      rating: 5
     },
     {
       name: 'Lisa Wang',
       position: 'VP Operations, HealthTech',
       company: 'Healthcare',
       content: 'The leadership development program and innovation consulting services from Roalla have been transformative for our organization. Highly recommended!',
-      rating: 5,
-      image: '/api/placeholder/60/60'
+      rating: 5
     }
   ]
 

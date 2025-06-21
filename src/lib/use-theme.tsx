@@ -28,6 +28,7 @@ export function ThemeProvider({
   storageKey = 'vite-ui-theme',
   ...props
 }: ThemeProviderProps) {
+  // Start with default theme to match server-side rendering
   const [theme, setTheme] = useState<Theme>(defaultTheme)
   const [mounted, setMounted] = useState(false)
 
@@ -36,7 +37,12 @@ export function ThemeProvider({
     try {
       const storedTheme = localStorage.getItem(storageKey) as Theme | null
       if (storedTheme && (storedTheme === 'light' || storedTheme === 'dark')) {
+        console.log('🎨 ThemeProvider: Found stored theme:', storedTheme)
         setTheme(storedTheme)
+        // Apply the theme to the document
+        const root = window.document.documentElement
+        root.classList.remove('light', 'dark')
+        root.classList.add(storedTheme)
       }
     } catch (error) {
       console.log('⚠️ Error reading theme from localStorage:', error)

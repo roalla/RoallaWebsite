@@ -53,11 +53,11 @@ const Services = () => {
   ]
 
   return (
-    <section id="services" className="section-padding bg-gray-50 dark:bg-gray-800/50">
+    <section id="services" className="section-padding bg-secondary">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">Our Services</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-700 dark:text-gray-200">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground">Our Services</h2>
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
             We offer a range of services designed to help your business succeed in the digital age.
           </p>
         </div>
@@ -66,11 +66,11 @@ const Services = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <div key={index} className="card p-8 text-center flex flex-col items-center">
-              <div className="bg-primary/10 dark:bg-primary-dark/20 p-4 rounded-full mb-6">
-                <service.icon className="w-8 h-8 text-primary dark:text-primary-light" />
+              <div className="bg-primary/10 p-4 rounded-full mb-6">
+                <service.icon className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">{service.title}</h3>
-              <p className="text-gray-700 dark:text-gray-200 flex-grow">{service.description}</p>
+              <h3 className="text-xl font-bold mb-4 text-card-foreground">{service.title}</h3>
+              <p className="text-muted-foreground flex-grow">{service.description}</p>
             </div>
           ))}
         </div>
@@ -83,11 +83,11 @@ const Services = () => {
           viewport={{ once: true }}
           className="text-center mt-16"
         >
-          <div className="bg-gradient-to-r from-primary-lighter to-gray-50 dark:from-primary-dark/20 dark:to-gray-800/50 rounded-2xl p-8 md:p-12">
-            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+          <div className="bg-gradient-to-r from-primary/20 to-secondary rounded-2xl p-8 md:p-12">
+            <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
               Ready to Transform Your Business?
             </h3>
-            <p className="text-lg text-gray-700 dark:text-gray-200 mb-8 max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
               Let's discuss how our consulting services can help you achieve your business goals 
               and drive sustainable growth.
             </p>

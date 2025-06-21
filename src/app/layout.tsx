@@ -74,11 +74,17 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
+              console.log('🔧 Layout script running...');
               try {
                 const theme = localStorage.getItem('vite-ui-theme') || 'light';
+                console.log('📖 Found theme in localStorage:', theme);
                 document.documentElement.classList.add(theme);
+                console.log('✅ Applied theme class:', theme);
+                console.log('📋 HTML classes:', document.documentElement.classList.toString());
               } catch (e) {
+                console.log('⚠️ Error reading localStorage:', e);
                 document.documentElement.classList.add('light');
+                console.log('✅ Applied default theme: light');
               }
             `,
           }}

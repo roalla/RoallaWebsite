@@ -8,21 +8,19 @@ export const ThemeToggleButton = () => {
   const { theme, setTheme } = useTheme()
 
   const handleToggle = () => {
-    console.log('=== THEME TOGGLE DEBUG ===')
-    console.log('Current theme state:', theme)
-    console.log('Current HTML classes:', document.documentElement.classList.toString())
-    console.log('Current body classes:', document.body.classList.toString())
+    console.log('🔄 Theme toggle clicked!')
+    console.log('Current theme:', theme)
     
     const newTheme = theme === 'dark' ? 'light' : 'dark'
-    console.log('Switching to theme:', newTheme)
+    console.log('Switching to:', newTheme)
     
     setTheme(newTheme)
     
-    // Check after a short delay to see if the theme was applied
+    // Check if the theme was applied
     setTimeout(() => {
-      console.log('After setTheme - HTML classes:', document.documentElement.classList.toString())
-      console.log('After setTheme - body classes:', document.body.classList.toString())
-      console.log('After setTheme - localStorage:', localStorage.getItem('vite-ui-theme'))
+      const htmlClasses = document.documentElement.classList.toString()
+      console.log('HTML classes after toggle:', htmlClasses)
+      console.log('localStorage value:', localStorage.getItem('vite-ui-theme'))
     }, 100)
   }
 

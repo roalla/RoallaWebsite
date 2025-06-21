@@ -40,16 +40,13 @@ export function ThemeProvider({
   const value = {
     theme,
     setTheme: (newTheme: Theme) => {
-      console.log('setTheme called with:', newTheme)
+      console.log('🎨 ThemeProvider: Setting theme to', newTheme)
       const root = window.document.documentElement
-      console.log('Before: HTML classes:', root.classList.toString())
       root.classList.remove('light', 'dark')
       root.classList.add(newTheme)
-      console.log('After: HTML classes:', root.classList.toString())
       localStorage.setItem(storageKey, newTheme)
-      console.log('Theme saved to localStorage:', storageKey, newTheme)
       setTheme(newTheme)
-      console.log('State updated to:', newTheme)
+      console.log('✅ Theme applied successfully')
     },
   }
 

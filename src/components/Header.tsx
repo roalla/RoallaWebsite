@@ -6,10 +6,12 @@ import { Menu, X, ChevronDown } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import CalendlyButton from './CalendlyButton'
+import { useCalendly } from './CalendlyProvider'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const { openCalendly } = useCalendly()
 
   useEffect(() => {
     // Handle scroll effect
@@ -110,8 +112,8 @@ const Header = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.6 }}
             >
-              <CalendlyButton variant="primary" size="md">
-                Get Started
+              <CalendlyButton variant="primary" size="md" onClick={openCalendly}>
+                Schedule Consultation
               </CalendlyButton>
             </motion.div>
           </div>
@@ -186,8 +188,11 @@ const Header = () => {
                   transition={{ duration: 0.3, delay: navigation.length * 0.1 }}
                   className="pt-4"
                 >
-                  <CalendlyButton variant="primary" size="md" className="w-full">
-                    Get Started
+                  <CalendlyButton variant="primary" size="md" onClick={() => {
+                    openCalendly()
+                    closeMenu()
+                  }}>
+                    Schedule Consultation
                   </CalendlyButton>
                 </motion.div>
               </div>

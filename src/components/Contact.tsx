@@ -4,6 +4,7 @@ import React, { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle, AlertCircle, Upload, Calendar, FileText } from 'lucide-react'
 import CalendlyButton from './CalendlyButton'
+import { useCalendly } from './CalendlyProvider'
 
 interface FormData {
   name: string
@@ -37,6 +38,7 @@ const Contact = () => {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [errors, setErrors] = useState<FormErrors>({})
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const { openCalendly } = useCalendly()
 
   const contactInfo = [
     {
@@ -496,7 +498,10 @@ const Contact = () => {
                     )}
                   </button>
                   
-                  <CalendlyButton variant="secondary" size="md" icon>
+                  <CalendlyButton 
+                    variant="secondary" 
+                    onClick={openCalendly}
+                  >
                     Schedule Call
                   </CalendlyButton>
                 </div>

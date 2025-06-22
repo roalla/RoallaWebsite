@@ -2,6 +2,9 @@ import React from 'react'
 import type { Metadata } from 'next'
 import { Inter, Merriweather } from 'next/font/google'
 import './globals.css'
+import { CalendlyProvider } from '@/components/CalendlyProvider';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -181,11 +184,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://assets.calendly.com" />
         
-        {/* Calendly embed script */}
-        <script 
-          src="https://assets.calendly.com/assets/external/widget.js" 
-          async
-        />
+        {/* Calendly embed script is now handled by the react-calendly package */}
         
         {/* Structured data */}
         <script
@@ -216,7 +215,11 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
       </head>
       <body className={`${inter.className} antialiased`}>
-        {children}
+        <CalendlyProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </CalendlyProvider>
       </body>
     </html>
   )

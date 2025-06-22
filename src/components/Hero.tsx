@@ -4,8 +4,11 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, CheckCircle } from 'lucide-react'
 import CalendlyButton from './CalendlyButton'
+import { useCalendly } from './CalendlyProvider'
 
 const Hero = () => {
+  const { openCalendly } = useCalendly()
+
   return (
     <section id="home" className="relative bg-white pt-32 pb-24 lg:pt-48 lg:pb-32">
       <div className="absolute inset-0 bg-grid-gray-200/50 [mask-image:linear-gradient(to_bottom,white,transparent)]"></div>
@@ -26,8 +29,12 @@ const Hero = () => {
           </p>
           
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <CalendlyButton variant="primary" size="lg" icon>
-              Get Started Today
+            <CalendlyButton 
+              variant="primary" 
+              size="lg" 
+              onClick={openCalendly}
+            >
+              Get Started
             </CalendlyButton>
             <motion.a
               href="#services"

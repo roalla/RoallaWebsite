@@ -98,4 +98,9 @@
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* Ensure Calendly popup is always on top */
+.calendly-popup-content {
+  z-index: 9999 !important;
 } 

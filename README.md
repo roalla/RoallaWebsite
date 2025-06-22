@@ -135,7 +135,7 @@ colors: {
 
 - **Email**: sales@roalla.com
 - **Phone**: 289-838-5868
-- **Calendly**: https://calendly.com/steven-robin-roalla
+- **Calendly**: https://calendly.com/roalla
 
 ## License
 

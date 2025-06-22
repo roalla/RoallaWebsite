@@ -25,7 +25,7 @@ const SchedulePage = () => {
           <div className="mt-12">
             <div 
               className="calendly-inline-widget w-full" 
-              data-url="https://calendly.com/steven-robin-roalla" 
+              data-url="https://calendly.com/roalla" 
               style={{ minWidth: '320px', height: '700px' }}
             ></div>
           </div>

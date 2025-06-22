@@ -4,66 +4,64 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, CheckCircle } from 'lucide-react'
 import CalendlyButton from './CalendlyButton'
-import { useCalendly } from './CalendlyProvider'
 
 const Hero = () => {
-  const { openCalendly } = useCalendly()
-
   return (
-    <section id="home" className="relative bg-white pt-32 pb-24 lg:pt-48 lg:pb-32">
-      <div className="absolute inset-0 bg-grid-gray-200/50 [mask-image:linear-gradient(to_bottom,white,transparent)]"></div>
-      
-      <div className="container-custom relative z-10">
+    <section className="bg-white text-gray-900">
+      <div className="container-custom section-padding text-center">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center"
+          transition={{ duration: 0.5 }}
         >
-          <span className="block text-gray-900">Empowering Your Business</span>
-          <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-extrabold gradient-text">
-            Business Enablement Solutions
+          <h1 className="text-4xl md:text-6xl font-serif font-extrabold leading-tight text-gray-900 mb-6">
+            <span className="gradient-text">Empowering</span> Your Business For a Digital-First World
           </h1>
-          <p className="mt-6 max-w-2xl mx-auto text-lg sm:text-xl text-gray-700">
-            Transform your business with strategic consulting, process optimization, and growth solutions tailored to your unique needs.
+          <p className="max-w-3xl mx-auto text-lg md:text-xl text-gray-600 mb-8">
+            We provide expert consulting in strategy, technology, and operations to help your business thrive in today's competitive landscape.
           </p>
-          
-          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
             <CalendlyButton 
               variant="primary" 
               size="lg" 
-              onClick={openCalendly}
             >
               Get Started
             </CalendlyButton>
-            <motion.a
-              href="#services"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="btn-secondary inline-flex items-center justify-center"
+            <motion.a 
+              href="#about" 
+              className="btn-secondary"
+              whileHover={{ y: -2 }}
             >
-              Explore Services
+              Learn More <ArrowRight className="w-5 h-5 ml-2" />
             </motion.a>
-          </div>
-          
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
-            {[
-              { text: "Strategic Planning", icon: CheckCircle },
-              { text: "Process Optimization", icon: CheckCircle },
-              { text: "Growth Solutions", icon: CheckCircle }
-            ].map((item, index) => (
-              <motion.div
-                key={item.text}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
-                className="flex items-center justify-center space-x-2 text-gray-700"
-              >
-                <item.icon className="w-5 h-5 text-primary flex-shrink-0" />
-                <span className="font-medium">{item.text}</span>
-              </motion.div>
-            ))}
-          </div>
+          </motion.div>
+        </motion.div>
+        
+        <motion.div 
+          className="mt-16 text-left"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+        >
+          <ul className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-gray-600">
+            <li className="flex items-center gap-2">
+              <CheckCircle className="w-5 h-5 text-primary" />
+              <span>Strategic Planning</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <CheckCircle className="w-5 h-5 text-primary" />
+              <span>Business Optimization</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <CheckCircle className="w-5 h-5 text-primary" />
+              <span>Leadership Development</span>
+            </li>
+          </ul>
         </motion.div>
       </div>
     </section>

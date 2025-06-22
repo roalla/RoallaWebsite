@@ -16,7 +16,6 @@ import {
   ShieldCheck
 } from 'lucide-react'
 import CalendlyButton from './CalendlyButton'
-import { useCalendly } from './CalendlyProvider'
 
 const services = [
   {
@@ -58,8 +57,6 @@ const services = [
 ]
 
 const Services = () => {
-  const { openCalendly } = useCalendly();
-
   return (
     <section id="services" className="section-padding bg-gray-50">
       <div className="container-custom">
@@ -128,7 +125,7 @@ const Services = () => {
           <p className="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">
             Let's discuss how our services can help you achieve your business goals and drive sustainable growth.
           </p>
-          <CalendlyButton variant="primary" size="lg" onClick={openCalendly}>
+          <CalendlyButton variant="primary" size="lg">
             Discuss Your Project
           </CalendlyButton>
         </motion.div>

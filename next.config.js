@@ -21,6 +21,19 @@ const nextConfig = {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
           },
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self';",
+              "script-src 'self' https://assets.calendly.com;",
+              "style-src 'self' 'unsafe-inline' https://assets.calendly.com;",
+              "frame-src https://calendly.com;",
+              "connect-src 'self' https://calendly.com https://assets.calendly.com;",
+              "img-src 'self' data: https://assets.calendly.com;",
+              "font-src 'self' https://assets.calendly.com;",
+              "object-src 'none';",
+            ].join(" ")
+          }
         ],
       },
     ]

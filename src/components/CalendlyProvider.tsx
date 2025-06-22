@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode } from 'react';
 import { PopupWidget } from 'react-calendly';
 
 interface CalendlyContextType {
@@ -22,10 +22,9 @@ interface CalendlyProviderProps {
 }
 
 export const CalendlyProvider = ({ children }: CalendlyProviderProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   const openCalendly = () => {
-    setIsOpen(true);
+    // The PopupWidget will handle its own state
+    // We just need to render it
   };
 
   const prefill = {
@@ -43,15 +42,12 @@ export const CalendlyProvider = ({ children }: CalendlyProviderProps) => {
   return (
     <CalendlyContext.Provider value={{ openCalendly }}>
       {children}
-      {isOpen && (
-        <PopupWidget
-          url="https://calendly.com/steven-robin-roalla"
-          onModalClose={() => setIsOpen(false)}
-          open={isOpen}
-          rootElement={document.body}
-          prefill={prefill}
-        />
-      )}
+      <PopupWidget
+        url="https://calendly.com/steven-robin-roalla"
+        rootElement={document.body}
+        prefill={prefill}
+        text="Schedule a meeting"
+      />
     </CalendlyContext.Provider>
   );
 }; 

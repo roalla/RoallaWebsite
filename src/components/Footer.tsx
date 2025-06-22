@@ -1,6 +1,7 @@
 import React from 'react'
 import { Mail, Phone, MapPin, Linkedin, Twitter, Facebook, Instagram } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const Footer = () => {
   const currentYear = new Date().getFullYear()
@@ -74,7 +75,9 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        <div className="mt-12 pt-8 border-t border-gray-700 text-center text-gray-300">
+
+        {/* Copyright */}
+        <div className="mt-12 pt-8 border-t border-gray-700 text-center text-gray-400">
           <p>&copy; {currentYear} Roalla Business Enablement Group. All Rights Reserved.</p>
         </div>
       </div>

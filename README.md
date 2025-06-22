@@ -1,200 +1,142 @@
 # Roalla Business Enablement Group Website
 
-A professional, modern consulting website built with Next.js 14, TypeScript, and Tailwind CSS. Designed to attract business clients and entrepreneurs with excellent SEO optimization and fast performance.
+A professional consulting website built with Next.js 14, TypeScript, Tailwind CSS, and Framer Motion.
 
-## 🚀 Features
+## Features
 
-### Core Features
-- **Modern Design**: Clean, professional layout with excellent UX
-- **Responsive**: Mobile-first design that works on all devices
-- **Fast Performance**: Optimized for speed with Next.js 14
-- **SEO Optimized**: Meta tags, structured data, sitemap, and robots.txt
-- **Accessibility**: WCAG compliant with proper ARIA labels
+- **Modern Design**: Clean, professional design with brand colors (blue #00b4c5, gold #ffd700)
+- **Responsive**: Fully responsive design that works on all devices
+- **Contact Form**: Functional contact form with email notifications
+- **Calendly Integration**: Scheduling buttons that open Calendly popup
+- **Interactive Assessment**: Business health assessment tool
+- **SEO Optimized**: Meta tags, structured data, and performance optimized
 
-### Sections
-- **Hero Section**: Compelling headline with call-to-action
-- **Services**: Six core consulting services with detailed descriptions
-- **About**: Company information, values, and achievements
-- **Testimonials**: Client success stories with carousel
-- **Contact**: Professional contact form with validation
-- **Footer**: Comprehensive footer with links and newsletter signup
+## Tech Stack
 
-### Technical Features
-- **TypeScript**: Type-safe development
-- **Tailwind CSS**: Utility-first styling
-- **Framer Motion**: Smooth animations and transitions
-- **Lucide Icons**: Beautiful, consistent iconography
-- **Next.js App Router**: Latest routing system
-- **Server-Side Rendering**: Better SEO and performance
-
-## 🛠️ Tech Stack
-
-- **Framework**: Next.js 14
+- **Framework**: Next.js 14 with App Router
 - **Language**: TypeScript
-- **Styling**: Tailwind CSS
+- **Styling**: Tailwind CSS v3
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
-- **Deployment**: Vercel (recommended)
+- **Email**: Resend
+- **Deployment**: Vercel
 
-## 📦 Installation
+## Getting Started
 
-1. **Clone the repository**
-   ```bash
-   git clone <your-repo-url>
-   cd roalla-business-enablement-group
-   ```
+### Prerequisites
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+- Node.js 18+ 
+- npm or yarn
 
-3. **Run the development server**
-   ```bash
-   npm run dev
-   ```
+### Installation
 
-4. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+1. Clone the repository
+```bash
+git clone <repository-url>
+cd RoallaWebsite
+```
 
-## 🚀 Deployment
+2. Install dependencies
+```bash
+npm install
+```
+
+3. Set up environment variables
+```bash
+# Create .env.local file
+cp .env.example .env.local
+```
+
+4. Configure email functionality (see EMAIL_SETUP.md)
+
+5. Run the development server
+```bash
+npm run dev
+```
+
+6. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## Email Setup
+
+The contact form sends emails to `sales@roalla.com` using Resend. See [EMAIL_SETUP.md](./EMAIL_SETUP.md) for detailed setup instructions.
+
+### Quick Setup:
+
+1. Sign up at [resend.com](https://resend.com)
+2. Get your API key
+3. Add `RESEND_API_KEY=your_key_here` to `.env.local`
+4. For Vercel: Add the environment variable in your Vercel dashboard
+
+## Deployment
 
 ### Vercel (Recommended)
+
 1. Push your code to GitHub
 2. Connect your repository to Vercel
-3. Deploy automatically
+3. Add environment variables in Vercel dashboard
+4. Deploy automatically
 
 ### Other Platforms
+
 The site can be deployed to any platform that supports Next.js:
 - Netlify
-- AWS Amplify
-- DigitalOcean App Platform
 - Railway
+- Render
+- AWS Amplify
 
-## 📝 Customization
+## Project Structure
 
-### Colors
-Update the color scheme in `tailwind.config.js`:
-```javascript
+```
+src/
+├── app/                 # Next.js App Router
+│   ├── api/            # API routes
+│   │   └── contact/    # Contact form endpoint
+│   ├── globals.css     # Global styles
+│   ├── layout.tsx      # Root layout
+│   └── page.tsx        # Home page
+├── components/         # React components
+│   ├── About.tsx       # About section
+│   ├── CalendlyButton.tsx # Scheduling button
+│   ├── Contact.tsx     # Contact form
+│   ├── Footer.tsx      # Footer
+│   ├── Header.tsx      # Navigation
+│   ├── Hero.tsx        # Hero section
+│   ├── InteractiveAssessment.tsx # Assessment tool
+│   ├── LoadingSkeleton.tsx # Loading states
+│   └── Services.tsx    # Services section
+├── lib/               # Utility functions
+└── types/             # TypeScript types
+```
+
+## Customization
+
+### Brand Colors
+
+Update the brand colors in `tailwind.config.js`:
+
+```js
 colors: {
-  primary: {
-    // Your brand colors
-  },
-  secondary: {
-    // Your secondary colors
-  }
+  primary: '#00b4c5',    // Blue
+  'primary-dark': '#0099a8',
+  'primary-light': '#33c3d1',
+  'primary-lighter': '#e6f7f9',
+  secondary: '#ffd700',  // Gold
 }
 ```
 
 ### Content
-- Update company information in components
-- Modify services in `src/components/Services.tsx`
-- Change testimonials in `src/components/Testimonials.tsx`
-- Update contact information in `src/components/Contact.tsx`
 
-### SEO
-- Update metadata in `src/app/layout.tsx`
-- Modify sitemap in `src/app/sitemap.ts`
-- Update robots.txt in `src/app/robots.ts`
+- Update business information in components
+- Modify services in `Services.tsx`
+- Update contact information in `Contact.tsx`
+- Customize assessment questions in `InteractiveAssessment.tsx`
 
-## 📊 Performance
+## Contact Information
 
-The website is optimized for:
-- **Core Web Vitals**: Excellent LCP, FID, and CLS scores
-- **Lighthouse**: 90+ scores across all metrics
-- **Mobile Performance**: Optimized for mobile devices
-- **SEO**: Structured data and meta tags
+- **Email**: sales@roalla.com
+- **Phone**: 289-838-5868
+- **Calendly**: https://calendly.com/steven-robin-roalla
 
-## 🔧 Scripts
+## License
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-
-## 📁 Project Structure
-
-```
-src/
-├── app/
-│   ├── globals.css
-│   ├── layout.tsx
-│   ├── page.tsx
-│   ├── robots.ts
-│   └── sitemap.ts
-├── components/
-│   ├── Header.tsx
-│   ├── Hero.tsx
-│   ├── Services.tsx
-│   ├── About.tsx
-│   ├── Testimonials.tsx
-│   ├── Contact.tsx
-│   └── Footer.tsx
-├── lib/
-└── types/
-```
-
-## 🎨 Design System
-
-### Colors
-- **Primary**: Blue gradient (#0ea5e9 to #0369a1)
-- **Secondary**: Gray scale (#f8fafc to #0f172a)
-- **Accent**: Yellow for ratings (#fbbf24)
-
-### Typography
-- **Headings**: Merriweather (serif)
-- **Body**: Inter (sans-serif)
-
-### Components
-- **Buttons**: Primary and secondary variants
-- **Cards**: Hover effects and shadows
-- **Forms**: Clean, accessible design
-- **Navigation**: Sticky header with mobile menu
-
-## 📈 SEO Features
-
-- **Meta Tags**: Comprehensive meta descriptions
-- **Open Graph**: Social media optimization
-- **Structured Data**: Schema markup for better search results
-- **Sitemap**: Automatic sitemap generation
-- **Robots.txt**: Search engine guidance
-- **Performance**: Fast loading times for better rankings
-
-## 🔒 Security
-
-- **HTTPS**: Secure connections
-- **CSP**: Content Security Policy
-- **XSS Protection**: Built-in Next.js security
-- **Form Validation**: Client and server-side validation
-
-## 📱 Mobile Optimization
-
-- **Responsive Design**: Mobile-first approach
-- **Touch-Friendly**: Optimized for touch interactions
-- **Fast Loading**: Optimized images and assets
-- **Progressive Web App**: PWA capabilities
-
-## 🚀 Future Enhancements
-
-- [ ] Blog section with MDX
-- [ ] Case studies page
-- [ ] Team member profiles
-- [ ] Interactive pricing calculator
-- [ ] Live chat integration
-- [ ] Analytics dashboard
-- [ ] Multi-language support
-- [ ] Dark mode toggle
-
-## 📞 Support
-
-For questions or support, please contact:
-- Email: sales@roalla.com
-- Phone: 289-838-5868
-
-## 📄 License
-
-This project is licensed under the ISC License.
-
----
-
-Built with ❤️ for professional consulting businesses 
+This project is private and proprietary to Roalla Business Enablement Group. 

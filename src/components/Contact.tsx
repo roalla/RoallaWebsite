@@ -3,6 +3,7 @@
 import React, { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle, AlertCircle, Upload, Calendar, FileText } from 'lucide-react'
+import CalendlyButton from './CalendlyButton'
 
 interface FormData {
   name: string
@@ -495,15 +496,9 @@ const Contact = () => {
                     )}
                   </button>
                   
-                  <a
-                    href="https://calendly.com/roalla/consultation"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-secondary inline-flex items-center justify-center"
-                  >
-                    <Calendar className="w-5 h-5 mr-2" />
+                  <CalendlyButton variant="secondary" size="md" icon>
                     Schedule Call
-                  </a>
+                  </CalendlyButton>
                 </div>
               </form>
             )}

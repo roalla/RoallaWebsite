@@ -185,12 +185,6 @@ export default function RootLayout({
         <script 
           src="https://assets.calendly.com/assets/external/widget.js" 
           async
-          onLoad={() => {
-            console.log('Calendly script loaded successfully')
-          }}
-          onError={() => {
-            console.warn('Calendly script failed to load, will use fallback')
-          }}
         />
         
         {/* Structured data */}

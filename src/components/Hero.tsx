@@ -3,6 +3,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, CheckCircle } from 'lucide-react'
+import Link from 'next/link'
 import ScheduleButton from './CalendlyButton'
 
 const Hero = () => {
@@ -20,9 +21,12 @@ const Hero = () => {
             <ScheduleButton variant="primary" size="lg" icon>
               Schedule a Free Consultation
             </ScheduleButton>
-            <ScheduleButton variant="secondary" size="lg">
+            <Link 
+              href="/#services" 
+              className="btn-secondary inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-300 py-4 px-8 text-lg"
+            >
               Our Services
-            </ScheduleButton>
+            </Link>
           </div>
         </div>
       </div>

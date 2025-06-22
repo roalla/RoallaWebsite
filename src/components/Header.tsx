@@ -36,11 +36,11 @@ const Header = () => {
   }
 
   const navigation = [
-    { name: 'Home', href: '#home' },
-    { name: 'Services', href: '#services' },
-    { name: 'About', href: '#about' },
-    { name: 'Assessment', href: '#assessment' },
-    { name: 'Contact', href: '#contact' }
+    { name: 'Home', href: '/' },
+    { name: 'Services', href: '/#services' },
+    { name: 'About', href: '/#about' },
+    { name: 'Assessment', href: '/#assessment' },
+    { name: 'Contact', href: '/#contact' }
   ]
 
   return (

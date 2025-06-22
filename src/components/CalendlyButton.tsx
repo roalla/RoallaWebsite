@@ -4,7 +4,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { Calendar } from 'lucide-react'
 
-// Type declaration for Calendly
+// This lets TypeScript know that the Calendly object will be on the window
 declare global {
   interface Window {
     Calendly?: {
@@ -19,7 +19,6 @@ interface CalendlyButtonProps {
   variant?: 'primary' | 'secondary'
   size?: 'sm' | 'md' | 'lg'
   icon?: boolean
-  onClick: () => void;
 }
 
 const CalendlyButton: React.FC<CalendlyButtonProps> = ({
@@ -28,11 +27,23 @@ const CalendlyButton: React.FC<CalendlyButtonProps> = ({
   variant = 'primary',
   size = 'md',
   icon = false,
-  onClick
 }) => {
+  const handleClick = () => {
+    if (window.Calendly) {
+      window.Calendly.initPopupWidget({
+        url: 'https://calendly.com/steven-robin-roalla',
+      });
+    } else {
+      // Fallback or error handling
+      console.error('Calendly script not loaded');
+      // You could open the link in a new tab as a fallback:
+      window.open('https://calendly.com/steven-robin-roalla', '_blank');
+    }
+  };
+
   // Inline styles as fallback
-  const getButtonStyles = () => {
-    const baseStyles = {
+  const getButtonStyles = (): React.CSSProperties => {
+    const baseStyles: React.CSSProperties = {
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -50,7 +61,6 @@ const CalendlyButton: React.FC<CalendlyButtonProps> = ({
       primary: {
         backgroundColor: '#00b4c5',
         color: 'white',
-        boxShadow: '0 4px 6px rgba(0, 180, 197, 0.25)',
       },
       secondary: {
         backgroundColor: '#f9fafb',
@@ -74,7 +84,7 @@ const CalendlyButton: React.FC<CalendlyButtonProps> = ({
 
   return (
     <motion.button
-      onClick={onClick}
+      onClick={handleClick}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       style={getButtonStyles()}

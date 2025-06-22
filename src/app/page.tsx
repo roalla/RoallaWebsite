@@ -1,11 +1,9 @@
 import React from 'react'
-import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 import Services from '@/components/Services'
 import About from '@/components/About'
 import InteractiveAssessment from '@/components/InteractiveAssessment'
 import Contact from '@/components/Contact'
-import Footer from '@/components/Footer'
 
 export default function Home() {
   return (
@@ -15,8 +13,6 @@ export default function Home() {
         Skip to main content
       </a>
       
-      <Header />
-      
       <div id="main-content">
         <Hero />
         <Services />
@@ -25,7 +21,6 @@ export default function Home() {
         <Contact />
       </div>
       
-      <Footer />
     </main>
   )
 } 

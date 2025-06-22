@@ -1,8 +1,8 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Calendar } from 'lucide-react'
+import { Calendar, Loader2 } from 'lucide-react'
 
 // Type declaration for Calendly
 declare global {
@@ -28,10 +28,33 @@ const CalendlyButton: React.FC<CalendlyButtonProps> = ({
   size = 'md',
   icon = false
 }) => {
-  const handleClick = () => {
+  const [isLoading, setIsLoading] = useState(false)
+  const [calendlyReady, setCalendlyReady] = useState(false)
+
+  // Check if Calendly is ready
+  useEffect(() => {
+    const checkCalendly = () => {
+      if (typeof window !== 'undefined' && window.Calendly) {
+        setCalendlyReady(true)
+      } else {
+        // Retry after a short delay
+        setTimeout(checkCalendly, 100)
+      }
+    }
+    
+    checkCalendly()
+  }, [])
+
+  const handleClick = async () => {
+    setIsLoading(true)
     console.log('CalendlyButton clicked')
     
     try {
+      // Wait a bit for Calendly to be ready if it's not already
+      if (!calendlyReady) {
+        await new Promise(resolve => setTimeout(resolve, 500))
+      }
+      
       if (typeof window !== 'undefined' && window.Calendly) {
         console.log('Using Calendly popup')
         window.Calendly.initPopupWidget({
@@ -47,6 +70,8 @@ const CalendlyButton: React.FC<CalendlyButtonProps> = ({
       console.error('Error opening Calendly:', error)
       // Final fallback
       window.open('https://calendly.com/steven-robin-roalla', '_blank', 'noopener,noreferrer')
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -63,6 +88,7 @@ const CalendlyButton: React.FC<CalendlyButtonProps> = ({
       borderRadius: '8px',
       textDecoration: 'none',
       outline: 'none',
+      minWidth: 'fit-content',
     }
 
     const variantStyles = {
@@ -94,14 +120,19 @@ const CalendlyButton: React.FC<CalendlyButtonProps> = ({
   return (
     <motion.button
       onClick={handleClick}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      whileHover={{ scale: isLoading ? 1 : 1.05 }}
+      whileTap={{ scale: isLoading ? 1 : 0.95 }}
       style={getButtonStyles()}
       className={className}
       type="button"
+      disabled={isLoading}
     >
-      {icon && <Calendar style={{ width: '16px', height: '16px', marginRight: '8px' }} />}
-      {children}
+      {isLoading ? (
+        <Loader2 style={{ width: '16px', height: '16px', marginRight: '8px' }} className="animate-spin" />
+      ) : icon ? (
+        <Calendar style={{ width: '16px', height: '16px', marginRight: '8px' }} />
+      ) : null}
+      {isLoading ? 'Opening...' : children}
     </motion.button>
   )
 }

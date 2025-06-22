@@ -179,9 +179,19 @@ export default function RootLayout({
         {/* Preconnect to external domains for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://assets.calendly.com" />
         
         {/* Calendly embed script */}
-        <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+        <script 
+          src="https://assets.calendly.com/assets/external/widget.js" 
+          async
+          onLoad={() => {
+            console.log('Calendly script loaded successfully')
+          }}
+          onError={() => {
+            console.warn('Calendly script failed to load, will use fallback')
+          }}
+        />
         
         {/* Structured data */}
         <script

@@ -15,7 +15,7 @@ const Hero = () => {
             Empowering Your Business with Strategic Insight
           </h1>
           <p className="mt-6 text-lg md:text-xl text-gray-600">
-            At Roalla, we provide expert fractional CFO and business consulting services to drive growth, streamline operations, and enhance profitability.
+            At Roalla, we provide expert business consulting services to drive growth, streamline operations, and enhance profitability.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <ScheduleButton variant="primary" size="lg" icon>

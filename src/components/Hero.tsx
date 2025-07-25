@@ -12,7 +12,7 @@ const Hero = () => {
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-serif font-extrabold text-gray-900 leading-tight">
-            Empowering Your Business with Strategic Financial Insight
+            Empowering Your Business with Strategic Insight
           </h1>
           <p className="mt-6 text-lg md:text-xl text-gray-600">
             At Roalla, we provide expert fractional CFO and business consulting services to drive growth, streamline operations, and enhance profitability.

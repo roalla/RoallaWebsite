@@ -2,7 +2,8 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { FileText, BookOpen, Download, ArrowRight, TrendingUp, BarChart3, Lightbulb } from 'lucide-react'
+import { FileText, BookOpen, Download, ArrowRight, TrendingUp, BarChart3, Lightbulb, Lock } from 'lucide-react'
+import Link from 'next/link'
 
 const Resources = () => {
   const resources = [
@@ -43,8 +44,8 @@ const Resources = () => {
       readTime: '5 min read'
     },
     {
-      title: 'Fractional CFO: When and Why Your Business Needs One',
-      description: 'Learn how fractional CFO services can transform your financial management.',
+      title: 'Fractional COO: When and Why Your Business Needs One',
+      description: 'Learn how fractional COO services can transform your operational management.',
       readTime: '7 min read'
     },
     {
@@ -72,39 +73,75 @@ const Resources = () => {
           </p>
         </motion.div>
 
-        {/* Resources Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {resources.map((resource, index) => (
-            <motion.div
-              key={resource.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 group cursor-pointer"
-            >
-              <div className={`w-14 h-14 bg-gradient-to-br ${resource.color} rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                <resource.icon className="w-7 h-7 text-white" />
-              </div>
-              <div className="text-xs font-semibold text-primary mb-2 uppercase tracking-wide">
-                {resource.type}
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">{resource.title}</h3>
-              <p className="text-sm text-gray-600 mb-4 leading-relaxed">{resource.description}</p>
-              <div className="flex items-center text-primary font-semibold text-sm group-hover:underline">
-                <Download className="w-4 h-4 mr-2" />
-                Download
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        {/* Access Required CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          viewport={{ once: true }}
+          className="bg-gradient-to-r from-primary via-primary-dark to-primary rounded-2xl p-10 md:p-16 text-center shadow-2xl mb-16"
+        >
+          <div className="flex items-center justify-center mb-6">
+            <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center">
+              <Lock className="w-8 h-8 text-white" />
+            </div>
+          </div>
+          <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Exclusive Resources Portal
+          </h3>
+          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            Get access to exclusive business guides, templates, tools, and insights. 
+            Request access to unlock valuable resources for your business growth.
+          </p>
+          <Link
+            href="/resources/request"
+            className="inline-flex items-center bg-white text-primary hover:bg-gray-50 font-semibold py-4 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+          >
+            <Lock className="w-5 h-5 mr-2" />
+            Request Access
+            <ArrowRight className="w-5 h-5 ml-2" />
+          </Link>
+        </motion.div>
 
-        {/* Insights Section */}
+        {/* Preview Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="mb-12"
+        >
+          <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+            What's Inside the Portal
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {resources.map((resource, index) => (
+              <motion.div
+                key={resource.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 opacity-75"
+              >
+                <div className={`w-14 h-14 bg-gradient-to-br ${resource.color} rounded-lg flex items-center justify-center mb-4`}>
+                  <resource.icon className="w-7 h-7 text-white" />
+                </div>
+                <div className="text-xs font-semibold text-primary mb-2 uppercase tracking-wide">
+                  {resource.type}
+                </div>
+                <h4 className="text-lg font-bold text-gray-900 mb-2">{resource.title}</h4>
+                <p className="text-sm text-gray-600 leading-relaxed">{resource.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Insights Preview */}
         <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 md:p-12">
           <div className="flex items-center mb-8">
             <BookOpen className="w-8 h-8 text-primary mr-3" />
-            <h3 className="text-3xl font-bold text-gray-900">Latest Insights</h3>
+            <h3 className="text-3xl font-bold text-gray-900">Featured Insights</h3>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {insights.map((insight, index) => (
@@ -114,19 +151,24 @@ const Resources = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 group cursor-pointer"
+                className="bg-white rounded-lg p-6 shadow-md border border-gray-100 opacity-75"
               >
                 <div className="text-xs font-semibold text-gray-500 mb-3">{insight.readTime}</div>
-                <h4 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors">
+                <h4 className="text-lg font-bold text-gray-900 mb-3">
                   {insight.title}
                 </h4>
-                <p className="text-sm text-gray-600 mb-4 leading-relaxed">{insight.description}</p>
-                <div className="flex items-center text-primary font-semibold text-sm group-hover:underline">
-                  Read More
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </div>
+                <p className="text-sm text-gray-600 leading-relaxed">{insight.description}</p>
               </motion.div>
             ))}
+          </div>
+          <div className="text-center mt-8">
+            <Link
+              href="/resources/request"
+              className="inline-flex items-center text-primary font-semibold hover:text-primary-dark transition-colors"
+            >
+              Request access to read full articles
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Link>
           </div>
         </div>
       </div>

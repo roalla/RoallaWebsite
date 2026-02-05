@@ -33,7 +33,7 @@ const TrustIndicators = () => {
   ]
 
   const expertise = [
-    'Fractional CFO Services',
+    'Fractional COO Services',
     'Strategic Business Planning',
     'Financial Analysis & Reporting',
     'Process Optimization',

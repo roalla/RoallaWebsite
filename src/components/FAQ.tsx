@@ -14,8 +14,8 @@ const FAQ = () => {
 
   const faqs: FAQItem[] = [
     {
-      question: 'What is fractional CFO services?',
-      answer: 'Fractional CFO services provide businesses with senior-level financial expertise on a part-time or project basis. This allows companies to access strategic financial leadership without the cost of a full-time CFO, making it ideal for growing businesses that need expert financial guidance.'
+      question: 'What is fractional COO services?',
+      answer: 'Fractional COO services provide businesses with senior-level operational expertise on a part-time or project basis. This allows companies to access strategic operational leadership without the cost of a full-time COO, making it ideal for growing businesses that need expert operational guidance.'
     },
     {
       question: 'How long does a typical consulting engagement last?',

@@ -84,11 +84,11 @@ const Hero = () => {
             <h1 className="text-5xl md:text-7xl font-serif font-extrabold text-gray-900 leading-tight mb-6">
               Empowering Your Business with{' '}
               <span className="bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">
-                Strategic Financial Insight
+                Strategic Operational Insight
               </span>
             </h1>
             <p className="mt-6 text-xl md:text-2xl text-gray-700 font-medium leading-relaxed">
-              Expert fractional CFO and business consulting services to drive growth, streamline operations, and enhance profitability.
+              Expert fractional COO and business consulting services to drive growth, streamline operations, and enhance profitability.
             </p>
             <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
               Transform your business with data-driven strategies and proven methodologies from industry experts.

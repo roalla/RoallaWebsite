@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { accessRequests } from '@/lib/access-requests'
 
+// Mark route as dynamic
+export const dynamic = 'force-dynamic'
+
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
@@ -16,7 +19,8 @@ export async function GET(request: NextRequest) {
 
     // Find matching access request
     let found = false
-    for (const [requestId, request] of accessRequests.entries()) {
+    const entries = Array.from(accessRequests.entries())
+    for (const [requestId, request] of entries) {
       if (request.token === token && request.email.toLowerCase() === email.toLowerCase() && request.status === 'approved') {
         found = true
         break

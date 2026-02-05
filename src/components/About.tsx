@@ -48,7 +48,7 @@ const About = () => {
             About Roalla Business Enablement Group
           </h2>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-            Your trusted partner in business transformation and financial excellence.
+            Your trusted partner in business transformation and operational excellence.
           </p>
         </motion.div>
 

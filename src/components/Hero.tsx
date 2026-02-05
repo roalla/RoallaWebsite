@@ -62,7 +62,6 @@ const Hero = () => {
     { icon: Award, value: '30+', label: 'Years Experience' },
     { icon: Users, value: '500+', label: 'Projects Completed' },
     { icon: TrendingUp, value: '100%', label: 'Client Focused' },
-    { icon: BarChart3, value: '24/7', label: 'Support Available' },
   ]
 
   return (
@@ -115,7 +114,7 @@ const Hero = () => {
 
           {/* Quick Stats */}
           <motion.div 
-            className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8"
+            className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-3xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}

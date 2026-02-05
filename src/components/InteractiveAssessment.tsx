@@ -166,7 +166,7 @@ const InteractiveAssessment = () => {
   }
 
   return (
-    <section id="assessment" className="section-padding bg-gradient-to-br from-primary-lighter/20 to-gray-50 dark:from-primary-dark/10 dark:to-gray-800/50">
+    <section id="assessment" className="section-padding bg-white py-20 lg:py-28">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">

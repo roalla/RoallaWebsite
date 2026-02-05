@@ -1,8 +1,12 @@
 import React from 'react'
 import Hero from '@/components/Hero'
 import Services from '@/components/Services'
+import TrustIndicators from '@/components/TrustIndicators'
+import HowWeWork from '@/components/HowWeWork'
 import About from '@/components/About'
+import Resources from '@/components/Resources'
 import InteractiveAssessment from '@/components/InteractiveAssessment'
+import FAQ from '@/components/FAQ'
 import Contact from '@/components/Contact'
 
 export default function Home() {
@@ -16,8 +20,12 @@ export default function Home() {
       <div id="main-content">
         <Hero />
         <Services />
+        <TrustIndicators />
+        <HowWeWork />
         <About />
+        <Resources />
         <InteractiveAssessment />
+        <FAQ />
         <Contact />
       </div>
       

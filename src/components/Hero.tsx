@@ -66,6 +66,7 @@ const Hero = () => {
   ]
 
   return (
+<<<<<<< HEAD
     <section id="home" className="relative bg-gradient-to-br from-white via-blue-50/30 to-white pt-32 pb-24 lg:pt-48 lg:pb-32 overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
@@ -101,6 +102,18 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
+=======
+    <section id="home" className="relative bg-white pt-32 pb-20 lg:pt-48 lg:pb-28">
+      <div className="container mx-auto px-4">
+        <div className="max-w-3xl mx-auto text-center">
+          <h1 className="text-4xl md:text-6xl font-serif font-extrabold text-gray-900 leading-tight">
+            Empowering Your Business with Strategic Insight
+          </h1>
+          <p className="mt-6 text-lg md:text-xl text-gray-600">
+            At Roalla, we provide expert business consulting services to drive growth, streamline operations, and enhance profitability.
+          </p>
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+>>>>>>> c8c3acbbb764e296422a6b35b122e50f893c280e
             <ScheduleButton variant="primary" size="lg" icon>
               Schedule a Free Consultation
             </ScheduleButton>

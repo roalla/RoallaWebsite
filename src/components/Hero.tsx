@@ -87,10 +87,10 @@ const Hero = () => {
               </span>
             </h1>
             <p className="mt-6 text-xl md:text-2xl text-gray-700 font-medium leading-relaxed">
-              Expert fractional COO and business consulting services to drive growth, streamline operations, and enhance profitability.
+              Fractional COO and business consulting services that deliver measurable operational improvements and accelerated growth.
             </p>
             <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
-              Transform your business with data-driven strategies and proven methodologies from industry experts.
+              Transform your operations with strategic insights, proven methodologies, and hands-on implementation from experienced operational leaders.
             </p>
           </motion.div>
 

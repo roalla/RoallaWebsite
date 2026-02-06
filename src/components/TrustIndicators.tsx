@@ -15,7 +15,7 @@ const TrustIndicators = () => {
     {
       icon: GraduationCap,
       title: 'Advanced Education',
-      description: 'Team members with advanced degrees in business, finance, and strategic management from leading institutions.',
+      description: 'Team members with advanced education in business, finance, operational and strategic management from leading institutions.',
       color: 'from-purple-500 to-purple-600'
     },
     {

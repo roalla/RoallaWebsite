@@ -76,8 +76,8 @@ function ResourcesPortalContent() {
     {
       id: '2',
       icon: BarChart3,
-      title: 'Financial Planning Template',
-      description: 'Download our proven financial planning template with formulas, charts, and forecasting tools. Excel and Google Sheets versions included.',
+      title: 'Risk Management Templates',
+      description: 'Download our proven risk management templates and more to get your journey started. Excel and Google Sheets versions included.',
       type: 'Template',
       downloadUrl: '/resources/financial-planning-template.xlsx',
       color: 'from-green-500 to-green-600'

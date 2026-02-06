@@ -16,8 +16,8 @@ const Resources = () => {
     },
     {
       icon: BarChart3,
-      title: 'Financial Planning Template',
-      description: 'Download our proven financial planning template to get started on your journey.',
+      title: 'Risk Management Templates',
+      description: 'Download our proven risk management templates and more to get your journey started.',
       type: 'Template',
       color: 'from-green-500 to-green-600'
     },

@@ -48,8 +48,8 @@ const DigitalCreations = () => {
       ],
       imageUrl: '/soaring-puck.jpg',
       imageAlt: 'Soaring Puck dashboard showing team management, player tracking, and operational tools interface',
-      badge: 'Client Favorite',
-      badgeColor: 'bg-blue-100 text-blue-800',
+      badge: 'Live Tool',
+      badgeColor: 'bg-green-100 text-green-800',
       tryUrl: 'https://www.soaringpuck.com',
       learnMoreUrl: 'https://www.soaringpuck.com',
       icon: Zap
@@ -64,8 +64,8 @@ const DigitalCreations = () => {
       ],
       imageUrl: '/true-north-audit.jpg',
       imageAlt: 'True North Audit AI-powered platform landing page showing enterprise-grade infrastructure security and compliance features',
-      badge: 'Free Access',
-      badgeColor: 'bg-purple-100 text-purple-800',
+      badge: 'Live Tool',
+      badgeColor: 'bg-green-100 text-green-800',
       tryUrl: 'https://www.truenorthaudit.com',
       learnMoreUrl: 'https://www.truenorthaudit.com',
       icon: Lightbulb

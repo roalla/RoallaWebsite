@@ -29,8 +29,8 @@ const DigitalCreations = () => {
         'Matches companies with qualified advisors based on industry, expertise, and needs',
         'Streamlines the advisory board recruitment and onboarding process'
       ],
-      imageUrl: '/images/advisory-board-match-placeholder.jpg',
-      imageAlt: 'Advisory Board Match platform interface',
+      imageUrl: '/images/advisory-board-match.jpg',
+      imageAlt: 'Advisory Board Match platform showing Coffee Break feature and dashboard interface',
       badge: 'Live Tool',
       badgeColor: 'bg-green-100 text-green-800',
       tryUrl: 'https://www.advisoryboardmatch.com',
@@ -45,8 +45,8 @@ const DigitalCreations = () => {
         'Provides actionable insights and growth strategies tailored to your business',
         'Combines data-driven analysis with proven methodologies'
       ],
-      imageUrl: '/images/soaring-puck-placeholder.jpg',
-      imageAlt: 'Soaring Puck platform interface',
+      imageUrl: '/images/soaring-puck.jpg',
+      imageAlt: 'Soaring Puck dashboard showing team management, player tracking, and operational tools interface',
       badge: 'Client Favorite',
       badgeColor: 'bg-blue-100 text-blue-800',
       tryUrl: 'https://www.soaringpuck.com',
@@ -61,8 +61,8 @@ const DigitalCreations = () => {
         'Evaluates strategic positioning, operational efficiency, and growth readiness',
         'Delivers actionable recommendations for immediate improvement'
       ],
-      imageUrl: '/images/true-north-audit-placeholder.jpg',
-      imageAlt: 'True North Audit platform interface',
+      imageUrl: '/images/true-north-audit.jpg',
+      imageAlt: 'True North Audit AI-powered platform landing page showing enterprise-grade infrastructure security and compliance features',
       badge: 'Free Access',
       badgeColor: 'bg-purple-100 text-purple-800',
       tryUrl: 'https://www.truenorthaudit.com',

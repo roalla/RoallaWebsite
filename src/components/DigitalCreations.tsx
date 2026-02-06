@@ -30,7 +30,7 @@ const DigitalCreations = () => {
         'Matches companies with qualified advisors based on industry, expertise, and needs',
         'Streamlines the advisory board recruitment and onboarding process'
       ],
-      imageUrl: '/images/advisory-board-match.jpg',
+      imageUrl: '/advisory-board-match.jpg',
       imageAlt: 'Advisory Board Match platform showing Coffee Break feature and dashboard interface',
       badge: 'Live Tool',
       badgeColor: 'bg-green-100 text-green-800',
@@ -46,7 +46,7 @@ const DigitalCreations = () => {
         'Provides actionable insights and growth strategies tailored to your business',
         'Combines data-driven analysis with proven methodologies'
       ],
-      imageUrl: '/images/soaring-puck.jpg',
+      imageUrl: '/soaring-puck.jpg',
       imageAlt: 'Soaring Puck dashboard showing team management, player tracking, and operational tools interface',
       badge: 'Client Favorite',
       badgeColor: 'bg-blue-100 text-blue-800',
@@ -62,7 +62,7 @@ const DigitalCreations = () => {
         'Evaluates strategic positioning, operational efficiency, and growth readiness',
         'Delivers actionable recommendations for immediate improvement'
       ],
-      imageUrl: '/images/true-north-audit.jpg',
+      imageUrl: '/true-north-audit.jpg',
       imageAlt: 'True North Audit AI-powered platform landing page showing enterprise-grade infrastructure security and compliance features',
       badge: 'Free Access',
       badgeColor: 'bg-purple-100 text-purple-800',
@@ -124,24 +124,22 @@ const DigitalCreations = () => {
             >
               {/* Image */}
               <div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-                {tool.imageUrl ? (
-                  <>
-                    <Image
-                      src={tool.imageUrl}
-                      alt={tool.imageAlt || tool.name}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 opacity-0 group-hover:opacity-0 transition-opacity" style={{ display: 'none' }}></div>
-                  </>
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    {tool.icon && (
-                      <tool.icon className="w-16 h-16 text-gray-400" />
+                    {tool.imageUrl ? (
+                      <Image
+                        src={tool.imageUrl}
+                        alt={tool.imageAlt || tool.name}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        unoptimized
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        {tool.icon && (
+                          <tool.icon className="w-16 h-16 text-gray-400" />
+                        )}
+                      </div>
                     )}
-                  </div>
-                )}
                 {tool.badge && (
                   <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold z-10 ${tool.badgeColor || 'bg-primary text-white'}`}>
                     {tool.badge}

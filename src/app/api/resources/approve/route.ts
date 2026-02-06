@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
-import { accessRequests } from '@/lib/access-requests'
+import { prisma } from '@/lib/prisma'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -20,7 +20,10 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const accessRequest = accessRequests.get(requestId)
+    // Find the access request in database
+    const accessRequest = await prisma.accessRequest.findUnique({
+      where: { id: requestId }
+    })
 
     if (!accessRequest) {
       return NextResponse.json(
@@ -37,13 +40,15 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Approve the request
-    accessRequest.status = 'approved'
-    accessRequests.set(requestId, accessRequest)
+    // Approve the request in database
+    const updatedRequest = await prisma.accessRequest.update({
+      where: { id: requestId },
+      data: { status: 'approved' }
+    })
 
     // Send access email to user
     if (process.env.RESEND_API_KEY) {
-      const accessUrl = `${request.headers.get('origin') || 'https://roalla.com'}/resources/portal?token=${accessRequest.token}&email=${encodeURIComponent(accessRequest.email)}`
+      const accessUrl = `${request.headers.get('origin') || 'https://roalla.com'}/resources/portal?token=${updatedRequest.token}&email=${encodeURIComponent(updatedRequest.email)}`
 
       try {
         await resend.emails.send({
@@ -57,7 +62,7 @@ export async function GET(request: NextRequest) {
                 <p style="margin: 10px 0 0 0; font-size: 16px;">Welcome to the Resources Portal</p>
               </div>
               <div style="padding: 30px;">
-                <p>Dear ${accessRequest.name},</p>
+                <p>Dear ${updatedRequest.name},</p>
                 <p>Great news! Your request to access the Roalla Resources Portal has been approved.</p>
                 <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: center;">
                   <a href="${accessUrl}" style="display: inline-block; background: #00b4c5; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin: 10px 0;">
@@ -79,7 +84,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Return success page
-    const accessUrl = `${request.headers.get('origin') || 'https://roalla.com'}/resources/portal?token=${accessRequest.token}&email=${encodeURIComponent(accessRequest.email)}`
+    const accessUrl = `${request.headers.get('origin') || 'https://roalla.com'}/resources/portal?token=${updatedRequest.token}&email=${encodeURIComponent(updatedRequest.email)}`
     
     return new NextResponse(`
       <!DOCTYPE html>

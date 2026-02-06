@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { accessRequests } from '@/lib/access-requests'
+import { prisma } from '@/lib/prisma'
 
-// Mark route as dynamic
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: NextRequest) {
@@ -17,17 +16,16 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Find matching access request
-    let found = false
-    const entries = Array.from(accessRequests.entries())
-    for (const [requestId, request] of entries) {
-      if (request.token === token && request.email.toLowerCase() === email.toLowerCase() && request.status === 'approved') {
-        found = true
-        break
+    // Find matching access request in database
+    const accessRequest = await prisma.accessRequest.findFirst({
+      where: {
+        token: token,
+        email: email.toLowerCase(),
+        status: 'approved'
       }
-    }
+    })
 
-    if (found) {
+    if (accessRequest) {
       return NextResponse.json({
         authenticated: true,
         email: email

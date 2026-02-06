@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import crypto from 'crypto'
-import { accessRequests } from '@/lib/access-requests'
+import { prisma } from '@/lib/prisma'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -29,17 +29,17 @@ export async function POST(request: NextRequest) {
 
     // Generate access token
     const token = crypto.randomBytes(32).toString('hex')
-    const requestId = crypto.randomBytes(16).toString('hex')
 
-    // Store access request
-    accessRequests.set(requestId, {
-      email,
-      name,
-      company,
-      reason,
-      token,
-      createdAt: new Date(),
-      status: 'pending'
+    // Store access request in database
+    const accessRequest = await prisma.accessRequest.create({
+      data: {
+        email,
+        name,
+        company: company || null,
+        reason: reason || null,
+        token,
+        status: 'pending'
+      }
     })
 
     // Send notification email to admin
@@ -57,12 +57,12 @@ export async function POST(request: NextRequest) {
                 <p><strong>Email:</strong> ${email}</p>
                 <p><strong>Company:</strong> ${company || 'Not provided'}</p>
                 <p><strong>Reason:</strong> ${reason || 'Not provided'}</p>
-                <p><strong>Request ID:</strong> ${requestId}</p>
+                <p><strong>Request ID:</strong> ${accessRequest.id}</p>
                 <p><strong>Submitted at:</strong> ${new Date().toLocaleString()}</p>
               </div>
               <div style="background: #fff; padding: 20px; border-left: 4px solid #00b4c5; margin: 20px 0;">
                 <p><strong>To approve this request, visit:</strong></p>
-                <p><a href="${request.headers.get('origin') || 'https://roalla.com'}/api/resources/approve?requestId=${requestId}&token=${token}" style="color: #00b4c5;">Approve Access Request</a></p>
+                <p><a href="${request.headers.get('origin') || 'https://roalla.com'}/api/resources/approve?requestId=${accessRequest.id}&token=${token}" style="color: #00b4c5;">Approve Access Request</a></p>
                 <p style="font-size: 12px; color: #666; margin-top: 10px;">Or manually send the access link: ${request.headers.get('origin') || 'https://roalla.com'}/resources/portal?token=${token}&email=${encodeURIComponent(email)}</p>
               </div>
             </div>

@@ -1,9 +1,10 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Sparkles, ExternalLink, ArrowRight, CheckCircle, Zap, Lightbulb } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import ScheduleButton from './CalendlyButton'
 
 interface DigitalTool {
@@ -121,14 +122,19 @@ const DigitalCreations = () => {
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
               className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-primary/20 overflow-hidden"
             >
-              {/* Image Placeholder */}
+              {/* Image */}
               <div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
                 {tool.imageUrl ? (
-                  <img
-                    src={tool.imageUrl}
-                    alt={tool.imageAlt || tool.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+                  <>
+                    <Image
+                      src={tool.imageUrl}
+                      alt={tool.imageAlt || tool.name}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 opacity-0 group-hover:opacity-0 transition-opacity" style={{ display: 'none' }}></div>
+                  </>
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     {tool.icon && (
@@ -137,7 +143,7 @@ const DigitalCreations = () => {
                   </div>
                 )}
                 {tool.badge && (
-                  <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold ${tool.badgeColor || 'bg-primary text-white'}`}>
+                  <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold z-10 ${tool.badgeColor || 'bg-primary text-white'}`}>
                     {tool.badge}
                   </div>
                 )}

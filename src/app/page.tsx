@@ -5,6 +5,7 @@ import TrustIndicators from '@/components/TrustIndicators'
 import HowWeWork from '@/components/HowWeWork'
 import About from '@/components/About'
 import Resources from '@/components/Resources'
+import DigitalCreations from '@/components/DigitalCreations'
 import InteractiveAssessment from '@/components/InteractiveAssessment'
 import FAQ from '@/components/FAQ'
 import Contact from '@/components/Contact'
@@ -24,6 +25,7 @@ export default function Home() {
         <HowWeWork />
         <About />
         <Resources />
+        <DigitalCreations />
         <InteractiveAssessment />
         <FAQ />
         <Contact />

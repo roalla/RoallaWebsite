@@ -8,7 +8,7 @@ NODE_VERSION = "20"
 cmds = ["npm ci"]
 
 [phases.build]
-cmds = ["prisma generate", "prisma migrate deploy", "next build"]
+cmds = ["prisma generate", "next build"]
 
 [start]
-cmd = "next start"
+cmd = "bash scripts/start.sh"

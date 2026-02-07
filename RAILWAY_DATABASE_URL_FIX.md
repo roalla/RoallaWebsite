@@ -25,7 +25,7 @@ This means your `DATABASE_URL` in Railway is not resolving correctly. The Variab
 2. Click **Variables** tab
 3. Look for `DATABASE_URL` or construct it from individual variables:
    - `PGUSER` (usually `postgres`)
-   - `POSTGRES_PASSWORD` (reveal this value)
+   - `PGPASSWORD` (reveal this value — Railway uses **PGPASSWORD**, not POSTGRES_PASSWORD)
    - `PGHOST` (should be the actual private domain, not `${{RAILWAY_PRIVATE_DOMAIN}}`)
    - `PGPORT` (usually `5432`)
    - `PGDATABASE` (usually `railway`)
@@ -40,7 +40,7 @@ In your **RoallaWebsite** service → **Variables** tab:
 2. Edit it
 3. Set the value to:
    ```
-   postgresql://${{Postgres.PGUSER}}:${{Postgres.POSTGRES_PASSWORD}}@${{Postgres.PGHOST}}:${{Postgres.PGPORT}}/${{Postgres.PGDATABASE}}
+   postgresql://${{Postgres.PGUSER}}:${{Postgres.PGPASSWORD}}@${{Postgres.PGHOST}}:${{Postgres.PGPORT}}/${{Postgres.PGDATABASE}}
    ```
 4. Make sure each part uses Variable Reference (click the `{}` icon for each variable)
 5. Save

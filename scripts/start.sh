@@ -9,34 +9,38 @@ if [ -z "$DATABASE_URL" ]; then
   exec next start
 fi
 
-# Run migrations before starting the app
+# Give private network a moment to be ready (avoids P1001 at container start)
+echo "Waiting for network..."
+sleep 5
+
+# Run migrations with retries (private DNS can be slow to resolve)
 echo "Running database migrations..."
-if npx prisma migrate deploy 2>&1; then
-  echo "✓ Migrations completed successfully"
-else
-  echo "⚠ Migration failed. Attempting to push schema directly..."
-  if npx prisma db push --accept-data-loss 2>&1; then
-    echo "✓ Schema pushed successfully"
-  else
-    echo "⚠⚠⚠ Database connection failed ⚠⚠⚠"
-    echo ""
-    echo "The app will start, but database features will not work."
-    echo ""
-    echo "To fix this, please verify in Railway:"
-    echo "1. Your PostgreSQL service is running"
-    echo "2. The PostgreSQL service is linked to your app"
-    echo "3. The DATABASE_URL environment variable is set correctly"
-    echo ""
-    echo "You can check your DATABASE_URL in Railway:"
-    echo "  - Go to your app's Variables tab"
-    echo "  - Look for DATABASE_URL (it should be auto-set when you link PostgreSQL)"
-    echo ""
-    echo "If DATABASE_URL is missing or incorrect, you can:"
-    echo "  - Re-link your PostgreSQL service to the app"
-    echo "  - Or manually set DATABASE_URL to: postgresql://user:password@host:port/database"
-    echo ""
+MAX_TRIES=3
+for i in $(seq 1 $MAX_TRIES); do
+  if npx prisma migrate deploy 2>&1; then
+    echo "✓ Migrations completed successfully"
+    break
   fi
-fi
+  if [ "$i" -lt "$MAX_TRIES" ]; then
+    echo "⚠ Attempt $i failed. Retrying in 5s..."
+    sleep 5
+  else
+    echo "⚠ Migration failed. Attempting to push schema directly..."
+    if npx prisma db push --accept-data-loss 2>&1; then
+      echo "✓ Schema pushed successfully"
+    else
+      echo "⚠⚠⚠ Database connection failed (P1001) ⚠⚠⚠"
+      echo ""
+      echo "Private host (Postgres.railway.internal) is not reachable from this container."
+      echo "Use the PUBLIC connection string instead. See: RAILWAY_USE_PUBLIC_DATABASE_URL.md"
+      echo ""
+      echo "In Railway: RoallaWebsite → Variables → DATABASE_URL"
+      echo "Set to (use TCP Proxy - replace Postgres with your DB service name):"
+      echo "  postgresql://\${{Postgres.PGUSER}}:\${{Postgres.PGPASSWORD}}@\${{Postgres.RAILWAY_TCP_PROXY_DOMAIN}}:\${{Postgres.RAILWAY_TCP_PROXY_PORT}}/\${{Postgres.PGDATABASE}}"
+      echo ""
+    fi
+  fi
+done
 
 # Start the Next.js app (even if migrations failed)
 echo ""

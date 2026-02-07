@@ -44,12 +44,12 @@ If `DATABASE_URL` in PostgreSQL isn't set correctly, you can reference individua
    - `PGHOST` → `${{Postgres.PGHOST}}`
    - `PGPORT` → `${{Postgres.PGPORT}}`
    - `PGUSER` → `${{Postgres.PGUSER}}`
-   - `POSTGRES_PASSWORD` → `${{Postgres.POSTGRES_PASSWORD}}`
+   - `PGPASSWORD` → `${{Postgres.PGPASSWORD}}` (Railway uses PGPASSWORD, not POSTGRES_PASSWORD)
    - `PGDATABASE` → `${{Postgres.PGDATABASE}}`
 
 4. Then construct `DATABASE_URL` as:
    ```
-   postgresql://${{Postgres.PGUSER}}:${{Postgres.POSTGRES_PASSWORD}}@${{Postgres.PGHOST}}:${{Postgres.PGPORT}}/${{Postgres.PGDATABASE}}
+   postgresql://${{Postgres.PGUSER}}:${{Postgres.PGPASSWORD}}@${{Postgres.PGHOST}}:${{Postgres.PGPORT}}/${{Postgres.PGDATABASE}}
    ```
 
 ## Important Notes

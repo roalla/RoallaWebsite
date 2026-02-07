@@ -26,11 +26,11 @@ In your **Next.js app** (RoallaWebsite), update `DATABASE_URL` to construct it f
 3. Click to edit it
 4. Replace the value with:
    ```
-   postgresql://${{Postgres.PGUSER}}:${{Postgres.POSTGRES_PASSWORD}}@${{Postgres.PGHOST}}:${{Postgres.PGPORT}}/${{Postgres.PGDATABASE}}
+   postgresql://${{Postgres.PGUSER}}:${{Postgres.PGPASSWORD}}@${{Postgres.PGHOST}}:${{Postgres.PGPORT}}/${{Postgres.PGDATABASE}}
    ```
 5. Use Variable References for each part:
    - `${{Postgres.PGUSER}}` → should resolve to `postgres`
-   - `${{Postgres.POSTGRES_PASSWORD}}` → the actual password
+   - `${{Postgres.PGPASSWORD}}` → the actual password (Railway uses **PGPASSWORD**, not POSTGRES_PASSWORD)
    - `${{Postgres.PGHOST}}` → this will resolve `${{RAILWAY_PRIVATE_DOMAIN}}` to the actual private domain
    - `${{Postgres.PGPORT}}` → should be `5432`
    - `${{Postgres.PGDATABASE}}` → should be `railway`
@@ -44,7 +44,7 @@ Alternatively, fix it at the source:
 2. Find `DATABASE_URL`
 3. Replace it with a properly constructed value using individual variables:
    ```
-   postgresql://${{PGUSER}}:${{POSTGRES_PASSWORD}}@${{PGHOST}}:${{PGPORT}}/${{PGDATABASE}}
+   postgresql://${{PGUSER}}:${{PGPASSWORD}}@${{PGHOST}}:${{PGPORT}}/${{PGDATABASE}}
    ```
 4. This way, when your Next.js app references `${{Postgres.DATABASE_URL}}`, it will get the correct value
 

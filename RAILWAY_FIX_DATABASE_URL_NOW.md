@@ -21,12 +21,12 @@ ${{Postgres.DATABASE_URL}}
 
 **Replace with (WORKING):**
 ```
-postgresql://${{Postgres.PGUSER}}:${{Postgres.POSTGRES_PASSWORD}}@${{Postgres.PGHOST}}:${{Postgres.PGPORT}}/${{Postgres.PGDATABASE}}
+postgresql://${{Postgres.PGUSER}}:${{Postgres.PGPASSWORD}}@${{Postgres.PGHOST}}:${{Postgres.PGPORT}}/${{Postgres.PGDATABASE}}
 ```
 
 ### Step 3: Use Variable References
 
-For each part (`PGUSER`, `POSTGRES_PASSWORD`, etc.):
+For each part (`PGUSER`, `PGPASSWORD`, etc.):
 1. Click the `{}` icon (Variable Reference button)
 2. Select **Postgres** service
 3. Select the variable (e.g., `PGUSER`)
@@ -45,7 +45,7 @@ If Variable References still don't work:
 1. Go to **Postgres** service → **Variables** tab
 2. Get these actual values:
    - `PGUSER`: `postgres`
-   - `POSTGRES_PASSWORD`: (reveal and copy)
+   - `PGPASSWORD`: (reveal and copy — Railway uses PGPASSWORD, not POSTGRES_PASSWORD)
    - `PGHOST`: (should be actual domain, not template)
    - `PGPORT`: `5432`
    - `PGDATABASE`: `railway`

@@ -13,16 +13,20 @@ const Header = () => {
   const isAdmin = (session?.user as { role?: string })?.role === 'admin'
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    // Handle scroll effect
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10)
     }
-
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [mounted])
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -61,11 +65,11 @@ const Header = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex-shrink-0"
+            className="flex-shrink-0 min-w-0 max-w-[50%] lg:max-w-[40%]"
           >
             <Link 
               href="/" 
-              className="flex items-center space-x-3 group"
+              className="flex items-center space-x-3 group min-w-0"
               onClick={closeMenu}
               aria-label="Go to homepage"
             >
@@ -79,8 +83,8 @@ const Header = () => {
                   priority
                 />
               </div>
-              <div className="hidden sm:block">
-                <h1 className="text-xl font-bold text-gray-900 group-hover:text-primary transition-colors duration-200">
+              <div className="hidden sm:block min-w-0">
+                <h1 className="text-xl font-bold text-gray-900 group-hover:text-primary transition-colors duration-200 truncate">
                   Roalla Business Enablement Group
                 </h1>
               </div>
@@ -88,7 +92,7 @@ const Header = () => {
           </motion.div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-8 flex-shrink-0">
             {navigation.map((item, index) => (
               <motion.a
                 key={item.name}
@@ -105,24 +109,28 @@ const Header = () => {
             ))}
           </div>
 
-          {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center space-x-4">
-            {session ? (
-              isAdmin && (
+          {/* Desktop Actions - only show session-dependent content after mount to avoid hydration mismatch */}
+          <div className="hidden lg:flex items-center space-x-4 flex-shrink-0">
+            {mounted ? (
+              session ? (
+                isAdmin && (
+                  <Link
+                    href="/admin"
+                    className="text-sm font-medium text-gray-600 hover:text-primary transition-colors whitespace-nowrap"
+                  >
+                    Admin
+                  </Link>
+                )
+              ) : (
                 <Link
-                  href="/admin"
-                  className="text-sm font-medium text-gray-600 hover:text-primary transition-colors"
+                  href="/login"
+                  className="text-sm font-medium text-gray-600 hover:text-primary transition-colors whitespace-nowrap"
                 >
-                  Admin
+                  Login
                 </Link>
               )
             ) : (
-              <Link
-                href="/login"
-                className="text-sm font-medium text-gray-600 hover:text-primary transition-colors"
-              >
-                Login
-              </Link>
+              <span className="text-sm font-medium text-gray-400 whitespace-nowrap" aria-hidden>Login</span>
             )}
             {/* CTA Button */}
             <motion.div
@@ -198,20 +206,30 @@ const Header = () => {
                     {item.name}
                   </motion.a>
                 ))}
-                {session ? (
-                  isAdmin && (
+                {mounted ? (
+                  session ? (
+                    isAdmin && (
+                      <Link
+                        href="/admin"
+                        className="block px-3 py-2 rounded-md text-base font-medium text-primary hover:bg-gray-50 transition-colors duration-200"
+                        onClick={closeMenu}
+                      >
+                        Admin
+                      </Link>
+                    )
+                  ) : (
                     <Link
-                      href="/admin"
+                      href="/login"
                       className="block px-3 py-2 rounded-md text-base font-medium text-primary hover:bg-gray-50 transition-colors duration-200"
                       onClick={closeMenu}
                     >
-                      Admin
+                      Login
                     </Link>
                   )
                 ) : (
                   <Link
                     href="/login"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-primary hover:bg-gray-50 transition-colors duration-200"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-500"
                     onClick={closeMenu}
                   >
                     Login

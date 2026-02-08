@@ -23,19 +23,23 @@ function ResourcesPortalContent() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [userEmail, setUserEmail] = useState<string | null>(null)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    // Check for access token in URL or session
-    const token = searchParams.get('token') || localStorage.getItem('resources_access_token')
-    const email = searchParams.get('email') || localStorage.getItem('resources_user_email')
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+    const token = searchParams.get('token') || (typeof localStorage !== 'undefined' ? localStorage.getItem('resources_access_token') : null)
+    const email = searchParams.get('email') || (typeof localStorage !== 'undefined' ? localStorage.getItem('resources_user_email') : null)
 
     if (token && email) {
-      // Verify token with API
       verifyAccess(token, email)
     } else {
       setIsLoading(false)
     }
-  }, [searchParams])
+  }, [mounted, searchParams])
 
   const verifyAccess = async (token: string, email: string) => {
     try {
@@ -122,12 +126,12 @@ function ResourcesPortalContent() {
   const resources = contentLoaded && portalResources.length > 0 ? portalResources : defaultResources
   const articles = contentLoaded && portalArticles.length > 0 ? portalArticles : defaultArticles
 
-  if (isLoading) {
+  if (!mounted || isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center pt-20">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Verifying access...</p>
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-600">{mounted ? 'Verifying access...' : 'Loading...'}</p>
         </div>
       </div>
     )
@@ -158,12 +162,12 @@ function ResourcesPortalContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white pt-20 lg:pt-24">
-      {/* Portal header: below fixed site header to avoid overlap */}
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white pt-24 lg:pt-28">
+      {/* Portal header: below fixed site header to avoid overlap with logo/Login */}
       <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between flex-wrap gap-2">
-            <div className="min-w-0">
+          <div className="flex items-center justify-between flex-wrap gap-3">
+            <div className="min-w-0 flex-1">
               <h1 className="text-2xl font-bold text-gray-900">Resources Portal</h1>
               <p className="text-sm text-gray-600 truncate" title={userEmail ?? undefined}>Welcome, {userEmail}</p>
             </div>

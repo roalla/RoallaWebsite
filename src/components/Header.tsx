@@ -111,7 +111,7 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Desktop Actions - Login or avatar + dropdown */}
+          {/* Desktop Actions - Login or avatar + dropdown. When !mounted use placeholder only to avoid hydration mismatch. */}
           <div className="hidden lg:flex items-center justify-end space-x-4 flex-shrink-0 min-w-[200px] xl:min-w-[260px]">
             {mounted ? (
               status === 'authenticated' ? (
@@ -127,7 +127,7 @@ const Header = () => {
                 </Link>
               )
             ) : (
-              <span className="text-sm font-medium text-gray-400 whitespace-nowrap" aria-hidden>Login</span>
+              <div className="w-9 h-9 rounded-full bg-gray-200 flex-shrink-0" aria-hidden />
             )}
             {/* CTA Button */}
             <motion.div
@@ -222,13 +222,9 @@ const Header = () => {
                     </Link>
                   )
                 ) : (
-                  <Link
-                    href="/login"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-500"
-                    onClick={closeMenu}
-                  >
-                    Login
-                  </Link>
+                  <div className="px-3 py-2 border-t border-gray-100">
+                    <div className="w-9 h-9 rounded-full bg-gray-200" aria-hidden />
+                  </div>
                 )}
                 {/* Mobile CTA */}
                 <motion.div

@@ -76,9 +76,9 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Copyright */}
+        {/* Copyright - suppressHydrationWarning: year can differ server vs client (timezone) */}
         <div className="mt-12 pt-8 border-t border-gray-700 text-center text-gray-400">
-          <p>&copy; {currentYear} Roalla Business Enablement Group. All Rights Reserved.</p>
+          <p suppressHydrationWarning>&copy; {currentYear} Roalla Business Enablement Group. All Rights Reserved.</p>
         </div>
       </div>
     </footer>

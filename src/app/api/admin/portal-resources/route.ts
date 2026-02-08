@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { sanitizeRichText } from '@/lib/sanitize-html'
 
 export const dynamic = 'force-dynamic'
 
@@ -45,7 +46,7 @@ export async function POST(request: NextRequest) {
     const item = await prisma.portalResource.create({
       data: {
         title: String(title).trim(),
-        description: String(description).trim(),
+        description: sanitizeRichText(String(description ?? '')),
         type: String(type).trim(),
         downloadUrl: downloadUrl != null ? String(downloadUrl).trim() || null : null,
         linkUrl: linkUrl != null ? String(linkUrl).trim() || null : null,

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { sanitizeRichText } from '@/lib/sanitize-html'
 
 export const dynamic = 'force-dynamic'
 
@@ -27,7 +28,7 @@ export async function PATCH(
     const body = await request.json()
     const data: Record<string, unknown> = {}
     if (body.title != null) data.title = String(body.title).trim()
-    if (body.description != null) data.description = String(body.description).trim()
+    if (body.description != null) data.description = sanitizeRichText(String(body.description))
     if (body.type != null) data.type = String(body.type).trim()
     if (body.downloadUrl != null) data.downloadUrl = body.downloadUrl ? String(body.downloadUrl).trim() : null
     if (body.linkUrl != null) data.linkUrl = body.linkUrl ? String(body.linkUrl).trim() : null

@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from 'react'
 import { Plus, Pencil, Trash2, ExternalLink, Download } from 'lucide-react'
+import RichTextEditor from '@/components/RichTextEditor'
+import { PORTAL_CATEGORIES, isPortalCategory } from '@/lib/portal-categories'
 
 interface PortalResource {
   id: string
@@ -13,6 +15,8 @@ interface PortalResource {
   color: string
   sortOrder: number
 }
+
+const RESOURCE_CATEGORIES = PORTAL_CATEGORIES
 
 const COLOR_OPTIONS = [
   'from-blue-500 to-blue-600',
@@ -30,7 +34,7 @@ export default function AdminPortalResourcesPage() {
   const [form, setForm] = useState({
     title: '',
     description: '',
-    type: 'Guide',
+    type: 'Other',
     downloadUrl: '',
     linkUrl: '',
     color: 'from-blue-500 to-blue-600',
@@ -58,7 +62,7 @@ export default function AdminPortalResourcesPage() {
     setForm({
       title: '',
       description: '',
-      type: 'Guide',
+      type: 'Other',
       downloadUrl: '',
       linkUrl: '',
       color: 'from-blue-500 to-blue-600',
@@ -129,7 +133,7 @@ export default function AdminPortalResourcesPage() {
     setForm({
       title: r.title,
       description: r.description,
-      type: r.type,
+      type: isPortalCategory(r.type) ? r.type : 'Other',
       downloadUrl: r.downloadUrl || '',
       linkUrl: r.linkUrl || '',
       color: r.color,
@@ -166,25 +170,27 @@ export default function AdminPortalResourcesPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
-            <input
-              type="text"
+            <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+            <select
               required
               value={form.type}
               onChange={(e) => setForm((f) => ({ ...f, type: e.target.value }))}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-              placeholder="Guide, Template, Tool, Framework"
-            />
+            >
+              {RESOURCE_CATEGORIES.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="sm:col-span-2">
             <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-            <textarea
-              required
-              rows={2}
+            <RichTextEditor
               value={form.description}
-              onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              onChange={(html) => setForm((f) => ({ ...f, description: html }))}
               placeholder="Short description for the tile"
+              minHeight="120px"
             />
           </div>
           <div>

@@ -13,25 +13,13 @@ export default function AdminNav() {
         href="/admin/requests"
         className="text-sm font-medium text-gray-600 hover:text-gray-900"
       >
-        Access requests
+        Users & access
       </Link>
       <Link
-        href="/admin/users"
+        href="/admin/portal"
         className="text-sm font-medium text-gray-600 hover:text-gray-900"
       >
-        Approved users
-      </Link>
-      <Link
-        href="/admin/portal-resources"
-        className="text-sm font-medium text-gray-600 hover:text-gray-900"
-      >
-        Portal tiles
-      </Link>
-      <Link
-        href="/admin/portal-articles"
-        className="text-sm font-medium text-gray-600 hover:text-gray-900"
-      >
-        Portal articles
+        Portal content
       </Link>
     </nav>
   )

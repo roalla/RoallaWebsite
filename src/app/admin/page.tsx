@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
-import { FileText, Users, CheckCircle, XCircle, Clock } from 'lucide-react'
+import { FileText, CheckCircle, XCircle, Clock } from 'lucide-react'
 
 export default async function AdminDashboardPage() {
   const session = await getServerSession(authOptions)
@@ -19,7 +19,7 @@ export default async function AdminDashboardPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <Link
-          href="/admin/requests?status=pending"
+          href="/admin/requests?tab=pending"
           className="bg-white rounded-xl border border-gray-200 p-6 hover:border-primary/30 hover:shadow-md transition-all"
         >
           <div className="flex items-center gap-4">
@@ -33,7 +33,7 @@ export default async function AdminDashboardPage() {
           </div>
         </Link>
         <Link
-          href="/admin/requests?status=approved"
+          href="/admin/requests?tab=approved"
           className="bg-white rounded-xl border border-gray-200 p-6 hover:border-primary/30 hover:shadow-md transition-all"
         >
           <div className="flex items-center gap-4">
@@ -47,7 +47,7 @@ export default async function AdminDashboardPage() {
           </div>
         </Link>
         <Link
-          href="/admin/requests?status=rejected"
+          href="/admin/requests?tab=rejected"
           className="bg-white rounded-xl border border-gray-200 p-6 hover:border-primary/30 hover:shadow-md transition-all"
         >
           <div className="flex items-center gap-4">
@@ -62,20 +62,13 @@ export default async function AdminDashboardPage() {
         </Link>
       </div>
 
-      <div className="mt-8 flex gap-4">
+      <div className="mt-8">
         <Link
           href="/admin/requests"
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark"
         >
           <FileText className="w-4 h-4" />
-          Manage requests
-        </Link>
-        <Link
-          href="/admin/users"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-50"
-        >
-          <Users className="w-4 h-4" />
-          View approved users
+          Users & access
         </Link>
       </div>
     </div>

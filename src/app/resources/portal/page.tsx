@@ -204,7 +204,10 @@ function ResourcesPortalContent() {
                   {resource.type}
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{resource.title}</h3>
-                <p className="text-gray-600 mb-4 leading-relaxed">{resource.description}</p>
+                <div
+                  className="portal-rich-text text-gray-600 mb-4 leading-relaxed [&_p]:my-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:text-primary [&_a]:underline [&_a]:hover:opacity-90 [&_strong]:font-semibold"
+                  dangerouslySetInnerHTML={{ __html: resource.description || '' }}
+                />
                 <div className="flex flex-wrap gap-2">
                   {resource.downloadUrl && (
                     <a
@@ -254,7 +257,10 @@ function ResourcesPortalContent() {
                   </div>
                 )}
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{article.title}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{article.description}</p>
+                <div
+                  className="portal-rich-text text-sm text-gray-600 leading-relaxed [&_p]:my-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:text-primary [&_a]:underline [&_a]:hover:opacity-90 [&_strong]:font-semibold"
+                  dangerouslySetInnerHTML={{ __html: article.description || '' }}
+                />
                 {'url' in article && article.url && (
                   <a
                     href={article.url}

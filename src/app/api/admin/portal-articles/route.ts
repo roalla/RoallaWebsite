@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { sanitizeRichText } from '@/lib/sanitize-html'
 
 export const dynamic = 'force-dynamic'
 
@@ -45,7 +46,7 @@ export async function POST(request: NextRequest) {
     const item = await prisma.portalArticle.create({
       data: {
         title: String(title).trim(),
-        description: String(description).trim(),
+        description: sanitizeRichText(String(description ?? '')),
         readTime: readTime != null ? String(readTime).trim() || null : null,
         category: category != null ? String(category).trim() || null : null,
         url: url != null ? String(url).trim() || null : null,

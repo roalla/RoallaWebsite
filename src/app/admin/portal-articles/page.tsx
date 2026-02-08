@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from 'react'
 import { Plus, Pencil, Trash2, ExternalLink } from 'lucide-react'
+import RichTextEditor from '@/components/RichTextEditor'
+import { PORTAL_CATEGORIES, isPortalCategory } from '@/lib/portal-categories'
 
 interface PortalArticle {
   id: string
@@ -21,7 +23,7 @@ export default function AdminPortalArticlesPage() {
     title: '',
     description: '',
     readTime: '',
-    category: '',
+    category: 'Other' as string,
     url: '',
     sortOrder: 0,
   })
@@ -48,7 +50,7 @@ export default function AdminPortalArticlesPage() {
       title: '',
       description: '',
       readTime: '',
-      category: '',
+      category: 'Other',
       url: '',
       sortOrder: items.length,
     })
@@ -116,7 +118,7 @@ export default function AdminPortalArticlesPage() {
       title: a.title,
       description: a.description,
       readTime: a.readTime || '',
-      category: a.category || '',
+      category: a.category && isPortalCategory(a.category) ? a.category : 'Other',
       url: a.url || '',
       sortOrder: a.sortOrder,
     })
@@ -152,13 +154,11 @@ export default function AdminPortalArticlesPage() {
           </div>
           <div className="sm:col-span-2">
             <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-            <textarea
-              required
-              rows={2}
+            <RichTextEditor
               value={form.description}
-              onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              onChange={(html) => setForm((f) => ({ ...f, description: html }))}
               placeholder="Short summary for the card"
+              minHeight="120px"
             />
           </div>
           <div>
@@ -173,13 +173,17 @@ export default function AdminPortalArticlesPage() {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
-            <input
-              type="text"
+            <select
               value={form.category}
               onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-              placeholder="e.g. Strategy, Operations"
-            />
+            >
+              {PORTAL_CATEGORIES.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Article URL (optional)</label>

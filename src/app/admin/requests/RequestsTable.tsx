@@ -17,11 +17,16 @@ type Request = {
 export default function RequestsTable({
   requests,
   baseUrl,
+  showRevokeForApproved,
+  onRevoked,
 }: {
   requests: Request[]
   baseUrl: string
+  showRevokeForApproved?: boolean
+  onRevoked?: () => void
 }) {
   const [rejectingId, setRejectingId] = useState<string | null>(null)
+  const [revokingId, setRevokingId] = useState<string | null>(null)
   const [localRequests, setLocalRequests] = useState(requests)
 
   const handleReject = async (id: string) => {
@@ -33,6 +38,19 @@ export default function RequestsTable({
       }
     } finally {
       setRejectingId(null)
+    }
+  }
+
+  const handleRevoke = async (id: string) => {
+    setRevokingId(id)
+    try {
+      const res = await fetch(`/api/admin/requests/${id}/revoke`, { method: 'POST' })
+      if (res.ok) {
+        setLocalRequests((prev) => prev.map((r) => (r.id === id ? { ...r, status: 'rejected' } : r)))
+        onRevoked?.()
+      }
+    } finally {
+      setRevokingId(null)
     }
   }
 
@@ -101,6 +119,16 @@ export default function RequestsTable({
                         {rejectingId === r.id ? '…' : 'Reject'}
                       </button>
                     </div>
+                  )}
+                  {showRevokeForApproved && r.status === 'approved' && (
+                    <button
+                      type="button"
+                      onClick={() => handleRevoke(r.id)}
+                      disabled={revokingId === r.id}
+                      className="text-sm font-medium text-amber-600 hover:text-amber-700 disabled:opacity-50"
+                    >
+                      {revokingId === r.id ? '…' : 'Remove approval'}
+                    </button>
                   )}
                 </td>
               </tr>

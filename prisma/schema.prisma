@@ -17,13 +17,27 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  role          String    @default("member") // admin | member | partner
+  role          String    @default("member") // primary/legacy; prefer UserRole for multi-role
   passwordHash  String?   // for credentials login
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
   sessions      Session[]
   passwordResetTokens PasswordResetToken[]
+  roles         UserRole[]
+}
+
+// Multiple roles per user: admin, partner, business, member, etc.
+model UserRole {
+  id        String   @id @default(cuid())
+  userId    String
+  role      String   // admin | partner | business | member
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, role])
+  @@index([userId])
+  @@index([role])
 }
 
 model PasswordResetToken {

@@ -11,9 +11,9 @@ export default async function AdminUsersPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">Approved users</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-2">Approved library access</h1>
       <p className="text-gray-600 mb-6">
-        People who have been approved to access the Resources Portal (via the approve link).
+        People who have been approved to access the Resources Portal (articles & documents).
       </p>
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
         {users.length === 0 ? (

@@ -29,16 +29,21 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials?.password) return null
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
+          include: { roles: true },
         })
         if (!user?.passwordHash) return null
         const ok = await bcrypt.compare(credentials.password, user.passwordHash)
         if (!ok) return null
+        const roles = user.roles?.length
+          ? user.roles.map((r) => r.role)
+          : [user.role]
         return {
           id: user.id,
           email: user.email ?? undefined,
           name: user.name ?? undefined,
           image: user.image ?? undefined,
-          role: user.role,
+          role: roles[0] ?? user.role,
+          roles,
         }
       },
     }),
@@ -47,7 +52,9 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, trigger, session: updateSession }) {
       if (user) {
         token.id = user.id
-        token.role = (user as { role?: string }).role
+        const u = user as { role?: string; roles?: string[] }
+        token.role = u.role
+        token.roles = u.roles ?? (u.role ? [u.role] : [])
         token.name = user.name ?? undefined
         token.email = user.email ?? undefined
         token.picture = user.image ?? undefined
@@ -62,6 +69,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         (session.user as { id?: string }).id = token.id as string
         (session.user as { role?: string }).role = token.role as string
+        (session.user as { roles?: string[] }).roles = (token.roles as string[]) ?? []
         session.user.name = (token.name as string) ?? null
         session.user.email = (token.email as string) ?? null
         session.user.image = (token.picture as string) ?? null

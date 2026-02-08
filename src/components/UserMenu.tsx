@@ -45,9 +45,12 @@ export default function UserMenu() {
 
   if (status !== 'authenticated' || !session?.user) return null
 
-  const user = session.user as { id?: string; email?: string | null; name?: string | null; image?: string | null; role?: string }
+  const user = session.user as { id?: string; email?: string | null; name?: string | null; image?: string | null; role?: string; roles?: string[] }
   const initials = getInitials(user.name, user.email)
-  const roleLabel = user.role === 'admin' ? 'Admin' : user.role === 'partner' ? 'Partner' : 'Member'
+  const roles = user.roles?.length ? user.roles : (user.role ? [user.role] : [])
+  const roleLabels = roles.map((r) => (r === 'admin' ? 'Admin' : r === 'partner' ? 'Partner' : r === 'business' ? 'Business' : 'Member'))
+  const roleLabel = roleLabels.length ? roleLabels.join(', ') : 'Member'
+  const isAdmin = roles.includes('admin')
 
   return (
     <div className="relative" ref={menuRef}>
@@ -107,13 +110,7 @@ export default function UserMenu() {
                 <p className="font-medium text-gray-900 truncate">{user.name || 'No name'}</p>
                 <p className="text-sm text-gray-500 truncate">{user.email}</p>
                 <span
-                  className={`inline-block mt-1 px-2 py-0.5 rounded text-xs font-medium ${
-                    user.role === 'admin'
-                      ? 'bg-primary/10 text-primary'
-                      : user.role === 'partner'
-                        ? 'bg-amber-100 text-amber-800'
-                        : 'bg-gray-100 text-gray-700'
-                  }`}
+                  className="inline-block mt-1 px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-700"
                 >
                   {roleLabel}
                 </span>
@@ -130,7 +127,7 @@ export default function UserMenu() {
               <User className="w-4 h-4 text-gray-500" />
               Profile
             </Link>
-            {user.role === 'admin' && (
+            {isAdmin && (
               <Link
                 href="/admin"
                 className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"

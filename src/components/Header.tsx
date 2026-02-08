@@ -212,7 +212,7 @@ const Header = () => {
         </AnimatePresence>
       </nav>
 
-      {/* Backdrop for mobile menu */}
+      {/* Backdrop for mobile menu - z-30 so it sits below the header (z-40) and menu items are clickable */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
@@ -220,7 +220,7 @@ const Header = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/20 z-40 lg:hidden"
+            className="fixed inset-0 bg-black/20 z-30 lg:hidden"
             onClick={closeMenu}
             aria-hidden="true"
           />

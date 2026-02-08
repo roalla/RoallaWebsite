@@ -10,8 +10,8 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions)
-  const user = session?.user as { role?: string } | undefined
-  if (!session || user?.role !== 'admin') {
+  const user = session?.user as { roles?: string[] } | undefined
+  if (!session || !user?.roles?.includes('admin')) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 

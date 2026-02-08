@@ -8,8 +8,8 @@ export const dynamic = 'force-dynamic'
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions)
-  const user = session?.user as { role?: string } | undefined
-  if (!session || user?.role !== 'admin') {
+  const user = session?.user as { roles?: string[] } | undefined
+  if (!session || !user?.roles?.includes('admin')) {
     return null
   }
   return session

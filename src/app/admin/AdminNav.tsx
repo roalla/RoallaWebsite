@@ -10,10 +10,16 @@ export default function AdminNav() {
         Dashboard
       </Link>
       <Link
+        href="/admin/team"
+        className="text-sm font-medium text-gray-600 hover:text-gray-900"
+      >
+        Team & roles
+      </Link>
+      <Link
         href="/admin/requests"
         className="text-sm font-medium text-gray-600 hover:text-gray-900"
       >
-        Users & access
+        Library access
       </Link>
       <Link
         href="/admin/portal"

@@ -1,10 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { Resend } from 'resend'
+import { rateLimit, getRateLimitKey } from '@/lib/rate-limit'
 
 export const dynamic = 'force-dynamic'
 
+const resend = new Resend(process.env.RESEND_API_KEY)
+const REQUEST_LIMIT = 5
+const REQUEST_WINDOW_MS = 3600_000 // 1 hour per IP
+
 export async function POST(request: NextRequest) {
   try {
+    const ipKey = getRateLimitKey(request, 'ip')
+    const rl = rateLimit({ key: `trust:request:${ipKey}`, limit: REQUEST_LIMIT, windowMs: REQUEST_WINDOW_MS })
+    if (!rl.success) {
+      return NextResponse.json({ error: 'Too many requests. Please try again later.' }, { status: 429 })
+    }
+
     const body = await request.json()
     const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : ''
     const name = typeof body.name === 'string' ? body.name.trim() : ''
@@ -64,6 +76,54 @@ export async function POST(request: NextRequest) {
         items: validItems.length ? { create: validItems } : undefined,
       },
     })
+
+    const baseUrl = process.env.NEXTAUTH_URL || 'https://www.roalla.com'
+    const statusUrl = `${baseUrl}/trust`
+
+    if (process.env.RESEND_API_KEY) {
+      try {
+        await resend.emails.send({
+          from: 'Roalla Business Enablement Group <noreply@roalla.com>',
+          to: [email],
+          subject: 'We Received Your Trust Center Access Request',
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <div style="padding: 30px;">
+                <p>Dear ${name},</p>
+                <p>We have received your request to access our Trust Center documents. We will review it and get back to you within 1–2 business days.</p>
+                <p>You can check your request status anytime at: <a href="${statusUrl}">${statusUrl}</a> (use this email address).</p>
+                <p>Best regards,<br><strong>The Roalla Team</strong></p>
+              </div>
+            </div>
+          `,
+        })
+      } catch (e) {
+        console.error('Trust request confirmation email failed:', e)
+      }
+    }
+
+    const adminEmail = process.env.ADMIN_NOTIFY_EMAIL || process.env.ADMIN_EMAIL
+    if (adminEmail && process.env.RESEND_API_KEY) {
+      try {
+        await resend.emails.send({
+          from: 'Roalla Business Enablement Group <noreply@roalla.com>',
+          to: [adminEmail],
+          subject: 'New Trust Center Gated Access Request',
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <div style="padding: 30px;">
+                <p>A new gated access request has been submitted.</p>
+                <p><strong>${name}</strong> (${email})${company ? ` – ${company}` : ''}</p>
+                <p>Review and approve or reject at: ${baseUrl}/admin/trust/requests</p>
+                <p>Best regards,<br>Roalla</p>
+              </div>
+            </div>
+          `,
+        })
+      } catch (e) {
+        console.error('Trust admin notification email failed:', e)
+      }
+    }
 
     return NextResponse.json({ success: true, message: 'Your request has been submitted. We will notify you once it is reviewed.' })
   } catch (e) {

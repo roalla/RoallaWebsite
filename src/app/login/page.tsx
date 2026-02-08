@@ -29,6 +29,15 @@ function LoginForm() {
         redirect: false,
       })
       if (res?.error) {
+        try {
+          const data = JSON.parse(res.error) as { code?: string; token?: string }
+          if (data.code === 'Needs2FA' && data.token) {
+            window.location.href = `/auth/2fa?token=${encodeURIComponent(data.token)}&callbackUrl=${encodeURIComponent(callbackUrl)}`
+            return
+          }
+        } catch {
+          // not JSON
+        }
         setMessage('Invalid email or password.')
         setIsLoading(false)
         return

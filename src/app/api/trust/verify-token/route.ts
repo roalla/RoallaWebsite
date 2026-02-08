@@ -12,5 +12,9 @@ export async function GET(request: NextRequest) {
     where: { token },
   })
   const valid = !!(tc && tc.expiresAt > new Date())
-  return NextResponse.json({ valid, email: valid ? tc!.email : undefined })
+  return NextResponse.json({
+    valid,
+    email: valid ? tc!.email : undefined,
+    expiresAt: valid ? tc!.expiresAt.toISOString() : undefined,
+  })
 }

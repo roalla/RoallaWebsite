@@ -19,6 +19,8 @@ model User {
   image         String?
   role          String    @default("member") // primary/legacy; prefer UserRole for multi-role
   passwordHash  String?   // for credentials login
+  twoFactorSecret   String?   // TOTP secret (encrypted or plain for demo)
+  twoFactorEnabled  Boolean   @default(false)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
@@ -85,6 +87,20 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
+}
+
+// Pending 2FA step: token shown after password login when 2FA is enabled
+// Success token: used once to complete sign-in after TOTP verify
+model AuthPendingToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  type      String   // "2fa_pending" | "2fa_success"
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([token])
+  @@index([expiresAt])
 }
 
 // ---- Resources portal ----
@@ -210,4 +226,18 @@ model TrustCenterToken {
 
   @@index([token])
   @@index([email])
+}
+
+// Audit log for Trust Center admin actions
+model TrustCenterAuditLog {
+  id         String   @id @default(cuid())
+  action     String   // approved | rejected | resend_link
+  requestId  String?
+  userId     String?
+  metadata   Json?    // e.g. { reason, emailSent }
+  createdAt  DateTime @default(now())
+
+  @@index([requestId])
+  @@index([userId])
+  @@index([createdAt])
 }

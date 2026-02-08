@@ -33,6 +33,12 @@ export default function AdminNav() {
       >
         Trust Center
       </Link>
+      <Link
+        href="/admin/security"
+        className="text-sm font-medium text-gray-600 hover:text-gray-900"
+      >
+        Security
+      </Link>
     </nav>
   )
 }

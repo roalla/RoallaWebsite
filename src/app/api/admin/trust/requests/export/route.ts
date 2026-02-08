@@ -25,20 +25,27 @@ export async function GET(request: NextRequest) {
     ]
   }
 
-  const limit = Math.min(Number(request.nextUrl.searchParams.get('limit')) || 50, 100)
-  const offset = Number(request.nextUrl.searchParams.get('offset')) || 0
-
   const requests = await prisma.gatedAccessRequest.findMany({
     where: Object.keys(where).length ? where : undefined,
     orderBy: { createdAt: 'desc' },
-    skip: offset,
-    take: limit + 1,
-    include: {
-      ndaSignature: true,
-      items: true,
+    include: { ndaSignature: true },
+  })
+
+  const header = 'Email,Name,Company,Status,Created At,Reviewed At\n'
+  const rows = requests.map((r) => {
+    const escape = (s: string | null | undefined) => {
+      if (s == null) return ''
+      const t = String(s)
+      return t.includes(',') || t.includes('"') || t.includes('\n') ? `"${t.replace(/"/g, '""')}"` : t
+    }
+    return [r.email, r.name, r.company ?? '', r.status, r.createdAt.toISOString(), r.reviewedAt?.toISOString() ?? ''].map(escape).join(',')
+  })
+  const csv = header + rows.join('\n')
+
+  return new NextResponse(csv, {
+    headers: {
+      'Content-Type': 'text/csv; charset=utf-8',
+      'Content-Disposition': 'attachment; filename="trust-gated-requests.csv"',
     },
   })
-  const hasMore = requests.length > limit
-  const list = hasMore ? requests.slice(0, limit) : requests
-  return NextResponse.json({ requests: list, hasMore })
 }

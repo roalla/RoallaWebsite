@@ -4,11 +4,13 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { Resend } from 'resend'
 import crypto from 'crypto'
+import { logTrustAction } from '@/lib/trust-audit'
 
 export const dynamic = 'force-dynamic'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 const TOKEN_EXPIRY_DAYS = 90
+const GRANT_EXPIRY_DAYS = 365 // 1 year
 
 export async function POST(
   request: NextRequest,
@@ -33,20 +35,22 @@ export async function POST(
   const email = req.email
 
   const items = await prisma.gatedAccessRequestItem.findMany({ where: { requestId: id } })
-  const grantsToCreate: { email: string; resourceId?: string; articleId?: string; grantedByUserId: string }[] = []
+  const grantExpiresAt = new Date()
+  grantExpiresAt.setDate(grantExpiresAt.getDate() + GRANT_EXPIRY_DAYS)
+  const grantsToCreate: { email: string; resourceId?: string; articleId?: string; grantedByUserId: string; expiresAt: Date }[] = []
 
   if (items.length > 0) {
     for (const it of items) {
-      if (it.resourceId) grantsToCreate.push({ email, resourceId: it.resourceId, grantedByUserId: userId })
-      if (it.articleId) grantsToCreate.push({ email, articleId: it.articleId, grantedByUserId: userId })
+      if (it.resourceId) grantsToCreate.push({ email, resourceId: it.resourceId, grantedByUserId: userId, expiresAt: grantExpiresAt })
+      if (it.articleId) grantsToCreate.push({ email, articleId: it.articleId, grantedByUserId: userId, expiresAt: grantExpiresAt })
     }
   } else {
     const [gatedResources, gatedArticles] = await Promise.all([
       prisma.portalResource.findMany({ where: { gated: true }, select: { id: true } }),
       prisma.portalArticle.findMany({ where: { gated: true }, select: { id: true } }),
     ])
-    for (const r of gatedResources) grantsToCreate.push({ email, resourceId: r.id, grantedByUserId: userId })
-    for (const a of gatedArticles) grantsToCreate.push({ email, articleId: a.id, grantedByUserId: userId })
+    for (const r of gatedResources) grantsToCreate.push({ email, resourceId: r.id, grantedByUserId: userId, expiresAt: grantExpiresAt })
+    for (const a of gatedArticles) grantsToCreate.push({ email, articleId: a.id, grantedByUserId: userId, expiresAt: grantExpiresAt })
   }
 
   const expiresAt = new Date()
@@ -65,6 +69,8 @@ export async function POST(
       data: { email, token, expiresAt },
     })
   })
+
+  await logTrustAction({ action: 'approved', requestId: id, userId, metadata: { email } })
 
   const baseUrl = process.env.NEXTAUTH_URL || 'https://www.roalla.com'
   const accessLink = `${baseUrl}/trust?token=${token}`
@@ -95,7 +101,7 @@ export async function POST(
               </div>
               <p style="font-size: 14px; color: #666;">Or copy and paste this link into your browser:</p>
               <p style="font-size: 12px; color: #999; word-break: break-all;">${accessLink}</p>
-              <p style="margin-top: 20px;">This link is valid for ${TOKEN_EXPIRY_DAYS} days. You can bookmark it for future access.</p>
+              <p style="margin-top: 20px;">This link is valid for ${TOKEN_EXPIRY_DAYS} days. Your document access is valid for one year.</p>
               <p>If you have any questions, please contact us at <strong>sales@roalla.com</strong>.</p>
               <p>Best regards,<br><strong>The Roalla Team</strong></p>
             </div>

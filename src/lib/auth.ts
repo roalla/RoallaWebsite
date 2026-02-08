@@ -3,6 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcrypt'
+import crypto from 'crypto'
 
 const secret = process.env.NEXTAUTH_SECRET
 if (process.env.NODE_ENV === 'production' && !secret) {
@@ -24,8 +25,34 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
+        signInToken: { label: '2FA sign-in token', type: 'text' },
       },
       async authorize(credentials) {
+        const signInToken = credentials?.signInToken as string | undefined
+        if (signInToken) {
+          const record = await prisma.authPendingToken.findUnique({
+            where: { token: signInToken },
+          })
+          if (!record || record.type !== '2fa_success' || record.expiresAt < new Date()) {
+            return null
+          }
+          await prisma.authPendingToken.delete({ where: { id: record.id } })
+          const user = await prisma.user.findUnique({
+            where: { id: record.userId },
+            include: { roles: true },
+          })
+          if (!user) return null
+          const roles = user.roles?.length ? user.roles.map((r) => r.role) : [user.role]
+          return {
+            id: user.id,
+            email: user.email ?? undefined,
+            name: user.name ?? undefined,
+            image: user.image ?? undefined,
+            role: roles[0] ?? user.role,
+            roles,
+          }
+        }
+
         if (!credentials?.email || !credentials?.password) return null
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
@@ -34,9 +61,20 @@ export const authOptions: NextAuthOptions = {
         if (!user?.passwordHash) return null
         const ok = await bcrypt.compare(credentials.password, user.passwordHash)
         if (!ok) return null
-        const roles = user.roles?.length
-          ? user.roles.map((r) => r.role)
-          : [user.role]
+
+        if (user.twoFactorEnabled && user.twoFactorSecret) {
+          const token = crypto.randomBytes(32).toString('hex')
+          const expiresAt = new Date()
+          expiresAt.setMinutes(expiresAt.getMinutes() + 5)
+          await prisma.authPendingToken.create({
+            data: { token, userId: user.id, type: '2fa_pending', expiresAt },
+          })
+          const err = new Error(JSON.stringify({ code: 'Needs2FA', token })) as Error & { type?: string }
+          err.type = 'CredentialsSignin'
+          throw err
+        }
+
+        const roles = user.roles?.length ? user.roles.map((r) => r.role) : [user.role]
         return {
           id: user.id,
           email: user.email ?? undefined,

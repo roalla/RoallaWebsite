@@ -107,12 +107,21 @@ const Header = () => {
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center space-x-4">
-            {isAdmin && (
+            {session ? (
+              isAdmin && (
+                <Link
+                  href="/admin"
+                  className="text-sm font-medium text-gray-600 hover:text-primary transition-colors"
+                >
+                  Admin
+                </Link>
+              )
+            ) : (
               <Link
-                href="/admin"
+                href="/login"
                 className="text-sm font-medium text-gray-600 hover:text-primary transition-colors"
               >
-                Admin
+                Login
               </Link>
             )}
             {/* CTA Button */}
@@ -189,13 +198,23 @@ const Header = () => {
                     {item.name}
                   </motion.a>
                 ))}
-                {isAdmin && (
+                {session ? (
+                  isAdmin && (
+                    <Link
+                      href="/admin"
+                      className="block px-3 py-2 rounded-md text-base font-medium text-primary hover:bg-gray-50 transition-colors duration-200"
+                      onClick={closeMenu}
+                    >
+                      Admin
+                    </Link>
+                  )
+                ) : (
                   <Link
-                    href="/admin"
+                    href="/login"
                     className="block px-3 py-2 rounded-md text-base font-medium text-primary hover:bg-gray-50 transition-colors duration-200"
                     onClick={closeMenu}
                   >
-                    Admin
+                    Login
                   </Link>
                 )}
                 {/* Mobile CTA */}

@@ -1,13 +1,41 @@
 /**
  * Create the first admin user. Run once after deploying auth.
  *
- * Usage (set env vars then run):
- *   ADMIN_EMAIL=admin@roalla.com ADMIN_PASSWORD=yourSecurePassword node scripts/create-admin.js
+ * Usage options:
  *
- * Or with .env.local loaded (create .env.local with ADMIN_EMAIL, ADMIN_PASSWORD, DATABASE_URL):
- *   node -r dotenv/config scripts/create-admin.js
- *   (requires: npm install dotenv)
+ * 1) .env.local (easiest on Windows)
+ *    Add to .env.local: ADMIN_EMAIL=your@email.com, ADMIN_PASSWORD=yourPassword
+ *    (and DATABASE_URL or PG* vars if the script runs locally against Railway DB)
+ *    Then run: node scripts/create-admin.js
+ *
+ * 2) Windows CMD (replace with your real email and password):
+ *    set ADMIN_EMAIL=your@email.com && set ADMIN_PASSWORD=YourPassword && node scripts/create-admin.js
+ *
+ * 3) Windows PowerShell:
+ *    $env:ADMIN_EMAIL="your@email.com"; $env:ADMIN_PASSWORD="YourPassword"; node scripts/create-admin.js
+ *
+ * 4) Mac/Linux:
+ *    ADMIN_EMAIL=your@email.com ADMIN_PASSWORD=yourPassword node scripts/create-admin.js
  */
+
+const path = require('path')
+const fs = require('fs')
+
+// Load .env.local so Windows users can just run: node scripts/create-admin.js
+const envPath = path.join(__dirname, '..', '.env.local')
+if (fs.existsSync(envPath)) {
+  const content = fs.readFileSync(envPath, 'utf8')
+  content.split('\n').forEach((line) => {
+    const m = line.match(/^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)\s*$/)
+    if (m) {
+      const key = m[1]
+      let val = m[2].trim()
+      if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'")))
+        val = val.slice(1, -1)
+      if (!process.env[key]) process.env[key] = val
+    }
+  })
+}
 
 const { PrismaClient } = require('@prisma/client')
 const bcrypt = require('bcrypt')

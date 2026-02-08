@@ -59,13 +59,13 @@ const Header = () => {
       }`}
     >
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
-        <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* Logo */}
+        <div className="flex items-center justify-between gap-4 h-16 lg:h-20">
+          {/* Logo - fixed width so it never pushes nav */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex-shrink-0 min-w-0 max-w-[50%] lg:max-w-[40%]"
+            className="flex-shrink-0 min-w-0 max-w-[45%] lg:max-w-[280px]"
           >
             <Link 
               href="/" 
@@ -91,26 +91,28 @@ const Header = () => {
             </Link>
           </motion.div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8 flex-shrink-0">
-            {navigation.map((item, index) => (
-              <motion.a
-                key={item.name}
-                href={item.href}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="text-gray-700 hover:text-primary font-medium transition-colors duration-200 relative group"
-                onClick={closeMenu}
-              >
-                {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-              </motion.a>
-            ))}
+          {/* Desktop Navigation - takes remaining space, can shrink so it never overlaps right block */}
+          <div className="hidden lg:flex items-center justify-center min-w-0 flex-1 overflow-hidden">
+            <div className="flex items-center justify-center gap-6 xl:gap-8 flex-wrap">
+              {navigation.map((item, index) => (
+                <motion.a
+                  key={item.name}
+                  href={item.href}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="text-gray-700 hover:text-primary font-medium transition-colors duration-200 relative group whitespace-nowrap flex-shrink-0"
+                  onClick={closeMenu}
+                >
+                  {item.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                </motion.a>
+              ))}
+            </div>
           </div>
 
-          {/* Desktop Actions - only show session-dependent content after mount to avoid hydration mismatch */}
-          <div className="hidden lg:flex items-center space-x-4 flex-shrink-0">
+          {/* Desktop Actions - fixed space so Login/Admin + CTA never overlap nav */}
+          <div className="hidden lg:flex items-center justify-end space-x-4 flex-shrink-0 min-w-[200px] xl:min-w-[260px]">
             {mounted ? (
               session ? (
                 isAdmin && (

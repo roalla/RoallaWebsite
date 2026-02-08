@@ -1,16 +1,20 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import dynamic from 'next/dynamic'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, ChevronDown } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useSession } from 'next-auth/react'
 import ScheduleButton from './CalendlyButton'
-import UserMenu from './UserMenu'
+import { authSlotPlaceholder } from './HeaderAuthSlot'
+
+const HeaderAuthSlot = dynamic(() => import('./HeaderAuthSlot').then((m) => m.default), {
+  ssr: false,
+  loading: () => authSlotPlaceholder,
+})
 
 const Header = () => {
-  const { data: session, status } = useSession()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [mounted, setMounted] = useState(false)
@@ -111,24 +115,9 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Desktop Actions - Login or avatar + dropdown. When !mounted use placeholder only to avoid hydration mismatch. */}
+          {/* Desktop Actions - client-only auth slot to avoid hydration mismatch */}
           <div className="hidden lg:flex items-center justify-end space-x-4 flex-shrink-0 min-w-[200px] xl:min-w-[260px]">
-            {mounted ? (
-              status === 'authenticated' ? (
-                <UserMenu />
-              ) : status === 'loading' ? (
-                <div className="w-9 h-9 rounded-full bg-gray-200 animate-pulse flex-shrink-0" aria-hidden />
-              ) : (
-                <Link
-                  href="/login"
-                  className="text-sm font-medium text-gray-600 hover:text-primary transition-colors whitespace-nowrap"
-                >
-                  Login
-                </Link>
-              )
-            ) : (
-              <div className="w-9 h-9 rounded-full bg-gray-200 flex-shrink-0" aria-hidden />
-            )}
+            <HeaderAuthSlot />
             {/* CTA Button */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
@@ -203,29 +192,9 @@ const Header = () => {
                     {item.name}
                   </motion.a>
                 ))}
-                {mounted ? (
-                  status === 'authenticated' ? (
-                    <div className="px-3 py-2 border-t border-gray-100">
-                      <UserMenu />
-                    </div>
-                  ) : status === 'loading' ? (
-                    <div className="px-3 py-2 border-t border-gray-100">
-                      <div className="w-9 h-9 rounded-full bg-gray-200 animate-pulse" aria-hidden />
-                    </div>
-                  ) : (
-                    <Link
-                      href="/login"
-                      className="block px-3 py-2 rounded-md text-base font-medium text-primary hover:bg-gray-50 transition-colors duration-200"
-                      onClick={closeMenu}
-                    >
-                      Login
-                    </Link>
-                  )
-                ) : (
-                  <div className="px-3 py-2 border-t border-gray-100">
-                    <div className="w-9 h-9 rounded-full bg-gray-200" aria-hidden />
-                  </div>
-                )}
+                <div className="px-3 py-2 border-t border-gray-100">
+                  <HeaderAuthSlot variant="mobile" onNavigate={closeMenu} />
+                </div>
                 {/* Mobile CTA */}
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}

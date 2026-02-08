@@ -56,3 +56,17 @@ Password must be at least 8 characters.
    - **Approved users** – List of approved portal users.
 
 Only users with **role = admin** can access `/admin`. Creating other admins is done by running the create-admin script again with a different email (or by updating a user’s role in the database).
+
+---
+
+## Troubleshooting: 500 on `/api/auth/session`
+
+If the browser shows **500 (Internal Server Error)** on `GET https://www.roalla.com/api/auth/session` and next-auth reports `CLIENT_FETCH_ERROR`, the app is missing auth config in production.
+
+1. **Set `NEXTAUTH_SECRET`** in Railway (or your host):
+   - Generate: `openssl rand -base64 32` or use `npm run generate:server-action-key` and use that value.
+   - Add it as an environment variable and redeploy.
+
+2. **Set `NEXTAUTH_URL`** to your public URL, e.g. `https://www.roalla.com` (no trailing slash).
+
+After redeploying, the session endpoint should return 200. If you had left these unset, the code now returns a safe “no session” response so the site still loads; fixing the env vars restores full login/session behavior.

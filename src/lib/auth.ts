@@ -4,10 +4,17 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcrypt'
 
+const secret = process.env.NEXTAUTH_SECRET
+if (process.env.NODE_ENV === 'production' && !secret) {
+  console.error(
+    '❌ NEXTAUTH_SECRET is not set. Set it in Railway (or your host) to fix /api/auth/session 500 errors. See ADMIN_SETUP.md.'
+  )
+}
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: { strategy: 'jwt', maxAge: 30 * 24 * 60 * 60 }, // 30 days (Credentials works best with JWT)
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: secret || (process.env.NODE_ENV === 'production' ? undefined : 'dev-secret-change-in-production'),
   pages: {
     signIn: '/login',
   },

@@ -63,71 +63,64 @@ function ResourcesPortalContent() {
     router.push('/resources/request')
   }
 
-  const resources: Resource[] = [
-    {
-      id: '1',
-      icon: FileText,
-      title: 'Business Growth Guide',
-      description: 'A comprehensive 50-page guide to scaling your business strategically and sustainably. Includes frameworks, case studies, and actionable strategies.',
-      type: 'Guide',
-      downloadUrl: '/resources/business-growth-guide.pdf',
-      color: 'from-blue-500 to-blue-600'
-    },
-    {
-      id: '2',
-      icon: BarChart3,
-      title: 'Risk Management Templates',
-      description: 'Download our proven risk management templates and more to get your journey started. Excel and Google Sheets versions included.',
-      type: 'Template',
-      downloadUrl: '/resources/financial-planning-template.xlsx',
-      color: 'from-green-500 to-green-600'
-    },
-    {
-      id: '3',
-      icon: TrendingUp,
-      title: 'ROI Calculator Tool',
-      description: 'Interactive Excel-based calculator to determine the potential return on investment for your business initiatives and projects.',
-      type: 'Tool',
-      downloadUrl: '/resources/roi-calculator.xlsx',
-      color: 'from-purple-500 to-purple-600'
-    },
-    {
-      id: '4',
-      icon: Lightbulb,
-      title: 'Strategic Planning Framework',
-      description: 'Our proven 5-step framework for developing effective business strategies. Includes worksheets, templates, and implementation guides.',
-      type: 'Framework',
-      downloadUrl: '/resources/strategic-planning-framework.pdf',
-      color: 'from-orange-500 to-orange-600'
-    }
+  const [portalResources, setPortalResources] = useState<Resource[]>([])
+  const [portalArticles, setPortalArticles] = useState<Array<{ title: string; description: string; readTime?: string; category?: string; url?: string }>>([])
+  const [contentLoaded, setContentLoaded] = useState(false)
+
+  const iconByType: Record<string, typeof FileText> = {
+    Guide: FileText,
+    Template: BarChart3,
+    Tool: TrendingUp,
+    Framework: Lightbulb,
+  }
+
+  useEffect(() => {
+    if (!isAuthenticated) return
+    let cancelled = false
+    fetch('/api/resources/portal/content')
+      .then((res) => res.ok ? res.json() : { resources: [], articles: [] })
+      .then((data) => {
+        if (cancelled) return
+        const rs = (data.resources || []).map((r: { id: string; title: string; description: string; type: string; downloadUrl?: string | null; linkUrl?: string | null; color: string }) => ({
+          id: r.id,
+          icon: iconByType[r.type] || FileText,
+          title: r.title,
+          description: r.description,
+          type: r.type,
+          downloadUrl: r.downloadUrl || undefined,
+          readUrl: r.linkUrl || undefined,
+          color: r.color || 'from-blue-500 to-blue-600',
+        }))
+        const arts = (data.articles || []).map((a: { title: string; description: string; readTime?: string | null; category?: string | null; url?: string | null }) => ({
+          title: a.title,
+          description: a.description,
+          readTime: a.readTime || undefined,
+          category: a.category || undefined,
+          url: a.url || undefined,
+        }))
+        setPortalResources(rs)
+        setPortalArticles(arts)
+      })
+      .catch(() => { if (!cancelled) setPortalResources([]); setPortalArticles([]) })
+      .finally(() => { if (!cancelled) setContentLoaded(true) })
+    return () => { cancelled = true }
+  }, [isAuthenticated])
+
+  const defaultResources: Resource[] = [
+    { id: '1', icon: FileText, title: 'Business Growth Guide', description: 'A comprehensive 50-page guide to scaling your business strategically and sustainably.', type: 'Guide', downloadUrl: '/resources/business-growth-guide.pdf', color: 'from-blue-500 to-blue-600' },
+    { id: '2', icon: BarChart3, title: 'Risk Management Templates', description: 'Download our proven risk management templates. Excel and Google Sheets versions included.', type: 'Template', downloadUrl: '/resources/financial-planning-template.xlsx', color: 'from-green-500 to-green-600' },
+    { id: '3', icon: TrendingUp, title: 'ROI Calculator Tool', description: 'Interactive Excel-based calculator for ROI of business initiatives and projects.', type: 'Tool', downloadUrl: '/resources/roi-calculator.xlsx', color: 'from-purple-500 to-purple-600' },
+    { id: '4', icon: Lightbulb, title: 'Strategic Planning Framework', description: 'Our proven 5-step framework for effective business strategies.', type: 'Framework', downloadUrl: '/resources/strategic-planning-framework.pdf', color: 'from-orange-500 to-orange-600' },
+  ]
+  const defaultArticles = [
+    { title: '5 Key Metrics Every Business Should Track', description: 'Discover the essential metrics that drive business success.', readTime: '5 min read', category: 'Strategy' },
+    { title: 'Fractional COO: When and Why Your Business Needs One', description: 'Learn how fractional COO services can transform operational management.', readTime: '7 min read', category: 'Operations' },
+    { title: 'Strategic Planning for Small Businesses', description: 'A practical guide to creating and executing effective business strategies.', readTime: '6 min read', category: 'Planning' },
+    { title: 'Building a High-Performance Team', description: 'Strategies for recruiting, developing, and retaining top talent.', readTime: '8 min read', category: 'Leadership' },
   ]
 
-  const articles = [
-    {
-      title: '5 Key Metrics Every Business Should Track',
-      description: 'Discover the essential metrics that drive business success and growth. Learn how to measure what matters.',
-      readTime: '5 min read',
-      category: 'Strategy'
-    },
-    {
-      title: 'Fractional COO: When and Why Your Business Needs One',
-      description: 'Learn how fractional COO services can transform your operational management without the cost of a full-time executive.',
-      readTime: '7 min read',
-      category: 'Operations'
-    },
-    {
-      title: 'Strategic Planning for Small Businesses',
-      description: 'A practical guide to creating and executing effective business strategies that drive real results.',
-      readTime: '6 min read',
-      category: 'Planning'
-    },
-    {
-      title: 'Building a High-Performance Team',
-      description: 'Strategies for recruiting, developing, and retaining top talent that drives your business forward.',
-      readTime: '8 min read',
-      category: 'Leadership'
-    }
-  ]
+  const resources = contentLoaded && portalResources.length > 0 ? portalResources : defaultResources
+  const articles = contentLoaded && portalArticles.length > 0 ? portalArticles : defaultArticles
 
   if (isLoading) {
     return (
@@ -165,14 +158,14 @@ function ResourcesPortalContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
-      {/* Header */}
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white pt-20 lg:pt-24">
+      {/* Portal header: below fixed site header to avoid overlap */}
       <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div className="min-w-0">
               <h1 className="text-2xl font-bold text-gray-900">Resources Portal</h1>
-              <p className="text-sm text-gray-600">Welcome, {userEmail}</p>
+              <p className="text-sm text-gray-600 truncate" title={userEmail ?? undefined}>Welcome, {userEmail}</p>
             </div>
             <button
               onClick={handleLogout}
@@ -208,16 +201,28 @@ function ResourcesPortalContent() {
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{resource.title}</h3>
                 <p className="text-gray-600 mb-4 leading-relaxed">{resource.description}</p>
-                {resource.downloadUrl && (
-                  <a
-                    href={resource.downloadUrl}
-                    download
-                    className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm"
-                  >
-                    <Download className="w-4 h-4 mr-2" />
-                    Download
-                  </a>
-                )}
+                <div className="flex flex-wrap gap-2">
+                  {resource.downloadUrl && (
+                    <a
+                      href={resource.downloadUrl}
+                      download
+                      className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm"
+                    >
+                      <Download className="w-4 h-4 mr-2" />
+                      Download
+                    </a>
+                  )}
+                  {resource.readUrl && (
+                    <a
+                      href={resource.readUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg transition-colors text-sm"
+                    >
+                      Open link
+                    </a>
+                  )}
+                </div>
               </motion.div>
             ))}
           </div>
@@ -232,16 +237,30 @@ function ResourcesPortalContent() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {articles.map((article, index) => (
               <motion.div
-                key={article.title}
+                key={article.title + index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100"
               >
-                <div className="text-xs font-semibold text-primary mb-2">{article.category}</div>
-                <div className="text-xs text-gray-500 mb-3">{article.readTime}</div>
+                {(article.category || article.readTime) && (
+                  <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
+                    {article.category && <span className="font-semibold text-primary">{article.category}</span>}
+                    {article.readTime && <span>{article.readTime}</span>}
+                  </div>
+                )}
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{article.title}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed">{article.description}</p>
+                {'url' in article && article.url && (
+                  <a
+                    href={article.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center mt-3 text-sm font-medium text-primary hover:text-primary-dark"
+                  >
+                    Read more
+                  </a>
+                )}
               </motion.div>
             ))}
           </div>

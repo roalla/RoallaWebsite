@@ -87,3 +87,29 @@ model AccessRequest {
   @@index([status])
   @@index([token])
 }
+
+// Admin-curated portal content
+model PortalResource {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  type        String   // Guide, Template, Tool, Framework, etc.
+  downloadUrl String?  // file path or URL for download
+  linkUrl     String?  // external link (e.g. to app)
+  color       String   @default("from-blue-500 to-blue-600") // Tailwind gradient
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model PortalArticle {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  readTime    String?
+  category    String?
+  url         String?  // optional link to full article
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

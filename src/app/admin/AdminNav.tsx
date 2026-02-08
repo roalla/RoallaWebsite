@@ -21,6 +21,18 @@ export default function AdminNav() {
       >
         Approved users
       </Link>
+      <Link
+        href="/admin/portal-resources"
+        className="text-sm font-medium text-gray-600 hover:text-gray-900"
+      >
+        Portal tiles
+      </Link>
+      <Link
+        href="/admin/portal-articles"
+        className="text-sm font-medium text-gray-600 hover:text-gray-900"
+      >
+        Portal articles
+      </Link>
     </nav>
   )
 }

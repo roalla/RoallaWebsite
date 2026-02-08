@@ -40,7 +40,26 @@ if (fs.existsSync(envPath)) {
 const { PrismaClient } = require('@prisma/client')
 const bcrypt = require('bcrypt')
 
-const prisma = new PrismaClient()
+// Build DATABASE_URL from PG* vars (same as app) so .env.local can use public Railway TCP proxy
+function buildDatabaseUrl() {
+  const u = process.env.PGUSER
+  const p = process.env.PGPASSWORD
+  const host = process.env.PGHOST
+  const db = process.env.PGDATABASE
+  if (!u || !p || !host || !db) return process.env.DATABASE_URL
+  const port = (process.env.PGPORT || '5432').trim().replace(/\D/g, '') || '5432'
+  return `postgresql://${encodeURIComponent(u)}:${encodeURIComponent(p)}@${host}:${port}/${db}`
+}
+
+const databaseUrl = buildDatabaseUrl()
+if (!databaseUrl || (!databaseUrl.startsWith('postgresql://') && !databaseUrl.startsWith('postgres://'))) {
+  console.error('No database connection. Add to .env.local either:')
+  console.error('  DATABASE_URL=postgresql://... (use Railway’s *public* URL – see CREATE_ADMIN_RAILWAY.md)')
+  console.error('  or PGUSER, PGPASSWORD, PGHOST, PGPORT, PGDATABASE (public TCP proxy host/port from Railway)')
+  process.exit(1)
+}
+
+const prisma = new PrismaClient({ datasources: { db: { url: databaseUrl } } })
 
 async function main() {
   const email = process.env.ADMIN_EMAIL

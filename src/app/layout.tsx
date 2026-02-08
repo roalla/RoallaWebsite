@@ -2,9 +2,8 @@ import React from 'react'
 import type { Metadata } from 'next'
 import { Inter, Merriweather } from 'next/font/google'
 import './globals.css'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
 import Providers from '@/components/Providers'
+import ConditionalLayout from '@/components/ConditionalLayout'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -155,9 +154,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} antialiased`}>
         <Providers>
-          <Header />
-          <main>{children}</main>
-          <Footer />
+          <ConditionalLayout>{children}</ConditionalLayout>
         </Providers>
       </body>
     </html>

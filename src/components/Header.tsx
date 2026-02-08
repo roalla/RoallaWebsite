@@ -10,7 +10,7 @@ import ScheduleButton from './CalendlyButton'
 import UserMenu from './UserMenu'
 
 const Header = () => {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [mounted, setMounted] = useState(false)
@@ -114,8 +114,10 @@ const Header = () => {
           {/* Desktop Actions - Login or avatar + dropdown */}
           <div className="hidden lg:flex items-center justify-end space-x-4 flex-shrink-0 min-w-[200px] xl:min-w-[260px]">
             {mounted ? (
-              session ? (
+              status === 'authenticated' ? (
                 <UserMenu />
+              ) : status === 'loading' ? (
+                <div className="w-9 h-9 rounded-full bg-gray-200 animate-pulse flex-shrink-0" aria-hidden />
               ) : (
                 <Link
                   href="/login"
@@ -202,9 +204,13 @@ const Header = () => {
                   </motion.a>
                 ))}
                 {mounted ? (
-                  session ? (
+                  status === 'authenticated' ? (
                     <div className="px-3 py-2 border-t border-gray-100">
                       <UserMenu />
+                    </div>
+                  ) : status === 'loading' ? (
+                    <div className="px-3 py-2 border-t border-gray-100">
+                      <div className="w-9 h-9 rounded-full bg-gray-200 animate-pulse" aria-hidden />
                     </div>
                   ) : (
                     <Link

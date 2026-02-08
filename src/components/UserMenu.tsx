@@ -33,6 +33,16 @@ export default function UserMenu() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  // Loading: show placeholder so the header never has an empty slot
+  if (status === 'loading') {
+    return (
+      <div
+        className="w-9 h-9 rounded-full bg-gray-200 animate-pulse flex-shrink-0"
+        aria-hidden
+      />
+    )
+  }
+
   if (status !== 'authenticated' || !session?.user) return null
 
   const user = session.user as { id?: string; email?: string | null; name?: string | null; image?: string | null; role?: string }

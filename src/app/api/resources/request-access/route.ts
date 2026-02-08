@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
       console.error('Error message:', dbError?.message)
       console.error('Error meta:', dbError?.meta)
       
-      // Check if it's a connection error
+      // Connection unreachable
       if (dbError?.code === 'P1001' || dbError?.message?.includes('Can\'t reach database')) {
         return NextResponse.json(
           { error: 'Database connection failed. Please try again later.' },
@@ -84,7 +84,19 @@ export async function POST(request: NextRequest) {
         )
       }
       
-      // Check if table doesn't exist
+      // Invalid credentials (wrong password / user)
+      if (
+        dbError?.code === 'P1000' ||
+        dbError?.message?.includes('password authentication failed') ||
+        dbError?.message?.includes('Authentication failed')
+      ) {
+        return NextResponse.json(
+          { error: 'Database configuration error. Please try again later or contact support.' },
+          { status: 503 }
+        )
+      }
+      
+      // Table/schema missing
       if (dbError?.code === 'P2021' || dbError?.code === 'P2025') {
         return NextResponse.json(
           { error: 'Database table not found. Please contact support.' },
@@ -162,14 +174,22 @@ export async function POST(request: NextRequest) {
     console.error('Error processing access request:', error)
     console.error('Error stack:', error?.stack)
     
-    // Provide more specific error messages
     if (error?.code === 'P1001') {
       return NextResponse.json(
         { error: 'Database connection failed. Please try again later.' },
         { status: 503 }
       )
     }
-    
+    if (
+      error?.code === 'P1000' ||
+      error?.message?.includes('password authentication failed') ||
+      error?.message?.includes('Authentication failed')
+    ) {
+      return NextResponse.json(
+        { error: 'Database configuration error. Please try again later or contact support.' },
+        { status: 503 }
+      )
+    }
     if (error?.code === 'P2021' || error?.code === 'P2025') {
       return NextResponse.json(
         { error: 'Database configuration error. Please contact support.' },
@@ -178,9 +198,9 @@ export async function POST(request: NextRequest) {
     }
     
     return NextResponse.json(
-      { 
-        error: 'Internal server error',
-        message: process.env.NODE_ENV === 'development' ? error?.message : undefined
+      {
+        error: 'Something went wrong. Please try again or contact sales@roalla.com.',
+        ...(process.env.NODE_ENV === 'development' && { detail: error?.message }),
       },
       { status: 500 }
     )

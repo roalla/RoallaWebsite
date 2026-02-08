@@ -2,11 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import { authenticator } from 'otplib'
+import { verifySync } from 'otplib'
 
 export const dynamic = 'force-dynamic'
-
-authenticator.options = { window: 1 }
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions)
@@ -23,8 +21,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Secret and code required' }, { status: 400 })
   }
 
-  const valid = authenticator.verify({ token: code, secret })
-  if (!valid) {
+  const result = verifySync({ secret, token: code })
+  if (!result.valid) {
     return NextResponse.json({ error: 'Invalid code' }, { status: 400 })
   }
 

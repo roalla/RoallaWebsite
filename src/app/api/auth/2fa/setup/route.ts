@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import { authenticator } from 'otplib'
+import { generateSecret, generateURI } from 'otplib'
 
 export const dynamic = 'force-dynamic'
 
@@ -21,10 +21,10 @@ export async function GET() {
     return NextResponse.json({ error: '2FA already enabled' }, { status: 400 })
   }
 
-  const secret = authenticator.generateSecret()
+  const secret = generateSecret()
   const appName = 'Roalla Admin'
-  const account = user.email ?? user.id
-  const otpauth = authenticator.keyuri(account, appName, secret)
+  const account = user.email ?? user.id ?? 'admin'
+  const otpauth = generateURI({ issuer: appName, label: account, secret })
 
   return NextResponse.json({ secret, otpauth })
 }

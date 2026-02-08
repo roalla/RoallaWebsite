@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import type { Prisma } from '@prisma/client'
 
 export async function logTrustAction(params: {
   action: 'approved' | 'rejected' | 'resend_link'
@@ -12,7 +13,7 @@ export async function logTrustAction(params: {
         action: params.action,
         requestId: params.requestId ?? null,
         userId: params.userId ?? null,
-        metadata: params.metadata ?? undefined,
+        metadata: (params.metadata ?? undefined) as Prisma.InputJsonValue | undefined,
       },
     })
   } catch (e) {

@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { authenticator } from 'otplib'
+import { verifySync } from 'otplib'
 import crypto from 'crypto'
 
 export const dynamic = 'force-dynamic'
-
-authenticator.options = { window: 1 }
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}))
@@ -30,8 +28,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: '2FA not configured' }, { status: 400 })
   }
 
-  const valid = authenticator.verify({ token: code, secret: user.twoFactorSecret })
-  if (!valid) {
+  const result = verifySync({ secret: user.twoFactorSecret, token: code })
+  if (!result.valid) {
     return NextResponse.json({ error: 'Invalid code' }, { status: 400 })
   }
 

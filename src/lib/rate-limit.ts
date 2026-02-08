@@ -11,9 +11,9 @@ function prune() {
   const now = Date.now()
   if (now - lastPrune < PRUNE_INTERVAL_MS) return
   lastPrune = now
-  for (const [key, v] of stores.entries()) {
+  Array.from(stores.entries()).forEach(([key, v]) => {
     if (v.resetAt < now) stores.delete(key)
-  }
+  })
 }
 
 export function rateLimit(options: {

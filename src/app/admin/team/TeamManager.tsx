@@ -1,8 +1,8 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { Shield, User, Building2, Users, ChevronDown, X } from 'lucide-react'
+import { Shield, User, Building2, Users, ChevronDown, X, UserPlus, Trash2 } from 'lucide-react'
 
 export type TeamUser = {
   id: string
@@ -21,12 +21,31 @@ const ROLE_OPTIONS = [
   { value: 'member', label: 'Member', icon: User, color: 'bg-gray-100 text-gray-700' },
 ] as const
 
-export default function TeamManager({ initialUsers }: { initialUsers: TeamUser[] }) {
+export default function TeamManager({
+  initialUsers,
+  currentUserId,
+}: {
+  initialUsers: TeamUser[]
+  currentUserId: string | null
+}) {
   const router = useRouter()
   const [users, setUsers] = useState<TeamUser[]>(initialUsers)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [loading, setLoading] = useState<string | null>(null)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+  const [addOpen, setAddOpen] = useState(false)
+  const [addForm, setAddForm] = useState({
+    email: '',
+    name: '',
+    password: '',
+    roles: ['member'] as string[],
+  })
+  const [addSubmitting, setAddSubmitting] = useState(false)
+  const [removingId, setRemovingId] = useState<string | null>(null)
+
+  useEffect(() => {
+    setUsers(initialUsers)
+  }, [initialUsers])
 
   const toggleRole = async (userId: string, role: string, add: boolean) => {
     setLoading(userId)
@@ -57,8 +76,78 @@ export default function TeamManager({ initialUsers }: { initialUsers: TeamUser[]
 
   const roleLabel = (value: string) => ROLE_OPTIONS.find((r) => r.value === value)?.label ?? value
 
+  const handleAddUser = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setAddSubmitting(true)
+    setMessage(null)
+    try {
+      const res = await fetch('/api/admin/team', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+          email: addForm.email.trim(),
+          name: addForm.name.trim() || undefined,
+          password: addForm.password,
+          roles: addForm.roles.length > 0 ? addForm.roles : ['member'],
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        setMessage({ type: 'error', text: data.error || 'Failed to add user' })
+        return
+      }
+      setMessage({ type: 'success', text: `Added ${data.email}. They can sign in now.` })
+      setAddForm({ email: '', name: '', password: '', roles: ['member'] })
+      setAddOpen(false)
+      router.refresh()
+    } catch {
+      setMessage({ type: 'error', text: 'Failed to add user' })
+    } finally {
+      setAddSubmitting(false)
+    }
+  }
+
+  const handleRemoveUser = async (userId: string, email: string | null) => {
+    if (!confirm(`Remove user ${email || userId}? This cannot be undone.`)) return
+    setRemovingId(userId)
+    setMessage(null)
+    try {
+      const res = await fetch(`/api/admin/team/${userId}`, { method: 'DELETE' })
+      const data = await res.json()
+      if (!res.ok) {
+        setMessage({ type: 'error', text: data.error || 'Failed to remove user' })
+        return
+      }
+      setMessage({ type: 'success', text: 'User removed.' })
+      setUsers((prev) => prev.filter((u) => u.id !== userId))
+      setEditingId((id) => (id === userId ? null : id))
+    } catch {
+      setMessage({ type: 'error', text: 'Failed to remove user' })
+    } finally {
+      setRemovingId(null)
+    }
+  }
+
+  const toggleAddRole = (role: string) => {
+    setAddForm((prev) =>
+      prev.roles.includes(role)
+        ? { ...prev, roles: prev.roles.filter((r) => r !== role) }
+        : { ...prev, roles: [...prev.roles, role] }
+    )
+  }
+
   return (
     <div className="space-y-4">
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={() => setAddOpen(true)}
+          className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark"
+        >
+          <UserPlus className="w-4 h-4" />
+          Add user
+        </button>
+      </div>
       {message && (
         <div
           className={`rounded-lg px-4 py-2 text-sm ${
@@ -76,7 +165,7 @@ export default function TeamManager({ initialUsers }: { initialUsers: TeamUser[]
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Roles</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Joined</th>
-                <th className="px-4 py-3 w-24" />
+                <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -142,25 +231,39 @@ export default function TeamManager({ initialUsers }: { initialUsers: TeamUser[]
                   <td className="px-4 py-3 text-sm text-gray-500">
                     {new Date(u.createdAt).toLocaleDateString()}
                   </td>
-                  <td className="px-4 py-3">
-                    {editingId === u.id ? (
-                      <button
-                        type="button"
-                        onClick={() => setEditingId(null)}
-                        className="text-sm text-gray-600 hover:text-gray-900"
-                      >
-                        Done
-                      </button>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => setEditingId(u.id)}
-                        className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-primary-dark"
-                      >
-                        Edit roles
-                        <ChevronDown className="w-4 h-4" />
-                      </button>
-                    )}
+                  <td className="px-4 py-3 text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      {editingId === u.id ? (
+                        <button
+                          type="button"
+                          onClick={() => setEditingId(null)}
+                          className="text-sm text-gray-600 hover:text-gray-900"
+                        >
+                          Done
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => setEditingId(u.id)}
+                          className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-primary-dark"
+                        >
+                          Edit roles
+                          <ChevronDown className="w-4 h-4" />
+                        </button>
+                      )}
+                      {currentUserId != null && currentUserId !== u.id && (
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveUser(u.id, u.email)}
+                          disabled={removingId === u.id}
+                          className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                          title="Remove user"
+                          aria-label={`Remove ${u.email || u.id}`}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -168,9 +271,94 @@ export default function TeamManager({ initialUsers }: { initialUsers: TeamUser[]
           </table>
         </div>
         {users.length === 0 && (
-          <p className="text-gray-500 py-8 px-4 text-center">No users yet. Users appear here when they sign up.</p>
+          <p className="text-gray-500 py-8 px-4 text-center">No users yet. Add a user above or they will appear when they sign up.</p>
         )}
       </div>
+
+      {addOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" aria-modal="true" role="dialog">
+          <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">Add user</h2>
+            <form onSubmit={handleAddUser} className="space-y-4">
+              <div>
+                <label htmlFor="add-email" className="block text-sm font-medium text-gray-700 mb-1">
+                  Email *
+                </label>
+                <input
+                  id="add-email"
+                  type="email"
+                  required
+                  value={addForm.email}
+                  onChange={(e) => setAddForm((f) => ({ ...f, email: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                  placeholder="user@example.com"
+                />
+              </div>
+              <div>
+                <label htmlFor="add-name" className="block text-sm font-medium text-gray-700 mb-1">
+                  Name
+                </label>
+                <input
+                  id="add-name"
+                  type="text"
+                  value={addForm.name}
+                  onChange={(e) => setAddForm((f) => ({ ...f, name: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                  placeholder="Full name"
+                />
+              </div>
+              <div>
+                <label htmlFor="add-password" className="block text-sm font-medium text-gray-700 mb-1">
+                  Password * (min 8 characters)
+                </label>
+                <input
+                  id="add-password"
+                  type="password"
+                  required
+                  minLength={8}
+                  value={addForm.password}
+                  onChange={(e) => setAddForm((f) => ({ ...f, password: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                  placeholder="••••••••"
+                />
+              </div>
+              <div>
+                <span className="block text-sm font-medium text-gray-700 mb-2">Roles</span>
+                <div className="flex flex-wrap gap-2">
+                  {ROLE_OPTIONS.map((o) => (
+                    <label key={o.value} className="inline-flex items-center gap-1.5 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={addForm.roles.includes(o.value)}
+                        onChange={() => toggleAddRole(o.value)}
+                        className="rounded border-gray-300 text-primary focus:ring-primary"
+                      />
+                      <span className="text-sm text-gray-700">{o.label}</span>
+                    </label>
+                  ))}
+                </div>
+                <p className="text-gray-500 text-xs mt-1">If none selected, member is assigned.</p>
+              </div>
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setAddOpen(false)}
+                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={addSubmitting}
+                  className="flex-1 px-4 py-2 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark disabled:opacity-50"
+                >
+                  {addSubmitting ? 'Adding…' : 'Add user'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -1,9 +1,14 @@
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import TeamManager from './TeamManager'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AdminTeamPage() {
+  const session = await getServerSession(authOptions)
+  const currentUserId = (session?.user as { id?: string } | undefined)?.id ?? null
+
   const users = await prisma.user.findMany({
     orderBy: { email: 'asc' },
     select: {
@@ -33,7 +38,7 @@ export default async function AdminTeamPage() {
       <p className="text-gray-600 mb-6">
         Manage platform access: assign admin, partner, business, or member roles. Users can have multiple roles.
       </p>
-      <TeamManager initialUsers={list} />
+      <TeamManager initialUsers={list} currentUserId={currentUserId} />
     </div>
   )
 }

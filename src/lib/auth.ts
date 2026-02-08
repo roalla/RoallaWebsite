@@ -48,13 +48,13 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id
         token.role = (user as { role?: string }).role
-        token.name = user.name
-        token.email = user.email
-        token.picture = user.image
+        token.name = user.name ?? undefined
+        token.email = user.email ?? undefined
+        token.picture = user.image ?? undefined
       }
       if (trigger === 'update' && updateSession?.user) {
-        token.name = updateSession.user.name ?? token.name
-        token.picture = updateSession.user.image ?? token.picture
+        token.name = updateSession.user.name ?? token.name ?? undefined
+        token.picture = updateSession.user.image ?? token.picture ?? undefined
       }
       return token
     },

@@ -1,17 +1,23 @@
 # Railway Database Connection (PG* Variables)
 
+## Want internal (private) connection only?
+
+See **[RAILWAY_INTERNAL_CONNECTION.md](./RAILWAY_INTERNAL_CONNECTION.md)**. Use **PGHOST** = `${{Postgres.PGHOST}}` and **PGPORT** = `${{Postgres.PGPORT}}`, and switch your **app** to **Runtime V2** in Settings so private networking works.
+
+---
+
 ## "Please make sure your database server is running at Postgres.railway.internal:5432"
 
-That means the **private** host isn’t reachable from your app. Use the **TCP proxy** (public) host/port instead.
+That means the **private** host isn’t reachable from your app. Try internal first (link above; use V2 runtime). If it still fails, use the **TCP proxy** (external) as fallback:
 
-**On your app (RoallaWebsite) → Variables, set:**
+**On your app (RoallaWebsite) → Variables:**
 
-| Variable | Change to this reference |
-|----------|--------------------------|
-| **PGHOST** | `${{Postgres.RAILWAY_TCP_PROXY_DOMAIN}}` |
-| **PGPORT** | `${{Postgres.RAILWAY_TCP_PROXY_PORT}}` |
+| Variable | For internal | For external (fallback) |
+|----------|----------------|---------------------------|
+| **PGHOST** | `${{Postgres.PGHOST}}` | `${{Postgres.RAILWAY_TCP_PROXY_DOMAIN}}` |
+| **PGPORT** | `${{Postgres.PGPORT}}` | `${{Postgres.RAILWAY_TCP_PROXY_PORT}}` |
 
-Keep **PGUSER**, **PGPASSWORD**, and **PGDATABASE** as they are. Redeploy. The app will connect via the proxy (e.g. `yamanote.proxy.rlwy.net:23043`) and migrations should succeed.
+Keep **PGUSER**, **PGPASSWORD**, and **PGDATABASE** as they are. Redeploy.
 
 ---
 

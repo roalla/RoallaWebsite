@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Plus, Pencil, Trash2, ExternalLink } from 'lucide-react'
+import { Plus, Pencil, Trash2, ExternalLink, Lock } from 'lucide-react'
 import RichTextEditor from '@/components/RichTextEditor'
 import { PORTAL_CATEGORIES, isPortalCategory } from '@/lib/portal-categories'
 
@@ -13,6 +13,7 @@ interface PortalArticle {
   category: string | null
   url: string | null
   sortOrder: number
+  gated?: boolean
 }
 
 export default function AdminPortalArticlesPage() {
@@ -26,6 +27,7 @@ export default function AdminPortalArticlesPage() {
     category: 'Other' as string,
     url: '',
     sortOrder: 0,
+    gated: false,
   })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
@@ -53,6 +55,7 @@ export default function AdminPortalArticlesPage() {
       category: 'Other',
       url: '',
       sortOrder: items.length,
+      gated: false,
     })
     setEditingId(null)
   }
@@ -73,6 +76,7 @@ export default function AdminPortalArticlesPage() {
             category: form.category || null,
             url: form.url || null,
             sortOrder: form.sortOrder,
+            gated: form.gated,
           }),
         })
         if (!res.ok) throw new Error(await res.json().then((d) => d.error))
@@ -89,6 +93,7 @@ export default function AdminPortalArticlesPage() {
             category: form.category || null,
             url: form.url || null,
             sortOrder: form.sortOrder,
+            gated: form.gated,
           }),
         })
         if (!res.ok) throw new Error(await res.json().then((d) => d.error))
@@ -121,6 +126,7 @@ export default function AdminPortalArticlesPage() {
       category: a.category && isPortalCategory(a.category) ? a.category : 'Other',
       url: a.url || '',
       sortOrder: a.sortOrder,
+      gated: a.gated ?? false,
     })
     setEditingId(a.id)
   }
@@ -205,6 +211,18 @@ export default function AdminPortalArticlesPage() {
               className="w-full px-3 py-2 border border-gray-300 rounded-lg"
             />
           </div>
+          <div className="sm:col-span-2 flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="gated-article"
+              checked={form.gated}
+              onChange={(e) => setForm((f) => ({ ...f, gated: e.target.checked }))}
+              className="rounded border-gray-300 text-primary focus:ring-primary"
+            />
+            <label htmlFor="gated-article" className="text-sm font-medium text-gray-700">
+              Require NDA + approval (Trust Center gated)
+            </label>
+          </div>
         </div>
         <div className="mt-4 flex gap-2">
           <button
@@ -240,13 +258,16 @@ export default function AdminPortalArticlesPage() {
             >
               <div className="min-w-0 flex-1">
                 <div className="font-medium text-gray-900">{a.title}</div>
-                {(a.category || a.readTime) && (
-                  <div className="text-sm text-gray-500">
-                    {a.category}
-                    {a.category && a.readTime && ' · '}
-                    {a.readTime}
-                  </div>
-                )}
+                <div className="text-sm text-gray-500 flex items-center gap-2 flex-wrap">
+                  {(a.category || a.readTime) && (
+                    <>
+                      {a.category}
+                      {a.category && a.readTime && ' · '}
+                      {a.readTime}
+                    </>
+                  )}
+                  {a.gated && <span className="inline-flex items-center gap-0.5 text-amber-600"><Lock className="w-3.5 h-3.5" /> Gated</span>}
+                </div>
                 {a.url && (
                   <div className="text-xs text-gray-400 mt-1 flex items-center gap-1">
                     <ExternalLink className="w-3 h-3" /> Has link

@@ -34,6 +34,7 @@ export async function PATCH(
     if (body.linkUrl != null) data.linkUrl = body.linkUrl ? String(body.linkUrl).trim() : null
     if (body.color != null) data.color = String(body.color).trim()
     if (typeof body.sortOrder === 'number') data.sortOrder = body.sortOrder
+    if (typeof body.gated === 'boolean') data.gated = body.gated
     const item = await prisma.portalResource.update({
       where: { id },
       data,

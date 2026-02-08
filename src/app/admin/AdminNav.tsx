@@ -27,6 +27,12 @@ export default function AdminNav() {
       >
         Portal content
       </Link>
+      <Link
+        href="/admin/trust"
+        className="text-sm font-medium text-gray-600 hover:text-gray-900"
+      >
+        Trust Center
+      </Link>
     </nav>
   )
 }

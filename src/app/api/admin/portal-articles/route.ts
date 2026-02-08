@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
   }
   try {
     const body = await request.json()
-    const { title, description, readTime, category, url, sortOrder } = body
+    const { title, description, readTime, category, url, sortOrder, gated } = body
     if (!title || !description) {
       return NextResponse.json(
         { error: 'title and description are required' },
@@ -51,6 +51,7 @@ export async function POST(request: NextRequest) {
         category: category != null ? String(category).trim() || null : null,
         url: url != null ? String(url).trim() || null : null,
         sortOrder: typeof sortOrder === 'number' ? sortOrder : 0,
+        gated: typeof gated === 'boolean' ? gated : false,
       },
     })
     return NextResponse.json(item)

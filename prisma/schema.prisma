@@ -25,6 +25,8 @@ model User {
   sessions      Session[]
   passwordResetTokens PasswordResetToken[]
   roles         UserRole[]
+  gatedGrantsGranted GatedAccessGrant[]
+  gatedRequestsReviewed GatedAccessRequest[]
 }
 
 // Multiple roles per user: admin, partner, business, member, etc.
@@ -112,6 +114,7 @@ model PortalResource {
   linkUrl     String?  // external link (e.g. to app)
   color       String   @default("from-blue-500 to-blue-600") // Tailwind gradient
   sortOrder   Int      @default(0)
+  gated       Boolean  @default(false) // requires NDA + approval to access
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -124,6 +127,87 @@ model PortalArticle {
   category    String?
   url         String?  // optional link to full article
   sortOrder   Int      @default(0)
+  gated       Boolean  @default(false) // requires NDA + approval to access
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+// ---- Trust Center: NDA + gated access ----
+model NdaAgreement {
+  id          String   @id @default(cuid())
+  title       String
+  body        String   @db.Text // HTML or markdown
+  version     String
+  effectiveAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  signatures  NdaSignature[]
+}
+
+model NdaSignature {
+  id          String   @id @default(cuid())
+  agreementId String
+  email       String
+  name        String
+  company     String?
+  signedAt    DateTime @default(now())
+  ipAddress   String?
+  userAgent   String?  @db.Text
+  agreement   NdaAgreement @relation(fields: [agreementId], references: [id], onDelete: Cascade)
+  requests    GatedAccessRequest[]
+
+  @@index([email])
+  @@index([agreementId])
+}
+
+model GatedAccessRequest {
+  id              String    @id @default(cuid())
+  email           String
+  name            String
+  company         String?
+  ndaSignatureId  String
+  status          String    @default("pending") // pending, approved, rejected
+  createdAt       DateTime  @default(now())
+  reviewedAt      DateTime?
+  reviewedByUserId String?
+  ndaSignature    NdaSignature @relation(fields: [ndaSignatureId], references: [id], onDelete: Cascade)
+  reviewedBy      User?        @relation(fields: [reviewedByUserId], references: [id], onDelete: SetNull)
+  items           GatedAccessRequestItem[]
+}
+
+model GatedAccessRequestItem {
+  id        String   @id @default(cuid())
+  requestId String
+  resourceId String? // PortalResource id
+  articleId  String?  // PortalArticle id
+  request   GatedAccessRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  @@index([requestId])
+}
+
+model GatedAccessGrant {
+  id              String   @id @default(cuid())
+  email           String
+  resourceId      String?  // PortalResource id
+  articleId       String?  // PortalArticle id
+  grantedAt       DateTime @default(now())
+  grantedByUserId String?
+  expiresAt       DateTime?
+  user            User?    @relation(fields: [grantedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([email])
+  @@index([resourceId])
+  @@index([articleId])
+}
+
+// Magic link token for approved Trust Center access (no login required)
+model TrustCenterToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([token])
+  @@index([email])
 }

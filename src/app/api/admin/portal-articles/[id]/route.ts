@@ -33,6 +33,7 @@ export async function PATCH(
     if (body.category != null) data.category = body.category ? String(body.category).trim() : null
     if (body.url != null) data.url = body.url ? String(body.url).trim() : null
     if (typeof body.sortOrder === 'number') data.sortOrder = body.sortOrder
+    if (typeof body.gated === 'boolean') data.gated = body.gated
     const item = await prisma.portalArticle.update({
       where: { id },
       data,

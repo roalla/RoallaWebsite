@@ -5,9 +5,12 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ChevronDown } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useSession } from 'next-auth/react'
 import ScheduleButton from './CalendlyButton'
 
 const Header = () => {
+  const { data: session } = useSession()
+  const isAdmin = (session?.user as { role?: string })?.role === 'admin'
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
@@ -104,6 +107,14 @@ const Header = () => {
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center space-x-4">
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className="text-sm font-medium text-gray-600 hover:text-primary transition-colors"
+              >
+                Admin
+              </Link>
+            )}
             {/* CTA Button */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
@@ -178,7 +189,15 @@ const Header = () => {
                     {item.name}
                   </motion.a>
                 ))}
-                
+                {isAdmin && (
+                  <Link
+                    href="/admin"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-primary hover:bg-gray-50 transition-colors duration-200"
+                    onClick={closeMenu}
+                  >
+                    Admin
+                  </Link>
+                )}
                 {/* Mobile CTA */}
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}

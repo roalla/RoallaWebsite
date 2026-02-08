@@ -57,8 +57,8 @@ export default function RichTextEditor({
         class: 'prose prose-sm max-w-none min-h-[100px] px-3 py-2 focus:outline-none',
       },
       handleDOMEvents: {
-        blur: (_, editor) => {
-          onChange(editor.getHTML())
+        blur: () => {
+          if (editor) onChange(editor.getHTML())
         },
       },
     },

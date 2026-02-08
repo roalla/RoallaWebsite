@@ -24,21 +24,21 @@ if [ -z "$DATABASE_URL" ]; then
   exec next start
 fi
 
-# Give private network a moment to be ready (avoids P1001 at container start)
-echo "Waiting for network..."
-sleep 5
+# Give private network time to be ready (avoids P1001 at container start)
+echo "Waiting for private network (15s)..."
+sleep 15
 
-# Run migrations with retries (private DNS can be slow to resolve)
+# Run migrations with retries (private DNS/connectivity can be slow)
 echo "Running database migrations..."
-MAX_TRIES=3
+MAX_TRIES=5
 for i in $(seq 1 $MAX_TRIES); do
   if npx prisma migrate deploy 2>&1; then
     echo "✓ Migrations completed successfully"
     break
   fi
   if [ "$i" -lt "$MAX_TRIES" ]; then
-    echo "⚠ Attempt $i failed. Retrying in 5s..."
-    sleep 5
+    echo "⚠ Attempt $i failed. Retrying in 10s..."
+    sleep 10
   else
     echo "⚠ Migration failed. Attempting to push schema directly..."
     if npx prisma db push --accept-data-loss 2>&1; then

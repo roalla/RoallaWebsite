@@ -109,9 +109,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Send notification email to admin
-    if (process.env.RESEND_API_KEY) {
+    if (!process.env.RESEND_API_KEY) {
+      console.warn('RESEND_API_KEY is not set — admin notification email to sales@roalla.com was not sent. Add RESEND_API_KEY in Railway (or .env) and verify your domain in Resend.')
+    } else {
       try {
-        await resend.emails.send({
+        const adminResult = await resend.emails.send({
           from: 'Roalla Website <noreply@roalla.com>',
           to: ['sales@roalla.com'],
           subject: `New Resources Portal Access Request from ${name}`,
@@ -134,9 +136,14 @@ export async function POST(request: NextRequest) {
             </div>
           `
         })
+        if (adminResult.error) {
+          console.error('Resend admin email failed:', adminResult.error)
+        } else {
+          console.log('Admin notification sent to sales@roalla.com, id:', adminResult.data?.id)
+        }
 
         // Send confirmation email to user
-        await resend.emails.send({
+        const userResult = await resend.emails.send({
           from: 'Roalla Business Enablement Group <noreply@roalla.com>',
           to: [email],
           subject: 'Resources Portal Access Request Received',
@@ -160,9 +167,12 @@ export async function POST(request: NextRequest) {
             </div>
           `
         })
+        if (userResult.error) {
+          console.error('Resend user confirmation email failed:', userResult.error)
+        }
       } catch (emailError) {
         console.error('Email sending failed:', emailError)
-        // Continue even if email fails
+        // Continue even if email fails — request is already saved
       }
     }
 

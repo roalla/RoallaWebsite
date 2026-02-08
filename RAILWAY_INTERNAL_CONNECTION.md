@@ -4,9 +4,9 @@ You want to connect to Postgres via **internal** (`Postgres.railway.internal:543
 
 ---
 
-## 1. Switch your app to V2 runtime
+## 1. Switch your **app** (RoallaWebsite) to V2 runtime
 
-Private networking is more reliable with **Runtime V2**.
+Private networking from app to Postgres is much more reliable with **Runtime V2** on the **app** service (not the Postgres service).
 
 1. In Railway, open your **app** service (e.g. RoallaWebsite).
 2. Go to **Settings**.
@@ -50,6 +50,6 @@ If you still see “Can’t reach database server at Postgres.railway.internal:5
 
 - Try one more **redeploy** (sometimes the new runtime needs a clean deploy).
 - In Railway, confirm there are no warnings or errors on the Postgres service.
-- As a last resort, use the **TCP proxy** (external) for PGHOST/PGPORT so the app works while you contact Railway support about internal connectivity.
+- If P1001 continues, use the **TCP proxy**: set **PGHOST** = `${{Postgres.RAILWAY_TCP_PROXY_DOMAIN}}` and **PGPORT** = `${{Postgres.RAILWAY_TCP_PROXY_PORT}}` (e.g. yamanote.proxy.rlwy.net:23043). Traffic still goes to your DB; only the host/port change.
 
-Summary: **Use internal by keeping PGHOST/PGPORT as `${{Postgres.PGHOST}}` and `${{Postgres.PGPORT}}`, and switch the app to Runtime V2 in Settings.**
+Summary: **Use internal by keeping PGHOST/PGPORT as `${{Postgres.PGHOST}}` and `${{Postgres.PGPORT}}`, and switch the app to Runtime V2. If P1001 persists, switch to the TCP proxy variables above.**

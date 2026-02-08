@@ -29,7 +29,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline' https://assets.calendly.com",
               "frame-src https://calendly.com",
               "connect-src 'self' https://calendly.com https://assets.calendly.com",
-              "img-src 'self' data: https://*.calendly.com",
+              "img-src 'self' data: https: https://*.calendly.com",
               "font-src 'self'",
               "object-src 'none'",
             ].join("; ")

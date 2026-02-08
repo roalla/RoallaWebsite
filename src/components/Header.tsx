@@ -7,10 +7,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import ScheduleButton from './CalendlyButton'
+import UserMenu from './UserMenu'
 
 const Header = () => {
   const { data: session } = useSession()
-  const isAdmin = (session?.user as { role?: string })?.role === 'admin'
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [mounted, setMounted] = useState(false)
@@ -111,18 +111,11 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Desktop Actions - fixed space so Login/Admin + CTA never overlap nav */}
+          {/* Desktop Actions - Login or avatar + dropdown */}
           <div className="hidden lg:flex items-center justify-end space-x-4 flex-shrink-0 min-w-[200px] xl:min-w-[260px]">
             {mounted ? (
               session ? (
-                isAdmin && (
-                  <Link
-                    href="/admin"
-                    className="text-sm font-medium text-gray-600 hover:text-primary transition-colors whitespace-nowrap"
-                  >
-                    Admin
-                  </Link>
-                )
+                <UserMenu />
               ) : (
                 <Link
                   href="/login"
@@ -210,15 +203,9 @@ const Header = () => {
                 ))}
                 {mounted ? (
                   session ? (
-                    isAdmin && (
-                      <Link
-                        href="/admin"
-                        className="block px-3 py-2 rounded-md text-base font-medium text-primary hover:bg-gray-50 transition-colors duration-200"
-                        onClick={closeMenu}
-                      >
-                        Admin
-                      </Link>
-                    )
+                    <div className="px-3 py-2 border-t border-gray-100">
+                      <UserMenu />
+                    </div>
                   ) : (
                     <Link
                       href="/login"

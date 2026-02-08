@@ -167,7 +167,7 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation - fixed + z-50 so it sits above the backdrop and is tappable */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
@@ -176,9 +176,10 @@ const Header = () => {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="lg:hidden overflow-hidden"
+              className="lg:hidden overflow-hidden fixed left-0 right-0 top-16 z-50 shadow-lg"
+              style={{ maxHeight: 'calc(100vh - 4rem)' }}
             >
-              <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-200">
+              <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-200 overflow-y-auto">
                 {navigation.map((item, index) => (
                   <motion.a
                     key={item.name}
@@ -212,7 +213,7 @@ const Header = () => {
         </AnimatePresence>
       </nav>
 
-      {/* Backdrop for mobile menu - z-30 so it sits below the header (z-40) and menu items are clickable */}
+      {/* Backdrop for mobile menu - z-30 so header (z-40) and menu panel (z-50) stay on top and tappable */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div

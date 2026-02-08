@@ -1,4 +1,21 @@
-# Fix P1013 (Invalid Port) – Use PG* Variables Instead of DATABASE_URL
+# Railway Database Connection (PG* Variables)
+
+## "Please make sure your database server is running at Postgres.railway.internal:5432"
+
+That means the **private** host isn’t reachable from your app. Use the **TCP proxy** (public) host/port instead.
+
+**On your app (RoallaWebsite) → Variables, set:**
+
+| Variable | Change to this reference |
+|----------|--------------------------|
+| **PGHOST** | `${{Postgres.RAILWAY_TCP_PROXY_DOMAIN}}` |
+| **PGPORT** | `${{Postgres.RAILWAY_TCP_PROXY_PORT}}` |
+
+Keep **PGUSER**, **PGPASSWORD**, and **PGDATABASE** as they are. Redeploy. The app will connect via the proxy (e.g. `yamanote.proxy.rlwy.net:23043`) and migrations should succeed.
+
+---
+
+## P1013 (Invalid Port) – Use PG* Variables Instead of DATABASE_URL
 
 If you see **P1013: invalid port number in database URL**, the URL Railway is building is malformed. Common causes:
 
@@ -9,19 +26,19 @@ The app is now set up to build the connection string **from separate PG* variabl
 
 ---
 
-## In Railway: Use Five Variables Instead of DATABASE_URL
+## In Railway: Use These Variables on the **App** (RoallaWebsite)
 
-**Remove or leave DATABASE_URL empty**, and on your **app** service (e.g. RoallaWebsite) add these variables as **Variable References** to your Postgres service:
+**Remove `DATABASE_URL`** from the app so it doesn’t override the PG* build. Then add these as **Variable References** (click `{}` → choose your **Postgres** service → choose the variable):
 
-| Variable   | Value (Reference)           |
-|-----------|-----------------------------|
-| `PGUSER`  | `${{Postgres.PGUSER}}`      |
-| `PGPASSWORD` | `${{Postgres.PGPASSWORD}}` |
-| `PGHOST`  | `${{Postgres.PGHOST}}`     |
-| `PGPORT`  | `${{Postgres.PGPORT}}`     |
-| `PGDATABASE` | `${{Postgres.PGDATABASE}}` |
+| Variable    | Reference value           | Required |
+|------------|----------------------------|----------|
+| `PGUSER`   | `${{Postgres.PGUSER}}`     | Yes      |
+| `PGPASSWORD` | `${{Postgres.PGPASSWORD}}` | Yes    |
+| `PGHOST`   | `${{Postgres.PGHOST}}`    | Yes      |
+| `PGPORT`   | `${{Postgres.PGPORT}}`    | No (defaults to 5432) |
+| `PGDATABASE` | `${{Postgres.PGDATABASE}}` | Yes   |
 
-For each one: **Variables** → **New Variable** → name on the left, value use the `{}` reference and select **Postgres** and the variable. Replace **Postgres** with your DB service name if different.
+Replace **Postgres** with your database service name if it’s different (e.g. `PostgreSQL` → `${{PostgreSQL.PGUSER}}` etc.).
 
 **Internal (private) connection:** use **PGHOST** and **PGPORT** as above (Railway’s default; no TCP proxy needed).
 
@@ -37,9 +54,11 @@ For each one: **Variables** → **New Variable** → name on the left, value use
 ## What the App Does
 
 1. **Start script (`scripts/start.sh`)**  
-   If `PGUSER`, `PGPASSWORD`, `PGHOST`, `PGPORT`, `PGDATABASE` are all set, it builds `DATABASE_URL` with proper encoding and exports it before running Prisma migrations.
+   If `PGUSER`, `PGPASSWORD`, `PGHOST`, and `PGDATABASE` are set (PGPORT optional, defaults to 5432), it builds `DATABASE_URL` with proper encoding and runs Prisma migrations.
 
 2. **Runtime (`src/lib/prisma.ts`)**  
-   If `DATABASE_URL` is missing or not a valid `postgresql://` URL, it builds the URL from the same PG* variables with encoding and uses that for Prisma.
+   Prefers building the URL from PG* variables when all required ones are set; otherwise uses `DATABASE_URL`. So PG* overrides a broken or old `DATABASE_URL`.
 
-So you can rely on the five PG* variables only; no need to set a raw `DATABASE_URL` that might contain special characters.
+**If it still doesn’t work:** Check the **deploy logs** in Railway. At container start you’ll see a line like:
+`PG* vars: PGUSER=set PGPASSWORD=set PGHOST=set PGPORT=set PGDATABASE=set`
+Any `MISSING` means that variable isn’t reaching the app—fix the reference (service name, or add the variable on the Postgres service).

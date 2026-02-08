@@ -2,14 +2,17 @@
 # Don't exit on errors - we want the app to start even if migrations fail
 set +e
 
-# Build DATABASE_URL from PG* vars if set (fixes P1013 when password has : @ / etc.)
-if [ -n "$PGUSER" ] && [ -n "$PGPASSWORD" ] && [ -n "$PGHOST" ] && [ -n "$PGPORT" ] && [ -n "$PGDATABASE" ]; then
+# Debug: show which PG* vars are set (no values). PGPORT optional (default 5432).
+echo "PG* vars: PGUSER=$([ -n "$PGUSER" ] && echo set || echo MISSING) PGPASSWORD=$([ -n "$PGPASSWORD" ] && echo set || echo MISSING) PGHOST=$([ -n "$PGHOST" ] && echo set || echo MISSING) PGPORT=$([ -n "$PGPORT" ] && echo set || echo MISSING) PGDATABASE=$([ -n "$PGDATABASE" ] && echo set || echo MISSING)"
+
+# Build DATABASE_URL from PG* vars if set (fixes P1013 when password has : @ / etc.). PGPORT defaults to 5432.
+if [ -n "$PGUSER" ] && [ -n "$PGPASSWORD" ] && [ -n "$PGHOST" ] && [ -n "$PGDATABASE" ]; then
   echo "Building DATABASE_URL from PG* variables (safe encoding)..."
   export DATABASE_URL=$(node -e "
     const u = encodeURIComponent(process.env.PGUSER || '');
     const p = encodeURIComponent(process.env.PGPASSWORD || '');
     const h = process.env.PGHOST || '';
-    const port = String(process.env.PGPORT || '5432').trim();
+    const port = String(process.env.PGPORT || '5432').trim().replace(/[^0-9]/g, '') || '5432';
     const d = process.env.PGDATABASE || 'railway';
     console.log('postgresql://' + u + ':' + p + '@' + h + ':' + port + '/' + d);
   ")

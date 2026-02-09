@@ -1,11 +1,10 @@
 'use client'
 
-import React, { useState, useEffect, Suspense } from 'react'
+import React, { useState, useEffect, useRef, Suspense } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import toast from 'react-hot-toast'
 import {
-  Shield,
   FileText,
   Lock,
   Download,
@@ -13,6 +12,14 @@ import {
   ChevronDown,
   Check,
   X,
+  Monitor,
+  Scale,
+  Key,
+  Server,
+  Laptop,
+  Building2,
+  FileStack,
+  Award,
 } from 'lucide-react'
 
 type DocResource = {
@@ -38,6 +45,13 @@ type DocArticle = {
   sortOrder: number
   gated: boolean
   hasAccess: boolean
+}
+
+/** Uppercase badge for card (e.g. COMPLIANCE, POLICIES). */
+function docBadge(typeOrCategory: string | null): string {
+  if (!typeOrCategory) return 'DOCUMENT'
+  const s = typeOrCategory.replace(/\s+/g, ' ').trim()
+  return s ? s.toUpperCase().slice(0, 20) : 'DOCUMENT'
 }
 
 type Agreement = {
@@ -74,6 +88,8 @@ function TrustCenterContent() {
   const [statusResult, setStatusResult] = useState<{ status: string; createdAt: string; reviewedAt: string | null } | null | 'loading' | 'none'>(null)
   const [resendingLink, setResendingLink] = useState(false)
   const [tokenExpiresAt, setTokenExpiresAt] = useState<string | null>(null)
+  const [bulkDownloadOpen, setBulkDownloadOpen] = useState(false)
+  const allDocumentsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const fromUrl = searchParams.get('token')
@@ -210,7 +226,7 @@ function TrustCenterContent() {
         <header className="text-center mb-12">
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Trust Center</h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Start your security review. Request access to compliance and policy documents; some require NDA sign-off and approval.
+            View and download standard documents. Public content is available to everyone; private documents are locked behind an NDA and approval process to protect sensitive IP.
           </p>
           {tokenExpiresAt && (
             <p className="mt-3 text-sm text-gray-500">
@@ -276,32 +292,37 @@ function TrustCenterContent() {
         </section>
 
         <section className="mb-12">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <FileText className="w-5 h-5 text-primary" />
-            Documents
-          </h2>
-          <div className="flex flex-wrap items-center gap-4 mb-4">
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">Documents</h2>
+
+          <div className="flex flex-wrap items-center gap-4 mb-6">
             {DOC_TABS.map((tab) => (
               <button
                 key={tab}
                 type="button"
                 onClick={() => setDocTab(tab)}
-                className={`text-sm font-medium capitalize ${docTab === tab ? 'text-primary border-b-2 border-primary' : 'text-gray-500 hover:text-gray-700'}`}
+                className={`text-sm font-medium capitalize pb-1 border-b-2 transition-colors ${docTab === tab ? 'text-primary border-primary' : 'text-gray-500 border-transparent hover:text-gray-700'}`}
               >
-                {tab}
+                {tab === 'all' ? 'All' : tab === 'public' ? 'Public' : 'Private'}
               </button>
             ))}
             <div className="ml-auto flex items-center gap-2">
-              {allGatedItems.length > 0 ? (
+              {allGatedItems.length > 0 && (
                 <button
                   type="button"
                   onClick={() => setGetAccessOpen(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary-dark"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark"
                 >
                   <Lock className="w-4 h-4" /> Get access
                 </button>
-              ) : (
-                <p className="text-sm text-gray-500">All documents are currently public.</p>
+              )}
+              {token && (filteredResources.some((r) => r.hasAccess && (r.downloadUrl || r.linkUrl)) || filteredArticles.some((a) => a.hasAccess)) && (
+                <button
+                  type="button"
+                  onClick={() => setBulkDownloadOpen(true)}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-800 rounded-lg text-sm font-medium hover:bg-gray-200"
+                >
+                  <Download className="w-4 h-4" /> Bulk download
+                </button>
               )}
             </div>
           </div>
@@ -309,119 +330,185 @@ function TrustCenterContent() {
           {loading ? (
             <div className="space-y-4">
               <div className="h-4 bg-gray-200 rounded w-1/3 animate-pulse" />
-              <div className="grid sm:grid-cols-2 gap-4">
-                {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <div key={i} className="p-4 bg-white rounded-xl border border-gray-200 flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-gray-200 animate-pulse flex-shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <div className="h-4 bg-gray-200 rounded w-3/4 animate-pulse mb-2" />
-                      <div className="h-3 bg-gray-100 rounded w-full animate-pulse" />
-                      <div className="h-3 bg-gray-100 rounded w-2/3 mt-2 animate-pulse" />
-                    </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                  <div key={i} className="p-4 bg-white rounded-xl border border-gray-200">
+                    <div className="h-3 bg-gray-200 rounded w-20 mb-3 animate-pulse" />
+                    <div className="w-10 h-10 rounded-lg bg-gray-200 animate-pulse mb-2" />
+                    <div className="h-4 bg-gray-200 rounded w-3/4 animate-pulse" />
                   </div>
                 ))}
               </div>
             </div>
           ) : (
             <>
-              <p className="text-sm text-gray-500 mb-4">Featured documents</p>
-              <div className="grid sm:grid-cols-2 gap-4">
-                {filteredResources.slice(0, 6).map((r) => (
+              <p className="text-sm font-medium text-gray-700 mb-3">Featured Documents</p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                {filteredResources.slice(0, 8).map((r) => (
                   <div
                     key={r.id}
-                    className="p-4 bg-white rounded-xl border border-gray-200 flex items-start gap-3"
+                    className="p-4 bg-white rounded-xl border border-gray-200 hover:border-gray-300 transition-colors flex flex-col"
                   >
-                    <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${r.color} flex items-center justify-center flex-shrink-0`}>
-                      <FileText className="w-5 h-5 text-white" />
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <span className="text-xs font-semibold text-primary uppercase tracking-wide">{docBadge(r.type)}</span>
+                      {r.gated && !r.hasAccess && <Lock className="w-4 h-4 text-amber-600 flex-shrink-0" />}
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between gap-2">
-                        <p className="font-medium text-gray-900">{r.title}</p>
-                        {r.gated && !r.hasAccess && <Lock className="w-4 h-4 text-amber-600 flex-shrink-0" />}
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-2">
+                      <FileText className="w-5 h-5 text-primary" />
+                    </div>
+                    <p className="font-medium text-gray-900 text-sm leading-snug">{r.title}</p>
+                    {r.hasAccess && (r.downloadUrl || r.linkUrl) && (
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {r.downloadUrl && (
+                          <a
+                            href={downloadUrl('resource', r.id)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
+                          >
+                            <Download className="w-3 h-3" /> Download
+                          </a>
+                        )}
+                        {r.linkUrl && (
+                          <a
+                            href={r.linkUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
+                          >
+                            <ExternalLink className="w-3 h-3" /> Open
+                          </a>
+                        )}
                       </div>
-                      <p className="text-sm text-gray-500 line-clamp-2">{r.description.replace(/<[^>]*>/g, '')}</p>
-                      {r.hasAccess && (r.downloadUrl || r.linkUrl) && (
-                        <div className="mt-2 flex gap-2">
-                          {r.downloadUrl && (
-                            <a
-                              href={downloadUrl('resource', r.id)}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
-                            >
-                              <Download className="w-3.5 h-3.5" /> Download
-                            </a>
-                          )}
-                          {r.linkUrl && (
-                            <a
-                              href={r.linkUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
-                            >
-                              <ExternalLink className="w-3.5 h-3.5" /> Open
-                            </a>
-                          )}
-                        </div>
-                      )}
-                    </div>
+                    )}
                   </div>
                 ))}
-                {filteredArticles.slice(0, 4).map((a) => (
+                {filteredArticles.slice(0, 8).map((a) => (
                   <div
                     key={a.id}
-                    className="p-4 bg-white rounded-xl border border-gray-200 flex items-start gap-3"
+                    className="p-4 bg-white rounded-xl border border-gray-200 hover:border-gray-300 transition-colors flex flex-col"
                   >
-                    <div className="w-10 h-10 rounded-lg bg-gray-200 flex items-center justify-center flex-shrink-0">
-                      <FileText className="w-5 h-5 text-gray-600" />
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <span className="text-xs font-semibold text-primary uppercase tracking-wide">{docBadge(a.category)}</span>
+                      {a.gated && !a.hasAccess && <Lock className="w-4 h-4 text-amber-600 flex-shrink-0" />}
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between gap-2">
-                        <p className="font-medium text-gray-900">{a.title}</p>
-                        {a.gated && !a.hasAccess && <Lock className="w-4 h-4 text-amber-600 flex-shrink-0" />}
-                      </div>
-                      <p className="text-sm text-gray-500 line-clamp-2">{a.description.replace(/<[^>]*>/g, '')}</p>
-                      {a.hasAccess && a.url && (
-                        <a
-                          href={a.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
-                        >
-                          <ExternalLink className="w-3.5 h-3.5" /> Read
-                        </a>
-                      )}
-                      {a.hasAccess && !a.url && a.gated && (
-                        <a
-                          href={downloadUrl('article', a.id)}
-                          className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
-                        >
-                          <ExternalLink className="w-3.5 h-3.5" /> View
-                        </a>
-                      )}
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-2">
+                      <FileText className="w-5 h-5 text-primary" />
                     </div>
+                    <p className="font-medium text-gray-900 text-sm leading-snug">{a.title}</p>
+                    {a.hasAccess && (a.url ? (
+                      <a
+                        href={a.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
+                      >
+                        <ExternalLink className="w-3 h-3" /> Open link
+                      </a>
+                    ) : (
+                      <a
+                        href={downloadUrl('article', a.id)}
+                        className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
+                      >
+                        <ExternalLink className="w-3 h-3" /> View
+                      </a>
+                    ))}
                   </div>
                 ))}
               </div>
+              {(filteredResources.length > 8 || filteredArticles.length > 8) && (
+                <button
+                  type="button"
+                  onClick={() => allDocumentsRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                  className="mt-4 text-sm font-medium text-primary hover:underline flex items-center gap-1"
+                >
+                  View all documents <ChevronDown className="w-4 h-4" />
+                </button>
+              )}
               {(filteredResources.length === 0 && filteredArticles.length === 0) && (
-                <p className="text-gray-500 py-6">No documents in this category.</p>
+                <p className="text-gray-500 py-8">No documents in this category.</p>
+              )}
+
+              {(filteredResources.length > 8 || filteredArticles.length > 8) && (
+              <div ref={allDocumentsRef} className="mt-10 pt-8 border-t border-gray-200">
+                <p className="text-sm font-medium text-gray-700 mb-3">All documents</p>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {filteredResources.map((r) => (
+                    <div key={r.id} className="p-4 bg-white rounded-xl border border-gray-200 flex items-start gap-3">
+                      <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${r.color} flex items-center justify-center flex-shrink-0`}>
+                        <FileText className="w-5 h-5 text-white" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center justify-between gap-2">
+                          <p className="font-medium text-gray-900">{r.title}</p>
+                          {r.gated && !r.hasAccess && <Lock className="w-4 h-4 text-amber-600 flex-shrink-0" />}
+                        </div>
+                        <p className="text-sm text-gray-500 line-clamp-2">{r.description.replace(/<[^>]*>/g, '')}</p>
+                        {r.hasAccess && (r.downloadUrl || r.linkUrl) && (
+                          <div className="mt-2 flex gap-2">
+                            {r.downloadUrl && (
+                              <a href={downloadUrl('resource', r.id)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline">
+                                <Download className="w-3.5 h-3.5" /> Download
+                              </a>
+                            )}
+                            {r.linkUrl && (
+                              <a href={r.linkUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline">
+                                <ExternalLink className="w-3.5 h-3.5" /> Open
+                              </a>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                  {filteredArticles.map((a) => (
+                    <div key={a.id} className="p-4 bg-white rounded-xl border border-gray-200 flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-gray-200 flex items-center justify-center flex-shrink-0">
+                        <FileText className="w-5 h-5 text-gray-600" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center justify-between gap-2">
+                          <p className="font-medium text-gray-900">{a.title}</p>
+                          {a.gated && !a.hasAccess && <Lock className="w-4 h-4 text-amber-600 flex-shrink-0" />}
+                        </div>
+                        <p className="text-sm text-gray-500 line-clamp-2">{a.description.replace(/<[^>]*>/g, '')}</p>
+                        {a.hasAccess && (a.url ? (
+                          <a href={a.url} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline">
+                            <ExternalLink className="w-3.5 h-3.5" /> Read
+                          </a>
+                        ) : (
+                          <a href={downloadUrl('article', a.id)} className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline">
+                            <ExternalLink className="w-3.5 h-3.5" /> View
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
               )}
             </>
           )}
         </section>
 
-        <section className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
           {[
-            { title: 'App Security', icon: Shield, items: ['Code analysis', 'SDLC', 'Vulnerability & patch management'] },
-            { title: 'Legal', icon: FileText, items: ['Privacy policy', 'Terms of service'] },
-            { title: 'Data Privacy', icon: Lock, items: ['Data privacy officer', 'Employee privacy training'] },
+            { title: 'App Security', icon: Monitor, items: ['Code Analysis', 'Software Development Lifecycle', 'Vulnerability & Patch Management'] },
+            { title: 'Legal', icon: Scale, items: ['Privacy Policy', 'Terms of Service'] },
+            { title: 'Data Privacy', icon: Lock, items: ['Data Privacy Officer', 'Employee Privacy Training'] },
+            { title: 'Access Control', icon: Key, items: ['Data Access', 'Logging', 'Password Security'] },
+            { title: 'Infrastructure', icon: Server, items: ['BC/DR', 'Data Center', 'Separate Production Environment'] },
+            { title: 'Endpoint Security', icon: Laptop, items: ['Disk Encryption', 'DNS Filtering', 'Endpoint Detection & Response'] },
+            { title: 'Corporate Security', icon: Building2, items: ['HR Security', 'Incident Response', 'Internal Assessments'] },
+            { title: 'Policies', icon: FileStack, items: ['Information Security Policy', 'Vulnerability Management Policy', 'Other Policies'] },
+            { title: 'Compliance & Grades', icon: Award, items: ['SOC 2', 'ISO 27001', 'Security assessments'] },
           ].map((card) => (
             <div key={card.title} className="p-4 bg-white rounded-xl border border-gray-200">
               <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
-                <card.icon className="w-4 h-4 text-primary" />
+                <card.icon className="w-4 h-4 text-primary flex-shrink-0" />
                 {card.title}
               </h3>
-              <ul className="space-y-1 text-sm text-gray-600">
+              <ul className="space-y-1.5 text-sm text-gray-600">
                 {card.items.map((item) => (
                   <li key={item} className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
@@ -460,10 +547,10 @@ function TrustCenterContent() {
               </button>
             </div>
             <p className="text-sm text-gray-600 mb-4">
-              Complete the form and accept the NDA below. We will review your request and send you an access link once approved.
+              Request access to private documents. Sign the NDA below; we review each request and grant access per document. Once approved, you&apos;ll receive a link to view and download the documents you were granted.
             </p>
             <p className="text-sm text-gray-500 mb-4 italic">
-              What happens next: We&apos;ll review your request and email you within 1–2 business days. If approved, you&apos;ll receive a link to access the gated documents.
+              What happens next: We review your request and email you within 1–2 business days. If approved, you receive a link to access the gated content. Approval can cover all requested documents or specific ones, depending on our review.
             </p>
             {accessMessage && (
               <div className={`mb-4 p-3 rounded-lg text-sm ${accessMessage.type === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
@@ -493,7 +580,7 @@ function TrustCenterContent() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Company</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Company (optional)</label>
                   <input
                     type="text"
                     value={accessForm.company}
@@ -535,6 +622,76 @@ function TrustCenterContent() {
             )}
             {!agreement && !loading && (
               <p className="text-gray-500">No NDA agreement is configured. Please contact the administrator.</p>
+            )}
+          </div>
+        </div>
+      )}
+
+      {bulkDownloadOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+          aria-modal="true"
+          role="dialog"
+          aria-labelledby="bulk-download-title"
+          onKeyDown={(e) => e.key === 'Escape' && setBulkDownloadOpen(false)}
+        >
+          <div className="bg-white rounded-xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 id="bulk-download-title" className="text-lg font-semibold text-gray-900">Bulk download</h2>
+              <button
+                type="button"
+                onClick={() => setBulkDownloadOpen(false)}
+                className="p-2 text-gray-400 hover:text-gray-600 rounded-lg"
+                aria-label="Close"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <p className="text-sm text-gray-600 mb-4">Documents you have access to. Open or download each below.</p>
+            <ul className="space-y-2">
+              {resources.filter((r) => r.hasAccess && (r.downloadUrl || r.linkUrl)).map((r) => (
+                <li key={r.id} className="flex items-center justify-between gap-2 p-2 rounded-lg bg-gray-50">
+                  <span className="text-sm font-medium text-gray-900 truncate">{r.title}</span>
+                  <span className="flex gap-2 flex-shrink-0">
+                    {r.downloadUrl && (
+                      <a
+                        href={downloadUrl('resource', r.id)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs font-medium text-primary hover:underline"
+                      >
+                        Download
+                      </a>
+                    )}
+                    {r.linkUrl && (
+                      <a
+                        href={r.linkUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs font-medium text-primary hover:underline"
+                      >
+                        Open
+                      </a>
+                    )}
+                  </span>
+                </li>
+              ))}
+              {articles.filter((a) => a.hasAccess).map((a) => (
+                <li key={a.id} className="flex items-center justify-between gap-2 p-2 rounded-lg bg-gray-50">
+                  <span className="text-sm font-medium text-gray-900 truncate">{a.title}</span>
+                  <a
+                    href={a.url ? a.url : downloadUrl('article', a.id)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-medium text-primary hover:underline flex-shrink-0"
+                  >
+                    {a.url ? 'Open' : 'View'}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            {resources.filter((r) => r.hasAccess && (r.downloadUrl || r.linkUrl)).length === 0 && articles.filter((a) => a.hasAccess).length === 0 && (
+              <p className="text-sm text-gray-500 py-4">No documents available for download.</p>
             )}
           </div>
         </div>

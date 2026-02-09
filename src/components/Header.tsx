@@ -145,7 +145,6 @@ const Header = () => {
     { name: 'Services', href: '/services' },
     { name: 'Resource Centre', href: '/resources' },
     { name: 'Digital Creations', href: '/digital-creations' },
-    { name: 'Trust Centre', href: '/trust' },
   ]
 
   const noMotion = {

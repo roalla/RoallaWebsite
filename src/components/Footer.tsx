@@ -1,5 +1,5 @@
 import React from 'react'
-import { Mail, Phone } from 'lucide-react'
+import { Mail, Phone, Linkedin, Youtube } from 'lucide-react'
 import Link from 'next/link'
 
 const Footer = () => {
@@ -10,7 +10,6 @@ const Footer = () => {
     { name: 'About', href: '/about' },
     { name: 'Resource Centre', href: '/resources' },
     { name: 'Digital Creations', href: '/digital-creations' },
-    { name: 'Assessment', href: '/assessment' },
     { name: 'FAQ', href: '/faq' },
     { name: 'Contact', href: '/contact' },
     { name: 'Trust Centre', href: '/trust' },
@@ -31,14 +30,20 @@ const Footer = () => {
               </Link>
             ))}
           </nav>
-          <div className="flex items-center gap-4 text-sm flex-shrink-0">
-            <a href="mailto:sales@roalla.com" className="flex items-center gap-1.5 hover:text-primary-light transition-colors">
+          <div className="flex items-center gap-4 text-sm flex-shrink-0 flex-wrap">
+            <a href="mailto:sales@roalla.com" className="flex items-center gap-1.5 hover:text-primary-light transition-colors" aria-label="Email us">
               <Mail className="w-4 h-4 text-primary-light" />
               <span className="hidden sm:inline">sales@roalla.com</span>
             </a>
-            <a href="tel:289-838-5868" className="flex items-center gap-1.5 hover:text-primary-light transition-colors">
+            <a href="tel:289-838-5868" className="flex items-center gap-1.5 hover:text-primary-light transition-colors" aria-label="Call us">
               <Phone className="w-4 h-4 text-primary-light" />
               <span>289-838-5868</span>
+            </a>
+            <a href="https://www.linkedin.com/company/102042431/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-primary-light transition-colors" aria-label="Roalla on LinkedIn">
+              <Linkedin className="w-4 h-4 text-primary-light" />
+            </a>
+            <a href="https://www.youtube.com/@RoallaGroup" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-primary-light transition-colors" aria-label="Roalla on YouTube">
+              <Youtube className="w-4 h-4 text-primary-light" />
             </a>
           </div>
         </div>

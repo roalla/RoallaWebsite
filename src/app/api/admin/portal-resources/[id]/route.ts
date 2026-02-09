@@ -49,6 +49,7 @@ export async function PATCH(
     if (body.color != null) data.color = String(body.color).trim()
     if (typeof body.sortOrder === 'number') data.sortOrder = body.sortOrder
     if (typeof body.gated === 'boolean') data.gated = body.gated
+    if (body.trustCategory !== undefined) data.trustCategory = body.trustCategory ? String(body.trustCategory).trim() : null
     if (isAdmin(session.user) && body.organizationId !== undefined)
       data.organizationId = body.organizationId === null || body.organizationId === '' ? null : String(body.organizationId).trim()
     const item = await prisma.portalResource.update({

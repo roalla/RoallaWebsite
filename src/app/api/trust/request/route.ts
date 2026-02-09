@@ -6,20 +6,29 @@ import { rateLimit, getRateLimitKey } from '@/lib/rate-limit'
 export const dynamic = 'force-dynamic'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
-const REQUEST_LIMIT = 5
-const REQUEST_WINDOW_MS = 3600_000 // 1 hour per IP
+const REQUEST_LIMIT_IP = 5
+const REQUEST_LIMIT_EMAIL = 3
+const REQUEST_WINDOW_MS = 3600_000 // 1 hour
 
 export async function POST(request: NextRequest) {
   try {
     const ipKey = getRateLimitKey(request, 'ip')
-    const rl = rateLimit({ key: `trust:request:${ipKey}`, limit: REQUEST_LIMIT, windowMs: REQUEST_WINDOW_MS })
-    if (!rl.success) {
+    const rlIp = rateLimit({ key: `trust:request:ip:${ipKey}`, limit: REQUEST_LIMIT_IP, windowMs: REQUEST_WINDOW_MS })
+    if (!rlIp.success) {
       return NextResponse.json({ error: 'Too many requests. Please try again later.' }, { status: 429 })
     }
 
     const body = await request.json()
     const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : ''
     const name = typeof body.name === 'string' ? body.name.trim() : ''
+
+    if (email) {
+      const emailKey = getRateLimitKey(request, 'email', email)
+      const rlEmail = rateLimit({ key: `trust:request:${emailKey}`, limit: REQUEST_LIMIT_EMAIL, windowMs: REQUEST_WINDOW_MS })
+      if (!rlEmail.success) {
+        return NextResponse.json({ error: 'Too many access requests from this email. Please try again later.' }, { status: 429 })
+      }
+    }
     const company = typeof body.company === 'string' ? body.company.trim() || null : null
     const agreementId = typeof body.agreementId === 'string' ? body.agreementId.trim() : ''
     const acceptedNda = body.acceptedNda === true

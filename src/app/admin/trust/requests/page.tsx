@@ -30,6 +30,7 @@ export default function AdminTrustRequestsPage() {
   const [accessLink, setAccessLink] = useState<{ id: string; link: string; emailSent?: boolean } | null>(null)
   const [sendEmail, setSendEmail] = useState(true)
   const [sendRejectEmail, setSendRejectEmail] = useState(false)
+  const [grantExpiryDays, setGrantExpiryDays] = useState<number | null>(365)
   const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'approved' | 'rejected'>(initialStatus)
   const [search, setSearch] = useState('')
   const [hasMore, setHasMore] = useState(false)
@@ -76,7 +77,7 @@ export default function AdminTrustRequestsPage() {
       const res = await fetch(`/api/admin/trust/requests/${id}/approve`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sendEmail }),
+        body: JSON.stringify({ sendEmail, grantExpiryDays }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error)
@@ -139,7 +140,7 @@ export default function AdminTrustRequestsPage() {
       const res = await fetch('/api/admin/trust/requests/bulk-approve', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ids: Array.from(selectedIds), sendEmail }),
+        body: JSON.stringify({ ids: Array.from(selectedIds), sendEmail, grantExpiryDays }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error)
@@ -286,15 +287,29 @@ export default function AdminTrustRequestsPage() {
           </button>
         </div>
       )}
-      <label className="flex items-center gap-2 text-sm text-gray-700 mb-2 cursor-pointer">
-        <input
-          type="checkbox"
-          checked={sendEmail}
-          onChange={(e) => setSendEmail(e.target.checked)}
-          className="rounded border-gray-300 text-primary focus:ring-primary"
-        />
-        Email the requestor with the access link when approving (requires RESEND_API_KEY)
-      </label>
+      <div className="flex flex-wrap items-center gap-4 mb-2">
+        <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={sendEmail}
+            onChange={(e) => setSendEmail(e.target.checked)}
+            className="rounded border-gray-300 text-primary focus:ring-primary"
+          />
+          Email the requestor with the access link when approving (requires RESEND_API_KEY)
+        </label>
+        <label className="flex items-center gap-2 text-sm text-gray-700">
+          <span>Document access expires:</span>
+          <select
+            value={grantExpiryDays === null ? 'never' : String(grantExpiryDays)}
+            onChange={(e) => setGrantExpiryDays(e.target.value === 'never' ? null : parseInt(e.target.value, 10))}
+            className="px-2 py-1 border border-gray-300 rounded text-sm"
+          >
+            <option value="90">90 days</option>
+            <option value="365">1 year</option>
+            <option value="never">Never</option>
+          </select>
+        </label>
+      </div>
       <label className="flex items-center gap-2 text-sm text-gray-700 mb-6 cursor-pointer">
         <input
           type="checkbox"

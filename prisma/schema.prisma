@@ -174,6 +174,7 @@ model PortalResource {
   color            String   @default("from-blue-500 to-blue-600") // Tailwind gradient
   sortOrder        Int      @default(0)
   gated            Boolean  @default(false) // requires NDA + approval to access
+  trustCategory    String?  // optional: Compliance, Policies, Legal, etc. for Trust Center badge
   createdByUserId  String?  // partner can only edit own; null = any editor
   organizationId   String?  // null = visible to all; set = visible to this org + shareable link
   createdAt        DateTime @default(now())
@@ -193,6 +194,7 @@ model PortalArticle {
   url              String?  // optional link to full article
   sortOrder        Int      @default(0)
   gated            Boolean  @default(false) // requires NDA + approval to access
+  trustCategory    String?  // optional: Compliance, Policies, Legal, etc. for Trust Center badge
   createdByUserId  String?  // partner can only edit own; null = any editor
   organizationId   String?  // null = visible to all; set = visible to this org + shareable link
   createdAt        DateTime @default(now())
@@ -281,6 +283,21 @@ model TrustCenterToken {
 
   @@index([token])
   @@index([email])
+}
+
+// Audit: who accessed which gated document and when
+model TrustAccessLog {
+  id          String   @id @default(cuid())
+  email       String
+  resourceId  String?  // PortalResource id
+  articleId   String?  // PortalArticle id
+  action      String   // download | open
+  accessedAt  DateTime @default(now())
+
+  @@index([email])
+  @@index([resourceId])
+  @@index([articleId])
+  @@index([accessedAt])
 }
 
 // Audit log for Trust Center admin actions

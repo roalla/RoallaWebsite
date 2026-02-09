@@ -32,6 +32,7 @@ type DocResource = {
   color: string
   sortOrder: number
   gated: boolean
+  trustCategory?: string | null
   hasAccess: boolean
 }
 
@@ -44,13 +45,13 @@ type DocArticle = {
   url: string | null
   sortOrder: number
   gated: boolean
+  trustCategory?: string | null
   hasAccess: boolean
 }
 
-/** Uppercase badge for card (e.g. COMPLIANCE, POLICIES). */
-function docBadge(typeOrCategory: string | null): string {
-  if (!typeOrCategory) return 'DOCUMENT'
-  const s = typeOrCategory.replace(/\s+/g, ' ').trim()
+/** Uppercase badge for card (e.g. COMPLIANCE, POLICIES). Prefer trustCategory when set. */
+function docBadge(trustCategory: string | null | undefined, typeOrCategory: string | null): string {
+  const s = (trustCategory ?? typeOrCategory ?? '').replace(/\s+/g, ' ').trim()
   return s ? s.toUpperCase().slice(0, 20) : 'DOCUMENT'
 }
 
@@ -89,6 +90,7 @@ function TrustCenterContent() {
   const [resendingLink, setResendingLink] = useState(false)
   const [tokenExpiresAt, setTokenExpiresAt] = useState<string | null>(null)
   const [bulkDownloadOpen, setBulkDownloadOpen] = useState(false)
+  const [selectedRequestKeys, setSelectedRequestKeys] = useState<Set<string>>(new Set())
   const allDocumentsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -136,9 +138,25 @@ function TrustCenterContent() {
 
   const filteredResources = docTab === 'public' ? resources.filter((r) => !r.gated) : docTab === 'private' ? resources.filter((r) => r.gated) : resources
   const filteredArticles = docTab === 'public' ? articles.filter((a) => !a.gated) : docTab === 'private' ? articles.filter((a) => a.gated) : articles
-  const gatedResourceIds = resources.filter((r) => r.gated).map((r) => ({ type: 'resource' as const, id: r.id }))
-  const gatedArticleIds = articles.filter((a) => a.gated).map((a) => ({ type: 'article' as const, id: a.id }))
-  const allGatedItems = [...gatedResourceIds, ...gatedArticleIds]
+  const gatedResources = resources.filter((r) => r.gated)
+  const gatedArticles = articles.filter((a) => a.gated)
+  const allGatedItemsWithTitles: { type: 'resource' | 'article'; id: string; title: string }[] = [
+    ...gatedResources.map((r) => ({ type: 'resource' as const, id: r.id, title: r.title })),
+    ...gatedArticles.map((a) => ({ type: 'article' as const, id: a.id, title: a.title })),
+  ]
+  const allGatedItems = allGatedItemsWithTitles.map((it) => ({ type: it.type, id: it.id }))
+  const itemKey = (type: 'resource' | 'article', id: string) => `${type}:${id}`
+
+  useEffect(() => {
+    if (!getAccessOpen) return
+    const gated = [
+      ...resources.filter((r) => r.gated).map((r) => ({ type: 'resource' as const, id: r.id })),
+      ...articles.filter((a) => a.gated).map((a) => ({ type: 'article' as const, id: a.id })),
+    ]
+    if (gated.length > 0) setSelectedRequestKeys(new Set(gated.map((it) => itemKey(it.type, it.id))))
+  }, [getAccessOpen, resources, articles])
+
+  const selectedItemsToSubmit = allGatedItemsWithTitles.filter((it) => selectedRequestKeys.has(itemKey(it.type, it.id))).map((it) => ({ type: it.type, id: it.id }))
 
   const handleGetAccess = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -155,7 +173,7 @@ function TrustCenterContent() {
           company: accessForm.company.trim() || undefined,
           agreementId: agreement.id,
           acceptedNda: accessForm.acceptedNda,
-          items: allGatedItems,
+          items: selectedItemsToSubmit.length > 0 ? selectedItemsToSubmit : allGatedItems,
         }),
       })
       const data = await res.json()
@@ -228,16 +246,17 @@ function TrustCenterContent() {
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             View and download standard documents. Public content is available to everyone; private documents are locked behind an NDA and approval process to protect sensitive IP.
           </p>
-          {tokenExpiresAt && (
-            <p className="mt-3 text-sm text-gray-500">
-              Your access link expires {(() => {
-                const d = new Date(tokenExpiresAt)
-                const days = Math.ceil((d.getTime() - Date.now()) / (24 * 60 * 60 * 1000))
-                if (days <= 0) return 'soon'
-                return `in ${days} day${days === 1 ? '' : 's'}`
-              })()}.
-            </p>
-          )}
+          {tokenExpiresAt && (() => {
+            const d = new Date(tokenExpiresAt)
+            const days = Math.ceil((d.getTime() - Date.now()) / (24 * 60 * 60 * 1000))
+            const soon = days <= 7
+            return (
+              <p className={`mt-3 text-sm ${soon ? 'text-amber-700 bg-amber-50 px-3 py-2 rounded-lg' : 'text-gray-500'}`}>
+                Your access link expires {days <= 0 ? 'soon' : `in ${days} day${days === 1 ? '' : 's'}`}.
+                {soon && days > 0 && ' Use “Resend access link” below if you need a new one.'}
+              </p>
+            )
+          })()}
         </header>
 
         <section className="mb-8 p-4 bg-white rounded-xl border border-gray-200">
@@ -306,7 +325,7 @@ function TrustCenterContent() {
               </button>
             ))}
             <div className="ml-auto flex items-center gap-2">
-              {allGatedItems.length > 0 && (
+              {allGatedItems.length > 0 ? (
                 <button
                   type="button"
                   onClick={() => setGetAccessOpen(true)}
@@ -314,6 +333,10 @@ function TrustCenterContent() {
                 >
                   <Lock className="w-4 h-4" /> Get access
                 </button>
+              ) : (
+                !loading && (
+                  <p className="text-sm text-gray-500">All documents are currently public. No approval required.</p>
+                )
               )}
               {token && (filteredResources.some((r) => r.hasAccess && (r.downloadUrl || r.linkUrl)) || filteredArticles.some((a) => a.hasAccess)) && (
                 <button
@@ -350,7 +373,7 @@ function TrustCenterContent() {
                     className="p-4 bg-white rounded-xl border border-gray-200 hover:border-gray-300 transition-colors flex flex-col"
                   >
                     <div className="flex items-start justify-between gap-2 mb-2">
-                      <span className="text-xs font-semibold text-primary uppercase tracking-wide">{docBadge(r.type)}</span>
+                      <span className="text-xs font-semibold text-primary uppercase tracking-wide">{docBadge(r.trustCategory, r.type)}</span>
                       {r.gated && !r.hasAccess && <Lock className="w-4 h-4 text-amber-600 flex-shrink-0" />}
                     </div>
                     <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-2">
@@ -389,7 +412,7 @@ function TrustCenterContent() {
                     className="p-4 bg-white rounded-xl border border-gray-200 hover:border-gray-300 transition-colors flex flex-col"
                   >
                     <div className="flex items-start justify-between gap-2 mb-2">
-                      <span className="text-xs font-semibold text-primary uppercase tracking-wide">{docBadge(a.category)}</span>
+                      <span className="text-xs font-semibold text-primary uppercase tracking-wide">{docBadge(a.trustCategory, a.category)}</span>
                       {a.gated && !a.hasAccess && <Lock className="w-4 h-4 text-amber-600 flex-shrink-0" />}
                     </div>
                     <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-2">
@@ -552,6 +575,48 @@ function TrustCenterContent() {
             <p className="text-sm text-gray-500 mb-4 italic">
               What happens next: We review your request and email you within 1–2 business days. If approved, you receive a link to access the gated content. Approval can cover all requested documents or specific ones, depending on our review.
             </p>
+            {allGatedItemsWithTitles.length > 0 && (
+              <div className="mb-4">
+                <p className="text-sm font-medium text-gray-700 mb-2">Select documents to request access for</p>
+                <div className="flex gap-2 mb-2">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedRequestKeys(new Set(allGatedItemsWithTitles.map((it) => itemKey(it.type, it.id))))}
+                    className="text-xs font-medium text-primary hover:underline"
+                  >
+                    Select all
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedRequestKeys(new Set())}
+                    className="text-xs font-medium text-gray-500 hover:underline"
+                  >
+                    Deselect all
+                  </button>
+                </div>
+                <div className="max-h-32 overflow-y-auto border border-gray-200 rounded-lg p-2 space-y-1">
+                  {allGatedItemsWithTitles.map((it) => (
+                    <label key={itemKey(it.type, it.id)} className="flex items-center gap-2 cursor-pointer text-sm">
+                      <input
+                        type="checkbox"
+                        checked={selectedRequestKeys.has(itemKey(it.type, it.id))}
+                        onChange={() => {
+                          const key = itemKey(it.type, it.id)
+                          setSelectedRequestKeys((prev) => {
+                            const next = new Set(prev)
+                            if (next.has(key)) next.delete(key)
+                            else next.add(key)
+                            return next
+                          })
+                        }}
+                        className="rounded border-gray-300 text-primary focus:ring-primary"
+                      />
+                      <span className="truncate">{it.title}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            )}
             {accessMessage && (
               <div className={`mb-4 p-3 rounded-lg text-sm ${accessMessage.type === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
                 {accessMessage.text}

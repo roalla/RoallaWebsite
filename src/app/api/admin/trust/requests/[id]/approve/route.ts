@@ -10,7 +10,6 @@ export const dynamic = 'force-dynamic'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 const TOKEN_EXPIRY_DAYS = 90
-const GRANT_EXPIRY_DAYS = 365 // 1 year
 
 export async function POST(
   request: NextRequest,
@@ -34,10 +33,16 @@ export async function POST(
   const userId = currentUser.id!
   const email = req.email
 
+  const body = await request.json().catch(() => ({}))
+  const grantExpiryDays = body.grantExpiryDays != null ? (typeof body.grantExpiryDays === 'number' ? body.grantExpiryDays : null) : 365
+  let grantExpiresAt: Date | null = null
+  if (typeof grantExpiryDays === 'number' && grantExpiryDays > 0) {
+    grantExpiresAt = new Date()
+    grantExpiresAt.setDate(grantExpiresAt.getDate() + grantExpiryDays)
+  }
+
   const items = await prisma.gatedAccessRequestItem.findMany({ where: { requestId: id } })
-  const grantExpiresAt = new Date()
-  grantExpiresAt.setDate(grantExpiresAt.getDate() + GRANT_EXPIRY_DAYS)
-  const grantsToCreate: { email: string; resourceId?: string; articleId?: string; grantedByUserId: string; expiresAt: Date }[] = []
+  const grantsToCreate: { email: string; resourceId?: string; articleId?: string; grantedByUserId: string; expiresAt: Date | null }[] = []
 
   if (items.length > 0) {
     for (const it of items) {
@@ -101,7 +106,7 @@ export async function POST(
               </div>
               <p style="font-size: 14px; color: #666;">Or copy and paste this link into your browser:</p>
               <p style="font-size: 12px; color: #999; word-break: break-all;">${accessLink}</p>
-              <p style="margin-top: 20px;">This link is valid for ${TOKEN_EXPIRY_DAYS} days. Your document access is valid for one year.</p>
+              <p style="margin-top: 20px;">This link is valid for ${TOKEN_EXPIRY_DAYS} days.${grantExpiresAt ? ` Your document access expires ${grantExpiresAt.toLocaleDateString()}.` : ' Your document access does not expire.'}</p>
               <p>If you have any questions, please contact us at <strong>sales@roalla.com</strong>.</p>
               <p>Best regards,<br><strong>The Roalla Team</strong></p>
             </div>

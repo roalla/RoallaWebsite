@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import dynamic from 'next/dynamic'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import Link from 'next/link'
@@ -14,10 +15,23 @@ const HeaderAuthSlot = dynamic(() => import('./HeaderAuthSlot').then((m) => m.de
   loading: () => authSlotPlaceholder,
 })
 
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+
+function getFocusables(container: HTMLElement | null): HTMLElement[] {
+  if (!container) return []
+  return Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR))
+}
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
+  const mobileMenuRef = useRef<HTMLDivElement>(null)
+  const scrollTick = useRef<number | null>(null)
+  const previousMenuOpen = useRef(false)
 
   useEffect(() => {
     setMounted(true)
@@ -25,26 +39,96 @@ const Header = () => {
 
   useEffect(() => {
     if (!mounted) return
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setPrefersReducedMotion(mq.matches)
+    const handler = () => setPrefersReducedMotion(mq.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
   }, [mounted])
 
+  useEffect(() => {
+    if (!mounted) return
+    const handleScroll = () => {
+      if (scrollTick.current !== null) return
+      scrollTick.current = requestAnimationFrame(() => {
+        setIsScrolled(window.scrollY > 10)
+        scrollTick.current = null
+      })
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (scrollTick.current !== null) cancelAnimationFrame(scrollTick.current)
+    }
+  }, [mounted])
+
+  useEffect(() => {
+    if (!isMenuOpen) return
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isMenuOpen])
+
+  useEffect(() => {
+    if (isMenuOpen && previousMenuOpen.current === false) {
+      const focusables = getFocusables(mobileMenuRef.current)
+      const first = focusables[0]
+      if (first) {
+        requestAnimationFrame(() => first.focus())
+      }
+    }
+    if (!isMenuOpen && previousMenuOpen.current === true) {
+      menuButtonRef.current?.focus()
+    }
+    previousMenuOpen.current = isMenuOpen
+  }, [isMenuOpen])
+
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
+    setIsMenuOpen((open) => !open)
   }
 
-  const closeMenu = () => {
+  const closeMenu = useCallback(() => {
     setIsMenuOpen(false)
-  }
+  }, [])
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const handleMenuKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
       closeMenu()
+      return
+    }
+    if (e.key !== 'Tab' || !mobileMenuRef.current) return
+    const focusables = getFocusables(mobileMenuRef.current)
+    if (focusables.length === 0) return
+    const first = focusables[0]
+    const last = focusables[focusables.length - 1]
+    if (e.shiftKey) {
+      if (document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      }
+    } else {
+      if (document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
     }
   }
+
+  const handleNavButtonKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') closeMenu()
+  }
+
+  const pathname = usePathname() ?? '/'
+
+  const isActive = useCallback(
+    (href: string) => {
+      if (href === '/') return pathname === '/'
+      if (href.startsWith('/#')) return pathname === '/'
+      return pathname === href || pathname.startsWith(href + '/')
+    },
+    [pathname]
+  )
 
   const navigation = [
     { name: 'Home', href: '/' },
@@ -53,26 +137,74 @@ const Header = () => {
     { name: 'Digital Creations', href: '/#digital-creations' },
     { name: 'About', href: '/#about' },
     { name: 'FAQ', href: '/#faq' },
-    { name: 'Contact', href: '/#contact' }
+    { name: 'Contact', href: '/#contact' },
+    { name: 'Trust Center', href: '/trust' },
   ]
 
+  const noMotion = { initial: false, animate: false, exit: false, transition: { duration: 0 } }
+  const motionProps = prefersReducedMotion
+    ? noMotion
+    : {
+        initial: { opacity: 0, x: -20 },
+        animate: { opacity: 1, x: 0 },
+        transition: { duration: 0.5 },
+      }
+  const motionNavItem = (index: number) =>
+    prefersReducedMotion
+      ? noMotion
+      : {
+          initial: { opacity: 0, y: -20 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.5, delay: index * 0.1 },
+        }
+  const motionCta = prefersReducedMotion
+    ? noMotion
+    : {
+        initial: { opacity: 0, scale: 0.8 },
+        animate: { opacity: 1, scale: 1 },
+        transition: { duration: 0.5, delay: 0.6 },
+      }
+  const motionMobileItem = (index: number) =>
+    prefersReducedMotion
+      ? noMotion
+      : {
+          initial: { opacity: 0, x: -20 },
+          animate: { opacity: 1, x: 0 },
+          transition: { duration: 0.3, delay: index * 0.1 },
+        }
+  const motionMobileCta = prefersReducedMotion
+    ? noMotion
+    : {
+        initial: { opacity: 0, x: -20 },
+        animate: { opacity: 1, x: 0 },
+        transition: { duration: 0.3, delay: navigation.length * 0.1 },
+      }
+  const menuTransition = prefersReducedMotion
+    ? { duration: 0 }
+    : { duration: 0.3, ease: 'easeInOut' as const }
+  const backdropTransition = prefersReducedMotion ? { duration: 0 } : { duration: 0.2 }
+  const iconTransition = prefersReducedMotion ? { duration: 0 } : { duration: 0.2 }
+
   return (
-    <header 
+    <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 pt-[env(safe-area-inset-top)] ${
         isScrolled ? 'bg-white/80 shadow-md backdrop-blur-sm' : 'bg-transparent'
       }`}
     >
+      {/* Skip to main content - visible on focus for keyboard/screen reader users */}
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
+
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
         <div className="flex items-center justify-between gap-4 h-16 lg:h-20">
           {/* Logo - fixed width so it never pushes nav */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
+            {...motionProps}
             className="flex-shrink-0 min-w-0 max-w-[45%] lg:max-w-[280px]"
           >
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               className="flex items-center space-x-3 group min-w-0"
               onClick={closeMenu}
               aria-label="Go to homepage"
@@ -83,7 +215,7 @@ const Header = () => {
                   alt="Roalla Business Enablement Group Logo"
                   width={40}
                   height={40}
-                  className="w-10 h-10 group-hover:scale-110 transition-transform duration-200"
+                  className={`w-10 h-10 transition-transform duration-200 ${!prefersReducedMotion ? 'group-hover:scale-110' : ''}`}
                   priority
                 />
               </div>
@@ -95,35 +227,38 @@ const Header = () => {
             </Link>
           </motion.div>
 
-          {/* Desktop Navigation - takes remaining space, can shrink so it never overlaps right block */}
+          {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center justify-center min-w-0 flex-1 overflow-hidden">
             <div className="flex items-center justify-center gap-6 xl:gap-8 flex-wrap">
-              {navigation.map((item, index) => (
-                <motion.a
-                  key={item.name}
-                  href={item.href}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="text-gray-700 hover:text-primary font-medium transition-colors duration-200 relative group whitespace-nowrap flex-shrink-0"
-                  onClick={closeMenu}
-                >
-                  {item.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-                </motion.a>
-              ))}
+              {navigation.map((item, index) => {
+                const active = isActive(item.href)
+                return (
+                  <motion.a
+                    key={item.name}
+                    href={item.href}
+                    {...motionNavItem(index)}
+                    aria-current={active ? 'page' : undefined}
+                    className={`font-medium transition-colors duration-200 relative group whitespace-nowrap flex-shrink-0 ${
+                      active ? 'text-primary' : 'text-gray-700 hover:text-primary'
+                    }`}
+                    onClick={closeMenu}
+                  >
+                    {item.name}
+                    <span
+                      className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                        active ? 'w-full' : 'w-0 group-hover:w-full'
+                      }`}
+                    />
+                  </motion.a>
+                )
+              })}
             </div>
           </div>
 
-          {/* Desktop Actions - client-only auth slot to avoid hydration mismatch */}
+          {/* Desktop Actions */}
           <div className="hidden lg:flex items-center justify-end space-x-4 flex-shrink-0 min-w-[200px] xl:min-w-[260px]">
             <HeaderAuthSlot />
-            {/* CTA Button */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-            >
+            <motion.div {...motionCta}>
               <ScheduleButton variant="primary" size="md" icon>
                 Schedule Consultation
               </ScheduleButton>
@@ -133,9 +268,10 @@ const Header = () => {
           {/* Mobile menu button */}
           <div className="lg:hidden flex items-center space-x-2">
             <button
+              ref={menuButtonRef}
               onClick={toggleMenu}
-              onKeyDown={handleKeyDown}
-              className="mobile-nav-toggle p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+              onKeyDown={handleNavButtonKeyDown}
+              className="mobile-nav-toggle p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 min-h-[44px] min-w-[44px] flex items-center justify-center"
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMenuOpen}
               aria-controls="mobile-menu"
@@ -144,20 +280,20 @@ const Header = () => {
                 {isMenuOpen ? (
                   <motion.div
                     key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
+                    initial={prefersReducedMotion ? false : { rotate: -90, opacity: 0 }}
                     animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
+                    exit={prefersReducedMotion ? false : { rotate: 90, opacity: 0 }}
+                    transition={iconTransition}
                   >
                     <X className="w-6 h-6 text-gray-700" />
                   </motion.div>
                 ) : (
                   <motion.div
                     key="menu"
-                    initial={{ rotate: 90, opacity: 0 }}
+                    initial={prefersReducedMotion ? false : { rotate: 90, opacity: 0 }}
                     animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
+                    exit={prefersReducedMotion ? false : { rotate: -90, opacity: 0 }}
+                    transition={iconTransition}
                   >
                     <Menu className="w-6 h-6 text-gray-700" />
                   </motion.div>
@@ -167,43 +303,56 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation - fixed + z-50 so it sits above the backdrop and is tappable */}
+        {/* Mobile Navigation - focus trap container */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
               id="mobile-menu"
-              initial={{ opacity: 0, height: 0 }}
+              ref={mobileMenuRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobile navigation"
+              initial={prefersReducedMotion ? false : { opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="lg:hidden overflow-hidden fixed left-0 right-0 z-50 shadow-lg top-[calc(4rem+env(safe-area-inset-top,0px))]"
+              exit={prefersReducedMotion ? false : { opacity: 0, height: 0 }}
+              transition={menuTransition}
+              onKeyDown={handleMenuKeyDown}
+              className="lg:hidden overflow-hidden fixed left-0 right-0 z-50 shadow-lg top-[calc(4rem+env(safe-area-inset-top,0px))] flex flex-col"
               style={{ maxHeight: 'calc(100vh - 4rem - env(safe-area-inset-top, 0px))' }}
             >
-              <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-200 overflow-y-auto">
-                {navigation.map((item, index) => (
-                  <motion.a
-                    key={item.name}
-                    href={item.href}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors duration-200"
-                    onClick={closeMenu}
-                  >
-                    {item.name}
-                  </motion.a>
-                ))}
-                <div className="px-3 py-2 border-t border-gray-100">
+              <div className="flex-1 overflow-y-auto px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-200">
+                {navigation.map((item, index) => {
+                  const active = isActive(item.href)
+                  return (
+                    <motion.a
+                      key={item.name}
+                      href={item.href}
+                      {...motionMobileItem(index)}
+                      aria-current={active ? 'page' : undefined}
+                      className={`block px-3 py-3 min-h-[44px] flex items-center rounded-md text-base font-medium transition-colors duration-200 ${
+                        active
+                          ? 'text-primary bg-primary/10'
+                          : 'text-gray-700 hover:text-primary hover:bg-gray-50'
+                      }`}
+                      onClick={closeMenu}
+                    >
+                      {item.name}
+                    </motion.a>
+                  )
+                })}
+                <div className="px-3 py-3 min-h-[44px] flex items-center border-t border-gray-100">
                   <HeaderAuthSlot variant="mobile" onNavigate={closeMenu} />
                 </div>
-                {/* Mobile CTA */}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: navigation.length * 0.1 }}
-                  className="pt-4"
-                >
-                  <ScheduleButton variant="primary" size="md" icon>
+              </div>
+              {/* Sticky CTA at bottom of mobile menu */}
+              <div className="flex-shrink-0 p-3 bg-white border-t border-gray-200">
+                <motion.div {...motionMobileCta}>
+                  <ScheduleButton
+                    variant="primary"
+                    size="md"
+                    icon
+                    className="w-full justify-center"
+                  >
                     Schedule Consultation
                   </ScheduleButton>
                 </motion.div>
@@ -213,15 +362,15 @@ const Header = () => {
         </AnimatePresence>
       </nav>
 
-      {/* Backdrop for mobile menu - z-30 so header (z-40) and menu panel (z-50) stay on top and tappable */}
+      {/* Backdrop - cursor-pointer to show it's clickable */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/20 z-30 lg:hidden"
+            transition={backdropTransition}
+            className="fixed inset-0 bg-black/20 z-30 lg:hidden cursor-pointer"
             onClick={closeMenu}
             aria-hidden="true"
           />
@@ -231,4 +380,4 @@ const Header = () => {
   )
 }
 
-export default Header 
+export default Header

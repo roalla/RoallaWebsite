@@ -36,6 +36,7 @@ export async function GET(request: NextRequest) {
     color: r.color,
     sortOrder: r.sortOrder,
     gated: r.gated,
+    trustCategory: r.trustCategory,
     hasAccess: !r.gated || grantedResourceIds.includes(r.id),
   }))
 
@@ -48,6 +49,7 @@ export async function GET(request: NextRequest) {
     url: a.url,
     sortOrder: a.sortOrder,
     gated: a.gated,
+    trustCategory: a.trustCategory,
     hasAccess: !a.gated || grantedArticleIds.includes(a.id),
   }))
 

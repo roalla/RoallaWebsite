@@ -15,6 +15,7 @@ interface PortalResource {
   color: string
   sortOrder: number
   gated?: boolean
+  trustCategory?: string | null
   canEdit?: boolean
 }
 
@@ -42,6 +43,7 @@ export default function AdminPortalResourcesPage() {
     color: 'from-blue-500 to-blue-600',
     sortOrder: 0,
     gated: false,
+    trustCategory: '',
   })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
@@ -79,6 +81,7 @@ export default function AdminPortalResourcesPage() {
       color: 'from-blue-500 to-blue-600',
       sortOrder: items.length,
       gated: false,
+      trustCategory: '',
     })
     setEditingId(null)
   }
@@ -101,6 +104,7 @@ export default function AdminPortalResourcesPage() {
             color: form.color,
             sortOrder: form.sortOrder,
             gated: form.gated,
+            trustCategory: form.trustCategory.trim() || null,
           }),
         })
         if (!res.ok) throw new Error(await res.json().then((d) => d.error))
@@ -119,6 +123,7 @@ export default function AdminPortalResourcesPage() {
             color: form.color,
             sortOrder: form.sortOrder,
             gated: form.gated,
+            trustCategory: form.trustCategory.trim() || null,
           }),
         })
         if (!res.ok) throw new Error(await res.json().then((d) => d.error))
@@ -153,6 +158,7 @@ export default function AdminPortalResourcesPage() {
       color: r.color,
       sortOrder: r.sortOrder,
       gated: r.gated ?? false,
+      trustCategory: r.trustCategory ?? '',
     })
     setEditingId(r.id)
   }
@@ -250,6 +256,16 @@ export default function AdminPortalResourcesPage() {
               value={form.sortOrder}
               onChange={(e) => setForm((f) => ({ ...f, sortOrder: parseInt(e.target.value, 10) || 0 }))}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Trust Center badge (optional)</label>
+            <input
+              type="text"
+              value={form.trustCategory}
+              onChange={(e) => setForm((f) => ({ ...f, trustCategory: e.target.value }))}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              placeholder="e.g. Compliance, Policies, Legal"
             />
           </div>
           <div className="sm:col-span-2 flex items-center gap-2">

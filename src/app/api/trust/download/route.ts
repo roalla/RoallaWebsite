@@ -38,6 +38,9 @@ export async function GET(request: NextRequest) {
       where: { email, resourceId: id, OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }] },
     })
     if (!grant) return NextResponse.json({ error: 'Access not granted for this document' }, { status: 403 })
+    await prisma.trustAccessLog.create({
+      data: { email: email!, resourceId: id, articleId: null, action: resource.downloadUrl ? 'download' : 'open' },
+    }).catch(() => {})
     if (resource.downloadUrl) return NextResponse.redirect(resource.downloadUrl)
     return NextResponse.json({ error: 'No download URL' }, { status: 404 })
   }
@@ -48,10 +51,13 @@ export async function GET(request: NextRequest) {
     if (article.url) return NextResponse.redirect(article.url)
     return NextResponse.json({ error: 'No URL' }, { status: 404 })
   }
-  const grant = await prisma.gatedAccessGrant.findFirst({
+  const grantArticle = await prisma.gatedAccessGrant.findFirst({
     where: { email, articleId: id, OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }] },
   })
-  if (!grant) return NextResponse.json({ error: 'Access not granted for this document' }, { status: 403 })
+  if (!grantArticle) return NextResponse.json({ error: 'Access not granted for this document' }, { status: 403 })
+  await prisma.trustAccessLog.create({
+    data: { email: email!, resourceId: null, articleId: id, action: 'open' },
+  }).catch(() => {})
   if (article.url) return NextResponse.redirect(article.url)
   return NextResponse.json({ error: 'No URL' }, { status: 404 })
 }

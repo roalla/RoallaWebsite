@@ -1,5 +1,8 @@
 import type { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import GoogleProvider from 'next-auth/providers/google'
+import AzureADProvider from 'next-auth/providers/azure-ad'
+import AppleProvider from 'next-auth/providers/apple'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcrypt'
@@ -12,6 +15,35 @@ if (process.env.NODE_ENV === 'production' && !secret) {
   )
 }
 
+/** Generic OpenID Connect provider for enterprise SSO (Okta, Auth0, Keycloak, etc.) */
+function createSSOProvider(): NextAuthOptions['providers'][number] | null {
+  const issuer = process.env.SSO_ISSUER?.replace(/\/$/, '')
+  const clientId = process.env.SSO_CLIENT_ID
+  const clientSecret = process.env.SSO_CLIENT_SECRET
+  const name = process.env.SSO_NAME || 'Single Sign-On'
+  if (!issuer || !clientId || !clientSecret) return null
+  return {
+    id: 'sso',
+    name,
+    type: 'oauth',
+    wellKnown: `${issuer}/.well-known/openid-configuration`,
+    authorization: { params: { scope: 'openid email profile' } },
+    client: { token_endpoint_auth_method: 'client_secret_basic' },
+    profile(profile: { sub?: string; email?: string; name?: string; picture?: string }) {
+      return {
+        id: profile.sub,
+        email: profile.email,
+        name: profile.name,
+        image: profile.picture,
+      }
+    },
+    clientId,
+    clientSecret,
+  } as NextAuthOptions['providers'][number]
+}
+
+const ssoProvider = createSSOProvider()
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: { strategy: 'jwt', maxAge: 30 * 24 * 60 * 60 }, // 30 days (Credentials works best with JWT)
@@ -20,6 +52,32 @@ export const authOptions: NextAuthOptions = {
     signIn: '/login',
   },
   providers: [
+    ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
+      ? [
+          GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+          }),
+        ]
+      : []),
+    ...(process.env.AZURE_AD_CLIENT_ID && process.env.AZURE_AD_CLIENT_SECRET
+      ? [
+          AzureADProvider({
+            clientId: process.env.AZURE_AD_CLIENT_ID,
+            clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
+            tenantId: process.env.AZURE_AD_TENANT_ID || 'common',
+          }),
+        ]
+      : []),
+    ...(process.env.APPLE_ID && process.env.APPLE_SECRET
+      ? [
+          AppleProvider({
+            clientId: process.env.APPLE_ID,
+            clientSecret: process.env.APPLE_SECRET,
+          }),
+        ]
+      : []),
+    ...(ssoProvider ? [ssoProvider] : []),
     CredentialsProvider({
       name: 'credentials',
       credentials: {
@@ -90,6 +148,12 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    async signIn({ user, account }) {
+      if (account?.provider && account.provider !== 'credentials' && user?.id) {
+        await prisma.user.update({ where: { id: user.id }, data: { lastLoginAt: new Date() } }).catch(() => {})
+      }
+      return true
+    },
     async jwt({ token, user, trigger, session: updateSession }) {
       if (user) {
         token.id = user.id
@@ -99,6 +163,17 @@ export const authOptions: NextAuthOptions = {
         token.name = user.name ?? undefined
         token.email = user.email ?? undefined
         token.picture = user.image ?? undefined
+      }
+      if (token.id && (token.role === undefined || token.roles === undefined)) {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: token.id as string },
+          include: { roles: true },
+        })
+        if (dbUser) {
+          const roles = dbUser.roles?.length ? dbUser.roles.map((r) => r.role) : [dbUser.role]
+          token.role = roles[0] ?? dbUser.role
+          token.roles = roles
+        }
       }
       if (trigger === 'update' && updateSession?.user) {
         token.name = updateSession.user.name ?? token.name ?? undefined

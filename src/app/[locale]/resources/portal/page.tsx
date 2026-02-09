@@ -1,10 +1,12 @@
 'use client'
 
 import React, { useEffect, useState, Suspense } from 'react'
-import { useSearchParams, useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 import { motion } from 'framer-motion'
-import { FileText, Download, BookOpen, TrendingUp, BarChart3, Lightbulb, Lock, AlertCircle, LogOut } from 'lucide-react'
+import { FileText, Download, BookOpen, TrendingUp, BarChart3, Lightbulb, Lock, LogOut } from 'lucide-react'
 import Link from 'next/link'
+import { Link as IntlLink } from '@/i18n/navigation'
 
 interface Resource {
   id: string
@@ -153,12 +155,12 @@ function ResourcesPortalContent() {
             <p className="text-gray-700 mb-8">
               You need to request access to view the resources portal. Please submit an access request to continue.
             </p>
-            <Link
+            <IntlLink
               href="/resources/request"
               className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-semibold py-3 px-6 rounded-lg transition-colors"
             >
               Request Access
-            </Link>
+            </IntlLink>
           </div>
         </div>
       </div>
@@ -167,7 +169,6 @@ function ResourcesPortalContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white pt-24 lg:pt-28">
-      {/* Portal header: below fixed site header to avoid overlap with logo/Login */}
       <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between flex-wrap gap-3">
@@ -189,11 +190,10 @@ function ResourcesPortalContent() {
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Resources Section */}
         <div className="mb-16">
           <h2 className="text-3xl font-bold text-gray-900 mb-2">Downloadable Resources</h2>
           <p className="text-gray-600 mb-8">Access exclusive guides, templates, and tools.</p>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {resources.map((resource, index) => (
               <motion.div
@@ -241,7 +241,6 @@ function ResourcesPortalContent() {
           </div>
         </div>
 
-        {/* Links Section: external content (LinkedIn, other sites) or internal tools */}
         <div>
           <div className="flex items-center mb-8">
             <BookOpen className="w-8 h-8 text-primary mr-3" />

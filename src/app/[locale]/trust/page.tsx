@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, Suspense } from 'react'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, usePathname } from 'next/navigation'
 import Breadcrumb from '@/components/Breadcrumb'
 import toast from 'react-hot-toast'
 import {
@@ -68,6 +68,7 @@ const DOC_TABS = ['all', 'public', 'private'] as const
 
 function TrustCenterContent() {
   const searchParams = useSearchParams()
+  const pathname = usePathname()
   const [token, setToken] = useState<string | null>(() => {
     if (typeof window === 'undefined') return null
     return localStorage.getItem('trust_center_token')
@@ -100,13 +101,13 @@ function TrustCenterContent() {
       setToken(fromUrl)
       if (typeof window !== 'undefined') {
         localStorage.setItem('trust_center_token', fromUrl)
-        window.history.replaceState({}, '', '/trust')
+        window.history.replaceState({}, '', pathname || '/trust')
       }
     } else if (typeof window !== 'undefined') {
       const stored = localStorage.getItem('trust_center_token')
       if (stored) setToken(stored)
     }
-  }, [searchParams])
+  }, [searchParams, pathname])
 
   useEffect(() => {
     const t = token ?? undefined

@@ -35,4 +35,4 @@ const SchedulePage = () => {
   );
 };
 
-export default SchedulePage; 
+export default SchedulePage;

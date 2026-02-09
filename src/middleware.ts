@@ -1,18 +1,44 @@
-import { withAuth } from 'next-auth/middleware'
+import { NextResponse } from 'next/server'
+import type { NextRequest, NextFetchEvent } from 'next/server'
+import createIntlMiddleware from 'next-intl/middleware'
+import { withAuth, type NextRequestWithAuth } from 'next-auth/middleware'
+import { routing } from '@/i18n/routing'
 
-export default withAuth({
+const intlMiddleware = createIntlMiddleware(routing)
+const authMiddleware = withAuth({
   callbacks: {
     authorized: ({ token }) => {
-      // /admin requires admin or partner role
       const roles = (token?.roles as string[] | undefined) ?? (token?.role ? [token.role as string] : [])
       return roles.includes('admin') || roles.includes('partner')
     },
   },
-  pages: {
-    signIn: '/login',
-  },
+  pages: { signIn: '/login' },
 })
 
+export default function middleware(req: NextRequest, event: NextFetchEvent) {
+  const pathname = req.nextUrl.pathname
+
+  if (pathname.startsWith('/admin')) {
+    return authMiddleware(req as NextRequestWithAuth, event)
+  }
+
+  // Skip i18n for API, auth, login, profile, password flows
+  const skipLocale =
+    pathname.startsWith('/api') ||
+    pathname.startsWith('/login') ||
+    pathname.startsWith('/auth') ||
+    pathname.startsWith('/profile') ||
+    pathname.startsWith('/forgot-password') ||
+    pathname.startsWith('/reset-password') ||
+    pathname.startsWith('/p/')
+
+  if (skipLocale) {
+    return NextResponse.next()
+  }
+
+  return intlMiddleware(req)
+}
+
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)', '/admin/:path*'],
 }

@@ -1,18 +1,24 @@
+'use client'
+
 import React from 'react'
 import { Mail, Phone, Linkedin, Youtube } from 'lucide-react'
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 
 const Footer = () => {
   const currentYear = new Date().getFullYear()
+  const t = useTranslations('footer')
+  const tCommon = useTranslations('common')
 
-  const quickLinks = [
-    { name: 'Services', href: '/services' },
-    { name: 'Digital Creations', href: '/digital-creations' },
-    { name: 'Resource Centre', href: '/resources' },
-    { name: 'FAQ', href: '/faq' },
-    { name: 'Contact', href: '/contact' },
-    { name: 'About', href: '/about' },
-    { name: 'Trust Centre', href: '/trust' },
+  type FooterHref = '/' | '/services' | '/resources' | '/about' | '/contact' | '/trust' | '/digital-creations' | '/assessment' | '/faq' | '/schedule'
+  const quickLinks: { nameKey: 'services' | 'digitalCreations' | 'resourceCentre' | 'faq' | 'contact' | 'about' | 'trustCentre'; href: FooterHref }[] = [
+    { nameKey: 'services', href: '/services' },
+    { nameKey: 'digitalCreations', href: '/digital-creations' },
+    { nameKey: 'resourceCentre', href: '/resources' },
+    { nameKey: 'faq', href: '/faq' },
+    { nameKey: 'contact', href: '/contact' },
+    { nameKey: 'about', href: '/about' },
+    { nameKey: 'trustCentre', href: '/trust' },
   ]
 
   return (
@@ -20,13 +26,13 @@ const Footer = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6">
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-white">Roalla Business Enablement Group</p>
-            <p className="text-xs text-gray-400 mt-0.5">Empowering your business for a digital-first world.</p>
+            <p className="text-sm font-semibold text-white">{tCommon('companyName')}</p>
+            <p className="text-xs text-gray-400 mt-0.5">{tCommon('tagline')}</p>
           </div>
           <nav className="flex flex-wrap gap-x-4 gap-y-1 text-sm" aria-label="Footer links">
             {quickLinks.map((link) => (
               <Link key={link.href} href={link.href} className="hover:text-primary-light transition-colors whitespace-nowrap">
-                {link.name}
+                {t(link.nameKey)}
               </Link>
             ))}
           </nav>
@@ -48,7 +54,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="mt-4 pt-4 border-t border-gray-700 text-center text-gray-400 text-xs">
-          <p suppressHydrationWarning>&copy; {currentYear} Roalla Business Enablement Group. All Rights Reserved.</p>
+          <p suppressHydrationWarning>{t('copyright', { year: currentYear })}</p>
         </div>
       </div>
     </footer>

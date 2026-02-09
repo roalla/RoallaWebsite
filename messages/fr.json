@@ -1,0 +1,92 @@
+{
+  "common": {
+    "skipToContent": "Passer au contenu principal",
+    "scheduleConsultation": "Planifier une consultation",
+    "companyName": "Roalla Business Enablement Group",
+    "tagline": "Donnez les moyens à votre entreprise d'évoluer dans un monde axé sur le numérique."
+  },
+  "nav": {
+    "home": "Accueil",
+    "services": "Services",
+    "resourceCentre": "Centre de ressources",
+    "digitalCreations": "Créations numériques",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu"
+  },
+  "footer": {
+    "services": "Services",
+    "digitalCreations": "Créations numériques",
+    "resourceCentre": "Centre de ressources",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "about": "À propos",
+    "trustCentre": "Centre de confiance",
+    "copyright": "© {year} Roalla Business Enablement Group. Tous droits réservés."
+  },
+  "home": {
+    "hero": {
+      "title": "Des conseils opérationnels stratégiques pour une",
+      "titleHighlight": "croissance mesurable",
+      "subtitle": "Directeur opérationnel fractionnel et conseil en gestion qui apportent clarté, efficacité et résultats. Nous travaillons à vos côtés pour mettre en œuvre le changement—pas seulement le recommander.",
+      "cta": "Planifier une consultation gratuite",
+      "exploreServices": "Découvrir nos services",
+      "stats": "30+ ans d'expérience · 500+ projets · 100 % axés sur le client"
+    },
+    "whatWeDo": {
+      "title": "Ce que nous faisons",
+      "description": "Accompagnement complet des entreprises—stratégie, opérations et mise en œuvre—pour favoriser la croissance et l'efficacité.",
+      "exploreServices": "Découvrir nos services",
+      "strategicPlanning": "Planification stratégique",
+      "processOptimization": "Optimisation des processus",
+      "teamDevelopment": "Développement d'équipe",
+      "dataAnalytics": "Analyse de données",
+      "innovationConsulting": "Conseil en innovation",
+      "digitalTransformation": "Transformation numérique"
+    },
+    "howWeWork": {
+      "title": "Notre façon de travailler",
+      "description": "Une méthodologie éprouvée : évaluer, planifier, mettre en œuvre, améliorer.",
+      "learnMore": "En savoir plus sur nous",
+      "discovery": "Découverte et évaluation",
+      "planning": "Planification stratégique",
+      "implementation": "Mise en œuvre et soutien",
+      "improvement": "Amélioration continue"
+    },
+    "assessment": {
+      "title": "Évaluation de la santé de l'entreprise",
+      "description": "Répondez à notre évaluation de 5 minutes pour découvrir les forces et les opportunités de votre entreprise. Obtenez un rapport rapide avec des prochaines étapes personnalisées, puis réservez une consultation gratuite pour en discuter.",
+      "cta": "Faire l'évaluation de 5 minutes"
+    },
+    "cta": {
+      "title": "Prêt à transformer vos opérations?",
+      "subtitle": "Planifiez une consultation gratuite ou explorez nos ressources pour commencer.",
+      "schedule": "Planifier une consultation",
+      "exploreResources": "Explorer le centre de ressources",
+      "orAssessment": "Vous ne savez pas par où commencer? Faites l'évaluation de la santé de l'entreprise ci-dessus pour un rapport personnalisé."
+    },
+    "trustedBy": {
+      "title": "Pourquoi choisir Roalla",
+      "certified": "Professionnels certifiés",
+      "education": "Formation avancée",
+      "experience": "30+ ans d'expérience",
+      "confidential": "Confidentiel et sécurisé"
+    },
+    "featuredInsight": {
+      "title": "Article à la une",
+      "articleTitle": "Directeur opérationnel fractionnel : quand et pourquoi votre entreprise en a besoin",
+      "articleDescription": "Découvrez comment les services de directeur opérationnel fractionnel peuvent transformer votre gestion opérationnelle.",
+      "readMore": "Lire dans le centre de ressources"
+    }
+  },
+  "breadcrumb": {
+    "home": "Accueil",
+    "services": "Services",
+    "about": "À propos",
+    "resources": "Centre de ressources",
+    "digitalCreations": "Créations numériques",
+    "assessment": "Évaluation de la santé de l'entreprise",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "trustCentre": "Centre de confiance"
+  }
+}

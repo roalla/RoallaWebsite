@@ -87,7 +87,7 @@ export default function UserMenu() {
 
       {open && (
         <div
-          className="absolute right-0 mt-2 w-64 rounded-xl bg-white border border-gray-200 shadow-lg py-2 z-50"
+          className="absolute left-0 sm:left-auto sm:right-0 bottom-full mb-2 sm:bottom-auto sm:mb-0 mt-0 sm:mt-2 w-64 max-w-[calc(100vw-2rem)] rounded-xl bg-white border border-gray-200 shadow-lg py-2 z-50"
           role="menu"
         >
           <div className="px-4 py-3 border-b border-gray-100">

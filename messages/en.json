@@ -1,0 +1,92 @@
+{
+  "common": {
+    "skipToContent": "Skip to main content",
+    "scheduleConsultation": "Schedule Consultation",
+    "companyName": "Roalla Business Enablement Group",
+    "tagline": "Empowering your business for a digital-first world."
+  },
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "resourceCentre": "Resource Centre",
+    "digitalCreations": "Digital Creations",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "footer": {
+    "services": "Services",
+    "digitalCreations": "Digital Creations",
+    "resourceCentre": "Resource Centre",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "about": "About",
+    "trustCentre": "Trust Centre",
+    "copyright": "© {year} Roalla Business Enablement Group. All Rights Reserved."
+  },
+  "home": {
+    "hero": {
+      "title": "Strategic operational insight for",
+      "titleHighlight": "measurable growth",
+      "subtitle": "Fractional COO and business consulting that delivers clarity, efficiency, and results. We work alongside you to implement change—not just recommend it.",
+      "cta": "Schedule a Free Consultation",
+      "exploreServices": "Explore our services",
+      "stats": "30+ years experience · 500+ projects · 100% client focused"
+    },
+    "whatWeDo": {
+      "title": "What we do",
+      "description": "Comprehensive business enablement—strategy, operations, and implementation—to drive growth and efficiency.",
+      "exploreServices": "Explore our services",
+      "strategicPlanning": "Strategic Planning",
+      "processOptimization": "Process Optimization",
+      "teamDevelopment": "Team Development",
+      "dataAnalytics": "Data Analytics",
+      "innovationConsulting": "Innovation Consulting",
+      "digitalTransformation": "Digital Transformation"
+    },
+    "howWeWork": {
+      "title": "How we work",
+      "description": "A proven methodology: assess, plan, implement, improve.",
+      "learnMore": "Learn more about us",
+      "discovery": "Discovery & Assessment",
+      "planning": "Strategic Planning",
+      "implementation": "Implementation & Support",
+      "improvement": "Continuous Improvement"
+    },
+    "assessment": {
+      "title": "Business Health Assessment",
+      "description": "Take our 5-minute assessment to discover your business strengths and opportunities. Get a quick report with tailored next steps, then book a free consultation to discuss results.",
+      "cta": "Take the 5-Minute Assessment"
+    },
+    "cta": {
+      "title": "Ready to transform your operations?",
+      "subtitle": "Schedule a free consultation or explore our resources to get started.",
+      "schedule": "Schedule Consultation",
+      "exploreResources": "Explore Resource Centre",
+      "orAssessment": "Not sure where to start? Take the business health assessment above for a tailored report."
+    },
+    "trustedBy": {
+      "title": "Why choose Roalla",
+      "certified": "Certified professionals",
+      "education": "Advanced education",
+      "experience": "30+ years experience",
+      "confidential": "Confidential & secure"
+    },
+    "featuredInsight": {
+      "title": "Featured insight",
+      "articleTitle": "Fractional COO: When and Why Your Business Needs One",
+      "articleDescription": "Learn how fractional COO services can transform your operational management.",
+      "readMore": "Read in Resource Centre"
+    }
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About",
+    "resources": "Resource Centre",
+    "digitalCreations": "Digital Creations",
+    "assessment": "Business Health Assessment",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "trustCentre": "Trust Centre"
+  }
+}

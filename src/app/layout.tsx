@@ -2,6 +2,8 @@ import React from 'react'
 import type { Metadata } from 'next'
 import { Inter, Merriweather } from 'next/font/google'
 import './globals.css'
+import { NextIntlClientProvider } from 'next-intl'
+import { getMessages } from 'next-intl/server'
 import Providers from '@/components/Providers'
 import ConditionalLayout from '@/components/ConditionalLayout'
 
@@ -107,11 +109,12 @@ const structuredData = {
   ]
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const messages = await getMessages()
   return (
     <html lang="en" className={`${inter.variable} ${merriweather.variable} font-sans`}>
       <head>
@@ -154,7 +157,9 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} antialiased`}>
         <Providers>
-          <ConditionalLayout>{children}</ConditionalLayout>
+          <NextIntlClientProvider messages={messages}>
+            <ConditionalLayout>{children}</ConditionalLayout>
+          </NextIntlClientProvider>
         </Providers>
       </body>
     </html>

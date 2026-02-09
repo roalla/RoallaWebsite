@@ -1,5 +1,7 @@
+'use client'
+
 import React from 'react'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { ChevronRight } from 'lucide-react'
 
 interface BreadcrumbProps {
@@ -14,7 +16,7 @@ export default function Breadcrumb({ items }: BreadcrumbProps) {
           <li key={i} className="flex items-center gap-1">
             {i > 0 && <ChevronRight className="w-4 h-4 text-gray-400 flex-shrink-0" aria-hidden />}
             {item.href ? (
-              <Link href={item.href} className="hover:text-primary transition-colors">
+              <Link href={item.href as '/' | '/services' | '/resources' | '/about' | '/contact' | '/trust' | '/digital-creations' | '/assessment' | '/faq' | '/schedule' | '/resources/request' | '/resources/portal'} className="hover:text-primary transition-colors">
                 {item.label}
               </Link>
             ) : (

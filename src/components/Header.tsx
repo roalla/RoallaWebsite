@@ -2,11 +2,12 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import dynamic from 'next/dynamic'
-import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
-import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname as useNextPathname } from 'next/navigation'
+import { useTranslations, useLocale } from 'next-intl'
+import { Link, usePathname } from '@/i18n/navigation'
 import ScheduleButton from './CalendlyButton'
 import { authSlotPlaceholder } from './HeaderAuthSlot'
 
@@ -93,6 +94,11 @@ const Header = () => {
   }, [])
 
   const pathname = usePathname() ?? '/'
+  const fullPathname = useNextPathname() ?? ''
+  const isLocaleRoute = fullPathname.startsWith('/en') || fullPathname.startsWith('/fr')
+  const t = useTranslations('nav')
+  const tCommon = useTranslations('common')
+  const locale = useLocale()
 
   const handleMobileNavClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -140,11 +146,12 @@ const Header = () => {
     [pathname]
   )
 
-  const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Services', href: '/services' },
-    { name: 'Resource Centre', href: '/resources' },
-    { name: 'Digital Creations', href: '/digital-creations' },
+  type NavHref = '/' | '/services' | '/resources' | '/digital-creations'
+  const navigation: { nameKey: 'home' | 'services' | 'resourceCentre' | 'digitalCreations'; href: NavHref }[] = [
+    { nameKey: 'home', href: '/' },
+    { nameKey: 'services', href: '/services' },
+    { nameKey: 'resourceCentre', href: '/resources' },
+    { nameKey: 'digitalCreations', href: '/digital-creations' },
   ]
 
   const noMotion = {
@@ -203,7 +210,7 @@ const Header = () => {
     >
       {/* Skip to main content - visible on focus for keyboard/screen reader users */}
       <a href="#main-content" className="skip-link">
-        Skip to main content
+        {tCommon('skipToContent')}
       </a>
 
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
@@ -231,7 +238,7 @@ const Header = () => {
               </div>
               <div className="hidden sm:block min-w-0">
                 <h1 className="text-xl font-bold text-gray-900 group-hover:text-primary transition-colors duration-200 truncate">
-                  Roalla Business Enablement Group
+                  {tCommon('companyName')}
                 </h1>
               </div>
             </Link>
@@ -243,23 +250,23 @@ const Header = () => {
               {navigation.map((item, index) => {
                 const active = isActive(item.href)
                 return (
-                  <motion.a
-                    key={item.name}
-                    href={item.href}
-                    {...motionNavItem(index)}
-                    aria-current={active ? 'page' : undefined}
-                    className={`font-medium transition-colors duration-200 relative group whitespace-nowrap flex-shrink-0 ${
-                      active ? 'text-primary' : 'text-gray-700 hover:text-primary'
-                    }`}
-                    onClick={closeMenu}
-                  >
-                    {item.name}
-                    <span
-                      className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
-                        active ? 'w-full' : 'w-0 group-hover:w-full'
+                  <motion.div key={item.nameKey} {...motionNavItem(index)}>
+                    <Link
+                      href={item.href}
+                      aria-current={active ? 'page' : undefined}
+                      className={`font-medium transition-colors duration-200 relative group whitespace-nowrap flex-shrink-0 block ${
+                        active ? 'text-primary' : 'text-gray-700 hover:text-primary'
                       }`}
-                    />
-                  </motion.a>
+                      onClick={closeMenu}
+                    >
+                      {t(item.nameKey)}
+                      <span
+                        className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                          active ? 'w-full' : 'w-0 group-hover:w-full'
+                        }`}
+                      />
+                    </Link>
+                  </motion.div>
                 )
               })}
             </div>
@@ -267,10 +274,29 @@ const Header = () => {
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center justify-end space-x-4 flex-shrink-0 min-w-[200px] xl:min-w-[260px]">
+            {isLocaleRoute && (
+              <div className="flex items-center gap-2">
+                <Link
+                  href={pathname}
+                  locale="en"
+                  className={`text-sm font-medium px-2 py-1 rounded ${locale === 'en' ? 'text-primary underline' : 'text-gray-600 hover:text-gray-900'}`}
+                >
+                  EN
+                </Link>
+                <span className="text-gray-300" aria-hidden>|</span>
+                <Link
+                  href={pathname}
+                  locale="fr"
+                  className={`text-sm font-medium px-2 py-1 rounded ${locale === 'fr' ? 'text-primary underline' : 'text-gray-600 hover:text-gray-900'}`}
+                >
+                  FR
+                </Link>
+              </div>
+            )}
             <HeaderAuthSlot />
             <motion.div {...motionCta}>
               <ScheduleButton variant="primary" size="md" icon>
-                Schedule Consultation
+                {tCommon('scheduleConsultation')}
               </ScheduleButton>
             </motion.div>
           </div>
@@ -282,7 +308,7 @@ const Header = () => {
               onClick={toggleMenu}
               onKeyDown={handleNavButtonKeyDown}
               className="mobile-nav-toggle p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 min-h-[44px] min-w-[44px] flex items-center justify-center"
-              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-label={isMenuOpen ? t('closeMenu') : t('openMenu')}
               aria-expanded={isMenuOpen}
               aria-controls="mobile-menu"
             >
@@ -334,22 +360,29 @@ const Header = () => {
                 {navigation.map((item, index) => {
                   const active = isActive(item.href)
                   return (
-                    <motion.a
-                      key={item.name}
-                      href={item.href}
-                      {...motionMobileItem(index)}
-                      aria-current={active ? 'page' : undefined}
-                      className={`block px-3 py-3 min-h-[44px] flex items-center rounded-md text-base font-medium transition-colors duration-200 ${
-                        active
-                          ? 'text-primary bg-primary/10'
-                          : 'text-gray-700 hover:text-primary hover:bg-gray-50'
-                      }`}
-                      onClick={(e) => handleMobileNavClick(e, item.href)}
-                    >
-                      {item.name}
-                    </motion.a>
+                    <motion.div key={item.nameKey} {...motionMobileItem(index)}>
+                      <Link
+                        href={item.href}
+                        aria-current={active ? 'page' : undefined}
+                        className={`block px-3 py-3 min-h-[44px] flex items-center rounded-md text-base font-medium transition-colors duration-200 ${
+                          active
+                            ? 'text-primary bg-primary/10'
+                            : 'text-gray-700 hover:text-primary hover:bg-gray-50'
+                        }`}
+                        onClick={(e) => handleMobileNavClick(e, item.href)}
+                      >
+                        {t(item.nameKey)}
+                      </Link>
+                    </motion.div>
                   )
                 })}
+                {isLocaleRoute && (
+                  <div className="flex items-center gap-2 px-3 py-2 border-t border-gray-100">
+                    <Link href={pathname} locale="en" className={`text-sm font-medium px-2 py-1 rounded ${locale === 'en' ? 'text-primary underline' : 'text-gray-600'}`}>EN</Link>
+                    <span className="text-gray-300">|</span>
+                    <Link href={pathname} locale="fr" className={`text-sm font-medium px-2 py-1 rounded ${locale === 'fr' ? 'text-primary underline' : 'text-gray-600'}`}>FR</Link>
+                  </div>
+                )}
                 <div className="px-3 py-3 min-h-[44px] flex items-center border-t border-gray-100">
                   <HeaderAuthSlot variant="mobile" onNavigate={closeMenu} />
                 </div>
@@ -363,7 +396,7 @@ const Header = () => {
                     icon
                     className="w-full justify-center"
                   >
-                    Schedule Consultation
+                    {tCommon('scheduleConsultation')}
                   </ScheduleButton>
                 </motion.div>
               </div>

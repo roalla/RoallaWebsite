@@ -6,7 +6,7 @@ export default function AdminPortalPage() {
     <div>
       <h1 className="text-2xl font-bold text-gray-900 mb-2">Portal content</h1>
       <p className="text-gray-600 mb-8">
-        Manage what appears on the Resources Portal: downloadable tiles and featured articles.
+        Manage what appears on the Resources Portal: downloadable resources and links (external content or internal tools).
       </p>
       <div className="grid sm:grid-cols-2 gap-6">
         <Link
@@ -17,9 +17,9 @@ export default function AdminPortalPage() {
             <FileText className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-gray-900 mb-1">Tiles (downloadable resources)</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-1">Downloadable resources</h2>
             <p className="text-sm text-gray-600">
-              Add or edit the resource tiles shown on the portal: guides, templates, tools, and links.
+              Add or edit resource tiles: guides, templates, tools. Download or external link per tile.
             </p>
           </div>
         </Link>
@@ -31,9 +31,9 @@ export default function AdminPortalPage() {
             <BookOpen className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h2 className="text-lg font-semibold text-gray-900 mb-1">Featured articles</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-1">Portal links</h2>
             <p className="text-sm text-gray-600">
-              Add or edit the featured articles shown on the portal.
+              Links to external content (e.g. LinkedIn, other sites) or to internal tools in this app.
             </p>
           </div>
         </Link>

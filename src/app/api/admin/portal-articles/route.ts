@@ -49,6 +49,13 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
+    const urlVal = url != null ? String(url).trim() : ''
+    if (!urlVal) {
+      return NextResponse.json(
+        { error: 'url (destination link) is required for portal links' },
+        { status: 400 }
+      )
+    }
     const currentUserId = (session.user as { id?: string }).id
     let organizationId: string | null = null
     if (isAdmin(session.user)) {
@@ -63,7 +70,7 @@ export async function POST(request: NextRequest) {
         description: sanitizeRichText(String(description ?? '')),
         readTime: readTime != null ? String(readTime).trim() || null : null,
         category: category != null ? String(category).trim() || null : null,
-        url: url != null ? String(url).trim() || null : null,
+        url: urlVal || null,
         sortOrder: typeof sortOrder === 'number' ? sortOrder : 0,
         gated: typeof gated === 'boolean' ? gated : false,
         createdByUserId: currentUserId ?? undefined,

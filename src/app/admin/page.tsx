@@ -123,7 +123,7 @@ export default async function AdminDashboardPage() {
                   <BookOpen className="w-6 h-6 text-green-600" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Articles you can edit</p>
+                  <p className="text-sm font-medium text-gray-600">Portal links you can edit</p>
                   <p className="text-2xl font-bold text-gray-900">{partnerContext.myArticleCount}</p>
                 </div>
               </div>

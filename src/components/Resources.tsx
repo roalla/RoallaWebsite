@@ -166,7 +166,7 @@ const Resources = () => {
               href="/resources/request"
               className="inline-flex items-center text-primary font-semibold hover:text-primary-dark transition-colors"
             >
-              Request access to read full articles
+              Request access to downloads, links & tools
               <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
           </div>

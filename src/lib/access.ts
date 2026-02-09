@@ -24,12 +24,12 @@ export function canAccessAdmin(user: SessionUser | null | undefined): boolean {
   return roles.includes('admin') || roles.includes('partner')
 }
 
-/** Can manage portal content (resources + articles): view, create, edit. Delete is separate. */
+/** Can manage portal content (resources + links): view, create, edit. Delete is separate. */
 export function canManagePortal(user: SessionUser | null | undefined): boolean {
   return canAccessAdmin(user)
 }
 
-/** Only admins may delete portal items (resources/articles). */
+/** Only admins may delete portal items (resources/links). */
 export function canDeletePortalContent(user: SessionUser | null | undefined): boolean {
   return isAdmin(user)
 }

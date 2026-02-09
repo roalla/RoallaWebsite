@@ -220,7 +220,7 @@ export default function RequestAccessPage() {
               </li>
               <li className="flex items-start">
                 <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0 mt-0.5" />
-                <span>In-depth articles and case studies</span>
+                <span>Links to external content (e.g. LinkedIn) and internal tools</span>
               </li>
               <li className="flex items-start">
                 <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0 mt-0.5" />

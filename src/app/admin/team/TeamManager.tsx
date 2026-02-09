@@ -27,8 +27,8 @@ const ROLE_OPTIONS = [
 /** Reference for admins: what each role can do. Update when adding roles or permissions. */
 const ROLE_ACCESS_REFERENCE: { capability: string; admin: boolean; partner: boolean; business: string; member: string }[] = [
   { capability: 'Access admin area (dashboard)', admin: true, partner: true, business: '—', member: '—' },
-  { capability: 'Portal: view, create, edit resources & articles', admin: true, partner: true, business: '—', member: '—' },
-  { capability: 'Portal: delete resources & articles', admin: true, partner: false, business: '—', member: '—' },
+  { capability: 'Portal: view, create, edit resources & links', admin: true, partner: true, business: '—', member: '—' },
+  { capability: 'Portal: delete resources & links', admin: true, partner: false, business: '—', member: '—' },
   { capability: 'Team: view list, add users, edit roles', admin: true, partner: true, business: '—', member: '—' },
   { capability: 'Team: assign or remove Admin role', admin: true, partner: false, business: '—', member: '—' },
   { capability: 'Team: delete users', admin: true, partner: false, business: '—', member: '—' },

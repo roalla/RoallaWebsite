@@ -44,11 +44,11 @@ export default async function PartnerGuidePage() {
           <div>
             <h2 className="font-semibold text-gray-900 flex items-center gap-2">
               <FileStack className="w-4 h-4" />
-              Add resources & articles
+              Add resources & links
             </h2>
             <p className="text-gray-600 text-sm mt-1">
               Under <Link href="/admin/portal" className="text-primary underline">Portal content</Link>, add
-              downloadable resources (tiles) and articles. You can only edit content you created (or
+              downloadable resources (tiles) and links to external content or internal tools. You can only edit content you created (or
               content with no owner). Optionally restrict items to your organization so only your clients
               see them.
             </p>
@@ -80,7 +80,7 @@ export default async function PartnerGuidePage() {
         <ul className="text-sm text-gray-600 mt-2 space-y-1">
           <li>· View and manage users in your organization</li>
           <li>· Add users (within your cap) and assign roles (except Admin)</li>
-          <li>· Create and edit portal resources and articles (your own or unowned)</li>
+          <li>· Create and edit portal resources and links (your own or unowned)</li>
           <li>· Export your team as CSV</li>
           <li>· Use a shareable portal link if your org has a slug</li>
         </ul>

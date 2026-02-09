@@ -68,7 +68,7 @@ function ResourcesPortalContent() {
   }
 
   const [portalResources, setPortalResources] = useState<Resource[]>([])
-  const [portalArticles, setPortalArticles] = useState<Array<{ title: string; description: string; readTime?: string; category?: string; url?: string }>>([])
+  const [portalLinks, setPortalLinks] = useState<Array<{ title: string; description: string; readTime?: string; category?: string; url?: string }>>([])
   const [contentLoaded, setContentLoaded] = useState(false)
   const [portalOrgName, setPortalOrgName] = useState<string | null>(null)
 
@@ -98,7 +98,7 @@ function ResourcesPortalContent() {
           readUrl: r.linkUrl || undefined,
           color: r.color || 'from-blue-500 to-blue-600',
         }))
-        const arts = (data.articles || []).map((a: { title: string; description: string; readTime?: string | null; category?: string | null; url?: string | null }) => ({
+        const links = (data.articles || []).map((a: { title: string; description: string; readTime?: string | null; category?: string | null; url?: string | null }) => ({
           title: a.title,
           description: a.description,
           readTime: a.readTime || undefined,
@@ -106,10 +106,10 @@ function ResourcesPortalContent() {
           url: a.url || undefined,
         }))
         setPortalResources(rs)
-        setPortalArticles(arts)
+        setPortalLinks(links)
         setPortalOrgName(data.orgName ?? null)
       })
-      .catch(() => { if (!cancelled) { setPortalResources([]); setPortalArticles([]); setPortalOrgName(null) } })
+      .catch(() => { if (!cancelled) { setPortalResources([]); setPortalLinks([]); setPortalOrgName(null) } })
       .finally(() => { if (!cancelled) setContentLoaded(true) })
     return () => { cancelled = true }
   }, [isAuthenticated, searchParams])
@@ -120,15 +120,14 @@ function ResourcesPortalContent() {
     { id: '3', icon: TrendingUp, title: 'ROI Calculator Tool', description: 'Interactive Excel-based calculator for ROI of business initiatives and projects.', type: 'Tool', downloadUrl: '/resources/roi-calculator.xlsx', color: 'from-purple-500 to-purple-600' },
     { id: '4', icon: Lightbulb, title: 'Strategic Planning Framework', description: 'Our proven 5-step framework for effective business strategies.', type: 'Framework', downloadUrl: '/resources/strategic-planning-framework.pdf', color: 'from-orange-500 to-orange-600' },
   ]
-  const defaultArticles = [
-    { title: '5 Key Metrics Every Business Should Track', description: 'Discover the essential metrics that drive business success.', readTime: '5 min read', category: 'Strategy' },
-    { title: 'Fractional COO: When and Why Your Business Needs One', description: 'Learn how fractional COO services can transform operational management.', readTime: '7 min read', category: 'Operations' },
-    { title: 'Strategic Planning for Small Businesses', description: 'A practical guide to creating and executing effective business strategies.', readTime: '6 min read', category: 'Planning' },
-    { title: 'Building a High-Performance Team', description: 'Strategies for recruiting, developing, and retaining top talent.', readTime: '8 min read', category: 'Leadership' },
+  const defaultLinks = [
+    { title: 'LinkedIn: Key metrics for growth', description: 'External post on the essential metrics that drive business success.', category: 'LinkedIn', url: 'https://linkedin.com' },
+    { title: 'Internal scheduling tool', description: 'Book time or view availability using our internal scheduling tool.', category: 'Internal tool', url: '/schedule' },
+    { title: 'External resource', description: 'Link to content on other sites. Add your own via the admin portal.', category: 'External', url: '#' },
   ]
 
   const resources = contentLoaded && portalResources.length > 0 ? portalResources : defaultResources
-  const articles = contentLoaded && portalArticles.length > 0 ? portalArticles : defaultArticles
+  const links = contentLoaded && portalLinks.length > 0 ? portalLinks : defaultLinks
 
   if (!mounted || isLoading) {
     return (
@@ -241,40 +240,41 @@ function ResourcesPortalContent() {
           </div>
         </div>
 
-        {/* Articles Section */}
+        {/* Links Section: external content (LinkedIn, other sites) or internal tools */}
         <div>
           <div className="flex items-center mb-8">
             <BookOpen className="w-8 h-8 text-primary mr-3" />
-            <h2 className="text-3xl font-bold text-gray-900">Featured Articles</h2>
+            <h2 className="text-3xl font-bold text-gray-900">Links</h2>
           </div>
+          <p className="text-gray-600 mb-6">External content (LinkedIn, other sites) and links to internal tools.</p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {articles.map((article, index) => (
+            {links.map((link, index) => (
               <motion.div
-                key={article.title + index}
+                key={link.title + index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100"
               >
-                {(article.category || article.readTime) && (
+                {(link.category || link.readTime) && (
                   <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
-                    {article.category && <span className="font-semibold text-primary">{article.category}</span>}
-                    {article.readTime && <span>{article.readTime}</span>}
+                    {link.category && <span className="font-semibold text-primary">{link.category}</span>}
+                    {link.readTime && <span>{link.readTime}</span>}
                   </div>
                 )}
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{article.title}</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{link.title}</h3>
                 <div
                   className="portal-rich-text text-sm text-gray-600 leading-relaxed [&_p]:my-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:text-primary [&_a]:underline [&_a]:hover:opacity-90 [&_strong]:font-semibold"
-                  dangerouslySetInnerHTML={{ __html: article.description || '' }}
+                  dangerouslySetInnerHTML={{ __html: link.description || '' }}
                 />
-                {'url' in article && article.url && (
+                {'url' in link && link.url && (
                   <a
-                    href={article.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href={link.url}
+                    target={link.url.startsWith('/') ? undefined : '_blank'}
+                    rel={link.url.startsWith('/') ? undefined : 'noopener noreferrer'}
                     className="inline-flex items-center mt-3 text-sm font-medium text-primary hover:text-primary-dark"
                   >
-                    Read more
+                    {link.url.startsWith('/') ? 'Open tool' : 'Open link'}
                   </a>
                 )}
               </motion.div>

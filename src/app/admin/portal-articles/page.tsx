@@ -1,11 +1,11 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Plus, Pencil, Trash2, ExternalLink, Lock } from 'lucide-react'
+import { Pencil, Trash2, Lock, Link2 } from 'lucide-react'
 import RichTextEditor from '@/components/RichTextEditor'
-import { PORTAL_CATEGORIES, isPortalCategory } from '@/lib/portal-categories'
+import { PORTAL_LINK_TYPES, isPortalLinkType } from '@/lib/portal-categories'
 
-interface PortalArticle {
+interface PortalLink {
   id: string
   title: string
   description: string
@@ -17,15 +17,15 @@ interface PortalArticle {
   canEdit?: boolean
 }
 
-export default function AdminPortalArticlesPage() {
-  const [items, setItems] = useState<PortalArticle[]>([])
+export default function AdminPortalLinksPage() {
+  const [items, setItems] = useState<PortalLink[]>([])
   const [loading, setLoading] = useState(true)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [form, setForm] = useState({
     title: '',
     description: '',
     readTime: '',
-    category: 'Other' as string,
+    category: 'External' as string,
     url: '',
     sortOrder: 0,
     gated: false,
@@ -46,7 +46,7 @@ export default function AdminPortalArticlesPage() {
       const res = await fetch('/api/admin/portal-articles')
       if (res.ok) setItems(await res.json())
     } catch {
-      setError('Failed to load articles')
+      setError('Failed to load links')
     } finally {
       setLoading(false)
     }
@@ -61,7 +61,7 @@ export default function AdminPortalArticlesPage() {
       title: '',
       description: '',
       readTime: '',
-      category: 'Other',
+      category: 'External',
       url: '',
       sortOrder: items.length,
       gated: false,
@@ -117,7 +117,7 @@ export default function AdminPortalArticlesPage() {
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Delete this article?')) return
+    if (!confirm('Delete this link?')) return
     try {
       const res = await fetch(`/api/admin/portal-articles/${id}`, { method: 'DELETE' })
       if (res.ok) await fetchItems()
@@ -127,24 +127,24 @@ export default function AdminPortalArticlesPage() {
     }
   }
 
-  const startEdit = (a: PortalArticle) => {
+  const startEdit = (item: PortalLink) => {
     setForm({
-      title: a.title,
-      description: a.description,
-      readTime: a.readTime || '',
-      category: a.category && isPortalCategory(a.category) ? a.category : 'Other',
-      url: a.url || '',
-      sortOrder: a.sortOrder,
-      gated: a.gated ?? false,
+      title: item.title,
+      description: item.description,
+      readTime: item.readTime || '',
+      category: item.category && isPortalLinkType(item.category) ? item.category : 'External',
+      url: item.url || '',
+      sortOrder: item.sortOrder,
+      gated: item.gated ?? false,
     })
-    setEditingId(a.id)
+    setEditingId(item.id)
   }
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">Portal articles</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-2">Portal links</h1>
       <p className="text-gray-600 mb-6">
-        Featured articles shown on the Resources Portal. Optionally add a URL to link to the full article.
+        Links shown on the Resources Portal: external content (e.g. LinkedIn, other sites) or links to internal tools in this app. Each item should have a destination URL.
       </p>
 
       {error && (
@@ -153,7 +153,7 @@ export default function AdminPortalArticlesPage() {
 
       <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200 p-6 mb-8">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
-          {editingId ? 'Edit article' : 'Add article'}
+          {editingId ? 'Edit link' : 'Add link'}
         </h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">
@@ -164,7 +164,7 @@ export default function AdminPortalArticlesPage() {
               value={form.title}
               onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-              placeholder="e.g. 5 Key Metrics Every Business Should Track"
+              placeholder="e.g. LinkedIn post: 5 Key Metrics"
             />
           </div>
           <div className="sm:col-span-2">
@@ -177,23 +177,13 @@ export default function AdminPortalArticlesPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Read time</label>
-            <input
-              type="text"
-              value={form.readTime}
-              onChange={(e) => setForm((f) => ({ ...f, readTime: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-              placeholder="e.g. 5 min read"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Link type</label>
             <select
               value={form.category}
               onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg"
             >
-              {PORTAL_CATEGORIES.map((cat) => (
+              {PORTAL_LINK_TYPES.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat}
                 </option>
@@ -201,14 +191,26 @@ export default function AdminPortalArticlesPage() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Article URL (optional)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Label (optional)</label>
+            <input
+              type="text"
+              value={form.readTime}
+              onChange={(e) => setForm((f) => ({ ...f, readTime: e.target.value }))}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              placeholder="e.g. 2 min, Video, Tool"
+            />
+          </div>
+          <div className="sm:col-span-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Destination URL</label>
             <input
               type="url"
+              required
               value={form.url}
               onChange={(e) => setForm((f) => ({ ...f, url: e.target.value }))}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-              placeholder="https://..."
+              placeholder="https://... or /internal-tool-path"
             />
+            <p className="text-xs text-gray-500 mt-1">External (LinkedIn, other sites) or internal app path (e.g. /schedule, /p/your-page).</p>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Order</label>
@@ -223,12 +225,12 @@ export default function AdminPortalArticlesPage() {
           <div className="sm:col-span-2 flex items-center gap-2">
             <input
               type="checkbox"
-              id="gated-article"
+              id="gated-link"
               checked={form.gated}
               onChange={(e) => setForm((f) => ({ ...f, gated: e.target.checked }))}
               className="rounded border-gray-300 text-primary focus:ring-primary"
             />
-            <label htmlFor="gated-article" className="text-sm font-medium text-gray-700">
+            <label htmlFor="gated-link" className="text-sm font-medium text-gray-700">
               Require NDA + approval (Trust Center gated)
             </label>
           </div>
@@ -239,7 +241,7 @@ export default function AdminPortalArticlesPage() {
             disabled={saving}
             className="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary-dark disabled:opacity-50"
           >
-            {saving ? 'Saving...' : editingId ? 'Update' : 'Add article'}
+            {saving ? 'Saving...' : editingId ? 'Update' : 'Add link'}
           </button>
           {editingId && (
             <button
@@ -253,41 +255,41 @@ export default function AdminPortalArticlesPage() {
         </div>
       </form>
 
-      <h2 className="text-lg font-semibold text-gray-900 mb-3">Current articles</h2>
+      <h2 className="text-lg font-semibold text-gray-900 mb-3">Current links</h2>
       {loading ? (
         <p className="text-gray-500">Loading...</p>
       ) : items.length === 0 ? (
-        <p className="text-gray-500">No articles yet. Add one above.</p>
+        <p className="text-gray-500">No links yet. Add one above.</p>
       ) : (
         <ul className="space-y-3">
-          {items.map((a) => (
+          {items.map((item) => (
             <li
-              key={a.id}
+              key={item.id}
               className="flex items-center justify-between gap-4 p-4 bg-white rounded-lg border border-gray-200"
             >
               <div className="min-w-0 flex-1">
-                <div className="font-medium text-gray-900">{a.title}</div>
+                <div className="font-medium text-gray-900">{item.title}</div>
                 <div className="text-sm text-gray-500 flex items-center gap-2 flex-wrap">
-                  {(a.category || a.readTime) && (
+                  {(item.category || item.readTime) && (
                     <>
-                      {a.category}
-                      {a.category && a.readTime && ' · '}
-                      {a.readTime}
+                      {item.category}
+                      {item.category && item.readTime && ' · '}
+                      {item.readTime}
                     </>
                   )}
-                  {a.gated && <span className="inline-flex items-center gap-0.5 text-amber-600"><Lock className="w-3.5 h-3.5" /> Gated</span>}
+                  {item.gated && <span className="inline-flex items-center gap-0.5 text-amber-600"><Lock className="w-3.5 h-3.5" /> Gated</span>}
                 </div>
-                {a.url && (
+                {item.url && (
                   <div className="text-xs text-gray-400 mt-1 flex items-center gap-1">
-                    <ExternalLink className="w-3 h-3" /> Has link
+                    <Link2 className="w-3 h-3" /> {item.url.startsWith('/') ? 'Internal' : 'External'}
                   </div>
                 )}
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
-                {a.canEdit !== false && (
+                {item.canEdit !== false && (
                   <button
                     type="button"
-                    onClick={() => startEdit(a)}
+                    onClick={() => startEdit(item)}
                     className="min-w-[44px] min-h-[44px] p-2 text-gray-600 hover:bg-gray-100 rounded-lg flex items-center justify-center"
                     aria-label="Edit"
                   >
@@ -297,7 +299,7 @@ export default function AdminPortalArticlesPage() {
                 {canDelete && (
                   <button
                     type="button"
-                    onClick={() => handleDelete(a.id)}
+                    onClick={() => handleDelete(item.id)}
                     className="min-w-[44px] min-h-[44px] p-2 text-red-600 hover:bg-red-50 rounded-lg flex items-center justify-center"
                     aria-label="Delete"
                   >

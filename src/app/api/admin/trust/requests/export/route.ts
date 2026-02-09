@@ -14,20 +14,21 @@ export async function GET(request: NextRequest) {
   const status = request.nextUrl.searchParams.get('status') as 'pending' | 'approved' | 'rejected' | null
   const search = request.nextUrl.searchParams.get('search')?.trim()?.toLowerCase() || ''
 
+  type SearchWhere =
+    | { email: { contains: string; mode: 'insensitive' } }
+    | { name: { contains: string; mode: 'insensitive' } }
   const where: {
     status?: string
-    OR?: Array<
-      | { email: { contains: string; mode: 'insensitive' } }
-      | { name: { contains: string; mode: 'insensitive' } }
-    >
+    OR?: SearchWhere[]
   } = {}
   if (status && ['pending', 'approved', 'rejected'].includes(status)) {
     where.status = status
   }
   if (search) {
+    const term = { contains: search, mode: 'insensitive' as const }
     where.OR = [
-      { email: { contains: search, mode: 'insensitive' } },
-      { name: { contains: search, mode: 'insensitive' } },
+      { email: term },
+      { name: term },
     ]
   }
 

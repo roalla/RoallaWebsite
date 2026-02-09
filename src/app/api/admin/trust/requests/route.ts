@@ -14,21 +14,16 @@ export async function GET(request: NextRequest) {
   const status = request.nextUrl.searchParams.get('status') as 'pending' | 'approved' | 'rejected' | null
   const search = request.nextUrl.searchParams.get('search')?.trim()?.toLowerCase() || ''
 
-  const where: {
-    status?: string
-    OR?: Array<
-      | { email: { contains: string; mode: 'insensitive' } }
-      | { name: { contains: string; mode: 'insensitive' } }
-    >
-  } = {}
+  type SearchWhere =
+    | { email: { contains: string; mode: 'insensitive' } }
+    | { name: { contains: string; mode: 'insensitive' } }
+  const where: { status?: string; OR?: SearchWhere[] } = {}
   if (status && ['pending', 'approved', 'rejected'].includes(status)) {
     where.status = status
   }
   if (search) {
-    where.OR = [
-      { email: { contains: search, mode: 'insensitive' } },
-      { name: { contains: search, mode: 'insensitive' } },
-    ]
+    const term = { contains: search, mode: 'insensitive' as const }
+    where.OR = [{ email: term }, { name: term }]
   }
 
   const limit = Math.min(Number(request.nextUrl.searchParams.get('limit')) || 50, 100)

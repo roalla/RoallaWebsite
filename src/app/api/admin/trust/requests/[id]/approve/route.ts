@@ -81,7 +81,6 @@ export async function POST(
   const accessLink = `${baseUrl}/trust?token=${token}`
 
   let emailSent = false
-  const body = await request.json().catch(() => ({}))
   const sendEmail = body.sendEmail !== false && !!process.env.RESEND_API_KEY
 
   if (sendEmail) {

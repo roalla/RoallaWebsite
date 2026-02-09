@@ -1,49 +1,9 @@
 import React from 'react'
-import { Mail, Phone, MapPin, Linkedin, Twitter, Facebook, Instagram } from 'lucide-react'
+import { Mail, Phone } from 'lucide-react'
 import Link from 'next/link'
-import Image from 'next/image'
 
 const Footer = () => {
   const currentYear = new Date().getFullYear()
-
-  const footerLinks = {
-    services: [
-      { name: 'Strategic Planning', href: '#services' },
-      { name: 'Business Optimization', href: '#services' },
-      { name: 'Leadership Development', href: '#services' },
-      { name: 'Growth Strategy', href: '#services' },
-      { name: 'Innovation Consulting', href: '#services' },
-      { name: 'Risk Management', href: '#services' }
-    ],
-    company: [
-      { name: 'About Us', href: '#about' },
-      { name: 'Our Team', href: '#about' },
-      { name: 'Case Studies', href: '#' },
-      { name: 'Careers', href: '#' },
-      { name: 'Contact', href: '#contact' }
-    ],
-    resources: [
-      { name: 'Blog', href: '#' },
-      { name: 'Whitepapers', href: '#' },
-      { name: 'Webinars', href: '#' },
-      { name: 'Tools & Templates', href: '#' },
-      { name: 'Industry Insights', href: '#' },
-      { name: 'Newsletter', href: '#' }
-    ],
-    legal: [
-      { name: 'Privacy Policy', href: '#' },
-      { name: 'Terms of Service', href: '#' },
-      { name: 'Cookie Policy', href: '#' },
-      { name: 'GDPR Compliance', href: '#' }
-    ]
-  }
-
-  const socialLinks = [
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Facebook, href: '#', label: 'Facebook' },
-    { icon: Instagram, href: '#', label: 'Instagram' }
-  ]
 
   const quickLinks = [
     { name: 'Services', href: '/services' },

@@ -20,8 +20,27 @@ model Organization {
   users           User[]
   portalResources PortalResource[]
   portalArticles  PortalArticle[]
+  trustedContacts TrustedContact[]
 
   @@index([slug])
+}
+
+// Partner-facing list of trusted contacts (e.g. consultants, supporting services)
+model TrustedContact {
+  id               String   @id @default(cuid())
+  organizationId   String   // partners see only their org's contacts
+  name             String
+  email            String
+  company          String?  // company or practice name
+  serviceOrRole    String?  // e.g. Legal, Accounting, Insurance
+  notes            String?  @db.Text
+  createdByUserId  String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  organization     Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId])
+  @@index([createdByUserId])
 }
 
 model User {

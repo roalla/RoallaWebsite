@@ -23,6 +23,7 @@ export default function AdminNav({
     ...(isPartner && !isAdmin ? [{ href: '/admin/partner-guide', label: 'Partner guide' }] : []),
     ...(isAdmin ? [{ href: '/admin/requests', label: 'Library access' }] : []),
     { href: '/admin/portal', label: 'Portal content' },
+    { href: '/admin/trusted-contacts', label: 'Trusted contacts' },
     ...(isAdmin
       ? [
           { href: '/admin/trust', label: 'Trust Center' },

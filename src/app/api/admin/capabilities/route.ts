@@ -17,12 +17,14 @@ export async function GET() {
     canDeletePortal: boolean
     canDeleteUser: boolean
     canAssignAdmin: boolean
+    isAdmin: boolean
     partnerAddUserCap?: number
     partnerAddUserCapRemaining?: number
   } = {
     canDeletePortal: canDeletePortalContent(session.user),
     canDeleteUser: canDeleteUser(session.user),
     canAssignAdmin: isAdmin(session.user),
+    isAdmin: isAdmin(session.user),
   }
   if (canManageTeam(session.user) && !isAdmin(session.user)) {
     const currentUserId = (session.user as { id?: string }).id

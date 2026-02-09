@@ -120,7 +120,8 @@ function ResourcesPortalContent() {
     { id: '3', icon: TrendingUp, title: 'ROI Calculator Tool', description: 'Interactive Excel-based calculator for ROI of business initiatives and projects.', type: 'Tool', downloadUrl: '/resources/roi-calculator.xlsx', color: 'from-purple-500 to-purple-600' },
     { id: '4', icon: Lightbulb, title: 'Strategic Planning Framework', description: 'Our proven 5-step framework for effective business strategies.', type: 'Framework', downloadUrl: '/resources/strategic-planning-framework.pdf', color: 'from-orange-500 to-orange-600' },
   ]
-  const defaultLinks = [
+  type PortalLink = { title: string; description: string; readTime?: string; category?: string; url?: string }
+  const defaultLinks: PortalLink[] = [
     { title: 'LinkedIn: Key metrics for growth', description: 'External post on the essential metrics that drive business success.', category: 'LinkedIn', url: 'https://linkedin.com' },
     { title: 'Internal scheduling tool', description: 'Book time or view availability using our internal scheduling tool.', category: 'Internal tool', url: '/schedule' },
     { title: 'External resource', description: 'Link to content on other sites. Add your own via the admin portal.', category: 'External', url: '#' },

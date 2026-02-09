@@ -3,7 +3,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowRight, ClipboardList } from 'lucide-react'
 import ScheduleButton from '../CalendlyButton'
 
 export default function HomeCTA() {
@@ -20,7 +19,7 @@ export default function HomeCTA() {
             Ready to transform your operations?
           </h2>
           <p className="mt-4 text-white/90">
-            Start with a free consultation or take our 5-minute business health assessment.
+            Schedule a free consultation or explore our resources to get started.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <ScheduleButton
@@ -31,15 +30,14 @@ export default function HomeCTA() {
               Schedule Consultation
             </ScheduleButton>
             <Link
-              href="/assessment"
-              className="inline-flex items-center bg-white/20 hover:bg-white/30 text-white font-semibold py-4 px-6 rounded-lg transition-all border border-white/30"
+              href="/resources"
+              className="inline-flex items-center bg-white/20 hover:bg-white/30 text-white font-semibold py-4 px-6 rounded-lg transition-all border border-white/30 hover:border-white/50"
             >
-              <ClipboardList className="w-5 h-5 mr-2" />
-              Take the Assessment
+              Explore Resources
             </Link>
           </div>
           <p className="mt-6 text-sm text-white/80">
-            Or explore our <Link href="/resources" className="underline hover:text-white">resources and insights</Link>.
+            Not sure where to start? <Link href="/#assessment" className="underline hover:text-white">Take the business health assessment</Link> above for a tailored report.
           </p>
         </motion.div>
       </div>

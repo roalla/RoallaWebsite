@@ -56,7 +56,7 @@ export default async function AdminLayout({
           </div>
         </div>
       </header>
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">{children}</main>
+      <main id="main-content" tabIndex={-1} className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">{children}</main>
     </div>
   )
 }

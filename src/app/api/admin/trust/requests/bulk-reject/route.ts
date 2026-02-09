@@ -4,16 +4,26 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { Resend } from 'resend'
 import { logTrustAction } from '@/lib/trust-audit'
+import { jsonError } from '@/lib/api-response'
+import { rateLimit, getRateLimitKey } from '@/lib/rate-limit'
 
 export const dynamic = 'force-dynamic'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
+const BULK_REJECT_LIMIT = 20
+const BULK_REJECT_WINDOW_MS = 60_000
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions)
   const currentUser = session?.user as { roles?: string[]; id?: string } | undefined
   if (!session || !currentUser?.roles?.includes('admin')) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return jsonError('Unauthorized', 401)
+  }
+
+  const key = getRateLimitKey(request, 'ip')
+  const rl = rateLimit({ key: `trust:bulk-reject:${key}`, limit: BULK_REJECT_LIMIT, windowMs: BULK_REJECT_WINDOW_MS })
+  if (!rl.success) {
+    return jsonError('Too many requests. Please try again later.', 429)
   }
 
   const body = await request.json().catch(() => ({}))
@@ -22,7 +32,7 @@ export async function POST(request: NextRequest) {
   const reason = typeof body.reason === 'string' ? body.reason.trim() || undefined : undefined
 
   if (ids.length === 0) {
-    return NextResponse.json({ error: 'No request IDs provided' }, { status: 400 })
+    return jsonError('No request IDs provided', 400)
   }
 
   const pending = await prisma.gatedAccessRequest.findMany({

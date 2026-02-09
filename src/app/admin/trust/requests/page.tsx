@@ -39,6 +39,7 @@ export default function AdminTrustRequestsPage() {
   const [rejectModal, setRejectModal] = useState<{ id: string } | { ids: string[] } | null>(null)
   const [rejectReason, setRejectReason] = useState('')
   const [bulkRejectSendEmail, setBulkRejectSendEmail] = useState(false)
+  const [liveMessage, setLiveMessage] = useState<string | null>(null)
 
   const fetchRequests = (append = false) => {
     if (!append) setLoading(true)
@@ -70,6 +71,11 @@ export default function AdminTrustRequestsPage() {
     fetchRequests()
   }, [statusFilter, search])
 
+  const announce = (message: string) => {
+    setLiveMessage(message)
+    setTimeout(() => setLiveMessage(null), 3000)
+  }
+
   const handleApprove = async (id: string) => {
     setActingId(id)
     setAccessLink(null)
@@ -80,11 +86,18 @@ export default function AdminTrustRequestsPage() {
         body: JSON.stringify({ sendEmail, grantExpiryDays }),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error)
+      if (!res.ok) throw new Error(data.error ?? 'Failed to approve')
       setAccessLink({ id, link: data.accessLink, emailSent: data.emailSent })
       fetchRequests()
-    } catch {
-      alert('Failed to approve')
+      const msg = data.emailSent
+        ? `Request approved. Email with access link sent to the requestor.`
+        : `Request approved. Share the access link with the requestor.`
+      announce(msg)
+      toast.success(msg)
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : 'Failed to approve'
+      announce(msg)
+      toast.error(msg)
     } finally {
       setActingId(null)
     }
@@ -110,24 +123,31 @@ export default function AdminTrustRequestsPage() {
           body: JSON.stringify({ ids, reason: rejectReason || undefined, sendEmail: bulkRejectSendEmail }),
         })
         const data = await res.json()
-        if (!res.ok) throw new Error(data.error)
+        if (!res.ok) throw new Error(data.error ?? 'Failed to reject')
         setSelectedIds(new Set())
         setRejectModal(null)
         setRejectReason('')
         fetchRequests()
+        announce(`Rejected ${ids.length} request(s).`)
+        toast.success(`Rejected ${ids.length} request(s).`)
       } else {
         const res = await fetch(`/api/admin/trust/requests/${rejectModal.id}/reject`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ sendEmail: sendRejectEmail, reason: rejectReason || undefined }),
         })
-        if (!res.ok) throw new Error((await res.json()).error)
+        const data = await res.json()
+        if (!res.ok) throw new Error(data.error ?? 'Failed to reject')
         setRejectModal(null)
         setRejectReason('')
         fetchRequests()
+        announce('Request rejected.')
+        toast.success('Request rejected.')
       }
-    } catch {
-      alert('Failed to reject')
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : 'Failed to reject'
+      announce(msg)
+      toast.error(msg)
     } finally {
       setActingId(null)
     }
@@ -143,12 +163,16 @@ export default function AdminTrustRequestsPage() {
         body: JSON.stringify({ ids: Array.from(selectedIds), sendEmail, grantExpiryDays }),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error)
+      if (!res.ok) throw new Error(data.error ?? 'Bulk approve failed')
       setSelectedIds(new Set())
       fetchRequests()
-      toast.success(`Approved ${data.succeeded} of ${data.total} request(s).`)
-    } catch {
-      alert('Bulk approve failed')
+      const msg = `Approved ${data.succeeded} of ${data.total} request(s).`
+      announce(msg)
+      toast.success(msg)
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : 'Bulk approve failed'
+      announce(msg)
+      toast.error(msg)
     } finally {
       setActingId(null)
     }
@@ -159,11 +183,15 @@ export default function AdminTrustRequestsPage() {
     try {
       const res = await fetch(`/api/admin/trust/requests/${id}/resend-link`, { method: 'POST' })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error)
+      if (!res.ok) throw new Error(data.error ?? 'Failed to resend link')
       setAccessLink({ id, link: data.accessLink, emailSent: data.emailSent })
       fetchRequests()
-    } catch {
-      alert('Failed to resend link')
+      announce(data.emailSent ? 'New access link sent by email.' : 'New access link generated.')
+      toast.success(data.emailSent ? 'New access link sent by email.' : 'New access link generated.')
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : 'Failed to resend link'
+      announce(msg)
+      toast.error(msg)
     } finally {
       setActingId(null)
     }
@@ -225,6 +253,15 @@ export default function AdminTrustRequestsPage() {
 
   return (
     <div>
+      <div
+        id="trust-requests-status"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+      >
+        {liveMessage}
+      </div>
       <div className="mb-6 flex items-center gap-4">
         <Link href="/admin/trust" className="text-sm text-gray-600 hover:text-gray-900">← Trust Center</Link>
       </div>

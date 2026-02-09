@@ -1,30 +1,40 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { Resend } from 'resend'
 import crypto from 'crypto'
 import { logTrustAction } from '@/lib/trust-audit'
+import { jsonError } from '@/lib/api-response'
+import { rateLimit, getRateLimitKey } from '@/lib/rate-limit'
 
 export const dynamic = 'force-dynamic'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 const TOKEN_EXPIRY_DAYS = 90
+const RESEND_LIMIT = 20
+const RESEND_WINDOW_MS = 60_000
 
 export async function POST(
-  _request: Request,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions)
   const currentUser = session?.user as { roles?: string[] } | undefined
   if (!session || !currentUser?.roles?.includes('admin')) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return jsonError('Unauthorized', 401)
+  }
+
+  const key = getRateLimitKey(request, 'ip')
+  const rl = rateLimit({ key: `trust:resend-link:${key}`, limit: RESEND_LIMIT, windowMs: RESEND_WINDOW_MS })
+  if (!rl.success) {
+    return jsonError('Too many requests. Please try again later.', 429)
   }
 
   const { id } = await params
   const req = await prisma.gatedAccessRequest.findUnique({ where: { id } })
   if (!req || req.status !== 'approved') {
-    return NextResponse.json({ error: 'Request not found or not approved' }, { status: 404 })
+    return jsonError('Request not found or not approved', 404)
   }
 
   const expiresAt = new Date()

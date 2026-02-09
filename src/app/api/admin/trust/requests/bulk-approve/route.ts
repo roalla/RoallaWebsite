@@ -5,17 +5,27 @@ import { prisma } from '@/lib/prisma'
 import { Resend } from 'resend'
 import crypto from 'crypto'
 import { logTrustAction } from '@/lib/trust-audit'
+import { jsonError } from '@/lib/api-response'
+import { rateLimit, getRateLimitKey } from '@/lib/rate-limit'
 
 export const dynamic = 'force-dynamic'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 const TOKEN_EXPIRY_DAYS = 90
+const BULK_APPROVE_LIMIT = 20
+const BULK_APPROVE_WINDOW_MS = 60_000
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions)
   const currentUser = session?.user as { roles?: string[]; id?: string } | undefined
   if (!session || !currentUser?.roles?.includes('admin')) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return jsonError('Unauthorized', 401)
+  }
+
+  const key = getRateLimitKey(request, 'ip')
+  const rl = rateLimit({ key: `trust:bulk-approve:${key}`, limit: BULK_APPROVE_LIMIT, windowMs: BULK_APPROVE_WINDOW_MS })
+  if (!rl.success) {
+    return jsonError('Too many requests. Please try again later.', 429)
   }
 
   const body = await request.json().catch(() => ({}))
@@ -29,7 +39,7 @@ export async function POST(request: NextRequest) {
   }
 
   if (ids.length === 0) {
-    return NextResponse.json({ error: 'No request IDs provided' }, { status: 400 })
+    return jsonError('No request IDs provided', 400)
   }
 
   const pending = await prisma.gatedAccessRequest.findMany({

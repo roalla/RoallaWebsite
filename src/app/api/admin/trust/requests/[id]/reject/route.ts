@@ -4,10 +4,14 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { Resend } from 'resend'
 import { logTrustAction } from '@/lib/trust-audit'
+import { jsonError } from '@/lib/api-response'
+import { rateLimit, getRateLimitKey } from '@/lib/rate-limit'
 
 export const dynamic = 'force-dynamic'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
+const REJECT_LIMIT = 30
+const REJECT_WINDOW_MS = 60_000
 
 export async function POST(
   request: NextRequest,
@@ -16,13 +20,19 @@ export async function POST(
   const session = await getServerSession(authOptions)
   const currentUser = session?.user as { roles?: string[]; id?: string } | undefined
   if (!session || !currentUser?.roles?.includes('admin')) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return jsonError('Unauthorized', 401)
+  }
+
+  const key = getRateLimitKey(request, 'ip')
+  const rl = rateLimit({ key: `trust:reject:${key}`, limit: REJECT_LIMIT, windowMs: REJECT_WINDOW_MS })
+  if (!rl.success) {
+    return jsonError('Too many requests. Please try again later.', 429)
   }
 
   const { id } = await params
   const req = await prisma.gatedAccessRequest.findUnique({ where: { id } })
   if (!req || req.status !== 'pending') {
-    return NextResponse.json({ error: 'Request not found or already reviewed' }, { status: 404 })
+    return jsonError('Request not found or already reviewed', 404)
   }
 
   await prisma.gatedAccessRequest.update({

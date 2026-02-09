@@ -5,11 +5,29 @@ import { prisma } from '@/lib/prisma'
 import { Resend } from 'resend'
 import crypto from 'crypto'
 import { logTrustAction } from '@/lib/trust-audit'
+import { jsonError } from '@/lib/api-response'
+import { rateLimit, getRateLimitKey } from '@/lib/rate-limit'
 
 export const dynamic = 'force-dynamic'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 const TOKEN_EXPIRY_DAYS = 90
+const APPROVE_LIMIT = 30
+const APPROVE_WINDOW_MS = 60_000 // 1 min per user
+
+type ApproveBody = {
+  grantExpiryDays?: number | null
+  sendEmail?: boolean
+}
+
+function parseBody(raw: unknown): ApproveBody {
+  if (raw === null || typeof raw !== 'object') return {}
+  const o = raw as Record<string, unknown>
+  return {
+    grantExpiryDays: o.grantExpiryDays != null ? (typeof o.grantExpiryDays === 'number' ? o.grantExpiryDays : null) : undefined,
+    sendEmail: typeof o.sendEmail === 'boolean' ? o.sendEmail : undefined,
+  }
+}
 
 export async function POST(
   request: NextRequest,
@@ -18,7 +36,13 @@ export async function POST(
   const session = await getServerSession(authOptions)
   const currentUser = session?.user as { roles?: string[]; id?: string } | undefined
   if (!session || !currentUser?.roles?.includes('admin')) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return jsonError('Unauthorized', 401)
+  }
+
+  const key = getRateLimitKey(request, 'ip')
+  const rl = rateLimit({ key: `trust:approve:${key}`, limit: APPROVE_LIMIT, windowMs: APPROVE_WINDOW_MS })
+  if (!rl.success) {
+    return jsonError('Too many requests. Please try again later.', 429)
   }
 
   const { id } = await params
@@ -26,15 +50,21 @@ export async function POST(
     where: { id },
     include: { items: true, ndaSignature: true },
   })
-  if (!req || req.status !== 'pending') {
-    return NextResponse.json({ error: 'Request not found or already reviewed' }, { status: 404 })
+  if (!req) {
+    return jsonError('Request not found', 404)
+  }
+  if (req.status !== 'pending') {
+    return jsonError('Request already reviewed', 404)
   }
 
   const userId = currentUser.id!
   const email = req.email
 
-  const body = await request.json().catch(() => ({}))
-  const grantExpiryDays = body.grantExpiryDays != null ? (typeof body.grantExpiryDays === 'number' ? body.grantExpiryDays : null) : 365
+  const rawBody = await request.json().catch(() => ({}))
+  const body = parseBody(rawBody)
+  const grantExpiryDays = body.grantExpiryDays != null
+    ? (typeof body.grantExpiryDays === 'number' && body.grantExpiryDays > 0 ? body.grantExpiryDays : null)
+    : 365
   let grantExpiresAt: Date | null = null
   if (typeof grantExpiryDays === 'number' && grantExpiryDays > 0) {
     grantExpiresAt = new Date()
@@ -62,18 +92,28 @@ export async function POST(
   expiresAt.setDate(expiresAt.getDate() + TOKEN_EXPIRY_DAYS)
   const token = crypto.randomBytes(32).toString('hex')
 
-  await prisma.$transaction(async (tx) => {
-    for (const g of grantsToCreate) {
-      await tx.gatedAccessGrant.create({ data: g })
+  try {
+    await prisma.$transaction(async (tx) => {
+      const updated = await tx.gatedAccessRequest.updateMany({
+        where: { id, status: 'pending' },
+        data: { status: 'approved', reviewedAt: new Date(), reviewedByUserId: userId },
+      })
+      if (updated.count === 0) {
+        throw new Error('ALREADY_REVIEWED')
+      }
+      for (const g of grantsToCreate) {
+        await tx.gatedAccessGrant.create({ data: g })
+      }
+      await tx.trustCenterToken.create({
+        data: { email, token, expiresAt },
+      })
+    })
+  } catch (e) {
+    if (e instanceof Error && e.message === 'ALREADY_REVIEWED') {
+      return jsonError('Request already reviewed', 409)
     }
-    await tx.gatedAccessRequest.update({
-      where: { id },
-      data: { status: 'approved', reviewedAt: new Date(), reviewedByUserId: userId },
-    })
-    await tx.trustCenterToken.create({
-      data: { email, token, expiresAt },
-    })
-  })
+    throw e
+  }
 
   await logTrustAction({ action: 'approved', requestId: id, userId, metadata: { email } })
 

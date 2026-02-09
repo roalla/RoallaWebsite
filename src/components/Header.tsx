@@ -141,7 +141,12 @@ const Header = () => {
     { name: 'Trust Center', href: '/trust' },
   ]
 
-  const noMotion = { initial: false, animate: false, exit: false, transition: { duration: 0 } }
+  const noMotion = {
+    initial: false,
+    animate: false,
+    exit: undefined as const,
+    transition: { duration: 0 },
+  }
   const motionProps = prefersReducedMotion
     ? noMotion
     : {

@@ -144,7 +144,6 @@ const Header = () => {
   const noMotion = {
     initial: false,
     animate: false,
-    exit: undefined as const,
     transition: { duration: 0 },
   }
   const motionProps = prefersReducedMotion

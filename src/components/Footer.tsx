@@ -45,44 +45,44 @@ const Footer = () => {
     { icon: Instagram, href: '#', label: 'Instagram' }
   ]
 
+  const quickLinks = [
+    { name: 'Services', href: '/services' },
+    { name: 'About', href: '/about' },
+    { name: 'Resource Centre', href: '/resources' },
+    { name: 'Digital Creations', href: '/digital-creations' },
+    { name: 'Assessment', href: '/assessment' },
+    { name: 'FAQ', href: '/faq' },
+    { name: 'Contact', href: '/contact' },
+    { name: 'Trust Centre', href: '/trust' },
+  ]
+
   return (
     <footer className="bg-gray-900 dark:bg-black text-gray-200">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid md:grid-cols-3 gap-8">
-          <div>
-            <h3 className="text-xl font-bold text-white mb-4">Roalla Business Enablement Group</h3>
-            <p className="text-gray-300">Empowering your business for a digital-first world.</p>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6">
+          <div className="min-w-0">
+            <p className="text-sm font-semibold text-white">Roalla Business Enablement Group</p>
+            <p className="text-xs text-gray-400 mt-0.5">Empowering your business for a digital-first world.</p>
           </div>
-          <div>
-            <h3 className="text-xl font-bold text-white mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li><Link href="/services" className="hover:text-primary-light transition-colors">Services</Link></li>
-              <li><Link href="/about" className="hover:text-primary-light transition-colors">About</Link></li>
-              <li><Link href="/resources" className="hover:text-primary-light transition-colors">Resource Centre</Link></li>
-              <li><Link href="/digital-creations" className="hover:text-primary-light transition-colors">Digital Creations</Link></li>
-              <li><Link href="/assessment" className="hover:text-primary-light transition-colors">Assessment</Link></li>
-              <li><Link href="/faq" className="hover:text-primary-light transition-colors">FAQ</Link></li>
-              <li><Link href="/contact" className="hover:text-primary-light transition-colors">Contact</Link></li>
-              <li><Link href="/trust" className="hover:text-primary-light transition-colors">Trust Centre</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-xl font-bold text-white mb-4">Contact Us</h3>
-            <ul className="space-y-2">
-              <li className="flex items-center">
-                <Mail className="w-5 h-5 mr-3 text-primary-light" />
-                <a href="mailto:sales@roalla.com" className="hover:text-primary-light transition-colors">sales@roalla.com</a>
-              </li>
-              <li className="flex items-center">
-                <Phone className="w-5 h-5 mr-3 text-primary-light" />
-                <a href="tel:289-838-5868" className="hover:text-primary-light transition-colors">289-838-5868</a>
-              </li>
-            </ul>
+          <nav className="flex flex-wrap gap-x-4 gap-y-1 text-sm" aria-label="Footer links">
+            {quickLinks.map((link) => (
+              <Link key={link.href} href={link.href} className="hover:text-primary-light transition-colors whitespace-nowrap">
+                {link.name}
+              </Link>
+            ))}
+          </nav>
+          <div className="flex items-center gap-4 text-sm flex-shrink-0">
+            <a href="mailto:sales@roalla.com" className="flex items-center gap-1.5 hover:text-primary-light transition-colors">
+              <Mail className="w-4 h-4 text-primary-light" />
+              <span className="hidden sm:inline">sales@roalla.com</span>
+            </a>
+            <a href="tel:289-838-5868" className="flex items-center gap-1.5 hover:text-primary-light transition-colors">
+              <Phone className="w-4 h-4 text-primary-light" />
+              <span>289-838-5868</span>
+            </a>
           </div>
         </div>
-
-        {/* Copyright - suppressHydrationWarning: year can differ server vs client (timezone) */}
-        <div className="mt-12 pt-8 border-t border-gray-700 text-center text-gray-400">
+        <div className="mt-4 pt-4 border-t border-gray-700 text-center text-gray-400 text-xs">
           <p suppressHydrationWarning>&copy; {currentYear} Roalla Business Enablement Group. All Rights Reserved.</p>
         </div>
       </div>

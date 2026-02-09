@@ -145,10 +145,7 @@ const Header = () => {
     { name: 'Services', href: '/services' },
     { name: 'Resources', href: '/resources' },
     { name: 'Digital Creations', href: '/digital-creations' },
-    { name: 'About', href: '/about' },
     { name: 'Assessment', href: '/assessment' },
-    { name: 'FAQ', href: '/faq' },
-    { name: 'Contact', href: '/contact' },
     { name: 'Trust Center', href: '/trust' },
   ]
 

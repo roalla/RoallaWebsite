@@ -92,6 +92,8 @@ const Header = () => {
     setIsMenuOpen(false)
   }, [])
 
+  const pathname = usePathname() ?? '/'
+
   const handleMobileNavClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
       closeMenu()
@@ -129,8 +131,6 @@ const Header = () => {
   const handleNavButtonKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') closeMenu()
   }
-
-  const pathname = usePathname() ?? '/'
 
   const isActive = useCallback(
     (href: string) => {

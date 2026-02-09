@@ -3,7 +3,6 @@
 import React, { useEffect, useCallback } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import Link from '@tiptap/extension-link'
 import { Bold, Italic, List, ListOrdered, Quote, Undo, Redo } from 'lucide-react'
 
 const ToolbarButton = ({
@@ -45,10 +44,12 @@ export default function RichTextEditor({
 }) {
   const editor = useEditor({
     extensions: [
-      StarterKit,
-      Link.configure({
-        openOnClick: false,
-        HTMLAttributes: { class: 'text-primary underline' },
+      StarterKit.configure({
+        // Link is included in StarterKit (v3); configure it here to avoid duplicate extension
+        link: {
+          openOnClick: false,
+          HTMLAttributes: { class: 'text-primary underline' },
+        },
       }),
     ],
     content: value || '',

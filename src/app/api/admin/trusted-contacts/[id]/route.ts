@@ -53,6 +53,8 @@ export async function PATCH(
     if (body.email != null) data.email = String(body.email).trim().toLowerCase()
     if (body.company !== undefined) data.company = body.company ? String(body.company).trim() : null
     if (body.serviceOrRole !== undefined) data.serviceOrRole = body.serviceOrRole ? String(body.serviceOrRole).trim() : null
+    if (body.url !== undefined) data.url = body.url ? String(body.url).trim() : null
+    if (body.linkedInUrl !== undefined) data.linkedInUrl = body.linkedInUrl ? String(body.linkedInUrl).trim() : null
     if (body.notes !== undefined) data.notes = body.notes ? String(body.notes).trim() : null
     const contact = await prisma.trustedContact.update({
       where: { id },

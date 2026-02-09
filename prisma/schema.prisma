@@ -33,6 +33,8 @@ model TrustedContact {
   email            String
   company          String?  // company or practice name
   serviceOrRole    String?  // e.g. Legal, Accounting, Insurance
+  url              String?  // website or other link
+  linkedInUrl      String?  // LinkedIn profile URL
   notes            String?  @db.Text
   createdByUserId  String?
   createdAt        DateTime @default(now())

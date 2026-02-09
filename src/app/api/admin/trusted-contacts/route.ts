@@ -58,6 +58,8 @@ export async function GET(request: NextRequest) {
         email: true,
         company: true,
         serviceOrRole: true,
+        url: true,
+        linkedInUrl: true,
         notes: true,
         createdByUserId: true,
         createdAt: true,
@@ -75,6 +77,8 @@ export async function GET(request: NextRequest) {
       email: c.email,
       company: c.company,
       serviceOrRole: c.serviceOrRole,
+      url: c.url,
+      linkedInUrl: c.linkedInUrl,
       notes: c.notes,
       createdByUserId: c.createdByUserId,
       createdAt: c.createdAt,
@@ -96,7 +100,7 @@ export async function POST(request: NextRequest) {
   }
   try {
     const body = await request.json()
-    const { name, email, company, serviceOrRole, notes, organizationId: bodyOrgId } = body
+    const { name, email, company, serviceOrRole, url, linkedInUrl, notes, organizationId: bodyOrgId } = body
 
     if (!name || !email) {
       return NextResponse.json(
@@ -134,6 +138,8 @@ export async function POST(request: NextRequest) {
         email: String(email).trim().toLowerCase(),
         company: company != null ? String(company).trim() || null : null,
         serviceOrRole: serviceOrRole != null ? String(serviceOrRole).trim() || null : null,
+        url: url != null ? String(url).trim() || null : null,
+        linkedInUrl: linkedInUrl != null ? String(linkedInUrl).trim() || null : null,
         notes: notes != null ? String(notes).trim() || null : null,
         createdByUserId: currentUserId ?? undefined,
       },

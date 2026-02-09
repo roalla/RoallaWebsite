@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Pencil, Trash2, UserPlus } from 'lucide-react'
+import { Pencil, Trash2, UserPlus, ExternalLink, Linkedin } from 'lucide-react'
 
 interface TrustedContactItem {
   id: string
@@ -12,6 +12,8 @@ interface TrustedContactItem {
   email: string
   company: string | null
   serviceOrRole: string | null
+  url: string | null
+  linkedInUrl: string | null
   notes: string | null
   createdByUserId: string | null
   createdAt: string
@@ -37,6 +39,8 @@ export default function AdminTrustedContactsPage() {
     email: '',
     company: '',
     serviceOrRole: '',
+    url: '',
+    linkedInUrl: '',
     notes: '',
     organizationId: '' as string,
   })
@@ -77,6 +81,8 @@ export default function AdminTrustedContactsPage() {
       email: '',
       company: '',
       serviceOrRole: '',
+      url: '',
+      linkedInUrl: '',
       notes: '',
       organizationId: organizations[0]?.id ?? '',
     })
@@ -90,6 +96,8 @@ export default function AdminTrustedContactsPage() {
       email: c.email,
       company: c.company ?? '',
       serviceOrRole: c.serviceOrRole ?? '',
+      url: c.url ?? '',
+      linkedInUrl: c.linkedInUrl ?? '',
       notes: c.notes ?? '',
       organizationId: c.organizationId,
     })
@@ -111,6 +119,8 @@ export default function AdminTrustedContactsPage() {
             email: form.email.trim(),
             company: form.company.trim() || null,
             serviceOrRole: form.serviceOrRole.trim() || null,
+            url: form.url.trim() || null,
+            linkedInUrl: form.linkedInUrl.trim() || null,
             notes: form.notes.trim() || null,
           }),
         })
@@ -126,6 +136,8 @@ export default function AdminTrustedContactsPage() {
             email: form.email.trim(),
             company: form.company.trim() || null,
             serviceOrRole: form.serviceOrRole.trim() || null,
+            url: form.url.trim() || null,
+            linkedInUrl: form.linkedInUrl.trim() || null,
             notes: form.notes.trim() || null,
             ...(isAdmin && form.organizationId ? { organizationId: form.organizationId } : {}),
           }),
@@ -201,6 +213,8 @@ export default function AdminTrustedContactsPage() {
               email: '',
               company: '',
               serviceOrRole: '',
+              url: '',
+              linkedInUrl: '',
               notes: '',
               organizationId: organizations[0]?.id ?? '',
             })
@@ -258,6 +272,26 @@ export default function AdminTrustedContactsPage() {
                 onChange={(e) => setForm((f) => ({ ...f, serviceOrRole: e.target.value }))}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg"
                 placeholder="e.g. Legal, Accounting, Insurance"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Website / URL</label>
+              <input
+                type="url"
+                value={form.url}
+                onChange={(e) => setForm((f) => ({ ...f, url: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                placeholder="https://..."
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">LinkedIn profile URL</label>
+              <input
+                type="url"
+                value={form.linkedInUrl}
+                onChange={(e) => setForm((f) => ({ ...f, linkedInUrl: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                placeholder="https://linkedin.com/in/..."
               />
             </div>
             {isAdmin && !editingId && organizations.length > 0 && (
@@ -327,6 +361,32 @@ export default function AdminTrustedContactsPage() {
                 )}
                 {c.notes && (
                   <p className="text-sm text-gray-500 mt-1">{c.notes}</p>
+                )}
+                {(c.url || c.linkedInUrl) && (
+                  <div className="flex flex-wrap items-center gap-3 mt-2">
+                    {c.url && (
+                      <a
+                        href={c.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-sm text-primary hover:text-primary-dark"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        Website
+                      </a>
+                    )}
+                    {c.linkedInUrl && (
+                      <a
+                        href={c.linkedInUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-sm text-primary hover:text-primary-dark"
+                      >
+                        <Linkedin className="w-3.5 h-3.5" />
+                        LinkedIn
+                      </a>
+                    )}
+                  </div>
                 )}
                 {isAdmin && c.organizationName && (
                   <div className="text-xs text-gray-400 mt-1">{c.organizationName}</div>

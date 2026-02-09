@@ -156,7 +156,7 @@ export default function AccessRequestsManager({
             <Link
               key={t.key || 'all'}
               href={t.key ? `/admin/requests?tab=${t.key}` : '/admin/requests'}
-              className={`px-4 py-2 rounded-lg text-sm font-medium ${(tab || '') === (t.key || '') ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+              className={`min-h-[44px] inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium ${(tab || '') === (t.key || '') ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
               onClick={(e) => { e.preventDefault(); setTab(t.key) }}
             >
               {t.label}
@@ -167,7 +167,7 @@ export default function AccessRequestsManager({
           <button
             type="button"
             onClick={() => setAddOpen(true)}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark"
+            className="inline-flex items-center gap-2 min-h-[44px] px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark"
           >
             <UserPlus className="w-4 h-4" />
             Add user
@@ -175,7 +175,7 @@ export default function AccessRequestsManager({
           <button
             type="button"
             onClick={() => setBulkOpen(true)}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-gray-700 text-white rounded-lg text-sm font-medium hover:bg-gray-800"
+            className="inline-flex items-center gap-2 min-h-[44px] px-4 py-2 bg-gray-700 text-white rounded-lg text-sm font-medium hover:bg-gray-800"
           >
             <Upload className="w-4 h-4" />
             Bulk add
@@ -195,7 +195,7 @@ export default function AccessRequestsManager({
           <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-gray-900">Add user</h2>
-              <button type="button" onClick={() => setAddOpen(false)} className="p-1 text-gray-500 hover:text-gray-700">
+              <button type="button" onClick={() => setAddOpen(false)} className="min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -241,11 +241,11 @@ export default function AccessRequestsManager({
                 <button
                   type="submit"
                   disabled={addSubmitting}
-                  className="px-4 py-2 bg-primary text-white rounded-lg font-medium disabled:opacity-50"
+                  className="min-h-[44px] px-4 py-2 bg-primary text-white rounded-lg font-medium disabled:opacity-50"
                 >
                   {addSubmitting ? 'Adding…' : 'Add'}
                 </button>
-                <button type="button" onClick={() => setAddOpen(false)} className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium">
+                <button type="button" onClick={() => setAddOpen(false)} className="min-h-[44px] px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium">
                   Cancel
                 </button>
               </div>
@@ -259,7 +259,7 @@ export default function AccessRequestsManager({
           <div className="bg-white rounded-xl shadow-xl max-w-lg w-full p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-gray-900">Bulk add users</h2>
-              <button type="button" onClick={() => setBulkOpen(false)} className="p-1 text-gray-500 hover:text-gray-700">
+              <button type="button" onClick={() => setBulkOpen(false)} className="min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -288,11 +288,11 @@ export default function AccessRequestsManager({
                 <button
                   type="submit"
                   disabled={bulkSubmitting}
-                  className="px-4 py-2 bg-primary text-white rounded-lg font-medium disabled:opacity-50"
+                  className="min-h-[44px] px-4 py-2 bg-primary text-white rounded-lg font-medium disabled:opacity-50"
                 >
                   {bulkSubmitting ? 'Adding…' : 'Add all'}
                 </button>
-                <button type="button" onClick={() => setBulkOpen(false)} className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium">
+                <button type="button" onClick={() => setBulkOpen(false)} className="min-h-[44px] px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium">
                   Cancel
                 </button>
               </div>

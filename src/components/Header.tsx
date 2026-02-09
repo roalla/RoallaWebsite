@@ -58,7 +58,7 @@ const Header = () => {
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 pt-[env(safe-area-inset-top)] ${
         isScrolled ? 'bg-white/80 shadow-md backdrop-blur-sm' : 'bg-transparent'
       }`}
     >
@@ -176,8 +176,8 @@ const Header = () => {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="lg:hidden overflow-hidden fixed left-0 right-0 top-16 z-50 shadow-lg"
-              style={{ maxHeight: 'calc(100vh - 4rem)' }}
+              className="lg:hidden overflow-hidden fixed left-0 right-0 z-50 shadow-lg top-[calc(4rem+env(safe-area-inset-top,0px))]"
+              style={{ maxHeight: 'calc(100vh - 4rem - env(safe-area-inset-top, 0px))' }}
             >
               <div className="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-200 overflow-y-auto">
                 {navigation.map((item, index) => (

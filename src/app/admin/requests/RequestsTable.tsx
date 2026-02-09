@@ -60,9 +60,76 @@ export default function RequestsTable({
     )
   }
 
+  const StatusBadge = ({ r }: { r: Request }) => (
+    <span
+      className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
+        r.status === 'approved'
+          ? 'bg-green-100 text-green-800'
+          : r.status === 'rejected'
+            ? 'bg-red-100 text-red-800'
+            : 'bg-amber-100 text-amber-800'
+      }`}
+    >
+      {r.status === 'approved' && <CheckCircle className="w-3.5 h-3.5" />}
+      {r.status === 'rejected' && <XCircle className="w-3.5 h-3.5" />}
+      {r.status}
+    </span>
+  )
+
   return (
     <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-      <div className="overflow-x-auto">
+      {/* Mobile: card list */}
+      <div className="md:hidden divide-y divide-gray-100">
+        {localRequests.map((r) => (
+          <div key={r.id} className="p-4 space-y-2">
+            <div className="flex items-start justify-between gap-2">
+              <p className="font-medium text-gray-900">{r.name}</p>
+              <StatusBadge r={r} />
+            </div>
+            <p className="text-sm text-gray-600 truncate">{r.email}</p>
+            {r.company && <p className="text-sm text-gray-500">{r.company}</p>}
+            <p className="text-xs text-gray-400">{new Date(r.createdAt).toLocaleDateString()}</p>
+            {(r.status === 'pending' || (showRevokeForApproved && r.status === 'approved')) && (
+              <div className="flex flex-wrap gap-2 pt-2">
+                {r.status === 'pending' && (
+                  <>
+                    <a
+                      href={`${baseUrl}/api/resources/approve?requestId=${r.id}&token=${r.token}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 min-h-[44px] px-4 rounded-lg text-sm font-medium text-primary hover:text-primary-dark bg-primary/10"
+                    >
+                      Approve
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => handleReject(r.id)}
+                      disabled={rejectingId === r.id}
+                      className="min-h-[44px] px-4 rounded-lg text-sm font-medium text-red-600 hover:text-red-700 disabled:opacity-50"
+                    >
+                      {rejectingId === r.id ? '…' : 'Reject'}
+                    </button>
+                  </>
+                )}
+                {showRevokeForApproved && r.status === 'approved' && (
+                  <button
+                    type="button"
+                    onClick={() => handleRevoke(r.id)}
+                    disabled={revokingId === r.id}
+                    className="min-h-[44px] px-4 rounded-lg text-sm font-medium text-amber-600 hover:text-amber-700 disabled:opacity-50"
+                  >
+                    {revokingId === r.id ? '…' : 'Remove approval'}
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop: table */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full">
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr>
@@ -81,19 +148,7 @@ export default function RequestsTable({
                 <td className="py-3 px-4 text-gray-600">{r.email}</td>
                 <td className="py-3 px-4 text-gray-600">{r.company || '—'}</td>
                 <td className="py-3 px-4">
-                  <span
-                    className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-                      r.status === 'approved'
-                        ? 'bg-green-100 text-green-800'
-                        : r.status === 'rejected'
-                          ? 'bg-red-100 text-red-800'
-                          : 'bg-amber-100 text-amber-800'
-                    }`}
-                  >
-                    {r.status === 'approved' && <CheckCircle className="w-3.5 h-3.5" />}
-                    {r.status === 'rejected' && <XCircle className="w-3.5 h-3.5" />}
-                    {r.status}
-                  </span>
+                  <StatusBadge r={r} />
                 </td>
                 <td className="py-3 px-4 text-gray-500 text-sm">
                   {new Date(r.createdAt).toLocaleDateString()}

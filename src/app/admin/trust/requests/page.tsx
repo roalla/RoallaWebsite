@@ -231,13 +231,13 @@ export default function AdminTrustRequestsPage() {
       <p className="text-gray-600 mb-4">
         Requests that have signed the NDA. Approve to create access grants and generate a link to share with the requestor.
       </p>
-      <div className="flex flex-wrap items-center gap-4 mb-4">
+      <div className="flex flex-wrap items-center gap-3 mb-4">
         {(['pending', 'approved', 'rejected', 'all'] as const).map((tab) => (
           <button
             key={tab}
             type="button"
             onClick={() => setStatusFilter(tab)}
-            className={`text-sm font-medium capitalize px-3 py-1.5 rounded-lg ${statusFilter === tab ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+            className={`text-sm font-medium capitalize min-h-[44px] px-4 py-2 rounded-lg ${statusFilter === tab ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
           >
             {tab}
           </button>
@@ -247,19 +247,19 @@ export default function AdminTrustRequestsPage() {
           placeholder="Search by email or name..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="ml-auto min-w-[200px] px-3 py-1.5 border border-gray-300 rounded-lg text-sm"
+          className="w-full sm:w-auto sm:ml-auto min-w-0 sm:min-w-[200px] min-h-[44px] px-3 py-2 border border-gray-300 rounded-lg text-sm"
         />
         <button
           type="button"
           onClick={exportCsv}
-          className="px-3 py-1.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="min-h-[44px] px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
           Export CSV
         </button>
       </div>
       {statusFilter === 'pending' && pendingCount > 0 && (
-        <div className="flex items-center gap-2 mb-4">
-          <label className="flex items-center gap-2 text-sm cursor-pointer">
+        <div className="flex flex-wrap items-center gap-3 mb-4">
+          <label className="flex items-center gap-2 text-sm cursor-pointer min-h-[44px]">
             <input
               type="checkbox"
               checked={selectedIds.size === pendingCount && pendingCount > 0}
@@ -272,7 +272,7 @@ export default function AdminTrustRequestsPage() {
             type="button"
             onClick={handleBulkApprove}
             disabled={actingId !== null || selectedIds.size === 0}
-            className="px-3 py-1.5 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 disabled:opacity-50"
+            className="min-h-[44px] px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 disabled:opacity-50"
           >
             Approve selected ({selectedIds.size})
           </button>
@@ -280,7 +280,7 @@ export default function AdminTrustRequestsPage() {
             type="button"
             onClick={openBulkRejectModal}
             disabled={selectedIds.size === 0}
-            className="px-3 py-1.5 bg-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-300 disabled:opacity-50"
+            className="min-h-[44px] px-4 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-300 disabled:opacity-50"
           >
             Reject selected ({selectedIds.size})
           </button>
@@ -340,8 +340,8 @@ export default function AdminTrustRequestsPage() {
                       )}
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className={`px-2 py-0.5 rounded text-xs font-medium ${
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className={`px-2 py-1 rounded text-xs font-medium ${
                       r.status === 'pending' ? 'bg-amber-100 text-amber-800' :
                       r.status === 'approved' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-700'
                     }`}>
@@ -353,7 +353,7 @@ export default function AdminTrustRequestsPage() {
                           type="button"
                           onClick={() => handleApprove(r.id)}
                           disabled={actingId !== null}
-                          className="inline-flex items-center gap-1 px-3 py-1.5 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 disabled:opacity-50"
+                          className="inline-flex items-center gap-1 min-h-[44px] px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 disabled:opacity-50"
                         >
                           <Check className="w-4 h-4" /> Approve
                         </button>
@@ -361,7 +361,7 @@ export default function AdminTrustRequestsPage() {
                           type="button"
                           onClick={() => openRejectModal(r.id)}
                           disabled={actingId !== null}
-                          className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-300 disabled:opacity-50"
+                          className="inline-flex items-center gap-1 min-h-[44px] px-4 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-300 disabled:opacity-50"
                         >
                           <X className="w-4 h-4" /> Reject
                         </button>
@@ -372,7 +372,7 @@ export default function AdminTrustRequestsPage() {
                         type="button"
                         onClick={() => handleResendLink(r.id)}
                         disabled={actingId !== null}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 bg-primary text-white text-sm font-medium rounded-lg hover:bg-primary-dark disabled:opacity-50"
+                        className="inline-flex items-center gap-1 min-h-[44px] px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-primary-dark disabled:opacity-50"
                       >
                         <Send className="w-4 h-4" /> Resend link
                       </button>
@@ -390,7 +390,7 @@ export default function AdminTrustRequestsPage() {
                       <button
                         type="button"
                         onClick={() => copyLink(accessLink.link)}
-                        className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-800 rounded text-sm"
+                        className="inline-flex items-center gap-1 min-h-[44px] px-3 py-2 bg-green-100 text-green-800 rounded-lg text-sm font-medium"
                       >
                         <Copy className="w-3.5 h-3.5" /> Copy
                       </button>
@@ -450,14 +450,14 @@ export default function AdminTrustRequestsPage() {
               <button
                 type="button"
                 onClick={() => { setRejectModal(null); setRejectReason('') }}
-                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50"
+                className="flex-1 min-h-[44px] px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50"
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={submitReject}
-                className="flex-1 px-4 py-2 bg-gray-700 text-white rounded-lg font-medium hover:bg-gray-800"
+                className="flex-1 min-h-[44px] px-4 py-2 bg-gray-700 text-white rounded-lg font-medium hover:bg-gray-800"
               >
                 Reject
               </button>

@@ -20,7 +20,7 @@
     line-height: 1.2;
   }
 
-  *:focus {
+  *:focus-visible {
     outline: 2px solid #00b4c5;
     outline-offset: 2px;
   }
@@ -42,15 +42,15 @@
     top: 6px;
   }
 
-  button:focus,
-  a:focus {
+  button:focus-visible,
+  a:focus-visible {
     outline: 2px solid #00b4c5;
     outline-offset: 2px;
   }
 
-  input:focus,
-  textarea:focus,
-  select:focus {
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
     outline: 2px solid #00b4c5;
     outline-offset: 2px;
     border-color: #00b4c5;

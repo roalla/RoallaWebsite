@@ -102,7 +102,7 @@ export default function AdminSecurityPage() {
             <button
               type="button"
               onClick={startSetup}
-              className="px-4 py-2 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark"
+              className="min-h-[44px] px-4 py-2 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark"
             >
               Enable 2FA
             </button>
@@ -122,7 +122,7 @@ export default function AdminSecurityPage() {
                   maxLength={6}
                   value={code}
                   onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg min-h-[44px]"
                   placeholder="000000"
                 />
               </div>
@@ -130,14 +130,14 @@ export default function AdminSecurityPage() {
                 <button
                   type="button"
                   onClick={() => { setSetup(null); setQrDataUrl(null); setCode('') }}
-                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50"
+                  className="min-h-[44px] px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={loading || code.length !== 6}
-                  className="px-4 py-2 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark disabled:opacity-50"
+                  className="min-h-[44px] px-4 py-2 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark disabled:opacity-50"
                 >
                   {loading ? 'Verifying...' : 'Verify and enable'}
                 </button>

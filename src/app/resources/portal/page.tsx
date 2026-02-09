@@ -70,6 +70,7 @@ function ResourcesPortalContent() {
   const [portalResources, setPortalResources] = useState<Resource[]>([])
   const [portalArticles, setPortalArticles] = useState<Array<{ title: string; description: string; readTime?: string; category?: string; url?: string }>>([])
   const [contentLoaded, setContentLoaded] = useState(false)
+  const [portalOrgName, setPortalOrgName] = useState<string | null>(null)
 
   const iconByType: Record<string, typeof FileText> = {
     Guide: FileText,
@@ -81,7 +82,9 @@ function ResourcesPortalContent() {
   useEffect(() => {
     if (!isAuthenticated) return
     let cancelled = false
-    fetch('/api/resources/portal/content')
+    const orgSlug = searchParams.get('org')?.trim() || ''
+    const url = orgSlug ? `/api/resources/portal/content?org=${encodeURIComponent(orgSlug)}` : '/api/resources/portal/content'
+    fetch(url)
       .then((res) => res.ok ? res.json() : { resources: [], articles: [] })
       .then((data) => {
         if (cancelled) return
@@ -104,11 +107,12 @@ function ResourcesPortalContent() {
         }))
         setPortalResources(rs)
         setPortalArticles(arts)
+        setPortalOrgName(data.orgName ?? null)
       })
-      .catch(() => { if (!cancelled) setPortalResources([]); setPortalArticles([]) })
+      .catch(() => { if (!cancelled) { setPortalResources([]); setPortalArticles([]); setPortalOrgName(null) } })
       .finally(() => { if (!cancelled) setContentLoaded(true) })
     return () => { cancelled = true }
-  }, [isAuthenticated])
+  }, [isAuthenticated, searchParams])
 
   const defaultResources: Resource[] = [
     { id: '1', icon: FileText, title: 'Business Growth Guide', description: 'A comprehensive 50-page guide to scaling your business strategically and sustainably.', type: 'Guide', downloadUrl: '/resources/business-growth-guide.pdf', color: 'from-blue-500 to-blue-600' },
@@ -168,12 +172,14 @@ function ResourcesPortalContent() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between flex-wrap gap-3">
             <div className="min-w-0 flex-1">
-              <h1 className="text-2xl font-bold text-gray-900">Resources Portal</h1>
+              <h1 className="text-2xl font-bold text-gray-900">
+                Resources Portal{portalOrgName ? ` for ${portalOrgName}` : ''}
+              </h1>
               <p className="text-sm text-gray-600 truncate" title={userEmail ?? undefined}>Welcome, {userEmail}</p>
             </div>
             <button
               onClick={handleLogout}
-              className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
+              className="flex items-center min-h-[44px] min-w-[44px] justify-center text-gray-600 hover:text-gray-900 transition-colors px-3 py-2 rounded-lg hover:bg-gray-100"
             >
               <LogOut className="w-5 h-5 mr-2" />
               Logout

@@ -323,7 +323,7 @@ export default function AdminPortalResourcesPage() {
                   <button
                     type="button"
                     onClick={() => startEdit(r)}
-                    className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                    className="min-w-[44px] min-h-[44px] p-2 text-gray-600 hover:bg-gray-100 rounded-lg flex items-center justify-center"
                     aria-label="Edit"
                   >
                     <Pencil className="w-4 h-4" />
@@ -333,7 +333,7 @@ export default function AdminPortalResourcesPage() {
                   <button
                     type="button"
                     onClick={() => handleDelete(r.id)}
-                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
+                    className="min-w-[44px] min-h-[44px] p-2 text-red-600 hover:bg-red-50 rounded-lg flex items-center justify-center"
                     aria-label="Delete"
                   >
                     <Trash2 className="w-4 h-4" />

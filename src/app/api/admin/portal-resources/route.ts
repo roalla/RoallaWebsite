@@ -21,7 +21,7 @@ export async function GET() {
   try {
     const items = await prisma.portalResource.findMany({
       orderBy: { sortOrder: 'asc' },
-      select: { id: true, title: true, description: true, type: true, downloadUrl: true, linkUrl: true, color: true, sortOrder: true, gated: true, createdByUserId: true, createdAt: true, updatedAt: true },
+      select: { id: true, title: true, description: true, type: true, downloadUrl: true, linkUrl: true, color: true, sortOrder: true, gated: true, createdByUserId: true, organizationId: true, createdAt: true, updatedAt: true },
     })
     const currentUserId = (session.user as { id?: string }).id
     const list = items.map((item) => ({
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
   }
   try {
     const body = await request.json()
-    const { title, description, type, downloadUrl, linkUrl, color, sortOrder, gated } = body
+    const { title, description, type, downloadUrl, linkUrl, color, sortOrder, gated, organizationId: bodyOrgId } = body
     if (!title || !description || !type) {
       return NextResponse.json(
         { error: 'title, description, and type are required' },
@@ -50,6 +50,13 @@ export async function POST(request: NextRequest) {
       )
     }
     const currentUserId = (session.user as { id?: string }).id
+    let organizationId: string | null = null
+    if (isAdmin(session.user)) {
+      organizationId = typeof bodyOrgId === 'string' && bodyOrgId.trim() ? bodyOrgId.trim() : null
+    } else {
+      const u = currentUserId ? await prisma.user.findUnique({ where: { id: currentUserId }, select: { organizationId: true } }) : null
+      organizationId = u?.organizationId ?? null
+    }
     const item = await prisma.portalResource.create({
       data: {
         title: String(title).trim(),
@@ -61,6 +68,7 @@ export async function POST(request: NextRequest) {
         sortOrder: typeof sortOrder === 'number' ? sortOrder : 0,
         gated: typeof gated === 'boolean' ? gated : false,
         createdByUserId: currentUserId ?? undefined,
+        organizationId: organizationId ?? undefined,
       },
     })
     return NextResponse.json({ ...item, canEdit: true })

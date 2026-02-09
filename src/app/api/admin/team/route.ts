@@ -44,6 +44,7 @@ export async function GET() {
       image: true,
       role: true,
       createdAt: true,
+      lastLoginAt: true,
       organizationId: true,
       organization: { select: { id: true, name: true } },
       roles: { select: { role: true } },
@@ -58,6 +59,7 @@ export async function GET() {
     primaryRole: u.role,
     roles: u.roles.map((r) => r.role),
     createdAt: u.createdAt,
+    lastLoginAt: u.lastLoginAt,
     organizationId: u.organizationId,
     organizationName: u.organization?.name ?? null,
   }))
@@ -77,6 +79,7 @@ export async function POST(request: NextRequest) {
   const name = typeof body.name === 'string' ? body.name.trim() || null : null
   const password = typeof body.password === 'string' ? body.password : ''
   const organizationId = typeof body.organizationId === 'string' ? body.organizationId.trim() || null : null
+  const sendInviteEmail = body.sendInviteEmail === true
   let roles = Array.isArray(body.roles) ? body.roles.filter((r: string) => VALID_ROLES.includes(r as (typeof VALID_ROLES)[number])) : ['member']
   if (!isAdmin(session.user)) {
     roles = roles.filter((r: string) => r !== 'admin')
@@ -171,6 +174,29 @@ export async function POST(request: NextRequest) {
       })
     } catch (e) {
       console.error('Partner add-user notification failed:', e)
+    }
+  }
+
+  if (sendInviteEmail && resend && user.email) {
+    try {
+      const loginUrl = `${process.env.NEXTAUTH_URL || 'https://www.roalla.com'}/login`
+      await resend.emails.send({
+        from: 'Roalla Business Enablement Group <noreply@roalla.com>',
+        to: [user.email],
+        subject: "You've been invited to the platform",
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <div style="padding: 30px;">
+              <p>You've been added to the platform.</p>
+              <p>Sign in at: <a href="${loginUrl}">${loginUrl}</a></p>
+              <p>Use the password that your administrator gave you. We recommend changing it after your first sign-in (Profile or account settings).</p>
+              <p>Best regards,<br>Roalla</p>
+            </div>
+          </div>
+        `,
+      })
+    } catch (e) {
+      console.error('Invite email to new user failed:', e)
     }
   }
 

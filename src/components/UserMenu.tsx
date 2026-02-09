@@ -57,7 +57,7 @@ export default function UserMenu() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-2 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+        className="flex items-center gap-2 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 min-w-[44px] min-h-[44px] justify-center"
         aria-expanded={open}
         aria-haspopup="true"
         aria-label="User menu"
@@ -80,7 +80,7 @@ export default function UserMenu() {
           </div>
         )}
         <ChevronDown
-          className={`w-4 h-4 text-gray-600 transition-transform ${open ? 'rotate-180' : ''}`}
+          className={`w-4 h-4 text-gray-600 transition-transform hidden sm:block ${open ? 'rotate-180' : ''}`}
           aria-hidden
         />
       </button>

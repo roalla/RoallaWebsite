@@ -36,7 +36,7 @@ export async function PATCH(
     if (add.includes('admin') || remove.includes('admin')) {
       return NextResponse.json({ error: 'Only admins can assign or remove the admin role' }, { status: 403 })
     }
-    add = add.filter((r) => r !== 'admin')
+    add = add.filter((r: (typeof VALID_ROLES)[number]) => r !== 'admin')
     if (userId === actorId && remove.includes('partner')) {
       return NextResponse.json({ error: 'Cannot remove your own partner role' }, { status: 400 })
     }

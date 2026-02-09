@@ -41,6 +41,7 @@ export default async function AdminTeamPage() {
       image: true,
       role: true,
       createdAt: true,
+      lastLoginAt: true,
       organizationId: true,
       organization: { select: { id: true, name: true } },
       roles: { select: { role: true } },
@@ -55,6 +56,7 @@ export default async function AdminTeamPage() {
     primaryRole: u.role,
     roles: u.roles.map((r) => r.role),
     createdAt: u.createdAt,
+    lastLoginAt: u.lastLoginAt,
     organizationId: u.organizationId,
     organizationName: u.organization?.name ?? null,
   }))

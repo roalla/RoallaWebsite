@@ -58,14 +58,13 @@ export async function DELETE(
   { params }: { params: Promise<{ userId: string }> }
 ) {
   const session = await getServerSession(authOptions)
-  const currentUser = session?.user as { id?: string } | undefined
   if (!session || !canDeleteUser(session.user)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
-
+  const currentUserId = (session.user as { id?: string }).id
   const { userId } = await params
 
-  if (userId === currentUser.id) {
+  if (userId === currentUserId) {
     return NextResponse.json({ error: 'You cannot remove your own user account' }, { status: 400 })
   }
 
@@ -76,7 +75,7 @@ export async function DELETE(
 
   await logTeamAction({
     action: 'user_deleted',
-    actorUserId: currentUser.id,
+    actorUserId: currentUserId,
     targetUserId: userId,
     metadata: { email: user.email },
   })

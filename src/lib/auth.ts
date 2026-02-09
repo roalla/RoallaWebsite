@@ -42,6 +42,7 @@ export const authOptions: NextAuthOptions = {
             include: { roles: true },
           })
           if (!user) return null
+          await prisma.user.update({ where: { id: user.id }, data: { lastLoginAt: new Date() } }).catch(() => {})
           const roles = user.roles?.length ? user.roles.map((r) => r.role) : [user.role]
           return {
             id: user.id,
@@ -73,6 +74,8 @@ export const authOptions: NextAuthOptions = {
           err.type = 'CredentialsSignin'
           throw err
         }
+
+        await prisma.user.update({ where: { id: user.id }, data: { lastLoginAt: new Date() } }).catch(() => {})
 
         const roles = user.roles?.length ? user.roles.map((r) => r.role) : [user.role]
         return {

@@ -113,7 +113,7 @@ export default function AdminTrustAgreementPage() {
           <button
             type="submit"
             disabled={saving}
-            className="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary-dark disabled:opacity-50"
+            className="min-h-[44px] px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary-dark disabled:opacity-50"
           >
             {saving ? 'Saving...' : agreement ? 'Update agreement' : 'Create agreement'}
           </button>

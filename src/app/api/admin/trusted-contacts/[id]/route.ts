@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import type { SessionUser } from '@/lib/access'
 import { canAccessAdmin, isAdmin } from '@/lib/access'
 
 export const dynamic = 'force-dynamic'
@@ -13,7 +14,7 @@ async function requireAdminAccess() {
 }
 
 /** Partner can only edit/delete contacts in their org. */
-async function canModifyContact(contactId: string, session: { user: unknown }) {
+async function canModifyContact(contactId: string, session: { user: SessionUser }) {
   const contact = await prisma.trustedContact.findUnique({
     where: { id: contactId },
     select: { organizationId: true },

@@ -15,6 +15,7 @@ interface PortalResource {
   color: string
   sortOrder: number
   gated?: boolean
+  canEdit?: boolean
 }
 
 const RESOURCE_CATEGORIES = PORTAL_CATEGORIES
@@ -44,6 +45,14 @@ export default function AdminPortalResourcesPage() {
   })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const [canDelete, setCanDelete] = useState(true)
+
+  useEffect(() => {
+    fetch('/api/admin/capabilities')
+      .then((r) => r.json())
+      .then((d) => setCanDelete(d.canDeletePortal !== false))
+      .catch(() => setCanDelete(false))
+  }, [])
 
   const fetchItems = async () => {
     try {
@@ -310,22 +319,26 @@ export default function AdminPortalResourcesPage() {
                 )}
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
-                <button
-                  type="button"
-                  onClick={() => startEdit(r)}
-                  className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg"
-                  aria-label="Edit"
-                >
-                  <Pencil className="w-4 h-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleDelete(r.id)}
-                  className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
-                  aria-label="Delete"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+                {r.canEdit !== false && (
+                  <button
+                    type="button"
+                    onClick={() => startEdit(r)}
+                    className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                    aria-label="Edit"
+                  >
+                    <Pencil className="w-4 h-4" />
+                  </button>
+                )}
+                {canDelete && (
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(r.id)}
+                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
+                    aria-label="Delete"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             </li>
           ))}

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { Shield, User, Building2, Users, ChevronDown, X, UserPlus, Trash2 } from 'lucide-react'
+import { Shield, User, Building2, Users, ChevronDown, X, UserPlus, Trash2, Info } from 'lucide-react'
 
 export type TeamUser = {
   id: string
@@ -12,6 +12,8 @@ export type TeamUser = {
   primaryRole: string
   roles: string[]
   createdAt: Date
+  organizationId?: string | null
+  organizationName?: string | null
 }
 
 const ROLE_OPTIONS = [
@@ -21,12 +23,29 @@ const ROLE_OPTIONS = [
   { value: 'member', label: 'Member', icon: User, color: 'bg-gray-100 text-gray-700' },
 ] as const
 
+/** Reference for admins: what each role can do. Update when adding roles or permissions. */
+const ROLE_ACCESS_REFERENCE: { capability: string; admin: boolean; partner: boolean; business: string; member: string }[] = [
+  { capability: 'Access admin area (dashboard)', admin: true, partner: true, business: '—', member: '—' },
+  { capability: 'Portal: view, create, edit resources & articles', admin: true, partner: true, business: '—', member: '—' },
+  { capability: 'Portal: delete resources & articles', admin: true, partner: false, business: '—', member: '—' },
+  { capability: 'Team: view list, add users, edit roles', admin: true, partner: true, business: '—', member: '—' },
+  { capability: 'Team: assign or remove Admin role', admin: true, partner: false, business: '—', member: '—' },
+  { capability: 'Team: delete users', admin: true, partner: false, business: '—', member: '—' },
+  { capability: 'Library access (approve/revoke requests)', admin: true, partner: false, business: '—', member: '—' },
+  { capability: 'Trust Center (NDA, gated requests)', admin: true, partner: false, business: '—', member: '—' },
+  { capability: 'Security (2FA setup)', admin: true, partner: false, business: '—', member: '—' },
+]
+
 export default function TeamManager({
   initialUsers,
   currentUserId,
+  canDeleteUser = true,
+  canAssignAdmin = true,
 }: {
   initialUsers: TeamUser[]
   currentUserId: string | null
+  canDeleteUser?: boolean
+  canAssignAdmin?: boolean
 }) {
   const router = useRouter()
   const [users, setUsers] = useState<TeamUser[]>(initialUsers)
@@ -39,13 +58,37 @@ export default function TeamManager({
     name: '',
     password: '',
     roles: ['member'] as string[],
+    organizationId: '' as string,
   })
   const [addSubmitting, setAddSubmitting] = useState(false)
   const [removingId, setRemovingId] = useState<string | null>(null)
+  const [referenceOpen, setReferenceOpen] = useState(false)
+  const [organizations, setOrganizations] = useState<{ id: string; name: string }[]>([])
+  const [partnerAddUserCapRemaining, setPartnerAddUserCapRemaining] = useState<number | null>(null)
 
   useEffect(() => {
     setUsers(initialUsers)
   }, [initialUsers])
+
+  useEffect(() => {
+    if (canAssignAdmin) {
+      fetch('/api/admin/organizations')
+        .then((r) => (r.ok ? r.json() : []))
+        .then((list: { id: string; name: string }[]) => setOrganizations(Array.isArray(list) ? list : []))
+        .catch(() => setOrganizations([]))
+    }
+  }, [canAssignAdmin])
+
+  useEffect(() => {
+    if (!canAssignAdmin) {
+      fetch('/api/admin/capabilities')
+        .then((r) => (r.ok ? r.json() : {}))
+        .then((d: { partnerAddUserCapRemaining?: number }) =>
+          setPartnerAddUserCapRemaining(typeof d.partnerAddUserCapRemaining === 'number' ? d.partnerAddUserCapRemaining : null)
+        )
+        .catch(() => setPartnerAddUserCapRemaining(null))
+    }
+  }, [canAssignAdmin])
 
   const toggleRole = async (userId: string, role: string, add: boolean) => {
     setLoading(userId)
@@ -81,15 +124,17 @@ export default function TeamManager({
     setAddSubmitting(true)
     setMessage(null)
     try {
+      const body: Record<string, unknown> = {
+        email: addForm.email.trim(),
+        name: addForm.name.trim() || undefined,
+        password: addForm.password,
+        roles: addForm.roles.length > 0 ? addForm.roles : ['member'],
+      }
+      if (canAssignAdmin && addForm.organizationId) body.organizationId = addForm.organizationId
       const res = await fetch('/api/admin/team', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-          email: addForm.email.trim(),
-          name: addForm.name.trim() || undefined,
-          password: addForm.password,
-          roles: addForm.roles.length > 0 ? addForm.roles : ['member'],
-        }),
+        body: JSON.stringify(body),
       })
       const data = await res.json()
       if (!res.ok) {
@@ -97,9 +142,17 @@ export default function TeamManager({
         return
       }
       setMessage({ type: 'success', text: `Added ${data.email}. They can sign in now.` })
-      setAddForm({ email: '', name: '', password: '', roles: ['member'] })
+      setAddForm((f) => ({ ...f, email: '', name: '', password: '', roles: ['member'], organizationId: '' }))
       setAddOpen(false)
       router.refresh()
+      if (!canAssignAdmin) {
+        fetch('/api/admin/capabilities')
+          .then((r) => (r.ok ? r.json() : {}))
+          .then((d: { partnerAddUserCapRemaining?: number }) =>
+            setPartnerAddUserCapRemaining(typeof d.partnerAddUserCapRemaining === 'number' ? d.partnerAddUserCapRemaining : null)
+          )
+          .catch(() => {})
+      }
     } catch {
       setMessage({ type: 'error', text: 'Failed to add user' })
     } finally {
@@ -138,7 +191,26 @@ export default function TeamManager({
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-end">
+      {!canAssignAdmin && (
+        <p className="text-sm text-gray-600 bg-amber-50 border border-amber-200 rounded-lg px-4 py-2">
+          As a partner you can add users and edit roles; only admins can delete users or assign the Admin role.
+          {partnerAddUserCapRemaining !== null && (
+            <span className="block mt-1 font-medium">
+              You can add {partnerAddUserCapRemaining} more user{partnerAddUserCapRemaining !== 1 ? 's' : ''}.
+            </span>
+          )}
+        </p>
+      )}
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <button
+          type="button"
+          onClick={() => setReferenceOpen(true)}
+          className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg border border-gray-200"
+          aria-label="View role access reference"
+        >
+          <Info className="w-4 h-4" />
+          Role access reference
+        </button>
         <button
           type="button"
           onClick={() => setAddOpen(true)}
@@ -163,6 +235,9 @@ export default function TeamManager({
             <thead>
               <tr className="bg-gray-50">
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
+                {(organizations.length > 0 || users.some((u) => u.organizationName)) && (
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Organization</th>
+                )}
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Roles</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Joined</th>
                 <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
@@ -190,6 +265,11 @@ export default function TeamManager({
                       </div>
                     </div>
                   </td>
+                  {(organizations.length > 0 || users.some((u) => u.organizationName)) && (
+                    <td className="px-4 py-3 text-sm text-gray-600">
+                      {u.organizationName ?? '—'}
+                    </td>
+                  )}
                   <td className="px-4 py-3">
                     <div className="flex flex-wrap gap-1.5">
                       {u.roles.map((r) => (
@@ -200,7 +280,7 @@ export default function TeamManager({
                           }`}
                         >
                           {roleLabel(r)}
-                          {editingId === u.id && (
+                          {editingId === u.id && (canAssignAdmin || r !== 'admin') && (
                             <button
                               type="button"
                               onClick={() => toggleRole(u.id, r, false)}
@@ -214,7 +294,7 @@ export default function TeamManager({
                         </span>
                       ))}
                       {editingId === u.id &&
-                        ROLE_OPTIONS.filter((o) => !u.roles.includes(o.value)).map((o) => (
+                        ROLE_OPTIONS.filter((o) => !u.roles.includes(o.value) && (canAssignAdmin || o.value !== 'admin')).map((o) => (
                           <button
                             key={o.value}
                             type="button"
@@ -251,7 +331,7 @@ export default function TeamManager({
                           <ChevronDown className="w-4 h-4" />
                         </button>
                       )}
-                      {currentUserId != null && currentUserId !== u.id && (
+                      {canDeleteUser && currentUserId != null && currentUserId !== u.id && (
                         <button
                           type="button"
                           onClick={() => handleRemoveUser(u.id, u.email)}
@@ -274,6 +354,57 @@ export default function TeamManager({
           <p className="text-gray-500 py-8 px-4 text-center">No users yet. Add a user above or they will appear when they sign up.</p>
         )}
       </div>
+
+      {referenceOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+          aria-modal="true"
+          role="dialog"
+          aria-labelledby="role-reference-title"
+        >
+          <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+              <h2 id="role-reference-title" className="text-lg font-semibold text-gray-900">Role access reference</h2>
+              <button
+                type="button"
+                onClick={() => setReferenceOpen(false)}
+                className="p-2 text-gray-400 hover:text-gray-600 rounded-lg"
+                aria-label="Close"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="overflow-auto px-6 py-4">
+              <p className="text-sm text-gray-600 mb-4">
+                What each role can do in the admin area. Update this reference when you add or change roles.
+              </p>
+              <table className="min-w-full text-sm">
+                <thead>
+                  <tr className="border-b border-gray-200">
+                    <th className="text-left py-2 pr-4 font-medium text-gray-700">Capability</th>
+                    <th className="text-center py-2 px-2 w-20 font-medium text-gray-700">Admin</th>
+                    <th className="text-center py-2 px-2 w-20 font-medium text-gray-700">Partner</th>
+                    <th className="text-center py-2 px-2 w-20 font-medium text-gray-700">Business</th>
+                    <th className="text-center py-2 px-2 w-20 font-medium text-gray-700">Member</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {ROLE_ACCESS_REFERENCE.map((row, i) => (
+                    <tr key={i}>
+                      <td className="py-2 pr-4 text-gray-900">{row.capability}</td>
+                      <td className="text-center py-2">{row.admin ? '✓' : '—'}</td>
+                      <td className="text-center py-2">{row.partner ? '✓' : '—'}</td>
+                      <td className="text-center py-2 text-gray-500">{row.business}</td>
+                      <td className="text-center py-2 text-gray-500">{row.member}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <p className="text-xs text-gray-500 mt-4">— means no access or not applicable. Business and Member do not have admin area access today.</p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {addOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" aria-modal="true" role="dialog">
@@ -325,7 +456,7 @@ export default function TeamManager({
               <div>
                 <span className="block text-sm font-medium text-gray-700 mb-2">Roles</span>
                 <div className="flex flex-wrap gap-2">
-                  {ROLE_OPTIONS.map((o) => (
+                  {ROLE_OPTIONS.filter((o) => canAssignAdmin || o.value !== 'admin').map((o) => (
                     <label key={o.value} className="inline-flex items-center gap-1.5 cursor-pointer">
                       <input
                         type="checkbox"
@@ -339,6 +470,26 @@ export default function TeamManager({
                 </div>
                 <p className="text-gray-500 text-xs mt-1">If none selected, member is assigned.</p>
               </div>
+              {canAssignAdmin && organizations.length > 0 && (
+                <div>
+                  <label htmlFor="add-org" className="block text-sm font-medium text-gray-700 mb-1">
+                    Organization
+                  </label>
+                  <select
+                    id="add-org"
+                    value={addForm.organizationId}
+                    onChange={(e) => setAddForm((f) => ({ ...f, organizationId: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                  >
+                    <option value="">None</option>
+                    {organizations.map((org) => (
+                      <option key={org.id} value={org.id}>
+                        {org.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
               <div className="flex gap-3 pt-2">
                 <button
                   type="button"

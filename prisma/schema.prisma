@@ -11,24 +11,43 @@ datasource db {
 }
 
 // ---- NextAuth (Auth.js) + app ----
+model Organization {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String?  @unique // optional URL-safe identifier
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  users     User[]
+
+  @@index([slug])
+}
+
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  role          String    @default("member") // primary/legacy; prefer UserRole for multi-role
-  passwordHash  String?   // for credentials login
-  twoFactorSecret   String?   // TOTP secret (encrypted or plain for demo)
-  twoFactorEnabled  Boolean   @default(false)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  accounts      Account[]
-  sessions      Session[]
+  id               String    @id @default(cuid())
+  name             String?
+  email            String?   @unique
+  emailVerified    DateTime?
+  image            String?
+  role             String    @default("member") // primary/legacy; prefer UserRole for multi-role
+  passwordHash     String?   // for credentials login
+  twoFactorSecret  String?
+  twoFactorEnabled Boolean   @default(false)
+  organizationId   String?   // for partner scoping; partners see only users in same org
+  addedByUserId    String?   // who added this user (for partner add cap and audit)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  organization     Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  addedBy          User?     @relation("UserAddedBy", fields: [addedByUserId], references: [id], onDelete: SetNull)
+  addedUsers       User[]    @relation("UserAddedBy")
+  accounts         Account[]
+  sessions         Session[]
   passwordResetTokens PasswordResetToken[]
-  roles         UserRole[]
+  roles             UserRole[]
   gatedGrantsGranted GatedAccessGrant[]
   gatedRequestsReviewed GatedAccessRequest[]
+
+  @@index([organizationId])
+  @@index([addedByUserId])
 }
 
 // Multiple roles per user: admin, partner, business, member, etc.
@@ -122,30 +141,36 @@ model AccessRequest {
 
 // Admin-curated portal content
 model PortalResource {
-  id          String   @id @default(cuid())
-  title       String
-  description String   @db.Text
-  type        String   // Guide, Template, Tool, Framework, etc.
-  downloadUrl String?  // file path or URL for download
-  linkUrl     String?  // external link (e.g. to app)
-  color       String   @default("from-blue-500 to-blue-600") // Tailwind gradient
-  sortOrder   Int      @default(0)
-  gated       Boolean  @default(false) // requires NDA + approval to access
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id             String   @id @default(cuid())
+  title          String
+  description    String   @db.Text
+  type           String   // Guide, Template, Tool, Framework, etc.
+  downloadUrl    String?  // file path or URL for download
+  linkUrl        String?  // external link (e.g. to app)
+  color          String   @default("from-blue-500 to-blue-600") // Tailwind gradient
+  sortOrder      Int      @default(0)
+  gated          Boolean  @default(false) // requires NDA + approval to access
+  createdByUserId String? // partner can only edit own; null = any editor
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([createdByUserId])
 }
 
 model PortalArticle {
-  id          String   @id @default(cuid())
-  title       String
-  description String   @db.Text
-  readTime    String?
-  category    String?
-  url         String?  // optional link to full article
-  sortOrder   Int      @default(0)
-  gated       Boolean  @default(false) // requires NDA + approval to access
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id             String   @id @default(cuid())
+  title          String
+  description    String   @db.Text
+  readTime       String?
+  category       String?
+  url            String?  // optional link to full article
+  sortOrder      Int      @default(0)
+  gated          Boolean  @default(false) // requires NDA + approval to access
+  createdByUserId String? // partner can only edit own; null = any editor
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([createdByUserId])
 }
 
 // ---- Trust Center: NDA + gated access ----
@@ -239,5 +264,19 @@ model TrustCenterAuditLog {
 
   @@index([requestId])
   @@index([userId])
+  @@index([createdAt])
+}
+
+// Audit log for team/admin actions (user added, roles updated, user deleted)
+model TeamAuditLog {
+  id           String   @id @default(cuid())
+  action       String   // user_added | roles_updated | user_deleted
+  actorUserId  String?
+  targetUserId String?
+  metadata     Json?    // e.g. { email, rolesBefore, rolesAfter }
+  createdAt    DateTime @default(now())
+
+  @@index([actorUserId])
+  @@index([targetUserId])
   @@index([createdAt])
 }

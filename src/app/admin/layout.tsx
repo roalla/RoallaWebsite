@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { canAccessAdmin } from '@/lib/access'
 import Link from 'next/link'
 import AdminNav from './AdminNav'
 
@@ -10,11 +11,12 @@ export default async function AdminLayout({
   children: React.ReactNode
 }) {
   const session = await getServerSession(authOptions)
-  const user = session?.user as { roles?: string[] } | undefined
-  const isAdmin = user?.roles?.includes('admin')
-  if (!session || !isAdmin) {
+  const user = session?.user
+  if (!session || !canAccessAdmin(user)) {
     redirect('/login?callbackUrl=/admin')
   }
+
+  const roles = (user as { roles?: string[] })?.roles ?? []
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -24,7 +26,7 @@ export default async function AdminLayout({
             <Link href="/admin" className="font-semibold text-gray-900">
               Admin
             </Link>
-            <AdminNav />
+            <AdminNav roles={roles} />
           </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-600">{session.user?.email}</span>

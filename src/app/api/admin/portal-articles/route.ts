@@ -3,27 +3,32 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { sanitizeRichText } from '@/lib/sanitize-html'
+import { canManagePortal, isAdmin } from '@/lib/access'
 
 export const dynamic = 'force-dynamic'
 
-async function requireAdmin() {
+async function requirePortalAccess() {
   const session = await getServerSession(authOptions)
-  const user = session?.user as { roles?: string[] } | undefined
-  if (!session || !user?.roles?.includes('admin')) {
-    return null
-  }
+  if (!session || !canManagePortal(session.user)) return null
   return session
 }
 
 export async function GET() {
-  if (!(await requireAdmin())) {
+  const session = await requirePortalAccess()
+  if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
   try {
     const items = await prisma.portalArticle.findMany({
       orderBy: { sortOrder: 'asc' },
+      select: { id: true, title: true, description: true, readTime: true, category: true, url: true, sortOrder: true, gated: true, createdByUserId: true, createdAt: true, updatedAt: true },
     })
-    return NextResponse.json(items)
+    const currentUserId = (session.user as { id?: string }).id
+    const list = items.map((item) => ({
+      ...item,
+      canEdit: isAdmin(session.user) || item.createdByUserId == null || item.createdByUserId === currentUserId,
+    }))
+    return NextResponse.json(list)
   } catch (e) {
     console.error('Portal articles list error:', e)
     return NextResponse.json({ error: 'Failed to list' }, { status: 500 })
@@ -31,7 +36,8 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  if (!(await requireAdmin())) {
+  const session = await requirePortalAccess()
+  if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
   try {
@@ -43,6 +49,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
+    const currentUserId = (session.user as { id?: string }).id
     const item = await prisma.portalArticle.create({
       data: {
         title: String(title).trim(),
@@ -52,9 +59,10 @@ export async function POST(request: NextRequest) {
         url: url != null ? String(url).trim() || null : null,
         sortOrder: typeof sortOrder === 'number' ? sortOrder : 0,
         gated: typeof gated === 'boolean' ? gated : false,
+        createdByUserId: currentUserId ?? undefined,
       },
     })
-    return NextResponse.json(item)
+    return NextResponse.json({ ...item, canEdit: true })
   } catch (e) {
     console.error('Portal article create error:', e)
     return NextResponse.json({ error: 'Failed to create' }, { status: 500 })

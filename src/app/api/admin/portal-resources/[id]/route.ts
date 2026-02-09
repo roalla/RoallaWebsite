@@ -3,27 +3,41 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { sanitizeRichText } from '@/lib/sanitize-html'
+import { canManagePortal, canDeletePortalContent, isAdmin } from '@/lib/access'
 
 export const dynamic = 'force-dynamic'
 
-async function requireAdmin() {
+async function requirePortalAccess() {
   const session = await getServerSession(authOptions)
-  const user = session?.user as { roles?: string[] } | undefined
-  if (!session || !user?.roles?.includes('admin')) {
-    return null
-  }
+  if (!session || !canManagePortal(session.user)) return null
   return session
+}
+
+async function requirePortalDelete() {
+  const session = await getServerSession(authOptions)
+  if (!session || !canDeletePortalContent(session.user)) return null
+  return session
+}
+
+function partnerCanEditItem(createdByUserId: string | null, currentUserId: string | undefined): boolean {
+  return createdByUserId == null || createdByUserId === currentUserId
 }
 
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!(await requireAdmin())) {
+  const session = await requirePortalAccess()
+  if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
   const { id } = await params
   if (!id) return NextResponse.json({ error: 'ID required' }, { status: 400 })
+  const existing = await prisma.portalResource.findUnique({ where: { id }, select: { createdByUserId: true } })
+  if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+  if (!isAdmin(session.user) && !partnerCanEditItem(existing.createdByUserId, (session.user as { id?: string }).id)) {
+    return NextResponse.json({ error: 'You can only edit content you created' }, { status: 403 })
+  }
   try {
     const body = await request.json()
     const data: Record<string, unknown> = {}
@@ -50,7 +64,7 @@ export async function DELETE(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!(await requireAdmin())) {
+  if (!(await requirePortalDelete())) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
   const { id } = await params

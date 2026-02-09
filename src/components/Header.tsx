@@ -286,7 +286,7 @@ const Header = () => {
                     key="close"
                     initial={prefersReducedMotion ? false : { rotate: -90, opacity: 0 }}
                     animate={{ rotate: 0, opacity: 1 }}
-                    exit={prefersReducedMotion ? false : { rotate: 90, opacity: 0 }}
+                    exit={prefersReducedMotion ? undefined : { rotate: 90, opacity: 0 }}
                     transition={iconTransition}
                   >
                     <X className="w-6 h-6 text-gray-700" />
@@ -296,7 +296,7 @@ const Header = () => {
                     key="menu"
                     initial={prefersReducedMotion ? false : { rotate: 90, opacity: 0 }}
                     animate={{ rotate: 0, opacity: 1 }}
-                    exit={prefersReducedMotion ? false : { rotate: -90, opacity: 0 }}
+                    exit={prefersReducedMotion ? undefined : { rotate: -90, opacity: 0 }}
                     transition={iconTransition}
                   >
                     <Menu className="w-6 h-6 text-gray-700" />
@@ -318,7 +318,7 @@ const Header = () => {
               aria-label="Mobile navigation"
               initial={prefersReducedMotion ? false : { opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
-              exit={prefersReducedMotion ? false : { opacity: 0, height: 0 }}
+              exit={prefersReducedMotion ? undefined : { opacity: 0, height: 0 }}
               transition={menuTransition}
               onKeyDown={handleMenuKeyDown}
               className="lg:hidden overflow-hidden fixed left-0 right-0 z-50 shadow-lg top-[calc(4rem+env(safe-area-inset-top,0px))] flex flex-col"

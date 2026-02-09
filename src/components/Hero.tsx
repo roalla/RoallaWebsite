@@ -97,7 +97,7 @@ const Hero = () => {
               Schedule a Free Consultation
             </ScheduleButton>
             <Link 
-              href="/#services" 
+              href="/services" 
               className="btn-secondary inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-300 py-4 px-8 text-lg hover:shadow-lg"
             >
               Our Services

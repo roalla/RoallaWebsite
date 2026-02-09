@@ -92,6 +92,17 @@ const Header = () => {
     setIsMenuOpen(false)
   }, [])
 
+  const handleMobileNavClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+      closeMenu()
+      if (pathname === '/' && href === '/') {
+        e.preventDefault()
+        requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'smooth' }))
+      }
+    },
+    [closeMenu, pathname]
+  )
+
   const handleMenuKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
       closeMenu()
@@ -124,7 +135,6 @@ const Header = () => {
   const isActive = useCallback(
     (href: string) => {
       if (href === '/') return pathname === '/'
-      if (href.startsWith('/#')) return pathname === '/'
       return pathname === href || pathname.startsWith(href + '/')
     },
     [pathname]
@@ -132,12 +142,13 @@ const Header = () => {
 
   const navigation = [
     { name: 'Home', href: '/' },
-    { name: 'Services', href: '/#services' },
-    { name: 'Resources', href: '/#resources' },
-    { name: 'Digital Creations', href: '/#digital-creations' },
-    { name: 'About', href: '/#about' },
-    { name: 'FAQ', href: '/#faq' },
-    { name: 'Contact', href: '/#contact' },
+    { name: 'Services', href: '/services' },
+    { name: 'Resources', href: '/resources' },
+    { name: 'Digital Creations', href: '/digital-creations' },
+    { name: 'About', href: '/about' },
+    { name: 'Assessment', href: '/assessment' },
+    { name: 'FAQ', href: '/faq' },
+    { name: 'Contact', href: '/contact' },
     { name: 'Trust Center', href: '/trust' },
   ]
 
@@ -338,7 +349,7 @@ const Header = () => {
                           ? 'text-primary bg-primary/10'
                           : 'text-gray-700 hover:text-primary hover:bg-gray-50'
                       }`}
-                      onClick={closeMenu}
+                      onClick={(e) => handleMobileNavClick(e, item.href)}
                     >
                       {item.name}
                     </motion.a>

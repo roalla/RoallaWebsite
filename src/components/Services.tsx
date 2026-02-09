@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 import { 
   TrendingUp, 
   Users, 
@@ -10,10 +11,7 @@ import {
   Lightbulb, 
   Zap,
   ArrowRight,
-  CheckCircle,
-  Briefcase,
-  BarChart2,
-  ShieldCheck
+  CheckCircle
 } from 'lucide-react'
 import ScheduleButton from './CalendlyButton'
 
@@ -102,14 +100,13 @@ const Services = () => {
                 ))}
               </ul>
               
-              <motion.a
-                href="#contact"
-                whileHover={{ x: 5 }}
+              <Link
+                href="/contact"
                 className="inline-flex items-center mt-6 text-primary font-semibold hover:text-primary-dark transition-colors duration-200 group-hover:underline"
               >
                 Learn More
                 <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </motion.a>
+              </Link>
             </motion.div>
           ))}
         </div>

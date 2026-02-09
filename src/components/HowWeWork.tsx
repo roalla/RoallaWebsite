@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Search, Target, Rocket, CheckCircle, ArrowRight } from 'lucide-react'
 
@@ -96,13 +97,13 @@ const HowWeWork = () => {
           <p className="text-lg text-gray-700 mb-6">
             Ready to get started? Let's discuss how we can help transform your business.
           </p>
-          <a
-            href="#contact"
+          <Link
+            href="/contact"
             className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             Start Your Journey
             <ArrowRight className="ml-2 w-5 h-5" />
-          </a>
+          </Link>
         </motion.div>
       </div>
     </section>

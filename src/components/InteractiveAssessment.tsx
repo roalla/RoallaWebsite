@@ -309,7 +309,7 @@ const InteractiveAssessment = () => {
 
                     <div className="space-y-4">
                       <a
-                        href="#contact"
+                        href="/contact"
                         className="btn-primary inline-flex items-center"
                       >
                         <Send className="w-5 h-5 mr-2" />

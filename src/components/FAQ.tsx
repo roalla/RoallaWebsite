@@ -131,7 +131,7 @@ const FAQ = () => {
               Still have questions? We're here to help.
             </p>
             <a
-              href="#contact"
+              href="/contact"
               className="inline-flex items-center text-primary font-semibold hover:text-primary-dark transition-colors duration-200"
             >
               Contact Us

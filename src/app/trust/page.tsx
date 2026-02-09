@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, Suspense } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import Breadcrumb from '@/components/Breadcrumb'
 import toast from 'react-hot-toast'
 import {
   FileText,
@@ -236,13 +237,11 @@ function TrustCenterContent() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
-        <div className="mb-10">
-          <Link href="/" className="text-sm text-primary hover:text-primary-dark font-medium">← Back to Roalla</Link>
-        </div>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-24 lg:pt-28 pb-12">
+        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Trust Centre' }]} />
 
         <header className="text-center mb-12">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Trust Center</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Trust Centre</h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             View and download standard documents. Public content is available to everyone; private documents are locked behind an NDA and approval process to protect sensitive IP.
           </p>

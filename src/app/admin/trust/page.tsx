@@ -4,7 +4,7 @@ import { FileSignature, Lock, Inbox } from 'lucide-react'
 export default function AdminTrustPage() {
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">Trust Center</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-2">Trust Centre</h1>
       <p className="text-gray-600 mb-8">
         Manage NDA agreement text and review gated access requests (NDA sign-off + approval).
       </p>

@@ -31,7 +31,7 @@ export default function HomeFeaturedInsight() {
                   Learn how fractional COO services can transform your operational management.
                 </p>
                 <span className="mt-3 inline-flex items-center text-sm font-medium text-primary group-hover:underline">
-                  Read on Resources
+                  Read in Resource Centre
                   <ArrowRight className="ml-1 w-4 h-4" />
                 </span>
               </div>

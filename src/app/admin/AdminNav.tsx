@@ -26,7 +26,7 @@ export default function AdminNav({
     { href: '/admin/trusted-contacts', label: 'Trusted contacts' },
     ...(isAdmin
       ? [
-          { href: '/admin/trust', label: 'Trust Center' },
+          { href: '/admin/trust', label: 'Trust Centre' },
           { href: '/admin/security', label: 'Security' },
         ]
       : []),

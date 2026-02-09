@@ -66,7 +66,7 @@ const Resources = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-serif font-extrabold text-gray-900 mb-6">
-            Resources & Insights
+            Resource Centre
           </h2>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto">
             Access valuable tools, guides, and insights to help grow your business.
@@ -87,7 +87,7 @@ const Resources = () => {
             </div>
           </div>
           <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Exclusive Resources Portal
+            Exclusive Resource Centre
           </h3>
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
             Get access to exclusive business guides, templates, tools, and insights. 
@@ -112,7 +112,7 @@ const Resources = () => {
           className="mb-12"
         >
           <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-            What's Inside the Portal
+            What's in the Resource Centre
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {resources.map((resource, index) => (

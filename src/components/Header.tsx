@@ -143,9 +143,9 @@ const Header = () => {
   const navigation = [
     { name: 'Home', href: '/' },
     { name: 'Services', href: '/services' },
-    { name: 'Resources', href: '/resources' },
+    { name: 'Resource Centre', href: '/resources' },
     { name: 'Digital Creations', href: '/digital-creations' },
-    { name: 'Trust Center', href: '/trust' },
+    { name: 'Trust Centre', href: '/trust' },
   ]
 
   const noMotion = {

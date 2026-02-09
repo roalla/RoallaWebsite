@@ -33,7 +33,7 @@ export default function HomeCTA() {
               href="/resources"
               className="inline-flex items-center bg-white/20 hover:bg-white/30 text-white font-semibold py-4 px-6 rounded-lg transition-all border border-white/30 hover:border-white/50"
             >
-              Explore Resources
+              Explore Resource Centre
             </Link>
           </div>
           <p className="mt-6 text-sm text-white/80">

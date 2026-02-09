@@ -229,7 +229,7 @@ export default function AdminTrustRequestsPage() {
     return (
       <div>
         <div className="mb-6 flex items-center gap-4">
-          <Link href="/admin/trust" className="text-sm text-gray-600 hover:text-gray-900">← Trust Center</Link>
+          <Link href="/admin/trust" className="text-sm text-gray-600 hover:text-gray-900">← Trust Centre</Link>
         </div>
         <div className="h-8 bg-gray-200 rounded w-64 animate-pulse mb-4" />
         <div className="h-4 bg-gray-100 rounded w-96 animate-pulse mb-6" />
@@ -263,7 +263,7 @@ export default function AdminTrustRequestsPage() {
         {liveMessage}
       </div>
       <div className="mb-6 flex items-center gap-4">
-        <Link href="/admin/trust" className="text-sm text-gray-600 hover:text-gray-900">← Trust Center</Link>
+        <Link href="/admin/trust" className="text-sm text-gray-600 hover:text-gray-900">← Trust Centre</Link>
       </div>
       <h1 className="text-2xl font-bold text-gray-900 mb-2">Gated access requests</h1>
       <p className="text-gray-600 mb-4">

@@ -55,11 +55,11 @@ export default function RequestAccessPage() {
         <div className="max-w-2xl mx-auto">
           {/* Back Button */}
           <Link 
-            href="/#resources"
+            href="/resources"
             className="inline-flex items-center text-primary hover:text-primary-dark mb-8 transition-colors"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
-            Back to Resources
+            Back to Resource Centre
           </Link>
 
           {/* Header */}
@@ -75,7 +75,7 @@ export default function RequestAccessPage() {
               </div>
             </div>
             <h1 className="text-4xl md:text-5xl font-serif font-extrabold text-gray-900 mb-4">
-              Request Access to Resources Portal
+              Request Access to Resource Centre
             </h1>
             <p className="text-xl text-gray-700">
               Get access to exclusive business resources, guides, templates, and insights.
@@ -208,7 +208,7 @@ export default function RequestAccessPage() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-6"
           >
-            <h3 className="font-semibold text-gray-900 mb-2">What's included in the Resources Portal?</h3>
+            <h3 className="font-semibold text-gray-900 mb-2">What's included in the Resource Centre?</h3>
             <ul className="space-y-2 text-sm text-gray-700">
               <li className="flex items-start">
                 <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0 mt-0.5" />

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, ChevronDown } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname as useNextPathname } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
@@ -15,6 +15,21 @@ const HeaderAuthSlot = dynamic(() => import('./HeaderAuthSlot').then((m) => m.de
   ssr: false,
   loading: () => authSlotPlaceholder,
 })
+
+/** Quebec flag (Fleurdelisé): blue #002395, white cross, four white fleurs-de-lis (dots at small size) */
+function QuebecFlagIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 16" className={className} aria-hidden>
+      <rect width="24" height="16" fill="#002395" />
+      <rect x="9" y="0" width="6" height="16" fill="#fff" />
+      <rect x="0" y="5" width="24" height="6" fill="#fff" />
+      <circle cx="4" cy="3" r="1.2" fill="#fff" />
+      <circle cx="20" cy="3" r="1.2" fill="#fff" />
+      <circle cx="4" cy="13" r="1.2" fill="#fff" />
+      <circle cx="20" cy="13" r="1.2" fill="#fff" />
+    </svg>
+  )
+}
 
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
@@ -31,8 +46,11 @@ const Header = () => {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
   const mobileMenuRef = useRef<HTMLDivElement>(null)
+  const localeDropdownDesktopRef = useRef<HTMLDivElement>(null)
+  const localeDropdownMobileRef = useRef<HTMLDivElement>(null)
   const scrollTick = useRef<number | null>(null)
   const previousMenuOpen = useRef(false)
+  const [localeDropdownOpen, setLocaleDropdownOpen] = useState(false)
 
   useEffect(() => {
     setMounted(true)
@@ -85,6 +103,18 @@ const Header = () => {
     previousMenuOpen.current = isMenuOpen
   }, [isMenuOpen])
 
+  useEffect(() => {
+    if (!localeDropdownOpen) return
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as Node
+      const inDesktop = localeDropdownDesktopRef.current?.contains(target)
+      const inMobile = localeDropdownMobileRef.current?.contains(target)
+      if (!inDesktop && !inMobile) setLocaleDropdownOpen(false)
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [localeDropdownOpen])
+
   const toggleMenu = () => {
     setIsMenuOpen((open) => !open)
   }
@@ -101,10 +131,10 @@ const Header = () => {
   const locale = useLocale()
   const router = useRouter()
 
-  const handleLocaleChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const newLocale = e.target.value as 'en' | 'fr'
+  const handleLocaleSelect = useCallback(
+    (newLocale: 'en' | 'fr') => {
       router.replace(pathname, { locale: newLocale })
+      setLocaleDropdownOpen(false)
     },
     [pathname, router]
   )
@@ -284,20 +314,58 @@ const Header = () => {
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center justify-end space-x-4 flex-shrink-0 min-w-[200px] xl:min-w-[260px]">
             {isLocaleRoute && (
-              <div className="flex items-center">
-                <label htmlFor="locale-select-desktop" className="sr-only">
-                  Language
-                </label>
-                <select
-                  id="locale-select-desktop"
-                  value={locale}
-                  onChange={handleLocaleChange}
-                  className="text-sm font-medium text-gray-700 bg-gray-100/80 hover:bg-gray-200/80 border border-gray-200 rounded-lg pl-3 pr-8 py-1.5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%20fill%3D%22none%22%20stroke%3D%22%236b7280%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22M2%204l4%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_0.5rem_center] bg-no-repeat"
+              <div className="relative flex items-center" ref={localeDropdownDesktopRef}>
+                <button
+                  type="button"
+                  onClick={() => setLocaleDropdownOpen((o) => !o)}
+                  className="flex items-center gap-1.5 text-sm font-medium text-gray-700 bg-gray-100/80 hover:bg-gray-200/80 border border-gray-200 rounded-lg pl-2.5 pr-2 py-1.5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  aria-expanded={localeDropdownOpen}
+                  aria-haspopup="listbox"
                   aria-label="Select language"
+                  id="locale-dropdown-desktop"
                 >
-                  <option value="en">English</option>
-                  <option value="fr">Français</option>
-                </select>
+                  {locale === 'en' ? (
+                    <span className="text-base leading-none" aria-hidden>🇨🇦</span>
+                  ) : (
+                    <QuebecFlagIcon className="w-5 h-[10px] flex-shrink-0" />
+                  )}
+                  <span>{locale === 'en' ? 'EN' : 'FR'}</span>
+                  <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${localeDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence>
+                  {localeDropdownOpen && (
+                    <motion.div
+                      role="listbox"
+                      aria-labelledby="locale-dropdown-desktop"
+                      initial={prefersReducedMotion ? false : { opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute right-0 top-full mt-1 py-1 min-w-[120px] bg-white rounded-lg shadow-lg border border-gray-200 z-50"
+                    >
+                      <button
+                        type="button"
+                        role="option"
+                        aria-selected={locale === 'en'}
+                        onClick={() => handleLocaleSelect('en')}
+                        className="w-full flex items-center gap-2 px-3 py-2 text-left text-sm font-medium text-gray-800 hover:bg-gray-50 first:rounded-t-lg"
+                      >
+                        <span className="text-base" aria-hidden>🇨🇦</span>
+                        <span>EN</span>
+                      </button>
+                      <button
+                        type="button"
+                        role="option"
+                        aria-selected={locale === 'fr'}
+                        onClick={() => handleLocaleSelect('fr')}
+                        className="w-full flex items-center gap-2 px-3 py-2 text-left text-sm font-medium text-gray-800 hover:bg-gray-50 last:rounded-b-lg"
+                      >
+                        <QuebecFlagIcon className="w-5 h-[10px] flex-shrink-0" />
+                        <span>FR</span>
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             )}
             <HeaderAuthSlot />
@@ -384,20 +452,59 @@ const Header = () => {
                   )
                 })}
                 {isLocaleRoute && (
-                  <div className="px-3 py-3 border-t border-gray-100">
-                    <label htmlFor="locale-select-mobile" className="block text-xs font-medium text-gray-500 mb-1.5">
-                      Language
-                    </label>
-                    <select
-                      id="locale-select-mobile"
-                      value={locale}
-                      onChange={handleLocaleChange}
-                      className="w-full text-base font-medium text-gray-900 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%20fill%3D%22none%22%20stroke%3D%22%236b7280%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22M2%204l4%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_0.75rem_center] bg-no-repeat"
+                  <div className="px-3 py-3 border-t border-gray-100 relative" ref={localeDropdownMobileRef}>
+                    <span className="block text-xs font-medium text-gray-500 mb-1.5">Language</span>
+                    <button
+                      type="button"
+                      onClick={() => setLocaleDropdownOpen((o) => !o)}
+                      className="w-full flex items-center gap-2 text-base font-medium text-gray-900 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                      aria-expanded={localeDropdownOpen}
+                      aria-haspopup="listbox"
                       aria-label="Select language"
+                      id="locale-dropdown-mobile"
                     >
-                      <option value="en">English</option>
-                      <option value="fr">Français</option>
-                    </select>
+                      {locale === 'en' ? (
+                        <span className="text-lg leading-none" aria-hidden>🇨🇦</span>
+                      ) : (
+                        <QuebecFlagIcon className="w-6 h-4 flex-shrink-0" />
+                      )}
+                      <span>{locale === 'en' ? 'EN' : 'FR'}</span>
+                      <ChevronDown className={`w-5 h-5 text-gray-500 ml-auto transition-transform ${localeDropdownOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    <AnimatePresence>
+                      {localeDropdownOpen && (
+                        <motion.div
+                          role="listbox"
+                          aria-labelledby="locale-dropdown-mobile"
+                          initial={prefersReducedMotion ? false : { opacity: 0, y: -4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -4 }}
+                          transition={{ duration: 0.15 }}
+                          className="absolute left-3 right-3 top-full mt-1 py-1 bg-white rounded-lg shadow-lg border border-gray-200 z-50"
+                        >
+                          <button
+                            type="button"
+                            role="option"
+                            aria-selected={locale === 'en'}
+                            onClick={() => handleLocaleSelect('en')}
+                            className="w-full flex items-center gap-2 px-3 py-2.5 text-left text-base font-medium text-gray-800 hover:bg-gray-50 first:rounded-t-lg"
+                          >
+                            <span className="text-lg" aria-hidden>🇨🇦</span>
+                            <span>EN</span>
+                          </button>
+                          <button
+                            type="button"
+                            role="option"
+                            aria-selected={locale === 'fr'}
+                            onClick={() => handleLocaleSelect('fr')}
+                            className="w-full flex items-center gap-2 px-3 py-2.5 text-left text-base font-medium text-gray-800 hover:bg-gray-50 last:rounded-b-lg"
+                          >
+                            <QuebecFlagIcon className="w-6 h-4 flex-shrink-0" />
+                            <span>FR</span>
+                          </button>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 )}
                 <div className="px-3 py-3 min-h-[44px] flex items-center border-t border-gray-100">

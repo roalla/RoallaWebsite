@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
       }
       await prisma.accessRequest.update({
         where: { id: existing.id },
-        data: { status: 'approved', token, name, company },
+        data: { status: 'approved', fullAccess: false, token, name, company },
       })
     } else {
       await prisma.accessRequest.create({
@@ -63,6 +63,7 @@ export async function POST(request: NextRequest) {
           company,
           token,
           status: 'approved',
+          fullAccess: false,
         },
       })
     }
@@ -105,6 +106,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
+      requestId: accessRequest.id,
       accessUrl,
       emailSent: !!sendEmail && !!process.env.RESEND_API_KEY,
     })

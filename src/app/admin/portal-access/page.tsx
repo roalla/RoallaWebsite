@@ -1,9 +1,11 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Unlock, Lock, Loader2, UserPlus, Upload, X, CheckCircle, XCircle } from 'lucide-react'
+
+const BULK_ADD_MAX = 100
 
 interface AccessRequestRow {
   id: string
@@ -59,6 +61,50 @@ export default function AdminPortalAccessPage() {
   const [rejectingId, setRejectingId] = useState<string | null>(null)
   const [revokingId, setRevokingId] = useState<string | null>(null)
   const [approvingId, setApprovingId] = useState<string | null>(null)
+  const [approveModalRequest, setApproveModalRequest] = useState<AccessRequestRow | null>(null)
+  const [approveOptions, setApproveOptions] = useState({ fullAccess: false, sendEmail: true })
+  const addButtonRef = useRef<HTMLButtonElement>(null)
+  const bulkButtonRef = useRef<HTMLButtonElement>(null)
+  const addModalRef = useRef<HTMLDivElement>(null)
+  const bulkModalRef = useRef<HTMLDivElement>(null)
+  const addModalFirstInputRef = useRef<HTMLInputElement>(null)
+  const bulkModalFirstInputRef = useRef<HTMLTextAreaElement>(null)
+
+  const focusTrap = (e: KeyboardEvent, container: HTMLElement | null) => {
+    if (e.key !== 'Tab' || !container || !document.activeElement || !container.contains(document.activeElement)) return
+    const focusable = container.querySelectorAll<HTMLElement>('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled])')
+    const list = Array.from(focusable)
+    if (list.length === 0) return
+    const first = list[0]
+    const last = list[list.length - 1]
+    if (e.shiftKey) {
+      if (document.activeElement === first) {
+        e.preventDefault()
+        last?.focus()
+      }
+    } else {
+      if (document.activeElement === last) {
+        e.preventDefault()
+        first?.focus()
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (!addOpen) return
+    const el = addModalRef.current
+    const onKeyDown = (e: KeyboardEvent) => focusTrap(e, el)
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [addOpen])
+
+  useEffect(() => {
+    if (!bulkOpen) return
+    const el = bulkModalRef.current
+    const onKeyDown = (e: KeyboardEvent) => focusTrap(e, el)
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [bulkOpen])
 
   const fetchData = async () => {
     try {
@@ -84,6 +130,27 @@ export default function AdminPortalAccessPage() {
   useEffect(() => {
     if (TABS.some((t) => t.key === tabFromUrl)) setTab(tabFromUrl)
   }, [tabFromUrl])
+
+  useEffect(() => {
+    if (addOpen) {
+      const t = setTimeout(() => addModalFirstInputRef.current?.focus(), 0)
+      return () => clearTimeout(t)
+    }
+  }, [addOpen])
+
+  useEffect(() => {
+    if (bulkOpen) {
+      const t = setTimeout(() => bulkModalFirstInputRef.current?.focus(), 0)
+      return () => clearTimeout(t)
+    }
+  }, [bulkOpen])
+
+  const setTabAndUrl = (newTab: string) => {
+    setTab(newTab)
+    const url = new URL(window.location.href)
+    url.searchParams.set('tab', newTab)
+    window.history.replaceState({}, '', url.pathname + url.search)
+  }
 
   const filtered = tab ? requests.filter((r) => r.status === tab) : requests
   const approved = requests.filter((r) => r.status === 'approved')
@@ -111,18 +178,19 @@ export default function AdminPortalAccessPage() {
     }
   }
 
-  const handleApprove = async (req: AccessRequestRow, sendEmail = true) => {
+  const handleApprove = async (req: AccessRequestRow, fullAccess: boolean, sendEmail: boolean) => {
     setApprovingId(req.id)
     setError('')
+    setApproveModalRequest(null)
     try {
       const res = await fetch(`/api/admin/requests/${req.id}/approve`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fullAccess: false, grantResourceIds: [], grantArticleIds: [], sendEmail }),
+        body: JSON.stringify({ fullAccess, grantResourceIds: [], grantArticleIds: [], sendEmail }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Approve failed')
-      setMessage({ type: 'success', text: `Approved ${req.email}. ${data.emailSent ? 'Email sent.' : ''}` })
+      setMessage({ type: 'success', text: `Approved ${req.email}. ${data.emailSent ? 'Email sent.' : ''} Access: ${fullAccess ? 'full' : 'public files only'}.` })
       router.refresh()
       fetchData()
     } catch (e) {
@@ -133,6 +201,7 @@ export default function AdminPortalAccessPage() {
   }
 
   const handleReject = async (id: string) => {
+    if (!confirm('Reject this request? The person will not be able to access the portal.')) return
     setRejectingId(id)
     try {
       const res = await fetch(`/api/admin/requests/${id}/reject`, { method: 'POST' })
@@ -145,6 +214,7 @@ export default function AdminPortalAccessPage() {
   }
 
   const handleRevoke = async (id: string) => {
+    if (!confirm('Remove this user’s portal access? They will no longer be able to use the portal.')) return
     setRevokingId(id)
     try {
       const res = await fetch(`/api/admin/requests/${id}/revoke`, { method: 'POST' })
@@ -185,10 +255,14 @@ export default function AdminPortalAccessPage() {
         setMessage({ type: 'error', text: data.error || 'Failed to add user' })
         return
       }
-      setMessage({ type: 'success', text: `Added ${addForm.email}. ${data.emailSent ? 'Email sent. Default: public files only.' : ''}` })
+      setMessage({ type: 'success', text: `Added ${addForm.email}. ${data.emailSent ? 'Email sent. ' : ''}Default: public files only.` })
       setAddForm({ email: '', name: '', company: '', sendEmail: true })
       setAddOpen(false)
-      fetchData()
+      await fetchData()
+      if (data.requestId) {
+        setTabAndUrl('approved')
+        setExpandedId(data.requestId)
+      }
     } catch {
       setMessage({ type: 'error', text: 'Failed to add user' })
     } finally {
@@ -196,17 +270,25 @@ export default function AdminPortalAccessPage() {
     }
   }
 
+  const BULK_CONFIRM_THRESHOLD = 15
+
   const handleBulkAdd = async (e: React.FormEvent) => {
     e.preventDefault()
-    setBulkSubmitting(true)
     setMessage(null)
     const lines = bulkText.split('\n').map((l) => l.trim()).filter(Boolean)
     const users = lines.map(parseBulkLine).filter((u): u is { email: string; name?: string; company?: string } => u !== null)
     if (users.length === 0) {
       setMessage({ type: 'error', text: 'Enter at least one valid line (email or email, name or email, name, company)' })
-      setBulkSubmitting(false)
       return
     }
+    if (users.length > BULK_ADD_MAX) {
+      setMessage({ type: 'error', text: `Bulk add is limited to ${BULK_ADD_MAX} users per request. You have ${users.length} valid lines.` })
+      return
+    }
+    if (users.length >= BULK_CONFIRM_THRESHOLD && !window.confirm(`You're about to add ${users.length} users. Continue?`)) {
+      return
+    }
+    setBulkSubmitting(true)
     try {
       const res = await fetch('/api/admin/requests/bulk-add', {
         method: 'POST',
@@ -262,7 +344,7 @@ export default function AdminPortalAccessPage() {
           <button
             key={t.key}
             type="button"
-            onClick={() => setTab(t.key)}
+            onClick={() => setTabAndUrl(t.key)}
             className={`min-h-[44px] inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium ${tab === t.key ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
           >
             {t.label}
@@ -272,6 +354,7 @@ export default function AdminPortalAccessPage() {
         {isAdmin && (
           <div className="flex gap-2 ml-auto">
             <button
+              ref={addButtonRef}
               type="button"
               onClick={() => setAddOpen(true)}
               className="inline-flex items-center gap-2 min-h-[44px] px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark"
@@ -280,6 +363,7 @@ export default function AdminPortalAccessPage() {
               Add user
             </button>
             <button
+              ref={bulkButtonRef}
               type="button"
               onClick={() => setBulkOpen(true)}
               className="inline-flex items-center gap-2 min-h-[44px] px-4 py-2 bg-gray-700 text-white rounded-lg text-sm font-medium hover:bg-gray-800"
@@ -309,11 +393,11 @@ export default function AdminPortalAccessPage() {
               <div className="flex gap-2">
                 <button
                   type="button"
-                  onClick={() => handleApprove(req)}
+                  onClick={() => { setApproveModalRequest(req); setApproveOptions({ fullAccess: false, sendEmail: true }) }}
                   disabled={approvingId === req.id}
                   className="inline-flex items-center gap-1 min-h-[44px] px-4 rounded-lg text-sm font-medium text-white bg-primary hover:bg-primary-dark disabled:opacity-50"
                 >
-                  {approvingId === req.id ? '…' : <><CheckCircle className="w-4 h-4" /> Approve (public only)</>}
+                  {approvingId === req.id ? '…' : <><CheckCircle className="w-4 h-4" /> Approve</>}
                 </button>
                 <button
                   type="button"
@@ -406,18 +490,23 @@ export default function AdminPortalAccessPage() {
       )}
 
       {addOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="add-user-title"
+        >
+          <div ref={addModalRef} className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-900">Add user</h2>
-              <button type="button" onClick={() => setAddOpen(false)} className="min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100">
+              <h2 id="add-user-title" className="text-lg font-semibold text-gray-900">Add user</h2>
+              <button type="button" onClick={() => { setAddOpen(false); addButtonRef.current?.focus() }} className="min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100" aria-label="Close">
                 <X className="w-5 h-5" />
               </button>
             </div>
             <form onSubmit={handleAddUser} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-                <input type="email" required value={addForm.email} onChange={(e) => setAddForm((f) => ({ ...f, email: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 rounded-lg" />
+                <input ref={addModalFirstInputRef} type="email" required value={addForm.email} onChange={(e) => setAddForm((f) => ({ ...f, email: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 rounded-lg" aria-required="true" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
@@ -436,7 +525,7 @@ export default function AdminPortalAccessPage() {
                 <button type="submit" disabled={addSubmitting} className="min-h-[44px] px-4 py-2 bg-primary text-white rounded-lg font-medium disabled:opacity-50">
                   {addSubmitting ? 'Adding…' : 'Add'}
                 </button>
-                <button type="button" onClick={() => setAddOpen(false)} className="min-h-[44px] px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium">Cancel</button>
+                <button type="button" onClick={() => { setAddOpen(false); addButtonRef.current?.focus() }} className="min-h-[44px] px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium">Cancel</button>
               </div>
             </form>
           </div>
@@ -444,19 +533,24 @@ export default function AdminPortalAccessPage() {
       )}
 
       {bulkOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="bg-white rounded-xl shadow-xl max-w-lg w-full p-6">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="bulk-add-title"
+        >
+          <div ref={bulkModalRef} className="bg-white rounded-xl shadow-xl max-w-lg w-full p-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-900">Bulk add users</h2>
-              <button type="button" onClick={() => setBulkOpen(false)} className="min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100">
+              <h2 id="bulk-add-title" className="text-lg font-semibold text-gray-900">Bulk add users</h2>
+              <button type="button" onClick={() => { setBulkOpen(false); bulkButtonRef.current?.focus() }} className="min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100" aria-label="Close">
                 <X className="w-5 h-5" />
               </button>
             </div>
             <p className="text-sm text-gray-600 mb-2">
-              One per line: <code className="bg-gray-100 px-1 rounded">email</code> or <code className="bg-gray-100 px-1 rounded">email, name</code> or <code className="bg-gray-100 px-1 rounded">email, name, company</code>. Default: public files only.
+              One per line (max {BULK_ADD_MAX}): <code className="bg-gray-100 px-1 rounded">email</code> or <code className="bg-gray-100 px-1 rounded">email, name</code> or <code className="bg-gray-100 px-1 rounded">email, name, company</code>. Default: public files only.
             </p>
             <form onSubmit={handleBulkAdd} className="space-y-4">
-              <textarea value={bulkText} onChange={(e) => setBulkText(e.target.value)} rows={8} placeholder="user@example.com, Jane Doe, Acme Inc" className="w-full px-3 py-2 border border-gray-300 rounded-lg font-mono text-sm" />
+              <textarea ref={bulkModalFirstInputRef} value={bulkText} onChange={(e) => setBulkText(e.target.value)} rows={8} placeholder="user@example.com, Jane Doe, Acme Inc" className="w-full px-3 py-2 border border-gray-300 rounded-lg font-mono text-sm" aria-label="User list" />
               <label className="flex items-center gap-2">
                 <input type="checkbox" checked={bulkSendEmail} onChange={(e) => setBulkSendEmail(e.target.checked)} />
                 <span className="text-sm text-gray-700">Send approval emails</span>
@@ -465,9 +559,55 @@ export default function AdminPortalAccessPage() {
                 <button type="submit" disabled={bulkSubmitting} className="min-h-[44px] px-4 py-2 bg-primary text-white rounded-lg font-medium disabled:opacity-50">
                   {bulkSubmitting ? 'Adding…' : 'Add all'}
                 </button>
-                <button type="button" onClick={() => setBulkOpen(false)} className="min-h-[44px] px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium">Cancel</button>
+                <button type="button" onClick={() => { setBulkOpen(false); bulkButtonRef.current?.focus() }} className="min-h-[44px] px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium">Cancel</button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {approveModalRequest && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="approve-modal-title"
+        >
+          <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+            <h2 id="approve-modal-title" className="text-lg font-semibold text-gray-900 mb-2">Approve access</h2>
+            <p className="text-sm text-gray-600 mb-4">{approveModalRequest.email} — {approveModalRequest.name}</p>
+            <div className="space-y-3 mb-6">
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={approveOptions.fullAccess}
+                  onChange={(e) => setApproveOptions((o) => ({ ...o, fullAccess: e.target.checked }))}
+                  className="rounded border-gray-300 text-primary focus:ring-primary"
+                />
+                <span className="text-sm text-gray-700">Full access (see all content including locked items)</span>
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={approveOptions.sendEmail}
+                  onChange={(e) => setApproveOptions((o) => ({ ...o, sendEmail: e.target.checked }))}
+                  className="rounded border-gray-300 text-primary focus:ring-primary"
+                />
+                <span className="text-sm text-gray-700">Send approval email with portal link</span>
+              </label>
+            </div>
+            <p className="text-xs text-gray-500 mb-4">If you leave Full access unchecked, they get public files only. You can change this later in Approved.</p>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => handleApprove(approveModalRequest, approveOptions.fullAccess, approveOptions.sendEmail)}
+                disabled={approvingId === approveModalRequest.id}
+                className="min-h-[44px] px-4 py-2 bg-primary text-white rounded-lg font-medium disabled:opacity-50"
+              >
+                {approvingId === approveModalRequest.id ? '…' : 'Approve'}
+              </button>
+              <button type="button" onClick={() => setApproveModalRequest(null)} className="min-h-[44px] px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium">Cancel</button>
+            </div>
           </div>
         </div>
       )}
@@ -528,12 +668,17 @@ function PortalAccessForm({
       {!fullAccess && (
         <>
           <p className="text-xs text-gray-500 bg-white/80 rounded px-2 py-1.5 border border-gray-200">
-            Unlocked items are visible to all. Check boxes to grant this user access to <strong>locked</strong> items. Lock items in Portal content first to restrict them.
+            By default users see public files only. Check boxes to grant this user access to <strong>locked</strong> items. Lock items in Portal content first to restrict them.
           </p>
           <div>
             <div className="text-sm font-medium text-gray-700 mb-2">Resources</div>
             <div className="flex flex-wrap gap-x-4 gap-y-2">
-              {resources.length === 0 ? <span className="text-gray-500 text-sm">No resources yet.</span> : resources.map((r) => (
+              {resources.length === 0 ? (
+                <span className="text-gray-500 text-sm">
+                  No resources yet.{' '}
+                  <Link href="/admin/portal-content" className="text-primary font-medium hover:underline">Add in Portal content</Link>
+                </span>
+              ) : resources.map((r) => (
                 <label key={r.id} className={`inline-flex items-center gap-1.5 text-sm ${r.lockedByAdmin ? '' : 'opacity-75'}`}>
                   <input type="checkbox" checked={grantResourceIds.has(r.id)} onChange={() => toggleResource(r.id)} disabled={!r.lockedByAdmin} className="rounded border-gray-300 text-primary focus:ring-primary disabled:opacity-50" />
                   <span className="text-gray-700">{r.title}</span>
@@ -545,7 +690,12 @@ function PortalAccessForm({
           <div>
             <div className="text-sm font-medium text-gray-700 mb-2">Links</div>
             <div className="flex flex-wrap gap-x-4 gap-y-2">
-              {articles.length === 0 ? <span className="text-gray-500 text-sm">No links yet.</span> : articles.map((a) => (
+              {articles.length === 0 ? (
+                <span className="text-gray-500 text-sm">
+                  No links yet.{' '}
+                  <Link href="/admin/portal-content" className="text-primary font-medium hover:underline">Add in Portal content</Link>
+                </span>
+              ) : articles.map((a) => (
                 <label key={a.id} className={`inline-flex items-center gap-1.5 text-sm ${a.lockedByAdmin ? '' : 'opacity-75'}`}>
                   <input type="checkbox" checked={grantArticleIds.has(a.id)} onChange={() => toggleArticle(a.id)} disabled={!a.lockedByAdmin} className="rounded border-gray-300 text-primary focus:ring-primary disabled:opacity-50" />
                   <span className="text-gray-700">{a.title}</span>

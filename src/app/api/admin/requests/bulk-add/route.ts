@@ -24,9 +24,16 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const raw = body.users
     const sendEmail = body.sendEmail !== false
+    const BULK_ADD_MAX = 100
     if (!Array.isArray(raw) || raw.length === 0) {
       return NextResponse.json(
         { error: 'Body must include "users" array with at least one { email, name?, company? }' },
+        { status: 400 }
+      )
+    }
+    if (raw.length > BULK_ADD_MAX) {
+      return NextResponse.json(
+        { error: `Bulk add is limited to ${BULK_ADD_MAX} users per request. You sent ${raw.length}.` },
         { status: 400 }
       )
     }

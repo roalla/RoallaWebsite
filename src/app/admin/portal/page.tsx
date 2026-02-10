@@ -1,11 +1,19 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { FileText, Users, Gift, ChevronDown, ChevronUp, HelpCircle, Lightbulb } from 'lucide-react'
 
 export default function AdminPortalPage() {
   const [showGuide, setShowGuide] = useState(true)
+  const [pendingCount, setPendingCount] = useState<number | null>(null)
+
+  useEffect(() => {
+    fetch('/api/admin/portal-access/counts')
+      .then((res) => (res.ok ? res.json() : {}))
+      .then((data) => setPendingCount(typeof data.pending === 'number' ? data.pending : null))
+      .catch(() => setPendingCount(null))
+  }, [])
 
   const cards = [
     {
@@ -88,7 +96,7 @@ export default function AdminPortalPage() {
               </li>
               <li className="flex gap-3">
                 <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary font-semibold text-xs">
-                  3
+                  4
                 </span>
                 <span>
                   <strong>Optional: Bundles & codes</strong> — Create redemption codes so clients can unlock a bundle of resources without going through the request flow.
@@ -123,7 +131,12 @@ export default function AdminPortalPage() {
               </span>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-1">{title}</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                {title}
+                {href === '/admin/portal-access' && pendingCount != null && pendingCount > 0 && (
+                  <span className="ml-1.5 text-amber-600 font-medium">({pendingCount} pending)</span>
+                )}
+              </h3>
               <p className="text-sm text-gray-600 mb-2">{description}</p>
               <p className="text-xs text-gray-500 italic">{tip}</p>
             </div>

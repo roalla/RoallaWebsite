@@ -2,46 +2,21 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 import { Award, Shield, GraduationCap, Briefcase, CheckCircle2, Star } from 'lucide-react'
 
-const TrustIndicators = () => {
-  const credentials = [
-    {
-      icon: Award,
-      title: 'Certified Professionals',
-      description: 'Our team holds industry-recognized certifications and credentials in business consulting and financial management.',
-      color: 'from-blue-500 to-blue-600'
-    },
-    {
-      icon: GraduationCap,
-      title: 'Advanced Education',
-      description: 'Team members with advanced education in business, finance, operational and strategic management from leading institutions.',
-      color: 'from-purple-500 to-purple-600'
-    },
-    {
-      icon: Briefcase,
-      title: '30+ Years Experience',
-      description: 'Decades of combined experience helping businesses achieve their strategic and financial goals.',
-      color: 'from-green-500 to-green-600'
-    },
-    {
-      icon: Shield,
-      title: 'Confidential & Secure',
-      description: 'We maintain the highest standards of confidentiality and data security for all client information.',
-      color: 'from-orange-500 to-orange-600'
-    }
-  ]
+const credentialIcons = [Award, GraduationCap, Briefcase, Shield] as const
+const credentialColors = ['from-blue-500 to-blue-600', 'from-purple-500 to-purple-600', 'from-green-500 to-green-600', 'from-orange-500 to-orange-600'] as const
 
-  const expertise = [
-    'Fractional COO Services',
-    'Strategic Business Planning',
-    'Financial Analysis & Reporting',
-    'Process Optimization',
-    'Risk Management',
-    'Growth Strategy Development',
-    'Operational Excellence',
-    'Technology Integration'
+const TrustIndicators = () => {
+  const t = useTranslations('trustIndicators')
+  const credentials = [
+    { title: t('certified'), description: t('certifiedDesc'), icon: credentialIcons[0], color: credentialColors[0] },
+    { title: t('education'), description: t('educationDesc'), icon: credentialIcons[1], color: credentialColors[1] },
+    { title: t('experience'), description: t('experienceDesc'), icon: credentialIcons[2], color: credentialColors[2] },
+    { title: t('confidential'), description: t('confidentialDesc'), icon: credentialIcons[3], color: credentialColors[3] },
   ]
+  const expertise = [t('exp1'), t('exp2'), t('exp3'), t('exp4'), t('exp5'), t('exp6'), t('exp7'), t('exp8')]
 
   return (
     <section id="trust" className="section-padding bg-gradient-to-br from-gray-50 to-white py-20 lg:py-28">
@@ -54,14 +29,13 @@ const TrustIndicators = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-serif font-extrabold text-gray-900 mb-6">
-            Why Choose Roalla
+            {t('title')}
           </h2>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-            Trusted expertise, proven methodologies, and unwavering commitment to your success.
+            {t('subtitle')}
           </p>
         </motion.div>
 
-        {/* Credentials Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {credentials.map((credential, index) => (
             <motion.div
@@ -81,16 +55,15 @@ const TrustIndicators = () => {
           ))}
         </div>
 
-        {/* Expertise Section */}
         <div className="bg-white rounded-2xl p-8 md:p-12 shadow-xl border border-gray-100">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <div className="flex items-center mb-6">
                 <Star className="w-8 h-8 text-primary mr-3" />
-                <h3 className="text-3xl font-bold text-gray-900">Areas of Expertise</h3>
+                <h3 className="text-3xl font-bold text-gray-900">{t('areasTitle')}</h3>
               </div>
               <p className="text-lg text-gray-700 mb-6">
-                Our comprehensive expertise spans multiple domains of business consulting and financial management.
+                {t('areasDesc')}
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">

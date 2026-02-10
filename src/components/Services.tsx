@@ -2,59 +2,33 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import Link from 'next/link'
-import { 
-  TrendingUp, 
-  Users, 
-  Target, 
-  BarChart3, 
-  Lightbulb, 
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
+import {
+  TrendingUp,
+  Users,
+  Target,
+  BarChart3,
+  Lightbulb,
   Zap,
   ArrowRight,
   CheckCircle
 } from 'lucide-react'
 import ScheduleButton from './CalendlyButton'
 
-const services = [
-  {
-    title: "Strategic Planning",
-    description: "Develop comprehensive business strategies that align with your vision and market opportunities.",
-    icon: Target,
-    features: ["Market Analysis", "Competitive Positioning", "Growth Roadmap"]
-  },
-  {
-    title: "Process Optimization",
-    description: "Streamline operations and improve efficiency through data-driven process improvements.",
-    icon: TrendingUp,
-    features: ["Workflow Analysis", "Performance Metrics", "Implementation Support"]
-  },
-  {
-    title: "Team Development",
-    description: "Build high-performing teams through leadership development and organizational design.",
-    icon: Users,
-    features: ["Leadership Training", "Team Building", "Performance Management"]
-  },
-  {
-    title: "Data Analytics",
-    description: "Transform your data into actionable insights for better decision-making.",
-    icon: BarChart3,
-    features: ["Data Strategy", "Reporting Systems", "Predictive Analytics"]
-  },
-  {
-    title: "Innovation Consulting",
-    description: "Foster a culture of innovation and implement cutting-edge solutions.",
-    icon: Lightbulb,
-    features: ["Innovation Strategy", "Technology Assessment", "Change Management"]
-  },
-  {
-    title: "Digital Transformation",
-    description: "Navigate the digital landscape with comprehensive transformation strategies.",
-    icon: Zap,
-    features: ["Technology Roadmap", "Digital Strategy", "Implementation Support"]
-  }
-]
+const serviceIcons = [Target, TrendingUp, Users, BarChart3, Lightbulb, Zap] as const
 
 const Services = () => {
+  const t = useTranslations('services')
+  const services = [
+    { title: t('s0Title'), desc: t('s0Desc'), features: [t('s0F1'), t('s0F2'), t('s0F3')], icon: serviceIcons[0] },
+    { title: t('s1Title'), desc: t('s1Desc'), features: [t('s1F1'), t('s1F2'), t('s1F3')], icon: serviceIcons[1] },
+    { title: t('s2Title'), desc: t('s2Desc'), features: [t('s2F1'), t('s2F2'), t('s2F3')], icon: serviceIcons[2] },
+    { title: t('s3Title'), desc: t('s3Desc'), features: [t('s3F1'), t('s3F2'), t('s3F3')], icon: serviceIcons[3] },
+    { title: t('s4Title'), desc: t('s4Desc'), features: [t('s4F1'), t('s4F2'), t('s4F3')], icon: serviceIcons[4] },
+    { title: t('s5Title'), desc: t('s5Desc'), features: [t('s5F1'), t('s5F2'), t('s5F3')], icon: serviceIcons[5] },
+  ]
+
   return (
     <section id="services" className="section-padding bg-white py-20 lg:py-28">
       <div className="container-custom">
@@ -65,9 +39,9 @@ const Services = () => {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-serif font-extrabold text-gray-900 mb-6">Our Services</h2>
+          <h2 className="text-4xl md:text-5xl font-serif font-extrabold text-gray-900 mb-6">{t('title')}</h2>
           <p className="mt-4 max-w-3xl mx-auto text-xl text-gray-700 leading-relaxed">
-            Comprehensive business enablement solutions designed to drive growth, efficiency, and innovation.
+            {t('subtitle')}
           </p>
         </motion.div>
 
@@ -88,9 +62,9 @@ const Services = () => {
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-3">{service.title}</h3>
               </div>
-              
-              <p className="text-gray-700 text-base leading-relaxed mb-6 min-h-[3rem]">{service.description}</p>
-              
+
+              <p className="text-gray-700 text-base leading-relaxed mb-6 min-h-[3rem]">{service.desc}</p>
+
               <ul className="space-y-3 mb-6">
                 {service.features.map((feature) => (
                   <li key={feature} className="flex items-start text-sm text-gray-600">
@@ -99,19 +73,18 @@ const Services = () => {
                   </li>
                 ))}
               </ul>
-              
+
               <Link
                 href="/contact"
                 className="inline-flex items-center mt-6 text-primary font-semibold hover:text-primary-dark transition-colors duration-200 group-hover:underline"
               >
-                Learn More
+                {t('learnMore')}
                 <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
           ))}
         </div>
 
-        {/* CTA Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -120,13 +93,13 @@ const Services = () => {
           className="bg-gradient-to-r from-primary via-primary-dark to-primary rounded-2xl p-10 md:p-16 mt-20 text-center shadow-2xl"
         >
           <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Ready to Transform Your Business?
+            {t('ctaTitle')}
           </h3>
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Let's discuss how our services can help you achieve your business goals and drive sustainable growth.
+            {t('ctaSubtitle')}
           </p>
           <ScheduleButton variant="secondary" size="lg" className="bg-white text-primary hover:bg-gray-50">
-            Discuss Your Project
+            {t('ctaButton')}
           </ScheduleButton>
         </motion.div>
       </div>

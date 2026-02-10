@@ -73,6 +73,8 @@ const DigitalCreations = () => {
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   unoptimized
+                  priority={index === 0}
+                  fetchPriority={index === 0 ? 'high' : undefined}
                 />
                 <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold z-10 bg-green-100 text-green-800">
                   {t('liveTool')}

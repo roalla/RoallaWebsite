@@ -49,18 +49,30 @@ export default function AdminTrustedContactsPage() {
 
   const fetchContacts = () => {
     const url = orgFilter ? `/api/admin/trusted-contacts?org=${encodeURIComponent(orgFilter)}` : '/api/admin/trusted-contacts'
-    return fetch(url).then((res) => (res.ok ? res.json() : [])).then(setContacts)
+    return fetch(url).then(async (res) => {
+      if (res.ok) return res.json()
+      if (res.status === 401) {
+        setError('Please sign in again to view trusted contacts.')
+        return []
+      }
+      if (res.status === 403) {
+        setError('You don’t have access to trusted contacts.')
+        return []
+      }
+      return []
+    }).then(setContacts)
   }
 
   useEffect(() => {
     let cancelled = false
+    setError('')
     Promise.all([
       fetchContacts(),
       fetch('/api/admin/capabilities').then((r) => r.json()).then((d) => {
         if (!cancelled) setIsAdmin(d.isAdmin === true)
       }),
     ])
-      .then(([_, __]) => {
+      .then(() => {
         if (!cancelled) setLoading(false)
       })
       .catch(() => { if (!cancelled) setLoading(false) })
@@ -142,7 +154,11 @@ export default function AdminTrustedContactsPage() {
             ...(isAdmin && form.organizationId ? { organizationId: form.organizationId } : {}),
           }),
         })
-        if (!res.ok) throw new Error((await res.json()).error || 'Add failed')
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}))
+          const message = (data && typeof data.error === 'string') ? data.error : 'Add failed'
+          throw new Error(message)
+        }
         await fetchContacts()
         resetForm()
       }

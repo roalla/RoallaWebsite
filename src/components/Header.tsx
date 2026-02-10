@@ -16,6 +16,21 @@ const HeaderAuthSlot = dynamic(() => import('./HeaderAuthSlot').then((m) => m.de
   loading: () => authSlotPlaceholder,
 })
 
+/** Canadian flag: red bands, white centre, red maple leaf (simplified) */
+function CanadianFlagIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 12" className={className} aria-hidden>
+      <rect width="24" height="12" fill="#fff" />
+      <rect width="6" height="12" fill="#D52B1E" />
+      <rect x="18" width="6" height="12" fill="#D52B1E" />
+      <path
+        fill="#D52B1E"
+        d="M12 10.2L10.2 6.8 11.2 3.8 12 1.8 12.8 3.8 13.8 6.8 12 10.2z"
+      />
+    </svg>
+  )
+}
+
 /** Quebec flag (Fleurdelisé): blue #002395, white cross, four white fleurs-de-lis (dots at small size) */
 function QuebecFlagIcon({ className }: { className?: string }) {
   return (
@@ -325,7 +340,7 @@ const Header = () => {
                   id="locale-dropdown-desktop"
                 >
                   {locale === 'en' ? (
-                    <span className="text-base leading-none" aria-hidden>🇨🇦</span>
+                    <CanadianFlagIcon className="w-5 h-[10px] flex-shrink-0" />
                   ) : (
                     <QuebecFlagIcon className="w-5 h-[10px] flex-shrink-0" />
                   )}
@@ -350,7 +365,7 @@ const Header = () => {
                         onClick={() => handleLocaleSelect('en')}
                         className="w-full flex items-center gap-2 px-3 py-2 text-left text-sm font-medium text-gray-800 hover:bg-gray-50 first:rounded-t-lg"
                       >
-                        <span className="text-base" aria-hidden>🇨🇦</span>
+                        <CanadianFlagIcon className="w-5 h-[10px] flex-shrink-0" />
                         <span>EN</span>
                       </button>
                       <button
@@ -464,7 +479,7 @@ const Header = () => {
                       id="locale-dropdown-mobile"
                     >
                       {locale === 'en' ? (
-                        <span className="text-lg leading-none" aria-hidden>🇨🇦</span>
+                        <CanadianFlagIcon className="w-6 h-4 flex-shrink-0" />
                       ) : (
                         <QuebecFlagIcon className="w-6 h-4 flex-shrink-0" />
                       )}
@@ -489,7 +504,7 @@ const Header = () => {
                             onClick={() => handleLocaleSelect('en')}
                             className="w-full flex items-center gap-2 px-3 py-2.5 text-left text-base font-medium text-gray-800 hover:bg-gray-50 first:rounded-t-lg"
                           >
-                            <span className="text-lg" aria-hidden>🇨🇦</span>
+                            <CanadianFlagIcon className="w-6 h-4 flex-shrink-0" />
                             <span>EN</span>
                           </button>
                           <button

@@ -9,6 +9,10 @@ yarn-error.log*
 out/
 build/
 
+# Apple Sign in with Apple private key (never commit)
+*.p8
+AuthKey*.p8
+
 # Environment variables
 .env
 .env.local

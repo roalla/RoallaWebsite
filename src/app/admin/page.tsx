@@ -1,4 +1,5 @@
 import { getServerSession } from 'next-auth'
+import { cookies } from 'next/headers'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { isAdmin, canAccessAdmin } from '@/lib/access'
@@ -11,6 +12,10 @@ export default async function AdminDashboardPage() {
   const session = await getServerSession(authOptions)
   const admin = session?.user && isAdmin(session.user)
   const currentUserId = (session?.user as { id?: string } | undefined)?.id
+  const cookieStore = await cookies()
+  const viewAs = (cookieStore.get('admin_view_as')?.value ?? '').toLowerCase()
+  const previewAsPartner = admin && viewAs === 'partner'
+  const previewAsBusiness = admin && viewAs === 'business'
 
   const [
     pending,
@@ -25,7 +30,7 @@ export default async function AdminDashboardPage() {
     prisma.accessRequest.count({ where: { status: 'rejected' } }),
     prisma.user.count(),
     prisma.gatedAccessRequest.count({ where: { status: 'pending' } }),
-    currentUserId && canAccessAdmin(session?.user) && !admin
+    currentUserId && canAccessAdmin(session?.user) && (!admin || previewAsPartner)
       ? (async () => {
           const u = await prisma.user.findUnique({
             where: { id: currentUserId },
@@ -54,7 +59,7 @@ export default async function AdminDashboardPage() {
       : Promise.resolve(null),
   ])
 
-  const userCount = admin ? globalUserCount : partnerContext?.orgUserCount ?? 0
+  const userCount = (admin && !previewAsPartner) ? globalUserCount : partnerContext?.orgUserCount ?? 0
 
   return (
     <div>
@@ -65,6 +70,40 @@ export default async function AdminDashboardPage() {
           <span className="ml-2 text-gray-500">· {partnerContext.organizationName}</span>
         )}
       </p>
+
+      {admin && !previewAsPartner && !previewAsBusiness && (
+        <div className="mb-8 p-4 bg-gray-100 border border-gray-200 rounded-xl">
+          <p className="text-sm font-medium text-gray-800 mb-2">What’s in the menu</p>
+          <ul className="text-sm text-gray-700 space-y-1 list-disc list-inside">
+            <li><strong>Dashboard</strong> — This page: overview and quick links.</li>
+            <li><strong>Team & roles</strong> — Add users and assign roles (admin, partner, etc.).</li>
+            <li><strong>Library access</strong> — Approve or revoke requests for the Resources Portal.</li>
+            <li><strong>Portal content</strong> — Tiles (resources/links), who can see what, and bundles/codes.</li>
+            <li><strong>Trusted contacts</strong> — Contacts list for your organization (partners).</li>
+            <li><strong>Trust Centre</strong> — NDA and gated document requests.</li>
+            <li><strong>Security</strong> — 2FA and account settings.</li>
+          </ul>
+          <p className="text-sm text-gray-600 mt-3">
+            Use <strong>View as → Partner / Business</strong> in the header to preview what that role sees in the menu and on this dashboard.
+          </p>
+        </div>
+      )}
+
+      {previewAsPartner && !partnerContext && (
+        <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <p className="text-sm text-blue-900">
+            <strong>Partner preview:</strong> You’re viewing the dashboard as a Partner. Partners are linked to an organization; you don’t have an organization, so partner-specific counts aren’t shown. Switch to a user with the Partner role (and an organization) to see their full view.
+          </p>
+        </div>
+      )}
+
+      {previewAsBusiness && (
+        <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+          <p className="text-sm text-amber-900">
+            <strong>Business preview:</strong> Business users don’t use this admin area. They receive a link to the Resources Portal after their access request is approved. Use the banner above to return to Admin view.
+          </p>
+        </div>
+      )}
 
       {partnerContext && (
         <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
@@ -92,13 +131,13 @@ export default async function AdminDashboardPage() {
             </div>
             <div>
               <p className="text-sm font-medium text-gray-600">
-                {admin ? 'Team & roles' : 'Your team'}
+                {(admin && !previewAsPartner) ? 'Team & roles' : 'Your team'}
               </p>
               <p className="text-2xl font-bold text-gray-900">{userCount}</p>
             </div>
           </div>
         </Link>
-        {partnerContext && (
+        {(partnerContext || previewAsPartner) && (
           <>
             <Link
               href="/admin/portal-resources"
@@ -110,7 +149,7 @@ export default async function AdminDashboardPage() {
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-600">Resources you can edit</p>
-                  <p className="text-2xl font-bold text-gray-900">{partnerContext.myResourceCount}</p>
+                  <p className="text-2xl font-bold text-gray-900">{partnerContext?.myResourceCount ?? 0}</p>
                 </div>
               </div>
             </Link>
@@ -124,13 +163,13 @@ export default async function AdminDashboardPage() {
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-600">Portal links you can edit</p>
-                  <p className="text-2xl font-bold text-gray-900">{partnerContext.myArticleCount}</p>
+                  <p className="text-2xl font-bold text-gray-900">{partnerContext?.myArticleCount ?? 0}</p>
                 </div>
               </div>
             </Link>
           </>
         )}
-        {admin && (
+        {admin && !previewAsPartner && (
           <>
             <Link
               href="/admin/requests?tab=pending"
@@ -200,7 +239,7 @@ export default async function AdminDashboardPage() {
           <Users className="w-4 h-4" />
           Team & roles
         </Link>
-        {!admin && (
+        {(!admin || previewAsPartner) && (
           <Link
             href="/admin/partner-guide"
             className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 font-medium rounded-lg hover:border-primary/30 text-gray-700"
@@ -209,7 +248,7 @@ export default async function AdminDashboardPage() {
             Partner guide
           </Link>
         )}
-        {admin && (
+        {admin && !previewAsPartner && (
           <>
             <Link
               href="/admin/requests"

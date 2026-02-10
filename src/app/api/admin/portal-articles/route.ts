@@ -21,7 +21,7 @@ export async function GET() {
   try {
     const items = await prisma.portalArticle.findMany({
       orderBy: { sortOrder: 'asc' },
-      select: { id: true, title: true, description: true, readTime: true, category: true, url: true, sortOrder: true, gated: true, trustCategory: true, createdByUserId: true, organizationId: true, createdAt: true, updatedAt: true },
+      select: { id: true, title: true, description: true, readTime: true, category: true, url: true, sortOrder: true, gated: true, lockedByAdmin: true, trustCategory: true, createdByUserId: true, organizationId: true, createdAt: true, updatedAt: true },
     })
     const currentUserId = (session.user as { id?: string }).id
     const list = items.map((item) => ({
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
   }
   try {
     const body = await request.json()
-    const { title, description, readTime, category, url, sortOrder, gated, trustCategory, organizationId: bodyOrgId } = body
+    const { title, description, readTime, category, url, sortOrder, gated, lockedByAdmin, trustCategory, organizationId: bodyOrgId } = body
     if (!title || !description) {
       return NextResponse.json(
         { error: 'title and description are required' },
@@ -73,6 +73,7 @@ export async function POST(request: NextRequest) {
         url: urlVal || null,
         sortOrder: typeof sortOrder === 'number' ? sortOrder : 0,
         gated: typeof gated === 'boolean' ? gated : false,
+        lockedByAdmin: typeof lockedByAdmin === 'boolean' ? lockedByAdmin : false,
         trustCategory: trustCategory != null ? String(trustCategory).trim() || null : null,
         createdByUserId: currentUserId ?? undefined,
         organizationId: organizationId ?? undefined,

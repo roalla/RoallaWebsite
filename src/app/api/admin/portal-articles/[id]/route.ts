@@ -48,6 +48,7 @@ export async function PATCH(
     if (body.url != null) data.url = body.url ? String(body.url).trim() : null
     if (typeof body.sortOrder === 'number') data.sortOrder = body.sortOrder
     if (typeof body.gated === 'boolean') data.gated = body.gated
+    if (typeof body.lockedByAdmin === 'boolean') data.lockedByAdmin = body.lockedByAdmin
     if (body.trustCategory !== undefined) data.trustCategory = body.trustCategory ? String(body.trustCategory).trim() : null
     if (isAdmin(session.user) && body.organizationId !== undefined)
       data.organizationId = body.organizationId === null || body.organizationId === '' ? null : String(body.organizationId).trim()

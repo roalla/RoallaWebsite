@@ -14,6 +14,7 @@ interface PortalLink {
   url: string | null
   sortOrder: number
   gated?: boolean
+  lockedByAdmin?: boolean
   trustCategory?: string | null
   canEdit?: boolean
 }
@@ -30,6 +31,7 @@ export default function AdminPortalLinksPage() {
     url: '',
     sortOrder: 0,
     gated: false,
+    lockedByAdmin: false,
     trustCategory: '',
   })
   const [saving, setSaving] = useState(false)
@@ -67,6 +69,7 @@ export default function AdminPortalLinksPage() {
       url: '',
       sortOrder: items.length,
       gated: false,
+      lockedByAdmin: false,
       trustCategory: '',
     })
     setEditingId(null)
@@ -89,6 +92,7 @@ export default function AdminPortalLinksPage() {
             url: form.url || null,
             sortOrder: form.sortOrder,
             gated: form.gated,
+            lockedByAdmin: form.lockedByAdmin,
             trustCategory: form.trustCategory.trim() || null,
           }),
         })
@@ -107,6 +111,7 @@ export default function AdminPortalLinksPage() {
             url: form.url || null,
             sortOrder: form.sortOrder,
             gated: form.gated,
+            lockedByAdmin: form.lockedByAdmin,
             trustCategory: form.trustCategory.trim() || null,
           }),
         })
@@ -141,6 +146,7 @@ export default function AdminPortalLinksPage() {
       url: item.url || '',
       sortOrder: item.sortOrder,
       gated: item.gated ?? false,
+      lockedByAdmin: item.lockedByAdmin ?? false,
       trustCategory: item.trustCategory ?? '',
     })
     setEditingId(item.id)
@@ -250,6 +256,18 @@ export default function AdminPortalLinksPage() {
               Require NDA + approval (Trust Center gated)
             </label>
           </div>
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="lockedByAdmin-link"
+              checked={form.lockedByAdmin}
+              onChange={(e) => setForm((f) => ({ ...f, lockedByAdmin: e.target.checked }))}
+              className="rounded border-gray-300 text-primary focus:ring-primary"
+            />
+            <label htmlFor="lockedByAdmin-link" className="text-sm font-medium text-gray-700">
+              Lock by default (only visible if user has grant/full access/bundle)
+            </label>
+          </div>
         </div>
         <div className="mt-4 flex gap-2">
           <button
@@ -294,6 +312,7 @@ export default function AdminPortalLinksPage() {
                     </>
                   )}
                   {item.gated && <span className="inline-flex items-center gap-0.5 text-amber-600"><Lock className="w-3.5 h-3.5" /> Gated</span>}
+                  {item.lockedByAdmin && <span className="inline-flex items-center gap-0.5 text-blue-600"><Lock className="w-3.5 h-3.5" /> Locked</span>}
                 </div>
                 {item.url && (
                   <div className="text-xs text-gray-400 mt-1 flex items-center gap-1">

@@ -15,6 +15,8 @@ interface PortalResource {
   color: string
   sortOrder: number
   gated?: boolean
+  lockedByAdmin?: boolean
+  viewOnly?: boolean
   trustCategory?: string | null
   canEdit?: boolean
 }
@@ -43,6 +45,8 @@ export default function AdminPortalResourcesPage() {
     color: 'from-blue-500 to-blue-600',
     sortOrder: 0,
     gated: false,
+    lockedByAdmin: false,
+    viewOnly: false,
     trustCategory: '',
   })
   const [saving, setSaving] = useState(false)
@@ -81,6 +85,8 @@ export default function AdminPortalResourcesPage() {
       color: 'from-blue-500 to-blue-600',
       sortOrder: items.length,
       gated: false,
+      lockedByAdmin: false,
+      viewOnly: false,
       trustCategory: '',
     })
     setEditingId(null)
@@ -104,6 +110,8 @@ export default function AdminPortalResourcesPage() {
             color: form.color,
             sortOrder: form.sortOrder,
             gated: form.gated,
+            lockedByAdmin: form.lockedByAdmin,
+            viewOnly: form.viewOnly,
             trustCategory: form.trustCategory.trim() || null,
           }),
         })
@@ -123,6 +131,8 @@ export default function AdminPortalResourcesPage() {
             color: form.color,
             sortOrder: form.sortOrder,
             gated: form.gated,
+            lockedByAdmin: form.lockedByAdmin,
+            viewOnly: form.viewOnly,
             trustCategory: form.trustCategory.trim() || null,
           }),
         })
@@ -158,6 +168,8 @@ export default function AdminPortalResourcesPage() {
       color: r.color,
       sortOrder: r.sortOrder,
       gated: r.gated ?? false,
+      lockedByAdmin: r.lockedByAdmin ?? false,
+      viewOnly: r.viewOnly ?? false,
       trustCategory: r.trustCategory ?? '',
     })
     setEditingId(r.id)
@@ -268,17 +280,43 @@ export default function AdminPortalResourcesPage() {
               placeholder="e.g. Compliance, Policies, Legal"
             />
           </div>
-          <div className="sm:col-span-2 flex items-center gap-2">
-            <input
-              type="checkbox"
-              id="gated"
-              checked={form.gated}
-              onChange={(e) => setForm((f) => ({ ...f, gated: e.target.checked }))}
-              className="rounded border-gray-300 text-primary focus:ring-primary"
-            />
-            <label htmlFor="gated" className="text-sm font-medium text-gray-700">
-              Require NDA + approval (Trust Center gated)
-            </label>
+          <div className="sm:col-span-2 flex flex-wrap gap-4">
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id="gated"
+                checked={form.gated}
+                onChange={(e) => setForm((f) => ({ ...f, gated: e.target.checked }))}
+                className="rounded border-gray-300 text-primary focus:ring-primary"
+              />
+              <label htmlFor="gated" className="text-sm font-medium text-gray-700">
+                Require NDA + approval (Trust Center gated)
+              </label>
+            </div>
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id="lockedByAdmin"
+                checked={form.lockedByAdmin}
+                onChange={(e) => setForm((f) => ({ ...f, lockedByAdmin: e.target.checked }))}
+                className="rounded border-gray-300 text-primary focus:ring-primary"
+              />
+              <label htmlFor="lockedByAdmin" className="text-sm font-medium text-gray-700">
+                Lock by default (only visible if user has grant/full access/bundle)
+              </label>
+            </div>
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id="viewOnly"
+                checked={form.viewOnly}
+                onChange={(e) => setForm((f) => ({ ...f, viewOnly: e.target.checked }))}
+                className="rounded border-gray-300 text-primary focus:ring-primary"
+              />
+              <label htmlFor="viewOnly" className="text-sm font-medium text-gray-700">
+                View only (no download; for PDFs)
+              </label>
+            </div>
           </div>
         </div>
         <div className="mt-4 flex gap-2">
@@ -315,9 +353,11 @@ export default function AdminPortalResourcesPage() {
             >
               <div className="min-w-0 flex-1">
                 <div className="font-medium text-gray-900">{r.title}</div>
-                <div className="text-sm text-gray-500 flex items-center gap-2">
+                <div className="text-sm text-gray-500 flex items-center gap-2 flex-wrap">
                   {r.type}
                   {r.gated && <span className="inline-flex items-center gap-0.5 text-amber-600"><Lock className="w-3.5 h-3.5" /> Gated</span>}
+                  {r.lockedByAdmin && <span className="inline-flex items-center gap-0.5 text-blue-600"><Lock className="w-3.5 h-3.5" /> Locked</span>}
+                  {r.viewOnly && <span className="text-gray-500">View only</span>}
                 </div>
                 {(r.downloadUrl || r.linkUrl) && (
                   <div className="text-xs text-gray-400 mt-1 flex items-center gap-2">

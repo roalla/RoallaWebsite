@@ -21,7 +21,7 @@ export async function GET() {
   try {
     const items = await prisma.portalResource.findMany({
       orderBy: { sortOrder: 'asc' },
-      select: { id: true, title: true, description: true, type: true, downloadUrl: true, linkUrl: true, color: true, sortOrder: true, gated: true, trustCategory: true, createdByUserId: true, organizationId: true, createdAt: true, updatedAt: true },
+      select: { id: true, title: true, description: true, type: true, downloadUrl: true, linkUrl: true, color: true, sortOrder: true, gated: true, lockedByAdmin: true, viewOnly: true, trustCategory: true, createdByUserId: true, organizationId: true, createdAt: true, updatedAt: true },
     })
     const currentUserId = (session.user as { id?: string }).id
     const list = items.map((item) => ({
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
   }
   try {
     const body = await request.json()
-    const { title, description, type, downloadUrl, linkUrl, color, sortOrder, gated, trustCategory, organizationId: bodyOrgId } = body
+    const { title, description, type, downloadUrl, linkUrl, color, sortOrder, gated, lockedByAdmin, viewOnly, trustCategory, organizationId: bodyOrgId } = body
     if (!title || !description || !type) {
       return NextResponse.json(
         { error: 'title, description, and type are required' },
@@ -67,6 +67,8 @@ export async function POST(request: NextRequest) {
         color: color != null ? String(color).trim() : 'from-blue-500 to-blue-600',
         sortOrder: typeof sortOrder === 'number' ? sortOrder : 0,
         gated: typeof gated === 'boolean' ? gated : false,
+        lockedByAdmin: typeof lockedByAdmin === 'boolean' ? lockedByAdmin : false,
+        viewOnly: typeof viewOnly === 'boolean' ? viewOnly : false,
         trustCategory: trustCategory != null ? String(trustCategory).trim() || null : null,
         createdByUserId: currentUserId ?? undefined,
         organizationId: organizationId ?? undefined,

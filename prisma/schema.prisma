@@ -69,6 +69,7 @@ model User {
   roles             UserRole[]
   gatedGrantsGranted GatedAccessGrant[]
   gatedRequestsReviewed GatedAccessRequest[]
+  portalItemGrantsGranted PortalItemGrant[]
 
   @@index([organizationId])
   @@index([addedByUserId])
@@ -148,15 +149,16 @@ model AuthPendingToken {
 
 // ---- Resources portal ----
 model AccessRequest {
-  id        String   @id @default(cuid())
-  email     String
-  name      String
-  company   String?
-  reason    String?
-  token     String   @unique
-  status    String   @default("pending") // pending, approved, rejected
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(cuid())
+  email      String
+  name       String
+  company    String?
+  reason     String?
+  token      String   @unique
+  status     String   @default("pending") // pending, approved, rejected
+  fullAccess Boolean  @default(false) // when true, user sees all portal content (partners, unlock all)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@index([email])
   @@index([status])
@@ -174,12 +176,16 @@ model PortalResource {
   color            String   @default("from-blue-500 to-blue-600") // Tailwind gradient
   sortOrder        Int      @default(0)
   gated            Boolean  @default(false) // requires NDA + approval to access
+  lockedByAdmin    Boolean  @default(false) // when true, only visible if user has grant/full access/bundle
+  viewOnly         Boolean  @default(false) // when true, show View only (no download) for PDFs
   trustCategory    String?  // optional: Compliance, Policies, Legal, etc. for Trust Center badge
   createdByUserId  String?  // partner can only edit own; null = any editor
   organizationId   String?  // null = visible to all; set = visible to this org + shareable link
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
   organization     Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  bundleItems      PortalBundleItem[]
+  itemGrants       PortalItemGrant[]
 
   @@index([createdByUserId])
   @@index([organizationId])
@@ -194,15 +200,110 @@ model PortalArticle {
   url              String?  // optional link to full article
   sortOrder        Int      @default(0)
   gated            Boolean  @default(false) // requires NDA + approval to access
+  lockedByAdmin    Boolean  @default(false) // when true, only visible if user has grant/full access/bundle
   trustCategory    String?  // optional: Compliance, Policies, Legal, etc. for Trust Center badge
   createdByUserId  String?  // partner can only edit own; null = any editor
   organizationId   String?  // null = visible to all; set = visible to this org + shareable link
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
   organization     Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull)
+  bundleItems      PortalBundleItem[]
+  itemGrants       PortalItemGrant[]
 
   @@index([createdByUserId])
   @@index([organizationId])
+}
+
+// Per-user grants for locked portal items (consultation clients: consultant selects items)
+model PortalItemGrant {
+  id               String   @id @default(cuid())
+  email            String
+  resourceId       String?
+  articleId        String?
+  grantedByUserId  String?
+  grantedAt        DateTime @default(now())
+  resource         PortalResource? @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  article          PortalArticle?  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  grantedBy        User?    @relation(fields: [grantedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([email])
+  @@index([resourceId])
+  @@index([articleId])
+}
+
+// Training / code-based bundles: named set of resources + articles
+model PortalBundle {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  items     PortalBundleItem[]
+  codes     PortalCode[]
+  redemptions UserPortalBundle[]
+}
+
+model PortalBundleItem {
+  id          String   @id @default(cuid())
+  bundleId    String
+  resourceId  String?
+  articleId   String?
+  bundle      PortalBundle    @relation(fields: [bundleId], references: [id], onDelete: Cascade)
+  resource    PortalResource? @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  article     PortalArticle?  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@index([bundleId])
+}
+
+model PortalCode {
+  id              String   @id @default(cuid())
+  code            String   @unique
+  bundleId        String
+  expiresAt       DateTime?
+  maxRedemptions  Int?
+  createdAt       DateTime @default(now())
+  bundle          PortalBundle @relation(fields: [bundleId], references: [id], onDelete: Cascade)
+  redemptions     PortalCodeRedemption[]
+
+  @@index([code])
+  @@index([bundleId])
+}
+
+model PortalCodeRedemption {
+  id         String   @id @default(cuid())
+  codeId     String
+  email      String
+  redeemedAt DateTime @default(now())
+  code       PortalCode @relation(fields: [codeId], references: [id], onDelete: Cascade)
+
+  @@unique([codeId, email])
+  @@index([email])
+}
+
+// Which bundles a user (by email) has unlocked via code redemption
+model UserPortalBundle {
+  id         String   @id @default(cuid())
+  email      String
+  bundleId   String
+  redeemedAt DateTime @default(now())
+  bundle     PortalBundle @relation(fields: [bundleId], references: [id], onDelete: Cascade)
+
+  @@unique([email, bundleId])
+  @@index([email])
+  @@index([bundleId])
+}
+
+// Audit: portal view / download / link_click
+model PortalAccessLog {
+  id          String   @id @default(cuid())
+  email       String
+  resourceId  String?
+  articleId   String?
+  action      String   // view | download | link_click
+  accessedAt  DateTime @default(now())
+
+  @@index([email])
+  @@index([resourceId])
+  @@index([articleId])
+  @@index([accessedAt])
 }
 
 // ---- Trust Center: NDA + gated access ----

@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import {
+  verifyPortalViewer,
+  canSeeResource,
+  canSeeArticle,
+} from '@/lib/portal-access'
 
 export const dynamic = 'force-dynamic'
 
@@ -7,6 +12,14 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const orgSlug = searchParams.get('org')?.trim() || null
+    const token = searchParams.get('token')?.trim() || null
+    const email = searchParams.get('email')?.trim() || null
+
+    const verified = await verifyPortalViewer(token, email)
+    if ('error' in verified) {
+      return NextResponse.json({ error: verified.error }, { status: verified.status })
+    }
+    const { viewer } = verified
 
     let organizationId: string | null = null
     let orgName: string | null = null
@@ -21,28 +34,42 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    const resourceWhere = organizationId
+    const resourceOrgWhere = organizationId
       ? { OR: [{ organizationId: null }, { organizationId }] }
       : {}
-    const articleWhere = organizationId
+    const articleOrgWhere = organizationId
       ? { OR: [{ organizationId: null }, { organizationId }] }
       : {}
 
-    const [resources, articles] = await Promise.all([
+    const [allResources, allArticles] = await Promise.all([
       prisma.portalResource.findMany({
-        where: resourceWhere,
+        where: resourceOrgWhere,
         orderBy: { sortOrder: 'asc' },
       }),
       prisma.portalArticle.findMany({
-        where: articleWhere,
+        where: articleOrgWhere,
         orderBy: { sortOrder: 'asc' },
       }),
     ])
 
-    const payload: { resources: typeof resources; articles: typeof articles; orgName?: string | null } = {
-      resources,
-      articles,
-    }
+    const resources = allResources.filter((r) =>
+      canSeeResource(
+        { id: r.id, lockedByAdmin: r.lockedByAdmin ?? false },
+        viewer
+      )
+    )
+    const articles = allArticles.filter((a) =>
+      canSeeArticle(
+        { id: a.id, lockedByAdmin: a.lockedByAdmin ?? false },
+        viewer
+      )
+    )
+
+    const payload: {
+      resources: typeof resources
+      articles: typeof articles
+      orgName?: string | null
+    } = { resources, articles }
     if (orgName) payload.orgName = orgName
 
     return NextResponse.json(payload)

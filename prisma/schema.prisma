@@ -178,6 +178,7 @@ model PortalResource {
   gated            Boolean  @default(false) // requires NDA + approval to access
   lockedByAdmin    Boolean  @default(false) // when true, only visible if user has grant/full access/bundle
   viewOnly         Boolean  @default(false) // when true, show View only (no download) for PDFs
+  label            String?  // optional badge (e.g. "2 min", "Video") for link-style items
   trustCategory    String?  // optional: Compliance, Policies, Legal, etc. for Trust Center badge
   createdByUserId  String?  // partner can only edit own; null = any editor
   organizationId   String?  // null = visible to all; set = visible to this org + shareable link

@@ -82,3 +82,29 @@ Today the portal has two sections: “Downloadable Resources” and “Links.”
 - **Cleanest long-term:** Option A – single content model and one admin list; migrate articles into resources and retire the articles table/API.
 
 If you tell me which option you prefer (A, B, or C), I can outline the exact file and API changes next.
+
+---
+
+## What’s implemented (current codebase)
+
+1. **Unified client portal**
+   - One **Content** section with a single grid. Downloadable resources and links are merged into one list with badges (Download / Link / Download + Link).
+   - Link-only items can come from API **resources** (resource with `linkUrl` only) or **articles** (legacy). The out route accepts both `resourceId` and `articleId`.
+
+2. **Admin**
+   - **Portal** landing has one card: **Portal content (resources & links)** → `/admin/portal-content` hub.
+   - Hub offers two entries: **Downloadable resources** and **Portal links** (unchanged URLs).
+   - **Portal resources** support an optional **Label** (e.g. "2 min", "Video") for link-style tiles.
+
+3. **Schema**
+   - **PortalResource** has an optional `label` field.
+   - Migration: `20260209190000_add_portal_resource_label` adds the column.
+
+4. **Optional: merge articles into resources (run once)**
+   - Run `prisma migrate deploy` (so the `label` column exists).
+   - Run the script:  
+     `npx tsx scripts/migrate-articles-to-resources.ts`  
+     (or `npx ts-node --compiler-options '{"module":"CommonJS"}' scripts/migrate-articles-to-resources.ts`)
+   - The script creates a **PortalResource** for each **PortalArticle** (with `linkUrl` set, `downloadUrl` null, `label` from readTime), updates all grants and bundle items to point to the new resource IDs, then deletes articles.
+   - After that, link-only content is served as resources; the client treats resources with only `linkUrl` as **Link** and uses `getOutUrl` with `resourceId`. The content API still returns both `resources` and `articles`; after the script, `articles` is empty.
+   - To fully remove **PortalArticle** from the app you would then: remove the model and all `articleId` columns from the schema, add a second migration, and update the content API and portal-access to use only resources. That step is not done in the repo yet so existing DBs keep working.

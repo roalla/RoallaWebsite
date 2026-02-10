@@ -4,29 +4,28 @@ import React, { useEffect, useState, useCallback, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from '@/i18n/navigation'
 import { motion } from 'framer-motion'
-import { FileText, Download, BookOpen, TrendingUp, BarChart3, Lightbulb, Lock, LogOut, Eye, X, Gift } from 'lucide-react'
+import { FileText, Download, BookOpen, TrendingUp, BarChart3, Lightbulb, Lock, LogOut, Eye, X, Gift, Link2 } from 'lucide-react'
 import { Link as IntlLink } from '@/i18n/navigation'
 
-interface Resource {
+/** Unified portal content item: either a downloadable resource or a link (both shown in one grid). */
+interface PortalContentItem {
   id: string
+  kind: 'resource' | 'link'
+  /** When kind is 'link', whether this item came from API resources (link-only) or articles (legacy). */
+  linkSource?: 'resource' | 'article'
   icon: React.ComponentType<{ className?: string }>
   title: string
   description: string
   type: string
-  downloadUrl?: string
-  readUrl?: string
   color: string
+  /** For resources: file URL. For links: undefined. */
+  downloadUrl?: string
+  /** For resources: optional extra link. For links: destination URL. */
+  readUrl?: string
   viewOnly?: boolean
   isPdf?: boolean
-}
-
-interface PortalLink {
-  id?: string
-  title: string
-  description: string
-  readTime?: string
-  category?: string
-  url?: string
+  /** Link-only: optional label (e.g. "2 min", "Video"). */
+  label?: string
 }
 
 function ResourcesPortalContent() {
@@ -84,8 +83,7 @@ function ResourcesPortalContent() {
     router.push('/resources/request')
   }
 
-  const [portalResources, setPortalResources] = useState<Resource[]>([])
-  const [portalLinks, setPortalLinks] = useState<PortalLink[]>([])
+  const [portalContent, setPortalContent] = useState<PortalContentItem[]>([])
   const [contentLoaded, setContentLoaded] = useState(false)
   const [portalOrgName, setPortalOrgName] = useState<string | null>(null)
   const [pdfViewerResourceId, setPdfViewerResourceId] = useState<string | null>(null)
@@ -111,37 +109,46 @@ function ResourcesPortalContent() {
     fetch(url)
       .then((res) => (res.ok ? res.json() : { resources: [], articles: [] }))
       .then((data) => {
-        const rs = (data.resources || []).map((r: { id: string; title: string; description: string; type: string; downloadUrl?: string | null; linkUrl?: string | null; color: string; viewOnly?: boolean }) => {
+        const resources = data.resources || []
+        const articles = data.articles || []
+        const rs = resources.map((r: { id: string; title: string; description: string; type: string; downloadUrl?: string | null; linkUrl?: string | null; color: string; viewOnly?: boolean; label?: string | null }) => {
           const downloadUrl = r.downloadUrl || undefined
+          const readUrl = r.linkUrl || undefined
+          const isLinkOnly = !downloadUrl && !r.viewOnly && readUrl
           const isPdf = typeof downloadUrl === 'string' && /\.pdf$/i.test(downloadUrl)
           return {
             id: r.id,
-            icon: iconByType[r.type] || FileText,
+            kind: isLinkOnly ? ('link' as const) : ('resource' as const),
+            linkSource: isLinkOnly ? ('resource' as const) : undefined,
+            icon: isLinkOnly ? Link2 : (iconByType[r.type] || FileText),
             title: r.title,
             description: r.description,
             type: r.type,
-            downloadUrl,
-            readUrl: r.linkUrl || undefined,
             color: r.color || 'from-blue-500 to-blue-600',
+            downloadUrl,
+            readUrl,
             viewOnly: r.viewOnly ?? false,
             isPdf: !!isPdf,
+            label: r.label || undefined,
           }
         })
-        const links = (data.articles || []).map((a: { id: string; title: string; description: string; readTime?: string | null; category?: string | null; url?: string | null }) => ({
+        const links = articles.map((a: { id: string; title: string; description: string; readTime?: string | null; category?: string | null; url?: string | null }) => ({
           id: a.id,
+          kind: 'link' as const,
+          linkSource: 'article' as const,
+          icon: Link2,
           title: a.title,
           description: a.description,
-          readTime: a.readTime || undefined,
-          category: a.category || undefined,
-          url: a.url || undefined,
+          type: a.category || 'External',
+          color: 'from-teal-500 to-teal-600',
+          readUrl: a.url || undefined,
+          label: a.readTime || undefined,
         }))
-        setPortalResources(rs)
-        setPortalLinks(links)
+        setPortalContent([...rs, ...links])
         setPortalOrgName(data.orgName ?? null)
       })
       .catch(() => {
-        setPortalResources([])
-        setPortalLinks([])
+        setPortalContent([])
         setPortalOrgName(null)
       })
       .finally(() => setContentLoaded(true))
@@ -161,38 +168,47 @@ function ResourcesPortalContent() {
       .then((res) => (res.ok ? res.json() : { resources: [], articles: [] }))
       .then((data) => {
         if (cancelled) return
-        const rs = (data.resources || []).map((r: { id: string; title: string; description: string; type: string; downloadUrl?: string | null; linkUrl?: string | null; color: string; viewOnly?: boolean }) => {
+        const resources = data.resources || []
+        const articles = data.articles || []
+        const rs = resources.map((r: { id: string; title: string; description: string; type: string; downloadUrl?: string | null; linkUrl?: string | null; color: string; viewOnly?: boolean; label?: string | null }) => {
           const downloadUrl = r.downloadUrl || undefined
+          const readUrl = r.linkUrl || undefined
+          const isLinkOnly = !downloadUrl && !r.viewOnly && readUrl
           const isPdf = typeof downloadUrl === 'string' && /\.pdf$/i.test(downloadUrl)
           return {
             id: r.id,
-            icon: iconByType[r.type] || FileText,
+            kind: isLinkOnly ? ('link' as const) : ('resource' as const),
+            linkSource: isLinkOnly ? ('resource' as const) : undefined,
+            icon: isLinkOnly ? Link2 : (iconByType[r.type] || FileText),
             title: r.title,
             description: r.description,
             type: r.type,
-            downloadUrl,
-            readUrl: r.linkUrl || undefined,
             color: r.color || 'from-blue-500 to-blue-600',
+            downloadUrl,
+            readUrl,
             viewOnly: r.viewOnly ?? false,
             isPdf: !!isPdf,
+            label: r.label || undefined,
           }
         })
-        const links = (data.articles || []).map((a: { id: string; title: string; description: string; readTime?: string | null; category?: string | null; url?: string | null }) => ({
+        const links = articles.map((a: { id: string; title: string; description: string; readTime?: string | null; category?: string | null; url?: string | null }) => ({
           id: a.id,
+          kind: 'link' as const,
+          linkSource: 'article' as const,
+          icon: Link2,
           title: a.title,
           description: a.description,
-          readTime: a.readTime || undefined,
-          category: a.category || undefined,
-          url: a.url || undefined,
+          type: a.category || 'External',
+          color: 'from-teal-500 to-teal-600',
+          readUrl: a.url || undefined,
+          label: a.readTime || undefined,
         }))
-        setPortalResources(rs)
-        setPortalLinks(links)
+        setPortalContent([...rs, ...links])
         setPortalOrgName(data.orgName ?? null)
       })
       .catch(() => {
         if (!cancelled) {
-          setPortalResources([])
-          setPortalLinks([])
+          setPortalContent([])
           setPortalOrgName(null)
         }
       })
@@ -245,11 +261,13 @@ function ResourcesPortalContent() {
     return `/api/resources/portal/file/${resourceId}?${params.toString()}`
   }
 
-  const getOutUrl = (articleId: string) => {
+  const getOutUrl = (item: { id: string; linkSource?: 'resource' | 'article' }) => {
     const token = accessToken || (typeof localStorage !== 'undefined' ? localStorage.getItem('resources_access_token') : null)
     const email = userEmail || (typeof localStorage !== 'undefined' ? localStorage.getItem('resources_user_email') : null)
     if (!token || !email) return '#'
-    const params = new URLSearchParams({ token, email, articleId })
+    const params = new URLSearchParams({ token, email })
+    if (item.linkSource === 'resource') params.set('resourceId', item.id)
+    else params.set('articleId', item.id)
     return `/api/resources/portal/out?${params.toString()}`
   }
 
@@ -343,58 +361,67 @@ function ResourcesPortalContent() {
           )}
         </div>
 
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Downloadable Resources</h2>
-          <p className="text-gray-600 mb-8">Access exclusive guides, templates, and tools.</p>
+        <div>
+          <div className="flex items-center mb-2">
+            <BookOpen className="w-8 h-8 text-primary mr-3" />
+            <h2 className="text-3xl font-bold text-gray-900">Content</h2>
+          </div>
+          <p className="text-gray-600 mb-8">Guides, templates, tools, and links—all in one place.</p>
 
           {!contentLoaded ? (
-            <p className="text-gray-500">Loading resources...</p>
-          ) : portalResources.length === 0 ? (
-            <p className="text-gray-500">No resources are currently available for your account. Redeem a code or contact your consultant for access to specific items.</p>
+            <p className="text-gray-500">Loading content...</p>
+          ) : portalContent.length === 0 ? (
+            <p className="text-gray-500">No content is currently available for your account. Redeem a code or contact your consultant for access.</p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {portalResources.map((resource, index) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {portalContent.map((item, index) => (
                 <motion.div
-                  key={resource.id}
+                  key={item.id + item.kind}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  transition={{ duration: 0.5, delay: index * 0.05 }}
                   className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
                 >
-                  <div className={`w-14 h-14 bg-gradient-to-br ${resource.color} rounded-lg flex items-center justify-center mb-4`}>
-                    <resource.icon className="w-7 h-7 text-white" />
+                  <div className="flex items-start justify-between gap-2 mb-3">
+                    <div className={`w-14 h-14 bg-gradient-to-br ${item.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                      <item.icon className="w-7 h-7 text-white" />
+                    </div>
+                    <span className="shrink-0 rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-600">
+                      {item.kind === 'link' ? 'Link' : item.downloadUrl && item.readUrl ? 'Download + Link' : 'Download'}
+                    </span>
                   </div>
-                  <div className="text-xs font-semibold text-primary mb-2 uppercase tracking-wide">
-                    {resource.type}
+                  <div className="text-xs font-semibold text-primary mb-1 uppercase tracking-wide">
+                    {item.type}
+                    {item.label && <span className="ml-1.5 font-normal text-gray-500 normal-case">· {item.label}</span>}
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{resource.title}</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
                   <div
-                    className="portal-rich-text text-gray-600 mb-4 leading-relaxed [&_p]:my-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:text-primary [&_a]:underline [&_a]:hover:opacity-90 [&_strong]:font-semibold"
-                    dangerouslySetInnerHTML={{ __html: resource.description || '' }}
+                    className="portal-rich-text text-gray-600 mb-4 leading-relaxed text-sm [&_p]:my-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:text-primary [&_a]:underline [&_a]:hover:opacity-90 [&_strong]:font-semibold"
+                    dangerouslySetInnerHTML={{ __html: item.description || '' }}
                   />
                   <div className="flex flex-wrap gap-2">
-                    {resource.downloadUrl && resource.isPdf && (
+                    {item.kind === 'resource' && item.downloadUrl && item.isPdf && (
                       <button
                         type="button"
-                        onClick={() => setPdfViewerResourceId(resource.id)}
+                        onClick={() => setPdfViewerResourceId(item.id)}
                         className="inline-flex items-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg transition-colors text-sm"
                       >
                         <Eye className="w-4 h-4 mr-2" />
                         View
                       </button>
                     )}
-                    {resource.downloadUrl && !resource.viewOnly && (
+                    {item.kind === 'resource' && item.downloadUrl && !item.viewOnly && (
                       <a
-                        href={getFileUrl(resource.id, 'attachment')}
+                        href={getFileUrl(item.id, 'attachment')}
                         className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm"
                       >
                         <Download className="w-4 h-4 mr-2" />
                         Download
                       </a>
                     )}
-                    {resource.readUrl && (
+                    {item.kind === 'resource' && item.readUrl && (
                       <a
-                        href={resource.readUrl}
+                        href={item.readUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg transition-colors text-sm"
@@ -402,62 +429,15 @@ function ResourcesPortalContent() {
                         Open link
                       </a>
                     )}
+                    {item.kind === 'link' && item.readUrl && item.readUrl !== '#' && (
+                      <a
+                        href={getOutUrl(item)}
+                        className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm"
+                      >
+                        {item.readUrl.startsWith('/') ? 'Open tool' : 'Open link'}
+                      </a>
+                    )}
                   </div>
-                </motion.div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div>
-          <div className="flex items-center mb-8">
-            <BookOpen className="w-8 h-8 text-primary mr-3" />
-            <h2 className="text-3xl font-bold text-gray-900">Links</h2>
-          </div>
-          <p className="text-gray-600 mb-6">External content and links to internal tools.</p>
-          {!contentLoaded ? (
-            <p className="text-gray-500">Loading links...</p>
-          ) : portalLinks.length === 0 ? (
-            <p className="text-gray-500">No links are currently available for your account.</p>
-          ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {portalLinks.map((link, index) => (
-                <motion.div
-                  key={(link.id || link.title) + String(index)}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100"
-                >
-                  {(link.category || link.readTime) && (
-                    <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
-                      {link.category && <span className="font-semibold text-primary">{link.category}</span>}
-                      {link.readTime && <span>{link.readTime}</span>}
-                    </div>
-                  )}
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">{link.title}</h3>
-                  <div
-                    className="portal-rich-text text-sm text-gray-600 leading-relaxed [&_p]:my-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:text-primary [&_a]:underline [&_a]:hover:opacity-90 [&_strong]:font-semibold"
-                    dangerouslySetInnerHTML={{ __html: link.description || '' }}
-                  />
-                  {link.id && link.url && link.url !== '#' && (
-                    <a
-                      href={getOutUrl(link.id)}
-                      className="inline-flex items-center mt-3 text-sm font-medium text-primary hover:text-primary-dark"
-                    >
-                      {link.url.startsWith('/') ? 'Open tool' : 'Open link'}
-                    </a>
-                  )}
-                  {link.url && !link.id && (
-                    <a
-                      href={link.url}
-                      target={link.url.startsWith('/') ? undefined : '_blank'}
-                      rel={link.url.startsWith('/') ? undefined : 'noopener noreferrer'}
-                      className="inline-flex items-center mt-3 text-sm font-medium text-primary hover:text-primary-dark"
-                    >
-                      {link.url.startsWith('/') ? 'Open tool' : 'Open link'}
-                    </a>
-                  )}
                 </motion.div>
               ))}
             </div>

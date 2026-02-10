@@ -8,6 +8,7 @@ import {
 
 export const dynamic = 'force-dynamic'
 
+/** Returns resources and articles. After migration, articles are empty and link-only items exist as resources. */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)

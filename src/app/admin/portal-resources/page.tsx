@@ -17,6 +17,7 @@ interface PortalResource {
   gated?: boolean
   lockedByAdmin?: boolean
   viewOnly?: boolean
+  label?: string | null
   trustCategory?: string | null
   canEdit?: boolean
 }
@@ -47,6 +48,7 @@ export default function AdminPortalResourcesPage() {
     gated: false,
     lockedByAdmin: false,
     viewOnly: false,
+    label: '',
     trustCategory: '',
   })
   const [saving, setSaving] = useState(false)
@@ -87,6 +89,7 @@ export default function AdminPortalResourcesPage() {
       gated: false,
       lockedByAdmin: false,
       viewOnly: false,
+      label: '',
       trustCategory: '',
     })
     setEditingId(null)
@@ -112,6 +115,7 @@ export default function AdminPortalResourcesPage() {
             gated: form.gated,
             lockedByAdmin: form.lockedByAdmin,
             viewOnly: form.viewOnly,
+            label: form.label.trim() || null,
             trustCategory: form.trustCategory.trim() || null,
           }),
         })
@@ -133,6 +137,7 @@ export default function AdminPortalResourcesPage() {
             gated: form.gated,
             lockedByAdmin: form.lockedByAdmin,
             viewOnly: form.viewOnly,
+            label: form.label.trim() || null,
             trustCategory: form.trustCategory.trim() || null,
           }),
         })
@@ -170,6 +175,7 @@ export default function AdminPortalResourcesPage() {
       gated: r.gated ?? false,
       lockedByAdmin: r.lockedByAdmin ?? false,
       viewOnly: r.viewOnly ?? false,
+      label: r.label ?? '',
       trustCategory: r.trustCategory ?? '',
     })
     setEditingId(r.id)
@@ -317,6 +323,16 @@ export default function AdminPortalResourcesPage() {
                 View only (no download; for PDFs)
               </label>
             </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Label (optional)</label>
+            <input
+              type="text"
+              value={form.label}
+              onChange={(e) => setForm((f) => ({ ...f, label: e.target.value }))}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+              placeholder="e.g. 2 min, Video, Tool (for link-only items)"
+            />
           </div>
         </div>
         <div className="mt-4 flex gap-2">

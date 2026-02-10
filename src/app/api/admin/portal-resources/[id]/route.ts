@@ -51,6 +51,7 @@ export async function PATCH(
     if (typeof body.gated === 'boolean') data.gated = body.gated
     if (typeof body.lockedByAdmin === 'boolean') data.lockedByAdmin = body.lockedByAdmin
     if (typeof body.viewOnly === 'boolean') data.viewOnly = body.viewOnly
+    if (body.label !== undefined) data.label = body.label ? String(body.label).trim() : null
     if (body.trustCategory !== undefined) data.trustCategory = body.trustCategory ? String(body.trustCategory).trim() : null
     if (isAdmin(session.user) && body.organizationId !== undefined)
       data.organizationId = body.organizationId === null || body.organizationId === '' ? null : String(body.organizationId).trim()

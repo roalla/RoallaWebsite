@@ -2,19 +2,16 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 import { Target, TrendingUp, Users, BarChart3, Lightbulb, Zap, ArrowRight } from 'lucide-react'
 
-const pillars = [
-  { icon: Target, label: 'Strategic Planning' },
-  { icon: TrendingUp, label: 'Process Optimization' },
-  { icon: Users, label: 'Team Development' },
-  { icon: BarChart3, label: 'Data Analytics' },
-  { icon: Lightbulb, label: 'Innovation Consulting' },
-  { icon: Zap, label: 'Digital Transformation' },
-]
+const pillarKeys = ['strategicPlanning', 'processOptimization', 'teamDevelopment', 'dataAnalytics', 'innovationConsulting', 'digitalTransformation'] as const
+const pillarIcons = [Target, TrendingUp, Users, BarChart3, Lightbulb, Zap]
 
 export default function HomeWhatWeDo() {
+  const t = useTranslations('home.whatWeDo')
+  const pillars = pillarKeys.map((key, i) => ({ icon: pillarIcons[i], label: t(key) }))
   return (
     <section className="py-16 lg:py-24 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -25,10 +22,8 @@ export default function HomeWhatWeDo() {
           transition={{ duration: 0.5 }}
           className="max-w-2xl mb-12"
         >
-          <h2 className="text-3xl font-serif font-bold text-gray-900">What we do</h2>
-          <p className="mt-3 text-gray-700">
-            Comprehensive business enablement—strategy, operations, and implementation—to drive growth and efficiency.
-          </p>
+          <h2 className="text-3xl font-serif font-bold text-gray-900">{t('title')}</h2>
+          <p className="mt-3 text-gray-700">{t('description')}</p>
         </motion.div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
           {pillars.map((item, i) => (
@@ -57,7 +52,7 @@ export default function HomeWhatWeDo() {
             href="/services"
             className="inline-flex items-center text-primary font-semibold hover:underline"
           >
-            Explore our services
+            {t('exploreServices')}
             <ArrowRight className="ml-2 w-4 h-4" />
           </Link>
         </motion.div>

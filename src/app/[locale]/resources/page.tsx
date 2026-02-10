@@ -1,4 +1,5 @@
 import React from 'react'
+import { getTranslations } from 'next-intl/server'
 import Breadcrumb from '@/components/Breadcrumb'
 import Resources from '@/components/Resources'
 
@@ -7,11 +8,12 @@ export const metadata = {
   description: 'Access exclusive business guides, templates, tools, and insights. Request access to the Resource Centre.',
 }
 
-export default function ResourcesPage() {
+export default async function ResourcesPage() {
+  const t = await getTranslations('breadcrumb')
   return (
     <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-8">
-        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Resource Centre' }]} />
+        <Breadcrumb items={[{ label: t('home'), href: '/' }, { label: t('resources') }]} />
         <Resources />
       </div>
     </div>

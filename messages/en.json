@@ -62,7 +62,7 @@
       "subtitle": "Schedule a free consultation or explore our resources to get started.",
       "schedule": "Schedule Consultation",
       "exploreResources": "Explore Resource Centre",
-      "orAssessment": "Not sure where to start? Take the business health assessment above for a tailored report."
+      "orAssessment": "Not sure where to start? <link>Take the business health assessment</link> above for a tailored report."
     },
     "trustedBy": {
       "title": "Why choose Roalla",
@@ -88,5 +88,9 @@
     "faq": "FAQ",
     "contact": "Contact",
     "trustCentre": "Trust Centre"
+  },
+  "schedule": {
+    "title": "Schedule a Consultation",
+    "subtitle": "Choose a time that works best for you. We look forward to speaking with you."
   }
 }

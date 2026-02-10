@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, Suspense } from 'react'
 import Link from 'next/link'
 import { useSearchParams, usePathname } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import Breadcrumb from '@/components/Breadcrumb'
 import toast from 'react-hot-toast'
 import {
@@ -18,9 +19,7 @@ import {
   Key,
   Server,
   Laptop,
-  Building2,
   FileStack,
-  Award,
 } from 'lucide-react'
 
 type DocResource = {
@@ -69,6 +68,7 @@ const DOC_TABS = ['all', 'public', 'private'] as const
 function TrustCenterContent() {
   const searchParams = useSearchParams()
   const pathname = usePathname()
+  const tBreadcrumb = useTranslations('breadcrumb')
   const [token, setToken] = useState<string | null>(() => {
     if (typeof window === 'undefined') return null
     return localStorage.getItem('trust_center_token')
@@ -239,7 +239,7 @@ function TrustCenterContent() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-24 lg:pt-28 pb-12">
-        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Trust Centre' }]} />
+        <Breadcrumb items={[{ label: tBreadcrumb('home'), href: '/' }, { label: tBreadcrumb('trustCentre') }]} />
 
         <header className="text-center mb-12">
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Trust Centre</h1>
@@ -522,9 +522,7 @@ function TrustCenterContent() {
             { title: 'Access Control', icon: Key, items: ['Data Access', 'Logging', 'Password Security'] },
             { title: 'Infrastructure', icon: Server, items: ['BC/DR', 'Data Center', 'Separate Production Environment'] },
             { title: 'Endpoint Security', icon: Laptop, items: ['Disk Encryption', 'DNS Filtering', 'Endpoint Detection & Response'] },
-            { title: 'Corporate Security', icon: Building2, items: ['HR Security', 'Incident Response', 'Internal Assessments'] },
             { title: 'Policies', icon: FileStack, items: ['Information Security Policy', 'Vulnerability Management Policy', 'Other Policies'] },
-            { title: 'Compliance & Grades', icon: Award, items: ['SOC 2', 'ISO 27001', 'Security assessments'] },
           ].map((card) => (
             <div key={card.title} className="p-4 bg-white rounded-xl border border-gray-200">
               <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">

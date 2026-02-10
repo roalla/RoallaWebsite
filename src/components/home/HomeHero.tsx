@@ -3,13 +3,14 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 import ScheduleButton from '../CalendlyButton'
 
 export default function HomeHero() {
+  const t = useTranslations('home.hero')
   return (
     <section className="relative min-h-[85vh] flex items-center bg-gradient-to-br from-white via-primary/5 to-primary/10 overflow-hidden">
-      {/* Subtle grid / shape background */}
       <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)', backgroundSize: '40px 40px' }} />
       <div className="absolute top-0 right-0 w-[60%] h-[70%] bg-gradient-to-bl from-primary/10 to-transparent rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-tr from-primary/5 to-transparent rounded-full blur-3xl" />
@@ -22,9 +23,9 @@ export default function HomeHero() {
             transition={{ duration: 0.6 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold text-gray-900 leading-tight"
           >
-            Strategic operational insight for{' '}
+            {t('title')}{' '}
             <span className="bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">
-              measurable growth
+              {t('titleHighlight')}
             </span>
           </motion.h1>
           <motion.p
@@ -33,7 +34,7 @@ export default function HomeHero() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="mt-6 text-xl text-gray-700 max-w-2xl"
           >
-            Fractional COO and business consulting that delivers clarity, efficiency, and results. We work alongside you to implement change—not just recommend it.
+            {t('subtitle')}
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -42,13 +43,13 @@ export default function HomeHero() {
             className="mt-10 flex flex-wrap items-center gap-4"
           >
             <ScheduleButton variant="primary" size="lg" icon>
-              Schedule a Free Consultation
+              {t('cta')}
             </ScheduleButton>
             <Link
               href="/services"
               className="inline-flex items-center font-semibold text-gray-700 hover:text-primary transition-colors"
             >
-              Explore our services
+              {t('exploreServices')}
               <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
           </motion.div>
@@ -58,7 +59,7 @@ export default function HomeHero() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-12 text-sm text-gray-500"
           >
-            30+ years experience · 500+ projects · 100% client focused
+            {t('stats')}
           </motion.p>
         </div>
       </div>

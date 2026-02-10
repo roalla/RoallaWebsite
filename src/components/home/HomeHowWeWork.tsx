@@ -2,17 +2,16 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 import { Search, Target, Rocket, CheckCircle, ArrowRight } from 'lucide-react'
 
-const steps = [
-  { icon: Search, label: 'Discovery & Assessment' },
-  { icon: Target, label: 'Strategic Planning' },
-  { icon: Rocket, label: 'Implementation & Support' },
-  { icon: CheckCircle, label: 'Continuous Improvement' },
-]
+const stepKeys = ['discovery', 'planning', 'implementation', 'improvement'] as const
+const stepIcons = [Search, Target, Rocket, CheckCircle]
 
 export default function HomeHowWeWork() {
+  const t = useTranslations('home.howWeWork')
+  const steps = stepKeys.map((key, i) => ({ icon: stepIcons[i], label: t(key) }))
   return (
     <section className="py-16 lg:py-24 bg-gradient-to-br from-gray-50 to-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -22,10 +21,8 @@ export default function HomeHowWeWork() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl font-serif font-bold text-gray-900">How we work</h2>
-          <p className="mt-3 text-gray-700 max-w-xl mx-auto">
-            A proven methodology: assess, plan, implement, improve.
-          </p>
+          <h2 className="text-3xl font-serif font-bold text-gray-900">{t('title')}</h2>
+          <p className="mt-3 text-gray-700 max-w-xl mx-auto">{t('description')}</p>
         </motion.div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
           {steps.map((step, i) => (
@@ -51,7 +48,7 @@ export default function HomeHowWeWork() {
           className="text-center mt-8"
         >
           <Link href="/about" className="inline-flex items-center text-primary font-semibold hover:underline">
-            Learn more about us
+            {t('learnMore')}
             <ArrowRight className="ml-2 w-4 h-4" />
           </Link>
         </motion.div>

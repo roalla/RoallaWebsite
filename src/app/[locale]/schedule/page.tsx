@@ -2,8 +2,10 @@
 
 import React from 'react';
 import Script from 'next/script';
+import { useTranslations } from 'next-intl';
 
 const SchedulePage = () => {
+  const t = useTranslations('schedule');
   return (
     <>
       <Script
@@ -14,10 +16,10 @@ const SchedulePage = () => {
         <div className="max-w-4xl mx-auto">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-serif font-extrabold text-gray-900">
-              Schedule a Consultation
+              {t('title')}
             </h1>
             <p className="mt-4 text-lg text-gray-600">
-              Choose a time that works best for you. We look forward to speaking with you.
+              {t('subtitle')}
             </p>
           </div>
 

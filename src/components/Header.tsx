@@ -7,7 +7,7 @@ import { Menu, X, ChevronDown } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname as useNextPathname } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
-import { Link, usePathname, useRouter } from '@/i18n/navigation'
+import { Link, usePathname } from '@/i18n/navigation'
 import ScheduleButton from './CalendlyButton'
 import { authSlotPlaceholder } from './HeaderAuthSlot'
 
@@ -144,14 +144,15 @@ const Header = () => {
   const t = useTranslations('nav')
   const tCommon = useTranslations('common')
   const locale = useLocale()
-  const router = useRouter()
 
   const handleLocaleSelect = useCallback(
     (newLocale: 'en' | 'fr') => {
-      router.replace(pathname, { locale: newLocale })
       setLocaleDropdownOpen(false)
+      // Full page navigation for both EN and FR so locale and content update in one click; avoids double /fr/fr or /en/en
+      const segment = pathname === '/' ? '' : pathname.startsWith('/') ? pathname : `/${pathname}`
+      window.location.href = `/${newLocale}${segment}`
     },
-    [pathname, router]
+    [pathname]
   )
 
   const handleMobileNavClick = useCallback(

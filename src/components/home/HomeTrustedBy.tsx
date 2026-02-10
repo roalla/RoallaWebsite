@@ -2,16 +2,15 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 import { Award, GraduationCap, Briefcase, Shield } from 'lucide-react'
 
-const items = [
-  { icon: Award, label: 'Certified professionals' },
-  { icon: GraduationCap, label: 'Advanced education' },
-  { icon: Briefcase, label: '30+ years experience' },
-  { icon: Shield, label: 'Confidential & secure' },
-]
+const itemKeys = ['certified', 'education', 'experience', 'confidential'] as const
+const itemIcons = [Award, GraduationCap, Briefcase, Shield]
 
 export default function HomeTrustedBy() {
+  const t = useTranslations('home.trustedBy')
+  const items = itemKeys.map((key, i) => ({ icon: itemIcons[i], label: t(key) }))
   return (
     <section className="py-12 lg:py-16 bg-gray-50 border-y border-gray-100">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -21,7 +20,7 @@ export default function HomeTrustedBy() {
           viewport={{ once: true }}
           className="text-center text-sm font-medium text-gray-500 uppercase tracking-wider mb-8"
         >
-          Why choose Roalla
+          {t('title')}
         </motion.p>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {items.map((item, i) => (

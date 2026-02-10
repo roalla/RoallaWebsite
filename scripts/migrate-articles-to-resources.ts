@@ -48,8 +48,10 @@ async function main() {
     console.log(`Migrated article "${a.title}" -> resource ${resource.id}`)
   }
 
+  const entries = Array.from(articleIdToResourceId.entries())
+
   // Update PortalItemGrant: articleId -> resourceId
-  for (const [articleId, resourceId] of articleIdToResourceId) {
+  for (const [articleId, resourceId] of entries) {
     await prisma.portalItemGrant.updateMany({
       where: { articleId },
       data: { resourceId, articleId: null },
@@ -57,7 +59,7 @@ async function main() {
   }
 
   // Update PortalBundleItem: articleId -> resourceId
-  for (const [articleId, resourceId] of articleIdToResourceId) {
+  for (const [articleId, resourceId] of entries) {
     await prisma.portalBundleItem.updateMany({
       where: { articleId },
       data: { resourceId, articleId: null },
@@ -65,7 +67,7 @@ async function main() {
   }
 
   // Update GatedAccessRequestItem
-  for (const [articleId, resourceId] of articleIdToResourceId) {
+  for (const [articleId, resourceId] of entries) {
     await prisma.gatedAccessRequestItem.updateMany({
       where: { articleId },
       data: { resourceId, articleId: null },
@@ -73,7 +75,7 @@ async function main() {
   }
 
   // Update GatedAccessGrant
-  for (const [articleId, resourceId] of articleIdToResourceId) {
+  for (const [articleId, resourceId] of entries) {
     await prisma.gatedAccessGrant.updateMany({
       where: { articleId },
       data: { resourceId, articleId: null },

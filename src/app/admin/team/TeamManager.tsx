@@ -32,7 +32,7 @@ const ROLE_ACCESS_REFERENCE: { capability: string; admin: boolean; partner: bool
   { capability: 'Team: view list, add users, edit roles', admin: true, partner: true, business: '—', member: '—' },
   { capability: 'Team: assign or remove Admin role', admin: true, partner: false, business: '—', member: '—' },
   { capability: 'Team: delete users', admin: true, partner: false, business: '—', member: '—' },
-  { capability: 'Library access (approve/revoke requests)', admin: true, partner: false, business: '—', member: '—' },
+  { capability: 'Portal access (approve/revoke, add users, set per-user access)', admin: true, partner: false, business: '—', member: '—' },
   { capability: 'Trust Center (NDA, gated requests)', admin: true, partner: false, business: '—', member: '—' },
   { capability: 'Security (2FA setup)', admin: true, partner: false, business: '—', member: '—' },
 ]

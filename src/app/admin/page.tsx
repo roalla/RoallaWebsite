@@ -77,8 +77,7 @@ export default async function AdminDashboardPage() {
           <ul className="text-sm text-gray-700 space-y-1 list-disc list-inside">
             <li><strong>Dashboard</strong> — This page: overview and quick links.</li>
             <li><strong>Team & roles</strong> — Add users and assign roles (admin, partner, etc.).</li>
-            <li><strong>Library access</strong> — Approve or revoke requests for the Resources Portal.</li>
-            <li><strong>Portal content</strong> — Tiles (resources/links), who can see what, and bundles/codes.</li>
+            <li><strong>Portal content</strong> — Tiles (resources/links), portal access (approve requests, add users, set who sees what), and bundles/codes.</li>
             <li><strong>Trusted contacts</strong> — Contacts list for your organization (partners).</li>
             <li><strong>Trust Centre</strong> — NDA and gated document requests.</li>
             <li><strong>Security</strong> — 2FA and account settings.</li>
@@ -172,7 +171,7 @@ export default async function AdminDashboardPage() {
         {admin && !previewAsPartner && (
           <>
             <Link
-              href="/admin/requests?tab=pending"
+              href="/admin/portal-access"
               className="bg-white rounded-xl border border-gray-200 p-6 hover:border-primary/30 hover:shadow-md transition-all"
             >
               <div className="flex items-center gap-4">
@@ -180,13 +179,13 @@ export default async function AdminDashboardPage() {
                   <Clock className="w-6 h-6 text-amber-600" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Library pending</p>
+                  <p className="text-sm font-medium text-gray-600">Portal pending</p>
                   <p className="text-2xl font-bold text-gray-900">{pending}</p>
                 </div>
               </div>
             </Link>
             <Link
-              href="/admin/requests?tab=approved"
+              href="/admin/portal-access"
               className="bg-white rounded-xl border border-gray-200 p-6 hover:border-primary/30 hover:shadow-md transition-all"
             >
               <div className="flex items-center gap-4">
@@ -194,13 +193,13 @@ export default async function AdminDashboardPage() {
                   <CheckCircle className="w-6 h-6 text-green-600" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Library approved</p>
+                  <p className="text-sm font-medium text-gray-600">Portal approved</p>
                   <p className="text-2xl font-bold text-gray-900">{approved}</p>
                 </div>
               </div>
             </Link>
             <Link
-              href="/admin/requests?tab=rejected"
+              href="/admin/portal-access"
               className="bg-white rounded-xl border border-gray-200 p-6 hover:border-primary/30 hover:shadow-md transition-all"
             >
               <div className="flex items-center gap-4">
@@ -208,7 +207,7 @@ export default async function AdminDashboardPage() {
                   <XCircle className="w-6 h-6 text-red-600" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Library rejected</p>
+                  <p className="text-sm font-medium text-gray-600">Portal rejected</p>
                   <p className="text-2xl font-bold text-gray-900">{rejected}</p>
                 </div>
               </div>
@@ -251,11 +250,11 @@ export default async function AdminDashboardPage() {
         {admin && !previewAsPartner && (
           <>
             <Link
-              href="/admin/requests"
+              href="/admin/portal-access"
               className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 font-medium rounded-lg hover:border-primary/30 text-gray-700"
             >
               <FileText className="w-4 h-4" />
-              Library access
+              Portal access
             </Link>
             <Link
               href="/admin/trust/requests"

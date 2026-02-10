@@ -83,7 +83,7 @@ export default function AdminPortalPage() {
                   3
                 </span>
                 <span>
-                  <strong>Control access</strong> — In <strong>Portal access</strong>, grant full portal access or choose specific resources per user. Use <strong>Library access</strong> (from the main menu) to approve or revoke requests.
+                  <strong>Control access</strong> — In <strong>Portal access</strong>, approve or reject requests, add users, then set full access or which locked items each user can see (default: public files only).
                 </span>
               </li>
               <li className="flex gap-3">

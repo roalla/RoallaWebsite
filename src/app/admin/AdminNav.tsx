@@ -16,7 +16,6 @@ const ALL_NAV_ITEMS: NavItem[] = [
   { href: '/admin', label: 'Dashboard', description: 'Overview and quick links', group: 'Overview' },
   { href: '/admin/team', label: 'Team & roles', description: 'Manage users and their permissions', group: 'People & access' },
   { href: '/admin/partner-guide', label: 'Partner guide', description: 'How to use the admin as a partner', group: 'People & access' },
-  { href: '/admin/requests', label: 'Library access', description: 'Approve or revoke portal access requests', group: 'People & access' },
   { href: '/admin/portal', label: 'Portal content', description: 'Resources, links, access, and bundles', group: 'Content' },
   { href: '/admin/trusted-contacts', label: 'Trusted contacts', description: 'Contacts list for your organization', group: 'Trust & compliance' },
   { href: '/admin/trust', label: 'Trust Centre', description: 'NDA and gated document requests', group: 'Trust & compliance' },
@@ -32,7 +31,6 @@ function getNavLinksForRoles(roles: string[]): NavItem[] {
   }
   return ALL_NAV_ITEMS.filter((item) => {
     if (item.href === '/admin/partner-guide') return isPartner && !isAdmin
-    if (item.href === '/admin/requests') return isAdmin
     if (item.href === '/admin/trust' || item.href === '/admin/security') return isAdmin
     return true
   })

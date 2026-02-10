@@ -6,18 +6,19 @@ import { canManagePortal, isAdmin } from '@/lib/access'
 
 export const dynamic = 'force-dynamic'
 
-/** GET: list approved access requests with fullAccess and item grants; plus all resources/articles for admin selection */
+/** GET: list access requests (all statuses for admin, approved only for partner) with fullAccess and item grants; plus resources/articles */
 export async function GET() {
   const session = await getServerSession(authOptions)
   if (!session || !canManagePortal(session.user)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
   try {
+    const admin = isAdmin(session.user)
     const [requests, resources, articles, allGrants] = await Promise.all([
       prisma.accessRequest.findMany({
-        where: { status: 'approved' },
+        where: admin ? undefined : { status: 'approved' },
         orderBy: { createdAt: 'desc' },
-        select: { id: true, email: true, name: true, company: true, fullAccess: true },
+        select: { id: true, email: true, name: true, company: true, fullAccess: true, status: true, createdAt: true },
       }),
       prisma.portalResource.findMany({
         orderBy: { sortOrder: 'asc' },
@@ -49,12 +50,15 @@ export async function GET() {
         fullAccess: r.fullAccess ?? false,
         grantResourceIds: grants.resourceIds,
         grantArticleIds: grants.articleIds,
+        status: r.status,
+        createdAt: r.createdAt,
       }
     })
     return NextResponse.json({
       requests: list,
       resources,
       articles,
+      isAdmin: admin,
     })
   } catch (e) {
     console.error('Portal access list error:', e)

@@ -10,8 +10,8 @@ export default function AdminPortalPage() {
 
   useEffect(() => {
     fetch('/api/admin/portal-access/counts')
-      .then((res) => (res.ok ? res.json() : {}))
-      .then((data) => setPendingCount(typeof data.pending === 'number' ? data.pending : null))
+      .then((res) => (res.ok ? res.json() : Promise.resolve({})))
+      .then((data: { pending?: number }) => setPendingCount(typeof data.pending === 'number' ? data.pending : null))
       .catch(() => setPendingCount(null))
   }, [])
 

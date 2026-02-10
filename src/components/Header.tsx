@@ -7,7 +7,7 @@ import { Menu, X } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname as useNextPathname } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
-import { Link, usePathname } from '@/i18n/navigation'
+import { Link, usePathname, useRouter } from '@/i18n/navigation'
 import ScheduleButton from './CalendlyButton'
 import { authSlotPlaceholder } from './HeaderAuthSlot'
 
@@ -99,6 +99,15 @@ const Header = () => {
   const t = useTranslations('nav')
   const tCommon = useTranslations('common')
   const locale = useLocale()
+  const router = useRouter()
+
+  const handleLocaleChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const newLocale = e.target.value as 'en' | 'fr'
+      router.replace(pathname, { locale: newLocale })
+    },
+    [pathname, router]
+  )
 
   const handleMobileNavClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -275,22 +284,20 @@ const Header = () => {
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center justify-end space-x-4 flex-shrink-0 min-w-[200px] xl:min-w-[260px]">
             {isLocaleRoute && (
-              <div className="flex items-center gap-2">
-                <Link
-                  href={pathname}
-                  locale="en"
-                  className={`text-sm font-medium px-2 py-1 rounded ${locale === 'en' ? 'text-primary underline' : 'text-gray-600 hover:text-gray-900'}`}
+              <div className="flex items-center">
+                <label htmlFor="locale-select-desktop" className="sr-only">
+                  Language
+                </label>
+                <select
+                  id="locale-select-desktop"
+                  value={locale}
+                  onChange={handleLocaleChange}
+                  className="text-sm font-medium text-gray-700 bg-gray-100/80 hover:bg-gray-200/80 border border-gray-200 rounded-lg pl-3 pr-8 py-1.5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%20fill%3D%22none%22%20stroke%3D%22%236b7280%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22M2%204l4%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_0.5rem_center] bg-no-repeat"
+                  aria-label="Select language"
                 >
-                  EN
-                </Link>
-                <span className="text-gray-300" aria-hidden>|</span>
-                <Link
-                  href={pathname}
-                  locale="fr"
-                  className={`text-sm font-medium px-2 py-1 rounded ${locale === 'fr' ? 'text-primary underline' : 'text-gray-600 hover:text-gray-900'}`}
-                >
-                  FR
-                </Link>
+                  <option value="en">English</option>
+                  <option value="fr">Français</option>
+                </select>
               </div>
             )}
             <HeaderAuthSlot />
@@ -377,10 +384,20 @@ const Header = () => {
                   )
                 })}
                 {isLocaleRoute && (
-                  <div className="flex items-center gap-2 px-3 py-2 border-t border-gray-100">
-                    <Link href={pathname} locale="en" className={`text-sm font-medium px-2 py-1 rounded ${locale === 'en' ? 'text-primary underline' : 'text-gray-600'}`}>EN</Link>
-                    <span className="text-gray-300">|</span>
-                    <Link href={pathname} locale="fr" className={`text-sm font-medium px-2 py-1 rounded ${locale === 'fr' ? 'text-primary underline' : 'text-gray-600'}`}>FR</Link>
+                  <div className="px-3 py-3 border-t border-gray-100">
+                    <label htmlFor="locale-select-mobile" className="block text-xs font-medium text-gray-500 mb-1.5">
+                      Language
+                    </label>
+                    <select
+                      id="locale-select-mobile"
+                      value={locale}
+                      onChange={handleLocaleChange}
+                      className="w-full text-base font-medium text-gray-900 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%20fill%3D%22none%22%20stroke%3D%22%236b7280%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22M2%204l4%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_0.75rem_center] bg-no-repeat"
+                      aria-label="Select language"
+                    >
+                      <option value="en">English</option>
+                      <option value="fr">Français</option>
+                    </select>
                   </div>
                 )}
                 <div className="px-3 py-3 min-h-[44px] flex items-center border-t border-gray-100">

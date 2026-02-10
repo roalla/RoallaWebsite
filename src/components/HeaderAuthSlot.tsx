@@ -1,8 +1,9 @@
 'use client'
 
 import React from 'react'
-import Link from 'next/link'
 import { useSession } from 'next-auth/react'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 import UserMenu from './UserMenu'
 
 const placeholderClasses = 'w-9 h-9 rounded-full bg-gray-200 flex-shrink-0'
@@ -16,6 +17,7 @@ export default function HeaderAuthSlot({
   variant?: 'desktop' | 'mobile'
 }) {
   const { data: session, status } = useSession()
+  const t = useTranslations('nav')
 
   if (status === 'loading') {
     return (
@@ -34,7 +36,7 @@ export default function HeaderAuthSlot({
         className="block px-3 py-2 rounded-md text-base font-medium text-primary hover:bg-gray-50 transition-colors duration-200"
         onClick={onNavigate}
       >
-        Login
+        {t('login')}
       </Link>
     )
   }
@@ -45,7 +47,7 @@ export default function HeaderAuthSlot({
       className="text-sm font-medium text-gray-600 hover:text-primary transition-colors whitespace-nowrap"
       onClick={onNavigate}
     >
-      Login
+      {t('login')}
     </Link>
   )
 }

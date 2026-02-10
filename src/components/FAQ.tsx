@@ -10,9 +10,10 @@ const FAQ = () => {
   const t = useTranslations('faq')
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
-  const faqs = Array.from({ length: 8 }, (_, i) => ({
-    question: t(`q${i}` as 'q0'),
-    answer: t(`a${i}` as 'a0'),
+  const faqKeys = [0, 1, 2, 3, 4, 5, 6, 7] as const
+  const faqs = faqKeys.map((i) => ({
+    question: t(`q${i}`),
+    answer: t(`a${i}`),
   }))
 
   const toggleFAQ = (index: number) => {

@@ -253,15 +253,15 @@ export default function AdminPortalAccessPage() {
       const data = await res.json()
       if (!res.ok) {
         setMessage({ type: 'error', text: data.error || 'Failed to add user' })
-        return
-      }
-      setMessage({ type: 'success', text: `Added ${addForm.email}. ${data.emailSent ? 'Email sent. ' : ''}Default: public files only.` })
-      setAddForm({ email: '', name: '', company: '', sendEmail: true })
-      setAddOpen(false)
-      await fetchData()
-      if (data.requestId) {
-        setTabAndUrl('approved')
-        setExpandedId(data.requestId)
+      } else {
+        setMessage({ type: 'success', text: `Added ${addForm.email}. ${data.emailSent ? 'Email sent. ' : ''}Default: public files only.` })
+        setAddForm({ email: '', name: '', company: '', sendEmail: true })
+        setAddOpen(false)
+        await fetchData()
+        if (data.requestId) {
+          setTabAndUrl('approved')
+          setExpandedId(data.requestId)
+        }
       }
     } catch {
       setMessage({ type: 'error', text: 'Failed to add user' })
@@ -298,13 +298,13 @@ export default function AdminPortalAccessPage() {
       const data = await res.json()
       if (!res.ok) {
         setMessage({ type: 'error', text: data.error || 'Bulk add failed' })
-        return
+      } else {
+        const { created = 0, updated = 0, skipped = 0 } = data.summary || {}
+        setMessage({ type: 'success', text: `Done: ${created} added, ${updated} updated, ${skipped} skipped. Default: public files only.` })
+        setBulkText('')
+        setBulkOpen(false)
+        fetchData()
       }
-      const { created = 0, updated = 0, skipped = 0 } = data.summary || {}
-      setMessage({ type: 'success', text: `Done: ${created} added, ${updated} updated, ${skipped} skipped. Default: public files only.` })
-      setBulkText('')
-      setBulkOpen(false)
-      fetchData()
     } catch {
       setMessage({ type: 'error', text: 'Bulk add failed' })
     } finally {

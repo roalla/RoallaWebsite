@@ -7,6 +7,11 @@ import { FileText, Link2, ArrowRight, ArrowLeft } from 'lucide-react'
 export default function AdminPortalContentPage() {
   return (
     <div>
+      <nav className="flex items-center gap-2 text-sm text-gray-500 mb-2">
+        <Link href="/admin/portal" className="hover:text-gray-700">Portal</Link>
+        <span aria-hidden>/</span>
+        <span className="text-gray-900 font-medium">Portal content</span>
+      </nav>
       <Link
         href="/admin/portal"
         className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 mb-4"

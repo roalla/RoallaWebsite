@@ -69,6 +69,7 @@ export default function AdminPortalAccessPage() {
   const bulkModalRef = useRef<HTMLDivElement>(null)
   const addModalFirstInputRef = useRef<HTMLInputElement>(null)
   const bulkModalFirstInputRef = useRef<HTMLTextAreaElement>(null)
+  const approveModalRef = useRef<HTMLDivElement>(null)
 
   const focusTrap = (e: KeyboardEvent, container: HTMLElement | null) => {
     if (e.key !== 'Tab' || !container || !document.activeElement || !container.contains(document.activeElement)) return
@@ -105,6 +106,14 @@ export default function AdminPortalAccessPage() {
     document.addEventListener('keydown', onKeyDown)
     return () => document.removeEventListener('keydown', onKeyDown)
   }, [bulkOpen])
+
+  useEffect(() => {
+    if (!approveModalRequest) return
+    const el = approveModalRef.current
+    const onKeyDown = (e: KeyboardEvent) => focusTrap(e, el)
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [approveModalRequest])
 
   const fetchData = async () => {
     try {
@@ -144,6 +153,23 @@ export default function AdminPortalAccessPage() {
       return () => clearTimeout(t)
     }
   }, [bulkOpen])
+
+  useEffect(() => {
+    if (!message) return
+    const t = setTimeout(() => setMessage(null), 5000)
+    return () => clearTimeout(t)
+  }, [message])
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return
+      if (approveModalRequest) setApproveModalRequest(null)
+      else if (bulkOpen) setBulkOpen(false)
+      else if (addOpen) setAddOpen(false)
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [addOpen, bulkOpen, approveModalRequest])
 
   const setTabAndUrl = (newTab: string) => {
     setTab(newTab)
@@ -321,8 +347,28 @@ export default function AdminPortalAccessPage() {
     )
   }
 
+  const pendingCount = requests.filter((r) => r.status === 'pending').length
+  const approvedCount = requests.filter((r) => r.status === 'approved').length
+  const rejectedCount = requests.filter((r) => r.status === 'rejected').length
+
+  const formatRequestDate = (iso: string | undefined) => {
+    if (!iso) return ''
+    const d = new Date(iso)
+    const now = new Date()
+    const diffDays = Math.floor((now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24))
+    if (diffDays === 0) return 'Today'
+    if (diffDays === 1) return 'Yesterday'
+    if (diffDays < 7) return `${diffDays} days ago`
+    return d.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: d.getFullYear() !== now.getFullYear() ? 'numeric' : undefined })
+  }
+
   return (
     <div>
+      <nav className="flex items-center gap-2 text-sm text-gray-500 mb-2">
+        <Link href="/admin/portal" className="hover:text-gray-700">Portal</Link>
+        <span aria-hidden>/</span>
+        <span className="text-gray-900 font-medium">Portal access</span>
+      </nav>
       <Link href="/admin/portal" className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 mb-4">
         ← Back to Portal
       </Link>
@@ -333,23 +379,36 @@ export default function AdminPortalAccessPage() {
 
       {(error || message) && (
         <div
-          className={`mb-4 p-3 rounded-lg text-sm ${message ? (message.type === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800') : 'bg-red-50 text-red-800'}`}
+          role="alert"
+          className={`mb-4 p-3 rounded-lg text-sm flex items-center justify-between gap-2 ${message ? (message.type === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800') : 'bg-red-50 text-red-800'}`}
         >
-          {message ? message.text : error}
+          <span>{message ? message.text : error}</span>
+          <button
+            type="button"
+            onClick={() => { setMessage(null); setError('') }}
+            className="shrink-0 p-1 rounded hover:bg-black/10"
+            aria-label="Dismiss"
+          >
+            <X className="w-4 h-4" />
+          </button>
         </div>
       )}
 
       <div className="flex flex-wrap items-center gap-3 mb-6">
-        {isAdmin && TABS.map((t) => (
-          <button
-            key={t.key}
-            type="button"
-            onClick={() => setTabAndUrl(t.key)}
-            className={`min-h-[44px] inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium ${tab === t.key ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
-          >
-            {t.label}
-          </button>
-        ))}
+        {isAdmin && TABS.map((t) => {
+          const count = t.key === 'pending' ? pendingCount : t.key === 'approved' ? approvedCount : rejectedCount
+          return (
+            <button
+              key={t.key}
+              type="button"
+              onClick={() => setTabAndUrl(t.key)}
+              className={`min-h-[44px] inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium ${tab === t.key ? 'bg-primary text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+            >
+              {t.label}
+              <span className={tab === t.key ? 'text-white/90' : 'text-gray-500'}>({count})</span>
+            </button>
+          )
+        })}
         {!isAdmin && <span className="text-sm text-gray-500">Approved users</span>}
         {isAdmin && (
           <div className="flex gap-2 ml-auto">
@@ -389,6 +448,9 @@ export default function AdminPortalAccessPage() {
               <div>
                 <div className="font-medium text-gray-900">{req.email}</div>
                 <div className="text-sm text-gray-500">{req.name}{req.company && ` · ${req.company}`}</div>
+                {req.createdAt && (
+                  <div className="text-xs text-gray-400 mt-0.5">Requested {formatRequestDate(req.createdAt)}</div>
+                )}
               </div>
               <div className="flex gap-2">
                 <button
@@ -420,6 +482,9 @@ export default function AdminPortalAccessPage() {
               <div>
                 <div className="font-medium text-gray-900">{req.email}</div>
                 <div className="text-sm text-gray-500">{req.name}{req.company && ` · ${req.company}`}</div>
+                {req.createdAt && (
+                  <div className="text-xs text-gray-400 mt-0.5">Requested {formatRequestDate(req.createdAt)}</div>
+                )}
               </div>
               <span className="inline-flex items-center gap-1 text-sm text-red-700 bg-red-50 px-2 py-1 rounded">
                 <XCircle className="w-4 h-4" /> Rejected
@@ -448,6 +513,9 @@ export default function AdminPortalAccessPage() {
                         {req.name}
                         {req.company && ` · ${req.company}`}
                       </div>
+                      {req.createdAt && (
+                        <div className="text-xs text-gray-400 mt-0.5">Added {formatRequestDate(req.createdAt)}</div>
+                      )}
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
                       {req.fullAccess ? (
@@ -573,7 +641,7 @@ export default function AdminPortalAccessPage() {
           aria-modal="true"
           aria-labelledby="approve-modal-title"
         >
-          <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+          <div ref={approveModalRef} className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
             <h2 id="approve-modal-title" className="text-lg font-semibold text-gray-900 mb-2">Approve access</h2>
             <p className="text-sm text-gray-600 mb-4">{approveModalRequest.email} — {approveModalRequest.name}</p>
             <div className="space-y-3 mb-6">

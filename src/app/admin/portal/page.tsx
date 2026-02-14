@@ -4,9 +4,29 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { FileText, Users, Gift, ChevronDown, ChevronUp, HelpCircle, Lightbulb } from 'lucide-react'
 
+const GUIDE_STORAGE_KEY = 'admin-portal-guide-open'
+
 export default function AdminPortalPage() {
   const [showGuide, setShowGuide] = useState(true)
   const [pendingCount, setPendingCount] = useState<number | null>(null)
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(GUIDE_STORAGE_KEY)
+      if (stored !== null) setShowGuide(stored === 'true')
+    } catch {
+      /* ignore */
+    }
+  }, [])
+
+  const setShowGuidePersisted = (value: boolean) => {
+    setShowGuide(value)
+    try {
+      localStorage.setItem(GUIDE_STORAGE_KEY, String(value))
+    } catch {
+      /* ignore */
+    }
+  }
 
   useEffect(() => {
     fetch('/api/admin/portal-access/counts')
@@ -53,7 +73,7 @@ export default function AdminPortalPage() {
       <div className="mb-8 rounded-xl border border-gray-200 bg-gray-50/80 overflow-hidden">
         <button
           type="button"
-          onClick={() => setShowGuide(!showGuide)}
+          onClick={() => setShowGuidePersisted(!showGuide)}
           className="w-full flex items-center justify-between gap-2 px-5 py-4 text-left hover:bg-gray-100/80 transition-colors"
           aria-expanded={showGuide}
         >

@@ -1,12 +1,15 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import Script from 'next/script'
 import { signIn, getProviders, useSession } from 'next-auth/react'
 import { useLocale } from 'next-intl'
 import { motion } from 'framer-motion'
 import { Mail, Lock, CheckCircle, AlertCircle, ArrowLeft, Shield, LogIn, User, Building2, ChevronDown, ChevronUp } from 'lucide-react'
 import Link from 'next/link'
 import { Link as IntlLink } from '@/i18n/navigation'
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
 
 const oauthProviderIds = ['google', 'azure-ad', 'apple', 'sso'] as const
 const oauthLabels: Record<string, string> = {
@@ -22,6 +25,8 @@ export default function RequestAccessPage() {
   const [oauthProviders, setOauthProviders] = useState<Record<string, { id: string; name: string }>>({})
   const [oauthLoading, setOauthLoading] = useState<string | null>(null)
   const [showEmailForm, setShowEmailForm] = useState(false)
+  const [formLoadedAt, setFormLoadedAt] = useState<number | null>(null)
+  const guestFormRef = useRef<HTMLFormElement>(null)
 
   useEffect(() => {
     getProviders().then((p) => {
@@ -34,11 +39,21 @@ export default function RequestAccessPage() {
     })
   }, [])
 
+  useEffect(() => {
+    if (showEmailForm && formLoadedAt === null) {
+      setFormLoadedAt(Date.now())
+    }
+    if (!showEmailForm) {
+      setFormLoadedAt(null)
+    }
+  }, [showEmailForm, formLoadedAt])
+
   const [formData, setFormData] = useState({
     email: '',
     name: '',
     company: '',
-    reason: ''
+    reason: '',
+    _honeypot: '', // Bot trap - must stay empty
   })
 
   useEffect(() => {
@@ -91,16 +106,25 @@ export default function RequestAccessPage() {
     setStatusSubmit('idle')
     setMessage('')
     try {
+      const turnstileEl = guestFormRef.current?.querySelector<HTMLInputElement | HTMLTextAreaElement>('[name="cf-turnstile-response"]')
+      const turnstileToken = turnstileEl?.value?.trim() || undefined
+      const { _honeypot, ...rest } = formData
+      const payload = {
+        ...rest,
+        _honeypot,
+        _formLoadedAt: formLoadedAt ?? undefined,
+        _turnstileToken: turnstileToken,
+      }
       const response = await fetch('/api/resources/request-access', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       })
       const data = await response.json()
       if (response.ok) {
         setStatusSubmit('success')
         setMessage('Your access request has been submitted successfully. We will review your request and send you an email with access instructions within 24 hours.')
-        setFormData({ email: '', name: '', company: '', reason: '' })
+        setFormData({ email: '', name: '', company: '', reason: '', _honeypot: '' })
       } else {
         setStatusSubmit('error')
         setMessage(data.error || 'Something went wrong. Please try again.')
@@ -333,8 +357,26 @@ export default function RequestAccessPage() {
                     {showEmailForm ? 'Hide' : 'Prefer not to sign in?'} Request access by email
                   </button>
                   {showEmailForm && (
-                    <form onSubmit={handleSubmitUnauthenticated} className="mt-6 space-y-4">
-                      <div>
+                    <>
+                      <Script
+                        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+                        strategy="lazyOnload"
+                      />
+                      <form ref={guestFormRef} onSubmit={handleSubmitUnauthenticated} className="mt-6 space-y-4">
+                        {/* Honeypot: hidden from users, bots will fill it */}
+                        <div className="absolute -left-[9999px] opacity-0 pointer-events-none h-0 overflow-hidden" aria-hidden>
+                          <label htmlFor="website_url">Website (leave blank)</label>
+                          <input
+                            type="text"
+                            id="website_url"
+                            name="website_url"
+                            tabIndex={-1}
+                            autoComplete="off"
+                            value={formData._honeypot}
+                            onChange={(e) => setFormData({ ...formData, _honeypot: e.target.value })}
+                          />
+                        </div>
+                        <div>
                         <label htmlFor="guest-email" className="block text-sm font-semibold text-gray-900 mb-2">Email Address <span className="text-red-500">*</span></label>
                         <div className="relative">
                           <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -389,24 +431,30 @@ export default function RequestAccessPage() {
                           <p className="text-sm text-red-800">{message}</p>
                         </div>
                       )}
-                      <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-                      >
-                        {isSubmitting ? (
-                          <>
-                            <div className="w-5 h-5 border-2 border-gray-600 border-t-transparent rounded-full animate-spin mr-2" />
-                            Submitting...
-                          </>
-                        ) : (
-                          <>
-                            <Lock className="w-5 h-5 mr-2" />
-                            Request Access by Email
-                          </>
+                        {TURNSTILE_SITE_KEY && (
+                          <div className="flex justify-center">
+                            <div className="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-theme="light" />
+                          </div>
                         )}
-                      </button>
-                    </form>
+                        <button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                        >
+                          {isSubmitting ? (
+                            <>
+                              <div className="w-5 h-5 border-2 border-gray-600 border-t-transparent rounded-full animate-spin mr-2" />
+                              Submitting...
+                            </>
+                          ) : (
+                            <>
+                              <Lock className="w-5 h-5 mr-2" />
+                              Request Access by Email
+                            </>
+                          )}
+                        </button>
+                      </form>
+                    </>
                   )}
                 </div>
               </>

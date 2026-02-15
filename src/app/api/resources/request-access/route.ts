@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import crypto from 'crypto'
 import { prisma } from '@/lib/prisma'
+import { validateRequestForBots, verifyTurnstileToken } from '@/lib/request-validation'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -35,7 +36,31 @@ export async function POST(request: NextRequest) {
     }
     
     const body = await request.json()
-    const { email, name, company, reason } = body
+    const { email, name, company, reason, _honeypot, _formLoadedAt, _turnstileToken } = body
+
+    // Bot validation (honeypot, time check, Turnstile, disposable email)
+    const botCheck = validateRequestForBots({
+      honeypot: _honeypot,
+      formLoadedAt: _formLoadedAt,
+      turnstileToken: _turnstileToken,
+      email,
+    })
+    if (!botCheck.valid) {
+      return NextResponse.json(
+        { error: botCheck.error },
+        { status: 400 }
+      )
+    }
+
+    if (process.env.TURNSTILE_SECRET_KEY && _turnstileToken) {
+      const turnstileValid = await verifyTurnstileToken(_turnstileToken)
+      if (!turnstileValid) {
+        return NextResponse.json(
+          { error: 'Verification failed. Please try again.' },
+          { status: 400 }
+        )
+      }
+    }
 
     // Validate required fields
     if (!email || !name) {
@@ -51,6 +76,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Invalid email format' },
         { status: 400 }
+      )
+    }
+
+    // Rate limit: reject if same email requested in last 24 hours
+    const emailLower = email.trim().toLowerCase()
+    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000)
+    const recentRequest = await prisma.accessRequest.findFirst({
+      where: {
+        email: emailLower,
+        createdAt: { gte: oneDayAgo },
+      },
+      select: { id: true },
+    })
+    if (recentRequest) {
+      return NextResponse.json(
+        { error: 'A request from this email was already submitted recently. Please check your inbox or wait 24 hours before submitting again.' },
+        { status: 429 }
       )
     }
 

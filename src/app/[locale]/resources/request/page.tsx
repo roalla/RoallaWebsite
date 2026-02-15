@@ -1,10 +1,10 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { signIn, getProviders } from 'next-auth/react'
+import { signIn, getProviders, useSession } from 'next-auth/react'
 import { useLocale } from 'next-intl'
 import { motion } from 'framer-motion'
-import { Mail, Lock, CheckCircle, AlertCircle, ArrowLeft, Shield, LogIn } from 'lucide-react'
+import { Mail, Lock, CheckCircle, AlertCircle, ArrowLeft, Shield, LogIn, User, Building2, ChevronDown, ChevronUp } from 'lucide-react'
 import Link from 'next/link'
 import { Link as IntlLink } from '@/i18n/navigation'
 
@@ -18,8 +18,10 @@ const oauthLabels: Record<string, string> = {
 
 export default function RequestAccessPage() {
   const locale = useLocale()
+  const { data: session, status } = useSession()
   const [oauthProviders, setOauthProviders] = useState<Record<string, { id: string; name: string }>>({})
   const [oauthLoading, setOauthLoading] = useState<string | null>(null)
+  const [showEmailForm, setShowEmailForm] = useState(false)
 
   useEffect(() => {
     getProviders().then((p) => {
@@ -38,41 +40,88 @@ export default function RequestAccessPage() {
     company: '',
     reason: ''
   })
+
+  useEffect(() => {
+    if (session?.user?.name && status === 'authenticated') {
+      setFormData((prev) => ({ ...prev, name: session.user?.name || prev.name }))
+    }
+  }, [session?.user?.name, status])
+
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [statusSubmit, setStatusSubmit] = useState<'idle' | 'success' | 'error'>('idle')
   const [message, setMessage] = useState('')
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const isAuthenticated = status === 'authenticated' && session
+  const callbackUrl = `/${locale}/resources/request`
+
+  const handleSubmitAuthenticated = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    setStatus('idle')
+    setStatusSubmit('idle')
     setMessage('')
-
     try {
-      const response = await fetch('/api/resources/request-access', {
+      const res = await fetch('/api/resources/request-access/authenticated', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          company: formData.company.trim() || undefined,
+          reason: formData.reason.trim() || undefined,
+        }),
       })
-
-      const data = await response.json()
-
-      if (response.ok) {
-        setStatus('success')
+      const data = await res.json()
+      if (res.ok) {
+        setStatusSubmit('success')
         setMessage('Your access request has been submitted successfully. We will review your request and send you an email with access instructions within 24 hours.')
-        setFormData({ email: '', name: '', company: '', reason: '' })
       } else {
-        setStatus('error')
+        setStatusSubmit('error')
         setMessage(data.error || 'Something went wrong. Please try again.')
       }
-    } catch (error) {
-      setStatus('error')
+    } catch {
+      setStatusSubmit('error')
       setMessage('Network error. Please check your connection and try again.')
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  const handleSubmitUnauthenticated = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setStatusSubmit('idle')
+    setMessage('')
+    try {
+      const response = await fetch('/api/resources/request-access', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+      const data = await response.json()
+      if (response.ok) {
+        setStatusSubmit('success')
+        setMessage('Your access request has been submitted successfully. We will review your request and send you an email with access instructions within 24 hours.')
+        setFormData({ email: '', name: '', company: '', reason: '' })
+      } else {
+        setStatusSubmit('error')
+        setMessage(data.error || 'Something went wrong. Please try again.')
+      }
+    } catch {
+      setStatusSubmit('error')
+      setMessage('Network error. Please check your connection and try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center py-20">
+        <div className="text-center text-gray-600">
+          <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p>Loading...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -106,85 +155,13 @@ export default function RequestAccessPage() {
             </p>
           </motion.div>
 
-          {Object.keys(oauthProviders).length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-              className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 md:p-12 mb-6"
-            >
-              <div className="text-center mb-6">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-3">
-                  <LogIn className="w-6 h-6 text-primary" />
-                </div>
-                <h2 className="text-xl font-bold text-gray-900 mb-1">Sign in to request access</h2>
-                <p className="text-sm text-gray-600">
-                  Use your existing account. We&apos;ll ask for your name and company after you sign in.
-                </p>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {Object.entries(oauthProviders).map(([id, provider]) => (
-                  <button
-                    key={id}
-                    type="button"
-                    disabled={!!oauthLoading}
-                    onClick={() => {
-                      setOauthLoading(id)
-                      signIn(id, { callbackUrl: `/${locale}/resources/request/complete` })
-                    }}
-                    className="w-full py-3 px-4 border border-gray-200 rounded-lg font-medium text-gray-700 bg-white hover:bg-gray-50 focus:ring-2 focus:ring-primary/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
-                  >
-                    {oauthLoading === id ? (
-                      <span className="text-sm">Redirecting...</span>
-                    ) : (
-                      <>
-                        {id === 'google' && (
-                          <svg className="w-5 h-5" viewBox="0 0 24 24" aria-hidden>
-                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-                          </svg>
-                        )}
-                        {id === 'azure-ad' && (
-                          <svg className="w-5 h-5" viewBox="0 0 23 23" aria-hidden>
-                            <path fill="#f35325" d="M1 1h10v10H1z" />
-                            <path fill="#81bc06" d="M12 1h10v10H12z" />
-                            <path fill="#05a6f0" d="M1 12h10v10H1z" />
-                            <path fill="#ffba08" d="M12 12h10v10H12z" />
-                          </svg>
-                        )}
-                        {id === 'apple' && (
-                          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                            <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
-                          </svg>
-                        )}
-                        {provider.name}
-                      </>
-                    )}
-                  </button>
-                ))}
-              </div>
-              <p className="text-center text-sm text-gray-500 mt-4">
-                <Link
-                  href={`/${locale}/login?callbackUrl=${encodeURIComponent(`/${locale}/resources/request/complete`)}`}
-                  className="text-primary font-medium hover:text-primary-dark"
-                >
-                  Already have an account? Sign in with email
-                </Link>
-                {' · '}
-                Or use the form below to request without signing in.
-              </p>
-            </motion.div>
-          )}
-
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
             className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 md:p-12"
           >
-            {status === 'success' ? (
+            {statusSubmit === 'success' ? (
               <div className="text-center py-8">
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <CheckCircle className="w-8 h-8 text-green-600" />
@@ -198,62 +175,58 @@ export default function RequestAccessPage() {
                   Return to Homepage
                 </IntlLink>
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+            ) : isAuthenticated ? (
+              <form onSubmit={handleSubmitAuthenticated} className="space-y-6">
+                <div className="text-center mb-6">
+                  <p className="text-sm text-gray-600">
+                    Complete your details to finalize your Resource Centre access request.
+                  </p>
+                </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-semibold text-gray-900 mb-2">
-                    Email Address <span className="text-red-500">*</span>
-                  </label>
+                  <label htmlFor="email" className="block text-sm font-semibold text-gray-900 mb-2">Email</label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                     <input
                       type="email"
                       id="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                      placeholder="your.email@example.com"
+                      readOnly
+                      value={session?.user?.email ?? ''}
+                      className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-600"
                     />
                   </div>
-                  <p className="mt-2 text-sm text-gray-600">
-                    We'll send access instructions to this email address.
-                  </p>
+                  <p className="mt-1 text-xs text-gray-500">This is the account you signed in with.</p>
                 </div>
-
                 <div>
-                  <label htmlFor="name" className="block text-sm font-semibold text-gray-900 mb-2">
-                    Full Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="John Doe"
-                  />
+                  <label htmlFor="name" className="block text-sm font-semibold text-gray-900 mb-2">Full Name <span className="text-red-500">*</span></label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <input
+                      type="text"
+                      id="name"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="John Doe"
+                    />
+                  </div>
                 </div>
-
                 <div>
-                  <label htmlFor="company" className="block text-sm font-semibold text-gray-900 mb-2">
-                    Company Name
-                  </label>
-                  <input
-                    type="text"
-                    id="company"
-                    value={formData.company}
-                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Your Company"
-                  />
+                  <label htmlFor="company" className="block text-sm font-semibold text-gray-900 mb-2">Company Name</label>
+                  <div className="relative">
+                    <Building2 className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <input
+                      type="text"
+                      id="company"
+                      value={formData.company}
+                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="Your Company"
+                    />
+                  </div>
                 </div>
-
                 <div>
-                  <label htmlFor="reason" className="block text-sm font-semibold text-gray-900 mb-2">
-                    How will you use these resources?
-                  </label>
+                  <label htmlFor="reason" className="block text-sm font-semibold text-gray-900 mb-2">How will you use these resources?</label>
                   <textarea
                     id="reason"
                     rows={4}
@@ -263,14 +236,12 @@ export default function RequestAccessPage() {
                     placeholder="Tell us about your business needs and how these resources will help you..."
                   />
                 </div>
-
-                {status === 'error' && (
+                {statusSubmit === 'error' && (
                   <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start">
                     <AlertCircle className="w-5 h-5 text-red-600 mr-3 flex-shrink-0 mt-0.5" />
                     <p className="text-sm text-red-800">{message}</p>
                   </div>
                 )}
-
                 <button
                   type="submit"
                   disabled={isSubmitting}
@@ -278,21 +249,167 @@ export default function RequestAccessPage() {
                 >
                   {isSubmitting ? (
                     <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
                       Submitting...
                     </>
                   ) : (
-                    <>
-                      <Lock className="w-5 h-5 mr-2" />
-                      Request Access
-                    </>
+                    'Submit Request'
                   )}
                 </button>
-
                 <p className="text-sm text-gray-600 text-center">
                   By requesting access, you agree to our terms of service and privacy policy.
                 </p>
               </form>
+            ) : (
+              <>
+                <div className="text-center mb-6">
+                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-3">
+                    <LogIn className="w-6 h-6 text-primary" />
+                  </div>
+                  <h2 className="text-xl font-bold text-gray-900 mb-1">Sign in to create your account and request access</h2>
+                  <p className="text-sm text-gray-600">
+                    Use Google, Microsoft, or Apple to register and request access in one step.
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {Object.entries(oauthProviders).map(([id, provider]) => (
+                    <button
+                      key={id}
+                      type="button"
+                      disabled={!!oauthLoading}
+                      onClick={() => {
+                        setOauthLoading(id)
+                        signIn(id, { callbackUrl })
+                      }}
+                      className="w-full py-3 px-4 border border-gray-200 rounded-lg font-medium text-gray-700 bg-white hover:bg-gray-50 focus:ring-2 focus:ring-primary/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+                    >
+                      {oauthLoading === id ? (
+                        <span className="text-sm">Redirecting...</span>
+                      ) : (
+                        <>
+                          {id === 'google' && (
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" aria-hidden>
+                              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                            </svg>
+                          )}
+                          {id === 'azure-ad' && (
+                            <svg className="w-5 h-5" viewBox="0 0 23 23" aria-hidden>
+                              <path fill="#f35325" d="M1 1h10v10H1z" />
+                              <path fill="#81bc06" d="M12 1h10v10H12z" />
+                              <path fill="#05a6f0" d="M1 12h10v10H1z" />
+                              <path fill="#ffba08" d="M12 12h10v10H12z" />
+                            </svg>
+                          )}
+                          {id === 'apple' && (
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                              <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
+                            </svg>
+                          )}
+                          {provider.name}
+                        </>
+                      )}
+                    </button>
+                  ))}
+                </div>
+                <p className="text-center text-sm text-gray-500 mt-4">
+                  <Link
+                    href={`/${locale}/login?callbackUrl=${encodeURIComponent(callbackUrl)}`}
+                    className="text-primary font-medium hover:text-primary-dark"
+                  >
+                    Already have an account? Sign in with email
+                  </Link>
+                </p>
+
+                <div className="mt-6 pt-6 border-t border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => setShowEmailForm(!showEmailForm)}
+                    className="flex items-center justify-center gap-2 w-full text-sm text-gray-500 hover:text-gray-700"
+                  >
+                    {showEmailForm ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                    {showEmailForm ? 'Hide' : 'Prefer not to sign in?'} Request access by email
+                  </button>
+                  {showEmailForm && (
+                    <form onSubmit={handleSubmitUnauthenticated} className="mt-6 space-y-4">
+                      <div>
+                        <label htmlFor="guest-email" className="block text-sm font-semibold text-gray-900 mb-2">Email Address <span className="text-red-500">*</span></label>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                          <input
+                            type="email"
+                            id="guest-email"
+                            required
+                            value={formData.email}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            placeholder="your.email@example.com"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label htmlFor="guest-name" className="block text-sm font-semibold text-gray-900 mb-2">Full Name <span className="text-red-500">*</span></label>
+                        <input
+                          type="text"
+                          id="guest-name"
+                          required
+                          value={formData.name}
+                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                          placeholder="John Doe"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="guest-company" className="block text-sm font-semibold text-gray-900 mb-2">Company Name</label>
+                        <input
+                          type="text"
+                          id="guest-company"
+                          value={formData.company}
+                          onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                          placeholder="Your Company"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="guest-reason" className="block text-sm font-semibold text-gray-900 mb-2">How will you use these resources?</label>
+                        <textarea
+                          id="guest-reason"
+                          rows={3}
+                          value={formData.reason}
+                          onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+                          placeholder="Tell us about your business needs..."
+                        />
+                      </div>
+                      {statusSubmit === 'error' && (
+                        <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start">
+                          <AlertCircle className="w-5 h-5 text-red-600 mr-3 flex-shrink-0 mt-0.5" />
+                          <p className="text-sm text-red-800">{message}</p>
+                        </div>
+                      )}
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <div className="w-5 h-5 border-2 border-gray-600 border-t-transparent rounded-full animate-spin mr-2" />
+                            Submitting...
+                          </>
+                        ) : (
+                          <>
+                            <Lock className="w-5 h-5 mr-2" />
+                            Request Access by Email
+                          </>
+                        )}
+                      </button>
+                    </form>
+                  )}
+                </div>
+              </>
             )}
           </motion.div>
 
@@ -302,7 +419,7 @@ export default function RequestAccessPage() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-6"
           >
-            <h3 className="font-semibold text-gray-900 mb-2">What's included in the Resource Centre?</h3>
+            <h3 className="font-semibold text-gray-900 mb-2">What&apos;s included in the Resource Centre?</h3>
             <ul className="space-y-2 text-sm text-gray-700">
               <li className="flex items-start">
                 <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0 mt-0.5" />

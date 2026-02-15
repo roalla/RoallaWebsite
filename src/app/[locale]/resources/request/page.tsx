@@ -5,6 +5,7 @@ import { signIn, getProviders } from 'next-auth/react'
 import { useLocale } from 'next-intl'
 import { motion } from 'framer-motion'
 import { Mail, Lock, CheckCircle, AlertCircle, ArrowLeft, Shield, LogIn } from 'lucide-react'
+import Link from 'next/link'
 import { Link as IntlLink } from '@/i18n/navigation'
 
 const oauthProviderIds = ['google', 'azure-ad', 'apple', 'sso'] as const
@@ -165,13 +166,12 @@ export default function RequestAccessPage() {
                 ))}
               </div>
               <p className="text-center text-sm text-gray-500 mt-4">
-                <IntlLink
-                  href="/login"
-                  query={{ callbackUrl: `/${locale}/resources/request/complete` }}
+                <Link
+                  href={`/${locale}/login?callbackUrl=${encodeURIComponent(`/${locale}/resources/request/complete`)}`}
                   className="text-primary font-medium hover:text-primary-dark"
                 >
                   Already have an account? Sign in with email
-                </IntlLink>
+                </Link>
                 {' · '}
                 Or use the form below to request without signing in.
               </p>

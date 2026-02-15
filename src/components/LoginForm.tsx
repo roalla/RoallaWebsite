@@ -11,7 +11,7 @@ import { Link } from '@/i18n/navigation'
 const oauthProviderIds = ['google', 'azure-ad', 'apple', 'sso'] as const
 const oauthLabels: Record<string, string> = {
   google: 'Google',
-  'azure-ad': 'Microsoft / Outlook',
+  'azure-ad': 'Microsoft',
   apple: 'Apple',
   sso: 'Single Sign-On',
 }

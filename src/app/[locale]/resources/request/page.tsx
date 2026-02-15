@@ -165,6 +165,13 @@ export default function RequestAccessPage() {
                 ))}
               </div>
               <p className="text-center text-sm text-gray-500 mt-4">
+                <IntlLink
+                  href={`/login?callbackUrl=${encodeURIComponent(`/${locale}/resources/request/complete`)}`}
+                  className="text-primary font-medium hover:text-primary-dark"
+                >
+                  Already have an account? Sign in with email
+                </IntlLink>
+                {' · '}
                 Or use the form below to request without signing in.
               </p>
             </motion.div>

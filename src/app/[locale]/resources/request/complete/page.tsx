@@ -9,8 +9,6 @@ import { useLocale } from 'next-intl'
 
 export default function RequestCompletePage() {
   const { data: session, status } = useSession()
-  const router = useRouter()
-  const pathname = usePathname()
   const locale = useLocale()
   const [formData, setFormData] = useState({ name: '', company: '', reason: '' })
   const [isSubmitting, setIsSubmitting] = useState(false)

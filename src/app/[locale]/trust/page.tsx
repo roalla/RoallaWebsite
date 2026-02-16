@@ -251,7 +251,7 @@ function TrustCenterContent() {
             const days = Math.ceil((d.getTime() - Date.now()) / (24 * 60 * 60 * 1000))
             const soon = days <= 7
             return (
-              <p className={`mt-3 text-sm ${soon ? 'text-amber-700 bg-amber-50 px-3 py-2 rounded-lg' : 'text-gray-500'}`}>
+              <p className={`mt-3 text-sm ${soon ? 'text-amber-400 bg-amber-500/20 px-3 py-2 rounded-lg' : 'text-gray-500'}`}>
                 Your access link expires {days <= 0 ? 'soon' : `in ${days} day${days === 1 ? '' : 's'}`}.
                 {soon && days > 0 && ' Use “Resend access link” below if you need a new one.'}
               </p>
@@ -260,15 +260,15 @@ function TrustCenterContent() {
         </header>
 
         <section className="mb-8 p-4 bg-surface-card rounded-xl border border-white/10">
-          <h2 className="text-sm font-semibold text-gray-900 mb-2">Check your request status</h2>
-          <p className="text-sm text-gray-500 mb-3">Enter the email you used to request access to see your status.</p>
+          <h2 className="text-sm font-semibold text-white mb-2">Check your request status</h2>
+          <p className="text-sm text-gray-400 mb-3">Enter the email you used to request access to see your status.</p>
           <div className="flex flex-wrap gap-2">
             <input
               type="email"
               placeholder="your@email.com"
               value={statusEmail}
               onChange={(e) => { setStatusEmail(e.target.value); setStatusResult(null); setAccessMessage(null) }}
-              className="flex-1 min-w-[200px] px-3 py-2 border border-gray-300 rounded-lg text-sm"
+              className="flex-1 min-w-[200px] px-3 py-2 border border-white/20 rounded-lg text-sm bg-white/5 text-white placeholder-gray-500"
             />
             <button
               type="button"
@@ -280,7 +280,7 @@ function TrustCenterContent() {
             </button>
           </div>
           {statusResult === 'none' && (
-            <p className="mt-3 text-sm text-gray-500">No request found for this email.</p>
+            <p className="mt-3 text-sm text-gray-400">No request found for this email.</p>
           )}
           {statusResult && statusResult !== 'loading' && statusResult !== 'none' && (
             <div className="mt-3 flex flex-wrap items-center gap-3">
@@ -311,7 +311,7 @@ function TrustCenterContent() {
         </section>
 
         <section className="mb-12">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Documents</h2>
+          <h2 className="text-xl font-semibold text-white mb-4">Documents</h2>
 
           <div className="flex flex-wrap items-center gap-4 mb-6">
             {DOC_TABS.map((tab) => (
@@ -319,7 +319,7 @@ function TrustCenterContent() {
                 key={tab}
                 type="button"
                 onClick={() => setDocTab(tab)}
-                className={`text-sm font-medium capitalize pb-1 border-b-2 transition-colors ${docTab === tab ? 'text-primary border-primary' : 'text-gray-500 border-transparent hover:text-gray-700'}`}
+                className={`text-sm font-medium capitalize pb-1 border-b-2 transition-colors ${docTab === tab ? 'text-primary border-primary' : 'text-gray-400 border-transparent hover:text-gray-300'}`}
               >
                 {tab === 'all' ? 'All' : tab === 'public' ? 'Public' : 'Private'}
               </button>
@@ -335,7 +335,7 @@ function TrustCenterContent() {
                 </button>
               ) : (
                 !loading && (
-                  <p className="text-sm text-gray-500">All documents are currently public. No approval required.</p>
+                  <p className="text-sm text-gray-400">All documents are currently public. No approval required.</p>
                 )
               )}
               {token && (filteredResources.some((r) => r.hasAccess && (r.downloadUrl || r.linkUrl)) || filteredArticles.some((a) => a.hasAccess)) && (
@@ -561,13 +561,13 @@ function TrustCenterContent() {
               <button
                 type="button"
                 onClick={() => { setGetAccessOpen(false); setAccessMessage(null) }}
-                className="p-2 text-gray-400 hover:text-gray-600 rounded-lg"
+                className="p-2 text-gray-400 hover:text-white rounded-lg"
                 aria-label="Close modal"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-sm text-gray-300 mb-4">
               Request access to private documents. Sign the NDA below; we review each request and grant access per document. Once approved, you&apos;ll receive a link to view and download the documents you were granted.
             </p>
             <p className="text-sm text-gray-500 mb-4 italic">
@@ -607,7 +607,7 @@ function TrustCenterContent() {
                             return next
                           })
                         }}
-                        className="rounded border-gray-300 text-primary focus:ring-primary"
+                        className="rounded border-white/20 text-primary focus:ring-primary bg-white/5"
                       />
                       <span className="truncate">{it.title}</span>
                     </label>
@@ -623,37 +623,37 @@ function TrustCenterContent() {
             {agreement && (
               <form onSubmit={handleGetAccess} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Email *</label>
                   <input
                     type="email"
                     required
                     value={accessForm.email}
                     onChange={(e) => setAccessForm((f) => ({ ...f, email: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    className="w-full px-3 py-2 border border-white/20 rounded-lg bg-white/5 text-white placeholder-gray-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Name *</label>
                   <input
                     type="text"
                     required
                     value={accessForm.name}
                     onChange={(e) => setAccessForm((f) => ({ ...f, name: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    className="w-full px-3 py-2 border border-white/20 rounded-lg bg-white/5 text-white placeholder-gray-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Company (optional)</label>
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Company (optional)</label>
                   <input
                     type="text"
                     value={accessForm.company}
                     onChange={(e) => setAccessForm((f) => ({ ...f, company: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    className="w-full px-3 py-2 border border-white/20 rounded-lg bg-white/5 text-white placeholder-gray-500"
                   />
                 </div>
-                <div className="p-3 bg-gray-50 rounded-lg max-h-40 overflow-y-auto">
+                <div className="p-3 bg-white/5 rounded-lg max-h-40 overflow-y-auto">
                   <p className="text-xs font-medium text-gray-500 mb-2">{agreement.title} (v{agreement.version})</p>
-                  <div className="text-sm text-gray-700 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: agreement.body }} />
+                  <div className="text-sm text-gray-300 prose prose-sm prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: agreement.body }} />
                 </div>
                 <label className="flex items-start gap-2 cursor-pointer">
                   <input
@@ -661,15 +661,15 @@ function TrustCenterContent() {
                     required
                     checked={accessForm.acceptedNda}
                     onChange={(e) => setAccessForm((f) => ({ ...f, acceptedNda: e.target.checked }))}
-                    className="mt-1 rounded border-gray-300 text-primary focus:ring-primary"
+                    className="mt-1 rounded border-white/20 text-primary focus:ring-primary bg-white/5"
                   />
-                  <span className="text-sm text-gray-700">I have read and accept the terms above.</span>
+                  <span className="text-sm text-gray-300">I have read and accept the terms above.</span>
                 </label>
                 <div className="flex gap-2 pt-2">
                   <button
                     type="button"
                     onClick={() => setGetAccessOpen(false)}
-                    className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50"
+                    className="flex-1 px-4 py-2 border border-white/20 text-gray-300 rounded-lg font-medium hover:bg-white/10 bg-white/5"
                   >
                     Cancel
                   </button>
@@ -698,23 +698,23 @@ function TrustCenterContent() {
           aria-labelledby="bulk-download-title"
           onKeyDown={(e) => e.key === 'Escape' && setBulkDownloadOpen(false)}
         >
-          <div className="bg-white rounded-xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6">
+          <div className="bg-surface-card rounded-xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 border border-white/10">
             <div className="flex items-center justify-between mb-4">
-              <h2 id="bulk-download-title" className="text-lg font-semibold text-gray-900">Bulk download</h2>
+              <h2 id="bulk-download-title" className="text-lg font-semibold text-white">Bulk download</h2>
               <button
                 type="button"
                 onClick={() => setBulkDownloadOpen(false)}
-                className="p-2 text-gray-400 hover:text-gray-600 rounded-lg"
+                className="p-2 text-gray-400 hover:text-white rounded-lg"
                 aria-label="Close"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <p className="text-sm text-gray-600 mb-4">Documents you have access to. Open or download each below.</p>
+            <p className="text-sm text-gray-300 mb-4">Documents you have access to. Open or download each below.</p>
             <ul className="space-y-2">
               {resources.filter((r) => r.hasAccess && (r.downloadUrl || r.linkUrl)).map((r) => (
-                <li key={r.id} className="flex items-center justify-between gap-2 p-2 rounded-lg bg-gray-50">
-                  <span className="text-sm font-medium text-gray-900 truncate">{r.title}</span>
+                <li key={r.id} className="flex items-center justify-between gap-2 p-2 rounded-lg bg-white/5">
+                  <span className="text-sm font-medium text-white truncate">{r.title}</span>
                   <span className="flex gap-2 flex-shrink-0">
                     {r.downloadUrl && (
                       <a
@@ -740,8 +740,8 @@ function TrustCenterContent() {
                 </li>
               ))}
               {articles.filter((a) => a.hasAccess).map((a) => (
-                <li key={a.id} className="flex items-center justify-between gap-2 p-2 rounded-lg bg-gray-50">
-                  <span className="text-sm font-medium text-gray-900 truncate">{a.title}</span>
+                <li key={a.id} className="flex items-center justify-between gap-2 p-2 rounded-lg bg-white/5">
+                  <span className="text-sm font-medium text-white truncate">{a.title}</span>
                   <a
                     href={a.url ? a.url : downloadUrl('article', a.id)}
                     target="_blank"
@@ -765,7 +765,7 @@ function TrustCenterContent() {
 
 export default function TrustCenterPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-gray-50 flex items-center justify-center"><p className="text-gray-500">Loading...</p></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center"><p className="text-gray-500">Loading...</p></div>}>
       <TrustCenterContent />
     </Suspense>
   )

@@ -37,7 +37,7 @@ export default function UserMenu() {
   if (status === 'loading') {
     return (
       <div
-        className="w-9 h-9 rounded-full bg-gray-200 animate-pulse flex-shrink-0"
+        className="w-9 h-9 rounded-full bg-white/20 animate-pulse flex-shrink-0"
         aria-hidden
       />
     )
@@ -80,17 +80,17 @@ export default function UserMenu() {
           </div>
         )}
         <ChevronDown
-          className={`w-4 h-4 text-gray-600 transition-transform hidden sm:block ${open ? 'rotate-180' : ''}`}
+          className={`w-4 h-4 text-gray-400 transition-transform hidden sm:block ${open ? 'rotate-180' : ''}`}
           aria-hidden
         />
       </button>
 
       {open && (
         <div
-          className="absolute left-0 sm:left-auto sm:right-0 bottom-full mb-2 sm:bottom-auto sm:mb-0 mt-0 sm:mt-2 w-64 max-w-[calc(100vw-2rem)] rounded-xl bg-white border border-gray-200 shadow-lg py-2 z-50"
+          className="absolute left-0 sm:left-auto sm:right-0 bottom-full mb-2 sm:bottom-auto sm:mb-0 mt-0 sm:mt-2 w-64 max-w-[calc(100vw-2rem)] rounded-xl bg-surface-card border border-white/10 shadow-lg py-2 z-50"
           role="menu"
         >
-          <div className="px-4 py-3 border-b border-gray-100">
+          <div className="px-4 py-3 border-b border-white/10">
             <div className="flex items-center gap-3">
               {user.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -107,10 +107,10 @@ export default function UserMenu() {
                 </div>
               )}
               <div className="min-w-0 flex-1">
-                <p className="font-medium text-gray-900 truncate">{user.name || 'No name'}</p>
-                <p className="text-sm text-gray-500 truncate">{user.email}</p>
+                <p className="font-medium text-white truncate">{user.name || 'No name'}</p>
+                <p className="text-sm text-gray-400 truncate">{user.email}</p>
                 <span
-                  className="inline-block mt-1 px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-700"
+                  className="inline-block mt-1 px-2 py-0.5 rounded text-xs font-medium bg-white/10 text-gray-300"
                 >
                   {roleLabel}
                 </span>
@@ -120,31 +120,31 @@ export default function UserMenu() {
           <div className="py-1">
             <Link
               href="/profile"
-              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-white/10"
               onClick={() => setOpen(false)}
               role="menuitem"
             >
-              <User className="w-4 h-4 text-gray-500" />
+              <User className="w-4 h-4 text-gray-400" />
               Profile
             </Link>
             {isAdmin && (
               <Link
                 href="/admin"
-                className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-white/10"
                 onClick={() => setOpen(false)}
                 role="menuitem"
               >
-                <LayoutDashboard className="w-4 h-4 text-gray-500" />
+                <LayoutDashboard className="w-4 h-4 text-gray-400" />
                 Admin
               </Link>
             )}
             <Link
               href="/api/auth/signout"
-              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-white/10"
               onClick={() => setOpen(false)}
               role="menuitem"
             >
-              <LogOut className="w-4 h-4 text-gray-500" />
+              <LogOut className="w-4 h-4 text-gray-400" />
               Sign out
             </Link>
           </div>

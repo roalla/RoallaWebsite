@@ -115,7 +115,7 @@ const Resources = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white rounded-lg p-6 shadow-md border border-gray-100 opacity-75"
+                className="bg-surface-card rounded-lg p-6 shadow-md border border-white/10 opacity-75"
               >
                 <div className="text-xs font-semibold text-gray-500 mb-3">{insight.readTime}</div>
                 <h4 className="text-lg font-bold text-white mb-3">{insight.title}</h4>

@@ -166,21 +166,21 @@ const InteractiveAssessment = () => {
   }
 
   return (
-    <section id="assessment" className="section-padding bg-white py-20 lg:py-28">
+    <section id="assessment" className="section-padding bg-black py-20 lg:py-28">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
             Business Health Assessment
           </h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-700 dark:text-gray-200">
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-300">
             Take our 5-minute assessment to discover your business strengths and opportunities for growth.
           </p>
         </div>
 
         <div className="max-w-4xl mx-auto">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div className="bg-surface-card rounded-2xl shadow-xl border border-white/10 overflow-hidden">
             {/* Progress Bar */}
-            <div className="bg-gray-100 dark:bg-gray-700 h-2">
+            <div className="bg-white/10 h-2">
               <motion.div
                 className="bg-gradient-to-r from-primary to-primary-dark h-full"
                 initial={{ width: 0 }}
@@ -207,15 +207,15 @@ const InteractiveAssessment = () => {
                           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                           className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"
                         />
-                        <p className="text-gray-600 dark:text-gray-300">Analyzing your results...</p>
+                        <p className="text-gray-400">Analyzing your results...</p>
                       </div>
                     ) : (
                       <>
                         <div className="mb-8">
-                          <span className="text-sm text-gray-500 dark:text-gray-400">
+                          <span className="text-sm text-gray-500">
                             Question {currentQuestion + 1} of {questions.length}
                           </span>
-                          <h3 className="text-xl font-bold text-gray-900 dark:text-white mt-2">
+                          <h3 className="text-xl font-bold text-white mt-2">
                             {questions[currentQuestion].text}
                           </h3>
                         </div>
@@ -225,16 +225,16 @@ const InteractiveAssessment = () => {
                             <motion.button
                               key={option.value}
                               onClick={() => handleAnswer(questions[currentQuestion].id, option.score)}
-                              className="w-full p-4 text-left bg-gray-50 hover:bg-primary-lighter dark:bg-gray-700 dark:hover:bg-primary-dark/20 rounded-lg border border-gray-200 dark:border-gray-600 transition-all duration-200 hover:border-primary dark:hover:border-primary-light group"
+                              className="w-full p-4 text-left bg-white/5 hover:bg-primary-lighter rounded-lg border border-white/10 transition-all duration-200 hover:border-primary group"
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
                               <div className="flex items-center justify-between">
-                                <span className="text-gray-900 dark:text-white font-medium">
+                                <span className="text-white font-medium">
                                   {option.label}
                                 </span>
                                 <motion.div
-                                  className="w-6 h-6 border-2 border-gray-300 dark:border-gray-500 rounded-full group-hover:border-primary dark:group-hover:border-primary-light"
+                                  className="w-6 h-6 border-2 border-white/30 rounded-full group-hover:border-primary"
                                   whileHover={{ scale: 1.1 }}
                                 />
                               </div>
@@ -255,7 +255,7 @@ const InteractiveAssessment = () => {
                       <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary-dark rounded-full mx-auto mb-4 flex items-center justify-center">
                         <BarChart3 className="w-10 h-10 text-white" />
                       </div>
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                      <h3 className="text-2xl font-bold text-white mb-2">
                         Your Business Health Score: {Math.round(result!.score)}%
                       </h3>
                       <p className="text-lg text-primary dark:text-primary-light font-semibold">
@@ -265,7 +265,7 @@ const InteractiveAssessment = () => {
 
                     <div className="grid md:grid-cols-2 gap-8 mb-8">
                       <div className="text-left">
-                        <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+                        <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
                           <TrendingUp className="w-5 h-5 text-primary dark:text-primary-light mr-2" />
                           Key Recommendations
                         </h4>
@@ -279,14 +279,14 @@ const InteractiveAssessment = () => {
                               className="flex items-start"
                             >
                               <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
-                              <span className="text-gray-700 dark:text-gray-200">{rec}</span>
+                              <span className="text-gray-300">{rec}</span>
                             </motion.li>
                           ))}
                         </ul>
                       </div>
 
                       <div className="text-left">
-                        <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+                        <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
                           <AlertCircle className="w-5 h-5 text-primary dark:text-primary-light mr-2" />
                           Next Steps
                         </h4>
@@ -300,7 +300,7 @@ const InteractiveAssessment = () => {
                               className="flex items-start"
                             >
                               <div className="w-2 h-2 bg-primary dark:bg-primary-light rounded-full mt-2 mr-3 flex-shrink-0" />
-                              <span className="text-gray-700 dark:text-gray-200">{step}</span>
+                              <span className="text-gray-300">{step}</span>
                             </motion.li>
                           ))}
                         </ul>

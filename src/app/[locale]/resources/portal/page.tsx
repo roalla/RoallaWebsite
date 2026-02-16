@@ -342,7 +342,7 @@ function ResourcesPortalContent() {
               value={redeemCode}
               onChange={(e) => setRedeemCode(e.target.value.toUpperCase())}
               placeholder="e.g. ROALLA-TRAIN-2026"
-              className="flex-1 min-w-[180px] px-3 py-2 border border-gray-300 rounded-lg text-sm"
+              className="flex-1 min-w-[180px] px-3 py-2 border border-white/20 rounded-lg text-sm bg-white/5 text-white placeholder-gray-500"
               aria-label="Access code"
             />
             <button
@@ -355,7 +355,7 @@ function ResourcesPortalContent() {
             </button>
           </div>
           {redeemStatus && (
-            <p className={`mt-2 text-sm ${redeemStatus.type === 'success' ? 'text-green-700' : 'text-red-700'}`}>
+            <p className={`mt-2 text-sm ${redeemStatus.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
               {redeemStatus.message}
             </p>
           )}

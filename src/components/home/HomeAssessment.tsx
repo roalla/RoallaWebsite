@@ -9,7 +9,8 @@ import { ClipboardList, ArrowRight } from 'lucide-react'
 export default function HomeAssessment() {
   const t = useTranslations('home.assessment')
   return (
-    <section id="assessment" className="py-16 lg:py-24 bg-black border-y border-white/10">
+    <section id="assessment" className="py-16 lg:py-24 bg-surface-elevated relative">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
           <motion.div
@@ -24,7 +25,7 @@ export default function HomeAssessment() {
             <p className="mt-4 text-gray-300">{t('description')}</p>
             <Link
               href="/assessment"
-              className="mt-8 inline-flex items-center bg-primary hover:bg-primary-dark text-white font-semibold py-4 px-8 rounded-lg transition-all shadow-lg hover:shadow-xl"
+              className="mt-8 inline-flex items-center bg-primary hover:bg-primary-dark text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02]"
             >
               {t('cta')}
               <ArrowRight className="ml-2 w-5 h-5" />

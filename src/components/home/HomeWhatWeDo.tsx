@@ -13,7 +13,8 @@ export default function HomeWhatWeDo() {
   const t = useTranslations('home.whatWeDo')
   const pillars = pillarKeys.map((key, i) => ({ icon: pillarIcons[i], label: t(key) }))
   return (
-    <section className="py-16 lg:py-24 bg-black">
+    <section className="py-16 lg:py-24 bg-surface-elevated relative">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -33,10 +34,10 @@ export default function HomeWhatWeDo() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.05 }}
-              className="flex flex-col items-center text-center p-4 rounded-xl border border-white/10 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all"
+              className="flex flex-col items-center text-center p-6 rounded-xl border border-white/10 bg-black/30 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-0.5 transition-all duration-300"
             >
-              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
-                <item.icon className="w-6 h-6 text-primary" />
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/25 to-primary/5 flex items-center justify-center mb-4 border border-white/5">
+                <item.icon className="w-7 h-7 text-primary" />
               </div>
               <span className="text-sm font-medium text-gray-300">{item.label}</span>
             </motion.div>
@@ -50,7 +51,7 @@ export default function HomeWhatWeDo() {
         >
           <Link
             href="/services"
-            className="inline-flex items-center text-primary font-semibold hover:underline"
+            className="inline-flex items-center text-primary font-semibold hover:underline hover:-translate-y-px transition-all duration-200"
           >
             {t('exploreServices')}
             <ArrowRight className="ml-2 w-4 h-4" />

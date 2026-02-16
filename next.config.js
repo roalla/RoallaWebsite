@@ -41,7 +41,7 @@ const nextConfig = {
               "default-src 'self'",
               "script-src 'self' 'unsafe-inline' https://assets.calendly.com",
               "style-src 'self' 'unsafe-inline' https://assets.calendly.com",
-              "frame-src https://calendly.com",
+              "frame-src https://calendly.com https://www.youtube.com https://www.youtube-nocookie.com",
               "connect-src 'self' https://calendly.com https://assets.calendly.com",
               "img-src 'self' data: https: https://*.calendly.com",
               "font-src 'self'",

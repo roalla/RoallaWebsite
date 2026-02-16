@@ -9,7 +9,8 @@ import ScheduleButton from '../CalendlyButton'
 export default function HomeCTA() {
   const t = useTranslations('home.cta')
   return (
-    <section className="py-16 lg:py-24 bg-black">
+    <section className="py-16 lg:py-24 bg-black relative">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -23,13 +24,13 @@ export default function HomeCTA() {
             <ScheduleButton
               variant="secondary"
               size="lg"
-              className="bg-white text-primary hover:bg-white/90 border-0"
+              className="bg-white text-primary hover:bg-white/90 border-0 hover:scale-[1.02] transition-transform duration-300"
             >
               {t('schedule')}
             </ScheduleButton>
             <Link
               href="/resources"
-              className="inline-flex items-center bg-white/20 hover:bg-white/30 text-white font-semibold py-4 px-6 rounded-lg transition-all border border-white/30 hover:border-white/50"
+              className="inline-flex items-center bg-white/20 hover:bg-white/30 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-300 border border-white/30 hover:border-white/50 hover:scale-[1.02]"
             >
               {t('exploreResources')}
             </Link>

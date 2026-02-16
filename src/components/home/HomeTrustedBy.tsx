@@ -12,7 +12,8 @@ export default function HomeTrustedBy() {
   const t = useTranslations('home.trustedBy')
   const items = itemKeys.map((key, i) => ({ icon: itemIcons[i], label: t(key) }))
   return (
-    <section className="py-12 lg:py-16 bg-black border-y border-white/10">
+    <section className="py-12 lg:py-16 bg-black relative">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.p
           initial={{ opacity: 0 }}

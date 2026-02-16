@@ -31,7 +31,13 @@
       "subtitle": "Fractional COO and business consulting that delivers clarity, efficiency, and results. We work alongside you to implement change—not just recommend it.",
       "cta": "Schedule a Free Consultation",
       "exploreServices": "Explore our services",
-      "stats": "30+ years experience · 500+ projects · 100% client focused"
+      "stats": "30+ years experience · 500+ projects · 100% client focused",
+      "stat1Value": "30+",
+      "stat1Label": "years experience",
+      "stat2Value": "500+",
+      "stat2Label": "projects",
+      "stat3Value": "100%",
+      "stat3Label": "client focused"
     },
     "whatWeDo": {
       "title": "What we do",
@@ -74,9 +80,14 @@
     },
     "featuredInsight": {
       "title": "Featured insight",
-      "articleTitle": "Fractional COO: When and Why Your Business Needs One",
-      "articleDescription": "Learn how fractional COO services can transform your operational management.",
-      "readMore": "Read in Resource Centre"
+      "article1Title": "Fractional COO: When and Why Your Business Needs One",
+      "article1Description": "Learn how fractional COO services can transform your operational management.",
+      "article2Title": "Strategic Planning: From Vision to Execution",
+      "article2Description": "Turn your business vision into an actionable roadmap with proven frameworks.",
+      "article3Title": "Process Optimization: Unlock Hidden Efficiency",
+      "article3Description": "Identify and eliminate bottlenecks with data-driven process improvements.",
+      "readMore": "Read in Resource Centre",
+      "badge": "Featured"
     }
   },
   "breadcrumb": {

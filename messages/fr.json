@@ -31,7 +31,13 @@
       "subtitle": "Directeur opérationnel fractionnel et conseil en gestion qui apportent clarté, efficacité et résultats. Nous travaillons à vos côtés pour mettre en œuvre le changement—pas seulement le recommander.",
       "cta": "Planifier une consultation gratuite",
       "exploreServices": "Découvrir nos services",
-      "stats": "30+ ans d'expérience · 500+ projets · 100 % axés sur le client"
+      "stats": "30+ ans d'expérience · 500+ projets · 100 % axés sur le client",
+      "stat1Value": "30+",
+      "stat1Label": "ans d'expérience",
+      "stat2Value": "500+",
+      "stat2Label": "projets",
+      "stat3Value": "100 %",
+      "stat3Label": "axés client"
     },
     "whatWeDo": {
       "title": "Ce que nous faisons",
@@ -74,9 +80,14 @@
     },
     "featuredInsight": {
       "title": "Article à la une",
-      "articleTitle": "Directeur opérationnel fractionnel : quand et pourquoi votre entreprise en a besoin",
-      "articleDescription": "Découvrez comment les services de directeur opérationnel fractionnel peuvent transformer votre gestion opérationnelle.",
-      "readMore": "Lire dans le centre de ressources"
+      "article1Title": "Directeur opérationnel fractionnel : quand et pourquoi votre entreprise en a besoin",
+      "article1Description": "Découvrez comment les services de directeur opérationnel fractionnel peuvent transformer votre gestion opérationnelle.",
+      "article2Title": "Planification stratégique : de la vision à l'exécution",
+      "article2Description": "Transformez votre vision d'entreprise en feuille de route avec des cadres éprouvés.",
+      "article3Title": "Optimisation des processus : libérez l'efficacité cachée",
+      "article3Description": "Identifiez et éliminez les goulots d'étranglement grâce à des améliorations fondées sur les données.",
+      "readMore": "Lire dans le centre de ressources",
+      "badge": "À la une"
     }
   },
   "breadcrumb": {

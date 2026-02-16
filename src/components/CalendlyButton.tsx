@@ -38,7 +38,7 @@ const ScheduleButton: React.FC<ScheduleButtonProps> = ({
       md: 'py-3 px-6 text-base',
       lg: 'py-4 px-8 text-lg',
     };
-    return `inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-300 ${variants[variant]} ${sizes[size]} ${className}`;
+    return `inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-300 hover:scale-[1.02] ${variants[variant]} ${sizes[size]} ${className}`;
   };
 
   return (

@@ -259,6 +259,7 @@ const Header = () => {
 
   return (
     <header
+      role="banner"
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 pt-[env(safe-area-inset-top)] ${
         isScrolled ? 'bg-black/90 shadow-lg shadow-black/20 backdrop-blur-sm' : 'bg-transparent'
       }`}
@@ -291,7 +292,7 @@ const Header = () => {
                   priority
                 />
               </div>
-              <div className="hidden sm:block min-w-0">
+              <div className="hidden min-[480px]:block min-w-0">
                 <h1 className="text-xl font-bold text-white group-hover:text-primary transition-colors duration-200 truncate">
                   {tCommon('companyName')}
                 </h1>

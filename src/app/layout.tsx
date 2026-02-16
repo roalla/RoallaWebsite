@@ -132,10 +132,10 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
         
-        {/* Favicon and app icons - ?v=2 busts cache when you update the icon */}
-        <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" />
-        <link rel="icon" href="/favicon.ico?v=2" sizes="any" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
+        {/* Favicon and app icons - ?v=3 busts cache when you update the icon */}
+        <link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml" />
+        <link rel="icon" href="/favicon.ico?v=3" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3" />
         <link rel="manifest" href="/site.webmanifest" />
         
         {/* Theme color for mobile browsers - black background branding */}

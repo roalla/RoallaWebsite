@@ -7,7 +7,8 @@ import { Eye } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import AdminNav from './AdminNav'
 import SignOutConfirmModal from '@/components/SignOutConfirmModal'
-import { getViewAsCookie, setViewAsCookie, type ViewAsRole } from './AdminViewAs'
+import { useViewAs } from './AdminViewAsContext'
+import type { ViewAsRole } from './AdminViewAs'
 
 export default function AdminHeader({
   roles = [],
@@ -19,33 +20,30 @@ export default function AdminHeader({
   userEmail: string | null
 }) {
   const router = useRouter()
-  const [viewAsRole, setViewAsRoleState] = useState<ViewAsRole>('')
+  const { viewAsRole, setViewAsRole } = useViewAs()
   const [mounted, setMounted] = useState(false)
   const [signOutOpen, setSignOutOpen] = useState(false)
   const isAdmin = roles.includes('admin')
 
   useEffect(() => {
-    setViewAsRoleState(getViewAsCookie())
     setMounted(true)
   }, [])
 
   const handleViewAsChange = (role: ViewAsRole) => {
-    setViewAsCookie(role)
-    setViewAsRoleState(role)
+    setViewAsRole(role)
     router.refresh()
   }
 
   const clearViewAs = () => {
-    setViewAsCookie('')
-    setViewAsRoleState('')
+    setViewAsRole('')
     router.refresh()
   }
 
   return (
     <>
       <header className="bg-white border-b border-gray-200 sticky top-0 z-30 pt-[env(safe-area-inset-top)]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between min-h-16">
-          <div className="flex items-center gap-4 lg:gap-8 min-w-0 flex-1">
+        <div className="px-4 sm:px-6 lg:px-8 flex items-center justify-between min-h-16">
+          <div className="flex items-center gap-4 min-w-0 flex-1">
             <Link href="/admin" className="flex items-center gap-2 flex-shrink-0 group" aria-label="Admin dashboard">
               <Image src="/logo.svg" alt="" width={32} height={32} className="h-8 w-auto text-primary" />
               <span className="font-semibold text-gray-900 group-hover:text-primary transition-colors">Admin</span>
@@ -62,6 +60,25 @@ export default function AdminHeader({
             )}
           </div>
           <div className="hidden lg:flex items-center gap-4 flex-shrink-0">
+            {isAdmin && (
+              <>
+                <span className="flex items-center gap-1.5 text-xs text-gray-500" title="Preview what Partner or Business users see">
+                  <Eye className="w-3.5 h-3.5" aria-hidden />
+                  View as
+                </span>
+                <select
+                  value={viewAsRole || 'admin'}
+                  onChange={(e) => handleViewAsChange((e.target.value || '') as ViewAsRole)}
+                  className="text-xs border border-gray-300 rounded-md px-2 py-1.5 bg-white text-gray-700 focus:ring-2 focus:ring-primary focus:border-primary"
+                  aria-label="Preview view as role"
+                >
+                  <option value="">Admin</option>
+                  <option value="partner">Partner</option>
+                  <option value="business">Business</option>
+                </select>
+                <div className="w-px h-5 bg-gray-200" aria-hidden />
+              </>
+            )}
             {organizationName && (
               <span className="text-sm font-medium text-gray-800">{organizationName}</span>
             )}

@@ -78,54 +78,6 @@ export default function AdminNav({
 
   return (
     <>
-      {/* Desktop: horizontal nav with grouped dropdown for "Portal content" */}
-      <nav className="hidden lg:flex items-center gap-1" aria-label="Admin navigation">
-        {Array.from(groups.entries()).map(([groupName, items]) => (
-          <div key={groupName} className="flex items-center gap-1">
-            {items.map((link) => {
-              const active = isActive(link.href)
-              const Icon = link.icon
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px] ${
-                    active
-                      ? 'text-primary bg-primary/10'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                  }`}
-                  title={link.description}
-                  aria-current={active ? 'page' : undefined}
-                >
-                  <Icon className="w-4 h-4 flex-shrink-0" />
-                  {link.label}
-                </Link>
-              )
-            })}
-          </div>
-        ))}
-      </nav>
-
-      {/* View as switcher - desktop: only when user is admin */}
-      {userIsAdmin && onViewAsChange && (
-        <div className="hidden lg:flex items-center gap-2 ml-2 pl-2 border-l border-gray-200">
-          <span className="flex items-center gap-1.5 text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-md" title="Preview what Partner or Business users see">
-            <Eye className="w-3.5 h-3.5" aria-hidden />
-            View as
-          </span>
-          <select
-            value={viewAsRole || 'admin'}
-            onChange={(e) => onViewAsChange((e.target.value || '') as ViewAsRole)}
-            className="text-xs border border-gray-300 rounded-md px-2 py-1.5 bg-white text-gray-700 focus:ring-2 focus:ring-primary focus:border-primary"
-            aria-label="Preview view as role"
-          >
-            <option value="">Admin (you)</option>
-            <option value="partner">Partner</option>
-            <option value="business">Business</option>
-          </select>
-        </div>
-      )}
-
       {/* Mobile: hamburger */}
       <div className="lg:hidden flex items-center gap-2">
         {userIsAdmin && onViewAsChange && (

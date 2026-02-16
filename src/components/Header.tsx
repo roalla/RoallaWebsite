@@ -205,8 +205,8 @@ const Header = () => {
   const navigation: { nameKey: 'home' | 'services' | 'resourceCentre' | 'digitalCreations'; href: NavHref }[] = [
     { nameKey: 'home', href: '/' },
     { nameKey: 'services', href: '/services' },
-    { nameKey: 'resourceCentre', href: '/resources' },
     { nameKey: 'digitalCreations', href: '/digital-creations' },
+    { nameKey: 'resourceCentre', href: '/resources' },
   ]
 
   const noMotion = {
@@ -269,12 +269,12 @@ const Header = () => {
         {tCommon('skipToContent')}
       </a>
 
-      <nav className="container mx-auto px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
-        <div className="flex items-center justify-between gap-4 h-16 lg:h-20">
-          {/* Logo - fixed width so it never pushes nav */}
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
+        <div className="flex items-center justify-between gap-6 h-16 lg:h-20">
+          {/* Logo */}
           <motion.div
             {...motionProps}
-            className="flex-shrink-0 min-w-0 max-w-[45%] lg:max-w-[280px]"
+            className="flex-shrink-0 min-w-0 max-w-[200px]"
           >
             <Link
               href="/"
@@ -301,8 +301,8 @@ const Header = () => {
           </motion.div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center justify-center min-w-0 flex-1 overflow-hidden">
-            <div className="flex items-center justify-center gap-6 xl:gap-8 flex-wrap">
+          <div className="hidden lg:flex items-center justify-center min-w-0 flex-1 px-4">
+            <div className="flex items-center justify-center gap-8 xl:gap-10">
               {navigation.map((item, index) => {
                 const active = isActive(item.href)
                 return (
@@ -310,7 +310,7 @@ const Header = () => {
                     <Link
                       href={item.href}
                       aria-current={active ? 'page' : undefined}
-                      className={`font-medium transition-colors duration-200 relative group whitespace-nowrap flex-shrink-0 block ${
+                      className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap block py-2 ${
                         active ? 'text-primary' : 'text-gray-300 hover:text-primary'
                       }`}
                       onClick={closeMenu}
@@ -329,13 +329,13 @@ const Header = () => {
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center justify-end space-x-4 flex-shrink-0 min-w-[200px] xl:min-w-[260px]">
+          <div className="hidden lg:flex items-center justify-end gap-3 flex-shrink-0">
             {isLocaleRoute && (
               <div className="relative flex items-center" ref={localeDropdownDesktopRef}>
                 <button
                   type="button"
                   onClick={() => setLocaleDropdownOpen((o) => !o)}
-                  className="flex items-center gap-1.5 text-sm font-medium text-white bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg pl-2.5 pr-2 py-1.5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="flex items-center gap-1.5 text-sm font-medium text-white/90 hover:text-white bg-white/10 hover:bg-white/15 border border-white/20 rounded-lg px-2.5 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
                   aria-expanded={localeDropdownOpen}
                   aria-haspopup="listbox"
                   aria-label="Select language"
@@ -386,8 +386,9 @@ const Header = () => {
               </div>
             )}
             <HeaderAuthSlot />
+            <div className="h-8 w-px bg-white/20" aria-hidden />
             <motion.div {...motionCta}>
-              <ScheduleButton variant="primary" size="md" icon>
+              <ScheduleButton variant="primary" size="sm" icon className="!py-2.5 !px-5 !text-sm">
                 {tCommon('scheduleConsultation')}
               </ScheduleButton>
             </motion.div>

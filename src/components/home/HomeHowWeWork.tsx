@@ -38,11 +38,11 @@ export default function HomeHowWeWork() {
                 transition={{ delay: i * 0.08 }}
                 className="flex flex-col items-center text-center relative"
               >
-                <div className="relative mb-3">
-                  <span className="absolute -top-1 -right-1 z-10 w-6 h-6 rounded-full bg-primary text-white text-xs font-bold flex items-center justify-center">
+                <div className="relative mb-3 flex flex-col items-center">
+                  <span className="relative z-20 -mb-2 w-7 h-7 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center shrink-0">
                     {step.num}
                   </span>
-                  <div className="w-14 h-14 rounded-xl bg-surface-card border border-white/10 flex items-center justify-center relative z-10 bg-black">
+                  <div className="w-14 h-14 rounded-xl bg-surface-card border border-white/10 flex items-center justify-center bg-black">
                     <step.icon className="w-7 h-7 text-primary" />
                   </div>
                 </div>

@@ -64,6 +64,18 @@ export default function HomeHero() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.35 }}
+          >
+            <a
+              href="#assessment"
+              className="mt-3 block text-sm text-gray-400 hover:text-primary transition-colors"
+            >
+              {t('orAssessment')}
+            </a>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-12 flex flex-wrap gap-4"
           >

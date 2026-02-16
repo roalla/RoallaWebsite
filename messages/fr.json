@@ -37,7 +37,8 @@
       "stat2Value": "500+",
       "stat2Label": "projets",
       "stat3Value": "100 %",
-      "stat3Label": "axés client"
+      "stat3Label": "axés client",
+      "orAssessment": "Ou faites notre évaluation de 5 minutes"
     },
     "whatWeDo": {
       "title": "Ce que nous faisons",
@@ -62,14 +63,24 @@
     "assessment": {
       "title": "Évaluation de la santé de l'entreprise",
       "description": "Répondez à notre évaluation de 5 minutes pour découvrir les forces et les opportunités de votre entreprise. Obtenez un rapport rapide avec des prochaines étapes personnalisées, puis réservez une consultation gratuite pour en discuter.",
-      "cta": "Faire l'évaluation de 5 minutes"
+      "cta": "Faire l'évaluation de 5 minutes",
+      "preview": "5 questions · 5 minutes · Rapport personnalisé"
     },
     "cta": {
       "title": "Prêt à transformer vos opérations?",
       "subtitle": "Planifiez une consultation gratuite ou explorez nos ressources pour commencer.",
       "schedule": "Planifier une consultation",
       "exploreResources": "Explorer le centre de ressources",
-      "orAssessment": "Vous ne savez pas par où commencer? <link>Faites l'évaluation de la santé de l'entreprise</link> ci-dessus pour un rapport personnalisé."
+      "orAssessment": "Vous ne savez pas par où commencer? <link>Faites l'évaluation de la santé de l'entreprise</link> ci-dessus pour un rapport personnalisé.",
+      "resourcesTeaser": "Découvrez nos guides, modèles et outils dans notre centre de ressources."
+    },
+    "closing": {
+      "readyToStart": "Prêt à commencer?",
+      "scheduleCta": "Planifier une consultation",
+      "questions": "Des questions? Consultez notre",
+      "faq": "FAQ",
+      "or": "ou",
+      "contact": "contactez-nous"
     },
     "trustedBy": {
       "title": "Pourquoi choisir Roalla",

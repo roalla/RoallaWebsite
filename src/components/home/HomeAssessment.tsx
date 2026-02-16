@@ -22,6 +22,7 @@ export default function HomeAssessment() {
               <ClipboardList className="w-7 h-7 text-primary" />
             </div>
             <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white">{t('title')}</h2>
+            <p className="mt-2 text-sm text-primary font-medium">{t('preview')}</p>
             <p className="mt-4 text-gray-300">{t('description')}</p>
             <Link
               href="/assessment"

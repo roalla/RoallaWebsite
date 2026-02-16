@@ -37,7 +37,8 @@
       "stat2Value": "500+",
       "stat2Label": "projects",
       "stat3Value": "100%",
-      "stat3Label": "client focused"
+      "stat3Label": "client focused",
+      "orAssessment": "Or take our 5-min assessment"
     },
     "whatWeDo": {
       "title": "What we do",
@@ -62,14 +63,24 @@
     "assessment": {
       "title": "Business Health Assessment",
       "description": "Take our 5-minute assessment to discover your business strengths and opportunities. Get a quick report with tailored next steps, then book a free consultation to discuss results.",
-      "cta": "Take the 5-Minute Assessment"
+      "cta": "Take the 5-Minute Assessment",
+      "preview": "5 questions · 5 minutes · Tailored report"
     },
     "cta": {
       "title": "Ready to transform your operations?",
       "subtitle": "Schedule a free consultation or explore our resources to get started.",
       "schedule": "Schedule Consultation",
       "exploreResources": "Explore Resource Centre",
-      "orAssessment": "Not sure where to start? <link>Take the business health assessment</link> above for a tailored report."
+      "orAssessment": "Not sure where to start? <link>Take the business health assessment</link> above for a tailored report.",
+      "resourcesTeaser": "Explore guides, templates, and tools in our Resource Centre."
+    },
+    "closing": {
+      "readyToStart": "Ready to get started?",
+      "scheduleCta": "Schedule Consultation",
+      "questions": "Questions? See our",
+      "faq": "FAQ",
+      "or": "or",
+      "contact": "contact us"
     },
     "trustedBy": {
       "title": "Why choose Roalla",

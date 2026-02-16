@@ -20,6 +20,7 @@ export default function HomeCTA() {
         >
           <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white">{t('title')}</h2>
           <p className="mt-4 text-white/90">{t('subtitle')}</p>
+          <p className="mt-2 text-sm text-white/80">{t('resourcesTeaser')}</p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <ScheduleButton
               variant="secondary"

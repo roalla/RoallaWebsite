@@ -103,6 +103,7 @@
   },
   "breadcrumb": {
     "home": "Accueil",
+    "schedule": "Planifier",
     "services": "Services",
     "about": "À propos",
     "resources": "Centre de ressources",
@@ -114,7 +115,9 @@
   },
   "schedule": {
     "title": "Planifier une consultation",
-    "subtitle": "Choisissez l'heure qui vous convient le mieux. Nous avons hâte de vous parler."
+    "subtitle": "Choisissez l'heure qui vous convient le mieux. Nous avons hâte de vous parler.",
+    "whatToExpect": "Lors de votre consultation gratuite, nous discuterons de vos objectifs, défis et des prochaines étapes. Sans obligation.",
+    "assessmentTeaser": "Vous ne savez pas par où commencer? Répondez d'abord à notre évaluation de 5 minutes."
   },
   "services": {
     "title": "Nos services",

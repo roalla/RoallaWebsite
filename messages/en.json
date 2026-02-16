@@ -103,6 +103,7 @@
   },
   "breadcrumb": {
     "home": "Home",
+    "schedule": "Schedule",
     "services": "Services",
     "about": "About",
     "resources": "Resource Centre",
@@ -114,7 +115,9 @@
   },
   "schedule": {
     "title": "Schedule a Consultation",
-    "subtitle": "Choose a time that works best for you. We look forward to speaking with you."
+    "subtitle": "Choose a time that works best for you. We look forward to speaking with you.",
+    "whatToExpect": "During your free consultation, we'll discuss your goals, challenges, and identify clear next steps. No obligation.",
+    "assessmentTeaser": "Not sure what to discuss? Take our 5-minute assessment first."
   },
   "services": {
     "title": "Our Services",

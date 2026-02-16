@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { ChevronDown, User, LayoutDashboard, LogOut } from 'lucide-react'
+import SignOutConfirmModal from './SignOutConfirmModal'
 
 function getInitials(name: string | null | undefined, email: string | null | undefined): string {
   if (name?.trim()) {
@@ -21,6 +22,7 @@ function getInitials(name: string | null | undefined, email: string | null | und
 export default function UserMenu() {
   const { data: session, status } = useSession()
   const [open, setOpen] = useState(false)
+  const [signOutOpen, setSignOutOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -138,18 +140,19 @@ export default function UserMenu() {
                 Admin
               </Link>
             )}
-            <Link
-              href="/api/auth/signout"
-              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-white/10"
-              onClick={() => setOpen(false)}
+            <button
+              type="button"
+              className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-300 hover:bg-white/10 text-left"
+              onClick={() => { setOpen(false); setSignOutOpen(true) }}
               role="menuitem"
             >
               <LogOut className="w-4 h-4 text-gray-400" />
               Sign out
-            </Link>
+            </button>
           </div>
         </div>
       )}
+      <SignOutConfirmModal open={signOutOpen} onClose={() => setSignOutOpen(false)} />
     </div>
   )
 }

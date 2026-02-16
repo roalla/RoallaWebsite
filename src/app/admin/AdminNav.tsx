@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { Menu, X, Eye } from 'lucide-react'
+import SignOutConfirmModal from '@/components/SignOutConfirmModal'
 import { getViewAsCookie, setViewAsCookie, type ViewAsRole } from './AdminViewAs'
 
 export type NavItem = {
@@ -62,6 +63,7 @@ export default function AdminNav({
   isAdmin?: boolean
 }) {
   const [open, setOpen] = useState(false)
+  const [signOutOpen, setSignOutOpen] = useState(false)
   const effectiveRoles = viewAsRole === 'partner' ? ['partner'] : viewAsRole === 'business' ? [] : roles
   const navItems = getNavLinksForRoles(effectiveRoles)
   const groups = getGroups(navItems)
@@ -186,17 +188,18 @@ export default function AdminNav({
               {userEmail && (
                 <p className="text-sm text-gray-600 px-2 truncate">{userEmail}</p>
               )}
-              <Link
-                href="/api/auth/signout"
-                onClick={() => setOpen(false)}
-                className="block px-4 py-3 rounded-lg text-sm font-medium text-primary hover:bg-primary/10 min-h-[44px] flex items-center"
+              <button
+                type="button"
+                onClick={() => { setOpen(false); setSignOutOpen(true) }}
+                className="block w-full px-4 py-3 rounded-lg text-sm font-medium text-primary hover:bg-primary/10 min-h-[44px] flex items-center text-left"
               >
                 Sign out
-              </Link>
+              </button>
             </div>
           </div>
         </div>
       )}
+      <SignOutConfirmModal open={signOutOpen} onClose={() => setSignOutOpen(false)} callbackUrl="/login" />
     </>
   )
 }

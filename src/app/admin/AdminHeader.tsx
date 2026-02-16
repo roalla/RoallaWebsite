@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import AdminNav from './AdminNav'
+import SignOutConfirmModal from '@/components/SignOutConfirmModal'
 import { getViewAsCookie, setViewAsCookie, type ViewAsRole } from './AdminViewAs'
 
 export default function AdminHeader({
@@ -18,6 +19,7 @@ export default function AdminHeader({
   const router = useRouter()
   const [viewAsRole, setViewAsRoleState] = useState<ViewAsRole>('')
   const [mounted, setMounted] = useState(false)
+  const [signOutOpen, setSignOutOpen] = useState(false)
   const isAdmin = roles.includes('admin')
 
   useEffect(() => {
@@ -61,14 +63,16 @@ export default function AdminHeader({
               <span className="text-sm font-medium text-gray-800">{organizationName}</span>
             )}
             <span className="text-sm text-gray-600 truncate max-w-[180px]">{userEmail}</span>
-            <Link
-              href="/api/auth/signout"
+            <button
+              type="button"
+              onClick={() => setSignOutOpen(true)}
               className="text-sm text-primary hover:text-primary-dark font-medium min-h-[44px] flex items-center"
             >
               Sign out
-            </Link>
+            </button>
           </div>
         </div>
+        <SignOutConfirmModal open={signOutOpen} onClose={() => setSignOutOpen(false)} callbackUrl="/login" />
         {/* View as Partner notice */}
         {mounted && viewAsRole === 'partner' && (
           <div className="bg-blue-50 border-b border-blue-200 px-4 sm:px-6 lg:px-8 py-2.5">

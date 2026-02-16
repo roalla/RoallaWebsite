@@ -21,7 +21,7 @@ const SchedulePage = () => {
           <Breadcrumb items={[{ label: tBc('home'), href: '/' }, { label: tBc('schedule') }]} />
           <div className="max-w-4xl mx-auto">
             <div className="text-center">
-              <h1 className="text-4xl md:text-5xl font-serif font-extrabold text-white">
+              <h1 className="text-4xl md:text-5xl font-serif font-extrabold !text-white">
                 {t('title')}
               </h1>
               <p className="mt-4 text-lg text-gray-300">

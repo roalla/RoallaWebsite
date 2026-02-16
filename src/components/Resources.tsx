@@ -24,7 +24,8 @@ const Resources = () => {
   ]
 
   return (
-    <section id="resources" className="section-padding bg-black py-20 lg:py-28">
+    <section id="resources" className="section-padding bg-black py-20 lg:py-28 relative">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -42,12 +43,15 @@ const Resources = () => {
         </motion.div>
 
         <motion.div
+          id="cta"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-primary via-primary-dark to-primary rounded-2xl p-10 md:p-16 text-center shadow-2xl mb-16"
+          className="bg-gradient-to-r from-primary via-primary-dark to-primary rounded-2xl p-10 md:p-16 text-center shadow-2xl mb-16 relative"
         >
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+          <p className="text-sm text-white/90 mb-4 font-medium">{t('benefitsTeaser')}</p>
           <div className="flex items-center justify-center mb-6">
             <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center">
               <Lock className="w-8 h-8 text-white" />
@@ -56,12 +60,13 @@ const Resources = () => {
           <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
             {t('exclusiveTitle')}
           </h3>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-white/90 mb-4 max-w-2xl mx-auto">
             {t('exclusiveDesc')}
           </p>
+          <p className="text-sm text-white/80 mb-8">{t('socialProof')}</p>
           <Link
             href="/resources/request"
-            className="inline-flex items-center bg-white text-primary hover:bg-white/90 font-semibold py-4 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="inline-flex items-center bg-white text-primary hover:bg-white/90 font-semibold py-4 px-8 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02]"
           >
             <Lock className="w-5 h-5 mr-2" />
             {t('requestAccess')}
@@ -87,8 +92,11 @@ const Resources = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-surface-card rounded-xl p-6 shadow-lg border border-white/10"
               >
+                <Link
+                  href="/resources/request"
+                  className="block bg-surface-card rounded-xl p-6 shadow-lg border border-white/10 hover:border-primary/30 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+                >
                 <div className={`w-14 h-14 bg-gradient-to-br ${resource.color} rounded-lg flex items-center justify-center mb-4`}>
                   <resource.icon className="w-7 h-7 text-white" />
                 </div>
@@ -97,12 +105,14 @@ const Resources = () => {
                 </div>
                 <h4 className="text-lg font-bold text-white mb-2">{resource.title}</h4>
                 <p className="text-sm text-gray-400 leading-relaxed">{resource.description}</p>
+                </Link>
               </motion.div>
             ))}
           </div>
         </motion.div>
 
-        <div className="bg-surface-card rounded-2xl p-8 md:p-12 border border-white/10">
+        <div className="bg-surface-elevated rounded-2xl p-8 md:p-12 border border-white/10 relative">
+          <div className="absolute inset-x-0 top-0 h-px rounded-t-2xl bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
           <div className="flex items-center mb-8">
             <BookOpen className="w-8 h-8 text-primary mr-3" />
             <h3 className="text-3xl font-bold text-white">{t('featuredInsights')}</h3>
@@ -115,18 +125,22 @@ const Resources = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-surface-card rounded-lg p-6 shadow-md border border-white/10 opacity-75"
               >
+                <Link
+                  href="/resources/request"
+                  className="block bg-surface-card rounded-lg p-6 shadow-md border border-white/10 hover:border-primary/30 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+                >
                 <div className="text-xs font-semibold text-gray-500 mb-3">{insight.readTime}</div>
                 <h4 className="text-lg font-bold text-white mb-3">{insight.title}</h4>
                 <p className="text-sm text-gray-400 leading-relaxed">{insight.description}</p>
+                </Link>
               </motion.div>
             ))}
           </div>
           <div className="text-center mt-8">
             <Link
               href="/resources/request"
-              className="inline-flex items-center text-primary font-semibold hover:text-primary-dark transition-colors"
+              className="inline-flex items-center text-primary font-semibold hover:text-primary-dark hover:-translate-y-px transition-all duration-200"
             >
               {t('requestAccessLink')}
               <ArrowRight className="w-5 h-5 ml-2" />

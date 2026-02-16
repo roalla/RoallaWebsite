@@ -4,8 +4,8 @@ import Breadcrumb from '@/components/Breadcrumb'
 import Resources from '@/components/Resources'
 
 export const metadata = {
-  title: 'Resource Centre | Roalla Business Enablement Group',
-  description: 'Access exclusive business guides, templates, tools, and insights. Request access to the Resource Centre.',
+  title: 'Resource Centre | ROALLA',
+  description: 'Access exclusive business guides, templates, tools, and insights from ROALLA. Request access to unlock valuable resources for your growth.',
 }
 
 export default async function ResourcesPage() {

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 import { ExternalLink, ArrowRight, CheckCircle, Zap, Lightbulb, Sparkles } from 'lucide-react'
 import Image from 'next/image'
+import { Link } from '@/i18n/navigation'
 import ScheduleButton from './CalendlyButton'
 
 const toolIcons = [Sparkles, Zap, Lightbulb] as const
@@ -25,7 +26,8 @@ const DigitalCreations = () => {
   ]
 
   return (
-    <section id="digital-creations" className="section-padding bg-black py-20 lg:py-28">
+    <section id="digital-creations" className="section-padding bg-black py-20 lg:py-28 relative">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -49,12 +51,30 @@ const DigitalCreations = () => {
           viewport={{ once: true }}
           className="max-w-4xl mx-auto mb-16"
         >
-          <p className="text-lg text-gray-300 leading-relaxed mb-4">{t('intro1')}</p>
-          <p className="text-lg text-gray-300 leading-relaxed mb-4">{t('intro2')}</p>
-          <p className="text-lg text-gray-300 leading-relaxed">{t('intro3')}</p>
+          <p className="text-lg text-gray-300 leading-relaxed mb-6">{t('intro1')}</p>
+          <ul className="space-y-2 mb-6">
+            <li className="flex items-center gap-2 text-gray-300">
+              <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
+              {t('introBullet1')}
+            </li>
+            <li className="flex items-center gap-2 text-gray-300">
+              <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
+              {t('introBullet2')}
+            </li>
+            <li className="flex items-center gap-2 text-gray-300">
+              <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
+              {t('introBullet3')}
+            </li>
+          </ul>
+          <p className="text-sm text-primary/90">
+            <a href="https://www.truenorthaudit.com" target="_blank" rel="noopener noreferrer" className="hover:underline">
+              {t('assessmentTieIn')}
+            </a>
+          </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 mb-16 relative">
+          <div className="absolute inset-x-0 -top-8 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
           {tools.map((tool, index) => (
             <motion.div
               key={tool.name}
@@ -94,24 +114,23 @@ const DigitalCreations = () => {
                   ))}
                 </ul>
 
+                <p className="text-xs text-primary/80 mb-4 italic">{t('caseStudy')}</p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <a
                     href={tool.tryUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 text-sm flex-1 sm:flex-none"
+                    className="inline-flex items-center justify-center bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 text-sm flex-1 sm:flex-none hover:scale-[1.02]"
                   >
                     {t('tryTool')}
                     <ExternalLink className="w-4 h-4 ml-2" />
                   </a>
-                  <a
-                    href={tool.tryUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center text-primary hover:text-primary-dark font-semibold py-2 px-4 rounded-lg transition-colors duration-200 text-sm border border-primary hover:bg-primary/5"
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center justify-center text-primary hover:text-primary-dark font-semibold py-2 px-4 rounded-lg transition-colors duration-200 text-sm border border-primary hover:bg-primary/5 hover:-translate-y-px"
                   >
                     {t('learnMore')}
-                  </a>
+                  </Link>
                 </div>
               </div>
             </motion.div>
@@ -119,12 +138,14 @@ const DigitalCreations = () => {
         </div>
 
         <motion.div
+          id="digital-cta"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-primary via-primary-dark to-primary rounded-2xl p-10 md:p-16 text-center shadow-2xl"
+          className="bg-gradient-to-r from-primary via-primary-dark to-primary rounded-2xl p-10 md:p-16 text-center shadow-2xl relative"
         >
+          <div className="absolute inset-x-0 top-0 h-px rounded-t-2xl bg-gradient-to-r from-transparent via-white/30 to-transparent" />
           <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
             {t('ctaTitle')}
           </h3>
@@ -132,12 +153,12 @@ const DigitalCreations = () => {
             {t('ctaSubtitle')}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <ScheduleButton variant="secondary" size="lg" className="bg-white text-primary hover:bg-white/90">
+            <ScheduleButton variant="secondary" size="lg" className="bg-white text-primary hover:bg-white/90 hover:scale-[1.02] transition-transform duration-300">
               {t('scheduleCall')}
             </ScheduleButton>
             <a
               href="mailto:sales@roalla.com"
-              className="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 border-2 border-white/30 hover:border-white/50"
+              className="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 border-2 border-white/30 hover:border-white/50 hover:scale-[1.02]"
             >
               {t('contactUs')}
               <ArrowRight className="w-5 h-5 ml-2" />

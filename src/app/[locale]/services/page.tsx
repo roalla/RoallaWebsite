@@ -5,8 +5,8 @@ import Services from '@/components/Services'
 import TrustIndicators from '@/components/TrustIndicators'
 
 export const metadata = {
-  title: 'Our Services | Roalla Business Enablement Group',
-  description: 'Strategic planning, process optimization, team development, data analytics, innovation consulting, and digital transformation for your business.',
+  title: 'Our Services | ROALLA',
+  description: 'Strategic planning, process optimization, team development, data analytics, innovation consulting, and digital transformation. ROALLA delivers comprehensive business enablement.',
 }
 
 export default async function ServicesPage() {
@@ -16,7 +16,7 @@ export default async function ServicesPage() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-8">
         <Breadcrumb items={[{ label: t('home'), href: '/' }, { label: t('services') }]} />
         <Services />
-        <TrustIndicators />
+        <TrustIndicators variant="elevated" />
       </div>
     </div>
   )

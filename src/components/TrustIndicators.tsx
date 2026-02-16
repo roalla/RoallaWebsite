@@ -8,7 +8,11 @@ import { Award, Shield, GraduationCap, Briefcase, CheckCircle2, Star } from 'luc
 const credentialIcons = [Award, GraduationCap, Briefcase, Shield] as const
 const credentialColors = ['from-blue-500 to-blue-600', 'from-purple-500 to-purple-600', 'from-green-500 to-green-600', 'from-orange-500 to-orange-600'] as const
 
-const TrustIndicators = () => {
+interface TrustIndicatorsProps {
+  variant?: 'default' | 'elevated'
+}
+
+const TrustIndicators = ({ variant = 'default' }: TrustIndicatorsProps) => {
   const t = useTranslations('trustIndicators')
   const credentials = [
     { title: t('certified'), description: t('certifiedDesc'), icon: credentialIcons[0], color: credentialColors[0] },
@@ -19,7 +23,8 @@ const TrustIndicators = () => {
   const expertise = [t('exp1'), t('exp2'), t('exp3'), t('exp4'), t('exp5'), t('exp6'), t('exp7'), t('exp8')]
 
   return (
-    <section id="trust" className="section-padding bg-black py-20 lg:py-28">
+    <section id="trust" className={`section-padding py-20 lg:py-28 relative ${variant === 'elevated' ? 'bg-surface-elevated' : 'bg-black'}`}>
+      {variant === 'elevated' && <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

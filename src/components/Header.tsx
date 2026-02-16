@@ -260,7 +260,7 @@ const Header = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 pt-[env(safe-area-inset-top)] ${
-        isScrolled ? 'bg-white/80 shadow-md backdrop-blur-sm' : 'bg-transparent'
+        isScrolled ? 'bg-black/90 shadow-lg shadow-black/20 backdrop-blur-sm' : 'bg-transparent'
       }`}
     >
       {/* Skip to main content - visible on focus for keyboard/screen reader users */}
@@ -292,7 +292,7 @@ const Header = () => {
                 />
               </div>
               <div className="hidden sm:block min-w-0">
-                <h1 className="text-xl font-bold text-gray-900 group-hover:text-primary transition-colors duration-200 truncate">
+                <h1 className="text-xl font-bold text-white group-hover:text-primary transition-colors duration-200 truncate">
                   {tCommon('companyName')}
                 </h1>
               </div>
@@ -310,7 +310,7 @@ const Header = () => {
                       href={item.href}
                       aria-current={active ? 'page' : undefined}
                       className={`font-medium transition-colors duration-200 relative group whitespace-nowrap flex-shrink-0 block ${
-                        active ? 'text-primary' : 'text-gray-700 hover:text-primary'
+                        active ? 'text-primary' : 'text-gray-300 hover:text-primary'
                       }`}
                       onClick={closeMenu}
                     >
@@ -334,7 +334,7 @@ const Header = () => {
                 <button
                   type="button"
                   onClick={() => setLocaleDropdownOpen((o) => !o)}
-                  className="flex items-center gap-1.5 text-sm font-medium text-gray-700 bg-gray-100/80 hover:bg-gray-200/80 border border-gray-200 rounded-lg pl-2.5 pr-2 py-1.5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="flex items-center gap-1.5 text-sm font-medium text-white bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg pl-2.5 pr-2 py-1.5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                   aria-expanded={localeDropdownOpen}
                   aria-haspopup="listbox"
                   aria-label="Select language"
@@ -346,7 +346,7 @@ const Header = () => {
                     <QuebecFlagIcon className="w-5 h-[10px] flex-shrink-0" />
                   )}
                   <span>{locale === 'en' ? 'EN' : 'FR'}</span>
-                  <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${localeDropdownOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${localeDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
                 <AnimatePresence>
                   {localeDropdownOpen && (
@@ -357,14 +357,14 @@ const Header = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -4 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute right-0 top-full mt-1 py-1 min-w-[120px] bg-white rounded-lg shadow-lg border border-gray-200 z-50"
+                      className="absolute right-0 top-full mt-1 py-1 min-w-[120px] bg-surface-elevated rounded-lg shadow-xl border border-white/10 z-50"
                     >
                       <button
                         type="button"
                         role="option"
                         aria-selected={locale === 'en'}
                         onClick={() => handleLocaleSelect('en')}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-left text-sm font-medium text-gray-800 hover:bg-gray-50 first:rounded-t-lg"
+                        className="w-full flex items-center gap-2 px-3 py-2 text-left text-sm font-medium text-white hover:bg-white/10 first:rounded-t-lg"
                       >
                         <CanadianFlagIcon className="w-5 h-[10px] flex-shrink-0" />
                         <span>EN</span>
@@ -374,7 +374,7 @@ const Header = () => {
                         role="option"
                         aria-selected={locale === 'fr'}
                         onClick={() => handleLocaleSelect('fr')}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-left text-sm font-medium text-gray-800 hover:bg-gray-50 last:rounded-b-lg"
+                        className="w-full flex items-center gap-2 px-3 py-2 text-left text-sm font-medium text-white hover:bg-white/10 last:rounded-b-lg"
                       >
                         <QuebecFlagIcon className="w-5 h-[10px] flex-shrink-0" />
                         <span>FR</span>
@@ -398,7 +398,7 @@ const Header = () => {
               ref={menuButtonRef}
               onClick={toggleMenu}
               onKeyDown={handleNavButtonKeyDown}
-              className="mobile-nav-toggle p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 min-h-[44px] min-w-[44px] flex items-center justify-center"
+              className="mobile-nav-toggle p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black min-h-[44px] min-w-[44px] flex items-center justify-center"
               aria-label={isMenuOpen ? t('closeMenu') : t('openMenu')}
               aria-expanded={isMenuOpen}
               aria-controls="mobile-menu"
@@ -412,7 +412,7 @@ const Header = () => {
                     exit={prefersReducedMotion ? undefined : { rotate: 90, opacity: 0 }}
                     transition={iconTransition}
                   >
-                    <X className="w-6 h-6 text-gray-700" />
+                    <X className="w-6 h-6 text-white" />
                   </motion.div>
                 ) : (
                   <motion.div
@@ -422,7 +422,7 @@ const Header = () => {
                     exit={prefersReducedMotion ? undefined : { rotate: -90, opacity: 0 }}
                     transition={iconTransition}
                   >
-                    <Menu className="w-6 h-6 text-gray-700" />
+                    <Menu className="w-6 h-6 text-white" />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -447,7 +447,7 @@ const Header = () => {
               className="lg:hidden overflow-hidden fixed left-0 right-0 z-50 shadow-lg top-[calc(4rem+env(safe-area-inset-top,0px))] flex flex-col"
               style={{ maxHeight: 'calc(100vh - 4rem - env(safe-area-inset-top, 0px))' }}
             >
-              <div className="flex-1 overflow-y-auto px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-200">
+              <div className="flex-1 overflow-y-auto px-2 pt-2 pb-3 space-y-1 bg-black border-t border-white/10">
                 {navigation.map((item, index) => {
                   const active = isActive(item.href)
                   return (
@@ -458,7 +458,7 @@ const Header = () => {
                         className={`block px-3 py-3 min-h-[44px] flex items-center rounded-md text-base font-medium transition-colors duration-200 ${
                           active
                             ? 'text-primary bg-primary/10'
-                            : 'text-gray-700 hover:text-primary hover:bg-gray-50'
+                            : 'text-gray-300 hover:text-primary hover:bg-white/5'
                         }`}
                         onClick={(e) => handleMobileNavClick(e, item.href)}
                       >
@@ -468,12 +468,12 @@ const Header = () => {
                   )
                 })}
                 {isLocaleRoute && (
-                  <div className="px-3 py-3 border-t border-gray-100 relative" ref={localeDropdownMobileRef}>
-                    <span className="block text-xs font-medium text-gray-500 mb-1.5">Language</span>
+                  <div className="px-3 py-3 border-t border-white/10 relative" ref={localeDropdownMobileRef}>
+                    <span className="block text-xs font-medium text-gray-400 mb-1.5">Language</span>
                     <button
                       type="button"
                       onClick={() => setLocaleDropdownOpen((o) => !o)}
-                      className="w-full flex items-center gap-2 text-base font-medium text-gray-900 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                      className="w-full flex items-center gap-2 text-base font-medium text-white bg-white/10 border border-white/20 rounded-lg px-3 py-2.5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                       aria-expanded={localeDropdownOpen}
                       aria-haspopup="listbox"
                       aria-label="Select language"
@@ -485,7 +485,7 @@ const Header = () => {
                         <QuebecFlagIcon className="w-6 h-4 flex-shrink-0" />
                       )}
                       <span>{locale === 'en' ? 'EN' : 'FR'}</span>
-                      <ChevronDown className={`w-5 h-5 text-gray-500 ml-auto transition-transform ${localeDropdownOpen ? 'rotate-180' : ''}`} />
+                      <ChevronDown className={`w-5 h-5 text-gray-400 ml-auto transition-transform ${localeDropdownOpen ? 'rotate-180' : ''}`} />
                     </button>
                     <AnimatePresence>
                       {localeDropdownOpen && (
@@ -496,14 +496,14 @@ const Header = () => {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -4 }}
                           transition={{ duration: 0.15 }}
-                          className="absolute left-3 right-3 top-full mt-1 py-1 bg-white rounded-lg shadow-lg border border-gray-200 z-50"
+                          className="absolute left-3 right-3 top-full mt-1 py-1 bg-surface-elevated rounded-lg shadow-xl border border-white/10 z-50"
                         >
                           <button
                             type="button"
                             role="option"
                             aria-selected={locale === 'en'}
                             onClick={() => handleLocaleSelect('en')}
-                            className="w-full flex items-center gap-2 px-3 py-2.5 text-left text-base font-medium text-gray-800 hover:bg-gray-50 first:rounded-t-lg"
+                            className="w-full flex items-center gap-2 px-3 py-2.5 text-left text-base font-medium text-white hover:bg-white/10 first:rounded-t-lg"
                           >
                             <CanadianFlagIcon className="w-6 h-4 flex-shrink-0" />
                             <span>EN</span>
@@ -513,7 +513,7 @@ const Header = () => {
                             role="option"
                             aria-selected={locale === 'fr'}
                             onClick={() => handleLocaleSelect('fr')}
-                            className="w-full flex items-center gap-2 px-3 py-2.5 text-left text-base font-medium text-gray-800 hover:bg-gray-50 last:rounded-b-lg"
+                            className="w-full flex items-center gap-2 px-3 py-2.5 text-left text-base font-medium text-white hover:bg-white/10 last:rounded-b-lg"
                           >
                             <QuebecFlagIcon className="w-6 h-4 flex-shrink-0" />
                             <span>FR</span>
@@ -523,12 +523,12 @@ const Header = () => {
                     </AnimatePresence>
                   </div>
                 )}
-                <div className="px-3 py-3 min-h-[44px] flex items-center border-t border-gray-100">
+                <div className="px-3 py-3 min-h-[44px] flex items-center border-t border-white/10">
                   <HeaderAuthSlot variant="mobile" onNavigate={closeMenu} />
                 </div>
               </div>
               {/* Sticky CTA at bottom of mobile menu */}
-              <div className="flex-shrink-0 p-3 bg-white border-t border-gray-200">
+              <div className="flex-shrink-0 p-3 bg-black border-t border-white/10">
                 <motion.div {...motionMobileCta}>
                   <ScheduleButton
                     variant="primary"
@@ -553,7 +553,7 @@ const Header = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={backdropTransition}
-            className="fixed inset-0 bg-black/20 z-30 lg:hidden cursor-pointer"
+            className="fixed inset-0 bg-black/60 z-30 lg:hidden cursor-pointer"
             onClick={closeMenu}
             aria-hidden="true"
           />

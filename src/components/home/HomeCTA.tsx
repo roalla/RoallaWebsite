@@ -9,7 +9,7 @@ import ScheduleButton from '../CalendlyButton'
 export default function HomeCTA() {
   const t = useTranslations('home.cta')
   return (
-    <section className="py-16 lg:py-24 bg-white">
+    <section className="py-16 lg:py-24 bg-black">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -23,7 +23,7 @@ export default function HomeCTA() {
             <ScheduleButton
               variant="secondary"
               size="lg"
-              className="bg-white text-primary hover:bg-gray-50 border-0"
+              className="bg-white text-primary hover:bg-white/90 border-0"
             >
               {t('schedule')}
             </ScheduleButton>

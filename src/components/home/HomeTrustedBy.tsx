@@ -12,7 +12,7 @@ export default function HomeTrustedBy() {
   const t = useTranslations('home.trustedBy')
   const items = itemKeys.map((key, i) => ({ icon: itemIcons[i], label: t(key) }))
   return (
-    <section className="py-12 lg:py-16 bg-gray-50 border-y border-gray-100">
+    <section className="py-12 lg:py-16 bg-black border-y border-white/10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.p
           initial={{ opacity: 0 }}
@@ -35,7 +35,7 @@ export default function HomeTrustedBy() {
               <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
                 <item.icon className="w-6 h-6 text-primary" />
               </div>
-              <span className="text-gray-800 font-medium">{item.label}</span>
+              <span className="text-gray-300 font-medium">{item.label}</span>
             </motion.div>
           ))}
         </div>

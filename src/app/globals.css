@@ -11,12 +11,12 @@
   }
   
   body {
-    @apply bg-white text-gray-900 font-sans transition-colors duration-300;
+    @apply bg-black text-white font-sans transition-colors duration-300;
     line-height: 1.6;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif font-bold text-gray-900;
+    @apply font-serif font-bold text-white;
     line-height: 1.2;
   }
 
@@ -74,7 +74,7 @@
   }
   
   .btn-secondary {
-    @apply bg-gray-50 hover:bg-gray-100 text-gray-700 font-semibold py-3 px-6 rounded-lg transition-all duration-300 border border-gray-200 hover:border-primary;
+    @apply bg-transparent hover:bg-primary/10 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 border-2 border-primary hover:border-primary-dark;
   }
   
   .section-padding {
@@ -90,7 +90,7 @@
   }
   
   .card {
-    @apply bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200;
+    @apply bg-surface-card rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-white/10;
   }
 
   /* Enhanced spacing utilities */

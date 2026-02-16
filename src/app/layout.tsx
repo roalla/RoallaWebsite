@@ -138,9 +138,8 @@ export default async function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
         <link rel="manifest" href="/site.webmanifest" />
         
-        {/* Theme color for mobile browsers */}
-        <meta name="theme-color" content="#00b4c5" />
-        <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+        {/* Theme color for mobile browsers - black background branding */}
+        <meta name="theme-color" content="#000000" />
         
         {/* Additional meta tags for better SEO */}
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />

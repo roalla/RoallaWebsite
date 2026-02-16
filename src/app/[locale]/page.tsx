@@ -9,7 +9,7 @@ import HomeFeaturedInsight from '@/components/home/HomeFeaturedInsight'
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white transition-colors duration-300">
+    <main className="min-h-screen bg-black transition-colors duration-300">
       <div id="main-content">
         <HomeHero />
         <HomeWhatWeDo />

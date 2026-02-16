@@ -13,7 +13,7 @@ export default function HomeHowWeWork() {
   const t = useTranslations('home.howWeWork')
   const steps = stepKeys.map((key, i) => ({ icon: stepIcons[i], label: t(key) }))
   return (
-    <section className="py-16 lg:py-24 bg-gradient-to-br from-gray-50 to-white">
+    <section className="py-16 lg:py-24 bg-black">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -21,8 +21,8 @@ export default function HomeHowWeWork() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl font-serif font-bold text-gray-900">{t('title')}</h2>
-          <p className="mt-3 text-gray-700 max-w-xl mx-auto">{t('description')}</p>
+          <h2 className="text-3xl font-serif font-bold text-white">{t('title')}</h2>
+          <p className="mt-3 text-gray-300 max-w-xl mx-auto">{t('description')}</p>
         </motion.div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
           {steps.map((step, i) => (
@@ -34,10 +34,10 @@ export default function HomeHowWeWork() {
               transition={{ delay: i * 0.08 }}
               className="flex flex-col items-center text-center"
             >
-              <div className="w-14 h-14 rounded-xl bg-white shadow-md border border-gray-100 flex items-center justify-center mb-3">
+              <div className="w-14 h-14 rounded-xl bg-surface-card border border-white/10 flex items-center justify-center mb-3">
                 <step.icon className="w-7 h-7 text-primary" />
               </div>
-              <span className="text-sm font-medium text-gray-800">{step.label}</span>
+              <span className="text-sm font-medium text-gray-300">{step.label}</span>
             </motion.div>
           ))}
         </div>

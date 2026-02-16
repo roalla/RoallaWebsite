@@ -139,8 +139,8 @@ export default function RequestAccessPage() {
 
   if (status === 'loading') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center py-20">
-        <div className="text-center text-gray-600">
+      <div className="min-h-screen bg-black flex items-center justify-center py-20">
+        <div className="text-center text-gray-300">
           <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
           <p>Loading...</p>
         </div>
@@ -149,7 +149,7 @@ export default function RequestAccessPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white py-20 lg:py-28">
+    <div className="min-h-screen bg-black py-20 lg:py-28">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
           <IntlLink
@@ -171,10 +171,10 @@ export default function RequestAccessPage() {
                 <Shield className="w-8 h-8 text-white" />
               </div>
             </div>
-            <h1 className="text-4xl md:text-5xl font-serif font-extrabold text-gray-900 mb-4">
+            <h1 className="text-4xl md:text-5xl font-serif font-extrabold text-white mb-4">
               Request Access to Resource Centre
             </h1>
-            <p className="text-xl text-gray-700">
+            <p className="text-xl text-gray-300">
               Get access to exclusive business resources, guides, templates, and insights.
             </p>
           </motion.div>
@@ -183,15 +183,15 @@ export default function RequestAccessPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 md:p-12"
+            className="bg-surface-card rounded-2xl shadow-xl border border-white/10 p-8 md:p-12"
           >
             {statusSubmit === 'success' ? (
               <div className="text-center py-8">
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <CheckCircle className="w-8 h-8 text-green-600" />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Request Submitted!</h2>
-                <p className="text-gray-700 mb-6">{message}</p>
+                <h2 className="text-2xl font-bold text-white mb-4">Request Submitted!</h2>
+                <p className="text-gray-300 mb-6">{message}</p>
                 <IntlLink
                   href="/"
                   className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-semibold py-3 px-6 rounded-lg transition-colors"
@@ -207,7 +207,7 @@ export default function RequestAccessPage() {
                   </p>
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-semibold text-gray-900 mb-2">Email</label>
+                  <label htmlFor="email" className="block text-sm font-semibold text-gray-300 mb-2">Email</label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                     <input
@@ -215,13 +215,13 @@ export default function RequestAccessPage() {
                       id="email"
                       readOnly
                       value={session?.user?.email ?? ''}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-600"
+                      className="w-full pl-10 pr-4 py-3 border border-white/20 rounded-lg bg-black/50 text-gray-300"
                     />
                   </div>
                   <p className="mt-1 text-xs text-gray-500">This is the account you signed in with.</p>
                 </div>
                 <div>
-                  <label htmlFor="name" className="block text-sm font-semibold text-gray-900 mb-2">Full Name <span className="text-red-500">*</span></label>
+                  <label htmlFor="name" className="block text-sm font-semibold text-gray-300 mb-2">Full Name <span className="text-red-400">*</span></label>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                     <input
@@ -465,10 +465,10 @@ export default function RequestAccessPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-6"
+            className="mt-8 bg-surface-card border border-white/10 rounded-xl p-6"
           >
-            <h3 className="font-semibold text-gray-900 mb-2">What&apos;s included in the Resource Centre?</h3>
-            <ul className="space-y-2 text-sm text-gray-700">
+            <h3 className="font-semibold text-white mb-2">What&apos;s included in the Resource Centre?</h3>
+            <ul className="space-y-2 text-sm text-gray-300">
               <li className="flex items-start">
                 <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0 mt-0.5" />
                 <span>Exclusive business guides and frameworks</span>

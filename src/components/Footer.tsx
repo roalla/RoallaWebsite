@@ -22,7 +22,7 @@ const Footer = () => {
   ]
 
   return (
-    <footer className="bg-gray-900 dark:bg-black text-gray-200">
+    <footer className="bg-black border-t border-white/10 text-gray-300">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6">
           <div className="min-w-0">
@@ -53,7 +53,7 @@ const Footer = () => {
             </a>
           </div>
         </div>
-        <div className="mt-4 pt-4 border-t border-gray-700 text-center text-gray-400 text-xs">
+        <div className="mt-4 pt-4 border-t border-white/10 text-center text-gray-500 text-xs">
           <p suppressHydrationWarning>{t('copyright', { year: currentYear })}</p>
         </div>
       </div>

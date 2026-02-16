@@ -10,10 +10,10 @@ import ScheduleButton from '../CalendlyButton'
 export default function HomeHero() {
   const t = useTranslations('home.hero')
   return (
-    <section className="relative min-h-[85vh] flex items-center bg-gradient-to-br from-white via-primary/5 to-primary/10 overflow-hidden">
-      <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)', backgroundSize: '40px 40px' }} />
-      <div className="absolute top-0 right-0 w-[60%] h-[70%] bg-gradient-to-bl from-primary/10 to-transparent rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-tr from-primary/5 to-transparent rounded-full blur-3xl" />
+    <section className="relative min-h-[85vh] flex items-center bg-black overflow-hidden">
+      <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+      <div className="absolute top-0 right-0 w-[60%] h-[70%] bg-gradient-to-bl from-primary/20 to-transparent rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-tr from-primary/10 to-transparent rounded-full blur-3xl" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-16">
         <div className="max-w-4xl">
@@ -21,7 +21,7 @@ export default function HomeHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold text-gray-900 leading-tight"
+            className="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold text-white leading-tight"
           >
             {t('title')}{' '}
             <span className="bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">
@@ -32,7 +32,7 @@ export default function HomeHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mt-6 text-xl text-gray-700 max-w-2xl"
+            className="mt-6 text-xl text-gray-300 max-w-2xl"
           >
             {t('subtitle')}
           </motion.p>
@@ -47,7 +47,7 @@ export default function HomeHero() {
             </ScheduleButton>
             <Link
               href="/services"
-              className="inline-flex items-center font-semibold text-gray-700 hover:text-primary transition-colors"
+              className="inline-flex items-center font-semibold text-gray-300 hover:text-primary transition-colors"
             >
               {t('exploreServices')}
               <ArrowRight className="ml-2 w-5 h-5" />
@@ -57,7 +57,7 @@ export default function HomeHero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-12 text-sm text-gray-500"
+            className="mt-12 text-sm text-gray-400"
           >
             {t('stats')}
           </motion.p>

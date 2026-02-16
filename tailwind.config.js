@@ -12,13 +12,19 @@ module.exports = {
           DEFAULT: '#00b4c5',
           light: '#33c3d1',
           dark: '#0099a8',
-          lighter: '#e6f7f9',
+          lighter: 'rgba(0, 180, 197, 0.1)',
           darker: '#007a87',
         },
         'brand-gold': {
           DEFAULT: '#ffd700',
           light: '#ffe033',
           dark: '#e6c200',
+        },
+        'brand-muted': '#8a8b8e',
+        'surface': {
+          DEFAULT: '#0a0a0a',
+          elevated: '#141414',
+          card: '#1a1a1a',
         },
       },
       fontFamily: {

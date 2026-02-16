@@ -97,7 +97,9 @@ export default function AdminSidebar({
 
   const isActive = (href: string) => {
     if (href === '/admin') return pathname === '/admin'
-    return pathname === href || (href !== '/admin/portal' && pathname.startsWith(href))
+    if (href === '/admin/portal') return pathname === '/admin/portal'
+    if (href === '/admin/trust') return pathname === '/admin/trust' || pathname.startsWith('/admin/trust/')
+    return pathname === href || pathname.startsWith(href + '/')
   }
 
   return (

@@ -110,10 +110,27 @@ export async function POST(request: NextRequest) {
     }
 
     const currentUserId = (session.user as { id?: string }).id
+    const userIsAdmin = isAdmin(session.user)
     let organizationId: string | null = null
 
-    if (isAdmin(session.user)) {
+    if (userIsAdmin) {
       organizationId = typeof bodyOrgId === 'string' && bodyOrgId.trim() ? bodyOrgId.trim() : null
+      if (!organizationId) {
+        const orgCount = await prisma.organization.count()
+        return NextResponse.json(
+          {
+            error:
+              orgCount === 0
+                ? 'No organizations exist yet. Create an organization first to add trusted contacts.'
+                : 'Please select an organization.',
+          },
+          { status: 403 }
+        )
+      }
+      const org = await prisma.organization.findUnique({ where: { id: organizationId }, select: { id: true } })
+      if (!org) {
+        return NextResponse.json({ error: 'Invalid organization selected.' }, { status: 400 })
+      }
     } else {
       const u = currentUserId
         ? await prisma.user.findUnique({
@@ -122,13 +139,15 @@ export async function POST(request: NextRequest) {
           })
         : null
       organizationId = u?.organizationId ?? null
-    }
-
-    if (!organizationId) {
-      return NextResponse.json(
-        { error: 'Partners must be in an organization to add trusted contacts' },
-        { status: 403 }
-      )
+      if (!organizationId) {
+        return NextResponse.json(
+          {
+            error:
+              'You must be assigned to an organization to add trusted contacts. Contact your administrator.',
+          },
+          { status: 403 }
+        )
+      }
     }
 
     const contact = await prisma.trustedContact.create({

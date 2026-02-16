@@ -120,6 +120,10 @@ export default function AdminTrustedContactsPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+    if (!editingId && isAdmin && organizations.length > 0 && !form.organizationId?.trim()) {
+      setError('Please select an organization.')
+      return
+    }
     setSaving(true)
     try {
       if (editingId) {
@@ -219,7 +223,13 @@ export default function AdminTrustedContactsPage() {
         </div>
       )}
 
-      {!showAddForm && !editingId && (
+      {isAdmin && organizations.length === 0 && (
+        <p className="mb-6 p-4 rounded-lg bg-amber-50 text-amber-800 text-sm">
+          Create an organization first to add trusted contacts.
+        </p>
+      )}
+
+      {!showAddForm && !editingId && (isAdmin ? organizations.length > 0 : true) && (
         <button
           type="button"
           onClick={() => {
@@ -312,7 +322,7 @@ export default function AdminTrustedContactsPage() {
             </div>
             {isAdmin && !editingId && organizations.length > 0 && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Organization</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Organization *</label>
                 <select
                   value={form.organizationId}
                   onChange={(e) => setForm((f) => ({ ...f, organizationId: e.target.value }))}

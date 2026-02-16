@@ -41,7 +41,7 @@ export default async function AdminLayout({
         />
         <div className="flex flex-1 min-h-0">
           <AdminSidebar roles={roles} />
-          <main id="main-content" tabIndex={-1} className="flex-1 min-w-0 overflow-auto bg-gray-50">
+          <main id="main-content" data-admin className="flex-1 min-w-0 overflow-auto bg-gray-50">
             <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
               {children}
             </div>

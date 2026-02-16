@@ -115,6 +115,18 @@
   z-index: 9999 !important;
 }
 
+/* Admin area: form controls need dark text on light background (body uses dark theme globally) */
+[data-admin] input,
+[data-admin] textarea,
+[data-admin] select {
+  @apply text-gray-900 bg-white;
+}
+
+[data-admin] input::placeholder,
+[data-admin] textarea::placeholder {
+  @apply text-gray-500;
+}
+
 /* Admin mobile drawer slide-in animation */
 @keyframes admin-drawer-in {
   from { transform: translateX(100%); opacity: 0.5; }

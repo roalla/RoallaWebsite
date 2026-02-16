@@ -16,7 +16,8 @@ export default function HomeHero() {
       <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-tr from-primary/10 to-transparent rounded-full blur-3xl" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-16">
-        <div className="max-w-4xl">
+        <div className="grid lg:grid-cols-[1fr,1fr] gap-12 lg:gap-16 items-center">
+        <div className="max-w-xl">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -61,6 +62,23 @@ export default function HomeHero() {
           >
             {t('stats')}
           </motion.p>
+        </div>
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="relative aspect-video max-w-2xl mx-auto lg:mx-0"
+        >
+          <video
+            className="w-full h-full rounded-xl border border-white/10 object-cover shadow-2xl"
+            controls
+            playsInline
+            preload="metadata"
+          >
+            <source src="/hero-video.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </motion.div>
         </div>
       </div>
     </section>

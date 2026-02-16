@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, Eye } from 'lucide-react'
+import { usePathname } from 'next/navigation'
+import { Menu, X, Eye, LayoutDashboard, Users, BookOpen, FileStack, Contact, Lock, Shield } from 'lucide-react'
 import SignOutConfirmModal from '@/components/SignOutConfirmModal'
 import { getViewAsCookie, setViewAsCookie, type ViewAsRole } from './AdminViewAs'
 
@@ -11,16 +12,17 @@ export type NavItem = {
   label: string
   description: string
   group: string
+  icon: React.ComponentType<{ className?: string }>
 }
 
 const ALL_NAV_ITEMS: NavItem[] = [
-  { href: '/admin', label: 'Dashboard', description: 'Overview and quick links', group: 'Overview' },
-  { href: '/admin/team', label: 'Team & roles', description: 'Manage users and their permissions', group: 'People & access' },
-  { href: '/admin/partner-guide', label: 'Partner guide', description: 'How to use the admin as a partner', group: 'People & access' },
-  { href: '/admin/portal', label: 'Portal content', description: 'Resources, links, access, and bundles', group: 'Content' },
-  { href: '/admin/trusted-contacts', label: 'Trusted contacts', description: 'Contacts list for your organization', group: 'Trust & compliance' },
-  { href: '/admin/trust', label: 'Trust Centre', description: 'NDA and gated document requests', group: 'Trust & compliance' },
-  { href: '/admin/security', label: 'Security', description: '2FA and account security', group: 'Settings' },
+  { href: '/admin', label: 'Dashboard', description: 'Overview and quick links', group: 'Overview', icon: LayoutDashboard },
+  { href: '/admin/team', label: 'Team & roles', description: 'Manage users and their permissions', group: 'People & access', icon: Users },
+  { href: '/admin/partner-guide', label: 'Partner guide', description: 'How to use the admin as a partner', group: 'People & access', icon: BookOpen },
+  { href: '/admin/portal', label: 'Portal content', description: 'Resources, links, access, and bundles', group: 'Content', icon: FileStack },
+  { href: '/admin/trusted-contacts', label: 'Trusted contacts', description: 'Contacts list for your organization', group: 'Trust & compliance', icon: Contact },
+  { href: '/admin/trust', label: 'Trust Centre', description: 'NDA and gated document requests', group: 'Trust & compliance', icon: Lock },
+  { href: '/admin/security', label: 'Security', description: '2FA and account security', group: 'Settings', icon: Shield },
 ]
 
 function getNavLinksForRoles(roles: string[]): NavItem[] {
@@ -62,11 +64,17 @@ export default function AdminNav({
   onViewAsChange?: (role: ViewAsRole) => void
   isAdmin?: boolean
 }) {
+  const pathname = usePathname()
   const [open, setOpen] = useState(false)
   const [signOutOpen, setSignOutOpen] = useState(false)
   const effectiveRoles = viewAsRole === 'partner' ? ['partner'] : viewAsRole === 'business' ? [] : roles
   const navItems = getNavLinksForRoles(effectiveRoles)
   const groups = getGroups(navItems)
+
+  const isActive = (href: string) => {
+    if (href === '/admin') return pathname === '/admin'
+    return pathname.startsWith(href)
+  }
 
   return (
     <>
@@ -74,16 +82,26 @@ export default function AdminNav({
       <nav className="hidden lg:flex items-center gap-1" aria-label="Admin navigation">
         {Array.from(groups.entries()).map(([groupName, items]) => (
           <div key={groupName} className="flex items-center gap-1">
-            {items.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
-                title={link.description}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {items.map((link) => {
+              const active = isActive(link.href)
+              const Icon = link.icon
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px] ${
+                    active
+                      ? 'text-primary bg-primary/10'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                  }`}
+                  title={link.description}
+                  aria-current={active ? 'page' : undefined}
+                >
+                  <Icon className="w-4 h-4 flex-shrink-0" />
+                  {link.label}
+                </Link>
+              )
+            })}
           </div>
         ))}
       </nav>
@@ -91,7 +109,7 @@ export default function AdminNav({
       {/* View as switcher - desktop: only when user is admin */}
       {userIsAdmin && onViewAsChange && (
         <div className="hidden lg:flex items-center gap-2 ml-2 pl-2 border-l border-gray-200">
-          <span className="flex items-center gap-1.5 text-xs text-gray-500">
+          <span className="flex items-center gap-1.5 text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-md" title="Preview what Partner or Business users see">
             <Eye className="w-3.5 h-3.5" aria-hidden />
             View as
           </span>
@@ -146,7 +164,7 @@ export default function AdminNav({
             onClick={() => setOpen(false)}
             aria-hidden
           />
-          <div className="absolute right-0 top-0 bottom-0 w-full max-w-sm bg-white shadow-xl flex flex-col">
+          <div className="admin-drawer-panel absolute right-0 top-0 bottom-0 w-full max-w-sm bg-white shadow-xl flex flex-col">
             <div className="flex items-center justify-between p-4 border-b border-gray-200">
               <span className="font-semibold text-gray-900">Admin menu</span>
               <button
@@ -165,18 +183,28 @@ export default function AdminNav({
                     {groupName}
                   </p>
                   <ul className="space-y-1">
-                    {items.map((link) => (
-                      <li key={link.href}>
-                        <Link
-                          href={link.href}
-                          onClick={() => setOpen(false)}
-                          className="block px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-                        >
-                          <span className="font-medium">{link.label}</span>
-                          <span className="block text-xs text-gray-500 mt-0.5">{link.description}</span>
-                        </Link>
-                      </li>
-                    ))}
+                    {items.map((link) => {
+                      const active = isActive(link.href)
+                      const Icon = link.icon
+                      return (
+                        <li key={link.href}>
+                          <Link
+                            href={link.href}
+                            onClick={() => setOpen(false)}
+                            className={`flex items-center gap-3 px-4 py-3 rounded-lg min-h-[44px] ${
+                              active ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                            }`}
+                            aria-current={active ? 'page' : undefined}
+                          >
+                            <Icon className="w-5 h-5 flex-shrink-0" />
+                            <span>
+                              <span className="font-medium block">{link.label}</span>
+                              <span className="block text-xs text-gray-500 mt-0.5">{link.description}</span>
+                            </span>
+                          </Link>
+                        </li>
+                      )
+                    })}
                   </ul>
                 </div>
               ))}

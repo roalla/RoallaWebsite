@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma'
 import { isAdmin, canAccessAdmin } from '@/lib/access'
 import Link from 'next/link'
 import { FileText, CheckCircle, XCircle, Clock, Users, Lock, BookOpen, FileStack } from 'lucide-react'
+import AdminDashboardMenu from './AdminDashboardMenu'
 
 const PARTNER_ADD_USER_CAP = Math.max(0, Number(process.env.PARTNER_ADD_USER_CAP) || 50)
 
@@ -65,33 +66,20 @@ export default async function AdminDashboardPage() {
     <div>
       <h1 className="text-2xl font-bold text-gray-900 mb-2">Dashboard</h1>
       <p className="text-gray-600 mb-8">
-        Welcome back, {session?.user?.email}
+        Welcome back{((session?.user as { name?: string })?.name || session?.user?.email?.split('@')[0] || 'there') !== 'there' ? `, ${(session?.user as { name?: string })?.name || session?.user?.email?.split('@')[0] || 'there'}` : ''}
         {partnerContext?.organizationName && (
-          <span className="ml-2 text-gray-500">· {partnerContext.organizationName}</span>
+          <span className="ml-2 text-gray-500">Â· {partnerContext.organizationName}</span>
         )}
       </p>
 
       {admin && !previewAsPartner && !previewAsBusiness && (
-        <div className="mb-8 p-4 bg-gray-100 border border-gray-200 rounded-xl">
-          <p className="text-sm font-medium text-gray-800 mb-2">What’s in the menu</p>
-          <ul className="text-sm text-gray-700 space-y-1 list-disc list-inside">
-            <li><strong>Dashboard</strong> — This page: overview and quick links.</li>
-            <li><strong>Team & roles</strong> — Add users and assign roles (admin, partner, etc.).</li>
-            <li><strong>Portal content</strong> — Tiles (resources/links), portal access (approve requests, add users, set who sees what), and bundles/codes.</li>
-            <li><strong>Trusted contacts</strong> — Contacts list for your organization (partners).</li>
-            <li><strong>Trust Centre</strong> — NDA and gated document requests.</li>
-            <li><strong>Security</strong> — 2FA and account settings.</li>
-          </ul>
-          <p className="text-sm text-gray-600 mt-3">
-            Use <strong>View as → Partner / Business</strong> in the header to preview what that role sees in the menu and on this dashboard.
-          </p>
-        </div>
+        <AdminDashboardMenu />
       )}
 
       {previewAsPartner && !partnerContext && (
         <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
           <p className="text-sm text-blue-900">
-            <strong>Partner preview:</strong> You’re viewing the dashboard as a Partner. Partners are linked to an organization; you don’t have an organization, so partner-specific counts aren’t shown. Switch to a user with the Partner role (and an organization) to see their full view.
+            <strong>Partner preview:</strong> You're viewing the dashboard as a Partner. Partners are linked to an organization; you don't have an organization, so partner-specific counts aren't shown. Switch to a user with the Partner role (and an organization) to see their full view.
           </p>
         </div>
       )}
@@ -99,7 +87,7 @@ export default async function AdminDashboardPage() {
       {previewAsBusiness && (
         <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
           <p className="text-sm text-amber-900">
-            <strong>Business preview:</strong> Business users don’t use this admin area. They receive a link to the Resources Portal after their access request is approved. Use the banner above to return to Admin view.
+            <strong>Business preview:</strong> Business users don't use this admin area. They receive a link to the Resources Portal after their access request is approved. Use the banner above to return to Admin view.
           </p>
         </div>
       )}
@@ -122,7 +110,7 @@ export default async function AdminDashboardPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
         <Link
           href="/admin/team"
-          className="bg-white rounded-xl border border-gray-200 p-6 hover:border-primary/30 hover:shadow-md transition-all"
+          className="bg-white rounded-xl border border-gray-200 p-6 hover:border-primary/30 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
         >
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -140,7 +128,7 @@ export default async function AdminDashboardPage() {
           <>
             <Link
               href="/admin/portal-resources"
-              className="bg-white rounded-xl border border-gray-200 p-6 hover:border-primary/30 hover:shadow-md transition-all"
+              className="bg-white rounded-xl border border-gray-200 p-6 hover:border-primary/30 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
             >
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
@@ -154,7 +142,7 @@ export default async function AdminDashboardPage() {
             </Link>
             <Link
               href="/admin/portal-articles"
-              className="bg-white rounded-xl border border-gray-200 p-6 hover:border-primary/30 hover:shadow-md transition-all"
+              className="bg-white rounded-xl border border-gray-200 p-6 hover:border-primary/30 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
             >
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
@@ -172,8 +160,13 @@ export default async function AdminDashboardPage() {
           <>
             <Link
               href="/admin/portal-access"
-              className="bg-white rounded-xl border border-gray-200 p-6 hover:border-primary/30 hover:shadow-md transition-all"
+              className="bg-white rounded-xl border border-gray-200 p-6 hover:border-primary/30 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 relative"
             >
+              {pending > 0 && (
+                <span className="absolute top-4 right-4 px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-500 text-white">
+                  {pending}
+                </span>
+              )}
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-lg bg-amber-100 flex items-center justify-center">
                   <Clock className="w-6 h-6 text-amber-600" />
@@ -186,7 +179,7 @@ export default async function AdminDashboardPage() {
             </Link>
             <Link
               href="/admin/portal-access"
-              className="bg-white rounded-xl border border-gray-200 p-6 hover:border-primary/30 hover:shadow-md transition-all"
+              className="bg-white rounded-xl border border-gray-200 p-6 hover:border-primary/30 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
             >
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
@@ -200,7 +193,7 @@ export default async function AdminDashboardPage() {
             </Link>
             <Link
               href="/admin/portal-access"
-              className="bg-white rounded-xl border border-gray-200 p-6 hover:border-primary/30 hover:shadow-md transition-all"
+              className="bg-white rounded-xl border border-gray-200 p-6 hover:border-primary/30 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
             >
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center">
@@ -214,8 +207,13 @@ export default async function AdminDashboardPage() {
             </Link>
             <Link
               href="/admin/trust/requests?status=pending"
-              className="bg-white rounded-xl border border-gray-200 p-6 hover:border-primary/30 hover:shadow-md transition-all"
+              className="bg-white rounded-xl border border-gray-200 p-6 hover:border-primary/30 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 relative"
             >
+              {gatedPending > 0 && (
+                <span className="absolute top-4 right-4 px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-500 text-white">
+                  {gatedPending}
+                </span>
+              )}
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-lg bg-amber-100 flex items-center justify-center">
                   <Lock className="w-6 h-6 text-amber-600" />

@@ -3,7 +3,7 @@
 import React from 'react';
 import Script from 'next/script';
 import { useTranslations } from 'next-intl';
-import Link from '@/i18n/navigation';
+import { Link } from '@/i18n/navigation';
 import Breadcrumb from '@/components/Breadcrumb';
 
 const SchedulePage = () => {

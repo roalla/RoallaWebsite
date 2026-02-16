@@ -4,8 +4,9 @@ import React, { useState, useEffect } from 'react'
 import { signIn, getProviders } from 'next-auth/react'
 import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Mail, Lock, AlertCircle, ArrowLeft } from 'lucide-react'
+import { Mail, Lock, AlertCircle, ArrowLeft, Loader2 } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 
 const oauthProviderIds = ['google', 'azure-ad', 'apple', 'sso'] as const
@@ -78,14 +79,27 @@ export default function LoginForm() {
   const errorMessage =
     message || (error === 'CredentialsSignin' ? t('invalidCredentials') : t('signInFailed'))
 
+  const isRedirecting = !!oauthLoading
+
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-black flex items-center justify-center py-12 px-4 relative">
+      {isRedirecting && (
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/80 backdrop-blur-sm" aria-live="polite">
+          <Loader2 className="w-12 h-12 text-primary animate-spin mb-4" />
+          <p className="text-white font-medium">{t('redirecting')}</p>
+        </div>
+      )}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
         className="w-full max-w-md"
       >
+        <div className="flex justify-center mb-8">
+          <Link href="/" className="block">
+            <Image src="/logo.svg" alt="ROALLA" width={120} height={40} className="h-10 w-auto" priority />
+          </Link>
+        </div>
         <Link
           href="/"
           className="inline-flex items-center text-primary hover:text-primary-dark mb-8 transition-colors"
@@ -96,8 +110,8 @@ export default function LoginForm() {
 
         <div className="bg-surface-card rounded-2xl shadow-xl border border-white/10 p-8">
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-white">{t('signIn')}</h1>
-            <p className="text-gray-400 mt-1">{t('accessDashboard')}</p>
+            <h1 id="login-title" className="text-2xl font-bold text-white">{t('signIn')}</h1>
+            <p id="login-desc" className="text-gray-400 mt-1">{t('accessDashboard')}</p>
           </div>
 
           {(error || message) && (
@@ -107,7 +121,7 @@ export default function LoginForm() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6" aria-labelledby="login-title" aria-describedby="login-desc">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
                 {t('email')}
@@ -150,8 +164,9 @@ export default function LoginForm() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 px-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark focus:ring-2 focus:ring-primary/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="w-full py-3 px-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark focus:ring-2 focus:ring-primary/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
             >
+              {isLoading && <Loader2 className="w-5 h-5 animate-spin" />}
               {isLoading ? t('signingIn') : t('signInButton')}
             </button>
 
@@ -175,9 +190,14 @@ export default function LoginForm() {
                         setOauthLoading(id)
                         signIn(id, { callbackUrl })
                       }}
-                      className="w-full py-3 px-4 border border-white/20 rounded-lg font-medium text-gray-300 bg-white/5 hover:bg-white/10 focus:ring-2 focus:ring-primary/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+                      className="w-full py-3 px-4 border border-white/20 rounded-lg font-medium text-gray-300 bg-white/5 hover:bg-white/10 focus:ring-2 focus:ring-primary/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 min-h-[44px]"
                     >
-                      {oauthLoading === id ? t('redirecting') : (
+                      {oauthLoading === id ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin flex-shrink-0" />
+                          {t('redirecting')}
+                        </>
+                      ) : (
                         <>
                           {id === 'google' && (
                             <svg className="w-5 h-5" viewBox="0 0 24 24" aria-hidden>

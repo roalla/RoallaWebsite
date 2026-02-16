@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useToast } from '@/components/Toast'
 import { Unlock, Lock, Loader2, UserPlus, Upload, X, CheckCircle, XCircle } from 'lucide-react'
 
 const BULK_ADD_MAX = 100
@@ -40,6 +41,7 @@ const TABS = [
 export default function AdminPortalAccessPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const toast = useToast()
   const tabFromUrl = searchParams.get('tab') || 'approved'
   const [requests, setRequests] = useState<AccessRequestRow[]>([])
   const [resources, setResources] = useState<Resource[]>([])
@@ -217,10 +219,13 @@ export default function AdminPortalAccessPage() {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Approve failed')
       setMessage({ type: 'success', text: `Approved ${req.email}. ${data.emailSent ? 'Email sent.' : ''} Access: ${fullAccess ? 'full' : 'public files only'}.` })
+      toast?.success(`Approved ${req.email}`)
       router.refresh()
       fetchData()
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Approve failed')
+      const msg = e instanceof Error ? e.message : 'Approve failed'
+      setError(msg)
+      toast?.error(msg)
     } finally {
       setApprovingId(null)
     }
@@ -233,6 +238,7 @@ export default function AdminPortalAccessPage() {
       const res = await fetch(`/api/admin/requests/${id}/reject`, { method: 'POST' })
       if (res.ok) {
         setRequests((prev) => prev.map((r) => (r.id === id ? { ...r, status: 'rejected' } : r)))
+        toast?.success('Request rejected')
       }
     } finally {
       setRejectingId(null)
@@ -247,6 +253,7 @@ export default function AdminPortalAccessPage() {
       if (res.ok) {
         setRequests((prev) => prev.map((r) => (r.id === id ? { ...r, status: 'rejected' } : r)))
         fetchData()
+        toast?.success('Access revoked')
       }
     } finally {
       setRevokingId(null)
@@ -281,6 +288,7 @@ export default function AdminPortalAccessPage() {
         setMessage({ type: 'error', text: data.error || 'Failed to add user' })
       } else {
         setMessage({ type: 'success', text: `Added ${addForm.email}. ${data.emailSent ? 'Email sent. ' : ''}Default: public files only.` })
+        toast?.success(`Added ${addForm.email}`)
         setAddForm({ email: '', name: '', company: '', sendEmail: true })
         setAddOpen(false)
         await fetchData()

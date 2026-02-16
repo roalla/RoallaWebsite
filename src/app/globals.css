@@ -113,4 +113,13 @@
 /* Ensure Calendly popup is always on top */
 .calendly-popup-content {
   z-index: 9999 !important;
+}
+
+/* Admin mobile drawer slide-in animation */
+@keyframes admin-drawer-in {
+  from { transform: translateX(100%); opacity: 0.5; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.admin-drawer-panel {
+  animation: admin-drawer-in 0.25s ease-out forwards;
 } 

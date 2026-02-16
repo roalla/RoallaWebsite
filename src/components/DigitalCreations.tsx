@@ -25,7 +25,7 @@ const DigitalCreations = () => {
   ]
 
   return (
-    <section id="digital-creations" className="section-padding bg-white py-20 lg:py-28">
+    <section id="digital-creations" className="section-padding bg-black py-20 lg:py-28">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -34,10 +34,10 @@ const DigitalCreations = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-serif font-extrabold text-gray-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-serif font-extrabold text-white mb-4">
             {t('portfolioTitle')}
           </h2>
-          <p className="text-lg md:text-xl text-gray-600 font-medium mb-8">
+          <p className="text-lg md:text-xl text-gray-400 font-medium mb-8">
             {t('portfolioSubtitle')}
           </p>
         </motion.div>
@@ -49,9 +49,9 @@ const DigitalCreations = () => {
           viewport={{ once: true }}
           className="max-w-4xl mx-auto mb-16"
         >
-          <p className="text-lg text-gray-700 leading-relaxed mb-4">{t('intro1')}</p>
-          <p className="text-lg text-gray-700 leading-relaxed mb-4">{t('intro2')}</p>
-          <p className="text-lg text-gray-700 leading-relaxed">{t('intro3')}</p>
+          <p className="text-lg text-gray-300 leading-relaxed mb-4">{t('intro1')}</p>
+          <p className="text-lg text-gray-300 leading-relaxed mb-4">{t('intro2')}</p>
+          <p className="text-lg text-gray-300 leading-relaxed">{t('intro3')}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 mb-16">
@@ -63,9 +63,9 @@ const DigitalCreations = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-primary/20 overflow-hidden"
+              className="group bg-surface-card rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-white/10 hover:border-primary/30 overflow-hidden"
             >
-              <div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+              <div className="relative h-48 bg-surface-elevated overflow-hidden">
                 <Image
                   src={tool.imageUrl}
                   alt={tool.imageAlt}
@@ -76,18 +76,18 @@ const DigitalCreations = () => {
                   priority={index === 0}
                   fetchPriority={index === 0 ? 'high' : undefined}
                 />
-                <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold z-10 bg-green-100 text-green-800">
+                <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold z-10 bg-green-500/30 text-green-200">
                   {t('liveTool')}
                 </div>
               </div>
 
               <div className="p-6 lg:p-8">
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{tool.name}</h3>
-                <p className="text-gray-700 text-base leading-relaxed mb-4">{tool.desc}</p>
+                <h3 className="text-xl font-bold text-white mb-3">{tool.name}</h3>
+                <p className="text-gray-300 text-base leading-relaxed mb-4">{tool.desc}</p>
 
                 <ul className="space-y-2 mb-6">
                   {tool.bullets.map((bullet, bulletIndex) => (
-                    <li key={bulletIndex} className="flex items-start text-sm text-gray-600">
+                    <li key={bulletIndex} className="flex items-start text-sm text-gray-400">
                       <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0 mt-0.5" />
                       <span>{bullet}</span>
                     </li>
@@ -132,7 +132,7 @@ const DigitalCreations = () => {
             {t('ctaSubtitle')}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <ScheduleButton variant="secondary" size="lg" className="bg-white text-primary hover:bg-gray-50">
+            <ScheduleButton variant="secondary" size="lg" className="bg-white text-primary hover:bg-white/90">
               {t('scheduleCall')}
             </ScheduleButton>
             <a

@@ -30,7 +30,7 @@ const Services = () => {
   ]
 
   return (
-    <section id="services" className="section-padding bg-white py-20 lg:py-28">
+    <section id="services" className="section-padding bg-black py-20 lg:py-28">
       <div className="container-custom">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -39,8 +39,8 @@ const Services = () => {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-serif font-extrabold text-gray-900 mb-6">{t('title')}</h2>
-          <p className="mt-4 max-w-3xl mx-auto text-xl text-gray-700 leading-relaxed">
+          <h2 className="text-4xl md:text-5xl font-serif font-extrabold text-white mb-6">{t('title')}</h2>
+          <p className="mt-4 max-w-3xl mx-auto text-xl text-gray-300 leading-relaxed">
             {t('subtitle')}
           </p>
         </motion.div>
@@ -54,20 +54,20 @@ const Services = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className="group bg-white rounded-2xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 hover:border-primary/20"
+              className="group bg-surface-card rounded-2xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-300 border border-white/10 hover:border-primary/30"
             >
               <div className="mb-6">
                 <div className="w-16 h-16 bg-gradient-to-br from-primary/10 to-primary-dark/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   <service.icon className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">{service.title}</h3>
+                <h3 className="text-2xl font-bold text-white mb-3">{service.title}</h3>
               </div>
 
-              <p className="text-gray-700 text-base leading-relaxed mb-6 min-h-[3rem]">{service.desc}</p>
+              <p className="text-gray-300 text-base leading-relaxed mb-6 min-h-[3rem]">{service.desc}</p>
 
               <ul className="space-y-3 mb-6">
                 {service.features.map((feature) => (
-                  <li key={feature} className="flex items-start text-sm text-gray-600">
+                  <li key={feature} className="flex items-start text-sm text-gray-400">
                     <CheckCircle className="w-5 h-5 text-primary mr-3 flex-shrink-0 mt-0.5" />
                     <span>{feature}</span>
                   </li>
@@ -98,7 +98,7 @@ const Services = () => {
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
             {t('ctaSubtitle')}
           </p>
-          <ScheduleButton variant="secondary" size="lg" className="bg-white text-primary hover:bg-gray-50">
+          <ScheduleButton variant="secondary" size="lg" className="bg-white text-primary hover:bg-white/90">
             {t('ctaButton')}
           </ScheduleButton>
         </motion.div>

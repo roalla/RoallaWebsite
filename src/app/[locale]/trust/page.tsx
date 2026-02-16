@@ -237,13 +237,13 @@ function TrustCenterContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-black">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-24 lg:pt-28 pb-12">
         <Breadcrumb items={[{ label: tBreadcrumb('home'), href: '/' }, { label: tBreadcrumb('trustCentre') }]} />
 
         <header className="text-center mb-12">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Trust Centre</h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">Trust Centre</h1>
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
             View and download standard documents. Public content is available to everyone; private documents are locked behind an NDA and approval process to protect sensitive IP.
           </p>
           {tokenExpiresAt && (() => {
@@ -259,7 +259,7 @@ function TrustCenterContent() {
           })()}
         </header>
 
-        <section className="mb-8 p-4 bg-white rounded-xl border border-gray-200">
+        <section className="mb-8 p-4 bg-surface-card rounded-xl border border-white/10">
           <h2 className="text-sm font-semibold text-gray-900 mb-2">Check your request status</h2>
           <p className="text-sm text-gray-500 mb-3">Enter the email you used to request access to see your status.</p>
           <div className="flex flex-wrap gap-2">
@@ -274,7 +274,7 @@ function TrustCenterContent() {
               type="button"
               onClick={checkStatus}
               disabled={!statusEmail.trim() || statusResult === 'loading'}
-              className="px-4 py-2 bg-gray-800 text-white text-sm font-medium rounded-lg hover:bg-gray-700 disabled:opacity-50"
+              className="px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-primary-dark disabled:opacity-50"
             >
               {statusResult === 'loading' ? 'Checking...' : 'Check status'}
             </button>
@@ -284,7 +284,7 @@ function TrustCenterContent() {
           )}
           {statusResult && statusResult !== 'loading' && statusResult !== 'none' && (
             <div className="mt-3 flex flex-wrap items-center gap-3">
-              <span className={`text-sm font-medium px-2 py-0.5 rounded ${statusResult.status === 'approved' ? 'bg-green-100 text-green-800' : statusResult.status === 'rejected' ? 'bg-gray-100 text-gray-700' : 'bg-amber-100 text-amber-800'}`}>
+              <span className={`text-sm font-medium px-2 py-0.5 rounded ${statusResult.status === 'approved' ? 'bg-green-500/20 text-green-400' : statusResult.status === 'rejected' ? 'bg-white/10 text-gray-300' : 'bg-amber-500/20 text-amber-400'}`}>
                 {statusResult.status}
               </span>
               <span className="text-xs text-gray-500">
@@ -342,7 +342,7 @@ function TrustCenterContent() {
                 <button
                   type="button"
                   onClick={() => setBulkDownloadOpen(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-800 rounded-lg text-sm font-medium hover:bg-gray-200"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 text-white rounded-lg text-sm font-medium hover:bg-white/20"
                 >
                   <Download className="w-4 h-4" /> Bulk download
                 </button>
@@ -352,25 +352,25 @@ function TrustCenterContent() {
 
           {loading ? (
             <div className="space-y-4">
-              <div className="h-4 bg-gray-200 rounded w-1/3 animate-pulse" />
+              <div className="h-4 bg-white/10 rounded w-1/3 animate-pulse" />
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                  <div key={i} className="p-4 bg-white rounded-xl border border-gray-200">
-                    <div className="h-3 bg-gray-200 rounded w-20 mb-3 animate-pulse" />
-                    <div className="w-10 h-10 rounded-lg bg-gray-200 animate-pulse mb-2" />
-                    <div className="h-4 bg-gray-200 rounded w-3/4 animate-pulse" />
+                  <div key={i} className="p-4 bg-surface-card rounded-xl border border-white/10">
+                    <div className="h-3 bg-white/10 rounded w-20 mb-3 animate-pulse" />
+                    <div className="w-10 h-10 rounded-lg bg-white/10 animate-pulse mb-2" />
+                    <div className="h-4 bg-white/10 rounded w-3/4 animate-pulse" />
                   </div>
                 ))}
               </div>
             </div>
           ) : (
             <>
-              <p className="text-sm font-medium text-gray-700 mb-3">Featured Documents</p>
+              <p className="text-sm font-medium text-gray-300 mb-3">Featured Documents</p>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                 {filteredResources.slice(0, 8).map((r) => (
                   <div
                     key={r.id}
-                    className="p-4 bg-white rounded-xl border border-gray-200 hover:border-gray-300 transition-colors flex flex-col"
+                    className="p-4 bg-surface-card rounded-xl border border-white/10 hover:border-white/20 transition-colors flex flex-col"
                   >
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <span className="text-xs font-semibold text-primary uppercase tracking-wide">{docBadge(r.trustCategory, r.type)}</span>
@@ -379,7 +379,7 @@ function TrustCenterContent() {
                     <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-2">
                       <FileText className="w-5 h-5 text-primary" />
                     </div>
-                    <p className="font-medium text-gray-900 text-sm leading-snug">{r.title}</p>
+                    <p className="font-medium text-white text-sm leading-snug">{r.title}</p>
                     {r.hasAccess && (r.downloadUrl || r.linkUrl) && (
                       <div className="mt-2 flex flex-wrap gap-2">
                         {r.downloadUrl && (
@@ -409,7 +409,7 @@ function TrustCenterContent() {
                 {filteredArticles.slice(0, 8).map((a) => (
                   <div
                     key={a.id}
-                    className="p-4 bg-white rounded-xl border border-gray-200 hover:border-gray-300 transition-colors flex flex-col"
+                    className="p-4 bg-surface-card rounded-xl border border-white/10 hover:border-white/20 transition-colors flex flex-col"
                   >
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <span className="text-xs font-semibold text-primary uppercase tracking-wide">{docBadge(a.trustCategory, a.category)}</span>
@@ -418,7 +418,7 @@ function TrustCenterContent() {
                     <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-2">
                       <FileText className="w-5 h-5 text-primary" />
                     </div>
-                    <p className="font-medium text-gray-900 text-sm leading-snug">{a.title}</p>
+                    <p className="font-medium text-white text-sm leading-snug">{a.title}</p>
                     {a.hasAccess && (a.url ? (
                       <a
                         href={a.url}
@@ -453,20 +453,20 @@ function TrustCenterContent() {
               )}
 
               {(filteredResources.length > 8 || filteredArticles.length > 8) && (
-              <div ref={allDocumentsRef} className="mt-10 pt-8 border-t border-gray-200">
-                <p className="text-sm font-medium text-gray-700 mb-3">All documents</p>
+              <div ref={allDocumentsRef} className="mt-10 pt-8 border-t border-white/10">
+                <p className="text-sm font-medium text-gray-300 mb-3">All documents</p>
                 <div className="grid sm:grid-cols-2 gap-4">
                   {filteredResources.map((r) => (
-                    <div key={r.id} className="p-4 bg-white rounded-xl border border-gray-200 flex items-start gap-3">
+                    <div key={r.id} className="p-4 bg-surface-card rounded-xl border border-white/10 flex items-start gap-3">
                       <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${r.color} flex items-center justify-center flex-shrink-0`}>
                         <FileText className="w-5 h-5 text-white" />
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center justify-between gap-2">
-                          <p className="font-medium text-gray-900">{r.title}</p>
+                          <p className="font-medium text-white">{r.title}</p>
                           {r.gated && !r.hasAccess && <Lock className="w-4 h-4 text-amber-600 flex-shrink-0" />}
                         </div>
-                        <p className="text-sm text-gray-500 line-clamp-2">{r.description.replace(/<[^>]*>/g, '')}</p>
+                        <p className="text-sm text-gray-400 line-clamp-2">{r.description.replace(/<[^>]*>/g, '')}</p>
                         {r.hasAccess && (r.downloadUrl || r.linkUrl) && (
                           <div className="mt-2 flex gap-2">
                             {r.downloadUrl && (
@@ -485,16 +485,16 @@ function TrustCenterContent() {
                     </div>
                   ))}
                   {filteredArticles.map((a) => (
-                    <div key={a.id} className="p-4 bg-white rounded-xl border border-gray-200 flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-gray-200 flex items-center justify-center flex-shrink-0">
-                        <FileText className="w-5 h-5 text-gray-600" />
+                    <div key={a.id} className="p-4 bg-surface-card rounded-xl border border-white/10 flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
+                        <FileText className="w-5 h-5 text-gray-400" />
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center justify-between gap-2">
-                          <p className="font-medium text-gray-900">{a.title}</p>
+                          <p className="font-medium text-white">{a.title}</p>
                           {a.gated && !a.hasAccess && <Lock className="w-4 h-4 text-amber-600 flex-shrink-0" />}
                         </div>
-                        <p className="text-sm text-gray-500 line-clamp-2">{a.description.replace(/<[^>]*>/g, '')}</p>
+                        <p className="text-sm text-gray-400 line-clamp-2">{a.description.replace(/<[^>]*>/g, '')}</p>
                         {a.hasAccess && (a.url ? (
                           <a href={a.url} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline">
                             <ExternalLink className="w-3.5 h-3.5" /> Read
@@ -524,12 +524,12 @@ function TrustCenterContent() {
             { title: 'Endpoint Security', icon: Laptop, items: ['Disk Encryption', 'DNS Filtering', 'Endpoint Detection & Response'] },
             { title: 'Policies', icon: FileStack, items: ['Information Security Policy', 'Vulnerability Management Policy', 'Other Policies'] },
           ].map((card) => (
-            <div key={card.title} className="p-4 bg-white rounded-xl border border-gray-200">
-              <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+            <div key={card.title} className="p-4 bg-surface-card rounded-xl border border-white/10">
+              <h3 className="font-semibold text-white mb-2 flex items-center gap-2">
                 <card.icon className="w-4 h-4 text-primary flex-shrink-0" />
                 {card.title}
               </h3>
-              <ul className="space-y-1.5 text-sm text-gray-600">
+              <ul className="space-y-1.5 text-sm text-gray-300">
                 {card.items.map((item) => (
                   <li key={item} className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
@@ -555,9 +555,9 @@ function TrustCenterContent() {
             }
           }}
         >
-          <div className="bg-white rounded-xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6" role="document">
+          <div className="bg-surface-card rounded-xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 border border-white/10" role="document">
             <div className="flex items-center justify-between mb-4">
-              <h2 id="get-access-title" className="text-lg font-semibold text-gray-900">Request access</h2>
+              <h2 id="get-access-title" className="text-lg font-semibold text-white">Request access</h2>
               <button
                 type="button"
                 onClick={() => { setGetAccessOpen(false); setAccessMessage(null) }}
@@ -575,7 +575,7 @@ function TrustCenterContent() {
             </p>
             {allGatedItemsWithTitles.length > 0 && (
               <div className="mb-4">
-                <p className="text-sm font-medium text-gray-700 mb-2">Select documents to request access for</p>
+                <p className="text-sm font-medium text-gray-300 mb-2">Select documents to request access for</p>
                 <div className="flex gap-2 mb-2">
                   <button
                     type="button"
@@ -592,7 +592,7 @@ function TrustCenterContent() {
                     Deselect all
                   </button>
                 </div>
-                <div className="max-h-32 overflow-y-auto border border-gray-200 rounded-lg p-2 space-y-1">
+                <div className="max-h-32 overflow-y-auto border border-white/10 rounded-lg p-2 space-y-1">
                   {allGatedItemsWithTitles.map((it) => (
                     <label key={itemKey(it.type, it.id)} className="flex items-center gap-2 cursor-pointer text-sm">
                       <input

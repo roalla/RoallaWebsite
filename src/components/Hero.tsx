@@ -65,7 +65,7 @@ const Hero = () => {
   ]
 
   return (
-    <section id="home" className="relative bg-gradient-to-br from-white via-blue-50/30 to-white pt-32 pb-24 lg:pt-48 lg:pb-32 overflow-hidden">
+    <section id="home" className="relative bg-black pt-32 pb-24 lg:pt-48 lg:pb-32 overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
@@ -73,16 +73,16 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-serif font-extrabold text-gray-900 leading-tight mb-6">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-serif font-extrabold text-white leading-tight mb-6">
               Empowering Your Business with{' '}
               <span className="bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">
                 Strategic Operational Insight
               </span>
             </h1>
-            <p className="mt-6 text-xl md:text-2xl text-gray-700 font-medium leading-relaxed">
+            <p className="mt-6 text-xl md:text-2xl text-gray-300 font-medium leading-relaxed">
               Fractional COO and business consulting services that deliver measurable operational improvements and accelerated growth.
             </p>
-            <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="mt-4 text-lg text-gray-400 max-w-2xl mx-auto">
               Transform your operations with strategic insights, proven methodologies, and hands-on implementation from experienced operational leaders.
             </p>
           </motion.div>
@@ -118,13 +118,13 @@ const Hero = () => {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
+                className="bg-surface-card backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/10 hover:shadow-xl transition-all duration-300"
               >
                 <stat.icon className="w-8 h-8 text-primary mx-auto mb-3" />
-                <div className="text-3xl md:text-4xl font-bold text-gray-900 mb-1">
+                <div className="text-3xl md:text-4xl font-bold text-white mb-1">
                 <AnimatedCounter value={stat.value} />
               </div>
-                <div className="text-sm text-gray-600 font-medium">{stat.label}</div>
+                <div className="text-sm text-gray-400 font-medium">{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>

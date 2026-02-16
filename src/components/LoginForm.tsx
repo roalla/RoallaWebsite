@@ -79,7 +79,7 @@ export default function LoginForm() {
     message || (error === 'CredentialsSignin' ? t('invalidCredentials') : t('signInFailed'))
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-black flex items-center justify-center py-12 px-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -94,14 +94,14 @@ export default function LoginForm() {
           {t('backToHome')}
         </Link>
 
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+        <div className="bg-surface-card rounded-2xl shadow-xl border border-white/10 p-8">
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">{t('signIn')}</h1>
-            <p className="text-gray-600 mt-1">{t('accessDashboard')}</p>
+            <h1 className="text-2xl font-bold text-white">{t('signIn')}</h1>
+            <p className="text-gray-400 mt-1">{t('accessDashboard')}</p>
           </div>
 
           {(error || message) && (
-            <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-100 flex items-center gap-3 text-red-800">
+            <div className="mb-6 p-4 rounded-lg bg-red-500/20 border border-red-500/30 flex items-center gap-3 text-red-200">
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
               <span>{errorMessage}</span>
             </div>
@@ -109,7 +109,7 @@ export default function LoginForm() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
                 {t('email')}
               </label>
               <div className="relative">
@@ -122,14 +122,14 @@ export default function LoginForm() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  className="w-full pl-10 pr-4 py-3 border border-white/20 rounded-lg bg-black/50 text-white focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   placeholder="you@example.com"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
                 {t('password')}
               </label>
               <div className="relative">
@@ -142,7 +142,7 @@ export default function LoginForm() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  className="w-full pl-10 pr-4 py-3 border border-white/20 rounded-lg bg-black/50 text-white focus:ring-2 focus:ring-primary/20 focus:border-primary"
                 />
               </div>
             </div>
@@ -159,10 +159,10 @@ export default function LoginForm() {
               <>
                 <div className="relative my-6">
                   <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-200" />
+                    <div className="w-full border-t border-white/20" />
                   </div>
                   <div className="relative flex justify-center text-sm">
-                    <span className="bg-white px-4 text-gray-500">{t('orSignInWith')}</span>
+                    <span className="bg-surface-card px-4 text-gray-400">{t('orSignInWith')}</span>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 gap-3">
@@ -175,7 +175,7 @@ export default function LoginForm() {
                         setOauthLoading(id)
                         signIn(id, { callbackUrl })
                       }}
-                      className="w-full py-3 px-4 border border-gray-200 rounded-lg font-medium text-gray-700 bg-white hover:bg-gray-50 focus:ring-2 focus:ring-primary/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+                      className="w-full py-3 px-4 border border-white/20 rounded-lg font-medium text-gray-300 bg-white/5 hover:bg-white/10 focus:ring-2 focus:ring-primary/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
                     >
                       {oauthLoading === id ? t('redirecting') : (
                         <>
@@ -209,7 +209,7 @@ export default function LoginForm() {
               </>
             )}
 
-            <p className="text-center text-sm text-gray-500 mt-4">
+            <p className="text-center text-sm text-gray-400 mt-4">
               <a href="/login/forgot-password" className="text-primary hover:text-primary-dark font-medium">
                 {t('forgotPassword')}
               </a>

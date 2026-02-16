@@ -305,7 +305,7 @@ export default function RequestAccessPage() {
                         setOauthLoading(id)
                         signIn(id, { callbackUrl })
                       }}
-                      className="w-full py-3 px-4 border border-gray-200 rounded-lg font-medium text-gray-700 bg-white hover:bg-gray-50 focus:ring-2 focus:ring-primary/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+                      className="w-full py-3 px-4 border border-white/20 rounded-lg font-medium text-gray-300 bg-white/5 hover:bg-white/10 focus:ring-2 focus:ring-primary/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
                     >
                       {oauthLoading === id ? (
                         <span className="text-sm">Redirecting...</span>
@@ -439,7 +439,7 @@ export default function RequestAccessPage() {
                         <button
                           type="submit"
                           disabled={isSubmitting}
-                          className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                          className="w-full bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                         >
                           {isSubmitting ? (
                             <>

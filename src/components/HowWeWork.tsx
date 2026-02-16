@@ -38,7 +38,7 @@ const HowWeWork = () => {
   ]
 
   return (
-    <section id="how-we-work" className="section-padding bg-white py-20 lg:py-28">
+    <section id="how-we-work" className="section-padding bg-black py-20 lg:py-28">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -47,10 +47,10 @@ const HowWeWork = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-serif font-extrabold text-gray-900 mb-6">
+          <h2 className="text-4xl md:text-5xl font-serif font-extrabold text-white mb-6">
             How We Work
           </h2>
-          <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             A proven methodology that delivers results through collaboration, expertise, and commitment.
           </p>
         </motion.div>
@@ -73,13 +73,13 @@ const HowWeWork = () => {
                   </div>
                 )}
 
-                <div className="relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 h-full">
+                <div className="relative bg-surface-card rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-white/10 h-full">
                   <div className={`w-16 h-16 bg-gradient-to-br ${step.color} rounded-xl flex items-center justify-center mb-6 mx-auto`}>
                     <step.icon className="w-8 h-8 text-white" />
                   </div>
-                  <div className="text-4xl font-bold text-gray-200 mb-2">{step.number}</div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{step.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{step.description}</p>
+                  <div className="text-4xl font-bold text-gray-600 mb-2">{step.number}</div>
+                  <h3 className="text-xl font-bold text-white mb-3">{step.title}</h3>
+                  <p className="text-gray-400 leading-relaxed">{step.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -94,7 +94,7 @@ const HowWeWork = () => {
           viewport={{ once: true }}
           className="mt-16 text-center"
         >
-          <p className="text-lg text-gray-700 mb-6">
+          <p className="text-lg text-gray-300 mb-6">
             Ready to get started? Let's discuss how we can help transform your business.
           </p>
           <Link

@@ -273,10 +273,10 @@ function ResourcesPortalContent() {
 
   if (!mounted || isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center pt-20">
+      <div className="min-h-screen bg-black flex items-center justify-center pt-20">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-600">{mounted ? 'Verifying access...' : 'Loading...'}</p>
+          <p className="text-gray-400">{mounted ? 'Verifying access...' : 'Loading...'}</p>
         </div>
       </div>
     )
@@ -284,14 +284,14 @@ function ResourcesPortalContent() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white py-20 lg:py-28">
+      <div className="min-h-screen bg-black py-20 lg:py-28">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-md mx-auto text-center">
             <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Lock className="w-8 h-8 text-red-600" />
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">Access Required</h1>
-            <p className="text-gray-700 mb-8">
+            <h1 className="text-3xl font-bold text-white mb-4">Access Required</h1>
+            <p className="text-gray-300 mb-8">
               You need to request access to view the resources portal. Please submit an access request to continue.
             </p>
             <IntlLink
@@ -307,19 +307,19 @@ function ResourcesPortalContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white pt-24 lg:pt-28">
-      <div className="bg-white border-b border-gray-200">
+    <div className="min-h-screen bg-black pt-24 lg:pt-28">
+      <div className="bg-black border-b border-white/10">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between flex-wrap gap-3">
             <div className="min-w-0 flex-1">
-              <h1 className="text-2xl font-bold text-gray-900">
+              <h1 className="text-2xl font-bold text-white">
                 Resources Portal{portalOrgName ? ` for ${portalOrgName}` : ''}
               </h1>
-              <p className="text-sm text-gray-600 truncate" title={userEmail ?? undefined}>Welcome, {userEmail}</p>
+              <p className="text-sm text-gray-400 truncate" title={userEmail ?? undefined}>Welcome, {userEmail}</p>
             </div>
             <button
               onClick={handleLogout}
-              className="flex items-center min-h-[44px] min-w-[44px] justify-center text-gray-600 hover:text-gray-900 transition-colors px-3 py-2 rounded-lg hover:bg-gray-100"
+              className="flex items-center min-h-[44px] min-w-[44px] justify-center text-gray-400 hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-white/10"
             >
               <LogOut className="w-5 h-5 mr-2" />
               Logout
@@ -330,12 +330,12 @@ function ResourcesPortalContent() {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Redeem code */}
-        <div className="mb-10 p-4 bg-white rounded-xl border border-gray-200 shadow-sm">
+        <div className="mb-10 p-4 bg-surface-card rounded-xl border border-white/10 shadow-sm">
           <div className="flex items-center gap-2 mb-2">
             <Gift className="w-5 h-5 text-primary" />
-            <h3 className="font-semibold text-gray-900">Have a training or bundle code?</h3>
+            <h3 className="font-semibold text-white">Have a training or bundle code?</h3>
           </div>
-          <p className="text-sm text-gray-600 mb-3">Enter it below to unlock additional resources.</p>
+          <p className="text-sm text-gray-400 mb-3">Enter it below to unlock additional resources.</p>
           <div className="flex flex-wrap gap-2">
             <input
               type="text"
@@ -364,9 +364,9 @@ function ResourcesPortalContent() {
         <div>
           <div className="flex items-center mb-2">
             <BookOpen className="w-8 h-8 text-primary mr-3" />
-            <h2 className="text-3xl font-bold text-gray-900">Content</h2>
+            <h2 className="text-3xl font-bold text-white">Content</h2>
           </div>
-          <p className="text-gray-600 mb-8">Guides, templates, tools, and links—all in one place.</p>
+          <p className="text-gray-400 mb-8">Guides, templates, tools, and links—all in one place.</p>
 
           {!contentLoaded ? (
             <p className="text-gray-500">Loading content...</p>
@@ -380,13 +380,13 @@ function ResourcesPortalContent() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.05 }}
-                  className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
+                  className="bg-surface-card rounded-xl p-6 shadow-lg border border-white/10 hover:shadow-xl transition-all duration-300"
                 >
                   <div className="flex items-start justify-between gap-2 mb-3">
                     <div className={`w-14 h-14 bg-gradient-to-br ${item.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
                       <item.icon className="w-7 h-7 text-white" />
                     </div>
-                    <span className="shrink-0 rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-600">
+                    <span className="shrink-0 rounded-full bg-white/10 px-2.5 py-0.5 text-xs font-medium text-gray-400">
                       {item.kind === 'link' ? 'Link' : item.downloadUrl && item.readUrl ? 'Download + Link' : 'Download'}
                     </span>
                   </div>
@@ -394,9 +394,9 @@ function ResourcesPortalContent() {
                     {item.type}
                     {item.label && <span className="ml-1.5 font-normal text-gray-500 normal-case">· {item.label}</span>}
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
+                  <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
                   <div
-                    className="portal-rich-text text-gray-600 mb-4 leading-relaxed text-sm [&_p]:my-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:text-primary [&_a]:underline [&_a]:hover:opacity-90 [&_strong]:font-semibold"
+                    className="portal-rich-text text-gray-300 mb-4 leading-relaxed text-sm [&_p]:my-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:text-primary [&_a]:underline [&_a]:hover:opacity-90 [&_strong]:font-semibold"
                     dangerouslySetInnerHTML={{ __html: item.description || '' }}
                   />
                   <div className="flex flex-wrap gap-2">
@@ -404,7 +404,7 @@ function ResourcesPortalContent() {
                       <button
                         type="button"
                         onClick={() => setPdfViewerResourceId(item.id)}
-                        className="inline-flex items-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg transition-colors text-sm"
+                        className="inline-flex items-center bg-white/10 hover:bg-white/20 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm"
                       >
                         <Eye className="w-4 h-4 mr-2" />
                         View
@@ -424,7 +424,7 @@ function ResourcesPortalContent() {
                         href={item.readUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg transition-colors text-sm"
+                        className="inline-flex items-center bg-white/10 hover:bg-white/20 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm"
                       >
                         Open link
                       </a>
@@ -448,13 +448,13 @@ function ResourcesPortalContent() {
       {/* In-page PDF viewer modal */}
       {pdfViewerResourceId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" role="dialog" aria-modal="true" aria-label="View PDF">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col">
+          <div className="bg-surface-card rounded-xl shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col border border-white/10">
             <div className="flex items-center justify-between p-3 border-b border-gray-200">
-              <span className="font-medium text-gray-900">View document</span>
+              <span className="font-medium text-white">View document</span>
               <button
                 type="button"
                 onClick={() => setPdfViewerResourceId(null)}
-                className="p-2 text-gray-500 hover:text-gray-900 rounded-lg hover:bg-gray-100"
+                className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-white/10"
                 aria-label="Close"
               >
                 <X className="w-5 h-5" />
@@ -477,10 +477,10 @@ function ResourcesPortalContent() {
 export default function ResourcesPortalPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-600">Loading...</p>
+          <p className="text-gray-400">Loading...</p>
         </div>
       </div>
     }>

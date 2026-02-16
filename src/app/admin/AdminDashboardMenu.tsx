@@ -6,7 +6,7 @@ import { ChevronDown, ChevronUp } from 'lucide-react'
 const STORAGE_KEY = 'admin-dashboard-menu-open'
 
 export default function AdminDashboardMenu() {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     try {

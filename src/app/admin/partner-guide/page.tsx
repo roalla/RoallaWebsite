@@ -47,7 +47,7 @@ export default async function PartnerGuidePage() {
               Add resources & links
             </h2>
             <p className="text-gray-600 text-sm mt-1">
-              Under <Link href="/admin/portal" className="text-primary underline">Portal content</Link>, add
+              Under <Link href="/admin/portal" className="text-primary underline">Portal</Link>, add
               downloadable resources (tiles) and links to external content or internal tools. You can only edit content you created (or
               content with no owner). Optionally restrict items to your organization so only your clients
               see them.
@@ -99,7 +99,7 @@ export default async function PartnerGuidePage() {
           className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 font-medium rounded-lg hover:border-primary/30 text-gray-700"
         >
           <BookOpen className="w-4 h-4" />
-          Portal content
+          Portal
         </Link>
         <Link
           href="/resources/portal"

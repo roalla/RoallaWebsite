@@ -13,7 +13,6 @@ import {
   Contact,
   Lock,
   Shield,
-  FolderOpen,
   UserCog,
   Gift,
 } from 'lucide-react'
@@ -32,9 +31,8 @@ const ALL_NAV_ITEMS: NavItem[] = [
   { href: '/admin', label: 'Dashboard', group: 'Overview', icon: LayoutDashboard },
   { href: '/admin/team', label: 'Team & roles', group: 'People & access', icon: Users },
   { href: '/admin/partner-guide', label: 'Partner guide', group: 'People & access', icon: BookOpen },
-  { href: '/admin/portal', label: 'Portal content', group: 'Content', icon: FileStack },
-  { href: '/admin/portal-content', label: 'Resources & links', group: 'Content', icon: FolderOpen },
-  { href: '/admin/portal-access', label: 'Portal access', group: 'Content', icon: UserCog },
+  { href: '/admin/portal-access', label: 'Portal access', group: 'People & access', icon: UserCog },
+  { href: '/admin/portal', label: 'Portal', group: 'Content', icon: FileStack },
   { href: '/admin/portal-bundles', label: 'Bundles & codes', group: 'Content', icon: Gift },
   { href: '/admin/trusted-contacts', label: 'Trusted contacts', group: 'Trust & compliance', icon: Contact },
   { href: '/admin/trust', label: 'Trust Centre', group: 'Trust & compliance', icon: Lock },
@@ -50,7 +48,7 @@ function getNavLinksForRoles(roles: string[]): NavItem[] {
   return ALL_NAV_ITEMS.filter((item) => {
     if (item.href === '/admin/partner-guide') return isPartner && !isAdmin
     if (item.href === '/admin/trust' || item.href === '/admin/security') return isAdmin
-    if (item.href === '/admin/portal-content' || item.href === '/admin/portal-access' || item.href === '/admin/portal-bundles') return isAdmin
+    if (item.href === '/admin/portal-access' || item.href === '/admin/portal-bundles') return isAdmin
     return true
   })
 }

@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { FileText, Users, Gift, ChevronDown, ChevronUp, HelpCircle, Lightbulb } from 'lucide-react'
+import { FileText, Link2, Users, Gift, ChevronDown, ChevronUp, HelpCircle, Lightbulb } from 'lucide-react'
 
 const GUIDE_STORAGE_KEY = 'admin-portal-guide-open'
 
 export default function AdminPortalPage() {
-  const [showGuide, setShowGuide] = useState(true)
+  const [showGuide, setShowGuide] = useState(false)
   const [pendingCount, setPendingCount] = useState<number | null>(null)
 
   useEffect(() => {
@@ -37,19 +37,27 @@ export default function AdminPortalPage() {
 
   const cards = [
     {
-      href: '/admin/portal-content',
+      href: '/admin/portal-resources',
       icon: FileText,
-      title: 'Portal content (resources & links)',
-      description: 'Add or edit downloadable resources (files, tiles) and portal links (external or internal). Lock items or set view-only.',
+      title: 'Downloadable resources',
+      description: 'Add or edit resource tiles (PDFs, guides, templates) with optional links. Set download, view-only, and lock status.',
       step: 1,
-      tip: 'One place for both: resource tiles (PDFs, guides) and links. Then control access below.',
+      tip: 'Files and tiles for the Resources Portal. Same access rules for all.',
+    },
+    {
+      href: '/admin/portal-articles',
+      icon: Link2,
+      title: 'Portal links',
+      description: 'Links to external content (e.g. LinkedIn) or internal tools. Destination URL and optional label.',
+      step: 2,
+      tip: 'External links and internal tools. Same gated/locked controls as resources.',
     },
     {
       href: '/admin/portal-access',
       icon: Users,
       title: 'Portal access',
       description: 'Set full access or select items per user (consultation clients, partners).',
-      step: 2,
+      step: 3,
       tip: 'Control who sees what: grant full access or pick specific resources per user.',
     },
     {
@@ -57,14 +65,14 @@ export default function AdminPortalPage() {
       icon: Gift,
       title: 'Bundles & codes',
       description: 'Create bundles and redemption codes for training clients.',
-      step: 3,
+      step: 4,
       tip: 'Create redemption codes so clients can unlock a set of resources without manual approval.',
     },
   ]
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">Portal content</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-2">Portal</h1>
       <p className="text-gray-600 mb-6">
         Manage what appears on the Resources Portal: downloadable resources and links (external content or internal tools). Control who sees locked items and manage bundles and codes.
       </p>
@@ -95,7 +103,7 @@ export default function AdminPortalPage() {
                   1
                 </span>
                 <span>
-                  <strong>Add content</strong> — Open <strong>Portal content</strong> to manage both downloadable resources (files, tiles) and portal links (external or internal). Same access rules for both.
+                  <strong>Add content</strong> — Use <strong>Downloadable resources</strong> and <strong>Portal links</strong> to add files, tiles, and links. Same access rules for both.
                 </span>
               </li>
               <li className="flex gap-3">

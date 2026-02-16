@@ -19,7 +19,7 @@ const ALL_NAV_ITEMS: NavItem[] = [
   { href: '/admin', label: 'Dashboard', description: 'Overview and quick links', group: 'Overview', icon: LayoutDashboard },
   { href: '/admin/team', label: 'Team & roles', description: 'Manage users and their permissions', group: 'People & access', icon: Users },
   { href: '/admin/partner-guide', label: 'Partner guide', description: 'How to use the admin as a partner', group: 'People & access', icon: BookOpen },
-  { href: '/admin/portal', label: 'Portal content', description: 'Resources, links, access, and bundles', group: 'Content', icon: FileStack },
+  { href: '/admin/portal', label: 'Portal', description: 'Resources, links, access, and bundles', group: 'Content', icon: FileStack },
   { href: '/admin/trusted-contacts', label: 'Trusted contacts', description: 'Contacts list for your organization', group: 'Trust & compliance', icon: Contact },
   { href: '/admin/trust', label: 'Trust Centre', description: 'NDA and gated document requests', group: 'Trust & compliance', icon: Lock },
   { href: '/admin/security', label: 'Security', description: '2FA and account security', group: 'Settings', icon: Shield },

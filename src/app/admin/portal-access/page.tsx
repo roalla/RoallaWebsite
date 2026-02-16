@@ -752,7 +752,7 @@ function PortalAccessForm({
               {resources.length === 0 ? (
                 <span className="text-gray-500 text-sm">
                   No resources yet.{' '}
-                  <Link href="/admin/portal-content" className="text-primary font-medium hover:underline">Add in Portal content</Link>
+                  <Link href="/admin/portal" className="text-primary font-medium hover:underline">Add in Portal</Link>
                 </span>
               ) : resources.map((r) => (
                 <label key={r.id} className={`inline-flex items-center gap-1.5 text-sm ${r.lockedByAdmin ? '' : 'opacity-75'}`}>
@@ -769,7 +769,7 @@ function PortalAccessForm({
               {articles.length === 0 ? (
                 <span className="text-gray-500 text-sm">
                   No links yet.{' '}
-                  <Link href="/admin/portal-content" className="text-primary font-medium hover:underline">Add in Portal content</Link>
+                  <Link href="/admin/portal" className="text-primary font-medium hover:underline">Add in Portal</Link>
                 </span>
               ) : articles.map((a) => (
                 <label key={a.id} className={`inline-flex items-center gap-1.5 text-sm ${a.lockedByAdmin ? '' : 'opacity-75'}`}>

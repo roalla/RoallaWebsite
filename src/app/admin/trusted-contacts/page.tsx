@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Pencil, Trash2, UserPlus, ExternalLink, Linkedin } from 'lucide-react'
+import { Pencil, Trash2, UserPlus, ExternalLink, Linkedin, Building2 } from 'lucide-react'
 
 interface TrustedContactItem {
   id: string
@@ -46,6 +46,15 @@ export default function AdminTrustedContactsPage() {
   })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const [showAddOrg, setShowAddOrg] = useState(false)
+  const [newOrg, setNewOrg] = useState({ name: '', slug: '' })
+  const [savingOrg, setSavingOrg] = useState(false)
+
+  const fetchOrganizations = () =>
+    fetch('/api/admin/organizations')
+      .then((r) => (r.ok ? r.json() : []))
+      .then(setOrganizations)
+      .catch(() => setOrganizations([]))
 
   const fetchContacts = () => {
     const url = orgFilter ? `/api/admin/trusted-contacts?org=${encodeURIComponent(orgFilter)}` : '/api/admin/trusted-contacts'
@@ -81,11 +90,37 @@ export default function AdminTrustedContactsPage() {
 
   useEffect(() => {
     if (!isAdmin) return
-    fetch('/api/admin/organizations')
-      .then((r) => (r.ok ? r.json() : []))
-      .then(setOrganizations)
-      .catch(() => setOrganizations([]))
+    fetchOrganizations()
   }, [isAdmin])
+
+  const handleCreateOrg = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const name = newOrg.name.trim()
+    if (!name) {
+      setError('Organization name is required.')
+      return
+    }
+    setError('')
+    setSavingOrg(true)
+    try {
+      const res = await fetch('/api/admin/organizations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, slug: newOrg.slug.trim() || null }),
+      })
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        throw new Error((data && typeof data.error === 'string') ? data.error : 'Failed to create organization')
+      }
+      setNewOrg({ name: '', slug: '' })
+      setShowAddOrg(false)
+      await fetchOrganizations()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to create organization')
+    } finally {
+      setSavingOrg(false)
+    }
+  }
 
   const resetForm = () => {
     setForm({
@@ -205,7 +240,7 @@ export default function AdminTrustedContactsPage() {
       )}
 
       {isAdmin && organizations.length > 0 && (
-        <div className="mb-4 flex items-center gap-2">
+        <div className="mb-4 flex flex-wrap items-center gap-2">
           <label htmlFor="org-filter" className="text-sm font-medium text-gray-700">Filter by organization</label>
           <select
             id="org-filter"
@@ -220,13 +255,77 @@ export default function AdminTrustedContactsPage() {
               </option>
             ))}
           </select>
+          <button
+            type="button"
+            onClick={() => setShowAddOrg(true)}
+            className="text-sm text-primary font-medium hover:text-primary-dark flex items-center gap-1"
+          >
+            <Building2 className="w-3.5 h-3.5" />
+            Add organization
+          </button>
         </div>
       )}
 
-      {isAdmin && organizations.length === 0 && (
-        <p className="mb-6 p-4 rounded-lg bg-amber-50 text-amber-800 text-sm">
-          Create an organization first to add trusted contacts.
-        </p>
+      {isAdmin && showAddOrg && (
+        <div className="mb-6 p-4 rounded-xl border border-gray-200 bg-gray-50">
+          <h3 className="text-sm font-semibold text-gray-900 mb-3">Create organization</h3>
+          <form onSubmit={handleCreateOrg} className="space-y-3 max-w-md">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Organization name *</label>
+              <input
+                type="text"
+                required
+                value={newOrg.name}
+                onChange={(e) => setNewOrg((o) => ({ ...o, name: e.target.value }))}
+                placeholder="e.g. Acme Consulting"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 bg-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Portal slug <span className="text-gray-500 font-normal">(optional)</span></label>
+              <input
+                type="text"
+                value={newOrg.slug}
+                onChange={(e) => setNewOrg((o) => ({ ...o, slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '') }))}
+                placeholder="e.g. acme"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 bg-white"
+              />
+              <p className="text-xs text-gray-500 mt-1">Used for shareable portal URLs: /p/acme</p>
+            </div>
+            <div className="flex gap-2">
+              <button
+                type="submit"
+                disabled={savingOrg}
+                className="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark disabled:opacity-50"
+              >
+                {savingOrg ? 'Creating...' : 'Create organization'}
+              </button>
+              <button
+                type="button"
+                onClick={() => { setShowAddOrg(false); setNewOrg({ name: '', slug: '' }); setError('') }}
+                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {isAdmin && organizations.length === 0 && !showAddOrg && (
+        <div className="mb-6 p-4 rounded-xl border border-amber-200 bg-amber-50">
+          <p className="text-amber-800 text-sm mb-4">
+            Create an organization first to add trusted contacts.
+          </p>
+          <button
+            type="button"
+            onClick={() => setShowAddOrg(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-amber-600 text-white rounded-lg text-sm font-medium hover:bg-amber-700"
+          >
+            <Building2 className="w-4 h-4" />
+            Create organization
+          </button>
+        </div>
       )}
 
       {!showAddForm && !editingId && (isAdmin ? organizations.length > 0 : true) && (

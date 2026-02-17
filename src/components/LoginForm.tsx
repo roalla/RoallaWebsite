@@ -87,6 +87,7 @@ export default function LoginForm() {
   const errorMessage =
     message ||
     (error === 'CredentialsSignin' ? t('invalidCredentials') : null) ||
+    (error === 'OAuthAccountNotLinked' ? t('oauthErrorAccountNotLinked') : null) ||
     (oauthError ? `${t('oauthErrorMicrosoft')} [${error}]` : error ? `${t('signInFailed')} (${error})` : t('signInFailed'))
 
   const isRedirecting = !!oauthLoading

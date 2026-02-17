@@ -204,7 +204,7 @@ export const authOptions: NextAuthOptions = {
       // lastLoginAt is updated in the credentials authorize(); for OAuth, the user may not exist in DB yet
       return true
     },
-    async jwt({ token, user, trigger, session: updateSession }) {
+    async jwt({ token, user, account, profile, trigger, session: updateSession }) {
       if (user) {
         token.id = user.id
         // Update lastLoginAt now that the adapter has created/linked the user (runs after signIn)
@@ -214,9 +214,18 @@ export const authOptions: NextAuthOptions = {
         const u = user as { role?: string; roles?: string[] }
         token.role = u.role
         token.roles = u.roles ?? (u.role ? [u.role] : [])
-        token.name = user.name ?? undefined
-        token.email = user.email ?? undefined
-        token.picture = user.image ?? undefined
+        // OAuth: use profile from the provider you just signed in with (Apple vs Google), so session reflects the correct identity
+        if (account?.provider && profile) {
+          const p = profile as { name?: string; email?: string; picture?: string; image?: string }
+          token.provider = account.provider
+          token.name = p.name ?? user.name ?? undefined
+          token.email = p.email ?? user.email ?? undefined
+          token.picture = p.picture ?? p.image ?? user.image ?? undefined
+        } else {
+          token.name = user.name ?? undefined
+          token.email = user.email ?? undefined
+          token.picture = user.image ?? undefined
+        }
       }
       if (token.id && (token.role === undefined || token.roles === undefined)) {
         try {
@@ -244,6 +253,7 @@ export const authOptions: NextAuthOptions = {
         (session.user as { id?: string }).id = token.id as string
         (session.user as { role?: string }).role = token.role as string
         (session.user as { roles?: string[] }).roles = (token.roles as string[]) ?? []
+        (session.user as { provider?: string }).provider = token.provider as string | undefined
         session.user.name = (token.name as string) ?? null
         session.user.email = (token.email as string) ?? null
         session.user.image = (token.picture as string) ?? null

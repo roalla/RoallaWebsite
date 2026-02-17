@@ -127,6 +127,19 @@
   @apply text-gray-500;
 }
 
+/* Admin: RichTextEditor (TipTap/ProseMirror) - ensure readable text on light background */
+[data-admin] .ProseMirror {
+  @apply text-gray-900;
+}
+[data-admin] .ProseMirror p,
+[data-admin] .ProseMirror li,
+[data-admin] .ProseMirror blockquote {
+  @apply text-gray-900;
+}
+[data-admin] .ProseMirror p.is-editor-empty:first-child::before {
+  @apply text-gray-500;
+}
+
 /* Admin mobile drawer slide-in animation */
 @keyframes admin-drawer-in {
   from { transform: translateX(100%); opacity: 0.5; }

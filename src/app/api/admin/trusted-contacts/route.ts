@@ -61,6 +61,7 @@ export async function GET(request: NextRequest) {
         url: true,
         linkedInUrl: true,
         notes: true,
+        tags: true,
         createdByUserId: true,
         createdAt: true,
         updatedAt: true,
@@ -80,6 +81,7 @@ export async function GET(request: NextRequest) {
       url: c.url,
       linkedInUrl: c.linkedInUrl,
       notes: c.notes,
+      tags: c.tags ?? [],
       createdByUserId: c.createdByUserId,
       createdAt: c.createdAt,
       updatedAt: c.updatedAt,
@@ -100,7 +102,7 @@ export async function POST(request: NextRequest) {
   }
   try {
     const body = await request.json()
-    const { name, email, company, serviceOrRole, url, linkedInUrl, notes, organizationId: bodyOrgId } = body
+    const { name, email, company, serviceOrRole, url, linkedInUrl, notes, tags, organizationId: bodyOrgId } = body
 
     if (!name || !email) {
       return NextResponse.json(
@@ -150,6 +152,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    const tagsArr = Array.isArray(tags) ? tags.filter((t): t is string => typeof t === 'string').map((t) => t.trim()).filter(Boolean) : []
     const contact = await prisma.trustedContact.create({
       data: {
         organizationId,
@@ -160,6 +163,7 @@ export async function POST(request: NextRequest) {
         url: url != null ? String(url).trim() || null : null,
         linkedInUrl: linkedInUrl != null ? String(linkedInUrl).trim() || null : null,
         notes: notes != null ? String(notes).trim() || null : null,
+        tags: tagsArr,
         createdByUserId: currentUserId ?? undefined,
       },
     })

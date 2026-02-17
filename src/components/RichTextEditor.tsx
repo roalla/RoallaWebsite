@@ -70,6 +70,7 @@ export default function RichTextEditor({
 
   useEffect(() => {
     if (!editor) return
+    if (editor.isFocused) return
     const current = editor.getHTML()
     const next = value || '<p></p>'
     if (current !== next) {

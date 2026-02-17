@@ -36,6 +36,7 @@ model TrustedContact {
   url              String?  // website or other link
   linkedInUrl      String?  // LinkedIn profile URL
   notes            String?  @db.Text
+  tags             String[] @default([])
   createdByUserId  String?
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt

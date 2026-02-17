@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Pencil, Trash2, UserPlus, ExternalLink, Linkedin, Building2 } from 'lucide-react'
+import { Pencil, Trash2, UserPlus, ExternalLink, Linkedin, Building2, X } from 'lucide-react'
 
 interface TrustedContactItem {
   id: string
@@ -15,6 +15,7 @@ interface TrustedContactItem {
   url: string | null
   linkedInUrl: string | null
   notes: string | null
+  tags: string[]
   createdByUserId: string | null
   createdAt: string
   updatedAt: string
@@ -42,8 +43,10 @@ export default function AdminTrustedContactsPage() {
     url: '',
     linkedInUrl: '',
     notes: '',
+    tags: [] as string[],
     organizationId: '' as string,
   })
+  const [tagInput, setTagInput] = useState('')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [showAddOrg, setShowAddOrg] = useState(false)
@@ -131,8 +134,10 @@ export default function AdminTrustedContactsPage() {
       url: '',
       linkedInUrl: '',
       notes: '',
+      tags: [],
       organizationId: organizations[0]?.id ?? '',
     })
+    setTagInput('')
     setEditingId(null)
     setShowAddForm(false)
   }
@@ -146,10 +151,23 @@ export default function AdminTrustedContactsPage() {
       url: c.url ?? '',
       linkedInUrl: c.linkedInUrl ?? '',
       notes: c.notes ?? '',
+      tags: c.tags ?? [],
       organizationId: c.organizationId,
     })
+    setTagInput('')
     setEditingId(c.id)
     setShowAddForm(false)
+  }
+
+  const addTag = () => {
+    const t = tagInput.trim()
+    if (!t || form.tags.includes(t)) return
+    setForm((f) => ({ ...f, tags: [...f.tags, t] }))
+    setTagInput('')
+  }
+
+  const removeTag = (idx: number) => {
+    setForm((f) => ({ ...f, tags: f.tags.filter((_, i) => i !== idx) }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -173,6 +191,7 @@ export default function AdminTrustedContactsPage() {
             url: form.url.trim() || null,
             linkedInUrl: form.linkedInUrl.trim() || null,
             notes: form.notes.trim() || null,
+            tags: form.tags,
           }),
         })
         if (!res.ok) throw new Error((await res.json()).error || 'Update failed')
@@ -190,6 +209,7 @@ export default function AdminTrustedContactsPage() {
             url: form.url.trim() || null,
             linkedInUrl: form.linkedInUrl.trim() || null,
             notes: form.notes.trim() || null,
+            tags: form.tags,
             ...(isAdmin && form.organizationId ? { organizationId: form.organizationId } : {}),
           }),
         })
@@ -341,6 +361,7 @@ export default function AdminTrustedContactsPage() {
               url: '',
               linkedInUrl: '',
               notes: '',
+              tags: [],
               organizationId: organizations[0]?.id ?? '',
             })
           }}
@@ -436,6 +457,49 @@ export default function AdminTrustedContactsPage() {
               </div>
             )}
             <div className="sm:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">Tags</label>
+              <div className="flex flex-wrap gap-2 mb-2">
+                {form.tags.map((tag, idx) => (
+                  <span
+                    key={idx}
+                    className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-sm bg-primary/10 text-primary"
+                  >
+                    {tag}
+                    <button
+                      type="button"
+                      onClick={() => removeTag(idx)}
+                      className="hover:bg-primary/20 rounded p-0.5"
+                      aria-label={`Remove tag ${tag}`}
+                    >
+                      <X className="w-3 h-3" />
+                    </button>
+                  </span>
+                ))}
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={tagInput}
+                  onChange={(e) => setTagInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ',') {
+                      e.preventDefault()
+                      addTag()
+                    }
+                  }}
+                  placeholder="Type tag and press Enter to add"
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg"
+                />
+                <button
+                  type="button"
+                  onClick={addTag}
+                  className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200"
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+            <div className="sm:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
               <textarea
                 value={form.notes}
@@ -482,6 +546,15 @@ export default function AdminTrustedContactsPage() {
                 {(c.company || c.serviceOrRole) && (
                   <div className="text-sm text-gray-500 mt-1">
                     {[c.company, c.serviceOrRole].filter(Boolean).join(' · ')}
+                  </div>
+                )}
+                {c.tags && c.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    {c.tags.map((tag, i) => (
+                      <span key={i} className="inline-flex px-2 py-0.5 rounded-full text-xs bg-gray-100 text-gray-700">
+                        {tag}
+                      </span>
+                    ))}
                   </div>
                 )}
                 {c.notes && (

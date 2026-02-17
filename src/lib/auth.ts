@@ -29,6 +29,7 @@ function createSSOProvider(): NextAuthOptions['providers'][number] | null {
     wellKnown: `${issuer}/.well-known/openid-configuration`,
     authorization: { params: { scope: 'openid email profile' } },
     client: { token_endpoint_auth_method: 'client_secret_basic' },
+    allowDangerousEmailAccountLinking: true,
     profile(profile: { sub?: string; email?: string; name?: string; picture?: string }) {
       return {
         id: profile.sub,
@@ -105,6 +106,7 @@ export const authOptions: NextAuthOptions = {
           GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            allowDangerousEmailAccountLinking: true,
           }),
         ]
       : []),
@@ -118,6 +120,7 @@ export const authOptions: NextAuthOptions = {
             authorization: {
               params: { scope: 'openid profile email User.Read' },
             },
+            allowDangerousEmailAccountLinking: true,
           }),
         ]
       : []),
@@ -126,6 +129,7 @@ export const authOptions: NextAuthOptions = {
           AppleProvider({
             clientId: process.env.APPLE_ID,
             clientSecret: process.env.APPLE_SECRET,
+            allowDangerousEmailAccountLinking: true,
           }),
         ]
       : []),

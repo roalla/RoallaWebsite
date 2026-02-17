@@ -49,7 +49,7 @@ export default function UserMenu() {
 
   const user = session.user as { id?: string; email?: string | null; name?: string | null; image?: string | null; role?: string; roles?: string[] }
   const initials = getInitials(user.name, user.email)
-  const roles = user.roles?.length ? user.roles : (user.role ? [user.role] : [])
+  const roles = Array.isArray(user.roles) ? user.roles : (user.role ? [user.role] : [])
   const roleLabels = roles.map((r) => (r === 'admin' ? 'Admin' : r === 'partner' ? 'Partner' : r === 'business' ? 'Business' : 'Member'))
   const roleLabel = roleLabels.length ? roleLabels.join(', ') : 'Member'
   const isAdmin = roles.includes('admin')

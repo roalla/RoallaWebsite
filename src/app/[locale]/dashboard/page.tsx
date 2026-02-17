@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { canAccessAdmin } from '@/lib/access'
 import { setRequestLocale } from 'next-intl/server'
 import DashboardContent from './DashboardContent'
 
@@ -15,8 +16,7 @@ export default async function DashboardPage({ params }: Props) {
     redirect(`/login?callbackUrl=/${locale}/dashboard`)
   }
 
-  const roles = (session.user as { roles?: string[] }).roles ?? (session.user as { role?: string }).role ? [(session.user as { role?: string }).role!] : []
-  const isAdminOrPartner = roles.includes('admin') || roles.includes('partner')
+  const isAdminOrPartner = canAccessAdmin(session.user)
 
   if (isAdminOrPartner) {
     redirect('/admin')

@@ -5,7 +5,7 @@ export type SessionUser = Session['user'] & { roles?: string[] }
 export function getRoles(user: SessionUser | null | undefined): string[] {
   if (!user) return []
   const u = user as { roles?: string[]; role?: string }
-  if (Array.isArray(u.roles) && u.roles.length) return u.roles
+  if (Array.isArray(u.roles)) return u.roles
   if (u.role) return [u.role]
   return []
 }

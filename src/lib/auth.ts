@@ -46,7 +46,6 @@ const ssoProvider = createSSOProvider()
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
-  trustHost: true, // Required when behind Railway/Vercel/proxy so NextAuth trusts Host header
   session: { strategy: 'jwt', maxAge: 30 * 24 * 60 * 60 }, // 30 days (Credentials works best with JWT)
   secret: secret || (process.env.NODE_ENV === 'production' ? undefined : 'dev-secret-change-in-production'),
   pages: {

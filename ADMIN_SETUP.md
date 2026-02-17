@@ -69,4 +69,6 @@ If the browser shows **500 (Internal Server Error)** on `GET https://www.roalla.
 
 2. **Set `NEXTAUTH_URL`** to your public URL, e.g. `https://www.roalla.com` (no trailing slash).
 
+3. **If login redirects back to login** (OAuth or proxy), add **`AUTH_TRUST_HOST=true`** in Railway so NextAuth trusts the proxy Host header.
+
 After redeploying, the session endpoint should return 200. If you had left these unset, the code now returns a safe “no session” response so the site still loads; fixing the env vars restores full login/session behavior.

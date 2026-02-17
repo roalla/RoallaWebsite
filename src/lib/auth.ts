@@ -44,13 +44,59 @@ function createSSOProvider(): NextAuthOptions['providers'][number] | null {
 
 const ssoProvider = createSSOProvider()
 
+const isProduction = process.env.NODE_ENV === 'production'
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: { strategy: 'jwt', maxAge: 30 * 24 * 60 * 60 }, // 30 days (Credentials works best with JWT)
-  secret: secret || (process.env.NODE_ENV === 'production' ? undefined : 'dev-secret-change-in-production'),
+  secret: secret || (isProduction ? undefined : 'dev-secret-change-in-production'),
   pages: {
     signIn: '/login',
   },
+  // OAuth redirects from Apple/Google/Microsoft are cross-site; SameSite=none required so cookies
+  // are sent when the IdP redirects back. Only in production (HTTPS).
+  cookies: isProduction
+    ? {
+        pkceCodeVerifier: {
+          name: '__Secure-next-auth.pkce.code_verifier',
+          options: {
+            httpOnly: true,
+            sameSite: 'none' as const,
+            path: '/',
+            secure: true,
+            maxAge: 60 * 15,
+          },
+        },
+        state: {
+          name: '__Secure-next-auth.state',
+          options: {
+            httpOnly: true,
+            sameSite: 'none' as const,
+            path: '/',
+            secure: true,
+            maxAge: 60 * 15,
+          },
+        },
+        callbackUrl: {
+          name: '__Secure-next-auth.callback-url',
+          options: {
+            httpOnly: true,
+            sameSite: 'none' as const,
+            path: '/',
+            secure: true,
+          },
+        },
+        sessionToken: {
+          name: '__Secure-next-auth.session-token',
+          options: {
+            httpOnly: true,
+            sameSite: 'none' as const,
+            path: '/',
+            secure: true,
+          },
+        },
+      }
+    : undefined,
   providers: [
     ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
       ? [

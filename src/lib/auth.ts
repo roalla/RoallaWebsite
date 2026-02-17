@@ -46,6 +46,7 @@ const ssoProvider = createSSOProvider()
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
+  trustHost: true, // Required when behind Railway/Vercel/proxy so NextAuth trusts Host header
   session: { strategy: 'jwt', maxAge: 30 * 24 * 60 * 60 }, // 30 days (Credentials works best with JWT)
   secret: secret || (process.env.NODE_ENV === 'production' ? undefined : 'dev-secret-change-in-production'),
   pages: {
@@ -149,15 +150,17 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user, account }) {
-      if (account?.provider && account.provider !== 'credentials' && user?.id) {
-        await prisma.user.update({ where: { id: user.id }, data: { lastLoginAt: new Date() } }).catch(() => {})
-      }
+    async signIn() {
+      // lastLoginAt is updated in the credentials authorize(); for OAuth, the user may not exist in DB yet
       return true
     },
     async jwt({ token, user, trigger, session: updateSession }) {
       if (user) {
         token.id = user.id
+        // Update lastLoginAt now that the adapter has created/linked the user (runs after signIn)
+        if (user.id) {
+          await prisma.user.update({ where: { id: user.id }, data: { lastLoginAt: new Date() } }).catch(() => {})
+        }
         const u = user as { role?: string; roles?: string[] }
         token.role = u.role
         token.roles = u.roles ?? (u.role ? [u.role] : [])

@@ -302,7 +302,19 @@
     "exp7": "Excellence opérationnelle",
     "exp8": "Intégration technologique"
   },
+  "dashboard": {
+    "title": "Votre tableau de bord",
+    "welcome": "Bienvenue, {name}",
+    "profile": "Profil",
+    "profileDesc": "Mettre à jour votre nom et paramètres",
+    "requestAccess": "Demander l'accès aux ressources",
+    "requestAccessDesc": "Demander l'accès aux guides, modèles et outils",
+    "viewPortal": "Portail des ressources",
+    "viewPortalDesc": "Accédez à vos ressources approuvées (utilisez le lien de votre courriel d'approbation)",
+    "backToHome": "Retour à l'accueil"
+  },
   "login": {
+    "oauthErrorMicrosoft": "Connexion Microsoft ou Apple échouée. Microsoft : Dans le portail Azure → Certificats et secrets, créez un nouveau secret client, copiez sa Valeur (pas l'ID du secret), définissez AZURE_AD_CLIENT_SECRET dans Railway. Apple : APPLE_SECRET expire tous les 6 mois—exécutez npm run gen-apple-secret et mettez à jour Railway.",
     "backToHome": "Retour à l'accueil",
     "signIn": "Connexion",
     "accessDashboard": "Accéder au tableau de bord d'administration",

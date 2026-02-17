@@ -302,10 +302,22 @@
     "exp7": "Operational Excellence",
     "exp8": "Technology Integration"
   },
+  "dashboard": {
+    "title": "Your Dashboard",
+    "welcome": "Welcome, {name}",
+    "profile": "Profile",
+    "profileDesc": "Update your name and profile settings",
+    "requestAccess": "Request Resource Access",
+    "requestAccessDesc": "Request access to guides, templates, and tools",
+    "viewPortal": "Resources Portal",
+    "viewPortalDesc": "Access your approved resources (use the link from your approval email)",
+    "backToHome": "Back to home"
+  },
   "login": {
     "backToHome": "Back to home",
     "signIn": "Sign in",
     "accessDashboard": "Access the admin dashboard",
+    "oauthErrorMicrosoft": "Microsoft or Apple sign-in failed. Microsoft: In Azure Portal → Certificates & secrets, create a new client secret, copy its Value (not Secret ID), set AZURE_AD_CLIENT_SECRET in Railway. Apple: APPLE_SECRET expires every 6 months—run npm run gen-apple-secret and update Railway.",
     "email": "Email",
     "password": "Password",
     "signInButton": "Sign in",

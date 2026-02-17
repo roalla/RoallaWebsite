@@ -15,11 +15,22 @@ const authMiddleware = withAuth({
   pages: { signIn: '/login' },
 })
 
-export default function middleware(req: NextRequest, event: NextFetchEvent) {
+export default async function middleware(req: NextRequest, event: NextFetchEvent) {
   const pathname = req.nextUrl.pathname
 
   if (pathname.startsWith('/admin')) {
-    return authMiddleware(req as NextRequestWithAuth, event)
+    const result = await authMiddleware(req as NextRequestWithAuth, event)
+    // Use /dashboard as callback so role-based redirect happens there (avoids
+    // business users being sent to /admin and bouncing back to login).
+    if (result instanceof NextResponse && result.status === 307) {
+      const loc = result.headers.get('location')
+      if (loc?.includes('/login')) {
+        const signInUrl = new URL(loc, req.url)
+        signInUrl.searchParams.set('callbackUrl', '/dashboard')
+        return NextResponse.redirect(signInUrl)
+      }
+    }
+    return result
   }
 
   // Skip i18n for API, auth, login, profile, password flows
@@ -28,6 +39,7 @@ export default function middleware(req: NextRequest, event: NextFetchEvent) {
     pathname.startsWith('/login') ||
     pathname.startsWith('/auth') ||
     pathname.startsWith('/profile') ||
+    pathname.startsWith('/dashboard') ||
     pathname.startsWith('/forgot-password') ||
     pathname.startsWith('/reset-password') ||
     pathname.startsWith('/p/')

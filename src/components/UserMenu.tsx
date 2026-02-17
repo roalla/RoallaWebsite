@@ -53,6 +53,7 @@ export default function UserMenu() {
   const roleLabels = roles.map((r) => (r === 'admin' ? 'Admin' : r === 'partner' ? 'Partner' : r === 'business' ? 'Business' : 'Member'))
   const roleLabel = roleLabels.length ? roleLabels.join(', ') : 'Member'
   const isAdmin = roles.includes('admin')
+  const canAccessAdmin = roles.includes('admin') || roles.includes('partner')
 
   return (
     <div className="relative" ref={menuRef}>
@@ -121,6 +122,15 @@ export default function UserMenu() {
           </div>
           <div className="py-1">
             <Link
+              href="/dashboard"
+              className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-white/10"
+              onClick={() => setOpen(false)}
+              role="menuitem"
+            >
+              <LayoutDashboard className="w-4 h-4 text-gray-400" />
+              {canAccessAdmin ? 'Admin' : 'Dashboard'}
+            </Link>
+            <Link
               href="/profile"
               className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-white/10"
               onClick={() => setOpen(false)}
@@ -129,17 +139,6 @@ export default function UserMenu() {
               <User className="w-4 h-4 text-gray-400" />
               Profile
             </Link>
-            {isAdmin && (
-              <Link
-                href="/admin"
-                className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-white/10"
-                onClick={() => setOpen(false)}
-                role="menuitem"
-              >
-                <LayoutDashboard className="w-4 h-4 text-gray-400" />
-                Admin
-              </Link>
-            )}
             <button
               type="button"
               className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-300 hover:bg-white/10 text-left"

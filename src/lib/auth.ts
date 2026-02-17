@@ -86,15 +86,7 @@ export const authOptions: NextAuthOptions = {
             secure: true,
           },
         },
-        sessionToken: {
-          name: '__Secure-next-auth.session-token',
-          options: {
-            httpOnly: true,
-            sameSite: 'none' as const,
-            path: '/',
-            secure: true,
-          },
-        },
+        // sessionToken stays default (SameSite=Lax); it's set after callback on same site
       }
     : undefined,
   providers: [
@@ -113,6 +105,9 @@ export const authOptions: NextAuthOptions = {
             clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
             tenantId: process.env.AZURE_AD_TENANT_ID || 'common',
             name: 'Microsoft',
+            authorization: {
+              params: { scope: 'openid profile email User.Read' },
+            },
           }),
         ]
       : []),
@@ -214,14 +209,18 @@ export const authOptions: NextAuthOptions = {
         token.picture = user.image ?? undefined
       }
       if (token.id && (token.role === undefined || token.roles === undefined)) {
-        const dbUser = await prisma.user.findUnique({
-          where: { id: token.id as string },
-          include: { roles: true },
-        })
-        if (dbUser) {
-          const roles = dbUser.roles?.length ? dbUser.roles.map((r) => r.role) : [dbUser.role]
-          token.role = roles[0] ?? dbUser.role
-          token.roles = roles
+        try {
+          const dbUser = await prisma.user.findUnique({
+            where: { id: token.id as string },
+            include: { roles: true },
+          })
+          if (dbUser) {
+            const roles = dbUser.roles?.length ? dbUser.roles.map((r) => r.role) : [dbUser.role]
+            token.role = roles[0] ?? dbUser.role
+            token.roles = roles
+          }
+        } catch {
+          // DB unreachable; leave role/roles as-is to avoid crashing the session request
         }
       }
       if (trigger === 'update' && updateSession?.user) {

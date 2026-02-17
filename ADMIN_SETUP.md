@@ -37,7 +37,7 @@ ADMIN_EMAIL=your@email.com ADMIN_PASSWORD=YourSecurePassword node scripts/create
 node -r dotenv/config scripts/create-admin.js
 ```
 
-Or add **ADMIN_EMAIL** and **ADMIN_PASSWORD** to Railway, then in Railway’s shell or a one-off run:
+Or add **ADMIN_EMAIL** and **ADMIN_PASSWORD** to Railway, then in Railway's shell or a one-off run:
 
 ```bash
 node scripts/create-admin.js
@@ -49,13 +49,13 @@ Password must be at least 8 characters.
 
 1. Open **/login** on your site (e.g. https://www.roalla.com/login).
 2. Sign in with the admin email and password you used in step 3.
-3. You’ll be redirected to **/admin** (dashboard).
+3. You'll be redirected to **/admin** (dashboard).
 4. From there you can:
    - **Dashboard** – Counts of pending / approved / rejected requests.
    - **Access requests** – List all requests, filter by status, **Approve** (opens approval link in new tab) or **Reject**.
    - **Approved users** – List of approved portal users.
 
-Only users with **role = admin** can access `/admin`. Creating other admins is done by running the create-admin script again with a different email (or by updating a user’s role in the database).
+Only users with **role = admin** can access `/admin`. Creating other admins is done by running the create-admin script again with a different email (or by updating a user's role in the database).
 
 ---
 
@@ -71,4 +71,39 @@ If the browser shows **500 (Internal Server Error)** on `GET https://www.roalla.
 
 3. **If login redirects back to login** (OAuth or proxy), add **`AUTH_TRUST_HOST=true`** in Railway so NextAuth trusts the proxy Host header.
 
-After redeploying, the session endpoint should return 200. If you had left these unset, the code now returns a safe “no session” response so the site still loads; fixing the env vars restores full login/session behavior.
+After redeploying, the session endpoint should return 200. If you had left these unset, the code now returns a safe "no session" response so the site still loads; fixing the env vars restores full login/session behavior.
+
+---
+
+## OAuth providers – Microsoft or Apple not working (Google works)
+
+If **Google** sign-in works but **Microsoft** or **Apple** do not, check each provider below.
+
+### Microsoft (Azure AD)
+
+1. **Azure Portal** → **App registrations** → your app → **Authentication**:
+   - Add redirect URI: `https://www.roalla.com/api/auth/callback/azure-ad` (match your `NEXTAUTH_URL`)
+   - Platform: **Web**
+   - Ensure the app is configured for your account types (work/school and/or personal)
+
+2. **Certificates & secrets** (most common fix when Microsoft fails but Google works):
+   - Create a **new** client secret (old ones expire)
+   - Copy the **Value** only (the long string shown once—not the Secret ID)
+   - Set it as `AZURE_AD_CLIENT_SECRET` in Railway—no extra spaces, no quotes
+   - Wait ~10 minutes after creating before testing (propagation delay)
+
+3. **API permissions**:
+   - Add: `openid`, `profile`, `email`, `User.Read` (Delegated)
+   - Grant admin consent if required
+
+### Apple
+
+1. **APPLE_SECRET expires** (Apple's JWT is valid for up to 6 months):
+   - Run `npm run gen-apple-secret` with the required env vars (see `docs/APPLE_SIGNIN_SETUP.md`)
+   - Set the output as `APPLE_SECRET` in Railway
+
+2. **Apple Developer** → Services ID → **Configure**:
+   - Return URL: `https://www.roalla.com/api/auth/callback/apple`
+   - Domains: `www.roalla.com` (no `https://`)
+
+3. See **`docs/APPLE_SIGNIN_SETUP.md`** for full setup.

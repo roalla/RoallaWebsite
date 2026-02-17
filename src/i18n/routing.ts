@@ -19,5 +19,6 @@ export const routing = defineRouting({
     '/trust': '/trust',
     '/schedule': '/schedule',
     '/login': '/login',
+    '/dashboard': '/dashboard',
   },
 })

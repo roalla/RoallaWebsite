@@ -20,7 +20,7 @@ const oauthLabels: Record<string, string> = {
 export default function LoginForm() {
   const t = useTranslations('login')
   const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || '/admin'
+  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard'
   const error = searchParams.get('error')
 
   const [email, setEmail] = useState('')
@@ -76,8 +76,11 @@ export default function LoginForm() {
     setIsLoading(false)
   }
 
+  const oauthError = error === 'OAuthCallback' || error === 'OAuthCallbackError' || error === 'Callback'
   const errorMessage =
-    message || (error === 'CredentialsSignin' ? t('invalidCredentials') : t('signInFailed'))
+    message ||
+    (error === 'CredentialsSignin' ? t('invalidCredentials') : null) ||
+    (oauthError ? t('oauthErrorMicrosoft') : t('signInFailed'))
 
   const isRedirecting = !!oauthLoading
 

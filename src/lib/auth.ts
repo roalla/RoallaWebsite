@@ -48,10 +48,12 @@ const isProduction = process.env.NODE_ENV === 'production'
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
+  debug: process.env.NEXTAUTH_DEBUG === '1',
   session: { strategy: 'jwt', maxAge: 30 * 24 * 60 * 60 }, // 30 days (Credentials works best with JWT)
   secret: secret || (isProduction ? undefined : 'dev-secret-change-in-production'),
   pages: {
     signIn: '/login',
+    error: '/login',
   },
   // OAuth redirects from Apple/Google/Microsoft are cross-site; SameSite=none required so cookies
   // are sent when the IdP redirects back. Only in production (HTTPS).

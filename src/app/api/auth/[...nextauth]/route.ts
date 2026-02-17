@@ -9,6 +9,10 @@ async function wrappedGet(
   req: Request,
   context: { params: Promise<{ nextauth: string[] }> }
 ) {
+  const url = req.url || ''
+  if (process.env.NEXTAUTH_DEBUG === '1' && url.includes('/callback/')) {
+    console.log('[NextAuth] Callback received:', url.split('?')[0], new URL(url).searchParams.toString().slice(0, 200))
+  }
   try {
     return await handler(req, context)
   } catch (err) {

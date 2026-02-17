@@ -107,3 +107,12 @@ If **Google** sign-in works but **Microsoft** or **Apple** do not, check each pr
    - Domains: `www.roalla.com` (no `https://`)
 
 3. See **`docs/APPLE_SIGNIN_SETUP.md`** for full setup.
+
+---
+
+## Debugging: no errors in logs but Microsoft/Apple still fail
+
+1. In Railway, add **`NEXTAUTH_DEBUG=1`** to your variables and redeploy.
+2. Try Microsoft or Apple sign-in again.
+3. Check Railway logs—you should now see `[next-auth][debug]` and `[next-auth][error]` lines showing exactly where it fails (e.g. token exchange, profile parsing).
+4. Remove `NEXTAUTH_DEBUG` after fixing—debug output can expose sensitive data.

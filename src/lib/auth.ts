@@ -88,7 +88,15 @@ export const authOptions: NextAuthOptions = {
             secure: true,
           },
         },
-        // sessionToken stays default (SameSite=Lax); it's set after callback on same site
+        sessionToken: {
+          name: '__Secure-next-auth.session-token',
+          options: {
+            httpOnly: true,
+            sameSite: 'none' as const,
+            path: '/',
+            secure: true,
+          },
+        },
       }
     : undefined,
   providers: [

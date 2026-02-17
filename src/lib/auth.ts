@@ -1,3 +1,4 @@
+import type { Adapter, AdapterAccount } from 'next-auth/adapters'
 import type { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
@@ -5,6 +6,42 @@ import AzureADProvider from 'next-auth/providers/azure-ad'
 import AppleProvider from 'next-auth/providers/apple'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { prisma } from '@/lib/prisma'
+
+/** Fields our Account model supports; OAuth providers (e.g. Azure) return extra fields like ext_expires_in. */
+const ACCOUNT_FIELDS = [
+  'userId',
+  'type',
+  'provider',
+  'providerAccountId',
+  'refresh_token',
+  'access_token',
+  'expires_at',
+  'token_type',
+  'scope',
+  'id_token',
+  'session_state',
+] as const
+
+function filterAccountData(data: Record<string, unknown>): Record<string, unknown> {
+  const filtered: Record<string, unknown> = {}
+  for (const key of ACCOUNT_FIELDS) {
+    if (key in data && data[key] !== undefined) {
+      filtered[key] = data[key]
+    }
+  }
+  return filtered
+}
+
+/** Adapter that strips provider-extra fields (e.g. Azure ext_expires_in) before Account create. */
+function prismaAdapterWithFilteredAccount(): Adapter {
+  const base = PrismaAdapter(prisma)
+  return {
+    ...base,
+    linkAccount(data: AdapterAccount) {
+      return base.linkAccount(filterAccountData(data) as AdapterAccount)
+    },
+  }
+}
 import bcrypt from 'bcrypt'
 import crypto from 'crypto'
 
@@ -48,18 +85,13 @@ const ssoProvider = createSSOProvider()
 const isProduction = process.env.NODE_ENV === 'production'
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
+  adapter: prismaAdapterWithFilteredAccount(),
   debug: process.env.NEXTAUTH_DEBUG === '1',
   session: { strategy: 'jwt', maxAge: 30 * 24 * 60 * 60 }, // 30 days (Credentials works best with JWT)
   secret: secret || (isProduction ? undefined : 'dev-secret-change-in-production'),
   pages: {
     signIn: '/login',
     error: '/login',
-  },
-  events: {
-    error({ message, error }) {
-      console.error('[NextAuth] Auth error:', message, error)
-    },
   },
   // OAuth redirects from Apple/Google/Microsoft are cross-site; SameSite=none required so cookies
   // are sent when the IdP redirects back. Only in production (HTTPS).

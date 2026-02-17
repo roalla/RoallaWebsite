@@ -318,6 +318,7 @@
     "signIn": "Sign in",
     "accessDashboard": "Access the admin dashboard",
     "oauthErrorAccountNotLinked": "This email is already linked to another sign-in method. Sign in with email/password or the provider you originally used (e.g. Google).",
+    "oauthErrorCallback": "Sign-in callback failed (often DB/linking). Check Railway logs for [NextAuth] Auth error—set NEXTAUTH_DEBUG=1 for details.",
     "oauthErrorMicrosoft": "Microsoft or Apple sign-in failed. Check: (1) Redirect URI in Azure/Apple matches your app URL + /api/auth/callback/azure-ad or /api/auth/callback/apple; (2) AUTH_TRUST_HOST=true and NEXTAUTH_URL in Railway. To see the real error: set NEXTAUTH_DEBUG=1 in Railway, retry sign-in, then check Railway logs.",
     "email": "Email",
     "password": "Password",

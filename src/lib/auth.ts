@@ -56,6 +56,11 @@ export const authOptions: NextAuthOptions = {
     signIn: '/login',
     error: '/login',
   },
+  events: {
+    error({ message, error }) {
+      console.error('[NextAuth] Auth error:', message, error)
+    },
+  },
   // OAuth redirects from Apple/Google/Microsoft are cross-site; SameSite=none required so cookies
   // are sent when the IdP redirects back. Only in production (HTTPS).
   cookies: isProduction

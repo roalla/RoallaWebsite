@@ -315,6 +315,7 @@
   },
   "login": {
     "oauthErrorAccountNotLinked": "Ce courriel est déjà lié à une autre méthode de connexion. Connectez-vous avec courriel/mot de passe ou le fournisseur que vous avez utilisé à l'origine (ex. Google).",
+    "oauthErrorCallback": "Échec du rappel de connexion (souvent DB/liaison). Consultez les logs Railway pour [NextAuth] Auth error—définissez NEXTAUTH_DEBUG=1 pour les détails.",
     "oauthErrorMicrosoft": "Connexion Microsoft ou Apple échouée. Vérifiez : (1) L'URI de redirection dans Azure/Apple correspond à l'URL de votre app + /api/auth/callback/azure-ad ou /api/auth/callback/apple ; (2) AUTH_TRUST_HOST=true et NEXTAUTH_URL dans Railway. Pour voir l'erreur réelle : définissez NEXTAUTH_DEBUG=1 dans Railway, réessayez, puis consultez les logs Railway.",
     "backToHome": "Retour à l'accueil",
     "signIn": "Connexion",

@@ -76,11 +76,18 @@ export default function LoginForm() {
     setIsLoading(false)
   }
 
-  const oauthError = error === 'OAuthCallback' || error === 'OAuthCallbackError' || error === 'Callback'
+  const oauthError =
+    error === 'OAuthCallback' ||
+    error === 'OAuthCallbackError' ||
+    error === 'Callback' ||
+    error === 'OAuthSignin' ||
+    error === 'OAuthAccountNotLinked' ||
+    error === 'OAuthCreateAccount' ||
+    error === 'AccessDenied'
   const errorMessage =
     message ||
     (error === 'CredentialsSignin' ? t('invalidCredentials') : null) ||
-    (oauthError ? t('oauthErrorMicrosoft') : t('signInFailed'))
+    (oauthError ? t('oauthErrorMicrosoft') : error ? `${t('signInFailed')} (${error})` : t('signInFailed'))
 
   const isRedirecting = !!oauthLoading
 

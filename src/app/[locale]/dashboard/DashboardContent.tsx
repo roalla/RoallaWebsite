@@ -4,7 +4,7 @@ import React from 'react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import NextLink from 'next/link'
-import { User, FileText, LayoutDashboard, ArrowLeft } from 'lucide-react'
+import { User, FileText, LayoutDashboard } from 'lucide-react'
 import Image from 'next/image'
 
 type Props = { locale: string; userName: string }
@@ -39,16 +39,9 @@ export default function DashboardContent({ locale, userName }: Props) {
   return (
     <div className="min-h-screen bg-black text-white">
       <header className="border-b border-white/10">
-        <div className="max-w-4xl mx-auto px-4 py-6 flex items-center justify-between">
+        <div className="max-w-4xl mx-auto px-4 py-6">
           <Link href="/" className="block">
             <Image src="/logo.svg" alt="ROALLA" width={120} height={40} className="h-10 w-auto" />
-          </Link>
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-primary hover:text-primary-dark transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5" />
-            {t('backToHome')}
           </Link>
         </div>
       </header>

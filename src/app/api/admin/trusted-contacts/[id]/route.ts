@@ -57,7 +57,7 @@ export async function PATCH(
     if (body.linkedInUrl !== undefined) data.linkedInUrl = body.linkedInUrl ? String(body.linkedInUrl).trim() : null
     if (body.notes !== undefined) data.notes = body.notes ? String(body.notes).trim() : null
     if (body.tags !== undefined) {
-      const tagsArr = Array.isArray(body.tags) ? body.tags.filter((t: unknown): t is string => typeof t === 'string').map((t) => t.trim()).filter(Boolean) : []
+      const tagsArr = Array.isArray(body.tags) ? body.tags.filter((t: unknown): t is string => typeof t === 'string').map((t: string) => t.trim()).filter(Boolean) : []
       data.tags = tagsArr
     }
     const contact = await prisma.trustedContact.update({

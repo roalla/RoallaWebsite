@@ -35,6 +35,7 @@ function ResourcesPortalContent() {
   const [isLoading, setIsLoading] = useState(true)
   const [userEmail, setUserEmail] = useState<string | null>(null)
   const [accessToken, setAccessToken] = useState<string | null>(null)
+  const [sessionMode, setSessionMode] = useState(false)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -47,24 +48,27 @@ function ResourcesPortalContent() {
     const email = searchParams.get('email') || (typeof localStorage !== 'undefined' ? localStorage.getItem('resources_user_email') : null)
 
     if (token && email) {
-      verifyAccess(token, email)
+      verifyAccessToken(token, email)
     } else {
-      setIsLoading(false)
+      verifyAccessSession()
     }
   }, [mounted, searchParams])
 
-  const verifyAccess = async (token: string, email: string) => {
+  const verifyAccessToken = async (token: string, email: string) => {
     try {
       const response = await fetch(`/api/resources/verify-access?token=${token}&email=${encodeURIComponent(email)}`)
       if (response.ok) {
+        const data = await response.json()
         setIsAuthenticated(true)
-        setUserEmail(email)
+        setUserEmail(data.email || email)
         setAccessToken(token)
+        setSessionMode(false)
         localStorage.setItem('resources_access_token', token)
-        localStorage.setItem('resources_user_email', email)
+        localStorage.setItem('resources_user_email', data.email || email)
       } else {
         setIsAuthenticated(false)
         setAccessToken(null)
+        setSessionMode(false)
         localStorage.removeItem('resources_access_token')
         localStorage.removeItem('resources_user_email')
       }
@@ -76,11 +80,39 @@ function ResourcesPortalContent() {
     }
   }
 
+  const verifyAccessSession = async () => {
+    try {
+      const response = await fetch('/api/resources/verify-access?session=1', { credentials: 'include' })
+      if (response.ok) {
+        const data = await response.json()
+        setIsAuthenticated(true)
+        setUserEmail(data.email || null)
+        setAccessToken(null)
+        setSessionMode(true)
+        localStorage.removeItem('resources_access_token')
+        localStorage.removeItem('resources_user_email')
+      } else {
+        setIsAuthenticated(false)
+        setSessionMode(false)
+      }
+    } catch {
+      setIsAuthenticated(false)
+      setSessionMode(false)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   const handleLogout = () => {
     localStorage.removeItem('resources_access_token')
     localStorage.removeItem('resources_user_email')
     setAccessToken(null)
-    router.push('/resources/request')
+    setSessionMode(false)
+    if (sessionMode) {
+      router.push('/admin/portal')
+    } else {
+      router.push('/resources/request')
+    }
   }
 
   const [portalContent, setPortalContent] = useState<PortalContentItem[]>([])
@@ -101,12 +133,13 @@ function ResourcesPortalContent() {
   const fetchContent = useCallback(() => {
     const token = accessToken || (typeof localStorage !== 'undefined' ? localStorage.getItem('resources_access_token') : null)
     const email = userEmail || (typeof localStorage !== 'undefined' ? localStorage.getItem('resources_user_email') : null)
-    if (!token || !email) return
+    const useSession = sessionMode
+    if (!useSession && (!token || !email)) return
     const orgSlug = searchParams.get('org')?.trim() || ''
-    const params = new URLSearchParams({ token, email })
+    const params = useSession ? new URLSearchParams({ session: '1' }) : new URLSearchParams({ token: token!, email: email! })
     if (orgSlug) params.set('org', orgSlug)
     const url = `/api/resources/portal/content?${params.toString()}`
-    fetch(url)
+    fetch(url, { credentials: useSession ? 'include' : undefined })
       .then((res) => (res.ok ? res.json() : { resources: [], articles: [] }))
       .then((data) => {
         const resources = data.resources || []
@@ -152,19 +185,18 @@ function ResourcesPortalContent() {
         setPortalOrgName(null)
       })
       .finally(() => setContentLoaded(true))
-  }, [accessToken, userEmail, searchParams])
+  }, [accessToken, userEmail, sessionMode, searchParams])
 
   useEffect(() => {
-    if (!isAuthenticated || !accessToken || !userEmail) return
+    if (!isAuthenticated) return
+    if (!sessionMode && (!accessToken || !userEmail)) return
     let cancelled = false
     setContentLoaded(false)
-    const token = accessToken
-    const email = userEmail
     const orgSlug = searchParams.get('org')?.trim() || ''
-    const params = new URLSearchParams({ token, email })
+    const params = sessionMode ? new URLSearchParams({ session: '1' }) : new URLSearchParams({ token: accessToken!, email: userEmail! })
     if (orgSlug) params.set('org', orgSlug)
     const url = `/api/resources/portal/content?${params.toString()}`
-    fetch(url)
+    fetch(url, { credentials: sessionMode ? 'include' : undefined })
       .then((res) => (res.ok ? res.json() : { resources: [], articles: [] }))
       .then((data) => {
         if (cancelled) return
@@ -216,7 +248,7 @@ function ResourcesPortalContent() {
         if (!cancelled) setContentLoaded(true)
       })
     return () => { cancelled = true }
-  }, [isAuthenticated, accessToken, userEmail, searchParams])
+  }, [isAuthenticated, accessToken, userEmail, sessionMode, searchParams])
 
   const handleRedeemCode = async () => {
     const code = redeemCode.trim().toUpperCase()
@@ -226,17 +258,19 @@ function ResourcesPortalContent() {
     }
     const token = accessToken || (typeof localStorage !== 'undefined' ? localStorage.getItem('resources_access_token') : null)
     const email = userEmail || (typeof localStorage !== 'undefined' ? localStorage.getItem('resources_user_email') : null)
-    if (!token || !email) {
+    if (!sessionMode && (!token || !email)) {
       setRedeemStatus({ type: 'error', message: 'Session missing. Please refresh and try again.' })
       return
     }
     setRedeemLoading(true)
     setRedeemStatus(null)
     try {
+      const body = sessionMode ? { code, session: true } : { code, token, email }
       const res = await fetch('/api/resources/portal/redeem', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code, token, email }),
+        body: JSON.stringify(body),
+        credentials: sessionMode ? 'include' : undefined,
       })
       const data = await res.json().catch(() => ({}))
       if (res.ok && data.success) {
@@ -254,6 +288,9 @@ function ResourcesPortalContent() {
   }
 
   const getFileUrl = (resourceId: string, disposition: 'inline' | 'attachment') => {
+    if (sessionMode) {
+      return `/api/resources/portal/file/${resourceId}?session=1&disposition=${disposition}`
+    }
     const token = accessToken || (typeof localStorage !== 'undefined' ? localStorage.getItem('resources_access_token') : null)
     const email = userEmail || (typeof localStorage !== 'undefined' ? localStorage.getItem('resources_user_email') : null)
     if (!token || !email) return '#'
@@ -262,6 +299,12 @@ function ResourcesPortalContent() {
   }
 
   const getOutUrl = (item: { id: string; linkSource?: 'resource' | 'article' }) => {
+    if (sessionMode) {
+      const params = new URLSearchParams({ session: '1' })
+      if (item.linkSource === 'resource') params.set('resourceId', item.id)
+      else params.set('articleId', item.id)
+      return `/api/resources/portal/out?${params.toString()}`
+    }
     const token = accessToken || (typeof localStorage !== 'undefined' ? localStorage.getItem('resources_access_token') : null)
     const email = userEmail || (typeof localStorage !== 'undefined' ? localStorage.getItem('resources_user_email') : null)
     if (!token || !email) return '#'

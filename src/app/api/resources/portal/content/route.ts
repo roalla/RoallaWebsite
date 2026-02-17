@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import {
-  verifyPortalViewer,
+  verifyPortalViewerFromRequest,
   canSeeResource,
   canSeeArticle,
 } from '@/lib/portal-access'
@@ -13,10 +13,8 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const orgSlug = searchParams.get('org')?.trim() || null
-    const token = searchParams.get('token')?.trim() || null
-    const email = searchParams.get('email')?.trim() || null
 
-    const verified = await verifyPortalViewer(token, email)
+    const verified = await verifyPortalViewerFromRequest(request)
     if ('error' in verified) {
       return NextResponse.json({ error: verified.error }, { status: verified.status })
     }

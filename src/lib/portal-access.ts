@@ -1,7 +1,12 @@
 /**
  * Portal access: verify token+email and compute which resource/article IDs the user can see.
  * Used by portal content API and file serving.
+ * Also supports session-based access for admins and partners (view portal when logged in).
  */
+import type { NextRequest } from 'next/server'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
+import { canAccessAdmin } from '@/lib/access'
 import { prisma } from '@/lib/prisma'
 
 export interface PortalViewer {
@@ -74,6 +79,44 @@ export async function verifyPortalViewer(
     bundleArticleIds,
   }
   return { viewer }
+}
+
+/** For admins/partners: verify via session instead of token. Returns full-access viewer. */
+export async function verifyPortalViewerFromSession(): Promise<
+  { viewer: PortalViewer } | { error: string; status: number }
+> {
+  const session = await getServerSession(authOptions)
+  if (!session?.user?.email || !canAccessAdmin(session.user)) {
+    return { error: 'Unauthorized', status: 401 }
+  }
+  const email = session.user.email.toLowerCase()
+  const viewer: PortalViewer = {
+    email,
+    fullAccess: true,
+    grantedResourceIds: new Set(),
+    grantedArticleIds: new Set(),
+    bundleResourceIds: new Set(),
+    bundleArticleIds: new Set(),
+  }
+  return { viewer }
+}
+
+/** Verify portal viewer from token+email OR session. Session works for admin/partner. */
+export async function verifyPortalViewerFromRequest(
+  request: NextRequest
+): Promise<{ viewer: PortalViewer } | { error: string; status: number }> {
+  const { searchParams } = new URL(request.url)
+  const token = searchParams.get('token')?.trim() || null
+  const email = searchParams.get('email')?.trim() || null
+  const useSession = searchParams.get('session') === '1'
+
+  if (token && email && !useSession) {
+    return verifyPortalViewer(token, email)
+  }
+  if (useSession) {
+    return verifyPortalViewerFromSession()
+  }
+  return { error: 'Token and email are required', status: 400 }
 }
 
 /** User can see this resource if: not locked, or has full access, or has grant, or in redeemed bundle */

@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
+import { canAccessAdmin } from '@/lib/access'
 import { prisma } from '@/lib/prisma'
 
 export const dynamic = 'force-dynamic'
@@ -8,6 +11,22 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams
     const token = searchParams.get('token')
     const email = searchParams.get('email')
+    const useSession = searchParams.get('session') === '1'
+
+    if (useSession && !token) {
+      const session = await getServerSession(authOptions)
+      if (session?.user?.email && canAccessAdmin(session.user)) {
+        return NextResponse.json({
+          authenticated: true,
+          email: session.user.email,
+          session: true,
+        })
+      }
+      return NextResponse.json(
+        { error: 'Not logged in as admin or partner' },
+        { status: 401 }
+      )
+    }
 
     if (!token || !email) {
       return NextResponse.json(
@@ -16,19 +35,18 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Find matching access request in database
     const accessRequest = await prisma.accessRequest.findFirst({
       where: {
-        token: token,
+        token,
         email: email.toLowerCase(),
-        status: 'approved'
-      }
+        status: 'approved',
+      },
     })
 
     if (accessRequest) {
       return NextResponse.json({
         authenticated: true,
-        email: email
+        email,
       })
     }
 

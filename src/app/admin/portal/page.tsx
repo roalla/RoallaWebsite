@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { FileText, Link2, Users, Gift, ChevronDown, ChevronUp, HelpCircle, Lightbulb } from 'lucide-react'
+import { FileText, Link2, Users, Gift, ChevronDown, ChevronUp, HelpCircle, Lightbulb, Eye } from 'lucide-react'
 
 const GUIDE_STORAGE_KEY = 'admin-portal-guide-open'
 
@@ -139,6 +139,21 @@ export default function AdminPortalPage() {
             </p>
           </div>
         )}
+      </div>
+
+      <div className="mb-6">
+        <Link
+          href="/resources/portal"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg font-medium hover:border-primary/30 text-gray-700"
+        >
+          <Eye className="w-4 h-4" />
+          View portal
+        </Link>
+        <p className="text-sm text-gray-500 mt-2">
+          Admins and partners can view the Resources Portal when logged in. Business users need an approved access request and the link from their approval email.
+        </p>
       </div>
 
       {/* Section label */}

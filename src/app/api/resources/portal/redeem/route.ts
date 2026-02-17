@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { verifyPortalViewer } from '@/lib/portal-access'
+import { verifyPortalViewer, verifyPortalViewerFromSession } from '@/lib/portal-access'
 
 export const dynamic = 'force-dynamic'
 
@@ -10,11 +10,17 @@ export async function POST(request: NextRequest) {
     const code = typeof body.code === 'string' ? body.code.trim().toUpperCase() : ''
     const token = typeof body.token === 'string' ? body.token.trim() : null
     const email = typeof body.email === 'string' ? body.email.trim() : null
+    const useSession = body.session === true
 
     if (!code) {
       return NextResponse.json({ error: 'Code is required' }, { status: 400 })
     }
-    const verified = await verifyPortalViewer(token, email)
+    if (!useSession && (!token || !email)) {
+      return NextResponse.json({ error: 'Token and email are required' }, { status: 400 })
+    }
+    const verified = useSession
+      ? await verifyPortalViewerFromSession()
+      : await verifyPortalViewer(token!, email!)
     if ('error' in verified) {
       return NextResponse.json({ error: verified.error }, { status: verified.status })
     }

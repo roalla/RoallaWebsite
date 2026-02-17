@@ -24,9 +24,9 @@ export function canAccessAdmin(user: SessionUser | null | undefined): boolean {
   return roles.includes('admin') || roles.includes('partner')
 }
 
-/** Can manage portal content (resources + links): view, create, edit. Delete is separate. */
+/** Can manage portal content (resources + links): view, create, edit. Admins and partners only; business users cannot add content. */
 export function canManagePortal(user: SessionUser | null | undefined): boolean {
-  return canAccessAdmin(user)
+  return isAdmin(user) || isPartner(user)
 }
 
 /** Only admins may delete portal items (resources/links). */

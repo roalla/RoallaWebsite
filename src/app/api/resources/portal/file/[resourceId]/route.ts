@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { verifyPortalViewer, canSeeResource } from '@/lib/portal-access'
+import { verifyPortalViewerFromRequest, canSeeResource } from '@/lib/portal-access'
 import path from 'path'
 import fs from 'fs'
 
@@ -16,11 +16,9 @@ export async function GET(
       return NextResponse.json({ error: 'Resource ID required' }, { status: 400 })
     }
     const { searchParams } = new URL(request.url)
-    const token = searchParams.get('token')?.trim() || null
-    const email = searchParams.get('email')?.trim() || null
     const disposition = searchParams.get('disposition') === 'attachment' ? 'attachment' : 'inline'
 
-    const verified = await verifyPortalViewer(token, email)
+    const verified = await verifyPortalViewerFromRequest(request)
     if ('error' in verified) {
       return NextResponse.json({ error: verified.error }, { status: verified.status })
     }

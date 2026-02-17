@@ -317,7 +317,7 @@
     "backToHome": "Back to home",
     "signIn": "Sign in",
     "accessDashboard": "Access the admin dashboard",
-    "oauthErrorMicrosoft": "Microsoft or Apple sign-in failed. Microsoft: In Azure Portal → Certificates & secrets, create a new client secret, copy its Value (not Secret ID), set AZURE_AD_CLIENT_SECRET in Railway. Apple: APPLE_SECRET expires every 6 months—run npm run gen-apple-secret and update Railway.",
+    "oauthErrorMicrosoft": "Microsoft or Apple sign-in failed. Check: (1) Redirect URI in Azure/Apple matches your app URL + /api/auth/callback/azure-ad or /api/auth/callback/apple; (2) AUTH_TRUST_HOST=true and NEXTAUTH_URL in Railway. To see the real error: set NEXTAUTH_DEBUG=1 in Railway, retry sign-in, then check Railway logs.",
     "email": "Email",
     "password": "Password",
     "signInButton": "Sign in",

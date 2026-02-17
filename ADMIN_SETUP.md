@@ -96,6 +96,12 @@ If **Google** sign-in works but **Microsoft** or **Apple** do not, check each pr
    - Add: `openid`, `profile`, `email`, `User.Read` (Delegated)
    - Grant admin consent if required
 
+4. **Secret correct but still fails?** Common causes:
+   - **Redirect URI mismatch** – In Azure → Authentication, ensure the redirect URI matches exactly: `{NEXTAUTH_URL}/api/auth/callback/azure-ad` (e.g. `https://www.roalla.com/api/auth/callback/azure-ad`)
+   - **`AUTH_TRUST_HOST=true`** – Required in Railway when using a proxy (Railway sets this automatically in most cases, but check if missing)
+   - **`NEXTAUTH_URL`** – Must match your public site URL (e.g. `https://www.roalla.com`) with no trailing slash
+   - Run with **`NEXTAUTH_DEBUG=1`** in Railway, retry sign-in, and check Railway logs for the real error
+
 ### Apple
 
 1. **APPLE_SECRET expires** (Apple's JWT is valid for up to 6 months):

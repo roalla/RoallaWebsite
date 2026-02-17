@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useCallback, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { useRouter } from '@/i18n/navigation'
+import { useLocale } from 'next-intl'
 import { motion } from 'framer-motion'
 import { FileText, Download, BookOpen, TrendingUp, BarChart3, Lightbulb, Lock, LogOut, Eye, X, Gift, Link2 } from 'lucide-react'
 import { Link as IntlLink } from '@/i18n/navigation'
@@ -30,7 +30,7 @@ interface PortalContentItem {
 
 function ResourcesPortalContent() {
   const searchParams = useSearchParams()
-  const router = useRouter()
+  const locale = useLocale()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [userEmail, setUserEmail] = useState<string | null>(null)
@@ -108,11 +108,9 @@ function ResourcesPortalContent() {
     localStorage.removeItem('resources_user_email')
     setAccessToken(null)
     setSessionMode(false)
-    if (sessionMode) {
-      router.push('/admin/portal')
-    } else {
-      router.push('/resources/request')
-    }
+    const target =
+      sessionMode ? '/admin/portal' : `/${locale}/resources/request`
+    window.location.href = target
   }
 
   const [portalContent, setPortalContent] = useState<PortalContentItem[]>([])

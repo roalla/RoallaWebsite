@@ -11,11 +11,11 @@ import ScheduleButton from './CalendlyButton'
 const toolIcons = [Sparkles, Zap, Lightbulb] as const
 const toolImageUrls = ['/advisory-board-match.jpg', '/soaring-puck.jpg', '/true-north-audit.jpg'] as const
 const toolImageAlts = [
-  'Advisory Board Match platform showing Coffee Break feature and dashboard interface',
+  'The Business Cocoon platform showing Coffee Break feature and dashboard interface',
   'Soaring Puck dashboard showing team management, player tracking, and operational tools interface',
   'True North Audit AI-powered platform landing page showing enterprise-grade infrastructure security and compliance features',
 ]
-const tryUrls = ['https://www.advisoryboardmatch.com', 'https://www.soaringpuck.com', 'https://www.truenorthaudit.com'] as const
+const tryUrls = ['https://www.businesscocoon.com', 'https://www.soaringpuck.com', 'https://www.truenorthaudit.com'] as const
 
 const DigitalCreations = () => {
   const t = useTranslations('digitalCreations')

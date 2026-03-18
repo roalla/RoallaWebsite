@@ -100,7 +100,7 @@ export default function HomeHero() {
           <div className="absolute -inset-[1px] rounded-[13px] bg-gradient-to-br from-primary/40 to-primary-dark/20 p-[1px] shadow-[0_0_30px_rgba(0,180,197,0.15)]">
             <div className="relative w-full h-full rounded-xl overflow-hidden bg-black shadow-inner">
               <iframe
-                src="https://www.youtube-nocookie.com/embed/UmrQDUiLLYY?autoplay=1&mute=1&loop=1&playlist=UmrQDUiLLYY&rel=0&controls=0"
+                src="https://www.youtube-nocookie.com/embed/daMDqDodumw?autoplay=1&mute=1&loop=1&playlist=daMDqDodumw&rel=0&controls=0"
                 title="ROALLA intro video"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen

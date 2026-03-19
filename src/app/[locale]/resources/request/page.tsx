@@ -202,12 +202,12 @@ export default function RequestAccessPage() {
             ) : isAuthenticated ? (
               <form onSubmit={handleSubmitAuthenticated} className="space-y-6">
                 <div className="text-center mb-6">
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-300">
                     Complete your details to finalize your Resource Centre access request.
                   </p>
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-semibold text-gray-300 mb-2">Email</label>
+                  <label htmlFor="email" className="block text-sm font-semibold text-white mb-2">Email</label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                     <input
@@ -218,45 +218,45 @@ export default function RequestAccessPage() {
                       className="w-full pl-10 pr-4 py-3 border border-white/20 rounded-lg bg-black/50 text-gray-300"
                     />
                   </div>
-                  <p className="mt-1 text-xs text-gray-500">This is the account you signed in with.</p>
+                  <p className="mt-1 text-xs text-gray-400">This is the account you signed in with.</p>
                 </div>
                 <div>
-                  <label htmlFor="name" className="block text-sm font-semibold text-gray-300 mb-2">Full Name <span className="text-red-400">*</span></label>
+                  <label htmlFor="name" className="block text-sm font-semibold text-white mb-2">Full Name <span className="text-red-400">*</span></label>
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
                     <input
                       type="text"
                       id="name"
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      className="w-full pl-10 pr-4 py-3 border border-white/20 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-transparent"
                       placeholder="John Doe"
                     />
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="company" className="block text-sm font-semibold text-gray-900 mb-2">Company Name</label>
+                  <label htmlFor="company" className="block text-sm font-semibold text-white mb-2">Company Name</label>
                   <div className="relative">
-                    <Building2 className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <Building2 className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
                     <input
                       type="text"
                       id="company"
                       value={formData.company}
                       onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      className="w-full pl-10 pr-4 py-3 border border-white/20 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-transparent"
                       placeholder="Your Company"
                     />
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="reason" className="block text-sm font-semibold text-gray-900 mb-2">How will you use these resources?</label>
+                  <label htmlFor="reason" className="block text-sm font-semibold text-white mb-2">How will you use these resources?</label>
                   <textarea
                     id="reason"
                     rows={4}
                     value={formData.reason}
                     onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+                    className="w-full px-4 py-3 border border-white/20 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
                     placeholder="Tell us about your business needs and how these resources will help you..."
                   />
                 </div>
@@ -280,7 +280,7 @@ export default function RequestAccessPage() {
                     'Submit Request'
                   )}
                 </button>
-                <p className="text-sm text-gray-600 text-center">
+                <p className="text-sm text-gray-300 text-center">
                   By requesting access, you agree to our terms of service and privacy policy.
                 </p>
               </form>
@@ -290,8 +290,8 @@ export default function RequestAccessPage() {
                   <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-3">
                     <LogIn className="w-6 h-6 text-primary" />
                   </div>
-                  <h2 className="text-xl font-bold text-gray-900 mb-1">Sign in to create your account and request access</h2>
-                  <p className="text-sm text-gray-600">
+                  <h2 className="text-xl font-bold text-white mb-1">Sign in to create your account and request access</h2>
+                  <p className="text-sm text-gray-300">
                     Use Google, Microsoft, or Apple to register and request access in one step.
                   </p>
                 </div>
@@ -347,11 +347,11 @@ export default function RequestAccessPage() {
                   </Link>
                 </p>
 
-                <div className="mt-6 pt-6 border-t border-gray-200">
+                <div className="mt-6 pt-6 border-t border-white/20">
                   <button
                     type="button"
                     onClick={() => setShowEmailForm(!showEmailForm)}
-                    className="flex items-center justify-center gap-2 w-full text-sm text-gray-500 hover:text-gray-700"
+                    className="flex items-center justify-center gap-2 w-full text-sm text-gray-400 hover:text-white"
                   >
                     {showEmailForm ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                     {showEmailForm ? 'Hide' : 'Prefer not to sign in?'} Request access by email
@@ -377,51 +377,51 @@ export default function RequestAccessPage() {
                           />
                         </div>
                         <div>
-                        <label htmlFor="guest-email" className="block text-sm font-semibold text-gray-900 mb-2">Email Address <span className="text-red-500">*</span></label>
+                        <label htmlFor="guest-email" className="block text-sm font-semibold text-white mb-2">Email Address <span className="text-red-400">*</span></label>
                         <div className="relative">
-                          <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                          <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
                           <input
                             type="email"
                             id="guest-email"
                             required
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            className="w-full pl-10 pr-4 py-3 border border-white/20 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-transparent"
                             placeholder="your.email@example.com"
                           />
                         </div>
                       </div>
                       <div>
-                        <label htmlFor="guest-name" className="block text-sm font-semibold text-gray-900 mb-2">Full Name <span className="text-red-500">*</span></label>
+                        <label htmlFor="guest-name" className="block text-sm font-semibold text-white mb-2">Full Name <span className="text-red-400">*</span></label>
                         <input
                           type="text"
                           id="guest-name"
                           required
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                          className="w-full px-4 py-3 border border-white/20 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-transparent"
                           placeholder="John Doe"
                         />
                       </div>
                       <div>
-                        <label htmlFor="guest-company" className="block text-sm font-semibold text-gray-900 mb-2">Company Name</label>
+                        <label htmlFor="guest-company" className="block text-sm font-semibold text-white mb-2">Company Name</label>
                         <input
                           type="text"
                           id="guest-company"
                           value={formData.company}
                           onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                          className="w-full px-4 py-3 border border-white/20 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-transparent"
                           placeholder="Your Company"
                         />
                       </div>
                       <div>
-                        <label htmlFor="guest-reason" className="block text-sm font-semibold text-gray-900 mb-2">How will you use these resources?</label>
+                        <label htmlFor="guest-reason" className="block text-sm font-semibold text-white mb-2">How will you use these resources?</label>
                         <textarea
                           id="guest-reason"
                           rows={3}
                           value={formData.reason}
                           onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+                          className="w-full px-4 py-3 border border-white/20 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
                           placeholder="Tell us about your business needs..."
                         />
                       </div>

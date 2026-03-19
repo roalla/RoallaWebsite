@@ -11,7 +11,7 @@ import ScheduleButton from './CalendlyButton'
 const toolIcons = [Sparkles, Zap, Lightbulb] as const
 const toolImageUrls = ['/advisory-board-match.jpg', '/soaring-puck.jpg', '/true-north-audit.jpg'] as const
 const toolImageAlts = [
-  'The Business Cocoon platform showing Coffee Break feature and dashboard interface',
+  'The Business Cocoon platform showing tools, verified advisors, and dashboard interface',
   'Soaring Puck dashboard showing team management, player tracking, and operational tools interface',
   'True North Audit AI-powered platform landing page showing enterprise-grade infrastructure security and compliance features',
 ]

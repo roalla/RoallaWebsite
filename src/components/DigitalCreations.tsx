@@ -13,7 +13,7 @@ const toolImageUrls = [
   '/advisory-board-match.jpg',
   '/soaring-puck.jpg',
   '/true-north-audit.jpg',
-  'https://www.keneffect.com/opengraph-image',
+  '/Keneffectsite.jpg',
 ] as const
 const toolImageAlts = [
   'The Business Cocoon platform showing tools, verified advisors, and dashboard interface',

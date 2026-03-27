@@ -150,26 +150,34 @@ const DigitalCreations = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-primary via-primary-dark to-primary rounded-2xl p-10 md:p-16 text-center shadow-2xl relative"
+          className="bg-gradient-to-br from-primary via-primary-dark to-[#0B1320] rounded-2xl p-10 md:p-16 text-center shadow-[0_25px_80px_rgba(0,0,0,0.55)] relative border border-white/20 ring-1 ring-primary/40 overflow-hidden"
         >
+          <div className="pointer-events-none absolute -top-24 -right-16 w-72 h-72 rounded-full bg-white/20 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 -left-16 w-72 h-72 rounded-full bg-primary/30 blur-3xl" />
           <div className="absolute inset-x-0 top-0 h-px rounded-t-2xl bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-          <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            {t('ctaTitle')}
-          </h3>
-          <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
-            {t('ctaSubtitle')}
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <ScheduleButton variant="secondary" size="lg" className="bg-white text-primary hover:bg-white/90 hover:scale-[1.02] transition-transform duration-300">
-              {t('scheduleCall')}
-            </ScheduleButton>
-            <a
-              href="mailto:sales@roalla.com"
-              className="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 border-2 border-white/30 hover:border-white/50 hover:scale-[1.02]"
-            >
-              {t('contactUs')}
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </a>
+          <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          <div className="relative z-10">
+            <span className="inline-flex items-center rounded-full border border-white/30 bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white mb-4">
+              Built with clients
+            </span>
+            <h3 className="text-3xl md:text-5xl font-extrabold text-white mb-4 drop-shadow-sm">
+              {t('ctaTitle')}
+            </h3>
+            <p className="text-xl text-white/95 mb-8 max-w-3xl mx-auto">
+              {t('ctaSubtitle')}
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <ScheduleButton variant="secondary" size="lg" className="bg-white text-primary hover:bg-white/90 hover:scale-[1.03] transition-transform duration-300 shadow-2xl ring-1 ring-white/40">
+                {t('scheduleCall')}
+              </ScheduleButton>
+              <a
+                href="mailto:sales@roalla.com"
+                className="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 border-2 border-white/30 hover:border-white/50 hover:scale-[1.03]"
+              >
+                {t('contactUs')}
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </a>
+            </div>
           </div>
         </motion.div>
       </div>

@@ -206,31 +206,39 @@ const Services = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-primary via-primary-dark to-primary rounded-2xl p-10 md:p-16 mt-20 text-center shadow-2xl relative"
+          className="bg-gradient-to-br from-primary via-primary-dark to-[#0B1320] rounded-2xl p-10 md:p-16 mt-20 text-center shadow-[0_25px_80px_rgba(0,0,0,0.55)] relative border border-white/20 ring-1 ring-primary/40 overflow-hidden"
         >
+          <div className="pointer-events-none absolute -top-24 -right-16 w-72 h-72 rounded-full bg-white/20 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 -left-16 w-72 h-72 rounded-full bg-primary/30 blur-3xl" />
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-          <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            {t('ctaTitle')}
-          </h3>
-          <p className="text-xl text-white/90 mb-6 max-w-2xl mx-auto">
-            {t('ctaSubtitle')}
-          </p>
-          <p className="text-sm text-white/85 mb-8 max-w-2xl mx-auto">
-            {t('ctaQualifier')}
-          </p>
-          <ScheduleButton variant="secondary" size="lg" className="bg-white text-primary hover:bg-white/90 hover:scale-[1.02] transition-transform duration-300">
-            {t('ctaButton')}
-          </ScheduleButton>
-          <p className="mt-6 text-sm text-white/80">
-            <Link href="/assessment" className="underline hover:text-white">
-              {t('ctaAssessment')}
-            </Link>
-          </p>
-          <p className="mt-3 text-xs text-white/70">
-            <Link href="/trust" className="underline hover:text-white">
-              {t('confidentialityLink')}
-            </Link>
-          </p>
+          <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          <div className="relative z-10">
+            <span className="inline-flex items-center rounded-full border border-white/30 bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white mb-4">
+              Executive planning
+            </span>
+            <h3 className="text-3xl md:text-5xl font-extrabold text-white mb-4 drop-shadow-sm">
+              {t('ctaTitle')}
+            </h3>
+            <p className="text-xl text-white/95 mb-6 max-w-2xl mx-auto">
+              {t('ctaSubtitle')}
+            </p>
+            <p className="text-sm text-white/90 mb-8 max-w-2xl mx-auto">
+              {t('ctaQualifier')}
+            </p>
+            <ScheduleButton variant="secondary" size="lg" className="bg-white text-primary hover:bg-white/90 hover:scale-[1.03] transition-transform duration-300 shadow-2xl ring-1 ring-white/40">
+              {t('ctaButton')}
+            </ScheduleButton>
+            <p className="mt-6 text-sm text-white/85">
+              <Link href="/assessment" className="underline hover:text-white">
+                {t('ctaAssessment')}
+              </Link>
+            </p>
+            <p className="mt-3 text-xs text-white/75">
+              <Link href="/trust" className="underline hover:text-white">
+                {t('confidentialityLink')}
+              </Link>
+            </p>
+          </div>
         </motion.div>
       </div>
     </section>

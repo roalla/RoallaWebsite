@@ -31,10 +31,10 @@ const tryUrls = [
 const DigitalCreations = () => {
   const t = useTranslations('digitalCreations')
   const tools = [
-    { name: t('t0Name'), desc: t('t0Desc'), bullets: [t('t0B1'), t('t0B2'), t('t0B3')], icon: toolIcons[0], imageUrl: toolImageUrls[0], imageAlt: toolImageAlts[0], tryUrl: tryUrls[0] },
-    { name: t('t1Name'), desc: t('t1Desc'), bullets: [t('t1B1'), t('t1B2'), t('t1B3')], icon: toolIcons[1], imageUrl: toolImageUrls[1], imageAlt: toolImageAlts[1], tryUrl: tryUrls[1] },
-    { name: t('t2Name'), desc: t('t2Desc'), bullets: [t('t2B1'), t('t2B2'), t('t2B3')], icon: toolIcons[2], imageUrl: toolImageUrls[2], imageAlt: toolImageAlts[2], tryUrl: tryUrls[2] },
-    { name: t('t3Name'), desc: t('t3Desc'), bullets: [t('t3B1'), t('t3B2'), t('t3B3')], icon: toolIcons[3], imageUrl: toolImageUrls[3], imageAlt: toolImageAlts[3], tryUrl: tryUrls[3] },
+    { name: t('t0Name'), desc: t('t0Desc'), bullets: [t('t0B1'), t('t0B2'), t('t0B3')], caseStudy: t('t0CaseStudy'), icon: toolIcons[0], imageUrl: toolImageUrls[0], imageAlt: toolImageAlts[0], tryUrl: tryUrls[0] },
+    { name: t('t1Name'), desc: t('t1Desc'), bullets: [t('t1B1'), t('t1B2'), t('t1B3')], caseStudy: t('t1CaseStudy'), icon: toolIcons[1], imageUrl: toolImageUrls[1], imageAlt: toolImageAlts[1], tryUrl: tryUrls[1] },
+    { name: t('t2Name'), desc: t('t2Desc'), bullets: [t('t2B1'), t('t2B2'), t('t2B3')], caseStudy: t('t2CaseStudy'), icon: toolIcons[2], imageUrl: toolImageUrls[2], imageAlt: toolImageAlts[2], tryUrl: tryUrls[2] },
+    { name: t('t3Name'), desc: t('t3Desc'), bullets: [t('t3B1'), t('t3B2'), t('t3B3')], caseStudy: t('t3CaseStudy'), icon: toolIcons[3], imageUrl: toolImageUrls[3], imageAlt: toolImageAlts[3], tryUrl: tryUrls[3] },
   ]
 
   return (
@@ -121,7 +121,7 @@ const DigitalCreations = () => {
                   ))}
                 </ul>
 
-                <p className="text-xs text-primary/80 mb-4 italic">{t('caseStudy')}</p>
+                <p className="text-xs text-primary/80 mb-4 italic">{tool.caseStudy}</p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <a
                     href={tool.tryUrl}

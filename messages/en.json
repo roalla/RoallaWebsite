@@ -259,7 +259,10 @@
     "t3B1": "Built for booking, programs, and attendee sign-in in one cohesive experience",
     "t3B2": "Speaking, events, and media hub with practical resources for leaders, parents, and athletes",
     "t3B3": "Corporate credibility with youth-friendly warmth—aligned with Laurier, Golden Hawks, and Halton-region roots",
-    "caseStudy": "Clients report measurable improvements in clarity and execution speed."
+    "t0CaseStudy": "Launch faster with verified advisors, AI matching, and practical tools that turn strategy into traction.",
+    "t1CaseStudy": "Accelerate growth with a proven operating system that sharpens focus, execution speed, and team accountability.",
+    "t2CaseStudy": "Get executive-level clarity in minutes with a strategic audit that surfaces risks, priorities, and next-best actions.",
+    "t3CaseStudy": "Convert more attention into bookings with a high-trust brand experience built to drive speaker and program demand."
   },
   "faq": {
     "title": "Frequently Asked Questions",

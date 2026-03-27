@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useToast } from '@/components/Toast'
 import { Unlock, Lock, Loader2, UserPlus, Upload, X, CheckCircle, XCircle } from 'lucide-react'
+import { extractAccessCodeFromStoredReason, extractRequestReasonLabelFromStoredReason } from '@/lib/request-reasons'
 
 const BULK_ADD_MAX = 100
 
@@ -13,6 +14,7 @@ interface AccessRequestRow {
   email: string
   name: string
   company: string | null
+  reason?: string | null
   fullAccess: boolean
   grantResourceIds: string[]
   grantArticleIds: string[]
@@ -44,6 +46,27 @@ const TABS = [
   { key: 'approved', label: 'Approved' },
   { key: 'rejected', label: 'Rejected' },
 ] as const
+
+function RequestReasonBadges({ reason }: { reason?: string | null }) {
+  const requestReasonLabel = extractRequestReasonLabelFromStoredReason(reason)
+  const accessCode = extractAccessCodeFromStoredReason(reason)
+  if (!requestReasonLabel && !accessCode) return null
+
+  return (
+    <div className="flex flex-wrap gap-1.5 mt-1">
+      {requestReasonLabel && (
+        <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700">
+          {requestReasonLabel}
+        </span>
+      )}
+      {accessCode && (
+        <span className="inline-flex items-center rounded-full bg-purple-50 px-2 py-0.5 text-xs font-medium text-purple-700">
+          Code: {accessCode}
+        </span>
+      )}
+    </div>
+  )
+}
 
 export default function AdminPortalAccessPage() {
   const router = useRouter()
@@ -499,6 +522,7 @@ export default function AdminPortalAccessPage() {
               <div>
                 <div className="font-medium text-gray-900">{req.email}</div>
                 <div className="text-sm text-gray-500">{req.name}{req.company && ` · ${req.company}`}</div>
+                <RequestReasonBadges reason={req.reason} />
                 {req.createdAt && (
                   <div className="text-xs text-gray-400 mt-0.5">Requested {formatRequestDate(req.createdAt)}</div>
                 )}
@@ -533,6 +557,7 @@ export default function AdminPortalAccessPage() {
               <div>
                 <div className="font-medium text-gray-900">{req.email}</div>
                 <div className="text-sm text-gray-500">{req.name}{req.company && ` · ${req.company}`}</div>
+                <RequestReasonBadges reason={req.reason} />
                 {req.createdAt && (
                   <div className="text-xs text-gray-400 mt-0.5">Requested {formatRequestDate(req.createdAt)}</div>
                 )}
@@ -564,6 +589,7 @@ export default function AdminPortalAccessPage() {
                         {req.name}
                         {req.company && ` · ${req.company}`}
                       </div>
+                      <RequestReasonBadges reason={req.reason} />
                       {req.createdAt && (
                         <div className="text-xs text-gray-400 mt-0.5">Added {formatRequestDate(req.createdAt)}</div>
                       )}

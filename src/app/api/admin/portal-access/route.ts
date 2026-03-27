@@ -18,7 +18,7 @@ export async function GET() {
       prisma.accessRequest.findMany({
         where: admin ? undefined : { status: 'approved' },
         orderBy: { createdAt: 'desc' },
-        select: { id: true, email: true, name: true, company: true, fullAccess: true, status: true, createdAt: true },
+        select: { id: true, email: true, name: true, company: true, reason: true, fullAccess: true, status: true, createdAt: true },
       }),
       prisma.portalResource.findMany({
         orderBy: { sortOrder: 'asc' },
@@ -61,6 +61,7 @@ export async function GET() {
         email: r.email,
         name: r.name,
         company: r.company,
+        reason: r.reason,
         fullAccess: r.fullAccess ?? false,
         grantResourceIds: grants.resourceIds,
         grantArticleIds: grants.articleIds,

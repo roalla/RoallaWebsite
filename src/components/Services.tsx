@@ -25,6 +25,32 @@ const serviceAnchors = [
   'innovation',
   'digital',
 ] as const
+const serviceAccentStyles = [
+  {
+    bar: 'from-cyan-400 to-cyan-600',
+    iconWrap: 'from-cyan-400/25 to-cyan-600/25 ring-cyan-300/30',
+    icon: 'text-cyan-300',
+    ideal: 'text-cyan-100 bg-cyan-500/15 border-cyan-300/30',
+  },
+  {
+    bar: 'from-emerald-400 to-emerald-600',
+    iconWrap: 'from-emerald-400/25 to-emerald-600/25 ring-emerald-300/30',
+    icon: 'text-emerald-300',
+    ideal: 'text-emerald-100 bg-emerald-500/15 border-emerald-300/30',
+  },
+  {
+    bar: 'from-violet-400 to-violet-600',
+    iconWrap: 'from-violet-400/25 to-violet-600/25 ring-violet-300/30',
+    icon: 'text-violet-300',
+    ideal: 'text-violet-100 bg-violet-500/15 border-violet-300/30',
+  },
+  {
+    bar: 'from-amber-400 to-amber-600',
+    iconWrap: 'from-amber-400/25 to-amber-600/25 ring-amber-300/30',
+    icon: 'text-amber-300',
+    ideal: 'text-amber-100 bg-amber-500/15 border-amber-300/30',
+  },
+] as const
 
 const Services = () => {
   const t = useTranslations('services')
@@ -133,51 +159,63 @@ const Services = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
           {services.map((service, index) => (
-            <motion.div
-              key={service.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              id={service.anchor}
-              className="group bg-surface-card rounded-2xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-300 border border-white/10 hover:border-primary/30"
-            >
+            (() => {
+              const accent = serviceAccentStyles[index] ?? null
+              return (
+                <motion.div
+                  key={service.title}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -10, scale: 1.01, transition: { duration: 0.25 } }}
+                  id={service.anchor}
+                  className="group relative overflow-hidden bg-white/[0.06] rounded-2xl p-8 lg:p-9 shadow-xl hover:shadow-2xl transition-all duration-300 border border-white/20 hover:border-primary/50 flex flex-col min-h-[560px]"
+                >
+                  <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r opacity-90 ${accent?.bar ?? 'from-primary to-primary-dark'}`} />
               <div className="mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary/10 to-primary-dark/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <service.icon className="w-8 h-8 text-primary" />
+                    <div className={`w-16 h-16 bg-gradient-to-br ring-1 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300 ${accent?.iconWrap ?? 'from-primary/20 to-primary-dark/20 ring-primary/30'}`}>
+                      <service.icon className={`w-8 h-8 ${accent?.icon ?? 'text-primary'}`} />
+                    </div>
+                    <h3 className="text-2xl font-extrabold text-white mb-3">{service.title}</h3>
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-3">{service.title}</h3>
-              </div>
 
-              <p className="text-gray-300 text-base leading-relaxed mb-3 min-h-[3rem]">{service.desc}</p>
-              <p className="text-sm text-primary/90 mb-6">{service.ideal}</p>
-              <p className="text-sm text-gray-300 mb-2">
-                <span className="font-semibold text-white">{t('outcomeLabel')} </span>
-                {service.outcome}
-              </p>
-              <p className="text-sm text-gray-400 mb-6">
-                <span className="font-semibold text-gray-300">{t('notForLabel')} </span>
-                {service.notFor}
-              </p>
+                  <p className="text-gray-200 text-base leading-relaxed mb-4 min-h-[3rem]">{service.desc}</p>
+                  <p className={`text-sm border rounded-lg px-3 py-2 mb-5 ${accent?.ideal ?? 'text-primary bg-primary/10 border-primary/30'}`}>
+                    {service.ideal}
+                  </p>
+                  <div className="space-y-3 mb-6">
+                    <p className="text-sm text-gray-200">
+                      <span className="inline-flex items-center rounded-md bg-white/10 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-white mr-2">{t('outcomeLabel')}</span>
+                      {service.outcome}
+                    </p>
+                    <p className="text-sm text-gray-300">
+                      <span className="inline-flex items-center rounded-md bg-white/5 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-gray-200 mr-2">{t('notForLabel')}</span>
+                      {service.notFor}
+                    </p>
+                  </div>
 
-              <ul className="space-y-3 mb-6">
-                {service.features.map((feature) => (
-                  <li key={feature} className="flex items-start text-sm text-gray-400">
-                    <CheckCircle className="w-5 h-5 text-primary mr-3 flex-shrink-0 mt-0.5" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
+                  <ul className="space-y-3 mb-6">
+                    {service.features.map((feature) => (
+                      <li key={feature} className="flex items-start text-sm text-gray-300">
+                        <CheckCircle className={`w-5 h-5 mr-3 flex-shrink-0 mt-0.5 ${accent?.icon ?? 'text-primary'}`} />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
 
-              <Link
-                href={{ pathname: '/contact', query: { service: service.ctaService } }}
-                className="inline-flex items-center mt-6 text-primary font-semibold hover:text-primary-dark hover:-translate-y-px transition-all duration-200 group-hover:underline"
-              >
-                {service.ctaText}
-                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </motion.div>
+                  <div className="mt-auto pt-5 border-t border-white/15">
+                    <Link
+                      href={{ pathname: '/contact', query: { service: service.ctaService } }}
+                      className="inline-flex items-center text-primary font-semibold hover:text-primary-dark transition-colors duration-200"
+                    >
+                      {service.ctaText}
+                      <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  </div>
+                </motion.div>
+              )
+            })()
           ))}
         </div>
 

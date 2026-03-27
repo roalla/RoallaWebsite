@@ -58,9 +58,9 @@ function TwoFAForm() {
 
   if (!token) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center p-4">
-        <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-8 max-w-md w-full text-center">
-          <p className="text-gray-600 mb-4">Invalid or expired link. Please sign in again.</p>
+      <div className="min-h-screen bg-black flex items-center justify-center p-4">
+        <div className="bg-surface-card rounded-xl shadow-2xl border border-white/15 p-8 max-w-[460px] w-full text-center">
+          <p className="text-gray-300 mb-4">Invalid or expired link. Please sign in again.</p>
           <Link href="/login" className="text-primary font-medium hover:underline">Back to sign in</Link>
         </div>
       </div>
@@ -68,21 +68,21 @@ function TwoFAForm() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center py-12 px-4">
-      <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 max-w-md w-full">
-        <div className="flex items-center justify-center gap-2 mb-6">
-          <Shield className="w-8 h-8 text-primary" />
-          <h1 className="text-xl font-bold text-gray-900">Two-factor authentication</h1>
+    <div className="min-h-screen bg-black flex items-center justify-center py-12 px-4">
+      <div className="bg-surface-card rounded-2xl shadow-2xl border border-white/15 p-8 sm:p-10 max-w-[460px] w-full">
+        <div className="flex items-center justify-center gap-2 mb-10">
+          <Shield className="w-7 h-7 text-primary" />
+          <h1 className="text-2xl font-bold text-white">Two-factor authentication</h1>
         </div>
-        <p className="text-sm text-gray-600 mb-4">Enter the 6-digit code from your authenticator app.</p>
+        <p className="text-sm text-gray-400 mb-6">Enter the 6-digit code from your authenticator app.</p>
         {error && (
-          <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-100 text-red-800 text-sm flex items-center gap-2" role="alert" aria-live="polite">
-            <AlertCircle className="w-4 h-4 flex-shrink-0" />
+          <div className="mb-6 p-4 rounded-lg bg-red-500/20 border border-red-500/30 text-red-200 text-sm flex items-center gap-3" role="alert" aria-live="polite">
+            <AlertCircle className="w-5 h-5 flex-shrink-0" />
             {error}
           </div>
         )}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <label htmlFor="code" className="block text-sm font-medium text-gray-700">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <label htmlFor="code" className="block text-sm font-medium text-gray-300">
             Verification code
           </label>
           <input
@@ -98,29 +98,29 @@ function TwoFAForm() {
             onBlur={() => setCodeTouched(true)}
             aria-invalid={showCodeError}
             aria-describedby={showCodeError ? 'code-error' : undefined}
-            className="w-full px-4 py-3 text-center text-lg tracking-widest border border-gray-300 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:border-primary"
+            className="w-full px-4 py-3 text-center text-lg tracking-widest border border-white/20 rounded-lg bg-black/50 text-white placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:border-primary"
           />
           {showCodeError && (
-            <p id="code-error" className="text-sm text-red-600">
+            <p id="code-error" className="text-sm text-red-300">
               Enter the 6-digit code from your authenticator app.
             </p>
           )}
           <button
             type="submit"
             disabled={loading || !isCodeValid}
-            className="w-full py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 flex items-center justify-center gap-2"
+            className="w-full min-h-[48px] py-3 px-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 flex items-center justify-center gap-2"
           >
-            {loading && <Loader2 className="w-4 h-4 animate-spin" />}
+            {loading && <Loader2 className="w-5 h-5 animate-spin" />}
             {loading ? 'Verifying...' : 'Verify'}
           </button>
         </form>
-        <p className="mt-4 text-center text-sm text-gray-500">
+        <p className="mt-4 text-center text-sm text-gray-400">
           <Link href="/login" className="text-primary hover:underline">Back to sign in</Link>
         </p>
-        <p className="text-center text-xs text-gray-500 mt-2">
+        <p className="text-center text-xs text-gray-400 mt-2">
           Secure admin access. Authorized users only.
         </p>
-        <p className="text-center text-xs text-gray-500 mt-1">
+        <p className="text-center text-xs text-gray-400 mt-1">
           Need access? Contact{' '}
           <a href="mailto:sales@roalla.com" className="text-primary hover:text-primary-dark font-medium">
             sales@roalla.com

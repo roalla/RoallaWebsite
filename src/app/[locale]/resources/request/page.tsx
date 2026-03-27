@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Script from 'next/script'
 import { signIn, getProviders, useSession } from 'next-auth/react'
+import { useSearchParams } from 'next/navigation'
 import { useLocale } from 'next-intl'
 import { motion } from 'framer-motion'
 import { Mail, Lock, CheckCircle, AlertCircle, ArrowLeft, Shield, LogIn, User, Building2, ChevronDown, ChevronUp } from 'lucide-react'
@@ -18,9 +19,17 @@ const oauthLabels: Record<string, string> = {
   apple: 'Apple',
   sso: 'Single Sign-On',
 }
+const requestTypeLabels: Record<string, string> = {
+  'business-cocoon': 'Business Cocoon',
+  'true-north-audit': 'True North Audit',
+  'advisory-board-match': 'Advisory Board Match',
+  'digital-creations': 'Digital Creations',
+  general: 'General Resource Centre Access',
+}
 
 export default function RequestAccessPage() {
   const locale = useLocale()
+  const searchParams = useSearchParams()
   const { data: session, status } = useSession()
   const [oauthProviders, setOauthProviders] = useState<Record<string, { id: string; name: string }>>({})
   const [oauthLoading, setOauthLoading] = useState<string | null>(null)
@@ -67,7 +76,10 @@ export default function RequestAccessPage() {
   const [message, setMessage] = useState('')
 
   const isAuthenticated = status === 'authenticated' && session
-  const callbackUrl = `/${locale}/resources/request`
+  const requestTypeParam = (searchParams.get('type') || '').trim().toLowerCase()
+  const selectedRequestType = requestTypeLabels[requestTypeParam] ? requestTypeParam : 'general'
+  const selectedRequestTypeLabel = requestTypeLabels[selectedRequestType]
+  const callbackUrl = `/${locale}/resources/request?type=${encodeURIComponent(selectedRequestType)}`
 
   const handleSubmitAuthenticated = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -82,6 +94,7 @@ export default function RequestAccessPage() {
           name: formData.name.trim(),
           company: formData.company.trim() || undefined,
           reason: formData.reason.trim() || undefined,
+          requestType: selectedRequestType,
         }),
       })
       const data = await res.json()
@@ -111,6 +124,7 @@ export default function RequestAccessPage() {
       const { _honeypot, ...rest } = formData
       const payload = {
         ...rest,
+        requestType: selectedRequestType,
         _honeypot,
         _formLoadedAt: formLoadedAt ?? undefined,
         _turnstileToken: turnstileToken,
@@ -176,6 +190,9 @@ export default function RequestAccessPage() {
             </h1>
             <p className="text-xl text-gray-300">
               Get access to exclusive business resources, guides, templates, and insights.
+            </p>
+            <p className="mt-4 inline-flex items-center rounded-full border border-primary/40 bg-primary/10 px-4 py-1 text-sm font-medium text-primary">
+              Request type: {selectedRequestTypeLabel}
             </p>
           </motion.div>
 

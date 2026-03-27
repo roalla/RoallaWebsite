@@ -227,7 +227,7 @@ export default function LoginForm() {
             <button
               type="submit"
               disabled={isLoading || !isEmailValid || !isPasswordValid}
-              className="w-full py-3 px-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+              className="w-full min-h-[48px] py-3 px-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
             >
               {isLoading && <Loader2 className="w-5 h-5 animate-spin" />}
               {isLoading ? t('signingIn') : t('signInButton')}
@@ -253,7 +253,7 @@ export default function LoginForm() {
                         setOauthLoading(id)
                         signIn(id, { callbackUrl })
                       }}
-                      className="w-full py-3 px-4 border border-white/20 rounded-lg font-medium text-gray-300 bg-white/5 hover:bg-white/10 focus:ring-2 focus:ring-primary/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 min-h-[44px]"
+                      className="w-full min-h-[48px] py-3 px-4 border border-white/20 rounded-lg font-medium text-gray-300 bg-white/5 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
                     >
                       {oauthLoading === id ? (
                         <>

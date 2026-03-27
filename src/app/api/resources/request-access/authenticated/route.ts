@@ -6,8 +6,15 @@ import crypto from 'crypto'
 import { prisma } from '@/lib/prisma'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
+const requestTypeLabels: Record<string, string> = {
+  'business-cocoon': 'Business Cocoon',
+  'true-north-audit': 'True North Audit',
+  'advisory-board-match': 'Advisory Board Match',
+  'digital-creations': 'Digital Creations',
+  general: 'General Resource Centre Access',
+}
 
-/** POST: Create a resources portal access request as the signed-in user. Body: { name, company?, reason? }. Email from session. */
+/** POST: Create a resources portal access request as the signed-in user. Body: { name, company?, reason?, requestType? }. Email from session. */
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions)
   const email = session?.user?.email
@@ -20,7 +27,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid email on account.' }, { status: 400 })
   }
 
-  let body: { name?: string; company?: string; reason?: string }
+  let body: { name?: string; company?: string; reason?: string; requestType?: string }
   try {
     body = await request.json()
   } catch {
@@ -29,7 +36,14 @@ export async function POST(request: NextRequest) {
 
   const name = typeof body.name === 'string' ? body.name.trim() : ''
   const company = typeof body.company === 'string' ? body.company.trim() || null : null
-  const reason = typeof body.reason === 'string' ? body.reason.trim() || null : null
+  const requestTypeKey = typeof body.requestType === 'string' ? body.requestType.trim().toLowerCase() : ''
+  const requestTypeLabel = requestTypeLabels[requestTypeKey] ?? null
+  const reasonText = typeof body.reason === 'string' ? body.reason.trim() : ''
+  const reason = requestTypeLabel
+    ? reasonText
+      ? `[Request Type: ${requestTypeLabel}] ${reasonText}`
+      : `[Request Type: ${requestTypeLabel}]`
+    : reasonText || null
 
   if (!name) {
     return NextResponse.json({ error: 'Full name is required.' }, { status: 400 })
@@ -77,7 +91,8 @@ export async function POST(request: NextRequest) {
               <p><strong>Name:</strong> ${name}</p>
               <p><strong>Email:</strong> ${email}</p>
               <p><strong>Company:</strong> ${company || 'Not provided'}</p>
-              <p><strong>Reason:</strong> ${reason || 'Not provided'}</p>
+              <p><strong>Request Type:</strong> ${requestTypeLabel || 'General Resource Centre Access'}</p>
+              <p><strong>Reason:</strong> ${reasonText || 'Not provided'}</p>
               <p><strong>Request ID:</strong> ${accessRequest.id}</p>
               <p><strong>Submitted at:</strong> ${new Date().toLocaleString()}</p>
             </div>
@@ -105,6 +120,7 @@ export async function POST(request: NextRequest) {
                 <p><strong>Request Details:</strong></p>
                 <p>Email: ${email}</p>
                 <p>Company: ${company || 'Not provided'}</p>
+                <p>Request Type: ${requestTypeLabel || 'General Resource Centre Access'}</p>
               </div>
               <p>Best regards,<br><strong>The Roalla Team</strong></p>
             </div>

@@ -5,6 +5,13 @@ import { prisma } from '@/lib/prisma'
 import { validateRequestForBots, verifyTurnstileToken } from '@/lib/request-validation'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
+const requestTypeLabels: Record<string, string> = {
+  'business-cocoon': 'Business Cocoon',
+  'true-north-audit': 'True North Audit',
+  'advisory-board-match': 'Advisory Board Match',
+  'digital-creations': 'Digital Creations',
+  general: 'General Resource Centre Access',
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -36,7 +43,15 @@ export async function POST(request: NextRequest) {
     }
     
     const body = await request.json()
-    const { email, name, company, reason, _honeypot, _formLoadedAt, _turnstileToken } = body
+    const { email, name, company, reason, requestType, _honeypot, _formLoadedAt, _turnstileToken } = body
+    const requestTypeKey = typeof requestType === 'string' ? requestType.trim().toLowerCase() : ''
+    const requestTypeLabel = requestTypeLabels[requestTypeKey] ?? null
+    const reasonText = typeof reason === 'string' ? reason.trim() : ''
+    const reasonWithType = requestTypeLabel
+      ? reasonText
+        ? `[Request Type: ${requestTypeLabel}] ${reasonText}`
+        : `[Request Type: ${requestTypeLabel}]`
+      : reasonText || null
 
     // Bot validation (honeypot, time check, Turnstile, disposable email)
     const botCheck = validateRequestForBots({
@@ -107,7 +122,7 @@ export async function POST(request: NextRequest) {
           email,
           name,
           company: company || null,
-          reason: reason || null,
+          reason: reasonWithType,
           token,
           status: 'pending'
         }
@@ -166,7 +181,8 @@ export async function POST(request: NextRequest) {
                 <p><strong>Name:</strong> ${name}</p>
                 <p><strong>Email:</strong> ${email}</p>
                 <p><strong>Company:</strong> ${company || 'Not provided'}</p>
-                <p><strong>Reason:</strong> ${reason || 'Not provided'}</p>
+                <p><strong>Request Type:</strong> ${requestTypeLabel || 'General Resource Centre Access'}</p>
+                <p><strong>Reason:</strong> ${reasonText || 'Not provided'}</p>
                 <p><strong>Request ID:</strong> ${accessRequest.id}</p>
                 <p><strong>Submitted at:</strong> ${new Date().toLocaleString()}</p>
               </div>
@@ -202,6 +218,7 @@ export async function POST(request: NextRequest) {
                   <p><strong>Request Details:</strong></p>
                   <p>Email: ${email}</p>
                   <p>Company: ${company || 'Not provided'}</p>
+                  <p>Request Type: ${requestTypeLabel || 'General Resource Centre Access'}</p>
                 </div>
                 <p>If you have any questions, please don't hesitate to contact us at <strong>sales@roalla.com</strong>.</p>
                 <p>Best regards,<br><strong>The Roalla Team</strong></p>

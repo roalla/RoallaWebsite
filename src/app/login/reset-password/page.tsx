@@ -65,9 +65,9 @@ function ResetPasswordForm() {
 
   if (!token) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center py-12 px-4">
-        <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
-          <div className="p-4 rounded-lg bg-red-50 border border-red-100 text-red-800 flex items-start gap-3">
+      <div className="min-h-screen bg-black flex items-center justify-center py-12 px-4">
+        <div className="w-full max-w-[460px] bg-surface-card rounded-2xl shadow-2xl border border-white/15 p-8">
+          <div className="p-4 rounded-lg bg-red-500/20 border border-red-500/30 text-red-200 flex items-start gap-3">
             <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
             <span>Invalid or missing reset link. Request a new one from the forgot password page.</span>
           </div>
@@ -83,12 +83,12 @@ function ResetPasswordForm() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-black flex items-center justify-center py-12 px-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="w-full max-w-md"
+        className="w-full max-w-[460px]"
       >
         <Link
           href="/login"
@@ -98,25 +98,25 @@ function ResetPasswordForm() {
           Back to sign in
         </Link>
 
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
-          <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Set new password</h1>
-            <p className="text-gray-600 mt-1">Enter your new password below.</p>
+        <div className="bg-surface-card rounded-2xl shadow-2xl border border-white/15 p-8 sm:p-10">
+          <div className="text-center mb-10">
+            <h1 className="text-2xl font-bold text-white">Set new password</h1>
+            <p className="text-gray-400 mt-1">Enter your new password below.</p>
           </div>
 
           {message && (
-            <div className="mb-6 p-4 rounded-lg bg-green-50 border border-green-100 flex items-start gap-3 text-green-800" role="status" aria-live="polite">
+            <div className="mb-6 p-4 rounded-lg bg-green-500/15 border border-green-400/30 flex items-start gap-3 text-green-100" role="status" aria-live="polite">
               <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
               <div>
                 <p>{message}</p>
-                <Link href="/login" className="mt-3 inline-block text-green-700 font-medium hover:underline">
+                <Link href="/login" className="mt-3 inline-block text-green-200 font-medium hover:underline">
                   Sign in →
                 </Link>
               </div>
             </div>
           )}
           {error && (
-            <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-100 flex items-center gap-3 text-red-800" role="alert" aria-live="polite">
+            <div className="mb-6 p-4 rounded-lg bg-red-500/20 border border-red-500/30 flex items-center gap-3 text-red-200" role="alert" aria-live="polite">
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
               <span>{error}</span>
             </div>
@@ -125,7 +125,7 @@ function ResetPasswordForm() {
           {!message && (
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="newPassword" className="block text-sm font-medium text-gray-300 mb-2">
                   New password
                 </label>
                 <div className="relative">
@@ -145,7 +145,7 @@ function ResetPasswordForm() {
                     onKeyDown={(e) => setCapsLockOn(e.getModifierState('CapsLock'))}
                     aria-invalid={showNewPasswordError}
                     aria-describedby={showNewPasswordError ? 'new-password-error' : capsLockOn ? 'caps-lock-hint' : undefined}
-                    className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:border-primary"
+                    className="w-full pl-10 pr-12 py-3 border border-white/20 rounded-lg bg-black/50 text-white placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:border-primary"
                     placeholder="At least 8 characters"
                   />
                   <button
@@ -153,19 +153,19 @@ function ResetPasswordForm() {
                     aria-label={showNewPassword ? 'Hide new password' : 'Show new password'}
                     aria-pressed={showNewPassword}
                     onClick={() => setShowNewPassword((prev) => !prev)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 rounded-sm"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 rounded-sm"
                   >
                     {showNewPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
                 </div>
                 {showNewPasswordError && (
-                  <p id="new-password-error" className="mt-2 text-sm text-red-600">
+                  <p id="new-password-error" className="mt-2 text-sm text-red-300">
                     Password must be at least 8 characters.
                   </p>
                 )}
               </div>
               <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300 mb-2">
                   Confirm password
                 </label>
                 <div className="relative">
@@ -184,7 +184,7 @@ function ResetPasswordForm() {
                     onKeyDown={(e) => setCapsLockOn(e.getModifierState('CapsLock'))}
                     aria-invalid={showConfirmPasswordError}
                     aria-describedby={showConfirmPasswordError ? 'confirm-password-error' : undefined}
-                    className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:border-primary"
+                    className="w-full pl-10 pr-12 py-3 border border-white/20 rounded-lg bg-black/50 text-white placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:border-primary"
                     placeholder="Repeat new password"
                   />
                   <button
@@ -192,18 +192,18 @@ function ResetPasswordForm() {
                     aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
                     aria-pressed={showConfirmPassword}
                     onClick={() => setShowConfirmPassword((prev) => !prev)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 rounded-sm"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 rounded-sm"
                   >
                     {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
                 </div>
                 {showConfirmPasswordError && (
-                  <p id="confirm-password-error" className="mt-2 text-sm text-red-600">
+                  <p id="confirm-password-error" className="mt-2 text-sm text-red-300">
                     Passwords must match.
                   </p>
                 )}
                 {capsLockOn && !showNewPasswordError && !showConfirmPasswordError && (
-                  <p id="caps-lock-hint" className="mt-2 text-sm text-amber-700">
+                  <p id="caps-lock-hint" className="mt-2 text-sm text-amber-300">
                     Caps Lock appears to be on.
                   </p>
                 )}
@@ -211,22 +211,22 @@ function ResetPasswordForm() {
               <button
                 type="submit"
                 disabled={isLoading || !isPasswordLengthValid || !doPasswordsMatch}
-                className="w-full py-3 px-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="w-full min-h-[48px] py-3 px-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
               >
                 {isLoading ? 'Updating...' : 'Update password'}
               </button>
             </form>
           )}
 
-          <p className="text-center text-sm text-gray-500 mt-6">
+          <p className="text-center text-sm text-gray-400 mt-6">
             <Link href="/login" className="text-primary hover:text-primary-dark font-medium">
               Back to sign in
             </Link>
           </p>
-          <p className="text-center text-xs text-gray-500 mt-2">
+          <p className="text-center text-xs text-gray-400 mt-2">
             Secure admin access. Authorized users only.
           </p>
-          <p className="text-center text-xs text-gray-500 mt-1">
+          <p className="text-center text-xs text-gray-400 mt-1">
             Need access? Contact{' '}
             <a href="mailto:sales@roalla.com" className="text-primary hover:text-primary-dark font-medium">
               sales@roalla.com

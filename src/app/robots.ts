@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/private/', '/admin/'],
     },
-    sitemap: 'https://roalla-business-enablement.com/sitemap.xml',
+    sitemap: 'https://roalla.com/sitemap.xml',
   }
 } 

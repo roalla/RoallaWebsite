@@ -41,14 +41,14 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://roalla.com'),
+  metadataBase: new URL('https://www.roalla.com'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://roalla.com',
+    url: 'https://www.roalla.com',
     siteName: 'Roalla Business Enablement Group',
     title: 'Roalla Business Enablement Group | Strategic Business Consulting',
     description: 'Professional business consulting services helping companies grow, optimize operations, and achieve strategic goals.',
@@ -90,8 +90,8 @@ const structuredData = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   "name": "Roalla Business Enablement Group",
-  "url": "https://roalla.com",
-  "logo": "https://roalla.com/logo.svg",
+  "url": "https://www.roalla.com",
+  "logo": "https://www.roalla.com/logo.svg",
   "contactPoint": {
     "@type": "ContactPoint",
     "telephone": "+1-289-838-5868",

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { CheckCircle, XCircle, ExternalLink } from 'lucide-react'
+import { extractAccessCodeFromStoredReason, extractRequestReasonLabelFromStoredReason } from '@/lib/request-reasons'
 
 type Request = {
   id: string
@@ -87,6 +88,20 @@ export default function RequestsTable({
               <StatusBadge r={r} />
             </div>
             <p className="text-sm text-gray-600 truncate">{r.email}</p>
+            {(extractRequestReasonLabelFromStoredReason(r.reason) || extractAccessCodeFromStoredReason(r.reason)) && (
+              <div className="flex flex-wrap gap-1.5">
+                {extractRequestReasonLabelFromStoredReason(r.reason) && (
+                  <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700">
+                    {extractRequestReasonLabelFromStoredReason(r.reason)}
+                  </span>
+                )}
+                {extractAccessCodeFromStoredReason(r.reason) && (
+                  <span className="inline-flex items-center rounded-full bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700">
+                    Code: {extractAccessCodeFromStoredReason(r.reason)}
+                  </span>
+                )}
+              </div>
+            )}
             {r.company && <p className="text-sm text-gray-500">{r.company}</p>}
             <p className="text-xs text-gray-400">{new Date(r.createdAt).toLocaleDateString()}</p>
             {(r.status === 'pending' || (showRevokeForApproved && r.status === 'approved')) && (
@@ -144,7 +159,25 @@ export default function RequestsTable({
           <tbody className="divide-y divide-gray-100">
             {localRequests.map((r) => (
               <tr key={r.id} className="hover:bg-gray-50/50">
-                <td className="py-3 px-4 text-gray-900">{r.name}</td>
+                <td className="py-3 px-4 text-gray-900">
+                  <div className="space-y-1">
+                    <div>{r.name}</div>
+                    {(extractRequestReasonLabelFromStoredReason(r.reason) || extractAccessCodeFromStoredReason(r.reason)) && (
+                      <div className="flex flex-wrap gap-1.5">
+                        {extractRequestReasonLabelFromStoredReason(r.reason) && (
+                          <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700">
+                            {extractRequestReasonLabelFromStoredReason(r.reason)}
+                          </span>
+                        )}
+                        {extractAccessCodeFromStoredReason(r.reason) && (
+                          <span className="inline-flex items-center rounded-full bg-purple-50 px-2 py-0.5 text-xs font-medium text-purple-700">
+                            Code: {extractAccessCodeFromStoredReason(r.reason)}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </td>
                 <td className="py-3 px-4 text-gray-600">{r.email}</td>
                 <td className="py-3 px-4 text-gray-600">{r.company || '—'}</td>
                 <td className="py-3 px-4">

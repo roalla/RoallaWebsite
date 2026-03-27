@@ -94,7 +94,7 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <ScheduleButton variant="primary" size="lg" icon>
-              Schedule a Free Consultation
+              Schedule Consultation
             </ScheduleButton>
             <Link 
               href="/services" 

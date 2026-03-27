@@ -9,6 +9,7 @@ import { motion } from 'framer-motion'
 import { Mail, Lock, CheckCircle, AlertCircle, ArrowLeft, Shield, LogIn, User, Building2, ChevronDown, ChevronUp } from 'lucide-react'
 import Link from 'next/link'
 import { Link as IntlLink } from '@/i18n/navigation'
+import { REQUEST_REASON_OPTIONS } from '@/lib/request-reasons'
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
 
@@ -26,6 +27,9 @@ const requestTypeLabels: Record<string, string> = {
   'digital-creations': 'Digital Creations',
   general: 'General Resource Centre Access',
 }
+const reasonLabelMap = Object.fromEntries(
+  REQUEST_REASON_OPTIONS.map((option) => [option.value, option.label])
+) as Record<string, string>
 
 export default function RequestAccessPage() {
   const locale = useLocale()
@@ -61,9 +65,13 @@ export default function RequestAccessPage() {
     email: '',
     name: '',
     company: '',
+    requestReason: '',
+    accessCode: '',
     reason: '',
     _honeypot: '', // Bot trap - must stay empty
   })
+  const selectedRequestReason = REQUEST_REASON_OPTIONS.find((option) => option.value === formData.requestReason)
+  const reasonNeedsCode = !!selectedRequestReason?.requiresCode
 
   useEffect(() => {
     if (session?.user?.name && status === 'authenticated') {
@@ -93,6 +101,8 @@ export default function RequestAccessPage() {
         body: JSON.stringify({
           name: formData.name.trim(),
           company: formData.company.trim() || undefined,
+          requestReason: formData.requestReason,
+          accessCode: formData.accessCode.trim() || undefined,
           reason: formData.reason.trim() || undefined,
           requestType: selectedRequestType,
         }),
@@ -101,6 +111,7 @@ export default function RequestAccessPage() {
       if (res.ok) {
         setStatusSubmit('success')
         setMessage('Your access request has been submitted successfully. We will review your request and send you an email with access instructions within 24 hours.')
+        setFormData((prev) => ({ ...prev, accessCode: '' }))
       } else {
         setStatusSubmit('error')
         setMessage(data.error || 'Something went wrong. Please try again.')
@@ -124,6 +135,8 @@ export default function RequestAccessPage() {
       const { _honeypot, ...rest } = formData
       const payload = {
         ...rest,
+        requestReason: formData.requestReason,
+        accessCode: formData.accessCode.trim() || undefined,
         requestType: selectedRequestType,
         _honeypot,
         _formLoadedAt: formLoadedAt ?? undefined,
@@ -138,7 +151,7 @@ export default function RequestAccessPage() {
       if (response.ok) {
         setStatusSubmit('success')
         setMessage('Your access request has been submitted successfully. We will review your request and send you an email with access instructions within 24 hours.')
-        setFormData({ email: '', name: '', company: '', reason: '', _honeypot: '' })
+        setFormData({ email: '', name: '', company: '', requestReason: '', accessCode: '', reason: '', _honeypot: '' })
       } else {
         setStatusSubmit('error')
         setMessage(data.error || 'Something went wrong. Please try again.')
@@ -267,14 +280,45 @@ export default function RequestAccessPage() {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="reason" className="block text-sm font-semibold text-white mb-2">How will you use these resources?</label>
+                  <label htmlFor="requestReason" className="block text-sm font-semibold text-white mb-2">Reason for request <span className="text-red-400">*</span></label>
+                  <select
+                    id="requestReason"
+                    required
+                    value={formData.requestReason}
+                    onChange={(e) => setFormData({ ...formData, requestReason: e.target.value, accessCode: '' })}
+                    className="w-full px-4 py-3 border border-white/20 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-primary focus:border-transparent"
+                  >
+                    <option value="">Select a reason</option>
+                    {REQUEST_REASON_OPTIONS.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {reasonNeedsCode && (
+                  <div>
+                    <label htmlFor="accessCode" className="block text-sm font-semibold text-white mb-2">Access code <span className="text-red-400">*</span></label>
+                    <input
+                      type="text"
+                      id="accessCode"
+                      required
+                      value={formData.accessCode}
+                      onChange={(e) => setFormData({ ...formData, accessCode: e.target.value.toUpperCase() })}
+                      className="w-full px-4 py-3 border border-white/20 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="Enter the code you were given"
+                    />
+                  </div>
+                )}
+                <div>
+                  <label htmlFor="reason" className="block text-sm font-semibold text-white mb-2">Additional details (optional)</label>
                   <textarea
                     id="reason"
                     rows={4}
                     value={formData.reason}
                     onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
                     className="w-full px-4 py-3 border border-white/20 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
-                    placeholder="Tell us about your business needs and how these resources will help you..."
+                    placeholder={`Selected reason: ${reasonLabelMap[formData.requestReason] || 'None selected'}. Tell us anything else that will help us review your request.`}
                   />
                 </div>
                 {statusSubmit === 'error' && (
@@ -431,6 +475,37 @@ export default function RequestAccessPage() {
                           placeholder="Your Company"
                         />
                       </div>
+                      <div>
+                        <label htmlFor="guest-request-reason" className="block text-sm font-semibold text-white mb-2">Reason for request <span className="text-red-400">*</span></label>
+                        <select
+                          id="guest-request-reason"
+                          required
+                          value={formData.requestReason}
+                          onChange={(e) => setFormData({ ...formData, requestReason: e.target.value, accessCode: '' })}
+                          className="w-full px-4 py-3 border border-white/20 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-primary focus:border-transparent"
+                        >
+                          <option value="">Select a reason</option>
+                          {REQUEST_REASON_OPTIONS.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      {reasonNeedsCode && (
+                        <div>
+                          <label htmlFor="guest-access-code" className="block text-sm font-semibold text-white mb-2">Access code <span className="text-red-400">*</span></label>
+                          <input
+                            type="text"
+                            id="guest-access-code"
+                            required
+                            value={formData.accessCode}
+                            onChange={(e) => setFormData({ ...formData, accessCode: e.target.value.toUpperCase() })}
+                            className="w-full px-4 py-3 border border-white/20 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-primary focus:border-transparent"
+                            placeholder="Enter the code you were given"
+                          />
+                        </div>
+                      )}
                       <div>
                         <label htmlFor="guest-reason" className="block text-sm font-semibold text-white mb-2">How will you use these resources?</label>
                         <textarea

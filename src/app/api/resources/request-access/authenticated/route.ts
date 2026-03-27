@@ -4,6 +4,13 @@ import { authOptions } from '@/lib/auth'
 import { Resend } from 'resend'
 import crypto from 'crypto'
 import { prisma } from '@/lib/prisma'
+import {
+  buildStoredReason,
+  isValidRequestReason,
+  requestReasonLabel,
+  requestReasonNeedsCode,
+  type RequestReasonValue,
+} from '@/lib/request-reasons'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 const requestTypeLabels: Record<string, string> = {
@@ -14,7 +21,7 @@ const requestTypeLabels: Record<string, string> = {
   general: 'General Resource Centre Access',
 }
 
-/** POST: Create a resources portal access request as the signed-in user. Body: { name, company?, reason?, requestType? }. Email from session. */
+/** POST: Create a resources portal access request as the signed-in user. Body: { name, company?, reason?, requestType?, requestReason, accessCode? }. Email from session. */
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions)
   const email = session?.user?.email
@@ -27,7 +34,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid email on account.' }, { status: 400 })
   }
 
-  let body: { name?: string; company?: string; reason?: string; requestType?: string }
+  let body: {
+    name?: string
+    company?: string
+    reason?: string
+    requestType?: string
+    requestReason?: string
+    accessCode?: string
+  }
   try {
     body = await request.json()
   } catch {
@@ -39,11 +53,33 @@ export async function POST(request: NextRequest) {
   const requestTypeKey = typeof body.requestType === 'string' ? body.requestType.trim().toLowerCase() : ''
   const requestTypeLabel = requestTypeLabels[requestTypeKey] ?? null
   const reasonText = typeof body.reason === 'string' ? body.reason.trim() : ''
-  const reason = requestTypeLabel
-    ? reasonText
-      ? `[Request Type: ${requestTypeLabel}] ${reasonText}`
-      : `[Request Type: ${requestTypeLabel}]`
-    : reasonText || null
+  const requestReasonRaw = typeof body.requestReason === 'string' ? body.requestReason.trim().toLowerCase() : ''
+  if (!isValidRequestReason(requestReasonRaw)) {
+    return NextResponse.json({ error: 'Please select a valid reason for your request.' }, { status: 400 })
+  }
+  const requestReason = requestReasonRaw as RequestReasonValue
+  const accessCode = typeof body.accessCode === 'string' ? body.accessCode.trim().toUpperCase() : ''
+
+  if (requestReasonNeedsCode(requestReason) && !accessCode) {
+    return NextResponse.json({ error: 'An access code is required for this request reason.' }, { status: 400 })
+  }
+
+  if (accessCode) {
+    const code = await prisma.portalCode.findUnique({
+      where: { code: accessCode },
+      select: { id: true },
+    })
+    if (!code) {
+      return NextResponse.json({ error: 'Invalid access code. Please check your code and try again.' }, { status: 400 })
+    }
+  }
+
+  const reason = buildStoredReason({
+    requestTypeLabel,
+    requestReason,
+    freeTextReason: reasonText,
+    accessCode: accessCode || null,
+  })
 
   if (!name) {
     return NextResponse.json({ error: 'Full name is required.' }, { status: 400 })
@@ -92,6 +128,8 @@ export async function POST(request: NextRequest) {
               <p><strong>Email:</strong> ${email}</p>
               <p><strong>Company:</strong> ${company || 'Not provided'}</p>
               <p><strong>Request Type:</strong> ${requestTypeLabel || 'General Resource Centre Access'}</p>
+              <p><strong>Request Reason:</strong> ${requestReasonLabel(requestReason)}</p>
+              <p><strong>Access Code:</strong> ${accessCode || 'Not provided'}</p>
               <p><strong>Reason:</strong> ${reasonText || 'Not provided'}</p>
               <p><strong>Request ID:</strong> ${accessRequest.id}</p>
               <p><strong>Submitted at:</strong> ${new Date().toLocaleString()}</p>

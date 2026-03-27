@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { prisma } from '@/lib/prisma'
+import { extractAccessCodeFromStoredReason } from '@/lib/request-reasons'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -40,10 +41,28 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Approve the request in database
-    const updatedRequest = await prisma.accessRequest.update({
-      where: { id: requestId },
-      data: { status: 'approved' }
+    // Approve the request in database and auto-assign bundle from submitted access code (if present).
+    const updatedRequest = await prisma.$transaction(async (tx) => {
+      const updated = await tx.accessRequest.update({
+        where: { id: requestId },
+        data: { status: 'approved' },
+      })
+
+      const accessCode = extractAccessCodeFromStoredReason(updated.reason)
+      if (accessCode) {
+        const portalCode = await tx.portalCode.findUnique({
+          where: { code: accessCode },
+          select: { bundleId: true },
+        })
+        if (portalCode?.bundleId) {
+          await tx.userPortalBundle.deleteMany({ where: { email: updated.email.toLowerCase() } })
+          await tx.userPortalBundle.create({
+            data: { email: updated.email.toLowerCase(), bundleId: portalCode.bundleId },
+          })
+        }
+      }
+
+      return updated
     })
 
     // Send access email to user

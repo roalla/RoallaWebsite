@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { Resend } from 'resend'
 import { isAdmin } from '@/lib/access'
+import { extractAccessCodeFromStoredReason } from '@/lib/request-reasons'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -26,7 +27,7 @@ export async function POST(
 
   const accessRequest = await prisma.accessRequest.findUnique({
     where: { id: requestId },
-    select: { id: true, email: true, name: true, status: true, token: true },
+    select: { id: true, email: true, name: true, status: true, token: true, reason: true },
   })
   if (!accessRequest) {
     return NextResponse.json({ error: 'Request not found' }, { status: 404 })
@@ -47,6 +48,19 @@ export async function POST(
     const sendEmail = body.sendEmail !== false
     const currentUserId = (session.user as { id?: string }).id
     const email = accessRequest.email.toLowerCase()
+    let resolvedTierBundleId = tierBundleId
+    if (!resolvedTierBundleId) {
+      const accessCode = extractAccessCodeFromStoredReason(accessRequest.reason)
+      if (accessCode) {
+        const linkedCode = await prisma.portalCode.findUnique({
+          where: { code: accessCode },
+          select: { bundleId: true },
+        })
+        if (linkedCode?.bundleId) {
+          resolvedTierBundleId = linkedCode.bundleId
+        }
+      }
+    }
 
     await prisma.$transaction(async (tx) => {
       await tx.accessRequest.update({
@@ -64,16 +78,16 @@ export async function POST(
         await tx.portalItemGrant.createMany({ data: toCreate })
       }
       await tx.userPortalBundle.deleteMany({ where: { email } })
-      if (tierBundleId) {
+      if (resolvedTierBundleId) {
         const bundle = await tx.portalBundle.findUnique({
-          where: { id: tierBundleId },
+          where: { id: resolvedTierBundleId },
           select: { id: true },
         })
         if (!bundle) {
           throw new Error('Tier bundle not found')
         }
         await tx.userPortalBundle.create({
-          data: { email, bundleId: tierBundleId },
+          data: { email, bundleId: resolvedTierBundleId },
         })
       }
     })

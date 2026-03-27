@@ -3,6 +3,13 @@ import { Resend } from 'resend'
 import crypto from 'crypto'
 import { prisma } from '@/lib/prisma'
 import { validateRequestForBots, verifyTurnstileToken } from '@/lib/request-validation'
+import {
+  buildStoredReason,
+  isValidRequestReason,
+  requestReasonLabel,
+  requestReasonNeedsCode,
+  type RequestReasonValue,
+} from '@/lib/request-reasons'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 const requestTypeLabels: Record<string, string> = {
@@ -43,15 +50,43 @@ export async function POST(request: NextRequest) {
     }
     
     const body = await request.json()
-    const { email, name, company, reason, requestType, _honeypot, _formLoadedAt, _turnstileToken } = body
+    const { email, name, company, reason, requestType, requestReason, accessCode, _honeypot, _formLoadedAt, _turnstileToken } = body
     const requestTypeKey = typeof requestType === 'string' ? requestType.trim().toLowerCase() : ''
     const requestTypeLabel = requestTypeLabels[requestTypeKey] ?? null
     const reasonText = typeof reason === 'string' ? reason.trim() : ''
-    const reasonWithType = requestTypeLabel
-      ? reasonText
-        ? `[Request Type: ${requestTypeLabel}] ${reasonText}`
-        : `[Request Type: ${requestTypeLabel}]`
-      : reasonText || null
+    const requestReasonRaw = typeof requestReason === 'string' ? requestReason.trim().toLowerCase() : ''
+    if (!isValidRequestReason(requestReasonRaw)) {
+      return NextResponse.json(
+        { error: 'Please select a valid reason for your request.' },
+        { status: 400 }
+      )
+    }
+    const requestReasonValue = requestReasonRaw as RequestReasonValue
+    const normalizedAccessCode = typeof accessCode === 'string' ? accessCode.trim().toUpperCase() : ''
+    if (requestReasonNeedsCode(requestReasonValue) && !normalizedAccessCode) {
+      return NextResponse.json(
+        { error: 'An access code is required for this request reason.' },
+        { status: 400 }
+      )
+    }
+    if (normalizedAccessCode) {
+      const code = await prisma.portalCode.findUnique({
+        where: { code: normalizedAccessCode },
+        select: { id: true },
+      })
+      if (!code) {
+        return NextResponse.json(
+          { error: 'Invalid access code. Please check your code and try again.' },
+          { status: 400 }
+        )
+      }
+    }
+    const reasonWithType = buildStoredReason({
+      requestTypeLabel,
+      requestReason: requestReasonValue,
+      freeTextReason: reasonText,
+      accessCode: normalizedAccessCode || null,
+    })
 
     // Bot validation (honeypot, time check, Turnstile, disposable email)
     const botCheck = validateRequestForBots({
@@ -182,6 +217,8 @@ export async function POST(request: NextRequest) {
                 <p><strong>Email:</strong> ${email}</p>
                 <p><strong>Company:</strong> ${company || 'Not provided'}</p>
                 <p><strong>Request Type:</strong> ${requestTypeLabel || 'General Resource Centre Access'}</p>
+                <p><strong>Request Reason:</strong> ${requestReasonLabel(requestReasonValue)}</p>
+                <p><strong>Access Code:</strong> ${normalizedAccessCode || 'Not provided'}</p>
                 <p><strong>Reason:</strong> ${reasonText || 'Not provided'}</p>
                 <p><strong>Request ID:</strong> ${accessRequest.id}</p>
                 <p><strong>Submitted at:</strong> ${new Date().toLocaleString()}</p>

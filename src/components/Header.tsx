@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ChevronDown } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname as useNextPathname } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 import { useTranslations, useLocale } from 'next-intl'
 import { Link, usePathname } from '@/i18n/navigation'
 import ScheduleButton from './CalendlyButton'
@@ -140,6 +141,8 @@ const Header = () => {
 
   const pathname = usePathname() ?? '/'
   const fullPathname = useNextPathname() ?? ''
+  const { status: sessionStatus } = useSession()
+  const isAuthenticated = sessionStatus === 'authenticated'
   const isLocaleRoute = fullPathname.startsWith('/en') || fullPathname.startsWith('/fr')
   const t = useTranslations('nav')
   const tCommon = useTranslations('common')
@@ -202,11 +205,12 @@ const Header = () => {
   )
 
   type NavHref = '/' | '/services' | '/resources' | '/digital-creations'
-  const navigation: { nameKey: 'home' | 'services' | 'resourceCentre' | 'digitalCreations'; href: NavHref }[] = [
+  const resourceHref: NavHref | '/dashboard' = isAuthenticated ? '/dashboard' : '/resources'
+  const navigation: { nameKey: 'home' | 'services' | 'resourceCentre' | 'digitalCreations'; href: NavHref | '/dashboard' }[] = [
     { nameKey: 'home', href: '/' },
     { nameKey: 'services', href: '/services' },
     { nameKey: 'digitalCreations', href: '/digital-creations' },
-    { nameKey: 'resourceCentre', href: '/resources' },
+    { nameKey: 'resourceCentre', href: resourceHref },
   ]
 
   const noMotion = {

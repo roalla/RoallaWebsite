@@ -104,7 +104,7 @@ const InteractiveAssessment = () => {
         nextSteps: [
           "Schedule a strategic planning session",
           "Review growth opportunities",
-          "Consider executive coaching for leadership team"
+          "Consider executive coaching for the leadership team"
         ]
       }
     } else if (percentage >= 60) {
@@ -118,9 +118,9 @@ const InteractiveAssessment = () => {
           "Optimize operational efficiency"
         ],
         nextSteps: [
-          "Book a comprehensive business review",
+          "Schedule a comprehensive business review",
           "Develop improvement action plan",
-          "Schedule follow-up consultation"
+          "Schedule a follow-up consultation"
         ]
       }
     } else {
@@ -313,7 +313,7 @@ const InteractiveAssessment = () => {
                         className="btn-primary inline-flex items-center"
                       >
                         <Send className="w-5 h-5 mr-2" />
-                        Get Your Free Consultation
+                        Schedule Your Consultation
                       </a>
                       <button
                         onClick={resetAssessment}

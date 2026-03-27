@@ -3,6 +3,7 @@
 import React, { useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Lock, ArrowLeft, CheckCircle, AlertCircle, Eye, EyeOff } from 'lucide-react'
 
@@ -66,7 +67,17 @@ function ResetPasswordForm() {
   if (!token) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center py-12 px-4">
-        <div className="w-full max-w-[460px] bg-surface-card rounded-2xl shadow-2xl border border-white/15 p-8">
+        <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <section className="lg:col-span-5 bg-white/[0.03] border border-white/10 rounded-2xl p-8 sm:p-10">
+            <Link href="/" className="inline-flex">
+              <Image src="/logo.svg" alt="ROALLA" width={132} height={44} className="h-11 w-auto" priority />
+            </Link>
+            <h1 className="mt-8 text-3xl sm:text-4xl font-bold tracking-tight text-white">Password Recovery</h1>
+            <p className="mt-3 text-base text-gray-300 leading-relaxed">
+              Reset your password securely to regain access to your admin workspace.
+            </p>
+          </section>
+          <section className="lg:col-span-7 w-full bg-surface-card rounded-2xl shadow-2xl border border-white/15 p-8">
           <div className="p-4 rounded-lg bg-red-500/20 border border-red-500/30 text-red-200 flex items-start gap-3">
             <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
             <span>Invalid or missing reset link. Request a new one from the forgot password page.</span>
@@ -77,53 +88,72 @@ function ResetPasswordForm() {
           >
             Forgot password
           </Link>
+          </section>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-black flex items-center justify-center py-10 px-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="w-full max-w-[460px]"
+        className="w-full max-w-5xl"
       >
-        <Link
-          href="/login"
-          className="inline-flex items-center text-primary hover:text-primary-dark mb-8 transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5 mr-2" />
-          Back to sign in
-        </Link>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <section className="lg:col-span-5 bg-white/[0.03] border border-white/10 rounded-2xl p-8 sm:p-10 flex flex-col justify-between">
+            <div>
+              <Link href="/" className="inline-flex">
+                <Image src="/logo.svg" alt="ROALLA" width={132} height={44} className="h-11 w-auto" priority />
+              </Link>
+              <h1 className="mt-8 text-3xl sm:text-4xl font-bold tracking-tight text-white">
+                Set New Password
+              </h1>
+              <p className="mt-3 text-base text-gray-300 leading-relaxed">
+                Create a strong new password to secure your account and continue to the admin dashboard.
+              </p>
+            </div>
+            <p className="mt-8 rounded-lg border border-white/10 bg-black/30 px-4 py-3 text-sm text-gray-300">
+              Secure admin access. Authorized users only.
+            </p>
+          </section>
 
-        <div className="bg-surface-card rounded-2xl shadow-2xl border border-white/15 p-8 sm:p-10">
-          <div className="text-center mb-10">
-            <h1 className="text-2xl font-bold text-white">Set new password</h1>
-            <p className="text-gray-400 mt-1">Enter your new password below.</p>
-          </div>
+          <section className="lg:col-span-7 bg-surface-card rounded-2xl shadow-2xl border border-white/15 p-8 sm:p-10">
+            <Link
+              href="/login"
+              className="inline-flex items-center text-primary hover:text-primary-dark mb-8 transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5 mr-2" />
+              Back to sign in
+            </Link>
 
-          {message && (
-            <div className="mb-6 p-4 rounded-lg bg-green-500/15 border border-green-400/30 flex items-start gap-3 text-green-100" role="status" aria-live="polite">
-              <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-              <div>
-                <p>{message}</p>
-                <Link href="/login" className="mt-3 inline-block text-green-200 font-medium hover:underline">
-                  Sign in →
-                </Link>
+            <div className="mb-10">
+              <h2 className="text-2xl font-bold text-white">Set new password</h2>
+              <p className="text-gray-400 mt-1">Enter your new password below.</p>
+            </div>
+
+            {message && (
+              <div className="mb-6 p-4 rounded-lg bg-green-500/15 border border-green-400/30 flex items-start gap-3 text-green-100" role="status" aria-live="polite">
+                <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p>{message}</p>
+                  <Link href="/login" className="mt-3 inline-block text-green-200 font-medium hover:underline">
+                    Sign in →
+                  </Link>
+                </div>
               </div>
-            </div>
-          )}
-          {error && (
-            <div className="mb-6 p-4 rounded-lg bg-red-500/20 border border-red-500/30 flex items-center gap-3 text-red-200" role="alert" aria-live="polite">
-              <AlertCircle className="w-5 h-5 flex-shrink-0" />
-              <span>{error}</span>
-            </div>
-          )}
+            )}
+            {error && (
+              <div className="mb-6 p-4 rounded-lg bg-red-500/20 border border-red-500/30 flex items-center gap-3 text-red-200" role="alert" aria-live="polite">
+                <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                <span>{error}</span>
+              </div>
+            )}
 
-          {!message && (
-            <form onSubmit={handleSubmit} className="space-y-6">
+            {!message && (
+              <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="newPassword" className="block text-sm font-medium text-gray-300 mb-2">
                   New password
@@ -215,24 +245,25 @@ function ResetPasswordForm() {
               >
                 {isLoading ? 'Updating...' : 'Update password'}
               </button>
-            </form>
-          )}
+              </form>
+            )}
 
-          <p className="text-center text-sm text-gray-400 mt-6">
-            <Link href="/login" className="text-primary hover:text-primary-dark font-medium">
-              Back to sign in
-            </Link>
-          </p>
-          <p className="text-center text-xs text-gray-400 mt-2">
-            Secure admin access. Authorized users only.
-          </p>
-          <p className="text-center text-xs text-gray-400 mt-1">
-            Need access? Contact{' '}
-            <a href="mailto:sales@roalla.com" className="text-primary hover:text-primary-dark font-medium">
-              sales@roalla.com
-            </a>
-            .
-          </p>
+            <p className="text-center text-sm text-gray-400 mt-6">
+              <Link href="/login" className="text-primary hover:text-primary-dark font-medium">
+                Back to sign in
+              </Link>
+            </p>
+            <p className="text-center text-xs text-gray-400 mt-2">
+              Secure admin access. Authorized users only.
+            </p>
+            <p className="text-center text-xs text-gray-400 mt-1">
+              Need access? Contact{' '}
+              <a href="mailto:sales@roalla.com" className="text-primary hover:text-primary-dark font-medium">
+                sales@roalla.com
+              </a>
+              .
+            </p>
+          </section>
         </div>
       </motion.div>
     </div>

@@ -320,7 +320,7 @@ export default function LoginForm() {
                 </a>
               </p>
             </form>
-          </div>
+          </section>
         </div>
       </motion.div>
     </div>

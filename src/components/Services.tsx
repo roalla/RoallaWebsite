@@ -37,7 +37,7 @@ const Services = () => {
       outcome: t('s0Outcome'),
       notFor: t('s0NotFor'),
       icon: serviceIcons[0],
-      ctaHref: '/contact?service=strategic-planning' as const,
+      ctaService: 'strategic-planning' as const,
       ctaText: t('s0Cta'),
       anchor: serviceAnchors[0],
     },
@@ -49,7 +49,7 @@ const Services = () => {
       outcome: t('s1Outcome'),
       notFor: t('s1NotFor'),
       icon: serviceIcons[1],
-      ctaHref: '/contact?service=process-optimization' as const,
+      ctaService: 'process-optimization' as const,
       ctaText: t('s1Cta'),
       anchor: serviceAnchors[1],
     },
@@ -61,7 +61,7 @@ const Services = () => {
       outcome: t('s2Outcome'),
       notFor: t('s2NotFor'),
       icon: serviceIcons[2],
-      ctaHref: '/contact?service=team-development' as const,
+      ctaService: 'team-development' as const,
       ctaText: t('s2Cta'),
       anchor: serviceAnchors[2],
     },
@@ -73,7 +73,7 @@ const Services = () => {
       outcome: t('s3Outcome'),
       notFor: t('s3NotFor'),
       icon: serviceIcons[3],
-      ctaHref: '/contact?service=data-analytics' as const,
+      ctaService: 'data-analytics' as const,
       ctaText: t('s3Cta'),
       anchor: serviceAnchors[3],
     },
@@ -85,7 +85,7 @@ const Services = () => {
       outcome: t('s4Outcome'),
       notFor: t('s4NotFor'),
       icon: serviceIcons[4],
-      ctaHref: '/contact?service=innovation-consulting' as const,
+      ctaService: 'innovation-consulting' as const,
       ctaText: t('s4Cta'),
       anchor: serviceAnchors[4],
     },
@@ -97,7 +97,7 @@ const Services = () => {
       outcome: t('s5Outcome'),
       notFor: t('s5NotFor'),
       icon: serviceIcons[5],
-      ctaHref: '/contact?service=digital-transformation' as const,
+      ctaService: 'digital-transformation' as const,
       ctaText: t('s5Cta'),
       anchor: serviceAnchors[5],
     },
@@ -171,7 +171,7 @@ const Services = () => {
               </ul>
 
               <Link
-                href={service.ctaHref}
+                href={{ pathname: '/contact', query: { service: service.ctaService } }}
                 className="inline-flex items-center mt-6 text-primary font-semibold hover:text-primary-dark hover:-translate-y-px transition-all duration-200 group-hover:underline"
               >
                 {service.ctaText}

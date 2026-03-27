@@ -7,6 +7,9 @@ import TrustIndicators from '@/components/TrustIndicators'
 export const metadata = {
   title: 'Our Services | ROALLA',
   description: 'Strategic planning, process optimization, team development, data analytics, innovation consulting, and digital transformation. ROALLA delivers comprehensive business enablement.',
+  alternates: {
+    canonical: '/services',
+  },
 }
 
 export default async function ServicesPage() {

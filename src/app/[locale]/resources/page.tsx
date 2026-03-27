@@ -6,6 +6,9 @@ import Resources from '@/components/Resources'
 export const metadata = {
   title: 'Resource Centre | ROALLA',
   description: 'Access exclusive business guides, templates, tools, and insights from ROALLA. Request access to unlock valuable resources for your growth.',
+  alternates: {
+    canonical: '/resources',
+  },
 }
 
 export default async function ResourcesPage() {

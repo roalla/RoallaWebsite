@@ -6,6 +6,9 @@ import About from '@/components/About'
 export const metadata = {
   title: 'About Us | Roalla Business Enablement Group',
   description: 'Your trusted partner in business transformation and operational excellence. Our story, team values, and mission.',
+  alternates: {
+    canonical: '/about',
+  },
 }
 
 export default async function AboutPage() {

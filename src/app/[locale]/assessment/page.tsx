@@ -6,6 +6,9 @@ import InteractiveAssessment from '@/components/InteractiveAssessment'
 export const metadata = {
   title: 'Business Health Assessment | Roalla Business Enablement Group',
   description: 'Take our 5-minute assessment to discover your business strengths and opportunities for growth.',
+  alternates: {
+    canonical: '/assessment',
+  },
 }
 
 export default async function AssessmentPage() {

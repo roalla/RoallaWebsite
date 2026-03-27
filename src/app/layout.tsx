@@ -18,6 +18,9 @@ const merriweather = Merriweather({
   variable: '--font-merriweather',
 })
 
+const siteUrl = 'https://www.roalla.com'
+const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+
 export const metadata: Metadata = {
   title: 'Roalla Business Enablement Group',
   description: 'Empowering your business for a digital-first world with expert consulting in strategy, technology, and operations.',
@@ -41,14 +44,14 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://www.roalla.com'),
+  metadataBase: new URL(siteUrl),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://www.roalla.com',
+    url: siteUrl,
     siteName: 'Roalla Business Enablement Group',
     title: 'Roalla Business Enablement Group | Strategic Business Consulting',
     description: 'Professional business consulting services helping companies grow, optimize operations, and achieve strategic goals.',
@@ -80,34 +83,45 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: 'your-google-verification-code',
-    yandex: 'your-yandex-verification-code',
-    yahoo: 'your-yahoo-verification-code',
+    google: googleVerification,
   },
 }
 
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "name": "Roalla Business Enablement Group",
-  "url": "https://www.roalla.com",
-  "logo": "https://www.roalla.com/logo.svg",
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "telephone": "+1-289-838-5868",
-    "contactType": "sales",
-    "email": "sales@roalla.com"
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    '@id': `${siteUrl}/#organization`,
+    name: 'Roalla Business Enablement Group',
+    url: siteUrl,
+    logo: `${siteUrl}/logo.svg`,
+    image: `${siteUrl}/og-image.jpg`,
+    description:
+      'Fractional COO and business consulting focused on strategic planning, process optimization, and measurable operational growth.',
+    areaServed: 'Global',
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: '+1-289-838-5868',
+      contactType: 'sales',
+      email: 'sales@roalla.com',
+    },
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Toronto',
+      addressRegion: 'ON',
+      addressCountry: 'CA',
+    },
   },
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Toronto",
-    "addressRegion": "ON",
-    "addressCountry": "CA"
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${siteUrl}/#website`,
+    url: siteUrl,
+    name: 'Roalla Business Enablement Group',
+    publisher: { '@id': `${siteUrl}/#organization` },
+    inLanguage: ['en-CA', 'fr-CA'],
   },
-  "sameAs": [
-    // Add social media links here
-  ]
-}
+]
 
 export default async function RootLayout({
   children,

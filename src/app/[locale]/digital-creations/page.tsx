@@ -6,6 +6,9 @@ import DigitalCreations from '@/components/DigitalCreations'
 export const metadata = {
   title: 'Digital Creations | ROALLA',
   description: 'The Business Cocoon, Soaring Puck, True North Audit — practical tools from 30+ years of business enablement experience. Built by ROALLA.',
+  alternates: {
+    canonical: '/digital-creations',
+  },
 }
 
 export default async function DigitalCreationsPage() {

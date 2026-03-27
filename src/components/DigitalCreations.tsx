@@ -78,11 +78,6 @@ const DigitalCreations = () => {
               {t('introBullet3')}
             </li>
           </ul>
-          <p className="text-sm text-primary/90">
-            <a href="https://www.truenorthaudit.com" target="_blank" rel="noopener noreferrer" className="hover:underline">
-              {t('assessmentTieIn')}
-            </a>
-          </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-8 lg:gap-10 mb-16 relative">

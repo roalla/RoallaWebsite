@@ -10,7 +10,7 @@ import ScheduleButton from './CalendlyButton'
 
 const toolIcons = [Sparkles, Zap, Lightbulb, Mic2] as const
 const toolImageUrls = [
-  '/advisory-board-match.jpg',
+  '/businesscocoontile.jpg',
   '/soaring-puck.jpg',
   '/true-north-audit.jpg',
   '/Keneffectsite.jpg',

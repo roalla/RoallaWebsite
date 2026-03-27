@@ -15,15 +15,38 @@ export async function GET(request: NextRequest) {
 
     if (useSession && !token) {
       const session = await getServerSession(authOptions)
-      if (session?.user?.email && canAccessAdmin(session.user)) {
+      if (!session?.user?.email) {
+        return NextResponse.json(
+          { error: 'Not logged in' },
+          { status: 401 }
+        )
+      }
+
+      if (canAccessAdmin(session.user)) {
         return NextResponse.json({
           authenticated: true,
           email: session.user.email,
           session: true,
         })
       }
+
+      const approved = await prisma.accessRequest.findFirst({
+        where: {
+          email: session.user.email.toLowerCase(),
+          status: 'approved',
+        },
+        select: { email: true },
+      })
+      if (approved?.email) {
+        return NextResponse.json({
+          authenticated: true,
+          email: approved.email,
+          session: true,
+        })
+      }
+
       return NextResponse.json(
-        { error: 'Not logged in as admin or partner' },
+        { error: 'Portal access not approved for this account' },
         { status: 401 }
       )
     }

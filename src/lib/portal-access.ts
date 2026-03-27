@@ -18,25 +18,20 @@ export interface PortalViewer {
   bundleArticleIds: Set<string>
 }
 
-export async function verifyPortalViewer(
-  token: string | null,
-  email: string | null
+async function buildPortalViewerByEmail(
+  email: string
 ): Promise<{ viewer: PortalViewer } | { error: string; status: number }> {
-  if (!token?.trim() || !email?.trim()) {
-    return { error: 'Token and email are required', status: 400 }
-  }
+  const normalizedEmail = email.trim().toLowerCase()
   const accessRequest = await prisma.accessRequest.findFirst({
     where: {
-      token: token.trim(),
-      email: email.trim().toLowerCase(),
+      email: normalizedEmail,
       status: 'approved',
     },
     select: { email: true, fullAccess: true },
   })
   if (!accessRequest) {
-    return { error: 'Invalid or expired access token', status: 401 }
+    return { error: 'Access not approved', status: 401 }
   }
-  const normalizedEmail = accessRequest.email.toLowerCase()
 
   const [itemGrants, userBundles] = await Promise.all([
     prisma.portalItemGrant.findMany({
@@ -57,8 +52,8 @@ export async function verifyPortalViewer(
   }
 
   const bundleIds = userBundles.map((b) => b.bundleId)
-  let bundleResourceIds = new Set<string>()
-  let bundleArticleIds = new Set<string>()
+  const bundleResourceIds = new Set<string>()
+  const bundleArticleIds = new Set<string>()
   if (bundleIds.length > 0) {
     const items = await prisma.portalBundleItem.findMany({
       where: { bundleId: { in: bundleIds } },
@@ -70,35 +65,63 @@ export async function verifyPortalViewer(
     }
   }
 
-  const viewer: PortalViewer = {
-    email: normalizedEmail,
-    fullAccess: accessRequest.fullAccess ?? false,
-    grantedResourceIds,
-    grantedArticleIds,
-    bundleResourceIds,
-    bundleArticleIds,
+  return {
+    viewer: {
+      email: accessRequest.email.toLowerCase(),
+      fullAccess: accessRequest.fullAccess ?? false,
+      grantedResourceIds,
+      grantedArticleIds,
+      bundleResourceIds,
+      bundleArticleIds,
+    },
   }
-  return { viewer }
 }
 
-/** For admins/partners: verify via session instead of token. Returns full-access viewer. */
+export async function verifyPortalViewer(
+  token: string | null,
+  email: string | null
+): Promise<{ viewer: PortalViewer } | { error: string; status: number }> {
+  if (!token?.trim() || !email?.trim()) {
+    return { error: 'Token and email are required', status: 400 }
+  }
+  const accessRequest = await prisma.accessRequest.findFirst({
+    where: {
+      token: token.trim(),
+      email: email.trim().toLowerCase(),
+      status: 'approved',
+    },
+    select: { email: true, fullAccess: true },
+  })
+  if (!accessRequest) {
+    return { error: 'Invalid or expired access token', status: 401 }
+  }
+  return buildPortalViewerByEmail(accessRequest.email)
+}
+
+/** Verify via session. Admin/partner gets full access; approved users get their granted access. */
 export async function verifyPortalViewerFromSession(): Promise<
   { viewer: PortalViewer } | { error: string; status: number }
 > {
   const session = await getServerSession(authOptions)
-  if (!session?.user?.email || !canAccessAdmin(session.user)) {
+  if (!session?.user?.email) {
     return { error: 'Unauthorized', status: 401 }
   }
-  const email = session.user.email.toLowerCase()
-  const viewer: PortalViewer = {
-    email,
-    fullAccess: true,
-    grantedResourceIds: new Set(),
-    grantedArticleIds: new Set(),
-    bundleResourceIds: new Set(),
-    bundleArticleIds: new Set(),
+
+  if (canAccessAdmin(session.user)) {
+    const email = session.user.email.toLowerCase()
+    return {
+      viewer: {
+        email,
+        fullAccess: true,
+        grantedResourceIds: new Set(),
+        grantedArticleIds: new Set(),
+        bundleResourceIds: new Set(),
+        bundleArticleIds: new Set(),
+      },
+    }
   }
-  return { viewer }
+
+  return buildPortalViewerByEmail(session.user.email)
 }
 
 /** Verify portal viewer from token+email OR session. Session works for admin/partner. */

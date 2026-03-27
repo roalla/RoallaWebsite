@@ -4,7 +4,7 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { isAdmin, canAccessAdmin } from '@/lib/access'
 import Link from 'next/link'
-import { FileText, CheckCircle, XCircle, Clock, Users, Lock, BookOpen, FileStack } from 'lucide-react'
+import { FileText, CheckCircle, XCircle, Clock, Users, Lock, BookOpen, FileStack, Circle, CheckCircle2 } from 'lucide-react'
 import AdminDashboardMenu from './AdminDashboardMenu'
 
 const PARTNER_ADD_USER_CAP = Math.max(0, Number(process.env.PARTNER_ADD_USER_CAP) || 50)
@@ -24,6 +24,9 @@ export default async function AdminDashboardPage() {
     rejected,
     globalUserCount,
     gatedPending,
+    bundleCount,
+    lockedResourceCount,
+    lockedArticleCount,
     partnerContext,
   ] = await Promise.all([
     prisma.accessRequest.count({ where: { status: 'pending' } }),
@@ -31,6 +34,9 @@ export default async function AdminDashboardPage() {
     prisma.accessRequest.count({ where: { status: 'rejected' } }),
     prisma.user.count(),
     prisma.gatedAccessRequest.count({ where: { status: 'pending' } }),
+    prisma.portalBundle.count(),
+    prisma.portalResource.count({ where: { lockedByAdmin: true } }),
+    prisma.portalArticle.count({ where: { lockedByAdmin: true } }),
     currentUserId && canAccessAdmin(session?.user) && (!admin || previewAsPartner)
       ? (async () => {
           const u = await prisma.user.findUnique({
@@ -61,6 +67,27 @@ export default async function AdminDashboardPage() {
   ])
 
   const userCount = (admin && !previewAsPartner) ? globalUserCount : partnerContext?.orgUserCount ?? 0
+  const setupSteps = [
+    {
+      label: 'Create at least one access tier bundle',
+      done: bundleCount > 0,
+      href: '/admin/portal-bundles',
+      cta: bundleCount > 0 ? 'Manage bundles' : 'Create bundle',
+    },
+    {
+      label: 'Lock at least one protected resource or link',
+      done: lockedResourceCount + lockedArticleCount > 0,
+      href: '/admin/portal',
+      cta: lockedResourceCount + lockedArticleCount > 0 ? 'Manage locked items' : 'Lock content',
+    },
+    {
+      label: 'Approve at least one portal user',
+      done: approved > 0,
+      href: '/admin/portal-access',
+      cta: approved > 0 ? 'View approved users' : 'Approve users',
+    },
+  ]
+  const completedSetupSteps = setupSteps.filter((step) => step.done).length
 
   return (
     <div>
@@ -74,6 +101,49 @@ export default async function AdminDashboardPage() {
 
       {admin && !previewAsPartner && !previewAsBusiness && (
         <AdminDashboardMenu />
+      )}
+
+      {admin && !previewAsPartner && !previewAsBusiness && (
+        <section className="mb-6 rounded-xl border border-gray-200 bg-white p-4 sm:p-5">
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <div>
+              <h2 className="text-base font-semibold text-gray-900">Start here checklist</h2>
+              <p className="text-sm text-gray-600">
+                Complete these steps to enable controlled resource sharing and admin onboarding.
+              </p>
+            </div>
+            <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+              {completedSetupSteps}/{setupSteps.length} complete
+            </span>
+          </div>
+          <ul className="space-y-2">
+            {setupSteps.map((step) => (
+              <li
+                key={step.label}
+                className={`flex flex-wrap items-center justify-between gap-3 rounded-lg border px-3 py-2 ${
+                  step.done ? 'border-green-200 bg-green-50' : 'border-gray-200 bg-gray-50'
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  {step.done ? (
+                    <CheckCircle2 className="h-4 w-4 text-green-600" />
+                  ) : (
+                    <Circle className="h-4 w-4 text-gray-400" />
+                  )}
+                  <span className={`text-sm ${step.done ? 'text-green-900' : 'text-gray-700'}`}>
+                    {step.label}
+                  </span>
+                </div>
+                <Link
+                  href={step.href}
+                  className="text-sm font-medium text-primary hover:text-primary-dark"
+                >
+                  {step.cta}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
 
       {previewAsPartner && !partnerContext && (

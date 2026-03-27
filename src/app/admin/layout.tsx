@@ -6,6 +6,7 @@ import { prisma } from '@/lib/prisma'
 import AdminHeader from './AdminHeader'
 import AdminSidebar from './AdminSidebar'
 import AdminProviders from './AdminProviders'
+import AdminGuide from './AdminGuide'
 
 export default async function AdminLayout({
   children,
@@ -47,6 +48,7 @@ export default async function AdminLayout({
             </div>
           </main>
         </div>
+        <AdminGuide />
       </div>
     </AdminProviders>
   )

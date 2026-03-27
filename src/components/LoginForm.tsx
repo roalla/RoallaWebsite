@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Mail, Lock, AlertCircle, ArrowLeft, Loader2 } from 'lucide-react'
+import { Mail, Lock, AlertCircle, ArrowLeft, Loader2, Eye, EyeOff } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 
 const oauthProviderIds = ['google', 'azure-ad', 'apple', 'sso'] as const
@@ -28,6 +28,10 @@ export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [oauthLoading, setOauthLoading] = useState<string | null>(null)
   const [message, setMessage] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [capsLockOn, setCapsLockOn] = useState(false)
+  const [emailTouched, setEmailTouched] = useState(false)
+  const [passwordTouched, setPasswordTouched] = useState(false)
   const [oauthProviders, setOauthProviders] = useState<Record<string, { id: string; name: string }>>({})
 
   useEffect(() => {
@@ -43,6 +47,11 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setEmailTouched(true)
+    setPasswordTouched(true)
+    if (!isEmailValid || !isPasswordValid) {
+      return
+    }
     setIsLoading(true)
     setMessage('')
     try {
@@ -92,6 +101,11 @@ export default function LoginForm() {
     (oauthError ? `${t('oauthErrorMicrosoft')} [${error}]` : error ? `${t('signInFailed')} (${error})` : t('signInFailed'))
 
   const isRedirecting = !!oauthLoading
+  const emailTrimmed = email.trim()
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailTrimmed)
+  const isPasswordValid = password.length > 0
+  const showEmailError = emailTouched && !isEmailValid
+  const showPasswordError = passwordTouched && !isPasswordValid
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center py-12 px-4 relative">
@@ -105,7 +119,7 @@ export default function LoginForm() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="w-full max-w-md"
+        className="w-full max-w-[460px]"
       >
         <div className="flex justify-center mb-8">
           <Link href="/" className="block">
@@ -120,14 +134,18 @@ export default function LoginForm() {
           {t('backToHome')}
         </Link>
 
-        <div className="bg-surface-card rounded-2xl shadow-xl border border-white/10 p-8">
-          <div className="text-center mb-8">
+        <div className="bg-surface-card rounded-2xl shadow-2xl border border-white/15 p-8 sm:p-10">
+          <div className="text-center mb-10">
             <h1 id="login-title" className="text-2xl font-bold text-white">{t('signIn')}</h1>
             <p id="login-desc" className="text-gray-400 mt-1">{t('accessDashboard')}</p>
           </div>
 
           {(error || message) && (
-            <div className="mb-6 p-4 rounded-lg bg-red-500/20 border border-red-500/30 flex items-center gap-3 text-red-200">
+            <div
+              className="mb-6 p-4 rounded-lg bg-red-500/20 border border-red-500/30 flex items-center gap-3 text-red-200"
+              role="alert"
+              aria-live="polite"
+            >
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
               <span>{errorMessage}</span>
             </div>
@@ -148,10 +166,19 @@ export default function LoginForm() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-white/20 rounded-lg bg-black/50 text-white focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                  placeholder="you@example.com"
+                  onBlur={() => setEmailTouched(true)}
+                  autoFocus
+                  aria-invalid={showEmailError}
+                  aria-describedby={showEmailError ? 'email-error' : undefined}
+                  className="w-full pl-10 pr-4 py-3 border border-white/20 rounded-lg bg-black/50 text-white placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:border-primary"
+                  placeholder="name@company.com"
                 />
               </div>
+              {showEmailError && (
+                <p id="email-error" className="mt-2 text-sm text-red-300">
+                  Enter a valid email address.
+                </p>
+              )}
             </div>
 
             <div>
@@ -163,20 +190,44 @@ export default function LoginForm() {
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   autoComplete="current-password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-white/20 rounded-lg bg-black/50 text-white focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  onBlur={() => setPasswordTouched(true)}
+                  onKeyUp={(e) => setCapsLockOn(e.getModifierState('CapsLock'))}
+                  onKeyDown={(e) => setCapsLockOn(e.getModifierState('CapsLock'))}
+                  aria-invalid={showPasswordError}
+                  aria-describedby={showPasswordError ? 'password-error' : capsLockOn ? 'caps-lock-hint' : undefined}
+                  className="w-full pl-10 pr-12 py-3 border border-white/20 rounded-lg bg-black/50 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:border-primary"
                 />
+                <button
+                  type="button"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  aria-pressed={showPassword}
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 rounded-sm"
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
               </div>
+              {showPasswordError && (
+                <p id="password-error" className="mt-2 text-sm text-red-300">
+                  Enter your password to continue.
+                </p>
+              )}
+              {capsLockOn && !showPasswordError && (
+                <p id="caps-lock-hint" className="mt-2 text-sm text-amber-300">
+                  Caps Lock appears to be on.
+                </p>
+              )}
             </div>
 
             <button
               type="submit"
-              disabled={isLoading}
-              className="w-full py-3 px-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark focus:ring-2 focus:ring-primary/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+              disabled={isLoading || !isEmailValid || !isPasswordValid}
+              className="w-full py-3 px-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
             >
               {isLoading && <Loader2 className="w-5 h-5 animate-spin" />}
               {isLoading ? t('signingIn') : t('signInButton')}
@@ -245,6 +296,16 @@ export default function LoginForm() {
               <a href="/login/forgot-password" className="text-primary hover:text-primary-dark font-medium">
                 {t('forgotPassword')}
               </a>
+            </p>
+            <p className="text-center text-xs text-gray-400">
+              Secure admin access. Authorized users only.
+            </p>
+            <p className="text-center text-xs text-gray-400">
+              Need access? Contact{' '}
+              <a href="mailto:sales@roalla.com" className="text-primary hover:text-primary-dark font-medium">
+                sales@roalla.com
+              </a>
+              .
             </p>
           </form>
         </div>

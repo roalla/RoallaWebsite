@@ -4,7 +4,7 @@ import React, { useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Lock, ArrowLeft, CheckCircle, AlertCircle } from 'lucide-react'
+import { Lock, ArrowLeft, CheckCircle, AlertCircle, Eye, EyeOff } from 'lucide-react'
 
 function ResetPasswordForm() {
   const searchParams = useSearchParams()
@@ -15,16 +15,28 @@ function ResetPasswordForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
+  const [showNewPassword, setShowNewPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [capsLockOn, setCapsLockOn] = useState(false)
+  const [newPasswordTouched, setNewPasswordTouched] = useState(false)
+  const [confirmPasswordTouched, setConfirmPasswordTouched] = useState(false)
+
+  const isPasswordLengthValid = newPassword.length >= 8
+  const doPasswordsMatch = confirmPassword.length > 0 && newPassword === confirmPassword
+  const showNewPasswordError = newPasswordTouched && !isPasswordLengthValid
+  const showConfirmPasswordError = confirmPasswordTouched && !doPasswordsMatch
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-    if (newPassword !== confirmPassword) {
-      setError('Passwords do not match.')
+    setNewPasswordTouched(true)
+    setConfirmPasswordTouched(true)
+    if (!isPasswordLengthValid) {
+      setError('Password must be at least 8 characters.')
       return
     }
-    if (newPassword.length < 8) {
-      setError('Password must be at least 8 characters.')
+    if (!doPasswordsMatch) {
+      setError('Passwords do not match.')
       return
     }
     if (!token) {
@@ -93,7 +105,7 @@ function ResetPasswordForm() {
           </div>
 
           {message && (
-            <div className="mb-6 p-4 rounded-lg bg-green-50 border border-green-100 flex items-start gap-3 text-green-800">
+            <div className="mb-6 p-4 rounded-lg bg-green-50 border border-green-100 flex items-start gap-3 text-green-800" role="status" aria-live="polite">
               <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
               <div>
                 <p>{message}</p>
@@ -104,7 +116,7 @@ function ResetPasswordForm() {
             </div>
           )}
           {error && (
-            <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-100 flex items-center gap-3 text-red-800">
+            <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-100 flex items-center gap-3 text-red-800" role="alert" aria-live="polite">
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
               <span>{error}</span>
             </div>
@@ -121,16 +133,36 @@ function ResetPasswordForm() {
                   <input
                     id="newPassword"
                     name="newPassword"
-                    type="password"
+                    type={showNewPassword ? 'text' : 'password'}
                     autoComplete="new-password"
                     required
                     minLength={8}
+                    autoFocus
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                    onBlur={() => setNewPasswordTouched(true)}
+                    onKeyUp={(e) => setCapsLockOn(e.getModifierState('CapsLock'))}
+                    onKeyDown={(e) => setCapsLockOn(e.getModifierState('CapsLock'))}
+                    aria-invalid={showNewPasswordError}
+                    aria-describedby={showNewPasswordError ? 'new-password-error' : capsLockOn ? 'caps-lock-hint' : undefined}
+                    className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:border-primary"
                     placeholder="At least 8 characters"
                   />
+                  <button
+                    type="button"
+                    aria-label={showNewPassword ? 'Hide new password' : 'Show new password'}
+                    aria-pressed={showNewPassword}
+                    onClick={() => setShowNewPassword((prev) => !prev)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 rounded-sm"
+                  >
+                    {showNewPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
                 </div>
+                {showNewPasswordError && (
+                  <p id="new-password-error" className="mt-2 text-sm text-red-600">
+                    Password must be at least 8 characters.
+                  </p>
+                )}
               </div>
               <div>
                 <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
@@ -141,21 +173,45 @@ function ResetPasswordForm() {
                   <input
                     id="confirmPassword"
                     name="confirmPassword"
-                    type="password"
+                    type={showConfirmPassword ? 'text' : 'password'}
                     autoComplete="new-password"
                     required
                     minLength={8}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                    onBlur={() => setConfirmPasswordTouched(true)}
+                    onKeyUp={(e) => setCapsLockOn(e.getModifierState('CapsLock'))}
+                    onKeyDown={(e) => setCapsLockOn(e.getModifierState('CapsLock'))}
+                    aria-invalid={showConfirmPasswordError}
+                    aria-describedby={showConfirmPasswordError ? 'confirm-password-error' : undefined}
+                    className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:border-primary"
                     placeholder="Repeat new password"
                   />
+                  <button
+                    type="button"
+                    aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
+                    aria-pressed={showConfirmPassword}
+                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 rounded-sm"
+                  >
+                    {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
                 </div>
+                {showConfirmPasswordError && (
+                  <p id="confirm-password-error" className="mt-2 text-sm text-red-600">
+                    Passwords must match.
+                  </p>
+                )}
+                {capsLockOn && !showNewPasswordError && !showConfirmPasswordError && (
+                  <p id="caps-lock-hint" className="mt-2 text-sm text-amber-700">
+                    Caps Lock appears to be on.
+                  </p>
+                )}
               </div>
               <button
                 type="submit"
-                disabled={isLoading}
-                className="w-full py-3 px-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark focus:ring-2 focus:ring-primary/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                disabled={isLoading || !isPasswordLengthValid || !doPasswordsMatch}
+                className="w-full py-3 px-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 {isLoading ? 'Updating...' : 'Update password'}
               </button>
@@ -166,6 +222,16 @@ function ResetPasswordForm() {
             <Link href="/login" className="text-primary hover:text-primary-dark font-medium">
               Back to sign in
             </Link>
+          </p>
+          <p className="text-center text-xs text-gray-500 mt-2">
+            Secure admin access. Authorized users only.
+          </p>
+          <p className="text-center text-xs text-gray-500 mt-1">
+            Need access? Contact{' '}
+            <a href="mailto:sales@roalla.com" className="text-primary hover:text-primary-dark font-medium">
+              sales@roalla.com
+            </a>
+            .
           </p>
         </div>
       </motion.div>

@@ -10,9 +10,16 @@ export default function ForgotPasswordPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
+  const [emailTouched, setEmailTouched] = useState(false)
+
+  const emailTrimmed = email.trim()
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailTrimmed)
+  const showEmailError = emailTouched && !isEmailValid
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setEmailTouched(true)
+    if (!isEmailValid) return
     setIsLoading(true)
     setMessage('')
     setError('')
@@ -20,7 +27,7 @@ export default function ForgotPasswordPage() {
       const res = await fetch('/api/auth/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: emailTrimmed }),
       })
       const data = await res.json()
       if (!res.ok) {
@@ -58,13 +65,13 @@ export default function ForgotPasswordPage() {
           </div>
 
           {message && (
-            <div className="mb-6 p-4 rounded-lg bg-green-50 border border-green-100 flex items-start gap-3 text-green-800">
+            <div className="mb-6 p-4 rounded-lg bg-green-50 border border-green-100 flex items-start gap-3 text-green-800" role="status" aria-live="polite">
               <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
               <span>{message}</span>
             </div>
           )}
           {error && (
-            <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-100 flex items-center gap-3 text-red-800">
+            <div className="mb-6 p-4 rounded-lg bg-red-50 border border-red-100 flex items-center gap-3 text-red-800" role="alert" aria-live="polite">
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
               <span>{error}</span>
             </div>
@@ -84,17 +91,26 @@ export default function ForgotPasswordPage() {
                     type="email"
                     autoComplete="email"
                     required
+                    autoFocus
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                    placeholder="you@example.com"
+                    onBlur={() => setEmailTouched(true)}
+                    aria-invalid={showEmailError}
+                    aria-describedby={showEmailError ? 'email-error' : undefined}
+                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:border-primary"
+                    placeholder="name@company.com"
                   />
                 </div>
+                {showEmailError && (
+                  <p id="email-error" className="mt-2 text-sm text-red-600">
+                    Enter a valid email address.
+                  </p>
+                )}
               </div>
               <button
                 type="submit"
-                disabled={isLoading}
-                className="w-full py-3 px-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark focus:ring-2 focus:ring-primary/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                disabled={isLoading || !isEmailValid}
+                className="w-full py-3 px-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 {isLoading ? 'Sending...' : 'Send reset link'}
               </button>
@@ -105,6 +121,16 @@ export default function ForgotPasswordPage() {
             <Link href="/login" className="text-primary hover:text-primary-dark font-medium">
               Back to sign in
             </Link>
+          </p>
+          <p className="text-center text-xs text-gray-500 mt-2">
+            Secure admin access. Authorized users only.
+          </p>
+          <p className="text-center text-xs text-gray-500 mt-1">
+            Need access? Contact{' '}
+            <a href="mailto:sales@roalla.com" className="text-primary hover:text-primary-dark font-medium">
+              sales@roalla.com
+            </a>
+            .
           </p>
         </div>
       </motion.div>

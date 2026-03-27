@@ -6,7 +6,7 @@ import { canManagePortal } from '@/lib/access'
 
 export const dynamic = 'force-dynamic'
 
-/** PATCH: set fullAccess and/or item grants for an approved access request */
+/** PATCH: set fullAccess, item grants, and optional tier bundle for an approved access request */
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ requestId: string }> }
@@ -31,6 +31,11 @@ export async function PATCH(
     const fullAccess = typeof body.fullAccess === 'boolean' ? body.fullAccess : undefined
     const grantResourceIds = Array.isArray(body.grantResourceIds) ? body.grantResourceIds.filter((id: unknown) => typeof id === 'string') : undefined
     const grantArticleIds = Array.isArray(body.grantArticleIds) ? body.grantArticleIds.filter((id: unknown) => typeof id === 'string') : undefined
+    const hasTierBundleId = Object.prototype.hasOwnProperty.call(body, 'tierBundleId')
+    const tierBundleId =
+      typeof body.tierBundleId === 'string' && body.tierBundleId.trim()
+        ? body.tierBundleId.trim()
+        : null
 
     const currentUserId = (session.user as { id?: string }).id
 
@@ -54,6 +59,22 @@ export async function PATCH(
         if (toCreate.length > 0) {
           await tx.portalItemGrant.createMany({
             data: toCreate,
+          })
+        }
+      }
+      if (hasTierBundleId) {
+        const email = accessRequest.email.toLowerCase()
+        await tx.userPortalBundle.deleteMany({ where: { email } })
+        if (tierBundleId) {
+          const bundle = await tx.portalBundle.findUnique({
+            where: { id: tierBundleId },
+            select: { id: true },
+          })
+          if (!bundle) {
+            throw new Error('Tier bundle not found')
+          }
+          await tx.userPortalBundle.create({
+            data: { email, bundleId: tierBundleId },
           })
         }
       }

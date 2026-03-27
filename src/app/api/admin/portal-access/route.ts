@@ -14,7 +14,7 @@ export async function GET() {
   }
   try {
     const admin = isAdmin(session.user)
-    const [requests, resources, articles, allGrants] = await Promise.all([
+    const [requests, resources, articles, allGrants, bundles, userBundles] = await Promise.all([
       prisma.accessRequest.findMany({
         where: admin ? undefined : { status: 'approved' },
         orderBy: { createdAt: 'desc' },
@@ -31,6 +31,13 @@ export async function GET() {
       prisma.portalItemGrant.findMany({
         select: { email: true, resourceId: true, articleId: true },
       }),
+      prisma.portalBundle.findMany({
+        orderBy: { name: 'asc' },
+        select: { id: true, name: true, _count: { select: { items: true } } },
+      }),
+      prisma.userPortalBundle.findMany({
+        select: { email: true, bundleId: true },
+      }),
     ])
     const grantsByEmail = new Map<string, { resourceIds: string[]; articleIds: string[] }>()
     for (const g of allGrants) {
@@ -40,8 +47,15 @@ export async function GET() {
       if (g.resourceId) entry.resourceIds.push(g.resourceId)
       if (g.articleId) entry.articleIds.push(g.articleId)
     }
+    const bundlesByEmail = new Map<string, string[]>()
+    for (const ub of userBundles) {
+      const key = ub.email.toLowerCase()
+      if (!bundlesByEmail.has(key)) bundlesByEmail.set(key, [])
+      bundlesByEmail.get(key)!.push(ub.bundleId)
+    }
     const list = requests.map((r) => {
       const grants = grantsByEmail.get(r.email.toLowerCase()) || { resourceIds: [], articleIds: [] }
+      const assignedBundleIds = bundlesByEmail.get(r.email.toLowerCase()) || []
       return {
         id: r.id,
         email: r.email,
@@ -50,6 +64,7 @@ export async function GET() {
         fullAccess: r.fullAccess ?? false,
         grantResourceIds: grants.resourceIds,
         grantArticleIds: grants.articleIds,
+        assignedBundleIds,
         status: r.status,
         createdAt: r.createdAt,
       }
@@ -58,6 +73,7 @@ export async function GET() {
       requests: list,
       resources,
       articles,
+      bundles: bundles.map((b) => ({ id: b.id, name: b.name, itemCount: b._count.items })),
       isAdmin: admin,
     })
   } catch (e) {

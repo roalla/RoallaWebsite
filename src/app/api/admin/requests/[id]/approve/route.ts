@@ -40,6 +40,10 @@ export async function POST(
     const fullAccess = typeof body.fullAccess === 'boolean' ? body.fullAccess : false
     const grantResourceIds = Array.isArray(body.grantResourceIds) ? body.grantResourceIds.filter((id: unknown) => typeof id === 'string') : []
     const grantArticleIds = Array.isArray(body.grantArticleIds) ? body.grantArticleIds.filter((id: unknown) => typeof id === 'string') : []
+    const tierBundleId =
+      typeof body.tierBundleId === 'string' && body.tierBundleId.trim()
+        ? body.tierBundleId.trim()
+        : null
     const sendEmail = body.sendEmail !== false
     const currentUserId = (session.user as { id?: string }).id
     const email = accessRequest.email.toLowerCase()
@@ -58,6 +62,19 @@ export async function POST(
       }
       if (toCreate.length > 0) {
         await tx.portalItemGrant.createMany({ data: toCreate })
+      }
+      await tx.userPortalBundle.deleteMany({ where: { email } })
+      if (tierBundleId) {
+        const bundle = await tx.portalBundle.findUnique({
+          where: { id: tierBundleId },
+          select: { id: true },
+        })
+        if (!bundle) {
+          throw new Error('Tier bundle not found')
+        }
+        await tx.userPortalBundle.create({
+          data: { email, bundleId: tierBundleId },
+        })
       }
     })
 

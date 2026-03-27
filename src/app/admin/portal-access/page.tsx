@@ -16,6 +16,7 @@ interface AccessRequestRow {
   fullAccess: boolean
   grantResourceIds: string[]
   grantArticleIds: string[]
+  assignedBundleIds?: string[]
   status?: string
   createdAt?: string
 }
@@ -32,6 +33,12 @@ interface Article {
   lockedByAdmin: boolean
 }
 
+interface BundleTier {
+  id: string
+  name: string
+  itemCount: number
+}
+
 const TABS = [
   { key: 'pending', label: 'Pending' },
   { key: 'approved', label: 'Approved' },
@@ -46,6 +53,7 @@ export default function AdminPortalAccessPage() {
   const [requests, setRequests] = useState<AccessRequestRow[]>([])
   const [resources, setResources] = useState<Resource[]>([])
   const [articles, setArticles] = useState<Article[]>([])
+  const [bundles, setBundles] = useState<BundleTier[]>([])
   const [isAdmin, setIsAdmin] = useState(false)
   const [loading, setLoading] = useState(true)
   const [savingId, setSavingId] = useState<string | null>(null)
@@ -64,7 +72,7 @@ export default function AdminPortalAccessPage() {
   const [revokingId, setRevokingId] = useState<string | null>(null)
   const [approvingId, setApprovingId] = useState<string | null>(null)
   const [approveModalRequest, setApproveModalRequest] = useState<AccessRequestRow | null>(null)
-  const [approveOptions, setApproveOptions] = useState({ fullAccess: false, sendEmail: true })
+  const [approveOptions, setApproveOptions] = useState({ fullAccess: false, tierBundleId: '', sendEmail: true })
   const addButtonRef = useRef<HTMLButtonElement>(null)
   const bulkButtonRef = useRef<HTMLButtonElement>(null)
   const addModalRef = useRef<HTMLDivElement>(null)
@@ -126,6 +134,7 @@ export default function AdminPortalAccessPage() {
       setRequests(data.requests || [])
       setResources(data.resources || [])
       setArticles(data.articles || [])
+      setBundles(data.bundles || [])
       setIsAdmin(data.isAdmin === true)
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to load')
@@ -183,19 +192,38 @@ export default function AdminPortalAccessPage() {
   const filtered = tab ? requests.filter((r) => r.status === tab) : requests
   const approved = requests.filter((r) => r.status === 'approved')
 
-  const handleSave = async (req: AccessRequestRow, fullAccess: boolean, grantResourceIds: string[], grantArticleIds: string[]) => {
+  const handleSave = async (
+    req: AccessRequestRow,
+    fullAccess: boolean,
+    grantResourceIds: string[],
+    grantArticleIds: string[],
+    tierBundleId: string
+  ) => {
     setSavingId(req.id)
     setError('')
     try {
       const res = await fetch(`/api/admin/portal-access/${req.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fullAccess, grantResourceIds, grantArticleIds }),
+        body: JSON.stringify({
+          fullAccess,
+          grantResourceIds,
+          grantArticleIds,
+          tierBundleId: tierBundleId || null,
+        }),
       })
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || 'Update failed')
       setRequests((prev) =>
         prev.map((r) =>
-          r.id === req.id ? { ...r, fullAccess, grantResourceIds, grantArticleIds } : r
+          r.id === req.id
+            ? {
+                ...r,
+                fullAccess,
+                grantResourceIds,
+                grantArticleIds,
+                assignedBundleIds: tierBundleId ? [tierBundleId] : [],
+              }
+            : r
         )
       )
       setExpandedId(null)
@@ -206,7 +234,12 @@ export default function AdminPortalAccessPage() {
     }
   }
 
-  const handleApprove = async (req: AccessRequestRow, fullAccess: boolean, sendEmail: boolean) => {
+  const handleApprove = async (
+    req: AccessRequestRow,
+    fullAccess: boolean,
+    tierBundleId: string,
+    sendEmail: boolean
+  ) => {
     setApprovingId(req.id)
     setError('')
     setApproveModalRequest(null)
@@ -214,11 +247,21 @@ export default function AdminPortalAccessPage() {
       const res = await fetch(`/api/admin/requests/${req.id}/approve`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fullAccess, grantResourceIds: [], grantArticleIds: [], sendEmail }),
+        body: JSON.stringify({
+          fullAccess,
+          tierBundleId: tierBundleId || null,
+          grantResourceIds: [],
+          grantArticleIds: [],
+          sendEmail,
+        }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Approve failed')
-      setMessage({ type: 'success', text: `Approved ${req.email}. ${data.emailSent ? 'Email sent.' : ''} Access: ${fullAccess ? 'full' : 'public files only'}.` })
+      const selectedTier = bundles.find((b) => b.id === tierBundleId)
+      setMessage({
+        type: 'success',
+        text: `Approved ${req.email}. ${data.emailSent ? 'Email sent.' : ''} Access: ${fullAccess ? 'full' : selectedTier ? `tier "${selectedTier.name}"` : 'public files only'}.`,
+      })
       toast?.success(`Approved ${req.email}`)
       router.refresh()
       fetchData()
@@ -463,7 +506,7 @@ export default function AdminPortalAccessPage() {
               <div className="flex gap-2">
                 <button
                   type="button"
-                  onClick={() => { setApproveModalRequest(req); setApproveOptions({ fullAccess: false, sendEmail: true }) }}
+                  onClick={() => { setApproveModalRequest(req); setApproveOptions({ fullAccess: false, tierBundleId: '', sendEmail: true }) }}
                   disabled={approvingId === req.id}
                   className="inline-flex items-center gap-1 min-h-[44px] px-4 rounded-lg text-sm font-medium text-white bg-primary hover:bg-primary-dark disabled:opacity-50"
                 >
@@ -526,6 +569,11 @@ export default function AdminPortalAccessPage() {
                       )}
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
+                      {req.assignedBundleIds?.[0] && !req.fullAccess && (
+                        <span className="inline-flex items-center gap-1 text-sm text-blue-700 bg-blue-50 px-2 py-1 rounded">
+                          Tier: {bundles.find((b) => b.id === req.assignedBundleIds?.[0])?.name || 'Assigned'}
+                        </span>
+                      )}
                       {req.fullAccess ? (
                         <span className="inline-flex items-center gap-1 text-sm text-green-700 bg-green-50 px-2 py-1 rounded">
                           <Unlock className="w-4 h-4" /> Full access
@@ -553,6 +601,7 @@ export default function AdminPortalAccessPage() {
                       request={req}
                       resources={resources}
                       articles={articles}
+                      bundles={bundles}
                       onSave={handleSave}
                       onCancel={() => setExpandedId(null)}
                       saving={savingId === req.id}
@@ -662,6 +711,22 @@ export default function AdminPortalAccessPage() {
                 />
                 <span className="text-sm text-gray-700">Full access (see all content including locked items)</span>
               </label>
+              <label className="block">
+                <span className="text-sm text-gray-700 block mb-1">Access tier (optional)</span>
+                <select
+                  value={approveOptions.tierBundleId}
+                  onChange={(e) => setApproveOptions((o) => ({ ...o, tierBundleId: e.target.value }))}
+                  disabled={approveOptions.fullAccess}
+                  className="w-full rounded border border-gray-300 px-3 py-2 text-sm disabled:bg-gray-100"
+                >
+                  <option value="">No tier (public files only)</option>
+                  {bundles.map((b) => (
+                    <option key={b.id} value={b.id}>
+                      {b.name} ({b.itemCount} items)
+                    </option>
+                  ))}
+                </select>
+              </label>
               <label className="flex items-center gap-2">
                 <input
                   type="checkbox"
@@ -676,7 +741,7 @@ export default function AdminPortalAccessPage() {
             <div className="flex gap-2">
               <button
                 type="button"
-                onClick={() => handleApprove(approveModalRequest, approveOptions.fullAccess, approveOptions.sendEmail)}
+                onClick={() => handleApprove(approveModalRequest, approveOptions.fullAccess, approveOptions.tierBundleId, approveOptions.sendEmail)}
                 disabled={approvingId === approveModalRequest.id}
                 className="min-h-[44px] px-4 py-2 bg-primary text-white rounded-lg font-medium disabled:opacity-50"
               >
@@ -695,6 +760,7 @@ function PortalAccessForm({
   request,
   resources,
   articles,
+  bundles,
   onSave,
   onCancel,
   saving,
@@ -702,19 +768,28 @@ function PortalAccessForm({
   request: AccessRequestRow
   resources: Resource[]
   articles: Article[]
-  onSave: (req: AccessRequestRow, fullAccess: boolean, grantResourceIds: string[], grantArticleIds: string[]) => void
+  bundles: BundleTier[]
+  onSave: (
+    req: AccessRequestRow,
+    fullAccess: boolean,
+    grantResourceIds: string[],
+    grantArticleIds: string[],
+    tierBundleId: string
+  ) => void
   onCancel: () => void
   saving: boolean
 }) {
   const [fullAccess, setFullAccess] = useState(request.fullAccess)
   const [grantResourceIds, setGrantResourceIds] = useState<Set<string>>(new Set(request.grantResourceIds))
   const [grantArticleIds, setGrantArticleIds] = useState<Set<string>>(new Set(request.grantArticleIds))
+  const [tierBundleId, setTierBundleId] = useState(request.assignedBundleIds?.[0] || '')
 
   useEffect(() => {
     setFullAccess(request.fullAccess)
     setGrantResourceIds(new Set(request.grantResourceIds))
     setGrantArticleIds(new Set(request.grantArticleIds))
-  }, [request.id, request.fullAccess, request.grantResourceIds, request.grantArticleIds])
+    setTierBundleId(request.assignedBundleIds?.[0] || '')
+  }, [request.id, request.fullAccess, request.grantResourceIds, request.grantArticleIds, request.assignedBundleIds])
 
   const toggleResource = (id: string) => {
     setGrantResourceIds((prev) => {
@@ -740,6 +815,26 @@ function PortalAccessForm({
         <label htmlFor={`full-${request.id}`} className="text-sm font-medium text-gray-700">
           Full access (user sees all portal content, including locked items)
         </label>
+      </div>
+      <div>
+        <label htmlFor={`tier-${request.id}`} className="block text-sm font-medium text-gray-700 mb-1">
+          Access tier (bundle)
+        </label>
+        <select
+          id={`tier-${request.id}`}
+          value={tierBundleId}
+          onChange={(e) => setTierBundleId(e.target.value)}
+          disabled={fullAccess}
+          className="w-full rounded border border-gray-300 px-3 py-2 text-sm disabled:bg-gray-100"
+        >
+          <option value="">No tier (public files only)</option>
+          {bundles.map((b) => (
+            <option key={b.id} value={b.id}>
+              {b.name} ({b.itemCount} items)
+            </option>
+          ))}
+        </select>
+        <p className="text-xs text-gray-500 mt-1">A tier grants all locked items included in that bundle.</p>
       </div>
       {!fullAccess && (
         <>
@@ -783,7 +878,20 @@ function PortalAccessForm({
         </>
       )}
       <div className="flex gap-2">
-        <button type="button" onClick={() => onSave(request, fullAccess, Array.from(grantResourceIds), Array.from(grantArticleIds))} disabled={saving} className="px-4 py-2 bg-primary text-white rounded-lg font-medium text-sm disabled:opacity-50">
+        <button
+          type="button"
+          onClick={() =>
+            onSave(
+              request,
+              fullAccess,
+              Array.from(grantResourceIds),
+              Array.from(grantArticleIds),
+              tierBundleId
+            )
+          }
+          disabled={saving}
+          className="px-4 py-2 bg-primary text-white rounded-lg font-medium text-sm disabled:opacity-50"
+        >
           {saving ? 'Saving...' : 'Save'}
         </button>
         <button type="button" onClick={onCancel} className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium text-sm hover:bg-gray-200">Cancel</button>

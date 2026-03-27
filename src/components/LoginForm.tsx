@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react'
 import { signIn, getProviders } from 'next-auth/react'
 import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Mail, Lock, AlertCircle, ArrowLeft, Loader2, Eye, EyeOff } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
@@ -119,36 +118,10 @@ export default function LoginForm() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="w-full max-w-5xl"
+        className="w-full max-w-3xl"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <section className="lg:col-span-5 bg-white/[0.03] border border-white/10 rounded-2xl p-8 sm:p-10 flex flex-col justify-between">
-            <div>
-              <Link href="/" className="inline-flex">
-                <Image src="/logo.svg" alt="ROALLA" width={132} height={44} className="h-11 w-auto" priority />
-              </Link>
-              <h1 className="mt-8 text-3xl sm:text-4xl font-bold tracking-tight text-white">
-                Admin Access Portal
-              </h1>
-              <p className="mt-3 text-base text-gray-300 leading-relaxed">
-                Manage trusted resources, team roles, and protected portal content from a secure control center.
-              </p>
-            </div>
-            <div className="mt-8 space-y-3 text-sm text-gray-300">
-              <p className="rounded-lg border border-white/10 bg-black/30 px-4 py-3">
-                Secure admin access. Authorized users only.
-              </p>
-              <p className="rounded-lg border border-white/10 bg-black/30 px-4 py-3">
-                Need access? Contact{' '}
-                <a href="mailto:sales@roalla.com" className="text-primary hover:text-primary-dark font-semibold">
-                  sales@roalla.com
-                </a>
-                .
-              </p>
-            </div>
-          </section>
-
-          <section className="lg:col-span-7 bg-surface-card rounded-2xl shadow-2xl border border-white/15 p-8 sm:p-10">
+        <div className="grid grid-cols-1">
+          <section className="bg-surface-card rounded-2xl shadow-2xl border border-white/15 p-8 sm:p-10">
             <Link
               href="/"
               className="inline-flex items-center text-primary hover:text-primary-dark mb-8 transition-colors"

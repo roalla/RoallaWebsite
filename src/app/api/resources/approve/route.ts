@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
 
     // Send access email to user
     if (process.env.RESEND_API_KEY) {
-      const accessUrl = `${request.headers.get('origin') || 'https://roalla.com'}/resources/portal?token=${updatedRequest.token}&email=${encodeURIComponent(updatedRequest.email)}`
+      const accessUrl = `${request.headers.get('origin') || 'https://www.roalla.com'}/resources/portal?token=${updatedRequest.token}&email=${encodeURIComponent(updatedRequest.email)}`
 
       try {
         await resend.emails.send({
@@ -84,7 +84,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Return success page
-    const accessUrl = `${request.headers.get('origin') || 'https://roalla.com'}/resources/portal?token=${updatedRequest.token}&email=${encodeURIComponent(updatedRequest.email)}`
+    const accessUrl = `${request.headers.get('origin') || 'https://www.roalla.com'}/resources/portal?token=${updatedRequest.token}&email=${encodeURIComponent(updatedRequest.email)}`
     
     return new NextResponse(`
       <!DOCTYPE html>

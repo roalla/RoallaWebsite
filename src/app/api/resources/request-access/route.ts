@@ -172,8 +172,8 @@ export async function POST(request: NextRequest) {
               </div>
               <div style="background: #fff; padding: 20px; border-left: 4px solid #00b4c5; margin: 20px 0;">
                 <p><strong>To approve this request, visit:</strong></p>
-                <p><a href="${request.headers.get('origin') || 'https://roalla.com'}/api/resources/approve?requestId=${accessRequest.id}&token=${token}" style="color: #00b4c5;">Approve Access Request</a></p>
-                <p style="font-size: 12px; color: #666; margin-top: 10px;">Or manually send the access link: ${request.headers.get('origin') || 'https://roalla.com'}/resources/portal?token=${token}&email=${encodeURIComponent(email)}</p>
+                <p><a href="${request.headers.get('origin') || 'https://www.roalla.com'}/api/resources/approve?requestId=${accessRequest.id}&token=${token}" style="color: #00b4c5;">Approve Access Request</a></p>
+                <p style="font-size: 12px; color: #666; margin-top: 10px;">Or manually send the access link: ${request.headers.get('origin') || 'https://www.roalla.com'}/resources/portal?token=${token}&email=${encodeURIComponent(email)}</p>
               </div>
             </div>
           `

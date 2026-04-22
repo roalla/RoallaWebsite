@@ -2,19 +2,18 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, Briefcase, Target, Heart } from 'lucide-react'
+import { ArrowRight, Briefcase, Heart } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import ScheduleButton from '../CalendlyButton'
 
-const statIcons = [Briefcase, Target, Heart]
+const statIcons = [Briefcase, Heart]
 
 export default function HomeHero() {
   const t = useTranslations('home.hero')
   const stats = [
     { value: t('stat1Value'), label: t('stat1Label'), icon: statIcons[0] },
-    { value: t('stat2Value'), label: t('stat2Label'), icon: statIcons[1] },
-    { value: t('stat3Value'), label: t('stat3Label'), icon: statIcons[2] },
+    { value: t('stat3Value'), label: t('stat3Label'), icon: statIcons[1] },
   ]
   return (
     <section className="relative min-h-[85vh] flex items-center bg-black overflow-hidden">

@@ -42,7 +42,7 @@ const Resources = () => {
           <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
           <div className="relative z-10">
             <span className="inline-flex items-center rounded-full border border-white/30 bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white mb-4">
-              Members only
+              Client Access
             </span>
           <p className="text-sm text-white/90 mb-4 font-medium">{t('benefitsTeaser')}</p>
           <div className="flex items-center justify-center mb-6">

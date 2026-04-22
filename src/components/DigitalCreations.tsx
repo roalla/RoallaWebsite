@@ -14,7 +14,7 @@ const toolImageUrls = [
   '/soaring-puck.jpg',
   '/true-north-audit.jpg',
   '/Keneffectsite.jpg',
-  '/true-north-audit.jpg',
+  '/preflight.jpg',
 ] as const
 const toolImageAlts = [
   'The Business Cocoon platform showing tools, verified advisors, and dashboard interface',
@@ -34,11 +34,11 @@ const tryUrls = [
 const DigitalCreations = () => {
   const t = useTranslations('digitalCreations')
   const tools = [
+    { name: t('t4Name'), desc: t('t4Desc'), bullets: [t('t4B1'), t('t4B2'), t('t4B3')], caseStudy: t('t4CaseStudy'), icon: toolIcons[4], imageUrl: toolImageUrls[4], imageAlt: toolImageAlts[4], tryUrl: tryUrls[4] },
     { name: t('t0Name'), desc: t('t0Desc'), bullets: [t('t0B1'), t('t0B2'), t('t0B3')], caseStudy: t('t0CaseStudy'), icon: toolIcons[0], imageUrl: toolImageUrls[0], imageAlt: toolImageAlts[0], tryUrl: tryUrls[0] },
     { name: t('t1Name'), desc: t('t1Desc'), bullets: [t('t1B1'), t('t1B2'), t('t1B3')], caseStudy: t('t1CaseStudy'), icon: toolIcons[1], imageUrl: toolImageUrls[1], imageAlt: toolImageAlts[1], tryUrl: tryUrls[1] },
     { name: t('t2Name'), desc: t('t2Desc'), bullets: [t('t2B1'), t('t2B2'), t('t2B3')], caseStudy: t('t2CaseStudy'), icon: toolIcons[2], imageUrl: toolImageUrls[2], imageAlt: toolImageAlts[2], tryUrl: tryUrls[2] },
     { name: t('t3Name'), desc: t('t3Desc'), bullets: [t('t3B1'), t('t3B2'), t('t3B3')], caseStudy: t('t3CaseStudy'), icon: toolIcons[3], imageUrl: toolImageUrls[3], imageAlt: toolImageAlts[3], tryUrl: tryUrls[3] },
-    { name: t('t4Name'), desc: t('t4Desc'), bullets: [t('t4B1'), t('t4B2'), t('t4B3')], caseStudy: t('t4CaseStudy'), icon: toolIcons[4], imageUrl: toolImageUrls[4], imageAlt: toolImageAlts[4], tryUrl: tryUrls[4] },
   ]
 
   return (
@@ -84,7 +84,7 @@ const DigitalCreations = () => {
           </ul>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-5 gap-8 lg:gap-10 mb-16 relative">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 mb-16 relative">
           <div className="absolute inset-x-0 -top-8 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
           {tools.map((tool, index) => (
             <motion.div
@@ -94,7 +94,7 @@ const DigitalCreations = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className="group bg-surface-card rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-white/10 hover:border-primary/30 overflow-hidden"
+              className="group h-full bg-surface-card rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-white/10 hover:border-primary/30 overflow-hidden flex flex-col"
             >
               <div className="relative h-48 bg-surface-elevated overflow-hidden">
                 <Image
@@ -112,7 +112,7 @@ const DigitalCreations = () => {
                 </div>
               </div>
 
-              <div className="p-6 lg:p-8">
+              <div className="p-6 lg:p-8 flex flex-1 flex-col">
                 <h3 className="text-xl font-bold text-white mb-3">{tool.name}</h3>
                 <p className="text-gray-300 text-base leading-relaxed mb-4">{tool.desc}</p>
 
@@ -126,19 +126,19 @@ const DigitalCreations = () => {
                 </ul>
 
                 <p className="text-xs text-primary/80 mb-4 italic">{tool.caseStudy}</p>
-                <div className="flex flex-col sm:flex-row gap-3">
+                <div className="mt-auto flex flex-col gap-3">
                   <a
                     href={tool.tryUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 text-sm flex-1 sm:flex-none hover:scale-[1.02]"
+                    className="inline-flex w-full items-center justify-center bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 text-sm hover:scale-[1.02]"
                   >
                     {t('tryTool')}
                     <ExternalLink className="w-4 h-4 ml-2" />
                   </a>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center text-primary hover:text-primary-dark font-semibold py-2 px-4 rounded-lg transition-colors duration-200 text-sm border border-primary hover:bg-primary/5 hover:-translate-y-px"
+                    className="inline-flex w-full items-center justify-center text-primary hover:text-primary-dark font-semibold py-2 px-4 rounded-lg transition-colors duration-200 text-sm border border-primary hover:bg-primary/5 hover:-translate-y-px"
                   >
                     {t('learnMore')}
                   </Link>

@@ -110,7 +110,7 @@ export default function RequestAccessPage() {
       const data = await res.json()
       if (res.ok) {
         setStatusSubmit('success')
-        setMessage('Your access request has been submitted successfully. We will review your request and send you an email with access instructions within 24 hours.')
+        setMessage('Your request has been received. Our team will review it and send access instructions by email within one business day.')
         setFormData((prev) => ({ ...prev, accessCode: '' }))
       } else {
         setStatusSubmit('error')
@@ -150,7 +150,7 @@ export default function RequestAccessPage() {
       const data = await response.json()
       if (response.ok) {
         setStatusSubmit('success')
-        setMessage('Your access request has been submitted successfully. We will review your request and send you an email with access instructions within 24 hours.')
+        setMessage('Your request has been received. Our team will review it and send access instructions by email within one business day.')
         setFormData({ email: '', name: '', company: '', requestReason: '', accessCode: '', reason: '', _honeypot: '' })
       } else {
         setStatusSubmit('error')
@@ -169,7 +169,7 @@ export default function RequestAccessPage() {
       <div className="min-h-screen bg-black flex items-center justify-center py-20">
         <div className="text-center text-gray-300">
           <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p>Loading...</p>
+          <p>Loading access request form...</p>
         </div>
       </div>
     )
@@ -199,10 +199,10 @@ export default function RequestAccessPage() {
               </div>
             </div>
             <h1 className="text-4xl md:text-5xl font-serif font-extrabold text-white mb-4">
-              Request Access to Resource Centre
+              Request Resource Centre Access
             </h1>
             <p className="text-xl text-gray-300">
-              Get access to exclusive business resources, guides, templates, and insights.
+              Request secure access to curated guides, templates, tools, and advisory resources.
             </p>
             <p className="mt-4 inline-flex items-center rounded-full border border-primary/40 bg-primary/10 px-4 py-1 text-sm font-medium text-primary">
               Request type: {selectedRequestTypeLabel}
@@ -220,20 +220,20 @@ export default function RequestAccessPage() {
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <CheckCircle className="w-8 h-8 text-green-600" />
                 </div>
-                <h2 className="text-2xl font-bold text-white mb-4">Request Submitted!</h2>
+                <h2 className="text-2xl font-bold text-white mb-4">Request Received</h2>
                 <p className="text-gray-300 mb-6">{message}</p>
                 <IntlLink
                   href="/"
                   className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-semibold py-3 px-6 rounded-lg transition-colors"
                 >
-                  Return to Homepage
+                  Return to Home
                 </IntlLink>
               </div>
             ) : isAuthenticated ? (
               <form onSubmit={handleSubmitAuthenticated} className="space-y-6">
                 <div className="text-center mb-6">
                   <p className="text-sm text-gray-300">
-                    Complete your details to finalize your Resource Centre access request.
+                    Complete your details to finalize your access request.
                   </p>
                 </div>
                 <div>
@@ -342,7 +342,7 @@ export default function RequestAccessPage() {
                   )}
                 </button>
                 <p className="text-sm text-gray-300 text-center">
-                  By requesting access, you agree to our terms of service and privacy policy.
+                  By submitting this request, you confirm you have authority to request access for your organization.
                 </p>
               </form>
             ) : (
@@ -351,9 +351,9 @@ export default function RequestAccessPage() {
                   <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-3">
                     <LogIn className="w-6 h-6 text-primary" />
                   </div>
-                  <h2 className="text-xl font-bold text-white mb-1">Sign in to create your account and request access</h2>
+                  <h2 className="text-xl font-bold text-white mb-1">Sign in to request access</h2>
                   <p className="text-sm text-gray-300">
-                    Use Google, Microsoft, or Apple to register and request access in one step.
+                    Use Google, Microsoft, or Apple for faster approval and account continuity.
                   </p>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -415,7 +415,7 @@ export default function RequestAccessPage() {
                     className="flex items-center justify-center gap-2 w-full text-sm text-gray-400 hover:text-white"
                   >
                     {showEmailForm ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                    {showEmailForm ? 'Hide' : 'Prefer not to sign in?'} Request access by email
+                    {showEmailForm ? 'Hide Form' : 'Prefer not to sign in?'} Submit Request by Email
                   </button>
                   {showEmailForm && (
                     <>
@@ -541,7 +541,7 @@ export default function RequestAccessPage() {
                           ) : (
                             <>
                               <Lock className="w-5 h-5 mr-2" />
-                              Request Access by Email
+                              Submit Request by Email
                             </>
                           )}
                         </button>
@@ -559,11 +559,11 @@ export default function RequestAccessPage() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-8 bg-surface-card border border-white/10 rounded-xl p-6"
           >
-            <h3 className="font-semibold text-white mb-2">What&apos;s included in the Resource Centre?</h3>
+            <h3 className="font-semibold text-white mb-2">What&apos;s included in the Resource Centre</h3>
             <ul className="space-y-2 text-sm text-gray-300">
               <li className="flex items-start">
                 <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0 mt-0.5" />
-                <span>Exclusive business guides and frameworks</span>
+                <span>Client-only business guides and operating frameworks</span>
               </li>
               <li className="flex items-start">
                 <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0 mt-0.5" />
@@ -571,11 +571,11 @@ export default function RequestAccessPage() {
               </li>
               <li className="flex items-start">
                 <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0 mt-0.5" />
-                <span>Links to external content (e.g. LinkedIn) and internal tools</span>
+                <span>Vetted links to external references and internal tools</span>
               </li>
               <li className="flex items-start">
                 <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0 mt-0.5" />
-                <span>ROI calculators and assessment tools</span>
+                <span>ROI calculators and decision-support assessments</span>
               </li>
             </ul>
           </motion.div>

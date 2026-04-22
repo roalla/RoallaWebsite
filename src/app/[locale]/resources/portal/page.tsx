@@ -4,7 +4,7 @@ import React, { useEffect, useState, useCallback, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useLocale } from 'next-intl'
 import { motion } from 'framer-motion'
-import { FileText, Download, BookOpen, TrendingUp, BarChart3, Lightbulb, Lock, LogOut, Eye, X, Gift, Link2 } from 'lucide-react'
+import { FileText, Download, BookOpen, TrendingUp, BarChart3, Lightbulb, Lock, LogOut, Eye, X, Gift, Link2, ShieldCheck, Clock3 } from 'lucide-react'
 import { Link as IntlLink } from '@/i18n/navigation'
 
 /** Unified portal content item: either a downloadable resource or a link (both shown in one grid). */
@@ -120,6 +120,8 @@ function ResourcesPortalContent() {
   const [redeemCode, setRedeemCode] = useState('')
   const [redeemStatus, setRedeemStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
   const [redeemLoading, setRedeemLoading] = useState(false)
+  const resourceCount = portalContent.filter((item) => item.kind === 'resource').length
+  const linkCount = portalContent.length - resourceCount
 
   const iconByType: Record<string, typeof FileText> = {
     Guide: FileText,
@@ -312,12 +314,19 @@ function ResourcesPortalContent() {
     return `/api/resources/portal/out?${params.toString()}`
   }
 
+  const getItemBadge = (item: PortalContentItem) => {
+    if (item.kind === 'link') return 'External Link'
+    if (item.downloadUrl && item.readUrl) return 'Download + Link'
+    if (item.viewOnly) return 'View Only'
+    return 'Download'
+  }
+
   if (!mounted || isLoading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center pt-20">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-400">{mounted ? 'Verifying access...' : 'Loading...'}</p>
+          <p className="text-gray-400">{mounted ? 'Verifying secure access...' : 'Loading portal...'}</p>
         </div>
       </div>
     )
@@ -333,7 +342,7 @@ function ResourcesPortalContent() {
             </div>
             <h1 className="text-3xl font-bold text-white mb-4">Access Required</h1>
             <p className="text-gray-300 mb-8">
-              You need to request access to view the resources portal. Please submit an access request to continue.
+              This portal is available to approved clients. Submit an access request to continue.
             </p>
             <IntlLink
               href="/resources/request"
@@ -354,9 +363,11 @@ function ResourcesPortalContent() {
           <div className="flex items-center justify-between flex-wrap gap-3">
             <div className="min-w-0 flex-1">
               <h1 className="text-2xl font-bold text-white">
-                Resources Portal{portalOrgName ? ` for ${portalOrgName}` : ''}
+                Client Resource Portal{portalOrgName ? ` - ${portalOrgName}` : ''}
               </h1>
-              <p className="text-sm text-gray-400 truncate" title={userEmail ?? undefined}>Welcome, {userEmail}</p>
+              <p className="text-sm text-gray-400 truncate" title={userEmail ?? undefined}>
+                Signed in as {userEmail}
+              </p>
             </div>
             <button
               onClick={handleLogout}
@@ -370,13 +381,48 @@ function ResourcesPortalContent() {
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <section className="mb-6 rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-4 py-3">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+            <span className="inline-flex items-center text-emerald-300">
+              <ShieldCheck className="mr-1.5 h-4 w-4" />
+              Confidential client materials
+            </span>
+            <span className="inline-flex items-center text-gray-300">
+              <Clock3 className="mr-1.5 h-4 w-4" />
+              Content is reviewed and updated by the Roalla team
+            </span>
+          </div>
+        </section>
+
+        <section className="mb-10 rounded-2xl border border-white/10 bg-surface-card p-6 shadow-sm">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div>
+              <h2 className="text-xl font-semibold text-white">Resource Library</h2>
+              <p className="mt-1 text-sm text-gray-400">
+                Curated documents, tools, and partner links selected for your engagement.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2 text-sm">
+              <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-gray-200">
+                {portalContent.length} total items
+              </span>
+              <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-gray-200">
+                {resourceCount} resources
+              </span>
+              <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-gray-200">
+                {linkCount} links
+              </span>
+            </div>
+          </div>
+        </section>
+
         {/* Redeem code */}
-        <div className="mb-10 p-4 bg-surface-card rounded-xl border border-white/10 shadow-sm">
+        <div className="mb-10 rounded-xl border border-white/10 bg-surface-card p-4 shadow-sm">
           <div className="flex items-center gap-2 mb-2">
             <Gift className="w-5 h-5 text-primary" />
-            <h3 className="font-semibold text-white">Have a training or bundle code?</h3>
+            <h3 className="font-semibold text-white">Access Code Redemption</h3>
           </div>
-          <p className="text-sm text-gray-400 mb-3">Enter it below to unlock additional resources.</p>
+          <p className="text-sm text-gray-400 mb-3">Enter a valid code to unlock additional content for your account.</p>
           <div className="flex flex-wrap gap-2">
             <input
               type="text"
@@ -392,7 +438,7 @@ function ResourcesPortalContent() {
               disabled={redeemLoading}
               className="px-4 py-2 bg-primary hover:bg-primary-dark text-white font-medium rounded-lg text-sm disabled:opacity-50"
             >
-              {redeemLoading ? 'Redeeming...' : 'Redeem'}
+              {redeemLoading ? 'Redeeming...' : 'Redeem Code'}
             </button>
           </div>
           {redeemStatus && (
@@ -405,14 +451,14 @@ function ResourcesPortalContent() {
         <div>
           <div className="flex items-center mb-2">
             <BookOpen className="w-8 h-8 text-primary mr-3" />
-            <h2 className="text-3xl font-bold text-white">Content</h2>
+            <h2 className="text-3xl font-bold text-white">Available Content</h2>
           </div>
-          <p className="text-gray-400 mb-8">Guides, templates, tools, and links—all in one place.</p>
+          <p className="text-gray-400 mb-8">Guides, templates, tools, and references for faster execution.</p>
 
           {!contentLoaded ? (
-            <p className="text-gray-500">Loading content...</p>
+            <p className="text-gray-500">Loading your resources...</p>
           ) : portalContent.length === 0 ? (
-            <p className="text-gray-500">No content is currently available for your account. Redeem a code or contact your consultant for access.</p>
+            <p className="text-gray-500">No content is currently available for your account. Redeem an access code or contact your consultant.</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {portalContent.map((item, index) => (
@@ -421,14 +467,14 @@ function ResourcesPortalContent() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.05 }}
-                  className="bg-surface-card rounded-xl p-6 shadow-lg border border-white/10 hover:shadow-xl transition-all duration-300"
+                  className="flex h-full flex-col rounded-xl border border-white/10 bg-surface-card p-6 shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
                 >
                   <div className="flex items-start justify-between gap-2 mb-3">
                     <div className={`w-14 h-14 bg-gradient-to-br ${item.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
                       <item.icon className="w-7 h-7 text-white" />
                     </div>
                     <span className="shrink-0 rounded-full bg-white/10 px-2.5 py-0.5 text-xs font-medium text-gray-400">
-                      {item.kind === 'link' ? 'Link' : item.downloadUrl && item.readUrl ? 'Download + Link' : 'Download'}
+                      {getItemBadge(item)}
                     </span>
                   </div>
                   <div className="text-xs font-semibold text-primary mb-1 uppercase tracking-wide">
@@ -440,7 +486,7 @@ function ResourcesPortalContent() {
                     className="portal-rich-text text-gray-300 mb-4 leading-relaxed text-sm [&_p]:my-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:text-primary [&_a]:underline [&_a]:hover:opacity-90 [&_strong]:font-semibold"
                     dangerouslySetInnerHTML={{ __html: item.description || '' }}
                   />
-                  <div className="flex flex-wrap gap-2">
+                  <div className="mt-auto flex flex-wrap gap-2">
                     {item.kind === 'resource' && item.downloadUrl && item.isPdf && (
                       <button
                         type="button"
@@ -448,7 +494,7 @@ function ResourcesPortalContent() {
                         className="inline-flex items-center bg-white/10 hover:bg-white/20 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm"
                       >
                         <Eye className="w-4 h-4 mr-2" />
-                        View
+                        View Document
                       </button>
                     )}
                     {item.kind === 'resource' && item.downloadUrl && !item.viewOnly && (
@@ -457,7 +503,7 @@ function ResourcesPortalContent() {
                         className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm"
                       >
                         <Download className="w-4 h-4 mr-2" />
-                        Download
+                        Download File
                       </a>
                     )}
                     {item.kind === 'resource' && item.readUrl && (
@@ -467,7 +513,7 @@ function ResourcesPortalContent() {
                         rel="noopener noreferrer"
                         className="inline-flex items-center bg-white/10 hover:bg-white/20 text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm"
                       >
-                        Open link
+                        Open Reference
                       </a>
                     )}
                     {item.kind === 'link' && item.readUrl && item.readUrl !== '#' && (
@@ -475,7 +521,7 @@ function ResourcesPortalContent() {
                         href={getOutUrl(item)}
                         className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded-lg transition-colors text-sm"
                       >
-                        {item.readUrl.startsWith('/') ? 'Open tool' : 'Open link'}
+                        {item.readUrl.startsWith('/') ? 'Open Tool' : 'Open Reference'}
                       </a>
                     )}
                   </div>
@@ -484,6 +530,27 @@ function ResourcesPortalContent() {
             </div>
           )}
         </div>
+
+        <section className="mt-12 rounded-xl border border-white/10 bg-surface-card p-5">
+          <h3 className="text-lg font-semibold text-white">Need support with this portal?</h3>
+          <p className="mt-1 text-sm text-gray-400">
+            For content access, broken links, or account-level questions, contact your Roalla consultant or email support.
+          </p>
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <a
+              href="mailto:sales@roalla.com"
+              className="inline-flex items-center rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
+            >
+              Contact Support
+            </a>
+            <IntlLink
+              href="/trust"
+              className="inline-flex items-center rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/20"
+            >
+              Review Trust Centre
+            </IntlLink>
+          </div>
+        </section>
       </div>
 
       {/* In-page PDF viewer modal */}
@@ -521,7 +588,7 @@ export default function ResourcesPortalPage() {
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-400">Loading...</p>
+          <p className="text-gray-400">Loading client portal...</p>
         </div>
       </div>
     }>

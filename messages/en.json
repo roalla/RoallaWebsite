@@ -259,10 +259,16 @@
     "t3B1": "Built for booking, programs, and attendee sign-in in one cohesive experience",
     "t3B2": "Speaking, events, and media hub with practical resources for leaders, parents, and athletes",
     "t3B3": "Corporate credibility with youth-friendly warmth—aligned with Laurier, Golden Hawks, and Halton-region roots",
+    "t4Name": "Preflight",
+    "t4Desc": "Decision-readiness workspace for teams that need stronger briefs, clearer alignment, and better rehearsal before committing to build.",
+    "t4B1": "Choose from practical workflows including Digital Presence Brief, Preflight Model, and AI Public Speaking Coach",
+    "t4B2": "Run growth and cybersecurity readiness checks before launch to reduce execution risk",
+    "t4B3": "Keep teams aligned with shared access, structured checkpoints, and consultant-ready outputs",
     "t0CaseStudy": "Launch faster with verified advisors, AI matching, and practical tools that turn strategy into traction.",
     "t1CaseStudy": "Help families stay organized and coaches stay focused, while giving programs the tools to grow without added chaos.",
     "t2CaseStudy": "Get executive-level clarity in minutes with a strategic audit that surfaces risks, priorities, and next-best actions.",
-    "t3CaseStudy": "Convert more attention into bookings with a high-trust brand experience built to drive speaker and program demand."
+    "t3CaseStudy": "Convert more attention into bookings with a high-trust brand experience built to drive speaker and program demand.",
+    "t4CaseStudy": "Improve build outcomes by validating readiness, sharpening briefs, and rehearsing key decisions before execution starts."
   },
   "faq": {
     "title": "Frequently Asked Questions",

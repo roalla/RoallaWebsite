@@ -5,7 +5,7 @@ import DigitalCreations from '@/components/DigitalCreations'
 
 export const metadata = {
   title: 'Digital Creations | ROALLA',
-  description: 'Preflight, Soaring Puck, Ken Effect, and more — practical tools from 30+ years of business enablement experience. Built by ROALLA.',
+  description: 'The Business Cocoon, Soaring Puck, Ken Effect, and more — practical tools from 30+ years of business enablement experience. Built by ROALLA.',
   alternates: {
     canonical: '/digital-creations',
   },

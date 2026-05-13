@@ -8,9 +8,9 @@ import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import ScheduleButton from './CalendlyButton'
 
-const toolImageUrls = ['/preflight.jpg', '/soaring-puck.jpg', '/Keneffectsite.jpg'] as const
+const toolImageUrls = ['/businesscocoontile.jpg', '/soaring-puck.jpg', '/Keneffectsite.jpg'] as const
 const toolImageAlts = [
-  'Preflight product dashboard showing briefs, readiness checks, and rehearsal workflows before execution',
+  'The Business Cocoon platform showing tools, verified advisors, and dashboard interface',
   'Soaring Puck dashboard showing team management, player tracking, and operational tools interface',
   'Ken Effect home page hero — speaking, events, and leadership resources for teams and organizations',
 ]

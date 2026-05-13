@@ -21,8 +21,6 @@ const oauthLabels: Record<string, string> = {
   sso: 'Single Sign-On',
 }
 const requestTypeLabels: Record<string, string> = {
-  'business-cocoon': 'Business Cocoon',
-  'true-north-audit': 'True North Audit',
   'advisory-board-match': 'Advisory Board Match',
   'digital-creations': 'Digital Creations',
   general: 'General Resource Centre Access',

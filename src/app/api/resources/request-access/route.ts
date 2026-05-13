@@ -13,8 +13,6 @@ import {
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 const requestTypeLabels: Record<string, string> = {
-  'business-cocoon': 'Business Cocoon',
-  'true-north-audit': 'True North Audit',
   'advisory-board-match': 'Advisory Board Match',
   'digital-creations': 'Digital Creations',
   general: 'General Resource Centre Access',

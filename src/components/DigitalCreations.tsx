@@ -3,42 +3,29 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
-import { ExternalLink, ArrowRight, CheckCircle, Zap, Lightbulb, Sparkles, Mic2, Rocket } from 'lucide-react'
+import { ExternalLink, ArrowRight, CheckCircle } from 'lucide-react'
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import ScheduleButton from './CalendlyButton'
 
-const toolIcons = [Sparkles, Zap, Lightbulb, Mic2, Rocket] as const
-const toolImageUrls = [
-  '/businesscocoontile.jpg',
-  '/soaring-puck.jpg',
-  '/true-north-audit.jpg',
-  '/Keneffectsite.jpg',
-  '/preflight.jpg',
-] as const
+const toolImageUrls = ['/preflight.jpg', '/soaring-puck.jpg', '/Keneffectsite.jpg'] as const
 const toolImageAlts = [
-  'The Business Cocoon platform showing tools, verified advisors, and dashboard interface',
-  'Soaring Puck dashboard showing team management, player tracking, and operational tools interface',
-  'True North Audit AI-powered platform landing page showing enterprise-grade infrastructure security and compliance features',
-  'Ken Effect home page hero — speaking, events, and leadership resources for teams and organizations',
   'Preflight product dashboard showing briefs, readiness checks, and rehearsal workflows before execution',
+  'Soaring Puck dashboard showing team management, player tracking, and operational tools interface',
+  'Ken Effect home page hero — speaking, events, and leadership resources for teams and organizations',
 ]
 const tryUrls = [
   'https://www.businesscocoon.com',
   'https://www.soaringpuck.com',
-  'https://www.truenorthaudit.com',
   'https://www.keneffect.com/',
-  'https://www.preflight.ca/',
 ] as const
 
 const DigitalCreations = () => {
   const t = useTranslations('digitalCreations')
   const tools = [
-    { name: t('t4Name'), desc: t('t4Desc'), bullets: [t('t4B1'), t('t4B2'), t('t4B3')], caseStudy: t('t4CaseStudy'), icon: toolIcons[4], imageUrl: toolImageUrls[4], imageAlt: toolImageAlts[4], tryUrl: tryUrls[4] },
-    { name: t('t0Name'), desc: t('t0Desc'), bullets: [t('t0B1'), t('t0B2'), t('t0B3')], caseStudy: t('t0CaseStudy'), icon: toolIcons[0], imageUrl: toolImageUrls[0], imageAlt: toolImageAlts[0], tryUrl: tryUrls[0] },
-    { name: t('t1Name'), desc: t('t1Desc'), bullets: [t('t1B1'), t('t1B2'), t('t1B3')], caseStudy: t('t1CaseStudy'), icon: toolIcons[1], imageUrl: toolImageUrls[1], imageAlt: toolImageAlts[1], tryUrl: tryUrls[1] },
-    { name: t('t2Name'), desc: t('t2Desc'), bullets: [t('t2B1'), t('t2B2'), t('t2B3')], caseStudy: t('t2CaseStudy'), icon: toolIcons[2], imageUrl: toolImageUrls[2], imageAlt: toolImageAlts[2], tryUrl: tryUrls[2] },
-    { name: t('t3Name'), desc: t('t3Desc'), bullets: [t('t3B1'), t('t3B2'), t('t3B3')], caseStudy: t('t3CaseStudy'), icon: toolIcons[3], imageUrl: toolImageUrls[3], imageAlt: toolImageAlts[3], tryUrl: tryUrls[3] },
+    { name: t('t4Name'), desc: t('t4Desc'), bullets: [t('t4B1'), t('t4B2'), t('t4B3')], caseStudy: t('t4CaseStudy'), imageUrl: toolImageUrls[0], imageAlt: toolImageAlts[0], tryUrl: tryUrls[0] },
+    { name: t('t1Name'), desc: t('t1Desc'), bullets: [t('t1B1'), t('t1B2'), t('t1B3')], caseStudy: t('t1CaseStudy'), imageUrl: toolImageUrls[1], imageAlt: toolImageAlts[1], tryUrl: tryUrls[1] },
+    { name: t('t3Name'), desc: t('t3Desc'), bullets: [t('t3B1'), t('t3B2'), t('t3B3')], caseStudy: t('t3CaseStudy'), imageUrl: toolImageUrls[2], imageAlt: toolImageAlts[2], tryUrl: tryUrls[2] },
   ]
 
   return (

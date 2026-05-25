@@ -10,12 +10,12 @@ import ScheduleButton from './CalendlyButton'
 
 const toolImageUrls = ['/businesscocoontile.jpg', '/soaring-puck.jpg', '/Keneffectsite.jpg'] as const
 const toolImageAlts = [
-  'The Business Cocoon platform showing tools, verified advisors, and dashboard interface',
+  'The Business Cocoon products catalog showing guided workflows and export-ready deliverables',
   'Soaring Puck dashboard showing team management, player tracking, and operational tools interface',
   'Ken Effect home page hero — speaking, events, and leadership resources for teams and organizations',
 ]
 const tryUrls = [
-  'https://www.businesscocoon.com',
+  'https://www.businesscocoon.com/products',
   'https://www.soaringpuck.com',
   'https://www.keneffect.com/',
 ] as const

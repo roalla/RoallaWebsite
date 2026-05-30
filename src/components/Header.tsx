@@ -1,21 +1,13 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import dynamic from 'next/dynamic'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ChevronDown } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname as useNextPathname } from 'next/navigation'
-import { useSession } from 'next-auth/react'
 import { useTranslations, useLocale } from 'next-intl'
 import { Link, usePathname } from '@/i18n/navigation'
 import ScheduleButton from './CalendlyButton'
-import { authSlotPlaceholder } from './HeaderAuthSlot'
-
-const HeaderAuthSlot = dynamic(() => import('./HeaderAuthSlot').then((m) => m.default), {
-  ssr: false,
-  loading: () => authSlotPlaceholder,
-})
 
 /** Canadian flag: red bands, white centre, red maple leaf (simplified) */
 function CanadianFlagIcon({ className }: { className?: string }) {
@@ -141,8 +133,6 @@ const Header = () => {
 
   const pathname = usePathname() ?? '/'
   const fullPathname = useNextPathname() ?? ''
-  const { status: sessionStatus } = useSession()
-  const isAuthenticated = sessionStatus === 'authenticated'
   const isLocaleRoute = fullPathname.startsWith('/en') || fullPathname.startsWith('/fr')
   const t = useTranslations('nav')
   const tCommon = useTranslations('common')
@@ -204,13 +194,11 @@ const Header = () => {
     [pathname]
   )
 
-  type NavHref = '/' | '/services' | '/resources' | '/digital-creations'
-  const resourceHref: NavHref | '/dashboard' = isAuthenticated ? '/dashboard' : '/resources'
-  const navigation: { nameKey: 'home' | 'services' | 'resourceCentre' | 'digitalCreations'; href: NavHref | '/dashboard' }[] = [
+  type NavHref = '/' | '/services' | '/digital-creations'
+  const navigation: { nameKey: 'home' | 'services' | 'digitalCreations'; href: NavHref }[] = [
     { nameKey: 'home', href: '/' },
     { nameKey: 'services', href: '/services' },
     { nameKey: 'digitalCreations', href: '/digital-creations' },
-    { nameKey: 'resourceCentre', href: resourceHref },
   ]
 
   const noMotion = {
@@ -389,8 +377,6 @@ const Header = () => {
                 </AnimatePresence>
               </div>
             )}
-            <HeaderAuthSlot />
-            <div className="h-8 w-px bg-white/20" aria-hidden />
             <motion.div {...motionCta}>
               <ScheduleButton variant="primary" size="sm" icon className="!py-2.5 !px-5 !text-sm">
                 {tCommon('scheduleConsultation')}
@@ -529,9 +515,6 @@ const Header = () => {
                     </AnimatePresence>
                   </div>
                 )}
-                <div className="px-3 py-3 min-h-[44px] flex items-center border-t border-white/10">
-                  <HeaderAuthSlot variant="mobile" onNavigate={closeMenu} />
-                </div>
               </div>
               {/* Sticky CTA at bottom of mobile menu */}
               <div className="flex-shrink-0 p-3 bg-black border-t border-white/10">

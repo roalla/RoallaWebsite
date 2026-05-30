@@ -8,20 +8,16 @@
   "nav": {
     "home": "Accueil",
     "services": "Services",
-    "resourceCentre": "Centre de ressources",
     "digitalCreations": "Créations numériques",
-    "login": "Connexion",
     "openMenu": "Ouvrir le menu",
     "closeMenu": "Fermer le menu"
   },
   "footer": {
     "services": "Services",
     "digitalCreations": "Créations numériques",
-    "resourceCentre": "Centre de ressources",
     "faq": "FAQ",
     "contact": "Contact",
     "about": "À propos",
-    "trustCentre": "Centre de confiance",
     "copyright": "© {year} Roalla Business Enablement Group. Tous droits réservés."
   },
   "home": {
@@ -68,11 +64,10 @@
     },
     "cta": {
       "title": "Prêt à transformer vos opérations?",
-      "subtitle": "Planifiez une consultation gratuite ou explorez nos ressources pour commencer.",
+      "subtitle": "Planifiez une consultation gratuite ou explorez nos services pour commencer.",
       "schedule": "Planifier une consultation",
-      "exploreResources": "Explorer le centre de ressources",
-      "orAssessment": "Vous ne savez pas par où commencer? <link>Faites l'évaluation de la santé de l'entreprise</link> ci-dessus pour un rapport personnalisé.",
-      "resourcesTeaser": "Découvrez nos guides, modèles et outils dans notre centre de ressources."
+      "exploreServices": "Découvrir nos services",
+      "orAssessment": "Vous ne savez pas par où commencer? <link>Faites l'évaluation de la santé de l'entreprise</link> ci-dessus pour un rapport personnalisé."
     },
     "closing": {
       "readyToStart": "Prêt à commencer?",
@@ -97,7 +92,7 @@
       "article2Description": "Transformez votre vision d'entreprise en feuille de route avec des cadres éprouvés.",
       "article3Title": "Optimisation des processus : libérez l'efficacité cachée",
       "article3Description": "Identifiez et éliminez les goulots d'étranglement grâce à des améliorations fondées sur les données.",
-      "readMore": "Lire dans le centre de ressources",
+      "readMore": "En savoir plus",
       "badge": "À la une"
     }
   },
@@ -137,7 +132,7 @@
     "ctaQualifier": "Ideal pour les equipes en croissance qui ont besoin de clarte strategique, de discipline operationnelle et d'un suivi mesurable.",
     "ctaButton": "Planifier une consultation",
     "ctaAssessment": "Vous ne savez pas quel service vous convient? Faites notre evaluation de 5 minutes (option secondaire)",
-    "confidentialityLink": "Besoin d'un engagement avec NDA? Consultez notre Trust Centre",
+    "confidentialityLink": "Des questions sur la confidentialité? Contactez-nous pour en discuter",
     "s0Title": "Planification stratégique",
     "s0Desc": "Élaborer des stratégies d'affaires complètes alignées sur votre vision et les opportunités du marché.",
     "s0F1": "Analyse de marché",

@@ -79,10 +79,13 @@ The contact form sends emails to `sales@roalla.com` using Resend. See [EMAIL_SET
 ### Other Platforms
 
 The site can be deployed to any platform that supports Next.js:
-- Netlify
+- Vercel
 - Railway
+- Netlify
 - Render
 - AWS Amplify
+
+Only **RESEND_API_KEY** is required at runtime (for the contact form). No database is needed.
 
 ## Project Structure
 

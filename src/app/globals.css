@@ -114,37 +114,3 @@
 .calendly-popup-content {
   z-index: 9999 !important;
 }
-
-/* Admin area: form controls need dark text on light background (body uses dark theme globally) */
-[data-admin] input,
-[data-admin] textarea,
-[data-admin] select {
-  @apply text-gray-900 bg-white;
-}
-
-[data-admin] input::placeholder,
-[data-admin] textarea::placeholder {
-  @apply text-gray-500;
-}
-
-/* Admin: RichTextEditor (TipTap/ProseMirror) - ensure readable text on light background */
-[data-admin] .ProseMirror {
-  @apply text-gray-900;
-}
-[data-admin] .ProseMirror p,
-[data-admin] .ProseMirror li,
-[data-admin] .ProseMirror blockquote {
-  @apply text-gray-900;
-}
-[data-admin] .ProseMirror p.is-editor-empty:first-child::before {
-  @apply text-gray-500;
-}
-
-/* Admin mobile drawer slide-in animation */
-@keyframes admin-drawer-in {
-  from { transform: translateX(100%); opacity: 0.5; }
-  to { transform: translateX(0); opacity: 1; }
-}
-.admin-drawer-panel {
-  animation: admin-drawer-in 0.25s ease-out forwards;
-} 

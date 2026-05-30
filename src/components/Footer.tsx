@@ -10,15 +10,13 @@ const Footer = () => {
   const t = useTranslations('footer')
   const tCommon = useTranslations('common')
 
-  type FooterHref = '/' | '/services' | '/resources' | '/about' | '/contact' | '/trust' | '/digital-creations' | '/assessment' | '/faq' | '/schedule'
-  const quickLinks: { nameKey: 'services' | 'digitalCreations' | 'resourceCentre' | 'faq' | 'contact' | 'about' | 'trustCentre'; href: FooterHref }[] = [
+  type FooterHref = '/' | '/services' | '/about' | '/contact' | '/digital-creations' | '/assessment' | '/faq' | '/schedule'
+  const quickLinks: { nameKey: 'services' | 'digitalCreations' | 'faq' | 'contact' | 'about'; href: FooterHref }[] = [
     { nameKey: 'services', href: '/services' },
     { nameKey: 'digitalCreations', href: '/digital-creations' },
-    { nameKey: 'resourceCentre', href: '/resources' },
     { nameKey: 'faq', href: '/faq' },
     { nameKey: 'contact', href: '/contact' },
     { nameKey: 'about', href: '/about' },
-    { nameKey: 'trustCentre', href: '/trust' },
   ]
 
   return (
@@ -61,4 +59,4 @@ const Footer = () => {
   )
 }
 
-export default Footer 
+export default Footer

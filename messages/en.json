@@ -8,20 +8,16 @@
   "nav": {
     "home": "Home",
     "services": "Services",
-    "resourceCentre": "Resource Centre",
     "digitalCreations": "Digital Creations",
-    "login": "Login",
     "openMenu": "Open menu",
     "closeMenu": "Close menu"
   },
   "footer": {
     "services": "Services",
     "digitalCreations": "Digital Creations",
-    "resourceCentre": "Resource Centre",
     "faq": "FAQ",
     "contact": "Contact",
     "about": "About",
-    "trustCentre": "Trust Centre",
     "copyright": "© {year} Roalla Business Enablement Group. All Rights Reserved."
   },
   "home": {
@@ -68,11 +64,10 @@
     },
     "cta": {
       "title": "Ready to transform your operations?",
-      "subtitle": "Schedule a free consultation or explore our resources to get started.",
+      "subtitle": "Schedule a free consultation or explore our services to get started.",
       "schedule": "Schedule Consultation",
-      "exploreResources": "Explore Resource Centre",
-      "orAssessment": "Not sure where to start? <link>Take the business health assessment</link> above for a tailored report.",
-      "resourcesTeaser": "Explore guides, templates, and tools in our Resource Centre."
+      "exploreServices": "Explore our services",
+      "orAssessment": "Not sure where to start? <link>Take the business health assessment</link> above for a tailored report."
     },
     "closing": {
       "readyToStart": "Ready to get started?",
@@ -97,7 +92,7 @@
       "article2Description": "Turn your business vision into an actionable roadmap with proven frameworks.",
       "article3Title": "Process Optimization: Unlock Hidden Efficiency",
       "article3Description": "Identify and eliminate bottlenecks with data-driven process improvements.",
-      "readMore": "Read in Resource Centre",
+      "readMore": "Learn more",
       "badge": "Featured"
     }
   },
@@ -137,7 +132,7 @@
     "ctaQualifier": "Best fit for growth-stage teams that need strategic clarity, operating discipline, and measurable execution.",
     "ctaButton": "Schedule Consultation",
     "ctaAssessment": "Not sure which service fits? Take our 5-min assessment (secondary option)",
-    "confidentialityLink": "Need NDA-ready engagement? Review our Trust Centre",
+    "confidentialityLink": "Questions about confidentiality? Contact us to discuss your needs",
     "s0Title": "Strategic Planning",
     "s0Desc": "Develop comprehensive business strategies that align with your vision and market opportunities.",
     "s0F1": "Market Analysis",

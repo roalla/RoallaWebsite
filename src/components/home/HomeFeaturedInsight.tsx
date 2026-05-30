@@ -7,13 +7,14 @@ import { Link } from '@/i18n/navigation'
 import { ArrowRight, Lightbulb, Target, BarChart3 } from 'lucide-react'
 
 const insightIcons = [Lightbulb, Target, BarChart3]
+const insightLinks = ['/services', '/about', '/faq'] as const
 
 export default function HomeFeaturedInsight() {
   const t = useTranslations('home.featuredInsight')
   const insights = [
-    { title: t('article1Title'), description: t('article1Description') },
-    { title: t('article2Title'), description: t('article2Description') },
-    { title: t('article3Title'), description: t('article3Description') },
+    { title: t('article1Title'), description: t('article1Description'), href: insightLinks[0] },
+    { title: t('article2Title'), description: t('article2Description'), href: insightLinks[1] },
+    { title: t('article3Title'), description: t('article3Description'), href: insightLinks[2] },
   ]
   return (
     <section className="py-16 lg:py-24 bg-surface-elevated relative">
@@ -42,7 +43,7 @@ export default function HomeFeaturedInsight() {
               transition={{ delay: i * 0.08 }}
             >
               <Link
-                href="/resources"
+                href={insight.href}
                 className="group block rounded-xl border border-white/10 p-6 lg:p-8 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-0.5 transition-all duration-300 bg-black/30"
               >
                 <div className="flex items-start gap-4">

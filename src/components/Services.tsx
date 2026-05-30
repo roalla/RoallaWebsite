@@ -272,7 +272,7 @@ const Services = () => {
               </Link>
             </p>
             <p className="mt-3 text-xs text-white/75">
-              <Link href="/trust" className="underline hover:text-white">
+              <Link href="/contact" className="underline hover:text-white">
                 {t('confidentialityLink')}
               </Link>
             </p>

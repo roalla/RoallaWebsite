@@ -47,13 +47,20 @@ export default function HomeWhatWeDo() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="mt-10"
+          className="mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8"
         >
           <Link
             href="/services"
             className="inline-flex items-center text-primary font-semibold hover:underline hover:-translate-y-px transition-all duration-200"
           >
             {t('exploreServices')}
+            <ArrowRight className="ml-2 w-4 h-4" />
+          </Link>
+          <Link
+            href="/services/digital"
+            className="inline-flex items-center text-gray-300 font-medium hover:text-primary hover:underline hover:-translate-y-px transition-all duration-200"
+          >
+            {t('exploreDigital')}
             <ArrowRight className="ml-2 w-4 h-4" />
           </Link>
         </motion.div>

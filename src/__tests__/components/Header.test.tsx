@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import Header from '@/components/Header'
 
 jest.mock('next/navigation', () => ({
@@ -12,7 +12,7 @@ jest.mock('next-intl', () => ({
 }))
 
 jest.mock('@/i18n/navigation', () => ({
-  Link: ({ children, href }: { children: React.ReactNode; href: string }) => <a href={href}>{children}</a>,
+  Link: ({ children, href, ...props }: { children: React.ReactNode; href: string }) => <a href={href} {...props}>{children}</a>,
   usePathname: () => '/',
 }))
 
@@ -53,5 +53,19 @@ describe('Header', () => {
   it('renders schedule CTA link', () => {
     render(<Header />)
     expect(screen.getByRole('link', { name: /schedule consultation/i })).toBeInTheDocument()
+  })
+
+  it('renders services dropdown with business enablement and websites links', () => {
+    render(<Header />)
+    const servicesButton = screen.getByRole('button', { name: 'services' })
+    expect(servicesButton).toBeInTheDocument()
+    fireEvent.click(servicesButton)
+    expect(screen.getByRole('menuitem', { name: 'businessEnablement' })).toHaveAttribute('href', '/services')
+    expect(screen.getByRole('menuitem', { name: 'websitesAndDigital' })).toHaveAttribute('href', '/services/digital')
+  })
+
+  it('renders our work navigation link', () => {
+    render(<Header />)
+    expect(screen.getByRole('link', { name: 'ourWork' })).toHaveAttribute('href', '/digital-creations')
   })
 })

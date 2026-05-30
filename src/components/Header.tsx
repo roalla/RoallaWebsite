@@ -56,9 +56,12 @@ const Header = () => {
   const mobileMenuRef = useRef<HTMLDivElement>(null)
   const localeDropdownDesktopRef = useRef<HTMLDivElement>(null)
   const localeDropdownMobileRef = useRef<HTMLDivElement>(null)
+  const servicesDropdownDesktopRef = useRef<HTMLDivElement>(null)
   const scrollTick = useRef<number | null>(null)
   const previousMenuOpen = useRef(false)
   const [localeDropdownOpen, setLocaleDropdownOpen] = useState(false)
+  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false)
+  const [servicesMobileExpanded, setServicesMobileExpanded] = useState(false)
 
   useEffect(() => {
     setMounted(true)
@@ -123,12 +126,25 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [localeDropdownOpen])
 
+  useEffect(() => {
+    if (!servicesDropdownOpen) return
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as Node
+      if (!servicesDropdownDesktopRef.current?.contains(target)) {
+        setServicesDropdownOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [servicesDropdownOpen])
+
   const toggleMenu = () => {
     setIsMenuOpen((open) => !open)
   }
 
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false)
+    setServicesMobileExpanded(false)
   }, [])
 
   const pathname = usePathname() ?? '/'
@@ -194,12 +210,14 @@ const Header = () => {
     [pathname]
   )
 
-  type NavHref = '/' | '/services' | '/digital-creations'
-  const navigation: { nameKey: 'home' | 'services' | 'digitalCreations'; href: NavHref }[] = [
-    { nameKey: 'home', href: '/' },
-    { nameKey: 'services', href: '/services' },
-    { nameKey: 'digitalCreations', href: '/digital-creations' },
+  type ServiceNavHref = '/services' | '/services/digital'
+
+  const serviceLinks: { nameKey: 'businessEnablement' | 'websitesAndDigital'; href: ServiceNavHref }[] = [
+    { nameKey: 'businessEnablement', href: '/services' },
+    { nameKey: 'websitesAndDigital', href: '/services/digital' },
   ]
+
+  const isServicesActive = pathname === '/services' || pathname.startsWith('/services/')
 
   const noMotion = {
     initial: false,
@@ -241,7 +259,7 @@ const Header = () => {
     : {
         initial: { opacity: 0, x: -20 },
         animate: { opacity: 1, x: 0 },
-        transition: { duration: 0.3, delay: navigation.length * 0.1 },
+        transition: { duration: 0.3, delay: 4 * 0.1 },
       }
   const menuTransition = prefersReducedMotion
     ? { duration: 0 }
@@ -295,28 +313,96 @@ const Header = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center justify-center min-w-0 flex-1 px-4">
             <div className="flex items-center justify-center gap-8 xl:gap-10">
-              {navigation.map((item, index) => {
-                const active = isActive(item.href)
-                return (
-                  <motion.div key={item.nameKey} {...motionNavItem(index)}>
-                    <Link
-                      href={item.href}
-                      aria-current={active ? 'page' : undefined}
-                      className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap block py-2 ${
-                        active ? 'text-primary' : 'text-gray-300 hover:text-primary'
-                      }`}
-                      onClick={closeMenu}
+              <motion.div {...motionNavItem(0)}>
+                <Link
+                  href="/"
+                  aria-current={isActive('/') ? 'page' : undefined}
+                  className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap block py-2 ${
+                    isActive('/') ? 'text-primary' : 'text-gray-300 hover:text-primary'
+                  }`}
+                  onClick={closeMenu}
+                >
+                  {t('home')}
+                  <span
+                    className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                      isActive('/') ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}
+                  />
+                </Link>
+              </motion.div>
+
+              <motion.div {...motionNavItem(1)} className="relative" ref={servicesDropdownDesktopRef}>
+                <button
+                  type="button"
+                  onClick={() => setServicesDropdownOpen((o) => !o)}
+                  aria-expanded={servicesDropdownOpen}
+                  aria-haspopup="menu"
+                  id="services-dropdown-desktop"
+                  className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 ${
+                    isServicesActive ? 'text-primary' : 'text-gray-300 hover:text-primary'
+                  }`}
+                >
+                  {t('services')}
+                  <ChevronDown className={`w-4 h-4 transition-transform ${servicesDropdownOpen ? 'rotate-180' : ''}`} />
+                  <span
+                    className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                      isServicesActive ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}
+                  />
+                </button>
+                <AnimatePresence>
+                  {servicesDropdownOpen && (
+                    <motion.div
+                      role="menu"
+                      aria-labelledby="services-dropdown-desktop"
+                      initial={prefersReducedMotion ? false : { opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute left-1/2 -translate-x-1/2 top-full mt-1 py-1 min-w-[220px] bg-surface-elevated rounded-lg shadow-xl border border-white/10 z-50"
                     >
-                      {t(item.nameKey)}
-                      <span
-                        className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
-                          active ? 'w-full' : 'w-0 group-hover:w-full'
-                        }`}
-                      />
-                    </Link>
-                  </motion.div>
-                )
-              })}
+                      {serviceLinks.map((item) => {
+                        const active = isActive(item.href)
+                        return (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            role="menuitem"
+                            aria-current={active ? 'page' : undefined}
+                            onClick={() => {
+                              setServicesDropdownOpen(false)
+                              closeMenu()
+                            }}
+                            className={`block px-4 py-2.5 text-sm font-medium whitespace-nowrap hover:bg-white/10 first:rounded-t-lg last:rounded-b-lg ${
+                              active ? 'text-primary bg-primary/10' : 'text-white'
+                            }`}
+                          >
+                            {t(item.nameKey)}
+                          </Link>
+                        )
+                      })}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+
+              <motion.div {...motionNavItem(2)}>
+                <Link
+                  href="/digital-creations"
+                  aria-current={isActive('/digital-creations') ? 'page' : undefined}
+                  className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap block py-2 ${
+                    isActive('/digital-creations') ? 'text-primary' : 'text-gray-300 hover:text-primary'
+                  }`}
+                  onClick={closeMenu}
+                >
+                  {t('ourWork')}
+                  <span
+                    className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                      isActive('/digital-creations') ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}
+                  />
+                </Link>
+              </motion.div>
             </div>
           </div>
 
@@ -440,25 +526,81 @@ const Header = () => {
               style={{ maxHeight: 'calc(100vh - 4rem - env(safe-area-inset-top, 0px))' }}
             >
               <div className="flex-1 overflow-y-auto px-2 pt-2 pb-3 space-y-1 bg-black border-t border-white/10">
-                {navigation.map((item, index) => {
-                  const active = isActive(item.href)
-                  return (
-                    <motion.div key={item.nameKey} {...motionMobileItem(index)}>
-                      <Link
-                        href={item.href}
-                        aria-current={active ? 'page' : undefined}
-                        className={`block px-3 py-3 min-h-[44px] flex items-center rounded-md text-base font-medium transition-colors duration-200 ${
-                          active
-                            ? 'text-primary bg-primary/10'
-                            : 'text-gray-300 hover:text-primary hover:bg-white/5'
-                        }`}
-                        onClick={(e) => handleMobileNavClick(e, item.href)}
+                <motion.div {...motionMobileItem(0)}>
+                  <Link
+                    href="/"
+                    aria-current={isActive('/') ? 'page' : undefined}
+                    className={`block px-3 py-3 min-h-[44px] flex items-center rounded-md text-base font-medium transition-colors duration-200 ${
+                      isActive('/')
+                        ? 'text-primary bg-primary/10'
+                        : 'text-gray-300 hover:text-primary hover:bg-white/5'
+                    }`}
+                    onClick={(e) => handleMobileNavClick(e, '/')}
+                  >
+                    {t('home')}
+                  </Link>
+                </motion.div>
+
+                <motion.div {...motionMobileItem(1)}>
+                  <button
+                    type="button"
+                    onClick={() => setServicesMobileExpanded((o) => !o)}
+                    aria-expanded={servicesMobileExpanded}
+                    className={`w-full flex items-center justify-between px-3 py-3 min-h-[44px] rounded-md text-base font-medium transition-colors duration-200 ${
+                      isServicesActive
+                        ? 'text-primary bg-primary/10'
+                        : 'text-gray-300 hover:text-primary hover:bg-white/5'
+                    }`}
+                  >
+                    {t('services')}
+                    <ChevronDown className={`w-5 h-5 transition-transform ${servicesMobileExpanded ? 'rotate-180' : ''}`} />
+                  </button>
+                  <AnimatePresence>
+                    {servicesMobileExpanded && (
+                      <motion.div
+                        initial={prefersReducedMotion ? false : { opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden"
                       >
-                        {t(item.nameKey)}
-                      </Link>
-                    </motion.div>
-                  )
-                })}
+                        {serviceLinks.map((item) => {
+                          const active = isActive(item.href)
+                          return (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              aria-current={active ? 'page' : undefined}
+                              className={`block pl-6 pr-3 py-3 min-h-[44px] flex items-center rounded-md text-base font-medium transition-colors duration-200 ${
+                                active
+                                  ? 'text-primary bg-primary/10'
+                                  : 'text-gray-300 hover:text-primary hover:bg-white/5'
+                              }`}
+                              onClick={(e) => handleMobileNavClick(e, item.href)}
+                            >
+                              {t(item.nameKey)}
+                            </Link>
+                          )
+                        })}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+
+                <motion.div {...motionMobileItem(2)}>
+                  <Link
+                    href="/digital-creations"
+                    aria-current={isActive('/digital-creations') ? 'page' : undefined}
+                    className={`block px-3 py-3 min-h-[44px] flex items-center rounded-md text-base font-medium transition-colors duration-200 ${
+                      isActive('/digital-creations')
+                        ? 'text-primary bg-primary/10'
+                        : 'text-gray-300 hover:text-primary hover:bg-white/5'
+                    }`}
+                    onClick={(e) => handleMobileNavClick(e, '/digital-creations')}
+                  >
+                    {t('ourWork')}
+                  </Link>
+                </motion.div>
                 {isLocaleRoute && (
                   <div className="px-3 py-3 border-t border-white/10 relative" ref={localeDropdownMobileRef}>
                     <span className="block text-xs font-medium text-gray-400 mb-1.5">Language</span>

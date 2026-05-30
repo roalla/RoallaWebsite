@@ -276,6 +276,16 @@ const Services = () => {
                 {t('confidentialityLink')}
               </Link>
             </p>
+            <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-white/85">
+              <Link href="/services/digital" className="underline hover:text-white inline-flex items-center">
+                {t('crossLinkDigital')}
+                <ArrowRight className="ml-1 w-4 h-4" />
+              </Link>
+              <Link href="/digital-creations" className="underline hover:text-white inline-flex items-center">
+                {t('crossLinkOurWork')}
+                <ArrowRight className="ml-1 w-4 h-4" />
+              </Link>
+            </div>
           </div>
         </motion.div>
       </div>

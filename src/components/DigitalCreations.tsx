@@ -23,9 +23,45 @@ const tryUrls = [
 const DigitalCreations = () => {
   const t = useTranslations('digitalCreations')
   const tools = [
-    { name: t('t4Name'), desc: t('t4Desc'), bullets: [t('t4B1'), t('t4B2'), t('t4B3')], caseStudy: t('t4CaseStudy'), imageUrl: toolImageUrls[0], imageAlt: toolImageAlts[0], tryUrl: tryUrls[0] },
-    { name: t('t1Name'), desc: t('t1Desc'), bullets: [t('t1B1'), t('t1B2'), t('t1B3')], caseStudy: t('t1CaseStudy'), imageUrl: toolImageUrls[1], imageAlt: toolImageAlts[1], tryUrl: tryUrls[1] },
-    { name: t('t3Name'), desc: t('t3Desc'), bullets: [t('t3B1'), t('t3B2'), t('t3B3')], caseStudy: t('t3CaseStudy'), imageUrl: toolImageUrls[2], imageAlt: toolImageAlts[2], tryUrl: tryUrls[2] },
+    {
+      id: 'business-cocoon',
+      name: t('t4Name'),
+      desc: t('t4Desc'),
+      bullets: [t('t4B1'), t('t4B2'), t('t4B3')],
+      caseStudy: t('t4CaseStudy'),
+      imageUrl: toolImageUrls[0],
+      imageAlt: toolImageAlts[0],
+      tryUrl: tryUrls[0],
+      category: t('categoryPlatformTool'),
+      primaryCta: t('tryTool'),
+      isWebsite: false,
+    },
+    {
+      id: 'soaring-puck',
+      name: t('t1Name'),
+      desc: t('t1Desc'),
+      bullets: [t('t1B1'), t('t1B2'), t('t1B3')],
+      caseStudy: t('t1CaseStudy'),
+      imageUrl: toolImageUrls[1],
+      imageAlt: toolImageAlts[1],
+      tryUrl: tryUrls[1],
+      category: t('categoryPlatform'),
+      primaryCta: t('tryTool'),
+      isWebsite: false,
+    },
+    {
+      id: 'ken-effect',
+      name: t('t3Name'),
+      desc: t('t3Desc'),
+      bullets: [t('t3B1'), t('t3B2'), t('t3B3')],
+      caseStudy: t('t3CaseStudy'),
+      imageUrl: toolImageUrls[2],
+      imageAlt: toolImageAlts[2],
+      tryUrl: tryUrls[2],
+      category: t('categoryWebsite'),
+      primaryCta: t('viewSite'),
+      isWebsite: true,
+    },
   ]
 
   return (
@@ -52,7 +88,7 @@ const DigitalCreations = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
           viewport={{ once: true }}
-          className="max-w-4xl mx-auto mb-16"
+          className="max-w-4xl mx-auto mb-10"
         >
           <p className="text-lg text-gray-300 leading-relaxed mb-6">{t('intro1')}</p>
           <ul className="space-y-2 mb-6">
@@ -69,6 +105,13 @@ const DigitalCreations = () => {
               {t('introBullet3')}
             </li>
           </ul>
+          <Link
+            href="/services/digital"
+            className="inline-flex items-center text-primary font-semibold hover:underline hover:-translate-y-px transition-all duration-200"
+          >
+            {t('bridgeCta')}
+            <ArrowRight className="ml-2 w-4 h-4" />
+          </Link>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 mb-16 relative">
@@ -76,6 +119,7 @@ const DigitalCreations = () => {
           {tools.map((tool, index) => (
             <motion.div
               key={tool.name}
+              id={tool.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -94,8 +138,10 @@ const DigitalCreations = () => {
                   priority={index === 0}
                   fetchPriority={index === 0 ? 'high' : undefined}
                 />
-                <div className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold z-10 bg-green-500/30 text-green-200">
-                  {t('liveTool')}
+                <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold z-10 ${
+                  tool.isWebsite ? 'bg-sky-500/30 text-sky-200' : 'bg-green-500/30 text-green-200'
+                }`}>
+                  {tool.category}
                 </div>
               </div>
 
@@ -120,7 +166,7 @@ const DigitalCreations = () => {
                     rel="noopener noreferrer"
                     className="inline-flex w-full items-center justify-center bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 text-sm hover:scale-[1.02]"
                   >
-                    {t('tryTool')}
+                    {tool.primaryCta}
                     <ExternalLink className="w-4 h-4 ml-2" />
                   </a>
                   <Link
@@ -149,7 +195,7 @@ const DigitalCreations = () => {
           <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
           <div className="relative z-10">
             <span className="inline-flex items-center rounded-full border border-white/30 bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white mb-4">
-              Built with clients
+              {t('builtWithClients')}
             </span>
             <h3 className="text-3xl md:text-5xl font-extrabold text-white mb-4 drop-shadow-sm">
               {t('ctaTitle')}

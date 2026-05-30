@@ -16,7 +16,7 @@ export default async function DigitalCreationsPage() {
   return (
     <div className="min-h-screen bg-black">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-8">
-        <Breadcrumb items={[{ label: t('home'), href: '/' }, { label: t('digitalCreations') }]} />
+        <Breadcrumb items={[{ label: t('home'), href: '/' }, { label: t('ourWork') }]} />
         <DigitalCreations />
       </div>
     </div>

@@ -20,7 +20,7 @@ export default function HomeCTA() {
         >
           <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white">{t('title')}</h2>
           <p className="mt-4 text-white/90">{t('subtitle')}</p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <ScheduleButton
               variant="secondary"
               size="lg"
@@ -33,6 +33,18 @@ export default function HomeCTA() {
               className="inline-flex items-center bg-white/20 hover:bg-white/30 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-300 border border-white/30 hover:border-white/50 hover:scale-[1.02]"
             >
               {t('exploreServices')}
+            </Link>
+            <Link
+              href="/services/digital"
+              className="inline-flex items-center bg-white/10 hover:bg-white/20 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-300 border border-white/20 hover:border-white/40 hover:scale-[1.02]"
+            >
+              {t('exploreDigital')}
+            </Link>
+            <Link
+              href="/digital-creations"
+              className="inline-flex items-center text-white/90 hover:text-white font-medium py-4 px-2 underline-offset-4 hover:underline transition-colors"
+            >
+              {t('exploreOurWork')}
             </Link>
           </div>
           <p className="mt-6 text-sm text-white/80">

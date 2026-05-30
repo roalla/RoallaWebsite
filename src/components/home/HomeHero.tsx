@@ -52,12 +52,31 @@ export default function HomeHero() {
             <ScheduleButton variant="primary" size="lg" icon>
               {t('cta')}
             </ScheduleButton>
-            <Link
-              href="/services"
+            <a
+              href="#services"
               className="inline-flex items-center font-semibold text-slate-600 hover:text-primary hover:-translate-y-px transition-all duration-200"
             >
               {t('exploreServices')}
               <ArrowRight className="ml-2 w-5 h-5" />
+            </a>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.28 }}
+            className="mt-5 flex flex-wrap gap-3"
+          >
+            <Link
+              href="/services"
+              className="inline-flex items-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-card hover:border-primary/30 hover:text-primary transition-all duration-200"
+            >
+              {t('exploreConsulting')}
+            </Link>
+            <Link
+              href="/services/digital"
+              className="inline-flex items-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-card hover:border-primary/30 hover:text-primary transition-all duration-200"
+            >
+              {t('exploreDigital')}
             </Link>
           </motion.div>
           <motion.div

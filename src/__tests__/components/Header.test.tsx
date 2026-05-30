@@ -60,8 +60,8 @@ describe('Header', () => {
     const servicesButton = screen.getByRole('button', { name: 'services' })
     expect(servicesButton).toBeInTheDocument()
     fireEvent.click(servicesButton)
-    expect(screen.getByRole('menuitem', { name: 'businessEnablement' })).toHaveAttribute('href', '/services')
-    expect(screen.getByRole('menuitem', { name: 'websitesAndDigital' })).toHaveAttribute('href', '/services/digital')
+    expect(screen.getByRole('menuitem', { name: /businessEnablement/i })).toHaveAttribute('href', '/services')
+    expect(screen.getByRole('menuitem', { name: /websitesAndDigital/i })).toHaveAttribute('href', '/services/digital')
   })
 
   it('renders our work navigation link', () => {

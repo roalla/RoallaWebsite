@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, ChevronDown } from 'lucide-react'
+import { Menu, X, ChevronDown, Briefcase, Globe } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname as useNextPathname } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
@@ -134,8 +134,15 @@ const Header = () => {
         setServicesDropdownOpen(false)
       }
     }
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setServicesDropdownOpen(false)
+    }
     document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
+    document.addEventListener('keydown', handleEscape)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('keydown', handleEscape)
+    }
   }, [servicesDropdownOpen])
 
   const toggleMenu = () => {
@@ -212,9 +219,14 @@ const Header = () => {
 
   type ServiceNavHref = '/services' | '/services/digital'
 
-  const serviceLinks: { nameKey: 'businessEnablement' | 'websitesAndDigital'; href: ServiceNavHref }[] = [
-    { nameKey: 'businessEnablement', href: '/services' },
-    { nameKey: 'websitesAndDigital', href: '/services/digital' },
+  const serviceLinks: {
+    nameKey: 'businessEnablement' | 'websitesAndDigital'
+    descKey: 'businessEnablementDesc' | 'websitesAndDigitalDesc'
+    href: ServiceNavHref
+    icon: typeof Briefcase
+  }[] = [
+    { nameKey: 'businessEnablement', descKey: 'businessEnablementDesc', href: '/services', icon: Briefcase },
+    { nameKey: 'websitesAndDigital', descKey: 'websitesAndDigitalDesc', href: '/services/digital', icon: Globe },
   ]
 
   const isServicesActive = pathname === '/services' || pathname.startsWith('/services/')
@@ -270,8 +282,8 @@ const Header = () => {
   return (
     <header
       role="banner"
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 pt-[env(safe-area-inset-top)] ${
-        isScrolled ? 'bg-black/90 shadow-lg shadow-black/20 backdrop-blur-sm' : 'bg-transparent'
+      className={`fixed top-0 left-0 right-0 z-40 transition-shadow duration-300 pt-[env(safe-area-inset-top)] bg-black/95 backdrop-blur-md border-b border-white/10 ${
+        isScrolled ? 'shadow-lg shadow-black/40' : 'shadow-md shadow-black/20'
       }`}
     >
       {/* Skip to main content - visible on focus for keyboard/screen reader users */}
@@ -338,9 +350,11 @@ const Header = () => {
                   aria-expanded={servicesDropdownOpen}
                   aria-haspopup="menu"
                   id="services-dropdown-desktop"
-                  className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 ${
-                    isServicesActive ? 'text-primary' : 'text-gray-300 hover:text-primary'
-                  }`}
+                  className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
+                    isServicesActive || servicesDropdownOpen
+                      ? 'text-primary'
+                      : 'text-gray-300 hover:text-primary'
+                  } ${servicesDropdownOpen ? 'bg-white/5' : ''}`}
                 >
                   {t('services')}
                   <ChevronDown className={`w-4 h-4 transition-transform ${servicesDropdownOpen ? 'rotate-180' : ''}`} />
@@ -355,32 +369,56 @@ const Header = () => {
                     <motion.div
                       role="menu"
                       aria-labelledby="services-dropdown-desktop"
-                      initial={prefersReducedMotion ? false : { opacity: 0, y: -4 }}
+                      initial={prefersReducedMotion ? false : { opacity: 0, y: -6 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -4 }}
+                      exit={{ opacity: 0, y: -6 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute left-1/2 -translate-x-1/2 top-full mt-1 py-1 min-w-[220px] bg-surface-elevated rounded-lg shadow-xl border border-white/10 z-50"
+                      className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[min(100vw-2rem,320px)] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50"
                     >
-                      {serviceLinks.map((item) => {
-                        const active = isActive(item.href)
-                        return (
-                          <Link
-                            key={item.href}
-                            href={item.href}
-                            role="menuitem"
-                            aria-current={active ? 'page' : undefined}
-                            onClick={() => {
-                              setServicesDropdownOpen(false)
-                              closeMenu()
-                            }}
-                            className={`block px-4 py-2.5 text-sm font-medium whitespace-nowrap hover:bg-white/10 first:rounded-t-lg last:rounded-b-lg ${
-                              active ? 'text-primary bg-primary/10' : 'text-white'
-                            }`}
-                          >
-                            {t(item.nameKey)}
-                          </Link>
-                        )
-                      })}
+                      <div className="px-4 py-2.5 border-b border-white/10 bg-white/[0.03]">
+                        <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                          {t('servicesMenuLabel')}
+                        </p>
+                      </div>
+                      <div className="p-1.5">
+                        {serviceLinks.map((item) => {
+                          const active = isActive(item.href)
+                          const Icon = item.icon
+                          return (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              role="menuitem"
+                              aria-current={active ? 'page' : undefined}
+                              onClick={() => {
+                                setServicesDropdownOpen(false)
+                                closeMenu()
+                              }}
+                              className={`group flex gap-3 rounded-lg px-3 py-3 transition-colors ${
+                                active ? 'bg-primary/10' : 'hover:bg-white/5'
+                              }`}
+                            >
+                              <div
+                                className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors ${
+                                  active
+                                    ? 'bg-primary/20 text-primary'
+                                    : 'bg-white/5 text-slate-400 group-hover:bg-primary/10 group-hover:text-primary'
+                                }`}
+                              >
+                                <Icon className="h-4 w-4" aria-hidden />
+                              </div>
+                              <div className="min-w-0 text-left">
+                                <p className={`text-sm font-semibold leading-snug ${active ? 'text-primary' : 'text-white'}`}>
+                                  {t(item.nameKey)}
+                                </p>
+                                <p className="mt-0.5 text-xs leading-snug text-slate-400 group-hover:text-slate-300">
+                                  {t(item.descKey)}
+                                </p>
+                              </div>
+                            </Link>
+                          )
+                        })}
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -436,7 +474,7 @@ const Header = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -4 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute right-0 top-full mt-1 py-1 min-w-[120px] bg-surface-elevated rounded-lg shadow-xl border border-white/10 z-50"
+                      className="absolute right-0 top-full mt-2 py-1 min-w-[120px] bg-zinc-950 rounded-lg shadow-2xl shadow-black/60 border border-white/10 z-50"
                     >
                       <button
                         type="button"
@@ -566,19 +604,24 @@ const Header = () => {
                       >
                         {serviceLinks.map((item) => {
                           const active = isActive(item.href)
+                          const Icon = item.icon
                           return (
                             <Link
                               key={item.href}
                               href={item.href}
                               aria-current={active ? 'page' : undefined}
-                              className={`block pl-6 pr-3 py-3 min-h-[44px] flex items-center rounded-md text-base font-medium transition-colors duration-200 ${
+                              className={`flex gap-3 pl-5 pr-3 py-3 min-h-[44px] rounded-md transition-colors duration-200 ${
                                 active
                                   ? 'text-primary bg-primary/10'
                                   : 'text-gray-300 hover:text-primary hover:bg-white/5'
                               }`}
                               onClick={(e) => handleMobileNavClick(e, item.href)}
                             >
-                              {t(item.nameKey)}
+                              <Icon className="h-4 w-4 shrink-0 mt-0.5 opacity-70" aria-hidden />
+                              <span>
+                                <span className="block text-base font-medium">{t(item.nameKey)}</span>
+                                <span className="block text-xs text-slate-500 mt-0.5">{t(item.descKey)}</span>
+                              </span>
                             </Link>
                           )
                         })}
@@ -630,7 +673,7 @@ const Header = () => {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -4 }}
                           transition={{ duration: 0.15 }}
-                          className="absolute left-3 right-3 top-full mt-1 py-1 bg-surface-elevated rounded-lg shadow-xl border border-white/10 z-50"
+                          className="absolute left-3 right-3 top-full mt-1 py-1 bg-zinc-950 rounded-lg shadow-2xl shadow-black/60 border border-white/10 z-50"
                         >
                           <button
                             type="button"

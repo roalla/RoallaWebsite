@@ -21,8 +21,8 @@ test.describe('Header', () => {
 
   test('our work link navigates to digital creations portfolio', async ({ page }) => {
     await page.goto('/')
-    await page.getByRole('link', { name: 'Our Work' }).click()
+    await page.getByRole('link', { name: 'Our Digital Work' }).click()
     await expect(page).toHaveURL(/\/digital-creations/)
-    await expect(page.getByRole('heading', { name: /Our Work/i })).toBeVisible()
+    await expect(page.getByRole('heading', { name: /Our Digital Work/i })).toBeVisible()
   })
 })

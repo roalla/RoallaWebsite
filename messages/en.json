@@ -9,8 +9,11 @@
     "home": "Home",
     "services": "Services",
     "businessEnablement": "Business Enablement",
+    "businessEnablementDesc": "Strategy, operations & growth consulting",
     "websitesAndDigital": "Websites & Digital",
-    "ourWork": "Our Work",
+    "websitesAndDigitalDesc": "Websites, platforms & custom digital products",
+    "servicesMenuLabel": "Explore services",
+    "ourWork": "Our Digital Work",
     "digitalCreations": "Digital Creations",
     "openMenu": "Open menu",
     "closeMenu": "Close menu"
@@ -19,7 +22,7 @@
     "services": "Services",
     "businessEnablement": "Business Enablement",
     "websitesAndDigital": "Websites & Digital",
-    "ourWork": "Our Work",
+    "ourWork": "Our Digital Work",
     "digitalCreations": "Digital Creations",
     "faq": "FAQ",
     "contact": "Contact",
@@ -28,11 +31,13 @@
   },
   "home": {
     "hero": {
-      "title": "Strategic operational insight for",
+      "title": "Consulting and digital builds for",
       "titleHighlight": "measurable growth",
-      "subtitle": "Fractional COO and business consulting that delivers clarity, efficiency, and results. We work alongside you to implement change—not just recommend it.",
+      "subtitle": "Fractional COO consulting, operational strategy, and hands-on digital creation—websites and custom platforms shipped by the same team that implements change, not just recommends it.",
       "cta": "Schedule Consultation",
       "exploreServices": "Explore our services",
+      "exploreConsulting": "Business consulting",
+      "exploreDigital": "Websites & digital",
       "stats": "30+ years experience · 100% client focused",
       "stat1Value": "30+",
       "stat1Label": "years experience",
@@ -44,7 +49,19 @@
     },
     "whatWeDo": {
       "title": "What we do",
-      "description": "Comprehensive business enablement—strategy, operations, and implementation—to drive growth and efficiency.",
+      "description": "Two complementary ways to move your business forward—executive consulting and hands-on digital creation, from the same team.",
+      "businessEnablementTitle": "Business Enablement",
+      "businessEnablementDesc": "Strategy, operations, and growth consulting with disciplined implementation support.",
+      "websitesAndDigitalTitle": "Websites & Digital",
+      "websitesAndDigitalDesc": "Launch-ready websites and custom platforms—scoped, designed, and shipped by Roalla.",
+      "consultingIncludes": "Consulting includes",
+      "digitalIncludes": "We build",
+      "websitesLabel": "Marketing & brand websites",
+      "platformsLabel": "Custom platforms & tools",
+      "brandingLabel": "Conversion-focused design",
+      "exploreBusinessEnablement": "Explore consulting services",
+      "exploreWebsitesAndDigital": "Explore websites & digital",
+      "viewOurWork": "See live examples",
       "exploreServices": "Explore our services",
       "exploreDigital": "We also design and build websites and digital platforms",
       "strategicPlanning": "Strategic Planning",
@@ -53,6 +70,15 @@
       "dataAnalytics": "Data Analytics",
       "innovationConsulting": "Innovation Consulting",
       "digitalTransformation": "Digital Transformation"
+    },
+    "ourWork": {
+      "eyebrow": "Built by Roalla",
+      "title": "Our Digital Work",
+      "description": "Real sites and platforms we've designed and shipped—including Ken Effect, Business Cocoon, and our own site.",
+      "cta": "View full portfolio",
+      "featured1": "Ken Effect",
+      "featured2": "Business Cocoon",
+      "featured3": "ROALLA"
     },
     "howWeWork": {
       "title": "How we work",
@@ -70,10 +96,12 @@
       "preview": "5 questions · 5 minutes · Tailored report"
     },
     "cta": {
-      "title": "Ready to transform your operations?",
-      "subtitle": "Schedule a free consultation or explore our services to get started.",
+      "title": "Ready to move forward?",
+      "subtitle": "Whether you need consulting, a new website, or a custom platform—we'll help you find the right starting point.",
       "schedule": "Schedule Consultation",
-      "exploreServices": "Explore our services",
+      "exploreServices": "Business consulting",
+      "exploreDigital": "Websites & Digital",
+      "exploreOurWork": "Our Digital Work",
       "orAssessment": "Not sure where to start? <link>Take the business health assessment</link> above for a tailored report."
     },
     "closing": {
@@ -111,7 +139,7 @@
     "about": "About",
     "resources": "Resource Centre",
     "digitalCreations": "Digital Creations",
-    "ourWork": "Our Work",
+    "ourWork": "Our Digital Work",
     "assessment": "Business Health Assessment",
     "faq": "FAQ",
     "contact": "Contact",
@@ -143,7 +171,7 @@
     "ctaAssessment": "Not sure which service fits? Take our 5-min assessment (secondary option)",
     "confidentialityLink": "Questions about confidentiality? Contact us to discuss your needs",
     "crossLinkDigital": "Need a website or custom platform built? See Websites & Digital",
-    "crossLinkOurWork": "See live examples in Our Work",
+    "crossLinkOurWork": "See live examples in Our Digital Work",
     "s0Title": "Strategic Planning",
     "s0Desc": "Develop comprehensive business strategies that align with your vision and market opportunities.",
     "s0F1": "Market Analysis",
@@ -246,7 +274,7 @@
     "s0Outcome": "Launch-ready site aligned to your brand, with clear paths to book, contact, or convert.",
     "s0NotFor": "You need complex user accounts, dashboards, or multi-role workflows.",
     "s0Cta": "Explore Website Services",
-    "s0Proof": "See Ken Effect in Our Work",
+    "s0Proof": "See Ken Effect in Our Digital Work",
     "s1Title": "Custom Platforms & Digital Tools",
     "s1Desc": "Purpose-built software when off-the-shelf tools won't fit — workflow-specific platforms integrated with how your team operates.",
     "s1F1": "Custom workflows & user roles",
@@ -256,7 +284,7 @@
     "s1Outcome": "Purpose-built platform integrated with how your team actually operates.",
     "s1NotFor": "A brochure or marketing site is sufficient.",
     "s1Cta": "Explore Platform Builds",
-    "s1Proof": "See Business Cocoon & Soaring Puck in Our Work",
+    "s1Proof": "See Business Cocoon & Soaring Puck in Our Digital Work",
     "buildTitle": "How We Build",
     "buildSubtitle": "A focused four-step model from discovery to launch and iteration.",
     "stepLabel": "Step {number}",
@@ -278,7 +306,7 @@
     "ctaQualifier": "Best fit for teams that want a partner who ships — not just slides.",
     "ctaButton": "Schedule Consultation",
     "crossLinkConsulting": "Need strategy or operational guidance first? See Business Enablement",
-    "crossLinkOurWork": "See live examples in Our Work"
+    "crossLinkOurWork": "See live examples in Our Digital Work"
   },
   "resources": {
     "title": "Resource Centre",
@@ -312,7 +340,7 @@
     "requestAccessLink": "Request access to downloads, links & tools"
   },
   "digitalCreations": {
-    "portfolioTitle": "Our Work",
+    "portfolioTitle": "Our Digital Work",
     "portfolioTagline": "Built by Roalla",
     "portfolioSubtitle": "Sites, platforms, and tools we build to prove our approach — and what we deliver for clients.",
     "intro1": "We bridge strategy and execution — from brand websites to custom platforms.",

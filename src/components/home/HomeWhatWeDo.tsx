@@ -4,16 +4,32 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
-import { Target, TrendingUp, Users, BarChart3, Lightbulb, Zap, ArrowRight } from 'lucide-react'
+import {
+  Briefcase,
+  Globe,
+  ArrowRight,
+  Target,
+  TrendingUp,
+  Users,
+  BarChart3,
+  Layout,
+  Layers,
+  Sparkles,
+} from 'lucide-react'
 
-const pillarKeys = ['strategicPlanning', 'processOptimization', 'teamDevelopment', 'dataAnalytics', 'innovationConsulting', 'digitalTransformation'] as const
-const pillarIcons = [Target, TrendingUp, Users, BarChart3, Lightbulb, Zap]
+const consultingKeys = ['strategicPlanning', 'processOptimization', 'teamDevelopment', 'dataAnalytics'] as const
+const consultingIcons = [Target, TrendingUp, Users, BarChart3]
+
+const digitalKeys = ['websitesLabel', 'platformsLabel', 'brandingLabel'] as const
+const digitalIcons = [Layout, Layers, Sparkles]
 
 export default function HomeWhatWeDo() {
   const t = useTranslations('home.whatWeDo')
-  const pillars = pillarKeys.map((key, i) => ({ icon: pillarIcons[i], label: t(key) }))
+  const consultingItems = consultingKeys.map((key, i) => ({ icon: consultingIcons[i], label: t(key) }))
+  const digitalItems = digitalKeys.map((key, i) => ({ icon: digitalIcons[i], label: t(key) }))
+
   return (
-    <section className="py-16 lg:py-24 bg-slate-50 relative">
+    <section id="services" className="py-16 lg:py-24 bg-slate-50 relative scroll-mt-24">
       <div className="section-divider" />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -21,49 +37,92 @@ export default function HomeWhatWeDo() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="max-w-2xl mb-12"
+          className="max-w-3xl mb-12"
         >
-          <h2 className="text-3xl font-serif font-bold text-slate-900">{t('title')}</h2>
-          <p className="mt-3 text-slate-600">{t('description')}</p>
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900">{t('title')}</h2>
+          <p className="mt-3 text-lg text-slate-600">{t('description')}</p>
         </motion.div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
-          {pillars.map((item, i) => (
-            <motion.div
-              key={item.label}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.05 }}
-              className="flex flex-col items-center text-center p-6 rounded-xl border border-slate-200 bg-white hover:border-primary/30 hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-300"
-            >
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center mb-4 border border-primary/10">
-                <item.icon className="w-7 h-7 text-primary" />
+
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
+          {/* Business Enablement */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45 }}
+            className="flex flex-col rounded-2xl border border-slate-200 bg-white p-6 lg:p-8 shadow-card hover:shadow-card-hover hover:border-primary/25 transition-all duration-300"
+          >
+            <div className="flex items-start gap-4 mb-6">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center border border-primary/10 shrink-0">
+                <Briefcase className="w-6 h-6 text-primary" />
               </div>
-              <span className="text-sm font-medium text-slate-700">{item.label}</span>
-            </motion.div>
-          ))}
+              <div>
+                <h3 className="text-xl font-serif font-bold text-slate-900">{t('businessEnablementTitle')}</h3>
+                <p className="mt-1 text-slate-600 text-sm leading-relaxed">{t('businessEnablementDesc')}</p>
+              </div>
+            </div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">{t('consultingIncludes')}</p>
+            <ul className="grid grid-cols-2 gap-3 mb-8 flex-1">
+              {consultingItems.map((item) => (
+                <li key={item.label} className="flex items-center gap-2 text-sm text-slate-700">
+                  <item.icon className="w-4 h-4 text-primary shrink-0" aria-hidden />
+                  {item.label}
+                </li>
+              ))}
+            </ul>
+            <Link
+              href="/services"
+              className="inline-flex items-center text-primary font-semibold hover:underline hover:-translate-y-px transition-all duration-200 mt-auto"
+            >
+              {t('exploreBusinessEnablement')}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
+          </motion.div>
+
+          {/* Websites & Digital */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45, delay: 0.08 }}
+            className="flex flex-col rounded-2xl border border-slate-200 bg-white p-6 lg:p-8 shadow-card hover:shadow-card-hover hover:border-primary/25 transition-all duration-300"
+          >
+            <div className="flex items-start gap-4 mb-6">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center border border-primary/10 shrink-0">
+                <Globe className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h3 className="text-xl font-serif font-bold text-slate-900">{t('websitesAndDigitalTitle')}</h3>
+                <p className="mt-1 text-slate-600 text-sm leading-relaxed">{t('websitesAndDigitalDesc')}</p>
+              </div>
+            </div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">{t('digitalIncludes')}</p>
+            <ul className="space-y-3 mb-8 flex-1">
+              {digitalItems.map((item) => (
+                <li key={item.label} className="flex items-center gap-2 text-sm text-slate-700">
+                  <item.icon className="w-4 h-4 text-primary shrink-0" aria-hidden />
+                  {item.label}
+                </li>
+              ))}
+            </ul>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 mt-auto">
+              <Link
+                href="/services/digital"
+                className="inline-flex items-center text-primary font-semibold hover:underline hover:-translate-y-px transition-all duration-200"
+              >
+                {t('exploreWebsitesAndDigital')}
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Link>
+              <Link
+                href="/digital-creations"
+                className="inline-flex items-center text-slate-600 font-medium text-sm hover:text-primary hover:underline transition-colors"
+              >
+                {t('viewOurWork')}
+                <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </motion.div>
         </div>
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="mt-10 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8"
-        >
-          <Link
-            href="/services"
-            className="inline-flex items-center text-primary font-semibold hover:underline hover:-translate-y-px transition-all duration-200"
-          >
-            {t('exploreServices')}
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Link>
-          <Link
-            href="/services/digital"
-            className="inline-flex items-center text-slate-600 font-medium hover:text-primary hover:underline hover:-translate-y-px transition-all duration-200"
-          >
-            {t('exploreDigital')}
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Link>
-        </motion.div>
       </div>
     </section>
   )

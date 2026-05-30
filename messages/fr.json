@@ -9,8 +9,11 @@
     "home": "Accueil",
     "services": "Services",
     "businessEnablement": "Accompagnement d'entreprise",
+    "businessEnablementDesc": "Stratégie, opérations et croissance",
     "websitesAndDigital": "Sites Web et numérique",
-    "ourWork": "Nos réalisations",
+    "websitesAndDigitalDesc": "Sites, plateformes et outils sur mesure",
+    "servicesMenuLabel": "Explorer les services",
+    "ourWork": "Nos réalisations numériques",
     "digitalCreations": "Créations numériques",
     "openMenu": "Ouvrir le menu",
     "closeMenu": "Fermer le menu"
@@ -19,7 +22,7 @@
     "services": "Services",
     "businessEnablement": "Accompagnement d'entreprise",
     "websitesAndDigital": "Sites Web et numérique",
-    "ourWork": "Nos réalisations",
+    "ourWork": "Nos réalisations numériques",
     "digitalCreations": "Créations numériques",
     "faq": "FAQ",
     "contact": "Contact",
@@ -28,11 +31,13 @@
   },
   "home": {
     "hero": {
-      "title": "Des conseils opérationnels stratégiques pour une",
+      "title": "Conseil et créations numériques pour une",
       "titleHighlight": "croissance mesurable",
-      "subtitle": "Directeur opérationnel fractionnel et conseil en gestion qui apportent clarté, efficacité et résultats. Nous travaillons à vos côtés pour mettre en œuvre le changement—pas seulement le recommander.",
+      "subtitle": "Directeur opérationnel fractionnel, stratégie opérationnelle et créations numériques concrètes—sites Web et plateformes sur mesure livrés par la même équipe qui met en œuvre le changement, pas seulement le recommande.",
       "cta": "Planifier une consultation",
       "exploreServices": "Découvrir nos services",
+      "exploreConsulting": "Conseil d'entreprise",
+      "exploreDigital": "Sites Web et numérique",
       "stats": "30+ ans d'expérience · 100 % axés sur le client",
       "stat1Value": "30+",
       "stat1Label": "ans d'expérience",
@@ -44,7 +49,19 @@
     },
     "whatWeDo": {
       "title": "Ce que nous faisons",
-      "description": "Accompagnement complet des entreprises—stratégie, opérations et mise en œuvre—pour favoriser la croissance et l'efficacité.",
+      "description": "Deux façons complémentaires de faire avancer votre entreprise—conseil de direction et créations numériques concrètes, par la même équipe.",
+      "businessEnablementTitle": "Accompagnement d'entreprise",
+      "businessEnablementDesc": "Stratégie, opérations et croissance avec un soutien rigoureux à la mise en œuvre.",
+      "websitesAndDigitalTitle": "Sites Web et numérique",
+      "websitesAndDigitalDesc": "Sites prêts au lancement et plateformes sur mesure—cadrés, conçus et livrés par Roalla.",
+      "consultingIncludes": "Le conseil comprend",
+      "digitalIncludes": "Nous développons",
+      "websitesLabel": "Sites marketing et de marque",
+      "platformsLabel": "Plateformes et outils sur mesure",
+      "brandingLabel": "Design orienté conversion",
+      "exploreBusinessEnablement": "Explorer les services de conseil",
+      "exploreWebsitesAndDigital": "Explorer sites Web et numérique",
+      "viewOurWork": "Voir des exemples concrets",
       "exploreServices": "Découvrir nos services",
       "exploreDigital": "Nous concevons et développons aussi des sites Web et des plateformes numériques",
       "strategicPlanning": "Planification stratégique",
@@ -53,6 +70,15 @@
       "dataAnalytics": "Analyse de données",
       "innovationConsulting": "Conseil en innovation",
       "digitalTransformation": "Transformation numérique"
+    },
+    "ourWork": {
+      "eyebrow": "Conçu par Roalla",
+      "title": "Nos réalisations numériques",
+      "description": "Des sites et plateformes réels que nous avons conçus et livrés—dont Ken Effect, Business Cocoon et notre propre site.",
+      "cta": "Voir le portfolio complet",
+      "featured1": "Ken Effect",
+      "featured2": "Business Cocoon",
+      "featured3": "ROALLA"
     },
     "howWeWork": {
       "title": "Notre façon de travailler",
@@ -70,10 +96,12 @@
       "preview": "5 questions · 5 minutes · Rapport personnalisé"
     },
     "cta": {
-      "title": "Prêt à transformer vos opérations?",
-      "subtitle": "Planifiez une consultation gratuite ou explorez nos services pour commencer.",
+      "title": "Prêt à avancer?",
+      "subtitle": "Que vous ayez besoin de conseil, d'un nouveau site Web ou d'une plateforme sur mesure—nous vous aiderons à trouver le bon point de départ.",
       "schedule": "Planifier une consultation",
-      "exploreServices": "Découvrir nos services",
+      "exploreServices": "Conseil d'entreprise",
+      "exploreDigital": "Sites Web et numérique",
+      "exploreOurWork": "Nos réalisations numériques",
       "orAssessment": "Vous ne savez pas par où commencer? <link>Faites l'évaluation de la santé de l'entreprise</link> ci-dessus pour un rapport personnalisé."
     },
     "closing": {
@@ -111,7 +139,7 @@
     "about": "À propos",
     "resources": "Centre de ressources",
     "digitalCreations": "Créations numériques",
-    "ourWork": "Nos réalisations",
+    "ourWork": "Nos réalisations numériques",
     "assessment": "Évaluation de la santé de l'entreprise",
     "faq": "FAQ",
     "contact": "Contact",
@@ -143,7 +171,7 @@
     "ctaAssessment": "Vous ne savez pas quel service vous convient? Faites notre evaluation de 5 minutes (option secondaire)",
     "confidentialityLink": "Des questions sur la confidentialité? Contactez-nous pour en discuter",
     "crossLinkDigital": "Besoin d'un site Web ou d'une plateforme sur mesure? Voir Sites Web et numérique",
-    "crossLinkOurWork": "Voir des exemples concrets dans Nos réalisations",
+    "crossLinkOurWork": "Voir des exemples concrets dans Nos réalisations numériques",
     "s0Title": "Planification stratégique",
     "s0Desc": "Élaborer des stratégies d'affaires complètes alignées sur votre vision et les opportunités du marché.",
     "s0F1": "Analyse de marché",
@@ -246,7 +274,7 @@
     "s0Outcome": "Site prêt au lancement, aligné sur votre marque, avec des parcours clairs pour réserver, contacter ou convertir.",
     "s0NotFor": "Vous avez besoin de comptes utilisateurs complexes, de tableaux de bord ou de flux multi-rôles.",
     "s0Cta": "Explorer les services Web",
-    "s0Proof": "Voir Ken Effect dans Nos réalisations",
+    "s0Proof": "Voir Ken Effect dans Nos réalisations numériques",
     "s1Title": "Plateformes sur mesure et outils numériques",
     "s1Desc": "Logiciels sur mesure quand les outils du marché ne conviennent pas — plateformes adaptées à vos flux de travail.",
     "s1F1": "Flux de travail et rôles utilisateurs sur mesure",
@@ -256,7 +284,7 @@
     "s1Outcome": "Plateforme sur mesure intégrée à la façon dont votre équipe travaille réellement.",
     "s1NotFor": "Un site vitrine ou marketing suffit.",
     "s1Cta": "Explorer les plateformes sur mesure",
-    "s1Proof": "Voir Business Cocoon et Soaring Puck dans Nos réalisations",
+    "s1Proof": "Voir Business Cocoon et Soaring Puck dans Nos réalisations numériques",
     "buildTitle": "Comment nous construisons",
     "buildSubtitle": "Un modèle en quatre étapes, de la découverte au lancement et à l'itération.",
     "stepLabel": "Étape {number}",
@@ -278,7 +306,7 @@
     "ctaQualifier": "Idéal pour les équipes qui veulent un partenaire qui livre — pas seulement des slides.",
     "ctaButton": "Planifier une consultation",
     "crossLinkConsulting": "Besoin d'abord de stratégie ou de conseil opérationnel? Voir Accompagnement d'entreprise",
-    "crossLinkOurWork": "Voir des exemples concrets dans Nos réalisations"
+    "crossLinkOurWork": "Voir des exemples concrets dans Nos réalisations numériques"
   },
   "resources": {
     "title": "Centre de ressources",
@@ -312,7 +340,7 @@
     "requestAccessLink": "Demander l'accès aux téléchargements, liens et outils"
   },
   "digitalCreations": {
-    "portfolioTitle": "Nos réalisations",
+    "portfolioTitle": "Nos réalisations numériques",
     "portfolioTagline": "Créé par Roalla",
     "portfolioSubtitle": "Sites, plateformes et outils que nous construisons pour prouver notre approche — et ce que nous livrons aux clients.",
     "intro1": "Nous relions stratégie et exécution — des sites de marque aux plateformes sur mesure.",

@@ -1,6 +1,7 @@
 import React from 'react'
 import HomeHero from '@/components/home/HomeHero'
 import HomeWhatWeDo from '@/components/home/HomeWhatWeDo'
+import HomeOurWork from '@/components/home/HomeOurWork'
 import HomeAssessment from '@/components/home/HomeAssessment'
 import HomeHowWeWork from '@/components/home/HomeHowWeWork'
 import HomeCTA from '@/components/home/HomeCTA'
@@ -12,6 +13,7 @@ export default function Home() {
     <div className="page-shell">
         <HomeHero />
         <HomeWhatWeDo />
+        <HomeOurWork />
         <HomeAssessment />
         <HomeHowWeWork />
         <HomeCTA />

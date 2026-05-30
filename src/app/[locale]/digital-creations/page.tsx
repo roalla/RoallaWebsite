@@ -4,8 +4,8 @@ import Breadcrumb from '@/components/Breadcrumb'
 import DigitalCreations from '@/components/DigitalCreations'
 
 export const metadata = {
-  title: 'Digital Creations | ROALLA',
-  description: 'The Business Cocoon, Soaring Puck, Ken Effect, and more — practical tools from 30+ years of business enablement experience. Built by ROALLA.',
+  title: 'Our Work | ROALLA',
+  description: 'Sites, platforms, and tools built by Roalla — Ken Effect, Business Cocoon, Soaring Puck, and our own site. Proof of our digital build capability.',
   alternates: {
     canonical: '/digital-creations',
   },
@@ -14,7 +14,7 @@ export const metadata = {
 export default async function DigitalCreationsPage() {
   const t = await getTranslations('breadcrumb')
   return (
-    <div className="min-h-screen bg-black">
+    <div className="page-shell">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-8">
         <Breadcrumb items={[{ label: t('home'), href: '/' }, { label: t('ourWork') }]} />
         <DigitalCreations />

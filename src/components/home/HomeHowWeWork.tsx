@@ -13,8 +13,8 @@ export default function HomeHowWeWork() {
   const t = useTranslations('home.howWeWork')
   const steps = stepKeys.map((key, i) => ({ icon: stepIcons[i], label: t(key), num: i + 1 }))
   return (
-    <section className="py-16 lg:py-24 bg-black relative">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+    <section className="py-16 lg:py-24 bg-slate-50 relative">
+      <div className="section-divider" />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -22,11 +22,10 @@ export default function HomeHowWeWork() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl font-serif font-bold text-white">{t('title')}</h2>
-          <p className="mt-3 text-gray-300 max-w-xl mx-auto">{t('description')}</p>
+          <h2 className="text-3xl font-serif font-bold text-slate-900">{t('title')}</h2>
+          <p className="mt-3 text-slate-600 max-w-xl mx-auto">{t('description')}</p>
         </motion.div>
         <div className="relative max-w-4xl mx-auto">
-          {/* Timeline connector - hidden on mobile, visible on lg */}
           <div className="hidden lg:block absolute top-[3.5rem] left-0 right-0 h-0.5 bg-gradient-to-r from-primary/20 via-primary/50 to-primary/20" />
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((step, i) => (
@@ -42,11 +41,11 @@ export default function HomeHowWeWork() {
                   <span className="relative z-20 -mb-2 w-7 h-7 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center shrink-0">
                     {step.num}
                   </span>
-                  <div className="w-14 h-14 rounded-xl bg-surface-card border border-white/10 flex items-center justify-center bg-black">
+                  <div className="w-14 h-14 rounded-xl bg-white border border-slate-200 shadow-card flex items-center justify-center">
                     <step.icon className="w-7 h-7 text-primary" />
                   </div>
                 </div>
-                <span className="text-sm font-medium text-gray-300">{step.label}</span>
+                <span className="text-sm font-medium text-slate-700">{step.label}</span>
               </motion.div>
             ))}
           </div>

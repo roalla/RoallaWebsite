@@ -16,9 +16,9 @@ export default function HomeHero() {
     { value: t('stat3Value'), label: t('stat3Label'), icon: statIcons[1] },
   ]
   return (
-    <section className="relative min-h-[85vh] flex items-center bg-black overflow-hidden">
-      <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
-      <div className="absolute top-0 right-0 w-[60%] h-[70%] bg-gradient-to-bl from-primary/20 to-transparent rounded-full blur-3xl" />
+    <section className="relative min-h-[85vh] flex items-center bg-gradient-to-b from-slate-50 via-white to-white overflow-hidden">
+      <div className="absolute inset-0 opacity-60" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(0,180,197,0.07) 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+      <div className="absolute top-0 right-0 w-[60%] h-[70%] bg-gradient-to-bl from-primary/15 to-transparent rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-tr from-primary/10 to-transparent rounded-full blur-3xl" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-16">
@@ -28,7 +28,7 @@ export default function HomeHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold text-white leading-tight tracking-tight"
+            className="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold text-slate-900 leading-tight tracking-tight"
           >
             {t('title')}{' '}
             <span className="bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">
@@ -39,7 +39,7 @@ export default function HomeHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mt-6 text-xl text-gray-300 max-w-2xl"
+            className="mt-6 text-xl text-slate-600 max-w-2xl"
           >
             {t('subtitle')}
           </motion.p>
@@ -54,7 +54,7 @@ export default function HomeHero() {
             </ScheduleButton>
             <Link
               href="/services"
-              className="inline-flex items-center font-semibold text-gray-300 hover:text-primary hover:-translate-y-px transition-all duration-200"
+              className="inline-flex items-center font-semibold text-slate-600 hover:text-primary hover:-translate-y-px transition-all duration-200"
             >
               {t('exploreServices')}
               <ArrowRight className="ml-2 w-5 h-5" />
@@ -67,7 +67,7 @@ export default function HomeHero() {
           >
             <a
               href="#assessment"
-              className="mt-3 block text-sm text-gray-400 hover:text-primary transition-colors"
+              className="mt-3 block text-sm text-slate-500 hover:text-primary transition-colors"
             >
               {t('orAssessment')}
             </a>
@@ -78,14 +78,14 @@ export default function HomeHero() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-12 flex flex-wrap gap-4"
           >
-            {stats.map((stat, i) => (
+            {stats.map((stat) => (
               <div
                 key={stat.label}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white border border-slate-200 shadow-card"
               >
                 <stat.icon className="w-4 h-4 text-primary flex-shrink-0" />
-                <span className="text-sm font-semibold text-white">{stat.value}</span>
-                <span className="text-xs text-gray-400">{stat.label}</span>
+                <span className="text-sm font-semibold text-slate-900">{stat.value}</span>
+                <span className="text-xs text-slate-500">{stat.label}</span>
               </div>
             ))}
           </motion.div>
@@ -97,7 +97,7 @@ export default function HomeHero() {
           className="relative aspect-video max-w-2xl mx-auto lg:mx-0"
         >
           <div className="absolute -inset-[1px] rounded-[13px] bg-gradient-to-br from-primary/40 to-primary-dark/20 p-[1px] shadow-[0_0_30px_rgba(0,180,197,0.15)]">
-            <div className="relative w-full h-full rounded-xl overflow-hidden bg-black shadow-inner">
+            <div className="relative w-full h-full rounded-xl overflow-hidden bg-slate-900 shadow-inner">
               <iframe
                 src="https://www.youtube-nocookie.com/embed/daMDqDodumw?autoplay=1&mute=1&loop=1&playlist=daMDqDodumw&rel=0&controls=0"
                 title="ROALLA intro video"

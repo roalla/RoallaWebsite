@@ -11,7 +11,7 @@ export default function ConditionalLayout({
   return (
     <>
       <Header />
-      <main id="main-content" tabIndex={-1}>{children}</main>
+      <main id="main-content" tabIndex={-1} className="bg-white">{children}</main>
       <Footer />
     </>
   )

@@ -20,11 +20,17 @@ module.exports = {
           light: '#ffe033',
           dark: '#e6c200',
         },
-        'brand-muted': '#8a8b8e',
-        'surface': {
-          DEFAULT: '#0a0a0a',
-          elevated: '#141414',
-          card: '#1a1a1a',
+        'brand-muted': '#64748b',
+        surface: {
+          DEFAULT: '#ffffff',
+          elevated: '#f8fafc',
+          card: '#ffffff',
+          muted: '#f1f5f9',
+        },
+        ink: {
+          DEFAULT: '#0f172a',
+          secondary: '#475569',
+          muted: '#64748b',
         },
       },
       fontFamily: {
@@ -35,7 +41,11 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      boxShadow: {
+        card: '0 1px 3px 0 rgb(15 23 42 / 0.06), 0 1px 2px -1px rgb(15 23 42 / 0.06)',
+        'card-hover': '0 10px 25px -5px rgb(0 180 197 / 0.12), 0 4px 6px -4px rgb(15 23 42 / 0.08)',
+      },
     },
   },
   plugins: [],
-} 
+}

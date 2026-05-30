@@ -13,8 +13,8 @@ export default function HomeWhatWeDo() {
   const t = useTranslations('home.whatWeDo')
   const pillars = pillarKeys.map((key, i) => ({ icon: pillarIcons[i], label: t(key) }))
   return (
-    <section className="py-16 lg:py-24 bg-surface-elevated relative">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+    <section className="py-16 lg:py-24 bg-slate-50 relative">
+      <div className="section-divider" />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -23,8 +23,8 @@ export default function HomeWhatWeDo() {
           transition={{ duration: 0.5 }}
           className="max-w-2xl mb-12"
         >
-          <h2 className="text-3xl font-serif font-bold text-white">{t('title')}</h2>
-          <p className="mt-3 text-gray-300">{t('description')}</p>
+          <h2 className="text-3xl font-serif font-bold text-slate-900">{t('title')}</h2>
+          <p className="mt-3 text-slate-600">{t('description')}</p>
         </motion.div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
           {pillars.map((item, i) => (
@@ -34,12 +34,12 @@ export default function HomeWhatWeDo() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.05 }}
-              className="flex flex-col items-center text-center p-6 rounded-xl border border-white/10 bg-black/30 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-0.5 transition-all duration-300"
+              className="flex flex-col items-center text-center p-6 rounded-xl border border-slate-200 bg-white hover:border-primary/30 hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-300"
             >
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/25 to-primary/5 flex items-center justify-center mb-4 border border-white/5">
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center mb-4 border border-primary/10">
                 <item.icon className="w-7 h-7 text-primary" />
               </div>
-              <span className="text-sm font-medium text-gray-300">{item.label}</span>
+              <span className="text-sm font-medium text-slate-700">{item.label}</span>
             </motion.div>
           ))}
         </div>
@@ -58,7 +58,7 @@ export default function HomeWhatWeDo() {
           </Link>
           <Link
             href="/services/digital"
-            className="inline-flex items-center text-gray-300 font-medium hover:text-primary hover:underline hover:-translate-y-px transition-all duration-200"
+            className="inline-flex items-center text-slate-600 font-medium hover:text-primary hover:underline hover:-translate-y-px transition-all duration-200"
           >
             {t('exploreDigital')}
             <ArrowRight className="ml-2 w-4 h-4" />

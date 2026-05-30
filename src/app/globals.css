@@ -11,12 +11,12 @@
   }
   
   body {
-    @apply bg-black text-white font-sans transition-colors duration-300;
+    @apply bg-white text-slate-800 font-sans transition-colors duration-300 antialiased;
     line-height: 1.6;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif font-bold text-white;
+    @apply font-serif font-bold text-slate-900;
     line-height: 1.2;
   }
 
@@ -74,7 +74,7 @@
   }
   
   .btn-secondary {
-    @apply bg-transparent hover:bg-primary/10 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 border-2 border-primary hover:border-primary-dark;
+    @apply bg-transparent hover:bg-primary/10 text-primary font-semibold py-3 px-6 rounded-lg transition-all duration-300 border-2 border-primary hover:border-primary-dark;
   }
   
   .section-padding {
@@ -90,15 +90,41 @@
   }
   
   .card {
-    @apply bg-surface-card rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-white/10;
+    @apply bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-slate-200/90;
   }
 
-  /* Enhanced spacing utilities */
+  .page-shell {
+    @apply min-h-screen bg-white;
+  }
+
+  .section-light {
+    @apply bg-white text-slate-800;
+  }
+
+  .section-muted {
+    @apply bg-slate-50 text-slate-800;
+  }
+
+  .section-divider {
+    @apply absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent;
+  }
+
+  .card-elevated {
+    @apply bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md hover:border-primary/25 transition-all duration-300;
+  }
+
+  .text-body {
+    @apply text-slate-600;
+  }
+
+  .text-muted {
+    @apply text-slate-500;
+  }
+
   .spacing-section {
     @apply py-20 lg:py-28;
   }
 
-  /* Smooth scroll improvements */
   html {
     scroll-padding-top: 120px;
   }

@@ -9,8 +9,8 @@ import ScheduleButton from '../CalendlyButton'
 export default function HomeCTA() {
   const t = useTranslations('home.cta')
   return (
-    <section className="py-16 lg:py-24 bg-black relative">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+    <section className="py-16 lg:py-24 bg-white relative">
+      <div className="section-divider" />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}

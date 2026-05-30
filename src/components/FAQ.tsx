@@ -21,7 +21,7 @@ const FAQ = () => {
   }
 
   return (
-    <section id="faq" className="section-padding bg-black py-20 lg:py-28">
+    <section id="faq" className="section-padding bg-white py-20 lg:py-28">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -32,11 +32,11 @@ const FAQ = () => {
         >
           <div className="flex items-center justify-center mb-4">
             <HelpCircle className="w-12 h-12 text-primary mr-3" />
-            <h2 className="text-4xl md:text-5xl font-serif font-extrabold text-white">
+            <h2 className="text-4xl md:text-5xl font-serif font-extrabold text-slate-900">
               {t('title')}
             </h2>
           </div>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto mt-4">
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto mt-4">
             {t('subtitle')}
           </p>
         </motion.div>
@@ -50,14 +50,14 @@ const FAQ = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
                 viewport={{ once: true }}
-                className="bg-surface-card rounded-xl shadow-lg border border-white/10 overflow-hidden"
+                className="bg-white rounded-xl shadow-card border border-slate-200 overflow-hidden"
               >
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-white/5 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset"
+                  className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset"
                   aria-expanded={openIndex === index}
                 >
-                  <span className="text-lg font-semibold text-white pr-8">
+                  <span className="text-lg font-semibold text-slate-900 pr-8">
                     {faq.question}
                   </span>
                   <motion.div
@@ -78,7 +78,7 @@ const FAQ = () => {
                       className="overflow-hidden"
                     >
                       <div className="px-6 pb-5 pt-0">
-                        <p className="text-gray-300 leading-relaxed">
+                        <p className="text-slate-600 leading-relaxed">
                           {faq.answer}
                         </p>
                       </div>
@@ -96,7 +96,7 @@ const FAQ = () => {
             viewport={{ once: true }}
             className="mt-12 text-center"
           >
-            <p className="text-lg text-gray-300 mb-4">
+            <p className="text-lg text-slate-600 mb-4">
               {t('stillHaveQuestions')}
             </p>
             <Link

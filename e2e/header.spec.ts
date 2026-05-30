@@ -23,6 +23,6 @@ test.describe('Header', () => {
     await page.goto('/')
     await page.getByRole('link', { name: 'Our Work' }).click()
     await expect(page).toHaveURL(/\/digital-creations/)
-    await expect(page.getByRole('heading', { name: /Digital Creations Portfolio/i })).toBeVisible()
+    await expect(page.getByRole('heading', { name: /Our Work/i })).toBeVisible()
   })
 })

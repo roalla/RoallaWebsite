@@ -64,7 +64,7 @@ export default async function ServicesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="page-shell">
       <Script
         id="services-jsonld"
         type="application/ld+json"

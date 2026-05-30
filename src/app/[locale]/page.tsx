@@ -9,8 +9,7 @@ import HomeClosing from '@/components/home/HomeClosing'
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-black transition-colors duration-300">
-      <div id="main-content">
+    <div className="page-shell">
         <HomeHero />
         <HomeWhatWeDo />
         <HomeAssessment />
@@ -18,7 +17,6 @@ export default function Home() {
         <HomeCTA />
         <HomeTrustedBy />
         <HomeClosing />
-      </div>
-    </main>
+    </div>
   )
 }

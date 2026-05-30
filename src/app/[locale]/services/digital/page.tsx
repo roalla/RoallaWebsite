@@ -43,7 +43,7 @@ export default async function DigitalBuildsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="page-shell">
       <Script
         id="digital-builds-jsonld"
         type="application/ld+json"

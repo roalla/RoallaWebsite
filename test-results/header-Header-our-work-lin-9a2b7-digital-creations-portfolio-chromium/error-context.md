@@ -1,0 +1,261 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - link "Skip to main content" [ref=e3] [cursor=pointer]:
+      - /url: "#main-content"
+    - navigation "Main navigation" [ref=e4]:
+      - generic [ref=e5]:
+        - link "Go to homepage" [ref=e7] [cursor=pointer]:
+          - /url: /en
+          - img "Roalla Business Enablement Group Logo" [ref=e9]
+          - heading "ROALLA" [level=1] [ref=e11]
+        - generic [ref=e13]:
+          - link "Home" [ref=e15] [cursor=pointer]:
+            - /url: /en
+            - text: Home
+          - button "Services" [ref=e18] [cursor=pointer]:
+            - text: Services
+            - img [ref=e19]
+          - link "Our Work" [ref=e22] [cursor=pointer]:
+            - /url: /en/digital-creations
+            - text: Our Work
+        - generic [ref=e23]:
+          - button "Select language" [ref=e25] [cursor=pointer]:
+            - img [ref=e26]
+            - generic [ref=e31]: EN
+            - img [ref=e32]
+          - link "Schedule Consultation" [ref=e35] [cursor=pointer]:
+            - /url: /schedule
+            - img [ref=e36]
+            - text: Schedule Consultation
+  - main [ref=e38]:
+    - main [ref=e39]:
+      - generic [ref=e40]:
+        - generic [ref=e46]:
+          - generic [ref=e47]:
+            - heading "Strategic operational insight for measurable growth" [level=1] [ref=e48]
+            - paragraph [ref=e49]: Fractional COO and business consulting that delivers clarity, efficiency, and results. We work alongside you to implement change—not just recommend it.
+            - generic [ref=e50]:
+              - link "Schedule Consultation" [ref=e51] [cursor=pointer]:
+                - /url: /schedule
+                - img [ref=e52]
+                - text: Schedule Consultation
+              - link "Explore our services" [ref=e54] [cursor=pointer]:
+                - /url: /en/services
+                - text: Explore our services
+                - img [ref=e55]
+            - link "Or take our 5-min assessment" [ref=e58] [cursor=pointer]:
+              - /url: "#assessment"
+            - generic [ref=e59]:
+              - generic [ref=e60]:
+                - img [ref=e61]
+                - generic [ref=e64]: 30+
+                - generic [ref=e65]: years experience
+              - generic [ref=e66]:
+                - img [ref=e67]
+                - generic [ref=e69]: 100%
+                - generic [ref=e70]: client focused
+          - iframe [ref=e74]:
+            - generic [active] [ref=f1e1]:
+              - generic "YouTube Video Player" [ref=f1e3]
+              - generic [ref=f1e6]:
+                - generic:
+                  - generic:
+                    - button "Hide player controls" [ref=f1e7] [cursor=pointer]
+                    - generic [ref=f1e9]:
+                      - generic:
+                        - generic [ref=f1e14]:
+                          - generic [ref=f1e15]:
+                            - link "Roalla" [ref=f1e16] [cursor=pointer]:
+                              - /url: https://www.youtube.com/watch?v=daMDqDodumw
+                            - link "Roalla Business Enablement Group" [ref=f1e17] [cursor=pointer]:
+                              - /url: /channel/UCNXvN5okd5WT4w1DHLW9kcA
+                              - generic [ref=f1e18]: Roalla Business Enablement Group
+                          - generic [ref=f1e19]:
+                            - button [ref=f1e20] [cursor=pointer]
+                            - generic [ref=f1e22]:
+                              - generic: Roalla Business Enablement Group
+                              - generic: 2 subscribers
+                        - generic [ref=f1e23]:
+                          - generic:
+                            - generic:
+                              - button "Previous video":
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - img
+                            - button "Rewind 10 seconds"
+                            - generic:
+                              - button "Play video":
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - img
+                            - button "Fast forward 10 seconds"
+                            - generic:
+                              - button "Next video" [disabled]:
+                                - generic:
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - img
+                      - generic [ref=f1e26]:
+                        - button "Copy link" [ref=f1e29] [cursor=pointer]:
+                          - generic [ref=f1e33]:
+                            - img
+                        - link "Watch on YouTube" [ref=f1e40] [cursor=pointer]:
+                          - /url: https://www.youtube.com/watch?v=daMDqDodumw
+                          - img [ref=f1e44]:
+                            - generic [ref=f1e46]:
+                              - img
+        - generic [ref=e77]:
+          - generic [ref=e78]:
+            - heading "What we do" [level=2] [ref=e79]
+            - paragraph [ref=e80]: Comprehensive business enablement—strategy, operations, and implementation—to drive growth and efficiency.
+          - generic [ref=e81]:
+            - generic [ref=e82]:
+              - img [ref=e84]
+              - generic [ref=e88]: Strategic Planning
+            - generic [ref=e89]:
+              - img [ref=e91]
+              - generic [ref=e94]: Process Optimization
+            - generic [ref=e95]:
+              - img [ref=e97]
+              - generic [ref=e102]: Team Development
+            - generic [ref=e103]:
+              - img [ref=e105]
+              - generic [ref=e107]: Data Analytics
+            - generic [ref=e108]:
+              - img [ref=e110]
+              - generic [ref=e112]: Innovation Consulting
+            - generic [ref=e113]:
+              - img [ref=e115]
+              - generic [ref=e117]: Digital Transformation
+          - generic [ref=e118]:
+            - link "Explore our services" [ref=e119] [cursor=pointer]:
+              - /url: /en/services
+              - text: Explore our services
+              - img [ref=e120]
+            - link "We also design and build websites and digital platforms" [ref=e122] [cursor=pointer]:
+              - /url: /en/services/digital
+              - text: We also design and build websites and digital platforms
+              - img [ref=e123]
+        - generic [ref=e129]:
+          - img [ref=e131]
+          - heading "Business Health Assessment" [level=2] [ref=e134]
+          - paragraph [ref=e135]: 5 questions · 5 minutes · Tailored report
+          - paragraph [ref=e136]: Take our 5-minute assessment to discover your business strengths and opportunities. Get a quick report with tailored next steps, then schedule a free consultation to discuss results.
+          - link "Take the 5-Minute Assessment" [ref=e137] [cursor=pointer]:
+            - /url: /en/assessment
+            - text: Take the 5-Minute Assessment
+            - img [ref=e138]
+        - generic [ref=e142]:
+          - generic [ref=e143]:
+            - heading "How we work" [level=2] [ref=e144]
+            - paragraph [ref=e145]: "A proven methodology: assess, plan, implement, improve."
+          - generic [ref=e148]:
+            - generic [ref=e149]:
+              - generic [ref=e150]:
+                - generic [ref=e151]: "1"
+                - img [ref=e153]
+              - generic [ref=e156]: Discovery & Assessment
+            - generic [ref=e157]:
+              - generic [ref=e158]:
+                - generic [ref=e159]: "2"
+                - img [ref=e161]
+              - generic [ref=e165]: Strategic Planning
+            - generic [ref=e166]:
+              - generic [ref=e167]:
+                - generic [ref=e168]: "3"
+                - img [ref=e170]
+              - generic [ref=e175]: Implementation & Support
+            - generic [ref=e176]:
+              - generic [ref=e177]:
+                - generic [ref=e178]: "4"
+                - img [ref=e180]
+              - generic [ref=e183]: Continuous Improvement
+          - link "Learn more about us" [ref=e185] [cursor=pointer]:
+            - /url: /en/about
+            - text: Learn more about us
+            - img [ref=e186]
+        - generic [ref=e191]:
+          - heading "Ready to transform your operations?" [level=2] [ref=e192]
+          - paragraph [ref=e193]: Schedule a free consultation or explore our services to get started.
+          - generic [ref=e194]:
+            - link "Schedule Consultation" [ref=e195] [cursor=pointer]:
+              - /url: /schedule
+            - link "Explore our services" [ref=e196] [cursor=pointer]:
+              - /url: /en/services
+          - paragraph [ref=e197]:
+            - text: Not sure where to start?
+            - link "Take the business health assessment" [ref=e198] [cursor=pointer]:
+              - /url: "#assessment"
+            - text: above for a tailored report.
+        - generic [ref=e201]:
+          - paragraph [ref=e202]: Why choose Roalla
+          - generic [ref=e203]:
+            - generic [ref=e204]:
+              - img [ref=e206]
+              - generic [ref=e209]: Certified professionals
+            - generic [ref=e210]:
+              - img [ref=e212]
+              - generic [ref=e215]: Advanced education
+            - generic [ref=e216]:
+              - img [ref=e218]
+              - generic [ref=e221]: 30+ years experience
+            - generic [ref=e222]:
+              - img [ref=e224]
+              - generic [ref=e226]: Confidential & secure
+        - generic [ref=e230]:
+          - generic [ref=e231]:
+            - heading "Ready to get started?" [level=3] [ref=e232]
+            - paragraph [ref=e233]:
+              - text: Questions? See our
+              - link "FAQ" [ref=e234] [cursor=pointer]:
+                - /url: /en/faq
+              - text: or
+              - link "contact us" [ref=e235] [cursor=pointer]:
+                - /url: /en/contact
+          - link "Schedule Consultation" [ref=e236] [cursor=pointer]:
+            - /url: /schedule
+            - img [ref=e237]
+            - text: Schedule Consultation
+  - contentinfo [ref=e239]:
+    - generic [ref=e240]:
+      - generic [ref=e241]:
+        - generic [ref=e242]:
+          - paragraph [ref=e243]: ROALLA
+          - paragraph [ref=e244]: Empowering your business for a digital-first world.
+        - navigation "Footer links" [ref=e245]:
+          - link "Business Enablement" [ref=e246] [cursor=pointer]:
+            - /url: /en/services
+          - link "Websites & Digital" [ref=e247] [cursor=pointer]:
+            - /url: /en/services/digital
+          - link "Our Work" [ref=e248] [cursor=pointer]:
+            - /url: /en/digital-creations
+          - link "FAQ" [ref=e249] [cursor=pointer]:
+            - /url: /en/faq
+          - link "Contact" [ref=e250] [cursor=pointer]:
+            - /url: /en/contact
+          - link "About" [ref=e251] [cursor=pointer]:
+            - /url: /en/about
+        - generic [ref=e252]:
+          - link "Email us" [ref=e253] [cursor=pointer]:
+            - /url: mailto:sales@roalla.com
+            - img [ref=e254]
+            - generic [ref=e257]: sales@roalla.com
+          - link "Call us" [ref=e258] [cursor=pointer]:
+            - /url: tel:289-838-5868
+            - img [ref=e259]
+            - generic [ref=e261]: 289-838-5868
+          - link "Roalla on LinkedIn" [ref=e262] [cursor=pointer]:
+            - /url: https://www.linkedin.com/company/102042431/
+            - img [ref=e263]
+          - link "Roalla on YouTube" [ref=e267] [cursor=pointer]:
+            - /url: https://www.youtube.com/@RoallaGroup
+            - img [ref=e268]
+      - paragraph [ref=e272]: © 2026 Roalla Business Enablement Group. All Rights Reserved.
+```

@@ -55,7 +55,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
   {
     id: 'soaring-puck',
     category: 'platform',
-    imageUrl: '/preflight.jpg',
+    imageUrl: '/soaring-puck.jpg',
     tryUrl: 'https://www.soaringpuck.com',
     domain: 'soaringpuck.com',
     contactService: 'custom-platforms',

@@ -282,7 +282,7 @@ const Header = () => {
   return (
     <header
       role="banner"
-      className={`fixed top-0 left-0 right-0 z-40 transition-shadow duration-300 pt-[env(safe-area-inset-top)] bg-black/95 backdrop-blur-md border-b border-white/10 ${
+      className={`fixed top-0 left-0 right-0 z-40 transition-shadow duration-300 pt-[env(safe-area-inset-top)] bg-black/90 backdrop-blur-md border-b border-white/10 ${
         isScrolled ? 'shadow-lg shadow-black/40' : 'shadow-md shadow-black/20'
       }`}
     >

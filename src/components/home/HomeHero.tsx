@@ -1,16 +1,18 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, Briefcase, Heart, Award } from 'lucide-react'
+import { ArrowRight, Briefcase, Heart, Award, Play } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { Link } from '@/i18n/navigation'
 import ScheduleButton from '../ScheduleButton'
 
 const statIcons = [Briefcase, Award, Heart]
+const YOUTUBE_EMBED =
+  'https://www.youtube-nocookie.com/embed/daMDqDodumw?autoplay=1&mute=1&loop=1&playlist=daMDqDodumw&rel=0&controls=0'
 
 export default function HomeHero() {
   const t = useTranslations('home.hero')
+  const [videoActive, setVideoActive] = useState(false)
   const stats = [
     { value: t('stat1Value'), label: t('stat1Label'), icon: statIcons[0] },
     { value: t('stat2Value'), label: t('stat2Label'), icon: statIcons[1] },
@@ -86,13 +88,26 @@ export default function HomeHero() {
           >
             <div className="absolute -inset-[1px] rounded-[13px] bg-gradient-to-br from-primary/40 to-primary-dark/20 p-[1px] shadow-[0_0_30px_rgba(0,122,135,0.15)]">
               <div className="relative w-full h-full rounded-xl overflow-hidden bg-slate-900 shadow-inner">
-                <iframe
-                  src="https://www.youtube-nocookie.com/embed/daMDqDodumw?autoplay=1&mute=1&loop=1&playlist=daMDqDodumw&rel=0&controls=0"
-                  title="ROALLA intro video"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  className="absolute inset-0 w-full h-full"
-                />
+                {videoActive ? (
+                  <iframe
+                    src={YOUTUBE_EMBED}
+                    title="ROALLA intro video"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    className="absolute inset-0 w-full h-full"
+                  />
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setVideoActive(true)}
+                    className="group absolute inset-0 flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-primary-dark/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+                    aria-label="Play ROALLA intro video"
+                  >
+                    <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white/95 text-primary-dark shadow-lg transition-transform group-hover:scale-105">
+                      <Play className="h-7 w-7 ml-1" fill="currentColor" aria-hidden />
+                    </span>
+                  </button>
+                )}
               </div>
             </div>
           </motion.div>

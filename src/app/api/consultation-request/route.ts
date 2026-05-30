@@ -12,8 +12,8 @@ import {
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 const EMAIL_LABELS: Record<string, string> = {
-  emailHeading: 'New Consultation Request',
-  emailIntro: 'A prospective client submitted a consultation request through the ROALLA website.',
+  emailHeading: 'New Service Inquiry',
+  emailIntro: 'A prospective client submitted a service inquiry through the ROALLA website.',
   intent: 'Request type',
   intent_consulting: 'Business consulting',
   intent_website: 'Website project',
@@ -52,7 +52,7 @@ const EMAIL_LABELS: Record<string, string> = {
   submittedAt: 'Submitted',
   source: 'Website',
   locale: 'Language',
-  userSubject: 'We received your consultation request',
+  userSubject: 'We received your service inquiry',
   userGreeting: 'Thank you for reaching out to ROALLA.',
   userBody:
     'Our team has received your request and will review the details. You can expect a response within one business day.',

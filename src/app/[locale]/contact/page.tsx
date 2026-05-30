@@ -5,7 +5,7 @@ import Contact from '@/components/Contact'
 
 export const metadata = {
   title: 'Contact Us | Roalla Business Enablement Group',
-  description: 'Request a consultation or reach out — email, phone, Burlington ON. Serving clients globally.',
+  description: 'Get in touch or submit a service inquiry — email, phone, Burlington ON. Serving clients globally.',
   alternates: {
     canonical: '/contact',
   },

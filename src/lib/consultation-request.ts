@@ -80,7 +80,7 @@ export function buildConsultationEmailSubject(name: string, intent: Consultation
     platform: 'Custom Platform',
     unsure: 'General Inquiry',
   }
-  return `Consultation Request — ${labels[intent]} — ${name}`
+  return `Service Inquiry — ${labels[intent]} — ${name}`
 }
 
 export function escapeHtml(value: string): string {

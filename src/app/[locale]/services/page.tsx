@@ -1,7 +1,6 @@
 import React from 'react'
 import Script from 'next/script'
 import { getLocale, getTranslations } from 'next-intl/server'
-import Breadcrumb from '@/components/Breadcrumb'
 import Services from '@/components/Services'
 
 export const metadata = {
@@ -14,7 +13,6 @@ export const metadata = {
 }
 
 export default async function ServicesPage() {
-  const t = await getTranslations('breadcrumb')
   const tServices = await getTranslations('services')
   const tFaq = await getTranslations('faq')
   const locale = await getLocale()
@@ -78,7 +76,6 @@ export default async function ServicesPage() {
       />
       <div className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent" aria-hidden />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
-        <Breadcrumb items={[{ label: t('home'), href: '/' }, { label: t('services') }]} />
         <Services />
       </div>
     </div>

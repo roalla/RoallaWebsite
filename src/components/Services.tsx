@@ -22,6 +22,7 @@ import {
   Briefcase,
 } from 'lucide-react'
 import ScheduleButton from './CalendlyButton'
+import Breadcrumb from './Breadcrumb'
 import type { ConsultingFocus } from '@/lib/consultation-request'
 import {
   ServicePageHero,
@@ -43,6 +44,7 @@ const fitKeys = ['fit1', 'fit2', 'fit3'] as const
 
 const Services = () => {
   const t = useTranslations('services')
+  const tBc = useTranslations('breadcrumb')
   const services = [
     {
       title: t('s0Title'),
@@ -113,9 +115,9 @@ const Services = () => {
   ]
 
   const stats = [
-    { value: t('stat1Value'), label: t('stat1Label') },
-    { value: t('stat2Value'), label: t('stat2Label') },
-    { value: t('stat3Value'), label: t('stat3Label') },
+    { value: t('stat1Value'), label: t('stat1Label'), icon: Award },
+    { value: t('stat2Value'), label: t('stat2Label'), icon: Briefcase },
+    { value: t('stat3Value'), label: t('stat3Label'), icon: Users },
   ]
 
   const credibilityItems = [
@@ -126,8 +128,9 @@ const Services = () => {
   ] as const
 
   return (
-    <section id="services" className="section-padding relative max-w-6xl mx-auto">
+    <section id="services" className="section-padding relative">
       <ServicePageHero
+        variant="consulting"
         eyebrow={t('heroEyebrow')}
         title={t('title')}
         subtitle={t('subtitle')}
@@ -146,6 +149,9 @@ const Services = () => {
         }
       />
 
+      <Breadcrumb items={[{ label: tBc('home'), href: '/' }, { label: tBc('services') }]} />
+
+      <div className="max-w-6xl mx-auto">
       <ServiceLaneCompare
         activeLane="consulting"
         consultingLabel={t('compareConsultingLabel')}
@@ -331,6 +337,7 @@ const Services = () => {
           { href: '/digital-creations', label: t('crossLinkOurWork') },
         ]}
       />
+      </div>
     </section>
   )
 }

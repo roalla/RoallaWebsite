@@ -1,7 +1,7 @@
 {
   "common": {
     "skipToContent": "Passer au contenu principal",
-    "scheduleConsultation": "Demander une consultation",
+    "scheduleConsultation": "Communiquer avec nous",
     "companyName": "ROALLA",
     "tagline": "Donnez les moyens à votre entreprise d'évoluer dans un monde axé sur le numérique."
   },
@@ -34,7 +34,7 @@
       "title": "Conseil et créations numériques pour une",
       "titleHighlight": "croissance mesurable",
       "subtitle": "Directeur opérationnel fractionnel, stratégie opérationnelle et créations numériques concrètes—sites Web et plateformes sur mesure livrés par la même équipe qui met en œuvre le changement, pas seulement le recommande.",
-      "cta": "Demander une consultation",
+      "cta": "Communiquer avec nous",
       "exploreServices": "Découvrir nos services",
       "exploreConsulting": "Conseil d'entreprise",
       "exploreDigital": "Sites Web et numérique",
@@ -91,14 +91,14 @@
     },
     "assessment": {
       "title": "Évaluation de la santé de l'entreprise",
-      "description": "Répondez à notre évaluation de 5 minutes pour découvrir les forces et les opportunités de votre entreprise. Obtenez un rapport rapide avec des prochaines étapes personnalisées, puis planifiez une consultation gratuite pour en discuter.",
+      "description": "Répondez à notre évaluation de 5 minutes pour découvrir les forces et les opportunités de votre entreprise. Obtenez un rapport rapide avec des prochaines étapes personnalisées, puis communiquez avec nous pour en discuter.",
       "cta": "Faire l'évaluation de 5 minutes",
       "preview": "5 questions · 5 minutes · Rapport personnalisé"
     },
     "cta": {
       "title": "Prêt à avancer?",
       "subtitle": "Que vous ayez besoin de conseil, d'un nouveau site Web ou d'une plateforme sur mesure—nous vous aiderons à trouver le bon point de départ.",
-      "schedule": "Demander une consultation",
+      "schedule": "Communiquer avec nous",
       "exploreServices": "Conseil d'entreprise",
       "exploreDigital": "Sites Web et numérique",
       "exploreOurWork": "Nos réalisations numériques",
@@ -106,7 +106,7 @@
     },
     "closing": {
       "readyToStart": "Prêt à commencer?",
-      "scheduleCta": "Demander une consultation",
+      "scheduleCta": "Communiquer avec nous",
       "questions": "Des questions? Consultez notre",
       "faq": "FAQ",
       "or": "ou",
@@ -133,7 +133,7 @@
   },
   "breadcrumb": {
     "home": "Accueil",
-    "schedule": "Demander une consultation",
+    "schedule": "Demande de service",
     "services": "Services",
     "websitesAndDigital": "Sites Web et numérique",
     "about": "À propos",
@@ -146,8 +146,8 @@
     "trustCentre": "Centre de confiance"
   },
   "consultationRequest": {
-    "title": "Demander une consultation",
-    "subtitle": "Répondez à quelques questions rapides pour que nous comprenions vos besoins et puissions vous proposer les bonnes prochaines étapes.",
+    "title": "Demande de service",
+    "subtitle": "Dites-nous ce dont vous avez besoin—répondez à quelques questions et notre équipe vous répondra avec les bonnes prochaines étapes.",
     "whatToExpect": "Sans obligation. Nous examinons chaque demande personnellement et répondons dans un délai d'un jour ouvrable.",
     "assessmentLink": "Vous préférez commencer seul? Faites notre évaluation d'entreprise de 5 minutes",
     "stepLabel": "Étape {current} sur {total}",
@@ -197,7 +197,7 @@
     "privacyNote": "Vos renseignements restent confidentiels et servent uniquement à répondre à votre demande.",
     "back": "Retour",
     "continue": "Continuer",
-    "submit": "Envoyer la demande",
+    "submit": "Soumettre la demande",
     "submitting": "Envoi…",
     "successTitle": "Demande reçue",
     "successMessage": "Merci. Notre équipe examinera votre demande et répondra dans un délai d'un jour ouvrable.",
@@ -205,8 +205,8 @@
     "backHome": "Retour à l'accueil"
   },
   "schedule": {
-    "title": "Demander une consultation",
-    "subtitle": "Répondez à quelques questions rapides pour que nous comprenions vos besoins et puissions vous proposer les bonnes prochaines étapes.",
+    "title": "Demande de service",
+    "subtitle": "Dites-nous ce dont vous avez besoin—répondez à quelques questions et notre équipe vous répondra avec les bonnes prochaines étapes.",
     "whatToExpect": "Sans obligation. Nous examinons chaque demande personnellement et répondons dans un délai d'un jour ouvrable.",
     "assessmentTeaser": "Vous ne savez pas quoi discuter? Faites d'abord notre évaluation de 5 minutes."
   },
@@ -228,7 +228,7 @@
     "compareBuildingDesc": "Sites Web et numérique — le site ou la plateforme que vous lancez lorsque la feuille de route l'exige.",
     "compareBuildingLink": "Explorer Sites Web et numérique",
     "jumpNavLabel": "Aller à un service",
-    "requestConsultation": "Demander une consultation",
+    "requestConsultation": "Demander des renseignements sur ce service",
     "learnMore": "En savoir plus",
     "outcomeLabel": "Résultat :",
     "notForLabel": "Moins adapté si :",
@@ -262,10 +262,10 @@
     "faq3Q": "Développez-vous aussi des sites Web et des plateformes?",
     "faq3A": "Oui. Le conseil se trouve ici sous Accompagnement d'entreprise; la conception et le développement sous Sites Web et numérique. Une même équipe peut faire les deux lorsque c'est pertinent.",
     "ctaTitle": "Prêt à définir votre prochaine étape?",
-    "ctaSubtitle": "Demandez une consultation pour identifier le bon point d'entrée et repartir avec un plan clair, aligné à la direction.",
+    "ctaSubtitle": "Partagez vos priorités et nous identifierons le bon point d'entrée ainsi qu'un plan clair, aligné à la direction.",
     "ctaQualifier": "Idéal pour les équipes en croissance qui ont besoin de clarté stratégique, de discipline opérationnelle et d'un suivi mesurable.",
     "ctaBadge": "Planification exécutive",
-    "ctaButton": "Demander une consultation",
+    "ctaButton": "Discuter de vos besoins",
     "ctaAssessment": "Vous ne savez pas quel service vous convient? Faites notre évaluation de 5 minutes (option secondaire)",
     "confidentialityLink": "Des questions sur la confidentialité? Contactez-nous pour en discuter",
     "crossLinkDigital": "Besoin d'un site Web ou d'une plateforme sur mesure? Voir Sites Web et numérique",
@@ -420,9 +420,9 @@
     "step4Hint": "En ligne avec soutien itératif",
     "ctaBadge": "Livraison numérique",
     "ctaTitle": "Prêt à discuter de votre projet?",
-    "ctaSubtitle": "Demandez une consultation pour cadrer votre site ou plateforme et repartir avec un plan de livraison clair.",
+    "ctaSubtitle": "Parlez-nous de votre site ou plateforme et nous répondrons avec un plan de livraison clair et les prochaines étapes.",
     "ctaQualifier": "Idéal pour les équipes qui ont besoin d'un partenaire qui livre—avec jalons, revues en staging et responsabilité en production.",
-    "ctaButton": "Demander une consultation",
+    "ctaButton": "Discuter de votre projet",
     "crossLinkConsulting": "Besoin d'abord de stratégie ou de conseil opérationnel? Voir Accompagnement d'entreprise",
     "crossLinkOurWork": "Voir des exemples concrets dans Nos réalisations numériques"
   },
@@ -510,7 +510,7 @@
     "learnMore": "En savoir plus",
     "ctaTitle": "Prêt à voir comment notre approche terrain peut accélérer vos résultats?",
     "ctaSubtitle": "Ces créations prolongent la façon dont nous outillons les entreprises au quotidien. Vous voulez un outil adapté à vos opérations, ou l'intégrer dans un mandat de conseil?",
-    "scheduleCall": "Demander une consultation",
+    "scheduleCall": "Communiquer avec nous",
     "contactUs": "Nous joindre",
     "t5Name": "ROALLA",
     "t5Desc": "Notre propre site d'accompagnement d'entreprise — conseil bilingue et réalisations numériques, conçu pour convertir l'intérêt en conversations.",
@@ -562,18 +562,18 @@
     "a2": "Nous travaillons avec des entreprises de divers secteurs : technologie, fabrication, services professionnels, commerce de détail, santé et plus. Nos méthodologies s'adaptent à différents modèles et secteurs.",
     "q3": "Comment assurez-vous la confidentialité?",
     "a3": "Nous prenons la confidentialité au sérieux. Tous les membres de l'équipe signent des ententes de non-divulgation et nous suivons des protocoles stricts de sécurité des données. Vos informations d'affaires sont traitées avec la plus grande discrétion.",
-    "q4": "Qu'est-ce qui est inclus dans une consultation gratuite?",
-    "a4": "Lors de la consultation gratuite, nous discutons de vos objectifs, défis et opportunités. Nous partageons des pistes et recommandations initiales et nous déterminons ensemble si nos services conviennent à vos besoins. Aucune obligation de poursuivre.",
+    "q4": "Que se passe-t-il après l'envoi d'une demande de service?",
+    "a4": "Nous examinons votre demande et répondons dans un délai d'un jour ouvrable avec les prochaines étapes—généralement une brève conversation de découverte pour clarifier la portée, l'adéquation et l'échéancier. Aucune obligation de poursuivre.",
     "q5": "Travaillez-vous avec les petites entreprises?",
     "a5": "Absolument! Nous travaillons avec des entreprises de toutes tailles, des startups aux entreprises établies. Nos services sont évolutifs et adaptés au budget et aux besoins de chaque client.",
     "q6": "À quel moment pouvez-vous commencer à travailler avec nous?",
-    "a6": "Nous pouvons généralement commencer un mandat 1 à 2 semaines après la consultation initiale, selon la portée du projet et notre capacité. Pour les dossiers urgents, nous pouvons souvent accélérer.",
+    "a6": "Nous pouvons généralement commencer un mandat 1 à 2 semaines après notre conversation initiale, selon la portée du projet et notre capacité. Pour les dossiers urgents, nous pouvons souvent accélérer.",
     "q7": "Qu'est-ce qui distingue Roalla des autres cabinets de conseil?",
     "a7": "Notre combinaison d'expertise financière, d'acuité stratégique et de soutien concret à la mise en œuvre nous distingue. Nous ne nous contentons pas de recommandations : nous travaillons avec vous pour déployer les solutions et garantir des résultats concrets."
   },
   "contact": {
     "title": "Joignez-nous",
-    "subtitle": "Des questions ou envie de lancer un projet? Demandez une consultation ou écrivez-nous directement.",
+    "subtitle": "Des questions ou envie de lancer un projet? Soumettez une demande de service ou écrivez-nous directement.",
     "email": "Courriel",
     "generalInquiries": "Renseignements généraux",
     "phone": "Téléphone",
@@ -581,7 +581,7 @@
     "location": "Emplacement",
     "burlington": "Burlington (Ontario), Canada",
     "servingGlobally": "Service aux clients partout dans le monde",
-    "cta": "Demander une consultation"
+    "cta": "Communiquer avec nous"
   },
   "about": {
     "title": "À propos de Roalla Business Enablement Group",

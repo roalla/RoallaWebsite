@@ -1,7 +1,6 @@
 import React from 'react'
 import Script from 'next/script'
 import { getLocale, getTranslations } from 'next-intl/server'
-import Breadcrumb from '@/components/Breadcrumb'
 import DigitalBuilds from '@/components/DigitalBuilds'
 
 export const metadata = {
@@ -14,7 +13,6 @@ export const metadata = {
 }
 
 export default async function DigitalBuildsPage() {
-  const t = await getTranslations('breadcrumb')
   const tBuilds = await getTranslations('digitalBuilds')
   const locale = await getLocale()
   const pageUrl = `https://www.roalla.com/${locale}/services/digital`
@@ -52,13 +50,6 @@ export default async function DigitalBuildsPage() {
       />
       <div className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent" aria-hidden />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
-        <Breadcrumb
-          items={[
-            { label: t('home'), href: '/' },
-            { label: t('services'), href: '/services' },
-            { label: t('websitesAndDigital') },
-          ]}
-        />
         <DigitalBuilds />
       </div>
     </div>

@@ -25,7 +25,7 @@ jest.mock('next/image', () => ({
 
 jest.mock('@/components/CalendlyButton', () => ({
   __esModule: true,
-  default: () => <a href="/schedule">Request Consultation</a>,
+  default: () => <a href="/schedule">Get in Touch</a>,
 }))
 
 jest.mock('framer-motion', () => ({
@@ -52,7 +52,7 @@ describe('Header', () => {
 
   it('renders schedule CTA link', () => {
     render(<Header />)
-    expect(screen.getByRole('link', { name: /request consultation/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /get in touch/i })).toBeInTheDocument()
   })
 
   it('renders services dropdown with business enablement and websites links', () => {

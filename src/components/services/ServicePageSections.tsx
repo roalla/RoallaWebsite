@@ -2,10 +2,10 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, type LucideIcon } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 
-export type ServiceStat = { value: string; label: string }
+export type ServiceStat = { value: string; label: string; icon?: LucideIcon }
 
 type ServicePageHeroProps = {
   eyebrow: string
@@ -15,6 +15,7 @@ type ServicePageHeroProps = {
   primaryCta: React.ReactNode
   secondaryCta?: React.ReactNode
   stats: ServiceStat[]
+  variant?: 'consulting' | 'digital'
 }
 
 export function ServicePageHero({
@@ -25,9 +26,14 @@ export function ServicePageHero({
   primaryCta,
   secondaryCta,
   stats,
+  variant = 'consulting',
 }: ServicePageHeroProps) {
   const subtitleParts = subtitleHighlight ? subtitle.split(subtitleHighlight) : [subtitle]
   const hasHighlight = subtitleHighlight && subtitleParts.length > 1
+  const accentGradient =
+    variant === 'digital'
+      ? 'bg-gradient-to-br from-slate-50 via-white to-primary/10'
+      : 'bg-gradient-to-br from-slate-50 via-white to-primary/[0.06]'
 
   return (
     <motion.header
@@ -35,14 +41,17 @@ export function ServicePageHero({
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
-      className="border-b border-slate-200 pb-12 mb-12"
+      className={`relative overflow-hidden rounded-2xl border border-slate-200 ${accentGradient} px-6 py-10 lg:px-12 lg:py-14 mb-8 shadow-sm`}
     >
-      <div className="max-w-3xl mx-auto text-center">
-        <p className="text-xs font-medium uppercase tracking-[0.18em] text-slate-500 mb-4">{eyebrow}</p>
-        <h1 className="text-3xl md:text-4xl lg:text-[2.75rem] font-serif font-bold text-slate-900 leading-tight tracking-tight">
+      <div className="pointer-events-none absolute -top-20 -right-16 h-64 w-64 rounded-full bg-primary/[0.08] blur-3xl" aria-hidden />
+      <div className="pointer-events-none absolute -bottom-24 -left-12 h-48 w-48 rounded-full bg-primary/[0.04] blur-3xl" aria-hidden />
+
+      <div className="relative max-w-4xl">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary mb-4">{eyebrow}</p>
+        <h1 className="text-4xl md:text-5xl lg:text-[3.25rem] font-serif font-bold text-slate-900 leading-tight tracking-tight">
           {title}
         </h1>
-        <p className="mt-5 text-base md:text-lg text-slate-600 leading-relaxed">
+        <p className="mt-5 text-lg md:text-xl text-slate-600 leading-relaxed max-w-3xl">
           {hasHighlight ? (
             <>
               {subtitleParts[0]}
@@ -53,18 +62,30 @@ export function ServicePageHero({
             subtitle
           )}
         </p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-8 flex flex-wrap items-center gap-3">
           {primaryCta}
           {secondaryCta}
         </div>
       </div>
-      <dl className="mt-10 max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 border border-slate-200 rounded-lg bg-slate-50/50">
-        {stats.map((stat) => (
-          <div key={stat.label} className="px-6 py-5 text-center">
-            <dt className="text-2xl font-serif font-semibold text-slate-900 tabular-nums">{stat.value}</dt>
-            <dd className="mt-1 text-xs uppercase tracking-wider text-slate-500">{stat.label}</dd>
-          </div>
-        ))}
+
+      <dl className="relative mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl">
+        {stats.map((stat, i) => {
+          const Icon = stat.icon
+          return (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.05 }}
+              className="rounded-xl border border-slate-200/80 bg-white/90 backdrop-blur-sm px-5 py-4 text-center"
+            >
+              {Icon && <Icon className="w-5 h-5 text-primary mx-auto mb-2" aria-hidden />}
+              <dt className="text-2xl font-serif font-semibold text-slate-900 tabular-nums">{stat.value}</dt>
+              <dd className="mt-1 text-xs uppercase tracking-wider text-slate-500">{stat.label}</dd>
+            </motion.div>
+          )
+        })}
       </dl>
     </motion.header>
   )

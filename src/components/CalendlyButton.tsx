@@ -4,7 +4,7 @@ import React from 'react'
 import { Link } from '@/i18n/navigation'
 import { Send } from 'lucide-react'
 
-// CalendlyButton — links to the guided consultation request form at /schedule
+// CalendlyButton — links to the guided service inquiry form at /schedule
 declare global {
   interface Window {
     Calendly?: {

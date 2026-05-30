@@ -21,6 +21,7 @@ import {
   ExternalLink,
 } from 'lucide-react'
 import ScheduleButton from './CalendlyButton'
+import Breadcrumb from './Breadcrumb'
 import BrowserFrame from './digital/BrowserFrame'
 import {
   getPortfolioProofImages,
@@ -97,13 +98,14 @@ function ProofThumbnails({
 
 const DigitalBuilds = () => {
   const t = useTranslations('digitalBuilds')
+  const tBc = useTranslations('breadcrumb')
   const tPortfolio = useTranslations('digitalCreations')
   const locale = useLocale()
 
   const stats = [
-    { value: t('stat1Value'), label: t('stat1Label') },
-    { value: t('stat2Value'), label: t('stat2Label') },
-    { value: t('stat3Value'), label: t('stat3Label') },
+    { value: t('stat1Value'), label: t('stat1Label'), icon: Package },
+    { value: t('stat2Value'), label: t('stat2Label'), icon: Rocket },
+    { value: t('stat3Value'), label: t('stat3Label'), icon: Users },
   ]
 
   const builds = [
@@ -148,8 +150,9 @@ const DigitalBuilds = () => {
   ]
 
   return (
-    <section id="digital-builds" className="section-padding relative max-w-6xl mx-auto">
+    <section id="digital-builds" className="section-padding relative">
       <ServicePageHero
+        variant="digital"
         eyebrow={t('heroEyebrow')}
         title={t('title')}
         subtitle={t('subtitle')}
@@ -168,6 +171,15 @@ const DigitalBuilds = () => {
         }
       />
 
+      <Breadcrumb
+        items={[
+          { label: tBc('home'), href: '/' },
+          { label: tBc('services'), href: '/services' },
+          { label: tBc('websitesAndDigital') },
+        ]}
+      />
+
+      <div className="max-w-6xl mx-auto">
       <ServiceLaneCompare
         activeLane="building"
         consultingLabel={t('compareConsultingLabel')}
@@ -433,6 +445,7 @@ const DigitalBuilds = () => {
         }
         links={[{ href: '/services', label: t('crossLinkConsulting') }]}
       />
+      </div>
     </section>
   )
 }

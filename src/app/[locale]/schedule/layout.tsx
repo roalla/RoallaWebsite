@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Request a Consultation | ROALLA',
-  description: 'Tell us what you need—consulting, a website, or a custom platform. A few quick questions and our team will follow up within one business day.',
+  title: 'Service Inquiry | ROALLA',
+  description: 'Submit a service inquiry for business consulting, a website, or a custom platform. Our team responds within one business day.',
   alternates: {
     canonical: '/schedule',
   },

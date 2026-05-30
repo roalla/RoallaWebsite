@@ -1,7 +1,7 @@
 {
   "common": {
     "skipToContent": "Skip to main content",
-    "scheduleConsultation": "Request Consultation",
+    "scheduleConsultation": "Get in Touch",
     "companyName": "ROALLA",
     "tagline": "Empowering your business for a digital-first world."
   },
@@ -34,7 +34,7 @@
       "title": "Consulting and digital builds for",
       "titleHighlight": "measurable growth",
       "subtitle": "Fractional COO consulting, operational strategy, and hands-on digital creation—websites and custom platforms shipped by the same team that implements change, not just recommends it.",
-      "cta": "Request Consultation",
+      "cta": "Get in Touch",
       "exploreServices": "Explore our services",
       "exploreConsulting": "Business consulting",
       "exploreDigital": "Websites & digital",
@@ -91,14 +91,14 @@
     },
     "assessment": {
       "title": "Business Health Assessment",
-      "description": "Take our 5-minute assessment to discover your business strengths and opportunities. Get a quick report with tailored next steps, then schedule a free consultation to discuss results.",
+      "description": "Take our 5-minute assessment to discover your business strengths and opportunities. Get a quick report with tailored next steps, then get in touch to discuss results.",
       "cta": "Take the 5-Minute Assessment",
       "preview": "5 questions · 5 minutes · Tailored report"
     },
     "cta": {
       "title": "Ready to move forward?",
       "subtitle": "Whether you need consulting, a new website, or a custom platform—we'll help you find the right starting point.",
-      "schedule": "Request Consultation",
+      "schedule": "Get in Touch",
       "exploreServices": "Business consulting",
       "exploreDigital": "Websites & Digital",
       "exploreOurWork": "Our Digital Work",
@@ -106,7 +106,7 @@
     },
     "closing": {
       "readyToStart": "Ready to get started?",
-      "scheduleCta": "Request Consultation",
+      "scheduleCta": "Get in Touch",
       "questions": "Questions? See our",
       "faq": "FAQ",
       "or": "or",
@@ -133,7 +133,7 @@
   },
   "breadcrumb": {
     "home": "Home",
-    "schedule": "Request Consultation",
+    "schedule": "Service Inquiry",
     "services": "Services",
     "websitesAndDigital": "Websites & Digital",
     "about": "About",
@@ -146,8 +146,8 @@
     "trustCentre": "Trust Centre"
   },
   "consultationRequest": {
-    "title": "Request a Consultation",
-    "subtitle": "Answer a few quick questions so we understand your needs and can respond with the right next steps.",
+    "title": "Service Inquiry",
+    "subtitle": "Tell us what you need—answer a few questions and our team will respond with the right next steps.",
     "whatToExpect": "There is no obligation. We review every request personally and respond within one business day.",
     "assessmentLink": "Prefer a self-guided start? Take our 5-minute business assessment",
     "stepLabel": "Step {current} of {total}",
@@ -197,16 +197,16 @@
     "privacyNote": "Your information is kept confidential and used only to respond to your inquiry.",
     "back": "Back",
     "continue": "Continue",
-    "submit": "Send request",
+    "submit": "Submit inquiry",
     "submitting": "Sending…",
-    "successTitle": "Request received",
+    "successTitle": "Inquiry received",
     "successMessage": "Thank you. Our team will review your request and respond within one business day.",
     "errorMessage": "Something went wrong. Please try again or email sales@roalla.com directly.",
     "backHome": "Back to home"
   },
   "schedule": {
-    "title": "Request a Consultation",
-    "subtitle": "Answer a few quick questions so we understand your needs and can respond with the right next steps.",
+    "title": "Service Inquiry",
+    "subtitle": "Tell us what you need—answer a few questions and our team will respond with the right next steps.",
     "whatToExpect": "There is no obligation. We review every request personally and respond within one business day.",
     "assessmentTeaser": "Not sure what to discuss? Take our 5-minute assessment first."
   },
@@ -228,7 +228,7 @@
     "compareBuildingDesc": "Websites & Digital — the site or platform you launch when the roadmap calls for it.",
     "compareBuildingLink": "Explore Websites & Digital",
     "jumpNavLabel": "Jump to a service",
-    "requestConsultation": "Request Consultation",
+    "requestConsultation": "Inquire About This Service",
     "learnMore": "Learn More",
     "outcomeLabel": "Outcome:",
     "notForLabel": "Not ideal when:",
@@ -262,10 +262,10 @@
     "faq3Q": "Do you also build websites and platforms?",
     "faq3A": "Yes. Consulting lives here under Business Enablement; design and build work lives under Websites & Digital. One team can do both when it makes sense.",
     "ctaTitle": "Ready to define your next move?",
-    "ctaSubtitle": "Request a consultation to identify the right entry point and leave with a clear, leadership-aligned plan.",
+    "ctaSubtitle": "Share your priorities and we'll identify the right entry point and a clear, leadership-aligned plan.",
     "ctaQualifier": "Best fit for growth-stage teams that need strategic clarity, operating discipline, and measurable execution.",
     "ctaBadge": "Executive planning",
-    "ctaButton": "Request Consultation",
+    "ctaButton": "Discuss Your Needs",
     "ctaAssessment": "Not sure which service fits? Take our 5-min assessment (secondary option)",
     "confidentialityLink": "Questions about confidentiality? Contact us to discuss your needs",
     "crossLinkDigital": "Need a website or custom platform built? See Websites & Digital",
@@ -420,9 +420,9 @@
     "step4Hint": "Live with iteration support",
     "ctaBadge": "Digital delivery",
     "ctaTitle": "Ready to discuss your build?",
-    "ctaSubtitle": "Request a consultation to scope your site or platform and leave with a clear delivery plan.",
+    "ctaSubtitle": "Tell us about your site or platform and we'll respond with a clear delivery plan and next steps.",
     "ctaQualifier": "Best fit for teams that need a partner who ships—with milestones, staging reviews, and production accountability.",
-    "ctaButton": "Request Consultation",
+    "ctaButton": "Discuss Your Build",
     "crossLinkConsulting": "Need strategy or operational guidance first? See Business Enablement",
     "crossLinkOurWork": "See live examples in Our Digital Work"
   },
@@ -510,7 +510,7 @@
     "learnMore": "Learn More",
     "ctaTitle": "Ready to Explore How Our Hands-On Approach Can Accelerate Your Results?",
     "ctaSubtitle": "These creations are extensions of how we empower businesses every day. Interested in a tool tailored to your operations, or want to see one integrated into a consulting engagement?",
-    "scheduleCall": "Request Consultation",
+    "scheduleCall": "Get in Touch",
     "contactUs": "Contact Us",
     "t5Name": "ROALLA",
     "t5Desc": "Our own business enablement site — bilingual consulting and digital builds, designed to convert interest into conversations.",
@@ -562,18 +562,18 @@
     "a2": "We work with businesses across various industries including technology, manufacturing, professional services, retail, healthcare, and more. Our methodologies are adaptable to different business models and sectors.",
     "q3": "How do you ensure confidentiality?",
     "a3": "We take confidentiality seriously. All team members sign non-disclosure agreements, and we follow strict data security protocols. Your business information is treated with the utmost discretion and protected at all times.",
-    "q4": "What is included in a free consultation?",
-    "a4": "During your free consultation, we'll discuss your business goals, challenges, and opportunities. We'll provide initial insights and recommendations, and together we'll determine if our services are a good fit for your needs. There's no obligation to proceed.",
+    "q4": "What happens after I submit a service inquiry?",
+    "a4": "We review your submission and respond within one business day with next steps—typically a brief discovery conversation to clarify scope, fit, and timing. There is no obligation to proceed.",
     "q5": "Do you work with small businesses?",
     "a5": "Absolutely! We work with businesses of all sizes, from startups to established companies. Our services are scalable and tailored to meet the specific needs and budgets of each client, regardless of company size.",
     "q6": "How quickly can you start working with us?",
-    "a6": "We typically can begin engagements within 1-2 weeks of initial consultation, depending on project scope and our current capacity. For urgent matters, we can often accommodate faster timelines.",
+    "a6": "We typically can begin engagements within 1-2 weeks of our initial conversation, depending on project scope and our current capacity. For urgent matters, we can often accommodate faster timelines.",
     "q7": "What makes Roalla different from other consulting firms?",
     "a7": "Our combination of deep financial expertise, strategic business acumen, and hands-on implementation support sets us apart. We don't just provide recommendations—we work alongside you to implement solutions and ensure they deliver real results for your business."
   },
   "contact": {
     "title": "Get in Touch",
-    "subtitle": "Have questions or want to start a project? We'd love to hear from you. Request a consultation or reach out directly.",
+    "subtitle": "Have questions or want to start a project? We'd love to hear from you. Submit a service inquiry or reach out directly.",
     "email": "Email",
     "generalInquiries": "General Inquiries",
     "phone": "Phone",
@@ -581,7 +581,7 @@
     "location": "Location",
     "burlington": "Burlington, ON, Canada",
     "servingGlobally": "Serving clients globally",
-    "cta": "Request Consultation"
+    "cta": "Get in Touch"
   },
   "about": {
     "title": "About Roalla Business Enablement Group",

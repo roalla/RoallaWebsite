@@ -120,7 +120,7 @@ const InteractiveAssessment = () => {
         nextSteps: [
           "Schedule a comprehensive business review",
           "Develop improvement action plan",
-          "Schedule a follow-up consultation"
+          "Schedule a follow-up conversation"
         ]
       }
     } else {
@@ -134,7 +134,7 @@ const InteractiveAssessment = () => {
           "Streamline operations and processes"
         ],
         nextSteps: [
-          "Schedule urgent business consultation",
+          "Get in touch for urgent business support",
           "Create turnaround strategy",
           "Implement immediate improvement plan"
         ]

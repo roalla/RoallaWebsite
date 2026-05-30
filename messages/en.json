@@ -14,6 +14,7 @@
     "websitesAndDigitalDesc": "Websites, platforms & custom digital products",
     "servicesMenuLabel": "Explore services",
     "ourWork": "Our Digital Work",
+    "contact": "Contact",
     "digitalCreations": "Digital Creations",
     "openMenu": "Open menu",
     "closeMenu": "Close menu"
@@ -24,6 +25,7 @@
     "websitesAndDigital": "Websites & Digital",
     "ourWork": "Our Digital Work",
     "digitalCreations": "Digital Creations",
+    "assessment": "Assessment",
     "faq": "FAQ",
     "contact": "Contact",
     "about": "About",
@@ -99,18 +101,14 @@
       "title": "Ready to move forward?",
       "subtitle": "Whether you need consulting, a new website, or a custom platform—we'll help you find the right starting point.",
       "schedule": "Get in Touch",
-      "exploreServices": "Business consulting",
-      "exploreDigital": "Websites & Digital",
-      "exploreOurWork": "Our Digital Work",
-      "orAssessment": "Not sure where to start? <link>Take the business health assessment</link> above for a tailored report."
+      "orAssessmentShort": "Take the 5-min assessment first"
     },
     "closing": {
-      "readyToStart": "Ready to get started?",
-      "scheduleCta": "Get in Touch",
-      "questions": "Questions? See our",
+      "questions": "Questions?",
       "faq": "FAQ",
       "or": "or",
-      "contact": "contact us"
+      "contact": "contact us",
+      "submitInquiry": "submit a service inquiry"
     },
     "trustedBy": {
       "title": "Why choose Roalla",
@@ -197,10 +195,12 @@
     "privacyNote": "Your information is kept confidential and used only to respond to your inquiry.",
     "back": "Back",
     "continue": "Continue",
-    "submit": "Submit inquiry",
+    "submit": "Send my request",
     "submitting": "Sending…",
     "successTitle": "Inquiry received",
     "successMessage": "Thank you. Our team will review your request and respond within one business day.",
+    "successPhone": "Need to talk sooner? Call us at (289) 838-5868 or email sales@roalla.com.",
+    "successExplore": "Explore our services",
     "errorMessage": "Something went wrong. Please try again or email sales@roalla.com directly.",
     "backHome": "Back to home"
   },
@@ -424,7 +424,8 @@
     "ctaQualifier": "Best fit for teams that need a partner who ships—with milestones, staging reviews, and production accountability.",
     "ctaButton": "Discuss Your Build",
     "crossLinkConsulting": "Need strategy or operational guidance first? See Business Enablement",
-    "crossLinkOurWork": "See live examples in Our Digital Work"
+    "crossLinkOurWork": "See live examples in Our Digital Work",
+    "proofInquiry": "Want something similar?"
   },
   "resources": {
     "title": "Resource Centre",
@@ -499,7 +500,11 @@
     "filterPlatform": "Platforms",
     "featuredLabel": "Featured case study",
     "wantSomethingLike": "Want something like this?",
-    "assessmentTieIn": "Start with our assessment tool to identify your strategic direction.",
+    "assessmentTieIn": "Not sure where to start?",
+    "assessmentLink": "Take our 5-minute business assessment",
+    "assessmentTieInSuffix": "for tailored next steps.",
+    "statsNote": "Selected live examples below — representative of 13+ brand sites and 21+ custom platforms delivered.",
+    "ctaTitle": "Want a site or platform like these?",
     "categoryWebsite": "Website",
     "categoryPlatform": "Platform",
     "categoryPlatformTool": "Platform / Tool",
@@ -508,8 +513,7 @@
     "viewSite": "View the Site",
     "builtWithClients": "Built with clients",
     "learnMore": "Learn More",
-    "ctaTitle": "Ready to Explore How Our Hands-On Approach Can Accelerate Your Results?",
-    "ctaSubtitle": "These creations are extensions of how we empower businesses every day. Interested in a tool tailored to your operations, or want to see one integrated into a consulting engagement?",
+    "ctaSubtitle": "Tell us what you need—we'll respond with a clear plan and next steps.",
     "scheduleCall": "Get in Touch",
     "contactUs": "Contact Us",
     "t5Name": "ROALLA",
@@ -554,6 +558,7 @@
     "subtitle": "Find answers to common questions about our services and how we can help your business.",
     "stillHaveQuestions": "Still have questions? We're here to help.",
     "contactUs": "Contact Us",
+    "submitInquiry": "Submit a Service Inquiry",
     "q0": "What is fractional COO services?",
     "a0": "Fractional COO services provide businesses with senior-level operational expertise on a part-time or project basis. This allows companies to access strategic operational leadership without the cost of a full-time COO, making it ideal for growing businesses that need expert operational guidance.",
     "q1": "How long does a typical consulting engagement last?",
@@ -581,7 +586,7 @@
     "location": "Location",
     "burlington": "Burlington, ON, Canada",
     "servingGlobally": "Serving clients globally",
-    "cta": "Get in Touch"
+    "cta": "Submit Service Inquiry"
   },
   "about": {
     "title": "About Roalla Business Enablement Group",
@@ -600,7 +605,17 @@
     "innovation": "Innovation",
     "innovationDesc": "Cutting-edge strategies and creative solutions to keep you ahead of the competition.",
     "missionTitle": "Our Mission",
-    "missionQuote": "To empower businesses and entrepreneurs with strategic insights, innovative solutions, and unwavering support to achieve their full potential and create lasting impact in their industries."
+    "missionQuote": "To empower businesses and entrepreneurs with strategic insights, innovative solutions, and unwavering support to achieve their full potential and create lasting impact in their industries.",
+    "ctaTitle": "Ready to work together?",
+    "ctaSubtitle": "Tell us about your goals—we'll help you find the right starting point.",
+    "ctaButton": "Discuss Your Needs"
+  },
+  "assessmentTool": {
+    "scoreTitle": "Your Business Health Score: {score}%",
+    "keyRecommendations": "Key Recommendations",
+    "nextSteps": "Next Steps",
+    "submitInquiry": "Submit a Service Inquiry",
+    "takeAgain": "Take Assessment Again"
   },
   "trustIndicators": {
     "title": "Why Choose Roalla",

@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react'
 import { motion, useInView, useAnimation } from 'framer-motion'
 import { ArrowRight, TrendingUp, Award, Users, BarChart3 } from 'lucide-react'
 import Link from 'next/link'
-import ScheduleButton from './CalendlyButton'
+import ScheduleButton from './ScheduleButton'
 
 interface AnimatedCounterProps {
   value: string

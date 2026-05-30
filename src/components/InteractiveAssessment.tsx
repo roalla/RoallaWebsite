@@ -3,6 +3,8 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CheckCircle, AlertCircle, TrendingUp, BarChart3, Send } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 
 interface Question {
   id: number
@@ -22,6 +24,7 @@ interface AssessmentResult {
 }
 
 const InteractiveAssessment = () => {
+  const t = useTranslations('assessmentTool')
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answers, setAnswers] = useState<Record<number, number>>({})
   const [isComplete, setIsComplete] = useState(false)
@@ -255,7 +258,7 @@ const InteractiveAssessment = () => {
                         <BarChart3 className="w-10 h-10 text-white" />
                       </div>
                       <h3 className="text-2xl font-bold text-slate-900 mb-2">
-                        Your Business Health Score: {Math.round(result!.score)}%
+                        {t('scoreTitle', { score: Math.round(result!.score) })}
                       </h3>
                       <p className="text-lg text-primary font-semibold">
                         {result!.category}
@@ -266,7 +269,7 @@ const InteractiveAssessment = () => {
                       <div className="text-left">
                         <h4 className="text-lg font-semibold text-slate-900 mb-4 flex items-center">
                           <TrendingUp className="w-5 h-5 text-primary mr-2" />
-                          Key Recommendations
+                          {t('keyRecommendations')}
                         </h4>
                         <ul className="space-y-2">
                           {result!.recommendations.map((rec, index) => (
@@ -287,7 +290,7 @@ const InteractiveAssessment = () => {
                       <div className="text-left">
                         <h4 className="text-lg font-semibold text-slate-900 mb-4 flex items-center">
                           <AlertCircle className="w-5 h-5 text-primary mr-2" />
-                          Next Steps
+                          {t('nextSteps')}
                         </h4>
                         <ul className="space-y-2">
                           {result!.nextSteps.map((step, index) => (
@@ -307,18 +310,18 @@ const InteractiveAssessment = () => {
                     </div>
 
                     <div className="space-y-4">
-                      <a
-                        href="/contact"
+                      <Link
+                        href="/schedule"
                         className="btn-primary inline-flex items-center"
                       >
                         <Send className="w-5 h-5 mr-2" />
-                        Schedule Your Consultation
-                      </a>
+                        {t('submitInquiry')}
+                      </Link>
                       <button
                         onClick={resetAssessment}
                         className="btn-secondary block mx-auto"
                       >
-                        Take Assessment Again
+                        {t('takeAgain')}
                       </button>
                     </div>
                   </motion.div>

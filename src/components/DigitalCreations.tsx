@@ -16,7 +16,8 @@ import {
 } from 'lucide-react'
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
-import ScheduleButton from './CalendlyButton'
+import ScheduleButton from './ScheduleButton'
+import StickyMobileCTA from './StickyMobileCTA'
 import BrowserFrame from './digital/BrowserFrame'
 import {
   portfolioItems,
@@ -212,16 +213,16 @@ const DigitalCreations = () => {
           </h1>
           <p className="mt-4 text-lg md:text-xl text-slate-600 leading-relaxed max-w-3xl">{t('portfolioSubtitle')}</p>
           <div className="mt-8 flex flex-wrap gap-3">
+            <ScheduleButton variant="primary" size="sm" className="!py-2.5 !px-5">
+              {t('scheduleCall')}
+            </ScheduleButton>
             <Link
               href="/services/digital"
-              className="inline-flex items-center rounded-lg bg-primary text-white font-semibold px-5 py-2.5 text-sm hover:bg-primary-dark transition-colors shadow-md"
+              className="inline-flex items-center rounded-lg border border-slate-300 bg-white text-slate-800 font-semibold px-5 py-2.5 text-sm hover:border-primary/40 hover:text-primary transition-colors"
             >
               {t('exploreDigitalBuilds')}
               <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
-            <ScheduleButton variant="secondary" size="sm" className="!py-2.5 !px-5">
-              {t('scheduleCall')}
-            </ScheduleButton>
           </div>
         </div>
 
@@ -241,6 +242,7 @@ const DigitalCreations = () => {
             </motion.div>
           ))}
         </div>
+        <p className="relative mt-4 text-sm text-slate-500 text-center max-w-2xl mx-auto">{t('statsNote')}</p>
       </div>
 
       {/* Intro + jump nav */}
@@ -259,6 +261,13 @@ const DigitalCreations = () => {
             </li>
           ))}
         </ul>
+        <p className="text-sm text-slate-600">
+          {t('assessmentTieIn')}{' '}
+          <Link href="/assessment" className="link-action font-medium">
+            {t('assessmentLink')}
+          </Link>{' '}
+          {t('assessmentTieInSuffix')}
+        </p>
       </motion.div>
 
       <nav aria-label={t('jumpNavLabel')} className="mb-14">
@@ -442,7 +451,7 @@ const DigitalCreations = () => {
           <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4">{t('ctaTitle')}</h2>
           <p className="text-xl text-white/95 mb-8 max-w-3xl mx-auto">{t('ctaSubtitle')}</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <ScheduleButton variant="secondary" size="lg" className="bg-white text-primary hover:bg-white/90 hover:scale-[1.03] transition-transform shadow-2xl">
+            <ScheduleButton variant="secondary" size="lg" className="bg-white text-primary-dark hover:bg-white/90 hover:scale-[1.03] transition-transform shadow-2xl">
               {t('scheduleCall')}
             </ScheduleButton>
             <Link
@@ -455,6 +464,7 @@ const DigitalCreations = () => {
           </div>
         </div>
       </motion.div>
+      <StickyMobileCTA label={t('scheduleCall')} />
     </section>
   )
 }

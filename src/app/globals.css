@@ -58,11 +58,16 @@
 
   @media (max-width: 768px) {
     button,
-    a,
     input,
     select,
-    textarea {
+    textarea,
+    nav a,
+    .btn-primary,
+    .btn-secondary {
       min-height: 44px;
+    }
+
+    nav a {
       min-width: 44px;
     }
   }
@@ -70,11 +75,15 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-primary hover:bg-primary-dark text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 active:translate-y-0;
+    @apply bg-primary-dark hover:bg-primary-darker text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg;
   }
   
   .btn-secondary {
-    @apply bg-transparent hover:bg-primary/10 text-primary font-semibold py-3 px-6 rounded-lg transition-all duration-300 border-2 border-primary hover:border-primary-dark;
+    @apply bg-transparent hover:bg-primary/10 text-primary-dark font-semibold py-3 px-6 rounded-lg transition-all duration-300 border-2 border-primary-dark hover:border-primary-darker;
+  }
+
+  .link-action {
+    @apply text-primary-dark hover:text-primary-darker font-medium transition-colors;
   }
   
   .section-padding {

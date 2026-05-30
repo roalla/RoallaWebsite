@@ -4,7 +4,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 import { Mail, Phone, MapPin } from 'lucide-react'
-import ScheduleButton from './CalendlyButton'
+import ScheduleButton from './ScheduleButton'
 
 const Contact = () => {
   const t = useTranslations('contact')

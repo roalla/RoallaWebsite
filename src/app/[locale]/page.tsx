@@ -16,8 +16,8 @@ export default function Home() {
         <HomeOurWork />
         <HomeAssessment />
         <HomeHowWeWork />
-        <HomeCTA />
         <HomeTrustedBy />
+        <HomeCTA />
         <HomeClosing />
     </div>
   )

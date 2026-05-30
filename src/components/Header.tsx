@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { usePathname as useNextPathname } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
 import { Link, usePathname } from '@/i18n/navigation'
-import ScheduleButton from './CalendlyButton'
+import ScheduleButton from './ScheduleButton'
 
 /** Canadian flag: red bands, white centre, red maple leaf (simplified) */
 function CanadianFlagIcon({ className }: { className?: string }) {
@@ -376,7 +376,7 @@ const Header = () => {
                       className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[min(100vw-2rem,320px)] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50"
                     >
                       <div className="px-4 py-2.5 border-b border-white/10 bg-white/[0.03]">
-                        <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                        <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
                           {t('servicesMenuLabel')}
                         </p>
                       </div>
@@ -437,6 +437,24 @@ const Header = () => {
                   <span
                     className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
                       isActive('/digital-creations') ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}
+                  />
+                </Link>
+              </motion.div>
+
+              <motion.div {...motionNavItem(3)}>
+                <Link
+                  href="/contact"
+                  aria-current={isActive('/contact') ? 'page' : undefined}
+                  className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap block py-2 ${
+                    isActive('/contact') ? 'text-primary' : 'text-gray-300 hover:text-primary'
+                  }`}
+                  onClick={closeMenu}
+                >
+                  {t('contact')}
+                  <span
+                    className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                      isActive('/contact') ? 'w-full' : 'w-0 group-hover:w-full'
                     }`}
                   />
                 </Link>
@@ -642,6 +660,20 @@ const Header = () => {
                     onClick={(e) => handleMobileNavClick(e, '/digital-creations')}
                   >
                     {t('ourWork')}
+                  </Link>
+                </motion.div>
+                <motion.div {...motionMobileItem(3)}>
+                  <Link
+                    href="/contact"
+                    aria-current={isActive('/contact') ? 'page' : undefined}
+                    className={`block px-3 py-3 min-h-[44px] flex items-center rounded-md text-base font-medium transition-colors duration-200 ${
+                      isActive('/contact')
+                        ? 'text-primary bg-primary/10'
+                        : 'text-gray-300 hover:text-primary hover:bg-white/5'
+                    }`}
+                    onClick={(e) => handleMobileNavClick(e, '/contact')}
+                  >
+                    {t('contact')}
                   </Link>
                 </motion.div>
                 {isLocaleRoute && (

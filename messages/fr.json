@@ -14,6 +14,7 @@
     "websitesAndDigitalDesc": "Sites, plateformes et outils sur mesure",
     "servicesMenuLabel": "Explorer les services",
     "ourWork": "Nos réalisations numériques",
+    "contact": "Contact",
     "digitalCreations": "Créations numériques",
     "openMenu": "Ouvrir le menu",
     "closeMenu": "Fermer le menu"
@@ -24,6 +25,7 @@
     "websitesAndDigital": "Sites Web et numérique",
     "ourWork": "Nos réalisations numériques",
     "digitalCreations": "Créations numériques",
+    "assessment": "Évaluation",
     "faq": "FAQ",
     "contact": "Contact",
     "about": "À propos",
@@ -99,18 +101,14 @@
       "title": "Prêt à avancer?",
       "subtitle": "Que vous ayez besoin de conseil, d'un nouveau site Web ou d'une plateforme sur mesure—nous vous aiderons à trouver le bon point de départ.",
       "schedule": "Communiquer avec nous",
-      "exploreServices": "Conseil d'entreprise",
-      "exploreDigital": "Sites Web et numérique",
-      "exploreOurWork": "Nos réalisations numériques",
-      "orAssessment": "Vous ne savez pas par où commencer? <link>Faites l'évaluation de la santé de l'entreprise</link> ci-dessus pour un rapport personnalisé."
+      "orAssessmentShort": "Faites d'abord l'évaluation de 5 minutes"
     },
     "closing": {
-      "readyToStart": "Prêt à commencer?",
-      "scheduleCta": "Communiquer avec nous",
-      "questions": "Des questions? Consultez notre",
+      "questions": "Des questions?",
       "faq": "FAQ",
       "or": "ou",
-      "contact": "contactez-nous"
+      "contact": "contactez-nous",
+      "submitInquiry": "soumettre une demande de service"
     },
     "trustedBy": {
       "title": "Pourquoi choisir Roalla",
@@ -201,6 +199,8 @@
     "submitting": "Envoi…",
     "successTitle": "Demande reçue",
     "successMessage": "Merci. Notre équipe examinera votre demande et répondra dans un délai d'un jour ouvrable.",
+    "successPhone": "Besoin de parler plus tôt? Appelez-nous au (289) 838-5868 ou écrivez à sales@roalla.com.",
+    "successExplore": "Explorer nos services",
     "errorMessage": "Une erreur s'est produite. Veuillez réessayer ou écrire directement à sales@roalla.com.",
     "backHome": "Retour à l'accueil"
   },
@@ -424,7 +424,8 @@
     "ctaQualifier": "Idéal pour les équipes qui ont besoin d'un partenaire qui livre—avec jalons, revues en staging et responsabilité en production.",
     "ctaButton": "Discuter de votre projet",
     "crossLinkConsulting": "Besoin d'abord de stratégie ou de conseil opérationnel? Voir Accompagnement d'entreprise",
-    "crossLinkOurWork": "Voir des exemples concrets dans Nos réalisations numériques"
+    "crossLinkOurWork": "Voir des exemples concrets dans Nos réalisations numériques",
+    "proofInquiry": "Vous voulez quelque chose de similaire?"
   },
   "resources": {
     "title": "Centre de ressources",
@@ -499,7 +500,10 @@
     "filterPlatform": "Plateformes",
     "featuredLabel": "Étude de cas à la une",
     "wantSomethingLike": "Vous voulez quelque chose de similaire?",
-    "assessmentTieIn": "Commencez par notre outil d'évaluation pour identifier votre direction stratégique.",
+    "assessmentTieIn": "Vous ne savez pas par où commencer?",
+    "assessmentLink": "Faites notre évaluation d'entreprise de 5 minutes",
+    "assessmentTieInSuffix": "pour des prochaines étapes personnalisées.",
+    "statsNote": "Exemples en direct ci-dessous — représentatifs de plus de 13 sites de marque et 21 plateformes sur mesure livrés.",
     "categoryWebsite": "Site Web",
     "categoryPlatform": "Plateforme",
     "categoryPlatformTool": "Plateforme / Outil",
@@ -508,8 +512,8 @@
     "viewSite": "Voir le site",
     "builtWithClients": "Réalisé avec des clients",
     "learnMore": "En savoir plus",
-    "ctaTitle": "Prêt à voir comment notre approche terrain peut accélérer vos résultats?",
-    "ctaSubtitle": "Ces créations prolongent la façon dont nous outillons les entreprises au quotidien. Vous voulez un outil adapté à vos opérations, ou l'intégrer dans un mandat de conseil?",
+    "ctaTitle": "Vous voulez un site ou une plateforme comme ceux-ci?",
+    "ctaSubtitle": "Dites-nous ce dont vous avez besoin—nous répondrons avec un plan clair et les prochaines étapes.",
     "scheduleCall": "Communiquer avec nous",
     "contactUs": "Nous joindre",
     "t5Name": "ROALLA",
@@ -554,6 +558,7 @@
     "subtitle": "Réponses aux questions courantes sur nos services et comment nous pouvons aider votre entreprise.",
     "stillHaveQuestions": "Il vous reste des questions? Nous sommes là pour vous aider.",
     "contactUs": "Nous joindre",
+    "submitInquiry": "Soumettre une demande de service",
     "q0": "Qu'est-ce que les services de COO fractionnel?",
     "a0": "Les services de COO fractionnel offrent aux entreprises une expertise opérationnelle de niveau senior à temps partiel ou par projet. Cela permet d'accéder à un leadership opérationnel stratégique sans les coûts d'un COO à temps plein, idéal pour les entreprises en croissance qui ont besoin d'accompagnement opérationnel expert.",
     "q1": "Combien de temps dure typiquement un mandat de conseil?",
@@ -581,7 +586,7 @@
     "location": "Emplacement",
     "burlington": "Burlington (Ontario), Canada",
     "servingGlobally": "Service aux clients partout dans le monde",
-    "cta": "Communiquer avec nous"
+    "cta": "Soumettre une demande de service"
   },
   "about": {
     "title": "À propos de Roalla Business Enablement Group",
@@ -600,7 +605,17 @@
     "innovation": "Innovation",
     "innovationDesc": "Stratégies et solutions créatives à la fine pointe pour vous garder en avance sur la concurrence.",
     "missionTitle": "Notre mission",
-    "missionQuote": "Donner aux entreprises et aux entrepreneurs les idées stratégiques, les solutions innovantes et le soutien dont ils ont besoin pour réaliser leur plein potentiel et avoir un impact durable dans leur industrie."
+    "missionQuote": "Donner aux entreprises et aux entrepreneurs les idées stratégiques, les solutions innovantes et le soutien dont ils ont besoin pour réaliser leur plein potentiel et avoir un impact durable dans leur industrie.",
+    "ctaTitle": "Prêt à travailler ensemble?",
+    "ctaSubtitle": "Parlez-nous de vos objectifs—nous vous aiderons à trouver le bon point de départ.",
+    "ctaButton": "Discuter de vos besoins"
+  },
+  "assessmentTool": {
+    "scoreTitle": "Votre score de santé d'entreprise : {score} %",
+    "keyRecommendations": "Recommandations clés",
+    "nextSteps": "Prochaines étapes",
+    "submitInquiry": "Soumettre une demande de service",
+    "takeAgain": "Refaire l'évaluation"
   },
   "trustIndicators": {
     "title": "Pourquoi choisir Roalla",

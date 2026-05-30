@@ -47,7 +47,7 @@ export function ServicePageHero({
       <div className="pointer-events-none absolute -bottom-24 -left-12 h-48 w-48 rounded-full bg-primary/[0.04] blur-3xl" aria-hidden />
 
       <div className="relative max-w-4xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary mb-4">{eyebrow}</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-dark mb-4">{eyebrow}</p>
         <h1 className="text-4xl md:text-5xl lg:text-[3.25rem] font-serif font-bold text-slate-900 leading-tight tracking-tight">
           {title}
         </h1>
@@ -294,10 +294,10 @@ export function ServicePageCTA({
 }
 
 export const serviceCardClass =
-  'relative bg-white rounded-lg border border-slate-200 shadow-sm hover:border-slate-300 transition-colors flex flex-col scroll-mt-28'
+  'relative bg-white rounded-xl border border-slate-200 shadow-card hover:shadow-card-hover hover:border-slate-300 transition-all duration-300 flex flex-col scroll-mt-28'
 
 export const serviceSecondaryButtonClass =
   'inline-flex items-center rounded-md border border-slate-300 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 hover:border-slate-400 hover:text-slate-900 transition-colors'
 
 export const servicePrimaryLinkClass =
-  'inline-flex w-full items-center justify-center rounded-md bg-primary hover:bg-primary-dark text-white font-medium py-2.5 px-4 text-sm transition-colors'
+  'inline-flex w-full items-center justify-center rounded-lg bg-primary-dark hover:bg-primary-darker text-white font-medium py-2.5 px-4 text-sm transition-colors shadow-sm'

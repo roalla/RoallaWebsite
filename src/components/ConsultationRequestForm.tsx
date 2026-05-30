@@ -150,18 +150,21 @@ export default function ConsultationRequestForm({
         animate={{ opacity: 1, y: 0 }}
         className="rounded-2xl border border-slate-200 bg-white p-8 lg:p-12 text-center shadow-card"
       >
-        <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
-          <CheckCircle className="h-7 w-7 text-primary" />
+        <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-primary-dark/10">
+          <CheckCircle className="h-7 w-7 text-primary-dark" />
         </div>
         <h2 className="text-2xl font-serif font-bold text-slate-900">{t('successTitle')}</h2>
         <p className="mt-3 text-slate-600 max-w-md mx-auto">{t('successMessage')}</p>
-        <Link
-          href="/"
-          className="mt-8 inline-flex items-center text-primary font-semibold hover:underline"
-        >
-          {t('backHome')}
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </Link>
+        <p className="mt-4 text-sm text-slate-500 max-w-md mx-auto">{t('successPhone')}</p>
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Link href="/services" className="link-action font-semibold">
+            {t('successExplore')}
+            <ArrowRight className="ml-2 h-4 w-4 inline" />
+          </Link>
+          <Link href="/" className="text-slate-600 font-medium hover:text-primary-dark transition-colors">
+            {t('backHome')}
+          </Link>
+        </div>
       </motion.div>
     )
   }
@@ -176,7 +179,7 @@ export default function ConsultationRequestForm({
           {[1, 2, 3].map((n) => (
             <div
               key={n}
-              className={`h-1.5 flex-1 rounded-full transition-colors ${n <= step ? 'bg-primary' : 'bg-slate-200'}`}
+              className={`h-1.5 flex-1 rounded-full transition-colors ${n <= step ? 'bg-primary-dark' : 'bg-slate-200'}`}
             />
           ))}
         </div>
@@ -216,14 +219,14 @@ export default function ConsultationRequestForm({
                       onClick={() => update({ intent: option.value })}
                       className={`text-left rounded-xl border p-4 transition-all duration-200 ${
                         selected
-                          ? 'border-primary bg-primary/5 shadow-sm ring-1 ring-primary/20'
-                          : 'border-slate-200 hover:border-primary/30 hover:bg-slate-50'
+                          ? 'border-primary-dark bg-primary-dark/5 shadow-sm ring-1 ring-primary-dark/20'
+                          : 'border-slate-200 hover:border-primary-dark/30 hover:bg-slate-50'
                       }`}
                     >
                       <div className="flex items-start gap-3">
                         <div
                           className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${
-                            selected ? 'bg-primary/15 text-primary' : 'bg-slate-100 text-slate-500'
+                            selected ? 'bg-primary-dark/15 text-primary-dark' : 'bg-slate-100 text-slate-500'
                           }`}
                         >
                           <Icon className="h-5 w-5" />

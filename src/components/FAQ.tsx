@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 import { ChevronDown, HelpCircle } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
+import ScheduleButton from './ScheduleButton'
 
 const FAQ = () => {
   const t = useTranslations('faq')
@@ -31,7 +32,7 @@ const FAQ = () => {
           className="text-center mb-16"
         >
           <div className="flex items-center justify-center mb-4">
-            <HelpCircle className="w-12 h-12 text-primary mr-3" />
+            <HelpCircle className="w-12 h-12 text-primary-dark mr-3" />
             <h2 className="text-4xl md:text-5xl font-serif font-extrabold text-slate-900">
               {t('title')}
             </h2>
@@ -54,7 +55,7 @@ const FAQ = () => {
               >
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset"
+                  className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-dark focus:ring-inset"
                   aria-expanded={openIndex === index}
                 >
                   <span className="text-lg font-semibold text-slate-900 pr-8">
@@ -65,7 +66,7 @@ const FAQ = () => {
                     transition={{ duration: 0.3 }}
                     className="flex-shrink-0"
                   >
-                    <ChevronDown className="w-6 h-6 text-primary" />
+                    <ChevronDown className="w-6 h-6 text-primary-dark" />
                   </motion.div>
                 </button>
                 <AnimatePresence>
@@ -94,18 +95,23 @@ const FAQ = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
-            className="mt-12 text-center"
+            className="mt-12 text-center space-y-4"
           >
-            <p className="text-lg text-slate-600 mb-4">
+            <p className="text-lg text-slate-600">
               {t('stillHaveQuestions')}
             </p>
-            <Link
-              href="/contact"
-              className="inline-flex items-center text-primary font-semibold hover:text-primary-dark transition-colors duration-200"
-            >
-              {t('contactUs')}
-              <ChevronDown className="ml-2 w-5 h-5 rotate-[-90deg]" />
-            </Link>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <ScheduleButton variant="primary" size="md">
+                {t('submitInquiry')}
+              </ScheduleButton>
+              <Link
+                href="/contact"
+                className="link-action inline-flex items-center"
+              >
+                {t('contactUs')}
+                <ChevronDown className="ml-2 w-5 h-5 rotate-[-90deg]" />
+              </Link>
+            </div>
           </motion.div>
         </div>
       </div>

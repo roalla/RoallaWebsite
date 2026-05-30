@@ -4,6 +4,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 import { CheckCircle, Award, Clock, Heart, Users } from 'lucide-react'
+import ScheduleButton from './ScheduleButton'
 
 const valueIcons = [CheckCircle, Heart, Clock, Award] as const
 
@@ -74,13 +75,23 @@ const About = () => {
           ))}
         </div>
 
-        <div className="bg-gradient-to-r from-primary via-primary-dark to-primary rounded-2xl p-10 md:p-16 text-center shadow-2xl">
+        <div className="bg-gradient-to-r from-primary-dark via-primary-dark to-primary-darker rounded-2xl p-10 md:p-16 text-center shadow-2xl mb-16">
           <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">
             {t('missionTitle')}
           </h3>
           <p className="text-xl text-white/95 max-w-4xl mx-auto leading-relaxed">
             &quot;{t('missionQuote')}&quot;
           </p>
+        </div>
+
+        <div className="rounded-2xl border border-slate-800 bg-slate-900 px-8 py-12 md:px-14 text-center">
+          <h3 className="text-2xl font-serif font-bold text-white">{t('ctaTitle')}</h3>
+          <p className="mt-3 text-slate-300 max-w-xl mx-auto">{t('ctaSubtitle')}</p>
+          <div className="mt-8">
+            <ScheduleButton variant="secondary" size="lg" className="bg-white text-primary-dark hover:bg-slate-100 border-0">
+              {t('ctaButton')}
+            </ScheduleButton>
+          </div>
         </div>
       </div>
     </section>

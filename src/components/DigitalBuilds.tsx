@@ -20,7 +20,9 @@ import {
   Cpu,
   ExternalLink,
 } from 'lucide-react'
-import ScheduleButton from './CalendlyButton'
+import ScheduleButton from './ScheduleButton'
+import StickyMobileCTA from './StickyMobileCTA'
+import ServiceMiniFAQ from './services/ServiceMiniFAQ'
 import Breadcrumb from './Breadcrumb'
 import BrowserFrame from './digital/BrowserFrame'
 import {
@@ -57,7 +59,6 @@ const credibilityItems = [
   { icon: Cpu, titleKey: 'credStack', descKey: 'credStackDesc' },
 ] as const
 
-const faqKeys = ['faq1', 'faq2', 'faq3'] as const
 const fitKeys = ['fit1', 'fit2', 'fit3'] as const
 
 function portfolioItemName(
@@ -335,6 +336,13 @@ const DigitalBuilds = () => {
             </a>
           ))}
         </div>
+        <p className="mt-6 text-center text-sm text-slate-600">
+          {t('proofInquiry')}{' '}
+          <Link href="/schedule" className="link-action font-medium">
+            {t('ctaButton')}
+            <ArrowRight className="inline w-4 h-4 ml-1" />
+          </Link>
+        </p>
       </motion.div>
 
       <motion.div
@@ -414,14 +422,7 @@ const DigitalBuilds = () => {
         className="mt-16 pt-12 border-t border-slate-200"
       >
         <ServiceSectionHeading title={t('faqTitle')} />
-        <div className="divide-y divide-slate-200 border border-slate-200 rounded-lg bg-white">
-          {faqKeys.map((key) => (
-            <div key={key} className="px-6 py-5">
-              <p className="font-semibold text-slate-900 text-sm mb-2">{t(`${key}Q` as `${typeof key}Q`)}</p>
-              <p className="text-sm text-slate-600 leading-relaxed">{t(`${key}A` as `${typeof key}A`)}</p>
-            </div>
-          ))}
-        </div>
+        <ServiceMiniFAQ namespace="digitalBuilds" />
       </motion.div>
 
       <ServicePageCTA
@@ -446,6 +447,7 @@ const DigitalBuilds = () => {
         links={[{ href: '/services', label: t('crossLinkConsulting') }]}
       />
       </div>
+      <StickyMobileCTA label={t('ctaButton')} />
     </section>
   )
 }

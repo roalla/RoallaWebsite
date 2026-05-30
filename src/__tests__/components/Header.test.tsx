@@ -23,7 +23,7 @@ jest.mock('next/image', () => ({
   ),
 }))
 
-jest.mock('@/components/CalendlyButton', () => ({
+jest.mock('@/components/ScheduleButton', () => ({
   __esModule: true,
   default: () => <a href="/schedule">Get in Touch</a>,
 }))

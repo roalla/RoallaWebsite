@@ -3,8 +3,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
-import { Link } from '@/i18n/navigation'
-import ScheduleButton from '../CalendlyButton'
+import ScheduleButton from '../ScheduleButton'
 
 export default function HomeCTA() {
   const t = useTranslations('home.cta')
@@ -16,42 +15,25 @@ export default function HomeCTA() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="max-w-3xl mx-auto text-center rounded-2xl bg-gradient-to-br from-primary to-primary-dark p-10 lg:p-14 shadow-xl"
+          className="max-w-3xl mx-auto text-center rounded-2xl bg-gradient-to-br from-primary-dark via-primary-dark to-primary-darker p-10 lg:p-14 shadow-xl"
         >
           <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white">{t('title')}</h2>
           <p className="mt-4 text-white/90">{t('subtitle')}</p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
             <ScheduleButton
               variant="secondary"
               size="lg"
-              className="bg-white text-primary hover:bg-white/90 border-0 hover:scale-[1.02] transition-transform duration-300"
+              className="bg-white text-primary-dark hover:bg-white/90 border-0 w-full sm:w-auto"
             >
               {t('schedule')}
             </ScheduleButton>
-            <Link
-              href="/services"
-              className="inline-flex items-center bg-white/20 hover:bg-white/30 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-300 border border-white/30 hover:border-white/50 hover:scale-[1.02]"
+            <a
+              href="#assessment"
+              className="inline-flex items-center justify-center w-full sm:w-auto text-white/95 hover:text-white font-medium py-4 px-6 underline underline-offset-4 transition-colors"
             >
-              {t('exploreServices')}
-            </Link>
-            <Link
-              href="/services/digital"
-              className="inline-flex items-center bg-white/10 hover:bg-white/20 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-300 border border-white/20 hover:border-white/40 hover:scale-[1.02]"
-            >
-              {t('exploreDigital')}
-            </Link>
-            <Link
-              href="/digital-creations"
-              className="inline-flex items-center text-white/90 hover:text-white font-medium py-4 px-2 underline-offset-4 hover:underline transition-colors"
-            >
-              {t('exploreOurWork')}
-            </Link>
+              {t('orAssessmentShort')}
+            </a>
           </div>
-          <p className="mt-6 text-sm text-white/80">
-            {t.rich('orAssessment', {
-              link: (chunks) => <a href="#assessment" className="underline hover:text-white">{chunks}</a>,
-            })}
-          </p>
         </motion.div>
       </div>
     </section>

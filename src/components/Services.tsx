@@ -21,7 +21,9 @@ import {
   GraduationCap,
   Briefcase,
 } from 'lucide-react'
-import ScheduleButton from './CalendlyButton'
+import ScheduleButton from './ScheduleButton'
+import StickyMobileCTA from './StickyMobileCTA'
+import ServiceMiniFAQ from './services/ServiceMiniFAQ'
 import Breadcrumb from './Breadcrumb'
 import type { ConsultingFocus } from '@/lib/consultation-request'
 import {
@@ -39,7 +41,6 @@ const serviceIcons = [Target, TrendingUp, Users, BarChart3, Lightbulb, Zap] as c
 const serviceAnchors = ['strategic', 'operations', 'people', 'analytics', 'innovation', 'digital'] as const
 const engagementIcons = [Search, Map, Target, Rocket] as const
 const credibilityIcons = [Award, GraduationCap, Briefcase, Shield] as const
-const faqKeys = ['faq1', 'faq2', 'faq3'] as const
 const fitKeys = ['fit1', 'fit2', 'fit3'] as const
 
 const Services = () => {
@@ -302,14 +303,7 @@ const Services = () => {
         className="mt-16 pt-12 border-t border-slate-200"
       >
         <ServiceSectionHeading title={t('faqTitle')} />
-        <div className="divide-y divide-slate-200 border border-slate-200 rounded-lg bg-white">
-          {faqKeys.map((key) => (
-            <div key={key} className="px-6 py-5">
-              <p className="font-semibold text-slate-900 text-sm mb-2">{t(`${key}Q` as `${typeof key}Q`)}</p>
-              <p className="text-sm text-slate-600 leading-relaxed">{t(`${key}A` as `${typeof key}A`)}</p>
-            </div>
-          ))}
-        </div>
+        <ServiceMiniFAQ namespace="services" />
       </motion.div>
 
       <ServicePageCTA
@@ -338,6 +332,7 @@ const Services = () => {
         ]}
       />
       </div>
+      <StickyMobileCTA label={t('ctaButton')} />
     </section>
   )
 }

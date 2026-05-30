@@ -5,8 +5,9 @@ import Breadcrumb from '@/components/Breadcrumb'
 import Services from '@/components/Services'
 
 export const metadata = {
-  title: 'Our Services | ROALLA',
-  description: 'Business consulting services for strategic planning, process optimization, team development, data analytics, innovation consulting, and digital transformation.',
+  title: 'Business Enablement Services | ROALLA',
+  description:
+    'Executive consulting for strategic planning, process optimization, team development, data analytics, innovation, and digital transformation — with accountable implementation support.',
   alternates: {
     canonical: '/services',
   },
@@ -75,7 +76,8 @@ export default async function ServicesPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-8">
+      <div className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent" aria-hidden />
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
         <Breadcrumb items={[{ label: t('home'), href: '/' }, { label: t('services') }]} />
         <Services />
       </div>

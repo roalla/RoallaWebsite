@@ -8,6 +8,7 @@ type BrowserFrameProps = {
   imageAlt?: string
   brandPreview?: boolean
   priority?: boolean
+  domain?: string
   className?: string
   aspect?: 'video' | 'portrait'
 }
@@ -16,6 +17,7 @@ export default function BrowserFrame({
   imageUrl,
   imageAlt = '',
   brandPreview = false,
+  domain,
   priority = false,
   className = '',
   aspect = 'video',
@@ -29,7 +31,7 @@ export default function BrowserFrame({
         <span className="w-2.5 h-2.5 rounded-full bg-amber-400/80" aria-hidden />
         <span className="w-2.5 h-2.5 rounded-full bg-emerald-400/80" aria-hidden />
         <span className="ml-2 flex-1 h-5 rounded-md bg-white border border-slate-200 text-[10px] text-slate-400 flex items-center px-2 truncate">
-          {brandPreview ? 'roalla.com' : 'live preview'}
+          {domain ?? (brandPreview ? 'roalla.com' : 'live preview')}
         </span>
       </div>
       <div className={`relative ${aspectClass} bg-slate-50 overflow-hidden`}>

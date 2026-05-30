@@ -1,10 +1,10 @@
 'use client'
 
 import React from 'react'
-import Link from 'next/link'
-import { Calendar } from 'lucide-react'
+import { Link } from '@/i18n/navigation'
+import { Send } from 'lucide-react'
 
-// This lets TypeScript know that the Calendly object will be on the window
+// CalendlyButton — links to the guided consultation request form at /schedule
 declare global {
   interface Window {
     Calendly?: {
@@ -43,7 +43,7 @@ const ScheduleButton: React.FC<ScheduleButtonProps> = ({
 
   return (
     <Link href="/schedule" className={getButtonClassName()}>
-      {icon && <Calendar className="w-5 h-5 mr-2" />}
+      {icon && <Send className="w-5 h-5 mr-2" />}
       {children}
     </Link>
   );

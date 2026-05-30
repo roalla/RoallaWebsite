@@ -296,11 +296,11 @@ const Header = () => {
           {/* Logo */}
           <motion.div
             {...motionProps}
-            className="flex-shrink-0 min-w-0 max-w-[200px]"
+            className="flex-shrink-0 min-w-0 max-w-[140px] sm:max-w-[200px]"
           >
             <Link
               href="/"
-              className="flex items-center space-x-3 group min-w-0"
+              className="flex items-center space-x-2 sm:space-x-3 group min-w-0"
               onClick={closeMenu}
               aria-label="Go to homepage"
             >
@@ -310,12 +310,12 @@ const Header = () => {
                   alt="Roalla Business Enablement Group Logo"
                   width={40}
                   height={40}
-                  className={`w-10 h-10 transition-transform duration-200 ${!prefersReducedMotion ? 'group-hover:scale-110' : ''}`}
+                  className={`w-9 h-9 sm:w-10 sm:h-10 transition-transform duration-200 ${!prefersReducedMotion ? 'group-hover:scale-110' : ''}`}
                   priority
                 />
               </div>
-              <div className="hidden min-[480px]:block min-w-0">
-                <h1 className="text-xl font-bold text-white group-hover:text-primary transition-colors duration-200 truncate">
+              <div className="min-w-0">
+                <h1 className="text-base sm:text-xl font-bold text-white group-hover:text-primary transition-colors duration-200 truncate">
                   {tCommon('companyName')}
                 </h1>
               </div>

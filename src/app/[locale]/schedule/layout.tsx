@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Schedule a Consultation | ROALLA',
-  description: 'Schedule a free consultation with ROALLA. Choose a time that works for you and discuss your business goals, challenges, and next steps.',
+  title: 'Request a Consultation | ROALLA',
+  description: 'Tell us what you need—consulting, a website, or a custom platform. A few quick questions and our team will follow up within one business day.',
   alternates: {
     canonical: '/schedule',
   },

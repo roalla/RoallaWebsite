@@ -135,10 +135,6 @@ export default async function RootLayout({
         {/* Preconnect to external domains for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://assets.calendly.com" />
-        
-        {/* Calendly script */}
-        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
         
         {/* Structured data */}
         <script

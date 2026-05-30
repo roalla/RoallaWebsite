@@ -6,7 +6,8 @@ import DigitalBuilds from '@/components/DigitalBuilds'
 
 export const metadata = {
   title: 'Websites & Digital | ROALLA',
-  description: 'Website design, brand presence, and custom digital platforms built by Roalla — from marketing sites to purpose-built tools.',
+  description:
+    'Website design, brand presence, and custom digital platforms built by Roalla — from marketing sites in 4–8 weeks to purpose-built tools. See live proof and request a build plan.',
   alternates: {
     canonical: '/services/digital',
   },
@@ -49,7 +50,8 @@ export default async function DigitalBuildsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesJsonLd) }}
       />
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-8">
+      <div className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent" aria-hidden />
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
         <Breadcrumb
           items={[
             { label: t('home'), href: '/' },

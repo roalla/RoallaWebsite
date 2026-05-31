@@ -129,7 +129,7 @@ const Services = () => {
   ] as const
 
   return (
-    <section id="services" className="section-padding relative">
+    <section id="services" className="section-padding relative bg-slate-50/60">
       <ServicePageHero
         variant="consulting"
         eyebrow={t('heroEyebrow')}
@@ -180,38 +180,38 @@ const Services = () => {
           >
             <div className="p-7 lg:p-8 flex flex-col flex-1">
               <div className="flex items-start gap-4 mb-5">
-                <div className="w-11 h-11 shrink-0 rounded-md border border-slate-200 bg-slate-50 flex items-center justify-center">
-                  <service.icon className="w-5 h-5 text-primary" />
+                <div className="w-11 h-11 shrink-0 rounded-md border border-primary/20 bg-primary/10 flex items-center justify-center">
+                  <service.icon className="w-5 h-5 text-primary-dark" />
                 </div>
                 <div>
                   <h2 className="text-lg font-serif font-bold text-slate-900">{service.title}</h2>
-                  <p className="mt-2 text-sm text-slate-600 leading-relaxed">{service.desc}</p>
+                  <p className="mt-2 text-sm text-slate-700 leading-relaxed">{service.desc}</p>
                 </div>
               </div>
 
-              <p className="text-sm text-slate-700 border-l-2 border-primary/30 pl-3 mb-5 leading-relaxed">{service.ideal}</p>
+              <p className="text-sm font-medium text-slate-800 border-l-4 border-primary bg-primary/[0.06] rounded-r-md pl-3 py-2 mb-5 leading-relaxed">{service.ideal}</p>
 
               <div className="space-y-3 mb-5 text-sm">
-                <p className="text-slate-700">
-                  <span className="block text-xs font-medium uppercase tracking-wide text-slate-500 mb-1">{t('outcomeLabel')}</span>
+                <p className="text-slate-800 bg-slate-50 rounded-md border border-slate-200 px-3 py-2.5">
+                  <span className="block text-xs font-semibold uppercase tracking-wide text-primary-dark mb-1">{t('outcomeLabel')}</span>
                   {service.outcome}
                 </p>
-                <p className="text-slate-600">
-                  <span className="block text-xs font-medium uppercase tracking-wide text-slate-500 mb-1">{t('notForLabel')}</span>
+                <p className="text-slate-700 px-3">
+                  <span className="block text-xs font-semibold uppercase tracking-wide text-slate-600 mb-1">{t('notForLabel')}</span>
                   {service.notFor}
                 </p>
               </div>
 
               <ul className="space-y-2 mb-6">
                 {service.features.map((feature) => (
-                  <li key={feature} className="flex items-start text-sm text-slate-600">
-                    <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0 mt-0.5 text-primary" />
+                  <li key={feature} className="flex items-start text-sm text-slate-700">
+                    <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0 mt-0.5 text-primary-dark" />
                     <span>{feature}</span>
                   </li>
                 ))}
               </ul>
 
-              <div className="mt-auto pt-5 border-t border-slate-100">
+              <div className="mt-auto pt-5 border-t border-slate-200">
                 <Link
                   href={{ pathname: '/schedule', query: { intent: 'consulting', focus: service.focus } }}
                   className={servicePrimaryLinkClass}
@@ -229,17 +229,17 @@ const Services = () => {
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="mt-16 pt-12 border-t border-slate-200"
+        className="mt-16 pt-12 border-t-2 border-slate-200"
       >
         <ServiceSectionHeading title={t('credibilityTitle')} description={t('credibilityDesc')} className="text-center mx-auto" />
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {credibilityItems.map((item) => (
-            <div key={item.titleKey} className="rounded-lg border border-slate-200 bg-white p-5">
-              <div className="w-9 h-9 rounded-md border border-slate-200 bg-slate-50 flex items-center justify-center mb-3">
-                <item.icon className="w-4 h-4 text-primary" />
+            <div key={item.titleKey} className="rounded-lg border border-slate-300 bg-white p-5 shadow-sm">
+              <div className="w-9 h-9 rounded-md border border-primary/20 bg-primary/10 flex items-center justify-center mb-3">
+                <item.icon className="w-4 h-4 text-primary-dark" />
               </div>
-              <p className="font-semibold text-slate-900 text-sm mb-1">{t(item.titleKey)}</p>
-              <p className="text-sm text-slate-600 leading-relaxed">{t(item.descKey)}</p>
+              <p className="font-bold text-slate-900 text-sm mb-1">{t(item.titleKey)}</p>
+              <p className="text-sm text-slate-700 leading-relaxed">{t(item.descKey)}</p>
             </div>
           ))}
         </div>
@@ -249,21 +249,21 @@ const Services = () => {
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="mt-16 pt-12 border-t border-slate-200"
+        className="mt-16 pt-12 border-t-2 border-slate-200"
       >
         <ServiceSectionHeading title={t('engagementTitle')} description={t('engagementSubtitle')} />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {[t('step1'), t('step2'), t('step3'), t('step4')].map((step, idx) => {
             const Icon = engagementIcons[idx]
             return (
-              <div key={step} className="rounded-lg border border-slate-200 bg-white p-5">
+              <div key={step} className="rounded-lg border border-slate-300 bg-white p-5 shadow-sm">
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="w-7 h-7 rounded-full border border-slate-200 bg-slate-50 text-slate-700 text-xs font-semibold flex items-center justify-center">
+                  <span className="w-7 h-7 rounded-full bg-primary-dark text-white text-xs font-bold flex items-center justify-center">
                     {idx + 1}
                   </span>
-                  <Icon className="w-4 h-4 text-primary" />
+                  <Icon className="w-4 h-4 text-primary-dark" />
                 </div>
-                <p className="text-sm text-slate-700 leading-relaxed">{step}</p>
+                <p className="text-sm font-medium text-slate-800 leading-relaxed">{step}</p>
               </div>
             )
           })}
@@ -274,22 +274,22 @@ const Services = () => {
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="mt-16 pt-12 border-t border-slate-200 grid lg:grid-cols-2 gap-6"
+        className="mt-16 pt-12 border-t-2 border-slate-200 grid lg:grid-cols-2 gap-6"
       >
-        <div className="rounded-lg border border-slate-200 bg-white p-6 lg:p-8">
+        <div className="rounded-lg border-2 border-primary/30 bg-primary/[0.04] p-6 lg:p-8">
           <h2 className="text-xl font-serif font-bold text-slate-900 mb-4">{t('fitTitle')}</h2>
           <ul className="space-y-3">
             {fitKeys.map((key) => (
-              <li key={key} className="flex items-start gap-2.5 text-sm text-slate-700">
-                <CheckCircle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+              <li key={key} className="flex items-start gap-2.5 text-sm font-medium text-slate-800">
+                <CheckCircle className="w-4 h-4 text-primary-dark shrink-0 mt-0.5" />
                 {t(key)}
               </li>
             ))}
           </ul>
         </div>
-        <div className="rounded-lg border border-slate-200 bg-slate-50 p-6 lg:p-8 flex flex-col justify-center">
-          <p className="text-slate-700 leading-relaxed mb-4 text-sm">{t('fitDigitalNote')}</p>
-          <Link href="/services/digital" className="inline-flex items-center text-primary font-medium text-sm hover:underline">
+        <div className="rounded-lg border border-slate-300 bg-slate-100 p-6 lg:p-8 flex flex-col justify-center">
+          <p className="text-slate-800 leading-relaxed mb-4 text-sm font-medium">{t('fitDigitalNote')}</p>
+          <Link href="/services/digital" className="inline-flex items-center text-primary-dark font-semibold text-sm hover:underline">
             {t('compareBuildingLink')}
             <ArrowRight className="ml-1.5 w-4 h-4" />
           </Link>
@@ -300,7 +300,7 @@ const Services = () => {
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="mt-16 pt-12 border-t border-slate-200"
+        className="mt-16 pt-12 border-t-2 border-slate-200"
       >
         <ServiceSectionHeading title={t('faqTitle')} />
         <ServiceMiniFAQ namespace="services" />

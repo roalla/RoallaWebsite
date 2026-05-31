@@ -41,7 +41,7 @@ export function ServicePageHero({
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
-      className={`relative overflow-hidden rounded-2xl border border-slate-200 ${accentGradient} px-6 py-10 lg:px-12 lg:py-14 mb-8 shadow-sm`}
+      className={`relative overflow-hidden rounded-2xl border border-slate-300 ${accentGradient} px-6 py-10 lg:px-12 lg:py-14 mb-8 shadow-md`}
     >
       <div className="pointer-events-none absolute -top-20 -right-16 h-64 w-64 rounded-full bg-primary/[0.08] blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute -bottom-24 -left-12 h-48 w-48 rounded-full bg-primary/[0.04] blur-3xl" aria-hidden />
@@ -51,11 +51,11 @@ export function ServicePageHero({
         <h1 className="text-4xl md:text-5xl lg:text-[3.25rem] font-serif font-bold text-slate-900 leading-tight tracking-tight">
           {title}
         </h1>
-        <p className="mt-5 text-lg md:text-xl text-slate-600 leading-relaxed max-w-3xl">
+        <p className="mt-5 text-lg md:text-xl text-slate-700 leading-relaxed max-w-3xl">
           {hasHighlight ? (
             <>
               {subtitleParts[0]}
-              <span className="text-slate-900 font-medium">{subtitleHighlight}</span>
+              <span className="text-slate-900 font-semibold">{subtitleHighlight}</span>
               {subtitleParts[1]}
             </>
           ) : (
@@ -78,11 +78,11 @@ export function ServicePageHero({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05 }}
-              className="rounded-xl border border-slate-200/80 bg-white/90 backdrop-blur-sm px-5 py-4 text-center"
+              className="rounded-xl border border-slate-300 bg-white px-5 py-4 text-center shadow-sm"
             >
-              {Icon && <Icon className="w-5 h-5 text-primary mx-auto mb-2" aria-hidden />}
-              <dt className="text-2xl font-serif font-semibold text-slate-900 tabular-nums">{stat.value}</dt>
-              <dd className="mt-1 text-xs uppercase tracking-wider text-slate-500">{stat.label}</dd>
+              {Icon && <Icon className="w-5 h-5 text-primary-dark mx-auto mb-2" aria-hidden />}
+              <dt className="text-2xl md:text-3xl font-serif font-bold text-slate-900 tabular-nums">{stat.value}</dt>
+              <dd className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-600">{stat.label}</dd>
             </motion.div>
           )
         })}
@@ -121,12 +121,12 @@ export function ServiceLaneCompare({
     <div
       className={`p-6 lg:p-7 h-full ${
         consultingActive
-          ? 'bg-white border-l-2 border-l-primary'
-          : 'bg-slate-50/80'
+          ? 'bg-white border-l-4 border-l-primary shadow-sm'
+          : 'bg-slate-100/90'
       }`}
     >
-      <p className="text-xs font-medium uppercase tracking-[0.15em] text-slate-500 mb-2">{consultingLabel}</p>
-      <p className="text-sm text-slate-700 leading-relaxed">{consultingDesc}</p>
+      <p className={`text-xs font-semibold uppercase tracking-[0.15em] mb-2 ${consultingActive ? 'text-primary-dark' : 'text-slate-500'}`}>{consultingLabel}</p>
+      <p className={`text-sm leading-relaxed ${consultingActive ? 'text-slate-800 font-medium' : 'text-slate-600'}`}>{consultingDesc}</p>
       {!consultingActive && consultingLinkText && (
         <span className="mt-4 inline-flex items-center text-sm font-medium text-slate-600 group-hover:text-primary">
           {consultingLinkText}
@@ -140,12 +140,12 @@ export function ServiceLaneCompare({
     <div
       className={`p-6 lg:p-7 h-full ${
         buildingActive
-          ? 'bg-white border-l-2 border-l-primary'
-          : 'bg-slate-50/80'
+          ? 'bg-white border-l-4 border-l-primary shadow-sm'
+          : 'bg-slate-100/90'
       }`}
     >
-      <p className="text-xs font-medium uppercase tracking-[0.15em] text-slate-500 mb-2">{buildingLabel}</p>
-      <p className="text-sm text-slate-700 leading-relaxed">{buildingDesc}</p>
+      <p className={`text-xs font-semibold uppercase tracking-[0.15em] mb-2 ${buildingActive ? 'text-primary-dark' : 'text-slate-500'}`}>{buildingLabel}</p>
+      <p className={`text-sm leading-relaxed ${buildingActive ? 'text-slate-800 font-medium' : 'text-slate-600'}`}>{buildingDesc}</p>
       {!buildingActive && buildingLinkText && (
         <span className="mt-4 inline-flex items-center text-sm font-medium text-slate-600 group-hover:text-primary">
           {buildingLinkText}
@@ -160,7 +160,7 @@ export function ServiceLaneCompare({
       initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="max-w-4xl mx-auto mb-10 rounded-lg border border-slate-200 overflow-hidden grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200"
+      className="max-w-4xl mx-auto mb-10 rounded-lg border border-slate-300 overflow-hidden grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-300 shadow-sm"
     >
       {consultingActive ? (
         consultingCell
@@ -189,14 +189,14 @@ export function ServiceAnchorNav({ label, items }: ServiceAnchorNavProps) {
   return (
     <nav aria-label={label} className="mb-12 max-w-4xl mx-auto">
       {label && (
-        <p className="text-xs font-medium uppercase tracking-[0.15em] text-slate-500 mb-3 text-center">{label}</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-600 mb-3 text-center">{label}</p>
       )}
       <div className="flex flex-wrap items-center justify-center gap-2">
         {items.map((item) => (
           <a
             key={item.id}
             href={`#${item.id}`}
-            className="rounded-md border border-slate-200 bg-white px-3.5 py-2 text-sm text-slate-700 hover:border-slate-300 hover:text-slate-900 transition-colors"
+            className="rounded-md border border-slate-300 bg-white px-3.5 py-2 text-sm font-medium text-slate-800 hover:border-primary hover:bg-primary/5 hover:text-primary-dark transition-colors shadow-sm"
           >
             {item.label}
           </a>
@@ -223,7 +223,7 @@ export function ServiceSectionHeading({
         <p className="text-xs font-medium uppercase tracking-[0.15em] text-slate-500 mb-2">{eyebrow}</p>
       )}
       <h2 className="text-2xl md:text-3xl font-serif font-bold text-slate-900 tracking-tight">{title}</h2>
-      {description && <p className="mt-2 text-slate-600 max-w-2xl text-sm md:text-base leading-relaxed">{description}</p>}
+      {description && <p className="mt-2 text-slate-700 max-w-2xl text-sm md:text-base leading-relaxed">{description}</p>}
     </div>
   )
 }
@@ -256,11 +256,11 @@ export function ServicePageCTA({
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       viewport={{ once: true }}
-      className="mt-16 rounded-lg border border-slate-800 bg-slate-900 px-8 py-12 md:px-14 md:py-16 text-center"
+      className="mt-16 rounded-xl border border-slate-700 bg-slate-900 px-8 py-12 md:px-14 md:py-16 text-center shadow-xl"
     >
-      <p className="text-xs font-medium uppercase tracking-[0.18em] text-slate-400 mb-4">{badge}</p>
+      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-light mb-4">{badge}</p>
       <h2 className="text-2xl md:text-3xl font-serif font-bold text-white tracking-tight">{title}</h2>
-      <p className="mt-4 text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">{subtitle}</p>
+      <p className="mt-4 text-base md:text-lg text-slate-200 max-w-2xl mx-auto leading-relaxed">{subtitle}</p>
       {qualifier && (
         <p className="mt-3 text-sm text-slate-400 max-w-2xl mx-auto">{qualifier}</p>
       )}
@@ -294,10 +294,10 @@ export function ServicePageCTA({
 }
 
 export const serviceCardClass =
-  'relative bg-white rounded-xl border border-slate-200 shadow-card hover:shadow-card-hover hover:border-slate-300 transition-all duration-300 flex flex-col scroll-mt-28'
+  'relative bg-white rounded-xl border border-slate-300 shadow-card hover:shadow-card-hover hover:border-primary/40 transition-all duration-300 flex flex-col scroll-mt-28'
 
 export const serviceSecondaryButtonClass =
-  'inline-flex items-center rounded-md border border-slate-300 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 hover:border-slate-400 hover:text-slate-900 transition-colors'
+  'inline-flex items-center rounded-md border-2 border-slate-400 bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 hover:border-primary-dark hover:text-primary-dark transition-colors'
 
 export const servicePrimaryLinkClass =
-  'inline-flex w-full items-center justify-center rounded-lg bg-primary-dark hover:bg-primary-darker text-white font-medium py-2.5 px-4 text-sm transition-colors shadow-sm'
+  'inline-flex w-full items-center justify-center rounded-lg bg-primary-dark hover:bg-primary-darker text-white font-semibold py-2.5 px-4 text-sm transition-colors shadow-md hover:shadow-lg'

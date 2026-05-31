@@ -8,7 +8,7 @@ import { ArrowRight, Briefcase, Globe, CheckCircle2, ExternalLink } from 'lucide
 import BrowserFrame from '../digital/BrowserFrame'
 import { portfolioItems, portfolioImageAlts } from '@/lib/digitalPortfolio'
 
-const featuredIds = ['ken-effect', 'business-cocoon', 'roalla-site'] as const
+const featuredIds = ['business-cocoon', 'soaring-puck', 'ken-effect', 'roalla-site'] as const
 const consultingOutcomeKeys = ['consultingOutcome1', 'consultingOutcome2', 'consultingOutcome3'] as const
 
 export default function HomeOurWork() {
@@ -97,8 +97,8 @@ export default function HomeOurWork() {
               </div>
             </div>
 
-            <div className="grid sm:grid-cols-2 gap-3 flex-1">
-              {featured.slice(0, 2).map((item) => (
+            <div className="grid grid-cols-2 gap-3 flex-1">
+              {featured.map((item) => (
                 <a
                   key={item.id}
                   href={item.url}
@@ -119,30 +119,6 @@ export default function HomeOurWork() {
                   </span>
                 </a>
               ))}
-            </div>
-
-            <div className="mt-4 hidden sm:block">
-              {featured[2] && (
-                <a
-                  href={featured[2].url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 hover:border-primary/30 transition-colors"
-                >
-                  <div className="w-24 shrink-0">
-                    <BrowserFrame
-                      imageUrl={featured[2].imageUrl}
-                      brandPreview={featured[2].brandPreview}
-                      domain={featured[2].domain}
-                      aspect="portrait"
-                    />
-                  </div>
-                  <span className="text-sm font-semibold text-slate-800 group-hover:text-primary-dark transition-colors">
-                    {featured[2].name}
-                    <ExternalLink className="inline w-3 h-3 ml-1 opacity-60" aria-hidden />
-                  </span>
-                </a>
-              )}
             </div>
 
             <Link

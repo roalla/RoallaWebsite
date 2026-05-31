@@ -12,7 +12,7 @@ import { portfolioItems, portfolioImageAlts } from '@/lib/digitalPortfolio'
 const statIcons = [Briefcase, Award, Layers]
 const consultingOutcomeKeys = ['consultingOutcome1', 'consultingOutcome2', 'consultingOutcome3'] as const
 
-const heroFeatured = portfolioItems.find((p) => p.id === 'ken-effect')!
+const heroFeatured = portfolioItems.find((p) => p.id === 'business-cocoon')!
 
 export default function HomeHero() {
   const t = useTranslations('home.hero')
@@ -33,7 +33,7 @@ export default function HomeHero() {
             loop
             playsInline
             preload="metadata"
-            poster="/Keneffectsite.jpg"
+            poster="/businesscocoontile.jpg"
             className="absolute inset-0 h-full w-full object-cover scale-105 opacity-[0.52]"
           >
             <source src="/hero-loop.webm" type="video/webm" />
@@ -149,7 +149,7 @@ export default function HomeHero() {
               >
                 <BrowserFrame
                   imageUrl={heroFeatured.imageUrl}
-                  imageAlt={portfolioImageAlts['ken-effect']}
+                  imageAlt={portfolioImageAlts['business-cocoon']}
                   domain={heroFeatured.domain}
                   priority
                   className="group-hover:shadow-card-hover transition-shadow duration-300"

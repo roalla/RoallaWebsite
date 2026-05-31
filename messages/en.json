@@ -111,7 +111,8 @@
     },
     "howWeBuild": {
       "cta": "Discuss your project",
-      "responseTime": "We respond within one business day."
+      "responseTime": "We respond within one business day.",
+      "learnMore": "Learn how we work with you"
     },
     "testimonials": {
       "eyebrow": "Client feedback",

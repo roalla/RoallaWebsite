@@ -43,7 +43,7 @@ export default function HomeOurWork() {
 
         <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
           {/* Consulting proof */}
-          <Reveal className="flex flex-col rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-6 lg:p-8 shadow-card">
+          <div className="flex flex-col rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-6 lg:p-8 shadow-card">
             <div className="flex items-start gap-3 mb-5">
               <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                 <Briefcase className="w-5 h-5 text-primary" aria-hidden />
@@ -68,10 +68,10 @@ export default function HomeOurWork() {
               {t('consultingCta')}
               <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
-          </Reveal>
+          </div>
 
           {/* Digital proof */}
-          <Reveal delayMs={80} className="flex flex-col rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-primary/[0.04] p-6 lg:p-8 shadow-card">
+          <div className="flex flex-col rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-primary/[0.04] p-6 lg:p-8 shadow-card">
             <div className="flex items-start gap-3 mb-4">
               <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                 <Globe className="w-5 h-5 text-primary" aria-hidden />
@@ -118,7 +118,7 @@ export default function HomeOurWork() {
               {t('digitalCta')}
               <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
-          </Reveal>
+          </div>
         </div>
       </div>
     </section>

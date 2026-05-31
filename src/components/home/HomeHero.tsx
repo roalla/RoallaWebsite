@@ -7,6 +7,7 @@ import { Link } from '@/i18n/navigation'
 import ScheduleButton from '../ScheduleButton'
 import BrowserFrame from '../digital/BrowserFrame'
 import Reveal from '../motion/Reveal'
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 import { portfolioItems, portfolioImageAlts } from '@/lib/digitalPortfolio'
 
 const statIcons = [Briefcase, Award, Layers]
@@ -22,15 +23,13 @@ const heroGlassTile = 'bg-white/85 backdrop-blur-md border border-white/70 shado
 export default function HomeHero() {
   const t = useTranslations('home.hero')
   const tPortfolio = useTranslations('digitalCreations')
-  const [reduceMotion, setReduceMotion] = useState(true)
+  const reduceMotion = usePrefersReducedMotion()
+  const [videoReady, setVideoReady] = useState(false)
 
   useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const sync = () => setReduceMotion(mq.matches)
-    sync()
-    mq.addEventListener('change', sync)
-    return () => mq.removeEventListener('change', sync)
-  }, [])
+    if (reduceMotion) return
+    setVideoReady(true)
+  }, [reduceMotion])
 
   const stats = [
     { value: t('stat1Value'), label: t('stat1Label'), icon: statIcons[0] },
@@ -41,7 +40,7 @@ export default function HomeHero() {
   return (
     <section className="relative min-h-[85vh] flex items-center overflow-hidden pt-24 lg:pt-28 bg-slate-950">
       <div className="absolute inset-0 overflow-hidden" aria-hidden>
-        {reduceMotion ? (
+        {reduceMotion || !videoReady ? (
           <div
             className="absolute inset-0 bg-cover bg-center scale-105"
             style={{ backgroundImage: 'url(/businesscocoon_image.jpg)' }}

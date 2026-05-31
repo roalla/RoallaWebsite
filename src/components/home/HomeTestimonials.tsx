@@ -22,10 +22,9 @@ export default function HomeTestimonials() {
         </Reveal>
 
         <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-          {testimonialKeys.map((key, i) => (
-            <Reveal
+          {testimonialKeys.map((key) => (
+            <div
               key={key}
-              delayMs={i * 80}
               className="flex flex-col rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-6 lg:p-8 shadow-card"
             >
               <Quote className="w-8 h-8 text-primary/30 mb-4 shrink-0" aria-hidden />
@@ -36,7 +35,7 @@ export default function HomeTestimonials() {
                 <p className="text-sm font-semibold text-slate-900">{t(`${key}Role`)}</p>
                 <p className="mt-0.5 text-xs text-primary-dark font-medium">{t(`${key}Project`)}</p>
               </footer>
-            </Reveal>
+            </div>
           ))}
         </div>
 

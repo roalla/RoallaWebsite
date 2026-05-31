@@ -1,6 +1,8 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
+import { observeRevealOnce } from '@/lib/revealObserver'
 
 type RevealProps = React.HTMLAttributes<HTMLElement> & {
   children: React.ReactNode
@@ -22,15 +24,7 @@ export default function Reveal({
 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
-  const [reduceMotion, setReduceMotion] = useState(true)
-
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const sync = () => setReduceMotion(mq.matches)
-    sync()
-    mq.addEventListener('change', sync)
-    return () => mq.removeEventListener('change', sync)
-  }, [])
+  const reduceMotion = usePrefersReducedMotion()
 
   useEffect(() => {
     if (reduceMotion) {
@@ -43,17 +37,7 @@ export default function Reveal({
     }
     const el = ref.current
     if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -6% 0px' },
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
+    return observeRevealOnce(el, () => setVisible(true))
   }, [when, reduceMotion])
 
   const Component = Tag as React.ElementType

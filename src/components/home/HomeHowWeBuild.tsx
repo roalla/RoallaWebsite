@@ -43,9 +43,8 @@ export default function HomeHowWeBuild() {
             const Icon = buildStepIcons[i]
             const pillar = HOME_BUILD_STEP_PILLARS[i]
             return (
-              <Reveal
+              <div
                 key={key}
-                delayMs={i * 70}
                 className="rounded-2xl border border-slate-200 bg-white p-6 shadow-card"
               >
                 <div className="flex flex-wrap items-center gap-2 mb-3">
@@ -56,10 +55,17 @@ export default function HomeHowWeBuild() {
                 </div>
                 <h3 className="font-serif font-bold text-slate-900">{t(`${key}Title` as 'buildStep1Title')}</h3>
                 <p className="mt-2 text-sm text-slate-600 leading-relaxed">{t(`${key}Desc` as 'buildStep1Desc')}</p>
-              </Reveal>
+              </div>
             )
           })}
         </div>
+
+        <Reveal className="mt-8 text-center">
+          <Link href="/about" className="inline-flex items-center link-action hover:underline text-sm font-semibold">
+            {tHome('learnMore')}
+            <ArrowRight className="ml-2 w-4 h-4" />
+          </Link>
+        </Reveal>
 
         <Reveal className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <ScheduleButton intent="website" variant="primary" size="lg">

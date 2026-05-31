@@ -132,10 +132,6 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${merriweather.variable} font-sans`}>
       <head>
-        {/* Preconnect to external domains for performance */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
         {/* Structured data */}
         <script
           type="application/ld+json"
@@ -160,9 +156,6 @@ export default async function RootLayout({
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
         
-        {/* Performance optimizations */}
-        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="//fonts.gstatic.com" />
       </head>
       <body className={`${inter.className} antialiased`}>
         <Providers>

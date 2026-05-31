@@ -111,7 +111,8 @@
     },
     "howWeBuild": {
       "cta": "Discuter de votre projet",
-      "responseTime": "Nous répondons dans un délai d'un jour ouvrable."
+      "responseTime": "Nous répondons dans un délai d'un jour ouvrable.",
+      "learnMore": "Découvrir notre façon de travailler avec vous"
     },
     "testimonials": {
       "eyebrow": "Témoignages clients",

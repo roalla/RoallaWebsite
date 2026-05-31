@@ -1,15 +1,24 @@
 import React from 'react'
 import Script from 'next/script'
+import type { Metadata } from 'next'
 import { getLocale, getTranslations } from 'next-intl/server'
 import Services from '@/components/Services'
 
-export const metadata = {
-  title: 'Business Enablement Services | ROALLA',
-  description:
-    'Executive consulting for strategic planning, process optimization, team development, data analytics, innovation, and digital transformation — with accountable implementation support.',
-  alternates: {
-    canonical: '/services',
-  },
+type Props = {
+  params: Promise<{ locale: string }>
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'brandJourney' })
+
+  return {
+    title: t('metadataServicesTitle'),
+    description: t('metadataServicesDescription'),
+    alternates: {
+      canonical: '/services',
+    },
+  }
 }
 
 export default async function ServicesPage() {

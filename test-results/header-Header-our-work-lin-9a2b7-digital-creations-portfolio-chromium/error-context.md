@@ -18,244 +18,380 @@
           - button "Services" [ref=e18] [cursor=pointer]:
             - text: Services
             - img [ref=e19]
-          - link "Our Work" [ref=e22] [cursor=pointer]:
+          - link "Our Digital Work" [ref=e22] [cursor=pointer]:
             - /url: /en/digital-creations
-            - text: Our Work
+            - text: Our Digital Work
         - generic [ref=e23]:
           - button "Select language" [ref=e25] [cursor=pointer]:
             - img [ref=e26]
             - generic [ref=e31]: EN
             - img [ref=e32]
-          - link "Schedule Consultation" [ref=e35] [cursor=pointer]:
-            - /url: /schedule
+          - link "Get in Touch" [ref=e35] [cursor=pointer]:
+            - /url: /en/schedule
             - img [ref=e36]
-            - text: Schedule Consultation
-  - main [ref=e38]:
-    - main [ref=e39]:
-      - generic [ref=e40]:
-        - generic [ref=e46]:
-          - generic [ref=e47]:
-            - heading "Strategic operational insight for measurable growth" [level=1] [ref=e48]
-            - paragraph [ref=e49]: Fractional COO and business consulting that delivers clarity, efficiency, and results. We work alongside you to implement change—not just recommend it.
-            - generic [ref=e50]:
-              - link "Schedule Consultation" [ref=e51] [cursor=pointer]:
-                - /url: /schedule
-                - img [ref=e52]
-                - text: Schedule Consultation
-              - link "Explore our services" [ref=e54] [cursor=pointer]:
+            - text: Get in Touch
+  - main [ref=e39]:
+    - generic [ref=e40]:
+      - generic [ref=e47]:
+        - generic [ref=e48]:
+          - generic [ref=e49]:
+            - heading "Business enablement—and digital that delivers." [level=1] [ref=e50]
+            - paragraph [ref=e51]: Strategy, operations, and growth consulting—with production-ready websites and custom platforms when your roadmap needs them. One team for measurable priorities and work you can launch.
+            - generic [ref=e52]:
+              - link "Get in touch" [ref=e53] [cursor=pointer]:
+                - /url: /en/schedule
+                - img [ref=e54]
+                - text: Get in touch
+              - link "Explore our services" [ref=e57] [cursor=pointer]:
                 - /url: /en/services
                 - text: Explore our services
-                - img [ref=e55]
-            - link "Or take our 5-min assessment" [ref=e58] [cursor=pointer]:
-              - /url: "#assessment"
-            - generic [ref=e59]:
-              - generic [ref=e60]:
-                - img [ref=e61]
-                - generic [ref=e64]: 30+
-                - generic [ref=e65]: years experience
-              - generic [ref=e66]:
-                - img [ref=e67]
-                - generic [ref=e69]: 100%
-                - generic [ref=e70]: client focused
-          - iframe [ref=e74]:
-            - generic [active] [ref=f1e1]:
-              - generic "YouTube Video Player" [ref=f1e3]
-              - generic [ref=f1e6]:
-                - generic:
-                  - generic:
-                    - button "Hide player controls" [ref=f1e7] [cursor=pointer]
-                    - generic [ref=f1e9]:
-                      - generic:
-                        - generic [ref=f1e14]:
-                          - generic [ref=f1e15]:
-                            - link "Roalla" [ref=f1e16] [cursor=pointer]:
-                              - /url: https://www.youtube.com/watch?v=daMDqDodumw
-                            - link "Roalla Business Enablement Group" [ref=f1e17] [cursor=pointer]:
-                              - /url: /channel/UCNXvN5okd5WT4w1DHLW9kcA
-                              - generic [ref=f1e18]: Roalla Business Enablement Group
-                          - generic [ref=f1e19]:
-                            - button [ref=f1e20] [cursor=pointer]
-                            - generic [ref=f1e22]:
-                              - generic: Roalla Business Enablement Group
-                              - generic: 2 subscribers
-                        - generic [ref=f1e23]:
-                          - generic:
-                            - generic:
-                              - button "Previous video":
-                                - generic:
-                                  - generic:
-                                    - generic:
-                                      - generic:
-                                        - img
-                            - button "Rewind 10 seconds"
-                            - generic:
-                              - button "Play video":
-                                - generic:
-                                  - generic:
-                                    - generic:
-                                      - img
-                            - button "Fast forward 10 seconds"
-                            - generic:
-                              - button "Next video" [disabled]:
-                                - generic:
-                                  - generic:
-                                    - generic:
-                                      - generic:
-                                        - img
-                      - generic [ref=f1e26]:
-                        - button "Copy link" [ref=f1e29] [cursor=pointer]:
-                          - generic [ref=f1e33]:
-                            - img
-                        - link "Watch on YouTube" [ref=f1e40] [cursor=pointer]:
-                          - /url: https://www.youtube.com/watch?v=daMDqDodumw
-                          - img [ref=f1e44]:
-                            - generic [ref=f1e46]:
-                              - img
-        - generic [ref=e77]:
-          - generic [ref=e78]:
-            - heading "What we do" [level=2] [ref=e79]
-            - paragraph [ref=e80]: Comprehensive business enablement—strategy, operations, and implementation—to drive growth and efficiency.
-          - generic [ref=e81]:
-            - generic [ref=e82]:
-              - img [ref=e84]
-              - generic [ref=e88]: Strategic Planning
-            - generic [ref=e89]:
-              - img [ref=e91]
-              - generic [ref=e94]: Process Optimization
-            - generic [ref=e95]:
-              - img [ref=e97]
-              - generic [ref=e102]: Team Development
-            - generic [ref=e103]:
-              - img [ref=e105]
-              - generic [ref=e107]: Data Analytics
-            - generic [ref=e108]:
-              - img [ref=e110]
-              - generic [ref=e112]: Innovation Consulting
-            - generic [ref=e113]:
-              - img [ref=e115]
-              - generic [ref=e117]: Digital Transformation
-          - generic [ref=e118]:
-            - link "Explore our services" [ref=e119] [cursor=pointer]:
+                - img [ref=e58]
+            - generic [ref=e60]: We respond within one business day.
+            - generic [ref=e61]:
+              - link "Explore Business Enablement" [ref=e62] [cursor=pointer]:
+                - /url: /en/services
+                - text: Explore Business Enablement
+                - img [ref=e63]
+              - link "See Digital Creations" [ref=e65] [cursor=pointer]:
+                - /url: /en/digital-creations
+                - text: See Digital Creations
+                - img [ref=e66]
+          - generic [ref=e68]:
+            - generic [ref=e69]:
+              - img [ref=e70]
+              - generic [ref=e73]: 30+
+              - generic [ref=e74]: years experience
+            - generic [ref=e75]:
+              - img [ref=e76]
+              - generic [ref=e79]: 500+
+              - generic [ref=e80]: engagements delivered
+            - generic [ref=e81]:
+              - img [ref=e82]
+              - generic [ref=e86]: 13+
+              - generic [ref=e87]: live sites & platforms
+        - generic [ref=e88]:
+          - generic [ref=e89]:
+            - paragraph [ref=e90]: Live digital work
+            - link "businesscocoon.com The Business Cocoon products catalog with guided workflows" [ref=e91] [cursor=pointer]:
+              - /url: https://www.businesscocoon.com/products
+              - generic [ref=e92]:
+                - generic [ref=e97]: businesscocoon.com
+                - img "The Business Cocoon products catalog with guided workflows" [ref=e99]
+            - paragraph [ref=e100]: Eight guided workflows that turn strategy questions into decision-ready briefs, scorecards, and exports—before major hires, tooling spend, or high-stakes conversations.
+          - generic [ref=e101]:
+            - generic [ref=e102]:
+              - img [ref=e104]
+              - generic [ref=e107]:
+                - heading "Business Enablement" [level=2] [ref=e108]
+                - paragraph [ref=e109]: Executive guidance with accountable implementation.
+            - list [ref=e110]:
+              - listitem [ref=e111]:
+                - img [ref=e112]
+                - text: 90-day strategic plans with measurable milestones
+              - listitem [ref=e115]:
+                - img [ref=e116]
+                - text: Reduced cycle time and smoother operating rhythms
+              - listitem [ref=e119]:
+                - img [ref=e120]
+                - text: Board-ready priorities, owners, and KPIs
+            - link "Explore Business Enablement" [ref=e123] [cursor=pointer]:
               - /url: /en/services
-              - text: Explore our services
-              - img [ref=e120]
-            - link "We also design and build websites and digital platforms" [ref=e122] [cursor=pointer]:
-              - /url: /en/services/digital
-              - text: We also design and build websites and digital platforms
-              - img [ref=e123]
+              - text: Explore Business Enablement
+              - img [ref=e124]
+      - generic [ref=e128]:
         - generic [ref=e129]:
-          - img [ref=e131]
-          - heading "Business Health Assessment" [level=2] [ref=e134]
-          - paragraph [ref=e135]: 5 questions · 5 minutes · Tailored report
-          - paragraph [ref=e136]: Take our 5-minute assessment to discover your business strengths and opportunities. Get a quick report with tailored next steps, then schedule a free consultation to discuss results.
-          - link "Take the 5-Minute Assessment" [ref=e137] [cursor=pointer]:
-            - /url: /en/assessment
-            - text: Take the 5-Minute Assessment
-            - img [ref=e138]
-        - generic [ref=e142]:
-          - generic [ref=e143]:
-            - heading "How we work" [level=2] [ref=e144]
-            - paragraph [ref=e145]: "A proven methodology: assess, plan, implement, improve."
-          - generic [ref=e148]:
-            - generic [ref=e149]:
-              - generic [ref=e150]:
-                - generic [ref=e151]: "1"
+          - paragraph [ref=e130]: Proof in both lanes
+          - heading "Results you can measure—and work you can see" [level=2] [ref=e131]
+          - paragraph [ref=e132]: The same team that shapes your strategy also ships the sites and platforms your roadmap calls for.
+        - generic [ref=e133]:
+          - generic [ref=e134]:
+            - generic [ref=e135]:
+              - img [ref=e137]
+              - generic [ref=e140]:
+                - heading "Business Enablement outcomes" [level=3] [ref=e141]
+                - paragraph [ref=e142]: Executive-level consulting with the discipline to implement—not just recommend.
+            - list [ref=e143]:
+              - listitem [ref=e144]:
+                - img [ref=e145]
+                - text: 90-day plans with aligned priorities and KPIs
+              - listitem [ref=e148]:
+                - img [ref=e149]
+                - text: Process improvements that reduce cycle time
+              - listitem [ref=e152]:
                 - img [ref=e153]
-              - generic [ref=e156]: Discovery & Assessment
-            - generic [ref=e157]:
-              - generic [ref=e158]:
-                - generic [ref=e159]: "2"
-                - img [ref=e161]
-              - generic [ref=e165]: Strategic Planning
-            - generic [ref=e166]:
-              - generic [ref=e167]:
-                - generic [ref=e168]: "3"
-                - img [ref=e170]
-              - generic [ref=e175]: Implementation & Support
-            - generic [ref=e176]:
-              - generic [ref=e177]:
-                - generic [ref=e178]: "4"
-                - img [ref=e180]
-              - generic [ref=e183]: Continuous Improvement
-          - link "Learn more about us" [ref=e185] [cursor=pointer]:
-            - /url: /en/about
-            - text: Learn more about us
-            - img [ref=e186]
-        - generic [ref=e191]:
-          - heading "Ready to transform your operations?" [level=2] [ref=e192]
-          - paragraph [ref=e193]: Schedule a free consultation or explore our services to get started.
-          - generic [ref=e194]:
-            - link "Schedule Consultation" [ref=e195] [cursor=pointer]:
-              - /url: /schedule
-            - link "Explore our services" [ref=e196] [cursor=pointer]:
+                - text: Implementation support—not recommendations alone
+            - link "Explore consulting services" [ref=e156] [cursor=pointer]:
               - /url: /en/services
-          - paragraph [ref=e197]:
-            - text: Not sure where to start?
-            - link "Take the business health assessment" [ref=e198] [cursor=pointer]:
-              - /url: "#assessment"
-            - text: above for a tailored report.
-        - generic [ref=e201]:
-          - paragraph [ref=e202]: Why choose Roalla
-          - generic [ref=e203]:
-            - generic [ref=e204]:
-              - img [ref=e206]
-              - generic [ref=e209]: Certified professionals
-            - generic [ref=e210]:
-              - img [ref=e212]
-              - generic [ref=e215]: Advanced education
-            - generic [ref=e216]:
-              - img [ref=e218]
-              - generic [ref=e221]: 30+ years experience
-            - generic [ref=e222]:
-              - img [ref=e224]
-              - generic [ref=e226]: Confidential & secure
-        - generic [ref=e230]:
-          - generic [ref=e231]:
-            - heading "Ready to get started?" [level=3] [ref=e232]
-            - paragraph [ref=e233]:
-              - text: Questions? See our
-              - link "FAQ" [ref=e234] [cursor=pointer]:
-                - /url: /en/faq
-              - text: or
-              - link "contact us" [ref=e235] [cursor=pointer]:
-                - /url: /en/contact
-          - link "Schedule Consultation" [ref=e236] [cursor=pointer]:
-            - /url: /schedule
-            - img [ref=e237]
-            - text: Schedule Consultation
-  - contentinfo [ref=e239]:
-    - generic [ref=e240]:
-      - generic [ref=e241]:
-        - generic [ref=e242]:
-          - paragraph [ref=e243]: ROALLA
-          - paragraph [ref=e244]: Empowering your business for a digital-first world.
-        - navigation "Footer links" [ref=e245]:
-          - link "Business Enablement" [ref=e246] [cursor=pointer]:
-            - /url: /en/services
-          - link "Websites & Digital" [ref=e247] [cursor=pointer]:
+              - text: Explore consulting services
+              - img [ref=e157]
+          - generic [ref=e159]:
+            - generic [ref=e160]:
+              - img [ref=e162]
+              - generic [ref=e165]:
+                - heading "Digital Creations" [level=3] [ref=e166]
+                - paragraph [ref=e167]: Production-ready websites and custom platforms—designed, built, and launched by Roalla.
+                - paragraph [ref=e168]: 13+ brand sites · 21+ custom platforms delivered
+            - generic [ref=e169]:
+              - link "businesscocoon.com The Business Cocoon products catalog with guided workflows The Business Cocoon Eight guided workflows that turn strategy questions into decision-ready briefs, scorecards, and exports—before major hires, tooling spend, or high-stakes conversations." [ref=e170] [cursor=pointer]:
+                - /url: https://www.businesscocoon.com/products
+                - generic [ref=e171]:
+                  - generic [ref=e176]: businesscocoon.com
+                  - img "The Business Cocoon products catalog with guided workflows" [ref=e178]
+                - generic [ref=e179]:
+                  - text: The Business Cocoon
+                  - img [ref=e180]
+                - generic [ref=e184]: Eight guided workflows that turn strategy questions into decision-ready briefs, scorecards, and exports—before major hires, tooling spend, or high-stakes conversations.
+              - link "soaringpuck.com Soaring Puck youth hockey platform dashboard Soaring Puck Youth hockey platform built by Roalla to make life easier for parents, coaches, and program staff while helping associations grow." [ref=e185] [cursor=pointer]:
+                - /url: https://www.soaringpuck.com
+                - generic [ref=e186]:
+                  - generic [ref=e191]: soaringpuck.com
+                  - img "Soaring Puck youth hockey platform dashboard" [ref=e193]
+                - generic [ref=e194]:
+                  - text: Soaring Puck
+                  - img [ref=e195]
+                - generic [ref=e199]: Youth hockey platform built by Roalla to make life easier for parents, coaches, and program staff while helping associations grow.
+              - link "keneffect.com Ken Effect home page hero — speaking, events, and leadership resources Ken Effect Brand and web presence for speaker Ken Busby—keynotes, workshops, events, media, and resources that bring the KenEnergy to schools, teams, and organizations." [ref=e200] [cursor=pointer]:
+                - /url: https://www.keneffect.com/
+                - generic [ref=e201]:
+                  - generic [ref=e206]: keneffect.com
+                  - img "Ken Effect home page hero — speaking, events, and leadership resources" [ref=e208]
+                - generic [ref=e209]:
+                  - text: Ken Effect
+                  - img [ref=e210]
+                - generic [ref=e214]: Brand and web presence for speaker Ken Busby—keynotes, workshops, events, media, and resources that bring the KenEnergy to schools, teams, and organizations.
+              - link "roalla.com R ROALLA Business enablement · consulting · digital builds ROALLA Our own business enablement site — bilingual consulting and digital builds, designed to convert interest into conversations." [ref=e215] [cursor=pointer]:
+                - /url: https://www.roalla.com
+                - generic [ref=e216]:
+                  - generic [ref=e221]: roalla.com
+                  - generic [ref=e223]:
+                    - generic [ref=e225]: R
+                    - paragraph [ref=e226]: ROALLA
+                    - paragraph [ref=e227]: Business enablement · consulting · digital builds
+                - generic [ref=e228]:
+                  - text: ROALLA
+                  - img [ref=e229]
+                - generic [ref=e233]: Our own business enablement site — bilingual consulting and digital builds, designed to convert interest into conversations.
+            - link "View full portfolio" [ref=e234] [cursor=pointer]:
+              - /url: /en/digital-creations
+              - text: View full portfolio
+              - img [ref=e235]
+      - generic [ref=e239]:
+        - generic [ref=e240]:
+          - generic [ref=e241]:
+            - paragraph [ref=e242]: How we build
+            - heading "From brief to shipped product" [level=2] [ref=e243]
+            - paragraph [ref=e244]: The same disciplined process behind these projects is what we use for client websites and platforms.
+          - link "Explore Digital Creations" [ref=e245] [cursor=pointer]:
             - /url: /en/services/digital
-          - link "Our Work" [ref=e248] [cursor=pointer]:
+            - text: Explore Digital Creations
+            - img [ref=e246]
+        - generic [ref=e248]:
+          - generic [ref=e249]:
+            - img [ref=e251]
+            - heading "Scope & design" [level=3] [ref=e257]
+            - paragraph [ref=e258]: Clear goals, audience, and conversion paths before a single component is built.
+          - generic [ref=e259]:
+            - img [ref=e261]
+            - heading "Build & iterate" [level=3] [ref=e265]
+            - paragraph [ref=e266]: Fast cycles with review checkpoints — you see progress, not surprises at launch.
+          - generic [ref=e267]:
+            - img [ref=e269]
+            - heading "Launch & support" [level=3] [ref=e274]
+            - paragraph [ref=e275]: Production deployment, handoff, and ongoing refinement as your needs evolve.
+        - generic [ref=e276]:
+          - link "Discuss your project" [ref=e277] [cursor=pointer]:
+            - /url: /en/schedule?intent=website
+          - paragraph [ref=e278]: We respond within one business day.
+      - generic [ref=e281]:
+        - generic [ref=e282]:
+          - paragraph [ref=e283]: Client feedback
+          - heading "What it's like to build with Roalla" [level=2] [ref=e284]
+          - paragraph [ref=e285]: Representative feedback from website and platform projects we've scoped, built, and launched.
+        - generic [ref=e286]:
+          - generic [ref=e287]:
+            - img [ref=e288]
+            - blockquote [ref=e291]: “Roalla delivered a site that finally ties together booking, events, and resources. We stopped losing inquiries because people couldn't find the right page.”
+            - generic [ref=e292]:
+              - paragraph [ref=e293]: Brand & speaking website
+              - paragraph [ref=e294]: Ken Effect
+          - generic [ref=e295]:
+            - img [ref=e296]
+            - blockquote [ref=e299]: “We needed one place for registration and team communication—not another spreadsheet. Roalla built something our volunteers actually use every week.”
+            - generic [ref=e300]:
+              - paragraph [ref=e301]: Custom platform
+              - paragraph [ref=e302]: Youth sports program
+        - link "See more live projects" [ref=e304] [cursor=pointer]:
+          - /url: /en/digital-creations
+      - generic [ref=e307]:
+        - generic [ref=e308]:
+          - heading "What we do" [level=2] [ref=e309]
+          - paragraph [ref=e310]: Two complementary ways to move your business forward—executive consulting and hands-on digital creation, from the same team.
+        - generic [ref=e311]:
+          - generic [ref=e312]:
+            - generic [ref=e313]:
+              - img [ref=e315]
+              - generic [ref=e318]:
+                - heading "Business Enablement" [level=3] [ref=e319]
+                - paragraph [ref=e320]: Strategy, operations, and growth consulting with disciplined implementation support.
+            - paragraph [ref=e321]: Consulting includes
+            - list [ref=e322]:
+              - listitem [ref=e323]:
+                - img [ref=e324]
+                - text: Strategic Planning
+              - listitem [ref=e328]:
+                - img [ref=e329]
+                - text: Process Optimization
+              - listitem [ref=e332]:
+                - img [ref=e333]
+                - text: Team Development
+              - listitem [ref=e338]:
+                - img [ref=e339]
+                - text: Data Analytics
+            - list [ref=e341]:
+              - listitem [ref=e342]: 90-day plans with aligned priorities and KPIs
+              - listitem [ref=e343]: Process improvements that reduce cycle time
+              - listitem [ref=e344]: Implementation support—not recommendations alone
+            - link "Explore consulting services" [ref=e345] [cursor=pointer]:
+              - /url: /en/services
+              - text: Explore consulting services
+              - img [ref=e346]
+          - generic [ref=e348]:
+            - generic [ref=e349]:
+              - img [ref=e351]
+              - generic [ref=e354]:
+                - heading "Digital Creations" [level=3] [ref=e355]
+                - paragraph [ref=e356]: Launch-ready websites and custom platforms—scoped, designed, and shipped by Roalla.
+            - paragraph [ref=e357]: We build
+            - list [ref=e358]:
+              - listitem [ref=e359]:
+                - img [ref=e360]
+                - text: Marketing & brand websites
+              - listitem [ref=e362]:
+                - img [ref=e363]
+                - text: Custom platforms & tools
+              - listitem [ref=e367]:
+                - img [ref=e368]
+                - text: Conversion-focused design
+            - generic [ref=e370]:
+              - link "Explore Digital Creations" [ref=e371] [cursor=pointer]:
+                - /url: /en/services/digital
+                - text: Explore Digital Creations
+                - img [ref=e372]
+              - link "See live examples" [ref=e374] [cursor=pointer]:
+                - /url: /en/digital-creations
+                - text: See live examples
+                - img [ref=e375]
+      - generic [ref=e379]:
+        - generic [ref=e380]:
+          - heading "How we work with you" [level=2] [ref=e381]
+          - paragraph [ref=e382]: A disciplined four-step model—whether you need consulting, a build, or both.
+          - paragraph [ref=e383]: Consulting engagements · Digital builds
+        - generic [ref=e386]:
+          - generic [ref=e387]:
+            - generic [ref=e388]: "1"
+            - paragraph [ref=e389]: Discovery call to align on goals, constraints, and urgency.
+          - generic [ref=e390]:
+            - generic [ref=e391]: "2"
+            - paragraph [ref=e392]: Diagnostic sprint to isolate highest-impact priorities.
+          - generic [ref=e393]:
+            - generic [ref=e394]: "3"
+            - paragraph [ref=e395]: Roadmap and plan with owners, milestones, and KPIs.
+          - generic [ref=e396]:
+            - generic [ref=e397]: "4"
+            - paragraph [ref=e398]: Implementation support with cadence reviews and course correction.
+        - link "Learn more about us" [ref=e400] [cursor=pointer]:
+          - /url: /en/about
+          - text: Learn more about us
+          - img [ref=e401]
+      - generic [ref=e405]:
+        - generic [ref=e406]:
+          - heading "Why teams work with Roalla" [level=2] [ref=e407]
+          - paragraph [ref=e408]: Executive-level consulting with the discipline to implement—not just recommend.
+        - generic [ref=e409]:
+          - generic [ref=e410]:
+            - heading "Operator mindset" [level=3] [ref=e411]
+            - paragraph [ref=e412]: Fractional COO experience applied to real operating constraints, not slide decks alone.
+          - generic [ref=e413]:
+            - heading "Board-ready clarity" [level=3] [ref=e414]
+            - paragraph [ref=e415]: Priorities, owners, and KPIs packaged for leadership decisions and follow-through.
+          - generic [ref=e416]:
+            - heading "Cross-functional fluency" [level=3] [ref=e417]
+            - paragraph [ref=e418]: Strategy, process, people, and data aligned in one engagement model.
+          - generic [ref=e419]:
+            - heading "Confidential by default" [level=3] [ref=e420]
+            - paragraph [ref=e421]: Sensitive context stays protected—discuss your needs before sharing details.
+      - generic [ref=e425]:
+        - heading "Ready to move forward?" [level=2] [ref=e426]
+        - paragraph [ref=e427]: Whether you need consulting, a new website, or a custom platform—we'll help you find the right starting point.
+        - generic [ref=e428]:
+          - link "Get in touch" [ref=e429] [cursor=pointer]:
+            - /url: /en/schedule
+          - paragraph [ref=e430]: We respond within one business day.
+          - generic [ref=e431]:
+            - link "Discuss your needs" [ref=e432] [cursor=pointer]:
+              - /url: /en/schedule?intent=consulting
+            - link "Discuss your project" [ref=e433] [cursor=pointer]:
+              - /url: /en/schedule?intent=website
+        - paragraph [ref=e434]:
+          - link "Take the 5-min assessment first" [ref=e435] [cursor=pointer]:
+            - /url: /en/assessment
+      - generic [ref=e440]:
+        - img [ref=e442]
+        - heading "Business Health Assessment" [level=2] [ref=e445]
+        - paragraph [ref=e446]: 5 questions · 5 minutes · Tailored report
+        - paragraph [ref=e447]: Take our 5-minute assessment to discover your business strengths and opportunities. Get a quick report with tailored next steps, then get in touch to discuss results.
+        - link "Take the 5-Minute Assessment" [ref=e448] [cursor=pointer]:
+          - /url: /en/assessment
+          - text: Take the 5-Minute Assessment
+          - img [ref=e449]
+      - paragraph [ref=e454]:
+        - text: Questions?
+        - link "FAQ" [ref=e455] [cursor=pointer]:
+          - /url: /en/faq
+        - text: or
+        - link "contact us" [ref=e456] [cursor=pointer]:
+          - /url: /en/contact
+        - text: ·
+        - link "submit a service inquiry" [ref=e457] [cursor=pointer]:
+          - /url: /en/schedule
+  - contentinfo [ref=e458]:
+    - generic [ref=e459]:
+      - generic [ref=e460]:
+        - generic [ref=e461]:
+          - paragraph [ref=e462]: ROALLA
+          - paragraph [ref=e463]: Empowering your business for a digital-first world.
+        - navigation "Footer links" [ref=e464]:
+          - link "Business Enablement" [ref=e465] [cursor=pointer]:
+            - /url: /en/services
+          - link "Digital Creations" [ref=e466] [cursor=pointer]:
+            - /url: /en/services/digital
+          - link "Our Digital Work" [ref=e467] [cursor=pointer]:
             - /url: /en/digital-creations
-          - link "FAQ" [ref=e249] [cursor=pointer]:
+          - link "Assessment" [ref=e468] [cursor=pointer]:
+            - /url: /en/assessment
+          - link "FAQ" [ref=e469] [cursor=pointer]:
             - /url: /en/faq
-          - link "Contact" [ref=e250] [cursor=pointer]:
+          - link "Contact" [ref=e470] [cursor=pointer]:
             - /url: /en/contact
-          - link "About" [ref=e251] [cursor=pointer]:
+          - link "About" [ref=e471] [cursor=pointer]:
             - /url: /en/about
-        - generic [ref=e252]:
-          - link "Email us" [ref=e253] [cursor=pointer]:
-            - /url: mailto:sales@roalla.com
-            - img [ref=e254]
-            - generic [ref=e257]: sales@roalla.com
-          - link "Call us" [ref=e258] [cursor=pointer]:
-            - /url: tel:289-838-5868
-            - img [ref=e259]
-            - generic [ref=e261]: 289-838-5868
-          - link "Roalla on LinkedIn" [ref=e262] [cursor=pointer]:
-            - /url: https://www.linkedin.com/company/102042431/
-            - img [ref=e263]
-          - link "Roalla on YouTube" [ref=e267] [cursor=pointer]:
-            - /url: https://www.youtube.com/@RoallaGroup
-            - img [ref=e268]
-      - paragraph [ref=e272]: © 2026 Roalla Business Enablement Group. All Rights Reserved.
+        - generic [ref=e472]:
+          - link "Get in Touch" [ref=e473] [cursor=pointer]:
+            - /url: /en/schedule
+          - generic [ref=e474]:
+            - link "Email us" [ref=e475] [cursor=pointer]:
+              - /url: mailto:sales@roalla.com
+              - img [ref=e476]
+              - generic [ref=e479]: sales@roalla.com
+            - link "Call us" [ref=e480] [cursor=pointer]:
+              - /url: tel:289-838-5868
+              - img [ref=e481]
+              - generic [ref=e483]: 289-838-5868
+            - link "Roalla on LinkedIn" [ref=e484] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/102042431/
+              - img [ref=e485]
+            - link "Roalla on YouTube" [ref=e489] [cursor=pointer]:
+              - /url: https://www.youtube.com/@RoallaGroup
+              - img [ref=e490]
+      - paragraph [ref=e494]: © 2026 Roalla Business Enablement Group. All Rights Reserved.
 ```

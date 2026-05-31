@@ -25,7 +25,7 @@ export default function HomeClosing() {
         </Reveal>
       </div>
     </section>
-    <StickyMobileCTA label={tHero('cta')} intent="website" />
+    <StickyMobileCTA label={tHero('cta')} />
     </>
   )
 }

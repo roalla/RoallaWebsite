@@ -171,27 +171,98 @@ export function ServiceLaneCompare({
 
 type ServiceAnchorNavProps = {
   label?: string
+  items?: { id: string; label: string }[]
+}
+
+type ServiceAnchorNavGroup = {
+  groupLabel?: string
   items: { id: string; label: string }[]
 }
 
-export function ServiceAnchorNav({ label, items }: ServiceAnchorNavProps) {
+type ServiceAnchorNavPropsExtended = ServiceAnchorNavProps & {
+  groups?: ServiceAnchorNavGroup[]
+}
+
+export function ServiceAnchorNav({ label, items, groups }: ServiceAnchorNavPropsExtended) {
+  const hasGroups = groups && groups.length > 0
+
   return (
-    <nav aria-label={label} className="mb-12 max-w-4xl mx-auto">
-      {label && (
-        <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-600 mb-3 text-center">{label}</p>
+    <nav aria-label={label} className="mb-12 max-w-4xl mx-auto space-y-6">
+      {hasGroups ? (
+        groups.map((group) => (
+          <div key={group.groupLabel ?? group.items[0]?.id}>
+            {group.groupLabel && (
+              <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-600 mb-3 text-center">
+                {group.groupLabel}
+              </p>
+            )}
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {group.items.map((item) => (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  className="rounded-md border border-slate-300 bg-white px-3.5 py-2 text-sm font-medium text-slate-800 hover:border-primary hover:bg-primary/5 hover:text-primary-dark transition-colors shadow-sm"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        ))
+      ) : (
+        <>
+          {label && (
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-600 mb-3 text-center">{label}</p>
+          )}
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            {(items ?? []).map((item) => (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                className="rounded-md border border-slate-300 bg-white px-3.5 py-2 text-sm font-medium text-slate-800 hover:border-primary hover:bg-primary/5 hover:text-primary-dark transition-colors shadow-sm"
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </>
       )}
-      <div className="flex flex-wrap items-center justify-center gap-2">
-        {items.map((item) => (
-          <a
-            key={item.id}
-            href={`#${item.id}`}
-            className="rounded-md border border-slate-300 bg-white px-3.5 py-2 text-sm font-medium text-slate-800 hover:border-primary hover:bg-primary/5 hover:text-primary-dark transition-colors shadow-sm"
-          >
-            {item.label}
-          </a>
-        ))}
-      </div>
     </nav>
+  )
+}
+
+export function PillarBadge({ label }: { label: string }) {
+  return (
+    <span className="inline-flex items-center rounded-full border border-primary/25 bg-primary/[0.08] px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-primary-dark">
+      {label}
+    </span>
+  )
+}
+
+export const pillarSectionClass = 'scroll-mt-28 mb-16 pt-4 border-t border-slate-200 first:border-t-0 first:pt-0'
+
+export function PillarSectionHeader({
+  pillarTitle,
+  intro,
+  startHere,
+  phaseRange,
+}: {
+  pillarTitle: string
+  intro: string
+  startHere?: string
+  phaseRange?: string
+}) {
+  return (
+    <div className="mb-8 max-w-3xl">
+      <div className="flex flex-wrap items-center gap-3 mb-3">
+        <h2 className="text-2xl md:text-3xl font-serif font-bold text-slate-900 tracking-tight">{pillarTitle}</h2>
+        {phaseRange && (
+          <span className="text-xs font-medium uppercase tracking-wide text-slate-500">{phaseRange}</span>
+        )}
+      </div>
+      <p className="text-slate-700 leading-relaxed text-sm md:text-base">{intro}</p>
+      {startHere && <p className="mt-2 text-sm font-medium text-primary-dark">{startHere}</p>}
+    </div>
   )
 }
 

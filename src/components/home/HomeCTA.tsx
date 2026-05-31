@@ -17,7 +17,6 @@ export default function HomeCTA() {
           <p className="mt-4 text-white/90">{t('subtitle')}</p>
           <div className="mt-8 flex flex-col items-center gap-3">
             <ScheduleButton
-              intent="website"
               variant="secondary"
               size="lg"
               className="bg-white text-primary-dark hover:bg-white/90 border-0 w-full sm:w-auto"

@@ -1,15 +1,24 @@
 import React from 'react'
 import Script from 'next/script'
+import type { Metadata } from 'next'
 import { getLocale, getTranslations } from 'next-intl/server'
 import DigitalBuilds from '@/components/DigitalBuilds'
 
-export const metadata = {
-  title: 'Digital Creations | ROALLA',
-  description:
-    'Digital Creations by Roalla — websites, brand presence, and custom platforms scoped, built, and implemented from marketing sites to purpose-built tools.',
-  alternates: {
-    canonical: '/services/digital',
-  },
+type Props = {
+  params: Promise<{ locale: string }>
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'brandJourney' })
+
+  return {
+    title: t('metadataDigitalTitle'),
+    description: t('metadataDigitalDescription'),
+    alternates: {
+      canonical: '/services/digital',
+    },
+  }
 }
 
 export default async function DigitalBuildsPage() {

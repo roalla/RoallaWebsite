@@ -83,11 +83,11 @@ export default function HomeHero() {
                 {t('subtitle')}
               </Reveal>
               <Reveal when="mount" delayMs={200} className="mt-8 flex flex-wrap items-center gap-3">
-                <ScheduleButton intent="website" variant="primary" size="lg" icon>
+                <ScheduleButton variant="primary" size="lg" icon>
                   {t('cta')}
                 </ScheduleButton>
                 <Link
-                  href="/digital-creations"
+                  href="/services"
                   className="inline-flex items-center font-semibold text-slate-800 hover:text-primary-dark transition-colors text-sm sm:text-base"
                 >
                   {t('orSeeWork')}
@@ -99,17 +99,17 @@ export default function HomeHero() {
               </Reveal>
               <Reveal when="mount" delayMs={280} className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm">
                 <Link
-                  href="/digital-creations"
+                  href="/services"
                   className="inline-flex items-center font-semibold text-primary-dark hover:underline"
                 >
-                  {t('exploreDigitalLink')}
+                  {t('exploreConsultingLink')}
                   <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
                 </Link>
                 <Link
-                  href="/services"
+                  href="/digital-creations"
                   className="inline-flex items-center font-semibold text-slate-600 hover:text-primary-dark hover:underline transition-colors"
                 >
-                  {t('exploreConsultingLink')}
+                  {t('exploreDigitalLink')}
                   <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
                 </Link>
               </Reveal>

@@ -3,6 +3,7 @@
 import React from 'react'
 import { Link } from '@/i18n/navigation'
 import { Send } from 'lucide-react'
+import type { ConsultationIntent } from '@/lib/consultation-request'
 
 interface ScheduleButtonProps {
   children: React.ReactNode
@@ -10,6 +11,7 @@ interface ScheduleButtonProps {
   variant?: 'primary' | 'secondary'
   size?: 'sm' | 'md' | 'lg'
   icon?: boolean
+  intent?: ConsultationIntent
 }
 
 const ScheduleButton: React.FC<ScheduleButtonProps> = ({
@@ -18,6 +20,7 @@ const ScheduleButton: React.FC<ScheduleButtonProps> = ({
   variant = 'primary',
   size = 'md',
   icon = false,
+  intent,
 }) => {
   const variants = {
     primary:
@@ -31,9 +34,13 @@ const ScheduleButton: React.FC<ScheduleButtonProps> = ({
     lg: 'py-4 px-8 text-lg',
   }
 
+  const href = intent
+    ? ({ pathname: '/schedule', query: { intent } } as const)
+    : '/schedule'
+
   return (
     <Link
-      href="/schedule"
+      href={href}
       className={`inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-300 hover:scale-[1.02] ${variants[variant]} ${sizes[size]} ${className}`}
     >
       {icon && <Send className="w-5 h-5 mr-2" aria-hidden />}

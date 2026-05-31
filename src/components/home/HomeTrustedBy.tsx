@@ -3,40 +3,41 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
-import { Award, GraduationCap, Briefcase, Shield } from 'lucide-react'
 
-const itemKeys = ['certified', 'education', 'experience', 'confidential'] as const
-const itemIcons = [Award, GraduationCap, Briefcase, Shield]
+const credKeys = ['cred1', 'cred2', 'cred3', 'cred4'] as const
 
 export default function HomeTrustedBy() {
   const t = useTranslations('home.trustedBy')
-  const items = itemKeys.map((key, i) => ({ icon: itemIcons[i], label: t(key) }))
+  const items = credKeys.map((key) => ({
+    title: t(`${key}Title`),
+    desc: t(`${key}Desc`),
+  }))
+
   return (
-    <section className="py-12 lg:py-16 bg-slate-50 relative">
+    <section className="py-12 lg:py-16 bg-white relative">
       <div className="section-divider" />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center text-sm font-medium text-slate-500 uppercase tracking-wider mb-8"
+          className="text-center max-w-2xl mx-auto mb-10"
         >
-          {t('title')}
-        </motion.p>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <h2 className="text-2xl md:text-3xl font-serif font-bold text-slate-900">{t('title')}</h2>
+          <p className="mt-3 text-slate-600">{t('description')}</p>
+        </motion.div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {items.map((item, i) => (
             <motion.div
-              key={item.label}
+              key={item.title}
               initial={{ opacity: 0, y: 8 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.06 }}
-              className="flex items-center gap-4"
+              className="rounded-xl border border-slate-200 bg-slate-50/80 p-5"
             >
-              <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <item.icon className="w-6 h-6 text-primary" />
-              </div>
-              <span className="text-slate-700 font-medium">{item.label}</span>
+              <h3 className="text-sm font-serif font-bold text-slate-900">{item.title}</h3>
+              <p className="mt-2 text-sm text-slate-600 leading-relaxed">{item.desc}</p>
             </motion.div>
           ))}
         </div>

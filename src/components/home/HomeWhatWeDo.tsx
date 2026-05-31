@@ -62,11 +62,18 @@ export default function HomeWhatWeDo() {
               </div>
             </div>
             <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">{t('consultingIncludes')}</p>
-            <ul className="grid grid-cols-2 gap-3 mb-8 flex-1">
+            <ul className="grid grid-cols-2 gap-3 mb-4 flex-1">
               {consultingItems.map((item) => (
                 <li key={item.label} className="flex items-center gap-2 text-sm text-slate-700">
                   <item.icon className="w-4 h-4 text-primary shrink-0" aria-hidden />
                   {item.label}
+                </li>
+              ))}
+            </ul>
+            <ul className="space-y-2 mb-8 border-t border-slate-100 pt-4">
+              {(['consultingOutcome1', 'consultingOutcome2', 'consultingOutcome3'] as const).map((key) => (
+                <li key={key} className="text-xs text-slate-600 leading-relaxed pl-3 border-l-2 border-primary/30">
+                  {t(key)}
                 </li>
               ))}
             </ul>
@@ -79,7 +86,7 @@ export default function HomeWhatWeDo() {
             </Link>
           </motion.div>
 
-          {/* Websites & Digital */}
+          {/* Digital Creations */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}

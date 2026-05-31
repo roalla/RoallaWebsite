@@ -14,10 +14,10 @@ export default function Home() {
         <HomeHero />
         <HomeWhatWeDo />
         <HomeOurWork />
-        <HomeAssessment />
         <HomeHowWeWork />
         <HomeTrustedBy />
         <HomeCTA />
+        <HomeAssessment />
         <HomeClosing />
     </div>
   )

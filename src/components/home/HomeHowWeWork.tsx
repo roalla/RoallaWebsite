@@ -4,14 +4,14 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
-import { Search, Target, Rocket, CheckCircle, ArrowRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 
-const stepKeys = ['discovery', 'planning', 'implementation', 'improvement'] as const
-const stepIcons = [Search, Target, Rocket, CheckCircle]
+const stepKeys = ['step1', 'step2', 'step3', 'step4'] as const
 
 export default function HomeHowWeWork() {
   const t = useTranslations('home.howWeWork')
-  const steps = stepKeys.map((key, i) => ({ icon: stepIcons[i], label: t(key), num: i + 1 }))
+  const steps = stepKeys.map((key, i) => ({ label: t(key), num: i + 1 }))
+
   return (
     <section className="py-16 lg:py-24 bg-slate-50 relative">
       <div className="section-divider" />
@@ -20,36 +20,36 @@ export default function HomeHowWeWork() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-12 max-w-2xl mx-auto"
         >
           <h2 className="text-3xl font-serif font-bold text-slate-900">{t('title')}</h2>
-          <p className="mt-3 text-slate-600 max-w-xl mx-auto">{t('description')}</p>
+          <p className="mt-3 text-slate-600">{t('description')}</p>
+          <p className="mt-2 text-sm text-slate-500">
+            {t('noteConsulting')} · {t('noteDigital')}
+          </p>
         </motion.div>
-        <div className="relative max-w-4xl mx-auto">
-          <div className="hidden lg:block absolute top-[3.5rem] left-0 right-0 h-0.5 bg-gradient-to-r from-primary/20 via-primary/50 to-primary/20" />
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <div className="relative max-w-5xl mx-auto">
+          <div className="hidden lg:block absolute top-8 left-[12.5%] right-[12.5%] h-0.5 bg-gradient-to-r from-primary/20 via-primary/50 to-primary/20" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((step, i) => (
               <motion.div
                 key={step.label}
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                className="flex flex-col items-center text-center relative"
+                transition={{ delay: i * 0.06 }}
+                className="relative flex flex-col rounded-xl border border-slate-200 bg-white p-5 shadow-card"
               >
-                <div className="relative mb-3 flex flex-col items-center">
-                  <span className="relative z-20 -mb-2 w-7 h-7 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center shrink-0">
-                    {step.num}
-                  </span>
-                  <div className="w-14 h-14 rounded-xl bg-white border border-slate-200 shadow-card flex items-center justify-center">
-                    <step.icon className="w-7 h-7 text-primary" />
-                  </div>
-                </div>
-                <span className="text-sm font-medium text-slate-700">{step.label}</span>
+                <span className="w-8 h-8 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center mb-3 shrink-0">
+                  {step.num}
+                </span>
+                <p className="text-sm text-slate-700 leading-relaxed">{step.label}</p>
               </motion.div>
             ))}
           </div>
         </div>
+
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}

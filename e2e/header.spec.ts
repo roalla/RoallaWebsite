@@ -14,9 +14,9 @@ test.describe('Header', () => {
     await page.goto('/')
     await page.getByRole('button', { name: 'Services', exact: true }).click()
     await expect(page.getByRole('menuitem', { name: 'Business Enablement' })).toBeVisible()
-    await page.getByRole('menuitem', { name: 'Websites & Digital' }).click()
+    await page.getByRole('menuitem', { name: 'Digital Creations' }).click()
     await expect(page).toHaveURL(/\/services\/digital/)
-    await expect(page.getByRole('heading', { name: 'Websites & Digital' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Digital Creations' })).toBeVisible()
   })
 
   test('our work link navigates to digital creations portfolio', async ({ page }) => {

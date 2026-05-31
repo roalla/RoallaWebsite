@@ -4,9 +4,9 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import DigitalBuilds from '@/components/DigitalBuilds'
 
 export const metadata = {
-  title: 'Websites & Digital | ROALLA',
+  title: 'Digital Creations | ROALLA',
   description:
-    'Website design, brand presence, and custom digital platforms built by Roalla — from marketing sites in 4–8 weeks to purpose-built tools. See live proof and request a build plan.',
+    'Digital Creations by Roalla — websites, brand presence, and custom platforms scoped, built, and implemented from marketing sites to purpose-built tools.',
   alternates: {
     canonical: '/services/digital',
   },

@@ -29,7 +29,6 @@ export const portfolioItems: PortfolioItemConfig[] = [
     contactService: 'websites-brand',
     i18nPrefix: 't3',
     tagKeys: ['t3Tag1', 't3Tag2', 't3Tag3'],
-    featured: true,
   },
   {
     id: 'roalla-site',
@@ -51,6 +50,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
     contactService: 'custom-platforms',
     i18nPrefix: 't4',
     tagKeys: ['t4Tag1', 't4Tag2', 't4Tag3'],
+    featured: true,
   },
   {
     id: 'soaring-puck',

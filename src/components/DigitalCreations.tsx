@@ -280,7 +280,7 @@ const DigitalCreations = () => {
       </nav>
 
       {/* Featured case study */}
-      {(filter === 'all' || filter === 'website') && (
+      {(filter === 'all' || filter === featured.category) && (
         <Reveal
           id={featured.id}
           className="mb-16 scroll-mt-28 rounded-2xl border border-primary/20 bg-gradient-to-br from-white via-slate-50 to-primary/5 overflow-hidden shadow-card"
@@ -288,7 +288,7 @@ const DigitalCreations = () => {
           <div className="grid lg:grid-cols-2 gap-0">
             <div className="p-8 lg:p-10 flex flex-col justify-center order-2 lg:order-1">
               <span className="inline-flex w-fit items-center rounded-full bg-primary/10 text-primary-dark text-xs font-semibold px-3 py-1 mb-4 border border-primary/20">
-                {t('featuredLabel')} · {t('categoryWebsite')}
+                {t('featuredLabel')} · {categoryLabel(t, featured)}
               </span>
               <h2 className="text-2xl md:text-3xl font-serif font-bold text-slate-900 mb-3">{featuredCopy.name}</h2>
               <TagPills tags={featuredTags} />
@@ -309,7 +309,7 @@ const DigitalCreations = () => {
                   rel="noopener noreferrer"
                   className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-semibold py-2.5 px-5 rounded-lg text-sm transition-colors"
                 >
-                  {t('viewSite')}
+                  {featured.category === 'website' ? t('viewSite') : t('tryTool')}
                   <ExternalLink className="w-4 h-4 ml-2" />
                 </a>
                 <Link

@@ -14,6 +14,11 @@ const consultingOutcomeKeys = ['consultingOutcome1', 'consultingOutcome2', 'cons
 
 const heroFeatured = portfolioItems.find((p) => p.id === 'business-cocoon')!
 
+/** Frosted panels — slight transparency with blur for readable contrast on dark hero video */
+const heroGlassPanel =
+  'bg-white/85 backdrop-blur-lg border border-white/70 shadow-[0_8px_40px_rgba(15,23,42,0.1)]'
+const heroGlassTile = 'bg-white/85 backdrop-blur-md border border-white/70 shadow-card'
+
 export default function HomeHero() {
   const t = useTranslations('home.hero')
   const reduceMotion = useReducedMotion()
@@ -24,37 +29,43 @@ export default function HomeHero() {
   ]
 
   return (
-    <section className="relative min-h-[85vh] flex items-center overflow-hidden pt-24 lg:pt-28 bg-slate-50">
-      {!reduceMotion && (
-        <div className="absolute inset-0 overflow-hidden" aria-hidden>
+    <section className="relative min-h-[85vh] flex items-center overflow-hidden pt-24 lg:pt-28 bg-slate-950">
+      <div className="absolute inset-0 overflow-hidden" aria-hidden>
+        {reduceMotion ? (
+          <div
+            className="absolute inset-0 bg-cover bg-center scale-105"
+            style={{ backgroundImage: 'url(/businesscocoon_image.jpg)' }}
+          />
+        ) : (
           <video
             autoPlay
             muted
             loop
             playsInline
             preload="metadata"
-            poster="/businesscocoontile.jpg"
-            className="absolute inset-0 h-full w-full object-cover scale-105 opacity-[0.52]"
+            poster="/businesscocoon_image.jpg"
+            className="absolute inset-0 h-full w-full object-cover scale-105"
           >
             <source src="/hero-loop.webm" type="video/webm" />
             <source src="/hero-loop.mp4" type="video/mp4" />
           </video>
-        </div>
-      )}
+        )}
+      </div>
 
+      {/* Left scrim only — keeps light cards readable; right side stays clear for black/teal video */}
       <div
-        className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/82 to-white/55 lg:to-white/40"
+        className="absolute inset-0 bg-gradient-to-r from-slate-950/55 from-0% via-slate-950/15 via-[42%] to-transparent to-[50%]"
         aria-hidden
       />
       <div
-        className="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-white/65"
+        className="absolute inset-0 bg-gradient-to-b from-slate-950/25 via-transparent to-slate-950/50"
         aria-hidden
       />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-12 lg:py-20">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
           <div>
-            <div className="rounded-2xl bg-white/90 backdrop-blur-md border border-white/80 shadow-[0_8px_40px_rgba(15,23,42,0.08)] p-6 sm:p-8 lg:p-10">
+            <div className={`rounded-2xl ${heroGlassPanel} p-6 sm:p-8 lg:p-10`}>
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -121,7 +132,7 @@ export default function HomeHero() {
               {stats.map((stat) => (
                 <div
                   key={stat.label}
-                  className="flex flex-col items-start gap-1 px-4 py-3 rounded-xl bg-white/95 backdrop-blur-sm border border-slate-200/90 shadow-card"
+                  className={`flex flex-col items-start gap-1 px-4 py-3 rounded-xl ${heroGlassTile}`}
                 >
                   <stat.icon className="w-4 h-4 text-primary-dark flex-shrink-0" aria-hidden />
                   <span className="text-lg font-serif font-semibold text-slate-900">{stat.value}</span>
@@ -138,7 +149,7 @@ export default function HomeHero() {
             className="space-y-4"
           >
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark mb-2">
+              <p className="text-xs font-semibold uppercase tracking-wider text-primary-light mb-2 drop-shadow-md">
                 {t('digitalProofLabel')}
               </p>
               <a
@@ -157,7 +168,7 @@ export default function HomeHero() {
               </a>
             </div>
 
-            <div className="rounded-2xl border border-slate-200/90 bg-white/95 backdrop-blur-sm p-5 sm:p-6 shadow-card">
+            <div className={`rounded-2xl ${heroGlassPanel} p-5 sm:p-6`}>
               <div className="flex items-start gap-3 mb-4">
                 <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                   <Briefcase className="w-5 h-5 text-primary" aria-hidden />

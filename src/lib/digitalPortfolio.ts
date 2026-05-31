@@ -45,7 +45,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
   {
     id: 'business-cocoon',
     category: 'platform',
-    imageUrl: '/businesscocoontile.jpg',
+    imageUrl: '/businesscocoon_image.jpg',
     tryUrl: 'https://www.businesscocoon.com/products',
     domain: 'businesscocoon.com',
     contactService: 'custom-platforms',

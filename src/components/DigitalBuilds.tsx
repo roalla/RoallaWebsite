@@ -46,6 +46,7 @@ import {
 } from '@/lib/brand-journey'
 import {
   ServicePageHero,
+  DigitalHeroVisual,
   ServiceLaneCompare,
   ServiceAnchorNav,
   ServiceSectionHeading,
@@ -55,6 +56,7 @@ import {
   pillarSectionClass,
   serviceCardClass,
   serviceSecondaryButtonClass,
+  serviceHeroSecondaryButtonClass,
   servicePrimaryLinkClass,
 } from './services/ServicePageSections'
 
@@ -339,14 +341,22 @@ const DigitalBuilds = () => {
         title={t('title')}
         subtitle={t('subtitle')}
         subtitleHighlight={t('subtitleHighlight')}
+        journeyLine={t('heroJourneyLine')}
         stats={stats}
+        visual={
+          <DigitalHeroVisual
+            proofLabel={t('heroProofLabel')}
+            websiteCaption={tPortfolio('t3Desc')}
+            platformCaption={tPortfolio('t4Desc')}
+          />
+        }
         primaryCta={
           <ScheduleButton variant="primary" size="lg" icon>
             {t('ctaButton')}
           </ScheduleButton>
         }
         secondaryCta={
-          <Link href="/digital-creations" className={serviceSecondaryButtonClass}>
+          <Link href="/digital-creations" className={serviceHeroSecondaryButtonClass}>
             {t('heroCtaPortfolio')}
             <ArrowRight className="ml-2 w-4 h-4" />
           </Link>

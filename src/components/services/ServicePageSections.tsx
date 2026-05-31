@@ -1,9 +1,11 @@
 'use client'
 
 import React from 'react'
-import { ArrowRight, type LucideIcon } from 'lucide-react'
+import { ArrowRight, Briefcase, CheckCircle2, type LucideIcon } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import Reveal from '../motion/Reveal'
+import BrowserFrame from '../digital/BrowserFrame'
+import { portfolioImageAlts, portfolioItems } from '@/lib/digitalPortfolio'
 
 export type ServiceStat = { value: string; label: string; icon?: LucideIcon }
 
@@ -12,10 +14,127 @@ type ServicePageHeroProps = {
   title: string
   subtitle: string
   subtitleHighlight?: string
+  journeyLine?: string
   primaryCta: React.ReactNode
   secondaryCta?: React.ReactNode
   stats: ServiceStat[]
+  statsNote?: string
   variant?: 'consulting' | 'digital'
+  visual?: React.ReactNode
+  className?: string
+}
+
+const heroGlassTile =
+  'rounded-xl border border-white/10 bg-white/[0.07] backdrop-blur-sm px-4 py-3'
+
+export function ConsultingHeroVisual({
+  proofTitle,
+  proofSubtitle,
+  outcomes,
+}: {
+  proofTitle: string
+  proofSubtitle: string
+  outcomes: string[]
+}) {
+  return (
+    <div className="rounded-2xl border border-white/15 bg-white/[0.08] backdrop-blur-md p-5 sm:p-6 shadow-[0_8px_40px_rgba(0,0,0,0.25)]">
+      <div className="flex items-start gap-3 mb-5">
+        <div className="w-10 h-10 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center shrink-0">
+          <Briefcase className="w-5 h-5 text-primary-light" aria-hidden />
+        </div>
+        <div>
+          <h2 className="text-base font-serif font-bold text-white">{proofTitle}</h2>
+          <p className="text-sm text-slate-300 mt-0.5">{proofSubtitle}</p>
+        </div>
+      </div>
+      <ul className="space-y-3">
+        {outcomes.map((outcome) => (
+          <li key={outcome} className="flex items-start gap-2.5 text-sm text-slate-200 leading-snug">
+            <CheckCircle2 className="w-4 h-4 text-primary-light shrink-0 mt-0.5" aria-hidden />
+            {outcome}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+export function DigitalHeroVisual({
+  proofLabel,
+  websiteCaption,
+  platformCaption,
+}: {
+  proofLabel: string
+  websiteCaption: string
+  platformCaption: string
+}) {
+  const website = portfolioItems.find((p) => p.id === 'ken-effect')!
+  const platform = portfolioItems.find((p) => p.id === 'business-cocoon')!
+
+  return (
+    <div className="space-y-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-light">{proofLabel}</p>
+      <div className="space-y-3">
+        <a
+          href={website.tryUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block group"
+        >
+          <BrowserFrame
+            imageUrl={website.imageUrl}
+            imageAlt={portfolioImageAlts['ken-effect']}
+            domain={website.domain}
+            priority
+            className="group-hover:shadow-card-hover transition-shadow duration-300"
+          />
+          <p className="mt-2 text-sm text-slate-300 line-clamp-2">{websiteCaption}</p>
+        </a>
+        <a
+          href={platform.tryUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block group lg:translate-x-6"
+        >
+          <BrowserFrame
+            imageUrl={platform.imageUrl}
+            imageAlt={portfolioImageAlts['business-cocoon']}
+            domain={platform.domain}
+            className="group-hover:shadow-card-hover transition-shadow duration-300"
+          />
+          <p className="mt-2 text-sm text-slate-300 line-clamp-2 lg:pl-6">{platformCaption}</p>
+        </a>
+      </div>
+    </div>
+  )
+}
+
+export function PortfolioHeroVisual({ proofLabel }: { proofLabel: string }) {
+  return (
+    <div className="space-y-3">
+      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-light">{proofLabel}</p>
+      <div className="grid grid-cols-2 gap-2.5">
+        {portfolioItems.map((item, i) => (
+          <a
+            key={item.id}
+            href={item.tryUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block group"
+          >
+            <BrowserFrame
+              imageUrl={item.imageUrl}
+              imageAlt={portfolioImageAlts[item.id]}
+              domain={item.domain}
+              brandPreview={item.brandPreview}
+              priority={i < 2}
+              className="group-hover:shadow-card-hover transition-shadow duration-300"
+            />
+          </a>
+        ))}
+      </div>
+    </div>
+  )
 }
 
 export function ServicePageHero({
@@ -23,64 +142,97 @@ export function ServicePageHero({
   title,
   subtitle,
   subtitleHighlight,
+  journeyLine,
   primaryCta,
   secondaryCta,
   stats,
+  statsNote,
   variant = 'consulting',
+  visual,
+  className = '',
 }: ServicePageHeroProps) {
   const subtitleParts = subtitleHighlight ? subtitle.split(subtitleHighlight) : [subtitle]
   const hasHighlight = subtitleHighlight && subtitleParts.length > 1
-  const accentGradient =
+  const statsGridClass = stats.length >= 4 ? 'grid-cols-2' : 'grid-cols-1 sm:grid-cols-3'
+  const bgClass =
     variant === 'digital'
-      ? 'bg-gradient-to-br from-slate-50 via-white to-primary/10'
-      : 'bg-gradient-to-br from-slate-50 via-white to-primary/[0.06]'
+      ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950'
+      : 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900'
 
   return (
     <Reveal
       as="header"
-      className={`relative overflow-hidden rounded-2xl border border-slate-300 ${accentGradient} px-6 py-10 lg:px-12 lg:py-14 mb-8 shadow-md`}
+      className={`relative overflow-hidden rounded-2xl border border-slate-700/80 ${bgClass} mb-8 shadow-xl ${className}`}
     >
-      <div className="pointer-events-none absolute -top-20 -right-16 h-64 w-64 rounded-full bg-primary/[0.08] blur-3xl" aria-hidden />
-      <div className="pointer-events-none absolute -bottom-24 -left-12 h-48 w-48 rounded-full bg-primary/[0.04] blur-3xl" aria-hidden />
+      <div className="pointer-events-none absolute -top-24 -right-20 h-72 w-72 rounded-full bg-primary/15 blur-3xl" aria-hidden />
+      <div className="pointer-events-none absolute -bottom-32 -left-16 h-56 w-56 rounded-full bg-primary/10 blur-3xl" aria-hidden />
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.06),transparent_55%)]"
+        aria-hidden
+      />
 
-      <div className="relative max-w-4xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-dark mb-4">{eyebrow}</p>
-        <h1 className="text-4xl md:text-5xl lg:text-[3.25rem] font-serif font-bold text-slate-900 leading-tight tracking-tight">
-          {title}
-        </h1>
-        <p className="mt-5 text-lg md:text-xl text-slate-700 leading-relaxed max-w-3xl">
-          {hasHighlight ? (
-            <>
-              {subtitleParts[0]}
-              <span className="text-slate-900 font-semibold">{subtitleHighlight}</span>
-              {subtitleParts[1]}
-            </>
-          ) : (
-            subtitle
+      <div className="relative grid lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-12 items-center px-6 py-10 lg:px-12 lg:py-14">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-light mb-4">{eyebrow}</p>
+          <h1 className="text-4xl md:text-5xl lg:text-[3.25rem] font-serif font-bold text-white leading-tight tracking-tight">
+            {title}
+          </h1>
+          <p className="mt-5 text-lg md:text-xl text-slate-300 leading-relaxed max-w-2xl">
+            {hasHighlight ? (
+              <>
+                {subtitleParts[0]}
+                <span className="text-white font-semibold">{subtitleHighlight}</span>
+                {subtitleParts[1]}
+              </>
+            ) : (
+              subtitle
+            )}
+          </p>
+          {journeyLine && (
+            <p className="mt-3 text-sm font-medium text-primary-light/90 max-w-2xl leading-relaxed">{journeyLine}</p>
           )}
-        </p>
-        <div className="mt-8 flex flex-wrap items-center gap-3">
-          {primaryCta}
-          {secondaryCta}
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            {primaryCta}
+            {secondaryCta}
+          </div>
+
+          <dl className={`mt-8 grid ${statsGridClass} gap-3`}>
+            {stats.map((stat, i) => {
+              const Icon = stat.icon
+              return (
+                <Reveal key={stat.label} delayMs={i * 50} className={heroGlassTile}>
+                  <div className="flex items-center gap-2.5">
+                    {Icon && <Icon className="w-4 h-4 text-primary-light shrink-0" aria-hidden />}
+                    <div>
+                      <dt className="text-xl md:text-2xl font-serif font-bold text-white tabular-nums leading-none">
+                        {stat.value}
+                      </dt>
+                      <dd className="mt-1 text-[11px] font-medium uppercase tracking-wider text-slate-400">
+                        {stat.label}
+                      </dd>
+                    </div>
+                  </div>
+                </Reveal>
+              )
+            })}
+          </dl>
+          {statsNote && (
+            <p className="mt-4 text-sm text-slate-400 leading-relaxed max-w-2xl">{statsNote}</p>
+          )}
         </div>
+
+        {visual && (
+          <Reveal delayMs={120} className="hidden lg:block">
+            {visual}
+          </Reveal>
+        )}
       </div>
 
-      <dl className="relative mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl">
-        {stats.map((stat, i) => {
-          const Icon = stat.icon
-          return (
-            <Reveal
-              key={stat.label}
-              delayMs={i * 50}
-              className="rounded-xl border border-slate-300 bg-white px-5 py-4 text-center shadow-sm"
-            >
-              {Icon && <Icon className="w-5 h-5 text-primary-dark mx-auto mb-2" aria-hidden />}
-              <dt className="text-2xl md:text-3xl font-serif font-bold text-slate-900 tabular-nums">{stat.value}</dt>
-              <dd className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-600">{stat.label}</dd>
-            </Reveal>
-          )
-        })}
-      </dl>
+      {visual && (
+        <Reveal delayMs={100} className="lg:hidden px-6 pb-10">
+          {visual}
+        </Reveal>
+      )}
     </Reveal>
   )
 }
@@ -354,6 +506,9 @@ export const serviceCardClass =
 
 export const serviceSecondaryButtonClass =
   'inline-flex items-center rounded-md border-2 border-slate-400 bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 hover:border-primary-dark hover:text-primary-dark transition-colors'
+
+export const serviceHeroSecondaryButtonClass =
+  'inline-flex items-center rounded-md border-2 border-white/25 bg-white/10 backdrop-blur-sm px-5 py-2.5 text-sm font-semibold text-white hover:border-white/40 hover:bg-white/15 transition-colors'
 
 export const servicePrimaryLinkClass =
   'inline-flex w-full items-center justify-center rounded-lg bg-primary-dark hover:bg-primary-darker text-white font-semibold py-2.5 px-4 text-sm transition-colors shadow-md hover:shadow-lg'

@@ -43,6 +43,7 @@ import {
 } from '@/lib/brand-journey'
 import {
   ServicePageHero,
+  ConsultingHeroVisual,
   ServiceLaneCompare,
   ServiceAnchorNav,
   ServiceSectionHeading,
@@ -52,6 +53,7 @@ import {
   pillarSectionClass,
   serviceCardClass,
   serviceSecondaryButtonClass,
+  serviceHeroSecondaryButtonClass,
   servicePrimaryLinkClass,
 } from './services/ServicePageSections'
 
@@ -263,14 +265,22 @@ const Services = () => {
         title={t('title')}
         subtitle={t('subtitle')}
         subtitleHighlight={t('subtitleHighlight')}
+        journeyLine={t('heroJourneyLine')}
         stats={stats}
+        visual={
+          <ConsultingHeroVisual
+            proofTitle={t('heroProofTitle')}
+            proofSubtitle={t('heroProofSubtitle')}
+            outcomes={[t('heroOutcome1'), t('heroOutcome2'), t('heroOutcome3')]}
+          />
+        }
         primaryCta={
           <ScheduleButton variant="primary" size="lg" icon>
             {t('ctaButton')}
           </ScheduleButton>
         }
         secondaryCta={
-          <Link href="/assessment" className={serviceSecondaryButtonClass}>
+          <Link href="/assessment" className={serviceHeroSecondaryButtonClass}>
             {t('heroCtaAssessment')}
             <ArrowRight className="ml-2 w-4 h-4" />
           </Link>

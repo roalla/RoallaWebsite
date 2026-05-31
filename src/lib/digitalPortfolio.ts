@@ -33,8 +33,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
   {
     id: 'roalla-site',
     category: 'website',
-    imageUrl: null,
-    brandPreview: true,
+    imageUrl: '/roalla-snapshot.jpg',
     tryUrl: 'https://www.roalla.com',
     domain: 'roalla.com',
     contactService: 'websites-brand',

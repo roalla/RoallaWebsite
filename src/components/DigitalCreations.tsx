@@ -20,6 +20,11 @@ import ScheduleButton from './ScheduleButton'
 import StickyMobileCTA from './StickyMobileCTA'
 import BrowserFrame from './digital/BrowserFrame'
 import {
+  ServicePageHero,
+  PortfolioHeroVisual,
+  serviceHeroSecondaryButtonClass,
+} from './services/ServicePageSections'
+import {
   portfolioItems,
   portfolioImageAlts,
   type PortfolioCategory,
@@ -201,45 +206,29 @@ const DigitalCreations = () => {
 
   return (
     <section id="digital-creations" className="section-padding relative">
-      {/* Hero band */}
-      <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 via-white to-primary/5 px-6 py-10 lg:px-12 lg:py-14 mb-14 shadow-card">
-        <div className="pointer-events-none absolute -top-20 -right-16 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-24 -left-12 h-48 w-48 rounded-full bg-primary/5 blur-3xl" />
-        <div className="relative max-w-4xl">
-          <p className="text-sm font-semibold uppercase tracking-wider text-primary mb-3">{t('portfolioTagline')}</p>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-extrabold text-slate-900 leading-tight">
-            {t('portfolioTitle')}
-          </h1>
-          <p className="mt-4 text-lg md:text-xl text-slate-600 leading-relaxed max-w-3xl">{t('portfolioSubtitle')}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <ScheduleButton variant="primary" size="sm" className="!py-2.5 !px-5">
-              {t('scheduleCall')}
-            </ScheduleButton>
-            <Link
-              href="/services/digital"
-              className="inline-flex items-center rounded-lg border border-slate-300 bg-white text-slate-800 font-semibold px-5 py-2.5 text-sm hover:border-primary/40 hover:text-primary transition-colors"
-            >
-              {t('exploreDigitalBuilds')}
-              <ArrowRight className="ml-2 w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-
-        <div className="relative mt-10 grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {stats.map((stat, i) => (
-            <Reveal
-              key={stat.label}
-              delayMs={i * 60}
-              className="rounded-xl border border-slate-200/80 bg-white/80 backdrop-blur-sm px-4 py-4 text-center"
-            >
-              <stat.icon className="w-5 h-5 text-primary mx-auto mb-2" aria-hidden />
-              <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
-              <p className="text-xs text-slate-500 mt-0.5">{stat.label}</p>
-            </Reveal>
-          ))}
-        </div>
-        <p className="relative mt-4 text-sm text-slate-500 text-center max-w-2xl mx-auto">{t('statsNote')}</p>
-      </div>
+      <ServicePageHero
+        variant="digital"
+        className="!mb-14"
+        eyebrow={t('portfolioTagline')}
+        title={t('portfolioTitle')}
+        subtitle={t('portfolioSubtitle')}
+        subtitleHighlight={t('portfolioSubtitleHighlight')}
+        journeyLine={t('heroJourneyLine')}
+        stats={stats}
+        statsNote={t('statsNote')}
+        visual={<PortfolioHeroVisual proofLabel={t('heroProofLabel')} />}
+        primaryCta={
+          <ScheduleButton variant="primary" size="lg" icon>
+            {t('scheduleCall')}
+          </ScheduleButton>
+        }
+        secondaryCta={
+          <Link href="/services/digital" className={serviceHeroSecondaryButtonClass}>
+            {t('exploreDigitalBuilds')}
+            <ArrowRight className="ml-2 w-4 h-4" />
+          </Link>
+        }
+      />
 
       {/* Intro + jump nav */}
       <Reveal className="max-w-4xl mb-10">

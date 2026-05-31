@@ -1,9 +1,9 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
 import { ArrowRight, type LucideIcon } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
+import Reveal from '../motion/Reveal'
 
 export type ServiceStat = { value: string; label: string; icon?: LucideIcon }
 
@@ -36,11 +36,8 @@ export function ServicePageHero({
       : 'bg-gradient-to-br from-slate-50 via-white to-primary/[0.06]'
 
   return (
-    <motion.header
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      viewport={{ once: true }}
+    <Reveal
+      as="header"
       className={`relative overflow-hidden rounded-2xl border border-slate-300 ${accentGradient} px-6 py-10 lg:px-12 lg:py-14 mb-8 shadow-md`}
     >
       <div className="pointer-events-none absolute -top-20 -right-16 h-64 w-64 rounded-full bg-primary/[0.08] blur-3xl" aria-hidden />
@@ -72,22 +69,19 @@ export function ServicePageHero({
         {stats.map((stat, i) => {
           const Icon = stat.icon
           return (
-            <motion.div
+            <Reveal
               key={stat.label}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
+              delayMs={i * 50}
               className="rounded-xl border border-slate-300 bg-white px-5 py-4 text-center shadow-sm"
             >
               {Icon && <Icon className="w-5 h-5 text-primary-dark mx-auto mb-2" aria-hidden />}
               <dt className="text-2xl md:text-3xl font-serif font-bold text-slate-900 tabular-nums">{stat.value}</dt>
               <dd className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-600">{stat.label}</dd>
-            </motion.div>
+            </Reveal>
           )
         })}
       </dl>
-    </motion.header>
+    </Reveal>
   )
 }
 
@@ -156,12 +150,7 @@ export function ServiceLaneCompare({
   )
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="max-w-4xl mx-auto mb-10 rounded-lg border border-slate-300 overflow-hidden grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-300 shadow-sm"
-    >
+    <Reveal className="max-w-4xl mx-auto mb-10 rounded-lg border border-slate-300 overflow-hidden grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-300 shadow-sm">
       {consultingActive ? (
         consultingCell
       ) : (
@@ -176,7 +165,7 @@ export function ServiceLaneCompare({
           {buildingCell}
         </Link>
       )}
-    </motion.div>
+    </Reveal>
   )
 }
 
@@ -250,12 +239,8 @@ export function ServicePageCTA({
   links,
 }: ServicePageCTAProps) {
   return (
-    <motion.aside
-      id="cta"
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      viewport={{ once: true }}
+    <Reveal
+      as="aside"
       className="mt-16 rounded-xl border border-slate-700 bg-slate-900 px-8 py-12 md:px-14 md:py-16 text-center shadow-xl"
     >
       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-light mb-4">{badge}</p>
@@ -289,7 +274,7 @@ export function ServicePageCTA({
           ))}
         </div>
       )}
-    </motion.aside>
+    </Reveal>
   )
 }
 

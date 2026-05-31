@@ -1,11 +1,12 @@
 'use client'
 
 import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 import { ChevronDown, HelpCircle } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import ScheduleButton from './ScheduleButton'
+import Reveal from './motion/Reveal'
+import Collapse from './motion/Collapse'
 
 const FAQ = () => {
   const t = useTranslations('faq')
@@ -24,13 +25,7 @@ const FAQ = () => {
   return (
     <section id="faq" className="section-padding bg-white py-20 lg:py-28">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
+        <Reveal className="text-center mb-16">
           <div className="flex items-center justify-center mb-4">
             <HelpCircle className="w-12 h-12 text-primary-dark mr-3" />
             <h2 className="text-4xl md:text-5xl font-serif font-extrabold text-slate-900">
@@ -40,63 +35,45 @@ const FAQ = () => {
           <p className="text-xl text-slate-600 max-w-3xl mx-auto mt-4">
             {t('subtitle')}
           </p>
-        </motion.div>
+        </Reveal>
 
         <div className="max-w-4xl mx-auto">
           <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-xl shadow-card border border-slate-200 overflow-hidden"
-              >
-                <button
-                  onClick={() => toggleFAQ(index)}
-                  className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-dark focus:ring-inset"
-                  aria-expanded={openIndex === index}
+            {faqs.map((faq, index) => {
+              const isOpen = openIndex === index
+              return (
+                <Reveal
+                  key={index}
+                  delayMs={index * 50}
+                  className="bg-white rounded-xl shadow-card border border-slate-200 overflow-hidden"
                 >
-                  <span className="text-lg font-semibold text-slate-900 pr-8">
-                    {faq.question}
-                  </span>
-                  <motion.div
-                    animate={{ rotate: openIndex === index ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="flex-shrink-0"
+                  <button
+                    type="button"
+                    onClick={() => toggleFAQ(index)}
+                    className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-slate-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-dark focus:ring-inset"
+                    aria-expanded={isOpen}
                   >
-                    <ChevronDown className="w-6 h-6 text-primary-dark" />
-                  </motion.div>
-                </button>
-                <AnimatePresence>
-                  {openIndex === index && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="px-6 pb-5 pt-0">
-                        <p className="text-slate-600 leading-relaxed">
-                          {faq.answer}
-                        </p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            ))}
+                    <span className="text-lg font-semibold text-slate-900 pr-8">
+                      {faq.question}
+                    </span>
+                    <ChevronDown
+                      className={`w-6 h-6 text-primary-dark shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                      aria-hidden
+                    />
+                  </button>
+                  <Collapse open={isOpen}>
+                    <div className="px-6 pb-5 pt-0">
+                      <p className="text-slate-600 leading-relaxed">
+                        {faq.answer}
+                      </p>
+                    </div>
+                  </Collapse>
+                </Reveal>
+              )
+            })}
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="mt-12 text-center space-y-4"
-          >
+          <Reveal delayMs={400} className="mt-12 text-center space-y-4">
             <p className="text-lg text-slate-600">
               {t('stillHaveQuestions')}
             </p>
@@ -112,7 +89,7 @@ const FAQ = () => {
                 <ChevronDown className="ml-2 w-5 h-5 rotate-[-90deg]" />
               </Link>
             </div>
-          </motion.div>
+          </Reveal>
         </div>
       </div>
     </section>

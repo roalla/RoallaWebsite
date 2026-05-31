@@ -16,6 +16,7 @@ export default function HomeOurWork() {
   const tWhatWeDo = useTranslations('home.whatWeDo')
   const tPortfolio = useTranslations('digitalCreations')
   const nameMap = { t1: 't1Name', t3: 't3Name', t4: 't4Name', t5: 't5Name' } as const
+  const descMap = { t1: 't1Desc', t3: 't3Desc', t4: 't4Desc', t5: 't5Desc' } as const
 
   const featured = featuredIds
     .map((id) => portfolioItems.find((p) => p.id === id))
@@ -23,6 +24,7 @@ export default function HomeOurWork() {
     .map((item) => ({
       id: item!.id,
       name: tPortfolio(nameMap[item!.i18nPrefix]),
+      outcome: tPortfolio(descMap[item!.i18nPrefix]),
       url: item!.tryUrl,
       imageUrl: item!.imageUrl,
       brandPreview: item!.brandPreview,
@@ -30,7 +32,7 @@ export default function HomeOurWork() {
     }))
 
   return (
-    <section className="py-14 lg:py-20 bg-white relative">
+    <section id="our-work" className="py-14 lg:py-20 bg-white relative scroll-mt-24">
       <div className="section-divider" />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <Reveal className="max-w-3xl mb-10">
@@ -101,6 +103,9 @@ export default function HomeOurWork() {
                   <span className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-slate-800 group-hover:text-primary-dark transition-colors">
                     {item.name}
                     <ExternalLink className="w-3 h-3 opacity-60" aria-hidden />
+                  </span>
+                  <span className="mt-0.5 text-xs text-slate-500 leading-snug line-clamp-2">
+                    {item.outcome}
                   </span>
                 </a>
               ))}

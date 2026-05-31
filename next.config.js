@@ -118,7 +118,7 @@ const nextConfig = {
   generateEtags: false,
   reactStrictMode: true,
   experimental: {
-    optimizePackageImports: ['lucide-react', 'framer-motion'],
+    optimizePackageImports: ['lucide-react'],
   },
 }
 

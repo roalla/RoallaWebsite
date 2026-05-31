@@ -1,9 +1,9 @@
 'use client'
 
 import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import Collapse from '../motion/Collapse'
 
 const faqKeys = ['faq1', 'faq2', 'faq3'] as const
 
@@ -27,23 +27,13 @@ export default function ServiceMiniFAQ({ namespace }: { namespace: 'services' | 
             >
               <span className="font-bold text-slate-900 text-sm">{t(`${key}Q` as `${typeof key}Q`)}</span>
               <ChevronDown
-                className={`w-5 h-5 text-primary-dark shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                className={`w-5 h-5 text-primary-dark shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
                 aria-hidden
               />
             </button>
-            <AnimatePresence initial={false}>
-              {isOpen && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.25 }}
-                  className="overflow-hidden"
-                >
-                  <p className="px-6 pb-4 text-sm text-slate-700 leading-relaxed border-l-4 border-primary ml-6">{t(`${key}A` as `${typeof key}A`)}</p>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <Collapse open={isOpen}>
+              <p className="px-6 pb-4 text-sm text-slate-700 leading-relaxed border-l-4 border-primary ml-6">{t(`${key}A` as `${typeof key}A`)}</p>
+            </Collapse>
           </div>
         )
       })}

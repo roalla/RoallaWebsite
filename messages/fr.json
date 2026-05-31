@@ -33,10 +33,10 @@
   },
   "home": {
     "hero": {
-      "title": "Donnez les moyens à votre entreprise.",
-      "titleHighlight": "Bâtissez ce dont vous avez besoin.",
-      "subtitle": "Accompagnement d'entreprise, créations numériques et transformations—cadrés, construits et mis en œuvre par Roalla.",
-      "cta": "Communiquer avec nous",
+      "title": "Nous concevons et livrons",
+      "titleHighlight": "des sites et plateformes qui fonctionnent.",
+      "subtitle": "Sites Web prêts pour la production et applications sur mesure—cadrés, développés et lancés par Roalla. Explorez le travail en ligne, puis parlez-nous du vôtre.",
+      "cta": "Discuter de votre projet",
       "exploreServices": "Découvrir nos services",
       "exploreConsulting": "Conseil d'entreprise",
       "exploreDigital": "Créations numériques",
@@ -47,7 +47,8 @@
       "stat2Label": "mandats livrés",
       "stat3Value": "13+",
       "stat3Label": "sites et plateformes en ligne",
-      "orAssessment": "Ou faites notre évaluation de 5 minutes",
+      "orSeeWork": "Voir nos réalisations en ligne",
+      "responseTime": "Nous répondons dans un délai d'un jour ouvrable.",
       "consultingProofTitle": "Accompagnement d'entreprise",
       "consultingProofSubtitle": "Conseil de direction avec mise en œuvre responsable.",
       "consultingOutcome1": "Plans stratégiques de 90 jours avec jalons mesurables",
@@ -107,6 +108,22 @@
       "step3": "Feuille de route et plan avec responsables, jalons et KPI.",
       "step4": "Soutien à la mise en œuvre avec revues de cadence et corrections de cap."
     },
+    "howWeBuild": {
+      "cta": "Discuter de votre projet",
+      "responseTime": "Nous répondons dans un délai d'un jour ouvrable."
+    },
+    "testimonials": {
+      "eyebrow": "Témoignages clients",
+      "title": "Ce que c'est de construire avec Roalla",
+      "description": "Retours représentatifs de projets de sites Web et de plateformes que nous avons cadrés, développés et lancés.",
+      "t1Quote": "Roalla a livré un site qui réunit enfin réservation, événements et ressources. Nous avons arrêté de perdre des demandes parce que les gens ne trouvaient pas la bonne page.",
+      "t1Role": "Site de marque et conférences",
+      "t1Project": "Ken Effect",
+      "t2Quote": "Nous avions besoin d'un seul endroit pour l'inscription et la communication d'équipe—pas un autre tableur. Roalla a construit quelque chose que nos bénévoles utilisent vraiment chaque semaine.",
+      "t2Role": "Plateforme sur mesure",
+      "t2Project": "Programme de sports jeunesse",
+      "viewPortfolio": "Voir plus de projets en ligne"
+    },
     "assessment": {
       "title": "Évaluation de la santé de l'entreprise",
       "description": "Répondez à notre évaluation de 5 minutes pour découvrir les forces et les opportunités de votre entreprise. Obtenez un rapport rapide avec des prochaines étapes personnalisées, puis communiquez avec nous pour en discuter.",
@@ -116,9 +133,10 @@
     "cta": {
       "title": "Prêt à avancer?",
       "subtitle": "Que vous ayez besoin de conseil, d'un nouveau site Web ou d'une plateforme sur mesure—nous vous aiderons à trouver le bon point de départ.",
-      "schedule": "Communiquer avec nous",
+      "schedule": "Discuter de votre projet",
       "discussNeeds": "Discuter de vos besoins",
       "discussBuild": "Discuter de votre projet",
+      "responseTime": "Nous répondons dans un délai d'un jour ouvrable.",
       "orAssessmentShort": "Faites d'abord l'évaluation de 5 minutes"
     },
     "closing": {

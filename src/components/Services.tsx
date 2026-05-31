@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
+import Reveal from './motion/Reveal'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import {
@@ -169,12 +169,10 @@ const Services = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
         {services.map((service, index) => (
-          <motion.article
+          <Reveal
+            as="article"
             key={service.title}
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, delay: index * 0.04 }}
-            viewport={{ once: true }}
+            delayMs={index * 40}
             id={service.anchor}
             className={serviceCardClass}
           >
@@ -221,16 +219,11 @@ const Services = () => {
                 </Link>
               </div>
             </div>
-          </motion.article>
+          </Reveal>
         ))}
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="mt-16 pt-12 border-t-2 border-slate-200"
-      >
+      <Reveal className="mt-16 pt-12 border-t-2 border-slate-200">
         <ServiceSectionHeading title={t('credibilityTitle')} description={t('credibilityDesc')} className="text-center mx-auto" />
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {credibilityItems.map((item) => (
@@ -243,14 +236,9 @@ const Services = () => {
             </div>
           ))}
         </div>
-      </motion.div>
+      </Reveal>
 
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="mt-16 pt-12 border-t-2 border-slate-200"
-      >
+      <Reveal className="mt-16 pt-12 border-t-2 border-slate-200">
         <ServiceSectionHeading title={t('engagementTitle')} description={t('engagementSubtitle')} />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {[t('step1'), t('step2'), t('step3'), t('step4')].map((step, idx) => {
@@ -268,14 +256,9 @@ const Services = () => {
             )
           })}
         </div>
-      </motion.div>
+      </Reveal>
 
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="mt-16 pt-12 border-t-2 border-slate-200 grid lg:grid-cols-2 gap-6"
-      >
+      <Reveal className="mt-16 pt-12 border-t-2 border-slate-200 grid lg:grid-cols-2 gap-6">
         <div className="rounded-lg border-2 border-primary/30 bg-primary/[0.04] p-6 lg:p-8">
           <h2 className="text-xl font-serif font-bold text-slate-900 mb-4">{t('fitTitle')}</h2>
           <ul className="space-y-3">
@@ -294,17 +277,12 @@ const Services = () => {
             <ArrowRight className="ml-1.5 w-4 h-4" />
           </Link>
         </div>
-      </motion.div>
+      </Reveal>
 
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="mt-16 pt-12 border-t-2 border-slate-200"
-      >
+      <Reveal className="mt-16 pt-12 border-t-2 border-slate-200">
         <ServiceSectionHeading title={t('faqTitle')} />
         <ServiceMiniFAQ namespace="services" />
-      </motion.div>
+      </Reveal>
 
       <ServicePageCTA
         badge={t('ctaBadge')}

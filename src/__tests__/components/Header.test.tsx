@@ -28,14 +28,6 @@ jest.mock('@/components/ScheduleButton', () => ({
   default: () => <a href="/schedule">Get in Touch</a>,
 }))
 
-jest.mock('framer-motion', () => ({
-  motion: {
-    div: ({ children, ...props }: { children: React.ReactNode }) => <div {...props}>{children}</div>,
-    a: ({ children, href, ...props }: { children: React.ReactNode; href: string }) => <a href={href} {...props}>{children}</a>,
-  },
-  AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-}))
-
 describe('Header', () => {
   it('renders skip link to main content', () => {
     render(<Header />)

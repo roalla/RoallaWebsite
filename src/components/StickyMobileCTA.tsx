@@ -2,13 +2,18 @@
 
 import React, { useEffect, useState } from 'react'
 import { Link } from '@/i18n/navigation'
+import type { ConsultationIntent } from '@/lib/consultation-request'
 
 type StickyMobileCTAProps = {
   label: string
   href?: '/schedule' | '/services' | '/services/digital' | '/digital-creations' | '/assessment'
+  intent?: ConsultationIntent
 }
 
-export default function StickyMobileCTA({ label, href = '/schedule' }: StickyMobileCTAProps) {
+export default function StickyMobileCTA({ label, href = '/schedule', intent }: StickyMobileCTAProps) {
+  const linkHref = intent
+    ? ({ pathname: '/schedule', query: { intent } } as const)
+    : href
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -27,7 +32,7 @@ export default function StickyMobileCTA({ label, href = '/schedule' }: StickyMob
       aria-label={label}
     >
       <Link
-        href={href}
+        href={linkHref}
         className="flex w-full items-center justify-center rounded-lg bg-primary-dark hover:bg-primary-darker text-white font-semibold py-3.5 px-6 text-sm shadow-md transition-colors"
       >
         {label}

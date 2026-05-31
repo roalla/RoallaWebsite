@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import Reveal from './motion/Reveal'
 import { CheckCircle, AlertCircle, TrendingUp, BarChart3, Send } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
@@ -183,31 +183,21 @@ const InteractiveAssessment = () => {
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-2xl shadow-card border border-slate-200 overflow-hidden">
             <div className="bg-slate-100 h-2">
-              <motion.div
-                className="bg-gradient-to-r from-primary to-primary-dark h-full"
-                initial={{ width: 0 }}
-                animate={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
-                transition={{ duration: 0.5 }}
+              <div
+                className="bg-gradient-to-r from-primary to-primary-dark h-full transition-[width] duration-500 ease-out"
+                style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
               />
             </div>
 
             <div className="p-8">
-              <AnimatePresence mode="wait">
                 {!isComplete ? (
-                  <motion.div
-                    key={currentQuestion}
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.3 }}
-                    className="text-center"
-                  >
+                  <div key={currentQuestion} className="animate-fade-in text-center">
                     {isLoading ? (
                       <div className="py-12">
-                        <motion.div
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                          className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"
+                        <div
+                          className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4 animate-spin"
+                          role="status"
+                          aria-label="Loading"
                         />
                         <p className="text-slate-500">Analyzing your results...</p>
                       </div>
@@ -223,36 +213,27 @@ const InteractiveAssessment = () => {
                         </div>
 
                         <div className="space-y-3">
-                          {questions[currentQuestion].options.map((option, index) => (
-                            <motion.button
+                          {questions[currentQuestion].options.map((option) => (
+                            <button
                               key={option.value}
+                              type="button"
                               onClick={() => handleAnswer(questions[currentQuestion].id, option.score)}
-                              className="w-full p-4 text-left bg-slate-50 hover:bg-primary/5 rounded-lg border border-slate-200 transition-all duration-200 hover:border-primary group"
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
+                              className="w-full p-4 text-left bg-slate-50 hover:bg-primary/5 rounded-lg border border-slate-200 transition-all duration-200 hover:border-primary group hover:scale-[1.02] active:scale-[0.98]"
                             >
                               <div className="flex items-center justify-between">
                                 <span className="text-slate-800 font-medium">
                                   {option.label}
                                 </span>
-                                <motion.div
-                                  className="w-6 h-6 border-2 border-slate-300 rounded-full group-hover:border-primary"
-                                  whileHover={{ scale: 1.1 }}
-                                />
+                                <div className="w-6 h-6 border-2 border-slate-300 rounded-full group-hover:border-primary group-hover:scale-110 transition-transform" />
                               </div>
-                            </motion.button>
+                            </button>
                           ))}
                         </div>
                       </>
                     )}
-                  </motion.div>
+                  </div>
                 ) : (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center"
-                  >
+                  <div className="animate-fade-in text-center">
                     <div className="mb-8">
                       <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary-dark rounded-full mx-auto mb-4 flex items-center justify-center">
                         <BarChart3 className="w-10 h-10 text-white" />
@@ -273,16 +254,16 @@ const InteractiveAssessment = () => {
                         </h4>
                         <ul className="space-y-2">
                           {result!.recommendations.map((rec, index) => (
-                            <motion.li
+                            <Reveal
+                              as="li"
                               key={index}
-                              initial={{ opacity: 0, x: -20 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ delay: index * 0.1 }}
+                              when="mount"
+                              delayMs={index * 100}
                               className="flex items-start"
                             >
                               <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
                               <span className="text-slate-600">{rec}</span>
-                            </motion.li>
+                            </Reveal>
                           ))}
                         </ul>
                       </div>
@@ -294,16 +275,16 @@ const InteractiveAssessment = () => {
                         </h4>
                         <ul className="space-y-2">
                           {result!.nextSteps.map((step, index) => (
-                            <motion.li
+                            <Reveal
+                              as="li"
                               key={index}
-                              initial={{ opacity: 0, x: -20 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ delay: index * 0.1 }}
+                              when="mount"
+                              delayMs={index * 100}
                               className="flex items-start"
                             >
                               <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
                               <span className="text-slate-600">{step}</span>
-                            </motion.li>
+                            </Reveal>
                           ))}
                         </ul>
                       </div>
@@ -324,9 +305,8 @@ const InteractiveAssessment = () => {
                         {t('takeAgain')}
                       </button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
-              </AnimatePresence>
             </div>
           </div>
         </div>

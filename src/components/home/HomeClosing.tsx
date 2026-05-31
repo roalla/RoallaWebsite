@@ -4,10 +4,13 @@ import React from 'react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import Reveal from '../motion/Reveal'
+import StickyMobileCTA from '../StickyMobileCTA'
 
 export default function HomeClosing() {
   const t = useTranslations('home.closing')
+  const tHero = useTranslations('home.hero')
   return (
+    <>
     <section className="py-10 lg:py-12 bg-slate-50 relative border-t border-slate-200">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <Reveal className="text-center max-w-2xl mx-auto">
@@ -22,5 +25,7 @@ export default function HomeClosing() {
         </Reveal>
       </div>
     </section>
+    <StickyMobileCTA label={tHero('cta')} intent="website" />
+    </>
   )
 }

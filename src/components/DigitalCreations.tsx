@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useMemo, useState } from 'react'
-import { motion } from 'framer-motion'
+import Reveal from './motion/Reveal'
 import { useTranslations } from 'next-intl'
 import {
   ExternalLink,
@@ -92,12 +92,10 @@ function PortfolioCard({
   const primaryCta = isWebsite ? t('viewSite') : t('tryTool')
 
   return (
-    <motion.article
+    <Reveal
+      as="article"
       id={item.id}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
-      viewport={{ once: true }}
+      delayMs={index * 80}
       className="group h-full scroll-mt-28"
     >
       <div className="h-full bg-white rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-300 border border-slate-200 hover:border-primary/35 overflow-hidden flex flex-col hover:-translate-y-1">
@@ -166,7 +164,7 @@ function PortfolioCard({
           </div>
         </div>
       </div>
-    </motion.article>
+    </Reveal>
   )
 }
 
@@ -229,30 +227,22 @@ const DigitalCreations = () => {
 
         <div className="relative mt-10 grid grid-cols-2 lg:grid-cols-4 gap-4">
           {stats.map((stat, i) => (
-            <motion.div
+            <Reveal
               key={stat.label}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.06 }}
+              delayMs={i * 60}
               className="rounded-xl border border-slate-200/80 bg-white/80 backdrop-blur-sm px-4 py-4 text-center"
             >
               <stat.icon className="w-5 h-5 text-primary mx-auto mb-2" aria-hidden />
               <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
               <p className="text-xs text-slate-500 mt-0.5">{stat.label}</p>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
         <p className="relative mt-4 text-sm text-slate-500 text-center max-w-2xl mx-auto">{t('statsNote')}</p>
       </div>
 
       {/* Intro + jump nav */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="max-w-4xl mb-10"
-      >
+      <Reveal className="max-w-4xl mb-10">
         <p className="text-slate-600 leading-relaxed mb-6">{t('intro1')}</p>
         <ul className="grid sm:grid-cols-3 gap-3 mb-8">
           {[t('introBullet1'), t('introBullet2'), t('introBullet3')].map((bullet) => (
@@ -269,7 +259,7 @@ const DigitalCreations = () => {
           </Link>{' '}
           {t('assessmentTieInSuffix')}
         </p>
-      </motion.div>
+      </Reveal>
 
       <nav aria-label={t('jumpNavLabel')} className="mb-14">
         <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">{t('jumpNavLabel')}</p>
@@ -291,11 +281,8 @@ const DigitalCreations = () => {
 
       {/* Featured case study */}
       {(filter === 'all' || filter === 'website') && (
-        <motion.div
+        <Reveal
           id={featured.id}
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
           className="mb-16 scroll-mt-28 rounded-2xl border border-primary/20 bg-gradient-to-br from-white via-slate-50 to-primary/5 overflow-hidden shadow-card"
         >
           <div className="grid lg:grid-cols-2 gap-0">
@@ -344,16 +331,11 @@ const DigitalCreations = () => {
               />
             </div>
           </div>
-        </motion.div>
+        </Reveal>
       )}
 
       {/* Build capability strip */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="mb-16 rounded-2xl border border-slate-200 bg-white p-6 lg:p-8"
-      >
+      <Reveal className="mb-16 rounded-2xl border border-slate-200 bg-white p-6 lg:p-8">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-8">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-2">{t('buildStripEyebrow')}</p>
@@ -379,7 +361,7 @@ const DigitalCreations = () => {
             )
           })}
         </div>
-      </motion.div>
+      </Reveal>
 
       {/* Filter + grid header */}
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
@@ -418,12 +400,7 @@ const DigitalCreations = () => {
       )}
 
       {/* Deliverables strip */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="mb-16 rounded-2xl border border-slate-200 bg-slate-50 p-6 lg:p-8"
-      >
+      <Reveal className="mb-16 rounded-2xl border border-slate-200 bg-slate-50 p-6 lg:p-8">
         <h2 className="text-xl font-serif font-bold text-slate-900 mb-2">{t('deliverablesTitle')}</h2>
         <p className="text-slate-600 text-sm mb-6 max-w-2xl">{t('deliverablesDesc')}</p>
         <ul className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -434,14 +411,11 @@ const DigitalCreations = () => {
             </li>
           ))}
         </ul>
-      </motion.div>
+      </Reveal>
 
       {/* CTA */}
-      <motion.div
+      <Reveal
         id="digital-cta"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
         className="bg-gradient-to-br from-primary via-primary-dark to-[#007a87] rounded-2xl p-10 md:p-16 text-center shadow-[0_25px_80px_rgba(0,180,197,0.25)] relative border border-primary/20 overflow-hidden"
       >
         <div className="pointer-events-none absolute -top-24 -right-16 w-72 h-72 rounded-full bg-white/20 blur-3xl" />
@@ -464,7 +438,7 @@ const DigitalCreations = () => {
             </Link>
           </div>
         </div>
-      </motion.div>
+      </Reveal>
       <StickyMobileCTA label={t('scheduleCall')} />
     </section>
   )

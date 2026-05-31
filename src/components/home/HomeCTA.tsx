@@ -17,12 +17,14 @@ export default function HomeCTA() {
           <p className="mt-4 text-white/90">{t('subtitle')}</p>
           <div className="mt-8 flex flex-col items-center gap-3">
             <ScheduleButton
+              intent="website"
               variant="secondary"
               size="lg"
               className="bg-white text-primary-dark hover:bg-white/90 border-0 w-full sm:w-auto"
             >
               {t('schedule')}
             </ScheduleButton>
+            <p className="text-sm text-white/80">{t('responseTime')}</p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
               <ScheduleButton
                 intent="consulting"

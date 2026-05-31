@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useMemo, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslations, useLocale } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import toast from 'react-hot-toast'
@@ -145,11 +144,7 @@ export default function ConsultationRequestForm({
 
   if (submitted) {
     return (
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="rounded-2xl border border-slate-200 bg-white p-8 lg:p-12 text-center shadow-card"
-      >
+      <div className="animate-fade-in rounded-2xl border border-slate-200 bg-white p-8 lg:p-12 text-center shadow-card">
         <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-primary-dark/10">
           <CheckCircle className="h-7 w-7 text-primary-dark" />
         </div>
@@ -165,7 +160,7 @@ export default function ConsultationRequestForm({
             {t('backHome')}
           </Link>
         </div>
-      </motion.div>
+      </div>
     )
   }
 
@@ -197,15 +192,8 @@ export default function ConsultationRequestForm({
           aria-hidden
         />
 
-        <AnimatePresence mode="wait">
-          {step === 1 && (
-            <motion.div
-              key="step1"
-              initial={{ opacity: 0, x: 12 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -12 }}
-              transition={{ duration: 0.2 }}
-            >
+        {step === 1 && (
+            <div key="step1" className="animate-fade-in">
               <h2 className="text-xl font-serif font-bold text-slate-900">{t('step1Title')}</h2>
               <p className="mt-2 text-sm text-slate-600">{t('step1Hint')}</p>
               <div className="mt-6 grid sm:grid-cols-2 gap-3">
@@ -240,18 +228,11 @@ export default function ConsultationRequestForm({
                   )
                 })}
               </div>
-            </motion.div>
+            </div>
           )}
 
           {step === 2 && (
-            <motion.div
-              key="step2"
-              initial={{ opacity: 0, x: 12 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -12 }}
-              transition={{ duration: 0.2 }}
-              className="space-y-5"
-            >
+            <div key="step2" className="animate-fade-in space-y-5">
               <h2 className="text-xl font-serif font-bold text-slate-900">{t('step2Title')}</h2>
 
               {form.intent === 'consulting' && (
@@ -358,18 +339,11 @@ export default function ConsultationRequestForm({
                   <option value="exploring">{t('timelineExploring')}</option>
                 </select>
               </Field>
-            </motion.div>
+            </div>
           )}
 
           {step === 3 && (
-            <motion.div
-              key="step3"
-              initial={{ opacity: 0, x: 12 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -12 }}
-              transition={{ duration: 0.2 }}
-              className="space-y-5"
-            >
+            <div key="step3" className="animate-fade-in space-y-5">
               <h2 className="text-xl font-serif font-bold text-slate-900">{t('step3Title')}</h2>
               <div className="grid sm:grid-cols-2 gap-5">
                 <Field label={t('nameLabel')} required>
@@ -412,9 +386,8 @@ export default function ConsultationRequestForm({
                 </Field>
               </div>
               <p className="text-xs text-slate-500">{t('privacyNote')}</p>
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
 
         <div className="mt-8 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3">
           {step > 1 ? (

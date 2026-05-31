@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
+import Reveal from './motion/Reveal'
 import { useTranslations, useLocale } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import Image from 'next/image'
@@ -196,12 +196,10 @@ const DigitalBuilds = () => {
         {builds.map((build, index) => {
           const proof = build.featuredProof
           return (
-            <motion.article
+            <Reveal
+              as="article"
               key={build.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: index * 0.06 }}
-              viewport={{ once: true }}
+              delayMs={index * 60}
               id={build.anchor}
               className={serviceCardClass}
             >
@@ -281,17 +279,12 @@ const DigitalBuilds = () => {
                   <ProofThumbnails category={build.proofCategory} locale={locale} />
                 </div>
               </div>
-            </motion.article>
+            </Reveal>
           )
         })}
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="mt-16 pt-12 border-t border-slate-200"
-      >
+      <Reveal className="mt-16 pt-12 border-t border-slate-200">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
           <ServiceSectionHeading
             eyebrow={t('proofEyebrow')}
@@ -345,14 +338,9 @@ const DigitalBuilds = () => {
             <ArrowRight className="inline w-4 h-4 ml-1" />
           </Link>
         </p>
-      </motion.div>
+      </Reveal>
 
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="mt-16 pt-12 border-t border-slate-200 grid lg:grid-cols-2 gap-6"
-      >
+      <Reveal className="mt-16 pt-12 border-t border-slate-200 grid lg:grid-cols-2 gap-6">
         <div className="rounded-lg border border-slate-200 bg-white p-6 lg:p-8">
           <h2 className="text-xl font-serif font-bold text-slate-900 mb-4">{t('fitTitle')}</h2>
           <ul className="space-y-3">
@@ -371,14 +359,9 @@ const DigitalBuilds = () => {
             <ArrowRight className="ml-1.5 w-4 h-4" />
           </Link>
         </div>
-      </motion.div>
+      </Reveal>
 
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="mt-16 pt-12 border-t border-slate-200"
-      >
+      <Reveal className="mt-16 pt-12 border-t border-slate-200">
         <ServiceSectionHeading title={t('credibilityTitle')} className="text-center mx-auto mb-8" />
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {credibilityItems.map((item) => (
@@ -391,14 +374,9 @@ const DigitalBuilds = () => {
             </div>
           ))}
         </div>
-      </motion.div>
+      </Reveal>
 
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="mt-16 pt-12 border-t border-slate-200"
-      >
+      <Reveal className="mt-16 pt-12 border-t border-slate-200">
         <ServiceSectionHeading title={t('buildTitle')} description={t('buildSubtitle')} />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {buildSteps.map((step, idx) => (
@@ -415,17 +393,12 @@ const DigitalBuilds = () => {
             </div>
           ))}
         </div>
-      </motion.div>
+      </Reveal>
 
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="mt-16 pt-12 border-t border-slate-200"
-      >
+      <Reveal className="mt-16 pt-12 border-t border-slate-200">
         <ServiceSectionHeading title={t('faqTitle')} />
         <ServiceMiniFAQ namespace="digitalBuilds" />
-      </motion.div>
+      </Reveal>
 
       <ServicePageCTA
         badge={t('ctaBadge')}

@@ -2,10 +2,9 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 
-type RevealProps = {
+type RevealProps = React.HTMLAttributes<HTMLElement> & {
   children: React.ReactNode
-  className?: string
-  as?: 'div' | 'section' | 'article' | 'h1' | 'p' | 'ul'
+  as?: 'div' | 'section' | 'article' | 'header' | 'aside' | 'h1' | 'p' | 'ul' | 'li'
   /** Delay before animation starts (ms) */
   delayMs?: number
   /** `mount` = animate on first paint (hero); `inView` = when scrolled into view */
@@ -18,6 +17,8 @@ export default function Reveal({
   as: Tag = 'div',
   delayMs = 0,
   when = 'inView',
+  style,
+  ...rest
 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
@@ -58,11 +59,14 @@ export default function Reveal({
   const Component = Tag as React.ElementType
   const motionClass = reduceMotion ? '' : visible ? 'reveal-visible' : 'reveal-hidden'
 
+  const delayStyle = delayMs > 0 && !reduceMotion ? { animationDelay: `${delayMs}ms` } : undefined
+
   return (
     <Component
       ref={ref}
       className={[motionClass, className].filter(Boolean).join(' ')}
-      style={delayMs > 0 && !reduceMotion ? { animationDelay: `${delayMs}ms` } : undefined}
+      style={{ ...style, ...delayStyle }}
+      {...rest}
     >
       {children}
     </Component>

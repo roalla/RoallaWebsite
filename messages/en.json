@@ -33,10 +33,10 @@
   },
   "home": {
     "hero": {
-      "title": "Enable your business.",
-      "titleHighlight": "Build what you need.",
-      "subtitle": "Business Enablement, Digital Creations & Transformations—scoped, built, and implemented by Roalla.",
-      "cta": "Get in Touch",
+      "title": "We design and ship",
+      "titleHighlight": "sites and platforms that work.",
+      "subtitle": "Production-ready websites and custom apps—scoped, built, and launched by Roalla. Explore the live work, then tell us about yours.",
+      "cta": "Discuss your build",
       "exploreServices": "Explore our services",
       "exploreConsulting": "Business consulting",
       "exploreDigital": "Digital Creations",
@@ -47,7 +47,8 @@
       "stat2Label": "engagements delivered",
       "stat3Value": "13+",
       "stat3Label": "live sites & platforms",
-      "orAssessment": "Or take our 5-min assessment",
+      "orSeeWork": "See our live work",
+      "responseTime": "We respond within one business day.",
       "consultingProofTitle": "Business Enablement",
       "consultingProofSubtitle": "Executive guidance with accountable implementation.",
       "consultingOutcome1": "90-day strategic plans with measurable milestones",
@@ -107,6 +108,22 @@
       "step3": "Roadmap and plan with owners, milestones, and KPIs.",
       "step4": "Implementation support with cadence reviews and course correction."
     },
+    "howWeBuild": {
+      "cta": "Discuss your build",
+      "responseTime": "We respond within one business day."
+    },
+    "testimonials": {
+      "eyebrow": "Client feedback",
+      "title": "What it's like to build with Roalla",
+      "description": "Representative feedback from website and platform projects we've scoped, built, and launched.",
+      "t1Quote": "Roalla delivered a site that finally ties together booking, events, and resources. We stopped losing inquiries because people couldn't find the right page.",
+      "t1Role": "Brand & speaking website",
+      "t1Project": "Ken Effect",
+      "t2Quote": "We needed one place for registration and team communication—not another spreadsheet. Roalla built something our volunteers actually use every week.",
+      "t2Role": "Custom platform",
+      "t2Project": "Youth sports program",
+      "viewPortfolio": "See more live projects"
+    },
     "assessment": {
       "title": "Business Health Assessment",
       "description": "Take our 5-minute assessment to discover your business strengths and opportunities. Get a quick report with tailored next steps, then get in touch to discuss results.",
@@ -116,9 +133,10 @@
     "cta": {
       "title": "Ready to move forward?",
       "subtitle": "Whether you need consulting, a new website, or a custom platform—we'll help you find the right starting point.",
-      "schedule": "Get in Touch",
-      "discussNeeds": "Discuss Your Needs",
-      "discussBuild": "Discuss Your Build",
+      "schedule": "Discuss your build",
+      "discussNeeds": "Discuss your needs",
+      "discussBuild": "Discuss your build",
+      "responseTime": "We respond within one business day.",
       "orAssessmentShort": "Take the 5-min assessment first"
     },
     "closing": {

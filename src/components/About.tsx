@@ -1,10 +1,10 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 import { CheckCircle, Award, Clock, Heart, Users } from 'lucide-react'
 import ScheduleButton from './ScheduleButton'
+import Reveal from './motion/Reveal'
 
 const valueIcons = [CheckCircle, Heart, Clock, Award] as const
 
@@ -20,20 +20,14 @@ const About = () => {
   return (
     <section id="about" className="section-padding bg-white py-20 lg:py-28">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
+        <Reveal className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-serif font-extrabold text-slate-900 mb-6">
             {t('title')}
           </h2>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
             {t('subtitle')}
           </p>
-        </motion.div>
+        </Reveal>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
           <div className="lg:pr-12">
@@ -58,12 +52,9 @@ const About = () => {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {values.map((value, index) => (
-            <motion.div
+            <Reveal
               key={value.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true }}
+              delayMs={index * 100}
               className="bg-white rounded-xl p-6 shadow-card border border-slate-200 hover:shadow-card-hover hover:border-primary/25 transition-all duration-300"
             >
               <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
@@ -71,7 +62,7 @@ const About = () => {
               </div>
               <h4 className="font-bold text-slate-900 mb-2 text-lg">{value.title}</h4>
               <p className="text-sm text-slate-500 leading-relaxed">{value.description}</p>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
 

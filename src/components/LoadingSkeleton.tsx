@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
 
 interface SkeletonProps {
   className?: string
@@ -11,16 +10,8 @@ interface SkeletonProps {
 
 const Skeleton: React.FC<SkeletonProps> = ({ className = '', height = 'h-4', width = 'w-full' }) => {
   return (
-    <motion.div
-      className={`bg-gray-200 dark:bg-gray-700 rounded ${height} ${width} ${className}`}
-      animate={{
-        opacity: [0.5, 1, 0.5],
-      }}
-      transition={{
-        duration: 1.5,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }}
+    <div
+      className={`bg-gray-200 dark:bg-gray-700 rounded animate-skeleton-pulse ${height} ${width} ${className}`}
     />
   )
 }
@@ -51,7 +42,7 @@ export const ServicesSkeleton = () => {
           <Skeleton height="h-10" width="w-48" className="mx-auto mb-4" />
           <Skeleton height="h-6" width="w-96" className="mx-auto" />
         </div>
-        
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {[...Array(6)].map((_, i) => (
             <div key={i} className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg">
@@ -100,7 +91,7 @@ export const ContactSkeleton = () => {
           <Skeleton height="h-10" width="w-48" className="mx-auto mb-4" />
           <Skeleton height="h-6" width="w-96" className="mx-auto" />
         </div>
-        
+
         <div className="grid lg:grid-cols-2 gap-12">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg">
             <div className="space-y-6">
@@ -125,7 +116,7 @@ export const ContactSkeleton = () => {
               <Skeleton height="h-12" width="w-full" />
             </div>
           </div>
-          
+
           <div className="space-y-8">
             <div className="space-y-4">
               <Skeleton height="h-8" width="w-48" />
@@ -179,4 +170,4 @@ export const TableSkeleton = () => {
   )
 }
 
-export default Skeleton 
+export default Skeleton

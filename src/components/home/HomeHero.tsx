@@ -27,7 +27,7 @@ export default function HomeHero() {
             loop
             playsInline
             preload="metadata"
-            className="absolute inset-0 h-full w-full object-cover scale-105 opacity-[0.28]"
+            className="absolute inset-0 h-full w-full object-cover scale-105 opacity-[0.52]"
           >
             <source src="/hero-loop.webm" type="video/webm" />
             <source src="/hero-loop.mp4" type="video/mp4" />
@@ -36,7 +36,7 @@ export default function HomeHero() {
       )}
 
       <div
-        className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/85 to-white/95"
+        className="absolute inset-0 bg-gradient-to-b from-white/72 via-white/62 to-white/78"
         aria-hidden
       />
       <div
@@ -96,7 +96,7 @@ export default function HomeHero() {
             {stats.map((stat) => (
               <div
                 key={stat.label}
-                className="flex flex-col items-start gap-1 px-4 py-3 rounded-xl bg-white/90 backdrop-blur-sm border border-slate-200/80 shadow-card"
+                className="flex flex-col items-start gap-1 px-4 py-3 rounded-xl bg-white/95 backdrop-blur-sm border border-slate-200/90 shadow-card"
               >
                 <stat.icon className="w-4 h-4 text-primary-dark flex-shrink-0" aria-hidden />
                 <span className="text-lg font-serif font-semibold text-slate-900">{stat.value}</span>

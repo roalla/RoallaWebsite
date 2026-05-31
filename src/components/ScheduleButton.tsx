@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Link } from '@/i18n/navigation'
-import { Send } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import type { ConsultationIntent } from '@/lib/consultation-request'
 
 interface ScheduleButtonProps {
@@ -12,6 +12,9 @@ interface ScheduleButtonProps {
   size?: 'sm' | 'md' | 'lg'
   icon?: boolean
   intent?: ConsultationIntent
+  sublabel?: string
+  sublabelClassName?: string
+  block?: boolean
 }
 
 const ScheduleButton: React.FC<ScheduleButtonProps> = ({
@@ -21,6 +24,9 @@ const ScheduleButton: React.FC<ScheduleButtonProps> = ({
   size = 'md',
   icon = false,
   intent,
+  sublabel,
+  sublabelClassName = '',
+  block = false,
 }) => {
   const variants = {
     primary:
@@ -38,14 +44,23 @@ const ScheduleButton: React.FC<ScheduleButtonProps> = ({
     ? ({ pathname: '/schedule', query: { intent } } as const)
     : '/schedule'
 
-  return (
+  const link = (
     <Link
       href={href}
-      className={`inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-300 hover:scale-[1.02] ${variants[variant]} ${sizes[size]} ${className}`}
+      className={`inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-300 hover:scale-[1.02] ${variants[variant]} ${sizes[size]} ${block ? 'w-full' : ''} ${className}`}
     >
-      {icon && <Send className="w-5 h-5 mr-2" aria-hidden />}
+      {icon && <ArrowRight className="w-5 h-5 mr-2" aria-hidden />}
       {children}
     </Link>
+  )
+
+  if (!sublabel) return link
+
+  return (
+    <div className={`inline-flex flex-col items-center gap-1.5 ${block ? 'w-full' : ''}`}>
+      {link}
+      <p className={`text-xs leading-snug text-center ${sublabelClassName}`}>{sublabel}</p>
+    </div>
   )
 }
 

@@ -19,38 +19,22 @@ export default function HomeCTA() {
             <ScheduleButton
               variant="secondary"
               size="lg"
-              className="bg-white text-primary-dark hover:bg-white/90 border-0 w-full sm:w-auto"
+              icon
+              block
+              className="bg-white text-primary-dark hover:bg-white/90 border-0 w-full sm:w-auto sm:min-w-[18rem]"
+              sublabel={t('responseTime')}
+              sublabelClassName="text-white/85"
             >
               {t('schedule')}
             </ScheduleButton>
-            <p className="text-sm text-white/80">{t('responseTime')}</p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
-              <ScheduleButton
-                intent="consulting"
-                variant="secondary"
-                size="md"
-                className="bg-transparent text-white border-white/80 hover:bg-white/10 w-full sm:w-auto"
-              >
-                {t('discussNeeds')}
-              </ScheduleButton>
-              <ScheduleButton
-                intent="website"
-                variant="secondary"
-                size="md"
-                className="bg-transparent text-white border-white/80 hover:bg-white/10 w-full sm:w-auto"
-              >
-                {t('discussBuild')}
-              </ScheduleButton>
-            </div>
-          </div>
-          <p className="mt-5">
+            <p className="text-sm text-white/80 max-w-md">{t('whatHappensNext')}</p>
             <Link
               href="/assessment"
               className="text-white/90 hover:text-white text-sm font-medium underline underline-offset-4 transition-colors"
             >
               {t('orAssessmentShort')}
             </Link>
-          </p>
+          </div>
         </Reveal>
       </div>
     </section>

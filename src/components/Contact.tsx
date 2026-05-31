@@ -8,6 +8,7 @@ import Reveal from './motion/Reveal'
 
 const Contact = () => {
   const t = useTranslations('contact')
+  const tCommon = useTranslations('common')
   return (
     <section id="contact" className="section-padding bg-white py-20 lg:py-28">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -55,9 +56,16 @@ const Contact = () => {
           </div>
 
           <Reveal delayMs={400} className="text-center">
-            <ScheduleButton variant="primary" size="lg" icon>
+            <ScheduleButton
+              variant="primary"
+              size="lg"
+              icon
+              sublabel={t('ctaSubtext')}
+              sublabelClassName="text-slate-500"
+            >
               {t('cta')}
             </ScheduleButton>
+            <p className="mt-4 text-sm text-slate-600 max-w-md mx-auto">{tCommon('ctaWhatHappensNext')}</p>
           </Reveal>
         </div>
       </div>

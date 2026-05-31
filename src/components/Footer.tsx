@@ -38,7 +38,13 @@ const Footer = () => {
             ))}
           </nav>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 flex-shrink-0">
-            <ScheduleButton variant="primary" size="sm" className="shadow-sm">
+            <ScheduleButton
+              variant="primary"
+              size="sm"
+              className="shadow-sm"
+              sublabel={tCommon('ctaSubtext')}
+              sublabelClassName="text-slate-500"
+            >
               {tCommon('scheduleConsultation')}
             </ScheduleButton>
             <div className="flex items-center gap-4 text-sm flex-wrap">

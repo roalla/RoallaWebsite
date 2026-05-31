@@ -23,6 +23,7 @@ import {
 import ScheduleButton from './ScheduleButton'
 import StickyMobileCTA from './StickyMobileCTA'
 import ServiceMiniFAQ from './services/ServiceMiniFAQ'
+import ServiceTestimonialBand from './services/ServiceTestimonialBand'
 import Breadcrumb from './Breadcrumb'
 import BrowserFrame from './digital/BrowserFrame'
 import BrandJourneyBand from './services/BrandJourneyBand'
@@ -279,6 +280,7 @@ const DigitalBuilds = () => {
   const tBrand = useTranslations('brandJourney')
   const tBc = useTranslations('breadcrumb')
   const tPortfolio = useTranslations('digitalCreations')
+  const tCommon = useTranslations('common')
   const locale = useLocale()
 
   const stats = [
@@ -361,6 +363,7 @@ const DigitalBuilds = () => {
             <ArrowRight className="ml-2 w-4 h-4" />
           </Link>
         }
+        ctaSubtext={tCommon('ctaSubtext')}
       />
 
       <Breadcrumb
@@ -548,13 +551,21 @@ const DigitalBuilds = () => {
           <ServiceMiniFAQ namespace="digitalBuilds" />
         </Reveal>
 
+        <Reveal className="mt-8 rounded-lg border border-slate-200 bg-slate-50 px-6 py-5">
+          <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark mb-2">{t('typicalEngagementTitle')}</p>
+          <p className="text-sm text-slate-700 leading-relaxed">{t('typicalEngagementDesc')}</p>
+        </Reveal>
+
+        <ServiceTestimonialBand />
+
         <ServicePageCTA
           badge={t('ctaBadge')}
           title={t('ctaTitle')}
           subtitle={t('ctaSubtitle')}
           qualifier={t('ctaQualifier')}
+          ctaSubtext={tCommon('ctaSubtext')}
           primaryCta={
-            <ScheduleButton variant="secondary" size="lg" className="bg-white text-slate-900 hover:bg-slate-100 border-0">
+            <ScheduleButton variant="secondary" size="lg" icon className="bg-white text-slate-900 hover:bg-slate-100 border-0">
               {t('ctaButton')}
             </ScheduleButton>
           }
@@ -570,7 +581,7 @@ const DigitalBuilds = () => {
           links={[{ href: '/services', label: t('crossLinkConsulting') }]}
         />
       </div>
-      <StickyMobileCTA label={t('ctaButton')} />
+      <StickyMobileCTA label={t('ctaButton')} sublabel={tCommon('ctaSubtext')} />
     </section>
   )
 }

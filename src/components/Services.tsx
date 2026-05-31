@@ -25,6 +25,7 @@ import {
 import ScheduleButton from './ScheduleButton'
 import StickyMobileCTA from './StickyMobileCTA'
 import ServiceMiniFAQ from './services/ServiceMiniFAQ'
+import ServiceTestimonialBand from './services/ServiceTestimonialBand'
 import Breadcrumb from './Breadcrumb'
 import BrandJourneyBand from './services/BrandJourneyBand'
 import type { ConsultingFocus } from '@/lib/consultation-request'
@@ -53,7 +54,6 @@ import {
   pillarSectionClass,
   serviceCardClass,
   serviceSecondaryButtonClass,
-  serviceHeroSecondaryButtonClass,
   servicePrimaryLinkClass,
 } from './services/ServicePageSections'
 
@@ -155,6 +155,7 @@ const Services = () => {
   const t = useTranslations('services')
   const tBrand = useTranslations('brandJourney')
   const tBc = useTranslations('breadcrumb')
+  const tCommon = useTranslations('common')
 
   const services: ConsultingService[] = [
     {
@@ -272,6 +273,7 @@ const Services = () => {
             proofTitle={t('heroProofTitle')}
             proofSubtitle={t('heroProofSubtitle')}
             outcomes={[t('heroOutcome1'), t('heroOutcome2'), t('heroOutcome3')]}
+            caseLines={[t('heroCase1'), t('heroCase2')]}
           />
         }
         primaryCta={
@@ -279,12 +281,8 @@ const Services = () => {
             {t('ctaButton')}
           </ScheduleButton>
         }
-        secondaryCta={
-          <Link href="/assessment" className={serviceHeroSecondaryButtonClass}>
-            {t('heroCtaAssessment')}
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Link>
-        }
+        ctaSubtext={tCommon('ctaSubtext')}
+        tertiaryLink={{ href: '/assessment', label: t('heroCtaAssessment') }}
       />
 
       <Breadcrumb items={[{ label: tBc('home'), href: '/' }, { label: tBc('services') }]} />
@@ -414,23 +412,30 @@ const Services = () => {
           <ServiceMiniFAQ namespace="services" />
         </Reveal>
 
+        <Reveal className="mt-8 rounded-lg border border-slate-200 bg-slate-50 px-6 py-5">
+          <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark mb-2">{t('typicalEngagementTitle')}</p>
+          <p className="text-sm text-slate-700 leading-relaxed">{t('typicalEngagementDesc')}</p>
+        </Reveal>
+
+        <ServiceTestimonialBand />
+
         <ServicePageCTA
           badge={t('ctaBadge')}
           title={t('ctaTitle')}
           subtitle={t('ctaSubtitle')}
           qualifier={t('ctaQualifier')}
+          ctaSubtext={tCommon('ctaSubtext')}
           primaryCta={
-            <ScheduleButton variant="secondary" size="lg" className="bg-white text-slate-900 hover:bg-slate-100 border-0">
+            <ScheduleButton variant="secondary" size="lg" icon className="bg-white text-slate-900 hover:bg-slate-100 border-0">
               {t('ctaButton')}
             </ScheduleButton>
           }
           secondaryCta={
             <Link
               href="/assessment"
-              className="inline-flex items-center justify-center rounded-md border border-slate-600 px-6 py-3 text-sm font-medium text-white hover:bg-slate-800 transition-colors"
+              className="inline-flex items-center justify-center text-sm font-medium text-slate-300 hover:text-white underline underline-offset-4 transition-colors"
             >
-              {t('heroCtaAssessment')}
-              <ArrowRight className="w-4 h-4 ml-2" />
+              {t('ctaAssessment')}
             </Link>
           }
           confidentiality={{ href: '/contact', label: t('confidentialityLink') }}
@@ -440,7 +445,7 @@ const Services = () => {
           ]}
         />
       </div>
-      <StickyMobileCTA label={t('ctaButton')} />
+      <StickyMobileCTA label={t('ctaButton')} sublabel={tCommon('ctaSubtext')} />
     </section>
   )
 }

@@ -4,12 +4,14 @@ import React from 'react'
 import { Quote } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
+import ScheduleButton from '../ScheduleButton'
 import Reveal from '../motion/Reveal'
 
 const testimonialKeys = ['t1', 't2'] as const
 
 export default function HomeTestimonials() {
   const t = useTranslations('home.testimonials')
+  const tCommon = useTranslations('common')
 
   return (
     <section className="py-14 lg:py-20 bg-white relative">
@@ -39,7 +41,16 @@ export default function HomeTestimonials() {
           ))}
         </div>
 
-        <Reveal className="text-center mt-8">
+        <Reveal className="text-center mt-10 flex flex-col items-center gap-4">
+          <ScheduleButton
+            variant="primary"
+            size="md"
+            icon
+            sublabel={tCommon('ctaSubtext')}
+            sublabelClassName="text-slate-500"
+          >
+            {t('discussProject')}
+          </ScheduleButton>
           <Link href="/digital-creations" className="inline-flex items-center link-action hover:underline text-sm font-semibold">
             {t('viewPortfolio')}
           </Link>

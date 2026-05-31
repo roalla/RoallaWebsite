@@ -77,6 +77,7 @@ export default function ConsultationRequestForm({
   const locale = useLocale()
   const startAtStep2 = initialIntent && (initialIntent !== 'consulting' || !!initialFocus)
   const [step, setStep] = useState(startAtStep2 ? 2 : initialIntent ? 2 : 1)
+  const [quickMode, setQuickMode] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [form, setForm] = useState<FormState>({
@@ -89,21 +90,29 @@ export default function ConsultationRequestForm({
 
   const canContinueStep1 = !!form.intent
   const canContinueStep2 = useMemo(() => {
-    if (!form.goal.trim() || form.goal.trim().length < 10 || !form.timeline) return false
+    if (!form.goal.trim() || form.goal.trim().length < 5 || !form.timeline) return false
     if (form.intent === 'consulting') return !!form.consultingFocus
     if (form.intent === 'website') return !!form.websiteGoal && !!form.hasExistingSite
     if (form.intent === 'platform') return !!form.platformType
     return true
   }, [form])
 
+  const canSubmitQuick =
+    !!form.name.trim() &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()) &&
+    form.goal.trim().length >= 5
+
   const canSubmit =
     !!form.name.trim() &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()) &&
-    canContinueStep2
+    (quickMode ? canSubmitQuick : canContinueStep2)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!canSubmit || !form.intent) return
+    if (!canSubmit) return
+
+    const submitIntent: ConsultationIntent = quickMode ? 'unsure' : (form.intent as ConsultationIntent)
+    if (!quickMode && !form.intent) return
 
     setSubmitting(true)
     try {
@@ -111,9 +120,9 @@ export default function ConsultationRequestForm({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          intent: form.intent,
+          intent: submitIntent,
           goal: form.goal,
-          timeline: form.timeline,
+          timeline: quickMode ? 'exploring' : form.timeline,
           consultingFocus: form.consultingFocus || undefined,
           websiteGoal: form.websiteGoal || undefined,
           hasExistingSite: form.hasExistingSite || undefined,
@@ -152,6 +161,12 @@ export default function ConsultationRequestForm({
         <p className="mt-3 text-slate-600 max-w-md mx-auto">{t('successMessage')}</p>
         <p className="mt-4 text-sm text-slate-500 max-w-md mx-auto">{t('successPhone')}</p>
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href="tel:+12898385868"
+            className="inline-flex items-center justify-center rounded-lg bg-primary-dark hover:bg-primary-darker text-white font-semibold px-6 py-3 text-sm shadow-md transition-colors"
+          >
+            {t('successCallCta')}
+          </a>
           <Link href="/services" className="link-action font-semibold">
             {t('successExplore')}
             <ArrowRight className="ml-2 h-4 w-4 inline" />
@@ -167,17 +182,21 @@ export default function ConsultationRequestForm({
   return (
     <div className="rounded-2xl border border-slate-200 bg-white shadow-card overflow-hidden">
       <div className="border-b border-slate-200 bg-slate-50 px-6 py-4">
-        <p className="text-sm font-medium text-slate-500">
-          {t('stepLabel', { current: step, total: 3 })}
-        </p>
-        <div className="mt-3 flex gap-2">
-          {[1, 2, 3].map((n) => (
-            <div
-              key={n}
-              className={`h-1.5 flex-1 rounded-full transition-colors ${n <= step ? 'bg-primary-dark' : 'bg-slate-200'}`}
-            />
-          ))}
-        </div>
+        {!quickMode && (
+          <>
+            <p className="text-sm font-medium text-slate-500">
+              {t('stepLabel', { current: step, total: 3 })}
+            </p>
+            <div className="mt-3 flex gap-2">
+              {[1, 2, 3].map((n) => (
+                <div
+                  key={n}
+                  className={`h-1.5 flex-1 rounded-full transition-colors ${n <= step ? 'bg-primary-dark' : 'bg-slate-200'}`}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       <form onSubmit={handleSubmit} className="p-6 lg:p-8">
@@ -192,6 +211,54 @@ export default function ConsultationRequestForm({
           aria-hidden
         />
 
+        {quickMode ? (
+          <div key="quick" className="animate-fade-in space-y-5">
+            <h2 className="text-xl font-serif font-bold text-slate-900">{t('step3Title')}</h2>
+            <p className="text-sm text-slate-600">{t('quickInquiryHint')}</p>
+            <Field label={t('quickInquiryMessageLabel')} required>
+              <textarea
+                value={form.goal}
+                onChange={(e) => update({ goal: e.target.value })}
+                rows={4}
+                placeholder={t('quickInquiryMessagePlaceholder')}
+                className={`${inputClass} resize-y min-h-[112px]`}
+                required
+                minLength={5}
+              />
+            </Field>
+            <div className="grid sm:grid-cols-2 gap-5">
+              <Field label={t('nameLabel')} required>
+                <input
+                  type="text"
+                  value={form.name}
+                  onChange={(e) => update({ name: e.target.value })}
+                  className={inputClass}
+                  autoComplete="name"
+                  required
+                />
+              </Field>
+              <Field label={t('emailLabel')} required>
+                <input
+                  type="email"
+                  value={form.email}
+                  onChange={(e) => update({ email: e.target.value })}
+                  className={inputClass}
+                  autoComplete="email"
+                  required
+                />
+              </Field>
+            </div>
+            <p className="text-xs text-slate-500">{t('privacyNote')}</p>
+            <button
+              type="button"
+              onClick={() => setQuickMode(false)}
+              className="text-sm text-primary font-medium hover:underline"
+            >
+              {t('back')}
+            </button>
+          </div>
+        ) : (
+          <>
         {step === 1 && (
             <div key="step1" className="animate-fade-in">
               <h2 className="text-xl font-serif font-bold text-slate-900">{t('step1Title')}</h2>
@@ -321,8 +388,10 @@ export default function ConsultationRequestForm({
                   placeholder={t('goalPlaceholder')}
                   className={`${inputClass} resize-y min-h-[112px]`}
                   required
-                  minLength={10}
+                  minLength={5}
                 />
+                <p className="mt-1.5 text-xs text-slate-500">{t('goalExample')}</p>
+                <p className="mt-0.5 text-xs text-slate-400">{t('goalMinHint')}</p>
               </Field>
 
               <Field label={t('timelineLabel')} required>
@@ -389,8 +458,11 @@ export default function ConsultationRequestForm({
             </div>
           )}
 
+          </>
+        )}
+
         <div className="mt-8 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3">
-          {step > 1 ? (
+          {!quickMode && step > 1 ? (
             <button
               type="button"
               onClick={() => setStep((s) => s - 1)}
@@ -403,7 +475,22 @@ export default function ConsultationRequestForm({
             <span />
           )}
 
-          {step < 3 ? (
+          {quickMode ? (
+            <button
+              type="submit"
+              disabled={!canSubmit || submitting}
+              className="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white shadow-md hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors sm:ml-auto"
+            >
+              {submitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {t('submitting')}
+                </>
+              ) : (
+                t('submit')
+              )}
+            </button>
+          ) : step < 3 ? (
             <button
               type="button"
               disabled={step === 1 ? !canContinueStep1 : !canContinueStep2}
@@ -430,6 +517,18 @@ export default function ConsultationRequestForm({
             </button>
           )}
         </div>
+
+        {!quickMode && step === 1 && (
+          <p className="mt-6 text-center">
+            <button
+              type="button"
+              onClick={() => setQuickMode(true)}
+              className="text-sm text-primary font-medium hover:underline"
+            >
+              {t('quickInquiryToggle')}
+            </button>
+          </p>
+        )}
       </form>
     </div>
   )

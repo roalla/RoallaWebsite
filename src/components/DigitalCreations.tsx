@@ -177,6 +177,7 @@ const buildStepIcons = [Palette, Hammer, Rocket] as const
 
 const DigitalCreations = () => {
   const t = useTranslations('digitalCreations')
+  const tCommon = useTranslations('common')
   const [filter, setFilter] = useState<FilterKey>('all')
 
   const featured = portfolioItems.find((item) => item.featured)!
@@ -428,7 +429,7 @@ const DigitalCreations = () => {
           </div>
         </div>
       </Reveal>
-      <StickyMobileCTA label={t('scheduleCall')} />
+      <StickyMobileCTA label={t('scheduleCall')} sublabel={tCommon('ctaSubtext')} />
     </section>
   )
 }

@@ -84,20 +84,28 @@ export default function HomeHero() {
               <Reveal when="mount" as="p" delayMs={120} className="mt-3 text-sm font-medium text-primary-dark max-w-xl leading-relaxed">
                 {t('journeyLine')}
               </Reveal>
-              <Reveal when="mount" delayMs={200} className="mt-8 flex flex-wrap items-center gap-3">
-                <ScheduleButton variant="primary" size="lg" icon>
+              <Reveal when="mount" delayMs={200} className="mt-8 flex flex-col sm:flex-row sm:flex-wrap sm:items-start gap-3">
+                <ScheduleButton
+                  variant="primary"
+                  size="lg"
+                  icon
+                  block
+                  className="w-full sm:w-auto sm:min-w-[16rem]"
+                  sublabel={t('responseTime')}
+                  sublabelClassName="text-slate-600"
+                >
                   {t('cta')}
                 </ScheduleButton>
                 <Link
                   href="/services"
-                  className="inline-flex items-center font-semibold text-slate-800 hover:text-primary-dark transition-colors text-sm sm:text-base"
+                  className="inline-flex items-center font-semibold text-slate-800 hover:text-primary-dark transition-colors text-sm sm:text-base sm:mt-4"
                 >
                   {t('orSeeWork')}
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Link>
               </Reveal>
-              <Reveal when="mount" delayMs={240} className="mt-3 text-sm text-slate-600">
-                {t('responseTime')}
+              <Reveal when="mount" delayMs={240} className="mt-2 text-sm text-slate-600 max-w-xl">
+                {t('whatHappensNext')}
               </Reveal>
               <Reveal when="mount" delayMs={280} className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm">
                 <Link
@@ -173,6 +181,10 @@ export default function HomeHero() {
                   </li>
                 ))}
               </ul>
+              <div className="mt-4 pt-3 border-t border-slate-200/80 space-y-1.5">
+                <p className="text-xs text-slate-500 italic leading-relaxed">{t('consultingCase1')}</p>
+                <p className="text-xs text-slate-500 italic leading-relaxed">{t('consultingCase2')}</p>
+              </div>
               <Link
                 href="/services"
                 className="mt-4 inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"

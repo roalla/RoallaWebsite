@@ -160,6 +160,14 @@ const Header = () => {
   const tCommon = useTranslations('common')
   const locale = useLocale()
 
+  const headerCtaLabel =
+    pathname === '/services'
+      ? tCommon('scheduleConsultationConsulting')
+      : pathname === '/services/digital' || pathname === '/digital-creations'
+        ? tCommon('scheduleConsultationDigital')
+        : tCommon('scheduleConsultation')
+  const headerCtaSubtext = tCommon('ctaSubtext')
+
   const handleLocaleSelect = useCallback(
     (newLocale: 'en' | 'fr') => {
       setLocaleDropdownOpen(false)
@@ -439,8 +447,15 @@ const Header = () => {
               </div>
             )}
             <div>
-              <ScheduleButton variant="primary" size="sm" icon className="!py-2.5 !px-5 !text-sm">
-                {tCommon('scheduleConsultation')}
+              <ScheduleButton
+                variant="primary"
+                size="sm"
+                icon
+                className="!py-2.5 !px-5 !text-sm"
+                sublabel={headerCtaSubtext}
+                sublabelClassName="text-white/70 max-w-[11rem]"
+              >
+                {headerCtaLabel}
               </ScheduleButton>
             </div>
           </div>
@@ -608,9 +623,12 @@ const Header = () => {
                   variant="primary"
                   size="md"
                   icon
-                  className="w-full justify-center"
+                  block
+                  className="justify-center"
+                  sublabel={headerCtaSubtext}
+                  sublabelClassName="text-white/70"
                 >
-                  {tCommon('scheduleConsultation')}
+                  {headerCtaLabel}
                 </ScheduleButton>
               </div>
             </div>

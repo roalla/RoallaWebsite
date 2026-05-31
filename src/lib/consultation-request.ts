@@ -48,8 +48,8 @@ export function validateConsultationRequest(body: Partial<ConsultationRequestPay
   const intent = parseConsultationIntent(body.intent)
   if (!intent) return 'Please select what you need help with'
 
-  if (!body.goal?.trim() || body.goal.trim().length < 10) {
-    return 'Please describe your goal or challenge (at least 10 characters)'
+  if (!body.goal?.trim() || body.goal.trim().length < 5) {
+    return 'Please describe your goal or challenge (at least 5 characters)'
   }
 
   if (!body.timeline?.trim()) return 'Please select a timeline'

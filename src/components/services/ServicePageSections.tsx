@@ -17,6 +17,8 @@ type ServicePageHeroProps = {
   journeyLine?: string
   primaryCta: React.ReactNode
   secondaryCta?: React.ReactNode
+  ctaSubtext?: string
+  tertiaryLink?: { href: '/assessment' | '/digital-creations' | '/services' | '/services/digital'; label: string }
   stats: ServiceStat[]
   statsNote?: string
   variant?: 'consulting' | 'digital'
@@ -31,10 +33,12 @@ export function ConsultingHeroVisual({
   proofTitle,
   proofSubtitle,
   outcomes,
+  caseLines,
 }: {
   proofTitle: string
   proofSubtitle: string
   outcomes: string[]
+  caseLines?: string[]
 }) {
   return (
     <div className="rounded-2xl border border-white/15 bg-white/[0.08] backdrop-blur-md p-5 sm:p-6 shadow-[0_8px_40px_rgba(0,0,0,0.25)]">
@@ -55,6 +59,15 @@ export function ConsultingHeroVisual({
           </li>
         ))}
       </ul>
+      {caseLines && caseLines.length > 0 && (
+        <div className="mt-5 pt-4 border-t border-white/10 space-y-2">
+          {caseLines.map((line) => (
+            <p key={line} className="text-xs text-slate-400 leading-relaxed italic">
+              {line}
+            </p>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
@@ -145,6 +158,8 @@ export function ServicePageHero({
   journeyLine,
   primaryCta,
   secondaryCta,
+  ctaSubtext,
+  tertiaryLink,
   stats,
   statsNote,
   variant = 'consulting',
@@ -195,6 +210,19 @@ export function ServicePageHero({
             {primaryCta}
             {secondaryCta}
           </div>
+          {ctaSubtext && (
+            <p className="mt-3 text-sm text-slate-400 max-w-xl leading-relaxed">{ctaSubtext}</p>
+          )}
+          {tertiaryLink && (
+            <p className="mt-2">
+              <Link
+                href={tertiaryLink.href}
+                className="text-sm text-primary-light/90 hover:text-white underline underline-offset-4 transition-colors"
+              >
+                {tertiaryLink.label}
+              </Link>
+            </p>
+          )}
 
           <dl className={`mt-8 grid ${statsGridClass} gap-3`}>
             {stats.map((stat, i) => {
@@ -447,6 +475,7 @@ type ServicePageCTAProps = {
   qualifier?: string
   primaryCta: React.ReactNode
   secondaryCta?: React.ReactNode
+  ctaSubtext?: string
   confidentiality?: { href: '/contact'; label: string }
   links?: { href: '/services' | '/services/digital' | '/digital-creations' | '/assessment'; label: string }[]
 }
@@ -458,6 +487,7 @@ export function ServicePageCTA({
   qualifier,
   primaryCta,
   secondaryCta,
+  ctaSubtext,
   confidentiality,
   links,
 }: ServicePageCTAProps) {
@@ -476,6 +506,9 @@ export function ServicePageCTA({
         {primaryCta}
         {secondaryCta}
       </div>
+      {ctaSubtext && (
+        <p className="mt-4 text-sm text-slate-400 max-w-xl mx-auto leading-relaxed">{ctaSubtext}</p>
+      )}
       {confidentiality && (
         <p className="mt-6 text-sm text-slate-400">
           <Link href={confidentiality.href} className="underline underline-offset-2 hover:text-white transition-colors">

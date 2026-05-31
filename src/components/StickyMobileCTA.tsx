@@ -8,9 +8,10 @@ type StickyMobileCTAProps = {
   label: string
   href?: '/schedule' | '/services' | '/services/digital' | '/digital-creations' | '/assessment'
   intent?: ConsultationIntent
+  sublabel?: string
 }
 
-export default function StickyMobileCTA({ label, href = '/schedule', intent }: StickyMobileCTAProps) {
+export default function StickyMobileCTA({ label, href = '/schedule', intent, sublabel }: StickyMobileCTAProps) {
   const linkHref = intent
     ? ({ pathname: '/schedule', query: { intent } } as const)
     : href
@@ -33,9 +34,10 @@ export default function StickyMobileCTA({ label, href = '/schedule', intent }: S
     >
       <Link
         href={linkHref}
-        className="flex w-full items-center justify-center rounded-lg bg-primary-dark hover:bg-primary-darker text-white font-semibold py-3.5 px-6 text-sm shadow-md transition-colors"
+        className="flex w-full flex-col items-center justify-center rounded-lg bg-primary-dark hover:bg-primary-darker text-white font-semibold py-3 px-6 text-sm shadow-md transition-colors"
       >
-        {label}
+        <span>{label}</span>
+        {sublabel && <span className="mt-0.5 text-[11px] font-normal text-white/85">{sublabel}</span>}
       </Link>
     </div>
   )

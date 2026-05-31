@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 import Reveal from '../motion/Reveal'
 import { BRAND_PILLARS, PILLAR_SECTION_IDS, PILLAR_TITLE_KEYS, type BrandPillar } from '@/lib/brand-journey'
 
@@ -36,8 +37,55 @@ function ButterflyAccent() {
   )
 }
 
-export default function BrandJourneyBand() {
+type PillarCardProps = {
+  index: number
+  label: string
+  description: string
+  hash?: string
+  useLink?: boolean
+}
+
+function PillarCard({ index, label, description, hash, useLink }: PillarCardProps) {
+  const className =
+    'group flex flex-col h-full rounded-xl border border-slate-200 bg-white p-4 hover:border-primary hover:shadow-md transition-all duration-200'
+
+  const content = (
+    <>
+      <span className="text-xs font-semibold uppercase tracking-[0.14em] text-primary-dark mb-1">
+        {String(index + 1).padStart(2, '0')}
+      </span>
+      <span className="font-serif font-bold text-slate-900 group-hover:text-primary-dark transition-colors">{label}</span>
+      <span className="mt-2 text-sm text-slate-600 leading-relaxed flex-1">{description}</span>
+      <span className="mt-3 text-xs font-medium text-primary-dark opacity-0 group-hover:opacity-100 transition-opacity">
+        → {label}
+      </span>
+    </>
+  )
+
+  if (useLink && hash) {
+    return (
+      <Link href={{ pathname: '/services', hash }} className={className}>
+        {content}
+      </Link>
+    )
+  }
+
+  return (
+    <a href={hash ? `#${hash}` : '#'} className={className}>
+      {content}
+    </a>
+  )
+}
+
+type BrandJourneyBandProps = {
+  /** Hash anchors on the current page (services/digital). */
+  linkMode?: 'hash' | 'services'
+}
+
+export default function BrandJourneyBand({ linkMode = 'hash' }: BrandJourneyBandProps) {
   const t = useTranslations('brandJourney')
+
+  const hashFor = (pillar: BrandPillar) => PILLAR_SECTION_IDS[pillar]
 
   return (
     <Reveal className="mb-10 rounded-2xl border border-slate-300 bg-gradient-to-br from-white via-slate-50/80 to-primary/[0.04] px-6 py-8 lg:px-10 lg:py-10 shadow-sm">
@@ -56,21 +104,13 @@ export default function BrandJourneyBand() {
         <ol className="grid grid-cols-1 sm:grid-cols-3 gap-4 flex-1 list-none p-0 m-0">
           {BRAND_PILLARS.map((pillar, i) => (
             <li key={pillar}>
-              <a
-                href={`#${PILLAR_SECTION_IDS[pillar]}`}
-                className="group flex flex-col h-full rounded-xl border border-slate-200 bg-white p-4 hover:border-primary hover:shadow-md transition-all duration-200"
-              >
-                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-primary-dark mb-1">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <span className="font-serif font-bold text-slate-900 group-hover:text-primary-dark transition-colors">
-                  {t(PILLAR_TITLE_KEYS[pillar])}
-                </span>
-                <span className="mt-2 text-sm text-slate-600 leading-relaxed flex-1">{t(PILLAR_DESC_KEYS[pillar])}</span>
-                <span className="mt-3 text-xs font-medium text-primary-dark opacity-0 group-hover:opacity-100 transition-opacity">
-                  ↓ {t(PILLAR_TITLE_KEYS[pillar])}
-                </span>
-              </a>
+              <PillarCard
+                index={i}
+                label={t(PILLAR_TITLE_KEYS[pillar])}
+                description={t(PILLAR_DESC_KEYS[pillar])}
+                hash={hashFor(pillar)}
+                useLink={linkMode === 'services'}
+              />
             </li>
           ))}
         </ol>

@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import { CheckCircle, Award, Clock, Heart, Users } from 'lucide-react'
 import ScheduleButton from './ScheduleButton'
 import Reveal from './motion/Reveal'
+import { BrandJourneyTeaser } from './services/BrandJourneyTeaser'
 
 const valueIcons = [CheckCircle, Heart, Clock, Award] as const
 
@@ -20,7 +21,7 @@ const About = () => {
   return (
     <section id="about" className="section-padding bg-white py-20 lg:py-28">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="text-center mb-16">
+        <Reveal className="text-center mb-10">
           <h2 className="text-4xl md:text-5xl font-serif font-extrabold text-slate-900 mb-6">
             {t('title')}
           </h2>
@@ -28,6 +29,13 @@ const About = () => {
             {t('subtitle')}
           </p>
         </Reveal>
+
+        <BrandJourneyTeaser
+          titleKey="aboutJourneyTitle"
+          descKey="aboutJourneyDesc"
+          ctaKey="aboutJourneyCta"
+          className="mb-16 max-w-4xl mx-auto"
+        />
 
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
           <div className="lg:pr-12">

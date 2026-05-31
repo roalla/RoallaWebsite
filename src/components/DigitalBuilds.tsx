@@ -40,6 +40,8 @@ import {
   PILLAR_SECTION_IDS,
   PILLAR_TITLE_KEYS,
   START_HERE_KEYS,
+  BUILD_PHASE_LABEL_KEYS,
+  BUILD_PHASE_RANGE_KEYS,
   type BrandPillar,
 } from '@/lib/brand-journey'
 import {
@@ -78,18 +80,6 @@ const fitKeys = ['fit1', 'fit2', 'fit3'] as const
 const BUILD_PILLARS: Record<'websites' | 'platforms', BrandPillar> = {
   websites: 'emerge',
   platforms: 'soar',
-}
-
-const BUILD_PHASE_RANGE_KEYS: Record<BrandPillar, 'buildStepsTransform' | 'buildStepsEmerge' | 'buildStepsSoar'> = {
-  transform: 'buildStepsTransform',
-  emerge: 'buildStepsEmerge',
-  soar: 'buildStepsSoar',
-}
-
-const BUILD_PHASE_LABEL_KEYS: Record<BrandPillar, 'buildPhaseTransform' | 'buildPhaseEmerge' | 'buildPhaseSoar'> = {
-  transform: 'buildPhaseTransform',
-  emerge: 'buildPhaseEmerge',
-  soar: 'buildPhaseSoar',
 }
 
 function portfolioItemName(

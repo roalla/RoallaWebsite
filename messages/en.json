@@ -56,7 +56,8 @@
       "consultingOutcome3": "Board-ready priorities, owners, and KPIs",
       "digitalProofLabel": "Live digital work",
       "exploreConsultingLink": "Explore Business Enablement",
-      "exploreDigitalLink": "See Digital Creations"
+      "exploreDigitalLink": "See Digital Creations",
+      "journeyLine": "Transform → Emerge → Soar — one journey from consulting through digital delivery."
     },
     "whatWeDo": {
       "title": "What we do",
@@ -99,8 +100,8 @@
     },
     "howWeWork": {
       "title": "How we work with you",
-      "description": "A disciplined four-step model—whether you need consulting, a build, or both.",
-      "learnMore": "Learn more about us",
+      "description": "Our Transform → Emerge → Soar model in four steps—whether you need consulting, a build, or both.",
+      "learnMore": "Explore services by phase",
       "noteConsulting": "Consulting engagements",
       "noteDigital": "Digital builds",
       "step1": "Discovery call to align on goals, constraints, and urgency.",
@@ -132,7 +133,7 @@
     },
     "cta": {
       "title": "Ready to move forward?",
-      "subtitle": "Whether you need consulting, a new website, or a custom platform—we'll help you find the right starting point.",
+      "subtitle": "Whether you need consulting, a new website, or a custom platform—we'll help you find the right phase: Transform, Emerge, or Soar.",
       "schedule": "Get in touch",
       "discussNeeds": "Discuss your needs",
       "discussBuild": "Discuss your project",
@@ -286,7 +287,13 @@
     "metadataServicesTitle": "Business Enablement Services | ROALLA",
     "metadataServicesDescription": "Executive consulting through Transform, Emerge, and Soar—strategic planning, operations, teams, data, innovation, and digital transformation with accountable implementation.",
     "metadataDigitalTitle": "Digital Creations | ROALLA",
-    "metadataDigitalDescription": "Websites and custom platforms through Transform, Emerge, and Soar—scoped, built, and launched by the team accountable for the outcome."
+    "metadataDigitalDescription": "Websites and custom platforms through Transform, Emerge, and Soar—scoped, built, and launched by the team accountable for the outcome.",
+    "pillarBadgeAll": "All phases",
+    "homeTeaser": "Every engagement follows Transform → Emerge → Soar—from foundation through visibility to sustained performance.",
+    "exploreApproach": "Explore our approach",
+    "aboutJourneyTitle": "How we guide your growth",
+    "aboutJourneyDesc": "Our butterfly-and-pyramid ethos is not decoration—it is how we structure consulting and digital delivery. We help you Transform what holds you back, Emerge with visible capability, and Soar with accountable execution.",
+    "aboutJourneyCta": "See services by phase"
   },
   "schedule": {
     "title": "Service Inquiry",
@@ -562,7 +569,7 @@
     "introBullet3": "Every example is live — click through and judge the experience yourself",
     "buildStripEyebrow": "How we build",
     "buildStripTitle": "From brief to shipped product",
-    "buildStripDesc": "The same disciplined process behind these projects is what we use for client websites and platforms.",
+    "buildStripDesc": "The same Transform → Emerge → Soar process behind these projects is what we use for client websites and platforms.",
     "buildStep1Title": "Scope & design",
     "buildStep1Desc": "Clear goals, audience, and conversion paths before a single component is built.",
     "buildStep2Title": "Build & iterate",

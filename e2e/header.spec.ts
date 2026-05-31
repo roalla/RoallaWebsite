@@ -11,18 +11,26 @@ test.describe('Header', () => {
   })
 
   test('services dropdown links to business enablement and websites pages', async ({ page }) => {
-    await page.goto('/')
-    await page.getByRole('button', { name: 'Services', exact: true }).click()
-    await expect(page.getByRole('menuitem', { name: 'Business Enablement' })).toBeVisible()
-    await page.getByRole('menuitem', { name: 'Digital Creations' }).click()
+    await page.setViewportSize({ width: 1280, height: 720 })
+    await page.goto('/en')
+
+    const servicesButton = page.locator('#services-dropdown-desktop')
+    await expect(servicesButton).toBeVisible()
+    await servicesButton.click()
+
+    const menu = page.locator('[aria-labelledby="services-dropdown-desktop"]')
+    await expect(menu.getByRole('menuitem', { name: 'Business Enablement' })).toBeVisible()
+    await menu.getByRole('menuitem', { name: 'Digital Creations' }).click()
     await expect(page).toHaveURL(/\/services\/digital/)
-    await expect(page.getByRole('heading', { name: 'Digital Creations' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Digital Creations', level: 1 })).toBeVisible()
   })
 
   test('our work link navigates to digital creations portfolio', async ({ page }) => {
-    await page.goto('/')
-    await page.getByRole('link', { name: 'Our Digital Work' }).click()
+    await page.setViewportSize({ width: 1280, height: 720 })
+    await page.goto('/en')
+
+    await page.getByLabel('Main navigation').getByRole('link', { name: 'Our Digital Work' }).click()
     await expect(page).toHaveURL(/\/digital-creations/)
-    await expect(page.getByRole('heading', { name: /Our Digital Work/i })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Our Digital Work', level: 1 })).toBeVisible()
   })
 })

@@ -30,7 +30,10 @@ import BrandJourneyBand from './services/BrandJourneyBand'
 import type { ConsultingFocus } from '@/lib/consultation-request'
 import {
   BRAND_PILLARS,
+  CONSULTING_ENGAGEMENT_STEP_PILLARS,
   CONSULTING_PILLAR_INTRO_KEYS,
+  ENGAGEMENT_PHASE_LABEL_KEYS,
+  ENGAGEMENT_PHASE_RANGE_KEYS,
   PILLAR_BADGE_KEYS,
   PILLAR_CTA_KEYS,
   PILLAR_SECTION_IDS,
@@ -64,20 +67,6 @@ const PILLAR_SERVICES: Record<BrandPillar, number[]> = {
   transform: [0, 1],
   emerge: [2, 3],
   soar: [4, 5],
-}
-
-const ENGAGEMENT_STEP_PILLARS: BrandPillar[] = ['transform', 'transform', 'emerge', 'soar']
-
-const ENGAGEMENT_PHASE_RANGE_KEYS: Record<BrandPillar, 'engagementStepsTransform' | 'engagementStepsEmerge' | 'engagementStepsSoar'> = {
-  transform: 'engagementStepsTransform',
-  emerge: 'engagementStepsEmerge',
-  soar: 'engagementStepsSoar',
-}
-
-const ENGAGEMENT_PHASE_LABEL_KEYS: Record<BrandPillar, 'engagementPhaseTransform' | 'engagementPhaseEmerge' | 'engagementPhaseSoar'> = {
-  transform: 'engagementPhaseTransform',
-  emerge: 'engagementPhaseEmerge',
-  soar: 'engagementPhaseSoar',
 }
 
 type ConsultingService = {
@@ -247,11 +236,16 @@ const Services = () => {
   ]
 
   const credibilityItems = [
-    { icon: credibilityIcons[0], titleKey: 'cred1Title', descKey: 'cred1Desc' },
-    { icon: credibilityIcons[1], titleKey: 'cred2Title', descKey: 'cred2Desc' },
-    { icon: credibilityIcons[2], titleKey: 'cred3Title', descKey: 'cred3Desc' },
-    { icon: credibilityIcons[3], titleKey: 'cred4Title', descKey: 'cred4Desc' },
+    { icon: credibilityIcons[0], titleKey: 'cred1Title', descKey: 'cred1Desc', pillar: 'emerge' as const },
+    { icon: credibilityIcons[1], titleKey: 'cred2Title', descKey: 'cred2Desc', pillar: 'soar' as const },
+    { icon: credibilityIcons[2], titleKey: 'cred3Title', descKey: 'cred3Desc', pillar: 'all' as const },
+    { icon: credibilityIcons[3], titleKey: 'cred4Title', descKey: 'cred4Desc', pillar: 'transform' as const },
   ] as const
+
+  const credPillarLabel = (pillar: 'transform' | 'emerge' | 'soar' | 'all') => {
+    if (pillar === 'all') return tBrand('pillarBadgeAll')
+    return tBrand(PILLAR_BADGE_KEYS[pillar])
+  }
 
   const engagementSteps = [t('step1'), t('step2'), t('step3'), t('step4')]
 
@@ -342,8 +336,11 @@ const Services = () => {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {credibilityItems.map((item) => (
               <div key={item.titleKey} className="rounded-lg border border-slate-300 bg-white p-5 shadow-sm">
-                <div className="w-9 h-9 rounded-md border border-primary/20 bg-primary/10 flex items-center justify-center mb-3">
-                  <item.icon className="w-4 h-4 text-primary-dark" />
+                <div className="flex items-start justify-between gap-2 mb-3">
+                  <div className="w-9 h-9 rounded-md border border-primary/20 bg-primary/10 flex items-center justify-center shrink-0">
+                    <item.icon className="w-4 h-4 text-primary-dark" />
+                  </div>
+                  <PillarBadge label={credPillarLabel(item.pillar)} />
                 </div>
                 <p className="font-bold text-slate-900 text-sm mb-1">{t(item.titleKey)}</p>
                 <p className="text-sm text-slate-700 leading-relaxed">{t(item.descKey)}</p>
@@ -357,7 +354,7 @@ const Services = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {engagementSteps.map((step, idx) => {
               const Icon = engagementIcons[idx]
-              const stepPillar = ENGAGEMENT_STEP_PILLARS[idx]
+              const stepPillar = CONSULTING_ENGAGEMENT_STEP_PILLARS[idx]
               return (
                 <div key={step} className="rounded-lg border border-slate-300 bg-white p-5 shadow-sm">
                   <div className="flex flex-wrap items-center gap-2 mb-3">

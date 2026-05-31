@@ -16,6 +16,7 @@ import {
   Layers,
   Sparkles,
 } from 'lucide-react'
+import { HomeBrandJourneyTeaser } from '../services/BrandJourneyTeaser'
 
 const consultingKeys = ['strategicPlanning', 'processOptimization', 'teamDevelopment', 'dataAnalytics'] as const
 const consultingIcons = [Target, TrendingUp, Users, BarChart3]
@@ -32,10 +33,11 @@ export default function HomeWhatWeDo() {
     <section id="services" className="py-16 lg:py-24 bg-slate-50 relative scroll-mt-24">
       <div className="section-divider" />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="max-w-3xl mb-12">
+        <Reveal className="max-w-3xl mb-8">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900">{t('title')}</h2>
           <p className="mt-3 text-lg text-slate-600">{t('description')}</p>
         </Reveal>
+        <HomeBrandJourneyTeaser />
 
         <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
           {/* Business Enablement */}

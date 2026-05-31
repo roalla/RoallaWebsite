@@ -56,7 +56,8 @@
       "consultingOutcome3": "Priorités, responsables et KPI prêts pour la direction",
       "digitalProofLabel": "Réalisations numériques en ligne",
       "exploreConsultingLink": "Explorer l'accompagnement d'entreprise",
-      "exploreDigitalLink": "Voir les créations numériques"
+      "exploreDigitalLink": "Voir les créations numériques",
+      "journeyLine": "Transformer → Émerger → S'élever — un parcours unique du conseil à la livraison numérique."
     },
     "whatWeDo": {
       "title": "Ce que nous faisons",
@@ -99,8 +100,8 @@
     },
     "howWeWork": {
       "title": "Notre façon de travailler avec vous",
-      "description": "Un modèle en quatre étapes—que vous ayez besoin de conseil, d'une réalisation numérique, ou des deux.",
-      "learnMore": "En savoir plus sur nous",
+      "description": "Notre modèle Transformer → Émerger → S'élever en quatre étapes—que vous ayez besoin de conseil, d'une réalisation numérique, ou des deux.",
+      "learnMore": "Explorer les services par phase",
       "noteConsulting": "Mandats de conseil",
       "noteDigital": "Réalisations numériques",
       "step1": "Appel de découverte pour aligner objectifs, contraintes et urgence.",
@@ -132,7 +133,7 @@
     },
     "cta": {
       "title": "Prêt à avancer?",
-      "subtitle": "Que vous ayez besoin de conseil, d'un nouveau site Web ou d'une plateforme sur mesure—nous vous aiderons à trouver le bon point de départ.",
+      "subtitle": "Que vous ayez besoin de conseil, d'un nouveau site Web ou d'une plateforme sur mesure—nous vous aiderons à trouver la bonne phase : Transformer, Émerger ou S'élever.",
       "schedule": "Nous joindre",
       "discussNeeds": "Discuter de vos besoins",
       "discussBuild": "Discuter de votre réalisation numérique",
@@ -286,7 +287,13 @@
     "metadataServicesTitle": "Services d'accompagnement d'entreprise | ROALLA",
     "metadataServicesDescription": "Conseil exécutif selon Transformer, Émerger et S'élever—planification, opérations, équipes, données, innovation et transformation numérique avec mise en œuvre responsable.",
     "metadataDigitalTitle": "Créations numériques | ROALLA",
-    "metadataDigitalDescription": "Sites Web et plateformes sur mesure selon Transformer, Émerger et S'élever—cadrés, construits et lancés par l'équipe responsable du résultat."
+    "metadataDigitalDescription": "Sites Web et plateformes sur mesure selon Transformer, Émerger et S'élever—cadrés, construits et lancés par l'équipe responsable du résultat.",
+    "pillarBadgeAll": "Toutes les phases",
+    "homeTeaser": "Chaque mandat suit Transformer → Émerger → S'élever—des fondations à la visibilité, puis à la performance durable.",
+    "exploreApproach": "Explorer notre approche",
+    "aboutJourneyTitle": "Comment nous accompagnons votre croissance",
+    "aboutJourneyDesc": "Notre ethos du papillon et de la pyramide structure le conseil et le numérique : Transformer ce qui vous freine, Émerger avec une capacité visible, et S'élever avec une exécution responsable.",
+    "aboutJourneyCta": "Voir les services par phase"
   },
   "schedule": {
     "title": "Demande de service",
@@ -562,7 +569,7 @@
     "introBullet3": "Chaque exemple est en ligne — cliquez et jugez l'expérience vous-même",
     "buildStripEyebrow": "Comment nous construisons",
     "buildStripTitle": "Du brief au produit livré",
-    "buildStripDesc": "Le même processus rigoureux derrière ces projets est celui que nous utilisons pour les sites et plateformes clients.",
+    "buildStripDesc": "Le même processus Transformer → Émerger → S'élever derrière ces projets est celui que nous utilisons pour les sites et plateformes clients.",
     "buildStep1Title": "Cadrage et design",
     "buildStep1Desc": "Objectifs, audience et parcours de conversion clairs avant la première ligne de code.",
     "buildStep2Title": "Développement et itération",

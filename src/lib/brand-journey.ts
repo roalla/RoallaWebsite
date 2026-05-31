@@ -49,3 +49,39 @@ export const PILLAR_CTA_KEYS: Record<BrandPillar, 'pillarCtaTransform' | 'pillar
 }
 
 export const BRAND_PILLARS: BrandPillar[] = ['transform', 'emerge', 'soar']
+
+/** Consulting engagement steps 1–4 on homepage and /services */
+export const CONSULTING_ENGAGEMENT_STEP_PILLARS: BrandPillar[] = ['transform', 'transform', 'emerge', 'soar']
+
+/** Digital build strip on homepage (3 steps) */
+export const HOME_BUILD_STEP_PILLARS: BrandPillar[] = ['transform', 'emerge', 'soar']
+
+export const ENGAGEMENT_PHASE_LABEL_KEYS: Record<
+  BrandPillar,
+  'engagementPhaseTransform' | 'engagementPhaseEmerge' | 'engagementPhaseSoar'
+> = {
+  transform: 'engagementPhaseTransform',
+  emerge: 'engagementPhaseEmerge',
+  soar: 'engagementPhaseSoar',
+}
+
+export const ENGAGEMENT_PHASE_RANGE_KEYS: Record<
+  BrandPillar,
+  'engagementStepsTransform' | 'engagementStepsEmerge' | 'engagementStepsSoar'
+> = {
+  transform: 'engagementStepsTransform',
+  emerge: 'engagementStepsEmerge',
+  soar: 'engagementStepsSoar',
+}
+
+export const BUILD_PHASE_LABEL_KEYS: Record<BrandPillar, 'buildPhaseTransform' | 'buildPhaseEmerge' | 'buildPhaseSoar'> = {
+  transform: 'buildPhaseTransform',
+  emerge: 'buildPhaseEmerge',
+  soar: 'buildPhaseSoar',
+}
+
+export const BUILD_PHASE_RANGE_KEYS: Record<BrandPillar, 'buildStepsTransform' | 'buildStepsEmerge' | 'buildStepsSoar'> = {
+  transform: 'buildStepsTransform',
+  emerge: 'buildStepsEmerge',
+  soar: 'buildStepsSoar',
+}

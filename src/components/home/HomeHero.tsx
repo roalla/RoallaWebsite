@@ -82,6 +82,9 @@ export default function HomeHero() {
               <Reveal when="mount" as="p" delayMs={100} className="mt-6 text-lg sm:text-xl text-slate-700 max-w-xl leading-relaxed">
                 {t('subtitle')}
               </Reveal>
+              <Reveal when="mount" as="p" delayMs={120} className="mt-3 text-sm font-medium text-primary-dark max-w-xl leading-relaxed">
+                {t('journeyLine')}
+              </Reveal>
               <Reveal when="mount" delayMs={200} className="mt-8 flex flex-wrap items-center gap-3">
                 <ScheduleButton variant="primary" size="lg" icon>
                   {t('cta')}

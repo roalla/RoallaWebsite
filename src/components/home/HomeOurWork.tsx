@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
+import Reveal from '../motion/Reveal'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { ArrowRight, Briefcase, Globe, CheckCircle2, ExternalLink } from 'lucide-react'
@@ -33,25 +33,15 @@ export default function HomeOurWork() {
     <section className="py-14 lg:py-20 bg-white relative">
       <div className="section-divider" />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="max-w-3xl mb-10"
-        >
+        <Reveal className="max-w-3xl mb-10">
           <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark mb-2">{t('eyebrow')}</p>
           <h2 className="text-2xl md:text-3xl font-serif font-bold text-slate-900">{t('title')}</h2>
           <p className="mt-3 text-slate-600">{t('description')}</p>
-        </motion.div>
+        </Reveal>
 
         <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
           {/* Consulting proof */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="flex flex-col rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-6 lg:p-8 shadow-card"
-          >
+          <Reveal className="flex flex-col rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-6 lg:p-8 shadow-card">
             <div className="flex items-start gap-3 mb-5">
               <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                 <Briefcase className="w-5 h-5 text-primary" aria-hidden />
@@ -76,16 +66,10 @@ export default function HomeOurWork() {
               {t('consultingCta')}
               <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
-          </motion.div>
+          </Reveal>
 
           {/* Digital proof */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.08 }}
-            className="flex flex-col rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-primary/[0.04] p-6 lg:p-8 shadow-card"
-          >
+          <Reveal delayMs={80} className="flex flex-col rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-primary/[0.04] p-6 lg:p-8 shadow-card">
             <div className="flex items-start gap-3 mb-4">
               <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                 <Globe className="w-5 h-5 text-primary" aria-hidden />
@@ -98,7 +82,7 @@ export default function HomeOurWork() {
             </div>
 
             <div className="grid grid-cols-2 gap-3 flex-1">
-              {featured.map((item) => (
+              {featured.map((item, index) => (
                 <a
                   key={item.id}
                   href={item.url}
@@ -111,6 +95,7 @@ export default function HomeOurWork() {
                     imageAlt={portfolioImageAlts[item.id as keyof typeof portfolioImageAlts]}
                     brandPreview={item.brandPreview}
                     domain={item.domain}
+                    priority={index < 2}
                     className="group-hover:shadow-card-hover transition-shadow duration-300"
                   />
                   <span className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-slate-800 group-hover:text-primary-dark transition-colors">
@@ -128,7 +113,7 @@ export default function HomeOurWork() {
               {t('digitalCta')}
               <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
-          </motion.div>
+          </Reveal>
         </div>
       </div>
     </section>

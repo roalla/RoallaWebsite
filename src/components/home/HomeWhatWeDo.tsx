@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { motion } from 'framer-motion'
+import Reveal from '../motion/Reveal'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import {
@@ -32,26 +32,14 @@ export default function HomeWhatWeDo() {
     <section id="services" className="py-16 lg:py-24 bg-slate-50 relative scroll-mt-24">
       <div className="section-divider" />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="max-w-3xl mb-12"
-        >
+        <Reveal className="max-w-3xl mb-12">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-slate-900">{t('title')}</h2>
           <p className="mt-3 text-lg text-slate-600">{t('description')}</p>
-        </motion.div>
+        </Reveal>
 
         <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
           {/* Business Enablement */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.45 }}
-            className="flex flex-col rounded-2xl border border-slate-200 bg-white p-6 lg:p-8 shadow-card hover:shadow-card-hover hover:border-primary/25 transition-all duration-300"
-          >
+          <Reveal className="flex flex-col rounded-2xl border border-slate-200 bg-white p-6 lg:p-8 shadow-card hover:shadow-card-hover hover:border-primary/25 transition-all duration-300">
             <div className="flex items-start gap-4 mb-6">
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center border border-primary/10 shrink-0">
                 <Briefcase className="w-6 h-6 text-primary" />
@@ -84,16 +72,10 @@ export default function HomeWhatWeDo() {
               {t('exploreBusinessEnablement')}
               <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
-          </motion.div>
+          </Reveal>
 
           {/* Digital Creations */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.45, delay: 0.08 }}
-            className="flex flex-col rounded-2xl border border-slate-200 bg-white p-6 lg:p-8 shadow-card hover:shadow-card-hover hover:border-primary/25 transition-all duration-300"
-          >
+          <Reveal delayMs={80} className="flex flex-col rounded-2xl border border-slate-200 bg-white p-6 lg:p-8 shadow-card hover:shadow-card-hover hover:border-primary/25 transition-all duration-300">
             <div className="flex items-start gap-4 mb-6">
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center border border-primary/10 shrink-0">
                 <Globe className="w-6 h-6 text-primary" />
@@ -128,7 +110,7 @@ export default function HomeWhatWeDo() {
                 <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
               </Link>
             </div>
-          </motion.div>
+          </Reveal>
         </div>
       </div>
     </section>

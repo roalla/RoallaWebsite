@@ -212,6 +212,7 @@ const DigitalBuilds = () => {
                     imageAlt={portfolioImageAlts[proof.id]}
                     brandPreview={proof.brandPreview}
                     domain={proof.domain}
+                    priority={index === 0}
                     className="shadow-sm"
                   />
                 </div>
@@ -303,7 +304,7 @@ const DigitalBuilds = () => {
           </Link>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {portfolioItems.map((item) => (
+          {portfolioItems.map((item, index) => (
             <a
               key={item.id}
               href={item.tryUrl}
@@ -324,6 +325,7 @@ const DigitalBuilds = () => {
                     className="object-cover object-top"
                     unoptimized
                     sizes="240px"
+                    priority={index < 2}
                   />
                 ) : null}
               </div>

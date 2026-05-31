@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ChevronDown, Briefcase, Globe } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname as useNextPathname } from 'next/navigation'
@@ -231,53 +230,8 @@ const Header = () => {
 
   const isServicesActive = pathname === '/services' || pathname.startsWith('/services/')
 
-  const noMotion = {
-    initial: false,
-    animate: false,
-    transition: { duration: 0 },
-  }
-  const motionProps = prefersReducedMotion
-    ? noMotion
-    : {
-        initial: { opacity: 0, x: -20 },
-        animate: { opacity: 1, x: 0 },
-        transition: { duration: 0.5 },
-      }
-  const motionNavItem = (index: number) =>
-    prefersReducedMotion
-      ? noMotion
-      : {
-          initial: { opacity: 0, y: -20 },
-          animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.5, delay: index * 0.1 },
-        }
-  const motionCta = prefersReducedMotion
-    ? noMotion
-    : {
-        initial: { opacity: 0, scale: 0.8 },
-        animate: { opacity: 1, scale: 1 },
-        transition: { duration: 0.5, delay: 0.6 },
-      }
-  const motionMobileItem = (index: number) =>
-    prefersReducedMotion
-      ? noMotion
-      : {
-          initial: { opacity: 0, x: -20 },
-          animate: { opacity: 1, x: 0 },
-          transition: { duration: 0.3, delay: index * 0.1 },
-        }
-  const motionMobileCta = prefersReducedMotion
-    ? noMotion
-    : {
-        initial: { opacity: 0, x: -20 },
-        animate: { opacity: 1, x: 0 },
-        transition: { duration: 0.3, delay: 4 * 0.1 },
-      }
-  const menuTransition = prefersReducedMotion
-    ? { duration: 0 }
-    : { duration: 0.3, ease: 'easeInOut' as const }
-  const backdropTransition = prefersReducedMotion ? { duration: 0 } : { duration: 0.2 }
-  const iconTransition = prefersReducedMotion ? { duration: 0 } : { duration: 0.2 }
+  const dropdownPanelClass = (open: boolean) =>
+    `dropdown-panel ${open ? 'dropdown-panel-open' : 'dropdown-panel-closed'}`
 
   return (
     <header
@@ -294,10 +248,7 @@ const Header = () => {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
         <div className="flex items-center justify-between gap-6 h-16 lg:h-20">
           {/* Logo */}
-          <motion.div
-            {...motionProps}
-            className="flex-shrink-0 min-w-0 max-w-[140px] sm:max-w-[200px]"
-          >
+          <div className="flex-shrink-0 min-w-0 max-w-[140px] sm:max-w-[200px]">
             <Link
               href="/"
               className="flex items-center space-x-2 sm:space-x-3 group min-w-0"
@@ -320,12 +271,12 @@ const Header = () => {
                 </h1>
               </div>
             </Link>
-          </motion.div>
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center justify-center min-w-0 flex-1 px-4">
             <div className="flex items-center justify-center gap-8 xl:gap-10">
-              <motion.div {...motionNavItem(0)}>
+              <div>
                 <Link
                   href="/"
                   aria-current={isActive('/') ? 'page' : undefined}
@@ -341,9 +292,9 @@ const Header = () => {
                     }`}
                   />
                 </Link>
-              </motion.div>
+              </div>
 
-              <motion.div {...motionNavItem(1)} className="relative" ref={servicesDropdownDesktopRef}>
+              <div className="relative" ref={servicesDropdownDesktopRef}>
                 <button
                   type="button"
                   onClick={() => setServicesDropdownOpen((o) => !o)}
@@ -364,17 +315,12 @@ const Header = () => {
                     }`}
                   />
                 </button>
-                <AnimatePresence>
-                  {servicesDropdownOpen && (
-                    <motion.div
-                      role="menu"
-                      aria-labelledby="services-dropdown-desktop"
-                      initial={prefersReducedMotion ? false : { opacity: 0, y: -6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -6 }}
-                      transition={{ duration: 0.15 }}
-                      className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[min(100vw-2rem,320px)] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50"
-                    >
+                <div
+                  role="menu"
+                  aria-labelledby="services-dropdown-desktop"
+                  aria-hidden={!servicesDropdownOpen}
+                  className={`absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[min(100vw-2rem,320px)] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50 ${dropdownPanelClass(servicesDropdownOpen)}`}
+                >
                       <div className="px-4 py-2.5 border-b border-white/10 bg-white/[0.03]">
                         <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
                           {t('servicesMenuLabel')}
@@ -419,12 +365,10 @@ const Header = () => {
                           )
                         })}
                       </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
+                </div>
+              </div>
 
-              <motion.div {...motionNavItem(2)}>
+              <div>
                 <Link
                   href="/digital-creations"
                   aria-current={isActive('/digital-creations') ? 'page' : undefined}
@@ -440,7 +384,7 @@ const Header = () => {
                     }`}
                   />
                 </Link>
-              </motion.div>
+              </div>
             </div>
           </div>
 
@@ -465,17 +409,12 @@ const Header = () => {
                   <span>{locale === 'en' ? 'EN' : 'FR'}</span>
                   <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${localeDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
-                <AnimatePresence>
-                  {localeDropdownOpen && (
-                    <motion.div
-                      role="listbox"
-                      aria-labelledby="locale-dropdown-desktop"
-                      initial={prefersReducedMotion ? false : { opacity: 0, y: -4 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -4 }}
-                      transition={{ duration: 0.15 }}
-                      className="absolute right-0 top-full mt-2 py-1 min-w-[120px] bg-zinc-950 rounded-lg shadow-2xl shadow-black/60 border border-white/10 z-50"
-                    >
+                <div
+                  role="listbox"
+                  aria-labelledby="locale-dropdown-desktop"
+                  aria-hidden={!localeDropdownOpen}
+                  className={`absolute right-0 top-full mt-2 py-1 min-w-[120px] bg-zinc-950 rounded-lg shadow-2xl shadow-black/60 border border-white/10 z-50 ${dropdownPanelClass(localeDropdownOpen)}`}
+                >
                       <button
                         type="button"
                         role="option"
@@ -496,16 +435,14 @@ const Header = () => {
                         <QuebecFlagIcon className="w-5 h-[10px] flex-shrink-0" />
                         <span>FR</span>
                       </button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                </div>
               </div>
             )}
-            <motion.div {...motionCta}>
+            <div>
               <ScheduleButton variant="primary" size="sm" icon className="!py-2.5 !px-5 !text-sm">
                 {tCommon('scheduleConsultation')}
               </ScheduleButton>
-            </motion.div>
+            </div>
           </div>
 
           {/* Mobile menu button */}
@@ -519,52 +456,29 @@ const Header = () => {
               aria-expanded={isMenuOpen}
               aria-controls="mobile-menu"
             >
-              <AnimatePresence mode="wait">
-                {isMenuOpen ? (
-                  <motion.div
-                    key="close"
-                    initial={prefersReducedMotion ? false : { rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={prefersReducedMotion ? undefined : { rotate: 90, opacity: 0 }}
-                    transition={iconTransition}
-                  >
-                    <X className="w-6 h-6 text-white" />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="menu"
-                    initial={prefersReducedMotion ? false : { rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={prefersReducedMotion ? undefined : { rotate: -90, opacity: 0 }}
-                    transition={iconTransition}
-                  >
-                    <Menu className="w-6 h-6 text-white" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {isMenuOpen ? (
+                <X className="w-6 h-6 text-white" aria-hidden />
+              ) : (
+                <Menu className="w-6 h-6 text-white" aria-hidden />
+              )}
             </button>
           </div>
         </div>
 
         {/* Mobile Navigation - focus trap container */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
+        {isMenuOpen && (
+            <div
               id="mobile-menu"
               ref={mobileMenuRef}
               role="dialog"
               aria-modal="true"
               aria-label="Mobile navigation"
-              initial={prefersReducedMotion ? false : { opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={prefersReducedMotion ? undefined : { opacity: 0, height: 0 }}
-              transition={menuTransition}
               onKeyDown={handleMenuKeyDown}
-              className="lg:hidden overflow-hidden fixed left-0 right-0 z-50 shadow-lg top-[calc(4rem+env(safe-area-inset-top,0px))] flex flex-col"
+              className="lg:hidden overflow-hidden fixed left-0 right-0 z-50 shadow-lg top-[calc(4rem+env(safe-area-inset-top,0px))] flex flex-col mobile-menu-panel mobile-menu-panel-open"
               style={{ maxHeight: 'calc(100vh - 4rem - env(safe-area-inset-top, 0px))' }}
             >
               <div className="flex-1 overflow-y-auto px-2 pt-2 pb-3 space-y-1 bg-black border-t border-white/10">
-                <motion.div {...motionMobileItem(0)}>
+                <div>
                   <Link
                     href="/"
                     aria-current={isActive('/') ? 'page' : undefined}
@@ -577,9 +491,9 @@ const Header = () => {
                   >
                     {t('home')}
                   </Link>
-                </motion.div>
+                </div>
 
-                <motion.div {...motionMobileItem(1)}>
+                <div>
                   <button
                     type="button"
                     onClick={() => setServicesMobileExpanded((o) => !o)}
@@ -593,15 +507,10 @@ const Header = () => {
                     {t('services')}
                     <ChevronDown className={`w-5 h-5 transition-transform ${servicesMobileExpanded ? 'rotate-180' : ''}`} />
                   </button>
-                  <AnimatePresence>
-                    {servicesMobileExpanded && (
-                      <motion.div
-                        initial={prefersReducedMotion ? false : { opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="overflow-hidden"
-                      >
+                  <div
+                    className={`collapse-grid ${servicesMobileExpanded ? 'collapse-grid-open' : 'collapse-grid-closed'}`}
+                  >
+                    <div className="overflow-hidden min-h-0">
                         {serviceLinks.map((item) => {
                           const active = isActive(item.href)
                           const Icon = item.icon
@@ -625,12 +534,11 @@ const Header = () => {
                             </Link>
                           )
                         })}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
+                    </div>
+                  </div>
+                </div>
 
-                <motion.div {...motionMobileItem(2)}>
+                <div>
                   <Link
                     href="/digital-creations"
                     aria-current={isActive('/digital-creations') ? 'page' : undefined}
@@ -643,7 +551,7 @@ const Header = () => {
                   >
                     {t('ourWork')}
                   </Link>
-                </motion.div>
+                </div>
                 {isLocaleRoute && (
                   <div className="px-3 py-3 border-t border-white/10 relative" ref={localeDropdownMobileRef}>
                     <span className="block text-xs font-medium text-gray-400 mb-1.5">Language</span>
@@ -664,17 +572,12 @@ const Header = () => {
                       <span>{locale === 'en' ? 'EN' : 'FR'}</span>
                       <ChevronDown className={`w-5 h-5 text-gray-400 ml-auto transition-transform ${localeDropdownOpen ? 'rotate-180' : ''}`} />
                     </button>
-                    <AnimatePresence>
-                      {localeDropdownOpen && (
-                        <motion.div
-                          role="listbox"
-                          aria-labelledby="locale-dropdown-mobile"
-                          initial={prefersReducedMotion ? false : { opacity: 0, y: -4 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -4 }}
-                          transition={{ duration: 0.15 }}
-                          className="absolute left-3 right-3 top-full mt-1 py-1 bg-zinc-950 rounded-lg shadow-2xl shadow-black/60 border border-white/10 z-50"
-                        >
+                    <div
+                      role="listbox"
+                      aria-labelledby="locale-dropdown-mobile"
+                      aria-hidden={!localeDropdownOpen}
+                      className={`absolute left-3 right-3 top-full mt-1 py-1 bg-zinc-950 rounded-lg shadow-2xl shadow-black/60 border border-white/10 z-50 ${dropdownPanelClass(localeDropdownOpen)}`}
+                    >
                           <button
                             type="button"
                             role="option"
@@ -695,44 +598,33 @@ const Header = () => {
                             <QuebecFlagIcon className="w-6 h-4 flex-shrink-0" />
                             <span>FR</span>
                           </button>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                    </div>
                   </div>
                 )}
               </div>
               {/* Sticky CTA at bottom of mobile menu */}
               <div className="flex-shrink-0 p-3 bg-black border-t border-white/10">
-                <motion.div {...motionMobileCta}>
-                  <ScheduleButton
-                    variant="primary"
-                    size="md"
-                    icon
-                    className="w-full justify-center"
-                  >
-                    {tCommon('scheduleConsultation')}
-                  </ScheduleButton>
-                </motion.div>
+                <ScheduleButton
+                  variant="primary"
+                  size="md"
+                  icon
+                  className="w-full justify-center"
+                >
+                  {tCommon('scheduleConsultation')}
+                </ScheduleButton>
               </div>
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
       </nav>
 
       {/* Backdrop - cursor-pointer to show it's clickable */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={backdropTransition}
-            className="fixed inset-0 bg-black/60 z-30 lg:hidden cursor-pointer"
+      {isMenuOpen && (
+          <div
+            className="fixed inset-0 bg-black/60 z-30 lg:hidden cursor-pointer transition-opacity duration-200"
             onClick={closeMenu}
             aria-hidden="true"
           />
         )}
-      </AnimatePresence>
     </header>
   )
 }

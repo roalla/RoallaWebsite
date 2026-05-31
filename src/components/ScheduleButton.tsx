@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useId } from 'react'
 import { Link } from '@/i18n/navigation'
 import { ArrowRight } from 'lucide-react'
 import type { ConsultationIntent } from '@/lib/consultation-request'
@@ -14,6 +14,8 @@ interface ScheduleButtonProps {
   intent?: ConsultationIntent
   sublabel?: string
   sublabelClassName?: string
+  /** Shown in a tooltip on hover/focus — does not affect layout */
+  hoverHint?: string
   block?: boolean
 }
 
@@ -26,8 +28,10 @@ const ScheduleButton: React.FC<ScheduleButtonProps> = ({
   intent,
   sublabel,
   sublabelClassName = '',
+  hoverHint,
   block = false,
 }) => {
+  const hintId = useId()
   const variants = {
     primary:
       'bg-primary-dark hover:bg-primary-darker text-white shadow-md hover:shadow-lg border border-primary-darker/20',
@@ -47,12 +51,29 @@ const ScheduleButton: React.FC<ScheduleButtonProps> = ({
   const link = (
     <Link
       href={href}
+      title={hoverHint}
+      aria-describedby={hoverHint ? hintId : undefined}
       className={`inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-300 hover:scale-[1.02] ${variants[variant]} ${sizes[size]} ${block ? 'w-full' : ''} ${className}`}
     >
       {icon && <ArrowRight className="w-5 h-5 mr-2" aria-hidden />}
       {children}
     </Link>
   )
+
+  if (hoverHint && !sublabel) {
+    return (
+      <span className={`relative inline-flex group ${block ? 'w-full' : ''}`}>
+        {link}
+        <span
+          id={hintId}
+          role="tooltip"
+          className="pointer-events-none absolute left-1/2 top-[calc(100%+0.5rem)] z-50 w-max max-w-[15rem] -translate-x-1/2 rounded-md border border-white/10 bg-slate-900 px-3 py-2 text-xs leading-snug text-white text-center opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100"
+        >
+          {hoverHint}
+        </span>
+      </span>
+    )
+  }
 
   if (!sublabel) return link
 

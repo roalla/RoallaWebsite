@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl'
 import {
   ExternalLink,
   ArrowRight,
+  ArrowDown,
   CheckCircle,
   Globe,
   Layers,
@@ -251,18 +252,19 @@ const DigitalCreations = () => {
         </p>
       </Reveal>
 
-      <nav aria-label={t('jumpNavLabel')} className="mb-14">
-        <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">{t('jumpNavLabel')}</p>
-        <div className="flex flex-wrap gap-2">
+      <nav aria-label={t('jumpNavLabel')} className="mb-14 rounded-xl border border-primary/15 bg-primary/[0.04] p-5 sm:p-6">
+        <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark mb-3">{t('jumpNavLabel')}</p>
+        <div className="flex flex-wrap gap-2.5">
           {portfolioItems.map((item) => {
             const copy = getItemCopy(t, item.i18nPrefix)
             return (
               <a
                 key={item.id}
                 href={`#${item.id}`}
-                className="inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:border-primary/40 hover:text-primary transition-colors"
+                className="inline-flex items-center gap-1.5 rounded-lg border-2 border-primary/35 bg-white px-4 py-2.5 text-sm font-semibold text-primary-dark shadow-sm hover:bg-primary hover:border-primary hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
                 {copy.name}
+                <ArrowDown className="w-4 h-4 shrink-0 opacity-80" aria-hidden />
               </a>
             )
           })}

@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { ArrowRight, Briefcase, CheckCircle2, type LucideIcon } from 'lucide-react'
+import { ArrowRight, ArrowDown, Briefcase, CheckCircle2, type LucideIcon } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import Reveal from '../motion/Reveal'
 import BrowserFrame from '../digital/BrowserFrame'
@@ -363,27 +363,34 @@ type ServiceAnchorNavPropsExtended = ServiceAnchorNavProps & {
   groups?: ServiceAnchorNavGroup[]
 }
 
+const anchorJumpLinkClass =
+  'inline-flex items-center gap-1.5 rounded-lg border-2 border-primary/35 bg-white px-4 py-2.5 text-sm font-semibold text-primary-dark shadow-sm hover:bg-primary hover:border-primary hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2'
+
+const anchorNavLabelClass =
+  'text-xs font-semibold uppercase tracking-wider text-primary-dark mb-3'
+
 export function ServiceAnchorNav({ label, items, groups }: ServiceAnchorNavPropsExtended) {
   const hasGroups = groups && groups.length > 0
 
   return (
-    <nav aria-label={label} className="mb-12 max-w-4xl mx-auto space-y-6">
+    <nav
+      aria-label={label ?? groups?.[0]?.groupLabel}
+      className="mb-12 max-w-4xl mx-auto rounded-xl border border-primary/15 bg-primary/[0.04] p-5 sm:p-6"
+    >
       {hasGroups ? (
-        groups.map((group) => (
-          <div key={group.groupLabel ?? group.items[0]?.id}>
+        groups.map((group, groupIndex) => (
+          <div
+            key={group.groupLabel ?? group.items[0]?.id}
+            className={groupIndex > 0 ? 'mt-6 pt-6 border-t border-primary/10' : undefined}
+          >
             {group.groupLabel && (
-              <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-600 mb-3 text-center">
-                {group.groupLabel}
-              </p>
+              <p className={`${anchorNavLabelClass} text-center sm:text-left`}>{group.groupLabel}</p>
             )}
-            <div className="flex flex-wrap items-center justify-center gap-2">
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2.5">
               {group.items.map((item) => (
-                <a
-                  key={item.id}
-                  href={`#${item.id}`}
-                  className="rounded-md border border-slate-300 bg-white px-3.5 py-2 text-sm font-medium text-slate-800 hover:border-primary hover:bg-primary/5 hover:text-primary-dark transition-colors shadow-sm"
-                >
+                <a key={item.id} href={`#${item.id}`} className={anchorJumpLinkClass}>
                   {item.label}
+                  <ArrowDown className="w-4 h-4 shrink-0 opacity-80" aria-hidden />
                 </a>
               ))}
             </div>
@@ -391,17 +398,12 @@ export function ServiceAnchorNav({ label, items, groups }: ServiceAnchorNavProps
         ))
       ) : (
         <>
-          {label && (
-            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-600 mb-3 text-center">{label}</p>
-          )}
-          <div className="flex flex-wrap items-center justify-center gap-2">
+          {label && <p className={`${anchorNavLabelClass} text-center sm:text-left`}>{label}</p>}
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2.5">
             {(items ?? []).map((item) => (
-              <a
-                key={item.id}
-                href={`#${item.id}`}
-                className="rounded-md border border-slate-300 bg-white px-3.5 py-2 text-sm font-medium text-slate-800 hover:border-primary hover:bg-primary/5 hover:text-primary-dark transition-colors shadow-sm"
-              >
+              <a key={item.id} href={`#${item.id}`} className={anchorJumpLinkClass}>
                 {item.label}
+                <ArrowDown className="w-4 h-4 shrink-0 opacity-80" aria-hidden />
               </a>
             ))}
           </div>

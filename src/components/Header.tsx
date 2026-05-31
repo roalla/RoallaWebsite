@@ -446,14 +446,13 @@ const Header = () => {
                 </div>
               </div>
             )}
-            <div>
+            <div className="flex items-center">
               <ScheduleButton
                 variant="primary"
                 size="sm"
                 icon
                 className="!py-2.5 !px-5 !text-sm"
-                sublabel={headerCtaSubtext}
-                sublabelClassName="text-white/70 max-w-[11rem]"
+                hoverHint={headerCtaSubtext}
               >
                 {headerCtaLabel}
               </ScheduleButton>
@@ -625,8 +624,7 @@ const Header = () => {
                   icon
                   block
                   className="justify-center"
-                  sublabel={headerCtaSubtext}
-                  sublabelClassName="text-white/70"
+                  hoverHint={headerCtaSubtext}
                 >
                   {headerCtaLabel}
                 </ScheduleButton>

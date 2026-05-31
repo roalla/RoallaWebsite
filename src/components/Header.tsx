@@ -441,24 +441,6 @@ const Header = () => {
                   />
                 </Link>
               </motion.div>
-
-              <motion.div {...motionNavItem(3)}>
-                <Link
-                  href="/contact"
-                  aria-current={isActive('/contact') ? 'page' : undefined}
-                  className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap block py-2 ${
-                    isActive('/contact') ? 'text-primary' : 'text-gray-300 hover:text-primary'
-                  }`}
-                  onClick={closeMenu}
-                >
-                  {t('contact')}
-                  <span
-                    className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
-                      isActive('/contact') ? 'w-full' : 'w-0 group-hover:w-full'
-                    }`}
-                  />
-                </Link>
-              </motion.div>
             </div>
           </div>
 
@@ -660,20 +642,6 @@ const Header = () => {
                     onClick={(e) => handleMobileNavClick(e, '/digital-creations')}
                   >
                     {t('ourWork')}
-                  </Link>
-                </motion.div>
-                <motion.div {...motionMobileItem(3)}>
-                  <Link
-                    href="/contact"
-                    aria-current={isActive('/contact') ? 'page' : undefined}
-                    className={`block px-3 py-3 min-h-[44px] flex items-center rounded-md text-base font-medium transition-colors duration-200 ${
-                      isActive('/contact')
-                        ? 'text-primary bg-primary/10'
-                        : 'text-gray-300 hover:text-primary hover:bg-white/5'
-                    }`}
-                    onClick={(e) => handleMobileNavClick(e, '/contact')}
-                  >
-                    {t('contact')}
                   </Link>
                 </motion.div>
                 {isLocaleRoute && (

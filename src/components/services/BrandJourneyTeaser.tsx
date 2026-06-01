@@ -52,7 +52,7 @@ export function HomeBrandJourneyTeaser() {
   const t = useTranslations('brandJourney')
 
   return (
-    <Reveal className="mt-8 rounded-xl border border-slate-200 bg-white px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+    <Reveal className="mt-8 mb-8 rounded-xl border border-slate-200 bg-white px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
       <p className="text-sm text-slate-700 leading-relaxed">
         <span className="font-serif font-bold text-slate-900">{t('bandTitle')}</span>
         <span className="text-slate-500"> — </span>

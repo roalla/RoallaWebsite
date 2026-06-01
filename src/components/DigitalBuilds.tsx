@@ -4,7 +4,6 @@ import React from 'react'
 import Reveal from './motion/Reveal'
 import { useTranslations, useLocale } from 'next-intl'
 import { Link } from '@/i18n/navigation'
-import Image from 'next/image'
 import {
   Globe,
   Layers,
@@ -29,9 +28,7 @@ import BrowserFrame from './digital/BrowserFrame'
 import BrandJourneyBand from './services/BrandJourneyBand'
 import {
   getOrderedPortfolioItems,
-  getPortfolioProofImages,
   portfolioImageAlts,
-  portfolioItems,
   type PortfolioItemConfig,
 } from '@/lib/digitalPortfolio'
 import {
@@ -93,34 +90,6 @@ function portfolioItemName(
   return tPortfolio(map[item.i18nPrefix])
 }
 
-function ProofThumbnails({
-  category,
-  locale,
-}: {
-  category: 'website' | 'platform'
-  locale: string
-}) {
-  const proofs = getPortfolioProofImages(category)
-  if (proofs.length === 0) return null
-
-  return (
-    <div className="flex gap-2 mt-3">
-      {proofs.map((proof) => (
-        <a
-          key={proof.id}
-          href={`/${locale}/digital-creations#${proof.id}`}
-          className="relative w-20 h-14 rounded-md overflow-hidden border border-slate-200 hover:border-slate-300 transition-colors"
-          title={portfolioImageAlts[proof.id]}
-        >
-          {proof.imageUrl && (
-            <Image src={proof.imageUrl} alt="" fill className="object-cover object-top" unoptimized sizes="80px" />
-          )}
-        </a>
-      ))}
-    </div>
-  )
-}
-
 type DigitalBuild = {
   title: string
   desc: string
@@ -135,10 +104,8 @@ type DigitalBuild = {
   requestCta: string
   proofText: string
   proofHash: string
-  proofCategory: 'website' | 'platform'
   timeline: string
   anchor: string
-  featuredProof?: PortfolioItemConfig
   pillar: BrandPillar
 }
 
@@ -152,21 +119,9 @@ function DigitalBuildCard({
   locale: string
 }) {
   const tBrand = useTranslations('brandJourney')
-  const proof = build.featuredProof
 
   return (
     <Reveal as="article" id={build.anchor} className={serviceCardClass}>
-      {proof && (
-        <div className="p-4 pb-0 border-b border-slate-100 bg-slate-50/50">
-          <BrowserFrame
-            imageUrl={proof.imageUrl}
-            imageAlt={portfolioImageAlts[proof.id]}
-            brandPreview={proof.brandPreview}
-            domain={proof.domain}
-            className="shadow-sm"
-          />
-        </div>
-      )}
       <div className="p-7 lg:p-8 flex flex-col flex-1">
         <div className="flex items-start gap-4 mb-5">
           <div className="w-11 h-11 shrink-0 rounded-md border border-slate-200 bg-slate-50 flex items-center justify-center">
@@ -231,7 +186,6 @@ function DigitalBuildCard({
             {build.proofText}
             <ExternalLink className="ml-2 w-3.5 h-3.5" />
           </a>
-          <ProofThumbnails category={build.proofCategory} locale={locale} />
         </div>
       </div>
     </Reveal>
@@ -304,10 +258,8 @@ const DigitalBuilds = () => {
       requestCta: t('s0RequestCta'),
       proofText: t('s0Proof'),
       proofHash: 'ken-effect',
-      proofCategory: 'website',
       timeline: t('websiteTimeline'),
       anchor: buildAnchors[0],
-      featuredProof: portfolioItems.find((p) => p.id === 'ken-effect'),
       pillar: BUILD_PILLARS.websites,
     },
     {
@@ -324,10 +276,8 @@ const DigitalBuilds = () => {
       requestCta: t('s1RequestCta'),
       proofText: t('s1Proof'),
       proofHash: 'business-cocoon',
-      proofCategory: 'platform',
       timeline: t('platformTimeline'),
       anchor: buildAnchors[1],
-      featuredProof: portfolioItems.find((p) => p.id === 'business-cocoon'),
       pillar: BUILD_PILLARS.platforms,
     },
   ]
@@ -559,7 +509,10 @@ const DigitalBuilds = () => {
               <ArrowRight className="w-4 h-4 ml-2" />
             </Link>
           }
-          links={[{ href: '/services', label: t('crossLinkConsulting') }]}
+          links={[
+            { href: '/services', label: t('crossLinkConsulting') },
+            { href: '/services/workshops', label: t('crossLinkWorkshops') },
+          ]}
         />
       </div>
       <StickyMobileCTA label={t('ctaButton')} sublabel={tCommon('ctaSubtext')} />

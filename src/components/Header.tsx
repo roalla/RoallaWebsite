@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { Menu, X, ChevronDown, Briefcase, Globe, Layers } from 'lucide-react'
+import { Menu, X, ChevronDown, Briefcase, Globe, GraduationCap, Layers } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname as useNextPathname } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
@@ -224,15 +224,16 @@ const Header = () => {
     [pathname]
   )
 
-  type ServiceNavHref = '/services' | '/services/digital' | '/digital-creations'
+  type ServiceNavHref = '/services' | '/services/workshops' | '/services/digital' | '/digital-creations'
 
   const serviceLinks: {
-    nameKey: 'businessEnablement' | 'websitesAndDigital' | 'ourWork'
-    descKey: 'businessEnablementDesc' | 'websitesAndDigitalDesc' | 'ourWorkDesc'
+    nameKey: 'businessEnablement' | 'workshops' | 'websitesAndDigital' | 'ourWork'
+    descKey: 'businessEnablementDesc' | 'workshopsDesc' | 'websitesAndDigitalDesc' | 'ourWorkDesc'
     href: ServiceNavHref
     icon: typeof Briefcase
   }[] = [
     { nameKey: 'businessEnablement', descKey: 'businessEnablementDesc', href: '/services', icon: Briefcase },
+    { nameKey: 'workshops', descKey: 'workshopsDesc', href: '/services/workshops', icon: GraduationCap },
     { nameKey: 'websitesAndDigital', descKey: 'websitesAndDigitalDesc', href: '/services/digital', icon: Globe },
     { nameKey: 'ourWork', descKey: 'ourWorkDesc', href: '/digital-creations', icon: Layers },
   ]

@@ -47,17 +47,13 @@ describe('Header', () => {
     expect(screen.getByRole('link', { name: /scheduleConsultation/i })).toBeInTheDocument()
   })
 
-  it('renders services dropdown with business enablement and websites links', () => {
+  it('renders services dropdown with enablement, digital service, and portfolio links', () => {
     render(<Header />)
     const servicesButton = screen.getByRole('button', { name: 'services' })
     expect(servicesButton).toBeInTheDocument()
     fireEvent.click(servicesButton)
     expect(screen.getByRole('menuitem', { name: /businessEnablement/i })).toHaveAttribute('href', '/services')
     expect(screen.getByRole('menuitem', { name: /websitesAndDigital/i })).toHaveAttribute('href', '/services/digital')
-  })
-
-  it('renders our work navigation link', () => {
-    render(<Header />)
-    expect(screen.getByRole('link', { name: 'ourWork' })).toHaveAttribute('href', '/digital-creations')
+    expect(screen.getByRole('menuitem', { name: /ourWork/i })).toHaveAttribute('href', '/digital-creations')
   })
 })

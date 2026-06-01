@@ -5,7 +5,7 @@ import { ArrowRight, ArrowDown, Briefcase, CheckCircle2, type LucideIcon } from 
 import { Link } from '@/i18n/navigation'
 import Reveal from '../motion/Reveal'
 import BrowserFrame from '../digital/BrowserFrame'
-import { portfolioImageAlts, portfolioItems } from '@/lib/digitalPortfolio'
+import { getOrderedPortfolioItems, portfolioImageAlts, portfolioItems } from '@/lib/digitalPortfolio'
 
 export type ServiceStat = { value: string; label: string; icon?: LucideIcon }
 
@@ -123,11 +123,13 @@ export function DigitalHeroVisual({
 }
 
 export function PortfolioHeroVisual({ proofLabel }: { proofLabel: string }) {
+  const heroItems = getOrderedPortfolioItems()
+
   return (
     <div className="space-y-3">
       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-light">{proofLabel}</p>
       <div className="grid grid-cols-2 gap-2.5">
-        {portfolioItems.map((item, i) => (
+        {heroItems.map((item, i) => (
           <a
             key={item.id}
             href={item.tryUrl}

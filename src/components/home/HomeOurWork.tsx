@@ -6,9 +6,7 @@ import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { ArrowRight, Briefcase, Globe, CheckCircle2, ExternalLink } from 'lucide-react'
 import BrowserFrame from '../digital/BrowserFrame'
-import { portfolioItems, portfolioImageAlts } from '@/lib/digitalPortfolio'
-
-const featuredIds = ['business-cocoon', 'soaring-puck', 'ken-effect', 'roalla-site'] as const
+import { getOrderedPortfolioItems, portfolioImageAlts } from '@/lib/digitalPortfolio'
 const consultingOutcomeKeys = ['consultingOutcome1', 'consultingOutcome2', 'consultingOutcome3'] as const
 
 export default function HomeOurWork() {
@@ -18,18 +16,15 @@ export default function HomeOurWork() {
   const nameMap = { t1: 't1Name', t3: 't3Name', t4: 't4Name', t5: 't5Name' } as const
   const descMap = { t1: 't1Desc', t3: 't3Desc', t4: 't4Desc', t5: 't5Desc' } as const
 
-  const featured = featuredIds
-    .map((id) => portfolioItems.find((p) => p.id === id))
-    .filter(Boolean)
-    .map((item) => ({
-      id: item!.id,
-      name: tPortfolio(nameMap[item!.i18nPrefix]),
-      outcome: tPortfolio(descMap[item!.i18nPrefix]),
-      url: item!.tryUrl,
-      imageUrl: item!.imageUrl,
-      brandPreview: item!.brandPreview,
-      domain: item!.domain,
-    }))
+  const featured = getOrderedPortfolioItems().map((item) => ({
+    id: item.id,
+    name: tPortfolio(nameMap[item.i18nPrefix]),
+    outcome: tPortfolio(descMap[item.i18nPrefix]),
+    url: item.tryUrl,
+    imageUrl: item.imageUrl,
+    brandPreview: item.brandPreview,
+    domain: item.domain,
+  }))
 
   return (
     <section id="our-work" className="py-14 lg:py-20 bg-white relative scroll-mt-24">

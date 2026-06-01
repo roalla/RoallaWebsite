@@ -19,27 +19,15 @@ export type PortfolioItemConfig = {
   featured?: boolean
 }
 
+/** Hero / proof grids: platforms first, then websites */
+export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
+  'business-cocoon',
+  'soaring-puck',
+  'ken-effect',
+  'roalla-site',
+]
+
 export const portfolioItems: PortfolioItemConfig[] = [
-  {
-    id: 'ken-effect',
-    category: 'website',
-    imageUrl: '/Keneffectsite.jpg',
-    tryUrl: 'https://www.keneffect.com/',
-    domain: 'keneffect.com',
-    contactService: 'websites-brand',
-    i18nPrefix: 't3',
-    tagKeys: ['t3Tag1', 't3Tag2', 't3Tag3'],
-  },
-  {
-    id: 'roalla-site',
-    category: 'website',
-    imageUrl: '/roalla-snapshot.jpg',
-    tryUrl: 'https://www.roalla.com',
-    domain: 'roalla.com',
-    contactService: 'websites-brand',
-    i18nPrefix: 't5',
-    tagKeys: ['t5Tag1', 't5Tag2', 't5Tag3'],
-  },
   {
     id: 'business-cocoon',
     category: 'platform',
@@ -61,6 +49,26 @@ export const portfolioItems: PortfolioItemConfig[] = [
     i18nPrefix: 't1',
     tagKeys: ['t1Tag1', 't1Tag2', 't1Tag3'],
   },
+  {
+    id: 'ken-effect',
+    category: 'website',
+    imageUrl: '/Keneffectsite.jpg',
+    tryUrl: 'https://www.keneffect.com/',
+    domain: 'keneffect.com',
+    contactService: 'websites-brand',
+    i18nPrefix: 't3',
+    tagKeys: ['t3Tag1', 't3Tag2', 't3Tag3'],
+  },
+  {
+    id: 'roalla-site',
+    category: 'website',
+    imageUrl: '/roalla-snapshot.jpg',
+    tryUrl: 'https://www.roalla.com',
+    domain: 'roalla.com',
+    contactService: 'websites-brand',
+    i18nPrefix: 't5',
+    tagKeys: ['t5Tag1', 't5Tag2', 't5Tag3'],
+  },
 ]
 
 export const portfolioImageAlts: Record<PortfolioItemId, string> = {
@@ -70,6 +78,29 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
   'soaring-puck': 'Soaring Puck youth hockey platform dashboard',
 }
 
+export function sortPortfolioByDisplayOrder(
+  items: PortfolioItemConfig[],
+): PortfolioItemConfig[] {
+  const orderIndex = new Map(portfolioHeroItemOrder.map((id, index) => [id, index]))
+  return [...items].sort(
+    (a, b) =>
+      (orderIndex.get(a.id) ?? Number.MAX_SAFE_INTEGER) -
+      (orderIndex.get(b.id) ?? Number.MAX_SAFE_INTEGER),
+  )
+}
+
+export function getOrderedPortfolioItems(options?: {
+  excludeFeatured?: boolean
+  category?: PortfolioCategory
+}): PortfolioItemConfig[] {
+  let items = portfolioHeroItemOrder
+    .map((id) => portfolioItems.find((item) => item.id === id))
+    .filter((item): item is PortfolioItemConfig => item != null)
+  if (options?.excludeFeatured) items = items.filter((item) => !item.featured)
+  if (options?.category) items = items.filter((item) => item.category === options.category)
+  return items
+}
+
 export function getPortfolioProofImages(category: PortfolioCategory): PortfolioItemConfig[] {
-  return portfolioItems.filter((item) => item.category === category && item.imageUrl).slice(0, 2)
+  return getOrderedPortfolioItems({ category }).filter((item) => item.imageUrl).slice(0, 2)
 }

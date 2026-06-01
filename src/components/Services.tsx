@@ -45,7 +45,6 @@ import {
 import {
   ServicePageHero,
   ConsultingHeroVisual,
-  ServiceLaneCompare,
   ServiceAnchorNav,
   ServiceSectionHeading,
   ServicePageCTA,
@@ -288,15 +287,6 @@ const Services = () => {
       <Breadcrumb items={[{ label: tBc('home'), href: '/' }, { label: tBc('services') }]} />
 
       <div className="max-w-6xl mx-auto">
-        <ServiceLaneCompare
-          activeLane="consulting"
-          consultingLabel={t('compareConsultingLabel')}
-          consultingDesc={t('compareConsultingDesc')}
-          buildingLabel={t('compareBuildingLabel')}
-          buildingDesc={t('compareBuildingDesc')}
-          buildingLinkText={t('compareBuildingLink')}
-        />
-
         <BrandJourneyBand />
 
         <ServiceAnchorNav

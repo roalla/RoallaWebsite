@@ -28,6 +28,7 @@ import Breadcrumb from './Breadcrumb'
 import BrowserFrame from './digital/BrowserFrame'
 import BrandJourneyBand from './services/BrandJourneyBand'
 import {
+  getOrderedPortfolioItems,
   getPortfolioProofImages,
   portfolioImageAlts,
   portfolioItems,
@@ -48,7 +49,6 @@ import {
 import {
   ServicePageHero,
   DigitalHeroVisual,
-  ServiceLaneCompare,
   ServiceAnchorNav,
   ServiceSectionHeading,
   ServicePageCTA,
@@ -375,15 +375,6 @@ const DigitalBuilds = () => {
       />
 
       <div className="max-w-6xl mx-auto">
-        <ServiceLaneCompare
-          activeLane="building"
-          consultingLabel={t('compareConsultingLabel')}
-          consultingDesc={t('compareConsultingDesc')}
-          buildingLabel={t('compareBuildingLabel')}
-          buildingDesc={t('compareBuildingDesc')}
-          consultingLinkText={t('compareConsultingLink')}
-        />
-
         <BrandJourneyBand />
 
         <ServiceAnchorNav
@@ -455,55 +446,45 @@ const DigitalBuilds = () => {
         </section>
 
         <Reveal className="mt-16 pt-12 border-t border-slate-200">
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
-            <ServiceSectionHeading eyebrow={t('proofEyebrow')} title={t('proofTitle')} description={t('proofDesc')} />
-            <Link href="/digital-creations" className="inline-flex items-center text-primary font-medium text-sm hover:underline shrink-0">
-              {t('crossLinkOurWork')}
-              <ArrowRight className="ml-1.5 w-4 h-4" />
-            </Link>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {portfolioItems.map((item, index) => (
-              <a
-                key={item.id}
-                href={item.tryUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group rounded-lg border border-slate-200 overflow-hidden hover:border-slate-300 transition-colors bg-white"
-              >
-                <div className="relative h-28 bg-slate-100">
-                  {item.brandPreview ? (
-                    <div className="absolute inset-0 flex items-center justify-center bg-slate-50">
-                      <span className="font-serif font-bold text-slate-800">ROALLA</span>
-                    </div>
-                  ) : item.imageUrl ? (
-                    <Image
-                      src={item.imageUrl}
-                      alt={portfolioImageAlts[item.id]}
-                      fill
-                      className="object-cover object-top"
-                      unoptimized
-                      sizes="240px"
-                      priority={index < 2}
+          <div className="rounded-xl border border-slate-200 bg-gradient-to-br from-slate-50 via-white to-primary/[0.04] p-6 lg:p-8">
+            <ServiceSectionHeading
+              eyebrow={t('proofEyebrow')}
+              title={t('proofTitle')}
+              description={t('proofTeaserDesc')}
+              className="mb-6"
+            />
+            <div className="grid sm:grid-cols-2 gap-4 max-w-2xl mb-6">
+              {getOrderedPortfolioItems()
+                .slice(0, 2)
+                .map((item, index) => (
+                  <a
+                    key={item.id}
+                    href={item.tryUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group block"
+                  >
+                    <BrowserFrame
+                      imageUrl={item.imageUrl}
+                      imageAlt={portfolioImageAlts[item.id]}
+                      domain={item.domain}
+                      priority={index === 0}
+                      className="group-hover:shadow-card-hover transition-shadow duration-300"
                     />
-                  ) : null}
-                </div>
-                <div className="p-3 border-t border-slate-100">
-                  <p className="font-medium text-sm text-slate-900 group-hover:text-primary transition-colors">
-                    {portfolioItemName(tPortfolio, item)}
-                  </p>
-                  {item.domain && <p className="text-xs text-slate-500 mt-0.5">{item.domain}</p>}
-                </div>
-              </a>
-            ))}
-          </div>
-          <p className="mt-6 text-center text-sm text-slate-600">
-            {t('proofInquiry')}{' '}
-            <Link href="/schedule" className="link-action font-medium">
-              {t('ctaButton')}
-              <ArrowRight className="inline w-4 h-4 ml-1" />
+                    <p className="mt-2 text-sm font-medium text-slate-900 group-hover:text-primary transition-colors">
+                      {portfolioItemName(tPortfolio, item)}
+                    </p>
+                  </a>
+                ))}
+            </div>
+            <Link
+              href="/digital-creations"
+              className="inline-flex items-center justify-center rounded-lg bg-primary hover:bg-primary-dark text-white font-semibold px-5 py-2.5 text-sm transition-colors"
+            >
+              {t('proofViewPortfolio')}
+              <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
-          </p>
+          </div>
         </Reveal>
 
         <Reveal className="mt-16 pt-12 border-t border-slate-200 grid lg:grid-cols-2 gap-6">

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { Menu, X, ChevronDown, Briefcase, Globe } from 'lucide-react'
+import { Menu, X, ChevronDown, Briefcase, Globe, Layers } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname as useNextPathname } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
@@ -224,19 +224,21 @@ const Header = () => {
     [pathname]
   )
 
-  type ServiceNavHref = '/services' | '/services/digital'
+  type ServiceNavHref = '/services' | '/services/digital' | '/digital-creations'
 
   const serviceLinks: {
-    nameKey: 'businessEnablement' | 'websitesAndDigital'
-    descKey: 'businessEnablementDesc' | 'websitesAndDigitalDesc'
+    nameKey: 'businessEnablement' | 'websitesAndDigital' | 'ourWork'
+    descKey: 'businessEnablementDesc' | 'websitesAndDigitalDesc' | 'ourWorkDesc'
     href: ServiceNavHref
     icon: typeof Briefcase
   }[] = [
     { nameKey: 'businessEnablement', descKey: 'businessEnablementDesc', href: '/services', icon: Briefcase },
     { nameKey: 'websitesAndDigital', descKey: 'websitesAndDigitalDesc', href: '/services/digital', icon: Globe },
+    { nameKey: 'ourWork', descKey: 'ourWorkDesc', href: '/digital-creations', icon: Layers },
   ]
 
-  const isServicesActive = pathname === '/services' || pathname.startsWith('/services/')
+  const isServicesActive =
+    pathname === '/services' || pathname.startsWith('/services/') || pathname === '/digital-creations'
 
   const dropdownPanelClass = (open: boolean) =>
     `dropdown-panel ${open ? 'dropdown-panel-open' : 'dropdown-panel-closed'}`
@@ -327,7 +329,7 @@ const Header = () => {
                   role="menu"
                   aria-labelledby="services-dropdown-desktop"
                   aria-hidden={!servicesDropdownOpen}
-                  className={`absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[min(100vw-2rem,320px)] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50 ${dropdownPanelClass(servicesDropdownOpen)}`}
+                  className={`absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[min(100vw-2rem,360px)] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50 ${dropdownPanelClass(servicesDropdownOpen)}`}
                 >
                       <div className="px-4 py-2.5 border-b border-white/10 bg-white/[0.03]">
                         <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
@@ -374,24 +376,6 @@ const Header = () => {
                         })}
                       </div>
                 </div>
-              </div>
-
-              <div>
-                <Link
-                  href="/digital-creations"
-                  aria-current={isActive('/digital-creations') ? 'page' : undefined}
-                  className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap block py-2 ${
-                    isActive('/digital-creations') ? 'text-primary' : 'text-gray-300 hover:text-primary'
-                  }`}
-                  onClick={closeMenu}
-                >
-                  {t('ourWork')}
-                  <span
-                    className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
-                      isActive('/digital-creations') ? 'w-full' : 'w-0 group-hover:w-full'
-                    }`}
-                  />
-                </Link>
               </div>
             </div>
           </div>
@@ -552,20 +536,6 @@ const Header = () => {
                   </div>
                 </div>
 
-                <div>
-                  <Link
-                    href="/digital-creations"
-                    aria-current={isActive('/digital-creations') ? 'page' : undefined}
-                    className={`block px-3 py-3 min-h-[44px] flex items-center rounded-md text-base font-medium transition-colors duration-200 ${
-                      isActive('/digital-creations')
-                        ? 'text-primary bg-primary/10'
-                        : 'text-gray-300 hover:text-primary hover:bg-white/5'
-                    }`}
-                    onClick={(e) => handleMobileNavClick(e, '/digital-creations')}
-                  >
-                    {t('ourWork')}
-                  </Link>
-                </div>
                 {isLocaleRoute && (
                   <div className="px-3 py-3 border-t border-white/10 relative" ref={localeDropdownMobileRef}>
                     <span className="block text-xs font-medium text-gray-400 mb-1.5">Language</span>

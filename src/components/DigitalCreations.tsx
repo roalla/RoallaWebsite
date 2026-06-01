@@ -11,8 +11,6 @@ import {
   Globe,
   Layers,
   Rocket,
-  Palette,
-  Hammer,
   Sparkles,
 } from 'lucide-react'
 import Image from 'next/image'
@@ -26,6 +24,7 @@ import {
   serviceHeroSecondaryButtonClass,
 } from './services/ServicePageSections'
 import {
+  getOrderedPortfolioItems,
   portfolioItems,
   portfolioImageAlts,
   type PortfolioCategory,
@@ -174,8 +173,6 @@ function PortfolioCard({
   )
 }
 
-const buildStepIcons = [Palette, Hammer, Rocket] as const
-
 const DigitalCreations = () => {
   const t = useTranslations('digitalCreations')
   const tCommon = useTranslations('common')
@@ -186,9 +183,8 @@ const DigitalCreations = () => {
   const featuredTags = getItemTags(t, featured)
 
   const gridItems = useMemo(() => {
-    const rest = portfolioItems.filter((item) => !item.featured)
-    if (filter === 'all') return rest
-    return rest.filter((item) => item.category === filter)
+    if (filter === 'all') return getOrderedPortfolioItems({ excludeFeatured: true })
+    return getOrderedPortfolioItems({ excludeFeatured: true, category: filter })
   }, [filter])
 
   const filters: { key: FilterKey; label: string }[] = [
@@ -203,8 +199,6 @@ const DigitalCreations = () => {
     { value: t('statYearsValue'), label: t('statYearsLabel'), icon: Sparkles },
     { value: t('statLiveValue'), label: t('statLiveLabel'), icon: Rocket },
   ]
-
-  const buildSteps = ['buildStep1', 'buildStep2', 'buildStep3'] as const
 
   return (
     <section id="digital-creations" className="section-padding relative">
@@ -226,7 +220,7 @@ const DigitalCreations = () => {
         }
         secondaryCta={
           <Link href="/services/digital" className={serviceHeroSecondaryButtonClass}>
-            {t('exploreDigitalBuilds')}
+            {t('howWeDeliver')}
             <ArrowRight className="ml-2 w-4 h-4" />
           </Link>
         }
@@ -255,7 +249,7 @@ const DigitalCreations = () => {
       <nav aria-label={t('jumpNavLabel')} className="mb-14 rounded-xl border border-primary/15 bg-primary/[0.04] p-5 sm:p-6">
         <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark mb-3">{t('jumpNavLabel')}</p>
         <div className="flex flex-wrap gap-2.5">
-          {portfolioItems.map((item) => {
+          {getOrderedPortfolioItems().map((item) => {
             const copy = getItemCopy(t, item.i18nPrefix)
             return (
               <a
@@ -326,33 +320,15 @@ const DigitalCreations = () => {
         </Reveal>
       )}
 
-      {/* Build capability strip */}
-      <Reveal className="mb-16 rounded-2xl border border-slate-200 bg-white p-6 lg:p-8">
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-8">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-2">{t('buildStripEyebrow')}</p>
-            <h2 className="text-2xl font-serif font-bold text-slate-900">{t('buildStripTitle')}</h2>
-            <p className="mt-2 text-slate-600 max-w-2xl">{t('buildStripDesc')}</p>
-          </div>
-          <Link href="/services/digital" className="inline-flex items-center text-primary font-semibold text-sm hover:underline shrink-0">
-            {t('exploreDigitalBuilds')}
-            <ArrowRight className="ml-1.5 w-4 h-4" />
+      {/* Process pointer — detail lives on the service page */}
+      <Reveal className="mb-16 rounded-xl border border-slate-200 bg-slate-50 px-6 py-5 lg:px-8">
+        <p className="text-sm text-slate-700 leading-relaxed max-w-3xl">
+          {t('buildStripDescShort')}{' '}
+          <Link href="/services/digital" className="link-action font-semibold inline-flex items-center gap-1">
+            {t('howWeDeliver')}
+            <ArrowRight className="w-4 h-4" aria-hidden />
           </Link>
-        </div>
-        <div className="grid md:grid-cols-3 gap-4">
-          {buildSteps.map((key, i) => {
-            const Icon = buildStepIcons[i]
-            return (
-              <div key={key} className="rounded-xl border border-slate-200 bg-slate-50 p-5">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary mb-3">
-                  <Icon className="h-5 w-5" />
-                </div>
-                <h3 className="font-semibold text-slate-900">{t(`${key}Title` as 'buildStep1Title')}</h3>
-                <p className="mt-1 text-sm text-slate-600">{t(`${key}Desc` as 'buildStep1Desc')}</p>
-              </div>
-            )
-          })}
-        </div>
+        </p>
       </Reveal>
 
       {/* Filter + grid header */}
@@ -391,18 +367,13 @@ const DigitalCreations = () => {
         <p className="text-center text-slate-500 mb-16">{t('noProjectsInCategory')}</p>
       )}
 
-      {/* Deliverables strip */}
-      <Reveal className="mb-16 rounded-2xl border border-slate-200 bg-slate-50 p-6 lg:p-8">
-        <h2 className="text-xl font-serif font-bold text-slate-900 mb-2">{t('deliverablesTitle')}</h2>
-        <p className="text-slate-600 text-sm mb-6 max-w-2xl">{t('deliverablesDesc')}</p>
-        <ul className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          {[t('deliverable1'), t('deliverable2'), t('deliverable3'), t('deliverable4')].map((item) => (
-            <li key={item} className="flex items-start gap-2 text-sm text-slate-700 bg-white rounded-lg border border-slate-200 px-3 py-3">
-              <CheckCircle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-              {item}
-            </li>
-          ))}
-        </ul>
+      <Reveal className="mb-16 rounded-lg border border-primary/15 bg-primary/[0.04] px-6 py-5 text-center">
+        <p className="text-sm text-slate-700">
+          {t('processTeaser')}{' '}
+          <Link href="/services/digital" className="link-action font-semibold">
+            {t('processLinkLabel')}
+          </Link>
+        </p>
       </Reveal>
 
       {/* CTA */}
@@ -417,18 +388,15 @@ const DigitalCreations = () => {
           </span>
           <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4">{t('ctaTitle')}</h2>
           <p className="text-xl text-white/95 mb-8 max-w-3xl mx-auto">{t('ctaSubtitle')}</p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <ScheduleButton variant="secondary" size="lg" className="bg-white text-primary-dark hover:bg-white/90 hover:scale-[1.03] transition-transform shadow-2xl">
-              {t('scheduleCall')}
-            </ScheduleButton>
-            <Link
-              href="/services/digital"
-              className="inline-flex items-center justify-center bg-white/15 hover:bg-white/25 text-white font-semibold py-4 px-8 rounded-lg border-2 border-white/30 transition-all"
-            >
-              {t('exploreDigitalBuilds')}
-              <ArrowRight className="w-5 h-5 ml-2" />
+          <ScheduleButton variant="secondary" size="lg" className="bg-white text-primary-dark hover:bg-white/90 hover:scale-[1.03] transition-transform shadow-2xl">
+            {t('scheduleCall')}
+          </ScheduleButton>
+          <p className="mt-5 text-sm text-white/90">
+            {t('processTeaser')}{' '}
+            <Link href="/services/digital" className="font-semibold text-white underline underline-offset-4 hover:text-white/80">
+              {t('processLinkLabel')}
             </Link>
-          </div>
+          </p>
         </div>
       </Reveal>
       <StickyMobileCTA label={t('scheduleCall')} sublabel={tCommon('ctaSubtext')} />

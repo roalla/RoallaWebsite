@@ -25,11 +25,16 @@ test.describe('Header', () => {
     await expect(page.getByRole('heading', { name: 'Digital Creations', level: 1 })).toBeVisible()
   })
 
-  test('our work link navigates to digital creations portfolio', async ({ page }) => {
+  test('services menu includes portfolio link to digital creations', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 })
     await page.goto('/en')
 
-    await page.getByLabel('Main navigation').getByRole('link', { name: 'Our Digital Work' }).click()
+    const servicesButton = page.locator('#services-dropdown-desktop')
+    await servicesButton.click()
+
+    const menu = page.locator('[aria-labelledby="services-dropdown-desktop"]')
+    await expect(menu.locator('a[href*="/digital-creations"]')).toBeVisible()
+    await menu.locator('a[href*="/digital-creations"]').click()
     await expect(page).toHaveURL(/\/digital-creations/)
     await expect(page.getByRole('heading', { name: 'Our Digital Work', level: 1 })).toBeVisible()
   })

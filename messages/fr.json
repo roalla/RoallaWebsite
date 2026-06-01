@@ -66,7 +66,8 @@
       "consultingOutcome3": "Priorités, responsables et KPI prêts pour la direction",
       "digitalProofLabel": "Réalisations numériques en ligne",
       "exploreConsultingLink": "Explorer l'accompagnement d'entreprise",
-      "exploreDigitalLink": "Voir les créations numériques",
+      "exploreDigitalLink": "Voir le portfolio en direct",
+      "exploreDigitalServiceLink": "Explorer les créations numériques",
       "journeyLine": "Transformer → Émerger → S'élever — un parcours unique de l'accompagnement d'affaires à la livraison numérique."
     },
     "whatWeDo": {
@@ -90,7 +91,7 @@
       "processOptimization": "Optimisation des processus",
       "teamDevelopment": "Développement d'équipe",
       "dataAnalytics": "Analyse de données",
-      "innovationConsulting": "Conseil en innovation",
+      "innovationConsulting": "Innovation et croissance",
       "digitalTransformation": "Transformation numérique",
       "consultingOutcome1": "Plans de 90 jours avec priorités et KPI alignés",
       "consultingOutcome2": "Améliorations de processus qui réduisent les délais",
@@ -122,7 +123,9 @@
     "howWeBuild": {
       "cta": "Discuter de votre projet",
       "responseTime": "Nous répondons dans un délai d'un jour ouvrable.",
-      "learnMore": "Découvrir notre façon de travailler avec vous"
+      "learnMore": "Découvrir notre façon de travailler avec vous",
+      "buildStripDescShort": "Portées, délais et livrables pour sites et plateformes sont sur la page Créations numériques.",
+      "howWeDeliver": "Comment nous livrons les créations numériques"
     },
     "testimonials": {
       "eyebrow": "Témoignages clients",
@@ -219,7 +222,7 @@
     "step1Hint": "Choisissez l'option qui correspond le mieux à ce que vous recherchez aujourd'hui.",
     "step2Title": "Dites-nous en un peu plus",
     "step3Title": "Comment vous joindre?",
-    "intentConsulting": "Conseil d'entreprise",
+    "intentConsulting": "Accompagnement d'entreprise",
     "intentConsultingDesc": "Stratégie, opérations et croissance",
     "intentWebsite": "Site Web",
     "intentWebsiteDesc": "Nouveau site, refonte ou rafraîchissement",
@@ -376,7 +379,8 @@
     "fit1": "Avez besoin de clarté stratégique et de discipline opérationnelle — pas seulement de conseils",
     "fit2": "Voulez des responsables, jalons et KPI liés aux priorités d'affaires",
     "fit3": "Préférez un partenaire qui reste jusqu'à la mise en œuvre, pas un rapport ponctuel",
-    "fitDigitalNote": "Si vous avez besoin d'un site Web ou d'une plateforme — pas du conseil d'abord — voir Créations numériques. Beaucoup de clients Transforment ici, Émergent avec un site et S'élèvent avec une plateforme lorsque la feuille de route est claire.",
+    "fitDigitalNote": "Si vous avez besoin d'un site Web ou d'une plateforme — pas de l'accompagnement d'abord — voir Créations numériques. Beaucoup de clients Transforment ici, Émergent avec un site et S'élèvent avec une plateforme lorsque la feuille de route est claire.",
+    "fitAssessmentTeaser": "Vous ne savez pas quelle voie choisir?",
     "faqTitle": "Questions fréquentes",
     "faq1Q": "Par quel service commencer?",
     "faq1A": "Commencez par un appel de découverte — nous alignons l'urgence à la bonne phase. Beaucoup d'équipes débutent en Transformer (planification stratégique ou optimisation des processus), puis progressent vers Émerger et S'élever.",
@@ -437,7 +441,7 @@
     "s3Outcome": "Des tableaux de bord decisionnels et un systeme KPI relies aux priorites d'affaires.",
     "s3NotFor": "Vous cherchez uniquement un support d'entreposage de donnees sans workflow de decision.",
     "s3Cta": "Explorer l'analytique des donnees",
-    "s4Title": "Conseil en innovation",
+    "s4Title": "Innovation et croissance",
     "s4Desc": "Favoriser une culture d'innovation et déployer des solutions à la fine pointe.",
     "s4F1": "Stratégie d'innovation",
     "s4F2": "Évaluation technologique",
@@ -445,7 +449,7 @@
     "s4Ideal": "Pertinent quand : Vous voulez valider de nouvelles initiatives avant d'engager pleinement capital et equipe",
     "s4Outcome": "Une feuille de route pilote de-risquee avec metriques de succes et trajectoires d'adoption.",
     "s4NotFor": "Vous cherchez uniquement a optimiser des workflows deja matures.",
-    "s4Cta": "Explorer le conseil en innovation",
+    "s4Cta": "Explorer l'innovation et la croissance",
     "s5Title": "Transformation numérique",
     "s5Desc": "Naviguer dans le paysage numérique avec des stratégies de transformation complètes.",
     "s5F1": "Feuille de route technologique",
@@ -600,6 +604,8 @@
     "requestAccessLink": "Demander l'accès aux téléchargements, liens et outils"
   },
   "digitalCreations": {
+    "metadataTitle": "Nos réalisations numériques | ROALLA",
+    "metadataDescription": "Sites Web et plateformes sur mesure livrés par Roalla — Business Cocoon, Soaring Puck, Ken Effect et plus. Preuves en production de notre capacité numérique.",
     "portfolioTitle": "Nos réalisations numériques",
     "portfolioTagline": "Créé par Roalla",
     "portfolioSubtitle": "Sites, plateformes et outils en production qui montrent comment nous concevons, développons et livrons — la même capacité que nous apportons aux clients.",

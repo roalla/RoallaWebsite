@@ -74,48 +74,48 @@ export function ConsultingHeroVisual({
 
 export function DigitalHeroVisual({
   proofLabel,
-  websiteCaption,
-  platformCaption,
+  primaryCaption,
+  secondaryCaption,
 }: {
   proofLabel: string
-  websiteCaption: string
-  platformCaption: string
+  primaryCaption: string
+  secondaryCaption: string
 }) {
-  const website = portfolioItems.find((p) => p.id === 'ken-effect')!
-  const platform = portfolioItems.find((p) => p.id === 'business-cocoon')!
+  const primary = portfolioItems.find((p) => p.id === 'business-cocoon')!
+  const secondary = portfolioItems.find((p) => p.id === 'soaring-puck')!
 
   return (
     <div className="space-y-4">
       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-light">{proofLabel}</p>
       <div className="space-y-3">
         <a
-          href={website.tryUrl}
+          href={primary.tryUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="block group"
         >
           <BrowserFrame
-            imageUrl={website.imageUrl}
-            imageAlt={portfolioImageAlts['ken-effect']}
-            domain={website.domain}
+            imageUrl={primary.imageUrl}
+            imageAlt={portfolioImageAlts['business-cocoon']}
+            domain={primary.domain}
             priority
             className="group-hover:shadow-card-hover transition-shadow duration-300"
           />
-          <p className="mt-2 text-sm text-slate-300 line-clamp-2">{websiteCaption}</p>
+          <p className="mt-2 text-sm text-slate-300 line-clamp-2">{primaryCaption}</p>
         </a>
         <a
-          href={platform.tryUrl}
+          href={secondary.tryUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="block group lg:translate-x-6"
         >
           <BrowserFrame
-            imageUrl={platform.imageUrl}
-            imageAlt={portfolioImageAlts['business-cocoon']}
-            domain={platform.domain}
+            imageUrl={secondary.imageUrl}
+            imageAlt={portfolioImageAlts['soaring-puck']}
+            domain={secondary.domain}
             className="group-hover:shadow-card-hover transition-shadow duration-300"
           />
-          <p className="mt-2 text-sm text-slate-300 line-clamp-2 lg:pl-6">{platformCaption}</p>
+          <p className="mt-2 text-sm text-slate-300 line-clamp-2 lg:pl-6">{secondaryCaption}</p>
         </a>
       </div>
     </div>
@@ -262,90 +262,6 @@ export function ServicePageHero({
         <Reveal delayMs={100} className="lg:hidden px-6 pb-10">
           {visual}
         </Reveal>
-      )}
-    </Reveal>
-  )
-}
-
-type ServiceLaneCompareProps = {
-  activeLane: 'consulting' | 'building'
-  consultingLabel: string
-  consultingDesc: string
-  buildingLabel: string
-  buildingDesc: string
-  consultingHref?: '/services'
-  buildingHref?: '/services/digital'
-  consultingLinkText?: string
-  buildingLinkText?: string
-}
-
-export function ServiceLaneCompare({
-  activeLane,
-  consultingLabel,
-  consultingDesc,
-  buildingLabel,
-  buildingDesc,
-  consultingHref = '/services',
-  buildingHref = '/services/digital',
-  consultingLinkText,
-  buildingLinkText,
-}: ServiceLaneCompareProps) {
-  const consultingActive = activeLane === 'consulting'
-  const buildingActive = activeLane === 'building'
-
-  const consultingCell = (
-    <div
-      className={`p-6 lg:p-7 h-full ${
-        consultingActive
-          ? 'bg-white border-l-4 border-l-primary shadow-sm'
-          : 'bg-slate-100/90'
-      }`}
-    >
-      <p className={`text-xs font-semibold uppercase tracking-[0.15em] mb-2 ${consultingActive ? 'text-primary-dark' : 'text-slate-500'}`}>{consultingLabel}</p>
-      <p className={`text-sm leading-relaxed ${consultingActive ? 'text-slate-800 font-medium' : 'text-slate-600'}`}>{consultingDesc}</p>
-      {!consultingActive && consultingLinkText && (
-        <span className="mt-4 inline-flex items-center text-sm font-medium text-slate-600 group-hover:text-primary">
-          {consultingLinkText}
-          <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
-        </span>
-      )}
-    </div>
-  )
-
-  const buildingCell = (
-    <div
-      className={`p-6 lg:p-7 h-full ${
-        buildingActive
-          ? 'bg-white border-l-4 border-l-primary shadow-sm'
-          : 'bg-slate-100/90'
-      }`}
-    >
-      <p className={`text-xs font-semibold uppercase tracking-[0.15em] mb-2 ${buildingActive ? 'text-primary-dark' : 'text-slate-500'}`}>{buildingLabel}</p>
-      <p className={`text-sm leading-relaxed ${buildingActive ? 'text-slate-800 font-medium' : 'text-slate-600'}`}>{buildingDesc}</p>
-      {!buildingActive && buildingLinkText && (
-        <span className="mt-4 inline-flex items-center text-sm font-medium text-slate-600 group-hover:text-primary">
-          {buildingLinkText}
-          <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
-        </span>
-      )}
-    </div>
-  )
-
-  return (
-    <Reveal className="max-w-4xl mx-auto mb-10 rounded-lg border border-slate-300 overflow-hidden grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-300 shadow-sm">
-      {consultingActive ? (
-        consultingCell
-      ) : (
-        <Link href={consultingHref} className="group block hover:bg-slate-50 transition-colors">
-          {consultingCell}
-        </Link>
-      )}
-      {buildingActive ? (
-        buildingCell
-      ) : (
-        <Link href={buildingHref} className="group block hover:bg-slate-50 transition-colors">
-          {buildingCell}
-        </Link>
       )}
     </Reveal>
   )

@@ -384,12 +384,18 @@ const Services = () => {
               ))}
             </ul>
           </div>
-          <div className="rounded-lg border border-slate-300 bg-slate-100 p-6 lg:p-8 flex flex-col justify-center">
-            <p className="text-slate-800 leading-relaxed mb-4 text-sm font-medium">{t('fitDigitalNote')}</p>
+          <div className="rounded-lg border border-slate-300 bg-slate-100 p-6 lg:p-8 flex flex-col justify-center gap-4">
+            <p className="text-slate-800 leading-relaxed text-sm font-medium">{t('fitDigitalNote')}</p>
             <Link href="/services/digital" className="inline-flex items-center text-primary-dark font-semibold text-sm hover:underline">
               {t('compareBuildingLink')}
               <ArrowRight className="ml-1.5 w-4 h-4" />
             </Link>
+            <p className="text-sm text-slate-700 border-t border-slate-200 pt-4">
+              {t('fitAssessmentTeaser')}{' '}
+              <Link href="/assessment" className="link-action font-medium">
+                {t('heroCtaAssessment')}
+              </Link>
+            </p>
           </div>
         </Reveal>
 

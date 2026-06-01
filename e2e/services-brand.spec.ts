@@ -4,20 +4,20 @@ test.describe('Services brand journey', () => {
   test('consulting page shows Transform → Emerge → Soar pillars', async ({ page }) => {
     await page.goto('/en/services')
 
-    await expect(page.getByText('Transform → Emerge → Soar')).toBeVisible()
+    await expect(page.locator('#services').getByText(/Transform.*Emerge.*Soar/).first()).toBeVisible()
     await expect(page.locator('#pillar-transform')).toBeVisible()
     await expect(page.locator('#pillar-emerge')).toBeVisible()
     await expect(page.locator('#pillar-soar')).toBeVisible()
 
     await expect(page.getByRole('heading', { name: 'Strategic Planning', level: 3 })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Team Development', level: 3 })).toBeVisible()
-    await expect(page.getByRole('heading', { name: 'Innovation Consulting', level: 3 })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Innovation & Growth', level: 3 })).toBeVisible()
   })
 
   test('digital page shows pillar sections and build offers', async ({ page }) => {
     await page.goto('/en/services/digital')
 
-    await expect(page.getByText('Transform → Emerge → Soar')).toBeVisible()
+    await expect(page.locator('#digital-builds').getByText(/Transform.*Emerge.*Soar/).first()).toBeVisible()
     await expect(page.locator('#pillar-transform')).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Websites & Brand Presence', level: 3 })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Custom Platforms & Digital Tools', level: 3 })).toBeVisible()

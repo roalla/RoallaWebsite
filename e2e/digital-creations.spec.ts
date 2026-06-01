@@ -4,7 +4,7 @@ test.describe('Digital creations portfolio order', () => {
   test('hero, jump nav, and all projects list platforms first', async ({ page }) => {
     await page.goto('/en/digital-creations')
 
-    const heroLinks = page.locator('header a[href^="https://"]')
+    const heroLinks = page.locator('main header a[href^="https://"]')
     await expect(heroLinks.nth(0)).toContainText('businesscocoon.com')
     await expect(heroLinks.nth(1)).toContainText('soaringpuck.com')
     await expect(heroLinks.nth(2)).toContainText('keneffect.com')

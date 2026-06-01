@@ -75,7 +75,7 @@ export function validateConsultationRequest(body: Partial<ConsultationRequestPay
 
 export function buildConsultationEmailSubject(name: string, intent: ConsultationIntent): string {
   const labels: Record<ConsultationIntent, string> = {
-    consulting: 'Business Consulting',
+    consulting: 'Business Enablement',
     website: 'Website Project',
     platform: 'Custom Platform',
     unsure: 'General Inquiry',

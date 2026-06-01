@@ -348,8 +348,8 @@ const DigitalBuilds = () => {
         visual={
           <DigitalHeroVisual
             proofLabel={t('heroProofLabel')}
-            websiteCaption={tPortfolio('t3Desc')}
-            platformCaption={tPortfolio('t4Desc')}
+            primaryCaption={tPortfolio('t4Desc')}
+            secondaryCaption={tPortfolio('t1Desc')}
           />
         }
         primaryCta={

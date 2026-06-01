@@ -96,23 +96,23 @@ export default function HomeHero() {
                 >
                   {t('cta')}
                 </ScheduleButton>
-                <Link
-                  href="/services"
-                  className="inline-flex items-center font-semibold text-slate-800 hover:text-primary-dark transition-colors text-sm sm:text-base sm:mt-4"
-                >
-                  {t('orSeeWork')}
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Link>
               </Reveal>
               <Reveal when="mount" delayMs={240} className="mt-2 text-sm text-slate-600 max-w-xl">
                 {t('whatHappensNext')}
               </Reveal>
-              <Reveal when="mount" delayMs={280} className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+              <Reveal when="mount" delayMs={280} className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-sm">
                 <Link
                   href="/services"
                   className="inline-flex items-center font-semibold text-primary-dark hover:underline"
                 >
                   {t('exploreConsultingLink')}
+                  <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
+                </Link>
+                <Link
+                  href="/services/digital"
+                  className="inline-flex items-center font-semibold text-slate-700 hover:text-primary-dark hover:underline transition-colors"
+                >
+                  {t('exploreDigitalServiceLink')}
                   <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
                 </Link>
                 <Link

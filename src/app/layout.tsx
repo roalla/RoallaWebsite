@@ -23,7 +23,7 @@ const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
 
 export const metadata: Metadata = {
   title: 'Roalla Business Enablement Group',
-  description: 'Empowering your business for a digital-first world with expert consulting in strategy, technology, and operations.',
+  description: 'Business and digital enablement—strategy, operations, and production-ready websites and platforms from one accountable team.',
   keywords: [
     'business consulting',
     'strategic planning',
@@ -53,21 +53,21 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: siteUrl,
     siteName: 'Roalla Business Enablement Group',
-    title: 'Roalla Business Enablement Group | Strategic Business Consulting',
-    description: 'Professional business consulting services helping companies grow, optimize operations, and achieve strategic goals.',
+    title: 'Roalla Business Enablement Group | Business & Digital Enablement',
+    description: 'Business Enablement and Digital Creations—strategy, execution, and live websites and platforms from one accountable team.',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Roalla Business Enablement Group - Professional Business Consulting',
+        alt: 'Roalla Business Enablement Group — Business & Digital Enablement',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Roalla Business Enablement Group | Strategic Business Consulting',
-    description: 'Professional business consulting services helping companies grow, optimize operations, and achieve strategic goals.',
+    title: 'Roalla Business Enablement Group | Business & Digital Enablement',
+    description: 'Business Enablement and Digital Creations—strategy, execution, and live websites and platforms from one accountable team.',
     images: ['/og-image.jpg'],
     creator: '@roalla',
   },
@@ -97,7 +97,7 @@ const structuredData = [
     logo: `${siteUrl}/logo.svg`,
     image: `${siteUrl}/og-image.jpg`,
     description:
-      'Fractional COO and business consulting focused on strategic planning, process optimization, and measurable operational growth.',
+      'Business Enablement and Digital Creations—strategic planning, accountable implementation, and production-ready websites and platforms.',
     areaServed: 'Global',
     contactPoint: {
       '@type': 'ContactPoint',

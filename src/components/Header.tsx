@@ -328,7 +328,6 @@ const Header = () => {
                 <div
                   role="menu"
                   aria-labelledby="services-dropdown-desktop"
-                  aria-hidden={!servicesDropdownOpen}
                   className={`absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[min(100vw-2rem,360px)] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50 ${dropdownPanelClass(servicesDropdownOpen)}`}
                 >
                       <div className="px-4 py-2.5 border-b border-white/10 bg-white/[0.03]">

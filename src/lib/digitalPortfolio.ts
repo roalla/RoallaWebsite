@@ -5,6 +5,7 @@ export type PortfolioItemId =
   | 'roalla-site'
   | 'business-cocoon'
   | 'soaring-puck'
+  | 'cold-dejabru-event'
 
 export type PortfolioItemConfig = {
   id: PortfolioItemId
@@ -14,7 +15,7 @@ export type PortfolioItemConfig = {
   tryUrl: string
   domain?: string
   contactService: 'websites-brand' | 'custom-platforms'
-  i18nPrefix: 't3' | 't5' | 't4' | 't1'
+  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6'
   tagKeys?: readonly [string, string, string]
   featured?: boolean
 }
@@ -24,6 +25,7 @@ export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'business-cocoon',
   'soaring-puck',
   'ken-effect',
+  'cold-dejabru-event',
   'roalla-site',
 ]
 
@@ -60,6 +62,16 @@ export const portfolioItems: PortfolioItemConfig[] = [
     tagKeys: ['t3Tag1', 't3Tag2', 't3Tag3'],
   },
   {
+    id: 'cold-dejabru-event',
+    category: 'website',
+    imageUrl: '/ColdBru-Event.jpg',
+    tryUrl: 'https://coldbru.dejabru.ca',
+    domain: 'coldbru.dejabru.ca',
+    contactService: 'websites-brand',
+    i18nPrefix: 't6',
+    tagKeys: ['t6Tag1', 't6Tag2', 't6Tag3'],
+  },
+  {
     id: 'roalla-site',
     category: 'website',
     imageUrl: '/roalla-snapshot.jpg',
@@ -76,6 +88,7 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
   'roalla-site': 'ROALLA business enablement website homepage',
   'business-cocoon': 'The Business Cocoon products catalog with guided workflows',
   'soaring-puck': 'Soaring Puck youth hockey platform dashboard',
+  'cold-dejabru-event': 'Cold Deja Bru event landing page — MR. COLDBRU product demo and investor booth QR experience',
 }
 
 export function sortPortfolioByDisplayOrder(

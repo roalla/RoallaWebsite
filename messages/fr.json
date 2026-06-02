@@ -809,7 +809,16 @@
     "t1Tag1": "Sports mineurs",
     "t1Tag2": "Inscription et comms",
     "t1Tag3": "Croissance des programmes",
-    "t4CaseStudy": "Alignez les parties prenantes et obtenez des briefs exportables avant l'exécution — pas après avoir déjà engagé des dépenses majeures."
+    "t4CaseStudy": "Alignez les parties prenantes et obtenez des briefs exportables avant l'exécution — pas après avoir déjà engagé des dépenses majeures.",
+    "t6Name": "Cold Deja Bru",
+    "t6Desc": "Page d'événement livrée en urgence pour un kiosque investisseurs — histoire produit, trafic par code QR et appels à l'action co-marque pour soutenir les leviers de vente sur place.",
+    "t6B1": "Grille démo MR. COLDBRU en six étapes — cold brew lyophilisé en secondes, sans machine, sans capsules, sans frigo",
+    "t6B2": "Code QR au kiosque et CTA co-création transforment le trafic en conversations partenaires et ventes de packs",
+    "t6B3": "Design audacieux prêt pour l'événement avec messages défilants — conçu pour une lecture rapide entre les rencontres investisseurs",
+    "t6CaseStudy": "Livré à temps pour le kiosque — une URL qui vend le produit, capte l'intérêt et soutient le pitch.",
+    "t6Tag1": "Landing événement",
+    "t6Tag2": "Kiosque QR",
+    "t6Tag3": "Livraison rapide"
   },
   "faq": {
     "title": "Questions fréquentes",

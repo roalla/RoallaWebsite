@@ -62,12 +62,13 @@ const engagementIcons = [Search, Map, Target, Rocket] as const
 const credibilityIcons = [Award, GraduationCap, Briefcase, Shield] as const
 const fitKeys = ['fit1', 'fit2', 'fit3'] as const
 
-const SERVICE_PILLARS: BrandPillar[] = ['transform', 'transform', 'emerge', 'emerge', 'soar', 'soar']
+const SERVICE_PILLARS: BrandPillar[] = ['prepare', 'transform', 'emerge', 'emerge', 'soar', 'transform']
 
 const PILLAR_SERVICES: Record<BrandPillar, number[]> = {
-  transform: [0, 1],
+  prepare: [0],
+  transform: [1, 5],
   emerge: [2, 3],
-  soar: [4, 5],
+  soar: [4],
 }
 
 type ConsultingService = {
@@ -241,10 +242,10 @@ const Services = () => {
     { icon: credibilityIcons[0], titleKey: 'cred1Title', descKey: 'cred1Desc', pillar: 'emerge' as const },
     { icon: credibilityIcons[1], titleKey: 'cred2Title', descKey: 'cred2Desc', pillar: 'soar' as const },
     { icon: credibilityIcons[2], titleKey: 'cred3Title', descKey: 'cred3Desc', pillar: 'all' as const },
-    { icon: credibilityIcons[3], titleKey: 'cred4Title', descKey: 'cred4Desc', pillar: 'transform' as const },
+    { icon: credibilityIcons[3], titleKey: 'cred4Title', descKey: 'cred4Desc', pillar: 'prepare' as const },
   ] as const
 
-  const credPillarLabel = (pillar: 'transform' | 'emerge' | 'soar' | 'all') => {
+  const credPillarLabel = (pillar: 'prepare' | 'transform' | 'emerge' | 'soar' | 'all') => {
     if (pillar === 'all') return tBrand('pillarBadgeAll')
     return tBrand(PILLAR_BADGE_KEYS[pillar])
   }
@@ -252,7 +253,8 @@ const Services = () => {
   const engagementSteps = [t('step1'), t('step2'), t('step3'), t('step4')]
 
   const pillarFocus: Record<BrandPillar, ConsultingFocus> = {
-    transform: 'strategy',
+    prepare: 'strategy',
+    transform: 'operations',
     emerge: 'team',
     soar: 'innovation',
   }

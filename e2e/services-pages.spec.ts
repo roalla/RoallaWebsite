@@ -4,7 +4,7 @@ test.describe('Service pages', () => {
   test('business enablement page loads with pillar sections', async ({ page }) => {
     await page.goto('/en/services')
     await expect(page.getByRole('heading', { name: 'Our Services', level: 1 })).toBeVisible()
-    await expect(page.locator('#pillar-transform')).toBeVisible()
+    await expect(page.locator('#pillar-prepare')).toBeVisible()
     await expect(page.getByText(/Not sure which lane fits/i)).toBeVisible()
   })
 

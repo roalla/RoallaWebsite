@@ -14,7 +14,7 @@ type BrandJourneyTeaserProps = {
   className?: string
 }
 
-/** Compact Transform → Emerge → Soar strip for homepage and about. */
+/** Compact Prepare → Transform → Emerge → Soar strip for homepage and about. */
 export function BrandJourneyTeaser({ titleKey, descKey, ctaKey, className = '' }: BrandJourneyTeaserProps) {
   const t = useTranslations('brandJourney')
 

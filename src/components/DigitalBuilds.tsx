@@ -7,6 +7,7 @@ import { Link } from '@/i18n/navigation'
 import {
   Globe,
   Layers,
+  Workflow,
   ArrowRight,
   CheckCircle,
   Search,
@@ -58,8 +59,8 @@ import {
   servicePrimaryLinkClass,
 } from './services/ServicePageSections'
 
-const buildIcons = [Globe, Layers] as const
-const buildAnchors = ['websites', 'platforms'] as const
+const buildIcons = [Globe, Layers, Workflow] as const
+const buildAnchors = ['websites', 'platforms', 'automation'] as const
 
 const buildSteps = [
   { icon: Search, titleKey: 'step1Title', stepKey: 'step1', hintKey: 'step1Hint' },
@@ -77,9 +78,10 @@ const credibilityItems = [
 
 const fitKeys = ['fit1', 'fit2', 'fit3'] as const
 
-const BUILD_PILLARS: Record<'websites' | 'platforms', BrandPillar> = {
+const BUILD_PILLARS: Record<(typeof buildAnchors)[number], BrandPillar> = {
   websites: 'emerge',
   platforms: 'soar',
+  automation: 'soar',
 }
 
 function portfolioItemName(
@@ -280,10 +282,29 @@ const DigitalBuilds = () => {
       anchor: buildAnchors[1],
       pillar: BUILD_PILLARS.platforms,
     },
+    {
+      title: t('s2Title'),
+      desc: t('s2Desc'),
+      features: [t('s2F1'), t('s2F2'), t('s2F3')],
+      deliverables: [t('s2D1'), t('s2D2'), t('s2D3'), t('s2D4')],
+      deliverablesTitle: t('s2DeliverablesTitle'),
+      ideal: t('s2Ideal'),
+      outcome: t('s2Outcome'),
+      notFor: t('s2NotFor'),
+      icon: buildIcons[2],
+      ctaService: 'custom-platforms',
+      requestCta: t('s2RequestCta'),
+      proofText: t('s2Proof'),
+      proofHash: 'business-cocoon',
+      timeline: t('automationTimeline'),
+      anchor: buildAnchors[2],
+      pillar: BUILD_PILLARS.automation,
+    },
   ]
 
   const websiteBuild = builds[0]
   const platformBuild = builds[1]
+  const automationBuild = builds[2]
 
   return (
     <section id="digital-builds" className="section-padding relative">
@@ -345,55 +366,44 @@ const DigitalBuilds = () => {
           ]}
         />
 
-        <section id={PILLAR_SECTION_IDS.transform} className={pillarSectionClass}>
-          <PillarSectionHeader
-            pillarTitle={tBrand(PILLAR_TITLE_KEYS.transform)}
-            intro={tBrand(DIGITAL_PILLAR_INTRO_KEYS.transform)}
-            startHere={tBrand(START_HERE_KEYS.transform)}
-            phaseRange={tBrand(BUILD_PHASE_RANGE_KEYS.transform)}
-          />
-          <BuildStepCards stepIndices={[0, 1]} t={t} tBrand={tBrand} pillar="transform" />
-          <Link
-            href="/schedule"
-            className="mt-6 inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
-          >
-            {tBrand(PILLAR_CTA_KEYS.transform)}
-            <ArrowRight className="ml-1.5 w-4 h-4" />
-          </Link>
-        </section>
-
-        <section id={PILLAR_SECTION_IDS.emerge} className={pillarSectionClass}>
-          <PillarSectionHeader
-            pillarTitle={tBrand(PILLAR_TITLE_KEYS.emerge)}
-            intro={tBrand(DIGITAL_PILLAR_INTRO_KEYS.emerge)}
-            startHere={tBrand(START_HERE_KEYS.emerge)}
-            phaseRange={tBrand(BUILD_PHASE_RANGE_KEYS.emerge)}
-          />
-          <div className="max-w-3xl">
-            <DigitalBuildCard build={websiteBuild} t={t} locale={locale} />
-          </div>
-        </section>
-
-        <section id={PILLAR_SECTION_IDS.soar} className={pillarSectionClass}>
-          <PillarSectionHeader
-            pillarTitle={tBrand(PILLAR_TITLE_KEYS.soar)}
-            intro={tBrand(DIGITAL_PILLAR_INTRO_KEYS.soar)}
-            startHere={tBrand(START_HERE_KEYS.soar)}
-            phaseRange={tBrand(BUILD_PHASE_RANGE_KEYS.soar)}
-          />
-          <div className="max-w-3xl mb-8">
-            <DigitalBuildCard build={platformBuild} t={t} locale={locale} />
-          </div>
-          <p className="text-sm font-medium text-slate-700 mb-4">{t('buildSubtitle')}</p>
-          <BuildStepCards stepIndices={[2, 3]} t={t} tBrand={tBrand} pillar="soar" />
-          <Link
-            href={{ pathname: '/schedule', query: { service: 'custom-platforms' } }}
-            className="mt-6 inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
-          >
-            {tBrand(PILLAR_CTA_KEYS.soar)}
-            <ArrowRight className="ml-1.5 w-4 h-4" />
-          </Link>
-        </section>
+        {BRAND_PILLARS.map((pillar) => (
+          <section key={pillar} id={PILLAR_SECTION_IDS[pillar]} className={pillarSectionClass}>
+            <PillarSectionHeader
+              pillarTitle={tBrand(PILLAR_TITLE_KEYS[pillar])}
+              intro={tBrand(DIGITAL_PILLAR_INTRO_KEYS[pillar])}
+              startHere={tBrand(START_HERE_KEYS[pillar])}
+              phaseRange={tBrand(BUILD_PHASE_RANGE_KEYS[pillar])}
+            />
+            {pillar === 'prepare' && <BuildStepCards stepIndices={[0, 1]} t={t} tBrand={tBrand} pillar="prepare" />}
+            {pillar === 'transform' && <BuildStepCards stepIndices={[2]} t={t} tBrand={tBrand} pillar="transform" />}
+            {pillar === 'emerge' && (
+              <div className="max-w-3xl">
+                <DigitalBuildCard build={websiteBuild} t={t} locale={locale} />
+              </div>
+            )}
+            {pillar === 'soar' && (
+              <>
+                <div className="grid lg:grid-cols-2 gap-6 mb-8">
+                  <DigitalBuildCard build={platformBuild} t={t} locale={locale} />
+                  <DigitalBuildCard build={automationBuild} t={t} locale={locale} />
+                </div>
+                <p className="text-sm font-medium text-slate-700 mb-4">{t('buildSubtitle')}</p>
+                <BuildStepCards stepIndices={[3]} t={t} tBrand={tBrand} pillar="soar" />
+              </>
+            )}
+            <Link
+              href={
+                pillar === 'soar'
+                  ? { pathname: '/schedule', query: { service: 'custom-platforms' } }
+                  : '/schedule'
+              }
+              className="mt-6 inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
+            >
+              {tBrand(PILLAR_CTA_KEYS[pillar])}
+              <ArrowRight className="ml-1.5 w-4 h-4" />
+            </Link>
+          </section>
+        ))}
 
         <Reveal className="mt-16 pt-12 border-t border-slate-200">
           <div className="rounded-xl border border-slate-200 bg-gradient-to-br from-slate-50 via-white to-primary/[0.04] p-6 lg:p-8">

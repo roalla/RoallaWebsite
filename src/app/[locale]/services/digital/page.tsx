@@ -40,7 +40,7 @@ export default async function DigitalBuildsPage() {
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: tBuilds('title'),
-      itemListElement: [tBuilds('s0Title'), tBuilds('s1Title')].map((name) => ({
+      itemListElement: [tBuilds('s0Title'), tBuilds('s1Title'), tBuilds('s2Title')].map((name) => ({
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',

@@ -6,7 +6,11 @@ import { Link } from '@/i18n/navigation'
 import Reveal from '../motion/Reveal'
 import { BRAND_PILLARS, PILLAR_SECTION_IDS, PILLAR_TITLE_KEYS, type BrandPillar } from '@/lib/brand-journey'
 
-const PILLAR_DESC_KEYS: Record<BrandPillar, 'pillarTransformDesc' | 'pillarEmergeDesc' | 'pillarSoarDesc'> = {
+const PILLAR_DESC_KEYS: Record<
+  BrandPillar,
+  'pillarPrepareDesc' | 'pillarTransformDesc' | 'pillarEmergeDesc' | 'pillarSoarDesc'
+> = {
+  prepare: 'pillarPrepareDesc',
   transform: 'pillarTransformDesc',
   emerge: 'pillarEmergeDesc',
   soar: 'pillarSoarDesc',
@@ -18,6 +22,7 @@ function PyramidAccent() {
       <div className="h-2 w-6 rounded-sm bg-primary/70" />
       <div className="h-2.5 w-10 rounded-sm bg-primary/55" />
       <div className="h-3 w-14 rounded-sm bg-primary/40" />
+      <div className="h-3.5 w-[4.5rem] rounded-sm bg-primary/30" />
     </div>
   )
 }
@@ -101,7 +106,7 @@ export default function BrandJourneyBand({ linkMode = 'hash' }: BrandJourneyBand
           </div>
         </div>
 
-        <ol className="grid grid-cols-1 sm:grid-cols-3 gap-4 flex-1 list-none p-0 m-0">
+        <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 flex-1 list-none p-0 m-0">
           {BRAND_PILLARS.map((pillar, i) => (
             <li key={pillar}>
               <PillarCard

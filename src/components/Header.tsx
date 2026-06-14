@@ -243,6 +243,8 @@ const Header = () => {
   const isActive = useCallback(
     (href: string) => {
       if (href === '/') return pathname === '/'
+      // Business Enablement lives at /services exactly; sub-routes are separate services.
+      if (href === '/services') return pathname === '/services'
       return pathname === href || pathname.startsWith(href + '/')
     },
     [pathname]

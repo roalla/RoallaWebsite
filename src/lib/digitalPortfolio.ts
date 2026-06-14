@@ -88,7 +88,7 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
   'roalla-site': 'ROALLA business enablement website homepage',
   'business-cocoon': 'The Business Cocoon products catalog with guided workflows',
   'soaring-puck': 'Soaring Puck youth hockey platform dashboard',
-  'cold-dejabru-event': 'Cold Deja Bru event landing page — MR. COLDBRU product demo and investor booth QR experience',
+  'cold-dejabru-event': 'Cold Deja Bru event landing page — six-step MR. COLDBRU demo, QR paths from the booth floor, and persona-specific CTAs',
 }
 
 export function sortPortfolioByDisplayOrder(

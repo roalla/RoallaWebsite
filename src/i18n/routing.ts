@@ -16,5 +16,6 @@ export const routing = defineRouting({
     '/faq': '/faq',
     '/contact': '/contact',
     '/schedule': '/schedule',
+    '/private/digital-events-playbook': '/private/digital-events-playbook',
   },
 })

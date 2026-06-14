@@ -2,8 +2,10 @@ import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import Header from '@/components/Header'
 
+const mockPathname = jest.fn(() => '/')
+
 jest.mock('next/navigation', () => ({
-  usePathname: () => '/',
+  usePathname: () => mockPathname(),
 }))
 
 jest.mock('next-intl', () => ({
@@ -13,7 +15,7 @@ jest.mock('next-intl', () => ({
 
 jest.mock('@/i18n/navigation', () => ({
   Link: ({ children, href, ...props }: { children: React.ReactNode; href: string }) => <a href={href} {...props}>{children}</a>,
-  usePathname: () => '/',
+  usePathname: () => mockPathname(),
 }))
 
 jest.mock('next/image', () => ({
@@ -29,6 +31,10 @@ jest.mock('@/components/ScheduleButton', () => ({
 }))
 
 describe('Header', () => {
+  beforeEach(() => {
+    mockPathname.mockReturnValue('/')
+  })
+
   it('renders skip link to main content', () => {
     render(<Header />)
     const skip = screen.getByText('skipToContent')
@@ -55,6 +61,15 @@ describe('Header', () => {
     expect(screen.getByRole('menuitem', { name: /businessEnablement/i })).toHaveAttribute('href', '/services')
     expect(screen.getByRole('menuitem', { name: /websitesAndDigital/i })).toHaveAttribute('href', '/services/digital')
     expect(screen.queryByRole('menuitem', { name: /ourWork/i })).not.toBeInTheDocument()
+  })
+
+  it('highlights only the matching service in the dropdown', () => {
+    mockPathname.mockReturnValue('/services/digital')
+    render(<Header />)
+    fireEvent.click(screen.getByRole('button', { name: 'services' }))
+
+    expect(screen.getByRole('menuitem', { name: /businessEnablement/i })).not.toHaveAttribute('aria-current', 'page')
+    expect(screen.getByRole('menuitem', { name: /websitesAndDigital/i })).toHaveAttribute('aria-current', 'page')
   })
 
   it('renders digital portfolio as a top-level nav link', () => {

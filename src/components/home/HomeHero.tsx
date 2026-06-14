@@ -8,7 +8,7 @@ import ScheduleButton from '../ScheduleButton'
 import Reveal from '../motion/Reveal'
 
 const statIcons = [Briefcase, Award, Layers]
-const HERO_VIDEO_SRC = '/hero-video.mp4'
+const HERO_VIDEO_SRC = '/hero-loop.mp4'
 
 /** Frosted panels — slight transparency with blur for readable contrast on dark hero video */
 const heroGlassPanel =

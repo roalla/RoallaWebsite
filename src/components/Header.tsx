@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { Menu, X, ChevronDown, Briefcase, Globe, GraduationCap, Layers, BookOpen } from 'lucide-react'
+import { Menu, X, ChevronDown, Briefcase, Globe, GraduationCap, BookOpen } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname as useNextPathname } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
@@ -248,22 +248,20 @@ const Header = () => {
     [pathname]
   )
 
-  type ServiceNavHref = '/services' | '/services/workshops' | '/services/digital' | '/digital-creations'
+  type ServiceNavHref = '/services' | '/services/workshops' | '/services/digital'
 
   const serviceLinks: {
-    nameKey: 'businessEnablement' | 'workshops' | 'websitesAndDigital' | 'ourWork'
-    descKey: 'businessEnablementDesc' | 'workshopsDesc' | 'websitesAndDigitalDesc' | 'ourWorkDesc'
+    nameKey: 'businessEnablement' | 'workshops' | 'websitesAndDigital'
+    descKey: 'businessEnablementDesc' | 'workshopsDesc' | 'websitesAndDigitalDesc'
     href: ServiceNavHref
     icon: typeof Briefcase
   }[] = [
     { nameKey: 'businessEnablement', descKey: 'businessEnablementDesc', href: '/services', icon: Briefcase },
     { nameKey: 'workshops', descKey: 'workshopsDesc', href: '/services/workshops', icon: GraduationCap },
     { nameKey: 'websitesAndDigital', descKey: 'websitesAndDigitalDesc', href: '/services/digital', icon: Globe },
-    { nameKey: 'ourWork', descKey: 'ourWorkDesc', href: '/digital-creations', icon: Layers },
   ]
 
-  const isServicesActive =
-    pathname === '/services' || pathname.startsWith('/services/') || pathname === '/digital-creations'
+  const isServicesActive = pathname === '/services' || pathname.startsWith('/services/')
 
   const appIcons: Record<CompanyAppId, typeof Briefcase> = {
     'business-cocoon': Briefcase,
@@ -405,6 +403,24 @@ const Header = () => {
                         })}
                       </div>
                 </div>
+              </div>
+
+              <div>
+                <Link
+                  href="/digital-creations"
+                  aria-current={isActive('/digital-creations') ? 'page' : undefined}
+                  className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap block py-2 ${
+                    isActive('/digital-creations') ? 'text-primary' : 'text-gray-300 hover:text-primary'
+                  }`}
+                  onClick={closeMenu}
+                >
+                  {t('digitalPortfolio')}
+                  <span
+                    className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                      isActive('/digital-creations') ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}
+                  />
+                </Link>
               </div>
 
               <div className="relative" ref={appsDropdownDesktopRef}>
@@ -621,6 +637,21 @@ const Header = () => {
                         })}
                     </div>
                   </div>
+                </div>
+
+                <div>
+                  <Link
+                    href="/digital-creations"
+                    aria-current={isActive('/digital-creations') ? 'page' : undefined}
+                    className={`block px-3 py-3 min-h-[44px] flex items-center rounded-md text-base font-medium transition-colors duration-200 ${
+                      isActive('/digital-creations')
+                        ? 'text-primary bg-primary/10'
+                        : 'text-gray-300 hover:text-primary hover:bg-white/5'
+                    }`}
+                    onClick={(e) => handleMobileNavClick(e, '/digital-creations')}
+                  >
+                    {t('digitalPortfolio')}
+                  </Link>
                 </div>
 
                 <div>

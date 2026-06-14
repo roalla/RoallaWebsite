@@ -16,7 +16,17 @@ test.describe('Header', () => {
 
     await page.locator('#services-dropdown-desktop').click()
     const menu = page.locator('[aria-labelledby="services-dropdown-desktop"]')
-    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(4)
+    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(3)
+  })
+
+  test('digital portfolio link is in the header', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 720 })
+    await page.goto('/en')
+
+    await expect(page.getByRole('link', { name: 'Digital Portfolio' })).toHaveAttribute(
+      'href',
+      '/en/digital-creations'
+    )
   })
 
   test('apps dropdown lists company apps when open', async ({ page }) => {
@@ -44,6 +54,6 @@ test.describe('Header', () => {
     await expect(page.getByRole('heading', { name: 'Digital Creations', level: 1 })).toBeVisible()
 
     await page.goto('/en/digital-creations')
-    await expect(page.getByRole('heading', { name: 'Our Digital Work', level: 1 })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Digital Portfolio', level: 1 })).toBeVisible()
   })
 })

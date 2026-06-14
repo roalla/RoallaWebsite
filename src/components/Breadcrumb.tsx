@@ -16,7 +16,7 @@ export default function Breadcrumb({ items }: BreadcrumbProps) {
           <li key={i} className="flex items-center gap-1">
             {i > 0 && <ChevronRight className="w-4 h-4 text-slate-400 flex-shrink-0" aria-hidden />}
             {item.href ? (
-              <Link href={item.href as '/' | '/services' | '/services/workshops' | '/services/digital' | '/about' | '/contact' | '/digital-creations' | '/assessment' | '/faq' | '/schedule'} className="hover:text-primary transition-colors">
+              <Link href={item.href as '/' | '/services' | '/services/workshops' | '/services/digital' | '/services/digital-events' | '/about' | '/contact' | '/digital-creations' | '/assessment' | '/faq' | '/schedule'} className="hover:text-primary transition-colors">
                 {item.label}
               </Link>
             ) : (

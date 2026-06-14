@@ -391,6 +391,10 @@ const Services = () => {
                 {t('crossLinkWorkshops')}
                 <ArrowRight className="ml-1.5 w-4 h-4" />
               </Link>
+              <Link href="/services/digital-events" className="inline-flex items-center text-primary-dark font-semibold text-sm hover:underline">
+                {t('crossLinkDigitalEvents')}
+                <ArrowRight className="ml-1.5 w-4 h-4" />
+              </Link>
               <Link href="/services/digital" className="inline-flex items-center text-primary-dark font-semibold text-sm hover:underline">
                 {t('compareBuildingLink')}
                 <ArrowRight className="ml-1.5 w-4 h-4" />
@@ -443,6 +447,7 @@ const Services = () => {
           confidentiality={{ href: '/contact', label: t('confidentialityLink') }}
           links={[
             { href: '/services/workshops', label: t('crossLinkWorkshops') },
+            { href: '/services/digital-events', label: t('crossLinkDigitalEvents') },
             { href: '/services/digital', label: t('crossLinkDigital') },
             { href: '/digital-creations', label: t('crossLinkOurWork') },
           ]}

@@ -16,7 +16,7 @@ test.describe('Header', () => {
 
     await page.locator('#services-dropdown-desktop').click()
     const menu = page.locator('[aria-labelledby="services-dropdown-desktop"]')
-    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(3)
+    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(4)
   })
 
   test('digital portfolio link is in the header', async ({ page }) => {
@@ -52,6 +52,9 @@ test.describe('Header', () => {
 
     await page.goto('/en/services/digital')
     await expect(page.getByRole('heading', { name: 'Digital Creations', level: 1 })).toBeVisible()
+
+    await page.goto('/en/services/digital-events')
+    await expect(page.getByRole('heading', { name: 'Digital Events', level: 1 })).toBeVisible()
 
     await page.goto('/en/digital-creations')
     await expect(page.getByRole('heading', { name: 'Digital Portfolio', level: 1 })).toBeVisible()

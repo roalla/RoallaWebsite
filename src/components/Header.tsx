@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { Menu, X, ChevronDown, Briefcase, Globe, GraduationCap, BookOpen } from 'lucide-react'
+import { Menu, X, ChevronDown, Briefcase, Globe, GraduationCap, BookOpen, CalendarDays } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname as useNextPathname } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
@@ -187,7 +187,7 @@ const Header = () => {
   const headerCtaLabel =
     pathname === '/services'
       ? tCommon('scheduleConsultationConsulting')
-      : pathname === '/services/digital' || pathname === '/digital-creations'
+      : pathname === '/services/digital' || pathname === '/services/digital-events' || pathname === '/digital-creations'
         ? tCommon('scheduleConsultationDigital')
         : tCommon('scheduleConsultation')
   const headerCtaSubtext = tCommon('ctaSubtext')
@@ -248,17 +248,18 @@ const Header = () => {
     [pathname]
   )
 
-  type ServiceNavHref = '/services' | '/services/workshops' | '/services/digital'
+  type ServiceNavHref = '/services' | '/services/workshops' | '/services/digital' | '/services/digital-events'
 
   const serviceLinks: {
-    nameKey: 'businessEnablement' | 'workshops' | 'websitesAndDigital'
-    descKey: 'businessEnablementDesc' | 'workshopsDesc' | 'websitesAndDigitalDesc'
+    nameKey: 'businessEnablement' | 'workshops' | 'websitesAndDigital' | 'digitalEvents'
+    descKey: 'businessEnablementDesc' | 'workshopsDesc' | 'websitesAndDigitalDesc' | 'digitalEventsDesc'
     href: ServiceNavHref
     icon: typeof Briefcase
   }[] = [
     { nameKey: 'businessEnablement', descKey: 'businessEnablementDesc', href: '/services', icon: Briefcase },
     { nameKey: 'workshops', descKey: 'workshopsDesc', href: '/services/workshops', icon: GraduationCap },
     { nameKey: 'websitesAndDigital', descKey: 'websitesAndDigitalDesc', href: '/services/digital', icon: Globe },
+    { nameKey: 'digitalEvents', descKey: 'digitalEventsDesc', href: '/services/digital-events', icon: CalendarDays },
   ]
 
   const isServicesActive = pathname === '/services' || pathname.startsWith('/services/')

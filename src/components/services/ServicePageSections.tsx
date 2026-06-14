@@ -397,7 +397,7 @@ type ServicePageCTAProps = {
   secondaryCta?: React.ReactNode
   ctaSubtext?: string
   confidentiality?: { href: '/contact'; label: string }
-  links?: { href: '/services' | '/services/workshops' | '/services/digital' | '/digital-creations' | '/assessment'; label: string }[]
+  links?: { href: '/services' | '/services/workshops' | '/services/digital' | '/services/digital-events' | '/digital-creations' | '/assessment'; label: string }[]
 }
 
 export function ServicePageCTA({

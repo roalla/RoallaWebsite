@@ -7,7 +7,7 @@ import Collapse from '../motion/Collapse'
 
 const faqKeys = ['faq1', 'faq2', 'faq3', 'faq4', 'faq5'] as const
 
-export default function ServiceMiniFAQ({ namespace }: { namespace: 'services' | 'digitalBuilds' | 'workshops' }) {
+export default function ServiceMiniFAQ({ namespace }: { namespace: 'services' | 'digitalBuilds' | 'workshops' | 'digitalEvents' }) {
   const t = useTranslations(namespace)
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 

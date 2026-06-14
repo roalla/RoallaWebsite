@@ -25,6 +25,7 @@ import { companyApps, type CompanyAppId } from '@/lib/companyApps'
 import { portfolioItems, portfolioImageAlts } from '@/lib/digitalPortfolio'
 import {
   ServicePageHero,
+  ConsultingHeroVisual,
   ServiceAnchorNav,
   ServiceSectionHeading,
   ServicePageCTA,
@@ -137,21 +138,12 @@ export default function DigitalEvents() {
         journeyLine={t('heroJourneyLine')}
         stats={stats}
         visual={
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-light mb-2">
-              {t('heroProofLabel')}
-            </p>
-            <a href={eventProof.tryUrl} target="_blank" rel="noopener noreferrer" className="block group">
-              <BrowserFrame
-                imageUrl={eventProof.imageUrl}
-                imageAlt={portfolioImageAlts['cold-dejabru-event']}
-                domain={eventProof.domain}
-                priority
-                className="group-hover:shadow-card-hover transition-shadow duration-300"
-              />
-              <p className="mt-2 text-sm text-slate-300 line-clamp-3">{t('heroProofCaption')}</p>
-            </a>
-          </div>
+          <ConsultingHeroVisual
+            icon={QrCode}
+            proofTitle={t('heroProofTitle')}
+            proofSubtitle={t('heroProofSubtitle')}
+            outcomes={[t('heroOutcome1'), t('heroOutcome2'), t('heroOutcome3')]}
+          />
         }
         primaryCta={
           <ScheduleButton variant="primary" size="lg" icon>

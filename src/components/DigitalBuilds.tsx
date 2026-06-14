@@ -46,7 +46,7 @@ import {
 } from '@/lib/brand-journey'
 import {
   ServicePageHero,
-  DigitalHeroVisual,
+  ConsultingHeroVisual,
   ServiceAnchorNav,
   ServiceSectionHeading,
   ServicePageCTA,
@@ -317,10 +317,11 @@ const DigitalBuilds = () => {
         journeyLine={t('heroJourneyLine')}
         stats={stats}
         visual={
-          <DigitalHeroVisual
-            proofLabel={t('heroProofLabel')}
-            primaryCaption={tPortfolio('t4Desc')}
-            secondaryCaption={tPortfolio('t1Desc')}
+          <ConsultingHeroVisual
+            icon={Layers}
+            proofTitle={t('heroProofTitle')}
+            proofSubtitle={t('heroProofSubtitle')}
+            outcomes={[t('heroOutcome1'), t('heroOutcome2'), t('heroOutcome3')]}
           />
         }
         primaryCta={

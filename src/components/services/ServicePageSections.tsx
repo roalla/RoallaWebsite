@@ -1,11 +1,9 @@
 'use client'
 
 import React from 'react'
-import { ArrowRight, ArrowDown, Briefcase, CheckCircle2, type LucideIcon } from 'lucide-react'
+import { ArrowRight, ArrowDown, Briefcase, CheckCircle2, Layers, type LucideIcon } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import Reveal from '../motion/Reveal'
-import BrowserFrame from '../digital/BrowserFrame'
-import { getOrderedPortfolioItems, portfolioImageAlts, portfolioItems } from '@/lib/digitalPortfolio'
 
 export type ServiceStat = { value: string; label: string; icon?: LucideIcon }
 
@@ -34,17 +32,19 @@ export function ConsultingHeroVisual({
   proofSubtitle,
   outcomes,
   caseLines,
+  icon: Icon = Briefcase,
 }: {
   proofTitle: string
   proofSubtitle: string
   outcomes: string[]
   caseLines?: string[]
+  icon?: LucideIcon
 }) {
   return (
     <div className="rounded-2xl border border-white/15 bg-white/[0.08] backdrop-blur-md p-5 sm:p-6 shadow-[0_8px_40px_rgba(0,0,0,0.25)]">
       <div className="flex items-start gap-3 mb-5">
         <div className="w-10 h-10 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center shrink-0">
-          <Briefcase className="w-5 h-5 text-primary-light" aria-hidden />
+          <Icon className="w-5 h-5 text-primary-light" aria-hidden />
         </div>
         <div>
           <h2 className="text-base font-serif font-bold text-white">{proofTitle}</h2>
@@ -68,86 +68,6 @@ export function ConsultingHeroVisual({
           ))}
         </div>
       )}
-    </div>
-  )
-}
-
-export function DigitalHeroVisual({
-  proofLabel,
-  primaryCaption,
-  secondaryCaption,
-}: {
-  proofLabel: string
-  primaryCaption: string
-  secondaryCaption: string
-}) {
-  const primary = portfolioItems.find((p) => p.id === 'business-cocoon')!
-  const secondary = portfolioItems.find((p) => p.id === 'soaring-puck')!
-
-  return (
-    <div className="space-y-4">
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-light">{proofLabel}</p>
-      <div className="space-y-3">
-        <a
-          href={primary.tryUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block group"
-        >
-          <BrowserFrame
-            imageUrl={primary.imageUrl}
-            imageAlt={portfolioImageAlts['business-cocoon']}
-            domain={primary.domain}
-            priority
-            className="group-hover:shadow-card-hover transition-shadow duration-300"
-          />
-          <p className="mt-2 text-sm text-slate-300 line-clamp-2">{primaryCaption}</p>
-        </a>
-        <a
-          href={secondary.tryUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block group lg:translate-x-6"
-        >
-          <BrowserFrame
-            imageUrl={secondary.imageUrl}
-            imageAlt={portfolioImageAlts['soaring-puck']}
-            domain={secondary.domain}
-            className="group-hover:shadow-card-hover transition-shadow duration-300"
-          />
-          <p className="mt-2 text-sm text-slate-300 line-clamp-2 lg:pl-6">{secondaryCaption}</p>
-        </a>
-      </div>
-    </div>
-  )
-}
-
-export function PortfolioHeroVisual({ proofLabel }: { proofLabel: string }) {
-  const heroItems = getOrderedPortfolioItems()
-
-  return (
-    <div className="space-y-3">
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-light">{proofLabel}</p>
-      <div className="grid grid-cols-2 gap-2.5">
-        {heroItems.map((item, i) => (
-          <a
-            key={item.id}
-            href={item.tryUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block group"
-          >
-            <BrowserFrame
-              imageUrl={item.imageUrl}
-              imageAlt={portfolioImageAlts[item.id]}
-              domain={item.domain}
-              brandPreview={item.brandPreview}
-              priority={i < 2}
-              className="group-hover:shadow-card-hover transition-shadow duration-300"
-            />
-          </a>
-        ))}
-      </div>
     </div>
   )
 }

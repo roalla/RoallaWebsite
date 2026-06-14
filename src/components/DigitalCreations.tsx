@@ -20,7 +20,7 @@ import StickyMobileCTA from './StickyMobileCTA'
 import BrowserFrame from './digital/BrowserFrame'
 import {
   ServicePageHero,
-  PortfolioHeroVisual,
+  ConsultingHeroVisual,
   serviceHeroSecondaryButtonClass,
 } from './services/ServicePageSections'
 import {
@@ -213,7 +213,14 @@ const DigitalCreations = () => {
         journeyLine={t('heroJourneyLine')}
         stats={stats}
         statsNote={t('statsNote')}
-        visual={<PortfolioHeroVisual proofLabel={t('heroProofLabel')} />}
+        visual={
+          <ConsultingHeroVisual
+            icon={Sparkles}
+            proofTitle={t('heroProofTitle')}
+            proofSubtitle={t('heroProofSubtitle')}
+            outcomes={[t('heroOutcome1'), t('heroOutcome2'), t('heroOutcome3')]}
+          />
+        }
         primaryCta={
           <ScheduleButton variant="primary" size="lg" icon>
             {t('scheduleCall')}

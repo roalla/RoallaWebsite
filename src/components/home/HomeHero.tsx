@@ -6,9 +6,9 @@ import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import ScheduleButton from '../ScheduleButton'
 import Reveal from '../motion/Reveal'
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 
 const statIcons = [Briefcase, Award, Layers]
+const HERO_VIDEO_SRC = '/hero-video.mp4'
 
 /** Frosted panels — slight transparency with blur for readable contrast on dark hero video */
 const heroGlassPanel =
@@ -17,18 +17,25 @@ const heroGlassTile = 'bg-white/85 backdrop-blur-md border border-white/70 shado
 
 export default function HomeHero() {
   const t = useTranslations('home.hero')
-  const reduceMotion = usePrefersReducedMotion()
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
-    if (reduceMotion) {
-      video.pause()
-      return
+
+    const play = () => {
+      void video.play().catch(() => {})
     }
-    void video.play().catch(() => {})
-  }, [reduceMotion])
+
+    play()
+    video.addEventListener('canplay', play)
+    video.addEventListener('loadeddata', play)
+
+    return () => {
+      video.removeEventListener('canplay', play)
+      video.removeEventListener('loadeddata', play)
+    }
+  }, [])
 
   const stats = [
     { value: t('stat1Value'), label: t('stat1Label'), icon: statIcons[0] },
@@ -41,15 +48,14 @@ export default function HomeHero() {
       <div className="absolute inset-0 overflow-hidden" aria-hidden>
         <video
           ref={videoRef}
+          src={HERO_VIDEO_SRC}
+          autoPlay
           muted
           loop
           playsInline
           preload="auto"
-          poster="/businesscocoon_image.jpg"
           className="absolute inset-0 h-full w-full object-cover scale-105"
-        >
-          <source src="/hero-video.mp4" type="video/mp4" />
-        </video>
+        />
       </div>
 
       <div

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { ArrowRight, Briefcase, Award, Layers } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
@@ -18,11 +18,16 @@ const heroGlassTile = 'bg-white/85 backdrop-blur-md border border-white/70 shado
 export default function HomeHero() {
   const t = useTranslations('home.hero')
   const reduceMotion = usePrefersReducedMotion()
-  const [videoReady, setVideoReady] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
-    if (reduceMotion) return
-    setVideoReady(true)
+    const video = videoRef.current
+    if (!video) return
+    if (reduceMotion) {
+      video.pause()
+      return
+    }
+    void video.play().catch(() => {})
   }, [reduceMotion])
 
   const stats = [
@@ -34,25 +39,17 @@ export default function HomeHero() {
   return (
     <section className="relative min-h-[85vh] flex items-center overflow-hidden pt-24 lg:pt-28 bg-slate-950">
       <div className="absolute inset-0 overflow-hidden" aria-hidden>
-        {reduceMotion || !videoReady ? (
-          <div
-            className="absolute inset-0 bg-cover bg-center scale-105"
-            style={{ backgroundImage: 'url(/businesscocoon_image.jpg)' }}
-          />
-        ) : (
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            poster="/businesscocoon_image.jpg"
-            className="absolute inset-0 h-full w-full object-cover scale-105"
-          >
-            <source src="/hero-loop.webm" type="video/webm" />
-            <source src="/hero-loop.mp4" type="video/mp4" />
-          </video>
-        )}
+        <video
+          ref={videoRef}
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster="/businesscocoon_image.jpg"
+          className="absolute inset-0 h-full w-full object-cover scale-105"
+        >
+          <source src="/hero-video.mp4" type="video/mp4" />
+        </video>
       </div>
 
       <div

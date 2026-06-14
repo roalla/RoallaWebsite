@@ -27,7 +27,7 @@ jest.mock('next/image', () => ({
 
 jest.mock('@/components/ScheduleButton', () => ({
   __esModule: true,
-  default: () => <a href="/schedule">scheduleConsultation</a>,
+  default: () => <a href="/schedule">ctaNextSteps</a>,
 }))
 
 describe('Header', () => {
@@ -50,7 +50,7 @@ describe('Header', () => {
 
   it('renders schedule CTA link', () => {
     render(<Header />)
-    expect(screen.getByRole('link', { name: /scheduleConsultation/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /ctaNextSteps/i })).toBeInTheDocument()
   })
 
   it('renders services dropdown with enablement, workshops, and digital service links', () => {

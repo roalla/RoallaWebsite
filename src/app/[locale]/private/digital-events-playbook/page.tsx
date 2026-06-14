@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function DigitalEventsPlaybookPage() {
   return (
-    <div className="page-shell">
+    <div className="page-shell bg-gradient-to-b from-slate-100 via-slate-50 to-white min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28">
         <DigitalEventsPlaybook />
       </div>

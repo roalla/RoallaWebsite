@@ -185,11 +185,15 @@ const Header = () => {
   const locale = useLocale()
 
   const headerCtaLabel =
-    pathname === '/services'
-      ? tCommon('scheduleConsultationConsulting')
-      : pathname === '/services/digital' || pathname === '/services/digital-events' || pathname === '/digital-creations'
-        ? tCommon('scheduleConsultationDigital')
-        : tCommon('scheduleConsultation')
+    pathname === '/services/workshops'
+      ? tCommon('scheduleConsultationWorkshops')
+      : pathname === '/services/digital-events'
+        ? tCommon('scheduleConsultationDigitalEvents')
+        : pathname === '/services/digital' || pathname === '/digital-creations'
+          ? tCommon('scheduleConsultationDigital')
+          : pathname === '/services'
+            ? tCommon('scheduleConsultationConsulting')
+            : tCommon('ctaNextSteps')
   const headerCtaSubtext = tCommon('ctaSubtext')
 
   const handleLocaleSelect = useCallback(

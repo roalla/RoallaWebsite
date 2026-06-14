@@ -10,10 +10,85 @@
 ## How to use this
 
 1. Open during discovery when a prospect mentions trade shows, booths, launches, or investor days.
-2. Use the feature catalog to scope what to propose—not everything on every deal.
-3. Use packages as starting proposals; adjust timeline after content-readiness review.
-4. Use the discovery checklist before sending a quote or ship-date commitment.
-5. Use Cold Deja Bru as the anchor proof when the buyer needs “show me something real.”
+2. **Default floor engagement is QR + NFC only**—no booth Wi-Fi, beacons, or passive proximity push.
+3. Use the feature catalog to scope what to propose—not everything on every deal.
+4. Use packages as starting proposals; adjust timeline after content-readiness review.
+5. Use the discovery checklist before sending a quote or ship-date commitment.
+6. Use Cold Deja Bru as the anchor proof when the buyer needs “show me something real.”
+
+---
+
+## Floor engagement standard: QR + NFC
+
+Visitors **opt in** by scanning a QR code or tapping an NFC tag. Both open the same attributed landing page and demo flow. No special app required.
+
+| Method | Range | Best for |
+|--------|-------|----------|
+| **QR** | Arm’s length to several metres | Booth banner, aisle signage, slides, print |
+| **NFC** | Tap ~1–4 cm | Demo table, sample station, rep badge, “tap to start demo” |
+
+**Roalla delivers:** source-tagged URLs, landing page + demo + CTAs, print-ready QR artwork, NFC programming spec, analytics by source.
+
+**Not in scope:**
+
+- Wi-Fi captive portal (requires operating booth hotspot)
+- BLE beacons / passive proximity push
+- Wi-Fi presence sniffing
+- Unsolicited SMS to nearby phones
+
+---
+
+## High traffic & long lines
+
+Long lines = strong interest + drop-off risk. Put **QR (and optional NFC) at the start of the queue** so visitors get the story, finish the guided demo, and leave contact info **before** they reach staff.
+
+**Sales one-liner:** When the booth is slammed, queue QR and optional NFC let visitors get the full story and leave contact info before they reach your team—same page, attributed so you know the line drove it.
+
+### Booth layout (scan paths)
+
+| Step | Placement | Purpose | Param |
+|------|-----------|---------|-------|
+| 1 | Aisle / walk-by | Traffic that will not join the line yet | `?source=aisle` |
+| 2 | **Queue start** | “2-min demo while you wait”—highest ROI when lines are long | `?source=queue` |
+| 3 | Front desk | Rep confirms and closes; visitor may have already done demo | `?source=desk` |
+
+### While they wait
+
+- **Queue-side QR** at line entrance (not only front desk) → `?source=queue`
+- **NFC on stanchion** → “Tap to start demo” → `?source=queue-nfc`
+- **Guided demo** finishable on phone in line (demo wizard = the pitch)
+- **Persona split** before desk (buyer / partner / press / investor)
+- **Digital takeaway** — share link or one-pager without staff
+- **Honest wait copy** — “Demo on your phone now · ~X min wait · Scan while you wait”
+
+### Before the show
+
+- Pre-event email/social with booth QR → `?source=pre-event`
+- Session slide QR → `?source=session`
+- Book-a-demo CTA on event page for buyers who should not wait 30 minutes
+
+### After they scan
+
+- Opt-in on wait page (CASL/TCPA compliant)
+- Post-event page segmented by demo completion or persona
+- Monitor `source=queue` spikes → add signage or shorten live pitch
+
+### Example sign copy
+
+| Placement | Headline | Subline |
+|-----------|----------|---------|
+| Queue entrance | Line moving slow? | Scan for the 2-min product demo—same story we tell at the desk. |
+| Stanchion + NFC | Tap to start demo | Finish on your phone while you wait. |
+| Aisle banner | See the product in 2 minutes | Scan now · Visit Booth #___ when ready. |
+
+### Source params
+
+- `?source=aisle` — walk-by, banner
+- `?source=queue` — **primary long-line play**
+- `?source=queue-nfc` — NFC while waiting
+- `?source=desk` — optional front desk
+- `?source=session` — stage slide
+- `?source=pre-event` — pre-show comms
 
 ---
 
@@ -29,12 +104,12 @@
 
 ## Booth feature catalog
 
-### Source-attributed entry paths · Small (days)
+### Source-attributed entry paths (QR + NFC) · Small (days)
 
-- **What:** One event URL with multiple entry points—main booth QR, demo station QR, speaker slide QR, partner co-brand QR. Each path tags the visit (UTM + internal source param).
+- **What:** One event URL with multiple entry points—main booth QR, demo station NFC tap, speaker slide QR, partner co-brand QR. Each path tags the visit (UTM + internal source param).
 - **Why:** Sales knows which booth moment drove interest. Product teams learn which story angle converts.
 - **Roalla fit:** Lightweight routing on a single Next.js page. No app store. Fast for urgent timelines.
-- **Dependencies:** QR artwork per entry point · Analytics or spreadsheet export
+- **Dependencies:** QR artwork per entry point · NFC tag URLs if used · Analytics or spreadsheet export
 
 ### Guided product demo flows · Medium (1–2 weeks)
 
@@ -157,6 +232,8 @@ Complex B2B products where qualification matters.
 
 ## Do not lead with
 
+- Wi-Fi captive portal or “free booth Wi-Fi” capture — stick to QR + NFC unless client already runs hotspot
+- BLE beacons or “message everyone near the booth”
 - “Full event app” language — sounds expensive and slow
 - Generic “engagement” without a product outcome
 - AR / 3D unless budget and asset pipeline are confirmed
@@ -169,7 +246,7 @@ Complex B2B products where qualification matters.
 
 Do **not** expose package names, CRM lists, or staff dashboard details publicly. These outcome phrases **are** on the customer-facing page:
 
-- Multiple QR entry points so you know which booth moment drove interest
+- QR codes and optional NFC taps—multiple entry points so you know which booth moment drove interest
 - Step-by-step product demos visitors can finish while your team is with other guests
 - Separate next steps for buyers, partners, and press—not one generic form
 - Instant shareable product summary visitors can forward after they leave the aisle

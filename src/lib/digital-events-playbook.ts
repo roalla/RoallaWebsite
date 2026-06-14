@@ -34,21 +34,241 @@ export const playbookCoreFlow = [
 
 export const playbookHowToUse = [
   'Open during discovery when a prospect mentions trade shows, booths, launches, or investor days.',
+  'Default floor engagement is QR + NFC only—no booth Wi-Fi, beacons, or passive proximity push.',
   'Use the feature catalog to scope what to propose—not everything on every deal.',
   'Use packages as starting proposals; adjust timeline after content-readiness review.',
   'Use the discovery checklist before sending a quote or ship-date commitment.',
   'Use Cold Deja Bru as the anchor proof when the buyer needs “show me something real.”',
 ]
 
+export type PlaybookFloorEntryMethod = {
+  method: 'QR' | 'NFC'
+  title: string
+  range: string
+  bestFor: string
+  visitorAction: string
+  roallaDeliverables: string[]
+}
+
+/** Roalla standard for on-floor product promotion—opt-in scan or tap, no special apps. */
+export const playbookFloorEngagementIntro =
+  'Visitors choose to engage by scanning a QR code or tapping an NFC tag. Both open the same attributed landing page and demo flow. We do not lead with Wi-Fi captive portals, BLE beacons, or messaging people who have not opted in.'
+
+export const playbookFloorEntryMethods: PlaybookFloorEntryMethod[] = [
+  {
+    method: 'QR',
+    title: 'QR codes',
+    range: 'Arm’s length to several metres (signage, screen, badge, slide deck)',
+    bestFor: 'Main booth banner, aisle signage, presentation slides, print collateral, partner co-brand materials',
+    visitorAction: 'Open camera → scan → land on event page',
+    roallaDeliverables: [
+      'Print-ready QR artwork per entry point (source-tagged URLs)',
+      'Landing page + demo flow + CTAs',
+      'Scan analytics by source param',
+    ],
+  },
+  {
+    method: 'NFC',
+    title: 'NFC tags',
+    range: 'Tap range ~1–4 cm (phone must touch tag or sticker)',
+    bestFor: 'Demo table, product sample station, rep badge back, premium “tap to start demo” moments',
+    visitorAction: 'Tap phone on tag → land on same event page (often same URL as nearest QR)',
+    roallaDeliverables: [
+      'Tag programming spec (URL + source param per tag)',
+      'Optional tap-vs-scan comparison in analytics',
+      'Creative brief for sticker/table stand placement',
+    ],
+  },
+]
+
+export const playbookFloorEngagementExcluded = [
+  'Wi-Fi captive portal — requires operating booth hotspot; venue rules and data costs',
+  'BLE beacons / passive proximity push — no reliable mass reach without a custom app; Google Nearby discontinued',
+  'Wi-Fi presence sniffing — privacy and platform restrictions',
+  'Unsolicited SMS to nearby phones — requires prior opt-in (CASL/TCPA)',
+]
+
+export type PlaybookQueueLayoutStep = {
+  step: string
+  label: string
+  purpose: string
+  sourceParam: string
+}
+
+export type PlaybookQueueTactic = {
+  id: string
+  title: string
+  when: string
+  action: string
+  sourceParam?: string
+}
+
+export type PlaybookQueueSignExample = {
+  placement: string
+  headline: string
+  subline: string
+  sourceParam: string
+}
+
+/** When booth lines are long—self-serve story and capture while visitors wait. */
+export const playbookQueueIntro =
+  'Long lines mean strong interest but also drop-off. Put QR and optional NFC at the start of the queue so visitors get the product story, complete the guided demo, and leave contact info before they reach staff. Same landing page as the booth—different source params so you can measure queue vs aisle vs desk.'
+
+export const playbookQueueSalesLine =
+  'When the booth is slammed, queue QR and optional NFC let visitors get the full story and leave contact info before they reach your team—same page, attributed so you know the line drove it.'
+
+export const playbookQueueLayout: PlaybookQueueLayoutStep[] = [
+  {
+    step: '1',
+    label: 'Aisle / walk-by',
+    purpose: 'Catch traffic that will not join the line yet',
+    sourceParam: 'source=aisle',
+  },
+  {
+    step: '2',
+    label: 'Queue start (highest ROI when lines are long)',
+    purpose: '“2-min demo while you wait”—guided flow + persona CTA on phone',
+    sourceParam: 'source=queue',
+  },
+  {
+    step: '3',
+    label: 'Front desk',
+    purpose: 'Rep confirms, answers, closes—visitor may already have done the demo',
+    sourceParam: 'source=desk (optional)',
+  },
+]
+
+export const playbookQueueWhileWaiting: PlaybookQueueTactic[] = [
+  {
+    id: 'queue-qr',
+    title: 'Queue-side QR signage',
+    when: 'Line forms at booth; wait exceeds ~3–5 minutes',
+    action: 'Large sign at line entrance—not only at the front desk. Links to same event page with queue source param.',
+    sourceParam: 'source=queue',
+  },
+  {
+    id: 'queue-nfc',
+    title: 'NFC on stanchion or demo table',
+    when: 'Visitors have phones out while waiting; hands free at rope line',
+    action: '“Tap to start demo” on post or table edge. Same page as queue QR, separate source for tap analytics.',
+    sourceParam: 'source=queue-nfc',
+  },
+  {
+    id: 'guided-demo-in-line',
+    title: 'Guided demo finishable in line',
+    when: 'Staff cannot repeat pitch for everyone in line',
+    action: 'Short step-by-step demo (3–8 steps) on cellular—the demo wizard is the pitch; staff confirm and close at desk.',
+  },
+  {
+    id: 'persona-split',
+    title: 'Persona split before the desk',
+    when: 'Mixed audience in line (buyer, partner, press, investor)',
+    action: 'First tap on wait page: “I am a…” → tailored CTA and shorter form. Rep gets warmer handoff.',
+  },
+  {
+    id: 'digital-takeaway',
+    title: 'Shareable takeaway without staff',
+    when: 'Visitor may leave line or send info to a colleague',
+    action: 'After demo or mini-form: share link or one-pager PDF—“Forward to your team.”',
+  },
+  {
+    id: 'wait-expectation',
+    title: 'Honest wait messaging on signage',
+    when: 'Long waits cause bail-outs',
+    action: 'Sign copy: “Demo on your phone now · ~X min wait · Scan while you wait.” Sets expectation and gives an action.',
+  },
+]
+
+export const playbookQueueBeforeShow: PlaybookQueueTactic[] = [
+  {
+    id: 'pre-event-qr',
+    title: 'Pre-event comms with booth QR',
+    when: 'VIP list, email, LinkedIn before the show',
+    action: '“See us at Booth #”—warm visitors arrive pre-educated; less pressure on live pitch.',
+    sourceParam: 'source=pre-event',
+  },
+  {
+    id: 'session-slide-qr',
+    title: 'Session / stage slide QR',
+    when: 'Speaker mentions product; audience never enters the booth line',
+    action: 'Deep link to spec sheet or demo—captures interest without booth visit.',
+    sourceParam: 'source=session',
+  },
+  {
+    id: 'book-demo-cta',
+    title: 'Book-a-demo on event page',
+    when: 'Serious buyers should not wait in a 30-minute line',
+    action: 'Calendar or inquiry CTA on landing page moves high-intent leads to post-show calls.',
+  },
+]
+
+export const playbookQueueAfterScan: PlaybookQueueTactic[] = [
+  {
+    id: 'opt-in-follow-up',
+    title: 'Opt-in on wait page',
+    when: 'Visitor completed demo in line but did not reach desk',
+    action: 'SMS/email checkbox (CASL/TCPA compliant)—follow up after show with interest-tagged message.',
+  },
+  {
+    id: 'post-event-segment',
+    title: 'Post-event page by interest',
+    when: 'After the show',
+    action: '“You viewed steps 1–4 at the booth—here’s pricing / next step” segmented by demo completion or persona.',
+  },
+  {
+    id: 'staff-dashboard-spike',
+    title: 'Monitor queue source spikes',
+    when: 'Peak show hours',
+    action: 'If source=queue surges, add another sign, shorten live pitch, or shift staff to line greeter with QR handout.',
+  },
+]
+
+export const playbookQueueSignExamples: PlaybookQueueSignExample[] = [
+  {
+    placement: 'Queue entrance (primary)',
+    headline: 'Line moving slow?',
+    subline: 'Scan for the 2-min product demo—same story we tell at the desk.',
+    sourceParam: 'source=queue',
+  },
+  {
+    placement: 'Queue stanchion with NFC',
+    headline: 'Tap to start demo',
+    subline: 'Finish on your phone while you wait.',
+    sourceParam: 'source=queue-nfc',
+  },
+  {
+    placement: 'Aisle banner (no line required)',
+    headline: 'See the product in 2 minutes',
+    subline: 'Scan now · Visit Booth #___ when ready.',
+    sourceParam: 'source=aisle',
+  },
+]
+
+export const playbookQueueSourceParams = [
+  { param: 'source=aisle', use: 'Walk-by traffic, banner, aisle signage' },
+  { param: 'source=queue', use: 'Start of line—primary long-line play' },
+  { param: 'source=queue-nfc', use: 'NFC tap at stanchion or table while waiting' },
+  { param: 'source=desk', use: 'Optional QR at front desk for rep-assisted close' },
+  { param: 'source=session', use: 'Stage slide or speaker mention' },
+  { param: 'source=pre-event', use: 'Email, invite, social before show' },
+]
+
+export const playbookQueueDiscoveryQuestions = [
+  'Expected peak traffic—will lines form? (If yes, budget queue QR + signage)',
+  'Average acceptable wait before drop-off (sets urgency for queue-side digital)',
+  'Can client print extra queue signage on site or must all artwork ship pre-show?',
+  'Will reps reference “did you scan the demo?” at desk handoff?',
+]
+
 export const playbookBoothFeatures: PlaybookFeature[] = [
   {
     id: 'source-attribution',
-    title: 'Source-attributed entry paths',
-    what: 'One event URL with multiple entry points—main booth QR, demo station QR, speaker slide QR, partner co-brand QR. Each path tags the visit (UTM + internal source param).',
+    title: 'Source-attributed entry paths (QR + NFC)',
+    what: 'One event URL with multiple entry points—main booth QR, demo station NFC tap, speaker slide QR, partner co-brand QR. Each path tags the visit (UTM + internal source param). QR and NFC can share the same page with different source values.',
     why: 'Sales knows which booth moment drove interest. Product teams learn which story angle converts.',
     roallaFit: 'Lightweight routing on a single Next.js page. No app store. Fast for urgent timelines.',
     effort: 'S',
-    dependencies: ['QR artwork per entry point', 'Analytics or spreadsheet export'],
+    dependencies: ['QR artwork per entry point', 'NFC tag URLs if used', 'Analytics or spreadsheet export'],
   },
   {
     id: 'guided-demos',
@@ -183,15 +403,20 @@ export const playbookPackages: PlaybookPackage[] = [
 export const playbookDiscoveryChecklist = [
   'Product type and primary demo story (30-second pitch)',
   'Event name, date, and fixed ship deadline',
-  'Number of QR entry points and who each one serves',
+  'QR placements: banner, aisle, slides, print—who each one serves',
+  'Queue placements if high traffic expected: line entrance QR, stanchion NFC, wait-time signage',
+  'NFC placements (if any): demo table, sample station, rep badge, queue stanchion—tag count and source names',
   'Personas: buyer, partner, press, investor, distributor?',
   'CRM or inbox for leads (HubSpot, Salesforce, email, sheet)',
   'Languages required (EN, FR, both)',
   'Post-event follow-up owner on client side',
   'Content readiness: copy, photos, video, legal approvals',
+  ...playbookQueueDiscoveryQuestions,
 ]
 
 export const playbookDoNotLeadWith = [
+  'Wi-Fi captive portal or “free booth Wi-Fi” capture — we stick to QR + NFC unless client already runs hotspot',
+  'BLE beacons or “message everyone near the booth” — not reliable without an app; privacy concerns',
   '“Full event app” language — sounds expensive and slow',
   'Generic “engagement” without a product outcome',
   'AR / 3D unless budget and asset pipeline are confirmed',
@@ -200,7 +425,7 @@ export const playbookDoNotLeadWith = [
 ]
 
 export const playbookCustomerSafeBullets = [
-  'Multiple QR entry points so you know which booth moment drove interest',
+  'QR codes and optional NFC taps—multiple entry points so you know which booth moment drove interest',
   'Step-by-step product demos visitors can finish while your team is with other guests',
   'Separate next steps for buyers, partners, and press—not one generic form',
   'Instant shareable product summary visitors can forward after they leave the aisle',
@@ -213,7 +438,9 @@ export const playbookColdDejabruReference = {
   shipped:
     'Investor booth landing: six-step MR. COLDBRU demo grid, QR-first entry, co-branding CTAs, urgent timeline.',
   upsellNextTime: [
-    'Source-attributed QRs (booth vs demo station vs session slide)',
+    'Queue-side QR + NFC when lines form (source=queue / source=queue-nfc)',
+    'NFC tap at demo station alongside booth QR (same page, different source)',
+    'Source-attributed QRs (aisle vs queue vs session slide)',
     'Persona-split CTAs with CRM handoff',
     'Post-event segmented follow-up by demo completion',
     'Staff dashboard for scan and drop-off visibility',

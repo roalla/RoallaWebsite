@@ -52,7 +52,7 @@ export type PlaybookFloorEntryMethod = {
 
 /** Roalla standard for on-floor product promotion—opt-in scan or tap, no special apps. */
 export const playbookFloorEngagementIntro =
-  'Visitors choose to engage by scanning a QR code or tapping an NFC tag. Both open the same attributed landing page and demo flow. We do not lead with Wi-Fi captive portals, BLE beacons, or messaging people who have not opted in.'
+  'Visitors choose to engage by scanning a QR code or tapping an NFC tag. Both open the same event page and demo flow—we track which sign or tag they used. We do not lead with Wi-Fi captive portals, BLE beacons, or messaging people who have not opted in.'
 
 export const playbookFloorEntryMethods: PlaybookFloorEntryMethod[] = [
   {
@@ -62,9 +62,9 @@ export const playbookFloorEntryMethods: PlaybookFloorEntryMethod[] = [
     bestFor: 'Main booth banner, aisle signage, presentation slides, print collateral, partner co-brand materials',
     visitorAction: 'Open camera → scan → land on event page',
     roallaDeliverables: [
-      'Print-ready QR artwork per entry point (source-tagged URLs)',
+      'Print-ready QR artwork for each sign—each one tracked separately in reports',
       'Landing page + demo flow + CTAs',
-      'Scan analytics by source param',
+      'Scan counts broken down by which sign or placement drove the visit',
     ],
   },
   {
@@ -74,8 +74,8 @@ export const playbookFloorEntryMethods: PlaybookFloorEntryMethod[] = [
     bestFor: 'Demo table, product sample station, rep badge back, premium “tap to start demo” moments',
     visitorAction: 'Tap phone on tag → land on same event page (often same URL as nearest QR)',
     roallaDeliverables: [
-      'Tag programming spec (URL + source param per tag)',
-      'Optional tap-vs-scan comparison in analytics',
+      'NFC setup spec—each tag opens the page and records where they tapped',
+      'Optional comparison of taps vs scans in your report',
       'Creative brief for sticker/table stand placement',
     ],
   },
@@ -92,7 +92,8 @@ export type PlaybookQueueLayoutStep = {
   step: string
   label: string
   purpose: string
-  sourceParam: string
+  /** Plain-language label shown in scan reports for this placement. */
+  reportLabel: string
 }
 
 export type PlaybookQueueTactic = {
@@ -100,41 +101,46 @@ export type PlaybookQueueTactic = {
   title: string
   when: string
   action: string
-  sourceParam?: string
+  reportLabel?: string
 }
 
 export type PlaybookQueueSignExample = {
   placement: string
   headline: string
   subline: string
-  sourceParam: string
+  reportLabel: string
+}
+
+export type PlaybookQueueTrackingRow = {
+  where: string
+  reportLabel: string
 }
 
 /** When booth lines are long—self-serve story and capture while visitors wait. */
 export const playbookQueueIntro =
-  'Long lines mean strong interest but also drop-off. Put QR and optional NFC at the start of the queue so visitors get the product story, complete the guided demo, and leave contact info before they reach staff. Same landing page as the booth—different source params so you can measure queue vs aisle vs desk.'
+  'Long lines mean strong interest but also drop-off. Put QR and optional NFC at the start of the queue so visitors get the product story, complete the guided demo, and leave contact info before they reach staff. Same landing page as the booth—each sign and tap tracked separately so you can see whether aisle, queue, or desk drove the visit.'
 
 export const playbookQueueSalesLine =
-  'When the booth is slammed, queue QR and optional NFC let visitors get the full story and leave contact info before they reach your team—same page, attributed so you know the line drove it.'
+  'When the booth is slammed, queue QR and optional NFC let visitors get the full story and leave contact info before they reach your team—same page, with queue scans labeled separately so you know the line drove it.'
 
 export const playbookQueueLayout: PlaybookQueueLayoutStep[] = [
   {
     step: '1',
     label: 'Aisle / walk-by',
     purpose: 'Catch traffic that will not join the line yet',
-    sourceParam: 'source=aisle',
+    reportLabel: 'Aisle walk-by',
   },
   {
     step: '2',
     label: 'Queue start (highest ROI when lines are long)',
     purpose: '“2-min demo while you wait”—guided flow + persona CTA on phone',
-    sourceParam: 'source=queue',
+    reportLabel: 'Queue line',
   },
   {
     step: '3',
     label: 'Front desk',
     purpose: 'Rep confirms, answers, closes—visitor may already have done the demo',
-    sourceParam: 'source=desk (optional)',
+    reportLabel: 'Front desk (optional)',
   },
 ]
 
@@ -143,15 +149,15 @@ export const playbookQueueWhileWaiting: PlaybookQueueTactic[] = [
     id: 'queue-qr',
     title: 'Queue-side QR signage',
     when: 'Line forms at booth; wait exceeds ~3–5 minutes',
-    action: 'Large sign at line entrance—not only at the front desk. Links to same event page with queue source param.',
-    sourceParam: 'source=queue',
+    action: 'Large sign at line entrance—not only at the front desk. Same event page; visits from here show as “Queue line” in reports.',
+    reportLabel: 'Queue line',
   },
   {
     id: 'queue-nfc',
     title: 'NFC on stanchion or demo table',
     when: 'Visitors have phones out while waiting; hands free at rope line',
-    action: '“Tap to start demo” on post or table edge. Same page as queue QR, separate source for tap analytics.',
-    sourceParam: 'source=queue-nfc',
+    action: '“Tap to start demo” on post or table edge. Same page as the queue QR—taps show separately from scans in your report.',
+    reportLabel: 'Queue line · NFC tap',
   },
   {
     id: 'guided-demo-in-line',
@@ -185,14 +191,14 @@ export const playbookQueueBeforeShow: PlaybookQueueTactic[] = [
     title: 'Pre-event comms with booth QR',
     when: 'VIP list, email, LinkedIn before the show',
     action: '“See us at Booth #”—warm visitors arrive pre-educated; less pressure on live pitch.',
-    sourceParam: 'source=pre-event',
+    reportLabel: 'Pre-show outreach',
   },
   {
     id: 'session-slide-qr',
     title: 'Session / stage slide QR',
     when: 'Speaker mentions product; audience never enters the booth line',
     action: 'Deep link to spec sheet or demo—captures interest without booth visit.',
-    sourceParam: 'source=session',
+    reportLabel: 'Session / stage slide',
   },
   {
     id: 'book-demo-cta',
@@ -217,9 +223,9 @@ export const playbookQueueAfterScan: PlaybookQueueTactic[] = [
   },
   {
     id: 'staff-dashboard-spike',
-    title: 'Monitor queue source spikes',
+    title: 'Monitor queue-line scan spikes',
     when: 'Peak show hours',
-    action: 'If source=queue surges, add another sign, shorten live pitch, or shift staff to line greeter with QR handout.',
+    action: 'If “Queue line” scans jump during busy hours, add another sign, shorten live pitch, or shift staff to line greeter with QR handout.',
   },
 ]
 
@@ -228,29 +234,29 @@ export const playbookQueueSignExamples: PlaybookQueueSignExample[] = [
     placement: 'Queue entrance (primary)',
     headline: 'Line moving slow?',
     subline: 'Scan for the 2-min product demo—same story we tell at the desk.',
-    sourceParam: 'source=queue',
+    reportLabel: 'Queue line',
   },
   {
     placement: 'Queue stanchion with NFC',
     headline: 'Tap to start demo',
     subline: 'Finish on your phone while you wait.',
-    sourceParam: 'source=queue-nfc',
+    reportLabel: 'Queue line · NFC tap',
   },
   {
     placement: 'Aisle banner (no line required)',
     headline: 'See the product in 2 minutes',
     subline: 'Scan now · Visit Booth #___ when ready.',
-    sourceParam: 'source=aisle',
+    reportLabel: 'Aisle walk-by',
   },
 ]
 
-export const playbookQueueSourceParams = [
-  { param: 'source=aisle', use: 'Walk-by traffic, banner, aisle signage' },
-  { param: 'source=queue', use: 'Start of line—primary long-line play' },
-  { param: 'source=queue-nfc', use: 'NFC tap at stanchion or table while waiting' },
-  { param: 'source=desk', use: 'Optional QR at front desk for rep-assisted close' },
-  { param: 'source=session', use: 'Stage slide or speaker mention' },
-  { param: 'source=pre-event', use: 'Email, invite, social before show' },
+export const playbookQueueTrackingGuide: PlaybookQueueTrackingRow[] = [
+  { where: 'Aisle banner, walk-by traffic', reportLabel: 'Aisle walk-by' },
+  { where: 'Start of the booth line', reportLabel: 'Queue line' },
+  { where: 'NFC tap at stanchion or table while waiting', reportLabel: 'Queue line · NFC tap' },
+  { where: 'Front desk QR (optional)', reportLabel: 'Front desk' },
+  { where: 'Stage slide or speaker mention', reportLabel: 'Session / stage slide' },
+  { where: 'Email, invite, or social before the show', reportLabel: 'Pre-show outreach' },
 ]
 
 export const playbookQueueDiscoveryQuestions = [
@@ -263,10 +269,10 @@ export const playbookQueueDiscoveryQuestions = [
 export const playbookBoothFeatures: PlaybookFeature[] = [
   {
     id: 'source-attribution',
-    title: 'Source-attributed entry paths (QR + NFC)',
-    what: 'One event URL with multiple entry points—main booth QR, demo station NFC tap, speaker slide QR, partner co-brand QR. Each path tags the visit (UTM + internal source param). QR and NFC can share the same page with different source values.',
+    title: 'Tracked entry paths (QR + NFC)',
+    what: 'One event page with multiple QR codes and NFC tags—main booth banner, demo table tap, speaker slide, partner co-brand sign. Each scan or tap is labeled in reports so you know which moment drove the visit. QR and NFC can share the same page.',
     why: 'Sales knows which booth moment drove interest. Product teams learn which story angle converts.',
-    roallaFit: 'Lightweight routing on a single Next.js page. No app store. Fast for urgent timelines.',
+    roallaFit: 'One lightweight event page—no app store download. Fast for urgent timelines.',
     effort: 'S',
     dependencies: ['QR artwork per entry point', 'NFC tag URLs if used', 'Analytics or spreadsheet export'],
   },
@@ -291,7 +297,7 @@ export const playbookBoothFeatures: PlaybookFeature[] = [
   {
     id: 'booth-dashboard',
     title: 'Live booth dashboard (staff-only)',
-    what: 'Private view: scans by hour and QR source, demo step completion/drop-off, form submits, swap hero offer mid-show without redeploy.',
+    what: 'Private view: scans by hour and by which sign or tap, demo step completion/drop-off, form submits, swap hero offer mid-show without redeploy.',
     why: 'Booth managers adjust pitch and staffing in real time; post-show debrief is data-backed.',
     roallaFit: 'Small admin slice on the same event site. High perceived value, moderate build.',
     effort: 'M',
@@ -405,7 +411,7 @@ export const playbookDiscoveryChecklist = [
   'Event name, date, and fixed ship deadline',
   'QR placements: banner, aisle, slides, print—who each one serves',
   'Queue placements if high traffic expected: line entrance QR, stanchion NFC, wait-time signage',
-  'NFC placements (if any): demo table, sample station, rep badge, queue stanchion—tag count and source names',
+  'NFC placements (if any): demo table, sample station, rep badge, queue stanchion—how many tags and what each should be called in reports',
   'Personas: buyer, partner, press, investor, distributor?',
   'CRM or inbox for leads (HubSpot, Salesforce, email, sheet)',
   'Languages required (EN, FR, both)',
@@ -438,9 +444,9 @@ export const playbookColdDejabruReference = {
   shipped:
     'Investor booth landing: six-step MR. COLDBRU demo grid, QR-first entry, co-branding CTAs, urgent timeline.',
   upsellNextTime: [
-    'Queue-side QR + NFC when lines form (source=queue / source=queue-nfc)',
-    'NFC tap at demo station alongside booth QR (same page, different source)',
-    'Source-attributed QRs (aisle vs queue vs session slide)',
+    'Queue-side QR + NFC when lines form—tracked as Queue line vs Queue line · NFC tap',
+    'NFC tap at demo station alongside booth QR (same page, separate report labels)',
+    'Separate QR codes for aisle, queue, and session slide—each labeled in reports',
     'Persona-split CTAs with CRM handoff',
     'Post-event segmented follow-up by demo completion',
     'Staff dashboard for scan and drop-off visibility',

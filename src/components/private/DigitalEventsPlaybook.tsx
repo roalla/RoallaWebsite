@@ -35,7 +35,7 @@ import {
   playbookQueueLayout,
   playbookQueueSalesLine,
   playbookQueueSignExamples,
-  playbookQueueSourceParams,
+  playbookQueueTrackingGuide,
   playbookQueueWhileWaiting,
   playbookSelectiveAddons,
   effortLabels,
@@ -85,6 +85,19 @@ function Pill({
 
 function EffortPill({ effort }: { effort: PlaybookEffort }) {
   return <Pill className={effortPillClass[effort]}>{effortLabels[effort]}</Pill>
+}
+
+function ReportLabelNote({ label, tone = 'dark' }: { label: string; tone?: 'dark' | 'light' }) {
+  const toneClass =
+    tone === 'dark'
+      ? 'bg-slate-900 text-primary-light'
+      : 'bg-slate-100 border border-slate-200 text-slate-900'
+  return (
+    <p className={`mt-3 rounded-md px-2.5 py-2 text-xs leading-snug ${toneClass}`}>
+      <span className="block font-bold uppercase tracking-[0.12em] opacity-80 mb-0.5">Shows in scan report as</span>
+      <span className="text-sm font-semibold">{label}</span>
+    </p>
+  )
 }
 
 function PhasePill({ phase }: { phase: string }) {
@@ -325,9 +338,7 @@ export default function DigitalEventsPlaybook() {
                 <Pill className="bg-primary/15 text-primary-darker border-primary/35 mb-2">Step {row.step}</Pill>
                 <h3 className="text-sm font-bold text-slate-900">{row.label}</h3>
                 <p className="mt-2 text-sm text-slate-700 leading-relaxed">{row.purpose}</p>
-                <code className="mt-3 inline-block rounded-md bg-slate-900 px-2 py-1 text-xs text-primary-light font-mono">
-                  ?{row.sourceParam}
-                </code>
+                <ReportLabelNote label={row.reportLabel} />
               </HoverTile>
             ))}
           </div>
@@ -345,11 +356,7 @@ export default function DigitalEventsPlaybook() {
                     <h4 className="text-sm font-bold text-slate-900">{tactic.title}</h4>
                     <p className="mt-1 text-xs font-medium text-slate-600">{tactic.when}</p>
                     <p className="mt-2 text-sm text-slate-800 leading-relaxed">{tactic.action}</p>
-                    {tactic.sourceParam && (
-                      <code className="mt-2 inline-block rounded-md bg-slate-100 border border-slate-200 px-2 py-0.5 text-xs text-slate-800 font-mono">
-                        ?{tactic.sourceParam}
-                      </code>
-                    )}
+                    {tactic.reportLabel && <ReportLabelNote label={tactic.reportLabel} tone="light" />}
                   </HoverTile>
                 ))}
               </div>
@@ -365,31 +372,27 @@ export default function DigitalEventsPlaybook() {
                 <Pill className="bg-slate-200 text-slate-800 border-slate-400 mb-3">{sign.placement}</Pill>
                 <p className="text-base font-bold text-slate-900 leading-snug">{sign.headline}</p>
                 <p className="mt-1 text-sm text-slate-700">{sign.subline}</p>
-                <code className="mt-3 inline-block rounded-md bg-slate-900 px-2 py-1 text-xs text-primary-light font-mono">
-                  ?{sign.sourceParam}
-                </code>
+                <ReportLabelNote label={sign.reportLabel} />
               </HoverTile>
             ))}
           </div>
 
           <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-slate-600 mb-2">
-            Recommended source params
+            How we tell scans apart
           </p>
           <div className="overflow-x-auto rounded-lg border border-slate-200">
             <table className="w-full text-sm text-left">
               <thead>
                 <tr className="border-b border-slate-200 bg-slate-100">
-                  <th className="py-2.5 px-3 font-semibold text-slate-800">Param</th>
-                  <th className="py-2.5 px-3 font-semibold text-slate-800">Use</th>
+                  <th className="py-2.5 px-3 font-semibold text-slate-800">Where they scan or tap</th>
+                  <th className="py-2.5 px-3 font-semibold text-slate-800">Shows in scan report as</th>
                 </tr>
               </thead>
               <tbody>
-                {playbookQueueSourceParams.map((row) => (
-                  <tr key={row.param} className="border-b border-slate-100 last:border-0">
-                    <td className="py-2.5 px-3 font-mono text-xs text-primary-darker whitespace-nowrap">
-                      ?{row.param}
-                    </td>
-                    <td className="py-2.5 px-3 text-slate-800">{row.use}</td>
+                {playbookQueueTrackingGuide.map((row) => (
+                  <tr key={row.reportLabel + row.where} className="border-b border-slate-100 last:border-0">
+                    <td className="py-2.5 px-3 text-slate-800">{row.where}</td>
+                    <td className="py-2.5 px-3 font-semibold text-primary-darker">{row.reportLabel}</td>
                   </tr>
                 ))}
               </tbody>

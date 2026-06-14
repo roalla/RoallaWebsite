@@ -207,16 +207,18 @@ export default function DigitalEventsPlaybook() {
         </div>
       </div>
 
-      <header className="mb-8 rounded-2xl border border-slate-300 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-6 lg:p-8 text-white shadow-card">
-        <Pill className="bg-white/15 text-white border-white/25 mb-3">Digital Events</Pill>
-        <h1 className="text-3xl lg:text-4xl font-serif font-bold tracking-tight">Product promotion playbook</h1>
-        <p className="mt-4 text-slate-200 leading-relaxed max-w-3xl">
+      <header className="mb-8 rounded-2xl border-2 border-primary/25 bg-gradient-to-br from-white via-slate-50 to-primary/[0.08] p-6 lg:p-8 shadow-card">
+        <Pill className="bg-primary/15 text-primary-darker border-primary/35 mb-3">Digital Events</Pill>
+        <h1 className="text-3xl lg:text-4xl font-serif font-bold tracking-tight text-slate-900">
+          Product promotion playbook
+        </h1>
+        <p className="mt-4 text-slate-700 leading-relaxed max-w-3xl">
           Feature catalog and scoping guide for trade shows, booths, launches, and business events. Anchor proof:{' '}
           <a
             href={playbookColdDejabruReference.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-semibold text-primary-light underline underline-offset-2 hover:text-white"
+            className="font-semibold text-primary-dark underline underline-offset-2 hover:text-primary-darker"
           >
             coldbru.dejabru.ca
           </a>

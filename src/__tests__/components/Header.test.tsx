@@ -56,4 +56,19 @@ describe('Header', () => {
     expect(screen.getByRole('menuitem', { name: /websitesAndDigital/i })).toHaveAttribute('href', '/services/digital')
     expect(screen.getByRole('menuitem', { name: /ourWork/i })).toHaveAttribute('href', '/digital-creations')
   })
+
+  it('renders apps dropdown with external app links', () => {
+    render(<Header />)
+    const appsButton = screen.getByRole('button', { name: 'apps' })
+    expect(appsButton).toBeInTheDocument()
+    fireEvent.click(appsButton)
+    expect(screen.getByRole('menuitem', { name: /businessCocoonApp/i })).toHaveAttribute(
+      'href',
+      'https://www.businesscocoon.com'
+    )
+    expect(screen.getByRole('menuitem', { name: /blueprintApp/i })).toHaveAttribute(
+      'href',
+      'https://www.4theblueprint.com'
+    )
+  })
 })

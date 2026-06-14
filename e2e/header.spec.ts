@@ -10,13 +10,30 @@ test.describe('Header', () => {
     await expect(page.locator('#main-content')).toBeVisible()
   })
 
-  test('services dropdown lists three destinations when open', async ({ page }) => {
+  test('services dropdown lists destinations when open', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 })
     await page.goto('/en')
 
     await page.locator('#services-dropdown-desktop').click()
     const menu = page.locator('[aria-labelledby="services-dropdown-desktop"]')
-    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(3)
+    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(4)
+  })
+
+  test('apps dropdown lists company apps when open', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 720 })
+    await page.goto('/en')
+
+    await page.locator('#apps-dropdown-desktop').click()
+    const menu = page.locator('[aria-labelledby="apps-dropdown-desktop"]')
+    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(2)
+    await expect(menu.getByRole('menuitem', { name: /Business Cocoon/i })).toHaveAttribute(
+      'href',
+      'https://www.businesscocoon.com'
+    )
+    await expect(menu.getByRole('menuitem', { name: /4 The Blueprint/i })).toHaveAttribute(
+      'href',
+      'https://www.4theblueprint.com'
+    )
   })
 
   test('primary service routes are reachable', async ({ page }) => {

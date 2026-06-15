@@ -16,7 +16,6 @@ import {
   ASSESSMENT_QUESTION_IDS,
   LANE_VALUES,
   SCORE_OPTION_VALUES,
-  SERVICE_META,
   buildScheduleQuery,
   computeAssessmentResult,
   type AssessmentAnswers,
@@ -28,14 +27,35 @@ import {
 const REC_KEYS = ['rec1', 'rec2', 'rec3', 'rec4'] as const
 const NEXT_KEYS = ['next1', 'next2', 'next3'] as const
 
-function resultContentKey(result: AssessmentResult): string {
-  if (result.lane === 'website' || result.lane === 'platform' || result.lane === 'workshop' || result.lane === 'event') {
-    return `lane.${result.lane}`
+type ResultMessages = Record<(typeof REC_KEYS)[number] | (typeof NEXT_KEYS)[number], string>
+
+function isDigitalOrEventLane(lane: AssessmentLane): boolean {
+  return lane === 'website' || lane === 'platform' || lane === 'workshop' || lane === 'event'
+}
+
+function resultMessagesNamespace(result: AssessmentResult): string {
+  if (isDigitalOrEventLane(result.lane)) {
+    return `results.lane.${result.lane}`
   }
   if (result.primaryService) {
-    return `service.${result.primaryService}`
+    return `results.service.${result.primaryService}`
   }
-  return 'fallback'
+  return 'results.fallback'
+}
+
+function loadResultMessages(
+  t: ReturnType<typeof useTranslations<'assessmentTool'>>,
+  result: AssessmentResult,
+): { recommendations: string[]; nextSteps: string[] } {
+  const namespace = resultMessagesNamespace(result)
+  const block = t.raw(namespace) as ResultMessages | undefined
+  if (!block || typeof block !== 'object') {
+    return { recommendations: [], nextSteps: [] }
+  }
+  return {
+    recommendations: REC_KEYS.map((key) => block[key]).filter(Boolean),
+    nextSteps: NEXT_KEYS.map((key) => block[key]).filter(Boolean),
+  }
 }
 
 const InteractiveAssessment = () => {
@@ -71,8 +91,10 @@ const InteractiveAssessment = () => {
     setIsLoading(true)
     setTimeout(() => {
       const assessmentResult = computeAssessmentResult(nextAnswers)
-      setResult(assessmentResult)
-      setIsComplete(true)
+      if (assessmentResult) {
+        setResult(assessmentResult)
+        setIsComplete(true)
+      }
       setIsLoading(false)
     }, 1500)
   }
@@ -83,19 +105,6 @@ const InteractiveAssessment = () => {
     setIsComplete(false)
     setResult(null)
   }
-
-  const scheduleHref = result
-    ? { pathname: '/schedule' as const, query: buildScheduleQuery(result) }
-    : { pathname: '/schedule' as const }
-
-  const contentKey = result ? resultContentKey(result) : ''
-  const recommendations = REC_KEYS.map((key) => t(`results.${contentKey}.${key}`)).filter(Boolean)
-  const nextSteps = NEXT_KEYS.map((key) => t(`results.${contentKey}.${key}`)).filter(Boolean)
-
-  const primaryServiceName =
-    result?.primaryService != null ? t(`services.${result.primaryService}`) : null
-  const secondaryServiceName =
-    result?.secondaryService != null ? t(`services.${result.secondaryService}`) : null
 
   return (
     <section id="assessment" className="section-padding bg-white py-12 lg:py-16">
@@ -166,147 +175,172 @@ const InteractiveAssessment = () => {
                     </>
                   )}
                 </div>
+              ) : result ? (
+                <AssessmentResultsView result={result} onReset={resetAssessment} t={t} />
               ) : (
-                result && (
-                  <div className="animate-fade-in text-center">
-                    <div className="mb-8">
-                      <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary-dark rounded-full mx-auto mb-4 flex items-center justify-center">
-                        <BarChart3 className="w-10 h-10 text-white" />
-                      </div>
-                      <h2 className="text-2xl font-bold text-slate-900 mb-2">
-                        {t('scoreTitle', { score: result.overallScore })}
-                      </h2>
-                      <p className="text-lg text-primary font-semibold">
-                        {t(`pillarCategory.${result.pillar}`)}
-                      </p>
-                    </div>
-
-                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-5 mb-8 text-left space-y-4">
-                      <div>
-                        <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
-                          {t('recommendedLane')}
-                        </p>
-                        <p className="text-sm font-semibold text-slate-900">
-                          {t(`lanes.${result.lane}`)}
-                        </p>
-                      </div>
-
-                      {primaryServiceName && (
-                        <div>
-                          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
-                            {t('recommendedService')}
-                          </p>
-                          <p className="text-sm font-semibold text-slate-900">{primaryServiceName}</p>
-                          {secondaryServiceName && (
-                            <p className="text-sm text-slate-600 mt-1">
-                              {t('alsoConsider')}: {secondaryServiceName}
-                            </p>
-                          )}
-                        </div>
-                      )}
-
-                      <div>
-                        <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
-                          {t('primaryPhase')}
-                        </p>
-                        <p className="text-sm font-semibold text-slate-900">
-                          {t(`pillars.${result.pillar}`)}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-8 mb-8">
-                      <div className="text-left">
-                        <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center">
-                          <TrendingUp className="w-5 h-5 text-primary mr-2" />
-                          {t('keyRecommendations')}
-                        </h3>
-                        <ul className="space-y-2">
-                          {recommendations.map((rec, index) => (
-                            <Reveal
-                              as="li"
-                              key={rec}
-                              when="mount"
-                              delayMs={index * 100}
-                              className="flex items-start"
-                            >
-                              <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
-                              <span className="text-slate-600">{rec}</span>
-                            </Reveal>
-                          ))}
-                        </ul>
-                      </div>
-
-                      <div className="text-left">
-                        <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center">
-                          <AlertCircle className="w-5 h-5 text-primary mr-2" />
-                          {t('nextSteps')}
-                        </h3>
-                        <ul className="space-y-2">
-                          {nextSteps.map((step, index) => (
-                            <Reveal
-                              as="li"
-                              key={step}
-                              when="mount"
-                              delayMs={index * 100}
-                              className="flex items-start"
-                            >
-                              <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
-                              <span className="text-slate-600">{step}</span>
-                            </Reveal>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-
-                    <div className="space-y-3">
-                      <Link href={scheduleHref} className="btn-primary inline-flex items-center">
-                        <Send className="w-5 h-5 mr-2" />
-                        {t('submitInquiry')}
-                      </Link>
-
-                      <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-                        {result.serviceHref && (
-                          <Link
-                            href={result.serviceHref as '/services'}
-                            className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
-                          >
-                            {t('exploreService', { service: primaryServiceName ?? '' })}
-                            <ArrowRight className="ml-1.5 w-4 h-4" />
-                          </Link>
-                        )}
-                        <Link
-                          href={result.laneHref as '/services'}
-                          className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
-                        >
-                          {laneExploreLabel(result.lane, t)}
-                          <ArrowRight className="ml-1.5 w-4 h-4" />
-                        </Link>
-                        <Link
-                          href={result.exploreServicesHref as '/services'}
-                          className="inline-flex items-center text-sm font-semibold text-slate-600 hover:text-primary-dark hover:underline"
-                        >
-                          {t('explorePhase')}
-                          <ArrowRight className="ml-1.5 w-4 h-4" />
-                        </Link>
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={resetAssessment}
-                        className="btn-secondary block mx-auto mt-4"
-                      >
-                        {t('takeAgain')}
-                      </button>
-                    </div>
-                  </div>
-                )
+                <div className="py-12 text-center">
+                  <p className="text-slate-600">{t('analyzing')}</p>
+                  <button type="button" onClick={resetAssessment} className="btn-secondary mt-4">
+                    {t('takeAgain')}
+                  </button>
+                </div>
               )}
             </div>
           </div>
         </div>
       </div>
     </section>
+  )
+}
+
+function AssessmentResultsView({
+  result,
+  onReset,
+  t,
+}: {
+  result: AssessmentResult
+  onReset: () => void
+  t: ReturnType<typeof useTranslations<'assessmentTool'>>
+}) {
+  const scheduleHref = useMemo(
+    () => ({ pathname: '/schedule' as const, query: buildScheduleQuery(result) }),
+    [result],
+  )
+  const { recommendations, nextSteps } = useMemo(
+    () => loadResultMessages(t, result),
+    [t, result],
+  )
+
+  const primaryServiceName =
+    result.primaryService != null ? t(`services.${result.primaryService}`) : null
+  const secondaryServiceName =
+    result.secondaryService != null ? t(`services.${result.secondaryService}`) : null
+
+  return (
+    <div className="animate-fade-in text-center">
+      <div className="mb-8">
+        <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary-dark rounded-full mx-auto mb-4 flex items-center justify-center">
+          <BarChart3 className="w-10 h-10 text-white" />
+        </div>
+        <h2 className="text-2xl font-bold text-slate-900 mb-2">
+          {t('scoreTitle', { score: result.overallScore })}
+        </h2>
+        <p className="text-lg text-primary font-semibold">
+          {t(`pillarCategory.${result.pillar}`)}
+        </p>
+      </div>
+
+      <div className="rounded-xl border border-slate-200 bg-slate-50 p-5 mb-8 text-left space-y-4">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
+            {t('recommendedLane')}
+          </p>
+          <p className="text-sm font-semibold text-slate-900">{t(`lanes.${result.lane}`)}</p>
+        </div>
+
+        {primaryServiceName && (
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
+              {t('recommendedService')}
+            </p>
+            <p className="text-sm font-semibold text-slate-900">{primaryServiceName}</p>
+            {secondaryServiceName && (
+              <p className="text-sm text-slate-600 mt-1">
+                {t('alsoConsider')}: {secondaryServiceName}
+              </p>
+            )}
+          </div>
+        )}
+
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
+            {t('primaryPhase')}
+          </p>
+          <p className="text-sm font-semibold text-slate-900">{t(`pillars.${result.pillar}`)}</p>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-8 mb-8">
+        <div className="text-left">
+          <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center">
+            <TrendingUp className="w-5 h-5 text-primary mr-2" />
+            {t('keyRecommendations')}
+          </h3>
+          <ul className="space-y-2">
+            {recommendations.map((rec, index) => (
+              <Reveal
+                as="li"
+                key={rec}
+                when="mount"
+                delayMs={index * 100}
+                className="flex items-start"
+              >
+                <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                <span className="text-slate-600">{rec}</span>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+
+        <div className="text-left">
+          <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center">
+            <AlertCircle className="w-5 h-5 text-primary mr-2" />
+            {t('nextSteps')}
+          </h3>
+          <ul className="space-y-2">
+            {nextSteps.map((step, index) => (
+              <Reveal
+                as="li"
+                key={step}
+                when="mount"
+                delayMs={index * 100}
+                className="flex items-start"
+              >
+                <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
+                <span className="text-slate-600">{step}</span>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        <Link href={scheduleHref} className="btn-primary inline-flex items-center">
+          <Send className="w-5 h-5 mr-2" />
+          {t('submitInquiry')}
+        </Link>
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          {result.serviceHref && (
+            <Link
+              href={result.serviceHref as '/services'}
+              className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
+            >
+              {t('exploreService', { service: primaryServiceName ?? '' })}
+              <ArrowRight className="ml-1.5 w-4 h-4" />
+            </Link>
+          )}
+          <Link
+            href={result.laneHref as '/services'}
+            className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
+          >
+            {laneExploreLabel(result.lane, t)}
+            <ArrowRight className="ml-1.5 w-4 h-4" />
+          </Link>
+          <Link
+            href={result.exploreServicesHref as '/services'}
+            className="inline-flex items-center text-sm font-semibold text-slate-600 hover:text-primary-dark hover:underline"
+          >
+            {t('explorePhase')}
+            <ArrowRight className="ml-1.5 w-4 h-4" />
+          </Link>
+        </div>
+
+        <button type="button" onClick={onReset} className="btn-secondary block mx-auto mt-4">
+          {t('takeAgain')}
+        </button>
+      </div>
+    </div>
   )
 }
 

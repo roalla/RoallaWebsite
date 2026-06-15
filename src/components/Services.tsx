@@ -96,11 +96,12 @@ function ConsultingServiceCard({
   const tBrand = useTranslations('brandJourney')
 
   return (
-    <Reveal as="article" id={service.anchor} className={serviceCardClass}>
+    <Reveal as="article" id={service.anchor} className="scroll-mt-28 h-full">
+      <div className={serviceCardClass}>
       <div className="p-7 lg:p-8 flex flex-col flex-1">
         <div className="flex items-start gap-4 mb-5">
           <div
-            className={`w-11 h-11 shrink-0 rounded-md border border-primary/20 bg-primary/10 flex items-center justify-center motion-safe:group-hover:border-primary/35 motion-safe:group-hover:bg-primary/15 transition-colors duration-300 ${serviceCardIconMotionClass}`}
+            className={`w-11 h-11 shrink-0 rounded-md border border-primary/20 bg-primary/10 flex items-center justify-center group-hover:border-primary/35 group-hover:bg-primary/15 transition-colors duration-300 ${serviceCardIconMotionClass}`}
           >
             <service.icon className="w-5 h-5 text-primary-dark" />
           </div>
@@ -150,6 +151,7 @@ function ConsultingServiceCard({
             <ArrowRight className="ml-2 w-4 h-4" />
           </Link>
         </div>
+      </div>
       </div>
     </Reveal>
   )
@@ -341,7 +343,7 @@ const Services = () => {
             {credibilityItems.map((item) => (
               <div key={item.titleKey} className={serviceMiniTileClass}>
                 <div className="flex items-start justify-between gap-2 mb-3">
-                  <div className={`w-9 h-9 rounded-md border border-primary/20 bg-primary/10 flex items-center justify-center shrink-0 motion-safe:group-hover:border-primary/35 motion-safe:group-hover:bg-primary/15 transition-colors duration-300 ${serviceCardIconMotionClass}`}>
+                  <div className={`w-9 h-9 rounded-md border border-primary/20 bg-primary/10 flex items-center justify-center shrink-0 group-hover:border-primary/35 group-hover:bg-primary/15 transition-colors duration-300 ${serviceCardIconMotionClass}`}>
                     <item.icon className="w-4 h-4 text-primary-dark" />
                   </div>
                   <PillarBadge label={credPillarLabel(item.pillar)} />

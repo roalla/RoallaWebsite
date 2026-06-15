@@ -53,11 +53,12 @@ type WorkshopTopic = {
 
 function WorkshopTopicCard({ topic, t }: { topic: WorkshopTopic; t: ReturnType<typeof useTranslations<'workshops'>> }) {
   return (
-    <Reveal as="article" id={topic.anchor} className={serviceCardClass}>
+    <Reveal as="article" id={topic.anchor} className="scroll-mt-28 h-full">
+      <div className={serviceCardClass}>
       <div className="p-6 lg:p-7 flex flex-col flex-1 h-full">
         <div className="flex items-start gap-4 mb-4">
           <div
-            className={`w-11 h-11 shrink-0 rounded-md border border-slate-200 bg-slate-50 flex items-center justify-center motion-safe:group-hover:border-primary/30 motion-safe:group-hover:bg-primary/5 transition-colors duration-300 ${serviceCardIconMotionClass}`}
+            className={`w-11 h-11 shrink-0 rounded-md border border-slate-200 bg-slate-50 flex items-center justify-center group-hover:border-primary/30 group-hover:bg-primary/5 transition-colors duration-300 ${serviceCardIconMotionClass}`}
           >
             <topic.icon className="w-5 h-5 text-primary" />
           </div>
@@ -87,6 +88,7 @@ function WorkshopTopicCard({ topic, t }: { topic: WorkshopTopic; t: ReturnType<t
           {t('topicCta')}
           <ArrowRight className="ml-2 w-4 h-4" />
         </Link>
+      </div>
       </div>
     </Reveal>
   )
@@ -181,7 +183,7 @@ const Workshops = () => {
           <div className="grid sm:grid-cols-3 gap-5">
             {formatKeys.map((key, i) => (
               <div key={key} className={serviceMiniTileClass}>
-                <div className={`w-9 h-9 rounded-md border border-slate-200 bg-slate-50 flex items-center justify-center mb-3 motion-safe:group-hover:border-primary/30 motion-safe:group-hover:bg-primary/5 transition-colors duration-300 ${serviceCardIconMotionClass}`}>
+                <div className={`w-9 h-9 rounded-md border border-slate-200 bg-slate-50 flex items-center justify-center mb-3 group-hover:border-primary/30 group-hover:bg-primary/5 transition-colors duration-300 ${serviceCardIconMotionClass}`}>
                   {React.createElement(formatIcons[i], { className: 'w-4 h-4 text-primary' })}
                 </div>
                 <p className="font-semibold text-slate-900 text-sm mb-1">{t(`${key}Title` as 'format1Title')}</p>

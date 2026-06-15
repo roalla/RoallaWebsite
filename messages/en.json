@@ -165,9 +165,9 @@
     },
     "assessment": {
       "title": "Business Health Assessment",
-      "description": "Take our 5-minute assessment to discover your business strengths and opportunities. Get a quick report with tailored next steps, then get in touch to discuss results.",
+      "description": "Five quick questions to match you with the right Roalla phase, service, or lane—then tailored next steps you can discuss with our team.",
       "cta": "Take the 5-Minute Assessment",
-      "preview": "5 questions · 5 minutes · Tailored report"
+      "preview": "5 questions · 5 minutes · Phase & service match"
     },
     "cta": {
       "title": "Ready to move forward?",
@@ -231,6 +231,7 @@
     "subtitle": "Tell us what you need—answer a few questions and our team will respond with the right next steps.",
     "whatToExpect": "There is no obligation. We review every request personally and respond within one business day.",
     "assessmentLink": "Prefer a self-guided start? Take our 5-minute business assessment",
+    "assessmentPrefillNote": "We pre-filled your goal from the assessment—add context or priorities before sending.",
     "whatYouGetTitle": "What you'll get",
     "whatYouGet1": "Personal review by the Roalla team",
     "whatYouGet2": "The right entry point—Prepare, Transform, Emerge, or Soar",
@@ -1033,12 +1034,231 @@
     "ctaSubtitle": "Tell us about your goals—we'll help you find the right starting point.",
     "ctaButton": "Discuss Your Needs"
   },
+  "assessmentPage": {
+    "metadataTitle": "Business Health Assessment | Roalla Business Enablement Group",
+    "metadataDescription": "Five quick questions to find your best starting phase—Prepare, Transform, Emerge, or Soar—and the right Roalla service or lane.",
+    "title": "Business Health Assessment",
+    "preview": "5 questions · 5 minutes · Phase & service match",
+    "description": "Answer five short questions and we'll suggest your best starting phase, service, or lane—aligned with how we work on our Services page.",
+    "whatHappensNext": "~3 min service inquiry · No obligation · Reply in 1 business day",
+    "faqTitle": "How this connects to our services",
+    "faq1Q": "How does this relate to Prepare → Transform → Emerge → Soar?",
+    "faq1A": "Your lowest-scoring area maps to the phase where teams usually start. Strategy gaps point to Prepare; process and systems gaps to Transform; team and data visibility to Emerge; pilots and scale to Soar.",
+    "faq2Q": "What if I need a website or platform instead of consulting?",
+    "faq2A": "Question one asks what you're primarily looking for. Choose website, platform, workshop, or event digital and we'll route you to Digital Creations, Workshops, or Digital Events—with a service inquiry pre-filled if you want to talk.",
+    "faq3Q": "Is this a replacement for a discovery call?",
+    "faq3A": "No—it helps you self-qualify before a conversation. We still review every inquiry personally and recommend the right entry point within one business day.",
+    "faq4Q": "What happens after I submit a service inquiry?",
+    "faq4A": "Your assessment summary is included when you continue to a service inquiry. We respond within one business day with the right phase, service, and next steps—no obligation to proceed."
+  },
   "assessmentTool": {
+    "questionLabel": "Question {current} of {total}",
+    "analyzing": "Analyzing your results…",
     "scoreTitle": "Your Business Health Score: {score}%",
+    "primaryPhase": "Recommended starting phase",
+    "recommendedService": "Best-fit service",
+    "recommendedLane": "Suggested path",
+    "alsoConsider": "Also consider",
     "keyRecommendations": "Key Recommendations",
     "nextSteps": "Next Steps",
     "submitInquiry": "Submit a Service Inquiry",
-    "takeAgain": "Take Assessment Again"
+    "takeAgain": "Take Assessment Again",
+    "exploreService": "Explore {service}",
+    "explorePhase": "View phase on Services",
+    "viewServices": "Explore Business Enablement",
+    "viewDigitalCreations": "Explore Digital Creations",
+    "viewWorkshops": "Explore Workshops",
+    "viewDigitalEvents": "Explore Digital Events",
+    "pillars": {
+      "prepare": "Prepare — align priorities and readiness",
+      "transform": "Transform — redesign process and systems",
+      "emerge": "Emerge — build visible capability",
+      "soar": "Soar — validate and scale what's next"
+    },
+    "pillarCategory": {
+      "prepare": "Start in Prepare",
+      "transform": "Start in Transform",
+      "emerge": "Start in Emerge",
+      "soar": "Start in Soar"
+    },
+    "lanes": {
+      "consulting": "Business Enablement",
+      "website": "Website or brand site",
+      "platform": "Custom platform or app",
+      "workshop": "Team workshop",
+      "event": "Event digital",
+      "unsure": "Not sure yet — we'll help you choose"
+    },
+    "services": {
+      "strategy": "Strategic Planning",
+      "operations": "Process Optimization",
+      "digital": "Digital Transformation",
+      "team": "Team Development",
+      "data": "Data Analytics",
+      "innovation": "Innovation & Growth"
+    },
+    "questions": {
+      "lane": {
+        "text": "What are you primarily looking for right now?",
+        "options": {
+          "consulting": "Business Enablement — strategy, operations, and growth",
+          "website": "A new or redesigned website",
+          "platform": "A custom platform, portal, or app",
+          "workshop": "A facilitated team workshop",
+          "event": "Event pages, booth digital, or event apps",
+          "unsure": "Not sure yet — help me choose"
+        }
+      },
+      "strategy": {
+        "text": "How clear is your strategy and growth direction?",
+        "hint": "Aligned priorities, decision-ready plans, and a shared growth direction.",
+        "options": {
+          "1": "No formal strategy or shifting priorities",
+          "2": "Basic plan, not consistently used",
+          "3": "Defined strategy with some alignment gaps",
+          "4": "Clear strategy reviewed regularly",
+          "5": "Excellent strategy with aligned milestones"
+        }
+      },
+      "operations": {
+        "text": "How efficient are your core processes and handoffs?",
+        "hint": "Cycle time, ownership, and delivery consistency across teams.",
+        "options": {
+          "1": "Frequent bottlenecks and unclear ownership",
+          "2": "Inconsistent delivery and rework",
+          "3": "Adequate but improvable rhythms",
+          "4": "Efficient with clear owners",
+          "5": "Highly efficient operating rhythms"
+        }
+      },
+      "team": {
+        "text": "How capable is your team and leadership cadence?",
+        "hint": "Role clarity, cross-team execution, and leadership follow-through.",
+        "options": {
+          "1": "Misalignment and leadership gaps",
+          "2": "Adequate but uneven execution",
+          "3": "Good team performance overall",
+          "4": "Strong leadership cadence",
+          "5": "High-performing, aligned teams"
+        }
+      },
+      "scale": {
+        "text": "How ready are you to scale with data, systems, and new initiatives?",
+        "hint": "Decision-ready KPIs, technology adoption, and de-risked pilots.",
+        "options": {
+          "1": "Little data discipline or systems support",
+          "2": "Basic reporting, limited adoption",
+          "3": "Moderate readiness to scale",
+          "4": "Strong data and systems foundation",
+          "5": "Ready to validate and scale confidently"
+        }
+      }
+    },
+    "results": {
+      "service": {
+        "strategy": {
+          "rec1": "Align leadership on priorities before major change",
+          "rec2": "Build a 90-day plan with measurable milestones",
+          "rec3": "Clarify market positioning and growth roadmap",
+          "rec4": "Establish decision-ready scope for what to transform first",
+          "next1": "Explore Strategic Planning on our Services page",
+          "next2": "Submit a service inquiry with your assessment results",
+          "next3": "Book a brief discovery conversation—no obligation"
+        },
+        "operations": {
+          "rec1": "Map bottlenecks and handoff delays across core workflows",
+          "rec2": "Define owners, metrics, and target cycle-time improvements",
+          "rec3": "Prioritize process changes that unlock growth momentum",
+          "rec4": "Plan implementation support—not recommendations alone",
+          "next1": "Explore Process Optimization on our Services page",
+          "next2": "Share your assessment results in a service inquiry",
+          "next3": "Discuss readiness and scope with our team"
+        },
+        "digital": {
+          "rec1": "Assess process, technology, and change as one coordinated rollout",
+          "rec2": "Build a phased transformation plan with adoption in mind",
+          "rec3": "Align functions before replacing tools in isolation",
+          "rec4": "Define technology roadmap tied to operating outcomes",
+          "next1": "Explore Digital Transformation on our Services page",
+          "next2": "Submit a service inquiry with your assessment summary",
+          "next3": "Discuss your foundation and rollout priorities"
+        },
+        "team": {
+          "rec1": "Sharpen role clarity and leadership cadence",
+          "rec2": "Address cross-team execution gaps limiting scale",
+          "rec3": "Invest in capability development—not just staffing",
+          "rec4": "Align organizational design with business priorities",
+          "next1": "Explore Team Development on our Services page",
+          "next2": "Continue to a service inquiry with pre-filled context",
+          "next3": "Discuss visibility and capability goals"
+        },
+        "data": {
+          "rec1": "Tie dashboards and KPIs directly to business priorities",
+          "rec2": "Improve decision velocity with decision-ready reporting",
+          "rec3": "Close gaps between data volume and leadership clarity",
+          "rec4": "Design reporting systems teams actually use weekly",
+          "next1": "Explore Data Analytics on our Services page",
+          "next2": "Submit a service inquiry with your assessment results",
+          "next3": "Discuss your data and KPI priorities"
+        },
+        "innovation": {
+          "rec1": "Validate new initiatives before full capital commitment",
+          "rec2": "Define pilot roadmaps with clear success metrics",
+          "rec3": "Coordinate change across functions as you scale",
+          "rec4": "Build adoption paths for what's next",
+          "next1": "Explore Innovation & Growth on our Services page",
+          "next2": "Share your assessment summary in a service inquiry",
+          "next3": "Discuss scale and launch priorities"
+        }
+      },
+      "lane": {
+        "website": {
+          "rec1": "Clarify site goals—conversion, brand, or launch timing",
+          "rec2": "Review whether you need a new build or a redesign",
+          "rec3": "Align site scope with your broader business roadmap",
+          "rec4": "See live examples in our Digital Portfolio",
+          "next1": "Explore Digital Creations for websites and brand sites",
+          "next2": "Submit a service inquiry with your assessment context",
+          "next3": "Discuss your project goals and timeline"
+        },
+        "platform": {
+          "rec1": "Define whether you need an internal tool or customer-facing app",
+          "rec2": "Scope workflows, users, and integration requirements early",
+          "rec3": "Plan a phased build tied to adoption and milestones",
+          "rec4": "Review platform examples in our Digital Portfolio",
+          "next1": "Explore Digital Creations for custom platforms",
+          "next2": "Submit a service inquiry with your assessment summary",
+          "next3": "Discuss platform type, users, and timeline"
+        },
+        "workshop": {
+          "rec1": "Pick a workshop topic—branding, sales, productivity, or ideation",
+          "rec2": "Align session outcomes with what your team will apply immediately",
+          "rec3": "Combine workshops with enablement when strategy needs clarity first",
+          "rec4": "Facilitated sessions your team can use the same week",
+          "next1": "Explore Workshops & Skill Building",
+          "next2": "Submit a service inquiry to discuss workshop fit",
+          "next3": "Share team size, topic, and timing preferences"
+        },
+        "event": {
+          "rec1": "Clarify event digital needs—pages, booth kits, or attendee apps",
+          "rec2": "Plan launch timing around your trade show or business event",
+          "rec3": "Align event digital with brand and conversion goals",
+          "rec4": "See how we support event-ready digital experiences",
+          "next1": "Explore Digital Events",
+          "next2": "Submit a service inquiry with your event context",
+          "next3": "Discuss event type, dates, and deliverables"
+        }
+      },
+      "fallback": {
+        "rec1": "Review our Services page by phase",
+        "rec2": "Identify whether enablement or digital build is the better fit",
+        "rec3": "Share your priorities in a brief service inquiry",
+        "rec4": "We'll recommend Prepare, Transform, Emerge, or Soar",
+        "next1": "Explore Business Enablement services",
+        "next2": "Submit a service inquiry with your assessment results",
+        "next3": "Reply within one business day—no obligation"
+      }
+    }
   },
   "trustIndicators": {
     "title": "Why Choose Roalla",

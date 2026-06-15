@@ -165,9 +165,9 @@
     },
     "assessment": {
       "title": "Évaluation de la santé de l'entreprise",
-      "description": "Répondez à notre évaluation de 5 minutes pour découvrir les forces et les opportunités de votre entreprise. Obtenez un rapport rapide avec des prochaines étapes personnalisées, puis communiquez avec nous pour en discuter.",
+      "description": "Cinq questions rapides pour vous orienter vers la bonne phase, le bon service ou la bonne voie Roalla—puis des prochaines étapes à discuter avec notre équipe.",
       "cta": "Faire l'évaluation de 5 minutes",
-      "preview": "5 questions · 5 minutes · Rapport personnalisé"
+      "preview": "5 questions · 5 minutes · Phase et service adaptés"
     },
     "cta": {
       "title": "Prêt à avancer?",
@@ -231,6 +231,7 @@
     "subtitle": "Dites-nous ce dont vous avez besoin—répondez à quelques questions et notre équipe vous répondra avec les bonnes prochaines étapes.",
     "whatToExpect": "Sans obligation. Nous examinons chaque demande personnellement et répondons dans un délai d'un jour ouvrable.",
     "assessmentLink": "Vous préférez commencer seul? Faites notre évaluation d'entreprise de 5 minutes",
+    "assessmentPrefillNote": "Nous avons prérempli votre objectif à partir de l'évaluation—ajoutez du contexte ou vos priorités avant d'envoyer.",
     "whatYouGetTitle": "Ce que vous obtiendrez",
     "whatYouGet1": "Examen personnel par l'équipe Roalla",
     "whatYouGet2": "Le bon point de départ—Préparer, Transformer, Émerger ou S'élever",
@@ -1033,12 +1034,231 @@
     "ctaSubtitle": "Parlez-nous de vos objectifs—nous vous aiderons à trouver le bon point de départ.",
     "ctaButton": "Discuter de vos besoins"
   },
+  "assessmentPage": {
+    "metadataTitle": "Évaluation de la santé de l'entreprise | Roalla Business Enablement Group",
+    "metadataDescription": "Cinq questions rapides pour trouver votre phase de départ—Préparer, Transformer, Émerger ou S'envoler—et le bon service ou voie Roalla.",
+    "title": "Évaluation de la santé de l'entreprise",
+    "preview": "5 questions · 5 minutes · Phase et service adaptés",
+    "description": "Répondez à cinq courtes questions et nous suggérerons votre meilleure phase, service ou voie—alignée sur notre page Services.",
+    "whatHappensNext": "~3 min pour la demande · Sans obligation · Réponse en 1 jour ouvrable",
+    "faqTitle": "Lien avec nos services",
+    "faq1Q": "Quel est le lien avec Préparer → Transformer → Émerger → S'envoler?",
+    "faq1A": "Votre score le plus bas indique la phase où les équipes commencent habituellement. Les lacunes stratégiques pointent vers Préparer; processus et systèmes vers Transformer; équipe et données vers Émerger; pilotes et croissance vers S'envoler.",
+    "faq2Q": "Et si j'ai besoin d'un site ou d'une plateforme plutôt que du conseil?",
+    "faq2A": "La première question porte sur ce que vous cherchez. Choisissez site, plateforme, atelier ou événement numérique et nous vous orienterons vers Créations numériques, Ateliers ou Événements numériques—avec une demande préremplie si vous souhaitez en discuter.",
+    "faq3Q": "Est-ce un substitut à un appel de découverte?",
+    "faq3A": "Non—cela vous aide à vous qualifier avant une conversation. Nous examinons chaque demande personnellement et recommandons le bon point d'entrée en un jour ouvrable.",
+    "faq4Q": "Que se passe-t-il après l'envoi d'une demande?",
+    "faq4A": "Votre résumé d'évaluation est inclus lorsque vous poursuivez vers une demande de service. Nous répondons en un jour ouvrable avec la bonne phase, le bon service et les prochaines étapes—sans obligation."
+  },
   "assessmentTool": {
+    "questionLabel": "Question {current} sur {total}",
+    "analyzing": "Analyse de vos résultats…",
     "scoreTitle": "Votre score de santé d'entreprise : {score} %",
+    "primaryPhase": "Phase de départ recommandée",
+    "recommendedService": "Service le mieux adapté",
+    "recommendedLane": "Voie suggérée",
+    "alsoConsider": "À considérer aussi",
     "keyRecommendations": "Recommandations clés",
     "nextSteps": "Prochaines étapes",
     "submitInquiry": "Soumettre une demande de service",
-    "takeAgain": "Refaire l'évaluation"
+    "takeAgain": "Refaire l'évaluation",
+    "exploreService": "Explorer {service}",
+    "explorePhase": "Voir la phase sur Services",
+    "viewServices": "Explorer le conseil d'affaires",
+    "viewDigitalCreations": "Explorer les créations numériques",
+    "viewWorkshops": "Explorer les ateliers",
+    "viewDigitalEvents": "Explorer les événements numériques",
+    "pillars": {
+      "prepare": "Préparer — aligner priorités et préparation",
+      "transform": "Transformer — repenser processus et systèmes",
+      "emerge": "Émerger — rendre la capacité visible",
+      "soar": "S'envoler — valider et faire évoluer"
+    },
+    "pillarCategory": {
+      "prepare": "Commencer par Préparer",
+      "transform": "Commencer par Transformer",
+      "emerge": "Commencer par Émerger",
+      "soar": "Commencer par S'envoler"
+    },
+    "lanes": {
+      "consulting": "Conseil d'affaires",
+      "website": "Site Web ou site de marque",
+      "platform": "Plateforme ou application sur mesure",
+      "workshop": "Atelier d'équipe",
+      "event": "Numérique événementiel",
+      "unsure": "Pas encore sûr — nous vous guiderons"
+    },
+    "services": {
+      "strategy": "Planification stratégique",
+      "operations": "Optimisation des processus",
+      "digital": "Transformation numérique",
+      "team": "Développement d'équipe",
+      "data": "Analytique de données",
+      "innovation": "Innovation et croissance"
+    },
+    "questions": {
+      "lane": {
+        "text": "Que cherchez-vous principalement en ce moment?",
+        "options": {
+          "consulting": "Conseil d'affaires — stratégie, opérations et croissance",
+          "website": "Un nouveau site ou une refonte",
+          "platform": "Une plateforme, un portail ou une application sur mesure",
+          "workshop": "Un atelier facilité pour l'équipe",
+          "event": "Pages événement, kits de kiosque ou applis événementielles",
+          "unsure": "Pas encore sûr — aidez-moi à choisir"
+        }
+      },
+      "strategy": {
+        "text": "Votre stratégie et direction de croissance sont-elles claires?",
+        "hint": "Priorités alignées, plans prêts pour décision et direction de croissance partagée.",
+        "options": {
+          "1": "Pas de stratégie formelle ou priorités changeantes",
+          "2": "Plan de base, peu utilisé",
+          "3": "Stratégie définie avec des écarts d'alignement",
+          "4": "Stratégie claire revue régulièrement",
+          "5": "Excellente stratégie avec jalons alignés"
+        }
+      },
+      "operations": {
+        "text": "Vos processus essentiels et transferts sont-ils efficaces?",
+        "hint": "Temps de cycle, responsabilités et constance de livraison entre équipes.",
+        "options": {
+          "1": "Goulots fréquents et responsabilités floues",
+          "2": "Livraison inégale et retravail",
+          "3": "Rythmes corrects mais améliorables",
+          "4": "Efficaces avec des responsables clairs",
+          "5": "Rythmes opérationnels très efficaces"
+        }
+      },
+      "team": {
+        "text": "Votre équipe et cadence de leadership sont-elles solides?",
+        "hint": "Clarté des rôles, exécution inter-équipes et suivi du leadership.",
+        "options": {
+          "1": "Désalignement et lacunes de leadership",
+          "2": "Exécution correcte mais inégale",
+          "3": "Bonne performance d'ensemble",
+          "4": "Forte cadence de leadership",
+          "5": "Équipes alignées et performantes"
+        }
+      },
+      "scale": {
+        "text": "Êtes-vous prêt à évoluer avec données, systèmes et nouvelles initiatives?",
+        "hint": "KPI prêts pour décision, adoption technologique et pilotes sécurisés.",
+        "options": {
+          "1": "Peu de discipline data ou soutien systèmes",
+          "2": "Rapports de base, adoption limitée",
+          "3": "Préparation modérée à l'échelle",
+          "4": "Bonne base données et systèmes",
+          "5": "Prêt à valider et évoluer avec confiance"
+        }
+      }
+    },
+    "results": {
+      "service": {
+        "strategy": {
+          "rec1": "Aligner le leadership sur les priorités avant un changement majeur",
+          "rec2": "Élaborer un plan 90 jours avec jalons mesurables",
+          "rec3": "Clarifier positionnement marché et feuille de route",
+          "rec4": "Définir un périmètre prêt pour décider quoi transformer en premier",
+          "next1": "Explorer la planification stratégique sur notre page Services",
+          "next2": "Soumettre une demande avec vos résultats d'évaluation",
+          "next3": "Réserver une courte conversation—sans obligation"
+        },
+        "operations": {
+          "rec1": "Cartographier goulots et retards de transfert",
+          "rec2": "Définir responsables, métriques et gains de temps de cycle",
+          "rec3": "Prioriser les changements qui libèrent la croissance",
+          "rec4": "Planifier l'accompagnement à la mise en œuvre",
+          "next1": "Explorer l'optimisation des processus sur Services",
+          "next2": "Partager vos résultats dans une demande de service",
+          "next3": "Discuter préparation et périmètre avec notre équipe"
+        },
+        "digital": {
+          "rec1": "Évaluer processus, technologie et changement ensemble",
+          "rec2": "Plan de transformation par phases avec adoption",
+          "rec3": "Aligner les fonctions avant de remplacer des outils isolément",
+          "rec4": "Feuille de route technologique liée aux résultats opérationnels",
+          "next1": "Explorer la transformation numérique sur Services",
+          "next2": "Soumettre une demande avec votre résumé d'évaluation",
+          "next3": "Discuter fondations et priorités de déploiement"
+        },
+        "team": {
+          "rec1": "Affiner clarté des rôles et cadence de leadership",
+          "rec2": "Combler les écarts d'exécution inter-équipes",
+          "rec3": "Investir dans les capacités—pas seulement les effectifs",
+          "rec4": "Aligner design organisationnel et priorités d'affaires",
+          "next1": "Explorer le développement d'équipe sur Services",
+          "next2": "Poursuivre vers une demande avec contexte prérempli",
+          "next3": "Discuter visibilité et objectifs de capacité"
+        },
+        "data": {
+          "rec1": "Lier tableaux de bord et ICP aux priorités d'affaires",
+          "rec2": "Accélérer les décisions avec rapports actionnables",
+          "rec3": "Combler l'écart entre volume de données et clarté leadership",
+          "rec4": "Concevoir des systèmes de rapport utilisés chaque semaine",
+          "next1": "Explorer l'analytique de données sur Services",
+          "next2": "Soumettre une demande avec vos résultats",
+          "next3": "Discuter priorités données et ICP"
+        },
+        "innovation": {
+          "rec1": "Valider les initiatives avant engagement capital complet",
+          "rec2": "Définir feuilles de route pilotes avec métriques de succès",
+          "rec3": "Coordonner le changement entre fonctions à l'échelle",
+          "rec4": "Construire des voies d'adoption pour la suite",
+          "next1": "Explorer innovation et croissance sur Services",
+          "next2": "Partager votre résumé dans une demande de service",
+          "next3": "Discuter priorités d'échelle et de lancement"
+        }
+      },
+      "lane": {
+        "website": {
+          "rec1": "Clarifier objectifs—conversion, marque ou échéance de lancement",
+          "rec2": "Évaluer nouveau site ou refonte",
+          "rec3": "Aligner le périmètre site avec votre feuille de route",
+          "rec4": "Voir des exemples dans notre portfolio numérique",
+          "next1": "Explorer les créations numériques pour sites et marque",
+          "next2": "Soumettre une demande avec votre contexte d'évaluation",
+          "next3": "Discuter objectifs et échéancier du projet"
+        },
+        "platform": {
+          "rec1": "Définir outil interne ou application client",
+          "rec2": "Cadrer flux, utilisateurs et intégrations tôt",
+          "rec3": "Planifier une construction par phases liée à l'adoption",
+          "rec4": "Voir des exemples de plateformes dans le portfolio",
+          "next1": "Explorer les créations numériques pour plateformes",
+          "next2": "Soumettre une demande avec votre résumé",
+          "next3": "Discuter type, utilisateurs et échéancier"
+        },
+        "workshop": {
+          "rec1": "Choisir un sujet—marque, ventes, productivité ou idéation",
+          "rec2": "Aligner les résultats sur ce que l'équipe appliquera",
+          "rec3": "Combiner ateliers et conseil si la stratégie manque de clarté",
+          "rec4": "Sessions facilitées applicables la même semaine",
+          "next1": "Explorer ateliers et montée en compétences",
+          "next2": "Soumettre une demande pour discuter de l'adéquation",
+          "next3": "Indiquer taille d'équipe, sujet et calendrier"
+        },
+        "event": {
+          "rec1": "Clarifier besoins—pages, kits kiosque ou applis participants",
+          "rec2": "Planifier le lancement selon salon ou événement",
+          "rec3": "Aligner numérique événementiel, marque et conversion",
+          "rec4": "Voir comment nous soutenons les expériences événementielles",
+          "next1": "Explorer les événements numériques",
+          "next2": "Soumettre une demande avec votre contexte événement",
+          "next3": "Discuter type, dates et livrables"
+        }
+      },
+      "fallback": {
+        "rec1": "Parcourir notre page Services par phase",
+        "rec2": "Identifier si conseil ou construction numérique convient mieux",
+        "rec3": "Partager vos priorités dans une courte demande",
+        "rec4": "Nous recommanderons Préparer, Transformer, Émerger ou S'envoler",
+        "next1": "Explorer les services de conseil d'affaires",
+        "next2": "Soumettre une demande avec vos résultats",
+        "next3": "Réponse en un jour ouvrable—sans obligation"
+      }
+    }
   },
   "trustIndicators": {
     "title": "Pourquoi choisir Roalla",

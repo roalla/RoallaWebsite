@@ -17,6 +17,9 @@ function ScheduleContent() {
     searchParams.get('service'),
   )
   const initialFocus = resolveInitialFocus(searchParams.get('focus'))
+  const goalParam = searchParams.get('goal')
+  const initialGoal = goalParam ? decodeURIComponent(goalParam) : null
+  const fromAssessment = searchParams.get('from') === 'assessment'
 
   const whatYouGetItems = [t('whatYouGet1'), t('whatYouGet2'), t('whatYouGet3'), t('whatYouGet4')]
 
@@ -47,7 +50,12 @@ function ScheduleContent() {
           </div>
 
           <div className="grid lg:grid-cols-[1fr_280px] gap-8 lg:gap-10 items-start">
-            <ConsultationRequestForm initialIntent={initialIntent} initialFocus={initialFocus} />
+            <ConsultationRequestForm
+              initialIntent={initialIntent}
+              initialFocus={initialFocus}
+              initialGoal={initialGoal}
+              fromAssessment={fromAssessment}
+            />
             <aside className="hidden lg:block rounded-2xl border border-slate-200 bg-slate-50 p-6 sticky top-28">
               <p className="text-sm font-semibold text-slate-900 mb-4">{t('whatYouGetTitle')}</p>
               <ul className="space-y-3">

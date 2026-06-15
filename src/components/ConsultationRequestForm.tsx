@@ -55,6 +55,8 @@ const initialState: FormState = {
 type ConsultationRequestFormProps = {
   initialIntent?: ConsultationIntent | null
   initialFocus?: ConsultingFocus | null
+  initialGoal?: string | null
+  fromAssessment?: boolean
 }
 
 const intentOptions: {
@@ -72,6 +74,8 @@ const intentOptions: {
 export default function ConsultationRequestForm({
   initialIntent = null,
   initialFocus = null,
+  initialGoal = null,
+  fromAssessment = false,
 }: ConsultationRequestFormProps) {
   const t = useTranslations('consultationRequest')
   const locale = useLocale()
@@ -84,6 +88,7 @@ export default function ConsultationRequestForm({
     ...initialState,
     intent: initialIntent ?? '',
     consultingFocus: initialFocus ?? '',
+    goal: initialGoal ?? '',
   })
 
   const update = (patch: Partial<FormState>) => setForm((prev) => ({ ...prev, ...patch }))
@@ -301,6 +306,11 @@ export default function ConsultationRequestForm({
           {step === 2 && (
             <div key="step2" className="animate-fade-in space-y-5">
               <h2 className="text-xl font-serif font-bold text-slate-900">{t('step2Title')}</h2>
+              {fromAssessment && (
+                <p className="rounded-lg border border-primary/20 bg-primary/[0.04] px-4 py-3 text-sm text-slate-700">
+                  {t('assessmentPrefillNote')}
+                </p>
+              )}
 
               {form.intent === 'consulting' && (
                 <Field label={t('consultingFocusLabel')} required>

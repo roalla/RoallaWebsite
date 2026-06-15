@@ -1,164 +1,80 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import Reveal from './motion/Reveal'
-import { CheckCircle, AlertCircle, TrendingUp, BarChart3, Send } from 'lucide-react'
+import {
+  AlertCircle,
+  ArrowRight,
+  BarChart3,
+  CheckCircle,
+  Send,
+  TrendingUp,
+} from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
+import {
+  ASSESSMENT_QUESTION_IDS,
+  LANE_VALUES,
+  SCORE_OPTION_VALUES,
+  SERVICE_META,
+  buildScheduleQuery,
+  computeAssessmentResult,
+  type AssessmentAnswers,
+  type AssessmentLane,
+  type AssessmentQuestionId,
+  type AssessmentResult,
+} from '@/lib/assessment'
 
-interface Question {
-  id: number
-  text: string
-  options: {
-    value: string
-    label: string
-    score: number
-  }[]
-}
+const REC_KEYS = ['rec1', 'rec2', 'rec3', 'rec4'] as const
+const NEXT_KEYS = ['next1', 'next2', 'next3'] as const
 
-interface AssessmentResult {
-  score: number
-  category: string
-  recommendations: string[]
-  nextSteps: string[]
+function resultContentKey(result: AssessmentResult): string {
+  if (result.lane === 'website' || result.lane === 'platform' || result.lane === 'workshop' || result.lane === 'event') {
+    return `lane.${result.lane}`
+  }
+  if (result.primaryService) {
+    return `service.${result.primaryService}`
+  }
+  return 'fallback'
 }
 
 const InteractiveAssessment = () => {
   const t = useTranslations('assessmentTool')
   const [currentQuestion, setCurrentQuestion] = useState(0)
-  const [answers, setAnswers] = useState<Record<number, number>>({})
+  const [answers, setAnswers] = useState<AssessmentAnswers>({})
   const [isComplete, setIsComplete] = useState(false)
   const [result, setResult] = useState<AssessmentResult | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  const questions: Question[] = [
-    {
-      id: 1,
-      text: "How would you rate your current business growth rate?",
-      options: [
-        { value: "declining", label: "Declining or stagnant", score: 1 },
-        { value: "slow", label: "Slow but steady", score: 2 },
-        { value: "moderate", label: "Moderate growth", score: 3 },
-        { value: "strong", label: "Strong growth", score: 4 },
-        { value: "exceptional", label: "Exceptional growth", score: 5 }
-      ]
-    },
-    {
-      id: 2,
-      text: "How well-defined is your business strategy?",
-      options: [
-        { value: "none", label: "No formal strategy", score: 1 },
-        { value: "basic", label: "Basic plan in place", score: 2 },
-        { value: "developed", label: "Well-developed strategy", score: 3 },
-        { value: "comprehensive", label: "Comprehensive strategy", score: 4 },
-        { value: "excellent", label: "Excellent, regularly updated", score: 5 }
-      ]
-    },
-    {
-      id: 3,
-      text: "How would you describe your team's performance?",
-      options: [
-        { value: "poor", label: "Poor performance", score: 1 },
-        { value: "adequate", label: "Adequate performance", score: 2 },
-        { value: "good", label: "Good performance", score: 3 },
-        { value: "very-good", label: "Very good performance", score: 4 },
-        { value: "excellent", label: "Excellent performance", score: 5 }
-      ]
-    },
-    {
-      id: 4,
-      text: "How effective are your current marketing efforts?",
-      options: [
-        { value: "none", label: "No marketing strategy", score: 1 },
-        { value: "basic", label: "Basic marketing", score: 2 },
-        { value: "moderate", label: "Moderate effectiveness", score: 3 },
-        { value: "effective", label: "Effective marketing", score: 4 },
-        { value: "highly-effective", label: "Highly effective", score: 5 }
-      ]
-    },
-    {
-      id: 5,
-      text: "How would you rate your operational efficiency?",
-      options: [
-        { value: "inefficient", label: "Very inefficient", score: 1 },
-        { value: "somewhat", label: "Somewhat inefficient", score: 2 },
-        { value: "moderate", label: "Moderately efficient", score: 3 },
-        { value: "efficient", label: "Efficient operations", score: 4 },
-        { value: "highly-efficient", label: "Highly efficient", score: 5 }
-      ]
+  const questions = ASSESSMENT_QUESTION_IDS
+  const activeQuestionId = questions[currentQuestion]
+
+  const options = useMemo(() => {
+    if (activeQuestionId === 'lane') {
+      return LANE_VALUES.map((value) => ({ value, score: null as number | null }))
     }
-  ]
+    return SCORE_OPTION_VALUES.map((value) => ({
+      value,
+      score: Number.parseInt(value, 10),
+    }))
+  }, [activeQuestionId])
 
-  const calculateResult = (answers: Record<number, number>): AssessmentResult => {
-    const totalScore = Object.values(answers).reduce((sum, score) => sum + score, 0)
-    const maxScore = questions.length * 5
-    const percentage = (totalScore / maxScore) * 100
+  const handleAnswer = (questionId: AssessmentQuestionId, value: string, score: number | null) => {
+    const nextAnswers = { ...answers, [questionId]: value }
+    setAnswers(nextAnswers)
 
-    if (percentage >= 80) {
-      return {
-        score: percentage,
-        category: "High Performer",
-        recommendations: [
-          "Focus on scaling and expansion opportunities",
-          "Optimize existing processes for maximum efficiency",
-          "Develop advanced leadership capabilities",
-          "Explore new market opportunities"
-        ],
-        nextSteps: [
-          "Schedule a strategic planning session",
-          "Review growth opportunities",
-          "Consider executive coaching for the leadership team"
-        ]
-      }
-    } else if (percentage >= 60) {
-      return {
-        score: percentage,
-        category: "Growing Business",
-        recommendations: [
-          "Strengthen strategic planning processes",
-          "Improve team performance and engagement",
-          "Enhance marketing and sales strategies",
-          "Optimize operational efficiency"
-        ],
-        nextSteps: [
-          "Schedule a comprehensive business review",
-          "Develop improvement action plan",
-          "Schedule a follow-up conversation"
-        ]
-      }
-    } else {
-      return {
-        score: percentage,
-        category: "Needs Support",
-        recommendations: [
-          "Develop comprehensive business strategy",
-          "Improve team leadership and management",
-          "Create effective marketing and sales systems",
-          "Streamline operations and processes"
-        ],
-        nextSteps: [
-          "Get in touch for urgent business support",
-          "Create turnaround strategy",
-          "Implement immediate improvement plan"
-        ]
-      }
-    }
-  }
-
-  const handleAnswer = (questionId: number, score: number) => {
-    setAnswers(prev => ({ ...prev, [questionId]: score }))
-    
     if (currentQuestion < questions.length - 1) {
-      setTimeout(() => setCurrentQuestion(prev => prev + 1), 300)
-    } else {
-      setIsLoading(true)
-      setTimeout(() => {
-        const assessmentResult = calculateResult({ ...answers, [questionId]: score })
-        setResult(assessmentResult)
-        setIsComplete(true)
-        setIsLoading(false)
-      }, 1500)
+      setTimeout(() => setCurrentQuestion((prev) => prev + 1), 300)
+      return
     }
+
+    setIsLoading(true)
+    setTimeout(() => {
+      const assessmentResult = computeAssessmentResult(nextAnswers)
+      setResult(assessmentResult)
+      setIsComplete(true)
+      setIsLoading(false)
+    }, 1500)
   }
 
   const resetAssessment = () => {
@@ -168,95 +84,148 @@ const InteractiveAssessment = () => {
     setResult(null)
   }
 
-  return (
-    <section id="assessment" className="section-padding bg-white py-20 lg:py-28">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
-            Business Health Assessment
-          </h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-slate-600">
-            Take our 5-minute assessment to discover your business strengths and opportunities for growth.
-          </p>
-        </div>
+  const scheduleHref = result
+    ? { pathname: '/schedule' as const, query: buildScheduleQuery(result) }
+    : { pathname: '/schedule' as const }
 
+  const contentKey = result ? resultContentKey(result) : ''
+  const recommendations = REC_KEYS.map((key) => t(`results.${contentKey}.${key}`)).filter(Boolean)
+  const nextSteps = NEXT_KEYS.map((key) => t(`results.${contentKey}.${key}`)).filter(Boolean)
+
+  const primaryServiceName =
+    result?.primaryService != null ? t(`services.${result.primaryService}`) : null
+  const secondaryServiceName =
+    result?.secondaryService != null ? t(`services.${result.secondaryService}`) : null
+
+  return (
+    <section id="assessment" className="section-padding bg-white py-12 lg:py-16">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-2xl shadow-card border border-slate-200 overflow-hidden">
             <div className="bg-slate-100 h-2">
               <div
                 className="bg-gradient-to-r from-primary to-primary-dark h-full transition-[width] duration-500 ease-out"
-                style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
+                style={{
+                  width: `${((isComplete ? questions.length : currentQuestion + 1) / questions.length) * 100}%`,
+                }}
               />
             </div>
 
             <div className="p-8">
-                {!isComplete ? (
-                  <div key={currentQuestion} className="animate-fade-in text-center">
-                    {isLoading ? (
-                      <div className="py-12">
-                        <div
-                          className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4 animate-spin"
-                          role="status"
-                          aria-label="Loading"
-                        />
-                        <p className="text-slate-500">Analyzing your results...</p>
+              {!isComplete ? (
+                <div key={currentQuestion} className="animate-fade-in text-center">
+                  {isLoading ? (
+                    <div className="py-12">
+                      <div
+                        className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4 animate-spin"
+                        role="status"
+                        aria-label={t('analyzing')}
+                      />
+                      <p className="text-slate-500">{t('analyzing')}</p>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="mb-8">
+                        <span className="text-sm text-slate-500">
+                          {t('questionLabel', {
+                            current: currentQuestion + 1,
+                            total: questions.length,
+                          })}
+                        </span>
+                        <h2 className="text-xl font-bold text-slate-900 mt-2">
+                          {t(`questions.${activeQuestionId}.text`)}
+                        </h2>
+                        {activeQuestionId !== 'lane' && (
+                          <p className="mt-2 text-sm text-slate-500">
+                            {t(`questions.${activeQuestionId}.hint`)}
+                          </p>
+                        )}
                       </div>
-                    ) : (
-                      <>
-                        <div className="mb-8">
-                          <span className="text-sm text-slate-500">
-                            Question {currentQuestion + 1} of {questions.length}
-                          </span>
-                          <h3 className="text-xl font-bold text-slate-900 mt-2">
-                            {questions[currentQuestion].text}
-                          </h3>
-                        </div>
 
-                        <div className="space-y-3">
-                          {questions[currentQuestion].options.map((option) => (
-                            <button
-                              key={option.value}
-                              type="button"
-                              onClick={() => handleAnswer(questions[currentQuestion].id, option.score)}
-                              className="w-full p-4 text-left bg-slate-50 hover:bg-primary/5 rounded-lg border border-slate-200 transition-all duration-200 hover:border-primary group hover:scale-[1.02] active:scale-[0.98]"
-                            >
-                              <div className="flex items-center justify-between">
-                                <span className="text-slate-800 font-medium">
-                                  {option.label}
-                                </span>
-                                <div className="w-6 h-6 border-2 border-slate-300 rounded-full group-hover:border-primary group-hover:scale-110 transition-transform" />
-                              </div>
-                            </button>
-                          ))}
-                        </div>
-                      </>
-                    )}
-                  </div>
-                ) : (
+                      <div className="space-y-3">
+                        {options.map((option) => (
+                          <button
+                            key={option.value}
+                            type="button"
+                            onClick={() =>
+                              handleAnswer(activeQuestionId, option.value, option.score)
+                            }
+                            className="w-full p-4 text-left bg-slate-50 hover:bg-primary/5 rounded-lg border border-slate-200 transition-all duration-200 hover:border-primary group hover:scale-[1.02] active:scale-[0.98]"
+                          >
+                            <div className="flex items-center justify-between">
+                              <span className="text-slate-800 font-medium">
+                                {t(
+                                  `questions.${activeQuestionId}.options.${option.value}`,
+                                )}
+                              </span>
+                              <div className="w-6 h-6 border-2 border-slate-300 rounded-full group-hover:border-primary group-hover:scale-110 transition-transform" />
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+              ) : (
+                result && (
                   <div className="animate-fade-in text-center">
                     <div className="mb-8">
                       <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary-dark rounded-full mx-auto mb-4 flex items-center justify-center">
                         <BarChart3 className="w-10 h-10 text-white" />
                       </div>
-                      <h3 className="text-2xl font-bold text-slate-900 mb-2">
-                        {t('scoreTitle', { score: Math.round(result!.score) })}
-                      </h3>
+                      <h2 className="text-2xl font-bold text-slate-900 mb-2">
+                        {t('scoreTitle', { score: result.overallScore })}
+                      </h2>
                       <p className="text-lg text-primary font-semibold">
-                        {result!.category}
+                        {t(`pillarCategory.${result.pillar}`)}
                       </p>
+                    </div>
+
+                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-5 mb-8 text-left space-y-4">
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
+                          {t('recommendedLane')}
+                        </p>
+                        <p className="text-sm font-semibold text-slate-900">
+                          {t(`lanes.${result.lane}`)}
+                        </p>
+                      </div>
+
+                      {primaryServiceName && (
+                        <div>
+                          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
+                            {t('recommendedService')}
+                          </p>
+                          <p className="text-sm font-semibold text-slate-900">{primaryServiceName}</p>
+                          {secondaryServiceName && (
+                            <p className="text-sm text-slate-600 mt-1">
+                              {t('alsoConsider')}: {secondaryServiceName}
+                            </p>
+                          )}
+                        </div>
+                      )}
+
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
+                          {t('primaryPhase')}
+                        </p>
+                        <p className="text-sm font-semibold text-slate-900">
+                          {t(`pillars.${result.pillar}`)}
+                        </p>
+                      </div>
                     </div>
 
                     <div className="grid md:grid-cols-2 gap-8 mb-8">
                       <div className="text-left">
-                        <h4 className="text-lg font-semibold text-slate-900 mb-4 flex items-center">
+                        <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center">
                           <TrendingUp className="w-5 h-5 text-primary mr-2" />
                           {t('keyRecommendations')}
-                        </h4>
+                        </h3>
                         <ul className="space-y-2">
-                          {result!.recommendations.map((rec, index) => (
+                          {recommendations.map((rec, index) => (
                             <Reveal
                               as="li"
-                              key={index}
+                              key={rec}
                               when="mount"
                               delayMs={index * 100}
                               className="flex items-start"
@@ -269,15 +238,15 @@ const InteractiveAssessment = () => {
                       </div>
 
                       <div className="text-left">
-                        <h4 className="text-lg font-semibold text-slate-900 mb-4 flex items-center">
+                        <h3 className="text-lg font-semibold text-slate-900 mb-4 flex items-center">
                           <AlertCircle className="w-5 h-5 text-primary mr-2" />
                           {t('nextSteps')}
-                        </h4>
+                        </h3>
                         <ul className="space-y-2">
-                          {result!.nextSteps.map((step, index) => (
+                          {nextSteps.map((step, index) => (
                             <Reveal
                               as="li"
-                              key={index}
+                              key={step}
                               when="mount"
                               delayMs={index * 100}
                               className="flex items-start"
@@ -290,23 +259,49 @@ const InteractiveAssessment = () => {
                       </div>
                     </div>
 
-                    <div className="space-y-4">
-                      <Link
-                        href="/schedule"
-                        className="btn-primary inline-flex items-center"
-                      >
+                    <div className="space-y-3">
+                      <Link href={scheduleHref} className="btn-primary inline-flex items-center">
                         <Send className="w-5 h-5 mr-2" />
                         {t('submitInquiry')}
                       </Link>
+
+                      <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                        {result.serviceHref && (
+                          <Link
+                            href={result.serviceHref as '/services'}
+                            className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
+                          >
+                            {t('exploreService', { service: primaryServiceName ?? '' })}
+                            <ArrowRight className="ml-1.5 w-4 h-4" />
+                          </Link>
+                        )}
+                        <Link
+                          href={result.laneHref as '/services'}
+                          className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
+                        >
+                          {laneExploreLabel(result.lane, t)}
+                          <ArrowRight className="ml-1.5 w-4 h-4" />
+                        </Link>
+                        <Link
+                          href={result.exploreServicesHref as '/services'}
+                          className="inline-flex items-center text-sm font-semibold text-slate-600 hover:text-primary-dark hover:underline"
+                        >
+                          {t('explorePhase')}
+                          <ArrowRight className="ml-1.5 w-4 h-4" />
+                        </Link>
+                      </div>
+
                       <button
+                        type="button"
                         onClick={resetAssessment}
-                        className="btn-secondary block mx-auto"
+                        className="btn-secondary block mx-auto mt-4"
                       >
                         {t('takeAgain')}
                       </button>
                     </div>
                   </div>
-                )}
+                )
+              )}
             </div>
           </div>
         </div>
@@ -315,4 +310,14 @@ const InteractiveAssessment = () => {
   )
 }
 
-export default InteractiveAssessment 
+function laneExploreLabel(
+  lane: AssessmentLane,
+  t: ReturnType<typeof useTranslations<'assessmentTool'>>,
+): string {
+  if (lane === 'website' || lane === 'platform') return t('viewDigitalCreations')
+  if (lane === 'workshop') return t('viewWorkshops')
+  if (lane === 'event') return t('viewDigitalEvents')
+  return t('viewServices')
+}
+
+export default InteractiveAssessment

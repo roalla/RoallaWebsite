@@ -45,6 +45,7 @@ const fitKeys = ['fit1', 'fit2', 'fit3'] as const
 const appIcons: Record<CompanyAppId, typeof Briefcase> = {
   'business-cocoon': Briefcase,
   '4theblueprint': BookOpen,
+  boothlio: CalendarDays,
 }
 
 const eventProof = portfolioItems.find((p) => p.id === 'cold-dejabru-event')!

@@ -17,8 +17,7 @@ function ScheduleContent() {
     searchParams.get('service'),
   )
   const initialFocus = resolveInitialFocus(searchParams.get('focus'))
-  const goalParam = searchParams.get('goal')
-  const initialGoal = goalParam ? decodeURIComponent(goalParam) : null
+  const initialGoal = searchParams.get('goal')
   const fromAssessment = searchParams.get('from') === 'assessment'
 
   const whatYouGetItems = [t('whatYouGet1'), t('whatYouGet2'), t('whatYouGet3'), t('whatYouGet4')]

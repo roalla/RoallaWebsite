@@ -90,5 +90,9 @@ describe('Header', () => {
       'href',
       'https://www.4theblueprint.com'
     )
+    expect(screen.getByRole('menuitem', { name: /boothlioApp/i })).toHaveAttribute(
+      'href',
+      'https://boothlio.com'
+    )
   })
 })

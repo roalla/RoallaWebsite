@@ -32,6 +32,8 @@
     "businessCocoonAppDesc": "Parcours guidés qui transforment vos questions stratégiques en briefs et tableaux de bord prêts à décider.",
     "blueprintApp": "4 The Blueprint",
     "blueprintAppDesc": "Planifiez vos programmes de certification avant de construire—cadre, assistant et lancement lean.",
+    "boothlioApp": "Boothlio",
+    "boothlioAppDesc": "Innovez votre expérience événementielle—outils numériques pour l'engagement au kiosque, l'interaction avec les participants et le suivi sur place.",
     "digitalPortfolio": "Portfolio numérique",
     "ourWork": "Portfolio numérique",
     "contact": "Contact",
@@ -983,7 +985,16 @@
     "t8CaseStudy": "Traduit la télématique complexe en une histoire claire que les flottes canadiennes peuvent évaluer avant un appel commercial.",
     "t8Tag1": "Télématique flotte",
     "t8Tag2": "Site marketing B2B",
-    "t8Tag3": "PME canadiennes"
+    "t8Tag3": "PME canadiennes",
+    "t9Name": "Boothlio",
+    "t9Desc": "Plateforme d'expérience événementielle qui aide les équipes à innover dans l'engagement des participants aux salons, kiosques et événements d'affaires.",
+    "t9B1": "Outils numériques pour le trafic au kiosque, l'engagement des participants et le suivi sur le plancher",
+    "t9B2": "Conçu pour les équipes événementielles qui veulent plus que des diapositives—expériences interactives sur réseau cellulaire au lieu",
+    "t9B3": "La même rigueur de production que les Événements numériques Roalla—livré avant la date de votre salon",
+    "t9CaseStudy": "Transformez le trafic au kiosque en engagement mesurable avec une application adaptée à votre événement—pas un logiciel événementiel entreprise.",
+    "t9Tag1": "Applis événementielles",
+    "t9Tag2": "Engagement kiosque",
+    "t9Tag3": "Salon numérique"
   },
   "faq": {
     "title": "Questions fréquentes",

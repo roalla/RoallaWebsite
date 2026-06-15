@@ -8,6 +8,7 @@ export type PortfolioItemId =
   | 'soaring-puck'
   | 'cold-dejabru-event'
   | 'pulsavant-solutions'
+  | 'boothlio'
 
 export type PortfolioItemConfig = {
   id: PortfolioItemId
@@ -17,7 +18,7 @@ export type PortfolioItemConfig = {
   tryUrl: string
   domain?: string
   contactService: 'websites-brand' | 'custom-platforms'
-  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7' | 't8'
+  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7' | 't8' | 't9'
   tagKeys?: readonly [string, string, string]
   featured?: boolean
 }
@@ -26,6 +27,7 @@ export type PortfolioItemConfig = {
 export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'business-cocoon',
   '4theblueprint',
+  'boothlio',
   'pulsavant-solutions',
   'soaring-puck',
   'ken-effect',
@@ -64,6 +66,16 @@ export const portfolioItems: PortfolioItemConfig[] = [
     contactService: 'custom-platforms',
     i18nPrefix: 't1',
     tagKeys: ['t1Tag1', 't1Tag2', 't1Tag3'],
+  },
+  {
+    id: 'boothlio',
+    category: 'platform',
+    imageUrl: '/boothlio-pic.jpg',
+    tryUrl: 'https://boothlio.com',
+    domain: 'boothlio.com',
+    contactService: 'custom-platforms',
+    i18nPrefix: 't9',
+    tagKeys: ['t9Tag1', 't9Tag2', 't9Tag3'],
   },
   {
     id: 'ken-effect',
@@ -116,6 +128,7 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
   'cold-dejabru-event': 'Cold Deja Bru event landing page — six-step MR. COLDBRU demo, QR paths from the booth floor, and persona-specific CTAs',
   'pulsavant-solutions':
     'Pulsavant Solutions homepage — fleet telematics, AI dashcams, GPS tracking, and PulseInsights for Canadian SMB fleets',
+  boothlio: 'Boothlio event experience platform — innovate attendee engagement at trade shows and business events',
 }
 
 export function sortPortfolioByDisplayOrder(

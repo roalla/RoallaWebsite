@@ -32,6 +32,8 @@
     "businessCocoonAppDesc": "Guided workflows that turn strategy questions into decision-ready briefs and scorecards.",
     "blueprintApp": "4 The Blueprint",
     "blueprintAppDesc": "Plan certification programs before you build—framework, wizard, and lean launch path.",
+    "boothlioApp": "Boothlio",
+    "boothlioAppDesc": "Innovate your event experience—digital tools for booth engagement, attendee interaction, and on-floor follow-up.",
     "digitalPortfolio": "Digital Portfolio",
     "ourWork": "Digital Portfolio",
     "contact": "Contact",
@@ -983,7 +985,16 @@
     "t8CaseStudy": "Turns complex telematics into a clear story Canadian fleets can evaluate before talking to sales.",
     "t8Tag1": "Fleet telematics",
     "t8Tag2": "B2B marketing site",
-    "t8Tag3": "Canadian SMB"
+    "t8Tag3": "Canadian SMB",
+    "t9Name": "Boothlio",
+    "t9Desc": "Event experience platform that helps teams innovate how they engage attendees at trade shows, booths, and business events.",
+    "t9B1": "Digital tools for booth traffic, attendee engagement, and on-floor follow-up",
+    "t9B2": "Built for event teams who need more than slides—interactive experiences that work on cellular at the venue",
+    "t9B3": "Same production accountability as Roalla Digital Events—ship before your show date",
+    "t9CaseStudy": "Turn booth foot traffic into measurable engagement with an app sized for your event—not enterprise event software.",
+    "t9Tag1": "Event apps",
+    "t9Tag2": "Booth engagement",
+    "t9Tag3": "Trade show digital"
   },
   "faq": {
     "title": "Frequently Asked Questions",

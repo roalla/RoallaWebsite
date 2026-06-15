@@ -273,6 +273,7 @@ const Header = () => {
   const appIcons: Record<CompanyAppId, typeof Briefcase> = {
     'business-cocoon': Briefcase,
     '4theblueprint': BookOpen,
+    boothlio: CalendarDays,
   }
 
   const dropdownPanelClass = (open: boolean) =>

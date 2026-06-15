@@ -35,7 +35,7 @@ test.describe('Header', () => {
 
     await page.locator('#apps-dropdown-desktop').click()
     const menu = page.locator('[aria-labelledby="apps-dropdown-desktop"]')
-    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(2)
+    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(3)
     await expect(menu.getByRole('menuitem', { name: /Business Cocoon/i })).toHaveAttribute(
       'href',
       'https://www.businesscocoon.com'
@@ -43,6 +43,10 @@ test.describe('Header', () => {
     await expect(menu.getByRole('menuitem', { name: /4 The Blueprint/i })).toHaveAttribute(
       'href',
       'https://www.4theblueprint.com'
+    )
+    await expect(menu.getByRole('menuitem', { name: /Boothlio/i })).toHaveAttribute(
+      'href',
+      'https://boothlio.com'
     )
   })
 

@@ -375,7 +375,13 @@ export function ServicePageCTA({
 }
 
 export const serviceCardClass =
-  'relative bg-white rounded-xl border border-slate-300 shadow-card hover:shadow-card-hover hover:border-primary/40 transition-all duration-300 flex flex-col scroll-mt-28'
+  'group relative bg-white rounded-xl border border-slate-300 shadow-card hover:shadow-card-hover hover:border-primary/40 motion-safe:hover:-translate-y-1 transition-all duration-300 flex flex-col scroll-mt-28'
+
+export const serviceCardIconMotionClass =
+  'transition-transform duration-300 motion-safe:group-hover:scale-105'
+
+export const serviceMiniTileClass =
+  'group rounded-lg border border-slate-300 bg-white p-5 shadow-sm hover:shadow-card hover:border-primary/30 motion-safe:hover:-translate-y-0.5 transition-all duration-300'
 
 export const serviceSecondaryButtonClass =
   'inline-flex items-center rounded-md border-2 border-slate-400 bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 hover:border-primary-dark hover:text-primary-dark transition-colors'

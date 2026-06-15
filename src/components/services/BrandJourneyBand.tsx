@@ -52,7 +52,7 @@ type PillarCardProps = {
 
 function PillarCard({ index, label, description, hash, useLink }: PillarCardProps) {
   const className =
-    'group flex flex-col h-full rounded-xl border border-slate-200 bg-white p-4 hover:border-primary hover:shadow-md transition-all duration-200'
+    'group flex flex-col h-full rounded-xl border border-slate-200 bg-white p-4 shadow-sm hover:border-primary hover:shadow-card motion-safe:hover:-translate-y-0.5 transition-all duration-300'
 
   const content = (
     <>

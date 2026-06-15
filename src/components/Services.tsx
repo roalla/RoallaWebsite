@@ -52,6 +52,8 @@ import {
   PillarSectionHeader,
   pillarSectionClass,
   serviceCardClass,
+  serviceCardIconMotionClass,
+  serviceMiniTileClass,
   serviceSecondaryButtonClass,
   servicePrimaryLinkClass,
 } from './services/ServicePageSections'
@@ -97,7 +99,9 @@ function ConsultingServiceCard({
     <Reveal as="article" id={service.anchor} className={serviceCardClass}>
       <div className="p-7 lg:p-8 flex flex-col flex-1">
         <div className="flex items-start gap-4 mb-5">
-          <div className="w-11 h-11 shrink-0 rounded-md border border-primary/20 bg-primary/10 flex items-center justify-center">
+          <div
+            className={`w-11 h-11 shrink-0 rounded-md border border-primary/20 bg-primary/10 flex items-center justify-center motion-safe:group-hover:border-primary/35 motion-safe:group-hover:bg-primary/15 transition-colors duration-300 ${serviceCardIconMotionClass}`}
+          >
             <service.icon className="w-5 h-5 text-primary-dark" />
           </div>
           <div className="min-w-0 flex-1">
@@ -335,9 +339,9 @@ const Services = () => {
           <ServiceSectionHeading title={t('credibilityTitle')} description={t('credibilityDesc')} className="text-center mx-auto" />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {credibilityItems.map((item) => (
-              <div key={item.titleKey} className="rounded-lg border border-slate-300 bg-white p-5 shadow-sm">
+              <div key={item.titleKey} className={serviceMiniTileClass}>
                 <div className="flex items-start justify-between gap-2 mb-3">
-                  <div className="w-9 h-9 rounded-md border border-primary/20 bg-primary/10 flex items-center justify-center shrink-0">
+                  <div className={`w-9 h-9 rounded-md border border-primary/20 bg-primary/10 flex items-center justify-center shrink-0 motion-safe:group-hover:border-primary/35 motion-safe:group-hover:bg-primary/15 transition-colors duration-300 ${serviceCardIconMotionClass}`}>
                     <item.icon className="w-4 h-4 text-primary-dark" />
                   </div>
                   <PillarBadge label={credPillarLabel(item.pillar)} />
@@ -356,7 +360,7 @@ const Services = () => {
               const Icon = engagementIcons[idx]
               const stepPillar = CONSULTING_ENGAGEMENT_STEP_PILLARS[idx]
               return (
-                <div key={step} className="rounded-lg border border-slate-300 bg-white p-5 shadow-sm">
+                <div key={step} className={serviceMiniTileClass}>
                   <div className="flex flex-wrap items-center gap-2 mb-3">
                     <span className="w-7 h-7 rounded-full bg-primary-dark text-white text-xs font-bold flex items-center justify-center">
                       {idx + 1}

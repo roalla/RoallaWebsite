@@ -30,6 +30,8 @@ import {
   ServiceSectionHeading,
   ServicePageCTA,
   serviceCardClass,
+  serviceCardIconMotionClass,
+  serviceMiniTileClass,
   servicePrimaryLinkClass,
   serviceHeroSecondaryButtonClass,
 } from './services/ServicePageSections'
@@ -68,7 +70,9 @@ function EventCapabilityCard({
     <Reveal as="article" id={topic.anchor} className={serviceCardClass}>
       <div className="p-6 lg:p-7 flex flex-col flex-1 h-full">
         <div className="flex items-start gap-4 mb-4">
-          <div className="w-11 h-11 shrink-0 rounded-md border border-slate-200 bg-slate-50 flex items-center justify-center">
+          <div
+            className={`w-11 h-11 shrink-0 rounded-md border border-slate-200 bg-slate-50 flex items-center justify-center motion-safe:group-hover:border-primary/30 motion-safe:group-hover:bg-primary/5 transition-colors duration-300 ${serviceCardIconMotionClass}`}
+          >
             <topic.icon className="w-5 h-5 text-primary" />
           </div>
           <div className="min-w-0 flex-1">
@@ -207,7 +211,7 @@ export default function DigitalEvents() {
                   href={app.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex gap-3 rounded-xl border border-slate-200 bg-white p-5 hover:border-primary/30 hover:shadow-card transition-all"
+                  className="group flex gap-3 rounded-xl border border-slate-200 bg-white p-5 shadow-sm hover:border-primary/30 hover:shadow-card motion-safe:hover:-translate-y-0.5 transition-all duration-300"
                 >
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
                     <Icon className="h-4 w-4" aria-hidden />
@@ -253,8 +257,8 @@ export default function DigitalEvents() {
           <ServiceSectionHeading title={t('formatsTitle')} description={t('formatsDesc')} className="mb-8" />
           <div className="grid sm:grid-cols-3 gap-5">
             {formatKeys.map((key, i) => (
-              <div key={key} className="rounded-lg border border-slate-200 bg-white p-5">
-                <div className="w-9 h-9 rounded-md border border-slate-200 bg-slate-50 flex items-center justify-center mb-3">
+              <div key={key} className={serviceMiniTileClass}>
+                <div className={`w-9 h-9 rounded-md border border-slate-200 bg-slate-50 flex items-center justify-center mb-3 motion-safe:group-hover:border-primary/30 motion-safe:group-hover:bg-primary/5 transition-colors duration-300 ${serviceCardIconMotionClass}`}>
                   {React.createElement(formatIcons[i], { className: 'w-4 h-4 text-primary' })}
                 </div>
                 <p className="font-semibold text-slate-900 text-sm mb-1">{t(`${key}Title` as 'format1Title')}</p>

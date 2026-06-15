@@ -26,10 +26,10 @@ export type PortfolioItemConfig = {
 export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'business-cocoon',
   '4theblueprint',
+  'pulsavant-solutions',
   'soaring-puck',
   'ken-effect',
   'cold-dejabru-event',
-  'pulsavant-solutions',
   'roalla-site',
 ]
 

@@ -974,7 +974,16 @@
     "t7CaseStudy": "Turn blank-page pre-production into vendor-ready artifacts—better outputs in the same pre-production window, at a fraction of outsourced cost.",
     "t7Tag1": "Certification planning",
     "t7Tag2": "Guided wizard",
-    "t7Tag3": "Lean pre-production"
+    "t7Tag3": "Lean pre-production",
+    "t8Name": "Pulsavant Solutions",
+    "t8Desc": "Fleet telematics and video marketing site for Canadian SMB fleets — AI dashcams, GPS tracking, solar trailer monitoring, and the PulseInsights platform.",
+    "t8B1": "Product showcase for PulseView, PulseSolar, PulseTrack, and PulseInsights with industry-specific solution paths",
+    "t8B2": "ROI calculator, B.C. dashcam compliance resources, and solution finder to qualify fleet prospects",
+    "t8B3": "Clean, conversion-focused design sized for owner-operators and small carriers — not enterprise minimums",
+    "t8CaseStudy": "Turns complex telematics into a clear story Canadian fleets can evaluate before talking to sales.",
+    "t8Tag1": "Fleet telematics",
+    "t8Tag2": "B2B marketing site",
+    "t8Tag3": "Canadian SMB"
   },
   "faq": {
     "title": "Frequently Asked Questions",

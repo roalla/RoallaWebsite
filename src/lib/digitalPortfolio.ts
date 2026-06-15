@@ -7,6 +7,7 @@ export type PortfolioItemId =
   | '4theblueprint'
   | 'soaring-puck'
   | 'cold-dejabru-event'
+  | 'pulsavant-solutions'
 
 export type PortfolioItemConfig = {
   id: PortfolioItemId
@@ -16,7 +17,7 @@ export type PortfolioItemConfig = {
   tryUrl: string
   domain?: string
   contactService: 'websites-brand' | 'custom-platforms'
-  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7'
+  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7' | 't8'
   tagKeys?: readonly [string, string, string]
   featured?: boolean
 }
@@ -28,6 +29,7 @@ export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'soaring-puck',
   'ken-effect',
   'cold-dejabru-event',
+  'pulsavant-solutions',
   'roalla-site',
 ]
 
@@ -84,6 +86,16 @@ export const portfolioItems: PortfolioItemConfig[] = [
     tagKeys: ['t6Tag1', 't6Tag2', 't6Tag3'],
   },
   {
+    id: 'pulsavant-solutions',
+    category: 'website',
+    imageUrl: '/pulsavantsolution.jpg',
+    tryUrl: 'https://k3green-production.up.railway.app/',
+    domain: 'k3green-production.up.railway.app',
+    contactService: 'websites-brand',
+    i18nPrefix: 't8',
+    tagKeys: ['t8Tag1', 't8Tag2', 't8Tag3'],
+  },
+  {
     id: 'roalla-site',
     category: 'website',
     imageUrl: '/roalla-snapshot.jpg',
@@ -102,6 +114,8 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
   '4theblueprint': '4 The Blueprint course planner — certification framework, guided wizard, and lean launch path',
   'soaring-puck': 'Soaring Puck youth hockey platform dashboard',
   'cold-dejabru-event': 'Cold Deja Bru event landing page — six-step MR. COLDBRU demo, QR paths from the booth floor, and persona-specific CTAs',
+  'pulsavant-solutions':
+    'Pulsavant Solutions homepage — fleet telematics, AI dashcams, GPS tracking, and PulseInsights for Canadian SMB fleets',
 }
 
 export function sortPortfolioByDisplayOrder(

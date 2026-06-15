@@ -964,7 +964,16 @@
     "t6CaseStudy": "Livré à temps pour le kiosque — une URL qui vend le produit, capte l'intérêt et soutient le pitch.",
     "t6Tag1": "Landing événement",
     "t6Tag2": "Kiosque QR",
-    "t6Tag3": "Livraison rapide"
+    "t6Tag3": "Livraison rapide",
+    "t7Name": "4 The Blueprint",
+    "t7Desc": "Application de planification de cours pour la certification d'instructeurs — cadre et flux de travail pour les phases 1 à 3 afin de définir compétences, storyboards, scripts et grilles avant de filmer, héberger ou engager des fournisseurs.",
+    "t7B1": "Assistant en sept étapes avec modèles de départ pour yoga, santé, formation, coaching et conformité",
+    "t7B2": "Analyser, concevoir et prototyper dans un même espace — personas, compétences, évaluations et lectures à table avant les dépenses de production",
+    "t7B3": "Parcours de lancement lean avec guide de dépenses par phase; sauvegarde en ligne et synchronisation pour les retours des réviseurs",
+    "t7CaseStudy": "Transformez une pré-production à page blanche en livrables prêts pour les fournisseurs — de meilleurs résultats dans la même fenêtre, à une fraction du coût externalisé.",
+    "t7Tag1": "Planification certification",
+    "t7Tag2": "Assistant guidé",
+    "t7Tag3": "Pré-production lean"
   },
   "faq": {
     "title": "Questions fréquentes",

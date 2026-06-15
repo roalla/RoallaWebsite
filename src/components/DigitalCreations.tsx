@@ -43,6 +43,7 @@ function getItemCopy(
     t4: { name: 't4Name', desc: 't4Desc', b1: 't4B1', b2: 't4B2', b3: 't4B3', cs: 't4CaseStudy' },
     t5: { name: 't5Name', desc: 't5Desc', b1: 't5B1', b2: 't5B2', b3: 't5B3', cs: 't5CaseStudy' },
     t6: { name: 't6Name', desc: 't6Desc', b1: 't6B1', b2: 't6B2', b3: 't6B3', cs: 't6CaseStudy' },
+    t7: { name: 't7Name', desc: 't7Desc', b1: 't7B1', b2: 't7B2', b3: 't7B3', cs: 't7CaseStudy' },
   } as const
   const k = keys[prefix]
   return {
@@ -63,7 +64,7 @@ function getItemTags(
 
 function categoryLabel(t: ReturnType<typeof useTranslations<'digitalCreations'>>, item: PortfolioItemConfig) {
   if (item.category === 'website') return t('categoryWebsite')
-  if (item.i18nPrefix === 't4') return t('categoryPlatformTool')
+  if (item.i18nPrefix === 't4' || item.i18nPrefix === 't7') return t('categoryPlatformTool')
   return t('categoryPlatform')
 }
 

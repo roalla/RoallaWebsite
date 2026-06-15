@@ -964,7 +964,16 @@
     "t6CaseStudy": "Shipped in time for the booth — one URL that sells the product, captures interest, and supports the pitch.",
     "t6Tag1": "Event landing",
     "t6Tag2": "QR-first booth",
-    "t6Tag3": "Fast-turnaround build"
+    "t6Tag3": "Fast-turnaround build",
+    "t7Name": "4 The Blueprint",
+    "t7Desc": "Course planning app for instructor certification—framework and workflow for Phases 1–3 so teams define competencies, storyboards, scripts, and rubrics before filming, hosting, or hiring vendors.",
+    "t7B1": "Seven-step course planner with starter templates across yoga, healthcare, L&D, coaching, and compliance",
+    "t7B2": "Analyze, design, and prototype in one workspace—personas, competencies, assessments, and table-read checks before production spend",
+    "t7B3": "Lean launch path with phased spending guidance; save online and sync when signed in for reviewer feedback",
+    "t7CaseStudy": "Turn blank-page pre-production into vendor-ready artifacts—better outputs in the same pre-production window, at a fraction of outsourced cost.",
+    "t7Tag1": "Certification planning",
+    "t7Tag2": "Guided wizard",
+    "t7Tag3": "Lean pre-production"
   },
   "faq": {
     "title": "Frequently Asked Questions",

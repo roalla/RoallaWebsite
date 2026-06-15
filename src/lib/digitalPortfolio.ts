@@ -4,6 +4,7 @@ export type PortfolioItemId =
   | 'ken-effect'
   | 'roalla-site'
   | 'business-cocoon'
+  | '4theblueprint'
   | 'soaring-puck'
   | 'cold-dejabru-event'
 
@@ -15,7 +16,7 @@ export type PortfolioItemConfig = {
   tryUrl: string
   domain?: string
   contactService: 'websites-brand' | 'custom-platforms'
-  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6'
+  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7'
   tagKeys?: readonly [string, string, string]
   featured?: boolean
 }
@@ -23,6 +24,7 @@ export type PortfolioItemConfig = {
 /** Hero / proof grids: platforms first, then websites */
 export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'business-cocoon',
+  '4theblueprint',
   'soaring-puck',
   'ken-effect',
   'cold-dejabru-event',
@@ -40,6 +42,16 @@ export const portfolioItems: PortfolioItemConfig[] = [
     i18nPrefix: 't4',
     tagKeys: ['t4Tag1', 't4Tag2', 't4Tag3'],
     featured: true,
+  },
+  {
+    id: '4theblueprint',
+    category: 'platform',
+    imageUrl: '/blueprintsnapshot.jpg',
+    tryUrl: 'https://www.4theblueprint.com/',
+    domain: '4theblueprint.com',
+    contactService: 'custom-platforms',
+    i18nPrefix: 't7',
+    tagKeys: ['t7Tag1', 't7Tag2', 't7Tag3'],
   },
   {
     id: 'soaring-puck',
@@ -87,6 +99,7 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
   'ken-effect': 'Ken Effect home page hero — speaking, events, and leadership resources',
   'roalla-site': 'ROALLA business enablement website homepage',
   'business-cocoon': 'The Business Cocoon products catalog with guided workflows',
+  '4theblueprint': '4 The Blueprint course planner — certification framework, guided wizard, and lean launch path',
   'soaring-puck': 'Soaring Puck youth hockey platform dashboard',
   'cold-dejabru-event': 'Cold Deja Bru event landing page — six-step MR. COLDBRU demo, QR paths from the booth floor, and persona-specific CTAs',
 }

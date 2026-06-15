@@ -157,7 +157,7 @@ export default function DigitalEvents() {
           </ScheduleButton>
         }
         secondaryCta={
-          <Link href="/digital-creations" className={serviceHeroSecondaryButtonClass}>
+          <Link href="/services/portfolio" className={serviceHeroSecondaryButtonClass}>
             {t('heroCtaPortfolio')}
             <ArrowRight className="ml-2 w-4 h-4" />
           </Link>
@@ -248,7 +248,7 @@ export default function DigitalEvents() {
                 className="group-hover:shadow-card-hover transition-shadow duration-300"
               />
             </a>
-            <Link href="/digital-creations" className="mt-4 inline-flex items-center text-sm font-semibold text-primary-dark hover:underline">
+            <Link href="/services/portfolio" className="mt-4 inline-flex items-center text-sm font-semibold text-primary-dark hover:underline">
               {t('proofCta')}
               <ArrowRight className="ml-1.5 w-4 h-4" />
             </Link>
@@ -289,7 +289,7 @@ export default function DigitalEvents() {
               <ArrowRight className="ml-1.5 w-4 h-4" />
             </Link>
             <p className="text-slate-700 leading-relaxed text-sm border-t border-slate-200 pt-4">{t('fitPortfolioNote')}</p>
-            <Link href="/digital-creations" className="inline-flex items-center text-primary font-medium text-sm hover:underline">
+            <Link href="/services/portfolio" className="inline-flex items-center text-primary font-medium text-sm hover:underline">
               {t('crossLinkPortfolio')}
               <ArrowRight className="ml-1.5 w-4 h-4" />
             </Link>
@@ -321,7 +321,7 @@ export default function DigitalEvents() {
           }
           links={[
             { href: '/services/digital', label: t('crossLinkDigital') },
-            { href: '/digital-creations', label: t('crossLinkPortfolio') },
+            { href: '/services/portfolio', label: t('crossLinkPortfolio') },
           ]}
         />
       </div>

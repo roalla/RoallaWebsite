@@ -13,7 +13,8 @@ const HERO_VIDEO_SRC = '/hero-loop.mp4'
 /** Frosted panels — slight transparency with blur for readable contrast on dark hero video */
 const heroGlassPanel =
   'bg-white/85 backdrop-blur-lg border border-white/70 shadow-[0_8px_40px_rgba(15,23,42,0.1)]'
-const heroGlassTile = 'bg-white/85 backdrop-blur-md border border-white/70 shadow-card'
+const heroGlassTile =
+  'bg-white/85 backdrop-blur-md border border-white/70 shadow-card motion-safe:transition-all motion-safe:duration-300 motion-safe:hover:-translate-y-1 hover:shadow-card-hover hover:border-white/90'
 
 export default function HomeHero() {
   const t = useTranslations('home.hero')
@@ -112,7 +113,7 @@ export default function HomeHero() {
                 <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
               </Link>
               <Link
-                href="/digital-creations"
+                href="/services/portfolio"
                 className="inline-flex items-center font-semibold text-slate-600 hover:text-primary-dark hover:underline transition-colors"
               >
                 {t('exploreDigitalLink')}
@@ -121,18 +122,20 @@ export default function HomeHero() {
             </Reveal>
           </div>
 
-          <Reveal when="mount" delayMs={350} className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {stats.map((stat) => (
-              <div
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {stats.map((stat, i) => (
+              <Reveal
                 key={stat.label}
+                when="mount"
+                delayMs={360 + i * 90}
                 className={`flex flex-col items-start gap-1 px-4 py-3 rounded-xl ${heroGlassTile}`}
               >
                 <stat.icon className="w-4 h-4 text-primary-dark flex-shrink-0" aria-hidden />
                 <span className="text-lg font-serif font-semibold text-slate-900">{stat.value}</span>
                 <span className="text-xs text-slate-500 leading-snug">{stat.label}</span>
-              </div>
+              </Reveal>
             ))}
-          </Reveal>
+          </div>
         </div>
       </div>
     </section>

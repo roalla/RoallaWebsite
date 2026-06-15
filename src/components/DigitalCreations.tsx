@@ -203,7 +203,7 @@ const DigitalCreations = () => {
   ]
 
   return (
-    <section id="digital-creations" className="section-padding relative">
+    <section id="portfolio" className="section-padding relative">
       <ServicePageHero
         variant="digital"
         className="!mb-14"

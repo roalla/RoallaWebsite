@@ -74,7 +74,7 @@ describe('Header', () => {
 
   it('renders digital portfolio as a top-level nav link', () => {
     render(<Header />)
-    expect(screen.getByRole('link', { name: 'digitalPortfolio' })).toHaveAttribute('href', '/digital-creations')
+    expect(screen.getByRole('link', { name: 'digitalPortfolio' })).toHaveAttribute('href', '/services/portfolio')
   })
 
   it('renders apps dropdown with external app links', () => {

@@ -18,25 +18,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: t('metadataTitle'),
     description: t('metadataDescription'),
     alternates: {
-      canonical: '/digital-creations',
+      canonical: '/services/portfolio',
       languages: {
-        en: '/en/digital-creations',
-        fr: '/fr/digital-creations',
+        en: '/en/services/portfolio',
+        fr: '/fr/services/portfolio',
       },
     },
     openGraph: {
       title: t('metadataTitle'),
       description: t('metadataDescription'),
-      url: `https://www.roalla.com/${locale}/digital-creations`,
+      url: `https://www.roalla.com/${locale}/services/portfolio`,
       type: 'website',
     },
   }
 }
 
-export default async function DigitalCreationsPage() {
+export default async function DigitalPortfolioPage() {
   const t = await getTranslations('breadcrumb')
   const locale = await getLocale()
-  const pageUrl = `https://www.roalla.com/${locale}/digital-creations`
+  const pageUrl = `https://www.roalla.com/${locale}/services/portfolio`
 
   const portfolioJsonLd = {
     '@context': 'https://schema.org',
@@ -70,6 +70,7 @@ export default async function DigitalCreationsPage() {
           items={[
             { label: t('home'), href: '/' },
             { label: t('services'), href: '/services' },
+            { label: t('digitalCreations'), href: '/services/digital' },
             { label: t('ourWork') },
           ]}
         />

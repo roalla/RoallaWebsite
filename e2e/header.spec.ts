@@ -25,7 +25,7 @@ test.describe('Header', () => {
 
     await expect(page.getByRole('link', { name: 'Digital Portfolio' })).toHaveAttribute(
       'href',
-      '/en/digital-creations'
+      '/en/services/portfolio'
     )
   })
 
@@ -56,7 +56,7 @@ test.describe('Header', () => {
     await page.goto('/en/services/digital-events')
     await expect(page.getByRole('heading', { name: 'Digital Events', level: 1 })).toBeVisible()
 
-    await page.goto('/en/digital-creations')
+    await page.goto('/en/services/portfolio')
     await expect(page.getByRole('heading', { name: 'Digital Portfolio', level: 1 })).toBeVisible()
   })
 })

@@ -182,7 +182,7 @@ function DigitalBuildCard({
             <ArrowRight className="ml-2 w-4 h-4" />
           </Link>
           <a
-            href={`/${locale}/digital-creations#${build.proofHash}`}
+            href={`/${locale}/services/portfolio#${build.proofHash}`}
             className="inline-flex w-full items-center justify-center text-slate-700 font-medium py-2.5 px-4 rounded-md text-sm border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-colors"
           >
             {build.proofText}
@@ -330,7 +330,7 @@ const DigitalBuilds = () => {
           </ScheduleButton>
         }
         secondaryCta={
-          <Link href="/digital-creations" className={serviceHeroSecondaryButtonClass}>
+          <Link href="/services/portfolio" className={serviceHeroSecondaryButtonClass}>
             {t('heroCtaPortfolio')}
             <ArrowRight className="ml-2 w-4 h-4" />
           </Link>
@@ -439,7 +439,7 @@ const DigitalBuilds = () => {
                 ))}
             </div>
             <Link
-              href="/digital-creations"
+              href="/services/portfolio"
               className="inline-flex items-center justify-center rounded-lg bg-primary hover:bg-primary-dark text-white font-semibold px-5 py-2.5 text-sm transition-colors"
             >
               {t('proofViewPortfolio')}
@@ -513,7 +513,7 @@ const DigitalBuilds = () => {
           }
           secondaryCta={
             <Link
-              href="/digital-creations"
+              href="/services/portfolio"
               className="inline-flex items-center justify-center rounded-md border border-slate-600 px-6 py-3 text-sm font-medium text-white hover:bg-slate-800 transition-colors"
             >
               {t('heroCtaPortfolio')}

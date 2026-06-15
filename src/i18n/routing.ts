@@ -10,7 +10,7 @@ export const routing = defineRouting({
     '/services/digital': '/services/digital',
     '/services/digital-events': '/services/digital-events',
     '/services/workshops': '/services/workshops',
-    '/digital-creations': '/digital-creations',
+    '/services/portfolio': '/services/portfolio',
     '/about': '/about',
     '/assessment': '/assessment',
     '/faq': '/faq',

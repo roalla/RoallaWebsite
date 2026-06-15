@@ -457,7 +457,7 @@ const Services = () => {
             { href: '/services/workshops', label: t('crossLinkWorkshops') },
             { href: '/services/digital-events', label: t('crossLinkDigitalEvents') },
             { href: '/services/digital', label: t('crossLinkDigital') },
-            { href: '/digital-creations', label: t('crossLinkOurWork') },
+            { href: '/services/portfolio', label: t('crossLinkOurWork') },
           ]}
         />
       </div>

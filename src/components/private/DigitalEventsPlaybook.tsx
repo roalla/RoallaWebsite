@@ -196,7 +196,7 @@ function LinkPill({
   }
 
   return (
-    <Link href={href as '/digital-creations' | '/services/digital-events'} className={className}>
+    <Link href={href as '/services/portfolio' | '/services/digital-events'} className={className}>
       {children}
       <ArrowRight className="h-3.5 w-3.5" aria-hidden />
     </Link>

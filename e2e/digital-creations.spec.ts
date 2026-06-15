@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Digital creations portfolio order', () => {
   test('hero, jump nav, and all projects list platforms first', async ({ page }) => {
-    await page.goto('/en/digital-creations')
+    await page.goto('/en/services/portfolio')
 
     const heroLinks = page.locator('main header a[href^="https://"]')
     await expect(heroLinks.nth(0)).toContainText('businesscocoon.com')
@@ -21,7 +21,7 @@ test.describe('Digital creations portfolio order', () => {
     await expect(jumpLinks.nth(4)).toHaveText(/Cold Deja Bru/i)
     await expect(jumpLinks.nth(5)).toHaveText(/ROALLA/i)
 
-    const projectCards = page.locator('#digital-creations article h3')
+    const projectCards = page.locator('#portfolio article h3')
     await expect(projectCards.nth(0)).toHaveText(/4 The Blueprint/i)
     await expect(projectCards.nth(1)).toHaveText(/Soaring Puck/i)
     await expect(projectCards.nth(2)).toHaveText(/Ken Effect/i)

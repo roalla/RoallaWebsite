@@ -11,13 +11,13 @@ const Footer = () => {
   const t = useTranslations('footer')
   const tCommon = useTranslations('common')
 
-  type FooterHref = '/' | '/services' | '/services/workshops' | '/services/digital' | '/services/digital-events' | '/about' | '/contact' | '/digital-creations' | '/assessment' | '/faq' | '/schedule'
+  type FooterHref = '/' | '/services' | '/services/workshops' | '/services/digital' | '/services/digital-events' | '/about' | '/contact' | '/services/portfolio' | '/assessment' | '/faq' | '/schedule'
   const quickLinks: { nameKey: 'businessEnablement' | 'workshops' | 'websitesAndDigital' | 'digitalEvents' | 'ourWork' | 'assessment' | 'faq' | 'contact' | 'about'; href: FooterHref }[] = [
     { nameKey: 'businessEnablement', href: '/services' },
     { nameKey: 'workshops', href: '/services/workshops' },
     { nameKey: 'websitesAndDigital', href: '/services/digital' },
     { nameKey: 'digitalEvents', href: '/services/digital-events' },
-    { nameKey: 'ourWork', href: '/digital-creations' },
+    { nameKey: 'ourWork', href: '/services/portfolio' },
     { nameKey: 'assessment', href: '/assessment' },
     { nameKey: 'faq', href: '/faq' },
     { nameKey: 'contact', href: '/contact' },

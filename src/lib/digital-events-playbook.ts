@@ -440,7 +440,7 @@ export const playbookCustomerSafeBullets = [
 
 export const playbookColdDejabruReference = {
   url: 'https://coldbru.dejabru.ca',
-  portfolioPath: '/digital-creations' as const,
+  portfolioPath: '/services/portfolio' as const,
   shipped:
     'Investor booth landing: six-step MR. COLDBRU demo grid, QR-first entry, co-branding CTAs, urgent timeline.',
   upsellNextTime: [

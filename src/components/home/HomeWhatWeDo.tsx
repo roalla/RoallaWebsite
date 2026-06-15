@@ -143,7 +143,7 @@ export default function HomeWhatWeDo() {
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
               <Link
-                href="/digital-creations"
+                href="/services/portfolio"
                 className="inline-flex items-center text-slate-600 font-medium text-sm hover:text-primary hover:underline transition-colors"
               >
                 {t('viewOurWork')}

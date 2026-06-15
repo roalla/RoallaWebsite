@@ -51,7 +51,7 @@ export default function HomeTestimonials() {
           >
             {t('discussProject')}
           </ScheduleButton>
-          <Link href="/digital-creations" className="inline-flex items-center link-action hover:underline text-sm font-semibold">
+          <Link href="/services/portfolio" className="inline-flex items-center link-action hover:underline text-sm font-semibold">
             {t('viewPortfolio')}
           </Link>
         </Reveal>

@@ -189,7 +189,7 @@ const Header = () => {
       ? tCommon('scheduleConsultationWorkshops')
       : pathname === '/services/digital-events'
         ? tCommon('scheduleConsultationDigitalEvents')
-        : pathname === '/services/digital' || pathname === '/digital-creations'
+        : pathname === '/services/digital' || pathname === '/services/portfolio'
           ? tCommon('scheduleConsultationDigital')
           : pathname === '/services'
             ? tCommon('scheduleConsultationConsulting')
@@ -414,17 +414,17 @@ const Header = () => {
 
               <div>
                 <Link
-                  href="/digital-creations"
-                  aria-current={isActive('/digital-creations') ? 'page' : undefined}
+                  href="/services/portfolio"
+                  aria-current={isActive('/services/portfolio') ? 'page' : undefined}
                   className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap block py-2 ${
-                    isActive('/digital-creations') ? 'text-primary' : 'text-gray-300 hover:text-primary'
+                    isActive('/services/portfolio') ? 'text-primary' : 'text-gray-300 hover:text-primary'
                   }`}
                   onClick={closeMenu}
                 >
                   {t('digitalPortfolio')}
                   <span
                     className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
-                      isActive('/digital-creations') ? 'w-full' : 'w-0 group-hover:w-full'
+                      isActive('/services/portfolio') ? 'w-full' : 'w-0 group-hover:w-full'
                     }`}
                   />
                 </Link>
@@ -648,14 +648,14 @@ const Header = () => {
 
                 <div>
                   <Link
-                    href="/digital-creations"
-                    aria-current={isActive('/digital-creations') ? 'page' : undefined}
+                    href="/services/portfolio"
+                    aria-current={isActive('/services/portfolio') ? 'page' : undefined}
                     className={`block px-3 py-3 min-h-[44px] flex items-center rounded-md text-base font-medium transition-colors duration-200 ${
-                      isActive('/digital-creations')
+                      isActive('/services/portfolio')
                         ? 'text-primary bg-primary/10'
                         : 'text-gray-300 hover:text-primary hover:bg-white/5'
                     }`}
-                    onClick={(e) => handleMobileNavClick(e, '/digital-creations')}
+                    onClick={(e) => handleMobileNavClick(e, '/services/portfolio')}
                   >
                     {t('digitalPortfolio')}
                   </Link>

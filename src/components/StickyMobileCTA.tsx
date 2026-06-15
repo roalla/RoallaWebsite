@@ -6,7 +6,7 @@ import type { ConsultationIntent } from '@/lib/consultation-request'
 
 type StickyMobileCTAProps = {
   label: string
-  href?: '/schedule' | '/services' | '/services/workshops' | '/services/digital' | '/digital-creations' | '/assessment'
+  href?: '/schedule' | '/services' | '/services/workshops' | '/services/digital' | '/services/portfolio' | '/assessment'
   intent?: ConsultationIntent
   sublabel?: string
 }

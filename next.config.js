@@ -43,6 +43,16 @@ const nextConfig = {
     return [
       ...legacyAppRedirects,
       {
+        source: '/digital-creations',
+        destination: '/en/services/portfolio',
+        permanent: true,
+      },
+      {
+        source: '/:locale(en|fr)/digital-creations',
+        destination: '/:locale/services/portfolio',
+        permanent: true,
+      },
+      {
         source: '/:path*',
         has: [{ type: 'host', value: 'roalla.com' }],
         destination: 'https://www.roalla.com/:path*',

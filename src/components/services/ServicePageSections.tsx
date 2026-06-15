@@ -16,7 +16,7 @@ type ServicePageHeroProps = {
   primaryCta: React.ReactNode
   secondaryCta?: React.ReactNode
   ctaSubtext?: string
-  tertiaryLink?: { href: '/assessment' | '/digital-creations' | '/services' | '/services/digital'; label: string }
+  tertiaryLink?: { href: '/assessment' | '/services/portfolio' | '/services' | '/services/digital'; label: string }
   stats: ServiceStat[]
   statsNote?: string
   variant?: 'consulting' | 'digital'
@@ -25,7 +25,7 @@ type ServicePageHeroProps = {
 }
 
 const heroGlassTile =
-  'rounded-xl border border-white/10 bg-white/[0.07] backdrop-blur-sm px-4 py-3'
+  'rounded-xl border border-white/10 bg-white/[0.07] backdrop-blur-sm px-4 py-3 motion-safe:transition-all motion-safe:duration-300 motion-safe:hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.12] hover:shadow-[0_8px_24px_rgba(0,0,0,0.2)]'
 
 export function ConsultingHeroVisual({
   proofTitle,
@@ -42,7 +42,7 @@ export function ConsultingHeroVisual({
 }) {
   return (
     <div className="rounded-2xl border border-white/15 bg-white/[0.08] backdrop-blur-md p-5 sm:p-6 shadow-[0_8px_40px_rgba(0,0,0,0.25)]">
-      <div className="flex items-start gap-3 mb-5">
+      <Reveal when="mount" delayMs={160} className="flex items-start gap-3 mb-5">
         <div className="w-10 h-10 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center shrink-0">
           <Icon className="w-5 h-5 text-primary-light" aria-hidden />
         </div>
@@ -50,21 +50,33 @@ export function ConsultingHeroVisual({
           <h2 className="text-base font-serif font-bold text-white">{proofTitle}</h2>
           <p className="text-sm text-slate-300 mt-0.5">{proofSubtitle}</p>
         </div>
-      </div>
+      </Reveal>
       <ul className="space-y-3">
-        {outcomes.map((outcome) => (
-          <li key={outcome} className="flex items-start gap-2.5 text-sm text-slate-200 leading-snug">
+        {outcomes.map((outcome, i) => (
+          <Reveal
+            as="li"
+            when="mount"
+            key={outcome}
+            delayMs={240 + i * 75}
+            className="flex items-start gap-2.5 rounded-lg border border-transparent px-2 py-1.5 -mx-2 text-sm text-slate-200 leading-snug motion-safe:transition-all motion-safe:duration-300 hover:border-white/10 hover:bg-white/[0.06]"
+          >
             <CheckCircle2 className="w-4 h-4 text-primary-light shrink-0 mt-0.5" aria-hidden />
             {outcome}
-          </li>
+          </Reveal>
         ))}
       </ul>
       {caseLines && caseLines.length > 0 && (
         <div className="mt-5 pt-4 border-t border-white/10 space-y-2">
-          {caseLines.map((line) => (
-            <p key={line} className="text-xs text-slate-400 leading-relaxed italic">
+          {caseLines.map((line, i) => (
+            <Reveal
+              when="mount"
+              key={line}
+              delayMs={480 + i * 60}
+              as="p"
+              className="text-xs text-slate-400 leading-relaxed italic"
+            >
               {line}
-            </p>
+            </Reveal>
           ))}
         </div>
       )}
@@ -96,9 +108,10 @@ export function ServicePageHero({
       ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950'
       : 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900'
 
+  const statsBaseDelay = 300
+
   return (
-    <Reveal
-      as="header"
+    <header
       className={`relative overflow-hidden rounded-2xl border border-slate-700/80 ${bgClass} mb-8 shadow-xl ${className}`}
     >
       <div className="pointer-events-none absolute -top-24 -right-20 h-72 w-72 rounded-full bg-primary/15 blur-3xl" aria-hidden />
@@ -110,47 +123,59 @@ export function ServicePageHero({
 
       <div className="relative grid lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-12 items-center px-6 py-10 lg:px-12 lg:py-14">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-light mb-4">{eyebrow}</p>
-          <h1 className="text-4xl md:text-5xl lg:text-[3.25rem] font-serif font-bold text-white leading-tight tracking-tight">
-            {title}
-          </h1>
-          <p className="mt-5 text-lg md:text-xl text-slate-300 leading-relaxed max-w-2xl">
-            {hasHighlight ? (
-              <>
-                {subtitleParts[0]}
-                <span className="text-white font-semibold">{subtitleHighlight}</span>
-                {subtitleParts[1]}
-              </>
-            ) : (
-              subtitle
-            )}
-          </p>
+          <Reveal when="mount" delayMs={0}>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-light mb-4">{eyebrow}</p>
+          </Reveal>
+          <Reveal when="mount" delayMs={50}>
+            <h1 className="text-4xl md:text-5xl lg:text-[3.25rem] font-serif font-bold text-white leading-tight tracking-tight">
+              {title}
+            </h1>
+          </Reveal>
+          <Reveal when="mount" delayMs={100}>
+            <p className="mt-5 text-lg md:text-xl text-slate-300 leading-relaxed max-w-2xl">
+              {hasHighlight ? (
+                <>
+                  {subtitleParts[0]}
+                  <span className="text-white font-semibold">{subtitleHighlight}</span>
+                  {subtitleParts[1]}
+                </>
+              ) : (
+                subtitle
+              )}
+            </p>
+          </Reveal>
           {journeyLine && (
-            <p className="mt-3 text-sm font-medium text-primary-light/90 max-w-2xl leading-relaxed">{journeyLine}</p>
+            <Reveal when="mount" delayMs={140}>
+              <p className="mt-3 text-sm font-medium text-primary-light/90 max-w-2xl leading-relaxed">{journeyLine}</p>
+            </Reveal>
           )}
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+          <Reveal when="mount" delayMs={200} className="mt-8 flex flex-wrap items-center gap-3">
             {primaryCta}
             {secondaryCta}
-          </div>
+          </Reveal>
           {ctaSubtext && (
-            <p className="mt-3 text-sm text-slate-400 max-w-xl leading-relaxed">{ctaSubtext}</p>
+            <Reveal when="mount" delayMs={240}>
+              <p className="mt-3 text-sm text-slate-400 max-w-xl leading-relaxed">{ctaSubtext}</p>
+            </Reveal>
           )}
           {tertiaryLink && (
-            <p className="mt-2">
-              <Link
-                href={tertiaryLink.href}
-                className="text-sm text-primary-light/90 hover:text-white underline underline-offset-4 transition-colors"
-              >
-                {tertiaryLink.label}
-              </Link>
-            </p>
+            <Reveal when="mount" delayMs={260}>
+              <p className="mt-2">
+                <Link
+                  href={tertiaryLink.href}
+                  className="text-sm text-primary-light/90 hover:text-white underline underline-offset-4 transition-colors"
+                >
+                  {tertiaryLink.label}
+                </Link>
+              </p>
+            </Reveal>
           )}
 
           <dl className={`mt-8 grid ${statsGridClass} gap-3`}>
             {stats.map((stat, i) => {
               const Icon = stat.icon
               return (
-                <Reveal key={stat.label} delayMs={i * 50} className={heroGlassTile}>
+                <Reveal key={stat.label} when="mount" delayMs={statsBaseDelay + i * 75} className={heroGlassTile}>
                   <div className="flex items-center gap-2.5">
                     {Icon && <Icon className="w-4 h-4 text-primary-light shrink-0" aria-hidden />}
                     <div>
@@ -167,23 +192,17 @@ export function ServicePageHero({
             })}
           </dl>
           {statsNote && (
-            <p className="mt-4 text-sm text-slate-400 leading-relaxed max-w-2xl">{statsNote}</p>
+            <Reveal when="mount" delayMs={statsBaseDelay + stats.length * 75 + 40}>
+              <p className="mt-4 text-sm text-slate-400 leading-relaxed max-w-2xl">{statsNote}</p>
+            </Reveal>
           )}
         </div>
 
-        {visual && (
-          <Reveal delayMs={120} className="hidden lg:block">
-            {visual}
-          </Reveal>
-        )}
+        {visual && <div className="hidden lg:block">{visual}</div>}
       </div>
 
-      {visual && (
-        <Reveal delayMs={100} className="lg:hidden px-6 pb-10">
-          {visual}
-        </Reveal>
-      )}
-    </Reveal>
+      {visual && <div className="lg:hidden px-6 pb-10">{visual}</div>}
+    </header>
   )
 }
 
@@ -317,7 +336,7 @@ type ServicePageCTAProps = {
   secondaryCta?: React.ReactNode
   ctaSubtext?: string
   confidentiality?: { href: '/contact'; label: string }
-  links?: { href: '/services' | '/services/workshops' | '/services/digital' | '/services/digital-events' | '/digital-creations' | '/assessment'; label: string }[]
+  links?: { href: '/services' | '/services/workshops' | '/services/digital' | '/services/digital-events' | '/services/portfolio' | '/assessment'; label: string }[]
 }
 
 export function ServicePageCTA({

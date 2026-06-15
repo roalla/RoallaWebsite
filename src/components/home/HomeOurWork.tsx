@@ -107,7 +107,7 @@ export default function HomeOurWork() {
             </div>
 
             <Link
-              href="/digital-creations"
+              href="/services/portfolio"
               className="mt-6 inline-flex items-center link-action hover:underline"
             >
               {t('digitalCta')}

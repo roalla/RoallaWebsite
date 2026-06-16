@@ -9,6 +9,7 @@ export type PortfolioItemId =
   | 'cold-dejabru-event'
   | 'pulsavant-solutions'
   | 'boothlio'
+  | 'pitch-hotshots'
 
 export type PortfolioItemConfig = {
   id: PortfolioItemId
@@ -18,7 +19,7 @@ export type PortfolioItemConfig = {
   tryUrl: string
   domain?: string
   contactService: 'websites-brand' | 'custom-platforms'
-  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7' | 't8' | 't9'
+  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10'
   tagKeys?: readonly [string, string, string]
   featured?: boolean
 }
@@ -30,6 +31,7 @@ export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'boothlio',
   'pulsavant-solutions',
   'soaring-puck',
+  'pitch-hotshots',
   'ken-effect',
   'cold-dejabru-event',
   'roalla-site',
@@ -76,6 +78,16 @@ export const portfolioItems: PortfolioItemConfig[] = [
     contactService: 'custom-platforms',
     i18nPrefix: 't9',
     tagKeys: ['t9Tag1', 't9Tag2', 't9Tag3'],
+  },
+  {
+    id: 'pitch-hotshots',
+    category: 'platform',
+    imageUrl: '/pitchhotshotsnapshot.jpg',
+    tryUrl: 'https://www.pitchhotshots.com',
+    domain: 'pitchhotshots.com',
+    contactService: 'custom-platforms',
+    i18nPrefix: 't10',
+    tagKeys: ['t10Tag1', 't10Tag2', 't10Tag3'],
   },
   {
     id: 'ken-effect',
@@ -129,6 +141,8 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
   'pulsavant-solutions':
     'Pulsavant Solutions homepage — fleet telematics, AI dashcams, GPS tracking, and PulseInsights for Canadian SMB fleets',
   boothlio: 'Boothlio event experience platform — innovate attendee engagement at trade shows and business events',
+  'pitch-hotshots':
+    'Pitch Hotshots — rehearse investor pitches and sales talks with AI scoring, delivery metrics, and stage-ready feedback',
 }
 
 export function sortPortfolioByDisplayOrder(

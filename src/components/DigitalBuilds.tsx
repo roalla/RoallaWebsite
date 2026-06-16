@@ -88,7 +88,7 @@ function portfolioItemName(
   tPortfolio: ReturnType<typeof useTranslations<'digitalCreations'>>,
   item: PortfolioItemConfig,
 ) {
-  const map = { t1: 't1Name', t3: 't3Name', t4: 't4Name', t5: 't5Name', t6: 't6Name', t7: 't7Name', t8: 't8Name', t9: 't9Name' } as const
+  const map = { t1: 't1Name', t3: 't3Name', t4: 't4Name', t5: 't5Name', t6: 't6Name', t7: 't7Name', t8: 't8Name', t9: 't9Name', t10: 't10Name' } as const
   return tPortfolio(map[item.i18nPrefix])
 }
 

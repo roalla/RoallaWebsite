@@ -46,6 +46,7 @@ function getItemCopy(
     t7: { name: 't7Name', desc: 't7Desc', b1: 't7B1', b2: 't7B2', b3: 't7B3', cs: 't7CaseStudy' },
     t8: { name: 't8Name', desc: 't8Desc', b1: 't8B1', b2: 't8B2', b3: 't8B3', cs: 't8CaseStudy' },
     t9: { name: 't9Name', desc: 't9Desc', b1: 't9B1', b2: 't9B2', b3: 't9B3', cs: 't9CaseStudy' },
+    t10: { name: 't10Name', desc: 't10Desc', b1: 't10B1', b2: 't10B2', b3: 't10B3', cs: 't10CaseStudy' },
   } as const
   const k = keys[prefix]
   return {

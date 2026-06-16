@@ -994,7 +994,16 @@
     "t9CaseStudy": "Turn booth foot traffic into measurable engagement with an app sized for your event—not enterprise event software.",
     "t9Tag1": "Event apps",
     "t9Tag2": "Booth engagement",
-    "t9Tag3": "Trade show digital"
+    "t9Tag3": "Trade show digital",
+    "t10Name": "Pitch Hotshots",
+    "t10Desc": "Rehearse investor pitches and sales talks with AI scoring, delivery metrics, and feedback that gets you stage-ready.",
+    "t10B1": "Practice pitches on your schedule—record, replay, and refine before the room, booth, or investor meeting",
+    "t10B2": "AI scoring and delivery metrics on clarity, pace, and structure—not just a mirror in front of a camera",
+    "t10B3": "Actionable feedback founders and sellers can apply between sessions, without hiring a coach for every run-through",
+    "t10CaseStudy": "Walk into your next pitch knowing you've already stress-tested the story, the ask, and how you deliver it.",
+    "t10Tag1": "Pitch rehearsal",
+    "t10Tag2": "AI feedback",
+    "t10Tag3": "Sales & investor prep"
   },
   "faq": {
     "title": "Frequently Asked Questions",

@@ -14,6 +14,7 @@ import {
   ExternalLink,
   Briefcase,
   BookOpen,
+  Mic,
 } from 'lucide-react'
 import ScheduleButton from './ScheduleButton'
 import StickyMobileCTA from './StickyMobileCTA'
@@ -46,6 +47,7 @@ const appIcons: Record<CompanyAppId, typeof Briefcase> = {
   'business-cocoon': Briefcase,
   '4theblueprint': BookOpen,
   boothlio: CalendarDays,
+  'pitch-hotshots': Mic,
 }
 
 const eventProof = portfolioItems.find((p) => p.id === 'cold-dejabru-event')!

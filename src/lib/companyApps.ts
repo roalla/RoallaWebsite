@@ -1,11 +1,11 @@
-export type CompanyAppId = 'business-cocoon' | '4theblueprint' | 'boothlio'
+export type CompanyAppId = 'business-cocoon' | '4theblueprint' | 'boothlio' | 'pitch-hotshots'
 
 export type CompanyAppConfig = {
   id: CompanyAppId
   url: string
   domain: string
-  nameKey: 'businessCocoonApp' | 'blueprintApp' | 'boothlioApp'
-  descKey: 'businessCocoonAppDesc' | 'blueprintAppDesc' | 'boothlioAppDesc'
+  nameKey: 'businessCocoonApp' | 'blueprintApp' | 'boothlioApp' | 'pitchHotshotsApp'
+  descKey: 'businessCocoonAppDesc' | 'blueprintAppDesc' | 'boothlioAppDesc' | 'pitchHotshotsAppDesc'
 }
 
 export const companyApps: CompanyAppConfig[] = [
@@ -29,5 +29,12 @@ export const companyApps: CompanyAppConfig[] = [
     domain: 'boothlio.com',
     nameKey: 'boothlioApp',
     descKey: 'boothlioAppDesc',
+  },
+  {
+    id: 'pitch-hotshots',
+    url: 'https://www.pitchhotshots.com',
+    domain: 'pitchhotshots.com',
+    nameKey: 'pitchHotshotsApp',
+    descKey: 'pitchHotshotsAppDesc',
   },
 ]

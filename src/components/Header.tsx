@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { Menu, X, ChevronDown, Briefcase, Globe, GraduationCap, BookOpen, CalendarDays } from 'lucide-react'
+import { Menu, X, ChevronDown, Briefcase, Globe, GraduationCap, BookOpen, CalendarDays, Mic } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname as useNextPathname } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
@@ -274,6 +274,7 @@ const Header = () => {
     'business-cocoon': Briefcase,
     '4theblueprint': BookOpen,
     boothlio: CalendarDays,
+    'pitch-hotshots': Mic,
   }
 
   const dropdownPanelClass = (open: boolean) =>

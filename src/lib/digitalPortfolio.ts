@@ -7,7 +7,7 @@ export type PortfolioItemId =
   | '4theblueprint'
   | 'soaring-puck'
   | 'cold-dejabru-event'
-  | 'pulsavant-solutions'
+  | 'valentir-green-tech'
   | 'boothlio'
   | 'pitch-hotshots'
 
@@ -29,7 +29,7 @@ export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'business-cocoon',
   '4theblueprint',
   'boothlio',
-  'pulsavant-solutions',
+  'valentir-green-tech',
   'soaring-puck',
   'pitch-hotshots',
   'ken-effect',
@@ -83,8 +83,8 @@ export const portfolioItems: PortfolioItemConfig[] = [
     id: 'pitch-hotshots',
     category: 'platform',
     imageUrl: '/pitchhotshotsnapshot.jpg',
-    tryUrl: 'https://www.pitchhotshots.com',
-    domain: 'pitchhotshots.com',
+    tryUrl: 'https://www.pitchhotshot.com/',
+    domain: 'pitchhotshot.com',
     contactService: 'custom-platforms',
     i18nPrefix: 't10',
     tagKeys: ['t10Tag1', 't10Tag2', 't10Tag3'],
@@ -110,11 +110,11 @@ export const portfolioItems: PortfolioItemConfig[] = [
     tagKeys: ['t6Tag1', 't6Tag2', 't6Tag3'],
   },
   {
-    id: 'pulsavant-solutions',
+    id: 'valentir-green-tech',
     category: 'website',
     imageUrl: '/pulsavantsolution.jpg',
-    tryUrl: 'https://k3green-production.up.railway.app/',
-    domain: 'k3green-production.up.railway.app',
+    tryUrl: 'https://valentir.up.railway.app/',
+    domain: 'valentir.up.railway.app',
     contactService: 'websites-brand',
     i18nPrefix: 't8',
     tagKeys: ['t8Tag1', 't8Tag2', 't8Tag3'],
@@ -138,8 +138,8 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
   '4theblueprint': '4 The Blueprint course planner — certification framework, guided wizard, and lean launch path',
   'soaring-puck': 'Soaring Puck youth hockey platform dashboard',
   'cold-dejabru-event': 'Cold Deja Bru event landing page — six-step MR. COLDBRU demo, QR paths from the booth floor, and persona-specific CTAs',
-  'pulsavant-solutions':
-    'Pulsavant Solutions homepage — fleet telematics, AI dashcams, GPS tracking, and PulseInsights for Canadian SMB fleets',
+  'valentir-green-tech':
+    'Valentir Green Tech homepage — fleet video, GPS tracking, tire monitoring, cargo seals, and ValenInsights for Canadian SMB fleets',
   boothlio: 'Boothlio event experience platform — innovate attendee engagement at trade shows and business events',
   'pitch-hotshots':
     'Pitch Hotshots — rehearse investor pitches and sales talks with AI scoring, delivery metrics, and stage-ready feedback',

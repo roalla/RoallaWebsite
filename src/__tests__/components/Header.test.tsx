@@ -96,7 +96,7 @@ describe('Header', () => {
     )
     expect(screen.getByRole('menuitem', { name: /pitchHotshotsApp/i })).toHaveAttribute(
       'href',
-      'https://www.pitchhotshots.com'
+      'https://www.pitchhotshot.com/'
     )
   })
 })

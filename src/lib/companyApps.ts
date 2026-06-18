@@ -32,8 +32,8 @@ export const companyApps: CompanyAppConfig[] = [
   },
   {
     id: 'pitch-hotshots',
-    url: 'https://www.pitchhotshots.com',
-    domain: 'pitchhotshots.com',
+    url: 'https://www.pitchhotshot.com/',
+    domain: 'pitchhotshot.com',
     nameKey: 'pitchHotshotsApp',
     descKey: 'pitchHotshotsAppDesc',
   },

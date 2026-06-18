@@ -50,7 +50,7 @@ test.describe('Header', () => {
     )
     await expect(menu.getByRole('menuitem', { name: /Pitch Hotshots/i })).toHaveAttribute(
       'href',
-      'https://www.pitchhotshots.com'
+      'https://www.pitchhotshot.com/'
     )
   })
 

@@ -1005,7 +1005,16 @@
     "t10CaseStudy": "Arrivez à votre prochain pitch en sachant que vous avez déjà testé l'histoire, la demande et votre façon de la livrer.",
     "t10Tag1": "Répétition de pitch",
     "t10Tag2": "Rétroaction IA",
-    "t10Tag3": "Préparation vente & investisseurs"
+    "t10Tag3": "Préparation vente & investisseurs",
+    "t11Name": "My360Vision",
+    "t11Desc": "Plateforme de télématique de flotte pour propriétaires-exploitants, répartiteurs et flottes canadiennes en croissance — carte en direct, alertes en langage clair et exports prêts pour audit, sans contrats entreprise.",
+    "t11B1": "Carte de flotte en direct avec rafraîchissement automatique, compteurs de pulse et historique des trajets pour voir qui roule, est garé ou hors ligne",
+    "t11B2": "Appairage GPS par code QR ou suivi via téléphone du conducteur — flottes hybrides sur un seul tableau de bord",
+    "t11B3": "Alertes en langage clair, partage avec assureurs sur consentement limité et bundles d'export prêts pour la conformité",
+    "t11CaseStudy": "Opérationnel en quelques minutes — votre premier camion sur la carte avant le dîner, pas après des semaines chez un revendeur.",
+    "t11Tag1": "Télématique de flotte",
+    "t11Tag2": "PME canadiennes",
+    "t11Tag3": "Suivi en direct"
   },
   "faq": {
     "title": "Questions fréquentes",

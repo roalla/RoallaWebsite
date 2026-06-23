@@ -1005,7 +1005,16 @@
     "t10CaseStudy": "Walk into your next pitch knowing you've already stress-tested the story, the ask, and how you deliver it.",
     "t10Tag1": "Pitch rehearsal",
     "t10Tag2": "AI feedback",
-    "t10Tag3": "Sales & investor prep"
+    "t10Tag3": "Sales & investor prep",
+    "t11Name": "My360Vision",
+    "t11Desc": "Fleet telematics platform for owner-operators, dispatchers, and growing Canadian fleets — live map, plain-language alerts, and audit-ready exports without enterprise contracts.",
+    "t11B1": "Live fleet map with auto-refresh, fleet pulse counts, and trip history so dispatchers see who's moving, parked, or offline",
+    "t11B2": "GPS device pairing via QR code or driver-phone tracking — run hybrid fleets on one dashboard",
+    "t11B3": "Plain-language alerts, insurer sharing with scoped consent, and audit-ready export bundles for compliance",
+    "t11CaseStudy": "Go live in minutes — see your first truck on the map before lunch, not after weeks of dealer setup.",
+    "t11Tag1": "Fleet telematics",
+    "t11Tag2": "Canadian SMB",
+    "t11Tag3": "Live tracking"
   },
   "faq": {
     "title": "Frequently Asked Questions",

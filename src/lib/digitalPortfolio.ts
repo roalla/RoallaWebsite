@@ -10,6 +10,7 @@ export type PortfolioItemId =
   | 'valentir-green-tech'
   | 'boothlio'
   | 'pitch-hotshots'
+  | 'my360vision'
 
 export type PortfolioItemConfig = {
   id: PortfolioItemId
@@ -19,7 +20,7 @@ export type PortfolioItemConfig = {
   tryUrl: string
   domain?: string
   contactService: 'websites-brand' | 'custom-platforms'
-  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10'
+  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10' | 't11'
   tagKeys?: readonly [string, string, string]
   featured?: boolean
 }
@@ -30,6 +31,7 @@ export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   '4theblueprint',
   'boothlio',
   'valentir-green-tech',
+  'my360vision',
   'soaring-puck',
   'pitch-hotshots',
   'ken-effect',
@@ -90,6 +92,16 @@ export const portfolioItems: PortfolioItemConfig[] = [
     tagKeys: ['t10Tag1', 't10Tag2', 't10Tag3'],
   },
   {
+    id: 'my360vision',
+    category: 'platform',
+    imageUrl: '/360visionsnapshot.jpg',
+    tryUrl: 'https://www.my360vision.com/',
+    domain: 'my360vision.com',
+    contactService: 'custom-platforms',
+    i18nPrefix: 't11',
+    tagKeys: ['t11Tag1', 't11Tag2', 't11Tag3'],
+  },
+  {
     id: 'ken-effect',
     category: 'website',
     imageUrl: '/Keneffectsite.jpg',
@@ -143,6 +155,8 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
   boothlio: 'Boothlio event experience platform — innovate attendee engagement at trade shows and business events',
   'pitch-hotshots':
     'Pitch Hotshots — rehearse investor pitches and sales talks with AI scoring, delivery metrics, and stage-ready feedback',
+  my360vision:
+    'My360Vision fleet telematics — live fleet map, plain-language alerts, GPS and driver-phone tracking, and audit-ready exports for Canadian SMB fleets',
 }
 
 export function sortPortfolioByDisplayOrder(

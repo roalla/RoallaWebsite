@@ -1,24 +1,73 @@
 'use client'
 
-import React, { Suspense } from 'react'
+import React, { Suspense, useMemo } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { CheckCircle2 } from 'lucide-react'
 import Breadcrumb from '@/components/Breadcrumb'
 import ConsultationRequestForm, { resolveInitialIntent, resolveInitialFocus } from '@/components/ConsultationRequestForm'
+import { getPortfolioItem, isValidPortfolioReference } from '@/lib/digitalPortfolio'
+import type { PortfolioItemId } from '@/lib/digitalPortfolio'
+
+const PORTFOLIO_NAME_KEYS = {
+  t1: 't1Name',
+  t3: 't3Name',
+  t4: 't4Name',
+  t5: 't5Name',
+  t6: 't6Name',
+  t7: 't7Name',
+  t8: 't8Name',
+  t9: 't9Name',
+  t10: 't10Name',
+  t11: 't11Name',
+} as const
+
+function resolvePortfolioReferenceGoal(
+  reference: string | null,
+  tConsult: ReturnType<typeof useTranslations<'consultationRequest'>>,
+  tPortfolio: ReturnType<typeof useTranslations<'digitalCreations'>>,
+): { goal: string | null; referenceId: string | null } {
+  if (!reference || !isValidPortfolioReference(reference)) {
+    return { goal: null, referenceId: null }
+  }
+
+  if (reference === 'fleet') {
+    return {
+      goal: tConsult('portfolioReferenceGoal', { project: tPortfolio('verticalFleetTitle') }),
+      referenceId: reference,
+    }
+  }
+
+  const item = getPortfolioItem(reference as PortfolioItemId)
+  if (!item) return { goal: null, referenceId: null }
+
+  const nameKey = PORTFOLIO_NAME_KEYS[item.i18nPrefix]
+  return {
+    goal: tConsult('portfolioReferenceGoal', { project: tPortfolio(nameKey) }),
+    referenceId: reference,
+  }
+}
 
 function ScheduleContent() {
   const t = useTranslations('consultationRequest')
+  const tPortfolio = useTranslations('digitalCreations')
   const tBc = useTranslations('breadcrumb')
   const searchParams = useSearchParams()
+  const referenceParam = searchParams.get('reference')
   const initialIntent = resolveInitialIntent(
     searchParams.get('intent'),
     searchParams.get('service'),
   )
   const initialFocus = resolveInitialFocus(searchParams.get('focus'))
-  const initialGoal = searchParams.get('goal')
   const fromAssessment = searchParams.get('from') === 'assessment'
+
+  const { goal: referenceGoal, referenceId } = useMemo(
+    () => resolvePortfolioReferenceGoal(referenceParam, t, tPortfolio),
+    [referenceParam, t, tPortfolio],
+  )
+
+  const initialGoal = referenceGoal ?? searchParams.get('goal')
 
   const whatYouGetItems = [t('whatYouGet1'), t('whatYouGet2'), t('whatYouGet3'), t('whatYouGet4')]
 
@@ -53,6 +102,7 @@ function ScheduleContent() {
               initialIntent={initialIntent}
               initialFocus={initialFocus}
               initialGoal={initialGoal}
+              initialReference={referenceId}
               fromAssessment={fromAssessment}
             />
             <aside className="hidden lg:block rounded-2xl border border-slate-200 bg-slate-50 p-6 sticky top-28">

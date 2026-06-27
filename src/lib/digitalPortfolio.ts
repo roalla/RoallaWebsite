@@ -1,5 +1,7 @@
 export type PortfolioCategory = 'website' | 'platform'
 
+export type PortfolioProjectType = 'client' | 'roalla-product' | 'roalla-site'
+
 export type PortfolioItemId =
   | 'ken-effect'
   | 'roalla-site'
@@ -12,9 +14,12 @@ export type PortfolioItemId =
   | 'pitch-hotshots'
   | 'my360vision'
 
+export type PortfolioVerticalId = 'fleet'
+
 export type PortfolioItemConfig = {
   id: PortfolioItemId
   category: PortfolioCategory
+  projectType: PortfolioProjectType
   imageUrl: string | null
   brandPreview?: boolean
   tryUrl: string
@@ -22,7 +27,15 @@ export type PortfolioItemConfig = {
   contactService: 'websites-brand' | 'custom-platforms'
   i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10' | 't11'
   tagKeys?: readonly [string, string, string]
-  featured?: boolean
+  /** Shown in the featured case-study block for this category */
+  featuredCategory?: PortfolioCategory
+}
+
+export type PortfolioVerticalConfig = {
+  id: PortfolioVerticalId
+  itemIds: readonly [PortfolioItemId, PortfolioItemId]
+  contactService: 'websites-brand' | 'custom-platforms'
+  i18nPrefix: 'verticalFleet'
 }
 
 /** Hero / proof grids: platforms first, then websites */
@@ -39,21 +52,32 @@ export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'roalla-site',
 ]
 
+export const portfolioVerticals: PortfolioVerticalConfig[] = [
+  {
+    id: 'fleet',
+    itemIds: ['valentir-green-tech', 'my360vision'],
+    contactService: 'custom-platforms',
+    i18nPrefix: 'verticalFleet',
+  },
+]
+
 export const portfolioItems: PortfolioItemConfig[] = [
   {
     id: 'business-cocoon',
     category: 'platform',
+    projectType: 'roalla-product',
     imageUrl: '/businesscocoon_image.jpg',
     tryUrl: 'https://www.businesscocoon.com/products',
     domain: 'businesscocoon.com',
     contactService: 'custom-platforms',
     i18nPrefix: 't4',
     tagKeys: ['t4Tag1', 't4Tag2', 't4Tag3'],
-    featured: true,
+    featuredCategory: 'platform',
   },
   {
     id: '4theblueprint',
     category: 'platform',
+    projectType: 'roalla-product',
     imageUrl: '/blueprintsnapshot.jpg',
     tryUrl: 'https://www.4theblueprint.com/',
     domain: '4theblueprint.com',
@@ -64,6 +88,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
   {
     id: 'soaring-puck',
     category: 'platform',
+    projectType: 'roalla-product',
     imageUrl: '/soaring-puck.jpg',
     tryUrl: 'https://www.soaringpuck.com',
     domain: 'soaringpuck.com',
@@ -74,6 +99,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
   {
     id: 'boothlio',
     category: 'platform',
+    projectType: 'roalla-product',
     imageUrl: '/boothlio-pic.jpg',
     tryUrl: 'https://boothlio.com',
     domain: 'boothlio.com',
@@ -84,6 +110,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
   {
     id: 'pitch-hotshots',
     category: 'platform',
+    projectType: 'roalla-product',
     imageUrl: '/pitchhotshotsnapshot.jpg',
     tryUrl: 'https://www.pitchhotshot.com/',
     domain: 'pitchhotshot.com',
@@ -94,6 +121,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
   {
     id: 'my360vision',
     category: 'platform',
+    projectType: 'roalla-product',
     imageUrl: '/360visionsnapshot.jpg',
     tryUrl: 'https://www.my360vision.com/',
     domain: 'my360vision.com',
@@ -104,6 +132,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
   {
     id: 'ken-effect',
     category: 'website',
+    projectType: 'client',
     imageUrl: '/Keneffectsite.jpg',
     tryUrl: 'https://www.keneffect.com/',
     domain: 'keneffect.com',
@@ -114,6 +143,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
   {
     id: 'cold-dejabru-event',
     category: 'website',
+    projectType: 'client',
     imageUrl: '/ColdBru-Event.jpg',
     tryUrl: 'https://coldbru.dejabru.ca',
     domain: 'coldbru.dejabru.ca',
@@ -124,16 +154,19 @@ export const portfolioItems: PortfolioItemConfig[] = [
   {
     id: 'valentir-green-tech',
     category: 'website',
+    projectType: 'client',
     imageUrl: '/pulsavantsolution.jpg',
     tryUrl: 'https://valentir.up.railway.app/',
     domain: 'valentir.up.railway.app',
     contactService: 'websites-brand',
     i18nPrefix: 't8',
     tagKeys: ['t8Tag1', 't8Tag2', 't8Tag3'],
+    featuredCategory: 'website',
   },
   {
     id: 'roalla-site',
     category: 'website',
+    projectType: 'roalla-site',
     imageUrl: '/roalla-snapshot.jpg',
     tryUrl: 'https://www.roalla.com',
     domain: 'roalla.com',
@@ -159,6 +192,35 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
     'My360Vision fleet telematics — live fleet map, plain-language alerts, GPS and driver-phone tracking, and audit-ready exports for Canadian SMB fleets',
 }
 
+export type PortfolioScheduleQuery = {
+  service: PortfolioItemConfig['contactService']
+  reference: PortfolioItemId | PortfolioVerticalId
+}
+
+export function getPortfolioItem(id: PortfolioItemId): PortfolioItemConfig | undefined {
+  return portfolioItems.find((item) => item.id === id)
+}
+
+export function isFeaturedItem(item: PortfolioItemConfig): boolean {
+  return item.featuredCategory != null
+}
+
+export function getFeaturedItems(category?: PortfolioCategory): PortfolioItemConfig[] {
+  const featured = portfolioItems.filter((item) => item.featuredCategory != null)
+  if (category) return featured.filter((item) => item.featuredCategory === category)
+  return sortPortfolioByDisplayOrder(featured)
+}
+
+export function buildPortfolioScheduleQuery(
+  item: PortfolioItemConfig | PortfolioVerticalConfig,
+  reference?: PortfolioItemId | PortfolioVerticalId,
+): PortfolioScheduleQuery {
+  if ('itemIds' in item) {
+    return { service: item.contactService, reference: reference ?? item.id }
+  }
+  return { service: item.contactService, reference: reference ?? item.id }
+}
+
 export function sortPortfolioByDisplayOrder(
   items: PortfolioItemConfig[],
 ): PortfolioItemConfig[] {
@@ -177,11 +239,17 @@ export function getOrderedPortfolioItems(options?: {
   let items = portfolioHeroItemOrder
     .map((id) => portfolioItems.find((item) => item.id === id))
     .filter((item): item is PortfolioItemConfig => item != null)
-  if (options?.excludeFeatured) items = items.filter((item) => !item.featured)
+  if (options?.excludeFeatured) items = items.filter((item) => !isFeaturedItem(item))
   if (options?.category) items = items.filter((item) => item.category === options.category)
   return items
 }
 
 export function getPortfolioProofImages(category: PortfolioCategory): PortfolioItemConfig[] {
   return getOrderedPortfolioItems({ category }).filter((item) => item.imageUrl).slice(0, 2)
+}
+
+export function isValidPortfolioReference(value: string | null): value is PortfolioItemId | PortfolioVerticalId {
+  if (!value) return false
+  if (portfolioVerticals.some((v) => v.id === value)) return true
+  return portfolioItems.some((item) => item.id === value)
 }

@@ -8,6 +8,8 @@ export type ConsultationRequestPayload = {
   websiteGoal?: string
   hasExistingSite?: string
   platformType?: string
+  /** Portfolio item or vertical that inspired the inquiry */
+  portfolioReference?: string
   name: string
   email: string
   company?: string
@@ -113,6 +115,9 @@ export function buildConsultationSalesEmailHtml(
   if (data.intent === 'platform' && data.platformType) {
     rows.push([labels.platformType, labels[`platform_${data.platformType}`] ?? data.platformType])
   }
+  if (data.portfolioReference?.trim()) {
+    rows.push([labels.portfolioReference, data.portfolioReference.trim()])
+  }
 
   rows.push(
     [labels.name, data.name.trim()],
@@ -169,6 +174,9 @@ export function buildConsultationSalesEmailText(
   }
   if (data.intent === 'platform' && data.platformType) {
     lines.push(`${labels.platformType}: ${labels[`platform_${data.platformType}`] ?? data.platformType}`)
+  }
+  if (data.portfolioReference?.trim()) {
+    lines.push(`${labels.portfolioReference}: ${data.portfolioReference.trim()}`)
   }
 
   lines.push(

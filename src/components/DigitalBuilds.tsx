@@ -29,8 +29,11 @@ import BrowserFrame from './digital/BrowserFrame'
 import BrandJourneyBand from './services/BrandJourneyBand'
 import {
   getOrderedPortfolioItems,
+  getPortfolioItem,
+  buildPortfolioScheduleQuery,
   portfolioImageAlts,
   type PortfolioItemConfig,
+  type PortfolioItemId,
 } from '@/lib/digitalPortfolio'
 import {
   BRAND_PILLARS,
@@ -105,7 +108,8 @@ type DigitalBuild = {
   ctaService: 'websites-brand' | 'custom-platforms'
   requestCta: string
   proofText: string
-  proofHash: string
+  proofHash: PortfolioItemId
+  proofReference: PortfolioItemId
   timeline: string
   anchor: string
   pillar: BrandPillar
@@ -175,7 +179,10 @@ function DigitalBuildCard({
 
         <div className="mt-auto pt-5 border-t border-slate-100 space-y-2.5">
           <Link
-            href={{ pathname: '/schedule', query: { service: build.ctaService } }}
+            href={{
+              pathname: '/schedule',
+              query: buildPortfolioScheduleQuery(getPortfolioItem(build.proofReference)!),
+            }}
             className={servicePrimaryLinkClass}
           >
             {build.requestCta}
@@ -260,6 +267,7 @@ const DigitalBuilds = () => {
       requestCta: t('s0RequestCta'),
       proofText: t('s0Proof'),
       proofHash: 'ken-effect',
+      proofReference: 'ken-effect',
       timeline: t('websiteTimeline'),
       anchor: buildAnchors[0],
       pillar: BUILD_PILLARS.websites,
@@ -277,7 +285,8 @@ const DigitalBuilds = () => {
       ctaService: 'custom-platforms',
       requestCta: t('s1RequestCta'),
       proofText: t('s1Proof'),
-      proofHash: 'business-cocoon',
+      proofHash: 'my360vision',
+      proofReference: 'my360vision',
       timeline: t('platformTimeline'),
       anchor: buildAnchors[1],
       pillar: BUILD_PILLARS.platforms,
@@ -295,7 +304,8 @@ const DigitalBuilds = () => {
       ctaService: 'custom-platforms',
       requestCta: t('s2RequestCta'),
       proofText: t('s2Proof'),
-      proofHash: 'business-cocoon',
+      proofHash: 'boothlio',
+      proofReference: 'boothlio',
       timeline: t('automationTimeline'),
       anchor: buildAnchors[2],
       pillar: BUILD_PILLARS.automation,
@@ -325,8 +335,8 @@ const DigitalBuilds = () => {
           />
         }
         primaryCta={
-          <ScheduleButton variant="primary" size="lg" icon>
-            {t('ctaButton')}
+          <ScheduleButton variant="primary" size="lg" icon service="custom-platforms">
+            {tCommon('scheduleConsultation')}
           </ScheduleButton>
         }
         secondaryCta={
@@ -417,26 +427,39 @@ const DigitalBuilds = () => {
             <div className="grid sm:grid-cols-2 gap-4 max-w-2xl mb-6">
               {getOrderedPortfolioItems()
                 .slice(0, 2)
-                .map((item, index) => (
-                  <a
-                    key={item.id}
-                    href={item.tryUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group block"
-                  >
-                    <BrowserFrame
-                      imageUrl={item.imageUrl}
-                      imageAlt={portfolioImageAlts[item.id]}
-                      domain={item.domain}
-                      priority={index === 0}
-                      className="group-hover:shadow-card-hover transition-shadow duration-300"
-                    />
-                    <p className="mt-2 text-sm font-medium text-slate-900 group-hover:text-primary transition-colors">
-                      {portfolioItemName(tPortfolio, item)}
-                    </p>
-                  </a>
-                ))}
+                .map((item, index) => {
+                  const scheduleQuery = buildPortfolioScheduleQuery(item)
+                  return (
+                    <div key={item.id} className="group">
+                      <a href={`/${locale}/services/portfolio#${item.id}`} className="block">
+                        <BrowserFrame
+                          imageUrl={item.imageUrl}
+                          imageAlt={portfolioImageAlts[item.id]}
+                          domain={item.domain}
+                          priority={index === 0}
+                          className="group-hover:shadow-card-hover transition-shadow duration-300"
+                        />
+                        <p className="mt-2 text-sm font-medium text-slate-900 group-hover:text-primary transition-colors">
+                          {portfolioItemName(tPortfolio, item)}
+                        </p>
+                      </a>
+                      <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
+                        <a
+                          href={`/${locale}/services/portfolio#${item.id}`}
+                          className="text-xs font-semibold text-primary-dark hover:underline"
+                        >
+                          {t('proofSeeCaseStudy')}
+                        </a>
+                        <Link
+                          href={{ pathname: '/schedule', query: scheduleQuery }}
+                          className="text-xs font-semibold text-slate-600 hover:text-primary hover:underline"
+                        >
+                          {t('proofRequestBuild')}
+                        </Link>
+                      </div>
+                    </div>
+                  )
+                })}
             </div>
             <Link
               href="/services/portfolio"
@@ -507,8 +530,8 @@ const DigitalBuilds = () => {
           qualifier={t('ctaQualifier')}
           ctaSubtext={tCommon('ctaSubtext')}
           primaryCta={
-            <ScheduleButton variant="secondary" size="lg" icon className="bg-white text-slate-900 hover:bg-slate-100 border-0">
-              {t('ctaButton')}
+            <ScheduleButton variant="secondary" size="lg" icon className="bg-white text-slate-900 hover:bg-slate-100 border-0" service="custom-platforms">
+              {tCommon('scheduleConsultation')}
             </ScheduleButton>
           }
           secondaryCta={
@@ -526,7 +549,7 @@ const DigitalBuilds = () => {
           ]}
         />
       </div>
-      <StickyMobileCTA label={t('ctaButton')} sublabel={tCommon('ctaSubtext')} />
+      <StickyMobileCTA label={tCommon('scheduleConsultation')} service="custom-platforms" sublabel={tCommon('ctaSubtext')} />
     </section>
   )
 }

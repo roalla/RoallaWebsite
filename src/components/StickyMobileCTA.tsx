@@ -8,13 +8,29 @@ type StickyMobileCTAProps = {
   label: string
   href?: '/schedule' | '/services' | '/services/workshops' | '/services/digital' | '/services/portfolio' | '/assessment'
   intent?: ConsultationIntent
+  service?: 'websites-brand' | 'custom-platforms'
+  reference?: string
   sublabel?: string
 }
 
-export default function StickyMobileCTA({ label, href = '/schedule', intent, sublabel }: StickyMobileCTAProps) {
-  const linkHref = intent
-    ? ({ pathname: '/schedule', query: { intent } } as const)
-    : href
+export default function StickyMobileCTA({
+  label,
+  href = '/schedule',
+  intent,
+  service,
+  reference,
+  sublabel,
+}: StickyMobileCTAProps) {
+  const linkHref = (() => {
+    const query: Record<string, string> = {}
+    if (intent) query.intent = intent
+    if (service) query.service = service
+    if (reference) query.reference = reference
+    if (Object.keys(query).length > 0) {
+      return { pathname: '/schedule', query } as const
+    }
+    return href
+  })()
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {

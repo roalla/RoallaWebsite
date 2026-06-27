@@ -56,6 +56,7 @@ type ConsultationRequestFormProps = {
   initialIntent?: ConsultationIntent | null
   initialFocus?: ConsultingFocus | null
   initialGoal?: string | null
+  initialReference?: string | null
   fromAssessment?: boolean
 }
 
@@ -75,6 +76,7 @@ export default function ConsultationRequestForm({
   initialIntent = null,
   initialFocus = null,
   initialGoal = null,
+  initialReference = null,
   fromAssessment = false,
 }: ConsultationRequestFormProps) {
   const t = useTranslations('consultationRequest')
@@ -132,6 +134,7 @@ export default function ConsultationRequestForm({
           websiteGoal: form.websiteGoal || undefined,
           hasExistingSite: form.hasExistingSite || undefined,
           platformType: form.platformType || undefined,
+          portfolioReference: initialReference || undefined,
           name: form.name,
           email: form.email,
           company: form.company || undefined,
@@ -309,6 +312,11 @@ export default function ConsultationRequestForm({
               {fromAssessment && (
                 <p className="rounded-lg border border-primary/20 bg-primary/[0.04] px-4 py-3 text-sm text-slate-700">
                   {t('assessmentPrefillNote')}
+                </p>
+              )}
+              {initialReference && !fromAssessment && (
+                <p className="rounded-lg border border-primary/20 bg-primary/[0.04] px-4 py-3 text-sm text-slate-700">
+                  {t('portfolioReferenceNote')}
                 </p>
               )}
 

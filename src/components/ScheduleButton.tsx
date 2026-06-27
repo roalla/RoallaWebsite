@@ -12,6 +12,8 @@ interface ScheduleButtonProps {
   size?: 'sm' | 'md' | 'lg'
   icon?: boolean
   intent?: ConsultationIntent
+  service?: 'websites-brand' | 'custom-platforms'
+  reference?: string
   sublabel?: string
   sublabelClassName?: string
   /** Shown in a tooltip on hover/focus — does not affect layout */
@@ -26,6 +28,8 @@ const ScheduleButton: React.FC<ScheduleButtonProps> = ({
   size = 'md',
   icon = false,
   intent,
+  service,
+  reference,
   sublabel,
   sublabelClassName = '',
   hoverHint,
@@ -44,9 +48,16 @@ const ScheduleButton: React.FC<ScheduleButtonProps> = ({
     lg: 'py-4 px-8 text-lg',
   }
 
-  const href = intent
-    ? ({ pathname: '/schedule', query: { intent } } as const)
-    : '/schedule'
+  const href = (() => {
+    const query: Record<string, string> = {}
+    if (intent) query.intent = intent
+    if (service) query.service = service
+    if (reference) query.reference = reference
+    if (Object.keys(query).length > 0) {
+      return { pathname: '/schedule', query } as const
+    }
+    return '/schedule'
+  })()
 
   const link = (
     <Link

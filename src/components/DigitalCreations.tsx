@@ -25,10 +25,14 @@ import {
 } from './services/ServicePageSections'
 import {
   getOrderedPortfolioItems,
-  portfolioItems,
+  getFeaturedItems,
+  buildPortfolioScheduleQuery,
+  portfolioVerticals,
+  getPortfolioItem,
   portfolioImageAlts,
   type PortfolioCategory,
   type PortfolioItemConfig,
+  type PortfolioVerticalConfig,
 } from '@/lib/digitalPortfolio'
 
 type FilterKey = 'all' | PortfolioCategory
@@ -72,6 +76,160 @@ function categoryLabel(t: ReturnType<typeof useTranslations<'digitalCreations'>>
   return t('categoryPlatform')
 }
 
+function projectTypeLabel(
+  t: ReturnType<typeof useTranslations<'digitalCreations'>>,
+  projectType: PortfolioItemConfig['projectType'],
+) {
+  if (projectType === 'client') return t('projectBadgeClient')
+  if (projectType === 'roalla-product') return t('projectBadgeRoallaProduct')
+  return t('projectBadgeRoallaSite')
+}
+
+function ProjectTypeBadge({
+  t,
+  projectType,
+}: {
+  t: ReturnType<typeof useTranslations<'digitalCreations'>>
+  projectType: PortfolioItemConfig['projectType']
+}) {
+  return (
+    <span className="inline-flex w-fit items-center rounded-full bg-slate-100 text-slate-600 text-[11px] font-medium px-2.5 py-0.5 border border-slate-200 mb-3">
+      {projectTypeLabel(t, projectType)}
+    </span>
+  )
+}
+
+function FeaturedCaseStudy({
+  item,
+  t,
+}: {
+  item: PortfolioItemConfig
+  t: ReturnType<typeof useTranslations<'digitalCreations'>>
+}) {
+  const copy = getItemCopy(t, item.i18nPrefix)
+  const tags = getItemTags(t, item)
+  const scheduleQuery = buildPortfolioScheduleQuery(item)
+  const isWebsite = item.category === 'website'
+  const liveCta = isWebsite ? t('viewSite') : t('tryTool')
+
+  return (
+    <Reveal
+      id={item.id}
+      className="mb-10 scroll-mt-28 rounded-2xl border border-primary/20 bg-gradient-to-br from-white via-slate-50 to-primary/5 overflow-hidden shadow-card"
+    >
+      <div className="grid lg:grid-cols-2 gap-0">
+        <div className="p-8 lg:p-10 flex flex-col justify-center order-2 lg:order-1">
+          <span className="inline-flex w-fit items-center rounded-full bg-primary/10 text-primary-dark text-xs font-semibold px-3 py-1 mb-4 border border-primary/20">
+            {t('featuredLabel')} · {categoryLabel(t, item)}
+          </span>
+          <ProjectTypeBadge t={t} projectType={item.projectType} />
+          <h2 className="text-2xl md:text-3xl font-serif font-bold text-slate-900 mb-3">{copy.name}</h2>
+          <TagPills tags={tags} />
+          <p className="text-slate-600 leading-relaxed mb-4">{copy.desc}</p>
+          <ul className="space-y-2 mb-5">
+            {copy.bullets.map((bullet, i) => (
+              <li key={i} className="flex items-start text-sm text-slate-600">
+                <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0 mt-0.5" />
+                {bullet}
+              </li>
+            ))}
+          </ul>
+          <p className="text-sm font-medium text-primary mb-6 border-l-2 border-primary pl-3">{copy.caseStudy}</p>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href={{ pathname: '/schedule', query: scheduleQuery }}
+              className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-semibold py-2.5 px-5 rounded-lg text-sm transition-colors"
+            >
+              {t('discussBuildLike')}
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Link>
+            <a
+              href={item.tryUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-primary font-semibold py-2.5 px-5 rounded-lg text-sm border border-primary/30 hover:bg-primary/5"
+            >
+              {liveCta}
+              <ExternalLink className="w-4 h-4 ml-2" />
+            </a>
+          </div>
+        </div>
+        <div className="p-6 lg:p-8 bg-white order-1 lg:order-2 border-b lg:border-b-0 lg:border-l border-slate-200/80">
+          <BrowserFrame
+            imageUrl={item.imageUrl}
+            imageAlt={portfolioImageAlts[item.id]}
+            domain={item.domain}
+            priority
+            className="h-full shadow-lg"
+          />
+        </div>
+      </div>
+    </Reveal>
+  )
+}
+
+function FleetVerticalSection({
+  vertical,
+  t,
+}: {
+  vertical: PortfolioVerticalConfig
+  t: ReturnType<typeof useTranslations<'digitalCreations'>>
+}) {
+  const [websiteId, platformId] = vertical.itemIds
+  const website = getPortfolioItem(websiteId)!
+  const platform = getPortfolioItem(platformId)!
+  const websiteCopy = getItemCopy(t, website.i18nPrefix)
+  const platformCopy = getItemCopy(t, platform.i18nPrefix)
+  const scheduleQuery = buildPortfolioScheduleQuery(vertical)
+
+  return (
+    <Reveal id="fleet-vertical" className="mb-16 scroll-mt-28 rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 via-white to-primary/[0.04] p-6 lg:p-8">
+      <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark mb-2">{t('verticalFleetEyebrow')}</p>
+      <h2 className="text-xl md:text-2xl font-serif font-bold text-slate-900 mb-2">{t('verticalFleetTitle')}</h2>
+      <p className="text-slate-600 text-sm leading-relaxed mb-6 max-w-3xl">{t('verticalFleetDesc')}</p>
+      <div className="grid sm:grid-cols-2 gap-4 mb-6">
+        <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
+          <BrowserFrame
+            imageUrl={website.imageUrl}
+            imageAlt={portfolioImageAlts[website.id]}
+            domain={website.domain}
+            className="rounded-none border-0 shadow-none"
+          />
+          <div className="p-4">
+            <p className="text-xs font-medium text-primary-dark mb-1">{t('verticalFleetWebsiteRole')}</p>
+            <p className="font-semibold text-slate-900">{websiteCopy.name}</p>
+            <a href={`#${website.id}`} className="mt-2 inline-flex text-xs font-semibold text-primary hover:underline">
+              {t('seeCaseStudy')}
+            </a>
+          </div>
+        </div>
+        <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
+          <BrowserFrame
+            imageUrl={platform.imageUrl}
+            imageAlt={portfolioImageAlts[platform.id]}
+            domain={platform.domain}
+            className="rounded-none border-0 shadow-none"
+          />
+          <div className="p-4">
+            <p className="text-xs font-medium text-primary-dark mb-1">{t('verticalFleetPlatformRole')}</p>
+            <p className="font-semibold text-slate-900">{platformCopy.name}</p>
+            <a href={`#${platform.id}`} className="mt-2 inline-flex text-xs font-semibold text-primary hover:underline">
+              {t('seeCaseStudy')}
+            </a>
+          </div>
+        </div>
+      </div>
+      <Link
+        href={{ pathname: '/schedule', query: scheduleQuery }}
+        className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-semibold py-2.5 px-5 rounded-lg text-sm transition-colors"
+      >
+        {t('verticalFleetCta')}
+        <ArrowRight className="w-4 h-4 ml-2" />
+      </Link>
+    </Reveal>
+  )
+}
+
 function TagPills({ tags }: { tags: string[] }) {
   if (tags.length === 0) return null
   return (
@@ -100,7 +258,8 @@ function PortfolioCard({
   const copy = getItemCopy(t, item.i18nPrefix)
   const tags = getItemTags(t, item)
   const isWebsite = item.category === 'website'
-  const primaryCta = isWebsite ? t('viewSite') : t('tryTool')
+  const liveCta = isWebsite ? t('viewSite') : t('tryTool')
+  const scheduleQuery = buildPortfolioScheduleQuery(item)
 
   return (
     <Reveal
@@ -143,6 +302,7 @@ function PortfolioCard({
         </div>
 
         <div className="p-6 flex flex-1 flex-col">
+          <ProjectTypeBadge t={t} projectType={item.projectType} />
           <h3 className="text-lg font-bold text-slate-900 mb-2">{copy.name}</h3>
           <TagPills tags={tags} />
           <p className="text-slate-600 text-sm leading-relaxed mb-4">{copy.desc}</p>
@@ -156,22 +316,22 @@ function PortfolioCard({
           </ul>
           <p className="text-xs text-primary/90 mb-4 italic border-l-2 border-primary/30 pl-3">{copy.caseStudy}</p>
           <div className="mt-auto flex flex-col gap-2">
+            <Link
+              href={{ pathname: '/schedule', query: scheduleQuery }}
+              className="inline-flex w-full items-center justify-center bg-primary hover:bg-primary-dark text-white font-semibold py-2.5 px-4 rounded-lg transition-all text-sm"
+            >
+              {t('discussBuildLike')}
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Link>
             <a
               href={item.tryUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex w-full items-center justify-center bg-primary hover:bg-primary-dark text-white font-semibold py-2.5 px-4 rounded-lg transition-all text-sm"
-            >
-              {primaryCta}
-              <ExternalLink className="w-4 h-4 ml-2" />
-            </a>
-            <Link
-              href={{ pathname: '/schedule', query: { service: item.contactService } }}
               className="inline-flex w-full items-center justify-center text-primary font-semibold py-2 px-4 rounded-lg text-sm border border-primary/30 hover:bg-primary/5 transition-colors"
             >
-              {t('wantSomethingLike')}
-              <ArrowRight className="w-4 h-4 ml-1" />
-            </Link>
+              {liveCta}
+              <ExternalLink className="w-4 h-4 ml-2" />
+            </a>
           </div>
         </div>
       </div>
@@ -184,14 +344,17 @@ const DigitalCreations = () => {
   const tCommon = useTranslations('common')
   const [filter, setFilter] = useState<FilterKey>('all')
 
-  const featured = portfolioItems.find((item) => item.featured)!
-  const featuredCopy = getItemCopy(t, featured.i18nPrefix)
-  const featuredTags = getItemTags(t, featured)
+  const featuredItems = useMemo(() => {
+    if (filter === 'all') return getFeaturedItems()
+    return getFeaturedItems(filter)
+  }, [filter])
 
   const gridItems = useMemo(() => {
     if (filter === 'all') return getOrderedPortfolioItems({ excludeFeatured: true })
     return getOrderedPortfolioItems({ excludeFeatured: true, category: filter })
   }, [filter])
+
+  const fleetVertical = portfolioVerticals[0]
 
   const filters: { key: FilterKey; label: string }[] = [
     { key: 'all', label: t('filterAll') },
@@ -228,7 +391,7 @@ const DigitalCreations = () => {
         }
         primaryCta={
           <ScheduleButton variant="primary" size="lg" icon>
-            {t('scheduleCall')}
+            {tCommon('scheduleConsultation')}
           </ScheduleButton>
         }
         secondaryCta={
@@ -250,13 +413,6 @@ const DigitalCreations = () => {
             </li>
           ))}
         </ul>
-        <p className="text-sm text-slate-600">
-          {t('assessmentTieIn')}{' '}
-          <Link href="/assessment" className="link-action font-medium">
-            {t('assessmentLink')}
-          </Link>{' '}
-          {t('assessmentTieInSuffix')}
-        </p>
       </Reveal>
 
       <nav aria-label={t('jumpNavLabel')} className="mb-14 rounded-xl border border-primary/15 bg-primary/[0.04] p-5 sm:p-6">
@@ -278,59 +434,17 @@ const DigitalCreations = () => {
         </div>
       </nav>
 
-      {/* Featured case study */}
-      {(filter === 'all' || filter === featured.category) && (
-        <Reveal
-          id={featured.id}
-          className="mb-16 scroll-mt-28 rounded-2xl border border-primary/20 bg-gradient-to-br from-white via-slate-50 to-primary/5 overflow-hidden shadow-card"
-        >
-          <div className="grid lg:grid-cols-2 gap-0">
-            <div className="p-8 lg:p-10 flex flex-col justify-center order-2 lg:order-1">
-              <span className="inline-flex w-fit items-center rounded-full bg-primary/10 text-primary-dark text-xs font-semibold px-3 py-1 mb-4 border border-primary/20">
-                {t('featuredLabel')} · {categoryLabel(t, featured)}
-              </span>
-              <h2 className="text-2xl md:text-3xl font-serif font-bold text-slate-900 mb-3">{featuredCopy.name}</h2>
-              <TagPills tags={featuredTags} />
-              <p className="text-slate-600 leading-relaxed mb-4">{featuredCopy.desc}</p>
-              <ul className="space-y-2 mb-5">
-                {featuredCopy.bullets.map((bullet, i) => (
-                  <li key={i} className="flex items-start text-sm text-slate-600">
-                    <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0 mt-0.5" />
-                    {bullet}
-                  </li>
-                ))}
-              </ul>
-              <p className="text-sm font-medium text-primary mb-6 border-l-2 border-primary pl-3">{featuredCopy.caseStudy}</p>
-              <div className="flex flex-wrap gap-3">
-                <a
-                  href={featured.tryUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-semibold py-2.5 px-5 rounded-lg text-sm transition-colors"
-                >
-                  {featured.category === 'website' ? t('viewSite') : t('tryTool')}
-                  <ExternalLink className="w-4 h-4 ml-2" />
-                </a>
-                <Link
-                  href={{ pathname: '/schedule', query: { service: featured.contactService } }}
-                  className="inline-flex items-center text-primary font-semibold py-2.5 px-5 rounded-lg text-sm border border-primary/30 hover:bg-primary/5"
-                >
-                  {t('wantSomethingLike')}
-                  <ArrowRight className="w-4 h-4 ml-1" />
-                </Link>
-              </div>
-            </div>
-            <div className="p-6 lg:p-8 bg-white order-1 lg:order-2 border-b lg:border-b-0 lg:border-l border-slate-200/80">
-              <BrowserFrame
-                imageUrl={featured.imageUrl}
-                imageAlt={portfolioImageAlts[featured.id]}
-                domain={featured.domain}
-                priority
-                className="h-full shadow-lg"
-              />
-            </div>
-          </div>
-        </Reveal>
+      {/* Featured case studies — one per category when viewing all */}
+      {featuredItems.length > 0 && (
+        <div className="mb-16">
+          {featuredItems.map((item) => (
+            <FeaturedCaseStudy key={item.id} item={item} t={t} />
+          ))}
+        </div>
+      )}
+
+      {filter === 'all' && fleetVertical && (
+        <FleetVerticalSection vertical={fleetVertical} t={t} />
       )}
 
       {/* Process pointer — detail lives on the service page */}
@@ -380,6 +494,16 @@ const DigitalCreations = () => {
         <p className="text-center text-slate-500 mb-16">{t('noProjectsInCategory')}</p>
       )}
 
+      <Reveal className="mb-16 rounded-lg border border-slate-200 bg-slate-50 px-6 py-5 text-center">
+        <p className="text-sm text-slate-600">
+          {t('assessmentTieIn')}{' '}
+          <Link href="/assessment" className="link-action font-medium">
+            {t('assessmentLink')}
+          </Link>{' '}
+          {t('assessmentTieInSuffix')}
+        </p>
+      </Reveal>
+
       <Reveal className="mb-16 rounded-lg border border-primary/15 bg-primary/[0.04] px-6 py-5 text-center">
         <p className="text-sm text-slate-700">
           {t('processTeaser')}{' '}
@@ -402,7 +526,7 @@ const DigitalCreations = () => {
           <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4">{t('ctaTitle')}</h2>
           <p className="text-xl text-white/95 mb-8 max-w-3xl mx-auto">{t('ctaSubtitle')}</p>
           <ScheduleButton variant="secondary" size="lg" className="bg-white text-primary-dark hover:bg-white/90 hover:scale-[1.03] transition-transform shadow-2xl">
-            {t('scheduleCall')}
+            {tCommon('scheduleConsultation')}
           </ScheduleButton>
           <p className="mt-5 text-sm text-white/90">
             {t('processTeaser')}{' '}
@@ -412,7 +536,7 @@ const DigitalCreations = () => {
           </p>
         </div>
       </Reveal>
-      <StickyMobileCTA label={t('scheduleCall')} sublabel={tCommon('ctaSubtext')} />
+      <StickyMobileCTA label={tCommon('scheduleConsultation')} sublabel={tCommon('ctaSubtext')} />
     </section>
   )
 }

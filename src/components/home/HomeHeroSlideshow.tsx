@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 import {
@@ -13,60 +13,103 @@ function nextIndex(current: number, count: number) {
   return (current + 1) % count
 }
 
-function prevIndex(current: number, count: number) {
-  return (current - 1 + count) % count
-}
-
-/** Indices to keep mounted: active, next (preload), and previous (crossfade). */
-function indicesToMount(active: number, count: number, reduceMotion: boolean): Set<number> {
-  if (count <= 0) return new Set()
-  if (reduceMotion || count === 1) return new Set([0])
-  return new Set([active, nextIndex(active, count), prevIndex(active, count)])
-}
-
 export default function HomeHeroSlideshow() {
   const prefersReducedMotion = usePrefersReducedMotion()
   const slideCount = HERO_SLIDESHOW_IMAGES.length
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [mountedIndices, setMountedIndices] = useState<Set<number>>(() =>
-    indicesToMount(0, slideCount, false)
+
+  /** Bottom layer — stays fully visible until the incoming slide covers it. */
+  const [baseIndex, setBaseIndex] = useState(0)
+  /** Top layer — fades in over the base during a transition. */
+  const [overlayIndex, setOverlayIndex] = useState<number | null>(null)
+  const [overlayOpaque, setOverlayOpaque] = useState(false)
+  const [loadedSlides, setLoadedSlides] = useState<Set<number>>(() => new Set([0]))
+  const transitioningRef = useRef(false)
+
+  const markLoaded = useCallback((index: number) => {
+    setLoadedSlides((prev) => {
+      if (prev.has(index)) return prev
+      const next = new Set(prev)
+      next.add(index)
+      return next
+    })
+  }, [])
+
+  const beginTransition = useCallback(
+    (targetIndex: number) => {
+      if (transitioningRef.current || targetIndex === baseIndex) return
+      if (!loadedSlides.has(targetIndex)) return
+
+      transitioningRef.current = true
+      setOverlayIndex(targetIndex)
+      setOverlayOpaque(false)
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => setOverlayOpaque(true))
+      })
+    },
+    [baseIndex, loadedSlides]
   )
 
   useEffect(() => {
-    setMountedIndices(indicesToMount(activeIndex, slideCount, prefersReducedMotion))
-  }, [activeIndex, slideCount, prefersReducedMotion])
+    if (overlayIndex === null || !overlayOpaque) return
+
+    const complete = window.setTimeout(() => {
+      setBaseIndex(overlayIndex)
+      setOverlayIndex(null)
+      setOverlayOpaque(false)
+      transitioningRef.current = false
+    }, HERO_SLIDE_FADE_MS)
+
+    return () => window.clearTimeout(complete)
+  }, [overlayIndex, overlayOpaque])
 
   useEffect(() => {
     if (prefersReducedMotion || slideCount <= 1) return
-    const id = window.setInterval(() => {
-      setActiveIndex((current) => nextIndex(current, slideCount))
-    }, HERO_SLIDE_INTERVAL_MS)
-    return () => window.clearInterval(id)
-  }, [prefersReducedMotion, slideCount])
 
-  const mountedList = useMemo(
-    () => Array.from(mountedIndices).sort((a, b) => a - b),
-    [mountedIndices]
-  )
+    const id = window.setInterval(() => {
+      if (transitioningRef.current) return
+      const target = nextIndex(baseIndex, slideCount)
+      if (loadedSlides.has(target)) {
+        beginTransition(target)
+      }
+    }, HERO_SLIDE_INTERVAL_MS)
+
+    return () => window.clearInterval(id)
+  }, [prefersReducedMotion, slideCount, baseIndex, loadedSlides, beginTransition])
 
   return (
     <>
-      {mountedList.map((index) => {
-        const src = HERO_SLIDESHOW_IMAGES[index]
-        const isActive = index === activeIndex
+      {HERO_SLIDESHOW_IMAGES.map((src, index) => {
+        const isBase = index === baseIndex
+        const isOverlay = index === overlayIndex
+
+        let opacityClass = 'opacity-0'
+        let zClass = 'z-0'
+
+        if (overlayIndex === null && isBase) {
+          opacityClass = 'opacity-100'
+          zClass = 'z-10'
+        } else if (overlayIndex !== null && isBase) {
+          opacityClass = 'opacity-100'
+          zClass = 'z-10'
+        } else if (isOverlay) {
+          opacityClass = overlayOpaque ? 'opacity-100' : 'opacity-0'
+          zClass = 'z-20'
+        }
+
         return (
           <Image
             key={src}
             src={src}
             alt=""
             fill
-            priority={index === 0}
-            loading={index === 0 ? undefined : 'lazy'}
+            priority={index <= 1}
+            loading="eager"
             sizes="100vw"
-            className={`absolute inset-0 h-full w-full object-cover scale-105 motion-safe:transition-opacity motion-safe:duration-[1200ms] ease-in-out ${
-              isActive ? 'opacity-100' : 'opacity-0'
-            }`}
-            style={{ transitionDuration: `${HERO_SLIDE_FADE_MS}ms` }}
+            onLoad={() => markLoaded(index)}
+            className={`absolute inset-0 h-full w-full object-cover scale-105 motion-safe:transition-opacity motion-safe:ease-in-out ${opacityClass} ${zClass}`}
+            style={isOverlay ? { transitionDuration: `${HERO_SLIDE_FADE_MS}ms` } : undefined}
+            aria-hidden
           />
         )
       })}

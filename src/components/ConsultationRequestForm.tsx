@@ -47,7 +47,7 @@ const initialState: FormState = {
   goal: '',
   timeline: '',
   consultingFocus: '',
-    websiteGoal: initialWebsiteGoal ?? '',
+  websiteGoal: '',
   hasExistingSite: '',
   platformType: '',
   name: '',
@@ -98,6 +98,7 @@ export default function ConsultationRequestForm({
     intent: initialIntent ?? '',
     consultingFocus: initialFocus ?? '',
     goal: initialGoal ?? '',
+    websiteGoal: initialWebsiteGoal ?? '',
   })
 
   const update = (patch: Partial<FormState>) => setForm((prev) => ({ ...prev, ...patch }))

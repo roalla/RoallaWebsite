@@ -1,14 +1,12 @@
 'use client'
 
 import React from 'react'
-import Image from 'next/image'
 import { ArrowRight, Briefcase, Globe } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import ScheduleButton from '../ScheduleButton'
 import Reveal from '../motion/Reveal'
-
-const HERO_IMAGE_SRC = '/roalla-snapshot.jpg'
+import HomeHeroSlideshow from './HomeHeroSlideshow'
 
 /** Frosted panels — slight transparency with blur for readable contrast on dark hero */
 const heroGlassPanel =
@@ -22,14 +20,7 @@ export default function HomeHero() {
   return (
     <section className="relative min-h-[85vh] flex items-center overflow-hidden pt-24 lg:pt-28 bg-slate-950">
       <div className="absolute inset-0 overflow-hidden" aria-hidden>
-        <Image
-          src={HERO_IMAGE_SRC}
-          alt=""
-          fill
-          priority
-          className="object-cover scale-105"
-          sizes="100vw"
-        />
+        <HomeHeroSlideshow />
       </div>
 
       <div

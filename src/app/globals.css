@@ -218,6 +218,33 @@
     animation: skeleton-pulse 1.5s ease-in-out infinite;
   }
 
+  .hero-slideshow {
+    transform: translateZ(0);
+  }
+
+  .hero-slide {
+    @apply absolute inset-0 h-full w-full object-cover scale-105;
+    opacity: 0;
+    animation-name: hero-slide-fade;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+  }
+
+  @keyframes hero-slide-fade {
+    0%,
+    40% {
+      opacity: 1;
+    }
+    50%,
+    90% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
   @keyframes skeleton-pulse {
     0%,
     100% {
@@ -240,9 +267,18 @@
     .mobile-menu-panel,
     .collapse-grid,
     .animate-fade-in,
-    .animate-skeleton-pulse {
+    .animate-skeleton-pulse,
+    .hero-slide {
       animation: none;
       transition: none;
+    }
+
+    .hero-slide:first-child {
+      opacity: 1;
+    }
+
+    .hero-slide:not(:first-child) {
+      opacity: 0;
     }
   }
 }

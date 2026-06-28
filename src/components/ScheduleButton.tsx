@@ -13,6 +13,7 @@ interface ScheduleButtonProps {
   icon?: boolean
   intent?: ConsultationIntent
   service?: 'websites-brand' | 'custom-platforms'
+  need?: string
   reference?: string
   sublabel?: string
   sublabelClassName?: string
@@ -29,6 +30,7 @@ const ScheduleButton: React.FC<ScheduleButtonProps> = ({
   icon = false,
   intent,
   service,
+  need,
   reference,
   sublabel,
   sublabelClassName = '',
@@ -52,6 +54,7 @@ const ScheduleButton: React.FC<ScheduleButtonProps> = ({
     const query: Record<string, string> = {}
     if (intent) query.intent = intent
     if (service) query.service = service
+    if (need) query.need = need
     if (reference) query.reference = reference
     if (Object.keys(query).length > 0) {
       return { pathname: '/schedule', query } as const

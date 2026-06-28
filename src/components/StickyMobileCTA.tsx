@@ -9,6 +9,7 @@ type StickyMobileCTAProps = {
   href?: '/schedule' | '/services' | '/services/workshops' | '/services/digital' | '/services/portfolio' | '/assessment'
   intent?: ConsultationIntent
   service?: 'websites-brand' | 'custom-platforms'
+  need?: string
   reference?: string
   sublabel?: string
 }
@@ -18,6 +19,7 @@ export default function StickyMobileCTA({
   href = '/schedule',
   intent,
   service,
+  need,
   reference,
   sublabel,
 }: StickyMobileCTAProps) {
@@ -25,6 +27,7 @@ export default function StickyMobileCTA({
     const query: Record<string, string> = {}
     if (intent) query.intent = intent
     if (service) query.service = service
+    if (need) query.need = need
     if (reference) query.reference = reference
     if (Object.keys(query).length > 0) {
       return { pathname: '/schedule', query } as const

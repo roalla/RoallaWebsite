@@ -182,8 +182,7 @@ function laneHref(lane: AssessmentLane): string {
 }
 
 function scheduleIntentForLane(lane: AssessmentLane): ConsultationIntent {
-  if (lane === 'website') return 'website'
-  if (lane === 'platform') return 'platform'
+  if (lane === 'website' || lane === 'platform') return 'website'
   if (lane === 'consulting') return 'consulting'
   return 'unsure'
 }
@@ -210,6 +209,9 @@ export function buildScheduleQuery(result: AssessmentResult): Record<string, str
   }
 
   query.intent = result.scheduleIntent
+  if (result.lane === 'platform') {
+    query.need = 'custom-platform'
+  }
   if (result.scheduleFocus) {
     query.focus = result.scheduleFocus
   }

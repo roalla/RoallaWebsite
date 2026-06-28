@@ -1,3 +1,5 @@
+import type { WebsiteGoal } from '@/lib/consultation-request'
+
 export type PortfolioCategory = 'website' | 'platform'
 
 export type PortfolioProjectType = 'client' | 'roalla-product' | 'roalla-site'
@@ -195,7 +197,14 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
 export type PortfolioScheduleQuery = {
   service: PortfolioItemConfig['contactService']
   reference: PortfolioItemId | PortfolioVerticalId
+  need?: WebsiteGoal
 }
+
+export const digitalBuildScheduleNeed = {
+  websites: undefined,
+  platforms: 'custom-platform',
+  automation: 'automation',
+} as const satisfies Record<string, WebsiteGoal | undefined>
 
 export function getPortfolioItem(id: PortfolioItemId): PortfolioItemConfig | undefined {
   return portfolioItems.find((item) => item.id === id)
@@ -214,11 +223,12 @@ export function getFeaturedItems(category?: PortfolioCategory): PortfolioItemCon
 export function buildPortfolioScheduleQuery(
   item: PortfolioItemConfig | PortfolioVerticalConfig,
   reference?: PortfolioItemId | PortfolioVerticalId,
+  need?: WebsiteGoal,
 ): PortfolioScheduleQuery {
   if ('itemIds' in item) {
-    return { service: item.contactService, reference: reference ?? item.id }
+    return { service: item.contactService, reference: reference ?? item.id, ...(need ? { need } : {}) }
   }
-  return { service: item.contactService, reference: reference ?? item.id }
+  return { service: item.contactService, reference: reference ?? item.id, ...(need ? { need } : {}) }
 }
 
 export function sortPortfolioByDisplayOrder(

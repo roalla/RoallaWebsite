@@ -18,9 +18,14 @@ import {
   intentFromServiceParam,
   parseConsultationIntent,
   parseConsultingFocus,
+  parseWebsiteGoal,
+  websiteGoalFromPortfolioCategory,
+  websiteGoalRequiresExistingSite,
   type ConsultationIntent,
   type ConsultingFocus,
+  type WebsiteGoal,
 } from '@/lib/consultation-request'
+import { getPortfolioItem, isValidPortfolioReference, type PortfolioItemId } from '@/lib/digitalPortfolio'
 
 type FormState = {
   intent: ConsultationIntent | ''
@@ -42,7 +47,7 @@ const initialState: FormState = {
   goal: '',
   timeline: '',
   consultingFocus: '',
-  websiteGoal: '',
+    websiteGoal: initialWebsiteGoal ?? '',
   hasExistingSite: '',
   platformType: '',
   name: '',
@@ -57,6 +62,7 @@ type ConsultationRequestFormProps = {
   initialFocus?: ConsultingFocus | null
   initialGoal?: string | null
   initialReference?: string | null
+  initialWebsiteGoal?: WebsiteGoal | null
   fromAssessment?: boolean
 }
 
@@ -77,6 +83,7 @@ export default function ConsultationRequestForm({
   initialFocus = null,
   initialGoal = null,
   initialReference = null,
+  initialWebsiteGoal = null,
   fromAssessment = false,
 }: ConsultationRequestFormProps) {
   const t = useTranslations('consultationRequest')
@@ -99,8 +106,11 @@ export default function ConsultationRequestForm({
   const canContinueStep2 = useMemo(() => {
     if (!form.goal.trim() || form.goal.trim().length < 5 || !form.timeline) return false
     if (form.intent === 'consulting') return !!form.consultingFocus
-    if (form.intent === 'website') return !!form.websiteGoal && !!form.hasExistingSite
-    if (form.intent === 'platform') return !!form.platformType
+    if (form.intent === 'website' || form.intent === 'platform') {
+      if (!form.websiteGoal) return false
+      if (websiteGoalRequiresExistingSite(form.websiteGoal)) return !!form.hasExistingSite
+      return true
+    }
     return true
   }, [form])
 
@@ -339,12 +349,18 @@ export default function ConsultationRequestForm({
                 </Field>
               )}
 
-              {form.intent === 'website' && (
+              {(form.intent === 'website' || form.intent === 'platform') && (
                 <>
                   <Field label={t('websiteGoalLabel')} required>
                     <select
                       value={form.websiteGoal}
-                      onChange={(e) => update({ websiteGoal: e.target.value })}
+                      onChange={(e) => {
+                        const websiteGoal = e.target.value
+                        update({
+                          websiteGoal,
+                          ...(websiteGoalRequiresExistingSite(websiteGoal) ? {} : { hasExistingSite: '' }),
+                        })
+                      }}
                       className={inputClass}
                       required
                     >
@@ -352,50 +368,38 @@ export default function ConsultationRequestForm({
                       <option value="new">{t('websiteGoalNew')}</option>
                       <option value="redesign">{t('websiteGoalRedesign')}</option>
                       <option value="conversion">{t('websiteGoalConversion')}</option>
+                      <option value="custom-platform">{t('websiteGoalCustomPlatform')}</option>
+                      <option value="automation">{t('websiteGoalAutomation')}</option>
+                      <option value="integration">{t('websiteGoalIntegration')}</option>
                     </select>
                   </Field>
-                  <Field label={t('hasExistingSiteLabel')} required>
-                    <div className="flex gap-3">
-                      {(['yes', 'no'] as const).map((value) => (
-                        <label
-                          key={value}
-                          className={`flex-1 cursor-pointer rounded-lg border px-4 py-3 text-center text-sm font-medium transition-colors ${
-                            form.hasExistingSite === value
-                              ? 'border-primary bg-primary/5 text-primary'
-                              : 'border-slate-200 text-slate-700 hover:border-primary/30'
-                          }`}
-                        >
-                          <input
-                            type="radio"
-                            name="hasExistingSite"
-                            value={value}
-                            checked={form.hasExistingSite === value}
-                            onChange={(e) => update({ hasExistingSite: e.target.value })}
-                            className="sr-only"
-                          />
-                          {t(value === 'yes' ? 'yes' : 'no')}
-                        </label>
-                      ))}
-                    </div>
-                  </Field>
+                  {websiteGoalRequiresExistingSite(form.websiteGoal) && (
+                    <Field label={t('hasExistingSiteLabel')} required>
+                      <div className="flex gap-3">
+                        {(['yes', 'no'] as const).map((value) => (
+                          <label
+                            key={value}
+                            className={`flex-1 cursor-pointer rounded-lg border px-4 py-3 text-center text-sm font-medium transition-colors ${
+                              form.hasExistingSite === value
+                                ? 'border-primary bg-primary/5 text-primary'
+                                : 'border-slate-200 text-slate-700 hover:border-primary/30'
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              name="hasExistingSite"
+                              value={value}
+                              checked={form.hasExistingSite === value}
+                              onChange={(e) => update({ hasExistingSite: e.target.value })}
+                              className="sr-only"
+                            />
+                            {t(value === 'yes' ? 'yes' : 'no')}
+                          </label>
+                        ))}
+                      </div>
+                    </Field>
+                  )}
                 </>
-              )}
-
-              {form.intent === 'platform' && (
-                <Field label={t('platformTypeLabel')} required>
-                  <select
-                    value={form.platformType}
-                    onChange={(e) => update({ platformType: e.target.value })}
-                    className={inputClass}
-                    required
-                  >
-                    <option value="">{t('selectPlaceholder')}</option>
-                    <option value="internal">{t('platformInternal')}</option>
-                    <option value="customer">{t('platformCustomer')}</option>
-                    <option value="marketplace">{t('platformMarketplace')}</option>
-                    <option value="other">{t('platformOther')}</option>
-                  </select>
-                </Field>
               )}
 
               <Field label={t('goalLabel')} required>
@@ -584,4 +588,19 @@ export function resolveInitialIntent(
 
 export function resolveInitialFocus(focusParam: string | null): ConsultingFocus | null {
   return parseConsultingFocus(focusParam)
+}
+
+export function resolveInitialWebsiteGoal(
+  needParam: string | null,
+  referenceParam: string | null,
+): WebsiteGoal | null {
+  const fromNeed = parseWebsiteGoal(needParam)
+  if (fromNeed) return fromNeed
+
+  if (referenceParam && isValidPortfolioReference(referenceParam)) {
+    const item = getPortfolioItem(referenceParam as PortfolioItemId)
+    if (item) return websiteGoalFromPortfolioCategory(item.category)
+  }
+
+  return null
 }

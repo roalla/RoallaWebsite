@@ -21,6 +21,32 @@ export type ConsultationRequestPayload = {
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+export const websiteGoalValues = [
+  'new',
+  'redesign',
+  'conversion',
+  'custom-platform',
+  'automation',
+  'integration',
+] as const
+
+export type WebsiteGoal = (typeof websiteGoalValues)[number]
+
+const websiteGoalsRequiringExistingSite = ['new', 'redesign', 'conversion'] as const
+
+export function parseWebsiteGoal(value: unknown): WebsiteGoal | null {
+  if (typeof value === 'string' && websiteGoalValues.includes(value as WebsiteGoal)) {
+    return value as WebsiteGoal
+  }
+  return null
+}
+
+export function websiteGoalRequiresExistingSite(websiteGoal: string | undefined): boolean {
+  return websiteGoalsRequiringExistingSite.includes(
+    websiteGoal as (typeof websiteGoalsRequiringExistingSite)[number],
+  )
+}
+
 export function parseConsultationIntent(value: unknown): ConsultationIntent | null {
   if (value === 'consulting' || value === 'website' || value === 'platform' || value === 'unsure') {
     return value
@@ -29,8 +55,14 @@ export function parseConsultationIntent(value: unknown): ConsultationIntent | nu
 }
 
 export function intentFromServiceParam(service: string | null): ConsultationIntent | null {
-  if (service === 'websites-brand') return 'website'
-  if (service === 'custom-platforms') return 'platform'
+  if (service === 'websites-brand' || service === 'custom-platforms') return 'website'
+  return null
+}
+
+export function websiteGoalFromPortfolioCategory(
+  category: 'website' | 'platform',
+): WebsiteGoal | null {
+  if (category === 'platform') return 'custom-platform'
   return null
 }
 
@@ -60,11 +92,13 @@ export function validateConsultationRequest(body: Partial<ConsultationRequestPay
     return 'Please select a consulting focus area'
   }
   if (intent === 'website') {
-    if (!body.websiteGoal?.trim()) return 'Please select a website goal'
-    if (!body.hasExistingSite?.trim()) return 'Please indicate if you have an existing website'
+    if (!body.websiteGoal?.trim()) return 'Please select what you need'
+    if (websiteGoalRequiresExistingSite(body.websiteGoal) && !body.hasExistingSite?.trim()) {
+      return 'Please indicate if you have an existing website'
+    }
   }
-  if (intent === 'platform' && !body.platformType?.trim()) {
-    return 'Please select a platform type'
+  if (intent === 'platform') {
+    if (!body.websiteGoal?.trim()) return 'Please select what you need'
   }
 
   if (!body.name?.trim()) return 'Name is required'
@@ -112,8 +146,8 @@ export function buildConsultationSalesEmailHtml(
     if (data.websiteGoal) rows.push([labels.websiteGoal, labels[`websiteGoal_${data.websiteGoal}`] ?? data.websiteGoal])
     if (data.hasExistingSite) rows.push([labels.hasExistingSite, labels[`yesNo_${data.hasExistingSite}`] ?? data.hasExistingSite])
   }
-  if (data.intent === 'platform' && data.platformType) {
-    rows.push([labels.platformType, labels[`platform_${data.platformType}`] ?? data.platformType])
+  if (data.intent === 'platform' && data.websiteGoal) {
+    rows.push([labels.websiteGoal, labels[`websiteGoal_${data.websiteGoal}`] ?? data.websiteGoal])
   }
   if (data.portfolioReference?.trim()) {
     rows.push([labels.portfolioReference, data.portfolioReference.trim()])
@@ -172,8 +206,8 @@ export function buildConsultationSalesEmailText(
     if (data.websiteGoal) lines.push(`${labels.websiteGoal}: ${labels[`websiteGoal_${data.websiteGoal}`] ?? data.websiteGoal}`)
     if (data.hasExistingSite) lines.push(`${labels.hasExistingSite}: ${labels[`yesNo_${data.hasExistingSite}`] ?? data.hasExistingSite}`)
   }
-  if (data.intent === 'platform' && data.platformType) {
-    lines.push(`${labels.platformType}: ${labels[`platform_${data.platformType}`] ?? data.platformType}`)
+  if (data.intent === 'platform' && data.websiteGoal) {
+    lines.push(`${labels.websiteGoal}: ${labels[`websiteGoal_${data.websiteGoal}`] ?? data.websiteGoal}`)
   }
   if (data.portfolioReference?.trim()) {
     lines.push(`${labels.portfolioReference}: ${data.portfolioReference.trim()}`)

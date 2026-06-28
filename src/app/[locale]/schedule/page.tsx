@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { CheckCircle2 } from 'lucide-react'
 import Breadcrumb from '@/components/Breadcrumb'
-import ConsultationRequestForm, { resolveInitialIntent, resolveInitialFocus } from '@/components/ConsultationRequestForm'
+import ConsultationRequestForm, { resolveInitialIntent, resolveInitialFocus, resolveInitialWebsiteGoal } from '@/components/ConsultationRequestForm'
 import { getPortfolioItem, isValidPortfolioReference } from '@/lib/digitalPortfolio'
 import type { PortfolioItemId } from '@/lib/digitalPortfolio'
 
@@ -60,6 +60,10 @@ function ScheduleContent() {
     searchParams.get('service'),
   )
   const initialFocus = resolveInitialFocus(searchParams.get('focus'))
+  const initialWebsiteGoal = resolveInitialWebsiteGoal(
+    searchParams.get('need'),
+    searchParams.get('reference'),
+  )
   const fromAssessment = searchParams.get('from') === 'assessment'
 
   const { goal: referenceGoal, referenceId } = useMemo(
@@ -103,6 +107,7 @@ function ScheduleContent() {
               initialFocus={initialFocus}
               initialGoal={initialGoal}
               initialReference={referenceId}
+              initialWebsiteGoal={initialWebsiteGoal}
               fromAssessment={fromAssessment}
             />
             <aside className="hidden lg:block rounded-2xl border border-slate-200 bg-slate-50 p-6 sticky top-28">

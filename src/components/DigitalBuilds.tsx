@@ -31,6 +31,7 @@ import {
   getOrderedPortfolioItems,
   getPortfolioItem,
   buildPortfolioScheduleQuery,
+  digitalBuildScheduleNeed,
   portfolioImageAlts,
   type PortfolioItemConfig,
   type PortfolioItemId,
@@ -181,7 +182,11 @@ function DigitalBuildCard({
           <Link
             href={{
               pathname: '/schedule',
-              query: buildPortfolioScheduleQuery(getPortfolioItem(build.proofReference)!),
+              query: buildPortfolioScheduleQuery(
+                getPortfolioItem(build.proofReference)!,
+                undefined,
+                digitalBuildScheduleNeed[build.anchor as keyof typeof digitalBuildScheduleNeed],
+              ),
             }}
             className={servicePrimaryLinkClass}
           >
@@ -335,7 +340,7 @@ const DigitalBuilds = () => {
           />
         }
         primaryCta={
-          <ScheduleButton variant="primary" size="lg" icon service="custom-platforms">
+          <ScheduleButton variant="primary" size="lg" icon intent="website">
             {tCommon('scheduleConsultation')}
           </ScheduleButton>
         }
@@ -405,7 +410,7 @@ const DigitalBuilds = () => {
             <Link
               href={
                 pillar === 'soar'
-                  ? { pathname: '/schedule', query: { service: 'custom-platforms' } }
+                  ? { pathname: '/schedule', query: { intent: 'website' } }
                   : '/schedule'
               }
               className="mt-6 inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
@@ -530,7 +535,7 @@ const DigitalBuilds = () => {
           qualifier={t('ctaQualifier')}
           ctaSubtext={tCommon('ctaSubtext')}
           primaryCta={
-            <ScheduleButton variant="secondary" size="lg" icon className="bg-white text-slate-900 hover:bg-slate-100 border-0" service="custom-platforms">
+            <ScheduleButton variant="secondary" size="lg" icon className="bg-white text-slate-900 hover:bg-slate-100 border-0" intent="website">
               {tCommon('scheduleConsultation')}
             </ScheduleButton>
           }
@@ -549,7 +554,7 @@ const DigitalBuilds = () => {
           ]}
         />
       </div>
-      <StickyMobileCTA label={tCommon('scheduleConsultation')} service="custom-platforms" sublabel={tCommon('ctaSubtext')} />
+      <StickyMobileCTA label={tCommon('scheduleConsultation')} intent="website" sublabel={tCommon('ctaSubtext')} />
     </section>
   )
 }

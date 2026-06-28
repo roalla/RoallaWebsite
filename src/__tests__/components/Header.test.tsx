@@ -77,26 +77,8 @@ describe('Header', () => {
     expect(screen.getByRole('link', { name: 'digitalPortfolio' })).toHaveAttribute('href', '/services/portfolio')
   })
 
-  it('renders apps dropdown with external app links', () => {
+  it('does not render apps dropdown in header', () => {
     render(<Header />)
-    const appsButton = screen.getByRole('button', { name: 'apps' })
-    expect(appsButton).toBeInTheDocument()
-    fireEvent.click(appsButton)
-    expect(screen.getByRole('menuitem', { name: /businessCocoonApp/i })).toHaveAttribute(
-      'href',
-      'https://www.businesscocoon.com'
-    )
-    expect(screen.getByRole('menuitem', { name: /blueprintApp/i })).toHaveAttribute(
-      'href',
-      'https://www.4theblueprint.com'
-    )
-    expect(screen.getByRole('menuitem', { name: /boothlioApp/i })).toHaveAttribute(
-      'href',
-      'https://boothlio.com'
-    )
-    expect(screen.getByRole('menuitem', { name: /pitchHotshotsApp/i })).toHaveAttribute(
-      'href',
-      'https://www.pitchhotshot.com/'
-    )
+    expect(screen.queryByRole('button', { name: 'apps' })).not.toBeInTheDocument()
   })
 })

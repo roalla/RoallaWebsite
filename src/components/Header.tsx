@@ -1,12 +1,11 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { Menu, X, ChevronDown, Briefcase, Globe, GraduationCap, BookOpen, CalendarDays, Mic } from 'lucide-react'
+import { Menu, X, ChevronDown, Briefcase, Globe, GraduationCap, CalendarDays } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname as useNextPathname } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
 import { Link, usePathname } from '@/i18n/navigation'
-import { companyApps, type CompanyAppId } from '@/lib/companyApps'
 import ScheduleButton from './ScheduleButton'
 
 /** Canadian flag: red bands, white centre, red maple leaf (simplified) */
@@ -57,14 +56,11 @@ const Header = () => {
   const localeDropdownDesktopRef = useRef<HTMLDivElement>(null)
   const localeDropdownMobileRef = useRef<HTMLDivElement>(null)
   const servicesDropdownDesktopRef = useRef<HTMLDivElement>(null)
-  const appsDropdownDesktopRef = useRef<HTMLDivElement>(null)
   const scrollTick = useRef<number | null>(null)
   const previousMenuOpen = useRef(false)
   const [localeDropdownOpen, setLocaleDropdownOpen] = useState(false)
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false)
   const [servicesMobileExpanded, setServicesMobileExpanded] = useState(false)
-  const [appsDropdownOpen, setAppsDropdownOpen] = useState(false)
-  const [appsMobileExpanded, setAppsMobileExpanded] = useState(false)
 
   useEffect(() => {
     setMounted(true)
@@ -148,25 +144,6 @@ const Header = () => {
     }
   }, [servicesDropdownOpen])
 
-  useEffect(() => {
-    if (!appsDropdownOpen) return
-    const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as Node
-      if (!appsDropdownDesktopRef.current?.contains(target)) {
-        setAppsDropdownOpen(false)
-      }
-    }
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setAppsDropdownOpen(false)
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    document.addEventListener('keydown', handleEscape)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-      document.removeEventListener('keydown', handleEscape)
-    }
-  }, [appsDropdownOpen])
-
   const toggleMenu = () => {
     setIsMenuOpen((open) => !open)
   }
@@ -174,7 +151,6 @@ const Header = () => {
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false)
     setServicesMobileExpanded(false)
-    setAppsMobileExpanded(false)
   }, [])
 
   const pathname = usePathname() ?? '/'
@@ -269,13 +245,6 @@ const Header = () => {
   ]
 
   const isServicesActive = pathname === '/services' || pathname.startsWith('/services/')
-
-  const appIcons: Record<CompanyAppId, typeof Briefcase> = {
-    'business-cocoon': Briefcase,
-    '4theblueprint': BookOpen,
-    boothlio: CalendarDays,
-    'pitch-hotshots': Mic,
-  }
 
   const dropdownPanelClass = (open: boolean) =>
     `dropdown-panel ${open ? 'dropdown-panel-open' : 'dropdown-panel-closed'}`
@@ -430,64 +399,6 @@ const Header = () => {
                     }`}
                   />
                 </Link>
-              </div>
-
-              <div className="relative" ref={appsDropdownDesktopRef}>
-                <button
-                  type="button"
-                  onClick={() => setAppsDropdownOpen((o) => !o)}
-                  aria-expanded={appsDropdownOpen}
-                  aria-haspopup="menu"
-                  id="apps-dropdown-desktop"
-                  className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
-                    appsDropdownOpen ? 'text-primary bg-white/5' : 'text-gray-300 hover:text-primary'
-                  }`}
-                >
-                  {t('apps')}
-                  <ChevronDown className={`w-4 h-4 transition-transform ${appsDropdownOpen ? 'rotate-180' : ''}`} />
-                  <span className="absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 w-0 group-hover:w-full" />
-                </button>
-                <div
-                  role="menu"
-                  aria-labelledby="apps-dropdown-desktop"
-                  className={`absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[min(100vw-2rem,360px)] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50 ${dropdownPanelClass(appsDropdownOpen)}`}
-                >
-                  <div className="px-4 py-2.5 border-b border-white/10 bg-white/[0.03]">
-                    <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-                      {t('appsMenuLabel')}
-                    </p>
-                  </div>
-                  <div className="p-1.5">
-                    {companyApps.map((item) => {
-                      const Icon = appIcons[item.id]
-                      return (
-                        <a
-                          key={item.id}
-                          href={item.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          role="menuitem"
-                          onClick={() => {
-                            setAppsDropdownOpen(false)
-                            closeMenu()
-                          }}
-                          className="group flex gap-3 rounded-lg px-3 py-3 transition-colors hover:bg-white/5"
-                        >
-                          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/5 text-slate-400 transition-colors group-hover:bg-primary/10 group-hover:text-primary">
-                            <Icon className="h-4 w-4" aria-hidden />
-                          </div>
-                          <div className="min-w-0 text-left">
-                            <p className="text-sm font-semibold leading-snug text-white">{t(item.nameKey)}</p>
-                            <p className="mt-0.5 text-xs leading-snug text-slate-400 group-hover:text-slate-300">
-                              {t(item.descKey)}
-                            </p>
-                            <p className="mt-1 text-[11px] text-slate-500">{item.domain}</p>
-                          </div>
-                        </a>
-                      )
-                    })}
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -661,44 +572,6 @@ const Header = () => {
                   >
                     {t('digitalPortfolio')}
                   </Link>
-                </div>
-
-                <div>
-                  <button
-                    type="button"
-                    onClick={() => setAppsMobileExpanded((o) => !o)}
-                    aria-expanded={appsMobileExpanded}
-                    className="w-full flex items-center justify-between px-3 py-3 min-h-[44px] rounded-md text-base font-medium transition-colors duration-200 text-gray-300 hover:text-primary hover:bg-white/5"
-                  >
-                    {t('apps')}
-                    <ChevronDown className={`w-5 h-5 transition-transform ${appsMobileExpanded ? 'rotate-180' : ''}`} />
-                  </button>
-                  <div
-                    className={`collapse-grid ${appsMobileExpanded ? 'collapse-grid-open' : 'collapse-grid-closed'}`}
-                  >
-                    <div className="overflow-hidden min-h-0">
-                      {companyApps.map((item) => {
-                        const Icon = appIcons[item.id]
-                        return (
-                          <a
-                            key={item.id}
-                            href={item.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex gap-3 pl-5 pr-3 py-3 min-h-[44px] rounded-md transition-colors duration-200 text-gray-300 hover:text-primary hover:bg-white/5"
-                            onClick={closeMenu}
-                          >
-                            <Icon className="h-4 w-4 shrink-0 mt-0.5 opacity-70" aria-hidden />
-                            <span>
-                              <span className="block text-base font-medium">{t(item.nameKey)}</span>
-                              <span className="block text-xs text-slate-500 mt-0.5">{t(item.descKey)}</span>
-                              <span className="block text-[11px] text-slate-600 mt-1">{item.domain}</span>
-                            </span>
-                          </a>
-                        )
-                      })}
-                    </div>
-                  </div>
                 </div>
 
                 {isLocaleRoute && (

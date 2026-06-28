@@ -7,7 +7,7 @@ import { Link } from '@/i18n/navigation'
 import ScheduleButton from '../ScheduleButton'
 import Reveal from '../motion/Reveal'
 
-const testimonialKeys = ['t1', 't2'] as const
+const testimonialKeys = ['t3', 't1', 't2'] as const
 
 export default function HomeTestimonials() {
   const t = useTranslations('home.testimonials')
@@ -23,14 +23,14 @@ export default function HomeTestimonials() {
           <p className="mt-3 text-slate-600">{t('description')}</p>
         </Reveal>
 
-        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {testimonialKeys.map((key) => (
             <div
               key={key}
               className="flex flex-col rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-6 lg:p-8 shadow-card"
             >
               <Quote className="w-8 h-8 text-primary/30 mb-4 shrink-0" aria-hidden />
-              <blockquote className="flex-1 text-slate-700 leading-relaxed">
+              <blockquote className="flex-1 text-slate-700 leading-relaxed text-sm">
                 &ldquo;{t(`${key}Quote`)}&rdquo;
               </blockquote>
               <footer className="mt-6 pt-5 border-t border-slate-200">

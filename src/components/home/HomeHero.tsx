@@ -1,70 +1,43 @@
 'use client'
 
-import React, { useEffect, useRef } from 'react'
-import { ArrowRight, Briefcase, Award, Layers } from 'lucide-react'
+import React from 'react'
+import Image from 'next/image'
+import { ArrowRight, Briefcase, Globe } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import ScheduleButton from '../ScheduleButton'
 import Reveal from '../motion/Reveal'
 
-const statIcons = [Briefcase, Award, Layers]
-const HERO_VIDEO_SRC = '/hero-loop.mp4'
+const HERO_IMAGE_SRC = '/roalla-snapshot.jpg'
 
-/** Frosted panels — slight transparency with blur for readable contrast on dark hero video */
+/** Frosted panels — slight transparency with blur for readable contrast on dark hero */
 const heroGlassPanel =
   'bg-white/85 backdrop-blur-lg border border-white/70 shadow-[0_8px_40px_rgba(15,23,42,0.1)]'
-const heroGlassTile =
-  'bg-white/85 backdrop-blur-md border border-white/70 shadow-card motion-safe:transition-all motion-safe:duration-300 motion-safe:hover:-translate-y-1 hover:shadow-card-hover hover:border-white/90'
+const pathCardClass =
+  'group flex flex-col rounded-xl border border-slate-200/80 bg-white/90 backdrop-blur-sm p-4 motion-safe:transition-all motion-safe:duration-300 motion-safe:hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-card'
 
 export default function HomeHero() {
   const t = useTranslations('home.hero')
-  const videoRef = useRef<HTMLVideoElement>(null)
-
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-
-    const play = () => {
-      void video.play().catch(() => {})
-    }
-
-    play()
-    video.addEventListener('canplay', play)
-    video.addEventListener('loadeddata', play)
-
-    return () => {
-      video.removeEventListener('canplay', play)
-      video.removeEventListener('loadeddata', play)
-    }
-  }, [])
-
-  const stats = [
-    { value: t('stat1Value'), label: t('stat1Label'), icon: statIcons[0] },
-    { value: t('stat2Value'), label: t('stat2Label'), icon: statIcons[1] },
-    { value: t('stat3Value'), label: t('stat3Label'), icon: statIcons[2] },
-  ]
 
   return (
     <section className="relative min-h-[85vh] flex items-center overflow-hidden pt-24 lg:pt-28 bg-slate-950">
       <div className="absolute inset-0 overflow-hidden" aria-hidden>
-        <video
-          ref={videoRef}
-          src={HERO_VIDEO_SRC}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          className="absolute inset-0 h-full w-full object-cover scale-105"
+        <Image
+          src={HERO_IMAGE_SRC}
+          alt=""
+          fill
+          priority
+          className="object-cover scale-105"
+          sizes="100vw"
         />
       </div>
 
       <div
-        className="absolute inset-0 bg-gradient-to-r from-slate-950/60 from-0% via-slate-950/35 via-50% to-slate-950/20 to-100%"
+        className="absolute inset-0 bg-gradient-to-r from-slate-950/70 from-0% via-slate-950/45 via-50% to-slate-950/30 to-100%"
         aria-hidden
       />
       <div
-        className="absolute inset-0 bg-gradient-to-b from-slate-950/25 via-transparent to-slate-950/50"
+        className="absolute inset-0 bg-gradient-to-b from-slate-950/30 via-transparent to-slate-950/55"
         aria-hidden
       />
 
@@ -78,9 +51,35 @@ export default function HomeHero() {
             <Reveal when="mount" as="p" delayMs={100} className="mt-6 text-lg sm:text-xl text-slate-700 max-w-xl leading-relaxed">
               {t('subtitle')}
             </Reveal>
-            <Reveal when="mount" as="p" delayMs={120} className="mt-3 text-sm font-medium text-primary-dark max-w-xl leading-relaxed">
-              {t('journeyLine')}
+
+            <Reveal when="mount" delayMs={140} className="mt-6">
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">
+                {t('pathChooserLabel')}
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <Link
+                  href={{ pathname: '/schedule', query: { intent: 'consulting' } }}
+                  className={pathCardClass}
+                  data-analytics="hero-path-consulting"
+                >
+                  <Briefcase className="w-5 h-5 text-primary-dark mb-2" aria-hidden />
+                  <span className="text-sm font-semibold text-slate-900">{t('pathConsultingTitle')}</span>
+                  <span className="mt-1 text-xs text-slate-600 leading-snug">{t('pathConsultingDesc')}</span>
+                  <ArrowRight className="mt-3 w-4 h-4 text-primary-dark motion-safe:transition-transform group-hover:translate-x-0.5" aria-hidden />
+                </Link>
+                <Link
+                  href={{ pathname: '/schedule', query: { intent: 'website' } }}
+                  className={pathCardClass}
+                  data-analytics="hero-path-digital"
+                >
+                  <Globe className="w-5 h-5 text-primary-dark mb-2" aria-hidden />
+                  <span className="text-sm font-semibold text-slate-900">{t('pathDigitalTitle')}</span>
+                  <span className="mt-1 text-xs text-slate-600 leading-snug">{t('pathDigitalDesc')}</span>
+                  <ArrowRight className="mt-3 w-4 h-4 text-primary-dark motion-safe:transition-transform group-hover:translate-x-0.5" aria-hidden />
+                </Link>
+              </div>
             </Reveal>
+
             <Reveal when="mount" delayMs={200} className="mt-8 flex flex-col sm:flex-row sm:flex-wrap sm:items-start gap-3">
               <ScheduleButton
                 variant="primary"
@@ -94,47 +93,9 @@ export default function HomeHero() {
                 {t('cta')}
               </ScheduleButton>
             </Reveal>
-            <Reveal when="mount" delayMs={240} className="mt-2 text-sm text-slate-600 max-w-xl">
-              {t('whatHappensNext')}
+            <Reveal when="mount" delayMs={240} className="mt-4 text-xs font-medium text-slate-500">
+              {t('proofLine')}
             </Reveal>
-            <Reveal when="mount" delayMs={280} className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-sm">
-              <Link
-                href="/services"
-                className="inline-flex items-center font-semibold text-primary-dark hover:underline"
-              >
-                {t('exploreConsultingLink')}
-                <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
-              </Link>
-              <Link
-                href="/services/digital"
-                className="inline-flex items-center font-semibold text-slate-700 hover:text-primary-dark hover:underline transition-colors"
-              >
-                {t('exploreDigitalServiceLink')}
-                <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
-              </Link>
-              <Link
-                href="/services/portfolio"
-                className="inline-flex items-center font-semibold text-slate-600 hover:text-primary-dark hover:underline transition-colors"
-              >
-                {t('exploreDigitalLink')}
-                <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
-              </Link>
-            </Reveal>
-          </div>
-
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {stats.map((stat, i) => (
-              <Reveal
-                key={stat.label}
-                when="mount"
-                delayMs={360 + i * 90}
-                className={`flex flex-col items-start gap-1 px-4 py-3 rounded-xl ${heroGlassTile}`}
-              >
-                <stat.icon className="w-4 h-4 text-primary-dark flex-shrink-0" aria-hidden />
-                <span className="text-lg font-serif font-semibold text-slate-900">{stat.value}</span>
-                <span className="text-xs text-slate-500 leading-snug">{stat.label}</span>
-              </Reveal>
-            ))}
           </div>
         </div>
       </div>

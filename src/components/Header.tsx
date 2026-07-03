@@ -310,6 +310,17 @@ const Header = () => {
   const dropdownPanelClass = (open: boolean) =>
     `dropdown-panel ${open ? 'dropdown-panel-open' : 'dropdown-panel-closed'}`
 
+  const digitalDropdownItemClass =
+    'group flex gap-3 rounded-lg px-3 py-3 transition-colors hover:bg-white/5 focus-visible:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40'
+  const digitalDropdownIconClass =
+    'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/5 text-slate-400 transition-colors group-hover:bg-primary/10 group-hover:text-primary group-focus-visible:bg-primary/10 group-focus-visible:text-primary'
+  const programDropdownItemClass =
+    'group flex gap-3 rounded-lg px-3 py-3 transition-colors hover:bg-white/5 focus-visible:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40'
+  const programDropdownIconClass =
+    'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/5 text-slate-500 transition-colors group-hover:bg-primary/10 group-hover:text-primary group-focus-visible:bg-primary/10 group-focus-visible:text-primary'
+  const mobileDropdownItemClass =
+    'flex gap-3 pl-5 pr-3 py-3 min-h-[44px] rounded-md transition-colors duration-200 text-gray-300 hover:text-primary hover:bg-white/5 focus-visible:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40'
+
   return (
     <header
       role="banner"
@@ -404,7 +415,6 @@ const Header = () => {
                       </div>
                       <div className="p-1.5">
                         {digitalLinks.map((item) => {
-                          const active = isActive(item.href)
                           const Icon = item.icon
                           const linkKey = typeof item.href === 'string' ? item.href : `${item.href.pathname}#${item.href.hash}`
                           return (
@@ -412,26 +422,17 @@ const Header = () => {
                               key={linkKey}
                               href={item.href}
                               role="menuitem"
-                              aria-current={active ? 'page' : undefined}
                               onClick={() => {
                                 setDigitalDropdownOpen(false)
                                 closeMenu()
                               }}
-                              className={`group flex gap-3 rounded-lg px-3 py-3 transition-colors ${
-                                active ? 'bg-primary/10' : 'hover:bg-white/5'
-                              }`}
+                              className={digitalDropdownItemClass}
                             >
-                              <div
-                                className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors ${
-                                  active
-                                    ? 'bg-primary/20 text-primary'
-                                    : 'bg-white/5 text-slate-400 group-hover:bg-primary/10 group-hover:text-primary'
-                                }`}
-                              >
+                              <div className={digitalDropdownIconClass}>
                                 <Icon className="h-4 w-4" aria-hidden />
                               </div>
                               <div className="min-w-0 text-left">
-                                <p className={`text-sm font-semibold leading-snug ${active ? 'text-primary' : 'text-white'}`}>
+                                <p className="text-sm font-semibold leading-snug text-white group-hover:text-primary transition-colors">
                                   {t(item.nameKey)}
                                 </p>
                                 <p className="mt-0.5 text-xs leading-snug text-slate-400 group-hover:text-slate-300">
@@ -494,33 +495,23 @@ const Header = () => {
                       </div>
                       <div className="p-1.5">
                         {programLinks.map((item) => {
-                          const active = isActive(item.href)
                           const Icon = item.icon
                           return (
                             <Link
                               key={item.href}
                               href={item.href}
                               role="menuitem"
-                              aria-current={active ? 'page' : undefined}
                               onClick={() => {
                                 setProgramsDropdownOpen(false)
                                 closeMenu()
                               }}
-                              className={`group flex gap-3 rounded-lg px-3 py-3 transition-colors ${
-                                active ? 'bg-primary/10' : 'hover:bg-white/5'
-                              }`}
+                              className={programDropdownItemClass}
                             >
-                              <div
-                                className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors ${
-                                  active
-                                    ? 'bg-primary/20 text-primary'
-                                    : 'bg-white/5 text-slate-500 group-hover:bg-primary/10 group-hover:text-primary'
-                                }`}
-                              >
+                              <div className={programDropdownIconClass}>
                                 <Icon className="h-4 w-4" aria-hidden />
                               </div>
                               <div className="min-w-0 text-left">
-                                <p className={`text-sm font-semibold leading-snug ${active ? 'text-primary' : 'text-gray-200'}`}>
+                                <p className="text-sm font-semibold leading-snug text-gray-200 group-hover:text-primary transition-colors">
                                   {t(item.nameKey)}
                                 </p>
                                 <p className="mt-0.5 text-xs leading-snug text-slate-500 group-hover:text-slate-400">
@@ -666,7 +657,6 @@ const Header = () => {
                   >
                     <div className="overflow-hidden min-h-0">
                         {digitalLinks.map((item) => {
-                          const active = isActive(item.href)
                           const Icon = item.icon
                           const linkKey = typeof item.href === 'string' ? item.href : `${item.href.pathname}#${item.href.hash}`
                           const mobilePath = typeof item.href === 'string' ? item.href : item.href.pathname
@@ -674,12 +664,7 @@ const Header = () => {
                             <Link
                               key={linkKey}
                               href={item.href}
-                              aria-current={active ? 'page' : undefined}
-                              className={`flex gap-3 pl-5 pr-3 py-3 min-h-[44px] rounded-md transition-colors duration-200 ${
-                                active
-                                  ? 'text-primary bg-primary/10'
-                                  : 'text-gray-300 hover:text-primary hover:bg-white/5'
-                              }`}
+                              className={mobileDropdownItemClass}
                               onClick={(e) => handleMobileNavClick(e, mobilePath)}
                             >
                               <Icon className="h-4 w-4 shrink-0 mt-0.5 opacity-70" aria-hidden />
@@ -728,18 +713,12 @@ const Header = () => {
                   >
                     <div className="overflow-hidden min-h-0">
                         {programLinks.map((item) => {
-                          const active = isActive(item.href)
                           const Icon = item.icon
                           return (
                             <Link
                               key={item.href}
                               href={item.href}
-                              aria-current={active ? 'page' : undefined}
-                              className={`flex gap-3 pl-5 pr-3 py-3 min-h-[44px] rounded-md transition-colors duration-200 ${
-                                active
-                                  ? 'text-primary bg-primary/10'
-                                  : 'text-slate-400 hover:text-gray-200 hover:bg-white/5'
-                              }`}
+                              className={mobileDropdownItemClass}
                               onClick={(e) => handleMobileNavClick(e, item.href)}
                             >
                               <Icon className="h-4 w-4 shrink-0 mt-0.5 opacity-70" aria-hidden />

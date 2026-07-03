@@ -62,13 +62,14 @@ describe('Header', () => {
     expect(screen.getByRole('menuitem', { name: /digitalWebsites/i })).toHaveAttribute('href', '/website-design')
   })
 
-  it('highlights only the matching digital service in the dropdown', () => {
+  it('does not pre-highlight digital dropdown items on the current page', () => {
     mockPathname.mockReturnValue('/services/digital')
     render(<Header />)
     fireEvent.click(screen.getByRole('button', { name: 'digitalEnablement' }))
 
-    expect(screen.getByRole('menuitem', { name: /digitalOverview/i })).toHaveAttribute('aria-current', 'page')
-    expect(screen.getByRole('menuitem', { name: /digitalWebsites/i })).not.toHaveAttribute('aria-current', 'page')
+    screen.getAllByRole('menuitem').forEach((item) => {
+      expect(item).not.toHaveAttribute('aria-current')
+    })
   })
 
   it('renders digital portfolio as a top-level nav link', () => {

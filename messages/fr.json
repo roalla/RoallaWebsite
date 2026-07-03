@@ -147,7 +147,7 @@
       "digitalTitle": "Créations numériques",
       "digitalDesc": "Sites prêts pour la production et plateformes sur mesure—conçus, développés et lancés par Roalla.",
       "digitalCta": "Voir le portfolio numérique",
-      "digitalStats": "14+ sites de marque · 21+ plateformes sur mesure livrées",
+      "digitalStats": "14+ sites de marque · 22+ plateformes sur mesure livrées",
       "digitalStatsNote": "Exemples en direct sur notre page portfolio — représentatifs du travail livré sur 30+ ans."
     },
     "howWeWork": {
@@ -1008,7 +1008,7 @@
     "heroOutcome3": "Nés de mandats réels avec le même modèle de livraison que nous utilisons aujourd'hui",
     "statWebsitesValue": "14",
     "statWebsitesLabel": "Sites de marque en ligne",
-    "statPlatformsValue": "21",
+    "statPlatformsValue": "22",
     "statPlatformsLabel": "Plateformes sur mesure",
     "statYearsValue": "30+",
     "statYearsLabel": "Ans de pratiques",
@@ -1063,7 +1063,7 @@
     "assessmentTieIn": "Vous ne savez pas par où commencer?",
     "assessmentLink": "Faites notre évaluation d'entreprise de 5 minutes",
     "assessmentTieInSuffix": "pour des prochaines étapes personnalisées.",
-    "statsNote": "Exemples en direct ci-dessous — représentatifs de plus de 14 sites de marque et 21 plateformes sur mesure livrés.",
+    "statsNote": "Exemples en direct ci-dessous — représentatifs de plus de 14 sites de marque et 22 plateformes sur mesure livrés.",
     "categoryWebsite": "Site Web",
     "categoryPlatform": "Plateforme",
     "categoryPlatformTool": "Plateforme / Outil",
@@ -1174,7 +1174,16 @@
     "t12CaseStudy": "Transformez l'intérêt pour les camps en inscriptions grâce à un site qui vend le développement d'élite avant que les parents ne téléphonent.",
     "t12Tag1": "Académie sportive",
     "t12Tag2": "Réservation de camps",
-    "t12Tag3": "Site de marque premium"
+    "t12Tag3": "Site de marque premium",
+    "t13Name": "GRCStatus",
+    "t13Desc": "Plateforme de portrait de préparation conformité pour entreprises en croissance — découverte SOC 2, HIPAA et NIST CSF en langage clair avant les audits ou les dépenses de consultants.",
+    "t13B1": "Parcours gratuit d'environ 20 minutes, sans carte de crédit, avec positionnement reprendre quand vous voulez",
+    "t13B2": "Guidage par cadres SOC 2, HIPAA et NIST CSF à travers politiques, accès, protection des données, incidents et fournisseurs",
+    "t13B3": "Aperçu exécutif avec étiquettes de maturité, principaux écarts, gains rapides, rapport PDF et pistes de résumé IA",
+    "t13CaseStudy": "Aider les PME à comprendre leur préparation conformité en langage clair avant d'investir dans audits, outils ou consultants.",
+    "t13Tag1": "Préparation conformité",
+    "t13Tag2": "SOC 2 · HIPAA · NIST",
+    "t13Tag3": "Plateforme d'évaluation"
   },
   "faq": {
     "title": "Questions fréquentes",

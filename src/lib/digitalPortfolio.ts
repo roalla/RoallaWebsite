@@ -16,6 +16,7 @@ export type PortfolioItemId =
   | 'pitch-hotshots'
   | 'my360vision'
   | 'goalie-stop'
+  | 'grcstatus'
 
 export type PortfolioVerticalId = 'fleet'
 
@@ -28,7 +29,7 @@ export type PortfolioItemConfig = {
   tryUrl: string
   domain?: string
   contactService: 'websites-brand' | 'custom-platforms'
-  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10' | 't11' | 't12'
+  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10' | 't11' | 't12' | 't13'
   tagKeys?: readonly [string, string, string]
   /** Shown in the featured case-study block for this category */
   featuredCategory?: PortfolioCategory
@@ -44,6 +45,7 @@ export type PortfolioVerticalConfig = {
 /** Hero / proof grids: platforms first, then websites */
 export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'business-cocoon',
+  'grcstatus',
   '4theblueprint',
   'boothlio',
   'valentir-green-tech',
@@ -88,6 +90,17 @@ export const portfolioItems: PortfolioItemConfig[] = [
     contactService: 'custom-platforms',
     i18nPrefix: 't7',
     tagKeys: ['t7Tag1', 't7Tag2', 't7Tag3'],
+  },
+  {
+    id: 'grcstatus',
+    category: 'platform',
+    projectType: 'roalla-product',
+    imageUrl: '/grcstatussnapshot.jpg',
+    tryUrl: 'https://www.grcstatus.com/',
+    domain: 'grcstatus.com',
+    contactService: 'custom-platforms',
+    i18nPrefix: 't13',
+    tagKeys: ['t13Tag1', 't13Tag2', 't13Tag3'],
   },
   {
     id: 'soaring-puck',
@@ -207,6 +220,8 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
     'My360Vision homepage — IoT management and telematics for every industry, with fleet overview dashboards and industry profile cards',
   'goalie-stop':
     'Goalie Stop (RMG) homepage — elite goaltending camps, private training, instructor profiles, and Book with Ryan booking paths',
+  grcstatus:
+    'GRCStatus homepage — compliance readiness snapshot for SOC 2, HIPAA, and NIST CSF with live preview and free assessment CTAs',
 }
 
 export type PortfolioScheduleQuery = {

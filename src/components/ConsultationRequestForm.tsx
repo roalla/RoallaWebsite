@@ -186,7 +186,7 @@ export default function ConsultationRequestForm({
           >
             {t('successCallCta')}
           </a>
-          <Link href="/services" className="link-action font-semibold">
+          <Link href="/programs/business-enablement" className="link-action font-semibold">
             {t('successExplore')}
             <ArrowRight className="ml-2 h-4 w-4 inline" />
           </Link>

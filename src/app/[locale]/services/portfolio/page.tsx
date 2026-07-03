@@ -5,6 +5,7 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import Breadcrumb from '@/components/Breadcrumb'
 import DigitalCreations from '@/components/DigitalCreations'
 import { getOrderedPortfolioItems, portfolioImageAlts } from '@/lib/digitalPortfolio'
+import { localeAlternates } from '@/lib/page-metadata'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -17,13 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: t('metadataTitle'),
     description: t('metadataDescription'),
-    alternates: {
-      canonical: '/services/portfolio',
-      languages: {
-        en: '/en/services/portfolio',
-        fr: '/fr/services/portfolio',
-      },
-    },
+    alternates: localeAlternates('/services/portfolio'),
     openGraph: {
       title: t('metadataTitle'),
       description: t('metadataDescription'),
@@ -69,7 +64,6 @@ export default async function DigitalPortfolioPage() {
         <Breadcrumb
           items={[
             { label: t('home'), href: '/' },
-            { label: t('services'), href: '/services' },
             { label: t('digitalCreations'), href: '/services/digital' },
             { label: t('ourWork') },
           ]}

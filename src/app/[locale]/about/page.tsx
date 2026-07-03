@@ -1,14 +1,23 @@
 import React from 'react'
+import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import Breadcrumb from '@/components/Breadcrumb'
 import About from '@/components/About'
+import { localeAlternates } from '@/lib/page-metadata'
 
-export const metadata = {
-  title: 'About Us | Roalla Business Enablement Group',
-  description: 'Your trusted partner in business transformation and operational excellence. Our story, team values, and mission.',
-  alternates: {
-    canonical: '/about',
-  },
+type Props = {
+  params: Promise<{ locale: string }>
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'about' })
+
+  return {
+    title: t('metadataTitle'),
+    description: t('metadataDescription'),
+    alternates: localeAlternates('/about'),
+  }
 }
 
 export default async function AboutPage() {

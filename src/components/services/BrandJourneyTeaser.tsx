@@ -29,7 +29,7 @@ export function BrandJourneyTeaser({ titleKey, descKey, ctaKey, className = '' }
         {BRAND_PILLARS.map((pillar) => (
           <Link
             key={pillar}
-            href={{ pathname: '/services', hash: PILLAR_SECTION_IDS[pillar] }}
+            href={{ pathname: '/programs/business-enablement', hash: PILLAR_SECTION_IDS[pillar] }}
             className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-800 hover:border-primary hover:text-primary-dark transition-colors"
           >
             {t(PILLAR_TITLE_KEYS[pillar])}
@@ -37,7 +37,7 @@ export function BrandJourneyTeaser({ titleKey, descKey, ctaKey, className = '' }
         ))}
       </div>
       <Link
-        href="/services"
+        href="/programs/business-enablement"
         className="mt-4 inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
       >
         {t(ctaKey)}
@@ -59,7 +59,7 @@ export function HomeBrandJourneyTeaser() {
         {t('homeTeaser')}
       </p>
       <Link
-        href="/services"
+        href="/programs/business-enablement"
         className="inline-flex items-center shrink-0 text-sm font-semibold text-primary-dark hover:underline"
       >
         {t('exploreApproach')}

@@ -190,12 +190,7 @@ const Header = () => {
         ? tCommon('scheduleConsultationDigitalEvents')
         : pathname === '/programs/business-enablement'
           ? tCommon('scheduleConsultationConsulting')
-          : pathname === '/services/digital' ||
-              pathname === '/services/portfolio' ||
-              pathname === '/website-design' ||
-              pathname === '/'
-            ? tCommon('scheduleConsultationDigital')
-            : tCommon('scheduleConsultationDigital')
+          : tCommon('scheduleConsultationDigital')
   const headerCtaSubtext = tCommon('ctaSubtext')
 
   const handleLocaleSelect = useCallback(
@@ -354,9 +349,9 @@ const Header = () => {
                 />
               </div>
               <div className="min-w-0">
-                <h1 className="text-base sm:text-xl font-bold text-white group-hover:text-primary transition-colors duration-200 truncate">
+                <span className="text-base sm:text-xl font-bold text-white group-hover:text-primary transition-colors duration-200 truncate">
                   {tCommon('companyName')}
-                </h1>
+                </span>
               </div>
             </Link>
           </div>
@@ -537,7 +532,7 @@ const Header = () => {
                   className="flex items-center gap-1.5 text-sm font-medium text-white/90 hover:text-white bg-white/10 hover:bg-white/15 border border-white/20 rounded-lg px-2.5 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
                   aria-expanded={localeDropdownOpen}
                   aria-haspopup="listbox"
-                  aria-label="Select language"
+                  aria-label={tCommon('selectLanguage')}
                   id="locale-dropdown-desktop"
                 >
                   {locale === 'en' ? (
@@ -735,14 +730,14 @@ const Header = () => {
 
                 {isLocaleRoute && (
                   <div className="px-3 py-3 border-t border-white/10 relative" ref={localeDropdownMobileRef}>
-                    <span className="block text-xs font-medium text-gray-400 mb-1.5">Language</span>
+                    <span className="block text-xs font-medium text-gray-400 mb-1.5">{tCommon('languageLabel')}</span>
                     <button
                       type="button"
                       onClick={() => setLocaleDropdownOpen((o) => !o)}
                       className="w-full flex items-center gap-2 text-base font-medium text-white bg-white/10 border border-white/20 rounded-lg px-3 py-2.5 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                       aria-expanded={localeDropdownOpen}
                       aria-haspopup="listbox"
-                      aria-label="Select language"
+                      aria-label={tCommon('selectLanguage')}
                       id="locale-dropdown-mobile"
                     >
                       {locale === 'en' ? (

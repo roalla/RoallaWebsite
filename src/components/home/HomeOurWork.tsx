@@ -73,7 +73,7 @@ export default function HomeOurWork() {
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
               <Link
-                href="/services"
+                href="/programs/business-enablement"
                 className="inline-flex items-center link-action hover:underline text-sm font-semibold"
               >
                 {t('consultingCta')}

@@ -1,8 +1,10 @@
 import React from 'react'
+import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import Breadcrumb from '@/components/Breadcrumb'
 import InteractiveAssessment from '@/components/InteractiveAssessment'
 import AssessmentFAQ from '@/components/assessment/AssessmentFAQ'
+import { localeAlternates } from '@/lib/page-metadata'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -15,9 +17,7 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: t('metadataTitle'),
     description: t('metadataDescription'),
-    alternates: {
-      canonical: '/assessment',
-    },
+    alternates: localeAlternates('/assessment'),
   }
 }
 

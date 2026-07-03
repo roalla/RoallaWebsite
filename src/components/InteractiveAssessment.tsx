@@ -313,7 +313,7 @@ function AssessmentResultsView({
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
           {result.serviceHref && (
             <Link
-              href={result.serviceHref as '/services'}
+              href={result.serviceHref as '/programs/business-enablement'}
               className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
             >
               {t('exploreService', { service: primaryServiceName ?? '' })}
@@ -321,14 +321,14 @@ function AssessmentResultsView({
             </Link>
           )}
           <Link
-            href={result.laneHref as '/services'}
+            href={result.laneHref as '/programs/business-enablement' | '/programs/workshops' | '/services/digital' | '/services/digital-events'}
             className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
           >
             {laneExploreLabel(result.lane, t)}
             <ArrowRight className="ml-1.5 w-4 h-4" />
           </Link>
           <Link
-            href={result.exploreServicesHref as '/services'}
+            href={result.exploreServicesHref as '/programs/business-enablement'}
             className="inline-flex items-center text-sm font-semibold text-slate-600 hover:text-primary-dark hover:underline"
           >
             {t('explorePhase')}

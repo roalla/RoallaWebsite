@@ -13,6 +13,13 @@ const companyLinks = [
   { nameKey: 'contact' as const, href: '/contact' as const },
 ]
 
+const exploreLinks = [
+  { nameKey: 'digitalEnablement' as const, href: '/services/digital' as const },
+  { nameKey: 'ourWork' as const, href: '/services/portfolio' as const },
+  { nameKey: 'programs' as const, href: '/programs/business-enablement' as const },
+  { nameKey: 'scheduleInquiry' as const, href: '/schedule' as const },
+]
+
 const socialLinks = [
   {
     href: 'https://www.linkedin.com/company/102042431/',
@@ -35,7 +42,7 @@ const Footer = () => {
     <footer className="bg-slate-950 text-slate-300 border-t border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="py-12 lg:py-14 grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12">
-          <div className="md:col-span-5 lg:col-span-6">
+          <div className="md:col-span-5 lg:col-span-4">
             <Link href="/" className="inline-flex items-center gap-3 group mb-5">
               <Image
                 src="/logo.svg"
@@ -53,6 +60,23 @@ const Footer = () => {
           </div>
 
           <div className="md:col-span-3 lg:col-span-2">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 mb-4">
+              {t('exploreLabel')}
+            </p>
+            <nav className="flex flex-col gap-2.5" aria-label={t('exploreLabel')}>
+              {exploreLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm text-slate-300 hover:text-white transition-colors w-fit"
+                >
+                  {t(link.nameKey)}
+                </Link>
+              ))}
+            </nav>
+          </div>
+
+          <div className="md:col-span-2 lg:col-span-2">
             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 mb-4">
               {t('companyLabel')}
             </p>

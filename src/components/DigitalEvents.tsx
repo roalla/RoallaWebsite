@@ -171,7 +171,7 @@ export default function DigitalEvents() {
       <Breadcrumb
         items={[
           { label: tBc('home'), href: '/' },
-          { label: tBc('services'), href: '/services' },
+          { label: tBc('programs'), href: '/programs/business-enablement' },
           { label: tBc('digitalEvents') },
         ]}
       />

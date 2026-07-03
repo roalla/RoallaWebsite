@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import { Inter, Merriweather } from 'next/font/google'
 import './globals.css'
 import { NextIntlClientProvider } from 'next-intl'
-import { getMessages } from 'next-intl/server'
+import { getLocale, getMessages } from 'next-intl/server'
 import Providers from '@/components/Providers'
 import ConditionalLayout from '@/components/ConditionalLayout'
 
@@ -106,7 +106,7 @@ const structuredData = [
     },
     address: {
       '@type': 'PostalAddress',
-      addressLocality: 'Toronto',
+      addressLocality: 'Burlington',
       addressRegion: 'ON',
       addressCountry: 'CA',
     },
@@ -128,8 +128,9 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const messages = await getMessages()
+  const locale = await getLocale()
   return (
-    <html lang="en" className={`${inter.variable} ${merriweather.variable} font-sans`}>
+    <html lang={locale} className={`${inter.variable} ${merriweather.variable} font-sans`}>
       <head>
         {/* Structured data */}
         <script

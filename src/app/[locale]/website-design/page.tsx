@@ -3,6 +3,7 @@ import Script from 'next/script'
 import type { Metadata } from 'next'
 import { getLocale, getTranslations } from 'next-intl/server'
 import WebsiteDesignLanding from '@/components/WebsiteDesignLanding'
+import { localeAlternates } from '@/lib/page-metadata'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -15,9 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: t('metadataTitle'),
     description: t('metadataDescription'),
-    alternates: {
-      canonical: '/website-design',
-    },
+    alternates: localeAlternates('/website-design'),
   }
 }
 

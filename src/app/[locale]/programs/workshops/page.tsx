@@ -3,6 +3,7 @@ import Script from 'next/script'
 import type { Metadata } from 'next'
 import { getLocale, getTranslations } from 'next-intl/server'
 import Workshops from '@/components/Workshops'
+import { localeAlternates } from '@/lib/page-metadata'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -15,9 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: t('metadataWorkshopsTitle'),
     description: t('metadataWorkshopsDescription'),
-    alternates: {
-      canonical: '/programs/workshops',
-    },
+    alternates: localeAlternates('/programs/workshops'),
   }
 }
 

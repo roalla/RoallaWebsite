@@ -234,6 +234,7 @@ export const digitalBuildScheduleNeed = {
   websites: undefined,
   platforms: 'custom-platform',
   automation: 'automation',
+  'ai-support': 'automation',
 } as const satisfies Record<string, WebsiteGoal | undefined>
 
 export function getPortfolioItem(id: PortfolioItemId): PortfolioItemConfig | undefined {

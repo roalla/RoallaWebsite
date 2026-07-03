@@ -292,7 +292,13 @@ const Services = () => {
         tertiaryLink={{ href: '/assessment', label: t('heroCtaAssessment') }}
       />
 
-      <Breadcrumb items={[{ label: tBc('home'), href: '/' }, { label: tBc('services') }]} />
+      <Breadcrumb
+        items={[
+          { label: tBc('home'), href: '/' },
+          { label: tBc('programs'), href: '/programs/business-enablement' },
+          { label: tBc('businessEnablement') },
+        ]}
+      />
 
       <div className="max-w-6xl mx-auto">
         <BrandJourneyBand />
@@ -395,7 +401,7 @@ const Services = () => {
           <div className="rounded-lg border border-slate-300 bg-slate-100 p-6 lg:p-8 flex flex-col justify-center gap-4">
             <p className="text-slate-800 leading-relaxed text-sm font-medium">{t('fitDigitalNote')}</p>
             <div className="flex flex-col gap-2">
-              <Link href="/services/workshops" className="inline-flex items-center text-primary-dark font-semibold text-sm hover:underline">
+              <Link href="/programs/workshops" className="inline-flex items-center text-primary-dark font-semibold text-sm hover:underline">
                 {t('crossLinkWorkshops')}
                 <ArrowRight className="ml-1.5 w-4 h-4" />
               </Link>
@@ -454,7 +460,7 @@ const Services = () => {
           }
           confidentiality={{ href: '/contact', label: t('confidentialityLink') }}
           links={[
-            { href: '/services/workshops', label: t('crossLinkWorkshops') },
+            { href: '/programs/workshops', label: t('crossLinkWorkshops') },
             { href: '/services/digital-events', label: t('crossLinkDigitalEvents') },
             { href: '/services/digital', label: t('crossLinkDigital') },
             { href: '/services/portfolio', label: t('crossLinkOurWork') },

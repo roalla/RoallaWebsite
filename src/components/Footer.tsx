@@ -20,13 +20,32 @@ const Footer = () => {
   const tNav = useTranslations('nav')
   const tCommon = useTranslations('common')
 
-  type FooterHref = '/' | '/services' | '/services/workshops' | '/services/digital' | '/services/digital-events' | '/about' | '/contact' | '/services/portfolio' | '/assessment' | '/faq' | '/schedule'
-  const quickLinks: { nameKey: 'businessEnablement' | 'workshops' | 'websitesAndDigital' | 'digitalEvents' | 'ourWork' | 'assessment' | 'faq' | 'contact' | 'about'; href: FooterHref }[] = [
-    { nameKey: 'businessEnablement', href: '/services' },
-    { nameKey: 'workshops', href: '/services/workshops' },
-    { nameKey: 'websitesAndDigital', href: '/services/digital' },
+  type FooterHref =
+    | '/'
+    | '/services/digital'
+    | '/website-design'
+    | '/services/digital-events'
+    | '/services/portfolio'
+    | '/programs/business-enablement'
+    | '/programs/workshops'
+    | '/about'
+    | '/contact'
+    | '/assessment'
+    | '/faq'
+    | '/schedule'
+
+  const digitalLinks: { nameKey: 'digitalEnablement' | 'digitalEvents' | 'ourWork'; href: FooterHref }[] = [
+    { nameKey: 'digitalEnablement', href: '/services/digital' },
     { nameKey: 'digitalEvents', href: '/services/digital-events' },
     { nameKey: 'ourWork', href: '/services/portfolio' },
+  ]
+
+  const programLinks: { nameKey: 'businessEnablement' | 'workshops'; href: FooterHref }[] = [
+    { nameKey: 'businessEnablement', href: '/programs/business-enablement' },
+    { nameKey: 'workshops', href: '/programs/workshops' },
+  ]
+
+  const helpLinks: { nameKey: 'assessment' | 'faq' | 'contact' | 'about'; href: FooterHref }[] = [
     { nameKey: 'assessment', href: '/assessment' },
     { nameKey: 'faq', href: '/faq' },
     { nameKey: 'contact', href: '/contact' },
@@ -40,6 +59,7 @@ const Footer = () => {
           <div className="min-w-0">
             <p className="text-sm font-semibold text-slate-900">{tCommon('companyName')}</p>
             <p className="text-xs text-slate-600 mt-0.5">{tCommon('tagline')}</p>
+            <p className="text-xs text-slate-500 mt-1">{t('subtitle')}</p>
           </div>
 
           <div className="min-w-0">
@@ -63,13 +83,31 @@ const Footer = () => {
             </nav>
           </div>
 
-          <nav className="flex flex-wrap gap-x-4 gap-y-1 text-sm min-w-0" aria-label="Footer links">
-            {quickLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="text-slate-700 hover:text-primary-dark transition-colors whitespace-nowrap">
-                {t(link.nameKey)}
-              </Link>
-            ))}
-          </nav>
+          <div className="min-w-0">
+            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">{t('digitalEnablement')}</p>
+            <nav className="flex flex-col gap-1.5 mb-4" aria-label={t('digitalEnablement')}>
+              {digitalLinks.map((link) => (
+                <Link key={link.href} href={link.href} className="text-sm text-slate-700 hover:text-primary-dark transition-colors">
+                  {t(link.nameKey)}
+                </Link>
+              ))}
+            </nav>
+            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">{t('programs')}</p>
+            <nav className="flex flex-col gap-1.5 mb-4" aria-label={t('programs')}>
+              {programLinks.map((link) => (
+                <Link key={link.href} href={link.href} className="text-sm text-slate-700 hover:text-primary-dark transition-colors">
+                  {t(link.nameKey)}
+                </Link>
+              ))}
+            </nav>
+            <nav className="flex flex-wrap gap-x-4 gap-y-1 text-sm" aria-label="Help links">
+              {helpLinks.map((link) => (
+                <Link key={link.href} href={link.href} className="text-slate-700 hover:text-primary-dark transition-colors whitespace-nowrap">
+                  {t(link.nameKey)}
+                </Link>
+              ))}
+            </nav>
+          </div>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 flex-shrink-0">
             <ScheduleButton
@@ -79,7 +117,7 @@ const Footer = () => {
               sublabel={tCommon('ctaSubtext')}
               sublabelClassName="text-slate-500"
             >
-              {tCommon('scheduleConsultation')}
+              {tCommon('scheduleConsultationDigital')}
             </ScheduleButton>
             <div className="flex items-center gap-4 text-sm flex-wrap">
               <a href="mailto:sales@roalla.com" className="flex items-center gap-1.5 text-slate-700 hover:text-primary-dark transition-colors" aria-label="Email us">

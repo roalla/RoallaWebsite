@@ -138,7 +138,7 @@ const Workshops = () => {
           </ScheduleButton>
         }
         secondaryCta={
-          <Link href="/services" className="inline-flex items-center justify-center rounded-md border border-white/30 px-6 py-3 text-sm font-medium text-white hover:bg-white/10 transition-colors">
+          <Link href="/programs/business-enablement" className="inline-flex items-center justify-center rounded-md border border-white/30 px-6 py-3 text-sm font-medium text-white hover:bg-white/10 transition-colors">
             {t('heroCtaConsulting')}
             <ArrowRight className="ml-2 w-4 h-4" />
           </Link>
@@ -149,7 +149,7 @@ const Workshops = () => {
       <Breadcrumb
         items={[
           { label: tBc('home'), href: '/' },
-          { label: tBc('services'), href: '/services' },
+          { label: tBc('programs'), href: '/programs/workshops' },
           { label: tBc('workshops') },
         ]}
       />
@@ -207,7 +207,7 @@ const Workshops = () => {
           </div>
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-6 lg:p-8 flex flex-col justify-center gap-4">
             <p className="text-slate-700 leading-relaxed text-sm">{t('fitConsultingNote')}</p>
-            <Link href="/services" className="inline-flex items-center text-primary font-medium text-sm hover:underline">
+            <Link href="/programs/business-enablement" className="inline-flex items-center text-primary font-medium text-sm hover:underline">
               {t('crossLinkConsulting')}
               <ArrowRight className="ml-1.5 w-4 h-4" />
             </Link>
@@ -243,7 +243,7 @@ const Workshops = () => {
             </ScheduleButton>
           }
           links={[
-            { href: '/services', label: t('crossLinkConsulting') },
+            { href: '/programs/business-enablement', label: t('crossLinkConsulting') },
             { href: '/services/digital', label: t('crossLinkDigital') },
           ]}
         />

@@ -72,9 +72,9 @@ const intentOptions: {
   titleKey: 'intentConsulting' | 'intentWebsite' | 'intentPlatform' | 'intentUnsure'
   descKey: 'intentConsultingDesc' | 'intentWebsiteDesc' | 'intentPlatformDesc' | 'intentUnsureDesc'
 }[] = [
-  { value: 'consulting', icon: Briefcase, titleKey: 'intentConsulting', descKey: 'intentConsultingDesc' },
   { value: 'website', icon: Globe, titleKey: 'intentWebsite', descKey: 'intentWebsiteDesc' },
   { value: 'platform', icon: Layers, titleKey: 'intentPlatform', descKey: 'intentPlatformDesc' },
+  { value: 'consulting', icon: Briefcase, titleKey: 'intentConsulting', descKey: 'intentConsultingDesc' },
   { value: 'unsure', icon: HelpCircle, titleKey: 'intentUnsure', descKey: 'intentUnsureDesc' },
 ]
 

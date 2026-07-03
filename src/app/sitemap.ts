@@ -5,11 +5,11 @@ const locales = ['en', 'fr'] as const
 
 const paths = [
   '',
-  '/services',
   '/services/digital',
   '/services/digital-events',
-  '/services/workshops',
   '/services/portfolio',
+  '/programs/business-enablement',
+  '/programs/workshops',
   '/website-design',
   '/about',
   '/assessment',
@@ -20,12 +20,12 @@ const paths = [
 
 const priorities: Record<string, number> = {
   '': 1,
-  '/services': 0.9,
-  '/services/digital': 0.85,
-  '/services/digital-events': 0.85,
-  '/services/workshops': 0.85,
-  '/services/portfolio': 0.85,
+  '/services/digital': 0.95,
+  '/services/portfolio': 0.9,
   '/website-design': 0.88,
+  '/services/digital-events': 0.85,
+  '/programs/business-enablement': 0.6,
+  '/programs/workshops': 0.55,
   '/about': 0.8,
   '/assessment': 0.7,
   '/faq': 0.7,

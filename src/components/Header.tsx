@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { Menu, X, ChevronDown, Briefcase, Globe, GraduationCap, CalendarDays } from 'lucide-react'
+import { Menu, X, ChevronDown, Briefcase, Globe, GraduationCap, CalendarDays, Layers, Workflow, Sparkles } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname as useNextPathname } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
@@ -55,12 +55,15 @@ const Header = () => {
   const mobileMenuRef = useRef<HTMLDivElement>(null)
   const localeDropdownDesktopRef = useRef<HTMLDivElement>(null)
   const localeDropdownMobileRef = useRef<HTMLDivElement>(null)
-  const servicesDropdownDesktopRef = useRef<HTMLDivElement>(null)
+  const digitalDropdownDesktopRef = useRef<HTMLDivElement>(null)
+  const programsDropdownDesktopRef = useRef<HTMLDivElement>(null)
   const scrollTick = useRef<number | null>(null)
   const previousMenuOpen = useRef(false)
   const [localeDropdownOpen, setLocaleDropdownOpen] = useState(false)
-  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false)
-  const [servicesMobileExpanded, setServicesMobileExpanded] = useState(false)
+  const [digitalDropdownOpen, setDigitalDropdownOpen] = useState(false)
+  const [programsDropdownOpen, setProgramsDropdownOpen] = useState(false)
+  const [digitalMobileExpanded, setDigitalMobileExpanded] = useState(false)
+  const [programsMobileExpanded, setProgramsMobileExpanded] = useState(false)
 
   useEffect(() => {
     setMounted(true)
@@ -126,15 +129,15 @@ const Header = () => {
   }, [localeDropdownOpen])
 
   useEffect(() => {
-    if (!servicesDropdownOpen) return
+    if (!digitalDropdownOpen) return
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node
-      if (!servicesDropdownDesktopRef.current?.contains(target)) {
-        setServicesDropdownOpen(false)
+      if (!digitalDropdownDesktopRef.current?.contains(target)) {
+        setDigitalDropdownOpen(false)
       }
     }
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setServicesDropdownOpen(false)
+      if (e.key === 'Escape') setDigitalDropdownOpen(false)
     }
     document.addEventListener('mousedown', handleClickOutside)
     document.addEventListener('keydown', handleEscape)
@@ -142,7 +145,26 @@ const Header = () => {
       document.removeEventListener('mousedown', handleClickOutside)
       document.removeEventListener('keydown', handleEscape)
     }
-  }, [servicesDropdownOpen])
+  }, [digitalDropdownOpen])
+
+  useEffect(() => {
+    if (!programsDropdownOpen) return
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as Node
+      if (!programsDropdownDesktopRef.current?.contains(target)) {
+        setProgramsDropdownOpen(false)
+      }
+    }
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setProgramsDropdownOpen(false)
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('keydown', handleEscape)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [programsDropdownOpen])
 
   const toggleMenu = () => {
     setIsMenuOpen((open) => !open)
@@ -150,7 +172,8 @@ const Header = () => {
 
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false)
-    setServicesMobileExpanded(false)
+    setDigitalMobileExpanded(false)
+    setProgramsMobileExpanded(false)
   }, [])
 
   const pathname = usePathname() ?? '/'
@@ -161,15 +184,18 @@ const Header = () => {
   const locale = useLocale()
 
   const headerCtaLabel =
-    pathname === '/services/workshops'
+    pathname === '/programs/workshops'
       ? tCommon('scheduleConsultationWorkshops')
       : pathname === '/services/digital-events'
         ? tCommon('scheduleConsultationDigitalEvents')
-        : pathname === '/services/digital' || pathname === '/services/portfolio'
-          ? tCommon('scheduleConsultationDigital')
-          : pathname === '/services'
-            ? tCommon('scheduleConsultationConsulting')
-            : tCommon('ctaNextSteps')
+        : pathname === '/programs/business-enablement'
+          ? tCommon('scheduleConsultationConsulting')
+          : pathname === '/services/digital' ||
+              pathname === '/services/portfolio' ||
+              pathname === '/website-design' ||
+              pathname === '/'
+            ? tCommon('scheduleConsultationDigital')
+            : tCommon('scheduleConsultationDigital')
   const headerCtaSubtext = tCommon('ctaSubtext')
 
   const handleLocaleSelect = useCallback(
@@ -221,30 +247,65 @@ const Header = () => {
   }
 
   const isActive = useCallback(
-    (href: string) => {
-      if (href === '/') return pathname === '/'
-      // Business Enablement lives at /services exactly; sub-routes are separate services.
-      if (href === '/services') return pathname === '/services'
-      return pathname === href || pathname.startsWith(href + '/')
+    (href: string | { pathname: string; hash?: string }) => {
+      const path = typeof href === 'string' ? href : href.pathname
+      if (path === '/') return pathname === '/'
+      return pathname === path || pathname.startsWith(path + '/')
     },
-    [pathname]
+    [pathname],
   )
 
-  type ServiceNavHref = '/services' | '/services/workshops' | '/services/digital' | '/services/digital-events'
+  type DigitalNavHref =
+    | '/services/digital'
+    | '/website-design'
+    | '/services/digital-events'
+    | { pathname: '/services/digital'; hash: 'platforms' | 'automation' | 'ai-support' }
 
-  const serviceLinks: {
-    nameKey: 'businessEnablement' | 'workshops' | 'websitesAndDigital' | 'digitalEvents'
-    descKey: 'businessEnablementDesc' | 'workshopsDesc' | 'websitesAndDigitalDesc' | 'digitalEventsDesc'
-    href: ServiceNavHref
-    icon: typeof Briefcase
+  type ProgramNavHref = '/programs/business-enablement' | '/programs/workshops'
+
+  const digitalLinks: {
+    nameKey:
+      | 'digitalOverview'
+      | 'digitalWebsites'
+      | 'digitalPlatforms'
+      | 'digitalAutomation'
+      | 'digitalAiSupport'
+      | 'digitalEvents'
+    descKey:
+      | 'digitalOverviewDesc'
+      | 'digitalWebsitesDesc'
+      | 'digitalPlatformsDesc'
+      | 'digitalAutomationDesc'
+      | 'digitalAiSupportDesc'
+      | 'digitalEventsDesc'
+    href: DigitalNavHref
+    icon: typeof Globe
   }[] = [
-    { nameKey: 'businessEnablement', descKey: 'businessEnablementDesc', href: '/services', icon: Briefcase },
-    { nameKey: 'workshops', descKey: 'workshopsDesc', href: '/services/workshops', icon: GraduationCap },
-    { nameKey: 'websitesAndDigital', descKey: 'websitesAndDigitalDesc', href: '/services/digital', icon: Globe },
+    { nameKey: 'digitalOverview', descKey: 'digitalOverviewDesc', href: '/services/digital', icon: Globe },
+    { nameKey: 'digitalWebsites', descKey: 'digitalWebsitesDesc', href: '/website-design', icon: Globe },
+    { nameKey: 'digitalPlatforms', descKey: 'digitalPlatformsDesc', href: { pathname: '/services/digital', hash: 'platforms' }, icon: Layers },
+    { nameKey: 'digitalAutomation', descKey: 'digitalAutomationDesc', href: { pathname: '/services/digital', hash: 'automation' }, icon: Workflow },
+    { nameKey: 'digitalAiSupport', descKey: 'digitalAiSupportDesc', href: { pathname: '/services/digital', hash: 'ai-support' }, icon: Sparkles },
     { nameKey: 'digitalEvents', descKey: 'digitalEventsDesc', href: '/services/digital-events', icon: CalendarDays },
   ]
 
-  const isServicesActive = pathname === '/services' || pathname.startsWith('/services/')
+  const programLinks: {
+    nameKey: 'businessEnablement' | 'workshops'
+    descKey: 'businessEnablementDesc' | 'workshopsDesc'
+    href: ProgramNavHref
+    icon: typeof Briefcase
+  }[] = [
+    { nameKey: 'businessEnablement', descKey: 'businessEnablementDesc', href: '/programs/business-enablement', icon: Briefcase },
+    { nameKey: 'workshops', descKey: 'workshopsDesc', href: '/programs/workshops', icon: GraduationCap },
+  ]
+
+  const isDigitalActive =
+    pathname === '/services/digital' ||
+    pathname === '/website-design' ||
+    pathname === '/services/digital-events' ||
+    pathname === '/services/portfolio'
+
+  const isProgramsActive = pathname.startsWith('/programs')
 
   const dropdownPanelClass = (open: boolean) =>
     `dropdown-panel ${open ? 'dropdown-panel-open' : 'dropdown-panel-closed'}`
@@ -310,49 +371,50 @@ const Header = () => {
                 </Link>
               </div>
 
-              <div className="relative" ref={servicesDropdownDesktopRef}>
+              <div className="relative" ref={digitalDropdownDesktopRef}>
                 <button
                   type="button"
-                  onClick={() => setServicesDropdownOpen((o) => !o)}
-                  aria-expanded={servicesDropdownOpen}
+                  onClick={() => setDigitalDropdownOpen((o) => !o)}
+                  aria-expanded={digitalDropdownOpen}
                   aria-haspopup="menu"
-                  id="services-dropdown-desktop"
+                  id="digital-dropdown-desktop"
                   className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
-                    isServicesActive || servicesDropdownOpen
+                    isDigitalActive || digitalDropdownOpen
                       ? 'text-primary'
                       : 'text-gray-300 hover:text-primary'
-                  } ${servicesDropdownOpen ? 'bg-white/5' : ''}`}
+                  } ${digitalDropdownOpen ? 'bg-white/5' : ''}`}
                 >
-                  {t('services')}
-                  <ChevronDown className={`w-4 h-4 transition-transform ${servicesDropdownOpen ? 'rotate-180' : ''}`} />
+                  {t('digitalEnablement')}
+                  <ChevronDown className={`w-4 h-4 transition-transform ${digitalDropdownOpen ? 'rotate-180' : ''}`} />
                   <span
                     className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
-                      isServicesActive ? 'w-full' : 'w-0 group-hover:w-full'
+                      isDigitalActive ? 'w-full' : 'w-0 group-hover:w-full'
                     }`}
                   />
                 </button>
                 <div
                   role="menu"
-                  aria-labelledby="services-dropdown-desktop"
-                  className={`absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[min(100vw-2rem,360px)] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50 ${dropdownPanelClass(servicesDropdownOpen)}`}
+                  aria-labelledby="digital-dropdown-desktop"
+                  className={`absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[min(100vw-2rem,360px)] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50 ${dropdownPanelClass(digitalDropdownOpen)}`}
                 >
                       <div className="px-4 py-2.5 border-b border-white/10 bg-white/[0.03]">
                         <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-                          {t('servicesMenuLabel')}
+                          {t('digitalEnablementMenuLabel')}
                         </p>
                       </div>
                       <div className="p-1.5">
-                        {serviceLinks.map((item) => {
+                        {digitalLinks.map((item) => {
                           const active = isActive(item.href)
                           const Icon = item.icon
+                          const linkKey = typeof item.href === 'string' ? item.href : `${item.href.pathname}#${item.href.hash}`
                           return (
                             <Link
-                              key={item.href}
+                              key={linkKey}
                               href={item.href}
                               role="menuitem"
                               aria-current={active ? 'page' : undefined}
                               onClick={() => {
-                                setServicesDropdownOpen(false)
+                                setDigitalDropdownOpen(false)
                                 closeMenu()
                               }}
                               className={`group flex gap-3 rounded-lg px-3 py-3 transition-colors ${
@@ -399,6 +461,77 @@ const Header = () => {
                     }`}
                   />
                 </Link>
+              </div>
+
+              <div className="relative" ref={programsDropdownDesktopRef}>
+                <button
+                  type="button"
+                  onClick={() => setProgramsDropdownOpen((o) => !o)}
+                  aria-expanded={programsDropdownOpen}
+                  aria-haspopup="menu"
+                  id="programs-dropdown-desktop"
+                  className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 text-slate-400 hover:text-gray-200 ${
+                    isProgramsActive || programsDropdownOpen ? 'text-gray-200' : ''
+                  } ${programsDropdownOpen ? 'bg-white/5' : ''}`}
+                >
+                  {t('programs')}
+                  <ChevronDown className={`w-4 h-4 transition-transform ${programsDropdownOpen ? 'rotate-180' : ''}`} />
+                  <span
+                    className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                      isProgramsActive ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}
+                  />
+                </button>
+                <div
+                  role="menu"
+                  aria-labelledby="programs-dropdown-desktop"
+                  className={`absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[min(100vw-2rem,320px)] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50 ${dropdownPanelClass(programsDropdownOpen)}`}
+                >
+                      <div className="px-4 py-2.5 border-b border-white/10 bg-white/[0.03]">
+                        <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                          {t('programsMenuLabel')}
+                        </p>
+                      </div>
+                      <div className="p-1.5">
+                        {programLinks.map((item) => {
+                          const active = isActive(item.href)
+                          const Icon = item.icon
+                          return (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              role="menuitem"
+                              aria-current={active ? 'page' : undefined}
+                              onClick={() => {
+                                setProgramsDropdownOpen(false)
+                                closeMenu()
+                              }}
+                              className={`group flex gap-3 rounded-lg px-3 py-3 transition-colors ${
+                                active ? 'bg-primary/10' : 'hover:bg-white/5'
+                              }`}
+                            >
+                              <div
+                                className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors ${
+                                  active
+                                    ? 'bg-primary/20 text-primary'
+                                    : 'bg-white/5 text-slate-500 group-hover:bg-primary/10 group-hover:text-primary'
+                                }`}
+                              >
+                                <Icon className="h-4 w-4" aria-hidden />
+                              </div>
+                              <div className="min-w-0 text-left">
+                                <p className={`text-sm font-semibold leading-snug ${active ? 'text-primary' : 'text-gray-200'}`}>
+                                  {t(item.nameKey)}
+                                </p>
+                                <p className="mt-0.5 text-xs leading-snug text-slate-500 group-hover:text-slate-400">
+                                  {t(item.descKey)}
+                                </p>
+                              </div>
+                            </Link>
+                          )
+                        })}
+                      </div>
+                </div>
               </div>
             </div>
           </div>
@@ -517,27 +650,29 @@ const Header = () => {
                 <div>
                   <button
                     type="button"
-                    onClick={() => setServicesMobileExpanded((o) => !o)}
-                    aria-expanded={servicesMobileExpanded}
+                    onClick={() => setDigitalMobileExpanded((o) => !o)}
+                    aria-expanded={digitalMobileExpanded}
                     className={`w-full flex items-center justify-between px-3 py-3 min-h-[44px] rounded-md text-base font-medium transition-colors duration-200 ${
-                      isServicesActive
+                      isDigitalActive
                         ? 'text-primary bg-primary/10'
                         : 'text-gray-300 hover:text-primary hover:bg-white/5'
                     }`}
                   >
-                    {t('services')}
-                    <ChevronDown className={`w-5 h-5 transition-transform ${servicesMobileExpanded ? 'rotate-180' : ''}`} />
+                    {t('digitalEnablement')}
+                    <ChevronDown className={`w-5 h-5 transition-transform ${digitalMobileExpanded ? 'rotate-180' : ''}`} />
                   </button>
                   <div
-                    className={`collapse-grid ${servicesMobileExpanded ? 'collapse-grid-open' : 'collapse-grid-closed'}`}
+                    className={`collapse-grid ${digitalMobileExpanded ? 'collapse-grid-open' : 'collapse-grid-closed'}`}
                   >
                     <div className="overflow-hidden min-h-0">
-                        {serviceLinks.map((item) => {
+                        {digitalLinks.map((item) => {
                           const active = isActive(item.href)
                           const Icon = item.icon
+                          const linkKey = typeof item.href === 'string' ? item.href : `${item.href.pathname}#${item.href.hash}`
+                          const mobilePath = typeof item.href === 'string' ? item.href : item.href.pathname
                           return (
                             <Link
-                              key={item.href}
+                              key={linkKey}
                               href={item.href}
                               aria-current={active ? 'page' : undefined}
                               className={`flex gap-3 pl-5 pr-3 py-3 min-h-[44px] rounded-md transition-colors duration-200 ${
@@ -545,7 +680,7 @@ const Header = () => {
                                   ? 'text-primary bg-primary/10'
                                   : 'text-gray-300 hover:text-primary hover:bg-white/5'
                               }`}
-                              onClick={(e) => handleMobileNavClick(e, item.href)}
+                              onClick={(e) => handleMobileNavClick(e, mobilePath)}
                             >
                               <Icon className="h-4 w-4 shrink-0 mt-0.5 opacity-70" aria-hidden />
                               <span>
@@ -572,6 +707,51 @@ const Header = () => {
                   >
                     {t('digitalPortfolio')}
                   </Link>
+                </div>
+
+                <div className="border-t border-white/10 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => setProgramsMobileExpanded((o) => !o)}
+                    aria-expanded={programsMobileExpanded}
+                    className={`w-full flex items-center justify-between px-3 py-3 min-h-[44px] rounded-md text-base font-medium transition-colors duration-200 ${
+                      isProgramsActive
+                        ? 'text-gray-200 bg-white/5'
+                        : 'text-slate-400 hover:text-gray-200 hover:bg-white/5'
+                    }`}
+                  >
+                    {t('programs')}
+                    <ChevronDown className={`w-5 h-5 transition-transform ${programsMobileExpanded ? 'rotate-180' : ''}`} />
+                  </button>
+                  <div
+                    className={`collapse-grid ${programsMobileExpanded ? 'collapse-grid-open' : 'collapse-grid-closed'}`}
+                  >
+                    <div className="overflow-hidden min-h-0">
+                        {programLinks.map((item) => {
+                          const active = isActive(item.href)
+                          const Icon = item.icon
+                          return (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              aria-current={active ? 'page' : undefined}
+                              className={`flex gap-3 pl-5 pr-3 py-3 min-h-[44px] rounded-md transition-colors duration-200 ${
+                                active
+                                  ? 'text-primary bg-primary/10'
+                                  : 'text-slate-400 hover:text-gray-200 hover:bg-white/5'
+                              }`}
+                              onClick={(e) => handleMobileNavClick(e, item.href)}
+                            >
+                              <Icon className="h-4 w-4 shrink-0 mt-0.5 opacity-70" aria-hidden />
+                              <span>
+                                <span className="block text-base font-medium">{t(item.nameKey)}</span>
+                                <span className="block text-xs text-slate-500 mt-0.5">{t(item.descKey)}</span>
+                              </span>
+                            </Link>
+                          )
+                        })}
+                    </div>
+                  </div>
                 </div>
 
                 {isLocaleRoute && (

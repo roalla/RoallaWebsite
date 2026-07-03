@@ -8,6 +8,7 @@ import {
   Globe,
   Layers,
   Workflow,
+  Sparkles,
   ArrowRight,
   CheckCircle,
   Search,
@@ -63,8 +64,8 @@ import {
   servicePrimaryLinkClass,
 } from './services/ServicePageSections'
 
-const buildIcons = [Globe, Layers, Workflow] as const
-const buildAnchors = ['websites', 'platforms', 'automation'] as const
+const buildIcons = [Globe, Layers, Workflow, Sparkles] as const
+const buildAnchors = ['websites', 'platforms', 'automation', 'ai-support'] as const
 
 const buildSteps = [
   { icon: Search, titleKey: 'step1Title', stepKey: 'step1', hintKey: 'step1Hint' },
@@ -86,6 +87,7 @@ const BUILD_PILLARS: Record<(typeof buildAnchors)[number], BrandPillar> = {
   websites: 'emerge',
   platforms: 'soar',
   automation: 'soar',
+  'ai-support': 'soar',
 }
 
 function portfolioItemName(
@@ -315,11 +317,31 @@ const DigitalBuilds = () => {
       anchor: buildAnchors[2],
       pillar: BUILD_PILLARS.automation,
     },
+    {
+      title: t('s3Title'),
+      desc: t('s3Desc'),
+      features: [t('s3F1'), t('s3F2'), t('s3F3')],
+      deliverables: [t('s3D1'), t('s3D2'), t('s3D3'), t('s3D4')],
+      deliverablesTitle: t('s3DeliverablesTitle'),
+      ideal: t('s3Ideal'),
+      outcome: t('s3Outcome'),
+      notFor: t('s3NotFor'),
+      icon: buildIcons[3],
+      ctaService: 'custom-platforms',
+      requestCta: t('s3RequestCta'),
+      proofText: t('s3Proof'),
+      proofHash: 'business-cocoon',
+      proofReference: 'pitch-hotshots',
+      timeline: t('aiTimeline'),
+      anchor: buildAnchors[3],
+      pillar: BUILD_PILLARS['ai-support'],
+    },
   ]
 
   const websiteBuild = builds[0]
   const platformBuild = builds[1]
   const automationBuild = builds[2]
+  const aiBuild = builds[3]
 
   return (
     <section id="digital-builds" className="section-padding relative">
@@ -356,7 +378,6 @@ const DigitalBuilds = () => {
       <Breadcrumb
         items={[
           { label: tBc('home'), href: '/' },
-          { label: tBc('services'), href: '/services' },
           { label: tBc('websitesAndDigital') },
         ]}
       />
@@ -399,9 +420,10 @@ const DigitalBuilds = () => {
             )}
             {pillar === 'soar' && (
               <>
-                <div className="grid lg:grid-cols-2 gap-6 mb-8">
+                <div className="grid lg:grid-cols-3 gap-6 mb-8">
                   <DigitalBuildCard build={platformBuild} t={t} locale={locale} />
                   <DigitalBuildCard build={automationBuild} t={t} locale={locale} />
+                  <DigitalBuildCard build={aiBuild} t={t} locale={locale} />
                 </div>
                 <p className="text-sm font-medium text-slate-700 mb-4">{t('buildSubtitle')}</p>
                 <BuildStepCards stepIndices={[3]} t={t} tBrand={tBrand} pillar="soar" />
@@ -490,7 +512,7 @@ const DigitalBuilds = () => {
           </div>
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-6 lg:p-8 flex flex-col justify-center">
             <p className="text-slate-700 leading-relaxed mb-4 text-sm">{t('fitConsultingNote')}</p>
-            <Link href="/services" className="inline-flex items-center text-primary font-medium text-sm hover:underline">
+            <Link href="/programs/business-enablement" className="inline-flex items-center text-primary font-medium text-sm hover:underline">
               {t('compareConsultingLink')}
               <ArrowRight className="ml-1.5 w-4 h-4" />
             </Link>
@@ -549,8 +571,8 @@ const DigitalBuilds = () => {
             </Link>
           }
           links={[
-            { href: '/services', label: t('crossLinkConsulting') },
-            { href: '/services/workshops', label: t('crossLinkWorkshops') },
+            { href: '/programs/business-enablement', label: t('crossLinkConsulting') },
+            { href: '/programs/workshops', label: t('crossLinkWorkshops') },
           ]}
         />
       </div>

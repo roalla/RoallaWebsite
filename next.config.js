@@ -7,7 +7,7 @@ const nextConfig = {
       // Auth & admin (removed features)
       { source: '/login', destination: '/en/contact', permanent: true },
       { source: '/login/:path*', destination: '/en/contact', permanent: true },
-      { source: '/dashboard', destination: '/en/services', permanent: true },
+      { source: '/dashboard', destination: '/en/programs/business-enablement', permanent: true },
       { source: '/profile', destination: '/en/contact', permanent: true },
       { source: '/auth/:path*', destination: '/en', permanent: true },
       { source: '/admin', destination: '/en', permanent: true },
@@ -15,9 +15,9 @@ const nextConfig = {
       // Resource hub
       { source: '/resources/request/:path*', destination: '/en/contact', permanent: true },
       { source: '/resources/request', destination: '/en/contact', permanent: true },
-      { source: '/resources/portal', destination: '/en/services', permanent: true },
-      { source: '/resources', destination: '/en/services', permanent: true },
-      { source: '/resources/:path*', destination: '/en/services', permanent: true },
+      { source: '/resources/portal', destination: '/en/programs/business-enablement', permanent: true },
+      { source: '/resources', destination: '/en/programs/business-enablement', permanent: true },
+      { source: '/resources/:path*', destination: '/en/programs/business-enablement', permanent: true },
       // Trust centre
       { source: '/trust/:path*', destination: '/en/contact', permanent: true },
       { source: '/trust', destination: '/en/contact', permanent: true },
@@ -26,16 +26,21 @@ const nextConfig = {
       // Localized legacy routes
       { source: '/:locale(en|fr)/login/:path*', destination: '/:locale/contact', permanent: true },
       { source: '/:locale(en|fr)/login', destination: '/:locale/contact', permanent: true },
-      { source: '/:locale(en|fr)/dashboard', destination: '/:locale/services', permanent: true },
+      { source: '/:locale(en|fr)/dashboard', destination: '/:locale/programs/business-enablement', permanent: true },
       { source: '/:locale(en|fr)/profile', destination: '/:locale/contact', permanent: true },
       { source: '/:locale(en|fr)/auth/:path*', destination: '/:locale', permanent: true },
       { source: '/:locale(en|fr)/admin/:path*', destination: '/:locale', permanent: true },
       { source: '/:locale(en|fr)/admin', destination: '/:locale', permanent: true },
       { source: '/:locale(en|fr)/resources/request/:path*', destination: '/:locale/contact', permanent: true },
       { source: '/:locale(en|fr)/resources/request', destination: '/:locale/contact', permanent: true },
-      { source: '/:locale(en|fr)/resources/portal', destination: '/:locale/services', permanent: true },
-      { source: '/:locale(en|fr)/resources/:path*', destination: '/:locale/services', permanent: true },
-      { source: '/:locale(en|fr)/resources', destination: '/:locale/services', permanent: true },
+      { source: '/:locale(en|fr)/resources/portal', destination: '/:locale/programs/business-enablement', permanent: true },
+      { source: '/:locale(en|fr)/resources/:path*', destination: '/:locale/programs/business-enablement', permanent: true },
+      { source: '/:locale(en|fr)/resources', destination: '/:locale/programs/business-enablement', permanent: true },
+      // Programs URL migration
+      { source: '/services', destination: '/en/programs/business-enablement', permanent: true },
+      { source: '/services/workshops', destination: '/en/programs/workshops', permanent: true },
+      { source: '/:locale(en|fr)/services', destination: '/:locale/programs/business-enablement', permanent: true },
+      { source: '/:locale(en|fr)/services/workshops', destination: '/:locale/programs/workshops', permanent: true },
       { source: '/:locale(en|fr)/trust/:path*', destination: '/:locale/contact', permanent: true },
       { source: '/:locale(en|fr)/trust', destination: '/:locale/contact', permanent: true },
     ]

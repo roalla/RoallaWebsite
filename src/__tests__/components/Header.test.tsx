@@ -27,7 +27,7 @@ jest.mock('next/image', () => ({
 
 jest.mock('@/components/ScheduleButton', () => ({
   __esModule: true,
-  default: () => <a href="/schedule">ctaNextSteps</a>,
+  default: () => <a href="/schedule">scheduleConsultationDigital</a>,
 }))
 
 describe('Header', () => {
@@ -50,26 +50,25 @@ describe('Header', () => {
 
   it('renders schedule CTA link', () => {
     render(<Header />)
-    expect(screen.getByRole('link', { name: /ctaNextSteps/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /scheduleConsultationDigital/i })).toBeInTheDocument()
   })
 
-  it('renders services dropdown with enablement, workshops, and digital service links', () => {
+  it('renders digital enablement dropdown with digital service links', () => {
     render(<Header />)
-    const servicesButton = screen.getByRole('button', { name: 'services' })
-    expect(servicesButton).toBeInTheDocument()
-    fireEvent.click(servicesButton)
-    expect(screen.getByRole('menuitem', { name: /businessEnablement/i })).toHaveAttribute('href', '/services')
-    expect(screen.getByRole('menuitem', { name: /websitesAndDigital/i })).toHaveAttribute('href', '/services/digital')
-    expect(screen.queryByRole('menuitem', { name: /ourWork/i })).not.toBeInTheDocument()
+    const digitalButton = screen.getByRole('button', { name: 'digitalEnablement' })
+    expect(digitalButton).toBeInTheDocument()
+    fireEvent.click(digitalButton)
+    expect(screen.getByRole('menuitem', { name: /digitalOverview/i })).toHaveAttribute('href', '/services/digital')
+    expect(screen.getByRole('menuitem', { name: /digitalWebsites/i })).toHaveAttribute('href', '/website-design')
   })
 
-  it('highlights only the matching service in the dropdown', () => {
+  it('highlights only the matching digital service in the dropdown', () => {
     mockPathname.mockReturnValue('/services/digital')
     render(<Header />)
-    fireEvent.click(screen.getByRole('button', { name: 'services' }))
+    fireEvent.click(screen.getByRole('button', { name: 'digitalEnablement' }))
 
-    expect(screen.getByRole('menuitem', { name: /businessEnablement/i })).not.toHaveAttribute('aria-current', 'page')
-    expect(screen.getByRole('menuitem', { name: /websitesAndDigital/i })).toHaveAttribute('aria-current', 'page')
+    expect(screen.getByRole('menuitem', { name: /digitalOverview/i })).toHaveAttribute('aria-current', 'page')
+    expect(screen.getByRole('menuitem', { name: /digitalWebsites/i })).not.toHaveAttribute('aria-current', 'page')
   })
 
   it('renders digital portfolio as a top-level nav link', () => {
@@ -77,8 +76,13 @@ describe('Header', () => {
     expect(screen.getByRole('link', { name: 'digitalPortfolio' })).toHaveAttribute('href', '/services/portfolio')
   })
 
-  it('does not render apps dropdown in header', () => {
+  it('renders programs dropdown with program links', () => {
     render(<Header />)
-    expect(screen.queryByRole('button', { name: 'apps' })).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'programs' }))
+    expect(screen.getByRole('menuitem', { name: /businessEnablement/i })).toHaveAttribute(
+      'href',
+      '/programs/business-enablement',
+    )
+    expect(screen.getByRole('menuitem', { name: /workshops/i })).toHaveAttribute('href', '/programs/workshops')
   })
 })

@@ -23,18 +23,17 @@ const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
 
 export const metadata: Metadata = {
   title: 'Roalla Business Enablement Group',
-  description: 'Business and digital enablement—strategy, operations, and production-ready websites and platforms from one accountable team.',
+  description: 'Digital Enablement—websites, custom apps, integrations, workflow automation, and AI support from one accountable team.',
   keywords: [
-    'business consulting',
-    'strategic planning',
-    'business optimization',
-    'leadership development',
-    'growth strategy',
-    'innovation consulting',
-    'risk management',
-    'business enablement',
+    'website development',
+    'custom app development',
+    'workflow automation',
+    'system integration',
+    'AI workflow support',
     'digital transformation',
-    'operational efficiency'
+    'business website design',
+    'custom software development',
+    'digital enablement',
   ],
   authors: [{ name: 'Roalla Business Enablement Group' }],
   creator: 'Roalla Business Enablement Group',
@@ -53,21 +52,21 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: siteUrl,
     siteName: 'Roalla Business Enablement Group',
-    title: 'Roalla Business Enablement Group | Business & Digital Enablement',
-    description: 'Business Enablement and Digital Creations—strategy, execution, and live websites and platforms from one accountable team.',
+    title: 'Roalla Business Enablement Group | Digital Enablement',
+    description: 'Websites, custom apps, integrations, workflow automation, and AI support—built and launched by one accountable team.',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Roalla Business Enablement Group — Business & Digital Enablement',
+        alt: 'Roalla Business Enablement Group — Digital Enablement',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Roalla Business Enablement Group | Business & Digital Enablement',
-    description: 'Business Enablement and Digital Creations—strategy, execution, and live websites and platforms from one accountable team.',
+    title: 'Roalla Business Enablement Group | Digital Enablement',
+    description: 'Websites, custom apps, integrations, workflow automation, and AI support—built and launched by one accountable team.',
     images: ['/og-image.jpg'],
     creator: '@roalla',
   },
@@ -97,7 +96,7 @@ const structuredData = [
     logo: `${siteUrl}/logo.svg`,
     image: `${siteUrl}/og-image.jpg`,
     description:
-      'Business Enablement and Digital Creations—strategic planning, accountable implementation, and production-ready websites and platforms.',
+      'Digital Enablement—websites, custom apps, integrations, workflow automation, and AI support with accountable delivery.',
     areaServed: 'Global',
     contactPoint: {
       '@type': 'ContactPoint',

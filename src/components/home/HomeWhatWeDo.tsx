@@ -5,12 +5,15 @@ import Reveal from '../motion/Reveal'
 import { useTranslations, useLocale } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import {
-  Briefcase,
   Globe,
-  GraduationCap,
+  Layers,
+  Workflow,
+  Sparkles,
+  CalendarDays,
   ArrowRight,
-  CheckCircle2,
   ExternalLink,
+  GraduationCap,
+  Briefcase,
 } from 'lucide-react'
 import BrowserFrame from '../digital/BrowserFrame'
 import {
@@ -19,8 +22,38 @@ import {
   portfolioImageAlts,
 } from '@/lib/digitalPortfolio'
 
-const consultingOutcomeKeys = ['consultingOutcome1', 'consultingOutcome2'] as const
-const digitalOutcomeKeys = ['digitalOutcome1', 'digitalOutcome2'] as const
+const capabilityCards = [
+  {
+    icon: Globe,
+    titleKey: 'capabilityWebsitesTitle',
+    descKey: 'capabilityWebsitesDesc',
+    href: { pathname: '/services/digital', hash: 'websites' } as const,
+  },
+  {
+    icon: Layers,
+    titleKey: 'capabilityPlatformsTitle',
+    descKey: 'capabilityPlatformsDesc',
+    href: { pathname: '/services/digital', hash: 'platforms' } as const,
+  },
+  {
+    icon: Workflow,
+    titleKey: 'capabilityAutomationTitle',
+    descKey: 'capabilityAutomationDesc',
+    href: { pathname: '/services/digital', hash: 'automation' } as const,
+  },
+  {
+    icon: Sparkles,
+    titleKey: 'capabilityAiTitle',
+    descKey: 'capabilityAiDesc',
+    href: { pathname: '/services/digital', hash: 'ai-support' } as const,
+  },
+  {
+    icon: CalendarDays,
+    titleKey: 'capabilityEventsTitle',
+    descKey: 'capabilityEventsDesc',
+    href: '/services/digital-events' as const,
+  },
+] as const
 
 export default function HomeWhatWeDo() {
   const t = useTranslations('home.whatWeDo')
@@ -52,84 +85,32 @@ export default function HomeWhatWeDo() {
           <p className="mt-3 text-lg text-slate-600">{t('description')}</p>
         </Reveal>
 
-        <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 mb-12">
-          {/* Business Enablement */}
-          <Reveal className="flex flex-col rounded-2xl border border-slate-200 bg-white p-6 lg:p-8 shadow-card hover:shadow-card-hover hover:border-primary/25 transition-all duration-300">
-            <div className="flex items-start gap-4 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center border border-primary/10 shrink-0">
-                <Briefcase className="w-6 h-6 text-primary" />
-              </div>
-              <div>
-                <h3 className="text-xl font-serif font-bold text-slate-900">{t('businessEnablementTitle')}</h3>
-                <p className="mt-1 text-slate-600 text-sm leading-relaxed">{t('businessEnablementDesc')}</p>
-              </div>
-            </div>
-            <ul className="space-y-3 flex-1 mb-6">
-              {consultingOutcomeKeys.map((key) => (
-                <li key={key} className="flex items-start gap-2.5 text-sm text-slate-700">
-                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" aria-hidden />
-                  {t(key)}
-                </li>
-              ))}
-            </ul>
-            <div className="flex flex-col gap-3 mt-auto">
-              <Link
-                href="/services"
-                className="inline-flex items-center text-primary font-semibold hover:underline hover:-translate-y-px transition-all duration-200"
-              >
-                {t('exploreBusinessEnablement')}
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Link>
-              <Link
-                href="/services/workshops"
-                className="inline-flex items-center text-sm text-slate-600 font-medium hover:text-primary hover:underline transition-colors"
-              >
-                <GraduationCap className="w-4 h-4 mr-1.5 shrink-0" aria-hidden />
-                {t('workshopsAlso')}
-                <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
-              </Link>
-            </div>
-          </Reveal>
-
-          {/* Digital Creations */}
-          <Reveal delayMs={60} className="flex flex-col rounded-2xl border border-slate-200 bg-white p-6 lg:p-8 shadow-card hover:shadow-card-hover hover:border-primary/25 transition-all duration-300">
-            <div className="flex items-start gap-4 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center border border-primary/10 shrink-0">
-                <Globe className="w-6 h-6 text-primary" />
-              </div>
-              <div>
-                <h3 className="text-xl font-serif font-bold text-slate-900">{t('websitesAndDigitalTitle')}</h3>
-                <p className="mt-1 text-slate-600 text-sm leading-relaxed">{t('websitesAndDigitalDesc')}</p>
-              </div>
-            </div>
-            <ul className="space-y-3 flex-1 mb-6">
-              {digitalOutcomeKeys.map((key) => (
-                <li key={key} className="flex items-start gap-2.5 text-sm text-slate-700">
-                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" aria-hidden />
-                  {t(key)}
-                </li>
-              ))}
-            </ul>
-            <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4 mt-auto">
-              <Link
-                href="/services/digital"
-                className="inline-flex items-center text-primary font-semibold hover:underline hover:-translate-y-px transition-all duration-200"
-              >
-                {t('exploreWebsitesAndDigital')}
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Link>
-              <Link
-                href="/services/digital"
-                className="inline-flex items-center text-sm text-slate-600 font-medium hover:text-primary hover:underline transition-colors"
-              >
-                {t('digitalScopesLink')}
-                <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
-              </Link>
-            </div>
-          </Reveal>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5 mb-12">
+          {capabilityCards.map((card, index) => {
+            const Icon = card.icon
+            return (
+              <Reveal key={card.titleKey} delayMs={index * 40} className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 lg:p-6 shadow-card hover:shadow-card-hover hover:border-primary/25 transition-all duration-300">
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center border border-primary/10 shrink-0">
+                    <Icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-serif font-bold text-slate-900">{t(card.titleKey)}</h3>
+                    <p className="mt-1 text-sm text-slate-600 leading-snug">{t(card.descKey)}</p>
+                  </div>
+                </div>
+                <Link
+                  href={card.href}
+                  className="mt-auto inline-flex items-center text-sm text-primary font-semibold hover:underline"
+                >
+                  {t('exploreCapability')}
+                  <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
+                </Link>
+              </Reveal>
+            )
+          })}
         </div>
 
-        {/* Portfolio previews */}
         <Reveal className="mb-6">
           <div className="grid md:grid-cols-3 gap-4 lg:gap-6">
             {featured.map((item, index) => (
@@ -170,7 +151,7 @@ export default function HomeWhatWeDo() {
           </div>
         </Reveal>
 
-        <Reveal className="text-center">
+        <Reveal className="text-center mb-10">
           <Link
             href="/services/portfolio"
             className="inline-flex items-center link-action font-semibold hover:underline"
@@ -178,6 +159,29 @@ export default function HomeWhatWeDo() {
             {t('viewAllWork')}
             <ArrowRight className="ml-2 w-4 h-4" />
           </Link>
+        </Reveal>
+
+        <Reveal className="rounded-xl border border-slate-200 bg-white/80 px-5 py-4 lg:px-6 lg:py-5">
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">{t('programsStripTitle')}</p>
+          <p className="text-sm text-slate-700 leading-relaxed">{t('programsStripDesc')}</p>
+          <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
+            <Link
+              href="/programs/business-enablement"
+              className="inline-flex items-center text-sm font-semibold text-slate-700 hover:text-primary hover:underline"
+            >
+              <Briefcase className="w-4 h-4 mr-1.5 shrink-0" aria-hidden />
+              {t('programsBusinessEnablement')}
+              <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
+            </Link>
+            <Link
+              href="/programs/workshops"
+              className="inline-flex items-center text-sm font-semibold text-slate-700 hover:text-primary hover:underline"
+            >
+              <GraduationCap className="w-4 h-4 mr-1.5 shrink-0" aria-hidden />
+              {t('programsWorkshops')}
+              <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
+            </Link>
+          </div>
         </Reveal>
       </div>
     </section>

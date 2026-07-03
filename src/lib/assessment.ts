@@ -24,11 +24,11 @@ export const ASSESSMENT_QUESTION_IDS: AssessmentQuestionId[] = [
 ]
 
 export const LANE_VALUES: AssessmentLane[] = [
-  'consulting',
   'website',
   'platform',
-  'workshop',
   'event',
+  'workshop',
+  'consulting',
   'unsure',
 ]
 
@@ -173,11 +173,13 @@ function laneHref(lane: AssessmentLane): string {
     case 'platform':
       return '/services/digital'
     case 'workshop':
-      return '/services/workshops'
+      return '/programs/workshops'
     case 'event':
       return '/services/digital-events'
+    case 'consulting':
+      return '/programs/business-enablement'
     default:
-      return '/services'
+      return '/services/digital'
   }
 }
 
@@ -241,7 +243,7 @@ export function computeAssessmentResult(answers: AssessmentAnswers): AssessmentR
       scheduleGoal: '',
       serviceHref: null,
       laneHref: laneHref(lane),
-      exploreServicesHref: '/services',
+      exploreServicesHref: '/programs/business-enablement',
     }
     partial.scheduleGoal = buildScheduleGoalSummary(partial)
     return partial
@@ -259,9 +261,9 @@ export function computeAssessmentResult(answers: AssessmentAnswers): AssessmentR
     scheduleIntent: scheduleIntentForLane(lane),
     scheduleFocus: meta.focus,
     scheduleGoal: '',
-    serviceHref: `/services#${meta.anchor}`,
-    laneHref: '/services',
-    exploreServicesHref: `/services#${meta.pillarSectionId}`,
+    serviceHref: `/programs/business-enablement#${meta.anchor}`,
+    laneHref: '/programs/business-enablement',
+    exploreServicesHref: `/programs/business-enablement#${meta.pillarSectionId}`,
   }
 
   result.scheduleGoal = buildScheduleGoalSummary(result)

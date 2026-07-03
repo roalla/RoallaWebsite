@@ -16,7 +16,7 @@ type ServicePageHeroProps = {
   primaryCta: React.ReactNode
   secondaryCta?: React.ReactNode
   ctaSubtext?: string
-  tertiaryLink?: { href: '/assessment' | '/services/portfolio' | '/services' | '/services/digital'; label: string }
+  tertiaryLink?: { href: '/assessment' | '/services/portfolio' | '/programs/business-enablement' | '/services/digital'; label: string }
   stats: ServiceStat[]
   statsNote?: string
   variant?: 'consulting' | 'digital'
@@ -336,7 +336,7 @@ type ServicePageCTAProps = {
   secondaryCta?: React.ReactNode
   ctaSubtext?: string
   confidentiality?: { href: '/contact'; label: string }
-  links?: { href: '/services' | '/services/workshops' | '/services/digital' | '/services/digital-events' | '/services/portfolio' | '/assessment'; label: string }[]
+  links?: { href: '/programs/business-enablement' | '/programs/workshops' | '/services/digital' | '/services/digital-events' | '/services/portfolio' | '/assessment'; label: string }[]
 }
 
 export function ServicePageCTA({

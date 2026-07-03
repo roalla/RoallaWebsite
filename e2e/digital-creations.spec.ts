@@ -8,7 +8,7 @@ test.describe('Digital creations portfolio order', () => {
     await expect(heroLinks.nth(0)).toContainText('businesscocoon.com')
     await expect(heroLinks.nth(1)).toContainText('4theblueprint.com')
     await expect(heroLinks.nth(2)).toContainText('boothlio.com')
-    await expect(heroLinks.nth(3)).toContainText('valentir.up.railway.app')
+    await expect(heroLinks.nth(3)).toContainText('valentir.ca')
     await expect(heroLinks.nth(4)).toContainText('my360vision.com')
     await expect(heroLinks.nth(5)).toContainText('soaringpuck.com')
     await expect(heroLinks.nth(6)).toContainText('pitchhotshot.com')

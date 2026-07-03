@@ -15,6 +15,7 @@ export type PortfolioItemId =
   | 'boothlio'
   | 'pitch-hotshots'
   | 'my360vision'
+  | 'goalie-stop'
 
 export type PortfolioVerticalId = 'fleet'
 
@@ -27,7 +28,7 @@ export type PortfolioItemConfig = {
   tryUrl: string
   domain?: string
   contactService: 'websites-brand' | 'custom-platforms'
-  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10' | 't11'
+  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10' | 't11' | 't12'
   tagKeys?: readonly [string, string, string]
   /** Shown in the featured case-study block for this category */
   featuredCategory?: PortfolioCategory
@@ -50,6 +51,7 @@ export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'soaring-puck',
   'pitch-hotshots',
   'ken-effect',
+  'goalie-stop',
   'cold-dejabru-event',
   'roalla-site',
 ]
@@ -158,12 +160,23 @@ export const portfolioItems: PortfolioItemConfig[] = [
     category: 'website',
     projectType: 'client',
     imageUrl: '/pulsavantsolution.jpg',
-    tryUrl: 'https://valentir.up.railway.app/',
-    domain: 'valentir.up.railway.app',
+    tryUrl: 'https://valentir.ca/',
+    domain: 'valentir.ca',
     contactService: 'websites-brand',
     i18nPrefix: 't8',
     tagKeys: ['t8Tag1', 't8Tag2', 't8Tag3'],
     featuredCategory: 'website',
+  },
+  {
+    id: 'goalie-stop',
+    category: 'website',
+    projectType: 'client',
+    imageUrl: '/goaliestop_sample.jpg',
+    tryUrl: 'https://www.goaliestop.com/',
+    domain: 'goaliestop.com',
+    contactService: 'websites-brand',
+    i18nPrefix: 't12',
+    tagKeys: ['t12Tag1', 't12Tag2', 't12Tag3'],
   },
   {
     id: 'roalla-site',
@@ -191,7 +204,9 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
   'pitch-hotshots':
     'Pitch Hotshots — rehearse investor pitches and sales talks with AI scoring, delivery metrics, and stage-ready feedback',
   my360vision:
-    'My360Vision fleet telematics — live fleet map, plain-language alerts, GPS and driver-phone tracking, and audit-ready exports for Canadian SMB fleets',
+    'My360Vision homepage — IoT management and telematics for every industry, with fleet overview dashboards and industry profile cards',
+  'goalie-stop':
+    'Goalie Stop (RMG) homepage — elite goaltending camps, private training, instructor profiles, and Book with Ryan booking paths',
 }
 
 export type PortfolioScheduleQuery = {

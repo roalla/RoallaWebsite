@@ -20,8 +20,8 @@ export default function HomeOurWork() {
   const tPortfolio = useTranslations('digitalCreations')
   const tCommon = useTranslations('common')
   const locale = useLocale()
-  const nameMap = { t1: 't1Name', t3: 't3Name', t4: 't4Name', t5: 't5Name', t6: 't6Name', t7: 't7Name', t8: 't8Name', t9: 't9Name', t10: 't10Name', t11: 't11Name' } as const
-  const descMap = { t1: 't1Desc', t3: 't3Desc', t4: 't4Desc', t5: 't5Desc', t6: 't6Desc', t7: 't7Desc', t8: 't8Desc', t9: 't9Desc', t10: 't10Desc', t11: 't11Desc' } as const
+  const nameMap = { t1: 't1Name', t3: 't3Name', t4: 't4Name', t5: 't5Name', t6: 't6Name', t7: 't7Name', t8: 't8Name', t9: 't9Name', t10: 't10Name', t11: 't11Name', t12: 't12Name' } as const
+  const descMap = { t1: 't1Desc', t3: 't3Desc', t4: 't4Desc', t5: 't5Desc', t6: 't6Desc', t7: 't7Desc', t8: 't8Desc', t9: 't9Desc', t10: 't10Desc', t11: 't11Desc', t12: 't12Desc' } as const
 
   const featured = getOrderedPortfolioItems().map((item) => ({
     id: item.id,

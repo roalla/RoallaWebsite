@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Digital creations portfolio order', () => {
-  test('hero, jump nav, and all projects list platforms first', async ({ page }) => {
+  test('hero, industry jump nav, and all projects list platforms first', async ({ page }) => {
     await page.goto('/en/services/portfolio')
 
     const heroLinks = page.locator('main header a[href^="https://"]')
@@ -18,20 +18,14 @@ test.describe('Digital creations portfolio order', () => {
     await expect(heroLinks.nth(10)).toContainText('coldbru.dejabru.ca')
     await expect(heroLinks.nth(11)).toContainText('roalla.com')
 
-    const jumpNav = page.getByRole('navigation', { name: 'Jump to project' })
+    const jumpNav = page.getByRole('navigation', { name: 'Browse by industry' })
     const jumpLinks = jumpNav.getByRole('link')
-    await expect(jumpLinks.nth(0)).toHaveText(/Business Cocoon/i)
-    await expect(jumpLinks.nth(1)).toHaveText(/GRCStatus/i)
-    await expect(jumpLinks.nth(2)).toHaveText(/4 The Blueprint/i)
-    await expect(jumpLinks.nth(3)).toHaveText(/Boothlio/i)
-    await expect(jumpLinks.nth(4)).toHaveText(/Valentir Green Tech/i)
-    await expect(jumpLinks.nth(5)).toHaveText(/My360Vision/i)
-    await expect(jumpLinks.nth(6)).toHaveText(/Soaring Puck/i)
-    await expect(jumpLinks.nth(7)).toHaveText(/Pitch Hotshots/i)
-    await expect(jumpLinks.nth(8)).toHaveText(/Ken Effect/i)
-    await expect(jumpLinks.nth(9)).toHaveText(/Goalie Stop/i)
-    await expect(jumpLinks.nth(10)).toHaveText(/Cold Deja Bru/i)
-    await expect(jumpLinks.nth(11)).toHaveText(/ROALLA/i)
+    await expect(jumpLinks.nth(0)).toHaveText(/Fleet & logistics/i)
+    await expect(jumpLinks.nth(1)).toHaveText(/Sports & recreation/i)
+    await expect(jumpLinks.nth(2)).toHaveText(/Events & trade shows/i)
+    await expect(jumpLinks.nth(3)).toHaveText(/Education & training/i)
+    await expect(jumpLinks.nth(4)).toHaveText(/Professional services/i)
+    await expect(jumpLinks.nth(5)).toHaveText(/Business platforms/i)
 
     const projectCards = page.locator('#portfolio article h3')
     await expect(projectCards.nth(0)).toHaveText(/GRCStatus/i)

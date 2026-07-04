@@ -7,8 +7,8 @@ import { Link } from '@/i18n/navigation'
 import { CheckCircle2 } from 'lucide-react'
 import Breadcrumb from '@/components/Breadcrumb'
 import ConsultationRequestForm, { resolveInitialIntent, resolveInitialFocus, resolveInitialWebsiteGoal } from '@/components/ConsultationRequestForm'
-import { getPortfolioItem, isValidPortfolioReference } from '@/lib/digitalPortfolio'
-import type { PortfolioItemId } from '@/lib/digitalPortfolio'
+import { getPortfolioItem, getPortfolioIndustryCategory, isValidPortfolioReference } from '@/lib/digitalPortfolio'
+import type { PortfolioIndustryCategoryId, PortfolioItemId } from '@/lib/digitalPortfolio'
 
 const PORTFOLIO_NAME_KEYS = {
   t1: 't1Name',
@@ -34,9 +34,18 @@ function resolvePortfolioReferenceGoal(
     return { goal: null, referenceId: null }
   }
 
-  if (reference === 'fleet') {
+  if (reference === 'fleet' || reference === 'fleet-logistics') {
     return {
-      goal: tConsult('portfolioReferenceGoal', { project: tPortfolio('verticalFleetTitle') }),
+      goal: tConsult('portfolioReferenceGoal', { project: tPortfolio('industryFleetTitle') }),
+      referenceId: reference,
+    }
+  }
+
+  const industry = getPortfolioIndustryCategory(reference as PortfolioIndustryCategoryId)
+  if (industry) {
+    const titleKey = `${industry.i18nPrefix}Title` as 'industryFleetTitle'
+    return {
+      goal: tConsult('portfolioReferenceGoal', { project: tPortfolio(titleKey) }),
       referenceId: reference,
     }
   }

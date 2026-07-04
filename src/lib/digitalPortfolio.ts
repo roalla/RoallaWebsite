@@ -20,6 +20,14 @@ export type PortfolioItemId =
 
 export type PortfolioVerticalId = 'fleet'
 
+export type PortfolioIndustryCategoryId =
+  | 'fleet-logistics'
+  | 'sports-recreation'
+  | 'events-trade-shows'
+  | 'education-training'
+  | 'professional-services'
+  | 'business-platforms'
+
 export type PortfolioItemConfig = {
   id: PortfolioItemId
   category: PortfolioCategory
@@ -33,6 +41,8 @@ export type PortfolioItemConfig = {
   tagKeys?: readonly [string, string, string]
   /** Shown in the featured case-study block for this category */
   featuredCategory?: PortfolioCategory
+  /** Primary SMB industry bucket for jump navigation */
+  industryCategory: PortfolioIndustryCategoryId
 }
 
 export type PortfolioVerticalConfig = {
@@ -40,6 +50,21 @@ export type PortfolioVerticalConfig = {
   itemIds: readonly [PortfolioItemId, PortfolioItemId]
   contactService: 'websites-brand' | 'custom-platforms'
   i18nPrefix: 'verticalFleet'
+}
+
+export type PortfolioIndustryCategoryConfig = {
+  id: PortfolioIndustryCategoryId
+  itemIds: readonly PortfolioItemId[]
+  contactService: 'websites-brand' | 'custom-platforms'
+  i18nPrefix:
+    | 'industryFleet'
+    | 'industrySports'
+    | 'industryEvents'
+    | 'industryEducation'
+    | 'industryProfessional'
+    | 'industryPlatforms'
+  /** When set, the primary scroll target for this industry band */
+  sectionAnchor?: string
 }
 
 /** Hero / proof grids: platforms first, then websites */
@@ -67,6 +92,47 @@ export const portfolioVerticals: PortfolioVerticalConfig[] = [
   },
 ]
 
+/** SMB-friendly industry buckets for portfolio jump navigation */
+export const portfolioIndustryCategories: PortfolioIndustryCategoryConfig[] = [
+  {
+    id: 'fleet-logistics',
+    itemIds: ['valentir-green-tech', 'my360vision'],
+    contactService: 'custom-platforms',
+    i18nPrefix: 'industryFleet',
+    sectionAnchor: 'fleet-vertical',
+  },
+  {
+    id: 'sports-recreation',
+    itemIds: ['soaring-puck', 'goalie-stop'],
+    contactService: 'websites-brand',
+    i18nPrefix: 'industrySports',
+  },
+  {
+    id: 'events-trade-shows',
+    itemIds: ['boothlio', 'cold-dejabru-event'],
+    contactService: 'websites-brand',
+    i18nPrefix: 'industryEvents',
+  },
+  {
+    id: 'education-training',
+    itemIds: ['4theblueprint'],
+    contactService: 'custom-platforms',
+    i18nPrefix: 'industryEducation',
+  },
+  {
+    id: 'professional-services',
+    itemIds: ['grcstatus', 'ken-effect'],
+    contactService: 'websites-brand',
+    i18nPrefix: 'industryProfessional',
+  },
+  {
+    id: 'business-platforms',
+    itemIds: ['business-cocoon', 'pitch-hotshots'],
+    contactService: 'custom-platforms',
+    i18nPrefix: 'industryPlatforms',
+  },
+]
+
 export const portfolioItems: PortfolioItemConfig[] = [
   {
     id: 'business-cocoon',
@@ -79,6 +145,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
     i18nPrefix: 't4',
     tagKeys: ['t4Tag1', 't4Tag2', 't4Tag3'],
     featuredCategory: 'platform',
+    industryCategory: 'business-platforms',
   },
   {
     id: '4theblueprint',
@@ -90,6 +157,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
     contactService: 'custom-platforms',
     i18nPrefix: 't7',
     tagKeys: ['t7Tag1', 't7Tag2', 't7Tag3'],
+    industryCategory: 'education-training',
   },
   {
     id: 'grcstatus',
@@ -101,6 +169,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
     contactService: 'custom-platforms',
     i18nPrefix: 't13',
     tagKeys: ['t13Tag1', 't13Tag2', 't13Tag3'],
+    industryCategory: 'professional-services',
   },
   {
     id: 'soaring-puck',
@@ -112,6 +181,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
     contactService: 'custom-platforms',
     i18nPrefix: 't1',
     tagKeys: ['t1Tag1', 't1Tag2', 't1Tag3'],
+    industryCategory: 'sports-recreation',
   },
   {
     id: 'boothlio',
@@ -123,6 +193,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
     contactService: 'custom-platforms',
     i18nPrefix: 't9',
     tagKeys: ['t9Tag1', 't9Tag2', 't9Tag3'],
+    industryCategory: 'events-trade-shows',
   },
   {
     id: 'pitch-hotshots',
@@ -134,6 +205,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
     contactService: 'custom-platforms',
     i18nPrefix: 't10',
     tagKeys: ['t10Tag1', 't10Tag2', 't10Tag3'],
+    industryCategory: 'business-platforms',
   },
   {
     id: 'my360vision',
@@ -145,6 +217,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
     contactService: 'custom-platforms',
     i18nPrefix: 't11',
     tagKeys: ['t11Tag1', 't11Tag2', 't11Tag3'],
+    industryCategory: 'fleet-logistics',
   },
   {
     id: 'ken-effect',
@@ -156,6 +229,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
     contactService: 'websites-brand',
     i18nPrefix: 't3',
     tagKeys: ['t3Tag1', 't3Tag2', 't3Tag3'],
+    industryCategory: 'professional-services',
   },
   {
     id: 'cold-dejabru-event',
@@ -167,6 +241,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
     contactService: 'websites-brand',
     i18nPrefix: 't6',
     tagKeys: ['t6Tag1', 't6Tag2', 't6Tag3'],
+    industryCategory: 'events-trade-shows',
   },
   {
     id: 'valentir-green-tech',
@@ -179,6 +254,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
     i18nPrefix: 't8',
     tagKeys: ['t8Tag1', 't8Tag2', 't8Tag3'],
     featuredCategory: 'website',
+    industryCategory: 'fleet-logistics',
   },
   {
     id: 'goalie-stop',
@@ -190,6 +266,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
     contactService: 'websites-brand',
     i18nPrefix: 't12',
     tagKeys: ['t12Tag1', 't12Tag2', 't12Tag3'],
+    industryCategory: 'sports-recreation',
   },
   {
     id: 'roalla-site',
@@ -201,6 +278,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
     contactService: 'websites-brand',
     i18nPrefix: 't5',
     tagKeys: ['t5Tag1', 't5Tag2', 't5Tag3'],
+    industryCategory: 'professional-services',
   },
 ]
 
@@ -226,7 +304,7 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
 
 export type PortfolioScheduleQuery = {
   service: PortfolioItemConfig['contactService']
-  reference: PortfolioItemId | PortfolioVerticalId
+  reference: PortfolioItemId | PortfolioVerticalId | PortfolioIndustryCategoryId
   need?: WebsiteGoal
 }
 
@@ -252,14 +330,22 @@ export function getFeaturedItems(category?: PortfolioCategory): PortfolioItemCon
 }
 
 export function buildPortfolioScheduleQuery(
-  item: PortfolioItemConfig | PortfolioVerticalConfig,
-  reference?: PortfolioItemId | PortfolioVerticalId,
+  item: PortfolioItemConfig | PortfolioVerticalConfig | PortfolioIndustryCategoryConfig,
+  reference?: PortfolioItemId | PortfolioVerticalId | PortfolioIndustryCategoryId,
   need?: WebsiteGoal,
 ): PortfolioScheduleQuery {
-  if ('itemIds' in item) {
-    return { service: item.contactService, reference: reference ?? item.id, ...(need ? { need } : {}) }
+  if ('itemIds' in item && 'i18nPrefix' in item && 'id' in item) {
+    const industry = item as PortfolioIndustryCategoryConfig | PortfolioVerticalConfig
+    return { service: industry.contactService, reference: reference ?? industry.id, ...(need ? { need } : {}) }
   }
-  return { service: item.contactService, reference: reference ?? item.id, ...(need ? { need } : {}) }
+  const portfolioItem = item as PortfolioItemConfig
+  return { service: portfolioItem.contactService, reference: reference ?? portfolioItem.id, ...(need ? { need } : {}) }
+}
+
+export function getPortfolioIndustryCategory(
+  id: PortfolioIndustryCategoryId,
+): PortfolioIndustryCategoryConfig | undefined {
+  return portfolioIndustryCategories.find((category) => category.id === id)
 }
 
 export function sortPortfolioByDisplayOrder(
@@ -289,8 +375,11 @@ export function getPortfolioProofImages(category: PortfolioCategory): PortfolioI
   return getOrderedPortfolioItems({ category }).filter((item) => item.imageUrl).slice(0, 2)
 }
 
-export function isValidPortfolioReference(value: string | null): value is PortfolioItemId | PortfolioVerticalId {
+export function isValidPortfolioReference(
+  value: string | null,
+): value is PortfolioItemId | PortfolioVerticalId | PortfolioIndustryCategoryId {
   if (!value) return false
   if (portfolioVerticals.some((v) => v.id === value)) return true
+  if (portfolioIndustryCategories.some((c) => c.id === value)) return true
   return portfolioItems.some((item) => item.id === value)
 }

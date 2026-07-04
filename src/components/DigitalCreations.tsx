@@ -28,10 +28,12 @@ import {
   getFeaturedItems,
   buildPortfolioScheduleQuery,
   portfolioVerticals,
+  portfolioIndustryCategories,
   getPortfolioItem,
   portfolioImageAlts,
   type PortfolioCategory,
   type PortfolioItemConfig,
+  type PortfolioIndustryCategoryConfig,
   type PortfolioVerticalConfig,
 } from '@/lib/digitalPortfolio'
 
@@ -165,6 +167,56 @@ function FeaturedCaseStudy({
             className="h-full shadow-lg"
           />
         </div>
+      </div>
+    </Reveal>
+  )
+}
+
+function IndustryCategoryBand({
+  category,
+  t,
+}: {
+  category: PortfolioIndustryCategoryConfig
+  t: ReturnType<typeof useTranslations<'digitalCreations'>>
+}) {
+  const titleKey = `${category.i18nPrefix}Title` as 'industryFleetTitle'
+  const descKey = `${category.i18nPrefix}Desc` as 'industryFleetDesc'
+  const scheduleQuery = buildPortfolioScheduleQuery(category)
+  const anchorId = category.sectionAnchor ?? `industry-${category.id}`
+
+  return (
+    <Reveal
+      id={anchorId}
+      className="mb-6 scroll-mt-28 rounded-xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm"
+    >
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div className="max-w-2xl">
+          <h2 className="text-lg font-serif font-bold text-slate-900 mb-1">{t(titleKey)}</h2>
+          <p className="text-sm text-slate-600 leading-relaxed">{t(descKey)}</p>
+        </div>
+        <Link
+          href={{ pathname: '/schedule', query: scheduleQuery }}
+          className="inline-flex shrink-0 items-center self-start bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded-lg text-sm transition-colors"
+        >
+          {t('discussIndustryBuild')}
+          <ArrowRight className="w-4 h-4 ml-2" />
+        </Link>
+      </div>
+      <div className="mt-4 flex flex-wrap gap-2">
+        {category.itemIds.map((itemId) => {
+          const item = getPortfolioItem(itemId)
+          if (!item) return null
+          const copy = getItemCopy(t, item.i18nPrefix)
+          return (
+            <a
+              key={itemId}
+              href={`#${itemId}`}
+              className="inline-flex items-center rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-700 hover:border-primary/40 hover:bg-primary/5 hover:text-primary-dark transition-colors"
+            >
+              {copy.name}
+            </a>
+          )
+        })}
       </div>
     </Reveal>
   )
@@ -417,24 +469,34 @@ const DigitalCreations = () => {
         </ul>
       </Reveal>
 
-      <nav aria-label={t('jumpNavLabel')} className="mb-14 rounded-xl border border-primary/15 bg-primary/[0.04] p-5 sm:p-6">
-        <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark mb-3">{t('jumpNavLabel')}</p>
+      <nav aria-label={t('jumpNavLabel')} className="mb-8 rounded-xl border border-primary/15 bg-primary/[0.04] p-5 sm:p-6">
+        <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark mb-1">{t('jumpNavLabel')}</p>
+        <p className="text-sm text-slate-600 mb-4">{t('jumpNavHint')}</p>
         <div className="flex flex-wrap gap-2.5">
-          {getOrderedPortfolioItems().map((item) => {
-            const copy = getItemCopy(t, item.i18nPrefix)
+          {portfolioIndustryCategories.map((category) => {
+            const titleKey = `${category.i18nPrefix}Title` as 'industryFleetTitle'
+            const anchor = category.sectionAnchor ?? `industry-${category.id}`
             return (
               <a
-                key={item.id}
-                href={`#${item.id}`}
+                key={category.id}
+                href={`#${anchor}`}
                 className="inline-flex items-center gap-1.5 rounded-lg border-2 border-primary/35 bg-white px-4 py-2.5 text-sm font-semibold text-primary-dark shadow-sm hover:bg-primary hover:border-primary hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
-                {copy.name}
+                {t(titleKey)}
                 <ArrowDown className="w-4 h-4 shrink-0 opacity-80" aria-hidden />
               </a>
             )
           })}
         </div>
       </nav>
+
+      <div className="mb-14 space-y-0">
+        {portfolioIndustryCategories
+          .filter((category) => category.id !== 'fleet-logistics')
+          .map((category) => (
+            <IndustryCategoryBand key={category.id} category={category} t={t} />
+          ))}
+      </div>
 
       {/* Featured case studies — one per category when viewing all */}
       {featuredItems.length > 0 && (

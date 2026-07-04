@@ -83,7 +83,7 @@
     "programs": "Programmes",
     "insights": "Perspectives",
     "useCases": "Cas d'usage",
-    "teamSignIn": "Connexion équipe"
+    "teamSignIn": "Connexion employés"
   },
   "home": {
     "metadataTitle": "ROALLA | Accompagnement numérique",
@@ -1474,7 +1474,9 @@
     "missionQuote": "Donner aux entreprises et aux entrepreneurs les idées stratégiques, les solutions innovantes et le soutien dont ils ont besoin pour réaliser leur plein potentiel et avoir un impact durable dans leur industrie.",
     "ctaTitle": "Prêt à travailler ensemble?",
     "ctaSubtitle": "Parlez-nous de vos objectifs—nous vous aiderons à trouver le bon point de départ.",
-    "ctaButton": "Discuter de vos besoins"
+    "ctaButton": "Discuter de vos besoins",
+    "employeeHubLine": "Employés Roalla :",
+    "employeeHubLink": "Connexion au hub interne"
   },
   "assessmentPage": {
     "metadataTitle": "Évaluation de la santé de l'entreprise | Roalla Business Enablement Group",

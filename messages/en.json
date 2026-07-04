@@ -83,7 +83,7 @@
     "programs": "Programs",
     "insights": "Insights",
     "useCases": "Use Cases",
-    "teamSignIn": "Team sign in"
+    "teamSignIn": "Employee sign in"
   },
   "home": {
     "metadataTitle": "ROALLA | Digital Enablement",
@@ -1494,7 +1494,9 @@
     "missionQuote": "To empower businesses and entrepreneurs with strategic insights, innovative solutions, and unwavering support to achieve their full potential and create lasting impact in their industries.",
     "ctaTitle": "Ready to work together?",
     "ctaSubtitle": "Tell us about your goals—we'll help you find the right starting point.",
-    "ctaButton": "Discuss Your Needs"
+    "ctaButton": "Discuss Your Needs",
+    "employeeHubLine": "Roalla employees:",
+    "employeeHubLink": "Sign in to the internal hub"
   },
   "assessmentPage": {
     "metadataTitle": "Find Your Starting Point | ROALLA",

@@ -160,8 +160,8 @@ export default function HubLoginForm({
         )}
 
         <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-          <h1 className="text-2xl font-bold text-slate-900 mb-1">Team sign in</h1>
-          <p className="text-slate-600 text-sm mb-6">Roalla Internal Hub — employees and invited partners only.</p>
+          <h1 className="text-2xl font-bold text-slate-900 mb-1">Employee sign in</h1>
+          <p className="text-slate-600 text-sm mb-6">Roalla Internal Hub — for employees and invited partners only.</p>
 
           {hubReady && (
             <button

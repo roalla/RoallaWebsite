@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 import { CheckCircle, Award, Clock, Heart, Users } from 'lucide-react'
 import ScheduleButton from './ScheduleButton'
 import Reveal from './motion/Reveal'
@@ -92,6 +93,13 @@ const About = () => {
             </ScheduleButton>
           </div>
         </div>
+
+        <p className="mt-10 text-center text-xs text-slate-400">
+          {t('employeeHubLine')}{' '}
+          <Link href="/hub/login" className="text-slate-500 hover:text-primary underline-offset-2 hover:underline">
+            {t('employeeHubLink')}
+          </Link>
+        </p>
       </div>
     </section>
   )

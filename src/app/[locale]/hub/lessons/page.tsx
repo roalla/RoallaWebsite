@@ -31,6 +31,7 @@ export default async function HubLessonsPage({ params }: Props) {
       comingSoonKey="lessonsComingSoon"
       hintKey="lessonsComingSoonHint"
       openKey="notionOpenLessons"
+      setupKey="notionLessonsSetup"
       adminEmail={getHubAdminEmailDisplay()}
     />
   )

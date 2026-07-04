@@ -31,6 +31,7 @@ export default async function HubPartnersPage({ params }: Props) {
       comingSoonKey="partnersComingSoon"
       hintKey="partnersComingSoonHint"
       openKey="notionOpenPartners"
+      setupKey="notionPartnersSetup"
       adminEmail={getHubAdminEmailDisplay()}
     />
   )

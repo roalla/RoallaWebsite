@@ -1934,6 +1934,18 @@
     "notionHostedBody": "Ouvrez l'espace d'équipe dans un nouvel onglet. Vous restez connecté au hub — Notion s'ouvre à part pour lire et modifier avec toute la mise en forme.",
     "notionHostedNote": "Seul l'admin a besoin d'un compte Notion pour modifier. Les autres peuvent consulter la page publiée.",
     "notionOpenLessons": "Ouvrir les leçons apprises",
-    "notionOpenPartners": "Ouvrir le répertoire partenaires"
+    "notionOpenPartners": "Ouvrir le répertoire partenaires",
+    "notionLessonsSetup": [
+      "Dans Notion, ouvrez votre page Leçons apprises.",
+      "Cliquez Partager → Publier → Copier le lien.",
+      "Sur Railway, définissez NOTION_LESSONS_URL avec ce lien complet (pas un exemple).",
+      "Redéployez, puis revenez ici."
+    ],
+    "notionPartnersSetup": [
+      "Dans Notion, ouvrez votre page Partenaires.",
+      "Cliquez Partager → Publier → Copier le lien.",
+      "Sur Railway, définissez NOTION_PARTNERS_URL avec ce lien complet (pas un exemple).",
+      "Redéployez, puis revenez ici."
+    ]
   }
 }

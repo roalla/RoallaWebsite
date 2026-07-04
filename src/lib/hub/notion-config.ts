@@ -3,6 +3,46 @@ function cleanEnv(value: string | undefined): string {
   return (value || '').trim().replace(/^["']|["']$/g, '')
 }
 
+const PLACEHOLDER_PATTERNS = [
+  /your-lessons-page/i,
+  /your-partners-page/i,
+  /your-notion-page/i,
+  /example\.com/i,
+  /paste-.*-here/i,
+]
+
+/** Reject empty values, docs placeholders, and non-Notion URLs. */
+export function isValidNotionPageUrl(raw: string): boolean {
+  const trimmed = cleanEnv(raw)
+  if (!trimmed) return false
+
+  const iframeMatch = trimmed.match(/src=["']([^"']+)["']/i)
+  const url = (iframeMatch?.[1] || trimmed).trim()
+
+  if (PLACEHOLDER_PATTERNS.some((p) => p.test(url))) return false
+
+  try {
+    const parsed = new URL(url)
+    const host = parsed.hostname.toLowerCase()
+    const isNotionHost =
+      host === 'notion.so' ||
+      host === 'www.notion.so' ||
+      host.endsWith('.notion.site') ||
+      host === 'notion.site'
+
+    if (!isNotionHost) return false
+
+    // Must look like a real page link (id in path or a named slug), not a bare domain.
+    const path = parsed.pathname.replace(/\/$/, '')
+    if (!path || path === '') return false
+    if (path === '/your-lessons-page-url' || path === '/your-partners-page-url') return false
+
+    return path.length > 1
+  } catch {
+    return false
+  }
+}
+
 function formatNotionUuid(hex32: string): string {
   const h = hex32.replace(/-/g, '').toLowerCase()
   if (h.length !== 32) return hex32
@@ -91,7 +131,7 @@ export type NotionPageUrls = {
 /** Build view + iframe URLs from env (share link, publish link, or embed code). */
 export function resolveNotionPageUrls(raw: string): NotionPageUrls {
   const trimmed = cleanEnv(raw)
-  if (!trimmed) return { viewUrl: '', embedUrl: '' }
+  if (!trimmed || !isValidNotionPageUrl(trimmed)) return { viewUrl: '', embedUrl: '' }
 
   const viewUrl = notionViewUrl(trimmed)
   const pageId = extractNotionPageId(trimmed)

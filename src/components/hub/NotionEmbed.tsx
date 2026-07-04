@@ -10,6 +10,7 @@ type Props = {
   comingSoonKey: 'partnersComingSoon' | 'lessonsComingSoon'
   hintKey: 'partnersComingSoonHint' | 'lessonsComingSoonHint'
   openKey: 'notionOpenLessons' | 'notionOpenPartners'
+  setupKey: 'notionLessonsSetup' | 'notionPartnersSetup'
   adminEmail?: string
 }
 
@@ -20,6 +21,7 @@ export default function NotionEmbed({
   comingSoonKey,
   hintKey,
   openKey,
+  setupKey,
   adminEmail = '',
 }: Props) {
   const t = useTranslations('hub')
@@ -31,9 +33,14 @@ export default function NotionEmbed({
       <div>
         <h1 className="text-2xl font-bold text-slate-900 mb-2">{t(titleKey)}</h1>
         <p className="text-slate-600 text-sm mb-6">{t(subtitleKey)}</p>
-        <div className="rounded-xl border border-slate-200 bg-white p-8 text-center max-w-lg">
+        <div className="rounded-xl border border-slate-200 bg-white p-8 max-w-lg">
           <p className="font-medium text-slate-900">{t(comingSoonKey)}</p>
           <p className="mt-2 text-sm text-slate-600">{hint}</p>
+          <ol className="mt-4 text-sm text-slate-600 space-y-2 list-decimal list-inside text-left">
+            {(t.raw(setupKey) as string[]).map((step) => (
+              <li key={step}>{step}</li>
+            ))}
+          </ol>
           {adminEmail && (
             <a
               href={`mailto:${adminEmail}`}

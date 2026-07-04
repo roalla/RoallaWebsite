@@ -1954,6 +1954,18 @@
     "notionHostedBody": "Open the team workspace in a new tab. You stay signed in to the hub — Notion opens separately so you can read and edit with full formatting.",
     "notionHostedNote": "Only you (the admin) need a Notion account to edit. Everyone else can view the published page.",
     "notionOpenLessons": "Open lessons learned",
-    "notionOpenPartners": "Open partner directory"
+    "notionOpenPartners": "Open partner directory",
+    "notionLessonsSetup": [
+      "In Notion, open your Lessons page.",
+      "Click Share → Publish → Copy link.",
+      "In Railway, set NOTION_LESSONS_URL to that full link (not an example placeholder).",
+      "Redeploy, then return here."
+    ],
+    "notionPartnersSetup": [
+      "In Notion, open your Partners page.",
+      "Click Share → Publish → Copy link.",
+      "In Railway, set NOTION_PARTNERS_URL to that full link (not an example placeholder).",
+      "Redeploy, then return here."
+    ]
   }
 }

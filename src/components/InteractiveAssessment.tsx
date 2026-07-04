@@ -311,6 +311,15 @@ function AssessmentResultsView({
         </Link>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          {result.useCaseHref && (
+            <Link
+              href={result.useCaseHref}
+              className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
+            >
+              {t('viewUseCase')}
+              <ArrowRight className="ml-1.5 w-4 h-4" />
+            </Link>
+          )}
           {result.serviceHref && (
             <Link
               href={result.serviceHref as '/programs/business-enablement'}

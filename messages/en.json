@@ -101,6 +101,8 @@
       "pathAutomationDesc": "Connect systems, remove manual steps, and add practical AI where it helps.",
       "pathAssessmentTitle": "Not sure where to start?",
       "pathAssessmentDesc": "Five quick questions to find your best entry point—digital build or program.",
+      "pathSeeUseCase": "See use case guide",
+      "pathStartInquiry": "Start an inquiry",
       "programsLink": "Looking for advisory or workshops?",
       "programsLinkCta": "See Programs",
       "pathConsultingTitle": "I need business enablement",
@@ -1529,6 +1531,7 @@
     "viewDigitalCreations": "Explore Digital Enablement",
     "viewWorkshops": "Explore Workshops",
     "viewDigitalEvents": "Explore Digital Events",
+    "viewUseCase": "See matching use case",
     "pillars": {
       "prepare": "Prepare — align priorities and readiness",
       "transform": "Transform — redesign process and systems",

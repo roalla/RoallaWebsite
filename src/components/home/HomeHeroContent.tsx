@@ -6,6 +6,7 @@ import { ArrowRight, ClipboardCheck, Globe, Layers, Sparkles } from 'lucide-reac
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import ScheduleButton from '../ScheduleButton'
+import { HERO_PATH_USE_CASES, useCasePageHref } from '@/lib/use-cases'
 
 /** Solid panel — no backdrop-blur so content stays stable during slide transitions */
 const heroGlassPanel =
@@ -19,28 +20,32 @@ export default function HomeHeroContent() {
 
   const pathCards = [
     {
-      href: { pathname: '/schedule' as const, query: { intent: 'website' } },
+      useCaseId: HERO_PATH_USE_CASES.website,
+      scheduleHref: { pathname: '/schedule' as const, query: { intent: 'website' } },
       icon: Globe,
       titleKey: 'pathWebsiteTitle' as const,
       descKey: 'pathWebsiteDesc' as const,
       analytics: 'hero-path-website',
     },
     {
-      href: { pathname: '/schedule' as const, query: { intent: 'platform' } },
+      useCaseId: HERO_PATH_USE_CASES.platform,
+      scheduleHref: { pathname: '/schedule' as const, query: { intent: 'platform' } },
       icon: Layers,
       titleKey: 'pathPlatformTitle' as const,
       descKey: 'pathPlatformDesc' as const,
       analytics: 'hero-path-platform',
     },
     {
-      href: { pathname: '/schedule' as const, query: { intent: 'website', need: 'automation' } },
+      useCaseId: HERO_PATH_USE_CASES.automation,
+      scheduleHref: { pathname: '/schedule' as const, query: { intent: 'website', need: 'automation' } },
       icon: Sparkles,
       titleKey: 'pathAutomationTitle' as const,
       descKey: 'pathAutomationDesc' as const,
       analytics: 'hero-path-automation',
     },
     {
-      href: '/assessment' as const,
+      useCaseId: null,
+      scheduleHref: '/assessment' as const,
       icon: ClipboardCheck,
       titleKey: 'pathAssessmentTitle' as const,
       descKey: 'pathAssessmentDesc' as const,
@@ -80,18 +85,30 @@ export default function HomeHeroContent() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {pathCards.map((card) => {
                 const Icon = card.icon
+                const useCaseHref = card.useCaseId ? useCasePageHref(card.useCaseId) : useCasePageHref('all')
+
                 return (
-                  <Link
-                    key={card.analytics}
-                    href={card.href}
-                    className={pathCardClass}
-                    data-analytics={card.analytics}
-                  >
+                  <div key={card.analytics} className={pathCardClass} data-analytics={card.analytics}>
                     <Icon className="w-5 h-5 text-primary-dark mb-2" aria-hidden />
                     <span className="text-sm font-semibold text-slate-900">{t(card.titleKey)}</span>
                     <span className="mt-1 text-xs text-slate-600 leading-snug">{t(card.descKey)}</span>
-                    <ArrowRight className="mt-3 w-4 h-4 text-primary-dark motion-safe:transition-transform group-hover:translate-x-0.5" aria-hidden />
-                  </Link>
+                    <div className="mt-3 flex flex-col gap-2">
+                      <Link
+                        href={useCaseHref}
+                        className="inline-flex items-center text-xs font-semibold text-primary-dark hover:underline"
+                      >
+                        {t('pathSeeUseCase')}
+                        <ArrowRight className="ml-1 w-3.5 h-3.5 motion-safe:transition-transform group-hover:translate-x-0.5" aria-hidden />
+                      </Link>
+                      <Link
+                        href={card.scheduleHref}
+                        className="inline-flex items-center text-xs text-slate-500 hover:text-slate-800 transition-colors"
+                      >
+                        {t('pathStartInquiry')}
+                        <ArrowRight className="ml-1 w-3 h-3" aria-hidden />
+                      </Link>
+                    </div>
+                  </div>
                 )
               })}
             </div>

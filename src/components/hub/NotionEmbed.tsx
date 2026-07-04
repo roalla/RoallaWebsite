@@ -1,29 +1,30 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { isUnembeddableNotionUrl } from '@/lib/hub/notion-config'
-import { ExternalLink } from 'lucide-react'
+import { BookOpen, ExternalLink } from 'lucide-react'
 
 type Props = {
-  embedUrl: string
+  viewUrl: string
   titleKey: 'navPartners' | 'navLessons'
   subtitleKey: 'navPartnersSubtitle' | 'navLessonsSubtitle'
   comingSoonKey: 'partnersComingSoon' | 'lessonsComingSoon'
   hintKey: 'partnersComingSoonHint' | 'lessonsComingSoonHint'
+  openKey: 'notionOpenLessons' | 'notionOpenPartners'
   adminEmail?: string
 }
 
 export default function NotionEmbed({
-  embedUrl,
+  viewUrl,
   titleKey,
   subtitleKey,
   comingSoonKey,
   hintKey,
+  openKey,
   adminEmail = '',
 }: Props) {
   const t = useTranslations('hub')
 
-  if (!embedUrl) {
+  if (!viewUrl) {
     const hint = adminEmail ? t(hintKey, { email: adminEmail }) : t(`${hintKey}NoEmail`)
 
     return (
@@ -46,39 +47,28 @@ export default function NotionEmbed({
     )
   }
 
-  const wrongUrlType = isUnembeddableNotionUrl(embedUrl)
-
   return (
-    <div className="h-full flex flex-col">
-      <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900 mb-1">{t(titleKey)}</h1>
-          <p className="text-slate-600 text-sm">{t(subtitleKey)}</p>
+    <div>
+      <h1 className="text-2xl font-bold text-slate-900 mb-1">{t(titleKey)}</h1>
+      <p className="text-slate-600 text-sm mb-8">{t(subtitleKey)}</p>
+
+      <div className="rounded-2xl border border-slate-200 bg-white p-8 sm:p-10 max-w-2xl">
+        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-50 text-amber-700 mb-5">
+          <BookOpen className="h-6 w-6" />
         </div>
+        <h2 className="text-lg font-semibold text-slate-900 mb-2">{t('notionHostedTitle')}</h2>
+        <p className="text-sm text-slate-600 mb-6">{t('notionHostedBody')}</p>
         <a
-          href={embedUrl}
+          href={viewUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-amber-700 hover:underline shrink-0"
+          className="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition-colors"
         >
-          {t('notionOpenInNewTab')}
+          {t(openKey)}
           <ExternalLink className="h-4 w-4" />
         </a>
+        <p className="mt-4 text-xs text-slate-500">{t('notionHostedNote')}</p>
       </div>
-
-      {wrongUrlType && (
-        <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 mb-4">
-          <p className="font-medium">{t('notionWrongUrlTitle')}</p>
-          <p className="mt-1 text-amber-800">{t('notionWrongUrlHint')}</p>
-        </div>
-      )}
-
-      <iframe
-        src={embedUrl}
-        title={t(titleKey)}
-        className="flex-1 w-full min-h-[70vh] rounded-xl border bg-white"
-        allowFullScreen
-      />
     </div>
   )
 }

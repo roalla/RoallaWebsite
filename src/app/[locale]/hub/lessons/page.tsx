@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation'
 import { getHubSession } from '@/lib/hub/auth-session'
 import { canAccessModule } from '@/lib/hub/permissions'
 import NotionEmbed from '@/components/hub/NotionEmbed'
-import { notionLessonsEmbedUrl } from '@/lib/hub/notion-config'
+import { notionLessonsUrls } from '@/lib/hub/notion-config'
 import { getHubAdminEmailDisplay } from '@/lib/hub/roles'
 
 export const metadata: Metadata = {
@@ -21,15 +21,16 @@ export default async function HubLessonsPage({ params }: Props) {
   if (!session.signedIn || !session.user) redirect(`/${locale}/hub/login`)
   if (!canAccessModule(session.user.role, 'lessons')) redirect(`/${locale}/hub`)
 
-  const embedUrl = notionLessonsEmbedUrl()
+  const { viewUrl } = notionLessonsUrls()
 
   return (
     <NotionEmbed
-      embedUrl={embedUrl}
+      viewUrl={viewUrl}
       titleKey="navLessons"
       subtitleKey="navLessonsSubtitle"
       comingSoonKey="lessonsComingSoon"
       hintKey="lessonsComingSoonHint"
+      openKey="notionOpenLessons"
       adminEmail={getHubAdminEmailDisplay()}
     />
   )

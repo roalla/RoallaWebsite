@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation'
 import { getHubSession } from '@/lib/hub/auth-session'
 import { canAccessModule } from '@/lib/hub/permissions'
 import NotionEmbed from '@/components/hub/NotionEmbed'
-import { notionPartnersEmbedUrl } from '@/lib/hub/notion-config'
+import { notionPartnersUrls } from '@/lib/hub/notion-config'
 import { getHubAdminEmailDisplay } from '@/lib/hub/roles'
 
 export const metadata: Metadata = {
@@ -21,15 +21,16 @@ export default async function HubPartnersPage({ params }: Props) {
   if (!session.signedIn || !session.user) redirect(`/${locale}/hub/login`)
   if (!canAccessModule(session.user.role, 'partners')) redirect(`/${locale}/hub`)
 
-  const embedUrl = notionPartnersEmbedUrl()
+  const { viewUrl } = notionPartnersUrls()
 
   return (
     <NotionEmbed
-      embedUrl={embedUrl}
+      viewUrl={viewUrl}
       titleKey="navPartners"
       subtitleKey="navPartnersSubtitle"
       comingSoonKey="partnersComingSoon"
       hintKey="partnersComingSoonHint"
+      openKey="notionOpenPartners"
       adminEmail={getHubAdminEmailDisplay()}
     />
   )

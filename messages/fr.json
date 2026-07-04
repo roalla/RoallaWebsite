@@ -1930,8 +1930,10 @@
     "partnersComingSoonHint": "Nous ajoutons les contacts et notes ici. Besoin d'accès maintenant? Écrivez à {email}.",
     "partnersComingSoonHintNoEmail": "Nous ajoutons les contacts et notes ici. Revenez bientôt.",
     "contactHubAdmin": "Contacter l'admin du hub",
-    "notionOpenInNewTab": "Ouvrir dans Notion",
-    "notionWrongUrlTitle": "Impossible de charger cette page Notion.",
-    "notionWrongUrlHint": "Dans Notion : ouvrez la page → Partager → Publier. Copiez le lien publié (ou Intégrer cette page → Copier le code) et mettez à jour NOTION_LESSONS_URL sur Railway."
+    "notionHostedTitle": "Ce contenu est dans Notion",
+    "notionHostedBody": "Ouvrez l'espace d'équipe dans un nouvel onglet. Vous restez connecté au hub — Notion s'ouvre à part pour lire et modifier avec toute la mise en forme.",
+    "notionHostedNote": "Seul l'admin a besoin d'un compte Notion pour modifier. Les autres peuvent consulter la page publiée.",
+    "notionOpenLessons": "Ouvrir les leçons apprises",
+    "notionOpenPartners": "Ouvrir le répertoire partenaires"
   }
 }

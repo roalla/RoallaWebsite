@@ -255,6 +255,29 @@
     }
   }
 
+  @keyframes marquee-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .marquee-track {
+    animation: marquee-scroll 45s linear infinite;
+    will-change: transform;
+  }
+
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  .marquee-mask {
+    mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal-hidden,
     .reveal-visible {
@@ -279,6 +302,15 @@
 
     .hero-slide:not(:first-child) {
       opacity: 0;
+    }
+
+    .marquee-track {
+      animation: none;
+    }
+
+    .marquee-mask {
+      mask-image: none;
+      -webkit-mask-image: none;
     }
   }
 }

@@ -218,9 +218,13 @@
       "description": "Every engagement follows Prepare → Transform → Emerge → Soar—from first scope through launch and iteration.",
       "linkLabel": "Full scopes & timelines",
       "prepareDesc": "Align goals, audience, and scope before full build investment.",
+      "preparePill": "Discovery",
       "transformDesc": "Build inside the cocoon—sprints with review checkpoints and accountable delivery.",
+      "transformPill": "Digitize",
       "emergeDesc": "Your market-facing presence becomes visible—staging, credibility, and conversion paths.",
-      "soarDesc": "Launch, iterate, and scale with milestones and follow-through after go-live."
+      "emergePill": "Optimize",
+      "soarDesc": "Launch, iterate, and scale with milestones and follow-through after go-live.",
+      "soarPill": "Scale"
     },
     "testimonials": {
       "eyebrow": "Client feedback",
@@ -261,6 +265,27 @@
       "or": "or",
       "contact": "contact us",
       "submitInquiry": "submit a service inquiry"
+    },
+    "marquee": {
+      "servicesLabel": "We build & enable",
+      "servicesItems": [
+        "Websites & Brand Presence",
+        "Custom Apps & Platforms",
+        "Integrations & Automation",
+        "AI Support & Workflows",
+        "Digital Events",
+        "Business Enablement",
+        "Workshops & Skill Building"
+      ],
+      "differentiatorsLabel": "Why teams choose Roalla",
+      "differentiatorsItems": [
+        "One accountable team",
+        "Built to launch",
+        "Implemented—not just recommended",
+        "30+ years · 500+ engagements",
+        "Reply in 1 business day",
+        "Prepare → Transform → Emerge → Soar"
+      ]
     },
     "trustedBy": {
       "title": "Why teams work with Roalla",

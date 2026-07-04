@@ -2,6 +2,7 @@ import React from 'react'
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import HomeHero from '@/components/home/HomeHero'
+import { HomeDifferentiatorsMarquee, HomeServicesMarquee } from '@/components/home/HomeMarquees'
 import HomeWhatWeDo from '@/components/home/HomeWhatWeDo'
 import HomeTrustedBy from '@/components/home/HomeTrustedBy'
 import HomeOurWork from '@/components/home/HomeOurWork'
@@ -49,7 +50,9 @@ export default async function Home({ params }: Props) {
         />
       ))}
       <HomeHero />
+      <HomeServicesMarquee />
       <HomeWhatWeDo />
+      <HomeDifferentiatorsMarquee />
       <HomeTrustedBy />
       <HomeOurWork />
       <HomeTestimonials />

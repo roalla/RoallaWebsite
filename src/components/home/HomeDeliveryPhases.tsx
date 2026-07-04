@@ -22,6 +22,13 @@ const PHASE_DESC_KEYS = {
   soar: 'soarDesc',
 } as const satisfies Record<BrandPillar, 'prepareDesc' | 'transformDesc' | 'emergeDesc' | 'soarDesc'>
 
+const PHASE_PILL_KEYS = {
+  prepare: 'preparePill',
+  transform: 'transformPill',
+  emerge: 'emergePill',
+  soar: 'soarPill',
+} as const satisfies Record<BrandPillar, 'preparePill' | 'transformPill' | 'emergePill' | 'soarPill'>
+
 export default function HomeDeliveryPhases() {
   const t = useTranslations('home.deliveryPhases')
   const tBrand = useTranslations('brandJourney')
@@ -49,7 +56,7 @@ export default function HomeDeliveryPhases() {
           return (
             <li
               key={pillar}
-              className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm hover:border-primary/30 hover:shadow-card transition-all duration-300"
+              className="flex flex-col rounded-xl border border-slate-200 bg-white p-4 shadow-sm hover:border-primary/30 hover:shadow-card transition-all duration-300"
             >
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-primary-dark">
@@ -58,7 +65,12 @@ export default function HomeDeliveryPhases() {
                 <Icon className="w-4 h-4 text-primary" aria-hidden />
               </div>
               <p className="font-serif font-bold text-slate-900">{tBrand(PILLAR_TITLE_KEYS[pillar])}</p>
-              <p className="mt-2 text-xs text-slate-600 leading-relaxed">{t(PHASE_DESC_KEYS[pillar])}</p>
+              <p className="mt-2 text-xs text-slate-600 leading-relaxed flex-1">{t(PHASE_DESC_KEYS[pillar])}</p>
+              <div className="mt-3 flex justify-end">
+                <span className="inline-flex rounded-full border border-primary/20 bg-primary/[0.06] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-primary-dark">
+                  {t(PHASE_PILL_KEYS[pillar])}
+                </span>
+              </div>
             </li>
           )
         })}

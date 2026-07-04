@@ -218,9 +218,13 @@
       "description": "Chaque mandat suit Préparer → Transformer → Émerger → S'élever—de la portée initiale au lancement et à l'itération.",
       "linkLabel": "Portées et délais complets",
       "prepareDesc": "Aligner objectifs, public et portée avant l'investissement complet en développement.",
+      "preparePill": "Découverte",
       "transformDesc": "Construire dans le cocon—sprints avec points de revue et livraison responsable.",
+      "transformPill": "Numérisation",
       "emergeDesc": "Votre présence devient visible—staging, crédibilité et parcours de conversion.",
-      "soarDesc": "Lancer, itérer et grandir avec jalons et suivi après la mise en ligne."
+      "emergePill": "Optimisation",
+      "soarDesc": "Lancer, itérer et grandir avec jalons et suivi après la mise en ligne.",
+      "soarPill": "Mise à l'échelle"
     },
     "testimonials": {
       "eyebrow": "Témoignages clients",
@@ -261,6 +265,27 @@
       "or": "ou",
       "contact": "contactez-nous",
       "submitInquiry": "soumettre une demande de service"
+    },
+    "marquee": {
+      "servicesLabel": "Nous construisons et accompagnons",
+      "servicesItems": [
+        "Sites Web et présence de marque",
+        "Applis et plateformes sur mesure",
+        "Intégrations et automatisation",
+        "Soutien IA et flux intelligents",
+        "Événements numériques",
+        "Accompagnement d'entreprise",
+        "Ateliers et développement des compétences"
+      ],
+      "differentiatorsLabel": "Pourquoi les équipes choisissent Roalla",
+      "differentiatorsItems": [
+        "Une équipe responsable",
+        "Construit pour le lancement",
+        "Mis en œuvre—pas seulement recommandé",
+        "30+ ans · 500+ mandats",
+        "Réponse en 1 jour ouvrable",
+        "Préparer → Transformer → Émerger → S'élever"
+      ]
     },
     "trustedBy": {
       "title": "Pourquoi les équipes travaillent avec Roalla",

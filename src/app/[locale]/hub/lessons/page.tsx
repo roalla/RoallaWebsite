@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation'
 import { getHubSession } from '@/lib/hub/auth-session'
 import { canAccessModule } from '@/lib/hub/permissions'
 import NotionEmbed from '@/components/hub/NotionEmbed'
+import { notionLessonsEmbedUrl } from '@/lib/hub/notion-config'
+import { getHubAdminEmailDisplay } from '@/lib/hub/roles'
 
 export const metadata: Metadata = {
   title: 'Lessons Learned | Roalla Internal Hub',
@@ -19,7 +21,16 @@ export default async function HubLessonsPage({ params }: Props) {
   if (!session.signedIn || !session.user) redirect(`/${locale}/hub/login`)
   if (!canAccessModule(session.user.role, 'lessons')) redirect(`/${locale}/hub`)
 
-  const embedUrl = process.env.NEXT_PUBLIC_NOTION_LESSONS_URL || ''
+  const embedUrl = notionLessonsEmbedUrl()
 
-  return <NotionEmbed embedUrl={embedUrl} titleKey="navLessons" />
+  return (
+    <NotionEmbed
+      embedUrl={embedUrl}
+      titleKey="navLessons"
+      subtitleKey="navLessonsSubtitle"
+      comingSoonKey="lessonsComingSoon"
+      hintKey="lessonsComingSoonHint"
+      adminEmail={getHubAdminEmailDisplay()}
+    />
+  )
 }

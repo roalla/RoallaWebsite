@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation'
 import { getHubSession } from '@/lib/hub/auth-session'
 import { canAccessModule } from '@/lib/hub/permissions'
 import NotionEmbed from '@/components/hub/NotionEmbed'
+import { notionPartnersEmbedUrl } from '@/lib/hub/notion-config'
+import { getHubAdminEmailDisplay } from '@/lib/hub/roles'
 
 export const metadata: Metadata = {
   title: 'Partners | Roalla Internal Hub',
@@ -19,7 +21,16 @@ export default async function HubPartnersPage({ params }: Props) {
   if (!session.signedIn || !session.user) redirect(`/${locale}/hub/login`)
   if (!canAccessModule(session.user.role, 'partners')) redirect(`/${locale}/hub`)
 
-  const embedUrl = process.env.NEXT_PUBLIC_NOTION_PARTNERS_URL || ''
+  const embedUrl = notionPartnersEmbedUrl()
 
-  return <NotionEmbed embedUrl={embedUrl} titleKey="navPartners" />
+  return (
+    <NotionEmbed
+      embedUrl={embedUrl}
+      titleKey="navPartners"
+      subtitleKey="navPartnersSubtitle"
+      comingSoonKey="partnersComingSoon"
+      hintKey="partnersComingSoonHint"
+      adminEmail={getHubAdminEmailDisplay()}
+    />
+  )
 }

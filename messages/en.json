@@ -85,11 +85,11 @@
   },
   "home": {
     "metadataTitle": "ROALLA | Digital Enablement",
-    "metadataDescription": "Websites, custom apps, integrations, workflow automation, and AI support—guided from first scope through launch and iteration by one accountable team.",
+    "metadataDescription": "We ideate with industry experience before we build—so websites, apps, integrations, and automation meet your business goals. One accountable team from scope through launch.",
     "hero": {
       "title": "Digital Enablement",
       "titleHighlight": "that helps you emerge.",
-      "subtitle": "Websites, custom apps, integrations, workflow automation, and practical AI—guided from first scope through launch and iteration by one accountable team.",
+      "subtitle": "Production-ready websites, custom apps, integrations, workflow automation, and practical AI—scoped, built, and launched by one accountable team.",
       "pathChooserLabel": "What do you need built?",
       "pathWebsiteTitle": "Website or redesign",
       "pathWebsiteDesc": "Marketing sites, booking flows, and conversion-focused web presence.",
@@ -133,9 +133,16 @@
       "exploreDigitalServiceLink": "Explore Digital Enablement",
       "journeyLine": "Prepare → Transform → Emerge → Soar — our model for every digital engagement."
     },
+    "ideationBand": {
+      "eyebrow": "How we're different",
+      "headline": "We don't blindly develop—we ideate with 30+ years of industry experience so every build is shaped to meet your business goals.",
+      "pill1": "Business goals first",
+      "pill2": "Industry-informed scope",
+      "pill3": "Built to deliver outcomes"
+    },
     "whatWeDo": {
       "title": "What we build",
-      "description": "Production-ready digital systems—from marketing sites to custom apps, integrations, workflow automation, and practical AI.",
+      "description": "Ideation and business alignment come first—then production-ready digital systems, from marketing sites to custom apps, integrations, workflow automation, and practical AI.",
       "capabilityWebsitesTitle": "Websites & Brand Presence",
       "capabilityWebsitesDesc": "High-trust marketing sites, booking flows, and conversion-focused web presence.",
       "capabilityPlatformsTitle": "Custom Apps & Platforms",
@@ -215,9 +222,9 @@
     },
     "deliveryPhases": {
       "title": "How we deliver",
-      "description": "Every engagement follows Prepare → Transform → Emerge → Soar—from first scope through launch and iteration.",
+      "description": "Every engagement starts with ideation and business alignment—then follows Prepare → Transform → Emerge → Soar from first scope through launch and iteration.",
       "linkLabel": "Full scopes & timelines",
-      "prepareDesc": "Align goals, audience, and scope before full build investment.",
+      "prepareDesc": "Ideate on goals, audience, and industry context—align scope to business outcomes before full build investment.",
       "preparePill": "Discovery",
       "transformDesc": "Build inside the cocoon—sprints with review checkpoints and accountable delivery.",
       "transformPill": "Digitize",
@@ -267,7 +274,7 @@
       "submitInquiry": "submit a service inquiry"
     },
     "marquee": {
-      "servicesLabel": "We build & enable",
+      "servicesLabel": "We ideate & build",
       "servicesItems": [
         "Websites & Brand Presence",
         "Custom Apps & Platforms",
@@ -279,19 +286,19 @@
       ],
       "differentiatorsLabel": "Why teams choose Roalla",
       "differentiatorsItems": [
+        "Ideate first—build to business goals",
+        "30+ years of industry experience",
         "One accountable team",
-        "Built to launch",
         "Implemented—not just recommended",
-        "30+ years · 500+ engagements",
-        "Reply in 1 business day",
+        "500+ engagements delivered",
         "Prepare → Transform → Emerge → Soar"
       ]
     },
     "trustedBy": {
       "title": "Why teams work with Roalla",
-      "description": "Strategy, planning, and execution with the discipline to implement—not just recommend.",
-      "cred1Title": "Operator mindset",
-      "cred1Desc": "Fractional COO experience applied to real operating constraints, not slide decks alone.",
+      "description": "We ideate with real operating experience before we build—so digital work serves business goals, not just a project brief.",
+      "cred1Title": "Ideation before build",
+      "cred1Desc": "Business goals, audience, and industry context shaped first—development follows a clear plan, not a vague wish list.",
       "cred2Title": "Board-ready clarity",
       "cred2Desc": "Priorities, owners, and KPIs packaged for leadership decisions and follow-through.",
       "cred3Title": "Cross-functional fluency",

@@ -85,11 +85,11 @@
   },
   "home": {
     "metadataTitle": "ROALLA | Accompagnement numérique",
-    "metadataDescription": "Sites Web, applis sur mesure, intégrations, automatisation des flux et soutien IA—guidés de la portée initiale au lancement et à l'itération par une équipe responsable.",
+    "metadataDescription": "Nous idéationnons avec une expérience sectorielle avant de construire—pour que sites, applis, intégrations et automatisation répondent à vos objectifs d'affaires. Une équipe responsable de la portée au lancement.",
     "hero": {
       "title": "Accompagnement numérique",
       "titleHighlight": "qui vous aide à émerger.",
-      "subtitle": "Sites Web, applis sur mesure, intégrations, automatisation des flux et IA pratique—guidés de la portée initiale au lancement et à l'itération par une équipe responsable.",
+      "subtitle": "Sites Web, applis sur mesure, intégrations, automatisation des flux et IA pratique—cadrés, construits et lancés par une équipe responsable.",
       "pathChooserLabel": "Que voulez-vous construire?",
       "pathWebsiteTitle": "Site Web ou refonte",
       "pathWebsiteDesc": "Sites marketing, parcours de réservation et présence Web orientée conversion.",
@@ -133,9 +133,16 @@
       "exploreDigitalServiceLink": "Explorer l'accompagnement numérique",
       "journeyLine": "Préparer → Transformer → Émerger → S'élever — notre modèle pour chaque mandat numérique."
     },
+    "ideationBand": {
+      "eyebrow": "Ce qui nous distingue",
+      "headline": "Nous ne développons pas à l'aveugle—nous idéationnons avec 30+ ans d'expérience sectorielle pour que chaque réalisation réponde à vos objectifs d'affaires.",
+      "pill1": "Objectifs d'affaires d'abord",
+      "pill2": "Portée informée par l'industrie",
+      "pill3": "Construit pour livrer des résultats"
+    },
     "whatWeDo": {
       "title": "Ce que nous construisons",
-      "description": "Systèmes numériques prêts pour la production—des sites marketing aux applis sur mesure, intégrations, automatisation et IA pratique.",
+      "description": "L'idéation et l'alignement d'affaires d'abord—puis des systèmes numériques prêts pour la production, des sites marketing aux applis sur mesure, intégrations, automatisation et IA pratique.",
       "capabilityWebsitesTitle": "Sites Web et présence de marque",
       "capabilityWebsitesDesc": "Sites marketing de confiance, parcours de réservation et présence Web orientée conversion.",
       "capabilityPlatformsTitle": "Applis et plateformes sur mesure",
@@ -215,9 +222,9 @@
     },
     "deliveryPhases": {
       "title": "Comment nous livrons",
-      "description": "Chaque mandat suit Préparer → Transformer → Émerger → S'élever—de la portée initiale au lancement et à l'itération.",
+      "description": "Chaque mandat commence par l'idéation et l'alignement d'affaires—puis suit Préparer → Transformer → Émerger → S'élever, de la portée initiale au lancement et à l'itération.",
       "linkLabel": "Portées et délais complets",
-      "prepareDesc": "Aligner objectifs, public et portée avant l'investissement complet en développement.",
+      "prepareDesc": "Idéation sur les objectifs, le public et le contexte sectoriel—aligner la portée aux résultats d'affaires avant l'investissement complet en développement.",
       "preparePill": "Découverte",
       "transformDesc": "Construire dans le cocon—sprints avec points de revue et livraison responsable.",
       "transformPill": "Numérisation",
@@ -267,7 +274,7 @@
       "submitInquiry": "soumettre une demande de service"
     },
     "marquee": {
-      "servicesLabel": "Nous construisons et accompagnons",
+      "servicesLabel": "Nous idéationnons et construisons",
       "servicesItems": [
         "Sites Web et présence de marque",
         "Applis et plateformes sur mesure",
@@ -279,19 +286,19 @@
       ],
       "differentiatorsLabel": "Pourquoi les équipes choisissent Roalla",
       "differentiatorsItems": [
+        "Idéation d'abord—construire pour vos objectifs",
+        "30+ ans d'expérience sectorielle",
         "Une équipe responsable",
-        "Construit pour le lancement",
         "Mis en œuvre—pas seulement recommandé",
-        "30+ ans · 500+ mandats",
-        "Réponse en 1 jour ouvrable",
+        "500+ mandats livrés",
         "Préparer → Transformer → Émerger → S'élever"
       ]
     },
     "trustedBy": {
       "title": "Pourquoi les équipes travaillent avec Roalla",
-      "description": "Stratégie, planification et exécution avec la discipline de mettre en œuvre—pas seulement recommander.",
-      "cred1Title": "Mentalité opérationnelle",
-      "cred1Desc": "Expérience de directeur opérationnel fractionnel appliquée aux contraintes réelles, pas seulement des présentations.",
+      "description": "Nous idéationnons avec une vraie expérience opérationnelle avant de construire—pour que le numérique serve vos objectifs d'affaires, pas seulement un cahier des charges.",
+      "cred1Title": "Idéation avant le développement",
+      "cred1Desc": "Objectifs d'affaires, public et contexte sectoriel définis d'abord—le développement suit un plan clair, pas une liste de souhaits vague.",
       "cred2Title": "Clarté prête pour la direction",
       "cred2Desc": "Priorités, responsables et KPI structurés pour les décisions de leadership et le suivi.",
       "cred3Title": "Maîtrise transversale",

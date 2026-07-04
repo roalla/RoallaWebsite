@@ -79,15 +79,41 @@ function PortfolioExamples({ slugs }: { slugs: readonly CaseStudySlug[] }) {
   )
 }
 
-function UseCaseRow({
-  id,
+function UseCaseRowDesktop({
   need,
   consider,
   deliver,
   maturity,
   portfolio,
 }: {
-  id: UseCaseId
+  need: string
+  consider: string
+  deliver: string
+  maturity: UseCaseMaturity
+  portfolio: readonly CaseStudySlug[]
+}) {
+  return (
+    <tr className="border-b border-slate-200 last:border-b-0 hover:bg-slate-50/80 transition-colors">
+      <td className="align-top px-5 py-5 text-sm font-medium text-slate-900 w-[26%]">{need}</td>
+      <td className="align-top px-5 py-5 text-sm text-slate-600 leading-relaxed w-[34%]">{consider}</td>
+      <td className="align-top px-5 py-5 text-sm text-slate-700 leading-relaxed w-[40%]">
+        <div className="flex flex-wrap items-center gap-2 mb-2">
+          <MaturityBadge maturity={maturity} />
+        </div>
+        {deliver}
+        <PortfolioExamples slugs={portfolio} />
+      </td>
+    </tr>
+  )
+}
+
+function UseCaseCardMobile({
+  need,
+  consider,
+  deliver,
+  maturity,
+  portfolio,
+}: {
   need: string
   consider: string
   deliver: string
@@ -97,54 +123,35 @@ function UseCaseRow({
   const t = useTranslations('useCases')
 
   return (
-    <>
-      <tr
-        id={id}
-        className="hidden lg:table-row border-b border-slate-200 last:border-b-0 hover:bg-slate-50/80 transition-colors scroll-mt-28"
-      >
-        <td className="align-top px-5 py-5 text-sm font-medium text-slate-900 w-[26%]">{need}</td>
-        <td className="align-top px-5 py-5 text-sm text-slate-600 leading-relaxed w-[34%]">{consider}</td>
-        <td className="align-top px-5 py-5 text-sm text-slate-700 leading-relaxed w-[40%]">
-          <div className="flex flex-wrap items-center gap-2 mb-2">
-            <MaturityBadge maturity={maturity} />
-          </div>
-          {deliver}
-          <PortfolioExamples slugs={portfolio} />
-        </td>
-      </tr>
-      <tr className="lg:hidden">
-        <td colSpan={3} className="p-0">
-          <article
-            id={id}
-            className="border-b border-slate-200 last:border-b-0 p-5 space-y-4 scroll-mt-28"
-          >
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 mb-1.5">
-                {t('columnNeed')}
-              </p>
-              <p className="text-sm font-medium text-slate-900 leading-relaxed">{need}</p>
-            </div>
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 mb-1.5">
-                {t('columnConsider')}
-              </p>
-              <p className="text-sm text-slate-600 leading-relaxed">{consider}</p>
-            </div>
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 mb-1.5">
-                {t('columnDeliver')}
-              </p>
-              <div className="mb-2">
-                <MaturityBadge maturity={maturity} />
-              </div>
-              <p className="text-sm text-slate-700 leading-relaxed">{deliver}</p>
-              <PortfolioExamples slugs={portfolio} />
-            </div>
-          </article>
-        </td>
-      </tr>
-    </>
+    <article className="border-b border-slate-200 last:border-b-0 p-5 space-y-4">
+      <div>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 mb-1.5">
+          {t('columnNeed')}
+        </p>
+        <p className="text-sm font-medium text-slate-900 leading-relaxed">{need}</p>
+      </div>
+      <div>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 mb-1.5">
+          {t('columnConsider')}
+        </p>
+        <p className="text-sm text-slate-600 leading-relaxed">{consider}</p>
+      </div>
+      <div>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 mb-1.5">
+          {t('columnDeliver')}
+        </p>
+        <div className="mb-2">
+          <MaturityBadge maturity={maturity} />
+        </div>
+        <p className="text-sm text-slate-700 leading-relaxed">{deliver}</p>
+        <PortfolioExamples slugs={portfolio} />
+      </div>
+    </article>
   )
+}
+
+function UseCaseAnchor({ id }: { id: UseCaseId }) {
+  return <span id={id} className="block scroll-mt-28" aria-hidden="true" />
 }
 
 function CategoryBlock({
@@ -173,43 +180,65 @@ function CategoryBlock({
       </div>
 
       <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-card">
-        <table className="w-full border-collapse">
-          <thead className="hidden lg:table-header-group bg-slate-50 border-b border-slate-200">
-            <tr>
-              <th
-                scope="col"
-                className="px-5 py-3.5 text-left text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 w-[26%]"
-              >
-                {t('columnNeed')}
-              </th>
-              <th
-                scope="col"
-                className="px-5 py-3.5 text-left text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 w-[34%]"
-              >
-                {t('columnConsider')}
-              </th>
-              <th
-                scope="col"
-                className="px-5 py-3.5 text-left text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 w-[40%]"
-              >
-                {t('columnDeliver')}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((item) => (
-              <UseCaseRow
-                key={item.id}
-                id={item.id}
+        <div className="hidden lg:block overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead className="bg-slate-50 border-b border-slate-200">
+              <tr>
+                <th
+                  scope="col"
+                  className="px-5 py-3.5 text-left text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 w-[26%]"
+                >
+                  {t('columnNeed')}
+                </th>
+                <th
+                  scope="col"
+                  className="px-5 py-3.5 text-left text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 w-[34%]"
+                >
+                  {t('columnConsider')}
+                </th>
+                <th
+                  scope="col"
+                  className="px-5 py-3.5 text-left text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 w-[40%]"
+                >
+                  {t('columnDeliver')}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((item) => (
+                <React.Fragment key={item.id}>
+                  <tr className="h-0 border-0">
+                    <td colSpan={3} className="p-0 border-0 leading-none">
+                      <UseCaseAnchor id={item.id} />
+                    </td>
+                  </tr>
+                  <UseCaseRowDesktop
+                    need={t(`cases.${item.id}.need`)}
+                    consider={t(`cases.${item.id}.consider`)}
+                    deliver={t(`cases.${item.id}.deliver`)}
+                    maturity={item.maturity}
+                    portfolio={item.portfolio}
+                  />
+                </React.Fragment>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="lg:hidden divide-y divide-slate-200">
+          {rows.map((item) => (
+            <div key={item.id}>
+              <UseCaseAnchor id={item.id} />
+              <UseCaseCardMobile
                 need={t(`cases.${item.id}.need`)}
                 consider={t(`cases.${item.id}.consider`)}
                 deliver={t(`cases.${item.id}.deliver`)}
                 maturity={item.maturity}
                 portfolio={item.portfolio}
               />
-            ))}
-          </tbody>
-        </table>
+            </div>
+          ))}
+        </div>
       </div>
     </Reveal>
   )

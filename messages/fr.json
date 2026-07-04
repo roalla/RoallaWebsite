@@ -101,6 +101,8 @@
       "pathAutomationDesc": "Connecter vos systèmes, éliminer les étapes manuelles et ajouter une IA pratique.",
       "pathAssessmentTitle": "Vous ne savez pas par où commencer?",
       "pathAssessmentDesc": "Cinq questions rapides pour trouver votre meilleur point de départ—mandat numérique ou programme.",
+      "pathSeeUseCase": "Voir le guide de cas d'usage",
+      "pathStartInquiry": "Démarrer une demande",
       "programsLink": "Vous cherchez du conseil ou des ateliers?",
       "programsLinkCta": "Voir les Programmes",
       "pathConsultingTitle": "J'ai besoin d'accompagnement d'affaires",
@@ -1509,6 +1511,7 @@
     "viewDigitalCreations": "Explorer les créations numériques",
     "viewWorkshops": "Explorer les ateliers",
     "viewDigitalEvents": "Explorer les événements numériques",
+    "viewUseCase": "Voir le cas d'usage correspondant",
     "pillars": {
       "prepare": "Préparer — aligner priorités et préparation",
       "transform": "Transformer — repenser processus et systèmes",
@@ -1761,6 +1764,16 @@
     "howToRead2": "Points à considérer — complexité cachée, risques d'échéancier et limites des outils DIY.",
     "howToRead3": "Comment Roalla livre — le résultat obtenu, plus un badge de maturité pour savoir à quel point c'est éprouvé.",
     "maturityLegendTitle": "Badges de maturité",
+    "filterLabel": "Montrez-moi",
+    "filterAll": "Tous les cas d'usage",
+    "portfolioExamples": "Exemples en ligne",
+    "portfolio": {
+      "ken-effect": "Ken Effect",
+      "grcstatus": "GRCStatus",
+      "boothlio": "Boothlio",
+      "business-cocoon": "Business Cocoon",
+      "pitch-hotshots": "Pitch Hotshots"
+    },
     "columnNeed": "Besoin courant",
     "columnConsider": "Points à considérer",
     "columnDeliver": "Comment Roalla livre",
@@ -1804,12 +1817,12 @@
       "website-refresh": {
         "need": "Notre site paraît dépassé, ou nous n'en avons pas encore.",
         "consider": "Les constructeurs DIY (Wix, Squarespace, thèmes WordPress) démarrent vite, mais domaines, mise en page mobile, SEO et formulaires demandent souvent des extensions. De petits changements peuvent casser la mise en page sans quelqu'un qui sait ce qui a changé—et vous gardez la charge des mises à jour de contenu.",
-        "deliver": "Sites orientés conversion avec une prochaine étape claire—réserver, contacter ou demander un devis. Cadrés selon votre échéancier, une équipe responsable du brief au lancement."
+        "deliver": "Sites orientés conversion avec une prochaine étape claire—réserver, contacter ou demander un devis. Cadrés selon votre échéancier, une équipe responsable du brief au lancement. Voir Ken Effect pour un exemple de site de marque en ligne."
       },
       "lead-capture": {
         "need": "Nous avons besoin de plus de prospects, réservations ou demandes de devis.",
         "consider": "Un formulaire de contact seul convertit rarement. Les configurations DIY oublient souvent le routage des suivis, la protection anti-spam, le transfert CRM et les parcours mobiles. Les prospects restent dans une boîte courriel au lieu d'atteindre la bonne personne.",
-        "deliver": "Formulaires courts et mobiles reliés à votre CRM, boîte courriel ou feuille de calcul—avec confirmations instantanées et la bonne personne avisée. Les mêmes modèles que sur nos sites clients en ligne."
+        "deliver": "Formulaires courts et mobiles reliés à votre CRM, boîte courriel ou feuille de calcul—avec confirmations instantanées et la bonne personne avisée. GRCStatus illustre ce modèle avec des CTA d'évaluation et d'aperçu sur un site axé conformité."
       },
       "custom-app": {
         "need": "Nous avons besoin d'un outil adapté à notre flux—not une applis générique.",
@@ -1834,12 +1847,12 @@
       "event-kit": {
         "need": "Nous exposons à un salon ou organisons un lancement.",
         "consider": "Imprimer des codes QR est facile; savoir quel moment du kiosque a généré l'intérêt, non. Les pages événement DIY manquent souvent de capture adaptée au salon, de plans hors ligne et de routage post-événement.",
-        "deliver": "Pages événement, entrées QR/NFC au kiosque, capture de prospects optimisée et exports post-salon—prêts à l'ouverture. Basés sur notre playbook Événements numériques et les modèles Boothlio."
+        "deliver": "Pages événement, entrées QR/NFC au kiosque, capture de prospects optimisée et exports post-salon—prêts à l'ouverture. Basés sur notre playbook Événements numériques; Boothlio est un exemple produit en ligne."
       },
       "ai-workflows": {
         "need": "Nous voulons que l'IA aide—pas un autre chatbot inutilisé.",
         "consider": "Les extensions IA génériques ajoutent de la nouveauté sans résultats mesurables. Les prompts DIY dérivent, manquent de garde-fous et se connectent rarement au CRM ou aux documents. Les équipes hésitent sans étapes de révision humaine claires.",
-        "deliver": "IA cadrée dans de vrais flux—notation, briefs guidés, aide documentaire et routage intelligent—avec garde-fous et révision humaine. Exemples : scorecards Business Cocoon et rétroaction Pitch Hotshots."
+        "deliver": "IA cadrée dans de vrais flux—notation, briefs guidés, aide documentaire et routage intelligent—avec garde-fous et révision humaine. En ligne aujourd'hui dans Business Cocoon et Pitch Hotshots."
       }
     },
     "ctaText": "Vous ne savez pas quelle ligne vous correspond? Décrivez votre situation—nous vous indiquerons le bon point de départ.",

@@ -1784,6 +1784,16 @@
     "howToRead2": "Things to consider — hidden complexity, timeline risks, and where DIY tools often stall.",
     "howToRead3": "How Roalla delivers — the outcome you get, plus a maturity badge so you know how battle-tested we are.",
     "maturityLegendTitle": "Maturity badges",
+    "filterLabel": "Show me",
+    "filterAll": "All use cases",
+    "portfolioExamples": "Live examples",
+    "portfolio": {
+      "ken-effect": "Ken Effect",
+      "grcstatus": "GRCStatus",
+      "boothlio": "Boothlio",
+      "business-cocoon": "Business Cocoon",
+      "pitch-hotshots": "Pitch Hotshots"
+    },
     "columnNeed": "Common need",
     "columnConsider": "Things to consider",
     "columnDeliver": "How Roalla delivers",
@@ -1827,12 +1837,12 @@
       "website-refresh": {
         "need": "Our website looks outdated, or we don't have one yet.",
         "consider": "DIY builders (Wix, Squarespace, WordPress themes) are quick to start, but custom domains, mobile layouts, SEO, and forms often need extra plugins. Small changes can break layouts without someone who knows what changed—and you still own the content updates.",
-        "deliver": "Conversion-focused sites with a clear next step—book, contact, or request a quote. Scoped to your timeline with one accountable team from brief through launch."
+        "deliver": "Conversion-focused sites with a clear next step—book, contact, or request a quote. Scoped to your timeline with one accountable team from brief through launch. See Ken Effect for a live brand-site example."
       },
       "lead-capture": {
         "need": "We need more leads, bookings, or quote requests from our site.",
         "consider": "A contact form alone rarely converts. DIY setups often miss follow-up routing, spam protection, CRM handoff, and mobile-friendly flows. Leads sit in an inbox instead of reaching the right person.",
-        "deliver": "Short, mobile-first forms tied to your CRM, inbox, or spreadsheet—with instant confirmations and the right person notified. Same patterns we use on live client sites."
+        "deliver": "Short, mobile-first forms tied to your CRM, inbox, or spreadsheet—with instant confirmations and the right person notified. GRCStatus shows this pattern with assessment and preview CTAs on a compliance-focused site."
       },
       "custom-app": {
         "need": "We need a tool that fits our workflow—not a generic app.",
@@ -1857,12 +1867,12 @@
       "event-kit": {
         "need": "We're exhibiting at a trade show or running a launch event.",
         "consider": "Printing QR codes on flyers is easy; tracking which booth moment drove interest is not. DIY event pages often lack floor-friendly lead capture, offline contingencies, and post-show follow-up routing.",
-        "deliver": "Event pages, booth QR/NFC entry paths, floor-optimized lead capture, and post-show exports—ready when the floor opens. Built from our Digital Events playbook and Boothlio patterns."
+        "deliver": "Event pages, booth QR/NFC entry paths, floor-optimized lead capture, and post-show exports—ready when the floor opens. Built from our Digital Events playbook; Boothlio is a live product example."
       },
       "ai-workflows": {
         "need": "We want AI to help—not another chatbot nobody uses.",
         "consider": "Generic AI plugins add novelty without measurable outcomes. DIY prompts drift, lack guardrails, and rarely connect to your CRM or documents. Teams hesitate without clear human review steps.",
-        "deliver": "Scoped AI inside real workflows—scoring, guided briefs, document assistance, and intelligent routing—with guardrails and human review. Examples: Business Cocoon scorecards and Pitch Hotshots rehearsal feedback."
+        "deliver": "Scoped AI inside real workflows—scoring, guided briefs, document assistance, and intelligent routing—with guardrails and human review. Live today in Business Cocoon and Pitch Hotshots."
       }
     },
     "ctaText": "Not sure which row fits? Tell us your situation—we'll point you to the right starting point.",

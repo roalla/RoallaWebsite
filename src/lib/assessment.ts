@@ -1,6 +1,6 @@
 import type { BrandPillar } from '@/lib/brand-journey'
 import type { ConsultationIntent, ConsultingFocus } from '@/lib/consultation-request'
-import { useCaseHrefForAssessment } from '@/lib/use-cases'
+import { useCaseHrefForAssessment, type UseCasePageHref } from '@/lib/use-cases'
 
 export type AssessmentLane = 'consulting' | 'website' | 'platform' | 'workshop' | 'event' | 'unsure'
 
@@ -98,7 +98,7 @@ export type AssessmentResult = {
   serviceHref: string | null
   laneHref: string
   exploreServicesHref: string
-  useCaseHref: ReturnType<typeof useCaseHrefForAssessment>
+  useCaseHref: UseCasePageHref | null
 }
 
 function parseLane(value: string | undefined): AssessmentLane {

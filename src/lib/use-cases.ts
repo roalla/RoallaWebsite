@@ -81,8 +81,12 @@ const ASSESSMENT_LANE_USE_CASES: Partial<Record<AssessmentLane, UseCaseId>> = {
   unsure: 'website-refresh',
 }
 
-export function useCasePageHref(id: UseCaseId | 'all' = 'all'): `/use-cases` | `/use-cases#${UseCaseId}` {
-  return id === 'all' ? '/use-cases' : (`/use-cases#${id}` as `/use-cases#${UseCaseId}`)
+export type UseCasePageHref =
+  | { pathname: '/use-cases' }
+  | { pathname: '/use-cases'; hash: UseCaseId }
+
+export function useCasePageHref(id: UseCaseId | 'all' = 'all'): UseCasePageHref {
+  return id === 'all' ? { pathname: '/use-cases' } : { pathname: '/use-cases', hash: id }
 }
 
 export function useCaseForAssessmentResult(result: AssessmentResult): UseCaseId | 'all' | null {
@@ -102,7 +106,7 @@ export function useCaseForAssessmentResult(result: AssessmentResult): UseCaseId 
   return 'all'
 }
 
-export function useCaseHrefForAssessment(result: AssessmentResult): `/use-cases` | `/use-cases#${UseCaseId}` | null {
+export function useCaseHrefForAssessment(result: AssessmentResult): UseCasePageHref | null {
   const id = useCaseForAssessmentResult(result)
   if (id === null) return null
   return useCasePageHref(id)

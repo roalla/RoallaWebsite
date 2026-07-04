@@ -4,8 +4,23 @@ import React from 'react'
 import { Link } from '@/i18n/navigation'
 import { ChevronRight } from 'lucide-react'
 
+type BreadcrumbHref =
+  | '/'
+  | '/programs/business-enablement'
+  | '/programs/workshops'
+  | '/services/digital'
+  | '/services/digital-events'
+  | '/about'
+  | '/contact'
+  | '/services/portfolio'
+  | '/assessment'
+  | '/faq'
+  | '/schedule'
+  | '/website-design'
+  | '/insights'
+
 interface BreadcrumbProps {
-  items: { label: string; href?: string }[]
+  items: { label: string; href?: BreadcrumbHref }[]
 }
 
 export default function Breadcrumb({ items }: BreadcrumbProps) {
@@ -16,7 +31,7 @@ export default function Breadcrumb({ items }: BreadcrumbProps) {
           <li key={i} className="flex items-center gap-1">
             {i > 0 && <ChevronRight className="w-4 h-4 text-slate-400 flex-shrink-0" aria-hidden />}
             {item.href ? (
-              <Link href={item.href as '/' | '/programs/business-enablement' | '/programs/workshops' | '/services/digital' | '/services/digital-events' | '/about' | '/contact' | '/services/portfolio' | '/assessment' | '/faq' | '/schedule' | '/website-design'} className="hover:text-primary transition-colors">
+              <Link href={item.href} className="hover:text-primary transition-colors">
                 {item.label}
               </Link>
             ) : (

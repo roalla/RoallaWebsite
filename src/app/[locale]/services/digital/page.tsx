@@ -3,7 +3,7 @@ import Script from 'next/script'
 import type { Metadata } from 'next'
 import { getLocale, getTranslations } from 'next-intl/server'
 import DigitalBuilds from '@/components/DigitalBuilds'
-import { localeAlternates } from '@/lib/page-metadata'
+import { buildPageMetadata } from '@/lib/page-metadata'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -13,11 +13,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'brandJourney' })
 
-  return {
+  return buildPageMetadata({
+    locale,
+    path: '/services/digital',
     title: t('metadataDigitalTitle'),
     description: t('metadataDigitalDescription'),
-    alternates: localeAlternates('/services/digital'),
-  }
+  })
 }
 
 export default async function DigitalBuildsPage() {

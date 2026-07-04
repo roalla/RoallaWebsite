@@ -10,7 +10,8 @@
     "lint": "next lint",
     "test": "jest",
     "test:e2e": "playwright test",
-    "optimize:hero": "node scripts/optimize-hero-images.mjs"
+    "optimize:hero": "node scripts/optimize-hero-images.mjs",
+    "generate:og-image": "node scripts/generate-og-image.mjs"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",

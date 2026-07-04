@@ -1,8 +1,8 @@
 {
   "name": "Roalla Business Enablement Group",
   "short_name": "Roalla",
-  "description": "Professional consulting services for businesses and entrepreneurs",
-  "start_url": "/",
+  "description": "Digital Enablement — websites, custom apps, integrations, workflow automation, and AI support from one accountable team.",
+  "start_url": "/en",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#00b4c5",
@@ -16,5 +16,5 @@
     }
   ],
   "categories": ["business", "productivity", "professional"],
-  "lang": "en-US"
-} 
+  "lang": "en-CA"
+}

@@ -5,7 +5,7 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import Breadcrumb from '@/components/Breadcrumb'
 import DigitalCreations from '@/components/DigitalCreations'
 import { getOrderedPortfolioItems, portfolioImageAlts } from '@/lib/digitalPortfolio'
-import { localeAlternates } from '@/lib/page-metadata'
+import { buildPageMetadata } from '@/lib/page-metadata'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -15,17 +15,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'digitalCreations' })
 
-  return {
+  return buildPageMetadata({
+    locale,
+    path: '/services/portfolio',
     title: t('metadataTitle'),
     description: t('metadataDescription'),
-    alternates: localeAlternates('/services/portfolio'),
-    openGraph: {
-      title: t('metadataTitle'),
-      description: t('metadataDescription'),
-      url: `https://www.roalla.com/${locale}/services/portfolio`,
-      type: 'website',
-    },
-  }
+  })
 }
 
 export default async function DigitalPortfolioPage() {

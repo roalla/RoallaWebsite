@@ -6,24 +6,29 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
 import Providers from '@/components/Providers'
 import ConditionalLayout from '@/components/ConditionalLayout'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
+import JsonLd from '@/components/JsonLd'
+import { organizationJsonLd, websiteJsonLd } from '@/lib/structured-data'
+import { OG_IMAGE, OG_IMAGE_ALT, SITE_URL } from '@/lib/site'
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
 })
 
-const merriweather = Merriweather({ 
+const merriweather = Merriweather({
   subsets: ['latin'],
   weight: ['300', '400', '700'],
   variable: '--font-merriweather',
 })
 
-const siteUrl = 'https://www.roalla.com'
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+const bingVerification = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
 
 export const metadata: Metadata = {
   title: 'Roalla Business Enablement Group',
-  description: 'Digital Enablement—websites, custom apps, integrations, workflow automation, and AI support from one accountable team.',
+  description:
+    'Digital Enablement—websites, custom apps, integrations, workflow automation, and AI support from one accountable team.',
   keywords: [
     'website development',
     'custom app development',
@@ -43,31 +48,38 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   alternates: {
-    canonical: '/',
+    canonical: '/en',
+    languages: {
+      en: '/en',
+      fr: '/fr',
+      'x-default': '/en',
+    },
   },
   openGraph: {
     type: 'website',
-    locale: 'en_US',
-    url: siteUrl,
+    locale: 'en_CA',
+    url: `${SITE_URL}/en`,
     siteName: 'Roalla Business Enablement Group',
     title: 'Roalla Business Enablement Group | Digital Enablement',
-    description: 'Websites, custom apps, integrations, workflow automation, and AI support—built and launched by one accountable team.',
+    description:
+      'Websites, custom apps, integrations, workflow automation, and AI support—built and launched by one accountable team.',
     images: [
       {
-        url: '/og-image.jpg',
+        url: OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: 'Roalla Business Enablement Group — Digital Enablement',
+        alt: OG_IMAGE_ALT,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Roalla Business Enablement Group | Digital Enablement',
-    description: 'Websites, custom apps, integrations, workflow automation, and AI support—built and launched by one accountable team.',
-    images: ['/og-image.jpg'],
+    description:
+      'Websites, custom apps, integrations, workflow automation, and AI support—built and launched by one accountable team.',
+    images: [OG_IMAGE],
     creator: '@roalla',
   },
   robots: {
@@ -83,44 +95,9 @@ export const metadata: Metadata = {
   },
   verification: {
     google: googleVerification,
+    other: bingVerification ? { 'msvalidate.01': bingVerification } : undefined,
   },
 }
-
-const structuredData = [
-  {
-    '@context': 'https://schema.org',
-    '@type': 'ProfessionalService',
-    '@id': `${siteUrl}/#organization`,
-    name: 'Roalla Business Enablement Group',
-    url: siteUrl,
-    logo: `${siteUrl}/logo.svg`,
-    image: `${siteUrl}/og-image.jpg`,
-    description:
-      'Digital Enablement—websites, custom apps, integrations, workflow automation, and AI support with accountable delivery.',
-    areaServed: 'Global',
-    contactPoint: {
-      '@type': 'ContactPoint',
-      telephone: '+1-289-838-5868',
-      contactType: 'sales',
-      email: 'sales@roalla.com',
-    },
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Burlington',
-      addressRegion: 'ON',
-      addressCountry: 'CA',
-    },
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    '@id': `${siteUrl}/#website`,
-    url: siteUrl,
-    name: 'Roalla Business Enablement Group',
-    publisher: { '@id': `${siteUrl}/#organization` },
-    inLanguage: ['en-CA', 'fr-CA'],
-  },
-]
 
 export default async function RootLayout({
   children,
@@ -129,35 +106,23 @@ export default async function RootLayout({
 }) {
   const messages = await getMessages()
   const locale = await getLocale()
+
   return (
     <html lang={locale} className={`${inter.variable} ${merriweather.variable} font-sans`}>
       <head>
-        {/* Structured data */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
-        
-        {/* Favicon and app icons - ?v=3 busts cache when you update the icon */}
+        <JsonLd data={[organizationJsonLd, websiteJsonLd]} />
         <link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml" />
         <link rel="icon" href="/favicon.ico?v=3" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3" />
         <link rel="manifest" href="/site.webmanifest" />
-        
-        {/* Theme color for mobile browsers - black background branding */}
         <meta name="theme-color" content="#000000" />
-        
-        {/* Additional meta tags for better SEO */}
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta name="author" content="Roalla Business Enablement Group" />
-        <meta name="robots" content="index, follow" />
-        
-        {/* Security headers - only those that can be set as meta tags */}
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
-        
       </head>
       <body className={`${inter.className} antialiased`}>
+        <GoogleAnalytics />
         <Providers>
           <NextIntlClientProvider messages={messages}>
             <ConditionalLayout>{children}</ConditionalLayout>
@@ -166,4 +131,4 @@ export default async function RootLayout({
       </body>
     </html>
   )
-} 
+}

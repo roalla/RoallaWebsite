@@ -80,7 +80,8 @@
     "copyright": "© {year} Roalla Business Enablement Group. Tous droits réservés.",
     "subtitle": "Accompagnement numérique · Programmes disponibles",
     "digitalEnablement": "Accompagnement numérique",
-    "programs": "Programmes"
+    "programs": "Programmes",
+    "insights": "Perspectives"
   },
   "home": {
     "metadataTitle": "ROALLA | Accompagnement numérique",
@@ -302,7 +303,8 @@
     "assessment": "Évaluation de la santé de l'entreprise",
     "faq": "FAQ",
     "contact": "Contact",
-    "trustCentre": "Centre de confiance"
+    "insights": "Perspectives",
+    "portfolio": "Portfolio numérique"
   },
   "consultationRequest": {
     "title": "Demande de service",
@@ -1255,7 +1257,59 @@
     "t13CaseStudy": "Aider les PME à comprendre leur préparation conformité en langage clair avant d'investir dans audits, outils ou consultants.",
     "t13Tag1": "Préparation conformité",
     "t13Tag2": "SOC 2 · HIPAA · NIST",
-    "t13Tag3": "Plateforme d'évaluation"
+    "t13Tag3": "Plateforme d'évaluation",
+    "caseStudyMetadataTitle": "Étude de cas {name} | ROALLA",
+    "caseStudyEyebrow": "Étude de cas portfolio",
+    "caseStudyOutcomeTitle": "Résultat",
+    "caseStudyHighlightsTitle": "Ce que nous avons livré",
+    "caseStudyCta": "Discuter d'un projet similaire",
+    "caseStudyLiveLink": "Voir le projet en ligne",
+    "viewCaseStudy": "Lire l'étude de cas"
+  },
+  "insights": {
+    "metadataTitle": "Perspectives | ROALLA",
+    "metadataDescription": "Guides pratiques sur le leadership fractionnel, la planification stratégique, l'optimisation des processus et l'accompagnement numérique par Roalla.",
+    "indexTitle": "Perspectives",
+    "indexSubtitle": "Réflexions pratiques sur les opérations, la stratégie et la livraison numérique—pour les dirigeants qui veulent de la clarté avant de s'engager.",
+    "ctaText": "Vous voulez de l'aide pour appliquer ces idées à votre entreprise?",
+    "ctaSchedule": "Soumettre une demande de service",
+    "ctaAssessment": "Passer l'évaluation de 5 minutes",
+    "fractional-coo": {
+      "metadataTitle": "COO fractionnel : quand et pourquoi | ROALLA",
+      "metadataDescription": "Découvrez quand un COO fractionnel a du sens, ce qu'il livre et comment le leadership opérationnel accélère la croissance sans embauche à temps plein.",
+      "title": "COO fractionnel : quand et pourquoi votre entreprise en a besoin",
+      "summary": "Leadership opérationnel senior sur une base flexible—quand c'est pertinent, quoi attendre et en quoi c'est différent du conseil générique.",
+      "readTime": "6 min de lecture",
+      "datePublished": "2025-11-01",
+      "p1": "Les entreprises en croissance atteignent souvent un point où le fondateur ou le PDG reste l'opérateur par défaut—approbations, déblocage de projets et traduction de la stratégie pour chaque équipe. Un COO fractionnel apporte un leadership opérationnel senior sans le coût d'un poste exécutif à temps plein.",
+      "p2": "Les mandats de COO fractionnel se concentrent sur les priorités, responsables et KPI; les améliorations de processus qui réduisent les délais; et le soutien à la mise en œuvre pour que les recommandations deviennent des habitudes hebdomadaires. Roalla applique cette mentalité opérationnelle dans les programmes d'accompagnement d'entreprise et aux côtés des builds numériques.",
+      "p3": "Vous pourriez être prêt pour un soutien opérationnel fractionnel si la croissance dépasse votre rythme de planification, si les passations entre équipes se cassent ou si la direction a besoin de clarté pour les 90 prochains jours.",
+      "p4": "Si vous hésitez entre programmes conseil ou build numérique, l'évaluation Roalla en cinq questions oriente vers le bon point d'entrée—Préparer à S'envoler—avant de vous engager sur une portée."
+    },
+    "strategic-planning": {
+      "metadataTitle": "Planification stratégique : vision à exécution | ROALLA",
+      "metadataDescription": "Transformez la vision en feuille de route actionnable avec priorités, responsables et KPI—sans s'arrêter à la présentation.",
+      "title": "Planification stratégique : de la vision à l'exécution",
+      "summary": "Passer de l'ambition à un plan 90 jours que votre équipe peut réellement exécuter.",
+      "readTime": "7 min de lecture",
+      "datePublished": "2025-12-01",
+      "p1": "La plupart des plans stratégiques échouent à l'exécution—souvent parce que les priorités n'étaient pas alignées, les responsables nommés et les KPI reliés aux décisions hebdomadaires.",
+      "p2": "La phase Préparer de Roalla aligne objectifs, public et portée avant un investissement majeur—que le résultat soit une feuille de route d'accompagnement ou un brief produit numérique.",
+      "p3": "Les bons plans relient stratégie et systèmes. Si votre équipe ne voit pas la progression dans les outils qu'elle utilise, le plan devient décoratif. Roalla associe souvent planification et sites, plateformes ou automatisation quand la visibilité l'exige.",
+      "p4": "Commencez par notre évaluation ou une demande de service si vous voulez tester vos priorités avant le prochain cycle de planification—réponse en un jour ouvrable."
+    },
+    "process-optimization": {
+      "metadataTitle": "Guide d'optimisation des processus | ROALLA",
+      "metadataDescription": "Identifiez les goulots, réduisez les passations manuelles et libérez l'efficacité avec des améliorations de processus et de l'automatisation.",
+      "title": "Optimisation des processus : libérer l'efficacité cachée",
+      "summary": "Trouvez la friction qui vous coûte du temps—et corrigez-la avec de meilleurs flux, intégrations ou outils sur mesure.",
+      "readTime": "6 min de lecture",
+      "datePublished": "2026-01-15",
+      "p1": "L'optimisation commence par observer comment le travail circule réellement—pas seulement selon l'organigramme. Les corrections les plus rentables sont souvent les passations : double saisie, propriété floue et outils qui ne communiquent pas.",
+      "p2": "La phase Transformer construit avec points de revue—cartographier les flux, retirer les étapes manuelles et connecter CRM, courriel, formulaires et systèmes internes. Les clients voient souvent des rapports passer de heures à minutes.",
+      "p3": "Chaque goulot n'exige pas un logiciel sur mesure. Parfois clarté, rôles et une automatisation légère suffisent. Quand les outils du marché ne conviennent pas, nous définissons des plateformes sur mesure—voir notre Portfolio numérique.",
+      "p4": "Si la douleur processus est votre contrainte principale, Accompagnement numérique ou Accompagnement d'entreprise peuvent s'appliquer. Notre évaluation identifie le bon point d'entrée."
+    }
   },
   "faq": {
     "metadataTitle": "FAQ | ROALLA",
@@ -1280,7 +1334,31 @@
     "q6": "À quel moment pouvez-vous commencer à travailler avec nous?",
     "a6": "Nous pouvons généralement commencer un mandat 1 à 2 semaines après notre conversation initiale, selon la portée du projet et notre capacité. Pour les dossiers urgents, nous pouvons souvent accélérer.",
     "q7": "Qu'est-ce qui distingue Roalla des autres cabinets de conseil?",
-    "a7": "Notre combinaison d'expertise financière, d'acuité stratégique et de soutien concret à la mise en œuvre nous distingue. Nous ne nous contentons pas de recommandations : nous travaillons avec vous pour déployer les solutions et garantir des résultats concrets."
+    "a7": "Nous combinons stratégie et livraison responsable—sites Web, applications, intégrations et automatisation construits par la même équipe qui guide le mandat. Nous ne recommandons pas seulement : nous livrons du travail prêt pour la production et restons présents après le lancement.",
+    "q8": "Qu'est-ce que l'accompagnement numérique?",
+    "a8": "L'accompagnement numérique, c'est le travail concret pour faire mieux fonctionner votre entreprise en ligne—sites Web, applications sur mesure, intégrations, automatisation des flux et IA utile. Roalla guide chaque mandat de la portée initiale au lancement avec le modèle Préparer → Transformer → Émerger → S'envoler.",
+    "q9": "Combien coûte un site Web d'entreprise?",
+    "a9": "Les sites d'entreprise ciblés se situent dans une fourchette définie après une courte conversation de découverte—délai et investissement selon les pages, intégrations, contenu et exigences de lancement. Consultez notre page Conception de sites Web ou soumettez une demande de service pour une estimation sur mesure.",
+    "q10": "Combien de temps faut-il pour construire une application ou plateforme Web sur mesure?",
+    "a10": "Les outils ciblés peuvent être livrés en quelques semaines; les plateformes plus grandes avec intégrations et rôles s'étendent sur plusieurs sprints sur un à trois mois. Nous alignons les jalons en phase Préparer avant l'investissement complet en construction.",
+    "q11": "Pouvez-vous intégrer notre CRM, courriel et outils existants?",
+    "a11": "Oui. Les intégrations et l'automatisation des flux font partie de l'accompagnement numérique—nous connectons CRM, formulaires, courriel, calendriers et systèmes internes pour éviter la double saisie. Voir notre section Intégrations et automatisation.",
+    "q12": "Quelle est la différence entre accompagnement numérique et transformation numérique?",
+    "a12": "La transformation numérique est souvent un terme large pour le changement organisationnel. L'accompagnement numérique, c'est ce que nous livrons : sites, applications, intégrations et automatisation que votre équipe utilise chaque semaine, avec une livraison responsable et pas seulement des présentations.",
+    "q13": "Pouvez-vous ajouter l'IA à nos flux de travail?",
+    "a13": "Nous ajoutons une IA pratique là où elle aide—notation, flux guidés, automatisation documentaire et assistants API—sans hype gratuite. Le soutien IA fait partie de notre service d'accompagnement numérique aux côtés des intégrations et plateformes sur mesure.",
+    "q14": "Travaillez-vous avec les startups et PME?",
+    "a14": "Oui. Nous accompagnons les entreprises individuelles, les équipes en croissance et les grandes organisations. Les mandats sont adaptés à votre stade, budget et échéancier—d'un site marketing à conversion à une plateforme sur mesure utilisée au quotidien.",
+    "q15": "Qu'est-ce que Préparer → Transformer → Émerger → S'envoler?",
+    "a15": "C'est le modèle de livraison Roalla pour chaque mandat numérique. Préparer aligne objectifs et portée; Transformer est la construction avec points de revue; Émerger est le lancement visible sur le marché; S'envoler couvre l'itération après la mise en ligne. Le même modèle apparaît sur nos pages services et portfolio.",
+    "q16": "Construisez-vous des sites Web pour des entreprises en Ontario ou à Burlington?",
+    "a16": "Oui. Roalla est basée à Burlington (Ontario) et sert des clients au Canada et partout dans le monde. Les mandats de conception de sites incluent revues en préproduction, builds mobile-first et soutien au lancement—que vous soyez local ou à distance.",
+    "q17": "Pouvez-vous aider pour salons, kiosques et pages d'événements?",
+    "a17": "Oui. Notre service Événements numériques couvre pages d'événements, kits numériques pour kiosques, parcours QR et applications prêtes à l'ouverture du salon. Voir notre page Événements numériques et des exemples comme Boothlio et Cold Deja Bru.",
+    "q18": "Quelles technologies utilisez-vous?",
+    "a18": "Nous choisissons la stack selon vos besoins—frameworks Web modernes, hébergement cloud, API et plateformes d'intégration adaptées à votre équipe et budget. La priorité : des systèmes maintenables et prêts pour la production—notre technologie pour elle-même.",
+    "q19": "En quoi les ateliers diffèrent-ils des programmes d'accompagnement d'entreprise?",
+    "a19": "Les ateliers sont des sessions pratiques de montée en compétences—image de marque, ventes, productivité ou idéation—pour les équipes qui veulent un apprentissage ciblé. Les programmes d'accompagnement couvrent stratégie, opérations, équipes, données et innovation avec soutien à la mise en œuvre."
   },
   "contact": {
     "metadataTitle": "Contact | ROALLA",

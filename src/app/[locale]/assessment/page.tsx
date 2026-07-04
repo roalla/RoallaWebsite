@@ -4,7 +4,9 @@ import { getTranslations } from 'next-intl/server'
 import Breadcrumb from '@/components/Breadcrumb'
 import InteractiveAssessment from '@/components/InteractiveAssessment'
 import AssessmentFAQ from '@/components/assessment/AssessmentFAQ'
-import { localeAlternates } from '@/lib/page-metadata'
+import JsonLd from '@/components/JsonLd'
+import { buildPageMetadata } from '@/lib/page-metadata'
+import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/structured-data'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -14,19 +16,30 @@ export async function generateMetadata({ params }: Props) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'assessmentPage' })
 
-  return {
+  return buildPageMetadata({
+    locale,
+    path: '/assessment',
     title: t('metadataTitle'),
     description: t('metadataDescription'),
-    alternates: localeAlternates('/assessment'),
-  }
+  })
 }
 
-export default async function AssessmentPage() {
+export default async function AssessmentPage({ params }: Props) {
+  const { locale } = await params
   const t = await getTranslations('assessmentPage')
   const tBc = await getTranslations('breadcrumb')
 
   return (
     <div className="page-shell">
+      <JsonLd
+        data={[
+          breadcrumbJsonLd(locale, [
+            { name: tBc('home'), path: '' },
+            { name: tBc('assessment') },
+          ]),
+          webPageJsonLd(locale, '/assessment', t('title'), t('metadataDescription')),
+        ]}
+      />
       <div className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent" aria-hidden />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
         <Breadcrumb items={[{ label: tBc('home'), href: '/' }, { label: tBc('assessment') }]} />

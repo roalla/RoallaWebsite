@@ -80,7 +80,8 @@
     "copyright": "© {year} Roalla Business Enablement Group. All Rights Reserved.",
     "subtitle": "Digital Enablement · Programs available",
     "digitalEnablement": "Digital Enablement",
-    "programs": "Programs"
+    "programs": "Programs",
+    "insights": "Insights"
   },
   "home": {
     "metadataTitle": "ROALLA | Digital Enablement",
@@ -302,7 +303,8 @@
     "assessment": "Find your starting point",
     "faq": "FAQ",
     "contact": "Contact",
-    "trustCentre": "Trust Centre"
+    "insights": "Insights",
+    "portfolio": "Digital Portfolio"
   },
   "consultationRequest": {
     "title": "Service Inquiry",
@@ -1275,7 +1277,59 @@
     "t13CaseStudy": "Help SMBs understand compliance readiness in plain language before they invest in audits, tools, or consultants.",
     "t13Tag1": "Compliance readiness",
     "t13Tag2": "SOC 2 · HIPAA · NIST",
-    "t13Tag3": "Assessment platform"
+    "t13Tag3": "Assessment platform",
+    "caseStudyMetadataTitle": "{name} Case Study | ROALLA",
+    "caseStudyEyebrow": "Portfolio case study",
+    "caseStudyOutcomeTitle": "Outcome",
+    "caseStudyHighlightsTitle": "What we delivered",
+    "caseStudyCta": "Discuss a similar build",
+    "caseStudyLiveLink": "View live project",
+    "viewCaseStudy": "Read case study"
+  },
+  "insights": {
+    "metadataTitle": "Insights | ROALLA",
+    "metadataDescription": "Practical guides on fractional leadership, strategic planning, process optimization, and digital enablement from Roalla.",
+    "indexTitle": "Insights",
+    "indexSubtitle": "Practical thinking on operations, strategy, and digital delivery—written for business leaders who want clarity before they commit.",
+    "ctaText": "Want help applying these ideas to your business?",
+    "ctaSchedule": "Start a service inquiry",
+    "ctaAssessment": "Take the 5-minute assessment",
+    "fractional-coo": {
+      "metadataTitle": "Fractional COO: When and Why | ROALLA",
+      "metadataDescription": "Learn when a fractional COO makes sense, what they deliver, and how operational leadership accelerates growth without a full-time hire.",
+      "title": "Fractional COO: When and Why Your Business Needs One",
+      "summary": "Senior operational leadership on a flexible basis—when it fits, what to expect, and how it differs from generic consulting.",
+      "readTime": "6 min read",
+      "datePublished": "2025-11-01",
+      "p1": "Growing businesses often hit a point where the founder or CEO is still the default operator—approving purchases, unblocking projects, and translating strategy for every team. A fractional COO brings senior operational leadership without the cost and commitment of a full-time executive hire.",
+      "p2": "Fractional COO engagements typically focus on priorities, owners, and KPIs; process improvements that reduce cycle time; and implementation support so recommendations become weekly habits—not binderware. Roalla applies this operator mindset inside Business Enablement programs and alongside digital builds when execution discipline matters.",
+      "p3": "You may be ready for fractional operational support if growth is outpacing your planning rhythm, handoffs between teams are breaking, or leadership needs board-ready clarity on the next 90 days. The fit is especially strong when you want someone in the room for decisions—not a report delivered afterward.",
+      "p4": "If you're unsure whether advisory programs or a digital build is the better starting point, Roalla's five-question assessment maps your gaps to the right entry point—Prepare through Soar—before you commit to a scope."
+    },
+    "strategic-planning": {
+      "metadataTitle": "Strategic Planning: Vision to Execution | ROALLA",
+      "metadataDescription": "Turn business vision into an actionable roadmap with aligned priorities, owners, and KPIs—without stopping at the slide deck.",
+      "title": "Strategic Planning: From Vision to Execution",
+      "summary": "How to move from ambition to an actionable 90-day plan your team can actually run.",
+      "readTime": "7 min read",
+      "datePublished": "2025-12-01",
+      "p1": "Most strategic plans fail in execution—not because the vision was wrong, but because priorities weren't aligned, owners weren't named, and KPIs weren't tied to weekly decisions. Effective planning packages choices leadership can act on immediately.",
+      "p2": "Roalla's Prepare phase aligns goals, audience, and scope before major investment—whether the outcome is a Business Enablement roadmap or a digital product brief. The same discipline applies: clarify constraints, sequence work, and define what success looks like at 30, 60, and 90 days.",
+      "p3": "Strong plans connect strategy to systems. If your team can't see progress in the tools they use every week, the plan becomes wallpaper. That's why Roalla often pairs planning engagements with websites, platforms, or automation when visibility and follow-through require digital infrastructure.",
+      "p4": "Start with our assessment or a service inquiry if you want help pressure-testing priorities before the next planning cycle—we reply within one business day with the right entry point."
+    },
+    "process-optimization": {
+      "metadataTitle": "Process Optimization Guide | ROALLA",
+      "metadataDescription": "Identify bottlenecks, reduce manual handoffs, and unlock hidden efficiency with data-informed process improvements and automation.",
+      "title": "Process Optimization: Unlock Hidden Efficiency",
+      "summary": "Find the friction that's costing you time—and fix it with better workflows, integrations, or custom tools.",
+      "readTime": "6 min read",
+      "datePublished": "2026-01-15",
+      "p1": "Process optimization starts with observing how work actually moves—not how the org chart says it should. The highest-leverage fixes are usually handoffs: duplicate data entry, unclear ownership, and tools that don't talk to each other.",
+      "p2": "Roalla's Transform phase builds inside review checkpoints—mapping workflows, removing manual steps, and connecting CRM, email, forms, and internal systems where integrations make sense. Clients often see reporting drop from hours to minutes once data flows automatically.",
+      "p3": "Not every bottleneck needs custom software. Sometimes clarity, roles, and a lightweight automation bridge are enough. When off-the-shelf tools won't fit, we scope custom platforms your team uses every week—see our Digital Portfolio for live examples.",
+      "p4": "If process pain is your primary constraint, Digital Enablement or Business Enablement may both apply. Our assessment helps identify whether you need advisory support, automation, or a net-new platform."
+    }
   },
   "faq": {
     "metadataTitle": "FAQ | ROALLA",
@@ -1300,7 +1354,31 @@
     "q6": "How quickly can you start working with us?",
     "a6": "We typically can begin engagements within 1-2 weeks of our initial conversation, depending on project scope and our current capacity. For urgent matters, we can often accommodate faster timelines.",
     "q7": "What makes Roalla different from other advisory firms?",
-    "a7": "Our combination of deep financial expertise, strategic business acumen, and hands-on implementation support sets us apart. We don't just provide recommendations—we work alongside you to implement solutions and ensure they deliver real results for your business."
+    "a7": "We combine strategy with accountable delivery—websites, apps, integrations, and automation built by the same team that guides the engagement. We don't just recommend; we ship production-ready work and stay through launch and iteration.",
+    "q8": "What is digital enablement?",
+    "a8": "Digital enablement is the practical work of making your business run better online—websites, custom apps, integrations, workflow automation, and AI where it helps. Roalla guides each engagement from first scope through launch using our Prepare → Transform → Emerge → Soar model.",
+    "q9": "How much does a business website cost?",
+    "a9": "Focused business websites often land in a scoped range after a short discovery conversation—timeline and investment depend on pages, integrations, content readiness, and launch requirements. See our Website Design page for typical 1–4 week scopes, or submit a service inquiry for a tailored estimate.",
+    "q10": "How long does it take to build a custom web app or platform?",
+    "a10": "Small focused tools can ship in a few weeks; larger platforms with integrations, roles, and workflows typically run several sprints over one to three months. We align on milestones during Prepare so you know what ships when before full build investment.",
+    "q11": "Can you integrate our CRM, email, and existing tools?",
+    "a11": "Yes. Integrations and workflow automation are core Digital Enablement services—we connect CRMs, forms, email, calendars, payment tools, and internal systems so data flows without duplicate entry. See our Integrations & Automation section for examples.",
+    "q12": "What's the difference between digital enablement and digital transformation?",
+    "a12": "Digital transformation is often used as a broad label for organizational change. Digital enablement is what we deliver: concrete websites, apps, integrations, and automation that your team uses every week—with accountable delivery, not slide decks alone.",
+    "q13": "Can you add AI to our workflows?",
+    "a13": "We add practical AI where it helps—scoring, guided workflows, document automation, and API-backed assistants—not hype for its own sake. AI Support is part of our Digital Enablement service alongside integrations and custom platforms.",
+    "q14": "Do you work with startups and small businesses?",
+    "a14": "Yes. We work with owner-operated businesses, growth-stage teams, and larger enterprises. Scopes are tailored to your stage, budget, and timeline—from a conversion-focused marketing site to a custom platform your team runs daily.",
+    "q15": "What is Prepare → Transform → Emerge → Soar?",
+    "a15": "It's Roalla's delivery model for every digital engagement. Prepare aligns goals and scope; Transform is the build inside review checkpoints; Emerge is your market-facing launch; Soar covers iteration and scale after go-live. The same model appears on our service and portfolio pages.",
+    "q16": "Do you build websites for businesses in Ontario or Burlington?",
+    "a16": "Yes. Roalla is based in Burlington, Ontario, and serves clients across Canada and globally. Website design engagements include staging reviews, mobile-first builds, and launch support—whether you're local or remote.",
+    "q17": "Can you help with trade shows, booth kits, and event pages?",
+    "a17": "Yes. Our Digital Events service covers event landing pages, booth digital kits, QR paths, and apps ready when the floor opens. See our Digital Events page and portfolio examples like Boothlio and Cold Deja Bru.",
+    "q18": "What technologies do you use?",
+    "a18": "We choose stacks based on your requirements—modern web frameworks, cloud hosting, APIs, and integration platforms that fit your team and budget. The priority is maintainable, production-ready systems your organization can run—not technology for its own sake.",
+    "q19": "How do workshops differ from Business Enablement programs?",
+    "a19": "Workshops are hands-on skill-building sessions—branding, sales, productivity, or ideation—for teams that want targeted learning. Business Enablement programs are broader advisory engagements covering strategy, operations, teams, data, and innovation with implementation support."
   },
   "contact": {
     "metadataTitle": "Contact Us | ROALLA",

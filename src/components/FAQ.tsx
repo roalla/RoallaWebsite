@@ -7,12 +7,13 @@ import { Link } from '@/i18n/navigation'
 import ScheduleButton from './ScheduleButton'
 import Reveal from './motion/Reveal'
 import Collapse from './motion/Collapse'
+import { FAQ_INDICES } from '@/lib/faq'
 
 const FAQ = () => {
   const t = useTranslations('faq')
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
-  const faqKeys = [0, 1, 2, 3, 4, 5, 6, 7] as const
+  const faqKeys = FAQ_INDICES
   const faqs = faqKeys.map((i) => ({
     question: t(`q${i}`),
     answer: t(`a${i}`),
@@ -28,9 +29,9 @@ const FAQ = () => {
         <Reveal className="text-center mb-16">
           <div className="flex items-center justify-center mb-4">
             <HelpCircle className="w-12 h-12 text-primary-dark mr-3" />
-            <h2 className="text-4xl md:text-5xl font-serif font-extrabold text-slate-900">
+            <h1 className="text-4xl md:text-5xl font-serif font-extrabold text-slate-900">
               {t('title')}
-            </h2>
+            </h1>
           </div>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto mt-4">
             {t('subtitle')}

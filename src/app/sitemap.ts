@@ -1,4 +1,6 @@
 import { MetadataRoute } from 'next'
+import { INSIGHT_SLUGS } from '@/lib/insights'
+import { CASE_STUDY_SLUGS } from '@/lib/portfolio-case-studies'
 
 const baseUrl = 'https://www.roalla.com'
 const locales = ['en', 'fr'] as const
@@ -16,6 +18,9 @@ const paths = [
   '/faq',
   '/contact',
   '/schedule',
+  '/insights',
+  ...INSIGHT_SLUGS.map((slug) => `/insights/${slug}`),
+  ...CASE_STUDY_SLUGS.map((slug) => `/services/portfolio/${slug}`),
 ] as const
 
 const priorities: Record<string, number> = {
@@ -31,10 +36,23 @@ const priorities: Record<string, number> = {
   '/faq': 0.7,
   '/contact': 0.8,
   '/schedule': 0.8,
+  '/insights': 0.75,
+}
+
+const changeFrequency = (path: string): MetadataRoute.Sitemap[number]['changeFrequency'] => {
+  if (path === '') return 'weekly'
+  if (path.startsWith('/insights')) return 'monthly'
+  return 'monthly'
+}
+
+const priority = (path: string): number => {
+  if (path.startsWith('/insights/')) return 0.72
+  if (path.startsWith('/services/portfolio/')) return 0.82
+  return priorities[path] ?? 0.7
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date()
+  const lastModified = new Date().toISOString()
 
   return paths.flatMap((path) =>
     locales.map((locale) => {
@@ -46,8 +64,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       return {
         url: `${baseUrl}${localizedPath}`,
         lastModified,
-        changeFrequency: path === '' ? 'weekly' : 'monthly',
-        priority: priorities[path] ?? 0.7,
+        changeFrequency: changeFrequency(path),
+        priority: priority(path),
         alternates: { languages },
       }
     }),

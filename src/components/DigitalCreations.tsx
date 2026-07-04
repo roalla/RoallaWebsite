@@ -36,6 +36,7 @@ import {
   type PortfolioIndustryCategoryConfig,
   type PortfolioVerticalConfig,
 } from '@/lib/digitalPortfolio'
+import { isCaseStudySlug } from '@/lib/portfolio-case-studies'
 
 type FilterKey = 'all' | PortfolioCategory
 
@@ -156,6 +157,15 @@ function FeaturedCaseStudy({
               {liveCta}
               <ExternalLink className="w-4 h-4 ml-2" />
             </a>
+            {isCaseStudySlug(item.id) ? (
+              <Link
+                href={{ pathname: '/services/portfolio/[slug]', params: { slug: item.id } }}
+                className="inline-flex items-center text-slate-700 font-semibold py-2.5 px-5 rounded-lg text-sm border border-slate-200 hover:bg-slate-50"
+              >
+                {t('viewCaseStudy')}
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
+            ) : null}
           </div>
         </div>
         <div className="p-6 lg:p-8 bg-white order-1 lg:order-2 border-b lg:border-b-0 lg:border-l border-slate-200/80">

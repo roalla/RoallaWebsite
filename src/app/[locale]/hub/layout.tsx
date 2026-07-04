@@ -1,7 +1,11 @@
 import type { Metadata } from 'next'
+import { unstable_noStore as noStore } from 'next/cache'
 import { getHubSession } from '@/lib/hub/auth-session'
 import HubShell from '@/components/hub/HubShell'
 import type { HubRole } from '@/lib/hub/roles'
+
+/** Read auth env at request time — do not statically bake at build (Railway runtime vars). */
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Internal Hub | ROALLA',
@@ -13,6 +17,7 @@ export default async function HubLayout({
 }: {
   children: React.ReactNode
 }) {
+  noStore()
   const session = await getHubSession()
 
   // Login page renders without shell — detected via parallel route... 

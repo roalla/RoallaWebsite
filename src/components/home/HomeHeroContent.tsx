@@ -1,10 +1,11 @@
 'use client'
 
 import React from 'react'
-import { ArrowRight, Globe, Layers, Sparkles } from 'lucide-react'
+import { ArrowRight, ClipboardCheck, Globe, Layers, Sparkles } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import ScheduleButton from '../ScheduleButton'
+import { ButterflyAccent } from '../brand/BrandAccents'
 
 /** Solid panel — no backdrop-blur so content stays stable during slide transitions */
 const heroGlassPanel =
@@ -37,25 +38,38 @@ export default function HomeHeroContent() {
       descKey: 'pathAutomationDesc' as const,
       analytics: 'hero-path-automation',
     },
+    {
+      href: '/assessment' as const,
+      icon: ClipboardCheck,
+      titleKey: 'pathAssessmentTitle' as const,
+      descKey: 'pathAssessmentDesc' as const,
+      analytics: 'hero-path-assessment',
+    },
   ] as const
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-12 lg:py-20">
-      <div className="max-w-2xl">
+      <div className="max-w-3xl">
         <div className={`rounded-2xl ${heroGlassPanel} p-6 sm:p-8 lg:p-10`}>
-          <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-serif font-extrabold text-slate-900 leading-tight tracking-tight">
-            {t('title')}{' '}
-            <span className="text-primary-dark">{t('titleHighlight')}</span>
-          </h1>
-          <p className="mt-6 text-lg sm:text-xl text-slate-700 max-w-xl leading-relaxed">
-            {t('subtitle')}
-          </p>
+          <div className="flex items-start gap-4">
+            <ButterflyAccent className="w-10 h-10 sm:w-12 sm:h-12 text-primary/40 shrink-0 mt-1 hidden sm:block" />
+            <div className="min-w-0 flex-1">
+              <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-serif font-extrabold text-slate-900 leading-tight tracking-tight">
+                {t('title')}{' '}
+                <span className="text-primary-dark">{t('titleHighlight')}</span>
+              </h1>
+              <p className="mt-6 text-lg sm:text-xl text-slate-700 max-w-xl leading-relaxed">
+                {t('subtitle')}
+              </p>
+              <p className="mt-4 text-sm font-medium text-primary-dark">{t('journeyLine')}</p>
+            </div>
+          </div>
 
           <div className="mt-6">
             <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">
               {t('pathChooserLabel')}
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {pathCards.map((card) => {
                 const Icon = card.icon
                 return (
@@ -82,7 +96,7 @@ export default function HomeHeroContent() {
             </p>
           </div>
 
-          <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap sm:items-start gap-3">
+          <div className="mt-8">
             <ScheduleButton
               variant="primary"
               size="lg"

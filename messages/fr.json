@@ -84,11 +84,11 @@
   },
   "home": {
     "metadataTitle": "ROALLA | Accompagnement numérique",
-    "metadataDescription": "Sites Web, applis sur mesure, intégrations, automatisation des flux et soutien IA—cadrés, construits et soutenus par une équipe responsable.",
+    "metadataDescription": "Sites Web, applis sur mesure, intégrations, automatisation des flux et soutien IA—guidés de la portée initiale au lancement et à l'itération par une équipe responsable.",
     "hero": {
       "title": "Accompagnement numérique",
-      "titleHighlight": "qui livre.",
-      "subtitle": "Sites Web, applis sur mesure, intégrations, automatisation des flux et IA pratique—cadrés, construits et soutenus par une équipe responsable.",
+      "titleHighlight": "qui vous aide à émerger.",
+      "subtitle": "Sites Web, applis sur mesure, intégrations, automatisation des flux et IA pratique—guidés de la portée initiale au lancement et à l'itération par une équipe responsable.",
       "pathChooserLabel": "Que voulez-vous construire?",
       "pathWebsiteTitle": "Site Web ou refonte",
       "pathWebsiteDesc": "Sites marketing, parcours de réservation et présence Web orientée conversion.",
@@ -96,12 +96,14 @@
       "pathPlatformDesc": "Outils, portails et logiciels adaptés aux flux de votre équipe.",
       "pathAutomationTitle": "Intégrer, automatiser ou ajouter l'IA",
       "pathAutomationDesc": "Connecter vos systèmes, éliminer les étapes manuelles et ajouter une IA pratique.",
+      "pathAssessmentTitle": "Vous ne savez pas par où commencer?",
+      "pathAssessmentDesc": "Cinq questions rapides pour trouver votre meilleur point de départ—mandat numérique ou programme.",
       "programsLink": "Vous cherchez du conseil ou des ateliers?",
       "programsLinkCta": "Voir les Programmes",
       "pathConsultingTitle": "J'ai besoin d'accompagnement d'affaires",
       "pathConsultingDesc": "Stratégie, opérations et croissance—avec un suivi responsable.",
       "pathDigitalTitle": "J'ai besoin d'un site ou d'une plateforme",
-      "pathDigitalDesc": "Sites prêts pour la production et outils sur mesure, cadrés et livrés par Roalla.",
+      "pathDigitalDesc": "Sites prêts pour la production et outils sur mesure—cadrés, construits et lancés avec un suivi responsable.",
       "proofLine": "30+ ans · 500+ mandats · Réponse en 1 jour ouvrable",
       "cta": "Soumettre une demande de service",
       "exploreServices": "Découvrir nos services",
@@ -127,8 +129,8 @@
       "digitalProofLabel": "Réalisations numériques en ligne",
       "exploreConsultingLink": "Explorer l'accompagnement d'entreprise",
       "exploreDigitalLink": "Voir le portfolio numérique",
-      "exploreDigitalServiceLink": "Explorer les créations numériques",
-      "journeyLine": "Transformer → Émerger → S'élever — un parcours unique de l'accompagnement d'affaires à la livraison numérique."
+      "exploreDigitalServiceLink": "Explorer l'accompagnement numérique",
+      "journeyLine": "Préparer → Transformer → Émerger → S'élever — notre modèle pour chaque mandat numérique."
     },
     "whatWeDo": {
       "title": "Ce que nous construisons",
@@ -164,7 +166,7 @@
       "platformsLabel": "Plateformes et outils sur mesure",
       "brandingLabel": "Design orienté conversion",
       "exploreBusinessEnablement": "Explorer l'accompagnement d'entreprise",
-      "exploreWebsitesAndDigital": "Explorer les créations numériques",
+      "exploreWebsitesAndDigital": "Explorer l'accompagnement numérique",
       "viewOurWork": "Voir des exemples concrets",
       "exploreServices": "Découvrir nos services",
       "exploreDigital": "Nous concevons et développons aussi des sites Web et des plateformes numériques",
@@ -210,12 +212,14 @@
       "step3": "Feuille de route et plan avec responsables, jalons et KPI.",
       "step4": "Soutien à la mise en œuvre avec revues de cadence et corrections de cap."
     },
-    "howWeBuild": {
-      "cta": "Discuter de votre projet",
-      "responseTime": "Nous répondons dans un délai d'un jour ouvrable.",
-      "learnMore": "Découvrir notre façon de travailler avec vous",
-      "buildStripDescShort": "Portées, délais et livrables pour sites et plateformes sont sur la page Accompagnement numérique.",
-      "howWeDeliver": "Comment nous livrons les créations numériques"
+    "deliveryPhases": {
+      "title": "Comment nous livrons",
+      "description": "Chaque mandat suit Préparer → Transformer → Émerger → S'élever—de la portée initiale au lancement et à l'itération.",
+      "linkLabel": "Portées et délais complets",
+      "prepareDesc": "Aligner objectifs, public et portée avant l'investissement complet en développement.",
+      "transformDesc": "Construire dans le cocon—sprints avec points de revue et livraison responsable.",
+      "emergeDesc": "Votre présence devient visible—staging, crédibilité et parcours de conversion.",
+      "soarDesc": "Lancer, itérer et grandir avec jalons et suivi après la mise en ligne."
     },
     "testimonials": {
       "eyebrow": "Témoignages clients",
@@ -224,14 +228,15 @@
       "t1Quote": "Roalla a livré un site qui réunit enfin réservation, événements et ressources. Nous avons arrêté de perdre des demandes parce que les gens ne trouvaient pas la bonne page.",
       "t1Role": "Site de marque et conférences",
       "t1Project": "Ken Effect",
-      "t2Quote": "Nous avions besoin d'un seul endroit pour l'inscription et la communication d'équipe—pas un autre tableur. Roalla a construit quelque chose que nos bénévoles utilisent vraiment chaque semaine.",
-      "t2Role": "Plateforme sur mesure",
-      "t2Project": "Programme de sports jeunesse",
-      "t3Quote": "Nous sommes passés de priorités dispersées à un plan de 90 jours que la direction pouvait exécuter—responsables, KPI et jalons que nous suivons vraiment chaque semaine.",
-      "t3Role": "SaaS en croissance",
-      "t3Project": "Plan stratégique de 90 jours",
+      "t2Quote": "Nous sommes passés de priorités dispersées à un plan clair de 90 jours—et une plateforme en ligne que l'équipe utilise chaque semaine. D'abord la clarté, puis le lancement, puis une vraie croissance.",
+      "t2Role": "Équipe en croissance",
+      "t2Project": "Stratégie jusqu'au lancement de plateforme",
+      "t3Quote": "L'automatisation construite par Roalla a réduit nos rapports hebdomadaires de heures à minutes—et les intégrations font circuler les données sans copier-coller.",
+      "t3Role": "Équipe opérationnelle",
+      "t3Project": "Automatisation des flux",
       "viewPortfolio": "Voir le portfolio numérique",
-      "discussProject": "Discuter d'un projet comme celui-ci"
+      "discussProject": "Discuter d'un projet comme celui-ci",
+      "scheduleLink": "Soumettre une demande de service"
     },
     "assessment": {
       "title": "Évaluation de la santé de l'entreprise",

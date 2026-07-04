@@ -84,11 +84,11 @@
   },
   "home": {
     "metadataTitle": "ROALLA | Digital Enablement",
-    "metadataDescription": "Websites, custom apps, integrations, workflow automation, and AI support—scoped, built, and supported by one accountable team.",
+    "metadataDescription": "Websites, custom apps, integrations, workflow automation, and AI support—guided from first scope through launch and iteration by one accountable team.",
     "hero": {
       "title": "Digital Enablement",
-      "titleHighlight": "that ships.",
-      "subtitle": "Websites, custom apps, integrations, workflow automation, and practical AI—scoped, built, and supported by one accountable team.",
+      "titleHighlight": "that helps you emerge.",
+      "subtitle": "Websites, custom apps, integrations, workflow automation, and practical AI—guided from first scope through launch and iteration by one accountable team.",
       "pathChooserLabel": "What do you need built?",
       "pathWebsiteTitle": "Website or redesign",
       "pathWebsiteDesc": "Marketing sites, booking flows, and conversion-focused web presence.",
@@ -96,12 +96,14 @@
       "pathPlatformDesc": "Tools, portals, and workflow-specific software your team runs on.",
       "pathAutomationTitle": "Integrate, automate, or add AI",
       "pathAutomationDesc": "Connect systems, remove manual steps, and add practical AI where it helps.",
+      "pathAssessmentTitle": "Not sure where to start?",
+      "pathAssessmentDesc": "Five quick questions to find your best entry point—digital build or program.",
       "programsLink": "Looking for advisory or workshops?",
       "programsLinkCta": "See Programs",
       "pathConsultingTitle": "I need business enablement",
       "pathConsultingDesc": "Strategy, operations, and growth—with accountable follow-through.",
       "pathDigitalTitle": "I need a website or platform",
-      "pathDigitalDesc": "Production-ready sites and custom tools, scoped and shipped by Roalla.",
+      "pathDigitalDesc": "Production-ready sites and custom tools—scoped, built, and launched with accountable follow-through.",
       "proofLine": "30+ years · 500+ engagements · Reply in 1 business day",
       "cta": "Start a service inquiry",
       "exploreServices": "Explore our services",
@@ -128,7 +130,7 @@
       "exploreConsultingLink": "Explore Business Enablement",
       "exploreDigitalLink": "View Digital Portfolio",
       "exploreDigitalServiceLink": "Explore Digital Enablement",
-      "journeyLine": "Transform → Emerge → Soar — one journey from business enablement through digital delivery."
+      "journeyLine": "Prepare → Transform → Emerge → Soar — our model for every digital engagement."
     },
     "whatWeDo": {
       "title": "What we build",
@@ -188,11 +190,11 @@
     },
     "proofBand": {
       "eyebrow": "Proof you can see",
-      "title": "Live work in production",
-      "description": "Every example is shipped and maintained—click through to experience the work firsthand.",
-      "consultingTitle": "Digital Enablement outcomes",
-      "consultingDesc": "Websites, platforms, integrations, and automation built with staging reviews and accountable delivery.",
-      "consultingCta": "Explore Digital Enablement",
+      "title": "Outcomes you can measure—and work you can click",
+      "description": "The same accountable team guides strategy and delivers the sites and platforms your roadmap requires.",
+      "consultingTitle": "Business Enablement outcomes",
+      "consultingDesc": "Strategy, planning, and execution with the discipline to implement—not just recommend.",
+      "consultingCta": "Explore Business Enablement",
       "digitalTitle": "Digital Portfolio",
       "digitalDesc": "Production-ready websites and custom platforms—designed, built, and launched by Roalla.",
       "digitalCta": "View Digital Portfolio",
@@ -210,12 +212,14 @@
       "step3": "Roadmap and plan with owners, milestones, and KPIs.",
       "step4": "Implementation support with cadence reviews and course correction."
     },
-    "howWeBuild": {
-      "cta": "Discuss your project",
-      "responseTime": "We respond within one business day.",
-      "learnMore": "Learn how we work with you",
-      "buildStripDescShort": "Scopes, timelines, and deliverables for websites, apps, and integrations are on our Digital Enablement page.",
-      "howWeDeliver": "How we deliver Digital Enablement"
+    "deliveryPhases": {
+      "title": "How we deliver",
+      "description": "Every engagement follows Prepare → Transform → Emerge → Soar—from first scope through launch and iteration.",
+      "linkLabel": "Full scopes & timelines",
+      "prepareDesc": "Align goals, audience, and scope before full build investment.",
+      "transformDesc": "Build inside the cocoon—sprints with review checkpoints and accountable delivery.",
+      "emergeDesc": "Your market-facing presence becomes visible—staging, credibility, and conversion paths.",
+      "soarDesc": "Launch, iterate, and scale with milestones and follow-through after go-live."
     },
     "testimonials": {
       "eyebrow": "Client feedback",
@@ -224,14 +228,15 @@
       "t1Quote": "Roalla delivered a site that finally ties together booking, events, and resources. We stopped losing inquiries because people couldn't find the right page.",
       "t1Role": "Brand & speaking website",
       "t1Project": "Ken Effect",
-      "t2Quote": "We needed one place for registration and team communication—not another spreadsheet. Roalla built something our volunteers actually use every week.",
-      "t2Role": "Custom platform",
-      "t2Project": "Youth sports program",
+      "t2Quote": "We went from scattered priorities to a clear 90-day plan—and a live platform our team uses every week. Clarity first, then launch, then real growth.",
+      "t2Role": "Growth-stage team",
+      "t2Project": "Strategy to platform launch",
       "t3Quote": "The automation Roalla built cut our weekly reporting from hours to minutes—and the integrations just keep data flowing without copy-paste.",
       "t3Role": "Operations team",
       "t3Project": "Workflow automation",
       "viewPortfolio": "View Digital Portfolio",
-      "discussProject": "Discuss a project like this"
+      "discussProject": "Discuss a project like this",
+      "scheduleLink": "Start a service inquiry"
     },
     "assessment": {
       "title": "Find your starting point",

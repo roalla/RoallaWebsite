@@ -14,6 +14,7 @@ import {
   GraduationCap,
   Briefcase,
 } from 'lucide-react'
+import HomeDeliveryPhases from './HomeDeliveryPhases'
 
 const capabilityCards = [
   {
@@ -85,6 +86,8 @@ export default function HomeWhatWeDo() {
             )
           })}
         </div>
+
+        <HomeDeliveryPhases />
 
         <Reveal className="rounded-xl border border-slate-200 bg-white px-5 py-4 lg:px-6 lg:py-5 mb-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <p className="text-sm text-slate-700 leading-relaxed">{t('portfolioTeaser')}</p>

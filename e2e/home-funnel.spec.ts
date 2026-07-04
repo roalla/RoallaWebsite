@@ -6,6 +6,7 @@ test.describe('Homepage funnel', () => {
     await expect(page.getByRole('link', { name: /Website or redesign/i }).first()).toBeVisible()
     await expect(page.getByRole('link', { name: /Custom app or platform/i }).first()).toBeVisible()
     await expect(page.getByRole('link', { name: /Integrate, automate, or add AI/i }).first()).toBeVisible()
+    await expect(page.getByRole('link', { name: /Not sure where to start/i }).first()).toBeVisible()
     await expect(page.getByRole('link', { name: /See Programs/i }).first()).toBeVisible()
   })
 

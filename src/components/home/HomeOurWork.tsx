@@ -12,7 +12,6 @@ const digitalOutcomeKeys = ['digitalOutcome1', 'digitalOutcome2'] as const
 export default function HomeOurWork() {
   const t = useTranslations('home.proofBand')
   const tWhatWeDo = useTranslations('home.whatWeDo')
-  const tCommon = useTranslations('common')
 
   return (
     <section id="our-work" className="py-14 lg:py-20 bg-white relative scroll-mt-24">
@@ -43,22 +42,13 @@ export default function HomeOurWork() {
                 </li>
               ))}
             </ul>
-            <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <Link
-                href={{ pathname: '/schedule', query: { intent: 'consulting' } }}
-                className="inline-flex items-center justify-center rounded-lg bg-primary hover:bg-primary-dark text-white font-semibold px-5 py-2.5 text-sm transition-colors"
-              >
-                {tCommon('scheduleConsultation')}
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Link>
-              <Link
-                href="/programs/business-enablement"
-                className="inline-flex items-center link-action hover:underline text-sm font-semibold"
-              >
-                {t('consultingCta')}
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Link>
-            </div>
+            <Link
+              href="/programs/business-enablement"
+              className="mt-6 inline-flex items-center link-action hover:underline text-sm font-semibold"
+            >
+              {t('consultingCta')}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
           </div>
 
           <div className="flex flex-col rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-primary/[0.04] p-6 lg:p-8 shadow-card">
@@ -81,22 +71,13 @@ export default function HomeOurWork() {
                 </li>
               ))}
             </ul>
-            <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <Link
-                href={{ pathname: '/schedule', query: { intent: 'website' } }}
-                className="inline-flex items-center justify-center rounded-lg bg-primary hover:bg-primary-dark text-white font-semibold px-5 py-2.5 text-sm transition-colors"
-              >
-                {tCommon('scheduleConsultationDigital')}
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Link>
-              <Link
-                href="/services/portfolio"
-                className="inline-flex items-center link-action hover:underline text-sm font-semibold"
-              >
-                {t('digitalCta')}
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Link>
-            </div>
+            <Link
+              href="/services/portfolio"
+              className="mt-6 inline-flex items-center link-action hover:underline text-sm font-semibold"
+            >
+              {t('digitalCta')}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
           </div>
         </div>
       </div>

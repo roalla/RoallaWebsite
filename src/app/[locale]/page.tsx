@@ -3,7 +3,6 @@ import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import HomeHero from '@/components/home/HomeHero'
 import HomeWhatWeDo from '@/components/home/HomeWhatWeDo'
-import HomeHowWeBuild from '@/components/home/HomeHowWeBuild'
 import HomeOurWork from '@/components/home/HomeOurWork'
 import HomeTestimonials from '@/components/home/HomeTestimonials'
 import HomeCTA from '@/components/home/HomeCTA'
@@ -46,7 +45,6 @@ export default function Home() {
       ))}
       <HomeHero />
       <HomeWhatWeDo />
-      <HomeHowWeBuild />
       <HomeOurWork />
       <HomeTestimonials />
       <HomeCTA />

@@ -307,15 +307,13 @@
       "cred4Desc": "Sensitive context stays protected—discuss your needs before sharing details."
     },
     "featuredInsight": {
-      "title": "Featured insight",
-      "article1Title": "Fractional COO: When and Why Your Business Needs One",
-      "article1Description": "Learn how fractional COO services can transform your operational management.",
-      "article2Title": "Strategic Planning: From Vision to Execution",
-      "article2Description": "Turn your business vision into an actionable roadmap with proven frameworks.",
-      "article3Title": "Process Optimization: Unlock Hidden Efficiency",
-      "article3Description": "Identify and eliminate bottlenecks with data-driven process improvements.",
+      "title": "Featured insights",
       "readMore": "Learn more",
-      "badge": "Featured"
+      "badge": "Featured",
+      "carouselPrevious": "Previous insight",
+      "carouselNext": "Next insight",
+      "carouselDots": "Insight carousel",
+      "carouselDot": "Show insight {n}"
     }
   },
   "breadcrumb": {
@@ -1320,9 +1318,9 @@
   },
   "insights": {
     "metadataTitle": "Insights | ROALLA",
-    "metadataDescription": "Practical guides on fractional leadership, strategic planning, process optimization, and digital enablement from Roalla.",
+    "metadataDescription": "Practical guides on SMB digitization, fractional leadership, strategic planning, process optimization, and digital enablement from Roalla.",
     "indexTitle": "Insights",
-    "indexSubtitle": "Practical thinking on operations, strategy, and digital delivery—written for business leaders who want clarity before they commit.",
+    "indexSubtitle": "Practical thinking on digitization, operations, strategy, and digital delivery—written for SMB leaders who want clarity before they commit.",
     "ctaText": "Want help applying these ideas to your business?",
     "ctaSchedule": "Start a service inquiry",
     "ctaAssessment": "Take the 5-minute assessment",
@@ -1361,6 +1359,54 @@
       "p2": "Roalla's Transform phase builds inside review checkpoints—mapping workflows, removing manual steps, and connecting CRM, email, forms, and internal systems where integrations make sense. Clients often see reporting drop from hours to minutes once data flows automatically.",
       "p3": "Not every bottleneck needs custom software. Sometimes clarity, roles, and a lightweight automation bridge are enough. When off-the-shelf tools won't fit, we scope custom platforms your team uses every week—see our Digital Portfolio for live examples.",
       "p4": "If process pain is your primary constraint, Digital Enablement or Business Enablement may both apply. Our assessment helps identify whether you need advisory support, automation, or a net-new platform."
+    },
+    "smb-digitization-benefits": {
+      "metadataTitle": "Digitization Benefits for SMBs | ROALLA",
+      "metadataDescription": "Why small and mid-size businesses invest in digitization—faster decisions, fewer errors, better customer experience, and a foundation for growth without enterprise budgets.",
+      "title": "Digitization for SMBs: Why It Matters Now",
+      "summary": "The practical benefits small and mid-size businesses gain from going digital—and what to prioritize first.",
+      "readTime": "6 min read",
+      "datePublished": "2026-02-01",
+      "p1": "Small and mid-size businesses (SMBs) often delay digitization because it sounds expensive, disruptive, or reserved for larger competitors. In practice, the opposite is usually true: staying on spreadsheets, email threads, and disconnected tools creates hidden costs—slow quotes, missed follow-ups, duplicate data entry, and decisions made without current numbers.",
+      "p2": "Digitization for an SMB doesn't mean replacing everything at once. It means connecting the workflows that matter most: how you capture leads, schedule work, invoice customers, and report to leadership. Even modest improvements—a modern website with clear conversion paths, CRM connected to your inbox, or a custom portal for repeat clients—reduce friction your team feels every week.",
+      "p3": "The benefits compound quickly. Teams spend less time hunting for information. Customers get faster responses and a more professional experience. Owners gain visibility into pipeline, capacity, and cash flow without waiting for someone to rebuild a spreadsheet. That clarity is what lets an SMB grow without adding headcount at the same pace.",
+      "p4": "Roalla works with SMBs through Digital Enablement—scoped builds, integrations, and automation sized to your stage, not an enterprise playbook. Start with our five-question assessment or a service inquiry if you want help identifying the highest-return digitization move for your business."
+    },
+    "smb-digital-efficiency": {
+      "metadataTitle": "Digitization Saves SMBs Time and Money | ROALLA",
+      "metadataDescription": "How SMBs cut manual work and hidden costs through workflow automation, system integrations, and purpose-built digital tools.",
+      "title": "Digitization That Saves SMBs Time and Money",
+      "summary": "How connected systems, automation, and modern tools reduce manual work and hidden costs.",
+      "readTime": "7 min read",
+      "datePublished": "2026-03-01",
+      "p1": "The biggest digitization payoff for SMBs often isn't a flashy app—it's eliminating work that shouldn't require a person. Re-keying form submissions into a CRM, copying numbers between spreadsheets for weekly reports, chasing status updates across email, and fixing errors caused by outdated files all consume hours that add up to real payroll cost.",
+      "p2": "Efficiency gains start with mapping where work stalls. Roalla's Transform phase identifies handoffs that can be automated or simplified: connecting your website forms to CRM, syncing scheduling tools with billing, or building lightweight dashboards that pull live data instead of manual exports. Clients often see reporting drop from hours to minutes once information flows automatically.",
+      "p3": "Not every bottleneck needs custom software. Sometimes the right fix is a better integration, clearer roles, or a focused internal tool when off-the-shelf products force awkward workarounds. The goal is the same: your team spends time on work that grows the business, not on moving data between systems.",
+      "p4": "If manual processes are eating your margin, Digital Enablement may be the fastest path to relief. Our assessment helps distinguish between a quick automation win, an integration project, and a custom platform—so you invest in the fix that matches your size and budget."
+    },
+    "smb-digital-growth": {
+      "metadataTitle": "How Digitization Helps SMBs Compete and Grow | ROALLA",
+      "metadataDescription": "How SMBs use websites, platforms, and integrated workflows to win customers, respond faster, and scale without proportional headcount growth.",
+      "title": "How Digitization Helps SMBs Compete and Grow",
+      "summary": "Win more customers, respond faster, and scale operations without adding headcount.",
+      "readTime": "6 min read",
+      "datePublished": "2026-04-01",
+      "p1": "SMBs compete on responsiveness, trust, and specialization—not on having the largest team. Digitization levels the field: a well-built website establishes credibility before the first call, online booking and self-service portals reduce back-and-forth, and integrated follow-up ensures no lead sits untouched because someone forgot to check a shared inbox.",
+      "p2": "Growth-stage SMBs hit a predictable ceiling when the founder or a small leadership team becomes the bottleneck for every quote, approval, and customer update. Digital systems absorb repeatable work—routing inquiries, tracking project status, sending reminders, and surfacing KPIs—so leadership can focus on decisions that require judgment, not data gathering.",
+      "p3": "The businesses that scale cleanly usually digitize in sequence: a conversion-focused web presence first, then systems that connect sales to delivery, then automation and custom tools where generic software falls short. Roalla's Prepare → Transform → Emerge → Soar model mirrors that path—align goals before you build, ship production-ready work, and iterate as volume increases.",
+      "p4": "Whether you're preparing for your next growth phase or trying to keep up with demand today, Roalla scopes digital work to SMB realities—clear milestones, accountable delivery, and tools your team will actually use. Submit a service inquiry or take the five-minute assessment to find your best starting point."
+    },
+    "search-and-ai-visibility": {
+      "metadataTitle": "Search and AI Visibility: Why It Isn't One-Size-Fits-All | ROALLA",
+      "metadataDescription": "How to get found in web search and AI tools—why visibility strategy depends on your market, offering, and customers, and what separates attention from being lost in the crowd.",
+      "title": "Getting Found Online: Search, AI, and Why One Size Doesn't Fit All",
+      "summary": "Understanding how you appear in web search and AI tools can mean the difference between attention and being lost in the crowd—and the right approach depends on your business.",
+      "readTime": "7 min read",
+      "datePublished": "2026-05-01",
+      "p1": "Your next customer may find you through Google, a map listing, a referral link—or by asking an AI assistant who serves businesses like theirs. Each channel works differently, and treating them as interchangeable is how good companies disappear. A local trades firm, a niche B2B consultant, and a regional SaaS vendor all need visibility, but none should copy the same playbook.",
+      "p2": "Traditional search still rewards clarity: pages that explain what you do in plain language, load quickly, work on mobile, and earn trust through useful content and credible structure. AI-driven discovery adds another layer—tools that summarize, recommend, and compare providers pull from how clearly your site describes your services, who you serve, and why you're credible. Vague copy, thin pages, and outdated information don't just hurt rankings; they make it harder for both search engines and AI systems to confidently recommend you.",
+      "p3": "There is no universal checklist. A business that wins on local intent needs strong location signals, reviews, and service-area clarity. A specialist competing nationally needs depth on the problems you solve—not generic blog filler. An SMB entering a crowded category needs differentiation baked into titles, headings, and proof points so humans and algorithms alike understand why you're the right fit. The common thread is specificity: the businesses that get attention say exactly who they help and how, in language their buyers actually use.",
+      "p4": "Roalla builds websites and digital presence with discovery in mind—structured content, conversion paths, and technical foundations sized to how your market actually searches. If you're investing in a new site or refresh and want to be found—not buried—start with a service inquiry or our five-minute assessment. We'll help you scope an approach that fits your business, not a template meant for everyone."
     }
   },
   "faq": {

@@ -1,15 +1,16 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
 import { Lightbulb, Target, Hammer } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { ButterflyAccent } from '../brand/BrandAccents'
 
 const PILL_KEYS = ['pill1', 'pill2', 'pill3'] as const
 const PILL_ICONS = [Target, Lightbulb, Hammer] as const
 
 export default function HomeIdeationBand() {
   const t = useTranslations('home.ideationBand')
+  const tCommon = useTranslations('common')
 
   return (
     <section
@@ -23,7 +24,13 @@ export default function HomeIdeationBand() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12 relative">
         <div className="max-w-4xl mx-auto text-center">
           <div className="flex justify-center mb-4">
-            <ButterflyAccent className="w-9 h-9 text-primary-light/70" />
+            <Image
+              src="/logo.svg"
+              alt={`${tCommon('companyName')} logo`}
+              width={48}
+              height={48}
+              className="w-11 h-11 sm:w-12 sm:h-12"
+            />
           </div>
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-light mb-4">
             {t('eyebrow')}

@@ -1,4 +1,12 @@
-export const INSIGHT_SLUGS = ['fractional-coo', 'strategic-planning', 'process-optimization'] as const
+export const INSIGHT_SLUGS = [
+  'fractional-coo',
+  'strategic-planning',
+  'process-optimization',
+  'smb-digitization-benefits',
+  'smb-digital-efficiency',
+  'smb-digital-growth',
+  'search-and-ai-visibility',
+] as const
 
 export type InsightSlug = (typeof INSIGHT_SLUGS)[number]
 
@@ -10,4 +18,8 @@ export const INSIGHT_PUBLISHED_DATES: Record<InsightSlug, string> = {
   'fractional-coo': '2025-11-01',
   'strategic-planning': '2025-12-01',
   'process-optimization': '2026-01-15',
+  'smb-digitization-benefits': '2026-02-01',
+  'smb-digital-efficiency': '2026-03-01',
+  'smb-digital-growth': '2026-04-01',
+  'search-and-ai-visibility': '2026-05-01',
 }

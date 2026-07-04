@@ -307,15 +307,13 @@
       "cred4Desc": "Le contexte sensible reste protégé—discutez de vos besoins avant de partager les détails."
     },
     "featuredInsight": {
-      "title": "Article à la une",
-      "article1Title": "Directeur opérationnel fractionnel : quand et pourquoi votre entreprise en a besoin",
-      "article1Description": "Découvrez comment les services de directeur opérationnel fractionnel peuvent transformer votre gestion opérationnelle.",
-      "article2Title": "Planification stratégique : de la vision à l'exécution",
-      "article2Description": "Transformez votre vision d'entreprise en feuille de route avec des cadres éprouvés.",
-      "article3Title": "Optimisation des processus : libérez l'efficacité cachée",
-      "article3Description": "Identifiez et éliminez les goulots d'étranglement grâce à des améliorations fondées sur les données.",
+      "title": "Articles à la une",
       "readMore": "En savoir plus",
-      "badge": "À la une"
+      "badge": "À la une",
+      "carouselPrevious": "Article précédent",
+      "carouselNext": "Article suivant",
+      "carouselDots": "Carrousel d'articles",
+      "carouselDot": "Afficher l'article {n}"
     }
   },
   "breadcrumb": {
@@ -1300,9 +1298,9 @@
   },
   "insights": {
     "metadataTitle": "Perspectives | ROALLA",
-    "metadataDescription": "Guides pratiques sur le leadership fractionnel, la planification stratégique, l'optimisation des processus et l'accompagnement numérique par Roalla.",
+    "metadataDescription": "Guides pratiques sur la numérisation des PME, le leadership fractionnel, la planification stratégique, l'optimisation des processus et l'accompagnement numérique par Roalla.",
     "indexTitle": "Perspectives",
-    "indexSubtitle": "Réflexions pratiques sur les opérations, la stratégie et la livraison numérique—pour les dirigeants qui veulent de la clarté avant de s'engager.",
+    "indexSubtitle": "Réflexions pratiques sur la numérisation, les opérations, la stratégie et la livraison numérique—pour les dirigeants de PME qui veulent de la clarté avant de s'engager.",
     "ctaText": "Vous voulez de l'aide pour appliquer ces idées à votre entreprise?",
     "ctaSchedule": "Soumettre une demande de service",
     "ctaAssessment": "Passer l'évaluation de 5 minutes",
@@ -1341,6 +1339,54 @@
       "p2": "La phase Transformer construit avec points de revue—cartographier les flux, retirer les étapes manuelles et connecter CRM, courriel, formulaires et systèmes internes. Les clients voient souvent des rapports passer de heures à minutes.",
       "p3": "Chaque goulot n'exige pas un logiciel sur mesure. Parfois clarté, rôles et une automatisation légère suffisent. Quand les outils du marché ne conviennent pas, nous définissons des plateformes sur mesure—voir notre Portfolio numérique.",
       "p4": "Si la douleur processus est votre contrainte principale, Accompagnement numérique ou Accompagnement d'entreprise peuvent s'appliquer. Notre évaluation identifie le bon point d'entrée."
+    },
+    "smb-digitization-benefits": {
+      "metadataTitle": "Avantages de la numérisation pour les PME | ROALLA",
+      "metadataDescription": "Pourquoi les petites et moyennes entreprises investissent dans la numérisation—décisions plus rapides, moins d'erreurs, meilleure expérience client et base de croissance sans budget entreprise.",
+      "title": "Numérisation pour les PME : pourquoi c'est important maintenant",
+      "summary": "Les avantages concrets que les PME tirent du numérique—et par quoi commencer.",
+      "readTime": "6 min de lecture",
+      "datePublished": "2026-02-01",
+      "p1": "Les PME repoussent souvent la numérisation parce qu'elle semble coûteuse, perturbante ou réservée aux grands concurrents. En pratique, c'est l'inverse : rester sur feuilles de calcul, fils de courriel et outils déconnectés crée des coûts cachés—soumissions lentes, relances manquées, double saisie et décisions sans chiffres à jour.",
+      "p2": "Numériser une PME ne signifie pas tout remplacer d'un coup. C'est connecter les flux qui comptent : captation de prospects, planification, facturation et reporting à la direction. Même des gains modestes—un site moderne orienté conversion, un CRM relié à la boîte courriel ou un portail pour clients récurrents—réduisent la friction quotidienne de l'équipe.",
+      "p3": "Les bénéfices s'accumulent vite. L'équipe passe moins de temps à chercher de l'information. Les clients obtiennent des réponses plus rapides et une expérience plus professionnelle. Les propriétaires voient pipeline, capacité et trésorerie sans attendre qu'on reconstruise une feuille de calcul. Cette clarté permet de croître sans embaucher au même rythme.",
+      "p4": "Roalla accompagne les PME par l'Accompagnement numérique—mandats, intégrations et automatisation calibrés à votre stade, pas à un playbook entreprise. Commencez par notre évaluation en cinq questions ou une demande de service pour identifier le geste numérique le plus rentable pour votre entreprise."
+    },
+    "smb-digital-efficiency": {
+      "metadataTitle": "La numérisation fait économiser temps et argent aux PME | ROALLA",
+      "metadataDescription": "Comment les PME réduisent le travail manuel et les coûts cachés grâce à l'automatisation, aux intégrations et aux outils numériques sur mesure.",
+      "title": "Une numérisation qui fait économiser temps et argent aux PME",
+      "summary": "Comment systèmes connectés, automatisation et outils modernes réduisent le travail manuel et les coûts cachés.",
+      "readTime": "7 min de lecture",
+      "datePublished": "2026-03-01",
+      "p1": "Le plus grand retour de la numérisation pour les PME n'est souvent pas une appli flashy—c'est éliminer le travail qui ne devrait pas exiger une personne. Resaisir des formulaires dans un CRM, copier des chiffres entre feuilles pour des rapports hebdomadaires, courir après des mises à jour par courriel et corriger des erreurs dues à des fichiers périmés consomment des heures qui se traduisent en coûts salariaux réels.",
+      "p2": "Les gains d'efficacité commencent par cartographier où le travail bloque. La phase Transformer identifie les passations automatisables ou simplifiables : relier formulaires Web au CRM, synchroniser planification et facturation, ou construire des tableaux de bord légers avec données en direct. Les clients voient souvent des rapports passer de heures à minutes.",
+      "p3": "Chaque goulot n'exige pas un logiciel sur mesure. Parfois la bonne solution est une meilleure intégration, des rôles plus clairs ou un outil interne ciblé quand les produits du marché imposent des contournements. L'objectif reste le même : l'équipe consacre son temps au travail qui fait croître l'entreprise, pas au déplacement de données entre systèmes.",
+      "p4": "Si les processus manuels grignotent votre marge, l'Accompagnement numérique peut être le chemin le plus rapide. Notre évaluation distingue gain d'automatisation rapide, projet d'intégration et plateforme sur mesure—pour investir selon votre taille et votre budget."
+    },
+    "smb-digital-growth": {
+      "metadataTitle": "Comment la numérisation aide les PME à concurrencer et croître | ROALLA",
+      "metadataDescription": "Comment les PME utilisent sites, plateformes et flux intégrés pour gagner des clients, répondre plus vite et scaler sans croissance proportionnelle des effectifs.",
+      "title": "Comment la numérisation aide les PME à concurrencer et croître",
+      "summary": "Gagner plus de clients, répondre plus vite et scaler les opérations sans embaucher proportionnellement.",
+      "readTime": "6 min de lecture",
+      "datePublished": "2026-04-01",
+      "p1": "Les PME concurrencent par la réactivité, la confiance et la spécialisation—pas par la taille de l'équipe. La numérisation nivelle le terrain : un site bien construit établit la crédibilité avant le premier appel, la réservation en ligne et les portails libre-service réduisent les allers-retours, et le suivi intégré évite qu'un prospect reste sans réponse.",
+      "p2": "Les PME en croissance atteignent un plafond prévisible quand le fondateur ou une petite direction devient le goulot pour chaque soumission, approbation et mise à jour client. Les systèmes numériques absorbent le travail répétitif—routage des demandes, suivi de statut, rappels et KPI—pour que la direction se concentre sur les décisions qui exigent du jugement.",
+      "p3": "Les entreprises qui scalent proprement numérisent en séquence : présence Web orientée conversion d'abord, puis systèmes reliant ventes et livraison, puis automatisation et outils sur mesure quand le générique ne suffit pas. Le modèle Préparer → Transformer → Émerger → S'élever de Roalla suit ce chemin—aligner les objectifs avant de construire, livrer du travail prêt pour la production et itérer avec le volume.",
+      "p4": "Que vous prépariez votre prochaine phase de croissance ou tentiez de suivre la demande actuelle, Roalla cadrera le numérique aux réalités des PME—jalons clairs, livraison responsable et outils que votre équipe utilisera vraiment. Soumettez une demande de service ou passez l'évaluation de cinq minutes pour trouver votre point de départ."
+    },
+    "search-and-ai-visibility": {
+      "metadataTitle": "Visibilité recherche et IA : pourquoi une taille unique ne convient pas | ROALLA",
+      "metadataDescription": "Comment être trouvé dans la recherche Web et les outils IA—pourquoi la stratégie de visibilité dépend de votre marché, offre et clients, et ce qui sépare l'attention de la noyade dans la masse.",
+      "title": "Être trouvé en ligne : recherche, IA et pourquoi une taille unique ne convient pas",
+      "summary": "Comprendre comment vous apparaissez dans la recherche Web et les outils IA peut faire la différence entre attirer l'attention et vous perdre dans la masse—et la bonne approche dépend de votre entreprise.",
+      "readTime": "7 min de lecture",
+      "datePublished": "2026-05-01",
+      "p1": "Votre prochain client peut vous trouver via Google, une fiche locale, un lien de recommandation—ou en demandant à un assistant IA qui sert des entreprises comme la vôtre. Chaque canal fonctionne différemment, et les traiter comme interchangeables est ainsi que de bonnes entreprises disparaissent. Une entreprise locale de métiers, un consultant B2B de niche et un fournisseur SaaS régional ont tous besoin de visibilité, mais aucun ne devrait copier le même playbook.",
+      "p2": "La recherche traditionnelle récompense encore la clarté : des pages qui expliquent ce que vous faites en langage simple, chargent vite, fonctionnent sur mobile et gagnent la confiance par un contenu utile et une structure crédible. La découverte par l'IA ajoute une couche—les outils qui résument, recommandent et comparent s'appuient sur la clarté avec laquelle votre site décrit vos services, qui vous servez et pourquoi vous êtes crédible. Un texte vague, des pages minces et des informations périmées nuisent aux classements et rendent plus difficile pour moteurs de recherche et IA de vous recommander avec confiance.",
+      "p3": "Il n'existe pas de liste universelle. Une entreprise qui gagne sur l'intention locale a besoin de signaux géographiques solides, d'avis et de clarté sur la zone desservie. Un spécialiste en concurrence nationale a besoin de profondeur sur les problèmes que vous résolvez—pas de contenu générique de blog. Une PME entrant dans une catégorie encombrée a besoin d'une différenciation intégrée aux titres, en-têtes et preuves pour que humains et algorithmes comprennent pourquoi vous êtes le bon choix. Le fil commun est la spécificité : les entreprises qui attirent l'attention disent exactement qui elles aident et comment, dans le langage que leurs acheteurs utilisent vraiment.",
+      "p4": "Roalla construit sites Web et présence numérique en pensant à la découverte—contenu structuré, parcours de conversion et fondations techniques calibrées à la façon dont votre marché recherche réellement. Si vous investissez dans un nouveau site ou une refonte et voulez être trouvé—pas noyé—commencez par une demande de service ou notre évaluation de cinq minutes. Nous vous aiderons à cadrer une approche adaptée à votre entreprise, pas un modèle pour tout le monde."
     }
   },
   "faq": {

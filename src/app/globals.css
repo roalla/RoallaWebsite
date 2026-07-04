@@ -278,6 +278,21 @@
     -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
   }
 
+  @keyframes insight-card-enter {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .insight-card-enter {
+    animation: insight-card-enter 0.45s ease-out;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal-hidden,
     .reveal-visible {
@@ -302,6 +317,10 @@
 
     .hero-slide:not(:first-child) {
       opacity: 0;
+    }
+
+    .insight-card-enter {
+      animation: none;
     }
 
     .marquee-track {

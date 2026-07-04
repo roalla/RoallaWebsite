@@ -24,33 +24,6 @@ export default function HomeOurWork() {
         </Reveal>
 
         <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
-          <div className="flex flex-col rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-6 lg:p-8 shadow-card">
-            <div className="flex items-start gap-3 mb-5">
-              <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                <Briefcase className="w-5 h-5 text-primary" aria-hidden />
-              </div>
-              <div>
-                <h3 className="text-lg font-serif font-bold text-slate-900">{t('consultingTitle')}</h3>
-                <p className="mt-1 text-sm text-slate-600">{t('consultingDesc')}</p>
-              </div>
-            </div>
-            <ul className="space-y-3 flex-1">
-              {consultingOutcomeKeys.map((key) => (
-                <li key={key} className="flex items-start gap-2.5 text-sm text-slate-700">
-                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" aria-hidden />
-                  {tWhatWeDo(key)}
-                </li>
-              ))}
-            </ul>
-            <Link
-              href="/programs/business-enablement"
-              className="mt-6 inline-flex items-center link-action hover:underline text-sm font-semibold"
-            >
-              {t('consultingCta')}
-              <ArrowRight className="ml-2 w-4 h-4" />
-            </Link>
-          </div>
-
           <div className="flex flex-col rounded-2xl border border-slate-200 bg-gradient-to-br from-white to-primary/[0.04] p-6 lg:p-8 shadow-card">
             <div className="flex items-start gap-3 mb-5">
               <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
@@ -76,6 +49,33 @@ export default function HomeOurWork() {
               className="mt-6 inline-flex items-center link-action hover:underline text-sm font-semibold"
             >
               {t('digitalCta')}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
+          </div>
+
+          <div className="flex flex-col rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-6 lg:p-8 shadow-card">
+            <div className="flex items-start gap-3 mb-5">
+              <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                <Briefcase className="w-5 h-5 text-primary" aria-hidden />
+              </div>
+              <div>
+                <h3 className="text-lg font-serif font-bold text-slate-900">{t('consultingTitle')}</h3>
+                <p className="mt-1 text-sm text-slate-600">{t('consultingDesc')}</p>
+              </div>
+            </div>
+            <ul className="space-y-3 flex-1">
+              {consultingOutcomeKeys.map((key) => (
+                <li key={key} className="flex items-start gap-2.5 text-sm text-slate-700">
+                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" aria-hidden />
+                  {tWhatWeDo(key)}
+                </li>
+              ))}
+            </ul>
+            <Link
+              href="/programs/business-enablement"
+              className="mt-6 inline-flex items-center link-action hover:underline text-sm font-semibold"
+            >
+              {t('consultingCta')}
               <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
           </div>

@@ -1929,6 +1929,9 @@
     "partnersComingSoon": "Le répertoire partenaires est en préparation.",
     "partnersComingSoonHint": "Nous ajoutons les contacts et notes ici. Besoin d'accès maintenant? Écrivez à {email}.",
     "partnersComingSoonHintNoEmail": "Nous ajoutons les contacts et notes ici. Revenez bientôt.",
-    "contactHubAdmin": "Contacter l'admin du hub"
+    "contactHubAdmin": "Contacter l'admin du hub",
+    "notionOpenInNewTab": "Ouvrir dans Notion",
+    "notionWrongUrlTitle": "Ce lien peut ne pas fonctionner en intégration.",
+    "notionWrongUrlHint": "Dans Notion : Partager → Publier → Intégrer cette page → Copier le code. Collez l'URL src (commence par https://v2.notion.so/) dans NOTION_LESSONS_URL sur Railway — pas le lien de partage habituel."
   }
 }

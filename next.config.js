@@ -108,7 +108,7 @@ const nextConfig = {
               "default-src 'self'",
               "script-src 'self' 'unsafe-inline'",
               "style-src 'self' 'unsafe-inline'",
-              "frame-src https://www.youtube.com https://www.youtube-nocookie.com https://www.notion.so https://notion.so",
+              "frame-src https://www.youtube.com https://www.youtube-nocookie.com https://www.notion.so https://notion.so https://*.notion.site https://v2.notion.so https://v2.notion.site",
               "connect-src 'self' https://sso.roalla.com",
               "img-src 'self' data: https:",
               "font-src 'self'",

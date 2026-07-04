@@ -1949,6 +1949,9 @@
     "partnersComingSoon": "The partner directory is being set up.",
     "partnersComingSoonHint": "We're adding partner contacts and notes here. Need access now? Email {email}.",
     "partnersComingSoonHintNoEmail": "We're adding partner contacts and notes here. Check back soon.",
-    "contactHubAdmin": "Contact hub admin"
+    "contactHubAdmin": "Contact hub admin",
+    "notionOpenInNewTab": "Open in Notion",
+    "notionWrongUrlTitle": "This link may not work as an embed.",
+    "notionWrongUrlHint": "In Notion: Share → Publish → Embed this page → Copy code. Paste the src URL (starts with https://v2.notion.so/) into NOTION_LESSONS_URL in Railway — not the regular share link."
   }
 }

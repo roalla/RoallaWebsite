@@ -1,6 +1,8 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
+import { isLikelyNotionShareUrl } from '@/lib/hub/notion-config'
+import { ExternalLink } from 'lucide-react'
 
 type Props = {
   embedUrl: string
@@ -44,10 +46,33 @@ export default function NotionEmbed({
     )
   }
 
+  const wrongUrlType = isLikelyNotionShareUrl(embedUrl)
+
   return (
     <div className="h-full flex flex-col">
-      <h1 className="text-2xl font-bold text-slate-900 mb-1">{t(titleKey)}</h1>
-      <p className="text-slate-600 text-sm mb-4">{t(subtitleKey)}</p>
+      <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900 mb-1">{t(titleKey)}</h1>
+          <p className="text-slate-600 text-sm">{t(subtitleKey)}</p>
+        </div>
+        <a
+          href={embedUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-amber-700 hover:underline shrink-0"
+        >
+          {t('notionOpenInNewTab')}
+          <ExternalLink className="h-4 w-4" />
+        </a>
+      </div>
+
+      {wrongUrlType && (
+        <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 mb-4">
+          <p className="font-medium">{t('notionWrongUrlTitle')}</p>
+          <p className="mt-1 text-amber-800">{t('notionWrongUrlHint')}</p>
+        </div>
+      )}
+
       <iframe
         src={embedUrl}
         title={t(titleKey)}

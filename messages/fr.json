@@ -1931,7 +1931,7 @@
     "partnersComingSoonHintNoEmail": "Nous ajoutons les contacts et notes ici. Revenez bientôt.",
     "contactHubAdmin": "Contacter l'admin du hub",
     "notionOpenInNewTab": "Ouvrir dans Notion",
-    "notionWrongUrlTitle": "Ce lien peut ne pas fonctionner en intégration.",
-    "notionWrongUrlHint": "Dans Notion : Partager → Publier → Intégrer cette page → Copier le code. Collez l'URL src (commence par https://v2.notion.so/) dans NOTION_LESSONS_URL sur Railway — pas le lien de partage habituel."
+    "notionWrongUrlTitle": "Impossible de charger cette page Notion.",
+    "notionWrongUrlHint": "Dans Notion : ouvrez la page → Partager → Publier. Copiez le lien publié (ou Intégrer cette page → Copier le code) et mettez à jour NOTION_LESSONS_URL sur Railway."
   }
 }

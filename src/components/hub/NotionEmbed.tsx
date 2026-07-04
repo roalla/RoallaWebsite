@@ -1,7 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { isLikelyNotionShareUrl } from '@/lib/hub/notion-config'
+import { isUnembeddableNotionUrl } from '@/lib/hub/notion-config'
 import { ExternalLink } from 'lucide-react'
 
 type Props = {
@@ -46,7 +46,7 @@ export default function NotionEmbed({
     )
   }
 
-  const wrongUrlType = isLikelyNotionShareUrl(embedUrl)
+  const wrongUrlType = isUnembeddableNotionUrl(embedUrl)
 
   return (
     <div className="h-full flex flex-col">

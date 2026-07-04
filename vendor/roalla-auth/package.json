@@ -1,0 +1,27 @@
+{
+  "name": "@roalla/auth",
+  "version": "1.1.0",
+  "description": "Roalla Auth Hub consumer SDK — middleware, browser client, sync routes, Next.js adapter",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./middleware": "./middleware/platform-auth.js",
+    "./browser": "./browser/app-auth.js",
+    "./routes": "./routes/auth-sync.js",
+    "./next": "./next/index.js",
+    "./core/bff": "./core/bff.js"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "jose": "^6.0.10"
+  },
+  "peerDependencies": {
+    "express": "^4.21.0",
+    "next": ">=14.0.0"
+  },
+  "peerDependenciesMeta": {
+    "express": { "optional": true },
+    "next": { "optional": true }
+  }
+}

@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers'
 import { getServerSession } from '@roalla/auth/next'
 import { ensureUserRole, getHubUser, type HubUser } from '@/lib/hub/sync-user'
+import { defaultRoleForEmail } from '@/lib/hub/roles'
 
 function cookieRequest() {
   const store = cookies()
@@ -24,8 +25,23 @@ export async function getHubSession(): Promise<{
     return { signedIn: false, auth: null, user: null }
   }
 
-  await ensureUserRole(String(auth.userId), String(auth.email || ''), String(auth.name || ''))
-  const user = await getHubUser(String(auth.userId))
+  const userId = String(auth.userId)
+  const email = String(auth.email || '')
+  const name = String(auth.name || '')
+
+  let syncedUser: HubUser | null = null
+  try {
+    syncedUser = (await ensureUserRole(userId, email, name)) || (await getHubUser(userId))
+  } catch (err) {
+    console.error('getHubSession user sync failed', err)
+  }
+
+  const user = syncedUser || {
+    id: userId,
+    email,
+    name,
+    role: defaultRoleForEmail(email),
+  }
 
   return { signedIn: true, auth, user }
 }

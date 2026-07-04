@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
+export const dynamic = 'force-dynamic'
+
 type Props = { params: Promise<{ locale: string }> }
 
 export default async function HubDashboardPage({ params }: Props) {

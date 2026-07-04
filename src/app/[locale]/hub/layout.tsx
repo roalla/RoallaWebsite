@@ -14,10 +14,13 @@ export const metadata: Metadata = {
 
 export default async function HubLayout({
   children,
+  params,
 }: {
   children: React.ReactNode
+  params: Promise<{ locale: string }>
 }) {
   noStore()
+  const { locale } = await params
   const session = await getHubSession()
 
   // Login page renders without shell — detected via parallel route... 
@@ -31,6 +34,7 @@ export default async function HubLayout({
       userName={session.user.name}
       userEmail={session.user.email}
       role={session.user.role as HubRole}
+      locale={locale}
     >
       {children}
     </HubShell>

@@ -1890,6 +1890,7 @@
     "navLessons": "Lessons learned",
     "navTools": "Tools",
     "signOut": "Sign out",
+    "signingOut": "Signing out…",
     "welcome": "Welcome, {name}",
     "dashboardSubtitle": "Customer tracking, delivery playbooks, and team resources.",
     "statActiveCustomers": "Active customers",

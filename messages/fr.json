@@ -1870,6 +1870,7 @@
     "navLessons": "Leçons apprises",
     "navTools": "Outils",
     "signOut": "Déconnexion",
+    "signingOut": "Déconnexion…",
     "welcome": "Bienvenue, {name}",
     "dashboardSubtitle": "Suivi clients, guides de livraison et ressources d'équipe.",
     "statActiveCustomers": "Clients actifs",

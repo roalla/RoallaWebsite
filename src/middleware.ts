@@ -18,11 +18,18 @@ function isHubProtectedPath(pathname: string): boolean {
 }
 
 function isAuthCallbackPath(pathname: string): boolean {
-  return /^\/(en|fr)\/auth\/callback/.test(pathname)
+  return /^\/(en|fr)\/auth\/callback/.test(pathname) || pathname === '/auth/callback'
 }
 
 export default function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl
+
+  // Normalize /auth/callback → /en/auth/callback (preserve query — OAuth code)
+  if (pathname === '/auth/callback') {
+    const url = request.nextUrl.clone()
+    url.pathname = '/en/auth/callback'
+    return NextResponse.redirect(url)
+  }
 
   // Stray OAuth code → auth callback
   if (searchParams.has('code') && !isAuthCallbackPath(pathname)) {

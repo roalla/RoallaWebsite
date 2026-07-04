@@ -3,7 +3,9 @@ import { publicAppOriginUrl, roallaAuthClientId, roallaAuthHubUrl } from '@/lib/
 export function buildAuthCallbackReturnUrl(returnPath: string): string {
   const trimmed = returnPath.trim() || '/en/hub'
   const normalized = trimmed.startsWith('/') ? trimmed : `/${trimmed}`
-  const callback = `/auth/callback?return=${encodeURIComponent(normalized)}`
+  const localeMatch = normalized.match(/^\/(en|fr)(\/|$)/)
+  const locale = localeMatch?.[1] || 'en'
+  const callback = `/${locale}/auth/callback?return=${encodeURIComponent(normalized)}`
   return new URL(callback, publicAppOriginUrl()).toString()
 }
 

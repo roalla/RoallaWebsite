@@ -30,12 +30,10 @@ export async function POST(request: NextRequest, context: RouteContext) {
   const { action } = await context.params
   if (action === 'token') {
     const res = await handlers.token(request)
-    await syncRoleAfterAuth(request)
     return res
   }
   if (action === 'refresh') {
     const res = await handlers.refresh(request)
-    await syncRoleAfterAuth(request)
     return res
   }
   if (action === 'logout') return handlers.logout(request)

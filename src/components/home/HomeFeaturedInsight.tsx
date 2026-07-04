@@ -7,6 +7,7 @@ import { Link } from '@/i18n/navigation'
 import Reveal from '../motion/Reveal'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 import { INSIGHT_SLUGS, type InsightSlug } from '@/lib/insights'
+import { formatInsightReadTime } from '@/lib/insight-read-time'
 
 const VISIBLE_COUNT = 3
 const ROTATE_MS = 6000
@@ -84,7 +85,7 @@ export default function HomeFeaturedInsight() {
                 >
                   <BookOpen className="w-8 h-8 text-primary/70 mb-4" aria-hidden />
                   <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark">
-                    {tInsights(`${slug}.readTime`)}
+                    {formatInsightReadTime(tInsights, slug)}
                   </p>
                   <h3 className="mt-2 text-lg font-semibold text-slate-900 group-hover:text-primary-dark transition-colors">
                     {tInsights(`${slug}.title`)}

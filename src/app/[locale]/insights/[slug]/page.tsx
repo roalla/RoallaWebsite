@@ -6,6 +6,7 @@ import Breadcrumb from '@/components/Breadcrumb'
 import JsonLd from '@/components/JsonLd'
 import { Link } from '@/i18n/navigation'
 import { INSIGHT_SLUGS, isInsightSlug } from '@/lib/insights'
+import { formatInsightReadTime, INSIGHT_BODY_KEYS } from '@/lib/insight-read-time'
 import { buildPageMetadata } from '@/lib/page-metadata'
 import { articleJsonLd, breadcrumbJsonLd } from '@/lib/structured-data'
 
@@ -42,7 +43,8 @@ export default async function InsightArticlePage({ params }: Props) {
   const tBc = await getTranslations('breadcrumb')
   const title = t(`${slug}.title`)
   const description = t(`${slug}.metadataDescription`)
-  const bodyKeys = ['p1', 'p2', 'p3', 'p4'] as const
+  const bodyKeys = INSIGHT_BODY_KEYS
+  const readTime = formatInsightReadTime(t, slug)
 
   return (
     <div className="page-shell">
@@ -71,7 +73,7 @@ export default async function InsightArticlePage({ params }: Props) {
           ]}
         />
         <header className="mb-10">
-          <p className="text-sm font-medium text-primary-dark">{t(`${slug}.readTime`)}</p>
+          <p className="text-sm font-medium text-primary-dark">{readTime}</p>
           <h1 className="mt-3 text-3xl sm:text-4xl font-serif font-extrabold text-slate-900">{title}</h1>
           <p className="mt-4 text-lg text-slate-600">{t(`${slug}.summary`)}</p>
         </header>

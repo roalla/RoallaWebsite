@@ -5,6 +5,7 @@ import { Link } from '@/i18n/navigation'
 import Breadcrumb from '@/components/Breadcrumb'
 import JsonLd from '@/components/JsonLd'
 import { INSIGHT_SLUGS } from '@/lib/insights'
+import { formatInsightReadTime } from '@/lib/insight-read-time'
 import { buildPageMetadata } from '@/lib/page-metadata'
 import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/structured-data'
 
@@ -53,7 +54,7 @@ export default async function InsightsIndexPage({ params }: Props) {
               href={{ pathname: '/insights/[slug]', params: { slug } }}
               className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-card hover:border-primary/30 hover:shadow-card-hover transition-all"
             >
-              <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark">{t(`${slug}.readTime`)}</p>
+              <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark">{formatInsightReadTime(t, slug)}</p>
               <h2 className="mt-3 text-xl font-semibold text-slate-900 group-hover:text-primary-dark transition-colors">
                 {t(`${slug}.title`)}
               </h2>

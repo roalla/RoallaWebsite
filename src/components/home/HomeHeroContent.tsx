@@ -1,11 +1,11 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
 import { ArrowRight, ClipboardCheck, Globe, Layers, Sparkles } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import ScheduleButton from '../ScheduleButton'
-import { ButterflyAccent } from '../brand/BrandAccents'
 
 /** Solid panel — no backdrop-blur so content stays stable during slide transitions */
 const heroGlassPanel =
@@ -15,6 +15,7 @@ const pathCardClass =
 
 export default function HomeHeroContent() {
   const t = useTranslations('home.hero')
+  const tCommon = useTranslations('common')
 
   const pathCards = [
     {
@@ -52,7 +53,14 @@ export default function HomeHeroContent() {
       <div className="max-w-3xl">
         <div className={`rounded-2xl ${heroGlassPanel} p-6 sm:p-8 lg:p-10`}>
           <div className="flex items-start gap-4">
-            <ButterflyAccent className="w-10 h-10 sm:w-12 sm:h-12 text-primary/40 shrink-0 mt-1 hidden sm:block" />
+            <Image
+              src="/logo.svg"
+              alt={`${tCommon('companyName')} logo`}
+              width={48}
+              height={48}
+              className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 mt-1 hidden sm:block"
+              priority
+            />
             <div className="min-w-0 flex-1">
               <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-serif font-extrabold text-slate-900 leading-tight tracking-tight">
                 {t('title')}{' '}

@@ -81,7 +81,9 @@
     "subtitle": "Digital Enablement · Programs available",
     "digitalEnablement": "Digital Enablement",
     "programs": "Programs",
-    "insights": "Insights"
+    "insights": "Insights",
+    "useCases": "Use Cases",
+    "teamSignIn": "Team sign in"
   },
   "home": {
     "metadataTitle": "ROALLA | Digital Enablement",
@@ -332,6 +334,7 @@
     "ourWork": "Digital Portfolio",
     "assessment": "Find your starting point",
     "faq": "FAQ",
+    "useCases": "Use Cases",
     "contact": "Contact",
     "insights": "Insights",
     "portfolio": "Digital Portfolio"
@@ -1753,10 +1756,10 @@
   "login": {
     "backToHome": "Back to home",
     "signIn": "Sign in",
-    "accessDashboard": "Access the admin dashboard",
-    "oauthErrorAccountNotLinked": "This email is already linked to another sign-in method. Sign in with email/password or the provider you originally used (e.g. Google).",
-    "oauthErrorCallback": "Sign-in callback failed (often DB/linking). Check Railway logs for [NextAuth] Auth error—set NEXTAUTH_DEBUG=1 for details.",
-    "oauthErrorMicrosoft": "Microsoft or Apple sign-in failed. Check: (1) Redirect URI in Azure/Apple matches your app URL + /api/auth/callback/azure-ad or /api/auth/callback/apple; (2) AUTH_TRUST_HOST=true and NEXTAUTH_URL in Railway. To see the real error: set NEXTAUTH_DEBUG=1 in Railway, retry sign-in, then check Railway logs.",
+    "accessDashboard": "Access the internal hub",
+    "oauthErrorAccountNotLinked": "This email is already linked to another sign-in method. Sign in with email/password or the provider you originally used.",
+    "oauthErrorCallback": "Sign-in callback failed. Please try again or contact your administrator.",
+    "oauthErrorMicrosoft": "Microsoft sign-in failed. Check your account settings or try email sign-in.",
     "email": "Email",
     "password": "Password",
     "signInButton": "Sign in",
@@ -1767,5 +1770,147 @@
     "somethingWrong": "Something went wrong. Please try again.",
     "orSignInWith": "Or sign in with",
     "redirecting": "Redirecting..."
+  },
+  "useCases": {
+    "metadataTitle": "Digital Use Cases | ROALLA",
+    "metadataDescription": "Plain-language guide to common digital needs—what to consider if you DIY, and how Roalla delivers with proven, established, and ready-to-scope capabilities.",
+    "title": "Digital Use Cases",
+    "subtitle": "Start with the problem you recognize. See what DIY usually misses, and how we deliver—with honesty about how mature each capability is.",
+    "howToReadTitle": "How to read this page",
+    "howToRead1": "Common need — written in everyday language, not tech jargon.",
+    "howToRead2": "Things to consider — hidden complexity, timeline risks, and where DIY tools often stall.",
+    "howToRead3": "How Roalla delivers — the outcome you get, plus a maturity badge so you know how battle-tested we are.",
+    "maturityLegendTitle": "Maturity badges",
+    "columnNeed": "Common need",
+    "columnConsider": "Things to consider",
+    "columnDeliver": "How Roalla delivers",
+    "maturity": {
+      "proven": {
+        "label": "Proven",
+        "desc": "Live in production today—portfolio examples you can click through."
+      },
+      "established": {
+        "label": "Established",
+        "desc": "Repeatable delivery process; multiple client engagements shipped."
+      },
+      "ready": {
+        "label": "Ready",
+        "desc": "Capability we scope and build for your workflow—less public portfolio, same accountable team."
+      }
+    },
+    "categories": {
+      "websites": {
+        "title": "Websites & brand presence",
+        "desc": "When visitors need to trust you and take a clear next step."
+      },
+      "apps": {
+        "title": "Custom apps & tools",
+        "desc": "When spreadsheets and off-the-shelf software stop fitting how you work."
+      },
+      "automation": {
+        "title": "Connect & automate",
+        "desc": "When the same data gets typed twice or tools don't talk to each other."
+      },
+      "events": {
+        "title": "Digital events",
+        "desc": "Trade shows, launches, investor booths, and dedicated business events."
+      },
+      "ai": {
+        "title": "Practical AI",
+        "desc": "Useful intelligence—not hype—where scoring, guidance, or automation saves real time."
+      }
+    },
+    "cases": {
+      "website-refresh": {
+        "need": "Our website looks outdated, or we don't have one yet.",
+        "consider": "DIY builders (Wix, Squarespace, WordPress themes) are quick to start, but custom domains, mobile layouts, SEO, and forms often need extra plugins. Small changes can break layouts without someone who knows what changed—and you still own the content updates.",
+        "deliver": "Conversion-focused sites with a clear next step—book, contact, or request a quote. Scoped to your timeline with one accountable team from brief through launch."
+      },
+      "lead-capture": {
+        "need": "We need more leads, bookings, or quote requests from our site.",
+        "consider": "A contact form alone rarely converts. DIY setups often miss follow-up routing, spam protection, CRM handoff, and mobile-friendly flows. Leads sit in an inbox instead of reaching the right person.",
+        "deliver": "Short, mobile-first forms tied to your CRM, inbox, or spreadsheet—with instant confirmations and the right person notified. Same patterns we use on live client sites."
+      },
+      "custom-app": {
+        "need": "We need a tool that fits our workflow—not a generic app.",
+        "consider": "Spreadsheets and no-code tools work until permissions, approvals, or integrations get complex. DIY often creates shadow IT: one person's clever setup that nobody else can maintain.",
+        "deliver": "Purpose-built apps and internal tools your team actually uses—scoped to the workflow, not feature bloat. We've shipped 32+ custom platforms in production."
+      },
+      "client-portal": {
+        "need": "Clients or partners need a secure place to see status, files, or updates.",
+        "consider": "Sharing by email and shared drives gets messy fast—wrong versions, no audit trail, and login sprawl across tools. DIY portals from template marketplaces rarely match your branding or data rules.",
+        "deliver": "Branded portals with the access rules you need—status dashboards, document exchange, or guided steps. Built to your security and hosting preferences."
+      },
+      "integrations": {
+        "need": "Our CRM, email, forms, and other tools don't share data cleanly.",
+        "consider": "Zapier and native connectors help for simple paths, but edge cases—duplicate records, failed webhooks, field mismatches—pile up without monitoring. DIY integrations become fragile when any tool updates.",
+        "deliver": "Reliable connections between the tools you already pay for—CRM, email, forms, sheets, and internal systems—with error handling and a clear owner when something changes."
+      },
+      "workflow-automation": {
+        "need": "My team wastes time on repetitive copy-paste and manual handoffs.",
+        "consider": "Macros and DIY automation save minutes until an exception breaks the chain. Without documentation, only one person knows how it works—and they're on vacation when it fails.",
+        "deliver": "Documented automations for the handoffs that actually slow you down—onboarding, reporting, approvals, notifications—with a human-readable map of what runs when."
+      },
+      "event-kit": {
+        "need": "We're exhibiting at a trade show or running a launch event.",
+        "consider": "Printing QR codes on flyers is easy; tracking which booth moment drove interest is not. DIY event pages often lack floor-friendly lead capture, offline contingencies, and post-show follow-up routing.",
+        "deliver": "Event pages, booth QR/NFC entry paths, floor-optimized lead capture, and post-show exports—ready when the floor opens. Built from our Digital Events playbook and Boothlio patterns."
+      },
+      "ai-workflows": {
+        "need": "We want AI to help—not another chatbot nobody uses.",
+        "consider": "Generic AI plugins add novelty without measurable outcomes. DIY prompts drift, lack guardrails, and rarely connect to your CRM or documents. Teams hesitate without clear human review steps.",
+        "deliver": "Scoped AI inside real workflows—scoring, guided briefs, document assistance, and intelligent routing—with guardrails and human review. Examples: Business Cocoon scorecards and Pitch Hotshots rehearsal feedback."
+      }
+    },
+    "ctaText": "Not sure which row fits? Tell us your situation—we'll point you to the right starting point.",
+    "ctaSchedule": "Start a service inquiry",
+    "ctaPortfolio": "See live examples in our portfolio"
+  },
+  "hub": {
+    "title": "Internal Hub",
+    "navDashboard": "Dashboard",
+    "navCustomers": "Customers",
+    "navPlaybooks": "Playbooks",
+    "navPartners": "Partners",
+    "navLessons": "Lessons learned",
+    "navTools": "Tools",
+    "signOut": "Sign out",
+    "welcome": "Welcome, {name}",
+    "dashboardSubtitle": "Customer tracking, delivery playbooks, and team resources.",
+    "statActiveCustomers": "Active customers",
+    "statOpenEngagements": "Open engagements",
+    "statChecklistItems": "Open checklist items",
+    "recentActivity": "Recent activity",
+    "quickLinks": "Quick links",
+    "noActivity": "No activity yet.",
+    "customersSubtitle": "Track clients, stages, and delivery progress.",
+    "addCustomer": "Add customer",
+    "customerName": "Customer name",
+    "primaryContact": "Primary contact",
+    "primaryEmail": "Primary email",
+    "stage": "Stage",
+    "serviceLine": "Service line",
+    "filterAll": "All",
+    "stage_lead": "Lead",
+    "stage_scoping": "Scoping",
+    "stage_active": "Active",
+    "stage_complete": "Complete",
+    "noCustomers": "No customers yet. Add your first client to get started.",
+    "saveCustomer": "Save customer",
+    "saving": "Saving…",
+    "backToCustomers": "Back to customers",
+    "activityLog": "Activity log",
+    "addNote": "Add",
+    "addNotePlaceholder": "Add a note or update…",
+    "details": "Details",
+    "notes": "Notes",
+    "playbooksSubtitle": "Standard delivery checklists and internal guides.",
+    "startChecklist": "Start checklist",
+    "viewPlaybook": "View playbook",
+    "activeChecklists": "Active checklists",
+    "noChecklists": "No active checklists. Start one from a template above.",
+    "roallaApps": "Roalla apps",
+    "notionNotConfigured": "Notion embed is not configured yet.",
+    "notionEnvHint": "Set NEXT_PUBLIC_NOTION_PARTNERS_URL or NEXT_PUBLIC_NOTION_LESSONS_URL in your environment after creating the Notion databases."
   }
 }

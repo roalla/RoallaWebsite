@@ -15,6 +15,7 @@ type BreadcrumbHref =
   | '/services/portfolio'
   | '/assessment'
   | '/faq'
+  | '/use-cases'
   | '/schedule'
   | '/website-design'
   | '/insights'

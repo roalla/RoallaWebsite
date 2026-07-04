@@ -1,0 +1,33 @@
+import type { Metadata } from 'next'
+import { getHubSession } from '@/lib/hub/auth-session'
+import HubShell from '@/components/hub/HubShell'
+import type { HubRole } from '@/lib/hub/roles'
+
+export const metadata: Metadata = {
+  title: 'Internal Hub | ROALLA',
+  robots: { index: false, follow: false },
+}
+
+export default async function HubLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const session = await getHubSession()
+
+  // Login page renders without shell — detected via parallel route... 
+  // We pass through; child pages handle auth. Shell only when signed in.
+  if (!session.signedIn || !session.user) {
+    return <>{children}</>
+  }
+
+  return (
+    <HubShell
+      userName={session.user.name}
+      userEmail={session.user.email}
+      role={session.user.role as HubRole}
+    >
+      {children}
+    </HubShell>
+  )
+}

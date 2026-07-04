@@ -4,15 +4,27 @@ const withNextIntl = require('next-intl/plugin')('./src/i18n/request.ts')
 const nextConfig = {
   async redirects() {
     const legacyAppRedirects = [
-      // Auth & admin (removed features)
-      { source: '/login', destination: '/en/contact', permanent: true },
-      { source: '/login/:path*', destination: '/en/contact', permanent: true },
-      { source: '/dashboard', destination: '/en/programs/business-enablement', permanent: true },
-      { source: '/profile', destination: '/en/contact', permanent: true },
-      { source: '/auth/:path*', destination: '/en', permanent: true },
-      { source: '/admin', destination: '/en', permanent: true },
-      { source: '/admin/:path*', destination: '/en', permanent: true },
-      // Resource hub
+      // Legacy auth → internal hub
+      { source: '/login', destination: '/en/hub/login', permanent: false },
+      { source: '/login/:path*', destination: '/en/hub/login', permanent: false },
+      { source: '/dashboard', destination: '/en/hub', permanent: false },
+      { source: '/profile', destination: '/en/hub', permanent: false },
+      { source: '/admin', destination: '/en/hub', permanent: false },
+      { source: '/admin/:path*', destination: '/en/hub', permanent: false },
+      { source: '/:locale(en|fr)/login/:path*', destination: '/:locale/hub/login', permanent: false },
+      { source: '/:locale(en|fr)/login', destination: '/:locale/hub/login', permanent: false },
+      { source: '/:locale(en|fr)/dashboard', destination: '/:locale/hub', permanent: false },
+      { source: '/:locale(en|fr)/profile', destination: '/:locale/hub', permanent: false },
+      { source: '/:locale(en|fr)/admin/:path*', destination: '/:locale/hub', permanent: false },
+      { source: '/:locale(en|fr)/admin', destination: '/:locale/hub', permanent: false },
+      // Internal playbook moved behind auth
+      {
+        source: '/:locale(en|fr)/private/digital-events-playbook',
+        destination: '/:locale/hub/playbooks/digital-events',
+        permanent: false,
+      },
+      { source: '/private/digital-events-playbook', destination: '/en/hub/playbooks/digital-events', permanent: false },
+      // Resource hub (legacy client-facing)
       { source: '/resources/request/:path*', destination: '/en/contact', permanent: true },
       { source: '/resources/request', destination: '/en/contact', permanent: true },
       { source: '/resources/portal', destination: '/en/programs/business-enablement', permanent: true },
@@ -23,14 +35,6 @@ const nextConfig = {
       { source: '/trust', destination: '/en/contact', permanent: true },
       // Org share links
       { source: '/p/:slug', destination: '/en', permanent: true },
-      // Localized legacy routes
-      { source: '/:locale(en|fr)/login/:path*', destination: '/:locale/contact', permanent: true },
-      { source: '/:locale(en|fr)/login', destination: '/:locale/contact', permanent: true },
-      { source: '/:locale(en|fr)/dashboard', destination: '/:locale/programs/business-enablement', permanent: true },
-      { source: '/:locale(en|fr)/profile', destination: '/:locale/contact', permanent: true },
-      { source: '/:locale(en|fr)/auth/:path*', destination: '/:locale', permanent: true },
-      { source: '/:locale(en|fr)/admin/:path*', destination: '/:locale', permanent: true },
-      { source: '/:locale(en|fr)/admin', destination: '/:locale', permanent: true },
       { source: '/:locale(en|fr)/resources/request/:path*', destination: '/:locale/contact', permanent: true },
       { source: '/:locale(en|fr)/resources/request', destination: '/:locale/contact', permanent: true },
       { source: '/:locale(en|fr)/resources/portal', destination: '/:locale/programs/business-enablement', permanent: true },
@@ -104,8 +108,8 @@ const nextConfig = {
               "default-src 'self'",
               "script-src 'self' 'unsafe-inline'",
               "style-src 'self' 'unsafe-inline'",
-              "frame-src https://www.youtube.com https://www.youtube-nocookie.com",
-              "connect-src 'self'",
+              "frame-src https://www.youtube.com https://www.youtube-nocookie.com https://www.notion.so https://notion.so",
+              "connect-src 'self' https://sso.roalla.com",
               "img-src 'self' data: https:",
               "font-src 'self'",
               "object-src 'none'",

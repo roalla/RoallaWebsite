@@ -81,7 +81,9 @@
     "subtitle": "Accompagnement numérique · Programmes disponibles",
     "digitalEnablement": "Accompagnement numérique",
     "programs": "Programmes",
-    "insights": "Perspectives"
+    "insights": "Perspectives",
+    "useCases": "Cas d'usage",
+    "teamSignIn": "Connexion équipe"
   },
   "home": {
     "metadataTitle": "ROALLA | Accompagnement numérique",
@@ -332,6 +334,7 @@
     "ourWork": "Portfolio numérique",
     "assessment": "Évaluation de la santé de l'entreprise",
     "faq": "FAQ",
+    "useCases": "Cas d'usage",
     "contact": "Contact",
     "insights": "Perspectives",
     "portfolio": "Portfolio numérique"
@@ -1731,12 +1734,12 @@
     "backToHome": "Retour à l'accueil"
   },
   "login": {
-    "oauthErrorAccountNotLinked": "Ce courriel est déjà lié à une autre méthode de connexion. Connectez-vous avec courriel/mot de passe ou le fournisseur que vous avez utilisé à l'origine (ex. Google).",
-    "oauthErrorCallback": "Échec du rappel de connexion (souvent DB/liaison). Consultez les logs Railway pour [NextAuth] Auth error—définissez NEXTAUTH_DEBUG=1 pour les détails.",
-    "oauthErrorMicrosoft": "Connexion Microsoft ou Apple échouée. Vérifiez : (1) L'URI de redirection dans Azure/Apple correspond à l'URL de votre app + /api/auth/callback/azure-ad ou /api/auth/callback/apple ; (2) AUTH_TRUST_HOST=true et NEXTAUTH_URL dans Railway. Pour voir l'erreur réelle : définissez NEXTAUTH_DEBUG=1 dans Railway, réessayez, puis consultez les logs Railway.",
+    "oauthErrorAccountNotLinked": "Ce courriel est déjà lié à une autre méthode de connexion. Connectez-vous avec courriel/mot de passe ou le fournisseur que vous avez utilisé à l'origine.",
+    "oauthErrorCallback": "Échec de la connexion. Veuillez réessayer ou contacter votre administrateur.",
+    "oauthErrorMicrosoft": "La connexion Microsoft a échoué. Essayez la connexion par courriel.",
     "backToHome": "Retour à l'accueil",
     "signIn": "Connexion",
-    "accessDashboard": "Accéder au tableau de bord d'administration",
+    "accessDashboard": "Accéder au hub interne",
     "email": "Courriel",
     "password": "Mot de passe",
     "signInButton": "Se connecter",
@@ -1747,5 +1750,147 @@
     "somethingWrong": "Une erreur s'est produite. Veuillez réessayer.",
     "orSignInWith": "Ou se connecter avec",
     "redirecting": "Redirection..."
+  },
+  "useCases": {
+    "metadataTitle": "Cas d'usage numériques | ROALLA",
+    "metadataDescription": "Guide en langage clair pour les besoins numériques courants—ce qu'il faut considérer en DIY et comment Roalla livre, avec transparence sur la maturité de chaque capacité.",
+    "title": "Cas d'usage numériques",
+    "subtitle": "Commencez par le problème que vous reconnaissez. Voyez ce que le DIY manque souvent, et comment nous livrons—avec honnêteté sur la maturité de chaque capacité.",
+    "howToReadTitle": "Comment lire cette page",
+    "howToRead1": "Besoin courant — rédigé en langage quotidien, sans jargon technique.",
+    "howToRead2": "Points à considérer — complexité cachée, risques d'échéancier et limites des outils DIY.",
+    "howToRead3": "Comment Roalla livre — le résultat obtenu, plus un badge de maturité pour savoir à quel point c'est éprouvé.",
+    "maturityLegendTitle": "Badges de maturité",
+    "columnNeed": "Besoin courant",
+    "columnConsider": "Points à considérer",
+    "columnDeliver": "Comment Roalla livre",
+    "maturity": {
+      "proven": {
+        "label": "Éprouvé",
+        "desc": "En production aujourd'hui—exemples du portfolio que vous pouvez consulter."
+      },
+      "established": {
+        "label": "Établi",
+        "desc": "Processus de livraison répétable; plusieurs mandats clients livrés."
+      },
+      "ready": {
+        "label": "Prêt",
+        "desc": "Capacité que nous cadrons et construisons pour votre flux—moins d'exemples publics, même équipe responsable."
+      }
+    },
+    "categories": {
+      "websites": {
+        "title": "Sites Web et présence de marque",
+        "desc": "Quand les visiteurs doivent vous faire confiance et passer à l'action."
+      },
+      "apps": {
+        "title": "Applis et outils sur mesure",
+        "desc": "Quand les feuilles de calcul et les logiciels génériques ne conviennent plus."
+      },
+      "automation": {
+        "title": "Connecter et automatiser",
+        "desc": "Quand les mêmes données sont saisies deux fois ou que les outils ne communiquent pas."
+      },
+      "events": {
+        "title": "Événements numériques",
+        "desc": "Salons, lancements, kiosques investisseurs et événements d'affaires dédiés."
+      },
+      "ai": {
+        "title": "IA pratique",
+        "desc": "Intelligence utile—pas du battage—là où notation, guidage ou automatisation font gagner du temps."
+      }
+    },
+    "cases": {
+      "website-refresh": {
+        "need": "Notre site paraît dépassé, ou nous n'en avons pas encore.",
+        "consider": "Les constructeurs DIY (Wix, Squarespace, thèmes WordPress) démarrent vite, mais domaines, mise en page mobile, SEO et formulaires demandent souvent des extensions. De petits changements peuvent casser la mise en page sans quelqu'un qui sait ce qui a changé—et vous gardez la charge des mises à jour de contenu.",
+        "deliver": "Sites orientés conversion avec une prochaine étape claire—réserver, contacter ou demander un devis. Cadrés selon votre échéancier, une équipe responsable du brief au lancement."
+      },
+      "lead-capture": {
+        "need": "Nous avons besoin de plus de prospects, réservations ou demandes de devis.",
+        "consider": "Un formulaire de contact seul convertit rarement. Les configurations DIY oublient souvent le routage des suivis, la protection anti-spam, le transfert CRM et les parcours mobiles. Les prospects restent dans une boîte courriel au lieu d'atteindre la bonne personne.",
+        "deliver": "Formulaires courts et mobiles reliés à votre CRM, boîte courriel ou feuille de calcul—avec confirmations instantanées et la bonne personne avisée. Les mêmes modèles que sur nos sites clients en ligne."
+      },
+      "custom-app": {
+        "need": "Nous avons besoin d'un outil adapté à notre flux—not une applis générique.",
+        "consider": "Feuilles de calcul et outils no-code fonctionnent jusqu'à ce que permissions, approbations ou intégrations se complexifient. Le DIY crée souvent de l'IT parallèle : une configuration ingénieuse qu'une seule personne peut maintenir.",
+        "deliver": "Applis et outils internes conçus pour votre équipe—cadrés au flux de travail, sans surcharge de fonctionnalités. Plus de 32 plateformes sur mesure livrées en production."
+      },
+      "client-portal": {
+        "need": "Clients ou partenaires ont besoin d'un espace sécurisé pour voir statut, fichiers ou mises à jour.",
+        "consider": "Partager par courriel et lecteurs partagés devient vite le chaos—mauvaises versions, pas de piste d'audit, connexions éparpillées. Les portails DIY des places de marché correspondent rarement à votre marque ou vos règles de données.",
+        "deliver": "Portails à votre image avec les règles d'accès nécessaires—tableaux de bord, échange de documents ou étapes guidées. Selon vos préférences de sécurité et d'hébergement."
+      },
+      "integrations": {
+        "need": "Notre CRM, courriel, formulaires et autres outils ne partagent pas les données proprement.",
+        "consider": "Zapier et connecteurs natifs aident pour les cas simples, mais les cas limites—doublons, webhooks échoués, champs incompatibles—s'accumulent sans surveillance. Les intégrations DIY deviennent fragiles quand un outil se met à jour.",
+        "deliver": "Connexions fiables entre les outils que vous payez déjà—CRM, courriel, formulaires, feuilles et systèmes internes—avec gestion d'erreurs et un responsable clair quand quelque chose change."
+      },
+      "workflow-automation": {
+        "need": "Mon équipe perd du temps en copier-coller et transferts manuels répétitifs.",
+        "consider": "Macros et automatisation DIY économisent des minutes jusqu'à ce qu'une exception casse la chaîne. Sans documentation, une seule personne sait comment ça marche—et elle est en vacances quand ça échoue.",
+        "deliver": "Automatisations documentées pour les transferts qui vous ralentissent vraiment—intégration, rapports, approbations, notifications—avec une carte lisible de ce qui s'exécute et quand."
+      },
+      "event-kit": {
+        "need": "Nous exposons à un salon ou organisons un lancement.",
+        "consider": "Imprimer des codes QR est facile; savoir quel moment du kiosque a généré l'intérêt, non. Les pages événement DIY manquent souvent de capture adaptée au salon, de plans hors ligne et de routage post-événement.",
+        "deliver": "Pages événement, entrées QR/NFC au kiosque, capture de prospects optimisée et exports post-salon—prêts à l'ouverture. Basés sur notre playbook Événements numériques et les modèles Boothlio."
+      },
+      "ai-workflows": {
+        "need": "Nous voulons que l'IA aide—pas un autre chatbot inutilisé.",
+        "consider": "Les extensions IA génériques ajoutent de la nouveauté sans résultats mesurables. Les prompts DIY dérivent, manquent de garde-fous et se connectent rarement au CRM ou aux documents. Les équipes hésitent sans étapes de révision humaine claires.",
+        "deliver": "IA cadrée dans de vrais flux—notation, briefs guidés, aide documentaire et routage intelligent—avec garde-fous et révision humaine. Exemples : scorecards Business Cocoon et rétroaction Pitch Hotshots."
+      }
+    },
+    "ctaText": "Vous ne savez pas quelle ligne vous correspond? Décrivez votre situation—nous vous indiquerons le bon point de départ.",
+    "ctaSchedule": "Démarrer une demande de service",
+    "ctaPortfolio": "Voir des exemples en ligne dans notre portfolio"
+  },
+  "hub": {
+    "title": "Hub interne",
+    "navDashboard": "Tableau de bord",
+    "navCustomers": "Clients",
+    "navPlaybooks": "Guides",
+    "navPartners": "Partenaires",
+    "navLessons": "Leçons apprises",
+    "navTools": "Outils",
+    "signOut": "Déconnexion",
+    "welcome": "Bienvenue, {name}",
+    "dashboardSubtitle": "Suivi clients, guides de livraison et ressources d'équipe.",
+    "statActiveCustomers": "Clients actifs",
+    "statOpenEngagements": "Mandats en cours",
+    "statChecklistItems": "Éléments de liste ouverts",
+    "recentActivity": "Activité récente",
+    "quickLinks": "Liens rapides",
+    "noActivity": "Aucune activité pour le moment.",
+    "customersSubtitle": "Suivez les clients, les étapes et la livraison.",
+    "addCustomer": "Ajouter un client",
+    "customerName": "Nom du client",
+    "primaryContact": "Contact principal",
+    "primaryEmail": "Courriel principal",
+    "stage": "Étape",
+    "serviceLine": "Ligne de service",
+    "filterAll": "Tous",
+    "stage_lead": "Prospect",
+    "stage_scoping": "Cadrage",
+    "stage_active": "Actif",
+    "stage_complete": "Terminé",
+    "noCustomers": "Aucun client. Ajoutez votre premier client.",
+    "saveCustomer": "Enregistrer",
+    "saving": "Enregistrement…",
+    "backToCustomers": "Retour aux clients",
+    "activityLog": "Journal d'activité",
+    "addNote": "Ajouter",
+    "addNotePlaceholder": "Ajouter une note…",
+    "details": "Détails",
+    "notes": "Notes",
+    "playbooksSubtitle": "Listes de contrôle et guides internes.",
+    "startChecklist": "Démarrer la liste",
+    "viewPlaybook": "Voir le guide",
+    "activeChecklists": "Listes actives",
+    "noChecklists": "Aucune liste active.",
+    "roallaApps": "Applications Roalla",
+    "notionNotConfigured": "L'intégration Notion n'est pas configurée.",
+    "notionEnvHint": "Définissez NEXT_PUBLIC_NOTION_PARTNERS_URL ou NEXT_PUBLIC_NOTION_LESSONS_URL après avoir créé les bases Notion."
   }
 }

@@ -1,5 +1,6 @@
 import type { BrandPillar } from '@/lib/brand-journey'
 import type { ConsultationIntent, ConsultingFocus } from '@/lib/consultation-request'
+import { useCaseHrefForAssessment } from '@/lib/use-cases'
 
 export type AssessmentLane = 'consulting' | 'website' | 'platform' | 'workshop' | 'event' | 'unsure'
 
@@ -97,6 +98,7 @@ export type AssessmentResult = {
   serviceHref: string | null
   laneHref: string
   exploreServicesHref: string
+  useCaseHref: ReturnType<typeof useCaseHrefForAssessment>
 }
 
 function parseLane(value: string | undefined): AssessmentLane {
@@ -244,8 +246,10 @@ export function computeAssessmentResult(answers: AssessmentAnswers): AssessmentR
       serviceHref: null,
       laneHref: laneHref(lane),
       exploreServicesHref: '/programs/business-enablement',
+      useCaseHref: null,
     }
     partial.scheduleGoal = buildScheduleGoalSummary(partial)
+    partial.useCaseHref = useCaseHrefForAssessment(partial)
     return partial
   }
 
@@ -264,8 +268,10 @@ export function computeAssessmentResult(answers: AssessmentAnswers): AssessmentR
     serviceHref: `/programs/business-enablement#${meta.anchor}`,
     laneHref: '/programs/business-enablement',
     exploreServicesHref: `/programs/business-enablement#${meta.pillarSectionId}`,
+    useCaseHref: null,
   }
 
   result.scheduleGoal = buildScheduleGoalSummary(result)
+  result.useCaseHref = useCaseHrefForAssessment(result)
   return result
 }

@@ -363,7 +363,7 @@ export default function WebsiteDesignLanding() {
           qualifier={t('ctaQualifier')}
           primaryCta={
             <ScheduleButton
-              variant="primary"
+              variant="secondary"
               size="lg"
               icon
               intent="website"

@@ -15,6 +15,7 @@ const companyLinks = [
 ]
 
 const exploreLinks = [
+  { nameKey: 'useCases' as const, href: '/use-cases' as const },
   { nameKey: 'digitalEnablement' as const, href: '/services/digital' as const },
   { nameKey: 'ourWork' as const, href: '/services/portfolio' as const },
   { nameKey: 'programs' as const, href: '/programs/business-enablement' as const },
@@ -154,13 +155,21 @@ const Footer = () => {
           <p className="text-xs text-slate-500" suppressHydrationWarning>
             {t('copyright', { year: currentYear })}
           </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-1 text-xs font-medium text-slate-500 hover:text-primary transition-colors w-fit"
-          >
-            {t('contact')}
-            <ArrowUpRight className="w-3.5 h-3.5" aria-hidden />
-          </Link>
+          <div className="flex flex-wrap items-center gap-4">
+            <Link
+              href="/hub/login"
+              className="inline-flex items-center gap-1 text-xs font-medium text-slate-500 hover:text-primary transition-colors w-fit"
+            >
+              {t('teamSignIn')}
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-1 text-xs font-medium text-slate-500 hover:text-primary transition-colors w-fit"
+            >
+              {t('contact')}
+              <ArrowUpRight className="w-3.5 h-3.5" aria-hidden />
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

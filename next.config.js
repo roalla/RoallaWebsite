@@ -138,6 +138,7 @@ const nextConfig = {
   reactStrictMode: true,
   experimental: {
     optimizePackageImports: ['lucide-react'],
+    instrumentationHook: true,
   },
 }
 

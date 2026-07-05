@@ -19,6 +19,7 @@ export async function GET() {
       resolvedSource: config.resolvedSource,
       invalidSources: config.invalidSources,
       env: config.env,
+      valueLengths: config.env.valueLengths,
       reachable,
     })
   } catch {

@@ -70,6 +70,13 @@ export default function HubDatabaseNotice({
           {env.matchedKeys.length > 0 && (
             <p className="mt-2">{t('databaseMatchedKeys', { keys: env.matchedKeys.join(', ') })}</p>
           )}
+          {env.valueLengths && Object.keys(env.valueLengths).length > 0 && (
+            <ul className="mt-1 space-y-0.5 font-mono">
+              {Object.entries(env.valueLengths).map(([key, length]) => (
+                <li key={key}>{t('databaseEnvValueLength', { key, length })}</li>
+              ))}
+            </ul>
+          )}
         </div>
       )}
     </div>

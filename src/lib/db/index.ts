@@ -38,6 +38,7 @@ export function isValidDatabaseUrl(url: string): boolean {
 }
 
 const CANONICAL_URL_VARS = [
+  'HUB_DATABASE_URL',
   'DATABASE_PRIVATE_URL',
   'DATABASE_URL',
   'DATABASE_PUBLIC_URL',
@@ -69,6 +70,7 @@ export function discoverDatabaseEnvKeys(): string[] {
   for (const key of Object.keys(process.env)) {
     const k = key.toLowerCase()
     if (
+      k === 'hub_database_url' ||
       k === 'database_url' ||
       k === 'database_private_url' ||
       k === 'database_public_url' ||
@@ -147,6 +149,7 @@ function candidateDatabaseUrls(): { source: string; value: string }[] {
 export function databaseEnvDiagnostics(): {
   vars: Record<string, EnvVarStatus>
   matchedKeys: string[]
+  valueLengths: Record<string, number>
 } {
   const vars: Record<string, EnvVarStatus> = {}
   for (const name of CANONICAL_URL_VARS) {
@@ -158,7 +161,17 @@ export function databaseEnvDiagnostics(): {
   vars.PGDATABASE = envVarStatus('PGDATABASE')
   vars.PGPORT = envVarStatus('PGPORT')
 
-  return { vars, matchedKeys: discoverDatabaseEnvKeys() }
+  const matchedKeys = discoverDatabaseEnvKeys()
+  const valueLengths: Record<string, number> = {}
+  for (const key of matchedKeys) {
+    valueLengths[key] = process.env[key]?.length ?? 0
+  }
+  for (const name of ['HUB_DATABASE_URL', ...CANONICAL_URL_VARS]) {
+    const key = resolveEnvKey(name)
+    if (key) valueLengths[key] = process.env[key]?.length ?? 0
+  }
+
+  return { vars, matchedKeys, valueLengths }
 }
 
 /** Resolve Postgres URL from common Railway / platform env var names. */
@@ -204,11 +217,11 @@ export function databaseConfigStatus(): {
   }
 
   if (candidates.length === 0) {
-    const dbEmpty = env.vars.DATABASE_URL === 'empty'
+    const dbEmpty = env.vars.DATABASE_URL === 'empty' || env.vars.HUB_DATABASE_URL === 'empty'
     return {
       configured: false,
       reason: dbEmpty ? 'empty_database_url' : 'missing',
-      source: dbEmpty ? 'DATABASE_URL' : null,
+      source: dbEmpty ? (env.vars.HUB_DATABASE_URL === 'empty' ? 'HUB_DATABASE_URL' : 'DATABASE_URL') : null,
       resolvedSource: null,
       invalidSources: [],
       env,

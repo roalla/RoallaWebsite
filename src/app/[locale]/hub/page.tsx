@@ -110,6 +110,11 @@ export default async function HubDashboardPage({ params }: Props) {
               </Link>
             </li>
             <li>
+              <Link href="/hub/recommendations" className="text-amber-800 hover:underline">
+                {t('navRecommendations')}
+              </Link>
+            </li>
+            <li>
               <Link href="/hub/tools" className="text-amber-800 hover:underline">
                 {t('navTools')}
               </Link>

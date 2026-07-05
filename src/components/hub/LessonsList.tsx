@@ -3,36 +3,29 @@
 import { useState } from 'react'
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
+import LessonFormFields, { EMPTY_LESSON_FORM } from '@/components/hub/LessonFormFields'
+import { LessonImpactBadge } from '@/components/hub/LessonFormatView'
+import {
+  LESSON_CATEGORIES,
+  lessonListPreview,
+  lessonPayloadFromForm,
+  type LessonRecord,
+} from '@/lib/hub/lesson-types'
 
-export type LessonRow = {
-  id: string
-  title: string
-  body: string
-  category: string
-  service_line?: string | null
-  customer_name?: string | null
-  author_name?: string | null
-  updated_at: string
-}
-
-const CATEGORIES = ['general', 'delivery', 'client', 'internal'] as const
+type CustomerOption = { id: string; name: string }
 
 type Props = {
-  initialLessons: LessonRow[]
+  initialLessons: LessonRecord[]
   canCreate: boolean
+  customers?: CustomerOption[]
 }
 
-export default function LessonsList({ initialLessons, canCreate }: Props) {
+export default function LessonsList({ initialLessons, canCreate, customers = [] }: Props) {
   const t = useTranslations('hub')
   const [lessons, setLessons] = useState(initialLessons)
   const [showForm, setShowForm] = useState(false)
   const [filter, setFilter] = useState<string>('all')
-  const [form, setForm] = useState({
-    title: '',
-    body: '',
-    category: 'general',
-    service_line: '',
-  })
+  const [form, setForm] = useState(EMPTY_LESSON_FORM)
   const [pending, setPending] = useState(false)
 
   const filtered =
@@ -45,13 +38,17 @@ export default function LessonsList({ initialLessons, canCreate }: Props) {
       const res = await fetch('/api/hub/lessons', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify(lessonPayloadFromForm(form)),
       })
       if (!res.ok) return
-      const data = (await res.json()) as { lesson: LessonRow }
-      setLessons((prev) => [{ ...data.lesson, author_name: null, customer_name: null }, ...prev])
+      const data = (await res.json()) as { lesson: LessonRecord }
+      const customerName = customers.find((c) => c.id === form.customer_id)?.name ?? null
+      setLessons((prev) => [
+        { ...data.lesson, author_name: null, customer_name: customerName },
+        ...prev,
+      ])
       setShowForm(false)
-      setForm({ title: '', body: '', category: 'general', service_line: '' })
+      setForm(EMPTY_LESSON_FORM)
     } finally {
       setPending(false)
     }
@@ -85,7 +82,7 @@ export default function LessonsList({ initialLessons, canCreate }: Props) {
         >
           {t('filterAll')}
         </button>
-        {CATEGORIES.map((c) => (
+        {LESSON_CATEGORIES.map((c) => (
           <button
             key={c}
             type="button"
@@ -101,49 +98,7 @@ export default function LessonsList({ initialLessons, canCreate }: Props) {
 
       {showForm && (
         <form onSubmit={createLesson} className="rounded-xl border bg-white p-6 mb-6 space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">{t('lessonTitle')}</label>
-            <input
-              required
-              value={form.title}
-              onChange={(e) => setForm({ ...form, title: e.target.value })}
-              className="w-full rounded-lg border px-3 py-2 text-sm"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">{t('lessonBody')}</label>
-            <textarea
-              rows={4}
-              value={form.body}
-              onChange={(e) => setForm({ ...form, body: e.target.value })}
-              className="w-full rounded-lg border px-3 py-2 text-sm"
-              placeholder={t('lessonBodyPlaceholder')}
-            />
-          </div>
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">{t('lessonCategory')}</label>
-              <select
-                value={form.category}
-                onChange={(e) => setForm({ ...form, category: e.target.value })}
-                className="w-full rounded-lg border px-3 py-2 text-sm"
-              >
-                {CATEGORIES.map((c) => (
-                  <option key={c} value={c}>
-                    {t(`lessonCategory_${c}`)}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">{t('serviceLine')}</label>
-              <input
-                value={form.service_line}
-                onChange={(e) => setForm({ ...form, service_line: e.target.value })}
-                className="w-full rounded-lg border px-3 py-2 text-sm"
-              />
-            </div>
-          </div>
+          <LessonFormFields form={form} onChange={setForm} customers={customers} idPrefix="new" />
           <button
             type="submit"
             disabled={pending}
@@ -158,25 +113,31 @@ export default function LessonsList({ initialLessons, canCreate }: Props) {
         <p className="text-sm text-slate-500">{t('noLessons')}</p>
       ) : (
         <ul className="space-y-3">
-          {filtered.map((lesson) => (
-            <li key={lesson.id} className="rounded-xl border bg-white p-4 hover:border-amber-300 transition">
-              <Link
-                href={{ pathname: '/hub/lessons/[id]', params: { id: lesson.id } }}
-                className="block"
-              >
-                <p className="font-medium text-slate-900">{lesson.title}</p>
-                {lesson.body && (
-                  <p className="text-sm text-slate-600 mt-1 line-clamp-2">{lesson.body}</p>
-                )}
-                <p className="text-xs text-slate-500 mt-2">
-                  {t(`lessonCategory_${lesson.category}` as 'lessonCategory_general')}
-                  {lesson.customer_name ? ` · ${lesson.customer_name}` : ''}
-                  {' · '}
-                  {new Date(lesson.updated_at).toLocaleDateString()}
-                </p>
-              </Link>
-            </li>
-          ))}
+          {filtered.map((lesson) => {
+            const preview = lessonListPreview(lesson)
+            return (
+              <li key={lesson.id} className="rounded-xl border bg-white p-4 hover:border-amber-300 transition">
+                <Link
+                  href={{ pathname: '/hub/lessons/[id]', params: { id: lesson.id } }}
+                  className="block"
+                >
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <p className="font-medium text-slate-900">{lesson.title}</p>
+                    <LessonImpactBadge impact={lesson.impact} />
+                  </div>
+                  {preview && (
+                    <p className="text-sm text-slate-600 line-clamp-2">{preview}</p>
+                  )}
+                  <p className="text-xs text-slate-500 mt-2">
+                    {t(`lessonCategory_${lesson.category}` as 'lessonCategory_general')}
+                    {lesson.customer_name ? ` · ${lesson.customer_name}` : ''}
+                    {' · '}
+                    {new Date(lesson.updated_at).toLocaleDateString()}
+                  </p>
+                </Link>
+              </li>
+            )
+          })}
         </ul>
       )}
     </div>

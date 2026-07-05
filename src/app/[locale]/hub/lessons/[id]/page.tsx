@@ -32,10 +32,17 @@ export default async function HubLessonDetailPage({ params }: Props) {
   )
   if (!res.rowCount) notFound()
 
+  let customers: { id: string; name: string }[] = []
+  if (canManageLessons(session.user.role)) {
+    const customersRes = await dbQuery(`SELECT id, name FROM customers ORDER BY name ASC`)
+    customers = customersRes.rows as typeof customers
+  }
+
   return (
     <LessonDetail
       lesson={res.rows[0] as Parameters<typeof LessonDetail>[0]['lesson']}
       canEdit={canManageLessons(session.user.role)}
+      customers={customers}
     />
   )
 }

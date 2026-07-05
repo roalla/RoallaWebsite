@@ -82,6 +82,15 @@ CREATE TABLE IF NOT EXISTS lessons_learned (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   title TEXT NOT NULL,
   body TEXT NOT NULL DEFAULT '',
+  context TEXT NOT NULL DEFAULT '',
+  what_happened TEXT NOT NULL DEFAULT '',
+  what_worked TEXT NOT NULL DEFAULT '',
+  what_didnt_work TEXT NOT NULL DEFAULT '',
+  root_cause TEXT NOT NULL DEFAULT '',
+  recommendation TEXT NOT NULL DEFAULT '',
+  additional_recommendations JSONB NOT NULL DEFAULT '[]'::jsonb,
+  recommendations JSONB NOT NULL DEFAULT '[]'::jsonb,
+  impact TEXT NOT NULL DEFAULT 'medium',
   category TEXT NOT NULL DEFAULT 'general',
   customer_id UUID REFERENCES customers(id) ON DELETE SET NULL,
   service_line TEXT,
@@ -89,6 +98,16 @@ CREATE TABLE IF NOT EXISTS lessons_learned (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+ALTER TABLE lessons_learned ADD COLUMN IF NOT EXISTS context TEXT NOT NULL DEFAULT '';
+ALTER TABLE lessons_learned ADD COLUMN IF NOT EXISTS what_happened TEXT NOT NULL DEFAULT '';
+ALTER TABLE lessons_learned ADD COLUMN IF NOT EXISTS what_worked TEXT NOT NULL DEFAULT '';
+ALTER TABLE lessons_learned ADD COLUMN IF NOT EXISTS what_didnt_work TEXT NOT NULL DEFAULT '';
+ALTER TABLE lessons_learned ADD COLUMN IF NOT EXISTS root_cause TEXT NOT NULL DEFAULT '';
+ALTER TABLE lessons_learned ADD COLUMN IF NOT EXISTS recommendation TEXT NOT NULL DEFAULT '';
+ALTER TABLE lessons_learned ADD COLUMN IF NOT EXISTS impact TEXT NOT NULL DEFAULT 'medium';
+ALTER TABLE lessons_learned ADD COLUMN IF NOT EXISTS additional_recommendations JSONB NOT NULL DEFAULT '[]'::jsonb;
+ALTER TABLE lessons_learned ADD COLUMN IF NOT EXISTS recommendations JSONB NOT NULL DEFAULT '[]'::jsonb;
 
 CREATE INDEX IF NOT EXISTS lessons_learned_category_idx ON lessons_learned(category);
 CREATE INDEX IF NOT EXISTS lessons_learned_customer_idx ON lessons_learned(customer_id);

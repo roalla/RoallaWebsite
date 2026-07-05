@@ -6,13 +6,14 @@ export type HubModule =
   | 'playbooks'
   | 'partners'
   | 'lessons'
+  | 'recommendations'
   | 'tools'
 
 const ROLE_MODULES: Record<HubRole, HubModule[]> = {
-  admin: ['dashboard', 'customers', 'playbooks', 'partners', 'lessons', 'tools'],
-  employee: ['dashboard', 'customers', 'playbooks', 'partners', 'lessons', 'tools'],
-  contractor: ['dashboard', 'customers', 'playbooks', 'lessons'],
-  partner: ['dashboard', 'partners', 'lessons'],
+  admin: ['dashboard', 'customers', 'playbooks', 'partners', 'lessons', 'recommendations', 'tools'],
+  employee: ['dashboard', 'customers', 'playbooks', 'partners', 'lessons', 'recommendations', 'tools'],
+  contractor: ['dashboard', 'customers', 'playbooks', 'lessons', 'recommendations'],
+  partner: ['dashboard', 'partners', 'lessons', 'recommendations'],
 }
 
 export function canAccessModule(role: HubRole, module: HubModule): boolean {

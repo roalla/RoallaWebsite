@@ -32,6 +32,7 @@ export const routing = defineRouting({
     '/hub/playbooks/digital-events': '/hub/playbooks/digital-events',
     '/hub/lessons': '/hub/lessons',
     '/hub/lessons/[id]': '/hub/lessons/[id]',
+    '/hub/recommendations': '/hub/recommendations',
     '/hub/partners': '/hub/partners',
     '/hub/partners/[id]': '/hub/partners/[id]',
     '/hub/tools': '/hub/tools',

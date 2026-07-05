@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { dbConfigured, dbQuery } from '@/lib/db'
 import { requireHubSession } from '@/lib/hub/auth-session'
 import { canAccessModule, canManageLessons } from '@/lib/hub/permissions'
+import { prepareLessonInput } from '@/lib/hub/lesson-api'
 
 type RouteContext = { params: Promise<{ id: string }> }
 
@@ -45,28 +46,48 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
       return NextResponse.json({ error: 'Database not configured.' }, { status: 503 })
     }
 
-    const body = (await request.json()) as Record<string, string | null | undefined>
-    const fields: string[] = []
-    const values: unknown[] = []
-    let idx = 1
-
-    for (const key of ['title', 'body', 'category', 'customer_id', 'service_line'] as const) {
-      if (key in body) {
-        fields.push(`${key} = $${idx++}`)
-        values.push(body[key] ?? null)
-      }
+    const raw = (await request.json()) as Record<string, unknown>
+    const { payload, error } = prepareLessonInput(raw)
+    if (error || !payload) {
+      return NextResponse.json({ error: error || 'Invalid payload.' }, { status: 400 })
     }
-
-    if (fields.length === 0) {
-      return NextResponse.json({ error: 'No fields to update.' }, { status: 400 })
-    }
-
-    fields.push(`updated_at = NOW()`)
-    values.push(id)
 
     const res = await dbQuery(
-      `UPDATE lessons_learned SET ${fields.join(', ')} WHERE id = $${idx} RETURNING *`,
-      values,
+      `UPDATE lessons_learned SET
+         title = $1,
+         body = $2,
+         context = $3,
+         what_happened = $4,
+         what_worked = $5,
+         what_didnt_work = $6,
+         root_cause = $7,
+         recommendation = $8,
+         additional_recommendations = $9::jsonb,
+         recommendations = $10::jsonb,
+         impact = $11,
+         category = $12,
+         customer_id = $13,
+         service_line = $14,
+         updated_at = NOW()
+       WHERE id = $15
+       RETURNING *`,
+      [
+        payload.title,
+        payload.body,
+        payload.context,
+        payload.what_happened,
+        payload.what_worked,
+        payload.what_didnt_work,
+        payload.root_cause,
+        payload.recommendation,
+        JSON.stringify(payload.additional_recommendations),
+        JSON.stringify(payload.recommendations),
+        payload.impact,
+        payload.category,
+        payload.customer_id,
+        payload.service_line,
+        id,
+      ],
     )
     if (!res.rowCount) {
       return NextResponse.json({ error: 'Not found.' }, { status: 404 })

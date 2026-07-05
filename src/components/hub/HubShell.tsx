@@ -6,6 +6,7 @@ import { Link, usePathname } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import {
   BookOpen,
+  ClipboardList,
   ExternalLink,
   LayoutDashboard,
   LogOut,
@@ -18,7 +19,14 @@ import { canAccessModule } from '@/lib/hub/permissions'
 import { clientSignOut } from '@/lib/roalla-auth/client-sign-out'
 
 type NavItem = {
-  href: '/hub' | '/hub/customers' | '/hub/playbooks' | '/hub/partners' | '/hub/lessons' | '/hub/tools'
+  href:
+    | '/hub'
+    | '/hub/customers'
+    | '/hub/playbooks'
+    | '/hub/partners'
+    | '/hub/lessons'
+    | '/hub/recommendations'
+    | '/hub/tools'
   labelKey: string
   icon: React.ComponentType<{ className?: string }>
   module: Parameters<typeof canAccessModule>[1]
@@ -30,6 +38,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/hub/playbooks', labelKey: 'navPlaybooks', icon: BookOpen, module: 'playbooks' },
   { href: '/hub/partners', labelKey: 'navPartners', icon: Handshake, module: 'partners' },
   { href: '/hub/lessons', labelKey: 'navLessons', icon: Lightbulb, module: 'lessons' },
+  { href: '/hub/recommendations', labelKey: 'navRecommendations', icon: ClipboardList, module: 'recommendations' },
   { href: '/hub/tools', labelKey: 'navTools', icon: ExternalLink, module: 'tools' },
 ]
 

@@ -203,6 +203,16 @@ function pgVarsPresent(): boolean {
   )
 }
 
+function scanEnvForValidPostgresUrls(): { source: string; value: string }[] {
+  const out: { source: string; value: string }[] = []
+  for (const key of listRuntimeEnvKeys()) {
+    const hit = lookupRuntimeEnv(key)
+    const value = normalizeEnvValue(hit?.value ?? '')
+    if (isValidDatabaseUrl(value)) out.push({ source: key, value })
+  }
+  return out
+}
+
 function candidateDatabaseUrls(): { source: string; value: string }[] {
   const out: { source: string; value: string }[] = []
   const seen = new Set<string>()
@@ -211,6 +221,10 @@ function candidateDatabaseUrls(): { source: string; value: string }[] {
     if (seen.has(value)) return
     seen.add(value)
     out.push({ source, value })
+  }
+
+  for (const { source, value } of scanEnvForValidPostgresUrls()) {
+    add(source, value)
   }
 
   for (const name of [...RESOLVE_URL_VARS, ...FALLBACK_URL_VARS]) {
@@ -239,6 +253,7 @@ export function databaseEnvDiagnostics(): {
   urlIssue: Record<string, DatabaseUrlIssue>
   postgresEnvKeys: { key: string; length: number; source: RuntimeEnvSource }[]
   totalEnvVarCount: number
+  validPostgresUrlKeys: string[]
 } {
   const vars: Record<string, EnvVarStatus> = {}
   for (const name of DISPLAY_DIAG_VARS) {
@@ -294,6 +309,7 @@ export function databaseEnvDiagnostics(): {
     urlIssue,
     postgresEnvKeys: listPostgresRelatedEnvKeys(),
     totalEnvVarCount: listRuntimeEnvKeys().length,
+    validPostgresUrlKeys: scanEnvForValidPostgresUrls().map(({ source }) => source),
   }
 }
 

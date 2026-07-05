@@ -7,7 +7,6 @@ import { getHubDatabaseState } from '@/lib/hub/database-state'
 import { flattenLessonRecommendations } from '@/lib/hub/lesson-recommendations'
 import type { HubRole } from '@/lib/hub/roles'
 import HubDashboardExtras from '@/components/hub/HubDashboardExtras'
-import HubDatabaseNotice from '@/components/hub/HubDatabaseNotice'
 
 export const metadata: Metadata = {
   title: 'Dashboard | Roalla Internal Hub',
@@ -25,7 +24,6 @@ export default async function HubDashboardPage({ params }: Props) {
 
   const t = await getTranslations('hub')
   const role = (session.user?.role || 'contractor') as HubRole
-  const isAdmin = role === 'admin'
 
   let stats = {
     activeCustomers: 0,
@@ -95,16 +93,6 @@ export default async function HubDashboardPage({ params }: Props) {
         {t('welcome', { name: displayName })}
       </h1>
       <p className="text-slate-600 text-sm mb-8">{t('dashboardSubtitle')}</p>
-
-      {!databaseState.available && (
-        <HubDatabaseNotice
-          className="mb-6"
-          reason={databaseState.reason}
-          invalidSources={databaseState.invalidSources}
-          env={databaseState.env}
-          showDiagnostics={isAdmin}
-        />
-      )}
 
       <HubDashboardExtras role={role} stats={stats} isEmpty={isEmpty} />
 

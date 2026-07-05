@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import HubPageHeader from '@/components/hub/HubPageHeader'
-import HubDatabaseNotice from '@/components/hub/HubDatabaseNotice'
 import { hubFetchJson } from '@/lib/hub/toast'
 import { playbookTemplates } from '@/lib/hub/playbook-templates'
 import type { ChecklistItem } from '@/lib/db/schema'
@@ -23,7 +22,6 @@ type Props = {
   initialRuns: Run[]
   canWrite: boolean
   databaseState?: HubDatabaseState
-  showDatabaseDiagnostics?: boolean
 }
 
 function checklistProgress(checklist: ChecklistItem[]) {
@@ -33,12 +31,7 @@ function checklistProgress(checklist: ChecklistItem[]) {
   return { done, total, pct: Math.round((done / total) * 100) }
 }
 
-export default function PlaybooksHub({
-  initialRuns,
-  canWrite,
-  databaseState,
-  showDatabaseDiagnostics = false,
-}: Props) {
+export default function PlaybooksHub({ initialRuns, canWrite, databaseState }: Props) {
   const t = useTranslations('hub')
   const [runs, setRuns] = useState(initialRuns)
   const [creating, setCreating] = useState<string | null>(null)
@@ -81,16 +74,6 @@ export default function PlaybooksHub({
   return (
     <div>
       <HubPageHeader title={t('navPlaybooks')} subtitle={t('playbooksSubtitle')} />
-
-      {!databaseAvailable && (
-        <HubDatabaseNotice
-          className="mb-6"
-          reason={databaseState?.reason ?? 'missing'}
-          invalidSources={databaseState?.invalidSources}
-          env={databaseState?.env}
-          showDiagnostics={showDatabaseDiagnostics}
-        />
-      )}
 
       <div className="grid md:grid-cols-3 gap-4 mb-8">
         {playbookTemplates.map((tmpl) => (

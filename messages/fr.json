@@ -1975,6 +1975,7 @@
     "details": "Détails",
     "notes": "Notes",
     "playbooksSubtitle": "Listes de contrôle et guides internes.",
+    "playbooksDatabaseRequired": "Démarrer la liste est désactivé : l'application ne peut pas joindre Postgres. Sur RoallaWebsite, définissez DATABASE_URL avec l'URL complète depuis Postgres → Variables (collez l'URL si la référence reste vide), puis redéployez.",
     "startChecklist": "Démarrer la liste",
     "viewPlaybook": "Voir le guide",
     "activeChecklists": "Listes actives",

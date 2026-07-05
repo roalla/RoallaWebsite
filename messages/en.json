@@ -1995,6 +1995,7 @@
     "details": "Details",
     "notes": "Notes",
     "playbooksSubtitle": "Standard delivery checklists and internal guides.",
+    "playbooksDatabaseRequired": "Start checklist is disabled because the app cannot reach Postgres yet. On RoallaWebsite, set DATABASE_URL to the full connection string from Postgres → Variables (paste the literal URL if the reference stays empty), then redeploy.",
     "startChecklist": "Start checklist",
     "viewPlaybook": "View playbook",
     "activeChecklists": "Active checklists",

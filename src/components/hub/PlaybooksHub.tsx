@@ -75,6 +75,12 @@ export default function PlaybooksHub({ initialRuns, canWrite, databaseState }: P
     <div>
       <HubPageHeader title={t('navPlaybooks')} subtitle={t('playbooksSubtitle')} />
 
+      {canWrite && !databaseAvailable && (
+        <p className="mb-4 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+          {t('playbooksDatabaseRequired')}
+        </p>
+      )}
+
       <div className="grid md:grid-cols-3 gap-4 mb-8">
         {playbookTemplates.map((tmpl) => (
           <div key={tmpl.id} className="rounded-xl border bg-white p-5">

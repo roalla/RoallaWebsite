@@ -1926,7 +1926,7 @@
     "loginVerifyTitle": "Vérifiez votre courriel",
     "databaseNotConfiguredTitle": "Base de données non connectée",
     "databaseNotConfiguredHint": "Les données du hub nécessitent Postgres sur le service web (pas seulement le service Postgres). Dans Railway : ouvrez le service web www.roalla.com → Variables → ajoutez DATABASE_URL via Add Reference → service Postgres → DATABASE_URL. Redéployez après enregistrement.",
-    "databaseInvalidUrlHint": "DATABASE_URL est défini sur le service web, mais la valeur n'est pas une URL Postgres valide. Supprimez toute valeur manuelle, puis utilisez Add Reference vers DATABASE_URL ou DATABASE_PRIVATE_URL du Postgres.",
+    "databaseInvalidUrlHint": "HUB_DATABASE_URL ou DATABASE_URL est défini, mais ce n'est pas une URL Postgres valide. Dans Railway : Postgres → Connect → copiez l'URL Postgres complète (souvent 80+ caractères, commence par postgresql://). Collez dans HUB_DATABASE_URL sans guillemets. Supprimez DATABASE_URL vide.",
     "databaseInvalidPgVarsHint": "DATABASE_URL est absent du service web, mais des variables PGHOST / PGUSER / PGPASSWORD / PGDATABASE sont définies—et elles ne forment pas une connexion valide. Supprimez toutes les variables PG* sur le service web, puis ajoutez uniquement DATABASE_URL via Add Reference → service Postgres → DATABASE_URL. Ne collez pas une URL complète dans PGHOST.",
     "databaseUnreachableHint": "DATABASE_URL semble valide, mais l'application ne peut pas se connecter. Vérifiez que Postgres est actif, que le service web y est lié, puis redéployez. Les admins peuvent appeler GET /api/hub/db-status une fois connectés.",
     "databaseInvalidSources": "Invalide sur ce service : {sources}",

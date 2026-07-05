@@ -1,37 +1,43 @@
 import fs from 'fs'
 import path from 'path'
 import { Pool } from 'pg'
+import { parse as parsePgConnectionString } from 'pg-connection-string'
 
 let pool: Pool | null = null
 let schemaReady = false
 
+/** Strip wrapping quotes Railway users sometimes paste into variable values. */
+export function normalizeEnvValue(raw: string): string {
+  let v = raw.trim()
+  if (
+    (v.startsWith('"') && v.endsWith('"')) ||
+    (v.startsWith("'") && v.endsWith("'"))
+  ) {
+    v = v.slice(1, -1).trim()
+  }
+  return v
+}
+
 /** Read env var by name — case-insensitive (Railway users sometimes set database_url). */
 export function readEnvVar(name: string): { key: string; value: string } | null {
-  const direct = process.env[name]?.trim()
-  if (direct) return { key: name, value: direct }
-
-  const lower = name.toLowerCase()
-  for (const [key, raw] of Object.entries(process.env)) {
-    const value = raw?.trim()
-    if (value && key.toLowerCase() === lower) return { key, value }
+  const directKey = resolveEnvKey(name)
+  if (directKey) {
+    const value = normalizeEnvValue(process.env[directKey] ?? '')
+    if (value) return { key: directKey, value }
   }
   return null
 }
 
-/** True when a string looks like a complete Postgres connection URL. */
+/** True when pg can parse the connection string (same rules as the pg driver). */
 export function isValidDatabaseUrl(url: string): boolean {
-  const trimmed = url.trim()
+  const trimmed = normalizeEnvValue(url)
   if (!trimmed) return false
   if (/\$\{\{|\$\{/.test(trimmed)) return false
+  if (!/^postgres(ql)?:\/\//i.test(trimmed) && !trimmed.startsWith('/')) return false
 
   try {
-    const normalized = trimmed.replace(/^postgresql:/i, 'postgres:')
-    const parsed = new URL(normalized)
-    if (parsed.protocol !== 'postgres:') return false
-    if (!parsed.hostname) return false
-    const db = parsed.pathname.replace(/^\//, '')
-    if (!db) return false
-    return true
+    const config = parsePgConnectionString(trimmed)
+    return !!(config.host && config.database)
   } catch {
     return false
   }
@@ -57,7 +63,8 @@ function resolveEnvKey(name: string): string | undefined {
 export function envVarStatus(name: string, validateAsDatabaseUrl = false): EnvVarStatus {
   const key = resolveEnvKey(name)
   if (!key) return 'missing'
-  const trimmed = process.env[key]?.trim() ?? ''
+  const raw = process.env[key] ?? ''
+  const trimmed = normalizeEnvValue(raw)
   if (!trimmed) return 'empty'
   if (/\$\{\{|\$\{/.test(trimmed)) return 'unresolved_reference'
   if (validateAsDatabaseUrl && !isValidDatabaseUrl(trimmed)) return 'invalid_url'
@@ -135,7 +142,7 @@ function candidateDatabaseUrls(): { source: string; value: string }[] {
   }
 
   for (const key of discoverDatabaseEnvKeys()) {
-    const value = process.env[key]?.trim()
+    const value = normalizeEnvValue(process.env[key] ?? '')
     if (value) add(key, value)
   }
 

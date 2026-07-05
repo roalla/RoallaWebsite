@@ -26,7 +26,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden.' }, { status: 403 })
     }
     if (!dbConfigured()) {
-      return NextResponse.json({ error: 'Database not configured.' }, { status: 503 })
+      return NextResponse.json(
+        {
+          error:
+            'Database not configured. Add DATABASE_URL on Railway (link your Postgres service to this web service).',
+        },
+        { status: 503 },
+      )
     }
 
     const body = (await request.json()) as {
@@ -66,6 +72,9 @@ export async function PATCH(request: NextRequest) {
     const { user } = await requireHubSession()
     if (!canWritePlaybooks(user.role)) {
       return NextResponse.json({ error: 'Forbidden.' }, { status: 403 })
+    }
+    if (!dbConfigured()) {
+      return NextResponse.json({ error: 'Database not configured.' }, { status: 503 })
     }
 
     const body = (await request.json()) as {

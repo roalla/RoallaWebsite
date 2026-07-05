@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import HubPageHeader from '@/components/hub/HubPageHeader'
+import HubDatabaseNotice from '@/components/hub/HubDatabaseNotice'
 import { hubFetchJson } from '@/lib/hub/toast'
 import { playbookTemplates } from '@/lib/hub/playbook-templates'
 import type { ChecklistItem } from '@/lib/db/schema'
@@ -19,6 +20,7 @@ type Run = {
 type Props = {
   initialRuns: Run[]
   canWrite: boolean
+  databaseConfigured?: boolean
 }
 
 function checklistProgress(checklist: ChecklistItem[]) {
@@ -28,7 +30,7 @@ function checklistProgress(checklist: ChecklistItem[]) {
   return { done, total, pct: Math.round((done / total) * 100) }
 }
 
-export default function PlaybooksHub({ initialRuns, canWrite }: Props) {
+export default function PlaybooksHub({ initialRuns, canWrite, databaseConfigured = true }: Props) {
   const t = useTranslations('hub')
   const [runs, setRuns] = useState(initialRuns)
   const [creating, setCreating] = useState<string | null>(null)
@@ -71,6 +73,8 @@ export default function PlaybooksHub({ initialRuns, canWrite }: Props) {
     <div>
       <HubPageHeader title={t('navPlaybooks')} subtitle={t('playbooksSubtitle')} />
 
+      {!databaseConfigured && <HubDatabaseNotice className="mb-6" />}
+
       <div className="grid md:grid-cols-3 gap-4 mb-8">
         {playbookTemplates.map((tmpl) => (
           <div key={tmpl.id} className="rounded-xl border bg-white p-5">
@@ -80,7 +84,7 @@ export default function PlaybooksHub({ initialRuns, canWrite }: Props) {
               {canWrite && (
                 <button
                   type="button"
-                  disabled={creating === tmpl.id}
+                  disabled={creating === tmpl.id || !databaseConfigured}
                   onClick={() => startRun(tmpl.id)}
                   className="text-sm rounded-lg bg-primary-dark text-white px-3 py-1.5 disabled:opacity-50 min-h-[36px]"
                 >

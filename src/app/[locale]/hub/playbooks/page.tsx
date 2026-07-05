@@ -31,6 +31,7 @@ export default async function HubPlaybooksPage({ params }: Props) {
     <PlaybooksHub
       initialRuns={runs}
       canWrite={canWritePlaybooks(session.user.role)}
+      databaseConfigured={dbConfigured()}
     />
   )
 }

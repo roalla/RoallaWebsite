@@ -1944,6 +1944,8 @@
     "loginMfaPlaceholder": "6-digit code",
     "loginMfaVerify": "Verify",
     "loginVerifyTitle": "Verify your email",
+    "databaseNotConfiguredTitle": "Database not connected",
+    "databaseNotConfiguredHint": "Hub data (customers, playbooks, lessons) requires Postgres. In Railway: add a Postgres service, open this web service → Variables → add DATABASE_URL (use Add Reference to your Postgres plugin’s DATABASE_URL). Redeploy after saving.",
     "signOut": "Sign out",
     "signingOut": "Signing out…",
     "welcome": "Welcome, {name}",

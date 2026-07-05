@@ -1924,6 +1924,8 @@
     "loginMfaPlaceholder": "Code à 6 chiffres",
     "loginMfaVerify": "Vérifier",
     "loginVerifyTitle": "Vérifiez votre courriel",
+    "databaseNotConfiguredTitle": "Base de données non connectée",
+    "databaseNotConfiguredHint": "Les données du hub nécessitent Postgres. Dans Railway : ajoutez Postgres, ouvrez ce service web → Variables → ajoutez DATABASE_URL (référence vers DATABASE_URL du plugin Postgres). Redéployez après enregistrement.",
     "signOut": "Déconnexion",
     "signingOut": "Déconnexion…",
     "welcome": "Bienvenue, {name}",

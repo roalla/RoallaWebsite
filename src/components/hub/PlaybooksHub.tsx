@@ -81,6 +81,7 @@ export default function PlaybooksHub({ initialRuns, canWrite, databaseState }: P
           className="mb-6"
           reason={databaseState?.reason ?? 'missing'}
           invalidSources={databaseState?.invalidSources}
+          env={databaseState?.env}
         />
       )}
 

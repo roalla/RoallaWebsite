@@ -26,9 +26,9 @@ export function isValidDatabaseUrl(url: string): boolean {
 }
 
 const ENV_URL_SOURCES = [
-  // Prefer private network URL on Railway when both are set (avoids stale public overrides).
   'DATABASE_PRIVATE_URL',
   'DATABASE_URL',
+  'DATABASE_PUBLIC_URL',
   'POSTGRES_URL',
   'POSTGRESQL_URL',
   'RAILWAY_DATABASE_URL',
@@ -105,6 +105,7 @@ export function databaseEnvDiagnostics(): Record<string, 'missing' | 'set' | 'un
   return {
     DATABASE_PRIVATE_URL: envPresence(process.env.DATABASE_PRIVATE_URL),
     DATABASE_URL: envPresence(process.env.DATABASE_URL),
+    DATABASE_PUBLIC_URL: envPresence(process.env.DATABASE_PUBLIC_URL),
     PGHOST: envPresence(process.env.PGHOST || process.env.POSTGRES_HOST),
     PGUSER: envPresence(process.env.PGUSER || process.env.POSTGRES_USER),
     PGPASSWORD: envPresence(process.env.PGPASSWORD || process.env.POSTGRES_PASSWORD),

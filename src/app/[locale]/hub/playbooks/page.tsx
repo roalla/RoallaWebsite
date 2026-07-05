@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { unstable_noStore as noStore } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { getHubSession } from '@/lib/hub/auth-session'
 import { dbQuery } from '@/lib/db'
@@ -17,6 +18,7 @@ export const dynamic = 'force-dynamic'
 type Props = { params: Promise<{ locale: string }> }
 
 export default async function HubPlaybooksPage({ params }: Props) {
+  noStore()
   const { locale } = await params
   const session = await getHubSession()
   if (!session.signedIn || !session.user) redirect(`/${locale}/hub/login`)

@@ -100,6 +100,7 @@ export default async function HubDashboardPage({ params }: Props) {
           className="mb-6"
           reason={databaseState.reason}
           invalidSources={databaseState.invalidSources}
+          env={databaseState.env}
         />
       )}
 

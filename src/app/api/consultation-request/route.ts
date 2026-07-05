@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getResend } from '@/lib/resend'
+import { hubMailConfigured, sendHubMail } from '@/lib/roalla-auth/hub-mail'
 import {
   buildConsultationEmailSubject,
   buildConsultationSalesEmailHtml,
@@ -96,21 +96,19 @@ export async function POST(request: NextRequest) {
     const text = buildConsultationSalesEmailText(payload, EMAIL_LABELS, submittedAt, origin)
     const html = buildConsultationSalesEmailHtml(payload, EMAIL_LABELS, submittedAt, origin)
 
-    const resend = await getResend()
-    if (resend) {
+    if (hubMailConfigured()) {
       try {
-        await resend.emails.send({
-          from: 'ROALLA Website <noreply@roalla.com>',
-          to: ['sales@roalla.com'],
+        const salesResult = await sendHubMail({
+          to: 'sales@roalla.com',
           replyTo: payload.email,
           subject,
           text,
           html,
         })
+        if (!salesResult.ok) throw new Error(salesResult.error)
 
-        await resend.emails.send({
-          from: 'ROALLA Business Enablement Group <noreply@roalla.com>',
-          to: [payload.email],
+        const userResult = await sendHubMail({
+          to: payload.email,
           subject: EMAIL_LABELS.userSubject,
           text: `${EMAIL_LABELS.userGreeting}\n\n${EMAIL_LABELS.userBody}\n\n${EMAIL_LABELS.userSignoff}`,
           html: `
@@ -129,6 +127,7 @@ export async function POST(request: NextRequest) {
             </div>
           `,
         })
+        if (!userResult.ok) throw new Error(userResult.error)
       } catch (emailError) {
         console.error('Consultation request email failed:', emailError)
         return NextResponse.json(
@@ -137,7 +136,7 @@ export async function POST(request: NextRequest) {
         )
       }
     } else {
-      console.log('RESEND_API_KEY not configured. Consultation request:', payload)
+      console.log('AUTH_MAIL_SECRET not configured. Consultation request:', payload)
     }
 
     return NextResponse.json({

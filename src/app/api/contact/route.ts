@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getResend } from '@/lib/resend'
+import { hubMailConfigured, sendHubMail } from '@/lib/roalla-auth/hub-mail'
 
 export async function POST(request: NextRequest) {
   try {
@@ -90,12 +90,11 @@ The Roalla Team
     `.trim()
 
     // Send email to sales team
-    const resend = await getResend()
-    if (resend) {
+    if (hubMailConfigured()) {
       try {
-        await resend.emails.send({
-          from: 'Roalla Website <noreply@roalla.com>',
-          to: ['sales@roalla.com'],
+        const salesResult = await sendHubMail({
+          to: 'sales@roalla.com',
+          replyTo: email,
           subject: `New Contact Form Submission from ${name}`,
           text: salesEmailContent,
           html: `
@@ -120,13 +119,12 @@ The Roalla Team
                 <p><strong>Website:</strong> ${request.headers.get('origin') || 'Unknown'}</p>
               </div>
             </div>
-          `
+          `,
         })
+        if (!salesResult.ok) throw new Error(salesResult.error)
 
-        // Send confirmation email to the user
-        await resend.emails.send({
-          from: 'Roalla Business Enablement Group <noreply@roalla.com>',
-          to: [email],
+        const userResult = await sendHubMail({
+          to: email,
           subject: 'Thank you for contacting Roalla Business Enablement Group',
           text: userEmailContent,
           html: `
@@ -161,16 +159,17 @@ The Roalla Team
                 </p>
               </div>
             </div>
-          `
+          `,
         })
+        if (!userResult.ok) throw new Error(userResult.error)
 
-        console.log('Emails sent successfully to sales team and user')
+        console.log('Emails sent via auth hub to sales team and user')
       } catch (emailError) {
         console.error('Email sending failed:', emailError)
         // Continue with the response even if email fails
       }
     } else {
-      console.log('RESEND_API_KEY not configured, skipping email sending')
+      console.log('AUTH_MAIL_SECRET not configured, skipping email sending')
     }
 
     // Log the submission

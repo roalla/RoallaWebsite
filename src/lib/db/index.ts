@@ -119,15 +119,19 @@ export function isValidDatabaseUrl(url: string): boolean {
   return diagnoseDatabaseUrl(url).issue === 'ok'
 }
 
-const CANONICAL_URL_VARS = [
-  'DATABASE_PRIVATE_URL',
-  'DATABASE_URL',
-  'HUB_DATABASE_URL',
+/** Vars the app reads for Postgres (Railway: link Postgres → DATABASE_URL on the web service). */
+const RESOLVE_URL_VARS = ['DATABASE_PRIVATE_URL', 'DATABASE_URL'] as const
+
+/** Extra fallbacks if a platform sets them; not shown in hub UI. */
+const FALLBACK_URL_VARS = [
   'DATABASE_PUBLIC_URL',
   'POSTGRES_URL',
   'POSTGRESQL_URL',
   'RAILWAY_DATABASE_URL',
 ] as const
+
+/** Only these appear in hub diagnostics — standard Railway setup. */
+const DISPLAY_DIAG_VARS = ['DATABASE_URL', 'DATABASE_PRIVATE_URL'] as const
 
 export type EnvVarStatus = 'missing' | 'empty' | 'set' | 'unresolved_reference' | 'invalid_url'
 
@@ -153,7 +157,6 @@ export function discoverDatabaseEnvKeys(): string[] {
   for (const key of Object.keys(process.env)) {
     const k = key.toLowerCase()
     if (
-      k === 'hub_database_url' ||
       k === 'database_url' ||
       k === 'database_private_url' ||
       k === 'database_public_url' ||
@@ -212,7 +215,7 @@ function candidateDatabaseUrls(): { source: string; value: string }[] {
     out.push({ source, value })
   }
 
-  for (const name of CANONICAL_URL_VARS) {
+  for (const name of [...RESOLVE_URL_VARS, ...FALLBACK_URL_VARS]) {
     const hit = readEnvVar(name)
     if (hit) add(hit.key, hit.value)
   }
@@ -237,23 +240,30 @@ export function databaseEnvDiagnostics(): {
   urlIssue: Record<string, DatabaseUrlIssue>
 } {
   const vars: Record<string, EnvVarStatus> = {}
-  for (const name of CANONICAL_URL_VARS) {
+  for (const name of DISPLAY_DIAG_VARS) {
     vars[name] = envVarStatus(name, true)
   }
-  vars.PGHOST = envVarStatus('PGHOST')
-  vars.PGUSER = envVarStatus('PGUSER')
-  vars.PGPASSWORD = envVarStatus('PGPASSWORD')
-  vars.PGDATABASE = envVarStatus('PGDATABASE')
-  vars.PGPORT = envVarStatus('PGPORT')
 
-  const matchedKeys = discoverDatabaseEnvKeys()
+  const matchedKeys = discoverDatabaseEnvKeys().filter(
+    (k) => k.toLowerCase() !== 'hub_database_url',
+  )
   const valueLengths: Record<string, number> = {}
-  for (const key of matchedKeys) {
-    valueLengths[key] = process.env[key]?.length ?? 0
-  }
-  for (const name of ['HUB_DATABASE_URL', ...CANONICAL_URL_VARS]) {
+  for (const name of DISPLAY_DIAG_VARS) {
     const key = resolveEnvKey(name)
     if (key) valueLengths[key] = process.env[key]?.length ?? 0
+  }
+  // Flag legacy/extra vars that should be removed (not required on Railway).
+  const extraKeys = discoverDatabaseEnvKeys().filter((k) => {
+    const lower = k.toLowerCase()
+    return (
+      lower === 'hub_database_url' ||
+      (!DISPLAY_DIAG_VARS.some((d) => d.toLowerCase() === lower) &&
+        !FALLBACK_URL_VARS.some((d) => d.toLowerCase() === lower))
+    )
+  })
+  for (const key of extraKeys) {
+    valueLengths[key] = process.env[key]?.length ?? 0
+    vars[key] = envVarStatus(key, true)
   }
 
   const urlShape: Record<string, DatabaseUrlShape> = {}
@@ -313,11 +323,16 @@ export function databaseConfigStatus(): {
   }
 
   if (candidates.length === 0) {
-    const dbEmpty = env.vars.DATABASE_URL === 'empty' || env.vars.HUB_DATABASE_URL === 'empty'
+    const dbEmpty =
+      env.vars.DATABASE_URL === 'empty' || env.vars.DATABASE_PRIVATE_URL === 'empty'
     return {
       configured: false,
       reason: dbEmpty ? 'empty_database_url' : 'missing',
-      source: dbEmpty ? (env.vars.HUB_DATABASE_URL === 'empty' ? 'HUB_DATABASE_URL' : 'DATABASE_URL') : null,
+      source: dbEmpty
+        ? env.vars.DATABASE_URL === 'empty'
+          ? 'DATABASE_URL'
+          : 'DATABASE_PRIVATE_URL'
+        : null,
       resolvedSource: null,
       invalidSources: [],
       env,

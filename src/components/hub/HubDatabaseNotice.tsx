@@ -41,14 +41,16 @@ export default function HubDatabaseNotice({
       : reason === 'invalid_pg_vars'
         ? 'databaseInvalidPgVarsHint'
         : reason === 'invalid'
-          ? env?.urlIssue && Object.values(env.urlIssue).includes('missing_host')
-            ? 'databaseInvalidMissingHostHint'
-            : env?.urlIssue && Object.values(env.urlIssue).includes('too_short')
-              ? 'databaseInvalidTooShortHint'
-              : 'databaseInvalidUrlHint'
+          ? 'databaseInvalidUrlHint'
           : reason === 'unreachable'
             ? 'databaseUnreachableHint'
             : 'databaseNotConfiguredHint'
+
+  const extraVars =
+    env?.vars &&
+    Object.entries(env.vars).filter(
+      ([key]) => !['DATABASE_URL', 'DATABASE_PRIVATE_URL'].includes(key),
+    )
 
   return (
     <div
@@ -62,51 +64,32 @@ export default function HubDatabaseNotice({
           {t('databaseInvalidSources', { sources: invalidSources.join(', ') })}
         </p>
       )}
+      {extraVars && extraVars.length > 0 && (
+        <p className="mt-2 text-xs text-amber-900/80">
+          {t('databaseExtraVarsHint', { keys: extraVars.map(([k]) => k).join(', ') })}
+        </p>
+      )}
       {env && (
         <div className="mt-2 text-xs text-amber-900/80">
           <ul className="space-y-0.5 font-mono">
-            {Object.entries(env.vars).map(([key, status]) => (
-              <li key={key}>
-                {key}: {envStatusLabel(status)}
-              </li>
-            ))}
+            {Object.entries(env.vars)
+              .filter(([key]) => ['DATABASE_URL', 'DATABASE_PRIVATE_URL'].includes(key))
+              .map(([key, status]) => (
+                <li key={key}>
+                  {key}: {envStatusLabel(status)}
+                </li>
+              ))}
           </ul>
           {env.matchedKeys.length > 0 && (
             <p className="mt-2">{t('databaseMatchedKeys', { keys: env.matchedKeys.join(', ') })}</p>
           )}
           {env.valueLengths && Object.keys(env.valueLengths).length > 0 && (
             <ul className="mt-1 space-y-0.5 font-mono">
-              {Object.entries(env.valueLengths).map(([key, length]) => (
-                <li key={key}>{t('databaseEnvValueLength', { key, length })}</li>
-              ))}
-            </ul>
-          )}
-          {env.urlShape && Object.keys(env.urlShape).length > 0 && (
-            <ul className="mt-1 space-y-0.5 font-mono">
-              {Object.entries(env.urlShape).map(([key, shape]) => (
-                <li key={key}>
-                  {t('databaseUrlShape', {
-                    key,
-                    protocol: shape.hasProtocol ? 'yes' : 'no',
-                    credentials: shape.hasCredentials ? 'yes' : 'no',
-                    database: shape.hasDatabasePath ? 'yes' : 'no',
-                    hostLength: shape.hostLength,
-                  })}
-                </li>
-              ))}
-            </ul>
-          )}
-          {env.urlIssue && Object.keys(env.urlIssue).length > 0 && (
-            <ul className="mt-1 space-y-0.5">
-              {Object.entries(env.urlIssue).map(([key, issue]) => (
-                <li key={key}>
-                  {t(`databaseUrlIssue_${issue}`, {
-                    key,
-                    length: env.valueLengths?.[key] ?? 0,
-                    hostLength: env.urlShape?.[key]?.hostLength ?? 0,
-                  })}
-                </li>
-              ))}
+              {Object.entries(env.valueLengths)
+                .filter(([key]) => ['DATABASE_URL', 'DATABASE_PRIVATE_URL'].includes(key))
+                .map(([key, length]) => (
+                  <li key={key}>{t('databaseEnvValueLength', { key, length })}</li>
+                ))}
             </ul>
           )}
         </div>

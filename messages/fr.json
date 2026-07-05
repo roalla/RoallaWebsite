@@ -1935,7 +1935,7 @@
     "databaseEnv_invalid_url": "défini mais URL Postgres invalide",
     "databaseEmptyUrlHint": "DATABASE_URL existe mais est vide à l'exécution — la référence Railway n'a pas injecté de valeur. Supprimez DATABASE_URL et HUB_DATABASE_URL sur le service web. Postgres → Connect → copiez l'URL Postgres complète (80+ caractères). Ajoutez DATABASE_URL sur RoallaWebsite avec cette valeur collée (portée Runtime, sans guillemets). Redéployez.",
     "databaseEnvValueLength": "{key} : {length} caractères",
-    "databaseUrlShape": "{key} : protocole={protocol}, user:pass@{host}={credentials}, /base={database}",
+    "databaseUrlShape": "{key} : protocole={protocol}, identifiants={credentials}, chemin base={database}",
     "databaseEnv_set": "défini",
     "databaseEnv_unresolved_reference": "référence non résolue — redéployez après avoir lié Postgres",
     "databaseMatchedKeys": "Variables visibles par l'application : {keys}",

@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import { Pool } from 'pg'
 import { parse as parsePgConnectionString } from 'pg-connection-string'
-import { listRuntimeEnvKeys, lookupRuntimeEnv, type RuntimeEnvSource } from '@/lib/db/runtime-env'
+import { listRuntimeEnvKeys, listPostgresRelatedEnvKeys, lookupRuntimeEnv, type RuntimeEnvSource } from '@/lib/db/runtime-env'
 
 let pool: Pool | null = null
 let schemaReady = false
@@ -134,8 +134,8 @@ const FALLBACK_URL_VARS = [
   'RAILWAY_DATABASE_URL',
 ] as const
 
-/** Only these appear in hub diagnostics — standard Railway setup. */
-const DISPLAY_DIAG_VARS = ['DATABASE_URL', 'DATABASE_PRIVATE_URL'] as const
+/** Only DATABASE_URL is required on Railway; shown in hub diagnostics. */
+const DISPLAY_DIAG_VARS = ['DATABASE_URL'] as const
 
 export type EnvVarStatus = 'missing' | 'empty' | 'set' | 'unresolved_reference' | 'invalid_url'
 
@@ -237,6 +237,8 @@ export function databaseEnvDiagnostics(): {
   valueSources: Record<string, RuntimeEnvSource>
   urlShape: Record<string, DatabaseUrlShape>
   urlIssue: Record<string, DatabaseUrlIssue>
+  postgresEnvKeys: { key: string; length: number; source: RuntimeEnvSource }[]
+  totalEnvVarCount: number
 } {
   const vars: Record<string, EnvVarStatus> = {}
   for (const name of DISPLAY_DIAG_VARS) {
@@ -283,7 +285,16 @@ export function databaseEnvDiagnostics(): {
     }
   }
 
-  return { vars, matchedKeys, valueLengths, valueSources, urlShape, urlIssue }
+  return {
+    vars,
+    matchedKeys,
+    valueLengths,
+    valueSources,
+    urlShape,
+    urlIssue,
+    postgresEnvKeys: listPostgresRelatedEnvKeys(),
+    totalEnvVarCount: listRuntimeEnvKeys().length,
+  }
 }
 
 /** Resolve Postgres URL from common Railway / platform env var names. */
@@ -329,16 +340,11 @@ export function databaseConfigStatus(): {
   }
 
   if (candidates.length === 0) {
-    const dbEmpty =
-      env.vars.DATABASE_URL === 'empty' || env.vars.DATABASE_PRIVATE_URL === 'empty'
+    const dbEmpty = env.vars.DATABASE_URL === 'empty'
     return {
       configured: false,
       reason: dbEmpty ? 'empty_database_url' : 'missing',
-      source: dbEmpty
-        ? env.vars.DATABASE_URL === 'empty'
-          ? 'DATABASE_URL'
-          : 'DATABASE_PRIVATE_URL'
-        : null,
+      source: dbEmpty ? 'DATABASE_URL' : null,
       resolvedSource: null,
       invalidSources: [],
       env,
@@ -347,7 +353,6 @@ export function databaseConfigStatus(): {
 
   const onlyPgVars =
     env.vars.DATABASE_URL !== 'set' &&
-    env.vars.DATABASE_PRIVATE_URL !== 'set' &&
     pgVarsPresent() &&
     (invalidSources.includes('PG* env vars') || !buildPgConnectionString())
 

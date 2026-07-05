@@ -72,3 +72,28 @@ export function listRuntimeEnvKeys(): string[] {
   if (proc) for (const key of Object.keys(proc)) keys.add(key)
   return Array.from(keys)
 }
+
+export function listPostgresRelatedEnvKeys(): { key: string; length: number; source: RuntimeEnvSource }[] {
+  const out: { key: string; length: number; source: RuntimeEnvSource }[] = []
+  const seen = new Set<string>()
+  for (const key of listRuntimeEnvKeys()) {
+    const k = key.toLowerCase()
+    if (
+      k === 'database_url' ||
+      k === 'database_private_url' ||
+      k === 'database_public_url' ||
+      k.startsWith('pg') ||
+      k.startsWith('postgres')
+    ) {
+      if (seen.has(key)) continue
+      seen.add(key)
+      const hit = lookupRuntimeEnv(key)
+      out.push({
+        key,
+        length: hit?.value.length ?? 0,
+        source: hit?.source ?? 'none',
+      })
+    }
+  }
+  return out.sort((a, b) => a.key.localeCompare(b.key))
+}

@@ -52,9 +52,7 @@ export default function HubDatabaseNotice({
 
   const extraVars =
     env?.vars &&
-    Object.entries(env.vars).filter(
-      ([key]) => !['DATABASE_URL', 'DATABASE_PRIVATE_URL'].includes(key),
-    )
+    Object.entries(env.vars).filter(([key]) => key !== 'DATABASE_URL')
 
   return (
     <div
@@ -77,7 +75,7 @@ export default function HubDatabaseNotice({
         <div className="mt-2 text-xs text-amber-900/80">
           <ul className="space-y-0.5 font-mono">
             {Object.entries(env.vars)
-              .filter(([key]) => ['DATABASE_URL', 'DATABASE_PRIVATE_URL'].includes(key))
+              .filter(([key]) => key === 'DATABASE_URL')
               .map(([key, status]) => (
                 <li key={key}>
                   {key}: {envStatusLabel(status)}
@@ -90,18 +88,28 @@ export default function HubDatabaseNotice({
           {env.valueLengths && Object.keys(env.valueLengths).length > 0 && (
             <ul className="mt-1 space-y-0.5 font-mono">
               {Object.entries(env.valueLengths)
-                .filter(([key]) => ['DATABASE_URL', 'DATABASE_PRIVATE_URL'].includes(key))
+                .filter(([key]) => key === 'DATABASE_URL')
                 .map(([key, length]) => (
                   <li key={key}>
                     {t('databaseEnvValueLength', { key, length })}
-                    {env.valueSources?.[key] && length > 0
-                      ? ` (${env.valueSources[key]})`
-                      : env.valueSources?.[key]
-                        ? ` (source: ${env.valueSources[key]}, empty)`
-                        : ''}
+                    {env.valueSources?.[key]
+                      ? length > 0
+                        ? ` (${env.valueSources[key]})`
+                        : ` (source: ${env.valueSources[key]}, empty)`
+                      : ''}
                   </li>
                 ))}
             </ul>
+          )}
+          {env.postgresEnvKeys && env.postgresEnvKeys.length > 0 && (
+            <p className="mt-2 font-mono">
+              {t('databasePostgresEnvKeys', {
+                keys: env.postgresEnvKeys.map((e) => `${e.key}:${e.length}`).join(', '),
+              })}
+            </p>
+          )}
+          {env.totalEnvVarCount != null && (
+            <p className="mt-1 font-mono">{t('databaseTotalEnvVars', { count: env.totalEnvVarCount })}</p>
           )}
         </div>
       )}

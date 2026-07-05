@@ -92,7 +92,14 @@ export default function HubDatabaseNotice({
               {Object.entries(env.valueLengths)
                 .filter(([key]) => ['DATABASE_URL', 'DATABASE_PRIVATE_URL'].includes(key))
                 .map(([key, length]) => (
-                  <li key={key}>{t('databaseEnvValueLength', { key, length })}</li>
+                  <li key={key}>
+                    {t('databaseEnvValueLength', { key, length })}
+                    {env.valueSources?.[key] && length > 0
+                      ? ` (${env.valueSources[key]})`
+                      : env.valueSources?.[key]
+                        ? ` (source: ${env.valueSources[key]}, empty)`
+                        : ''}
+                  </li>
                 ))}
             </ul>
           )}

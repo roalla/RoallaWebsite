@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import { Pool } from 'pg'
 import { parse as parsePgConnectionString } from 'pg-connection-string'
+import { listRuntimeEnvKeys, lookupRuntimeEnv, type RuntimeEnvSource } from '@/lib/db/runtime-env'
 
 let pool: Pool | null = null
 let schemaReady = false
@@ -18,14 +19,17 @@ export function normalizeEnvValue(raw: string): string {
   return v
 }
 
-/** Read env var by name — case-insensitive (Railway users sometimes set database_url). */
+/** Read env var by name — case-insensitive; uses runtime env (Railway-safe). */
 export function readEnvVar(name: string): { key: string; value: string } | null {
-  const directKey = resolveEnvKey(name)
-  if (directKey) {
-    const value = normalizeEnvValue(process.env[directKey] ?? '')
-    if (value) return { key: directKey, value }
-  }
-  return null
+  const hit = lookupRuntimeEnv(name)
+  if (!hit) return null
+  const value = normalizeEnvValue(hit.value)
+  if (!value) return null
+  return { key: hit.key, value }
+}
+
+function resolveEnvKey(name: string): string | undefined {
+  return lookupRuntimeEnv(name)?.key
 }
 
 
@@ -135,16 +139,10 @@ const DISPLAY_DIAG_VARS = ['DATABASE_URL', 'DATABASE_PRIVATE_URL'] as const
 
 export type EnvVarStatus = 'missing' | 'empty' | 'set' | 'unresolved_reference' | 'invalid_url'
 
-function resolveEnvKey(name: string): string | undefined {
-  if (name in process.env) return name
-  return Object.keys(process.env).find((k) => k.toLowerCase() === name.toLowerCase())
-}
-
 export function envVarStatus(name: string, validateAsDatabaseUrl = false): EnvVarStatus {
-  const key = resolveEnvKey(name)
-  if (!key) return 'missing'
-  const raw = process.env[key] ?? ''
-  const trimmed = normalizeEnvValue(raw)
+  const hit = lookupRuntimeEnv(name)
+  if (!hit) return 'missing'
+  const trimmed = normalizeEnvValue(hit.value)
   if (!trimmed) return 'empty'
   if (/\$\{\{|\$\{/.test(trimmed)) return 'unresolved_reference'
   if (validateAsDatabaseUrl && !isValidDatabaseUrl(trimmed)) return 'invalid_url'
@@ -154,7 +152,7 @@ export function envVarStatus(name: string, validateAsDatabaseUrl = false): EnvVa
 /** Any env key that looks like a Postgres URL (names only — for diagnostics). */
 export function discoverDatabaseEnvKeys(): string[] {
   const keys = new Set<string>()
-  for (const key of Object.keys(process.env)) {
+  for (const key of listRuntimeEnvKeys()) {
     const k = key.toLowerCase()
     if (
       k === 'database_url' ||
@@ -221,7 +219,7 @@ function candidateDatabaseUrls(): { source: string; value: string }[] {
   }
 
   for (const key of discoverDatabaseEnvKeys()) {
-    const value = normalizeEnvValue(process.env[key] ?? '')
+    const value = normalizeEnvValue(lookupRuntimeEnv(key)?.value ?? '')
     if (value) add(key, value)
   }
 
@@ -236,6 +234,7 @@ export function databaseEnvDiagnostics(): {
   vars: Record<string, EnvVarStatus>
   matchedKeys: string[]
   valueLengths: Record<string, number>
+  valueSources: Record<string, RuntimeEnvSource>
   urlShape: Record<string, DatabaseUrlShape>
   urlIssue: Record<string, DatabaseUrlIssue>
 } {
@@ -248,9 +247,13 @@ export function databaseEnvDiagnostics(): {
     (k) => k.toLowerCase() !== 'hub_database_url',
   )
   const valueLengths: Record<string, number> = {}
+  const valueSources: Record<string, RuntimeEnvSource> = {}
   for (const name of DISPLAY_DIAG_VARS) {
-    const key = resolveEnvKey(name)
-    if (key) valueLengths[key] = process.env[key]?.length ?? 0
+    const hit = lookupRuntimeEnv(name)
+    if (hit) {
+      valueLengths[hit.key] = hit.value.length
+      valueSources[hit.key] = hit.source
+    }
   }
   // Flag legacy/extra vars that should be removed (not required on Railway).
   const extraKeys = discoverDatabaseEnvKeys().filter((k) => {
@@ -262,14 +265,17 @@ export function databaseEnvDiagnostics(): {
     )
   })
   for (const key of extraKeys) {
-    valueLengths[key] = process.env[key]?.length ?? 0
+    const hit = lookupRuntimeEnv(key)
+    valueLengths[key] = hit?.value.length ?? 0
+    if (hit) valueSources[key] = hit.source
     vars[key] = envVarStatus(key, true)
   }
 
   const urlShape: Record<string, DatabaseUrlShape> = {}
   const urlIssue: Record<string, DatabaseUrlIssue> = {}
   for (const key of Object.keys(valueLengths)) {
-    const raw = process.env[key] ?? ''
+    const hit = lookupRuntimeEnv(key)
+    const raw = hit?.value ?? ''
     if (raw.length > 0) {
       const diagnosis = diagnoseDatabaseUrl(raw)
       urlShape[key] = diagnosis
@@ -277,7 +283,7 @@ export function databaseEnvDiagnostics(): {
     }
   }
 
-  return { vars, matchedKeys, valueLengths, urlShape, urlIssue }
+  return { vars, matchedKeys, valueLengths, valueSources, urlShape, urlIssue }
 }
 
 /** Resolve Postgres URL from common Railway / platform env var names. */

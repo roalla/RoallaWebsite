@@ -43,10 +43,36 @@ export function isValidDatabaseUrl(url: string): boolean {
   }
 }
 
+export type DatabaseUrlShape = {
+  length: number
+  hasProtocol: boolean
+  hasCredentials: boolean
+  hasDatabasePath: boolean
+  likelyTooShort: boolean
+}
+
+/** Safe URL shape checks for ops UI (no secrets). */
+export function describeDatabaseUrlShape(raw: string): DatabaseUrlShape {
+  const trimmed = normalizeEnvValue(raw)
+  const hasProtocol = /^postgres(ql)?:\/\//i.test(trimmed)
+  const afterProtocol = hasProtocol ? trimmed.replace(/^postgres(ql)?:\/\//i, '') : trimmed
+  const hasCredentials = hasProtocol && afterProtocol.includes('@')
+  const hasDatabasePath =
+    hasProtocol &&
+    (/\:\d+\/\S+/.test(trimmed) || (afterProtocol.includes('@') && /@[^/]+\/\S+/.test(trimmed)))
+  return {
+    length: trimmed.length,
+    hasProtocol,
+    hasCredentials,
+    hasDatabasePath,
+    likelyTooShort: trimmed.length > 0 && trimmed.length < 70,
+  }
+}
+
 const CANONICAL_URL_VARS = [
-  'HUB_DATABASE_URL',
   'DATABASE_PRIVATE_URL',
   'DATABASE_URL',
+  'HUB_DATABASE_URL',
   'DATABASE_PUBLIC_URL',
   'POSTGRES_URL',
   'POSTGRESQL_URL',
@@ -157,6 +183,7 @@ export function databaseEnvDiagnostics(): {
   vars: Record<string, EnvVarStatus>
   matchedKeys: string[]
   valueLengths: Record<string, number>
+  urlShape: Record<string, DatabaseUrlShape>
 } {
   const vars: Record<string, EnvVarStatus> = {}
   for (const name of CANONICAL_URL_VARS) {
@@ -178,7 +205,13 @@ export function databaseEnvDiagnostics(): {
     if (key) valueLengths[key] = process.env[key]?.length ?? 0
   }
 
-  return { vars, matchedKeys, valueLengths }
+  const urlShape: Record<string, DatabaseUrlShape> = {}
+  for (const key of Object.keys(valueLengths)) {
+    const raw = process.env[key] ?? ''
+    if (raw.length > 0) urlShape[key] = describeDatabaseUrlShape(raw)
+  }
+
+  return { vars, matchedKeys, valueLengths, urlShape }
 }
 
 /** Resolve Postgres URL from common Railway / platform env var names. */

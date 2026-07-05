@@ -77,6 +77,20 @@ export default function HubDatabaseNotice({
               ))}
             </ul>
           )}
+          {env.urlShape && Object.keys(env.urlShape).length > 0 && (
+            <ul className="mt-1 space-y-0.5 font-mono">
+              {Object.entries(env.urlShape).map(([key, shape]) => (
+                <li key={key}>
+                  {t('databaseUrlShape', {
+                    key,
+                    protocol: shape.hasProtocol ? 'yes' : 'no',
+                    credentials: shape.hasCredentials ? 'yes' : 'no',
+                    database: shape.hasDatabasePath ? 'yes' : 'no',
+                  })}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       )}
     </div>

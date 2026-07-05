@@ -25,6 +25,7 @@ export default async function HubDashboardPage({ params }: Props) {
 
   const t = await getTranslations('hub')
   const role = (session.user?.role || 'contractor') as HubRole
+  const isAdmin = role === 'admin'
 
   let stats = {
     activeCustomers: 0,
@@ -101,6 +102,7 @@ export default async function HubDashboardPage({ params }: Props) {
           reason={databaseState.reason}
           invalidSources={databaseState.invalidSources}
           env={databaseState.env}
+          showDiagnostics={isAdmin}
         />
       )}
 

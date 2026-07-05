@@ -23,6 +23,7 @@ type Props = {
   initialRuns: Run[]
   canWrite: boolean
   databaseState?: HubDatabaseState
+  showDatabaseDiagnostics?: boolean
 }
 
 function checklistProgress(checklist: ChecklistItem[]) {
@@ -32,7 +33,12 @@ function checklistProgress(checklist: ChecklistItem[]) {
   return { done, total, pct: Math.round((done / total) * 100) }
 }
 
-export default function PlaybooksHub({ initialRuns, canWrite, databaseState }: Props) {
+export default function PlaybooksHub({
+  initialRuns,
+  canWrite,
+  databaseState,
+  showDatabaseDiagnostics = false,
+}: Props) {
   const t = useTranslations('hub')
   const [runs, setRuns] = useState(initialRuns)
   const [creating, setCreating] = useState<string | null>(null)
@@ -82,6 +88,7 @@ export default function PlaybooksHub({ initialRuns, canWrite, databaseState }: P
           reason={databaseState?.reason ?? 'missing'}
           invalidSources={databaseState?.invalidSources}
           env={databaseState?.env}
+          showDiagnostics={showDatabaseDiagnostics}
         />
       )}
 

@@ -43,6 +43,7 @@ export default async function HubPlaybooksPage({ params }: Props) {
       initialRuns={runs}
       canWrite={canWritePlaybooks(session.user.role)}
       databaseState={databaseState}
+      showDatabaseDiagnostics={session.user.role === 'admin'}
     />
   )
 }

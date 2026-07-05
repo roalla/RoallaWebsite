@@ -17,6 +17,8 @@ type Props = {
   reason?: DatabaseNoticeReason
   invalidSources?: string[]
   env?: HubDatabaseEnvDiagnostics
+  /** Full Railway diagnostics — admins only. */
+  showDiagnostics?: boolean
 }
 
 export default function HubDatabaseNotice({
@@ -24,6 +26,7 @@ export default function HubDatabaseNotice({
   reason = 'missing',
   invalidSources = [],
   env,
+  showDiagnostics = true,
 }: Props) {
   const t = useTranslations('hub')
 
@@ -35,8 +38,8 @@ export default function HubDatabaseNotice({
     return t('databaseEnv_missing')
   }
 
-  const hintKey =
-    reason === 'empty_database_url'
+  const hintKey = showDiagnostics
+    ? reason === 'empty_database_url'
       ? 'databaseEmptyUrlHint'
       : reason === 'invalid_pg_vars'
         ? 'databaseInvalidPgVarsHint'
@@ -45,6 +48,7 @@ export default function HubDatabaseNotice({
           : reason === 'unreachable'
             ? 'databaseUnreachableHint'
             : 'databaseNotConfiguredHint'
+    : 'databaseUnavailableHint'
 
   const extraVars =
     env?.vars &&
@@ -59,17 +63,17 @@ export default function HubDatabaseNotice({
     >
       <p className="font-medium">{t('databaseNotConfiguredTitle')}</p>
       <p className="mt-1 text-amber-900/90">{t(hintKey)}</p>
-      {invalidSources.length > 0 && (
+      {showDiagnostics && invalidSources.length > 0 && (
         <p className="mt-2 text-xs text-amber-900/80">
           {t('databaseInvalidSources', { sources: invalidSources.join(', ') })}
         </p>
       )}
-      {extraVars && extraVars.length > 0 && (
+      {showDiagnostics && extraVars && extraVars.length > 0 && (
         <p className="mt-2 text-xs text-amber-900/80">
           {t('databaseExtraVarsHint', { keys: extraVars.map(([k]) => k).join(', ') })}
         </p>
       )}
-      {env && (
+      {showDiagnostics && env && (
         <div className="mt-2 text-xs text-amber-900/80">
           <ul className="space-y-0.5 font-mono">
             {Object.entries(env.vars)

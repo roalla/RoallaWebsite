@@ -31,10 +31,23 @@ export function readEnvVar(name: string): { key: string; value: string } | null 
 
 export type DatabaseUrlShape = {
   length: number
+  hostLength: number
   hasProtocol: boolean
   hasCredentials: boolean
   hasDatabasePath: boolean
   likelyTooShort: boolean
+}
+
+function hostLengthInUrl(trimmed: string): number {
+  if (!/^postgres(ql)?:\/\//i.test(trimmed)) return 0
+  const authHost = trimmed.replace(/^postgres(ql)?:\/\//i, '')
+  const atIdx = authHost.lastIndexOf('@')
+  if (atIdx < 0) {
+    const hostPart = authHost.split('/')[0] ?? ''
+    return hostPart.split(':')[0]?.length ?? 0
+  }
+  const hostPart = authHost.slice(atIdx + 1).split('/')[0] ?? ''
+  return hostPart.split(':')[0]?.length ?? 0
 }
 
 /** Safe URL shape checks for ops UI (no secrets). */
@@ -48,6 +61,7 @@ export function describeDatabaseUrlShape(raw: string): DatabaseUrlShape {
     (/\:\d+\/\S+/.test(trimmed) || (afterProtocol.includes('@') && /@[^/]+\/\S+/.test(trimmed)))
   return {
     length: trimmed.length,
+    hostLength: hostLengthInUrl(trimmed),
     hasProtocol,
     hasCredentials,
     hasDatabasePath,
@@ -89,6 +103,9 @@ export function diagnoseDatabaseUrl(raw: string): DatabaseUrlShape & { issue: Da
     const config = parsePgConnectionString(trimmed)
     if (!config.host) return { ...shape, issue: 'missing_host' }
     if (!config.database) return { ...shape, issue: 'missing_database' }
+    if (shape.hostLength > 0 && shape.hostLength < 12 && shape.likelyTooShort) {
+      return { ...shape, issue: 'too_short' }
+    }
     if (shape.likelyTooShort) return { ...shape, issue: 'too_short' }
     return { ...shape, issue: 'ok' }
   } catch {

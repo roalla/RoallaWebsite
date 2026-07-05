@@ -90,6 +90,7 @@ export default function HubDatabaseNotice({
                     protocol: shape.hasProtocol ? 'yes' : 'no',
                     credentials: shape.hasCredentials ? 'yes' : 'no',
                     database: shape.hasDatabasePath ? 'yes' : 'no',
+                    hostLength: shape.hostLength,
                   })}
                 </li>
               ))}
@@ -102,6 +103,7 @@ export default function HubDatabaseNotice({
                   {t(`databaseUrlIssue_${issue}`, {
                     key,
                     length: env.valueLengths?.[key] ?? 0,
+                    hostLength: env.urlShape?.[key]?.hostLength ?? 0,
                   })}
                 </li>
               ))}

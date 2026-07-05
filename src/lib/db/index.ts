@@ -46,20 +46,26 @@ const CANONICAL_URL_VARS = [
   'RAILWAY_DATABASE_URL',
 ] as const
 
-function envPresence(value: string | undefined): 'missing' | 'set' | 'unresolved_reference' {
-  const trimmed = value?.trim()
-  if (!trimmed) return 'missing'
+export type EnvVarStatus = 'missing' | 'empty' | 'set' | 'unresolved_reference' | 'invalid_url'
+
+function resolveEnvKey(name: string): string | undefined {
+  if (name in process.env) return name
+  return Object.keys(process.env).find((k) => k.toLowerCase() === name.toLowerCase())
+}
+
+export function envVarStatus(name: string, validateAsDatabaseUrl = false): EnvVarStatus {
+  const key = resolveEnvKey(name)
+  if (!key) return 'missing'
+  const trimmed = process.env[key]?.trim() ?? ''
+  if (!trimmed) return 'empty'
   if (/\$\{\{|\$\{/.test(trimmed)) return 'unresolved_reference'
+  if (validateAsDatabaseUrl && !isValidDatabaseUrl(trimmed)) return 'invalid_url'
   return 'set'
 }
 
 /** Any env key that looks like a Postgres URL (names only — for diagnostics). */
 export function discoverDatabaseEnvKeys(): string[] {
   const keys = new Set<string>()
-  for (const name of CANONICAL_URL_VARS) {
-    const hit = readEnvVar(name)
-    if (hit) keys.add(hit.key)
-  }
   for (const key of Object.keys(process.env)) {
     const k = key.toLowerCase()
     if (
@@ -139,19 +145,18 @@ function candidateDatabaseUrls(): { source: string; value: string }[] {
 
 /** Safe env snapshot for admin diagnostics (no secret values). */
 export function databaseEnvDiagnostics(): {
-  vars: Record<string, 'missing' | 'set' | 'unresolved_reference'>
+  vars: Record<string, EnvVarStatus>
   matchedKeys: string[]
 } {
-  const vars: Record<string, 'missing' | 'set' | 'unresolved_reference'> = {}
+  const vars: Record<string, EnvVarStatus> = {}
   for (const name of CANONICAL_URL_VARS) {
-    const hit = readEnvVar(name)
-    vars[name] = hit ? envPresence(hit.value) : 'missing'
+    vars[name] = envVarStatus(name, true)
   }
-  vars.PGHOST = readEnvVar('PGHOST') || readEnvVar('POSTGRES_HOST') ? 'set' : 'missing'
-  vars.PGUSER = readEnvVar('PGUSER') || readEnvVar('POSTGRES_USER') ? 'set' : 'missing'
-  vars.PGPASSWORD = readEnvVar('PGPASSWORD') || readEnvVar('POSTGRES_PASSWORD') ? 'set' : 'missing'
-  vars.PGDATABASE = readEnvVar('PGDATABASE') || readEnvVar('POSTGRES_DB') ? 'set' : 'missing'
-  vars.PGPORT = readEnvVar('PGPORT') || readEnvVar('POSTGRES_PORT') ? 'set' : 'missing'
+  vars.PGHOST = envVarStatus('PGHOST')
+  vars.PGUSER = envVarStatus('PGUSER')
+  vars.PGPASSWORD = envVarStatus('PGPASSWORD')
+  vars.PGDATABASE = envVarStatus('PGDATABASE')
+  vars.PGPORT = envVarStatus('PGPORT')
 
   return { vars, matchedKeys: discoverDatabaseEnvKeys() }
 }
@@ -168,7 +173,7 @@ export function dbConfigured(): boolean {
   return !!resolveDatabaseUrl()
 }
 
-export type DatabaseConfigReason = 'ok' | 'missing' | 'invalid' | 'invalid_pg_vars'
+export type DatabaseConfigReason = 'ok' | 'missing' | 'empty_database_url' | 'invalid' | 'invalid_pg_vars'
 
 /** For ops/debug — why the hub database may be unavailable (no secrets logged). */
 export function databaseConfigStatus(): {
@@ -199,10 +204,11 @@ export function databaseConfigStatus(): {
   }
 
   if (candidates.length === 0) {
+    const dbEmpty = env.vars.DATABASE_URL === 'empty'
     return {
       configured: false,
-      reason: 'missing',
-      source: null,
+      reason: dbEmpty ? 'empty_database_url' : 'missing',
+      source: dbEmpty ? 'DATABASE_URL' : null,
       resolvedSource: null,
       invalidSources: [],
       env,
@@ -210,8 +216,8 @@ export function databaseConfigStatus(): {
   }
 
   const onlyPgVars =
-    env.vars.DATABASE_URL === 'missing' &&
-    env.vars.DATABASE_PRIVATE_URL === 'missing' &&
+    env.vars.DATABASE_URL !== 'set' &&
+    env.vars.DATABASE_PRIVATE_URL !== 'set' &&
     pgVarsPresent() &&
     (invalidSources.includes('PG* env vars') || !buildPgConnectionString())
 

@@ -4,7 +4,7 @@ export type HubDatabaseEnvDiagnostics = ReturnType<typeof databaseEnvDiagnostics
 
 export type HubDatabaseState = {
   available: boolean
-  reason: 'ok' | 'missing' | 'invalid' | 'invalid_pg_vars' | 'unreachable'
+  reason: 'ok' | 'missing' | 'empty_database_url' | 'invalid' | 'invalid_pg_vars' | 'unreachable'
   invalidSources: string[]
   env?: HubDatabaseEnvDiagnostics
 }

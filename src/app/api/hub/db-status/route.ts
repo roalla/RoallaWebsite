@@ -14,7 +14,11 @@ export async function GET() {
     const reachable = config.configured ? await dbReachable() : false
 
     return NextResponse.json({
-      ...config,
+      configured: config.configured,
+      reason: config.reason,
+      resolvedSource: config.resolvedSource,
+      invalidSources: config.invalidSources,
+      env: config.env,
       reachable,
     })
   } catch {

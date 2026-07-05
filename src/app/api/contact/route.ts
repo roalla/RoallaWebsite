@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { Resend } from 'resend'
-
-const resend = new Resend(process.env.RESEND_API_KEY)
+import { getResend } from '@/lib/resend'
 
 export async function POST(request: NextRequest) {
   try {
@@ -92,7 +90,8 @@ The Roalla Team
     `.trim()
 
     // Send email to sales team
-    if (process.env.RESEND_API_KEY) {
+    const resend = await getResend()
+    if (resend) {
       try {
         await resend.emails.send({
           from: 'Roalla Website <noreply@roalla.com>',

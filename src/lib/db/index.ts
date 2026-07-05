@@ -34,6 +34,59 @@ const ENV_URL_SOURCES = [
   'RAILWAY_DATABASE_URL',
 ] as const
 
+function envPresence(value: string | undefined): 'missing' | 'set' | 'unresolved_reference' {
+  const trimmed = value?.trim()
+  if (!trimmed) return 'missing'
+  if (/\$\{\{|\$\{/.test(trimmed)) return 'unresolved_reference'
+  return 'set'
+}
+
+function readPgParts(): {
+  host: string
+  user: string
+  password: string
+  database: string
+  port: string
+} | null {
+  const host = (process.env.PGHOST || process.env.POSTGRES_HOST || '').trim()
+  const user = (process.env.PGUSER || process.env.POSTGRES_USER || '').trim()
+  const password = (process.env.PGPASSWORD || process.env.POSTGRES_PASSWORD || '').trim()
+  const database = (process.env.PGDATABASE || process.env.POSTGRES_DB || '').trim()
+  const port = (process.env.PGPORT || process.env.POSTGRES_PORT || '5432').trim()
+
+  if (!host || !user || !password || !database) return null
+
+  // Common misconfiguration: pasting a full URL into PGHOST or other PG* fields.
+  if (host.includes('://') || user.includes('://') || database.includes('://')) return null
+  for (const part of [host, user, password, database, port]) {
+    if (/\$\{\{|\$\{/.test(part)) return null
+  }
+
+  return { host, user, password, database, port }
+}
+
+function buildPgConnectionString(): string | null {
+  const parts = readPgParts()
+  if (!parts) return null
+  return `postgresql://${encodeURIComponent(parts.user)}:${encodeURIComponent(parts.password)}@${parts.host}:${parts.port}/${encodeURIComponent(parts.database)}`
+}
+
+function pgVarsPresent(): boolean {
+  const keys = [
+    'PGHOST',
+    'POSTGRES_HOST',
+    'PGUSER',
+    'POSTGRES_USER',
+    'PGPASSWORD',
+    'POSTGRES_PASSWORD',
+    'PGDATABASE',
+    'POSTGRES_DB',
+    'PGPORT',
+    'POSTGRES_PORT',
+  ] as const
+  return keys.some((k) => !!process.env[k]?.trim())
+}
+
 function candidateDatabaseUrls(): { source: string; value: string }[] {
   const out: { source: string; value: string }[] = []
   for (const name of ENV_URL_SOURCES) {
@@ -41,20 +94,23 @@ function candidateDatabaseUrls(): { source: string; value: string }[] {
     if (value) out.push({ source: name, value })
   }
 
-  const host = process.env.PGHOST
-  const user = process.env.PGUSER
-  const password = process.env.PGPASSWORD
-  const database = process.env.PGDATABASE || process.env.POSTGRES_DB
-  const port = process.env.PGPORT || '5432'
-
-  if (host && user && password && database) {
-    out.push({
-      source: 'PG* env vars',
-      value: `postgresql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:${port}/${encodeURIComponent(database)}`,
-    })
-  }
+  const built = buildPgConnectionString()
+  if (built) out.push({ source: 'PG* env vars', value: built })
 
   return out
+}
+
+/** Safe env snapshot for admin diagnostics (no secret values). */
+export function databaseEnvDiagnostics(): Record<string, 'missing' | 'set' | 'unresolved_reference'> {
+  return {
+    DATABASE_PRIVATE_URL: envPresence(process.env.DATABASE_PRIVATE_URL),
+    DATABASE_URL: envPresence(process.env.DATABASE_URL),
+    PGHOST: envPresence(process.env.PGHOST || process.env.POSTGRES_HOST),
+    PGUSER: envPresence(process.env.PGUSER || process.env.POSTGRES_USER),
+    PGPASSWORD: envPresence(process.env.PGPASSWORD || process.env.POSTGRES_PASSWORD),
+    PGDATABASE: envPresence(process.env.PGDATABASE || process.env.POSTGRES_DB),
+    PGPORT: envPresence(process.env.PGPORT || process.env.POSTGRES_PORT),
+  }
 }
 
 /** Resolve Postgres URL from common Railway / platform env var names. */
@@ -69,7 +125,7 @@ export function dbConfigured(): boolean {
   return !!resolveDatabaseUrl()
 }
 
-export type DatabaseConfigReason = 'ok' | 'missing' | 'invalid'
+export type DatabaseConfigReason = 'ok' | 'missing' | 'invalid' | 'invalid_pg_vars'
 
 /** For ops/debug — why the hub database may be unavailable (no secrets logged). */
 export function databaseConfigStatus(): {
@@ -78,7 +134,9 @@ export function databaseConfigStatus(): {
   source: string | null
   resolvedSource: string | null
   invalidSources: string[]
+  env: ReturnType<typeof databaseEnvDiagnostics>
 } {
+  const env = databaseEnvDiagnostics()
   const candidates = candidateDatabaseUrls()
   const invalidSources = candidates
     .filter(({ value }) => !isValidDatabaseUrl(value))
@@ -93,6 +151,7 @@ export function databaseConfigStatus(): {
       source: resolved.source,
       resolvedSource: resolved.source,
       invalidSources,
+      env,
     }
   }
 
@@ -103,15 +162,23 @@ export function databaseConfigStatus(): {
       source: null,
       resolvedSource: null,
       invalidSources: [],
+      env,
     }
   }
 
+  const onlyPgVars =
+    env.DATABASE_URL === 'missing' &&
+    env.DATABASE_PRIVATE_URL === 'missing' &&
+    pgVarsPresent() &&
+    (invalidSources.includes('PG* env vars') || !buildPgConnectionString())
+
   return {
     configured: false,
-    reason: 'invalid',
+    reason: onlyPgVars ? 'invalid_pg_vars' : 'invalid',
     source: candidates[0]?.source ?? null,
     resolvedSource: null,
     invalidSources,
+    env,
   }
 }
 

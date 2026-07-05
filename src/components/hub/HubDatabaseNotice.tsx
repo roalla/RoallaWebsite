@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl'
 
-type DatabaseNoticeReason = 'missing' | 'invalid' | 'unreachable' | 'ok'
+type DatabaseNoticeReason = 'missing' | 'invalid' | 'invalid_pg_vars' | 'unreachable' | 'ok'
 
 type Props = {
   className?: string
@@ -18,11 +18,13 @@ export default function HubDatabaseNotice({
   const t = useTranslations('hub')
 
   const hintKey =
-    reason === 'invalid'
-      ? 'databaseInvalidUrlHint'
-      : reason === 'unreachable'
-        ? 'databaseUnreachableHint'
-        : 'databaseNotConfiguredHint'
+    reason === 'invalid_pg_vars'
+      ? 'databaseInvalidPgVarsHint'
+      : reason === 'invalid'
+        ? 'databaseInvalidUrlHint'
+        : reason === 'unreachable'
+          ? 'databaseUnreachableHint'
+          : 'databaseNotConfiguredHint'
 
   return (
     <div

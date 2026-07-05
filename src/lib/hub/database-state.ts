@@ -2,7 +2,7 @@ import { databaseConfigStatus, dbConfigured, dbQuery, dbReachable } from '@/lib/
 
 export type HubDatabaseState = {
   available: boolean
-  reason: 'ok' | 'missing' | 'invalid' | 'unreachable'
+  reason: 'ok' | 'missing' | 'invalid' | 'invalid_pg_vars' | 'unreachable'
   invalidSources: string[]
 }
 

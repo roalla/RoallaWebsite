@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { Resend } from 'resend'
+import { getResend } from '@/lib/resend'
 import {
   buildConsultationEmailSubject,
   buildConsultationSalesEmailHtml,
@@ -8,8 +8,6 @@ import {
   validateConsultationRequest,
   type ConsultationRequestPayload,
 } from '@/lib/consultation-request'
-
-const resend = new Resend(process.env.RESEND_API_KEY)
 
 const EMAIL_LABELS: Record<string, string> = {
   emailHeading: 'New Service Inquiry',
@@ -98,7 +96,8 @@ export async function POST(request: NextRequest) {
     const text = buildConsultationSalesEmailText(payload, EMAIL_LABELS, submittedAt, origin)
     const html = buildConsultationSalesEmailHtml(payload, EMAIL_LABELS, submittedAt, origin)
 
-    if (process.env.RESEND_API_KEY) {
+    const resend = await getResend()
+    if (resend) {
       try {
         await resend.emails.send({
           from: 'ROALLA Website <noreply@roalla.com>',

@@ -41,7 +41,11 @@ export default function HubDatabaseNotice({
       : reason === 'invalid_pg_vars'
         ? 'databaseInvalidPgVarsHint'
         : reason === 'invalid'
-          ? 'databaseInvalidUrlHint'
+          ? env?.urlIssue && Object.values(env.urlIssue).includes('missing_host')
+            ? 'databaseInvalidMissingHostHint'
+            : env?.urlIssue && Object.values(env.urlIssue).includes('too_short')
+              ? 'databaseInvalidTooShortHint'
+              : 'databaseInvalidUrlHint'
           : reason === 'unreachable'
             ? 'databaseUnreachableHint'
             : 'databaseNotConfiguredHint'
@@ -86,6 +90,18 @@ export default function HubDatabaseNotice({
                     protocol: shape.hasProtocol ? 'yes' : 'no',
                     credentials: shape.hasCredentials ? 'yes' : 'no',
                     database: shape.hasDatabasePath ? 'yes' : 'no',
+                  })}
+                </li>
+              ))}
+            </ul>
+          )}
+          {env.urlIssue && Object.keys(env.urlIssue).length > 0 && (
+            <ul className="mt-1 space-y-0.5">
+              {Object.entries(env.urlIssue).map(([key, issue]) => (
+                <li key={key}>
+                  {t(`databaseUrlIssue_${issue}`, {
+                    key,
+                    length: env.valueLengths?.[key] ?? 0,
                   })}
                 </li>
               ))}

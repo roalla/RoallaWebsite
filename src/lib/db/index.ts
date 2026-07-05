@@ -28,20 +28,6 @@ export function readEnvVar(name: string): { key: string; value: string } | null 
   return null
 }
 
-/** True when pg can parse the connection string (same rules as the pg driver). */
-export function isValidDatabaseUrl(url: string): boolean {
-  const trimmed = normalizeEnvValue(url)
-  if (!trimmed) return false
-  if (/\$\{\{|\$\{/.test(trimmed)) return false
-  if (!/^postgres(ql)?:\/\//i.test(trimmed) && !trimmed.startsWith('/')) return false
-
-  try {
-    const config = parsePgConnectionString(trimmed)
-    return !!(config.host && config.database)
-  } catch {
-    return false
-  }
-}
 
 export type DatabaseUrlShape = {
   length: number
@@ -67,6 +53,53 @@ export function describeDatabaseUrlShape(raw: string): DatabaseUrlShape {
     hasDatabasePath,
     likelyTooShort: trimmed.length > 0 && trimmed.length < 70,
   }
+}
+
+export type DatabaseUrlIssue =
+  | 'ok'
+  | 'empty'
+  | 'unresolved_reference'
+  | 'missing_protocol'
+  | 'missing_host'
+  | 'missing_database'
+  | 'too_short'
+  | 'invalid'
+
+function hasEmptyHostInUrl(trimmed: string): boolean {
+  if (!/^postgres(ql)?:\/\//i.test(trimmed)) return false
+  const authHost = trimmed.replace(/^postgres(ql)?:\/\//i, '')
+  const atIdx = authHost.lastIndexOf('@')
+  if (atIdx < 0) return false
+  const hostPart = authHost.slice(atIdx + 1).split('/')[0] ?? ''
+  return !hostPart.split(':')[0]
+}
+
+/** Safe parse diagnosis for ops UI (no secrets). */
+export function diagnoseDatabaseUrl(raw: string): DatabaseUrlShape & { issue: DatabaseUrlIssue } {
+  const trimmed = normalizeEnvValue(raw)
+  const shape = describeDatabaseUrlShape(trimmed)
+  if (!trimmed) return { ...shape, issue: 'empty' }
+  if (/\$\{\{|\$\{/.test(trimmed)) return { ...shape, issue: 'unresolved_reference' }
+  if (!/^postgres(ql)?:\/\//i.test(trimmed) && !trimmed.startsWith('/')) {
+    return { ...shape, issue: 'missing_protocol' }
+  }
+  if (hasEmptyHostInUrl(trimmed)) return { ...shape, issue: 'missing_host' }
+
+  try {
+    const config = parsePgConnectionString(trimmed)
+    if (!config.host) return { ...shape, issue: 'missing_host' }
+    if (!config.database) return { ...shape, issue: 'missing_database' }
+    if (shape.likelyTooShort) return { ...shape, issue: 'too_short' }
+    return { ...shape, issue: 'ok' }
+  } catch {
+    if (hasEmptyHostInUrl(trimmed)) return { ...shape, issue: 'missing_host' }
+    return { ...shape, issue: shape.likelyTooShort ? 'too_short' : 'invalid' }
+  }
+}
+
+/** True when pg can parse the connection string (same rules as the pg driver). */
+export function isValidDatabaseUrl(url: string): boolean {
+  return diagnoseDatabaseUrl(url).issue === 'ok'
 }
 
 const CANONICAL_URL_VARS = [
@@ -184,6 +217,7 @@ export function databaseEnvDiagnostics(): {
   matchedKeys: string[]
   valueLengths: Record<string, number>
   urlShape: Record<string, DatabaseUrlShape>
+  urlIssue: Record<string, DatabaseUrlIssue>
 } {
   const vars: Record<string, EnvVarStatus> = {}
   for (const name of CANONICAL_URL_VARS) {
@@ -206,12 +240,17 @@ export function databaseEnvDiagnostics(): {
   }
 
   const urlShape: Record<string, DatabaseUrlShape> = {}
+  const urlIssue: Record<string, DatabaseUrlIssue> = {}
   for (const key of Object.keys(valueLengths)) {
     const raw = process.env[key] ?? ''
-    if (raw.length > 0) urlShape[key] = describeDatabaseUrlShape(raw)
+    if (raw.length > 0) {
+      const diagnosis = diagnoseDatabaseUrl(raw)
+      urlShape[key] = diagnosis
+      if (diagnosis.issue !== 'ok') urlIssue[key] = diagnosis.issue
+    }
   }
 
-  return { vars, matchedKeys, valueLengths, urlShape }
+  return { vars, matchedKeys, valueLengths, urlShape, urlIssue }
 }
 
 /** Resolve Postgres URL from common Railway / platform env var names. */

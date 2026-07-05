@@ -1933,7 +1933,7 @@
     "databaseEnv_missing": "absent du service web",
     "databaseEnv_empty": "défini mais vide — référence non injectée ; supprimez et reconnectez via Connect",
     "databaseEnv_invalid_url": "défini mais URL Postgres invalide",
-    "databaseEmptyUrlHint": "DATABASE_URL est présent sur ce service mais vide à l'exécution — la référence Postgres ne s'est pas résolue. Supprimez toute entrée DATABASE_URL manuelle, puis réajoutez-la via Add Reference (choisissez le service Postgres dans la liste). Supprimez HUB_DATABASE_URL si présente — elle n'est pas nécessaire. Redéployez.",
+    "databaseEmptyUrlHint": "DATABASE_URL est présent sur ce service mais Railway l'a résolu en chaîne vide à l'exécution. Checklist : (1) Variables RoallaWebsite → DATABASE_URL — icône d'avertissement ? (2) Supprimez DATABASE_URL et reconnectez via Postgres → Connect → RoallaWebsite, ou Add Reference → Postgres → DATABASE_URL. (3) Variables partagées — supprimez tout DATABASE_URL. (4) Même projet et environnement (Production). (5) Redéployez.",
     "databaseEnvValueLength": "{key} : {length} caractères",
     "databaseExtraVarsHint": "Supprimez les variables supplémentaires inutiles sur Railway : {keys}. Seul DATABASE_URL (référence Postgres) est requis.",
     "databaseEnv_set": "défini",

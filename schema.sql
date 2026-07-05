@@ -77,3 +77,36 @@ CREATE TABLE IF NOT EXISTS customer_assignments (
   user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   PRIMARY KEY (customer_id, user_id)
 );
+
+CREATE TABLE IF NOT EXISTS lessons_learned (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  title TEXT NOT NULL,
+  body TEXT NOT NULL DEFAULT '',
+  category TEXT NOT NULL DEFAULT 'general',
+  customer_id UUID REFERENCES customers(id) ON DELETE SET NULL,
+  service_line TEXT,
+  author_id TEXT REFERENCES users(id) ON DELETE SET NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS lessons_learned_category_idx ON lessons_learned(category);
+CREATE INDEX IF NOT EXISTS lessons_learned_customer_idx ON lessons_learned(customer_id);
+CREATE INDEX IF NOT EXISTS lessons_learned_updated_idx ON lessons_learned(updated_at DESC);
+
+CREATE TABLE IF NOT EXISTS partners (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  organization TEXT NOT NULL DEFAULT '',
+  contact_name TEXT NOT NULL DEFAULT '',
+  contact_email TEXT NOT NULL DEFAULT '',
+  contact_phone TEXT NOT NULL DEFAULT '',
+  status TEXT NOT NULL DEFAULT 'active',
+  notes TEXT NOT NULL DEFAULT '',
+  owner_id TEXT REFERENCES users(id) ON DELETE SET NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS partners_status_idx ON partners(status);
+CREATE INDEX IF NOT EXISTS partners_updated_idx ON partners(updated_at DESC);

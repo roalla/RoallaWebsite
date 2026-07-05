@@ -86,3 +86,29 @@ export const customerAssignments = pgTable(
   },
   (t) => [primaryKey({ columns: [t.customerId, t.userId] })],
 )
+
+export const lessonsLearned = pgTable('lessons_learned', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  title: text('title').notNull(),
+  body: text('body').notNull().default(''),
+  category: text('category').notNull().default('general'),
+  customerId: uuid('customer_id').references(() => customers.id, { onDelete: 'set null' }),
+  serviceLine: text('service_line'),
+  authorId: text('author_id').references(() => users.id, { onDelete: 'set null' }),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+})
+
+export const partners = pgTable('partners', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  name: text('name').notNull(),
+  organization: text('organization').notNull().default(''),
+  contactName: text('contact_name').notNull().default(''),
+  contactEmail: text('contact_email').notNull().default(''),
+  contactPhone: text('contact_phone').notNull().default(''),
+  status: text('status').notNull().default('active'),
+  notes: text('notes').notNull().default(''),
+  ownerId: text('owner_id').references(() => users.id, { onDelete: 'set null' }),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+})

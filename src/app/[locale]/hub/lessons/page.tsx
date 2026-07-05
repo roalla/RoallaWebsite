@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { getHubSession } from '@/lib/hub/auth-session'
-import { canAccessModule } from '@/lib/hub/permissions'
-import NotionEmbed from '@/components/hub/NotionEmbed'
-import { notionLessonsUrls } from '@/lib/hub/notion-config'
-import { getHubAdminEmailDisplay } from '@/lib/hub/roles'
+import { dbConfigured, dbQuery } from '@/lib/db'
+import { canAccessModule, canManageLessons } from '@/lib/hub/permissions'
+import LessonsList from '@/components/hub/LessonsList'
 
 export const metadata: Metadata = {
   title: 'Lessons Learned | Roalla Internal Hub',
@@ -21,18 +20,19 @@ export default async function HubLessonsPage({ params }: Props) {
   if (!session.signedIn || !session.user) redirect(`/${locale}/hub/login`)
   if (!canAccessModule(session.user.role, 'lessons')) redirect(`/${locale}/hub`)
 
-  const { viewUrl } = notionLessonsUrls()
+  let lessons: Parameters<typeof LessonsList>[0]['initialLessons'] = []
+  if (dbConfigured()) {
+    const res = await dbQuery(
+      `SELECT l.*, c.name AS customer_name, u.name AS author_name
+       FROM lessons_learned l
+       LEFT JOIN customers c ON c.id = l.customer_id
+       LEFT JOIN users u ON u.id = l.author_id
+       ORDER BY l.updated_at DESC`,
+    )
+    lessons = res.rows as typeof lessons
+  }
 
   return (
-    <NotionEmbed
-      viewUrl={viewUrl}
-      titleKey="navLessons"
-      subtitleKey="navLessonsSubtitle"
-      comingSoonKey="lessonsComingSoon"
-      hintKey="lessonsComingSoonHint"
-      openKey="notionOpenLessons"
-      setupKey="notionLessonsSetup"
-      adminEmail={getHubAdminEmailDisplay()}
-    />
+    <LessonsList initialLessons={lessons} canCreate={canManageLessons(session.user.role)} />
   )
 }

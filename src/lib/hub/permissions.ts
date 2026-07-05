@@ -30,3 +30,11 @@ export function canManageCustomers(role: HubRole): boolean {
 export function canViewAllCustomers(role: HubRole): boolean {
   return role === 'admin' || role === 'employee'
 }
+
+export function canManageLessons(role: HubRole): boolean {
+  return role === 'admin' || role === 'employee'
+}
+
+export function canManagePartners(role: HubRole): boolean {
+  return role === 'admin' || role === 'employee'
+}

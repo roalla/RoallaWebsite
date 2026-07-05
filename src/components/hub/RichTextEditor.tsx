@@ -2,6 +2,14 @@
 
 import { useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
+import {
+  Bold,
+  Italic,
+  Link as LinkIcon,
+  List,
+  ListOrdered,
+  Underline,
+} from 'lucide-react'
 import { sanitizeRichText } from '@/lib/hub/rich-text'
 
 type Props = {
@@ -55,26 +63,26 @@ export default function RichTextEditor({
   }
 
   return (
-    <div className="rounded-lg border bg-white overflow-hidden focus-within:ring-2 focus-within:ring-amber-200 focus-within:border-amber-400">
+    <div className="rounded-lg border bg-white overflow-hidden focus-within:ring-2 focus-within:ring-primary/30 focus-within:border-primary">
       <div className="flex flex-wrap gap-0.5 border-b bg-slate-50 px-2 py-1.5">
         <ToolbarButton label={t('richTextBold')} onClick={() => { exec('bold'); emitChange() }}>
-          <strong>B</strong>
+          <Bold className="h-3.5 w-3.5" />
         </ToolbarButton>
         <ToolbarButton label={t('richTextItalic')} onClick={() => { exec('italic'); emitChange() }}>
-          <em>I</em>
+          <Italic className="h-3.5 w-3.5" />
         </ToolbarButton>
         <ToolbarButton label={t('richTextUnderline')} onClick={() => { exec('underline'); emitChange() }}>
-          <span className="underline">U</span>
+          <Underline className="h-3.5 w-3.5" />
         </ToolbarButton>
         <span className="w-px h-6 bg-slate-200 mx-1 self-center" aria-hidden />
         <ToolbarButton label={t('richTextBulletList')} onClick={() => { exec('insertUnorderedList'); emitChange() }}>
-          •≡
+          <List className="h-3.5 w-3.5" />
         </ToolbarButton>
         <ToolbarButton label={t('richTextNumberedList')} onClick={() => { exec('insertOrderedList'); emitChange() }}>
-          1.
+          <ListOrdered className="h-3.5 w-3.5" />
         </ToolbarButton>
         <ToolbarButton label={t('richTextLink')} onClick={addLink}>
-          ↗
+          <LinkIcon className="h-3.5 w-3.5" />
         </ToolbarButton>
       </div>
       <div
@@ -111,7 +119,7 @@ function ToolbarButton({
       aria-label={label}
       onMouseDown={(e) => e.preventDefault()}
       onClick={onClick}
-      className="rounded px-2 py-1 text-xs text-slate-700 hover:bg-white hover:shadow-sm"
+      className="rounded p-1.5 text-slate-700 hover:bg-white hover:shadow-sm min-h-[32px] min-w-[32px] flex items-center justify-center"
     >
       {children}
     </button>

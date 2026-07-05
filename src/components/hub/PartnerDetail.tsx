@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { Link, useRouter } from '@/i18n/navigation'
+import { useRouter } from '@/i18n/navigation'
+import HubBreadcrumbs from '@/components/hub/HubBreadcrumbs'
 
 type Partner = {
   id: string
@@ -57,9 +58,12 @@ export default function PartnerDetail({ partner: initial, canEdit }: Props) {
 
   return (
     <div>
-      <Link href="/hub/partners" className="text-sm text-amber-700 hover:underline mb-4 inline-block">
-        ← {t('backToPartners')}
-      </Link>
+      <HubBreadcrumbs
+        items={[
+          { label: t('navPartners'), href: '/hub/partners' },
+          { label: partner.name },
+        ]}
+      />
 
       {!editing ? (
         <>

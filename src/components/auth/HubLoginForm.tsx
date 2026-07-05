@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Script from 'next/script'
+import { useTranslations } from 'next-intl'
 import {
   parseHubEmailAuthPayload,
   type HubEmailAuthResponse,
@@ -33,6 +34,7 @@ export default function HubLoginForm({
   verified = false,
   hubAdminEmail = '',
 }: Props) {
+  const t = useTranslations('hub')
   const [scriptReady, setScriptReady] = useState(false)
   const [hubReady, setHubReady] = useState(false)
   const [clientId, setClientId] = useState(authClientId)
@@ -74,7 +76,7 @@ export default function HubLoginForm({
   async function preparePkce() {
     const id = clientId.trim()
     if (!id) {
-      setError('Sign-in is not configured.')
+      setError(t('loginNotConfigured'))
       return null
     }
     const verifier = randomPkceVerifier()
@@ -148,6 +150,8 @@ export default function HubLoginForm({
       ? `${authHubUrl}/forgot-password.html?client_id=${encodeURIComponent(clientId)}`
       : null
 
+  const initializing = scriptReady && !hubReady
+
   return (
     <>
       <Script src="/app-auth.js" strategy="afterInteractive" onReady={() => setScriptReady(true)} />
@@ -155,37 +159,42 @@ export default function HubLoginForm({
       <div className="mx-auto max-w-md w-full">
         {verified && (
           <div className="mb-4 rounded-lg bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm text-emerald-800">
-            Email verified. You can sign in now.
+            {t('loginVerified')}
           </div>
         )}
 
         <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-          <h1 className="text-2xl font-bold text-slate-900 mb-1">Employee sign in</h1>
-          <p className="text-slate-600 text-sm mb-6">Roalla Internal Hub — for employees and invited partners only.</p>
+          <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark mb-1">Roalla</p>
+          <h1 className="text-2xl font-bold text-slate-900 mb-1">{t('loginTitle')}</h1>
+          <p className="text-slate-600 text-sm mb-6">{t('loginSubtitle')}</p>
 
-          {hubReady && (
+          {hubReady ? (
             <button
               type="button"
               onClick={() => onSsoRedirect()}
-              className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium hover:bg-slate-50 mb-6"
+              className="w-full rounded-lg bg-primary-dark text-white px-4 py-3 text-sm font-semibold hover:bg-primary-darker mb-3 min-h-[44px]"
             >
-              Continue with Roalla SSO
+              {t('loginSso')}
             </button>
-          )}
+          ) : initializing ? (
+            <p className="text-sm text-slate-500 text-center mb-3 py-3">{t('loginPreparing')}</p>
+          ) : null}
+
+          <p className="text-xs text-slate-500 text-center mb-4">{t('loginPartnerHint')}</p>
 
           <div className="relative mb-6">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-slate-200" />
             </div>
             <div className="relative flex justify-center text-xs">
-              <span className="bg-white px-2 text-slate-500">or email</span>
+              <span className="bg-white px-2 text-slate-500">{t('loginOrEmail')}</span>
             </div>
           </div>
 
           <form onSubmit={onEmailSubmit} className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
-                Email
+                {t('loginEmail')}
               </label>
               <input
                 id="email"
@@ -194,12 +203,12 @@ export default function HubLoginForm({
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary min-h-[44px]"
               />
             </div>
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1">
-                Password
+                {t('loginPassword')}
               </label>
               <input
                 id="password"
@@ -208,30 +217,30 @@ export default function HubLoginForm({
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary min-h-[44px]"
               />
             </div>
             {error && <p className="text-sm text-red-600">{error}</p>}
             <button
               type="submit"
               disabled={pending || !hubReady}
-              className="w-full rounded-lg bg-slate-900 text-white py-2.5 text-sm font-semibold hover:bg-slate-800 disabled:opacity-50"
+              className="w-full rounded-lg border border-slate-300 py-2.5 text-sm font-medium hover:bg-slate-50 disabled:opacity-50 min-h-[44px]"
             >
-              {pending ? 'Signing in…' : 'Sign in'}
+              {pending ? t('loginSigningIn') : t('loginSignIn')}
             </button>
           </form>
 
           {forgotHref && (
             <p className="mt-4 text-center text-sm">
-              <a href={forgotHref} className="text-amber-700 hover:underline">
-                Forgot password?
+              <a href={forgotHref} className="text-primary-dark hover:underline">
+                {t('loginForgotPassword')}
               </a>
             </p>
           )}
           {hubAdminEmail && (
             <p className="mt-4 text-center text-xs text-slate-500">
-              Need access? Contact{' '}
-              <a href={`mailto:${hubAdminEmail}`} className="text-amber-700 hover:underline">
+              {t('loginNeedAccess')}{' '}
+              <a href={`mailto:${hubAdminEmail}`} className="text-primary-dark hover:underline">
                 {hubAdminEmail}
               </a>
             </p>
@@ -245,21 +254,21 @@ export default function HubLoginForm({
             onSubmit={onMfaSubmit}
             className="bg-white rounded-xl p-6 max-w-sm w-full shadow-xl space-y-4"
           >
-            <h2 className="font-semibold text-lg">Two-factor authentication</h2>
+            <h2 className="font-semibold text-lg">{t('loginMfaTitle')}</h2>
             <input
               type="text"
               inputMode="numeric"
-              placeholder="6-digit code"
+              placeholder={t('loginMfaPlaceholder')}
               value={mfaCode}
               onChange={(e) => setMfaCode(e.target.value)}
-              className="w-full rounded-lg border border-slate-300 px-3 py-2"
+              className="w-full rounded-lg border border-slate-300 px-3 py-2 min-h-[44px]"
             />
             <div className="flex gap-2">
-              <button type="button" onClick={() => setMfaOpen(false)} className="flex-1 py-2 border rounded-lg">
-                Cancel
+              <button type="button" onClick={() => setMfaOpen(false)} className="flex-1 py-2 border rounded-lg min-h-[44px]">
+                {t('cancel')}
               </button>
-              <button type="submit" className="flex-1 py-2 bg-slate-900 text-white rounded-lg">
-                Verify
+              <button type="submit" className="flex-1 py-2 bg-primary-dark text-white rounded-lg min-h-[44px]">
+                {t('loginMfaVerify')}
               </button>
             </div>
           </form>
@@ -269,10 +278,10 @@ export default function HubLoginForm({
       {verifyOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
           <div className="bg-white rounded-xl p-6 max-w-sm w-full shadow-xl">
-            <h2 className="font-semibold text-lg mb-2">Verify your email</h2>
+            <h2 className="font-semibold text-lg mb-2">{t('loginVerifyTitle')}</h2>
             <p className="text-sm text-slate-600 mb-4">{verifyMessage}</p>
-            <button type="button" onClick={() => setVerifyOpen(false)} className="w-full py-2 border rounded-lg">
-              OK
+            <button type="button" onClick={() => setVerifyOpen(false)} className="w-full py-2 border rounded-lg min-h-[44px]">
+              {t('cancel')}
             </button>
           </div>
         </div>

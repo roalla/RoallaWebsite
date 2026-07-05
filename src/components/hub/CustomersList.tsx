@@ -1,8 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
+import HubPageHeader from '@/components/hub/HubPageHeader'
+import { hubFetchJson } from '@/lib/hub/toast'
 
 export type CustomerRow = {
   id: string
@@ -26,6 +28,8 @@ export default function CustomersList({ initialCustomers, canCreate }: Props) {
   const [customers, setCustomers] = useState(initialCustomers)
   const [showForm, setShowForm] = useState(false)
   const [filter, setFilter] = useState<string>('all')
+  const [search, setSearch] = useState('')
+  const [sort, setSort] = useState<'name' | 'updated'>('updated')
   const [form, setForm] = useState({
     name: '',
     stage: 'lead',
@@ -36,51 +40,90 @@ export default function CustomersList({ initialCustomers, canCreate }: Props) {
   })
   const [pending, setPending] = useState(false)
 
-  const filtered =
-    filter === 'all' ? customers : customers.filter((c) => c.stage === filter)
+  const stageCounts = useMemo(() => {
+    const counts: Record<string, number> = { all: customers.length }
+    for (const s of STAGES) counts[s] = customers.filter((c) => c.stage === s).length
+    return counts
+  }, [customers])
+
+  const filtered = useMemo(() => {
+    let list = filter === 'all' ? customers : customers.filter((c) => c.stage === filter)
+    if (search.trim()) {
+      const q = search.toLowerCase()
+      list = list.filter(
+        (c) =>
+          c.name.toLowerCase().includes(q) ||
+          c.primary_contact.toLowerCase().includes(q) ||
+          c.primary_email.toLowerCase().includes(q),
+      )
+    }
+    return [...list].sort((a, b) => {
+      if (sort === 'name') return a.name.localeCompare(b.name)
+      return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+    })
+  }, [customers, filter, search, sort])
 
   async function createCustomer(e: React.FormEvent) {
     e.preventDefault()
     setPending(true)
     try {
-      const res = await fetch('/api/hub/customers', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      })
-      if (!res.ok) return
-      const data = (await res.json()) as { customer: CustomerRow }
-      setCustomers((prev) => [data.customer, ...prev])
-      setShowForm(false)
-      setForm({
-        name: '',
-        stage: 'lead',
-        service_line: 'digital',
-        primary_contact: '',
-        primary_email: '',
-        notes: '',
-      })
+      const result = await hubFetchJson<{ customer: CustomerRow }>(
+        '/api/hub/customers',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(form),
+        },
+        { success: t('saveCustomer') },
+      )
+      if (result.ok) {
+        setCustomers((prev) => [result.data.customer, ...prev])
+        setShowForm(false)
+        setForm({
+          name: '',
+          stage: 'lead',
+          service_line: 'digital',
+          primary_contact: '',
+          primary_email: '',
+          notes: '',
+        })
+      }
     } finally {
       setPending(false)
     }
   }
 
+  const addButton = canCreate ? (
+    <button
+      type="button"
+      onClick={() => setShowForm(!showForm)}
+      className="rounded-lg bg-primary-dark text-white px-4 py-2 text-sm font-medium min-h-[44px]"
+    >
+      {t('addCustomer')}
+    </button>
+  ) : undefined
+
   return (
     <div>
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">{t('navCustomers')}</h1>
-          <p className="text-slate-600 text-sm">{t('customersSubtitle')}</p>
-        </div>
-        {canCreate && (
-          <button
-            type="button"
-            onClick={() => setShowForm(!showForm)}
-            className="rounded-lg bg-slate-900 text-white px-4 py-2 text-sm font-medium"
-          >
-            {t('addCustomer')}
-          </button>
-        )}
+      <HubPageHeader title={t('navCustomers')} subtitle={t('customersSubtitle')} action={addButton} />
+
+      <div className="flex flex-col sm:flex-row gap-3 mb-4">
+        <input
+          type="search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder={t('searchCustomers')}
+          className="flex-1 rounded-lg border px-3 py-2 text-sm min-h-[44px]"
+        />
+        <select
+          value={sort}
+          onChange={(e) => setSort(e.target.value as 'name' | 'updated')}
+          className="rounded-lg border px-3 py-2 text-sm min-h-[44px]"
+          aria-label={t('sortBy')}
+        >
+          <option value="updated">{t('sortUpdated')}</option>
+          <option value="name">{t('sortName')}</option>
+        </select>
       </div>
 
       <div className="flex gap-2 mb-4 flex-wrap">
@@ -89,11 +132,11 @@ export default function CustomersList({ initialCustomers, canCreate }: Props) {
             key={s}
             type="button"
             onClick={() => setFilter(s)}
-            className={`rounded-full px-3 py-1 text-xs font-medium ${
-              filter === s ? 'bg-slate-900 text-white' : 'bg-white border text-slate-700'
+            className={`rounded-full px-3 py-1.5 text-xs font-medium min-h-[36px] ${
+              filter === s ? 'bg-primary-dark text-white' : 'bg-white border text-slate-700'
             }`}
           >
-            {s === 'all' ? t('filterAll') : t(`stage_${s}`)}
+            {s === 'all' ? t('filterAll') : t(`stage_${s}`)} ({stageCounts[s] ?? 0})
           </button>
         ))}
       </div>
@@ -136,52 +179,68 @@ export default function CustomersList({ initialCustomers, canCreate }: Props) {
           <button
             type="submit"
             disabled={pending}
-            className="rounded-lg bg-amber-600 text-white px-4 py-2 text-sm font-medium disabled:opacity-50"
+            className="rounded-lg bg-primary-dark text-white px-4 py-2 text-sm font-medium disabled:opacity-50 min-h-[44px]"
           >
             {pending ? t('saving') : t('saveCustomer')}
           </button>
         </form>
       )}
 
-      <div className="rounded-xl border bg-white overflow-hidden">
-        <table className="w-full text-sm">
-          <thead className="bg-slate-50 border-b">
-            <tr>
-              <th className="text-left p-3 font-medium">{t('customerName')}</th>
-              <th className="text-left p-3 font-medium hidden sm:table-cell">{t('stage')}</th>
-              <th className="text-left p-3 font-medium hidden md:table-cell">{t('serviceLine')}</th>
-              <th className="text-left p-3 font-medium hidden lg:table-cell">{t('primaryContact')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.length === 0 ? (
-              <tr>
-                <td colSpan={4} className="p-8 text-center text-slate-500">
-                  {t('noCustomers')}
-                </td>
-              </tr>
-            ) : (
-              filtered.map((c) => (
-                <tr key={c.id} className="border-b last:border-0 hover:bg-slate-50">
-                  <td className="p-3">
-                    <Link
-                      href={{ pathname: '/hub/customers/[id]', params: { id: c.id } }}
-                      className="font-medium text-amber-800 hover:underline"
-                    >
-                      {c.name}
-                    </Link>
-                  </td>
-                  <td className="p-3 hidden sm:table-cell">
-                    <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs">{t(`stage_${c.stage}`)}</span>
-                  </td>
-                  <td className="p-3 hidden md:table-cell text-slate-600">{c.service_line}</td>
-                  <td className="p-3 hidden lg:table-cell text-slate-600">{c.primary_contact || '—'}</td>
+      {filtered.length === 0 ? (
+        <p className="text-sm text-slate-500 p-8 text-center rounded-xl border bg-white">{t('noCustomers')}</p>
+      ) : (
+        <>
+          <ul className="md:hidden space-y-3">
+            {filtered.map((c) => (
+              <li key={c.id} className="rounded-xl border bg-white p-4">
+                <Link
+                  href={{ pathname: '/hub/customers/[id]', params: { id: c.id } }}
+                  className="font-medium text-primary-dark"
+                >
+                  {c.name}
+                </Link>
+                <p className="text-xs text-slate-500 mt-1">
+                  {t(`stage_${c.stage}` as 'stage_lead')} · {c.service_line}
+                </p>
+                {c.primary_contact && (
+                  <p className="text-sm text-slate-600 mt-1">{c.primary_contact}</p>
+                )}
+              </li>
+            ))}
+          </ul>
+          <div className="hidden md:block rounded-xl border bg-white overflow-hidden">
+            <table className="w-full text-sm">
+              <thead className="bg-slate-50 border-b">
+                <tr>
+                  <th className="text-left p-3 font-medium">{t('customerName')}</th>
+                  <th className="text-left p-3 font-medium">{t('stage')}</th>
+                  <th className="text-left p-3 font-medium hidden lg:table-cell">{t('serviceLine')}</th>
+                  <th className="text-left p-3 font-medium hidden lg:table-cell">{t('primaryContact')}</th>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+              </thead>
+              <tbody>
+                {filtered.map((c) => (
+                  <tr key={c.id} className="border-b last:border-0 hover:bg-slate-50">
+                    <td className="p-3">
+                      <Link
+                        href={{ pathname: '/hub/customers/[id]', params: { id: c.id } }}
+                        className="font-medium text-primary-dark hover:underline"
+                      >
+                        {c.name}
+                      </Link>
+                    </td>
+                    <td className="p-3">
+                      <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs">{t(`stage_${c.stage}`)}</span>
+                    </td>
+                    <td className="p-3 hidden lg:table-cell text-slate-600">{c.service_line}</td>
+                    <td className="p-3 hidden lg:table-cell text-slate-600">{c.primary_contact || '—'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
     </div>
   )
 }

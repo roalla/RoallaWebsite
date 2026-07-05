@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
+import HubBreadcrumbs from '@/components/hub/HubBreadcrumbs'
 
 type Activity = {
   id: string
@@ -74,9 +75,12 @@ export default function CustomerDetail({ customer: initial, activities: initialA
 
   return (
     <div>
-      <Link href="/hub/customers" className="text-sm text-amber-700 hover:underline mb-4 inline-block">
-        ← {t('backToCustomers')}
-      </Link>
+      <HubBreadcrumbs
+        items={[
+          { label: t('navCustomers'), href: '/hub/customers' },
+          { label: customer.name },
+        ]}
+      />
       <h1 className="text-2xl font-bold text-slate-900 mb-2">{customer.name}</h1>
       <p className="text-slate-600 text-sm mb-6">
         {customer.primary_contact}

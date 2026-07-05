@@ -2,9 +2,11 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { Link, useRouter } from '@/i18n/navigation'
+import { useRouter } from '@/i18n/navigation'
+import HubBreadcrumbs from '@/components/hub/HubBreadcrumbs'
 import LessonFormFields from '@/components/hub/LessonFormFields'
 import LessonFormatView, { LessonImpactBadge } from '@/components/hub/LessonFormatView'
+import { hubFetchJson } from '@/lib/hub/toast'
 import {
   lessonFromRecord,
   lessonPayloadFromForm,
@@ -31,15 +33,18 @@ export default function LessonDetail({ lesson: initial, canEdit, customers = [] 
     e.preventDefault()
     setPending(true)
     try {
-      const res = await fetch(`/api/hub/lessons/${lesson.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(lessonPayloadFromForm(form)),
-      })
-      if (res.ok) {
-        const data = (await res.json()) as { lesson: LessonRecord }
+      const result = await hubFetchJson<{ lesson: LessonRecord }>(
+        `/api/hub/lessons/${lesson.id}`,
+        {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(lessonPayloadFromForm(form)),
+        },
+        { success: t('saveLesson') },
+      )
+      if (result.ok) {
         const customerName = customers.find((c) => c.id === form.customer_id)?.name ?? lesson.customer_name
-        setLesson({ ...lesson, ...data.lesson, customer_name: customerName ?? null })
+        setLesson({ ...lesson, ...result.data.lesson, customer_name: customerName ?? null })
         setEditing(false)
       }
     } finally {
@@ -49,8 +54,8 @@ export default function LessonDetail({ lesson: initial, canEdit, customers = [] 
 
   async function remove() {
     if (!confirm(t('confirmDeleteLesson'))) return
-    const res = await fetch(`/api/hub/lessons/${lesson.id}`, { method: 'DELETE' })
-    if (res.ok) router.push('/hub/lessons')
+    const result = await hubFetchJson(`/api/hub/lessons/${lesson.id}`, { method: 'DELETE' })
+    if (result.ok) router.push('/hub/lessons')
   }
 
   function startEditing() {
@@ -60,9 +65,12 @@ export default function LessonDetail({ lesson: initial, canEdit, customers = [] 
 
   return (
     <div>
-      <Link href="/hub/lessons" className="text-sm text-amber-700 hover:underline mb-4 inline-block">
-        ← {t('backToLessons')}
-      </Link>
+      <HubBreadcrumbs
+        items={[
+          { label: t('navLessons'), href: '/hub/lessons' },
+          { label: lesson.title },
+        ]}
+      />
 
       {!editing ? (
         <>
@@ -86,14 +94,14 @@ export default function LessonDetail({ lesson: initial, canEdit, customers = [] 
                 <button
                   type="button"
                   onClick={startEditing}
-                  className="text-sm rounded-lg border px-3 py-1.5 hover:bg-slate-50"
+                  className="text-sm rounded-lg border px-3 py-1.5 hover:bg-slate-50 min-h-[44px]"
                 >
                   {t('edit')}
                 </button>
                 <button
                   type="button"
                   onClick={() => remove()}
-                  className="text-sm rounded-lg border border-red-200 text-red-700 px-3 py-1.5 hover:bg-red-50"
+                  className="text-sm rounded-lg border border-red-200 text-red-700 px-3 py-1.5 hover:bg-red-50 min-h-[44px]"
                 >
                   {t('delete')}
                 </button>
@@ -106,10 +114,10 @@ export default function LessonDetail({ lesson: initial, canEdit, customers = [] 
         <form onSubmit={save} className="rounded-xl border bg-white p-6 space-y-4">
           <LessonFormFields form={form} onChange={setForm} customers={customers} idPrefix="edit" />
           <div className="flex gap-2">
-            <button type="submit" disabled={pending} className="rounded-lg bg-slate-900 text-white px-4 py-2 text-sm">
+            <button type="submit" disabled={pending} className="rounded-lg bg-primary-dark text-white px-4 py-2 text-sm min-h-[44px]">
               {pending ? t('saving') : t('saveLesson')}
             </button>
-            <button type="button" onClick={() => setEditing(false)} className="rounded-lg border px-4 py-2 text-sm">
+            <button type="button" onClick={() => setEditing(false)} className="rounded-lg border px-4 py-2 text-sm min-h-[44px]">
               {t('cancel')}
             </button>
           </div>

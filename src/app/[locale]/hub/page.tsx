@@ -3,7 +3,9 @@ import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { getHubSession } from '@/lib/hub/auth-session'
 import { dbConfigured, dbQuery } from '@/lib/db'
-import { Link } from '@/i18n/navigation'
+import { flattenLessonRecommendations } from '@/lib/hub/lesson-recommendations'
+import type { HubRole } from '@/lib/hub/roles'
+import HubDashboardExtras from '@/components/hub/HubDashboardExtras'
 
 export const metadata: Metadata = {
   title: 'Dashboard | Roalla Internal Hub',
@@ -20,8 +22,14 @@ export default async function HubDashboardPage({ params }: Props) {
   if (!session.signedIn) redirect(`/${locale}/hub/login`)
 
   const t = await getTranslations('hub')
+  const role = (session.user?.role || 'contractor') as HubRole
 
-  let stats = { activeCustomers: 0, openEngagements: 0, incompleteChecklistItems: 0 }
+  let stats = {
+    activeCustomers: 0,
+    openEngagements: 0,
+    incompleteChecklistItems: 0,
+    openRecommendations: 0,
+  }
   let recentActivities: {
     summary: string
     customer_name?: string
@@ -40,10 +48,21 @@ export default async function HubDashboardPage({ params }: Props) {
     for (const row of runs.rows as { checklist: { done: boolean }[] }[]) {
       incomplete += (row.checklist || []).filter((i) => !i.done).length
     }
+
+    const lessonsRes = await dbQuery(
+      `SELECT l.*, c.name AS customer_name FROM lessons_learned l
+       LEFT JOIN customers c ON c.id = l.customer_id`,
+    )
+    const openRecs = flattenLessonRecommendations(
+      lessonsRes.rows as Parameters<typeof flattenLessonRecommendations>[0],
+      'open',
+    )
+
     stats = {
       activeCustomers: activeRes.rows[0]?.count ?? 0,
       openEngagements: engRes.rows[0]?.count ?? 0,
       incompleteChecklistItems: incomplete,
+      openRecommendations: openRecs.length,
     }
     const actRes = await dbQuery(
       `SELECT ca.summary, ca.created_at, c.name AS customer_name
@@ -55,6 +74,11 @@ export default async function HubDashboardPage({ params }: Props) {
   }
 
   const displayName = String(session.user?.name || session.auth?.email || 'there')
+  const isEmpty =
+    stats.activeCustomers === 0 &&
+    stats.openEngagements === 0 &&
+    recentActivities.length === 0 &&
+    stats.openRecommendations === 0
 
   return (
     <div>
@@ -63,65 +87,26 @@ export default async function HubDashboardPage({ params }: Props) {
       </h1>
       <p className="text-slate-600 text-sm mb-8">{t('dashboardSubtitle')}</p>
 
-      <div className="grid sm:grid-cols-3 gap-4 mb-8">
-        {[
-          { label: t('statActiveCustomers'), value: stats.activeCustomers },
-          { label: t('statOpenEngagements'), value: stats.openEngagements },
-          { label: t('statChecklistItems'), value: stats.incompleteChecklistItems },
-        ].map(({ label, value }) => (
-          <div key={label} className="rounded-xl border bg-white p-5">
-            <p className="text-2xl font-bold text-slate-900">{value}</p>
-            <p className="text-sm text-slate-600">{label}</p>
-          </div>
-        ))}
-      </div>
+      <HubDashboardExtras role={role} stats={stats} isEmpty={isEmpty} />
 
-      <div className="grid lg:grid-cols-2 gap-6">
-        <section className="rounded-xl border bg-white p-6">
-          <h2 className="font-semibold mb-4">{t('recentActivity')}</h2>
-          {recentActivities.length === 0 ? (
-            <p className="text-sm text-slate-500">{t('noActivity')}</p>
-          ) : (
-            <ul className="space-y-3">
-              {recentActivities.map((a, i) => (
-                <li key={i} className="text-sm border-b pb-2 last:border-0">
-                  <p>{a.summary}</p>
-                  <p className="text-xs text-slate-500">
-                    {a.customer_name ? `${a.customer_name} · ` : ''}
-                    {new Date(a.created_at).toLocaleString()}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-
-        <section className="rounded-xl border bg-white p-6">
-          <h2 className="font-semibold mb-4">{t('quickLinks')}</h2>
-          <ul className="space-y-2 text-sm">
-            <li>
-              <Link href="/hub/customers" className="text-amber-800 hover:underline">
-                {t('navCustomers')}
-              </Link>
-            </li>
-            <li>
-              <Link href="/hub/playbooks" className="text-amber-800 hover:underline">
-                {t('navPlaybooks')}
-              </Link>
-            </li>
-            <li>
-              <Link href="/hub/recommendations" className="text-amber-800 hover:underline">
-                {t('navRecommendations')}
-              </Link>
-            </li>
-            <li>
-              <Link href="/hub/tools" className="text-amber-800 hover:underline">
-                {t('navTools')}
-              </Link>
-            </li>
+      <section className="rounded-xl border bg-white p-6 mt-8">
+        <h2 className="font-semibold mb-4">{t('recentActivity')}</h2>
+        {recentActivities.length === 0 ? (
+          <p className="text-sm text-slate-500">{t('noActivity')}</p>
+        ) : (
+          <ul className="space-y-3">
+            {recentActivities.map((a, i) => (
+              <li key={i} className="text-sm border-b pb-2 last:border-0">
+                <p>{a.summary}</p>
+                <p className="text-xs text-slate-500">
+                  {a.customer_name ? `${a.customer_name} · ` : ''}
+                  {new Date(a.created_at).toLocaleString()}
+                </p>
+              </li>
+            ))}
           </ul>
-        </section>
-      </div>
+        )}
+      </section>
     </div>
   )
 }

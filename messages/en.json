@@ -1953,6 +1953,8 @@
     "databaseEnv_missing": "not set on web service",
     "databaseEnv_set": "set",
     "databaseEnv_unresolved_reference": "reference not resolved — redeploy after linking Postgres",
+    "databaseMatchedKeys": "Env keys visible to this app: {keys}",
+    "databaseNoMatchedKeys": "No database env keys visible to this app at runtime — confirm variables are on the web service (not build-only) and redeploy.",
     "signOut": "Sign out",
     "signingOut": "Signing out…",
     "welcome": "Welcome, {name}",

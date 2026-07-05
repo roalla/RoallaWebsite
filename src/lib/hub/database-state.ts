@@ -1,10 +1,12 @@
-import { databaseConfigStatus, dbConfigured, dbQuery } from '@/lib/db'
+import { databaseConfigStatus, dbConfigured, dbQuery, type databaseEnvDiagnostics } from '@/lib/db'
+
+export type HubDatabaseEnvDiagnostics = ReturnType<typeof databaseEnvDiagnostics>
 
 export type HubDatabaseState = {
   available: boolean
   reason: 'ok' | 'missing' | 'invalid' | 'invalid_pg_vars' | 'unreachable'
   invalidSources: string[]
-  env?: Record<string, 'missing' | 'set' | 'unresolved_reference'>
+  env?: HubDatabaseEnvDiagnostics
 }
 
 /** Resolve whether hub pages can use Postgres (config check; query errors → unreachable). */

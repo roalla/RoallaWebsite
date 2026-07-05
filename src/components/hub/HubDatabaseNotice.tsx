@@ -1,6 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
+import type { HubDatabaseEnvDiagnostics } from '@/lib/hub/database-state'
 
 type DatabaseNoticeReason = 'missing' | 'invalid' | 'invalid_pg_vars' | 'unreachable' | 'ok'
 
@@ -10,7 +11,7 @@ type Props = {
   className?: string
   reason?: DatabaseNoticeReason
   invalidSources?: string[]
-  env?: Record<string, EnvStatus>
+  env?: HubDatabaseEnvDiagnostics
 }
 
 export default function HubDatabaseNotice({
@@ -26,6 +27,7 @@ export default function HubDatabaseNotice({
     if (status === 'unresolved_reference') return t('databaseEnv_unresolved_reference')
     return t('databaseEnv_missing')
   }
+
   const hintKey =
     reason === 'invalid_pg_vars'
       ? 'databaseInvalidPgVarsHint'
@@ -48,13 +50,20 @@ export default function HubDatabaseNotice({
         </p>
       )}
       {env && (
-        <ul className="mt-2 space-y-0.5 text-xs font-mono text-amber-900/80">
-          {Object.entries(env).map(([key, status]) => (
-            <li key={key}>
-              {key}: {envStatusLabel(status)}
-            </li>
-          ))}
-        </ul>
+        <div className="mt-2 text-xs text-amber-900/80">
+          <ul className="space-y-0.5 font-mono">
+            {Object.entries(env.vars).map(([key, status]) => (
+              <li key={key}>
+                {key}: {envStatusLabel(status)}
+              </li>
+            ))}
+          </ul>
+          {env.matchedKeys.length > 0 ? (
+            <p className="mt-2">{t('databaseMatchedKeys', { keys: env.matchedKeys.join(', ') })}</p>
+          ) : (
+            <p className="mt-2">{t('databaseNoMatchedKeys')}</p>
+          )}
+        </div>
       )}
     </div>
   )

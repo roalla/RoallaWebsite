@@ -5,11 +5,23 @@ import { Pool } from 'pg'
 let pool: Pool | null = null
 let schemaReady = false
 
+/** Read env var by name — case-insensitive (Railway users sometimes set database_url). */
+export function readEnvVar(name: string): { key: string; value: string } | null {
+  const direct = process.env[name]?.trim()
+  if (direct) return { key: name, value: direct }
+
+  const lower = name.toLowerCase()
+  for (const [key, raw] of Object.entries(process.env)) {
+    const value = raw?.trim()
+    if (value && key.toLowerCase() === lower) return { key, value }
+  }
+  return null
+}
+
 /** True when a string looks like a complete Postgres connection URL. */
 export function isValidDatabaseUrl(url: string): boolean {
   const trimmed = url.trim()
   if (!trimmed) return false
-  // Reject unresolved Railway / template placeholders (e.g. "${{Postgres.DATABASE_URL}}").
   if (/\$\{\{|\$\{/.test(trimmed)) return false
 
   try {
@@ -25,7 +37,7 @@ export function isValidDatabaseUrl(url: string): boolean {
   }
 }
 
-const ENV_URL_SOURCES = [
+const CANONICAL_URL_VARS = [
   'DATABASE_PRIVATE_URL',
   'DATABASE_URL',
   'DATABASE_PUBLIC_URL',
@@ -41,6 +53,30 @@ function envPresence(value: string | undefined): 'missing' | 'set' | 'unresolved
   return 'set'
 }
 
+/** Any env key that looks like a Postgres URL (names only — for diagnostics). */
+export function discoverDatabaseEnvKeys(): string[] {
+  const keys = new Set<string>()
+  for (const name of CANONICAL_URL_VARS) {
+    const hit = readEnvVar(name)
+    if (hit) keys.add(hit.key)
+  }
+  for (const key of Object.keys(process.env)) {
+    const k = key.toLowerCase()
+    if (
+      k === 'database_url' ||
+      k === 'database_private_url' ||
+      k === 'database_public_url' ||
+      k.endsWith('_database_url') ||
+      (k.includes('database') && k.includes('url')) ||
+      k === 'postgres_url' ||
+      k === 'postgresql_url'
+    ) {
+      keys.add(key)
+    }
+  }
+  return Array.from(keys).sort()
+}
+
 function readPgParts(): {
   host: string
   user: string
@@ -48,15 +84,13 @@ function readPgParts(): {
   database: string
   port: string
 } | null {
-  const host = (process.env.PGHOST || process.env.POSTGRES_HOST || '').trim()
-  const user = (process.env.PGUSER || process.env.POSTGRES_USER || '').trim()
-  const password = (process.env.PGPASSWORD || process.env.POSTGRES_PASSWORD || '').trim()
-  const database = (process.env.PGDATABASE || process.env.POSTGRES_DB || '').trim()
-  const port = (process.env.PGPORT || process.env.POSTGRES_PORT || '5432').trim()
+  const host = readEnvVar('PGHOST')?.value || readEnvVar('POSTGRES_HOST')?.value || ''
+  const user = readEnvVar('PGUSER')?.value || readEnvVar('POSTGRES_USER')?.value || ''
+  const password = readEnvVar('PGPASSWORD')?.value || readEnvVar('POSTGRES_PASSWORD')?.value || ''
+  const database = readEnvVar('PGDATABASE')?.value || readEnvVar('POSTGRES_DB')?.value || ''
+  const port = readEnvVar('PGPORT')?.value || readEnvVar('POSTGRES_PORT')?.value || '5432'
 
   if (!host || !user || !password || !database) return null
-
-  // Common misconfiguration: pasting a full URL into PGHOST or other PG* fields.
   if (host.includes('://') || user.includes('://') || database.includes('://')) return null
   for (const part of [host, user, password, database, port]) {
     if (/\$\{\{|\$\{/.test(part)) return null
@@ -72,46 +106,54 @@ function buildPgConnectionString(): string | null {
 }
 
 function pgVarsPresent(): boolean {
-  const keys = [
-    'PGHOST',
-    'POSTGRES_HOST',
-    'PGUSER',
-    'POSTGRES_USER',
-    'PGPASSWORD',
-    'POSTGRES_PASSWORD',
-    'PGDATABASE',
-    'POSTGRES_DB',
-    'PGPORT',
-    'POSTGRES_PORT',
-  ] as const
-  return keys.some((k) => !!process.env[k]?.trim())
+  return ['PGHOST', 'POSTGRES_HOST', 'PGUSER', 'POSTGRES_USER', 'PGPASSWORD', 'POSTGRES_PASSWORD', 'PGDATABASE', 'POSTGRES_DB', 'PGPORT', 'POSTGRES_PORT'].some(
+    (name) => !!readEnvVar(name),
+  )
 }
 
 function candidateDatabaseUrls(): { source: string; value: string }[] {
   const out: { source: string; value: string }[] = []
-  for (const name of ENV_URL_SOURCES) {
-    const value = process.env[name]?.trim()
-    if (value) out.push({ source: name, value })
+  const seen = new Set<string>()
+
+  const add = (source: string, value: string) => {
+    if (seen.has(value)) return
+    seen.add(value)
+    out.push({ source, value })
+  }
+
+  for (const name of CANONICAL_URL_VARS) {
+    const hit = readEnvVar(name)
+    if (hit) add(hit.key, hit.value)
+  }
+
+  for (const key of discoverDatabaseEnvKeys()) {
+    const value = process.env[key]?.trim()
+    if (value) add(key, value)
   }
 
   const built = buildPgConnectionString()
-  if (built) out.push({ source: 'PG* env vars', value: built })
+  if (built) add('PG* env vars', built)
 
   return out
 }
 
 /** Safe env snapshot for admin diagnostics (no secret values). */
-export function databaseEnvDiagnostics(): Record<string, 'missing' | 'set' | 'unresolved_reference'> {
-  return {
-    DATABASE_PRIVATE_URL: envPresence(process.env.DATABASE_PRIVATE_URL),
-    DATABASE_URL: envPresence(process.env.DATABASE_URL),
-    DATABASE_PUBLIC_URL: envPresence(process.env.DATABASE_PUBLIC_URL),
-    PGHOST: envPresence(process.env.PGHOST || process.env.POSTGRES_HOST),
-    PGUSER: envPresence(process.env.PGUSER || process.env.POSTGRES_USER),
-    PGPASSWORD: envPresence(process.env.PGPASSWORD || process.env.POSTGRES_PASSWORD),
-    PGDATABASE: envPresence(process.env.PGDATABASE || process.env.POSTGRES_DB),
-    PGPORT: envPresence(process.env.PGPORT || process.env.POSTGRES_PORT),
+export function databaseEnvDiagnostics(): {
+  vars: Record<string, 'missing' | 'set' | 'unresolved_reference'>
+  matchedKeys: string[]
+} {
+  const vars: Record<string, 'missing' | 'set' | 'unresolved_reference'> = {}
+  for (const name of CANONICAL_URL_VARS) {
+    const hit = readEnvVar(name)
+    vars[name] = hit ? envPresence(hit.value) : 'missing'
   }
+  vars.PGHOST = readEnvVar('PGHOST') || readEnvVar('POSTGRES_HOST') ? 'set' : 'missing'
+  vars.PGUSER = readEnvVar('PGUSER') || readEnvVar('POSTGRES_USER') ? 'set' : 'missing'
+  vars.PGPASSWORD = readEnvVar('PGPASSWORD') || readEnvVar('POSTGRES_PASSWORD') ? 'set' : 'missing'
+  vars.PGDATABASE = readEnvVar('PGDATABASE') || readEnvVar('POSTGRES_DB') ? 'set' : 'missing'
+  vars.PGPORT = readEnvVar('PGPORT') || readEnvVar('POSTGRES_PORT') ? 'set' : 'missing'
+
+  return { vars, matchedKeys: discoverDatabaseEnvKeys() }
 }
 
 /** Resolve Postgres URL from common Railway / platform env var names. */
@@ -168,8 +210,8 @@ export function databaseConfigStatus(): {
   }
 
   const onlyPgVars =
-    env.DATABASE_URL === 'missing' &&
-    env.DATABASE_PRIVATE_URL === 'missing' &&
+    env.vars.DATABASE_URL === 'missing' &&
+    env.vars.DATABASE_PRIVATE_URL === 'missing' &&
     pgVarsPresent() &&
     (invalidSources.includes('PG* env vars') || !buildPgConnectionString())
 
@@ -190,7 +232,7 @@ export async function dbReachable(): Promise<boolean> {
   const client = new Pool({
     connectionString,
     ssl:
-      process.env.PGSSL === 'false'
+      readEnvVar('PGSSL')?.value === 'false'
         ? false
         : process.env.NODE_ENV === 'production'
           ? { rejectUnauthorized: false }
@@ -215,7 +257,7 @@ function getPool(): Pool {
     pool = new Pool({
       connectionString,
       ssl:
-        process.env.PGSSL === 'false'
+        readEnvVar('PGSSL')?.value === 'false'
           ? false
           : process.env.NODE_ENV === 'production'
             ? { rejectUnauthorized: false }

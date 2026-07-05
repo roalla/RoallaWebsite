@@ -1933,6 +1933,8 @@
     "databaseEnv_missing": "absent du service web",
     "databaseEnv_set": "défini",
     "databaseEnv_unresolved_reference": "référence non résolue — redéployez après avoir lié Postgres",
+    "databaseMatchedKeys": "Variables visibles par l'application : {keys}",
+    "databaseNoMatchedKeys": "Aucune variable base de données visible à l'exécution — vérifiez qu'elles sont sur le service web (pas seulement au build) et redéployez.",
     "signOut": "Déconnexion",
     "signingOut": "Déconnexion…",
     "welcome": "Bienvenue, {name}",

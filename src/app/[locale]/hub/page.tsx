@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { getHubSession } from '@/lib/hub/auth-session'
-import { dbConfigured, dbQuery } from '@/lib/db'
+import { dbQuery } from '@/lib/db'
+import { getHubDatabaseState } from '@/lib/hub/database-state'
 import { flattenLessonRecommendations } from '@/lib/hub/lesson-recommendations'
 import type { HubRole } from '@/lib/hub/roles'
 import HubDashboardExtras from '@/components/hub/HubDashboardExtras'
@@ -36,9 +37,9 @@ export default async function HubDashboardPage({ params }: Props) {
     customer_name?: string
     created_at: string
   }[] = []
-  let databaseAvailable = dbConfigured()
+  let databaseState = await getHubDatabaseState()
 
-  if (databaseAvailable) {
+  if (databaseState.available) {
     try {
       const activeRes = await dbQuery(
         `SELECT COUNT(*)::int AS count FROM customers WHERE stage IN ('scoping', 'active')`,
@@ -76,7 +77,7 @@ export default async function HubDashboardPage({ params }: Props) {
       recentActivities = actRes.rows as typeof recentActivities
     } catch (err) {
       console.error('Hub dashboard database query failed', err)
-      databaseAvailable = false
+      databaseState = { ...databaseState, available: false, reason: 'unreachable' }
     }
   }
 
@@ -94,7 +95,13 @@ export default async function HubDashboardPage({ params }: Props) {
       </h1>
       <p className="text-slate-600 text-sm mb-8">{t('dashboardSubtitle')}</p>
 
-      {!databaseAvailable && <HubDatabaseNotice className="mb-6" />}
+      {!databaseState.available && (
+        <HubDatabaseNotice
+          className="mb-6"
+          reason={databaseState.reason}
+          invalidSources={databaseState.invalidSources}
+        />
+      )}
 
       <HubDashboardExtras role={role} stats={stats} isEmpty={isEmpty} />
 

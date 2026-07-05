@@ -2,12 +2,27 @@
 
 import { useTranslations } from 'next-intl'
 
+type DatabaseNoticeReason = 'missing' | 'invalid' | 'unreachable' | 'ok'
+
 type Props = {
   className?: string
+  reason?: DatabaseNoticeReason
+  invalidSources?: string[]
 }
 
-export default function HubDatabaseNotice({ className = '' }: Props) {
+export default function HubDatabaseNotice({
+  className = '',
+  reason = 'missing',
+  invalidSources = [],
+}: Props) {
   const t = useTranslations('hub')
+
+  const hintKey =
+    reason === 'invalid'
+      ? 'databaseInvalidUrlHint'
+      : reason === 'unreachable'
+        ? 'databaseUnreachableHint'
+        : 'databaseNotConfiguredHint'
 
   return (
     <div
@@ -15,7 +30,12 @@ export default function HubDatabaseNotice({ className = '' }: Props) {
       role="status"
     >
       <p className="font-medium">{t('databaseNotConfiguredTitle')}</p>
-      <p className="mt-1 text-amber-900/90">{t('databaseNotConfiguredHint')}</p>
+      <p className="mt-1 text-amber-900/90">{t(hintKey)}</p>
+      {invalidSources.length > 0 && (
+        <p className="mt-2 text-xs text-amber-900/80">
+          {t('databaseInvalidSources', { sources: invalidSources.join(', ') })}
+        </p>
+      )}
     </div>
   )
 }

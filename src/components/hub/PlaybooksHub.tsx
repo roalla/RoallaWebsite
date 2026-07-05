@@ -9,6 +9,8 @@ import { hubFetchJson } from '@/lib/hub/toast'
 import { playbookTemplates } from '@/lib/hub/playbook-templates'
 import type { ChecklistItem } from '@/lib/db/schema'
 
+import type { HubDatabaseState } from '@/lib/hub/database-state'
+
 type Run = {
   id: string
   template_id: string
@@ -20,7 +22,7 @@ type Run = {
 type Props = {
   initialRuns: Run[]
   canWrite: boolean
-  databaseConfigured?: boolean
+  databaseState?: HubDatabaseState
 }
 
 function checklistProgress(checklist: ChecklistItem[]) {
@@ -30,10 +32,11 @@ function checklistProgress(checklist: ChecklistItem[]) {
   return { done, total, pct: Math.round((done / total) * 100) }
 }
 
-export default function PlaybooksHub({ initialRuns, canWrite, databaseConfigured = true }: Props) {
+export default function PlaybooksHub({ initialRuns, canWrite, databaseState }: Props) {
   const t = useTranslations('hub')
   const [runs, setRuns] = useState(initialRuns)
   const [creating, setCreating] = useState<string | null>(null)
+  const databaseAvailable = databaseState?.available ?? true
 
   async function startRun(templateId: string) {
     setCreating(templateId)
@@ -73,7 +76,13 @@ export default function PlaybooksHub({ initialRuns, canWrite, databaseConfigured
     <div>
       <HubPageHeader title={t('navPlaybooks')} subtitle={t('playbooksSubtitle')} />
 
-      {!databaseConfigured && <HubDatabaseNotice className="mb-6" />}
+      {!databaseAvailable && (
+        <HubDatabaseNotice
+          className="mb-6"
+          reason={databaseState?.reason ?? 'missing'}
+          invalidSources={databaseState?.invalidSources}
+        />
+      )}
 
       <div className="grid md:grid-cols-3 gap-4 mb-8">
         {playbookTemplates.map((tmpl) => (
@@ -84,7 +93,7 @@ export default function PlaybooksHub({ initialRuns, canWrite, databaseConfigured
               {canWrite && (
                 <button
                   type="button"
-                  disabled={creating === tmpl.id || !databaseConfigured}
+                  disabled={creating === tmpl.id || !databaseAvailable}
                   onClick={() => startRun(tmpl.id)}
                   className="text-sm rounded-lg bg-primary-dark text-white px-3 py-1.5 disabled:opacity-50 min-h-[36px]"
                 >

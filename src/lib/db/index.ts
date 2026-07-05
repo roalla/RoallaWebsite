@@ -25,18 +25,20 @@ export function isValidDatabaseUrl(url: string): boolean {
   }
 }
 
-/** Resolve Postgres URL from common Railway / platform env var names. */
-export function resolveDatabaseUrl(): string | undefined {
-  const direct =
-    process.env.DATABASE_URL ||
-    process.env.DATABASE_PRIVATE_URL ||
-    process.env.POSTGRES_URL ||
-    process.env.POSTGRESQL_URL ||
-    process.env.RAILWAY_DATABASE_URL
+const ENV_URL_SOURCES = [
+  // Prefer private network URL on Railway when both are set (avoids stale public overrides).
+  'DATABASE_PRIVATE_URL',
+  'DATABASE_URL',
+  'POSTGRES_URL',
+  'POSTGRESQL_URL',
+  'RAILWAY_DATABASE_URL',
+] as const
 
-  if (direct?.trim()) {
-    const value = direct.trim()
-    return isValidDatabaseUrl(value) ? value : undefined
+function candidateDatabaseUrls(): { source: string; value: string }[] {
+  const out: { source: string; value: string }[] = []
+  for (const name of ENV_URL_SOURCES) {
+    const value = process.env[name]?.trim()
+    if (value) out.push({ source: name, value })
   }
 
   const host = process.env.PGHOST
@@ -46,10 +48,20 @@ export function resolveDatabaseUrl(): string | undefined {
   const port = process.env.PGPORT || '5432'
 
   if (host && user && password && database) {
-    const built = `postgresql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:${port}/${encodeURIComponent(database)}`
-    return isValidDatabaseUrl(built) ? built : undefined
+    out.push({
+      source: 'PG* env vars',
+      value: `postgresql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:${port}/${encodeURIComponent(database)}`,
+    })
   }
 
+  return out
+}
+
+/** Resolve Postgres URL from common Railway / platform env var names. */
+export function resolveDatabaseUrl(): string | undefined {
+  for (const { value } of candidateDatabaseUrls()) {
+    if (isValidDatabaseUrl(value)) return value
+  }
   return undefined
 }
 
@@ -57,39 +69,75 @@ export function dbConfigured(): boolean {
   return !!resolveDatabaseUrl()
 }
 
+export type DatabaseConfigReason = 'ok' | 'missing' | 'invalid'
+
 /** For ops/debug — why the hub database may be unavailable (no secrets logged). */
 export function databaseConfigStatus(): {
   configured: boolean
+  reason: DatabaseConfigReason
   source: string | null
-  invalidUrl: boolean
+  resolvedSource: string | null
+  invalidSources: string[]
 } {
-  const sources = [
-    ['DATABASE_URL', process.env.DATABASE_URL],
-    ['DATABASE_PRIVATE_URL', process.env.DATABASE_PRIVATE_URL],
-    ['POSTGRES_URL', process.env.POSTGRES_URL],
-    ['POSTGRESQL_URL', process.env.POSTGRESQL_URL],
-    ['RAILWAY_DATABASE_URL', process.env.RAILWAY_DATABASE_URL],
-  ] as const
+  const candidates = candidateDatabaseUrls()
+  const invalidSources = candidates
+    .filter(({ value }) => !isValidDatabaseUrl(value))
+    .map(({ source }) => source)
 
-  for (const [name, value] of sources) {
-    const trimmed = value?.trim()
-    if (!trimmed) continue
-    if (!isValidDatabaseUrl(trimmed)) {
-      return { configured: false, source: name, invalidUrl: true }
+  const resolved = candidates.find(({ value }) => isValidDatabaseUrl(value))
+
+  if (resolved) {
+    return {
+      configured: true,
+      reason: 'ok',
+      source: resolved.source,
+      resolvedSource: resolved.source,
+      invalidSources,
     }
-    return { configured: true, source: name, invalidUrl: false }
   }
 
-  if (
-    process.env.PGHOST &&
-    process.env.PGUSER &&
-    process.env.PGPASSWORD &&
-    (process.env.PGDATABASE || process.env.POSTGRES_DB)
-  ) {
-    return { configured: dbConfigured(), source: 'PG* env vars', invalidUrl: !dbConfigured() }
+  if (candidates.length === 0) {
+    return {
+      configured: false,
+      reason: 'missing',
+      source: null,
+      resolvedSource: null,
+      invalidSources: [],
+    }
   }
 
-  return { configured: false, source: null, invalidUrl: false }
+  return {
+    configured: false,
+    reason: 'invalid',
+    source: candidates[0]?.source ?? null,
+    resolvedSource: null,
+    invalidSources,
+  }
+}
+
+/** Lightweight connectivity check (does not run schema migrations). */
+export async function dbReachable(): Promise<boolean> {
+  const connectionString = resolveDatabaseUrl()
+  if (!connectionString) return false
+  const client = new Pool({
+    connectionString,
+    ssl:
+      process.env.PGSSL === 'false'
+        ? false
+        : process.env.NODE_ENV === 'production'
+          ? { rejectUnauthorized: false }
+          : undefined,
+    max: 1,
+    connectionTimeoutMillis: 5000,
+  })
+  try {
+    await client.query('SELECT 1')
+    return true
+  } catch {
+    return false
+  } finally {
+    await client.end().catch(() => undefined)
+  }
 }
 
 function getPool(): Pool {

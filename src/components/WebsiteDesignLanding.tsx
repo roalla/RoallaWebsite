@@ -117,6 +117,20 @@ export default function WebsiteDesignLanding() {
         ]}
       />
 
+      <Reveal className="mb-8 rounded-xl border border-primary/25 bg-primary/[0.05] p-5 md:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark mb-1">{t('foundingPromoTitle')}</p>
+          <p className="text-sm text-slate-700 leading-relaxed">{t('foundingPromoDesc')}</p>
+        </div>
+        <Link
+          href="/founding-client"
+          className={servicePrimaryLinkClass + ' inline-flex w-full md:w-auto shrink-0 justify-center px-5 py-2.5 text-sm'}
+        >
+          {t('foundingPromoCta')}
+          <ArrowRight className="ml-2 w-4 h-4" aria-hidden />
+        </Link>
+      </Reveal>
+
       <div className="max-w-6xl mx-auto">
         <ServiceAnchorNav
           label={t('jumpNavLabel')}

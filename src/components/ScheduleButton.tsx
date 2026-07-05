@@ -15,6 +15,7 @@ interface ScheduleButtonProps {
   service?: 'websites-brand' | 'custom-platforms'
   need?: string
   reference?: string
+  offer?: string
   sublabel?: string
   sublabelClassName?: string
   /** Shown in a tooltip on hover/focus — does not affect layout */
@@ -32,6 +33,7 @@ const ScheduleButton: React.FC<ScheduleButtonProps> = ({
   service,
   need,
   reference,
+  offer,
   sublabel,
   sublabelClassName = '',
   hoverHint,
@@ -56,6 +58,7 @@ const ScheduleButton: React.FC<ScheduleButtonProps> = ({
     if (service) query.service = service
     if (need) query.need = need
     if (reference) query.reference = reference
+    if (offer) query.offer = offer
     if (Object.keys(query).length > 0) {
       return { pathname: '/schedule', query } as const
     }

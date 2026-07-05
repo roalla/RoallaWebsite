@@ -66,15 +66,16 @@ function ScheduleContent() {
   const tBc = useTranslations('breadcrumb')
   const searchParams = useSearchParams()
   const referenceParam = searchParams.get('reference')
-  const initialIntent = resolveInitialIntent(
-    searchParams.get('intent'),
-    searchParams.get('service'),
-  )
+  const offerParam = searchParams.get('offer')
+  const fromFoundingOffer = offerParam === 'founding'
+  const tFounding = useTranslations('foundingClient')
+  const initialIntent =
+    resolveInitialIntent(searchParams.get('intent'), searchParams.get('service')) ??
+    (fromFoundingOffer ? 'website' : null)
   const initialFocus = resolveInitialFocus(searchParams.get('focus'))
-  const initialWebsiteGoal = resolveInitialWebsiteGoal(
-    searchParams.get('need'),
-    searchParams.get('reference'),
-  )
+  const initialWebsiteGoal =
+    resolveInitialWebsiteGoal(searchParams.get('need'), searchParams.get('reference')) ??
+    (fromFoundingOffer ? 'new' : null)
   const fromAssessment = searchParams.get('from') === 'assessment'
 
   const { goal: referenceGoal, referenceId } = useMemo(
@@ -82,7 +83,7 @@ function ScheduleContent() {
     [referenceParam, t, tPortfolio],
   )
 
-  const initialGoal = referenceGoal ?? searchParams.get('goal')
+  const initialGoal = referenceGoal ?? (fromFoundingOffer ? tFounding('schedulePrefillGoal') : searchParams.get('goal'))
 
   const whatYouGetItems = [t('whatYouGet1'), t('whatYouGet2'), t('whatYouGet3'), t('whatYouGet4')]
 

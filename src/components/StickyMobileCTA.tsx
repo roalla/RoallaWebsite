@@ -11,6 +11,7 @@ type StickyMobileCTAProps = {
   service?: 'websites-brand' | 'custom-platforms'
   need?: string
   reference?: string
+  offer?: string
   sublabel?: string
 }
 
@@ -21,6 +22,7 @@ export default function StickyMobileCTA({
   service,
   need,
   reference,
+  offer,
   sublabel,
 }: StickyMobileCTAProps) {
   const linkHref = (() => {
@@ -29,6 +31,7 @@ export default function StickyMobileCTA({
     if (service) query.service = service
     if (need) query.need = need
     if (reference) query.reference = reference
+    if (offer) query.offer = offer
     if (Object.keys(query).length > 0) {
       return { pathname: '/schedule', query } as const
     }

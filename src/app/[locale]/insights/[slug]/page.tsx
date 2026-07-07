@@ -5,9 +5,10 @@ import { getTranslations } from 'next-intl/server'
 import Breadcrumb from '@/components/Breadcrumb'
 import JsonLd from '@/components/JsonLd'
 import { Link } from '@/i18n/navigation'
-import { INSIGHT_SLUGS, isInsightSlug } from '@/lib/insights'
+import { INSIGHT_OG_IMAGES, INSIGHT_SLUGS, isInsightSlug } from '@/lib/insights'
 import { formatInsightReadTime, INSIGHT_BODY_KEYS } from '@/lib/insight-read-time'
-import { buildPageMetadata } from '@/lib/page-metadata'
+import { buildArticlePageMetadata } from '@/lib/page-metadata'
+import { OG_IMAGE, OG_IMAGE_ALT } from '@/lib/site'
 import { articleJsonLd, breadcrumbJsonLd } from '@/lib/structured-data'
 
 type Props = {
@@ -26,12 +27,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!isInsightSlug(slug)) return {}
 
   const t = await getTranslations({ locale, namespace: 'insights' })
+  const ogImage = INSIGHT_OG_IMAGES[slug] ?? OG_IMAGE
 
-  return buildPageMetadata({
+  return buildArticlePageMetadata({
     locale,
     path: `/insights/${slug}`,
     title: t(`${slug}.metadataTitle`),
     description: t(`${slug}.metadataDescription`),
+    datePublished: t(`${slug}.datePublished`),
+    ogImage,
+    ogImageAlt: OG_IMAGE_ALT,
   })
 }
 
@@ -45,6 +50,7 @@ export default async function InsightArticlePage({ params }: Props) {
   const description = t(`${slug}.metadataDescription`)
   const bodyKeys = INSIGHT_BODY_KEYS
   const readTime = formatInsightReadTime(t, slug)
+  const ogImage = INSIGHT_OG_IMAGES[slug] ?? OG_IMAGE
 
   return (
     <div className="page-shell">
@@ -61,6 +67,7 @@ export default async function InsightArticlePage({ params }: Props) {
             title,
             description,
             datePublished: t(`${slug}.datePublished`),
+            image: ogImage,
           }),
         ]}
       />

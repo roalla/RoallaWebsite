@@ -1,4 +1,4 @@
-import { CONTACT, SITE_URL, SOCIAL_LINKS } from '@/lib/site'
+import { CONTACT, OG_IMAGE, SITE_URL, SOCIAL_LINKS } from '@/lib/site'
 import { pageUrl } from '@/lib/page-metadata'
 
 export function breadcrumbJsonLd(
@@ -110,22 +110,32 @@ export function articleJsonLd({
   title,
   description,
   datePublished,
+  dateModified,
+  image,
 }: {
   locale: string
   slug: string
   title: string
   description: string
   datePublished: string
+  dateModified?: string
+  image?: string
 }) {
+  const articleUrl = pageUrl(locale, `/insights/${slug}`)
+  const imagePath = image ?? OG_IMAGE
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: title,
     description,
     datePublished,
+    dateModified: dateModified ?? datePublished,
+    image: imagePath.startsWith('http') ? imagePath : `${SITE_URL}${imagePath}`,
     author: { '@id': `${SITE_URL}/#organization` },
     publisher: { '@id': `${SITE_URL}/#organization` },
-    url: pageUrl(locale, `/insights/${slug}`),
+    url: articleUrl,
+    mainEntityOfPage: articleUrl,
     inLanguage: locale === 'fr' ? 'fr-CA' : 'en-CA',
   }
 }

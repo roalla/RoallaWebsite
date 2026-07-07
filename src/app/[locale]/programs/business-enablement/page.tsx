@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { getLocale, getTranslations } from 'next-intl/server'
 import Services from '@/components/Services'
 import { buildPageMetadata } from '@/lib/page-metadata'
+import { serviceMiniFaqJsonLd } from '@/lib/service-faq-jsonld'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -23,7 +24,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProgramsBusinessEnablementPage() {
   const tServices = await getTranslations('services')
-  const tFaq = await getTranslations('faq')
   const locale = await getLocale()
   const pageUrl = `https://www.roalla.com/${locale}/programs/business-enablement`
 
@@ -58,18 +58,7 @@ export default async function ProgramsBusinessEnablementPage() {
     },
   }
 
-  const faqJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: [0, 1, 3, 7].map((idx) => ({
-      '@type': 'Question',
-      name: tFaq(`q${idx}`),
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: tFaq(`a${idx}`),
-      },
-    })),
-  }
+  const faqJsonLd = serviceMiniFaqJsonLd((key) => tServices(key))
 
   return (
     <div className="page-shell">

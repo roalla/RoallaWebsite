@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { getLocale, getTranslations } from 'next-intl/server'
 import WebsiteDesignLanding from '@/components/WebsiteDesignLanding'
 import { buildPageMetadata } from '@/lib/page-metadata'
+import { serviceMiniFaqJsonLd } from '@/lib/service-faq-jsonld'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -25,6 +26,8 @@ export default async function WebsiteDesignPage() {
   const t = await getTranslations('websiteDesign')
   const locale = await getLocale()
   const pageUrl = `https://www.roalla.com/${locale}/website-design`
+
+  const faqJsonLd = serviceMiniFaqJsonLd((key) => t(key))
 
   const servicesJsonLd = {
     '@context': 'https://schema.org',
@@ -52,6 +55,11 @@ export default async function WebsiteDesignPage() {
         id="website-design-jsonld"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesJsonLd) }}
+      />
+      <Script
+        id="website-design-faq-jsonld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
       <div className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent" aria-hidden />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">

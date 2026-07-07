@@ -7,6 +7,7 @@ export const CASE_STUDY_SLUGS = [
   'business-cocoon',
   'pitch-hotshots',
   'boothlio',
+  'unjargonit',
 ] as const satisfies readonly PortfolioItemId[]
 
 export type CaseStudySlug = (typeof CASE_STUDY_SLUGS)[number]

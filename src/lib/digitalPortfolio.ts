@@ -17,6 +17,7 @@ export type PortfolioItemId =
   | 'my360vision'
   | 'goalie-stop'
   | 'grcstatus'
+  | 'unjargonit'
 
 export type PortfolioVerticalId = 'fleet'
 
@@ -37,7 +38,7 @@ export type PortfolioItemConfig = {
   tryUrl: string
   domain?: string
   contactService: 'websites-brand' | 'custom-platforms'
-  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10' | 't11' | 't12' | 't13'
+  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10' | 't11' | 't12' | 't13' | 't14'
   tagKeys?: readonly [string, string, string]
   /** Shown in the featured case-study block for this category */
   featuredCategory?: PortfolioCategory
@@ -72,6 +73,7 @@ export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'business-cocoon',
   'grcstatus',
   '4theblueprint',
+  'unjargonit',
   'boothlio',
   'valentir-green-tech',
   'my360vision',
@@ -115,7 +117,7 @@ export const portfolioIndustryCategories: PortfolioIndustryCategoryConfig[] = [
   },
   {
     id: 'education-training',
-    itemIds: ['4theblueprint'],
+    itemIds: ['4theblueprint', 'unjargonit'],
     contactService: 'custom-platforms',
     i18nPrefix: 'industryEducation',
   },
@@ -170,6 +172,18 @@ export const portfolioItems: PortfolioItemConfig[] = [
     i18nPrefix: 't13',
     tagKeys: ['t13Tag1', 't13Tag2', 't13Tag3'],
     industryCategory: 'professional-services',
+  },
+  {
+    id: 'unjargonit',
+    category: 'platform',
+    projectType: 'roalla-product',
+    imageUrl: '/unjargonitsnapshot.jpg',
+    tryUrl: 'https://www.unjargonit.com/',
+    domain: 'unjargonit.com',
+    contactService: 'custom-platforms',
+    i18nPrefix: 't14',
+    tagKeys: ['t14Tag1', 't14Tag2', 't14Tag3'],
+    industryCategory: 'education-training',
   },
   {
     id: 'soaring-puck',
@@ -300,6 +314,8 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
     'Goalie Stop (RMG) homepage — elite goaltending camps, private training, instructor profiles, and Book with Ryan booking paths',
   grcstatus:
     'GRCStatus homepage — compliance readiness snapshot for SOC 2, HIPAA, and NIST CSF with live preview and free assessment CTAs',
+  unjargonit:
+    'Unjargonit homepage — plain-language tech learning tracks for students, parents, and teachers with progress dashboards and hands-on playgrounds',
 }
 
 export type PortfolioScheduleQuery = {

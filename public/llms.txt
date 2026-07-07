@@ -11,11 +11,16 @@
 - Digital Events: https://www.roalla.com/en/services/digital-events
 - Business Enablement Programs: https://www.roalla.com/en/programs/business-enablement
 - Workshops: https://www.roalla.com/en/programs/workshops
+- Digital Use Cases: https://www.roalla.com/en/use-cases
 
 ## Insights
 - Fractional COO: When and Why Your Business Needs One: https://www.roalla.com/en/insights/fractional-coo
 - Strategic Planning: From Vision to Execution: https://www.roalla.com/en/insights/strategic-planning
 - Process Optimization: Unlock Hidden Efficiency: https://www.roalla.com/en/insights/process-optimization
+- Digitization for SMBs: Why It Matters Now: https://www.roalla.com/en/insights/smb-digitization-benefits
+- Digitization That Saves SMBs Time and Money: https://www.roalla.com/en/insights/smb-digital-efficiency
+- How Digitization Helps SMBs Compete and Grow: https://www.roalla.com/en/insights/smb-digital-growth
+- Getting Found Online: Search, AI, and Why One Size Doesn't Fit All: https://www.roalla.com/en/insights/search-and-ai-visibility
 
 ## Portfolio case studies
 - Ken Effect: https://www.roalla.com/en/services/portfolio/ken-effect
@@ -23,6 +28,7 @@
 - The Business Cocoon: https://www.roalla.com/en/services/portfolio/business-cocoon
 - Pitch Hotshots: https://www.roalla.com/en/services/portfolio/pitch-hotshots
 - Boothlio: https://www.roalla.com/en/services/portfolio/boothlio
+- Unjargonit: https://www.roalla.com/en/services/portfolio/unjargonit
 
 ## Key facts
 - 30+ years experience, 500+ engagements
@@ -37,3 +43,10 @@
 ## Start here
 - Service inquiry: https://www.roalla.com/en/schedule
 - 5-question assessment: https://www.roalla.com/en/assessment
+
+## Insights RSS
+- English: https://www.roalla.com/feed.xml
+- French: https://www.roalla.com/feed.xml?locale=fr
+
+## French (français)
+- Same paths under /fr/ — e.g. https://www.roalla.com/fr/services/portfolio

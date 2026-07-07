@@ -23,19 +23,34 @@ export function pageUrl(locale: string, path: string): string {
   return `${SITE_URL}/${locale}${normalized}`
 }
 
+type PageMetadataOptions = {
+  locale: string
+  path: string
+  title: string
+  description: string
+  ogImage?: string
+  ogImageAlt?: string
+  ogType?: 'website' | 'article'
+  publishedTime?: string
+}
+
+function buildOgImages(image: string, alt: string) {
+  return [{ url: image, width: 1200, height: 630, alt }]
+}
+
 /** Shared title, description, hreflang, Open Graph, and Twitter metadata for public pages. */
 export function buildPageMetadata({
   locale,
   path,
   title,
   description,
-}: {
-  locale: string
-  path: string
-  title: string
-  description: string
-}): Metadata {
+  ogImage = OG_IMAGE,
+  ogImageAlt = OG_IMAGE_ALT,
+  ogType = 'website',
+  publishedTime,
+}: PageMetadataOptions): Metadata {
   const ogLocale = locale === 'fr' ? 'fr_CA' : 'en_CA'
+  const alternateLocale = locale === 'fr' ? 'en_CA' : 'fr_CA'
 
   return {
     title,
@@ -45,26 +60,43 @@ export function buildPageMetadata({
       title,
       description,
       url: pageUrl(locale, path),
-      type: 'website',
+      type: ogType,
       locale: ogLocale,
+      alternateLocale: [alternateLocale],
+      ...(publishedTime ? { publishedTime } : {}),
       siteName: 'Roalla Business Enablement Group',
-      images: [
-        {
-          url: OG_IMAGE,
-          width: 1200,
-          height: 630,
-          alt: OG_IMAGE_ALT,
-        },
-      ],
+      images: buildOgImages(ogImage, ogImageAlt),
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [OG_IMAGE],
+      images: [ogImage],
       creator: '@roalla',
     },
   }
+}
+
+/** Article pages: Open Graph type article, published time, and optional hero image. */
+export function buildArticlePageMetadata({
+  locale,
+  path,
+  title,
+  description,
+  datePublished,
+  ogImage = OG_IMAGE,
+  ogImageAlt = OG_IMAGE_ALT,
+}: PageMetadataOptions & { datePublished: string }): Metadata {
+  return buildPageMetadata({
+    locale,
+    path,
+    title,
+    description,
+    ogImage,
+    ogImageAlt,
+    ogType: 'article',
+    publishedTime: datePublished,
+  })
 }
 
 export const SUPPORTED_LOCALES = locales

@@ -57,6 +57,7 @@ function getItemCopy(
     t11: { name: 't11Name', desc: 't11Desc', b1: 't11B1', b2: 't11B2', b3: 't11B3', cs: 't11CaseStudy' },
     t12: { name: 't12Name', desc: 't12Desc', b1: 't12B1', b2: 't12B2', b3: 't12B3', cs: 't12CaseStudy' },
     t13: { name: 't13Name', desc: 't13Desc', b1: 't13B1', b2: 't13B2', b3: 't13B3', cs: 't13CaseStudy' },
+    t14: { name: 't14Name', desc: 't14Desc', b1: 't14B1', b2: 't14B2', b3: 't14B3', cs: 't14CaseStudy' },
   } as const
   const k = keys[prefix]
   return {
@@ -77,7 +78,7 @@ function getItemTags(
 
 function categoryLabel(t: ReturnType<typeof useTranslations<'digitalCreations'>>, item: PortfolioItemConfig) {
   if (item.category === 'website') return t('categoryWebsite')
-  if (item.i18nPrefix === 't4' || item.i18nPrefix === 't7' || item.i18nPrefix === 't13') return t('categoryPlatformTool')
+  if (item.i18nPrefix === 't4' || item.i18nPrefix === 't7' || item.i18nPrefix === 't13' || item.i18nPrefix === 't14') return t('categoryPlatformTool')
   return t('categoryPlatform')
 }
 
@@ -396,6 +397,15 @@ function PortfolioCard({
               {liveCta}
               <ExternalLink className="w-4 h-4 ml-2" />
             </a>
+            {isCaseStudySlug(item.id) ? (
+              <Link
+                href={{ pathname: '/services/portfolio/[slug]', params: { slug: item.id } }}
+                className="inline-flex w-full items-center justify-center text-slate-700 font-semibold py-2 px-4 rounded-lg text-sm border border-slate-200 hover:bg-slate-50 transition-colors"
+              >
+                {t('viewCaseStudy')}
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
+            ) : null}
           </div>
         </div>
       </div>

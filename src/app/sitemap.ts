@@ -61,9 +61,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return paths.flatMap((path) =>
     locales.map((locale) => {
       const localizedPath = path ? `/${locale}${path}` : `/${locale}`
-      const languages = Object.fromEntries(
-        locales.map((l) => [l, `${baseUrl}/${l}${path}`]),
-      ) as Record<string, string>
+      const languages = {
+        en: `${baseUrl}/en${path}`,
+        fr: `${baseUrl}/fr${path}`,
+        'x-default': `${baseUrl}/en${path}`,
+      } as Record<string, string>
 
       return {
         url: `${baseUrl}${localizedPath}`,

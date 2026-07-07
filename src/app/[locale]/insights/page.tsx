@@ -46,6 +46,14 @@ export default async function InsightsIndexPage({ params }: Props) {
         <header className="max-w-3xl mb-12">
           <h1 className="text-3xl sm:text-4xl font-serif font-extrabold text-slate-900">{t('indexTitle')}</h1>
           <p className="mt-4 text-lg text-slate-600">{t('indexSubtitle')}</p>
+          <p className="mt-4">
+            <a
+              href={locale === 'fr' ? '/feed.xml?locale=fr' : '/feed.xml'}
+              className="text-sm font-semibold text-primary-dark hover:underline"
+            >
+              {t('rssSubscribe')}
+            </a>
+          </p>
         </header>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl">
           {INSIGHT_SLUGS.map((slug) => (

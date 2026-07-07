@@ -115,6 +115,8 @@ export default async function RootLayout({
         <link rel="icon" href="/favicon.ico?v=3" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3" />
         <link rel="manifest" href="/site.webmanifest" />
+        <link rel="alternate" type="application/rss+xml" title="Roalla Insights (English)" href="/feed.xml" />
+        <link rel="alternate" type="application/rss+xml" title="Roalla Insights (Français)" href="/feed.xml?locale=fr" hrefLang="fr" />
         <meta name="theme-color" content="#000000" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta name="author" content="Roalla Business Enablement Group" />

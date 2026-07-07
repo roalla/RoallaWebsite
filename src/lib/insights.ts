@@ -14,6 +14,14 @@ export function isInsightSlug(value: string): value is InsightSlug {
   return (INSIGHT_SLUGS as readonly string[]).includes(value)
 }
 
+/** Optional per-article social preview images (defaults to site OG image). */
+export const INSIGHT_OG_IMAGES: Partial<Record<InsightSlug, string>> = {
+  'search-and-ai-visibility': '/og-image.jpg',
+  'smb-digitization-benefits': '/roalla-snapshot.jpg',
+  'smb-digital-efficiency': '/roalla-snapshot.jpg',
+  'smb-digital-growth': '/roalla-snapshot.jpg',
+}
+
 export const INSIGHT_PUBLISHED_DATES: Record<InsightSlug, string> = {
   'fractional-coo': '2025-11-01',
   'strategic-planning': '2025-12-01',

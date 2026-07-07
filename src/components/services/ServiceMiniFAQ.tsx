@@ -4,20 +4,19 @@ import React, { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Collapse from '../motion/Collapse'
-
-const faqKeys = ['faq1', 'faq2', 'faq3', 'faq4', 'faq5'] as const
+import { SERVICE_MINI_FAQ_KEYS, type ServiceMiniFaqNamespace } from '@/lib/service-faq-jsonld'
 
 export default function ServiceMiniFAQ({
   namespace,
 }: {
-  namespace: 'services' | 'digitalBuilds' | 'workshops' | 'digitalEvents' | 'websiteDesign' | 'foundingClient'
+  namespace: ServiceMiniFaqNamespace
 }) {
   const t = useTranslations(namespace)
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
   return (
     <div className="divide-y divide-slate-300 border border-slate-300 rounded-lg bg-white overflow-hidden shadow-sm">
-      {faqKeys.map((key, index) => {
+      {SERVICE_MINI_FAQ_KEYS.map((key, index) => {
         const isOpen = openIndex === index
         return (
           <div key={key}>

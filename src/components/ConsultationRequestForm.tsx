@@ -33,6 +33,7 @@ import {
   parsePlatformType,
   parseWebsiteGoal,
   parseWorkshopTopic,
+  resolveSkippedStep2Defaults,
   websiteGoalRequiresExistingSite,
   type AiGoal,
   type AutomationGoal,
@@ -110,6 +111,7 @@ type ConsultationRequestFormProps = {
   initialWorkshopTopic?: WorkshopTopic | null
   initialSourcePage?: string | null
   fromAssessment?: boolean
+  fromFoundingOffer?: boolean
 }
 
 const intentOptions: {
@@ -226,6 +228,7 @@ export default function ConsultationRequestForm({
   initialWorkshopTopic = null,
   initialSourcePage = null,
   fromAssessment = false,
+  fromFoundingOffer = false,
 }: ConsultationRequestFormProps) {
   const t = useTranslations('consultationRequest')
   const locale = useLocale()
@@ -242,9 +245,21 @@ export default function ConsultationRequestForm({
     consultingFocus: initialFocus ?? '',
   }
 
-  const [step, setStep] = useState(() =>
-    computeInitialStep(initialIntent, initialFocus, initialGoal, initialSubFields),
-  )
+  const initialStep = computeInitialStep(initialIntent, initialFocus, initialGoal, initialSubFields)
+  const skippedStep2Defaults =
+    initialStep === 3
+      ? resolveSkippedStep2Defaults(
+          initialIntent,
+          {
+            timeline: '',
+            websiteGoal: initialSubFields.websiteGoal,
+            hasExistingSite: '',
+          },
+          { foundingOffer: fromFoundingOffer },
+        )
+      : {}
+
+  const [step, setStep] = useState(() => initialStep)
   const [quickMode, setQuickMode] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -259,6 +274,7 @@ export default function ConsultationRequestForm({
     aiGoal: initialAiGoal ?? '',
     eventGoal: initialEventGoal ?? '',
     workshopTopic: initialWorkshopTopic ?? '',
+    ...skippedStep2Defaults,
   })
 
   useEffect(() => {

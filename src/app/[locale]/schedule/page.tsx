@@ -168,6 +168,7 @@ function ScheduleContent() {
               initialWorkshopTopic={initialWorkshopTopic}
               initialSourcePage={initialSourcePage}
               fromAssessment={fromAssessment}
+              fromFoundingOffer={fromFoundingOffer}
             />
             <aside className="hidden lg:block rounded-2xl border border-slate-200 bg-slate-50 p-6 sticky top-28">
               <p className="text-sm font-semibold text-slate-900 mb-4">{t('whatYouGetTitle')}</p>

@@ -8,6 +8,7 @@ import {
   websiteGoalRequiresExistingSite,
   hasIntentSubSelection,
   isDigitalIntent,
+  resolveSkippedStep2Defaults,
 } from '@/lib/consultation-request'
 
 describe('consultation-request', () => {
@@ -134,5 +135,15 @@ describe('consultation-request', () => {
       hasIntentSubSelection('platform', { platformType: 'internal' }),
     ).toBe(true)
     expect(hasIntentSubSelection('platform', {})).toBe(false)
+  })
+
+  it('fills step-2 defaults when founding offer skips to contact step', () => {
+    expect(
+      resolveSkippedStep2Defaults(
+        'website',
+        { websiteGoal: 'new' },
+        { foundingOffer: true },
+      ),
+    ).toEqual({ timeline: '1to3', hasExistingSite: 'no' })
   })
 })

@@ -164,6 +164,33 @@ export function websiteGoalRequiresExistingSite(websiteGoal: string | undefined)
   )
 }
 
+/** Defaults for step-2 fields when URL prefill skips directly to contact (step 3). */
+export function resolveSkippedStep2Defaults(
+  intent: ConsultationIntent | null,
+  fields: {
+    timeline?: string
+    websiteGoal?: string
+    hasExistingSite?: string
+  },
+  options?: { foundingOffer?: boolean },
+): { timeline?: string; hasExistingSite?: string } {
+  const patch: { timeline?: string; hasExistingSite?: string } = {}
+
+  if (!fields.timeline?.trim()) {
+    patch.timeline = options?.foundingOffer ? '1to3' : 'exploring'
+  }
+
+  if (
+    intent === 'website' &&
+    fields.websiteGoal === 'new' &&
+    !fields.hasExistingSite?.trim()
+  ) {
+    patch.hasExistingSite = 'no'
+  }
+
+  return patch
+}
+
 export function parseConsultationIntent(value: unknown): ConsultationIntent | null {
   const intents: ConsultationIntent[] = [
     'consulting',

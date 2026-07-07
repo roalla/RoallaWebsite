@@ -51,4 +51,29 @@ test.describe('Header', () => {
     await page.goto('/en/services/portfolio')
     await expect(page.getByRole('heading', { name: 'Digital Portfolio', level: 1 })).toBeVisible()
   })
+
+  test('homepage shows founding client promo link', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 720 })
+    await page.goto('/en')
+
+    const promo = page.getByRole('link', { name: /founding client offer/i })
+    await expect(promo).toBeVisible()
+    await expect(promo).toHaveAttribute('href', '/en/founding-client')
+  })
+
+  test('founding client promo appears across public pages', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 720 })
+    await page.goto('/en/services/digital')
+
+    const promo = page.getByRole('link', { name: /founding client offer/i })
+    await expect(promo).toBeVisible()
+    await expect(promo).toHaveAttribute('href', '/en/founding-client')
+  })
+
+  test('founding client promo is hidden on the offer page', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 720 })
+    await page.goto('/en/founding-client')
+
+    await expect(page.getByRole('link', { name: /founding client offer/i })).toHaveCount(0)
+  })
 })

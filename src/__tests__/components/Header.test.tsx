@@ -86,4 +86,29 @@ describe('Header', () => {
     )
     expect(screen.getByRole('menuitem', { name: /workshops/i })).toHaveAttribute('href', '/programs/workshops')
   })
+
+  it('renders founding client promo on the homepage', () => {
+    render(<Header />)
+    const promoLinks = screen.getAllByRole('link', { name: 'foundingPromoLabel' })
+    expect(promoLinks.length).toBeGreaterThan(0)
+    promoLinks.forEach((link) => {
+      expect(link).toHaveAttribute('href', '/founding-client')
+    })
+  })
+
+  it('renders founding client promo on non-offer pages', () => {
+    mockPathname.mockReturnValue('/services/digital')
+    render(<Header />)
+    const promoLinks = screen.getAllByRole('link', { name: 'foundingPromoLabel' })
+    expect(promoLinks.length).toBeGreaterThan(0)
+    promoLinks.forEach((link) => {
+      expect(link).toHaveAttribute('href', '/founding-client')
+    })
+  })
+
+  it('hides founding client promo on the founding client page', () => {
+    mockPathname.mockReturnValue('/founding-client')
+    render(<Header />)
+    expect(screen.queryByRole('link', { name: 'foundingPromoLabel' })).not.toBeInTheDocument()
+  })
 })

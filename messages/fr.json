@@ -57,7 +57,10 @@
     "contact": "Contact",
     "digitalCreations": "Accompagnement numérique",
     "openMenu": "Ouvrir le menu",
-    "closeMenu": "Fermer le menu"
+    "closeMenu": "Fermer le menu",
+    "foundingPromoLabel": "Offre client fondateur — 999 $ pour un site de 5 pages",
+    "foundingPromoShort": "Offre site 999 $",
+    "foundingPromoMenuDesc": "Places client fondateur limitées au Canada"
   },
   "footer": {
     "apps": "Applications Roalla",

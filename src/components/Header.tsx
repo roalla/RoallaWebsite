@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { Menu, X, ChevronDown, Briefcase, Globe, GraduationCap, CalendarDays, Layers, Workflow, Sparkles } from 'lucide-react'
+import { Menu, X, ChevronDown, Briefcase, Globe, GraduationCap, CalendarDays, Layers, Workflow, Sparkles, Flag } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname as useNextPathname } from 'next/navigation'
 import { useTranslations, useLocale } from 'next-intl'
@@ -302,6 +302,24 @@ const Header = () => {
 
   const isProgramsActive = pathname.startsWith('/programs')
 
+  const showFoundingPromo = pathname !== '/founding-client'
+
+  const foundingPromoLinkClass =
+    'group flex items-center gap-1.5 rounded-lg border border-primary/40 bg-primary/10 px-2.5 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/20 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black'
+
+  const foundingPromoLink = showFoundingPromo ? (
+    <Link
+      href="/founding-client"
+      className={foundingPromoLinkClass}
+      aria-label={t('foundingPromoLabel')}
+      title={t('foundingPromoLabel')}
+      onClick={closeMenu}
+    >
+      <Flag className="h-4 w-4 shrink-0" aria-hidden />
+      <span className="hidden xl:inline whitespace-nowrap">{t('foundingPromoShort')}</span>
+    </Link>
+  ) : null
+
   const dropdownPanelClass = (open: boolean) =>
     `dropdown-panel ${open ? 'dropdown-panel-open' : 'dropdown-panel-closed'}`
 
@@ -524,6 +542,7 @@ const Header = () => {
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center justify-end gap-3 flex-shrink-0">
+            {foundingPromoLink}
             {isLocaleRoute && (
               <div className="relative flex items-center" ref={localeDropdownDesktopRef}>
                 <button
@@ -587,6 +606,17 @@ const Header = () => {
 
           {/* Mobile menu button */}
           <div className="lg:hidden flex items-center space-x-2">
+            {showFoundingPromo && (
+              <Link
+                href="/founding-client"
+                className={`${foundingPromoLinkClass} min-h-[44px] min-w-[44px] justify-center px-2.5`}
+                aria-label={t('foundingPromoLabel')}
+                title={t('foundingPromoLabel')}
+                onClick={closeMenu}
+              >
+                <Flag className="h-5 w-5 shrink-0" aria-hidden />
+              </Link>
+            )}
             <button
               ref={menuButtonRef}
               onClick={toggleMenu}
@@ -618,6 +648,19 @@ const Header = () => {
               style={{ maxHeight: 'calc(100vh - 4rem - env(safe-area-inset-top, 0px))' }}
             >
               <div className="flex-1 overflow-y-auto px-2 pt-2 pb-3 space-y-1 bg-black border-t border-white/10">
+                {showFoundingPromo && (
+                  <Link
+                    href="/founding-client"
+                    className="mb-2 flex items-center gap-3 rounded-lg border border-primary/30 bg-primary/10 px-3 py-3 min-h-[44px] text-primary transition-colors hover:bg-primary/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                    onClick={(e) => handleMobileNavClick(e, '/founding-client')}
+                  >
+                    <Flag className="h-5 w-5 shrink-0" aria-hidden />
+                    <span>
+                      <span className="block text-base font-semibold">{t('foundingPromoShort')}</span>
+                      <span className="block text-xs text-primary/80 mt-0.5">{t('foundingPromoMenuDesc')}</span>
+                    </span>
+                  </Link>
+                )}
                 <div>
                   <Link
                     href="/"

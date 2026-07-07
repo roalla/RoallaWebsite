@@ -57,7 +57,10 @@
     "contact": "Contact",
     "digitalCreations": "Digital Enablement",
     "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "foundingPromoLabel": "Founding client offer — $999 for a 5-page website",
+    "foundingPromoShort": "$999 site offer",
+    "foundingPromoMenuDesc": "Limited founding client spots nationwide"
   },
   "footer": {
     "apps": "Roalla apps",

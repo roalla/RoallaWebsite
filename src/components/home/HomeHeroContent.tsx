@@ -37,7 +37,7 @@ export default function HomeHeroContent() {
     },
     {
       useCaseId: HERO_PATH_USE_CASES.automation,
-      scheduleHref: { pathname: '/schedule' as const, query: { intent: 'website', need: 'automation' } },
+      scheduleHref: { pathname: '/schedule' as const, query: { intent: 'automation' } },
       icon: Sparkles,
       titleKey: 'pathAutomationTitle' as const,
       descKey: 'pathAutomationDesc' as const,

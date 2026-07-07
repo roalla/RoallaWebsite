@@ -7,6 +7,7 @@ import type { ConsultationIntent } from '@/lib/consultation-request'
 type StickyMobileCTAProps = {
   label: string
   href?: '/schedule' | '/programs/business-enablement' | '/programs/workshops' | '/services/digital' | '/services/portfolio' | '/assessment'
+  anchorHref?: string
   intent?: ConsultationIntent
   service?: 'websites-brand' | 'custom-platforms'
   need?: string
@@ -18,6 +19,7 @@ type StickyMobileCTAProps = {
 export default function StickyMobileCTA({
   label,
   href = '/schedule',
+  anchorHref,
   intent,
   service,
   need,
@@ -48,19 +50,26 @@ export default function StickyMobileCTA({
 
   if (!visible) return null
 
+  const buttonClass =
+    'flex w-full flex-col items-center justify-center rounded-lg bg-primary-dark hover:bg-primary-darker text-white font-semibold py-3 px-6 text-sm shadow-md transition-colors'
+
   return (
     <div
       className="fixed bottom-0 inset-x-0 z-30 lg:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_30px_rgba(15,23,42,0.12)]"
       role="region"
       aria-label={label}
     >
-      <Link
-        href={linkHref}
-        className="flex w-full flex-col items-center justify-center rounded-lg bg-primary-dark hover:bg-primary-darker text-white font-semibold py-3 px-6 text-sm shadow-md transition-colors"
-      >
-        <span>{label}</span>
-        {sublabel && <span className="mt-0.5 text-[11px] font-normal text-white/85">{sublabel}</span>}
-      </Link>
+      {anchorHref ? (
+        <a href={anchorHref} className={buttonClass}>
+          <span>{label}</span>
+          {sublabel && <span className="mt-0.5 text-[11px] font-normal text-white/85">{sublabel}</span>}
+        </a>
+      ) : (
+        <Link href={linkHref} className={buttonClass}>
+          <span>{label}</span>
+          {sublabel && <span className="mt-0.5 text-[11px] font-normal text-white/85">{sublabel}</span>}
+        </Link>
+      )}
     </div>
   )
 }

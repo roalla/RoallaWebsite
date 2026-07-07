@@ -67,6 +67,13 @@ import {
 const buildIcons = [Globe, Layers, Workflow, Sparkles] as const
 const buildAnchors = ['websites', 'platforms', 'automation', 'ai-support'] as const
 
+const digitalBuildIntent = {
+  websites: 'website',
+  platforms: 'platform',
+  automation: 'automation',
+  'ai-support': 'ai-support',
+} as const satisfies Record<(typeof buildAnchors)[number], 'website' | 'platform' | 'automation' | 'ai-support'>
+
 const buildSteps = [
   { icon: Search, titleKey: 'step1Title', stepKey: 'step1', hintKey: 'step1Hint' },
   { icon: Layout, titleKey: 'step2Title', stepKey: 'step2', hintKey: 'step2Hint' },
@@ -188,6 +195,7 @@ function DigitalBuildCard({
                 getPortfolioItem(build.proofReference)!,
                 undefined,
                 digitalBuildScheduleNeed[build.anchor as keyof typeof digitalBuildScheduleNeed],
+                digitalBuildIntent[build.anchor as keyof typeof digitalBuildIntent],
               ),
             }}
             className={servicePrimaryLinkClass}

@@ -84,7 +84,10 @@ function WorkshopTopicCard({ topic, t }: { topic: WorkshopTopic; t: ReturnType<t
           ))}
         </ul>
 
-        <Link href="/schedule" className={servicePrimaryLinkClass}>
+        <Link
+          href={{ pathname: '/schedule', query: { intent: 'workshop', need: topic.anchor } }}
+          className={servicePrimaryLinkClass}
+        >
           {t('topicCta')}
           <ArrowRight className="ml-2 w-4 h-4" />
         </Link>
@@ -133,7 +136,7 @@ const Workshops = () => {
           />
         }
         primaryCta={
-          <ScheduleButton variant="primary" size="lg" icon>
+          <ScheduleButton variant="primary" size="lg" icon intent="workshop">
             {t('ctaButton')}
           </ScheduleButton>
         }
@@ -238,7 +241,7 @@ const Workshops = () => {
           qualifier={t('ctaQualifier')}
           ctaSubtext={tCommon('ctaSubtext')}
           primaryCta={
-            <ScheduleButton variant="secondary" size="lg" icon className="bg-white text-slate-900 hover:bg-slate-100 border-0">
+            <ScheduleButton variant="secondary" size="lg" icon intent="workshop" className="bg-white text-slate-900 hover:bg-slate-100 border-0">
               {t('ctaButton')}
             </ScheduleButton>
           }

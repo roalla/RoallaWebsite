@@ -1,7 +1,7 @@
 # Roalla Business Enablement Group
 # https://www.roalla.com
 
-> Digital Enablement partner — websites, custom apps, integrations, workflow automation, and practical AI. Based in Burlington, ON, serving clients globally. Bilingual: English and French.
+> Digital Enablement partner — websites, custom apps, client portals, integrations, workflow automation, practical AI, digital events, and business workshops. Based in Burlington, ON, serving clients globally. Bilingual: English and French.
 
 ## Core services
 - Digital Enablement: https://www.roalla.com/en/services/digital
@@ -10,8 +10,27 @@
 - Digital Portfolio (live work): https://www.roalla.com/en/services/portfolio
 - Digital Events: https://www.roalla.com/en/services/digital-events
 - Business Enablement Programs: https://www.roalla.com/en/programs/business-enablement
-- Workshops: https://www.roalla.com/en/programs/workshops
-- Digital Use Cases: https://www.roalla.com/en/use-cases
+- Workshops & Skill Building: https://www.roalla.com/en/programs/workshops
+- Digital Use Cases (8 scenarios with inquiry links): https://www.roalla.com/en/use-cases
+
+## Service inquiry (primary conversion)
+- Main form (~3 min, no obligation, reply in 1 business day): https://www.roalla.com/en/schedule
+- Pre-filled by intent (append query params):
+  - Website: https://www.roalla.com/en/schedule?intent=website
+  - App / platform: https://www.roalla.com/en/schedule?intent=platform
+  - Integrations & automation: https://www.roalla.com/en/schedule?intent=automation
+  - AI support: https://www.roalla.com/en/schedule?intent=ai-support
+  - Digital events: https://www.roalla.com/en/schedule?intent=digital-events
+  - Programs / advisory: https://www.roalla.com/en/schedule?intent=consulting
+  - Workshops: https://www.roalla.com/en/schedule?intent=workshop
+- Pre-filled from use cases (examples):
+  - Lead capture site: https://www.roalla.com/en/schedule?intent=website&need=conversion
+  - Client portal: https://www.roalla.com/en/schedule?intent=platform&need=client-portal
+  - Workflow automation: https://www.roalla.com/en/schedule?intent=automation&need=workflow
+  - Trade show booth kit: https://www.roalla.com/en/schedule?intent=digital-events&need=booth
+  - AI workflows: https://www.roalla.com/en/schedule?intent=ai-support&need=exploring
+- Workshop topics: https://www.roalla.com/en/schedule?intent=workshop&need=branding (also sales, productivity, ideation)
+- Self-guided routing: https://www.roalla.com/en/assessment (continues to a pre-filled inquiry)
 
 ## Insights
 - Fractional COO: When and Why Your Business Needs One: https://www.roalla.com/en/insights/fractional-coo
@@ -36,6 +55,7 @@
 - Delivery model: Prepare → Transform → Emerge → Soar
 - Contact: sales@roalla.com | +1-289-838-5868
 - Location: Burlington, Ontario, Canada
+- Service inquiry types: website (incl. bilingual EN/FR, e-commerce, support), platform (incl. client portals), automation, AI, digital events, advisory programs, workshops
 
 ## FAQ
 - https://www.roalla.com/en/faq
@@ -43,10 +63,14 @@
 ## Start here
 - Service inquiry: https://www.roalla.com/en/schedule
 - 5-question assessment: https://www.roalla.com/en/assessment
+- Contact: https://www.roalla.com/en/contact
 
 ## Insights RSS
 - English: https://www.roalla.com/feed.xml
 - French: https://www.roalla.com/feed.xml?locale=fr
 
 ## French (français)
-- Same paths under /fr/ — e.g. https://www.roalla.com/fr/services/portfolio
+- Same paths under /fr/ — e.g. https://www.roalla.com/fr/schedule
+- Demande de service: https://www.roalla.com/fr/schedule
+- Cas d'usage: https://www.roalla.com/fr/use-cases
+- Ateliers: https://www.roalla.com/fr/programs/workshops

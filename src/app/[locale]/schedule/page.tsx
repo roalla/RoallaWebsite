@@ -6,7 +6,17 @@ import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { CheckCircle2 } from 'lucide-react'
 import Breadcrumb from '@/components/Breadcrumb'
-import ConsultationRequestForm, { resolveInitialIntent, resolveInitialFocus, resolveInitialWebsiteGoal } from '@/components/ConsultationRequestForm'
+import ConsultationRequestForm, {
+  resolveInitialAiGoal,
+  resolveInitialAutomationGoal,
+  resolveInitialEventGoal,
+  resolveInitialFocus,
+  resolveInitialIntent,
+  resolveInitialPlatformType,
+  resolveInitialWebsiteGoal,
+  resolveInitialWorkshopTopic,
+} from '@/components/ConsultationRequestForm'
+import { isDigitalIntent } from '@/lib/consultation-request'
 import { getPortfolioItem, getPortfolioIndustryCategory, isValidPortfolioReference } from '@/lib/digitalPortfolio'
 import type { PortfolioIndustryCategoryId, PortfolioItemId } from '@/lib/digitalPortfolio'
 
@@ -26,38 +36,52 @@ const PORTFOLIO_NAME_KEYS = {
   t14: 't14Name',
 } as const
 
-function resolvePortfolioReferenceGoal(
+function resolvePortfolioReference(
   reference: string | null,
   tConsult: ReturnType<typeof useTranslations<'consultationRequest'>>,
   tPortfolio: ReturnType<typeof useTranslations<'digitalCreations'>>,
-): { goal: string | null; referenceId: string | null } {
+): {
+  goal: string | null
+  referenceId: string | null
+  referenceLabel: string | null
+  referenceImage: string | null
+} {
   if (!reference || !isValidPortfolioReference(reference)) {
-    return { goal: null, referenceId: null }
+    return { goal: null, referenceId: null, referenceLabel: null, referenceImage: null }
   }
 
   if (reference === 'fleet' || reference === 'fleet-logistics') {
+    const project = tPortfolio('industryFleetTitle')
     return {
-      goal: tConsult('portfolioReferenceGoal', { project: tPortfolio('industryFleetTitle') }),
+      goal: tConsult('portfolioReferenceGoal', { project }),
       referenceId: reference,
+      referenceLabel: project,
+      referenceImage: null,
     }
   }
 
   const industry = getPortfolioIndustryCategory(reference as PortfolioIndustryCategoryId)
   if (industry) {
     const titleKey = `${industry.i18nPrefix}Title` as 'industryFleetTitle'
+    const project = tPortfolio(titleKey)
     return {
-      goal: tConsult('portfolioReferenceGoal', { project: tPortfolio(titleKey) }),
+      goal: tConsult('portfolioReferenceGoal', { project }),
       referenceId: reference,
+      referenceLabel: project,
+      referenceImage: null,
     }
   }
 
   const item = getPortfolioItem(reference as PortfolioItemId)
-  if (!item) return { goal: null, referenceId: null }
+  if (!item) return { goal: null, referenceId: null, referenceLabel: null, referenceImage: null }
 
   const nameKey = PORTFOLIO_NAME_KEYS[item.i18nPrefix]
+  const project = tPortfolio(nameKey)
   return {
-    goal: tConsult('portfolioReferenceGoal', { project: tPortfolio(nameKey) }),
+    goal: tConsult('portfolioReferenceGoal', { project }),
     referenceId: reference,
+    referenceLabel: project,
+    referenceImage: item.imageUrl,
   }
 }
 
@@ -66,27 +90,41 @@ function ScheduleContent() {
   const tPortfolio = useTranslations('digitalCreations')
   const tBc = useTranslations('breadcrumb')
   const searchParams = useSearchParams()
+  const needParam = searchParams.get('need')
   const referenceParam = searchParams.get('reference')
   const offerParam = searchParams.get('offer')
   const fromFoundingOffer = offerParam === 'founding'
   const tFounding = useTranslations('foundingClient')
   const initialIntent =
-    resolveInitialIntent(searchParams.get('intent'), searchParams.get('service')) ??
-    (fromFoundingOffer ? 'website' : null)
+    resolveInitialIntent(
+      searchParams.get('intent'),
+      searchParams.get('service'),
+      needParam,
+    ) ?? (fromFoundingOffer ? 'website' : null)
   const initialFocus = resolveInitialFocus(searchParams.get('focus'))
   const initialWebsiteGoal =
-    resolveInitialWebsiteGoal(searchParams.get('need'), searchParams.get('reference')) ??
-    (fromFoundingOffer ? 'new' : null)
+    resolveInitialWebsiteGoal(needParam) ?? (fromFoundingOffer ? 'new' : null)
+  const initialPlatformType = resolveInitialPlatformType(needParam)
+  const initialAutomationGoal = resolveInitialAutomationGoal(needParam)
+  const initialAiGoal = resolveInitialAiGoal(needParam)
+  const initialEventGoal = resolveInitialEventGoal(needParam)
+  const initialWorkshopTopic = resolveInitialWorkshopTopic(needParam, searchParams.get('topic'))
   const fromAssessment = searchParams.get('from') === 'assessment'
+  const initialSourcePage = searchParams.get('from_page')
 
-  const { goal: referenceGoal, referenceId } = useMemo(
-    () => resolvePortfolioReferenceGoal(referenceParam, t, tPortfolio),
+  const { goal: referenceGoal, referenceId, referenceLabel, referenceImage } = useMemo(
+    () => resolvePortfolioReference(referenceParam, t, tPortfolio),
     [referenceParam, t, tPortfolio],
   )
 
   const initialGoal = referenceGoal ?? (fromFoundingOffer ? tFounding('schedulePrefillGoal') : searchParams.get('goal'))
 
-  const whatYouGetItems = [t('whatYouGet1'), t('whatYouGet2'), t('whatYouGet3'), t('whatYouGet4')]
+  const isDigital = isDigitalIntent(initialIntent)
+  const whatYouGetItems = isDigital
+    ? [t('whatYouGetDigital1'), t('whatYouGetDigital2'), t('whatYouGetDigital3'), t('whatYouGetDigital4')]
+    : [t('whatYouGet1'), t('whatYouGet2'), t('whatYouGet3'), t('whatYouGet4')]
+
+  const subtitle = isDigital ? t('subtitleDigital') : t('subtitle')
 
   return (
     <div className="page-shell">
@@ -98,7 +136,7 @@ function ScheduleContent() {
             <h1 className="text-4xl md:text-5xl font-serif font-extrabold text-slate-900">
               {t('title')}
             </h1>
-            <p className="mt-4 text-lg text-slate-600">{t('subtitle')}</p>
+            <p className="mt-4 text-lg text-slate-600">{subtitle}</p>
             <p className="mt-3 text-sm text-slate-500">{t('whatToExpect')}</p>
           </div>
 
@@ -120,7 +158,15 @@ function ScheduleContent() {
               initialFocus={initialFocus}
               initialGoal={initialGoal}
               initialReference={referenceId}
+              initialReferenceLabel={referenceLabel}
+              initialReferenceImage={referenceImage}
               initialWebsiteGoal={initialWebsiteGoal}
+              initialPlatformType={initialPlatformType}
+              initialAutomationGoal={initialAutomationGoal}
+              initialAiGoal={initialAiGoal}
+              initialEventGoal={initialEventGoal}
+              initialWorkshopTopic={initialWorkshopTopic}
+              initialSourcePage={initialSourcePage}
               fromAssessment={fromAssessment}
             />
             <aside className="hidden lg:block rounded-2xl border border-slate-200 bg-slate-50 p-6 sticky top-28">

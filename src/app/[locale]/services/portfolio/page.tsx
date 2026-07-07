@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import Script from 'next/script'
 import type { Metadata } from 'next'
 import { getLocale, getTranslations } from 'next-intl/server'
@@ -63,7 +63,9 @@ export default async function DigitalPortfolioPage() {
             { label: t('ourWork') },
           ]}
         />
-        <DigitalCreations />
+        <Suspense fallback={null}>
+          <DigitalCreations />
+        </Suspense>
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 'use client'
 
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Reveal from './motion/Reveal'
 import { useTranslations } from 'next-intl'
 import {
@@ -14,13 +15,12 @@ import {
   Sparkles,
 } from 'lucide-react'
 import Image from 'next/image'
-import { Link } from '@/i18n/navigation'
+import { Link, useRouter } from '@/i18n/navigation'
 import ScheduleButton from './ScheduleButton'
 import StickyMobileCTA from './StickyMobileCTA'
 import BrowserFrame from './digital/BrowserFrame'
 import {
   ServicePageHero,
-  ConsultingHeroVisual,
   serviceHeroSecondaryButtonClass,
 } from './services/ServicePageSections'
 import {
@@ -31,6 +31,8 @@ import {
   portfolioIndustryCategories,
   getPortfolioItem,
   portfolioImageAlts,
+  portfolioHeroLiveChipIds,
+  portfolioCuratedPaths,
   type PortfolioCategory,
   type PortfolioItemConfig,
   type PortfolioIndustryCategoryConfig,
@@ -39,6 +41,19 @@ import {
 import { isCaseStudySlug } from '@/lib/portfolio-case-studies'
 
 type FilterKey = 'all' | PortfolioCategory
+
+const primaryBtnClass =
+  'inline-flex items-center justify-center bg-primary hover:bg-primary-dark text-white font-semibold py-3 px-6 rounded-lg text-sm transition-colors shadow-sm'
+const cardPrimaryBtnClass =
+  'inline-flex w-full items-center justify-center bg-primary hover:bg-primary-dark text-white font-semibold py-2.5 px-4 rounded-lg transition-all text-sm'
+const cardSecondaryBtnClass =
+  'inline-flex w-full items-center justify-center text-slate-700 font-semibold py-2 px-4 rounded-lg text-sm border border-slate-200 hover:bg-slate-50 transition-colors'
+
+const CURATED_COPY = {
+  'marketing-site': { title: 'curatedMarketingTitle', desc: 'curatedMarketingDesc' },
+  'custom-platform': { title: 'curatedPlatformTitle', desc: 'curatedPlatformDesc' },
+  education: { title: 'curatedEducationTitle', desc: 'curatedEducationDesc' },
+} as const
 
 function getItemCopy(
   t: ReturnType<typeof useTranslations<'digitalCreations'>>,
@@ -78,7 +93,9 @@ function getItemTags(
 
 function categoryLabel(t: ReturnType<typeof useTranslations<'digitalCreations'>>, item: PortfolioItemConfig) {
   if (item.category === 'website') return t('categoryWebsite')
-  if (item.i18nPrefix === 't4' || item.i18nPrefix === 't7' || item.i18nPrefix === 't13' || item.i18nPrefix === 't14') return t('categoryPlatformTool')
+  if (item.i18nPrefix === 't4' || item.i18nPrefix === 't7' || item.i18nPrefix === 't13' || item.i18nPrefix === 't14') {
+    return t('categoryPlatformTool')
+  }
   return t('categoryPlatform')
 }
 
@@ -89,6 +106,10 @@ function projectTypeLabel(
   if (projectType === 'client') return t('projectBadgeClient')
   if (projectType === 'roalla-product') return t('projectBadgeRoallaProduct')
   return t('projectBadgeRoallaSite')
+}
+
+function liveCtaLabel(t: ReturnType<typeof useTranslations<'digitalCreations'>>, item: PortfolioItemConfig) {
+  return item.category === 'website' ? t('viewSite') : t('tryTool')
 }
 
 function ProjectTypeBadge({
@@ -105,18 +126,117 @@ function ProjectTypeBadge({
   )
 }
 
+function LiveDomainChips({ t }: { t: ReturnType<typeof useTranslations<'digitalCreations'>> }) {
+  return (
+    <div
+      className="rounded-2xl border border-white/15 bg-white/[0.08] backdrop-blur-md p-5 sm:p-6 shadow-[0_8px_40px_rgba(0,0,0,0.25)]"
+      data-testid="hero-live-chips"
+    >
+      <p className="text-xs font-semibold uppercase tracking-wider text-primary-light mb-1">{t('heroLiveChipsLabel')}</p>
+      <p className="text-sm text-slate-300 mb-4">{t('heroLiveChipsHint')}</p>
+      <div className="flex flex-wrap gap-2">
+        {portfolioHeroLiveChipIds.map((id) => {
+          const item = getPortfolioItem(id)
+          if (!item?.domain) return null
+          return (
+            <a
+              key={id}
+              href={item.tryUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-xs font-semibold text-white hover:bg-primary hover:border-primary transition-colors"
+            >
+              {item.domain}
+              <ExternalLink className="w-3.5 h-3.5 opacity-80" aria-hidden />
+            </a>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+function PortfolioSupplementBanner({ t }: { t: ReturnType<typeof useTranslations<'digitalCreations'>> }) {
+  return (
+    <Reveal className="mb-10 rounded-xl border border-primary/20 bg-gradient-to-r from-primary/[0.06] via-white to-slate-50 px-5 py-4 sm:px-6 sm:py-5">
+      <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark mb-1">{t('portfolioSupplementEyebrow')}</p>
+      <p className="text-sm text-slate-700 leading-relaxed max-w-3xl">
+        {t('portfolioSupplementDesc')}{' '}
+        <Link href="/services/digital" className="link-action font-semibold inline-flex items-center gap-1">
+          {t('portfolioSupplementLink')}
+          <ArrowRight className="w-4 h-4" aria-hidden />
+        </Link>
+      </p>
+    </Reveal>
+  )
+}
+
+function CuratedPathsSection({ t }: { t: ReturnType<typeof useTranslations<'digitalCreations'>> }) {
+  return (
+    <Reveal className="mb-10">
+      <h2 className="text-xl font-serif font-bold text-slate-900 mb-1">{t('startHereTitle')}</h2>
+      <p className="text-sm text-slate-600 mb-5">{t('startHereSubtitle')}</p>
+      <div className="grid md:grid-cols-3 gap-4">
+        {portfolioCuratedPaths.map((path) => {
+          const copy = CURATED_COPY[path.id]
+          const leadItem = getPortfolioItem(path.itemIds[0])
+          return (
+            <div
+              key={path.id}
+              className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm flex flex-col"
+            >
+              <h3 className="font-semibold text-slate-900">{t(copy.title)}</h3>
+              <p className="mt-2 text-sm text-slate-600 leading-relaxed flex-1">{t(copy.desc)}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {path.itemIds.map((itemId) => {
+                  const item = getPortfolioItem(itemId)
+                  if (!item) return null
+                  const itemCopy = getItemCopy(t, item.i18nPrefix)
+                  return (
+                    <a
+                      key={itemId}
+                      href={item.tryUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:border-primary/40 hover:bg-primary/5 hover:text-primary-dark transition-colors"
+                    >
+                      {itemCopy.name}
+                    </a>
+                  )
+                })}
+              </div>
+              {leadItem ? (
+                <a
+                  href={leadItem.tryUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`mt-4 ${primaryBtnClass} text-sm py-2.5`}
+                >
+                  {t('openLiveExample')}
+                  <ExternalLink className="w-4 h-4 ml-2" />
+                </a>
+              ) : null}
+            </div>
+          )
+        })}
+      </div>
+    </Reveal>
+  )
+}
+
 function FeaturedCaseStudy({
   item,
   t,
+  compact,
 }: {
   item: PortfolioItemConfig
   t: ReturnType<typeof useTranslations<'digitalCreations'>>
+  compact?: boolean
 }) {
   const copy = getItemCopy(t, item.i18nPrefix)
   const tags = getItemTags(t, item)
   const scheduleQuery = buildPortfolioScheduleQuery(item)
-  const isWebsite = item.category === 'website'
-  const liveCta = isWebsite ? t('viewSite') : t('tryTool')
+  const liveCta = liveCtaLabel(t, item)
 
   return (
     <Reveal
@@ -132,28 +252,23 @@ function FeaturedCaseStudy({
           <h2 className="text-2xl md:text-3xl font-serif font-bold text-slate-900 mb-3">{copy.name}</h2>
           <TagPills tags={tags} />
           <p className="text-slate-600 leading-relaxed mb-4">{copy.desc}</p>
-          <ul className="space-y-2 mb-5">
-            {copy.bullets.map((bullet, i) => (
-              <li key={i} className="flex items-start text-sm text-slate-600">
-                <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0 mt-0.5" />
-                {bullet}
-              </li>
-            ))}
-          </ul>
+          {!compact && (
+            <ul className="space-y-2 mb-5">
+              {copy.bullets.map((bullet, i) => (
+                <li key={i} className="flex items-start text-sm text-slate-600">
+                  <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0 mt-0.5" />
+                  {bullet}
+                </li>
+              ))}
+            </ul>
+          )}
           <p className="text-sm font-medium text-primary mb-6 border-l-2 border-primary pl-3">{copy.caseStudy}</p>
           <div className="flex flex-wrap gap-3">
-            <Link
-              href={{ pathname: '/schedule', query: scheduleQuery }}
-              className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-semibold py-2.5 px-5 rounded-lg text-sm transition-colors"
-            >
-              {t('discussBuildLike')}
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Link>
             <a
               href={item.tryUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center text-primary font-semibold py-2.5 px-5 rounded-lg text-sm border border-primary/30 hover:bg-primary/5"
+              className={primaryBtnClass}
             >
               {liveCta}
               <ExternalLink className="w-4 h-4 ml-2" />
@@ -167,13 +282,25 @@ function FeaturedCaseStudy({
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
             ) : null}
+            <Link
+              href={{ pathname: '/schedule', query: scheduleQuery }}
+              className="inline-flex items-center text-primary font-semibold py-2.5 px-5 rounded-lg text-sm border border-primary/30 hover:bg-primary/5"
+            >
+              {t('discussBuildLike')}
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Link>
           </div>
+          {compact ? (
+            <p className="mt-4 text-xs text-slate-500">{t('featuredMoreInGrid')}</p>
+          ) : null}
         </div>
         <div className="p-6 lg:p-8 bg-white order-1 lg:order-2 border-b lg:border-b-0 lg:border-l border-slate-200/80">
           <BrowserFrame
             imageUrl={item.imageUrl}
             imageAlt={portfolioImageAlts[item.id]}
             domain={item.domain}
+            href={item.tryUrl}
+            openLabel={t('openLiveSite')}
             priority
             className="h-full shadow-lg"
           />
@@ -194,6 +321,7 @@ function IndustryCategoryBand({
   const descKey = `${category.i18nPrefix}Desc` as 'industryFleetDesc'
   const scheduleQuery = buildPortfolioScheduleQuery(category)
   const anchorId = category.sectionAnchor ?? `industry-${category.id}`
+  const leadItem = getPortfolioItem(category.itemIds[0])
 
   return (
     <Reveal
@@ -205,13 +333,26 @@ function IndustryCategoryBand({
           <h2 className="text-lg font-serif font-bold text-slate-900 mb-1">{t(titleKey)}</h2>
           <p className="text-sm text-slate-600 leading-relaxed">{t(descKey)}</p>
         </div>
-        <Link
-          href={{ pathname: '/schedule', query: scheduleQuery }}
-          className="inline-flex shrink-0 items-center self-start bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded-lg text-sm transition-colors"
-        >
-          {t('discussIndustryBuild')}
-          <ArrowRight className="w-4 h-4 ml-2" />
-        </Link>
+        <div className="flex flex-wrap gap-2 shrink-0">
+          {leadItem ? (
+            <a
+              href={leadItem.tryUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded-lg text-sm transition-colors"
+            >
+              {t('openLiveExample')}
+              <ExternalLink className="w-4 h-4 ml-2" />
+            </a>
+          ) : null}
+          <Link
+            href={{ pathname: '/schedule', query: scheduleQuery }}
+            className="inline-flex items-center text-primary font-semibold py-2 px-4 rounded-lg text-sm border border-primary/30 hover:bg-primary/5 transition-colors"
+          >
+            {t('discussIndustryBuild')}
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </Link>
+        </div>
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
         {category.itemIds.map((itemId) => {
@@ -219,13 +360,23 @@ function IndustryCategoryBand({
           if (!item) return null
           const copy = getItemCopy(t, item.i18nPrefix)
           return (
-            <a
-              key={itemId}
-              href={`#${itemId}`}
-              className="inline-flex items-center rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-700 hover:border-primary/40 hover:bg-primary/5 hover:text-primary-dark transition-colors"
-            >
-              {copy.name}
-            </a>
+            <div key={itemId} className="inline-flex rounded-lg border border-slate-200 overflow-hidden">
+              <a
+                href={item.tryUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-3 py-2 text-sm font-medium text-slate-700 hover:bg-primary/5 hover:text-primary-dark transition-colors"
+              >
+                {copy.name}
+                <ExternalLink className="w-3.5 h-3.5 ml-1.5 opacity-70" aria-hidden />
+              </a>
+              <a
+                href={`#${itemId}`}
+                className="inline-flex items-center border-l border-slate-200 px-2.5 py-2 text-xs font-medium text-slate-500 hover:bg-slate-50 hover:text-primary-dark transition-colors"
+              >
+                {t('jumpToCard')}
+              </a>
+            </div>
           )
         })}
       </div>
@@ -258,14 +409,22 @@ function FleetVerticalSection({
             imageUrl={website.imageUrl}
             imageAlt={portfolioImageAlts[website.id]}
             domain={website.domain}
+            href={website.tryUrl}
+            openLabel={t('openLiveSite')}
             className="rounded-none border-0 shadow-none"
           />
           <div className="p-4">
             <p className="text-xs font-medium text-primary-dark mb-1">{t('verticalFleetWebsiteRole')}</p>
             <p className="font-semibold text-slate-900">{websiteCopy.name}</p>
-            <a href={`#${website.id}`} className="mt-2 inline-flex text-xs font-semibold text-primary hover:underline">
-              {t('seeCaseStudy')}
-            </a>
+            <div className="mt-2 flex flex-wrap gap-3">
+              <a href={website.tryUrl} target="_blank" rel="noopener noreferrer" className="text-xs font-semibold text-primary hover:underline inline-flex items-center gap-1">
+                {t('openLiveSite')}
+                <ExternalLink className="w-3 h-3" />
+              </a>
+              <a href={`#${website.id}`} className="text-xs font-semibold text-slate-600 hover:underline">
+                {t('jumpToCard')}
+              </a>
+            </div>
           </div>
         </div>
         <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
@@ -273,20 +432,28 @@ function FleetVerticalSection({
             imageUrl={platform.imageUrl}
             imageAlt={portfolioImageAlts[platform.id]}
             domain={platform.domain}
+            href={platform.tryUrl}
+            openLabel={t('openLiveSite')}
             className="rounded-none border-0 shadow-none"
           />
           <div className="p-4">
             <p className="text-xs font-medium text-primary-dark mb-1">{t('verticalFleetPlatformRole')}</p>
             <p className="font-semibold text-slate-900">{platformCopy.name}</p>
-            <a href={`#${platform.id}`} className="mt-2 inline-flex text-xs font-semibold text-primary hover:underline">
-              {t('seeCaseStudy')}
-            </a>
+            <div className="mt-2 flex flex-wrap gap-3">
+              <a href={platform.tryUrl} target="_blank" rel="noopener noreferrer" className="text-xs font-semibold text-primary hover:underline inline-flex items-center gap-1">
+                {t('openLiveSite')}
+                <ExternalLink className="w-3 h-3" />
+              </a>
+              <a href={`#${platform.id}`} className="text-xs font-semibold text-slate-600 hover:underline">
+                {t('jumpToCard')}
+              </a>
+            </div>
           </div>
         </div>
       </div>
       <Link
         href={{ pathname: '/schedule', query: scheduleQuery }}
-        className="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-semibold py-2.5 px-5 rounded-lg text-sm transition-colors"
+        className="inline-flex items-center text-primary font-semibold py-2.5 px-5 rounded-lg text-sm border border-primary/30 hover:bg-primary/5 transition-colors"
       >
         {t('verticalFleetCta')}
         <ArrowRight className="w-4 h-4 ml-2" />
@@ -322,8 +489,7 @@ function PortfolioCard({
 }) {
   const copy = getItemCopy(t, item.i18nPrefix)
   const tags = getItemTags(t, item)
-  const isWebsite = item.category === 'website'
-  const liveCta = isWebsite ? t('viewSite') : t('tryTool')
+  const liveCta = liveCtaLabel(t, item)
   const scheduleQuery = buildPortfolioScheduleQuery(item)
 
   return (
@@ -334,7 +500,13 @@ function PortfolioCard({
       className="group h-full scroll-mt-28"
     >
       <div className="h-full bg-white rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-300 border border-slate-200 hover:border-primary/35 overflow-hidden flex flex-col hover:-translate-y-1">
-        <div className="relative h-52 bg-slate-100 overflow-hidden">
+        <a
+          href={item.tryUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="relative block h-52 bg-slate-100 overflow-hidden"
+          aria-label={`${liveCta}: ${copy.name}`}
+        >
           {item.brandPreview ? (
             <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-primary/10 flex flex-col items-center justify-center">
               <div className="w-12 h-12 rounded-xl bg-primary/15 border border-primary/25 flex items-center justify-center mb-2">
@@ -353,18 +525,22 @@ function PortfolioCard({
               priority={index < 2}
             />
           ) : null}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/55 via-slate-900/10 to-transparent" />
           <div className={`absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-semibold z-10 ${
-            isWebsite ? 'bg-primary/10 text-primary-dark border border-primary/20 backdrop-blur-sm' : 'bg-slate-800/90 text-white'
+            item.category === 'website' ? 'bg-primary/10 text-primary-dark border border-primary/20 backdrop-blur-sm' : 'bg-slate-800/90 text-white'
           }`}>
             {categoryLabel(t, item)}
           </div>
-          {item.domain && (
-            <span className="absolute bottom-3 left-3 text-[11px] font-medium text-white/90 bg-black/40 backdrop-blur-sm px-2 py-0.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+          <span className="absolute bottom-3 left-3 right-3 flex items-center justify-center gap-1.5 rounded-lg bg-slate-900/80 text-white text-xs font-semibold py-2 px-3 backdrop-blur-sm">
+            {t('openLiveSite')}
+            <ExternalLink className="w-3.5 h-3.5" aria-hidden />
+          </span>
+          {item.domain ? (
+            <span className="absolute top-3 left-3 text-[11px] font-medium text-white/95 bg-black/40 backdrop-blur-sm px-2 py-0.5 rounded-md">
               {item.domain}
             </span>
-          )}
-        </div>
+          ) : null}
+        </a>
 
         <div className="p-6 flex flex-1 flex-col">
           <ProjectTypeBadge t={t} projectType={item.projectType} />
@@ -381,18 +557,11 @@ function PortfolioCard({
           </ul>
           <p className="text-xs text-primary/90 mb-4 italic border-l-2 border-primary/30 pl-3">{copy.caseStudy}</p>
           <div className="mt-auto flex flex-col gap-2">
-            <Link
-              href={{ pathname: '/schedule', query: scheduleQuery }}
-              className="inline-flex w-full items-center justify-center bg-primary hover:bg-primary-dark text-white font-semibold py-2.5 px-4 rounded-lg transition-all text-sm"
-            >
-              {t('discussBuildLike')}
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Link>
             <a
               href={item.tryUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex w-full items-center justify-center text-primary font-semibold py-2 px-4 rounded-lg text-sm border border-primary/30 hover:bg-primary/5 transition-colors"
+              className={cardPrimaryBtnClass}
             >
               {liveCta}
               <ExternalLink className="w-4 h-4 ml-2" />
@@ -400,12 +569,19 @@ function PortfolioCard({
             {isCaseStudySlug(item.id) ? (
               <Link
                 href={{ pathname: '/services/portfolio/[slug]', params: { slug: item.id } }}
-                className="inline-flex w-full items-center justify-center text-slate-700 font-semibold py-2 px-4 rounded-lg text-sm border border-slate-200 hover:bg-slate-50 transition-colors"
+                className={cardSecondaryBtnClass}
               >
                 {t('viewCaseStudy')}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
             ) : null}
+            <Link
+              href={{ pathname: '/schedule', query: scheduleQuery }}
+              className="inline-flex w-full items-center justify-center text-primary font-semibold py-2 px-4 rounded-lg text-sm border border-primary/30 hover:bg-primary/5 transition-colors"
+            >
+              {t('discussBuildLike')}
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Link>
           </div>
         </div>
       </div>
@@ -416,11 +592,34 @@ function PortfolioCard({
 const DigitalCreations = () => {
   const t = useTranslations('digitalCreations')
   const tCommon = useTranslations('common')
+  const searchParams = useSearchParams()
+  const router = useRouter()
   const [filter, setFilter] = useState<FilterKey>('all')
 
+  useEffect(() => {
+    const type = searchParams.get('type')
+    if (type === 'website') setFilter('website')
+    else if (type === 'platform') setFilter('platform')
+    else setFilter('all')
+  }, [searchParams])
+
+  const updateFilter = useCallback(
+    (key: FilterKey) => {
+      setFilter(key)
+      router.replace(
+        key === 'all'
+          ? '/services/portfolio'
+          : { pathname: '/services/portfolio', query: { type: key } },
+        { scroll: false },
+      )
+    },
+    [router],
+  )
+
   const featuredItems = useMemo(() => {
-    if (filter === 'all') return getFeaturedItems()
-    return getFeaturedItems(filter)
+    const items = filter === 'all' ? getFeaturedItems() : getFeaturedItems(filter)
+    if (filter === 'all' && items.length > 0) return [items[0]]
+    return items
   }, [filter])
 
   const gridItems = useMemo(() => {
@@ -447,7 +646,7 @@ const DigitalCreations = () => {
     <section id="portfolio" className="section-padding relative">
       <ServicePageHero
         variant="digital"
-        className="!mb-14"
+        className="!mb-10"
         eyebrow={t('portfolioTagline')}
         title={t('portfolioTitle')}
         subtitle={t('portfolioSubtitle')}
@@ -455,41 +654,29 @@ const DigitalCreations = () => {
         journeyLine={t('heroJourneyLine')}
         stats={stats}
         statsNote={t('statsNote')}
-        visual={
-          <ConsultingHeroVisual
-            icon={Sparkles}
-            proofTitle={t('heroProofTitle')}
-            proofSubtitle={t('heroProofSubtitle')}
-            outcomes={[t('heroOutcome1'), t('heroOutcome2'), t('heroOutcome3')]}
-          />
-        }
+        visual={<LiveDomainChips t={t} />}
         primaryCta={
-          <ScheduleButton variant="primary" size="lg" icon>
+          <a href="#all-examples" className={primaryBtnClass}>
+            {t('browseLiveExamples')}
+            <ArrowDown className="ml-2 w-4 h-4" />
+          </a>
+        }
+        secondaryCta={
+          <ScheduleButton variant="secondary" size="lg" className="border-white/30 text-white hover:bg-white/10">
             {tCommon('scheduleConsultation')}
           </ScheduleButton>
         }
-        secondaryCta={
-          <Link href="/services/digital" className={serviceHeroSecondaryButtonClass}>
-            {t('howWeDeliver')}
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Link>
-        }
+        tertiaryLink={{ href: '/services/digital', label: t('portfolioSupplementLink') }}
       />
 
-      {/* Intro + jump nav */}
-      <Reveal className="max-w-4xl mb-10">
-        <p className="text-slate-600 leading-relaxed mb-6">{t('intro1')}</p>
-        <ul className="grid sm:grid-cols-3 gap-3 mb-8">
-          {[t('introBullet1'), t('introBullet2'), t('introBullet3')].map((bullet) => (
-            <li key={bullet} className="flex items-start gap-2 text-slate-600 text-sm rounded-lg bg-slate-50 border border-slate-200 px-3 py-3">
-              <CheckCircle className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
-              <span>{bullet}</span>
-            </li>
-          ))}
-        </ul>
-      </Reveal>
+      <PortfolioSupplementBanner t={t} />
 
-      <nav aria-label={t('jumpNavLabel')} className="mb-8 rounded-xl border border-primary/15 bg-primary/[0.04] p-5 sm:p-6">
+      <CuratedPathsSection t={t} />
+
+      <nav
+        aria-label={t('jumpNavLabel')}
+        className="sticky top-20 z-20 mb-8 rounded-xl border border-primary/15 bg-white/95 backdrop-blur-md p-5 sm:p-6 shadow-sm"
+      >
         <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark mb-1">{t('jumpNavLabel')}</p>
         <p className="text-sm text-slate-600 mb-4">{t('jumpNavHint')}</p>
         <div className="flex flex-wrap gap-2.5">
@@ -510,19 +697,47 @@ const DigitalCreations = () => {
         </div>
       </nav>
 
-      <div className="mb-14 space-y-0">
-        {portfolioIndustryCategories
-          .filter((category) => category.id !== 'fleet-logistics')
-          .map((category) => (
-            <IndustryCategoryBand key={category.id} category={category} t={t} />
+      <div id="all-examples" className="scroll-mt-28 mb-8">
+        <div className="sticky top-[5.75rem] z-10 -mx-1 mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 rounded-xl border border-slate-200 bg-white/95 backdrop-blur-md px-4 py-4 sm:px-5 shadow-sm">
+          <div>
+            <h2 className="text-2xl font-serif font-bold text-slate-900">{t('gridTitle')}</h2>
+            <p className="text-sm text-slate-500 mt-1">{t('gridSubtitle')}</p>
+          </div>
+          <div className="flex flex-wrap gap-2" role="tablist" aria-label="Portfolio filter">
+            {filters.map((f) => (
+              <button
+                key={f.key}
+                type="button"
+                role="tab"
+                aria-selected={filter === f.key}
+                onClick={() => updateFilter(f.key)}
+                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                  filter === f.key
+                    ? 'bg-primary text-white shadow-sm'
+                    : 'bg-white text-slate-600 border border-slate-200 hover:border-primary/30'
+                }`}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          {gridItems.map((item, index) => (
+            <PortfolioCard key={item.id} item={item} t={t} index={index} />
           ))}
+        </div>
+
+        {gridItems.length === 0 && (
+          <p className="text-center text-slate-500 mb-16">{t('noProjectsInCategory')}</p>
+        )}
       </div>
 
-      {/* Featured case studies — one per category when viewing all */}
       {featuredItems.length > 0 && (
         <div className="mb-16">
           {featuredItems.map((item) => (
-            <FeaturedCaseStudy key={item.id} item={item} t={t} />
+            <FeaturedCaseStudy key={item.id} item={item} t={t} compact={filter === 'all'} />
           ))}
         </div>
       )}
@@ -531,7 +746,14 @@ const DigitalCreations = () => {
         <FleetVerticalSection vertical={fleetVertical} t={t} />
       )}
 
-      {/* Process pointer — detail lives on the service page */}
+      <div className="mb-14 space-y-0">
+        {portfolioIndustryCategories
+          .filter((category) => category.id !== 'fleet-logistics')
+          .map((category) => (
+            <IndustryCategoryBand key={category.id} category={category} t={t} />
+          ))}
+      </div>
+
       <Reveal className="mb-16 rounded-xl border border-slate-200 bg-slate-50 px-6 py-5 lg:px-8">
         <p className="text-sm text-slate-700 leading-relaxed max-w-3xl">
           {t('buildStripDescShort')}{' '}
@@ -541,42 +763,6 @@ const DigitalCreations = () => {
           </Link>
         </p>
       </Reveal>
-
-      {/* Filter + grid header */}
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
-        <div>
-          <h2 className="text-2xl font-serif font-bold text-slate-900">{t('gridTitle')}</h2>
-          <p className="text-sm text-slate-500 mt-1">{t('gridSubtitle')}</p>
-        </div>
-        <div className="flex flex-wrap gap-2" role="tablist" aria-label="Portfolio filter">
-          {filters.map((f) => (
-            <button
-              key={f.key}
-              type="button"
-              role="tab"
-              aria-selected={filter === f.key}
-              onClick={() => setFilter(f.key)}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                filter === f.key
-                  ? 'bg-primary text-white shadow-sm'
-                  : 'bg-white text-slate-600 border border-slate-200 hover:border-primary/30'
-              }`}
-            >
-              {f.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-        {gridItems.map((item, index) => (
-          <PortfolioCard key={item.id} item={item} t={t} index={index} />
-        ))}
-      </div>
-
-      {gridItems.length === 0 && (
-        <p className="text-center text-slate-500 mb-16">{t('noProjectsInCategory')}</p>
-      )}
 
       <Reveal className="mb-16 rounded-lg border border-slate-200 bg-slate-50 px-6 py-5 text-center">
         <p className="text-sm text-slate-600">
@@ -588,16 +774,6 @@ const DigitalCreations = () => {
         </p>
       </Reveal>
 
-      <Reveal className="mb-16 rounded-lg border border-primary/15 bg-primary/[0.04] px-6 py-5 text-center">
-        <p className="text-sm text-slate-700">
-          {t('processTeaser')}{' '}
-          <Link href="/services/digital" className="link-action font-semibold">
-            {t('processLinkLabel')}
-          </Link>
-        </p>
-      </Reveal>
-
-      {/* CTA */}
       <Reveal
         id="digital-cta"
         className="bg-gradient-to-br from-primary via-primary-dark to-[#007a87] rounded-2xl p-10 md:p-16 text-center shadow-[0_25px_80px_rgba(0,180,197,0.25)] relative border border-primary/20 overflow-hidden"
@@ -609,18 +785,26 @@ const DigitalCreations = () => {
           </span>
           <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4">{t('ctaTitle')}</h2>
           <p className="text-xl text-white/95 mb-8 max-w-3xl mx-auto">{t('ctaSubtitle')}</p>
-          <ScheduleButton variant="secondary" size="lg" className="bg-white text-primary-dark hover:bg-white/90 hover:scale-[1.03] transition-transform shadow-2xl">
-            {tCommon('scheduleConsultation')}
-          </ScheduleButton>
-          <p className="mt-5 text-sm text-white/90">
-            {t('processTeaser')}{' '}
-            <Link href="/services/digital" className="font-semibold text-white underline underline-offset-4 hover:text-white/80">
-              {t('processLinkLabel')}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <ScheduleButton variant="secondary" size="lg" className="bg-white text-primary-dark hover:bg-white/90 hover:scale-[1.03] transition-transform shadow-2xl">
+              {tCommon('scheduleConsultation')}
+            </ScheduleButton>
+            <Link
+              href="/services/digital"
+              className="inline-flex items-center text-white font-semibold py-3 px-6 rounded-lg border border-white/40 hover:bg-white/10 transition-colors"
+            >
+              {t('howWeDeliver')}
+              <ArrowRight className="w-4 h-4 ml-2" />
             </Link>
-          </p>
+          </div>
         </div>
       </Reveal>
-      <StickyMobileCTA label={tCommon('scheduleConsultation')} sublabel={tCommon('ctaSubtext')} />
+
+      <StickyMobileCTA
+        anchorHref="#all-examples"
+        label={t('stickyBrowseLabel')}
+        sublabel={t('openLiveSiteHint')}
+      />
     </section>
   )
 }

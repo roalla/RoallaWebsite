@@ -39,7 +39,7 @@ const priorities: Record<string, number> = {
   '/faq': 0.7,
   '/use-cases': 0.85,
   '/contact': 0.8,
-  '/schedule': 0.8,
+  '/schedule': 0.85,
   '/insights': 0.75,
 }
 

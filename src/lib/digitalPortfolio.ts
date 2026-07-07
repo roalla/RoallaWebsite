@@ -1,5 +1,3 @@
-import type { WebsiteGoal } from '@/lib/consultation-request'
-
 export type PortfolioCategory = 'website' | 'platform'
 
 export type PortfolioProjectType = 'client' | 'roalla-product' | 'roalla-site'
@@ -84,6 +82,25 @@ export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'cold-dejabru-event',
   'roalla-site',
 ]
+
+/** Domains shown as quick-open chips in the portfolio hero. */
+export const portfolioHeroLiveChipIds = portfolioHeroItemOrder.slice(0, 8)
+
+/** Curated entry paths for visitors browsing the portfolio grid. */
+export const portfolioCuratedPaths = [
+  {
+    id: 'marketing-site',
+    itemIds: ['ken-effect', 'goalie-stop', 'valentir-green-tech'] as const satisfies readonly PortfolioItemId[],
+  },
+  {
+    id: 'custom-platform',
+    itemIds: ['grcstatus', 'business-cocoon', 'boothlio'] as const satisfies readonly PortfolioItemId[],
+  },
+  {
+    id: 'education',
+    itemIds: ['4theblueprint', 'unjargonit'] as const satisfies readonly PortfolioItemId[],
+  },
+] as const
 
 export const portfolioVerticals: PortfolioVerticalConfig[] = [
   {
@@ -321,15 +338,16 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
 export type PortfolioScheduleQuery = {
   service: PortfolioItemConfig['contactService']
   reference: PortfolioItemId | PortfolioVerticalId | PortfolioIndustryCategoryId
-  need?: WebsiteGoal
+  intent?: 'website' | 'platform' | 'automation' | 'ai-support' | 'digital-events'
+  need?: string
 }
 
 export const digitalBuildScheduleNeed = {
   websites: undefined,
-  platforms: 'custom-platform',
+  platforms: undefined,
   automation: 'automation',
-  'ai-support': 'automation',
-} as const satisfies Record<string, WebsiteGoal | undefined>
+  'ai-support': 'ai-support',
+} as const satisfies Record<string, string | undefined>
 
 export function getPortfolioItem(id: PortfolioItemId): PortfolioItemConfig | undefined {
   return portfolioItems.find((item) => item.id === id)
@@ -348,14 +366,25 @@ export function getFeaturedItems(category?: PortfolioCategory): PortfolioItemCon
 export function buildPortfolioScheduleQuery(
   item: PortfolioItemConfig | PortfolioVerticalConfig | PortfolioIndustryCategoryConfig,
   reference?: PortfolioItemId | PortfolioVerticalId | PortfolioIndustryCategoryId,
-  need?: WebsiteGoal,
+  need?: string,
+  intent?: PortfolioScheduleQuery['intent'],
 ): PortfolioScheduleQuery {
   if ('itemIds' in item && 'i18nPrefix' in item && 'id' in item) {
     const industry = item as PortfolioIndustryCategoryConfig | PortfolioVerticalConfig
-    return { service: industry.contactService, reference: reference ?? industry.id, ...(need ? { need } : {}) }
+    return {
+      service: industry.contactService,
+      reference: reference ?? industry.id,
+      ...(intent ? { intent } : {}),
+      ...(need ? { need } : {}),
+    }
   }
   const portfolioItem = item as PortfolioItemConfig
-  return { service: portfolioItem.contactService, reference: reference ?? portfolioItem.id, ...(need ? { need } : {}) }
+  return {
+    service: portfolioItem.contactService,
+    reference: reference ?? portfolioItem.id,
+    ...(intent ? { intent } : {}),
+    ...(need ? { need } : {}),
+  }
 }
 
 export function getPortfolioIndustryCategory(

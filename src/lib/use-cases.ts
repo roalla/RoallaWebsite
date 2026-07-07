@@ -1,4 +1,5 @@
 import type { AssessmentLane, AssessmentResult } from '@/lib/assessment'
+import type { ConsultationIntent } from '@/lib/consultation-request'
 import type { CaseStudySlug } from '@/lib/portfolio-case-studies'
 
 export const USE_CASE_MATURITY_LEVELS = ['proven', 'established', 'ready'] as const
@@ -118,4 +119,24 @@ export function isUseCaseId(value: string): value is UseCaseId {
 
 export function categoryForUseCase(id: UseCaseId): UseCaseCategory {
   return USE_CASES.find((item) => item.id === id)!.category
+}
+
+export type UseCaseScheduleQuery = {
+  intent: ConsultationIntent
+  need?: string
+}
+
+export const USE_CASE_SCHEDULE_QUERIES: Record<UseCaseId, UseCaseScheduleQuery> = {
+  'website-refresh': { intent: 'website', need: 'redesign' },
+  'lead-capture': { intent: 'website', need: 'conversion' },
+  'custom-app': { intent: 'platform' },
+  'client-portal': { intent: 'platform', need: 'client-portal' },
+  integrations: { intent: 'automation', need: 'integration' },
+  'workflow-automation': { intent: 'automation', need: 'workflow' },
+  'event-kit': { intent: 'digital-events', need: 'booth' },
+  'ai-workflows': { intent: 'ai-support', need: 'exploring' },
+}
+
+export function scheduleQueryForUseCase(id: UseCaseId): UseCaseScheduleQuery {
+  return USE_CASE_SCHEDULE_QUERIES[id]
 }

@@ -1,23 +1,18 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Digital creations portfolio order', () => {
-  test('hero, industry jump nav, and all projects list platforms first', async ({ page }) => {
+  test('hero live chips, industry jump nav, and all projects list platforms first', async ({ page }) => {
     await page.goto('/en/services/portfolio')
 
-    const heroLinks = page.locator('main header a[href^="https://"]')
-    await expect(heroLinks.nth(0)).toContainText('businesscocoon.com')
-    await expect(heroLinks.nth(1)).toContainText('grcstatus.com')
-    await expect(heroLinks.nth(2)).toContainText('4theblueprint.com')
-    await expect(heroLinks.nth(3)).toContainText('unjargonit.com')
-    await expect(heroLinks.nth(4)).toContainText('boothlio.com')
-    await expect(heroLinks.nth(5)).toContainText('valentir.ca')
-    await expect(heroLinks.nth(6)).toContainText('my360vision.com')
-    await expect(heroLinks.nth(7)).toContainText('soaringpuck.com')
-    await expect(heroLinks.nth(8)).toContainText('pitchhotshot.com')
-    await expect(heroLinks.nth(9)).toContainText('keneffect.com')
-    await expect(heroLinks.nth(10)).toContainText('goaliestop.com')
-    await expect(heroLinks.nth(11)).toContainText('coldbru.dejabru.ca')
-    await expect(heroLinks.nth(12)).toContainText('roalla.com')
+    const heroChips = page.getByTestId('hero-live-chips').locator('a[href^="https://"]')
+    await expect(heroChips.nth(0)).toContainText('businesscocoon.com')
+    await expect(heroChips.nth(1)).toContainText('grcstatus.com')
+    await expect(heroChips.nth(2)).toContainText('4theblueprint.com')
+    await expect(heroChips.nth(3)).toContainText('unjargonit.com')
+    await expect(heroChips.nth(4)).toContainText('boothlio.com')
+    await expect(heroChips.nth(5)).toContainText('valentir.ca')
+    await expect(heroChips.nth(6)).toContainText('my360vision.com')
+    await expect(heroChips.nth(7)).toContainText('soaringpuck.com')
 
     const jumpNav = page.getByRole('navigation', { name: 'Browse by industry' })
     const jumpLinks = jumpNav.getByRole('link')
@@ -28,7 +23,7 @@ test.describe('Digital creations portfolio order', () => {
     await expect(jumpLinks.nth(4)).toHaveText(/Professional services/i)
     await expect(jumpLinks.nth(5)).toHaveText(/Business platforms/i)
 
-    const projectCards = page.locator('#portfolio article h3')
+    const projectCards = page.locator('#all-examples article h3')
     await expect(projectCards.nth(0)).toHaveText(/GRCStatus/i)
     await expect(projectCards.nth(1)).toHaveText(/4 The Blueprint/i)
     await expect(projectCards.nth(2)).toHaveText(/Unjargonit/i)

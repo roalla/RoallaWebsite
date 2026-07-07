@@ -34,9 +34,14 @@ export const organizationJsonLd = {
   knowsAbout: [
     'website development',
     'custom app development',
+    'client portal development',
     'workflow automation',
     'system integration',
     'AI workflow support',
+    'digital events',
+    'business workshops',
+    'bilingual websites',
+    'e-commerce websites',
     'digital transformation',
     'business enablement',
   ],
@@ -89,6 +94,59 @@ export function contactPageJsonLd(locale: string) {
     mainEntity: {
       '@type': 'Organization',
       '@id': `${SITE_URL}/#organization`,
+    },
+  }
+}
+
+const SERVICE_INQUIRY_TYPES_EN = [
+  'Website — new, redesign, conversion, booking, bilingual EN/FR, e-commerce, or ongoing support',
+  'App or platform — internal tools, customer apps, client portals, marketplaces, IoT dashboards',
+  'Integrations and automation — connect CRM, email, forms, and internal systems',
+  'AI support — lead scoring, content workflows, custom models',
+  'Digital events — booth kits, microsites, event apps, activations',
+  'Programs and advisory — strategy, operations, team, data, innovation',
+  'Workshops — branding, sales, productivity, ideation',
+] as const
+
+const SERVICE_INQUIRY_TYPES_FR = [
+  'Site Web — nouveau, refonte, conversion, réservation, bilingue EN/FR, commerce en ligne ou soutien continu',
+  'Application ou plateforme — outils internes, apps client, portails, places de marché, tableaux de bord IoT',
+  'Intégrations et automatisation — CRM, courriel, formulaires et systèmes internes',
+  'Soutien IA — notation de leads, flux de contenu, modèles sur mesure',
+  'Événements numériques — kits kiosque, microsites, apps événementielles, activations',
+  'Programmes et conseil — stratégie, opérations, équipe, données, innovation',
+  'Ateliers — image de marque, ventes, productivité, idéation',
+] as const
+
+export function serviceInquiryPageJsonLd(
+  locale: string,
+  name: string,
+  description: string,
+) {
+  const inquiryTypes = locale === 'fr' ? SERVICE_INQUIRY_TYPES_FR : SERVICE_INQUIRY_TYPES_EN
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name,
+    description,
+    url: pageUrl(locale, '/schedule'),
+    isPartOf: { '@id': `${SITE_URL}/#website` },
+    about: { '@id': `${SITE_URL}/#organization` },
+    inLanguage: locale === 'fr' ? 'fr-CA' : 'en-CA',
+    potentialAction: {
+      '@type': 'CommunicateAction',
+      name: locale === 'fr' ? 'Soumettre une demande de service' : 'Submit a service inquiry',
+      target: pageUrl(locale, '/schedule'),
+    },
+    mainEntity: {
+      '@type': 'ItemList',
+      name: locale === 'fr' ? 'Types de demande de service' : 'Service inquiry types',
+      itemListElement: inquiryTypes.map((item, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: item,
+      })),
     },
   }
 }

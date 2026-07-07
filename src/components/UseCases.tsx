@@ -20,6 +20,7 @@ import {
   USE_CASE_CATEGORIES,
   isUseCaseId,
   categoryForUseCase,
+  scheduleQueryForUseCase,
   type UseCaseCategory,
   type UseCaseFilter,
   type UseCaseId,
@@ -79,13 +80,30 @@ function PortfolioExamples({ slugs }: { slugs: readonly CaseStudySlug[] }) {
   )
 }
 
+function UseCaseInquiryLink({ id }: { id: UseCaseId }) {
+  const t = useTranslations('useCases')
+  const query = scheduleQueryForUseCase(id)
+
+  return (
+    <Link
+      href={{ pathname: '/schedule', query }}
+      className="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-primary hover:text-primary-dark transition-colors"
+    >
+      {t('rowCta')}
+      <ArrowUpRight className="w-3 h-3" aria-hidden />
+    </Link>
+  )
+}
+
 function UseCaseRowDesktop({
+  id,
   need,
   consider,
   deliver,
   maturity,
   portfolio,
 }: {
+  id: UseCaseId
   need: string
   consider: string
   deliver: string
@@ -102,18 +120,21 @@ function UseCaseRowDesktop({
         </div>
         {deliver}
         <PortfolioExamples slugs={portfolio} />
+        <UseCaseInquiryLink id={id} />
       </td>
     </tr>
   )
 }
 
 function UseCaseCardMobile({
+  id,
   need,
   consider,
   deliver,
   maturity,
   portfolio,
 }: {
+  id: UseCaseId
   need: string
   consider: string
   deliver: string
@@ -145,6 +166,7 @@ function UseCaseCardMobile({
         </div>
         <p className="text-sm text-slate-700 leading-relaxed">{deliver}</p>
         <PortfolioExamples slugs={portfolio} />
+        <UseCaseInquiryLink id={id} />
       </div>
     </article>
   )
@@ -213,6 +235,7 @@ function CategoryBlock({
                     </td>
                   </tr>
                   <UseCaseRowDesktop
+                    id={item.id}
                     need={t(`cases.${item.id}.need`)}
                     consider={t(`cases.${item.id}.consider`)}
                     deliver={t(`cases.${item.id}.deliver`)}
@@ -230,6 +253,7 @@ function CategoryBlock({
             <div key={item.id}>
               <UseCaseAnchor id={item.id} />
               <UseCaseCardMobile
+                id={item.id}
                 need={t(`cases.${item.id}.need`)}
                 consider={t(`cases.${item.id}.consider`)}
                 deliver={t(`cases.${item.id}.deliver`)}

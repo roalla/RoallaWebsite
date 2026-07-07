@@ -102,7 +102,7 @@ function EventCapabilityCard({
         </ul>
 
         <Link
-          href={{ pathname: '/schedule', query: { service: 'websites-brand' } }}
+          href={{ pathname: '/schedule', query: { intent: 'digital-events' } }}
           className={servicePrimaryLinkClass}
         >
           {t('topicCta')}
@@ -155,7 +155,7 @@ export default function DigitalEvents() {
           />
         }
         primaryCta={
-          <ScheduleButton variant="primary" size="lg" icon>
+          <ScheduleButton variant="primary" size="lg" icon intent="digital-events">
             {t('ctaButton')}
           </ScheduleButton>
         }
@@ -318,7 +318,7 @@ export default function DigitalEvents() {
           qualifier={t('ctaQualifier')}
           ctaSubtext={tCommon('ctaSubtext')}
           primaryCta={
-            <ScheduleButton variant="secondary" size="lg" icon className="bg-white text-slate-900 hover:bg-slate-100 border-0">
+            <ScheduleButton variant="secondary" size="lg" icon className="bg-white text-slate-900 hover:bg-slate-100 border-0" intent="digital-events">
               {t('ctaButton')}
             </ScheduleButton>
           }

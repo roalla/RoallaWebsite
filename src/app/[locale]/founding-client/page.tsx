@@ -34,7 +34,7 @@ export default async function FoundingClientPage() {
     '@type': 'Offer',
     name: t('offerTitle'),
     description: t('metadataDescription'),
-    price: '1500',
+    price: '999',
     priceCurrency: 'CAD',
     url: pageUrl,
     seller: {

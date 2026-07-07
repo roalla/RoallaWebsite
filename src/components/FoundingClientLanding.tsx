@@ -35,7 +35,7 @@ import {
 } from './services/ServicePageSections'
 
 const includeKeys = ['include1', 'include2', 'include3', 'include4', 'include5', 'include6'] as const
-const excludeKeys = ['exclude1', 'exclude2', 'exclude3', 'exclude4'] as const
+const excludeKeys = ['exclude1', 'exclude2', 'exclude3', 'exclude4', 'exclude5', 'exclude6', 'exclude7'] as const
 const addonKeys = ['addon1', 'addon2', 'addon3'] as const
 const termKeys = ['term1', 'term2', 'term3'] as const
 const processSteps = [
@@ -170,6 +170,7 @@ export default function FoundingClientLanding() {
                 <p className="text-4xl font-serif font-bold text-slate-900">{t('offerPrice')}</p>
                 <p className="text-sm text-slate-500 line-through">{t('offerComparePrice')}</p>
               </div>
+              <p className="text-sm text-slate-600 leading-relaxed mb-2">{t('offerHostingNote')}</p>
               <p className="text-sm text-slate-600 leading-relaxed">{t('offerIdeal')}</p>
               <ul className="mt-6 space-y-3">
                 {includeKeys.map((key) => (

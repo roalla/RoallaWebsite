@@ -2,7 +2,7 @@
 
 Operator copy for Brevo campaigns and manual outreach. Landing page: `https://www.roalla.com/en/founding-client` (French: `/fr/founding-client`).
 
-**Offer:** 5-page business website · **$1,500 CAD** · 20 founding spots · $750 deposit / $750 on launch · 2–3 weeks · Canada-wide · English · Français
+**Offer:** 5-page business website · **$999 CAD** · 20 founding spots · $500 deposit / $499 on launch · 2–3 weeks · Canada-wide · English · Français
 
 **Differentiator:** You're not hiring a template shop. Roalla is led by an executive with 30+ years across multiple industries and certifications in **ITIL, AI, and security**. Founding pricing; senior delivery.
 
@@ -15,13 +15,13 @@ Use **Brevo Standard** for automation. Segment by city/industry when possible. P
 ### Email 1 — Day 0
 
 **Subject A:** `Quick question about [Business Name]'s website`  
-**Subject B:** `$1,500 website — founding client spots (Canada)`
+**Subject B:** `$999 website — founding client spots (Canada)`
 
 > Hi [First name],  
 >  
 > I'm [Your name] with Roalla — we build business websites for companies across Canada. **I'm an executive with 30+ years across industries and certifications in ITIL, AI, and security** — not a freelance template shop.  
 >  
-> **We're offering our first 20 founding clients a 5-page site for $1,500** (regular $2,500+). Mobile-friendly, contact form, live in about 3 weeks.  
+> **We're offering our first 20 founding clients a 5-page site for $999** (regular $2,499+). Mobile-friendly, contact form, live in about 3 weeks.  
 >  
 > I noticed [site observation — e.g. hard to use on mobile / no clear way to book / looks outdated].  
 >  
@@ -38,7 +38,7 @@ Use **Brevo Standard** for automation. Segment by city/industry when possible. P
 
 > Hi [First name],  
 >  
-> Quick follow-up — we still have founding client spots at **$1,500 for a 5-page site** ($750 to start, $750 on launch).  
+> Quick follow-up — we still have founding client spots at **$999 for a 5-page site** ($500 to start, $499 on launch).  
 >  
 > Best for trades, clinics, restaurants, and local services that need a site that actually gets calls.  
 >  
@@ -53,13 +53,13 @@ Use **Brevo Standard** for automation. Segment by city/industry when possible. P
 
 > Hi [First name],  
 >  
-> Last note from me — founding client pricing ($1,500 for 5 pages) closes after **20 spots nationwide**.  
+> Last note from me — founding client pricing ($999 for 5 pages) closes after **20 spots nationwide**.  
 >  
 > If a new site is on your list this quarter, here's what you get:  
 > - 5 pages, mobile-friendly  
 > - Contact form + click-to-call  
 > - Live in 2–3 weeks  
-> - $750 deposit, $750 on launch  
+> - $500 deposit, $499 on launch  
 >  
 > Details: https://www.roalla.com/en/founding-client  
 >  
@@ -74,13 +74,13 @@ Send when the business, site, or contact is clearly French-first.
 ### Email 1 — Jour 0
 
 **Objet A:** `Question rapide sur le site de [Nom de l'entreprise]`  
-**Objet B:** `Site Web 1 500 $ — places client fondateur (Canada)`
+**Objet B:** `Site Web 999 $ — places client fondateur (Canada)`
 
 > Bonjour [Prénom],  
 >  
 > Je suis [Votre nom] chez Roalla — nous créons des sites Web d'affaires pour des entreprises partout au Canada.  
 >  
-> **Nous offrons à nos 20 premiers clients fondateurs un site de 5 pages pour 1 500 $** (tarif régulier 2 500 $+). Mobile, formulaire de contact, en ligne en environ 3 semaines.  
+> **Nous offrons à nos 20 premiers clients fondateurs un site de 5 pages pour 999 $** (tarif régulier 2 499 $+). Mobile, formulaire de contact, en ligne en environ 3 semaines.  
 >  
 > J'ai remarqué [observation — ex. difficile sur mobile / pas de réservation claire / site daté].  
 >  
@@ -97,7 +97,7 @@ Send when the business, site, or contact is clearly French-first.
 
 > Bonjour [Prénom],  
 >  
-> Petit suivi — il reste des places client fondateur à **1 500 $ pour 5 pages** (750 $ pour commencer, 750 $ au lancement).  
+> Petit suivi — il reste des places client fondateur à **999 $ pour 5 pages** (500 $ pour commencer, 499 $ au lancement).  
 >  
 > Idéal pour les entreprises locales qui ont besoin d'un site qui génère des appels.  
 >  
@@ -110,13 +110,13 @@ Send when the business, site, or contact is clearly French-first.
 
 ## LinkedIn DM (English)
 
-> Hi [Name] — I build 5-page business websites for Canadian SMBs. Running a founding client offer: **$1,500**, live in ~3 weeks. Saw [Business] — happy to send a one-page scope if useful. https://www.roalla.com/en/founding-client
+> Hi [Name] — I build 5-page business websites for Canadian SMBs. Running a founding client offer: **$999**, live in ~3 weeks. Saw [Business] — happy to send a one-page scope if useful. https://www.roalla.com/en/founding-client
 
 ---
 
 ## Phone script (15 seconds)
 
-> "Hi, I'm [Name] from Roalla in Burlington — we build websites for businesses across Canada. We're doing a founding client rate, fifteen hundred for five pages. Is updating your site something you're looking at this year?"
+> "Hi, I'm [Name] from Roalla in Burlington — we build websites for businesses across Canada. We're doing a founding client rate, nine ninety-nine for five pages. Is updating your site something you're looking at this year?"
 
 ---
 
@@ -137,7 +137,7 @@ Send when the business, site, or contact is clearly French-first.
 |---|---|---|---|---|---|---|---|---|
 | 1 | | | | | | | | |
 
-**Goal:** 30–40 outreaches/day · 5–7 deposits/month · $10k/mo at ~7 sites/month
+**Goal:** 30–40 outreaches/day · 5–7 deposits/month · ~$10k/mo at ~10 sites/month
 
 ---
 
@@ -145,5 +145,5 @@ Send when the business, site, or contact is clearly French-first.
 
 Send same day. See founding client page for full inclusions/exclusions: `/en/founding-client`
 
-**Payment:** $750 deposit (non-refundable once work begins) · $750 on launch  
+**Payment:** $500 deposit (non-refundable once work begins) · $499 on launch  
 **In exchange:** Google review + portfolio before/after permission

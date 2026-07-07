@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 import { getLocale, getTranslations } from 'next-intl/server'
 import FoundingClientLanding from '@/components/FoundingClientLanding'
 import { buildPageMetadata } from '@/lib/page-metadata'
-import { serviceMiniFaqJsonLd } from '@/lib/service-faq-jsonld'
+import { FOUNDING_CLIENT_FAQ_KEYS, serviceMiniFaqJsonLd } from '@/lib/service-faq-jsonld'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -27,7 +27,7 @@ export default async function FoundingClientPage() {
   const locale = await getLocale()
   const pageUrl = `https://www.roalla.com/${locale}/founding-client`
 
-  const faqJsonLd = serviceMiniFaqJsonLd((key) => t(key))
+  const faqJsonLd = serviceMiniFaqJsonLd((key) => t(key), FOUNDING_CLIENT_FAQ_KEYS)
 
   const servicesJsonLd = {
     '@context': 'https://schema.org',

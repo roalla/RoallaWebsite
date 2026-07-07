@@ -8,15 +8,17 @@ import { SERVICE_MINI_FAQ_KEYS, type ServiceMiniFaqNamespace } from '@/lib/servi
 
 export default function ServiceMiniFAQ({
   namespace,
+  keys = SERVICE_MINI_FAQ_KEYS,
 }: {
   namespace: ServiceMiniFaqNamespace
+  keys?: readonly string[]
 }) {
   const t = useTranslations(namespace)
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
   return (
     <div className="divide-y divide-slate-300 border border-slate-300 rounded-lg bg-white overflow-hidden shadow-sm">
-      {SERVICE_MINI_FAQ_KEYS.map((key, index) => {
+      {keys.map((key, index) => {
         const isOpen = openIndex === index
         return (
           <div key={key}>

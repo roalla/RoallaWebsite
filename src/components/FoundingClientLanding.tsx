@@ -33,6 +33,7 @@ import {
   serviceHeroSecondaryButtonClass,
   servicePrimaryLinkClass,
 } from './services/ServicePageSections'
+import { FOUNDING_CLIENT_FAQ_KEYS } from '@/lib/service-faq-jsonld'
 
 const includeKeys = ['include1', 'include2', 'include3', 'include4', 'include5', 'include6'] as const
 const excludeKeys = ['exclude1', 'exclude2', 'exclude3', 'exclude4', 'exclude5', 'exclude6', 'exclude7'] as const
@@ -273,7 +274,7 @@ export default function FoundingClientLanding() {
 
         <section id="faq" className="scroll-mt-28 mb-4 pt-4 border-t border-slate-200">
           <ServiceSectionHeading title={t('faqTitle')} className="mb-6" />
-          <ServiceMiniFAQ namespace="foundingClient" />
+          <ServiceMiniFAQ namespace="foundingClient" keys={FOUNDING_CLIENT_FAQ_KEYS} />
         </section>
 
         <ServicePageCTA

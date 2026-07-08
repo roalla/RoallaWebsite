@@ -56,7 +56,7 @@ test.describe('Header', () => {
     await page.setViewportSize({ width: 1280, height: 720 })
     await page.goto('/en')
 
-    const promo = page.getByRole('link', { name: /founding client offer/i })
+    const promo = page.getByRole('link', { name: /5-page website package/i })
     await expect(promo).toBeVisible()
     await expect(promo).toHaveAttribute('href', '/en/founding-client')
   })
@@ -65,7 +65,7 @@ test.describe('Header', () => {
     await page.setViewportSize({ width: 1280, height: 720 })
     await page.goto('/en/services/digital')
 
-    const promo = page.getByRole('link', { name: /founding client offer/i })
+    const promo = page.getByRole('link', { name: /5-page website package/i })
     await expect(promo).toBeVisible()
     await expect(promo).toHaveAttribute('href', '/en/founding-client')
   })
@@ -74,6 +74,6 @@ test.describe('Header', () => {
     await page.setViewportSize({ width: 1280, height: 720 })
     await page.goto('/en/founding-client')
 
-    await expect(page.getByRole('link', { name: /founding client offer/i })).toHaveCount(0)
+    await expect(page.getByRole('link', { name: /5-page website package/i })).toHaveCount(0)
   })
 })

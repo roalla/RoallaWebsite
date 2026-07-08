@@ -15,7 +15,7 @@ export const routing = defineRouting({
     '/programs/business-enablement': '/programs/business-enablement',
     '/programs/workshops': '/programs/workshops',
     '/website-design': '/website-design',
-    '/founding-client': '/founding-client',
+    '/website-package': '/website-package',
     '/about': '/about',
     '/assessment': '/assessment',
     '/faq': '/faq',

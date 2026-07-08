@@ -123,7 +123,7 @@ export default function WebsiteDesignLanding() {
           <p className="text-sm text-slate-700 leading-relaxed">{t('foundingPromoDesc')}</p>
         </div>
         <Link
-          href="/founding-client"
+          href="/website-package"
           className={servicePrimaryLinkClass + ' inline-flex w-full md:w-auto shrink-0 justify-center px-5 py-2.5 text-sm'}
         >
           {t('foundingPromoCta')}

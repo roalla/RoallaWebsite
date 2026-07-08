@@ -58,7 +58,7 @@ test.describe('Header', () => {
 
     const promo = page.getByRole('link', { name: /5-page website package/i })
     await expect(promo).toBeVisible()
-    await expect(promo).toHaveAttribute('href', '/en/founding-client')
+    await expect(promo).toHaveAttribute('href', '/en/website-package')
   })
 
   test('founding client promo appears across public pages', async ({ page }) => {
@@ -67,12 +67,12 @@ test.describe('Header', () => {
 
     const promo = page.getByRole('link', { name: /5-page website package/i })
     await expect(promo).toBeVisible()
-    await expect(promo).toHaveAttribute('href', '/en/founding-client')
+    await expect(promo).toHaveAttribute('href', '/en/website-package')
   })
 
   test('founding client promo is hidden on the offer page', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 })
-    await page.goto('/en/founding-client')
+    await page.goto('/en/website-package')
 
     await expect(page.getByRole('link', { name: /5-page website package/i })).toHaveCount(0)
   })

@@ -302,14 +302,14 @@ const Header = () => {
 
   const isProgramsActive = pathname.startsWith('/programs')
 
-  const showFoundingPromo = pathname !== '/founding-client'
+  const showFoundingPromo = pathname !== '/website-package'
 
   const foundingPromoLinkClass =
     'group flex items-center gap-1.5 rounded-lg border border-primary/40 bg-primary/10 px-2.5 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/20 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black'
 
   const foundingPromoLink = showFoundingPromo ? (
     <Link
-      href="/founding-client"
+      href="/website-package"
       className={foundingPromoLinkClass}
       aria-label={t('foundingPromoLabel')}
       title={t('foundingPromoLabel')}
@@ -608,7 +608,7 @@ const Header = () => {
           <div className="lg:hidden flex items-center space-x-2">
             {showFoundingPromo && (
               <Link
-                href="/founding-client"
+                href="/website-package"
                 className={`${foundingPromoLinkClass} min-h-[44px] min-w-[44px] justify-center px-2.5`}
                 aria-label={t('foundingPromoLabel')}
                 title={t('foundingPromoLabel')}
@@ -650,9 +650,9 @@ const Header = () => {
               <div className="flex-1 overflow-y-auto px-2 pt-2 pb-3 space-y-1 bg-black border-t border-white/10">
                 {showFoundingPromo && (
                   <Link
-                    href="/founding-client"
+                    href="/website-package"
                     className="mb-2 flex items-center gap-3 rounded-lg border border-primary/30 bg-primary/10 px-3 py-3 min-h-[44px] text-primary transition-colors hover:bg-primary/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                    onClick={(e) => handleMobileNavClick(e, '/founding-client')}
+                    onClick={(e) => handleMobileNavClick(e, '/website-package')}
                   >
                     <Flag className="h-5 w-5 shrink-0" aria-hidden />
                     <span>

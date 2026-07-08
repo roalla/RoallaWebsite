@@ -92,7 +92,7 @@ describe('Header', () => {
     const promoLinks = screen.getAllByRole('link', { name: 'foundingPromoLabel' })
     expect(promoLinks.length).toBeGreaterThan(0)
     promoLinks.forEach((link) => {
-      expect(link).toHaveAttribute('href', '/founding-client')
+      expect(link).toHaveAttribute('href', '/website-package')
     })
   })
 
@@ -102,12 +102,12 @@ describe('Header', () => {
     const promoLinks = screen.getAllByRole('link', { name: 'foundingPromoLabel' })
     expect(promoLinks.length).toBeGreaterThan(0)
     promoLinks.forEach((link) => {
-      expect(link).toHaveAttribute('href', '/founding-client')
+      expect(link).toHaveAttribute('href', '/website-package')
     })
   })
 
   it('hides founding client promo on the founding client page', () => {
-    mockPathname.mockReturnValue('/founding-client')
+    mockPathname.mockReturnValue('/website-package')
     render(<Header />)
     expect(screen.queryByRole('link', { name: 'foundingPromoLabel' })).not.toBeInTheDocument()
   })

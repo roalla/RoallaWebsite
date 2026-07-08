@@ -16,16 +16,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return buildPageMetadata({
     locale,
-    path: '/founding-client',
+    path: '/website-package',
     title: t('metadataTitle'),
     description: t('metadataDescription'),
   })
 }
 
-export default async function FoundingClientPage() {
+export default async function WebsitePackagePage() {
   const t = await getTranslations('foundingClient')
   const locale = await getLocale()
-  const pageUrl = `https://www.roalla.com/${locale}/founding-client`
+  const pageUrl = `https://www.roalla.com/${locale}/website-package`
 
   const faqJsonLd = serviceMiniFaqJsonLd((key) => t(key), FOUNDING_CLIENT_FAQ_KEYS)
 
@@ -51,12 +51,12 @@ export default async function FoundingClientPage() {
   return (
     <div className="page-shell">
       <Script
-        id="founding-client-jsonld"
+        id="website-package-jsonld"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesJsonLd) }}
       />
       <Script
-        id="founding-client-faq-jsonld"
+        id="website-package-faq-jsonld"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />

@@ -60,7 +60,7 @@ export default function FoundingClientLanding() {
   ]
 
   return (
-    <section id="founding-client" className="section-padding relative">
+    <section id="website-package" className="section-padding relative">
       <ServicePageHero
         variant="digital"
         eyebrow={t('heroEyebrow')}

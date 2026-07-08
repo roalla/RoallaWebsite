@@ -1,6 +1,6 @@
 # 5-Page Website Package — Outreach Kit
 
-Operator copy for Brevo campaigns and manual outreach. Landing page: `https://www.roalla.com/en/founding-client` (French: `/fr/founding-client`).
+Operator copy for Brevo campaigns and manual outreach. Landing page: `https://www.roalla.com/en/website-package` (French: `/fr/website-package`).
 
 **Offer:** 5-page business website package · **$999 CAD** · $500 deposit / $499 on launch · 2–3 weeks · Canada-wide · English · Français
 
@@ -26,7 +26,7 @@ Use **Brevo Standard** for automation. Segment by city/industry when possible. P
 > I noticed [site observation — e.g. hard to use on mobile / no clear way to book / looks outdated].  
 >  
 > **No pitch deck.** Reply with your URL or see the package here:  
-> https://www.roalla.com/en/founding-client  
+> https://www.roalla.com/en/website-package  
 >  
 > — [Your name], Roalla  
 > Burlington, ON · English · Français  
@@ -59,7 +59,7 @@ Use **Brevo Standard** for automation. Segment by city/industry when possible. P
 > - Live in 2–3 weeks  
 > - $500 deposit, $499 on launch  
 >  
-> Details: https://www.roalla.com/en/founding-client  
+> Details: https://www.roalla.com/en/website-package  
 >  
 > — [Your name], Roalla
 
@@ -83,7 +83,7 @@ Send when the business, site, or contact is clearly French-first.
 > J'ai remarqué [observation — ex. difficile sur mobile / pas de réservation claire / site daté].  
 >  
 > Répondez avec votre URL ou consultez le forfait :  
-> https://www.roalla.com/fr/founding-client  
+> https://www.roalla.com/fr/website-package  
 >  
 > — [Votre nom], Roalla  
 > Burlington, ON · English · Français  
@@ -108,7 +108,7 @@ Send when the business, site, or contact is clearly French-first.
 
 ## LinkedIn DM (English)
 
-> Hi [Name] — I build 5-page business websites for Canadian SMBs. Fixed-scope package: **$999**, live in ~3 weeks. Saw [Business] — happy to send a one-page scope if useful. https://www.roalla.com/en/founding-client
+> Hi [Name] — I build 5-page business websites for Canadian SMBs. Fixed-scope package: **$999**, live in ~3 weeks. Saw [Business] — happy to send a one-page scope if useful. https://www.roalla.com/en/website-package
 
 ---
 
@@ -141,7 +141,7 @@ Send when the business, site, or contact is clearly French-first.
 
 ## After deposit — scope one-pager
 
-Send same day. See package page for full inclusions/exclusions: `/en/founding-client`
+Send same day. See package page for full inclusions/exclusions: `/en/website-package`
 
 **Payment:** $500 deposit (non-refundable once work begins) · $499 on launch  
 **Optional:** Google review and client example permission (confirm in scope doc, not required on marketing page)

@@ -62,6 +62,16 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/founding-client',
+        destination: '/en/website-package',
+        permanent: true,
+      },
+      {
+        source: '/:locale(en|fr)/founding-client',
+        destination: '/:locale/website-package',
+        permanent: true,
+      },
+      {
         source: '/:path*',
         has: [{ type: 'host', value: 'roalla.com' }],
         destination: 'https://www.roalla.com/:path*',

@@ -39,7 +39,7 @@ import {
   serviceSecondaryButtonClass,
 } from './services/ServicePageSections'
 
-const WEBSITE_PORTFOLIO_IDS = ['ken-effect', 'goalie-stop', 'valentir-green-tech'] as const satisfies readonly PortfolioItemId[]
+const WEBSITE_PORTFOLIO_IDS = ['ken-effect', 'kaylan-kaptures', 'goalie-stop'] as const satisfies readonly PortfolioItemId[]
 
 const marketPainKeys = ['market1', 'market2', 'market3', 'market4'] as const
 const offerIncludeKeys = ['offerI1', 'offerI2', 'offerI3', 'offerI4', 'offerI5', 'offerI6'] as const
@@ -55,14 +55,14 @@ const notFitKeys = ['notFit1', 'notFit2'] as const
 
 const portfolioNameKeys = {
   'ken-effect': 't3Name',
+  'kaylan-kaptures': 't15Name',
   'goalie-stop': 't12Name',
-  'valentir-green-tech': 't8Name',
 } as const
 
 const portfolioDescKeys = {
   'ken-effect': 't3CaseStudy',
+  'kaylan-kaptures': 't15CaseStudy',
   'goalie-stop': 't12CaseStudy',
-  'valentir-green-tech': 't8CaseStudy',
 } as const
 
 export default function WebsiteDesignLanding() {

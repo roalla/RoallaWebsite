@@ -16,6 +16,7 @@ export type PortfolioItemId =
   | 'goalie-stop'
   | 'grcstatus'
   | 'unjargonit'
+  | 'kaylan-kaptures'
 
 export type PortfolioVerticalId = 'fleet'
 
@@ -36,7 +37,7 @@ export type PortfolioItemConfig = {
   tryUrl: string
   domain?: string
   contactService: 'websites-brand' | 'custom-platforms'
-  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10' | 't11' | 't12' | 't13' | 't14'
+  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10' | 't11' | 't12' | 't13' | 't14' | 't15'
   tagKeys?: readonly [string, string, string]
   /** Shown in the featured case-study block for this category */
   featuredCategory?: PortfolioCategory
@@ -78,6 +79,7 @@ export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'soaring-puck',
   'pitch-hotshots',
   'ken-effect',
+  'kaylan-kaptures',
   'goalie-stop',
   'cold-dejabru-event',
   'roalla-site',
@@ -90,7 +92,7 @@ export const portfolioHeroLiveChipIds = portfolioHeroItemOrder.slice(0, 8)
 export const portfolioCuratedPaths = [
   {
     id: 'marketing-site',
-    itemIds: ['ken-effect', 'goalie-stop', 'valentir-green-tech'] as const satisfies readonly PortfolioItemId[],
+    itemIds: ['ken-effect', 'kaylan-kaptures', 'goalie-stop'] as const satisfies readonly PortfolioItemId[],
   },
   {
     id: 'custom-platform',
@@ -140,7 +142,7 @@ export const portfolioIndustryCategories: PortfolioIndustryCategoryConfig[] = [
   },
   {
     id: 'professional-services',
-    itemIds: ['grcstatus', 'ken-effect'],
+    itemIds: ['grcstatus', 'ken-effect', 'kaylan-kaptures'],
     contactService: 'websites-brand',
     i18nPrefix: 'industryProfessional',
   },
@@ -300,6 +302,18 @@ export const portfolioItems: PortfolioItemConfig[] = [
     industryCategory: 'sports-recreation',
   },
   {
+    id: 'kaylan-kaptures',
+    category: 'website',
+    projectType: 'client',
+    imageUrl: '/kaylankaptures_snapshot.jpg',
+    tryUrl: 'https://www.kaylankaptures.com/',
+    domain: 'kaylankaptures.com',
+    contactService: 'websites-brand',
+    i18nPrefix: 't15',
+    tagKeys: ['t15Tag1', 't15Tag2', 't15Tag3'],
+    industryCategory: 'professional-services',
+  },
+  {
     id: 'roalla-site',
     category: 'website',
     projectType: 'roalla-site',
@@ -333,6 +347,8 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
     'GRCStatus homepage — compliance readiness snapshot for SOC 2, HIPAA, and NIST CSF with live preview and free assessment CTAs',
   unjargonit:
     'Unjargonit homepage — plain-language tech learning tracks for students, parents, and teachers with progress dashboards and hands-on playgrounds',
+  'kaylan-kaptures':
+    'Kaylan Kaptures homepage — photography brand site with scenic hero, Book a Session CTA, and portfolio path',
 }
 
 export type PortfolioScheduleQuery = {

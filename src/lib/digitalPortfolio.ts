@@ -80,11 +80,11 @@ export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'soaring-puck',
   'hockey-gaze',
   'pitch-hotshots',
-  'ken-effect',
   'kaylan-kaptures',
   'goalie-stop',
   'cold-dejabru-event',
   'roalla-site',
+  'ken-effect',
 ]
 
 /** Domains shown as quick-open chips in the portfolio hero. */

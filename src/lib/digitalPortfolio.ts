@@ -17,6 +17,7 @@ export type PortfolioItemId =
   | 'grcstatus'
   | 'unjargonit'
   | 'kaylan-kaptures'
+  | 'hockey-gaze'
 
 export type PortfolioVerticalId = 'fleet'
 
@@ -37,7 +38,7 @@ export type PortfolioItemConfig = {
   tryUrl: string
   domain?: string
   contactService: 'websites-brand' | 'custom-platforms'
-  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10' | 't11' | 't12' | 't13' | 't14' | 't15'
+  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10' | 't11' | 't12' | 't13' | 't14' | 't15' | 't16'
   tagKeys?: readonly [string, string, string]
   /** Shown in the featured case-study block for this category */
   featuredCategory?: PortfolioCategory
@@ -77,6 +78,7 @@ export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'valentir-green-tech',
   'my360vision',
   'soaring-puck',
+  'hockey-gaze',
   'pitch-hotshots',
   'ken-effect',
   'kaylan-kaptures',
@@ -124,7 +126,7 @@ export const portfolioIndustryCategories: PortfolioIndustryCategoryConfig[] = [
   },
   {
     id: 'sports-recreation',
-    itemIds: ['soaring-puck', 'goalie-stop'],
+    itemIds: ['soaring-puck', 'hockey-gaze', 'goalie-stop'],
     contactService: 'websites-brand',
     i18nPrefix: 'industrySports',
   },
@@ -214,6 +216,18 @@ export const portfolioItems: PortfolioItemConfig[] = [
     contactService: 'custom-platforms',
     i18nPrefix: 't1',
     tagKeys: ['t1Tag1', 't1Tag2', 't1Tag3'],
+    industryCategory: 'sports-recreation',
+  },
+  {
+    id: 'hockey-gaze',
+    category: 'platform',
+    projectType: 'roalla-product',
+    imageUrl: '/Hockeygaze_snapshot.jpg',
+    tryUrl: 'https://www.hockeygaze.com/',
+    domain: 'hockeygaze.com',
+    contactService: 'custom-platforms',
+    i18nPrefix: 't16',
+    tagKeys: ['t16Tag1', 't16Tag2', 't16Tag3'],
     industryCategory: 'sports-recreation',
   },
   {
@@ -349,6 +363,8 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
     'Unjargonit homepage — plain-language tech learning tracks for students, parents, and teachers with progress dashboards and hands-on playgrounds',
   'kaylan-kaptures':
     'Kaylan Kaptures homepage — photography brand site with scenic hero, Book a Session CTA, and portfolio path',
+  'hockey-gaze':
+    'Hockey Gaze app homepage — position-specific hockey vision and decision training with a 45-second free drill',
 }
 
 export type PortfolioScheduleQuery = {

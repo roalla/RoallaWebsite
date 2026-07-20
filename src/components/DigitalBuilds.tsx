@@ -11,13 +11,9 @@ import {
   Sparkles,
   ArrowRight,
   CheckCircle,
-  Search,
-  Layout,
-  Hammer,
   Rocket,
   Package,
   Users,
-  ExternalLink,
 } from 'lucide-react'
 import ScheduleButton from './ScheduleButton'
 import StickyMobileCTA from './StickyMobileCTA'
@@ -25,7 +21,6 @@ import ServiceMiniFAQ from './services/ServiceMiniFAQ'
 import ServiceTestimonialBand from './services/ServiceTestimonialBand'
 import Breadcrumb from './Breadcrumb'
 import BrowserFrame from './digital/BrowserFrame'
-import BrandJourneyBand from './services/BrandJourneyBand'
 import { SERVICE_PAGE_FAQ_KEYS } from '@/lib/service-faq-jsonld'
 import {
   getOrderedPortfolioItems,
@@ -37,26 +32,11 @@ import {
   type PortfolioItemId,
 } from '@/lib/digitalPortfolio'
 import {
-  BRAND_PILLARS,
-  DIGITAL_PILLAR_INTRO_KEYS,
-  PILLAR_BADGE_KEYS,
-  PILLAR_CTA_KEYS,
-  PILLAR_SECTION_IDS,
-  PILLAR_TITLE_KEYS,
-  START_HERE_KEYS,
-  BUILD_PHASE_LABEL_KEYS,
-  BUILD_PHASE_RANGE_KEYS,
-  type BrandPillar,
-} from '@/lib/brand-journey'
-import {
   ServicePageHero,
   ConsultingHeroVisual,
   ServiceAnchorNav,
   ServiceSectionHeading,
   ServicePageCTA,
-  PillarBadge,
-  PillarSectionHeader,
-  pillarSectionClass,
   serviceCardClass,
   serviceHeroSecondaryButtonClass,
   servicePrimaryLinkClass,
@@ -72,27 +52,29 @@ const digitalBuildIntent = {
   'ai-support': 'ai-support',
 } as const satisfies Record<(typeof buildAnchors)[number], 'website' | 'platform' | 'automation' | 'ai-support'>
 
-const buildSteps = [
-  { icon: Search, titleKey: 'step1Title', stepKey: 'step1', hintKey: 'step1Hint' },
-  { icon: Layout, titleKey: 'step2Title', stepKey: 'step2', hintKey: 'step2Hint' },
-  { icon: Hammer, titleKey: 'step3Title', stepKey: 'step3', hintKey: 'step3Hint' },
-  { icon: Rocket, titleKey: 'step4Title', stepKey: 'step4', hintKey: 'step4Hint' },
-] as const
-
 const fitKeys = ['fit1', 'fit2', 'fit3'] as const
-
-const BUILD_PILLARS: Record<(typeof buildAnchors)[number], BrandPillar> = {
-  websites: 'emerge',
-  platforms: 'soar',
-  automation: 'soar',
-  'ai-support': 'soar',
-}
 
 function portfolioItemName(
   tPortfolio: ReturnType<typeof useTranslations<'digitalCreations'>>,
   item: PortfolioItemConfig,
 ) {
-  const map = { t1: 't1Name', t3: 't3Name', t4: 't4Name', t5: 't5Name', t6: 't6Name', t7: 't7Name', t8: 't8Name', t9: 't9Name', t10: 't10Name', t11: 't11Name', t12: 't12Name', t13: 't13Name', t14: 't14Name', t15: 't15Name', t16: 't16Name' } as const
+  const map = {
+    t1: 't1Name',
+    t3: 't3Name',
+    t4: 't4Name',
+    t5: 't5Name',
+    t6: 't6Name',
+    t7: 't7Name',
+    t8: 't8Name',
+    t9: 't9Name',
+    t10: 't10Name',
+    t11: 't11Name',
+    t12: 't12Name',
+    t13: 't13Name',
+    t14: 't14Name',
+    t15: 't15Name',
+    t16: 't16Name',
+  } as const
   return tPortfolio(map[item.i18nPrefix])
 }
 
@@ -100,20 +82,13 @@ type DigitalBuild = {
   title: string
   desc: string
   features: string[]
-  deliverables: string[]
-  deliverablesTitle: string
-  ideal: string
-  outcome: string
-  notFor: string
-  icon: typeof buildIcons[number]
-  ctaService: 'websites-brand' | 'custom-platforms'
+  icon: (typeof buildIcons)[number]
   requestCta: string
   proofText: string
   proofHash: PortfolioItemId
   proofReference: PortfolioItemId
   timeline: string
-  anchor: string
-  pillar: BrandPillar
+  anchor: (typeof buildAnchors)[number]
 }
 
 function DigitalBuildCard({
@@ -125,37 +100,20 @@ function DigitalBuildCard({
   t: ReturnType<typeof useTranslations<'digitalBuilds'>>
   locale: string
 }) {
-  const tBrand = useTranslations('brandJourney')
-
   return (
-    <Reveal as="article" id={build.anchor} className={serviceCardClass}>
-      <div className="p-7 lg:p-8 flex flex-col flex-1">
-        <div className="flex items-start gap-4 mb-5">
+    <Reveal as="article" id={build.anchor} className={`${serviceCardClass} scroll-mt-28`}>
+      <div className="p-6 lg:p-7 flex flex-col flex-1">
+        <div className="flex items-start gap-4 mb-4">
           <div className="w-11 h-11 shrink-0 rounded-md border border-slate-200 bg-slate-50 flex items-center justify-center">
             <build.icon className="w-5 h-5 text-primary" />
           </div>
           <div className="min-w-0 flex-1">
-            <div className="mb-2">
-              <PillarBadge label={tBrand(PILLAR_BADGE_KEYS[build.pillar])} />
-            </div>
             <h3 className="text-xl font-serif font-bold text-slate-900">{build.title}</h3>
             <p className="mt-1 text-xs font-medium uppercase tracking-wide text-slate-500">{build.timeline}</p>
-            <p className="mt-3 text-sm text-slate-600 leading-relaxed">{build.desc}</p>
           </div>
         </div>
 
-        <p className="text-sm text-slate-700 border-l-2 border-primary/30 pl-3 mb-5 leading-relaxed">{build.ideal}</p>
-
-        <div className="space-y-3 mb-5 text-sm">
-          <p className="text-slate-700">
-            <span className="block text-xs font-medium uppercase tracking-wide text-slate-500 mb-1">{t('outcomeLabel')}</span>
-            {build.outcome}
-          </p>
-          <p className="text-slate-600">
-            <span className="block text-xs font-medium uppercase tracking-wide text-slate-500 mb-1">{t('notForLabel')}</span>
-            {build.notFor}
-          </p>
-        </div>
+        <p className="text-sm text-slate-600 leading-relaxed mb-5">{build.desc}</p>
 
         <ul className="space-y-2 mb-6">
           {build.features.map((feature) => (
@@ -166,27 +124,15 @@ function DigitalBuildCard({
           ))}
         </ul>
 
-        <div className="mb-6 rounded-lg border border-slate-200 bg-slate-50/80 p-4">
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-500 mb-3">{build.deliverablesTitle}</p>
-          <ul className="space-y-2">
-            {build.deliverables.map((item) => (
-              <li key={item} className="flex items-start text-sm text-slate-600">
-                <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0 mt-0.5" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="mt-auto pt-5 border-t border-slate-100 space-y-2.5">
+        <div className="mt-auto pt-5 border-t border-slate-100 space-y-3">
           <Link
             href={{
               pathname: '/schedule',
               query: buildPortfolioScheduleQuery(
                 getPortfolioItem(build.proofReference)!,
                 undefined,
-                digitalBuildScheduleNeed[build.anchor as keyof typeof digitalBuildScheduleNeed],
-                digitalBuildIntent[build.anchor as keyof typeof digitalBuildIntent],
+                digitalBuildScheduleNeed[build.anchor],
+                digitalBuildIntent[build.anchor],
               ),
             }}
             className={servicePrimaryLinkClass}
@@ -196,10 +142,10 @@ function DigitalBuildCard({
           </Link>
           <a
             href={`/${locale}/services/portfolio#${build.proofHash}`}
-            className="inline-flex w-full items-center justify-center text-slate-700 font-medium py-2.5 px-4 rounded-md text-sm border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-colors"
+            className="inline-flex items-center text-sm font-medium text-slate-600 hover:text-primary hover:underline"
           >
             {build.proofText}
-            <ExternalLink className="ml-2 w-3.5 h-3.5" />
+            <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
           </a>
         </div>
       </div>
@@ -207,46 +153,8 @@ function DigitalBuildCard({
   )
 }
 
-function BuildStepCards({
-  stepIndices,
-  t,
-  tBrand,
-  pillar,
-}: {
-  stepIndices: number[]
-  t: ReturnType<typeof useTranslations<'digitalBuilds'>>
-  tBrand: ReturnType<typeof useTranslations<'brandJourney'>>
-  pillar: BrandPillar
-}) {
-  return (
-    <div className={`grid gap-5 ${stepIndices.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-2 lg:grid-cols-4'}`}>
-      {stepIndices.map((idx) => {
-        const step = buildSteps[idx]
-        return (
-          <div key={step.stepKey} className="rounded-lg border border-slate-200 bg-white p-5">
-            <div className="flex flex-wrap items-center gap-2 mb-3">
-              <span className="w-7 h-7 rounded-full border border-slate-200 bg-slate-50 text-slate-700 text-xs font-semibold flex items-center justify-center">
-                {idx + 1}
-              </span>
-              <step.icon className="w-4 h-4 text-primary" />
-              {idx === stepIndices[0] && <PillarBadge label={tBrand(BUILD_PHASE_LABEL_KEYS[pillar])} />}
-            </div>
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-500 mb-2">
-              {tBrand(BUILD_PHASE_RANGE_KEYS[pillar])}
-            </p>
-            <p className="font-semibold text-slate-900 text-sm mb-1">{t(step.titleKey)}</p>
-            <p className="text-xs text-slate-500 mb-2">{t(step.hintKey)}</p>
-            <p className="text-sm text-slate-600 leading-relaxed">{t(step.stepKey)}</p>
-          </div>
-        )
-      })}
-    </div>
-  )
-}
-
 const DigitalBuilds = () => {
   const t = useTranslations('digitalBuilds')
-  const tBrand = useTranslations('brandJourney')
   const tBc = useTranslations('breadcrumb')
   const tPortfolio = useTranslations('digitalCreations')
   const tCommon = useTranslations('common')
@@ -263,84 +171,51 @@ const DigitalBuilds = () => {
       title: t('s0Title'),
       desc: t('s0Desc'),
       features: [t('s0F1'), t('s0F2'), t('s0F3')],
-      deliverables: [t('s0D1'), t('s0D2'), t('s0D3'), t('s0D4')],
-      deliverablesTitle: t('s0DeliverablesTitle'),
-      ideal: t('s0Ideal'),
-      outcome: t('s0Outcome'),
-      notFor: t('s0NotFor'),
       icon: buildIcons[0],
-      ctaService: 'websites-brand',
       requestCta: t('s0RequestCta'),
       proofText: t('s0Proof'),
       proofHash: 'ken-effect',
       proofReference: 'ken-effect',
       timeline: t('websiteTimeline'),
       anchor: buildAnchors[0],
-      pillar: BUILD_PILLARS.websites,
     },
     {
       title: t('s1Title'),
       desc: t('s1Desc'),
       features: [t('s1F1'), t('s1F2'), t('s1F3')],
-      deliverables: [t('s1D1'), t('s1D2'), t('s1D3'), t('s1D4')],
-      deliverablesTitle: t('s1DeliverablesTitle'),
-      ideal: t('s1Ideal'),
-      outcome: t('s1Outcome'),
-      notFor: t('s1NotFor'),
       icon: buildIcons[1],
-      ctaService: 'custom-platforms',
       requestCta: t('s1RequestCta'),
       proofText: t('s1Proof'),
       proofHash: 'my360vision',
       proofReference: 'my360vision',
       timeline: t('platformTimeline'),
       anchor: buildAnchors[1],
-      pillar: BUILD_PILLARS.platforms,
     },
     {
       title: t('s2Title'),
       desc: t('s2Desc'),
       features: [t('s2F1'), t('s2F2'), t('s2F3')],
-      deliverables: [t('s2D1'), t('s2D2'), t('s2D3'), t('s2D4')],
-      deliverablesTitle: t('s2DeliverablesTitle'),
-      ideal: t('s2Ideal'),
-      outcome: t('s2Outcome'),
-      notFor: t('s2NotFor'),
       icon: buildIcons[2],
-      ctaService: 'custom-platforms',
       requestCta: t('s2RequestCta'),
       proofText: t('s2Proof'),
       proofHash: 'boothlio',
       proofReference: 'boothlio',
       timeline: t('automationTimeline'),
       anchor: buildAnchors[2],
-      pillar: BUILD_PILLARS.automation,
     },
     {
       title: t('s3Title'),
       desc: t('s3Desc'),
       features: [t('s3F1'), t('s3F2'), t('s3F3')],
-      deliverables: [t('s3D1'), t('s3D2'), t('s3D3'), t('s3D4')],
-      deliverablesTitle: t('s3DeliverablesTitle'),
-      ideal: t('s3Ideal'),
-      outcome: t('s3Outcome'),
-      notFor: t('s3NotFor'),
       icon: buildIcons[3],
-      ctaService: 'custom-platforms',
       requestCta: t('s3RequestCta'),
       proofText: t('s3Proof'),
       proofHash: 'business-cocoon',
       proofReference: 'pitch-hotshots',
       timeline: t('aiTimeline'),
       anchor: buildAnchors[3],
-      pillar: BUILD_PILLARS['ai-support'],
     },
   ]
-
-  const websiteBuild = builds[0]
-  const platformBuild = builds[1]
-  const automationBuild = builds[2]
-  const aiBuild = builds[3]
 
   return (
     <section id="digital-builds" className="section-padding relative">
@@ -350,7 +225,6 @@ const DigitalBuilds = () => {
         title={t('title')}
         subtitle={t('subtitle')}
         subtitleHighlight={t('subtitleHighlight')}
-        journeyLine={undefined}
         stats={stats}
         visual={
           <ConsultingHeroVisual
@@ -382,52 +256,20 @@ const DigitalBuilds = () => {
       />
 
       <div className="max-w-6xl mx-auto">
-        <BrandJourneyBand />
-
         <ServiceAnchorNav
-          label={tBrand('jumpNavPillars')}
+          label={t('jumpNavLabel')}
           items={builds.map((b) => ({ id: b.anchor, label: b.title }))}
         />
 
-        {BRAND_PILLARS.map((pillar) => (
-          <section key={pillar} id={PILLAR_SECTION_IDS[pillar]} className={pillarSectionClass}>
-            <PillarSectionHeader
-              pillarTitle={tBrand(PILLAR_TITLE_KEYS[pillar])}
-              intro={tBrand(DIGITAL_PILLAR_INTRO_KEYS[pillar])}
-              startHere={tBrand(START_HERE_KEYS[pillar])}
-              phaseRange={tBrand(BUILD_PHASE_RANGE_KEYS[pillar])}
-            />
-            {pillar === 'prepare' && <BuildStepCards stepIndices={[0, 1]} t={t} tBrand={tBrand} pillar="prepare" />}
-            {pillar === 'transform' && <BuildStepCards stepIndices={[2]} t={t} tBrand={tBrand} pillar="transform" />}
-            {pillar === 'emerge' && (
-              <div className="max-w-3xl">
-                <DigitalBuildCard build={websiteBuild} t={t} locale={locale} />
-              </div>
-            )}
-            {pillar === 'soar' && (
-              <>
-                <div className="grid lg:grid-cols-3 gap-6 mb-8">
-                  <DigitalBuildCard build={platformBuild} t={t} locale={locale} />
-                  <DigitalBuildCard build={automationBuild} t={t} locale={locale} />
-                  <DigitalBuildCard build={aiBuild} t={t} locale={locale} />
-                </div>
-                <p className="text-sm font-medium text-slate-700 mb-4">{t('buildSubtitle')}</p>
-                <BuildStepCards stepIndices={[3]} t={t} tBrand={tBrand} pillar="soar" />
-              </>
-            )}
-            <Link
-              href={
-                pillar === 'soar'
-                  ? { pathname: '/schedule', query: { intent: 'website' } }
-                  : '/schedule'
-              }
-              className="mt-6 inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
-            >
-              {tBrand(PILLAR_CTA_KEYS[pillar])}
-              <ArrowRight className="ml-1.5 w-4 h-4" />
-            </Link>
-          </section>
-        ))}
+        <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+          {builds.map((build) => (
+            <DigitalBuildCard key={build.anchor} build={build} t={t} locale={locale} />
+          ))}
+        </div>
+
+        <Reveal className="mt-10 rounded-xl border border-slate-200 bg-slate-50/80 px-5 py-4 text-center">
+          <p className="text-sm font-medium text-slate-700 leading-relaxed">{t('heroJourneyLine')}</p>
+        </Reveal>
 
         <Reveal className="mt-16 pt-12 border-t border-slate-200">
           <div className="rounded-xl border border-slate-200 bg-gradient-to-br from-slate-50 via-white to-primary/[0.04] p-6 lg:p-8">
@@ -498,15 +340,14 @@ const DigitalBuilds = () => {
           </div>
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-6 lg:p-8 flex flex-col justify-center">
             <p className="text-slate-700 leading-relaxed mb-4 text-sm">{t('fitConsultingNote')}</p>
-            <Link href="/programs/business-enablement" className="inline-flex items-center text-primary font-medium text-sm hover:underline">
+            <Link
+              href="/programs/business-enablement"
+              className="inline-flex items-center text-primary font-medium text-sm hover:underline"
+            >
               {t('compareConsultingLink')}
               <ArrowRight className="ml-1.5 w-4 h-4" />
             </Link>
           </div>
-        </Reveal>
-
-        <Reveal className="mt-8 rounded-lg border border-slate-200 bg-white px-6 py-5 text-center">
-          <p className="text-sm text-slate-700 leading-relaxed">{tBrand('crossLaneBridge')}</p>
         </Reveal>
 
         <Reveal className="mt-16 pt-12 border-t border-slate-200">
@@ -523,7 +364,13 @@ const DigitalBuilds = () => {
           qualifier={t('ctaQualifier')}
           ctaSubtext={tCommon('ctaSubtext')}
           primaryCta={
-            <ScheduleButton variant="secondary" size="lg" icon className="bg-white text-slate-900 hover:bg-slate-100 border-0" intent="website">
+            <ScheduleButton
+              variant="secondary"
+              size="lg"
+              icon
+              className="bg-white text-slate-900 hover:bg-slate-100 border-0"
+              intent="website"
+            >
               {tCommon('scheduleConsultation')}
             </ScheduleButton>
           }
@@ -542,7 +389,11 @@ const DigitalBuilds = () => {
           ]}
         />
       </div>
-      <StickyMobileCTA label={tCommon('scheduleConsultation')} intent="website" sublabel={tCommon('ctaSubtext')} />
+      <StickyMobileCTA
+        label={tCommon('scheduleConsultation')}
+        intent="website"
+        sublabel={tCommon('ctaSubtext')}
+      />
     </section>
   )
 }

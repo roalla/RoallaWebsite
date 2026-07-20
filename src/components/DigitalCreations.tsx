@@ -4,24 +4,13 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Reveal from './motion/Reveal'
 import { useTranslations } from 'next-intl'
-import {
-  ExternalLink,
-  ArrowRight,
-  ArrowDown,
-  CheckCircle,
-  Globe,
-  Layers,
-  Rocket,
-  Sparkles,
-} from 'lucide-react'
+import { ExternalLink, ArrowRight, ArrowDown } from 'lucide-react'
 import Image from 'next/image'
 import { Link, useRouter } from '@/i18n/navigation'
 import ScheduleButton from './ScheduleButton'
 import StickyMobileCTA from './StickyMobileCTA'
 import BrowserFrame from './digital/BrowserFrame'
-import {
-  ServicePageHero,
-} from './services/ServicePageSections'
+import { ServicePageHero } from './services/ServicePageSections'
 import {
   getOrderedPortfolioItems,
   getFeaturedItems,
@@ -31,17 +20,19 @@ import {
   portfolioHeroLiveChipIds,
   type PortfolioCategory,
   type PortfolioItemConfig,
+  type PortfolioProjectType,
 } from '@/lib/digitalPortfolio'
 import { isCaseStudySlug } from '@/lib/portfolio-case-studies'
 
-type FilterKey = 'all' | PortfolioCategory
+type CategoryFilter = 'all' | PortfolioCategory
+type OriginFilter = 'all' | 'client' | 'roalla'
 
 const primaryBtnClass =
   'inline-flex items-center justify-center bg-primary hover:bg-primary-dark text-white font-semibold py-3 px-6 rounded-lg text-sm transition-colors shadow-sm'
 const cardPrimaryBtnClass =
   'inline-flex w-full items-center justify-center bg-primary hover:bg-primary-dark text-white font-semibold py-2.5 px-4 rounded-lg transition-all text-sm'
-const cardSecondaryBtnClass =
-  'inline-flex w-full items-center justify-center text-slate-700 font-semibold py-2 px-4 rounded-lg text-sm border border-slate-200 hover:bg-slate-50 transition-colors'
+const textLinkClass =
+  'inline-flex items-center text-sm font-medium text-slate-600 hover:text-primary hover:underline'
 
 function getItemCopy(
   t: ReturnType<typeof useTranslations<'digitalCreations'>>,
@@ -73,14 +64,6 @@ function getItemCopy(
   }
 }
 
-function getItemTags(
-  t: ReturnType<typeof useTranslations<'digitalCreations'>>,
-  item: PortfolioItemConfig,
-): string[] {
-  if (!item.tagKeys) return []
-  return item.tagKeys.map((key) => t(key as 't3Tag1'))
-}
-
 function categoryLabel(t: ReturnType<typeof useTranslations<'digitalCreations'>>, item: PortfolioItemConfig) {
   if (item.category === 'website') return t('categoryWebsite')
   if (item.i18nPrefix === 't4' || item.i18nPrefix === 't7' || item.i18nPrefix === 't13' || item.i18nPrefix === 't14') {
@@ -91,11 +74,17 @@ function categoryLabel(t: ReturnType<typeof useTranslations<'digitalCreations'>>
 
 function projectTypeLabel(
   t: ReturnType<typeof useTranslations<'digitalCreations'>>,
-  projectType: PortfolioItemConfig['projectType'],
+  projectType: PortfolioProjectType,
 ) {
   if (projectType === 'client') return t('projectBadgeClient')
   if (projectType === 'roalla-product') return t('projectBadgeRoallaProduct')
   return t('projectBadgeRoallaSite')
+}
+
+function matchesOrigin(item: PortfolioItemConfig, origin: OriginFilter) {
+  if (origin === 'all') return true
+  if (origin === 'client') return item.projectType === 'client'
+  return item.projectType === 'roalla-product' || item.projectType === 'roalla-site'
 }
 
 function liveCtaLabel(t: ReturnType<typeof useTranslations<'digitalCreations'>>, item: PortfolioItemConfig) {
@@ -107,12 +96,46 @@ function ProjectTypeBadge({
   projectType,
 }: {
   t: ReturnType<typeof useTranslations<'digitalCreations'>>
-  projectType: PortfolioItemConfig['projectType']
+  projectType: PortfolioProjectType
 }) {
+  const isClient = projectType === 'client'
   return (
-    <span className="inline-flex w-fit items-center rounded-full bg-slate-100 text-slate-600 text-[11px] font-medium px-2.5 py-0.5 border border-slate-200 mb-3">
+    <span
+      className={`inline-flex w-fit items-center rounded-md px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide mb-3 border ${
+        isClient
+          ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+          : 'bg-slate-900 text-white border-slate-900'
+      }`}
+    >
       {projectTypeLabel(t, projectType)}
     </span>
+  )
+}
+
+function SecondaryLinks({
+  item,
+  t,
+}: {
+  item: PortfolioItemConfig
+  t: ReturnType<typeof useTranslations<'digitalCreations'>>
+}) {
+  const scheduleQuery = buildPortfolioScheduleQuery(item)
+  return (
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+      {isCaseStudySlug(item.id) ? (
+        <Link
+          href={{ pathname: '/services/portfolio/[slug]', params: { slug: item.id } }}
+          className={textLinkClass}
+        >
+          {t('viewCaseStudy')}
+          <ArrowRight className="w-3.5 h-3.5 ml-1" />
+        </Link>
+      ) : null}
+      <Link href={{ pathname: '/schedule', query: scheduleQuery }} className={textLinkClass}>
+        {t('discussBuildLike')}
+        <ArrowRight className="w-3.5 h-3.5 ml-1" />
+      </Link>
+    </div>
   )
 }
 
@@ -149,43 +172,28 @@ function LiveDomainChips({ t }: { t: ReturnType<typeof useTranslations<'digitalC
 function FeaturedCaseStudy({
   item,
   t,
-  compact,
 }: {
   item: PortfolioItemConfig
   t: ReturnType<typeof useTranslations<'digitalCreations'>>
-  compact?: boolean
 }) {
   const copy = getItemCopy(t, item.i18nPrefix)
-  const tags = getItemTags(t, item)
-  const scheduleQuery = buildPortfolioScheduleQuery(item)
   const liveCta = liveCtaLabel(t, item)
 
   return (
     <Reveal
       id={item.id}
-      className="mb-10 scroll-mt-28 rounded-2xl border border-primary/20 bg-gradient-to-br from-white via-slate-50 to-primary/5 overflow-hidden shadow-card"
+      className="scroll-mt-28 rounded-2xl border border-primary/20 bg-gradient-to-br from-white via-slate-50 to-primary/5 overflow-hidden shadow-card"
     >
       <div className="grid lg:grid-cols-2 gap-0">
         <div className="p-8 lg:p-10 flex flex-col justify-center order-2 lg:order-1">
-          <span className="inline-flex w-fit items-center rounded-full bg-primary/10 text-primary-dark text-xs font-semibold px-3 py-1 mb-4 border border-primary/20">
+          <span className="inline-flex w-fit items-center rounded-full bg-primary/10 text-primary-dark text-xs font-semibold px-3 py-1 mb-3 border border-primary/20">
             {t('featuredLabel')} · {categoryLabel(t, item)}
           </span>
           <ProjectTypeBadge t={t} projectType={item.projectType} />
           <h2 className="text-2xl md:text-3xl font-serif font-bold text-slate-900 mb-3">{copy.name}</h2>
-          <TagPills tags={tags} />
           <p className="text-slate-600 leading-relaxed mb-4">{copy.desc}</p>
-          {!compact && (
-            <ul className="space-y-2 mb-5">
-              {copy.bullets.map((bullet, i) => (
-                <li key={i} className="flex items-start text-sm text-slate-600">
-                  <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0 mt-0.5" />
-                  {bullet}
-                </li>
-              ))}
-            </ul>
-          )}
           <p className="text-sm font-medium text-primary mb-6 border-l-2 border-primary pl-3">{copy.caseStudy}</p>
-          <div className="flex flex-wrap gap-3">
+          <div className="space-y-4">
             <a
               href={item.tryUrl}
               target="_blank"
@@ -195,26 +203,8 @@ function FeaturedCaseStudy({
               {liveCta}
               <ExternalLink className="w-4 h-4 ml-2" />
             </a>
-            {isCaseStudySlug(item.id) ? (
-              <Link
-                href={{ pathname: '/services/portfolio/[slug]', params: { slug: item.id } }}
-                className="inline-flex items-center text-slate-700 font-semibold py-2.5 px-5 rounded-lg text-sm border border-slate-200 hover:bg-slate-50"
-              >
-                {t('viewCaseStudy')}
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
-            ) : null}
-            <Link
-              href={{ pathname: '/schedule', query: scheduleQuery }}
-              className="inline-flex items-center text-primary font-semibold py-2.5 px-5 rounded-lg text-sm border border-primary/30 hover:bg-primary/5"
-            >
-              {t('discussBuildLike')}
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Link>
+            <SecondaryLinks item={item} t={t} />
           </div>
-          {compact ? (
-            <p className="mt-4 text-xs text-slate-500">{t('featuredMoreInGrid')}</p>
-          ) : null}
         </div>
         <div className="p-6 lg:p-8 bg-white order-1 lg:order-2 border-b lg:border-b-0 lg:border-l border-slate-200/80">
           <BrowserFrame
@@ -232,22 +222,6 @@ function FeaturedCaseStudy({
   )
 }
 
-function TagPills({ tags }: { tags: string[] }) {
-  if (tags.length === 0) return null
-  return (
-    <div className="flex flex-wrap gap-1.5 mb-4">
-      {tags.map((tag) => (
-        <span
-          key={tag}
-          className="inline-flex rounded-full bg-slate-100 text-slate-600 text-[11px] font-medium px-2.5 py-0.5 border border-slate-200"
-        >
-          {tag}
-        </span>
-      ))}
-    </div>
-  )
-}
-
 function PortfolioCard({
   item,
   t,
@@ -258,17 +232,10 @@ function PortfolioCard({
   index: number
 }) {
   const copy = getItemCopy(t, item.i18nPrefix)
-  const tags = getItemTags(t, item)
   const liveCta = liveCtaLabel(t, item)
-  const scheduleQuery = buildPortfolioScheduleQuery(item)
 
   return (
-    <Reveal
-      as="article"
-      id={item.id}
-      delayMs={index * 80}
-      className="group h-full scroll-mt-28"
-    >
+    <Reveal as="article" id={item.id} delayMs={index * 80} className="group h-full scroll-mt-28">
       <div className="h-full bg-white rounded-2xl shadow-card hover:shadow-card-hover transition-all duration-300 border border-slate-200 hover:border-primary/35 overflow-hidden flex flex-col hover:-translate-y-1">
         <a
           href={item.tryUrl}
@@ -296,9 +263,13 @@ function PortfolioCard({
             />
           ) : null}
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/55 via-slate-900/10 to-transparent" />
-          <div className={`absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-semibold z-10 ${
-            item.category === 'website' ? 'bg-primary/10 text-primary-dark border border-primary/20 backdrop-blur-sm' : 'bg-slate-800/90 text-white'
-          }`}>
+          <div
+            className={`absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-semibold z-10 ${
+              item.category === 'website'
+                ? 'bg-primary/10 text-primary-dark border border-primary/20 backdrop-blur-sm'
+                : 'bg-slate-800/90 text-white'
+            }`}
+          >
             {categoryLabel(t, item)}
           </div>
           <span className="absolute bottom-3 left-3 right-3 flex items-center justify-center gap-1.5 rounded-lg bg-slate-900/80 text-white text-xs font-semibold py-2 px-3 backdrop-blur-sm">
@@ -312,21 +283,11 @@ function PortfolioCard({
           ) : null}
         </a>
 
-        <div className="p-6 flex flex-1 flex-col">
+        <div className="p-5 flex flex-1 flex-col">
           <ProjectTypeBadge t={t} projectType={item.projectType} />
           <h3 className="text-lg font-bold text-slate-900 mb-2">{copy.name}</h3>
-          <TagPills tags={tags} />
-          <p className="text-slate-600 text-sm leading-relaxed mb-4">{copy.desc}</p>
-          <ul className="space-y-2 mb-4">
-            {copy.bullets.slice(0, 2).map((bullet, i) => (
-              <li key={i} className="flex items-start text-sm text-slate-500">
-                <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0 mt-0.5" />
-                <span>{bullet}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="text-xs text-primary/90 mb-4 italic border-l-2 border-primary/30 pl-3">{copy.caseStudy}</p>
-          <div className="mt-auto flex flex-col gap-2">
+          <p className="text-slate-600 text-sm leading-relaxed mb-5 line-clamp-2">{copy.desc}</p>
+          <div className="mt-auto space-y-3">
             <a
               href={item.tryUrl}
               target="_blank"
@@ -336,22 +297,7 @@ function PortfolioCard({
               {liveCta}
               <ExternalLink className="w-4 h-4 ml-2" />
             </a>
-            {isCaseStudySlug(item.id) ? (
-              <Link
-                href={{ pathname: '/services/portfolio/[slug]', params: { slug: item.id } }}
-                className={cardSecondaryBtnClass}
-              >
-                {t('viewCaseStudy')}
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
-            ) : null}
-            <Link
-              href={{ pathname: '/schedule', query: scheduleQuery }}
-              className="inline-flex w-full items-center justify-center text-primary font-semibold py-2 px-4 rounded-lg text-sm border border-primary/30 hover:bg-primary/5 transition-colors"
-            >
-              {t('discussBuildLike')}
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Link>
+            <SecondaryLinks item={item} t={t} />
           </div>
         </div>
       </div>
@@ -359,55 +305,111 @@ function PortfolioCard({
   )
 }
 
+const filterBtnClass = (active: boolean) =>
+  `rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+    active
+      ? 'bg-primary text-white shadow-sm'
+      : 'bg-white text-slate-600 border border-slate-200 hover:border-primary/30'
+  }`
+
 const DigitalCreations = () => {
   const t = useTranslations('digitalCreations')
   const tCommon = useTranslations('common')
   const searchParams = useSearchParams()
   const router = useRouter()
-  const [filter, setFilter] = useState<FilterKey>('all')
+  const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>('all')
+  const [originFilter, setOriginFilter] = useState<OriginFilter>('all')
+  const [stickyInquire, setStickyInquire] = useState(false)
 
   useEffect(() => {
     const type = searchParams.get('type')
-    if (type === 'website') setFilter('website')
-    else if (type === 'platform') setFilter('platform')
-    else setFilter('all')
+    if (type === 'website') setCategoryFilter('website')
+    else if (type === 'platform') setCategoryFilter('platform')
+    else setCategoryFilter('all')
+
+    const origin = searchParams.get('origin')
+    if (origin === 'client' || origin === 'roalla') setOriginFilter(origin)
+    else setOriginFilter('all')
   }, [searchParams])
 
-  const updateFilter = useCallback(
-    (key: FilterKey) => {
-      setFilter(key)
+  useEffect(() => {
+    const onScroll = () => {
+      const grid = document.getElementById('portfolio-grid')
+      if (!grid) {
+        setStickyInquire(window.scrollY > 1400)
+        return
+      }
+      const gridBottom = grid.offsetTop + grid.offsetHeight
+      setStickyInquire(window.scrollY + window.innerHeight > gridBottom - 80)
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const syncUrl = useCallback(
+    (category: CategoryFilter, origin: OriginFilter) => {
+      const query: Record<string, string> = {}
+      if (category !== 'all') query.type = category
+      if (origin !== 'all') query.origin = origin
       router.replace(
-        key === 'all'
+        Object.keys(query).length === 0
           ? '/services/portfolio'
-          : { pathname: '/services/portfolio', query: { type: key } },
+          : { pathname: '/services/portfolio', query },
         { scroll: false },
       )
     },
     [router],
   )
 
+  const updateCategoryFilter = useCallback(
+    (key: CategoryFilter) => {
+      setCategoryFilter(key)
+      syncUrl(key, originFilter)
+    },
+    [originFilter, syncUrl],
+  )
+
+  const updateOriginFilter = useCallback(
+    (key: OriginFilter) => {
+      setOriginFilter(key)
+      syncUrl(categoryFilter, key)
+    },
+    [categoryFilter, syncUrl],
+  )
+
   const featuredItems = useMemo(() => {
-    const items = filter === 'all' ? getFeaturedItems() : getFeaturedItems(filter)
-    if (filter === 'all' && items.length > 0) return [items[0]]
-    return items
-  }, [filter])
+    let items =
+      categoryFilter === 'all' ? getFeaturedItems() : getFeaturedItems(categoryFilter)
+    if (categoryFilter === 'all' && items.length > 0) {
+      const platformFeatured = items.find((item) => item.featuredCategory === 'platform')
+      items = [platformFeatured ?? items[0]]
+    }
+    return items.filter((item) => matchesOrigin(item, originFilter))
+  }, [categoryFilter, originFilter])
+
+  const featuredIds = useMemo(() => new Set(featuredItems.map((item) => item.id)), [featuredItems])
 
   const gridItems = useMemo(() => {
-    if (filter === 'all') return getOrderedPortfolioItems({ excludeFeatured: true })
-    return getOrderedPortfolioItems({ excludeFeatured: true, category: filter })
-  }, [filter])
+    const items =
+      categoryFilter === 'all'
+        ? getOrderedPortfolioItems()
+        : getOrderedPortfolioItems({ category: categoryFilter })
+    return items
+      .filter((item) => !featuredIds.has(item.id))
+      .filter((item) => matchesOrigin(item, originFilter))
+  }, [categoryFilter, originFilter, featuredIds])
 
-  const filters: { key: FilterKey; label: string }[] = [
+  const categoryFilters: { key: CategoryFilter; label: string }[] = [
     { key: 'all', label: t('filterAll') },
     { key: 'website', label: t('filterWebsite') },
     { key: 'platform', label: t('filterPlatform') },
   ]
 
-  const stats = [
-    { value: t('statWebsitesValue'), label: t('statWebsitesLabel'), icon: Globe },
-    { value: t('statPlatformsValue'), label: t('statPlatformsLabel'), icon: Layers },
-    { value: t('statYearsValue'), label: t('statYearsLabel'), icon: Sparkles },
-    { value: t('statLiveValue'), label: t('statLiveLabel'), icon: Rocket },
+  const originFilters: { key: OriginFilter; label: string }[] = [
+    { key: 'all', label: t('filterOriginAll') },
+    { key: 'client', label: t('filterOriginClient') },
+    { key: 'roalla', label: t('filterOriginRoalla') },
   ]
 
   return (
@@ -419,12 +421,10 @@ const DigitalCreations = () => {
         title={t('portfolioTitle')}
         subtitle={t('portfolioSubtitle')}
         subtitleHighlight={t('portfolioSubtitleHighlight')}
-        journeyLine={undefined}
-        stats={stats}
-        statsNote={t('statsNote')}
+        stats={[]}
         visual={<LiveDomainChips t={t} />}
         primaryCta={
-          <a href="#all-examples" className={primaryBtnClass}>
+          <a href="#featured-case" className={primaryBtnClass}>
             {t('browseLiveExamples')}
             <ArrowDown className="ml-2 w-4 h-4" />
           </a>
@@ -434,44 +434,62 @@ const DigitalCreations = () => {
             {tCommon('scheduleConsultation')}
           </ScheduleButton>
         }
-        tertiaryLink={{ href: '/services/digital', label: t('portfolioSupplementLink') }}
       />
 
+      <div id="featured-case" className="scroll-mt-28 mb-10">
+        {featuredItems.length > 0 ? (
+          featuredItems.map((item) => <FeaturedCaseStudy key={item.id} item={item} t={t} />)
+        ) : (
+          <p className="text-sm text-slate-500 rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-6 text-center">
+            {t('noFeaturedForFilter')}
+          </p>
+        )}
+      </div>
+
       <div id="all-examples" className="scroll-mt-28 mb-8">
-        <div className="mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 rounded-xl border border-slate-200 bg-white px-4 py-4 sm:px-5 shadow-sm">
-          <div>
-            <h2 className="text-2xl font-serif font-bold text-slate-900">{t('gridTitle')}</h2>
-            <p className="text-sm text-slate-500 mt-1">{t('gridSubtitle')}</p>
+        <div className="mb-8 flex flex-col gap-4 rounded-xl border border-slate-200 bg-white px-4 py-4 sm:px-5 shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+            <div>
+              <h2 className="text-2xl font-serif font-bold text-slate-900">{t('gridTitle')}</h2>
+              <p className="text-sm text-slate-500 mt-1">{t('gridSubtitle')}</p>
+            </div>
+            <div className="flex flex-wrap gap-2" role="tablist" aria-label={t('filterCategoryLabel')}>
+              {categoryFilters.map((f) => (
+                <button
+                  key={f.key}
+                  type="button"
+                  role="tab"
+                  aria-selected={categoryFilter === f.key}
+                  onClick={() => updateCategoryFilter(f.key)}
+                  className={filterBtnClass(categoryFilter === f.key)}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
           </div>
-          <div className="flex flex-wrap gap-2" role="tablist" aria-label="Portfolio filter">
-            {filters.map((f) => (
-              <button
-                key={f.key}
-                type="button"
-                role="tab"
-                aria-selected={filter === f.key}
-                onClick={() => updateFilter(f.key)}
-                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                  filter === f.key
-                    ? 'bg-primary text-white shadow-sm'
-                    : 'bg-white text-slate-600 border border-slate-200 hover:border-primary/30'
-                }`}
-              >
-                {f.label}
-              </button>
-            ))}
+          <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 pt-4">
+            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mr-1">
+              {t('filterOriginLabel')}
+            </p>
+            <div className="flex flex-wrap gap-2" role="tablist" aria-label={t('filterOriginLabel')}>
+              {originFilters.map((f) => (
+                <button
+                  key={f.key}
+                  type="button"
+                  role="tab"
+                  aria-selected={originFilter === f.key}
+                  onClick={() => updateOriginFilter(f.key)}
+                  className={filterBtnClass(originFilter === f.key)}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
-        {featuredItems.length > 0 && (
-          <div className="mb-10">
-            {featuredItems.map((item) => (
-              <FeaturedCaseStudy key={item.id} item={item} t={t} compact={filter === 'all'} />
-            ))}
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div id="portfolio-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {gridItems.map((item, index) => (
             <PortfolioCard key={item.id} item={item} t={t} index={index} />
           ))}
@@ -494,7 +512,11 @@ const DigitalCreations = () => {
           <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4">{t('ctaTitle')}</h2>
           <p className="text-xl text-white/95 mb-8 max-w-3xl mx-auto">{t('ctaSubtitle')}</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <ScheduleButton variant="secondary" size="lg" className="bg-white text-primary-dark hover:bg-white/90 hover:scale-[1.03] transition-transform shadow-2xl">
+            <ScheduleButton
+              variant="secondary"
+              size="lg"
+              className="bg-white text-primary-dark hover:bg-white/90 hover:scale-[1.03] transition-transform shadow-2xl"
+            >
               {tCommon('scheduleConsultation')}
             </ScheduleButton>
             <Link
@@ -508,11 +530,19 @@ const DigitalCreations = () => {
         </div>
       </Reveal>
 
-      <StickyMobileCTA
-        anchorHref="#all-examples"
-        label={t('stickyBrowseLabel')}
-        sublabel={t('openLiveSiteHint')}
-      />
+      {stickyInquire ? (
+        <StickyMobileCTA
+          label={tCommon('scheduleConsultation')}
+          sublabel={tCommon('ctaSubtext')}
+          intent="website"
+        />
+      ) : (
+        <StickyMobileCTA
+          anchorHref="#featured-case"
+          label={t('stickyBrowseLabel')}
+          sublabel={t('openLiveSiteHint')}
+        />
+      )}
     </section>
   )
 }

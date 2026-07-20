@@ -87,8 +87,11 @@ export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'ken-effect',
 ]
 
-/** Domains shown as quick-open chips in the portfolio hero. */
-export const portfolioHeroLiveChipIds = portfolioHeroItemOrder.slice(0, 8)
+/** Domains shown as quick-open chips in the portfolio hero. Featured pitch leads. */
+export const portfolioHeroLiveChipIds: readonly PortfolioItemId[] = [
+  'pitch-hotshots',
+  ...portfolioHeroItemOrder.filter((id) => id !== 'pitch-hotshots').slice(0, 7),
+]
 
 /** Curated entry paths for visitors browsing the portfolio grid. */
 export const portfolioCuratedPaths = [
@@ -167,7 +170,6 @@ export const portfolioItems: PortfolioItemConfig[] = [
     contactService: 'custom-platforms',
     i18nPrefix: 't4',
     tagKeys: ['t4Tag1', 't4Tag2', 't4Tag3'],
-    featuredCategory: 'platform',
     industryCategory: 'business-platforms',
   },
   {
@@ -252,6 +254,7 @@ export const portfolioItems: PortfolioItemConfig[] = [
     contactService: 'custom-platforms',
     i18nPrefix: 't10',
     tagKeys: ['t10Tag1', 't10Tag2', 't10Tag3'],
+    featuredCategory: 'platform',
     industryCategory: 'business-platforms',
   },
   {

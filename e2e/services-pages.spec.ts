@@ -11,7 +11,7 @@ test.describe('Service pages', () => {
   test('digital enablement service page links to portfolio', async ({ page }) => {
     await page.goto('/en/services/digital')
     await expect(page.getByRole('heading', { name: 'Digital Enablement', level: 1 })).toBeVisible()
-    await expect(page.getByRole('link', { name: /View full portfolio/i })).toBeVisible()
+    await expect(page.getByRole('link', { name: /View Digital Portfolio/i }).first()).toBeVisible()
     await expect(page.locator('#ai-support')).toBeVisible()
   })
 

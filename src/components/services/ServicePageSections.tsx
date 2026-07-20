@@ -171,26 +171,28 @@ export function ServicePageHero({
             </Reveal>
           )}
 
-          <dl className={`mt-8 grid ${statsGridClass} gap-3`}>
-            {stats.map((stat, i) => {
-              const Icon = stat.icon
-              return (
-                <Reveal key={stat.label} when="mount" delayMs={statsBaseDelay + i * 75} className={heroGlassTile}>
-                  <div className="flex items-center gap-2.5">
-                    {Icon && <Icon className="w-4 h-4 text-primary-light shrink-0" aria-hidden />}
-                    <div>
-                      <dt className="text-xl md:text-2xl font-serif font-bold text-white tabular-nums leading-none">
-                        {stat.value}
-                      </dt>
-                      <dd className="mt-1 text-[11px] font-medium uppercase tracking-wider text-slate-400">
-                        {stat.label}
-                      </dd>
+          {stats.length > 0 && (
+            <dl className={`mt-8 grid ${statsGridClass} gap-3`}>
+              {stats.map((stat, i) => {
+                const Icon = stat.icon
+                return (
+                  <Reveal key={stat.label} when="mount" delayMs={statsBaseDelay + i * 75} className={heroGlassTile}>
+                    <div className="flex items-center gap-2.5">
+                      {Icon && <Icon className="w-4 h-4 text-primary-light shrink-0" aria-hidden />}
+                      <div>
+                        <dt className="text-xl md:text-2xl font-serif font-bold text-white tabular-nums leading-none">
+                          {stat.value}
+                        </dt>
+                        <dd className="mt-1 text-[11px] font-medium uppercase tracking-wider text-slate-400">
+                          {stat.label}
+                        </dd>
+                      </div>
                     </div>
-                  </div>
-                </Reveal>
-              )
-            })}
-          </dl>
+                  </Reveal>
+                )
+              })}
+            </dl>
+          )}
           {statsNote && (
             <Reveal when="mount" delayMs={statsBaseDelay + stats.length * 75 + 40}>
               <p className="mt-4 text-sm text-slate-400 leading-relaxed max-w-2xl">{statsNote}</p>
@@ -198,10 +200,8 @@ export function ServicePageHero({
           )}
         </div>
 
-        {visual && <div className="hidden lg:block">{visual}</div>}
+        {visual && <div>{visual}</div>}
       </div>
-
-      {visual && <div className="lg:hidden px-6 pb-10">{visual}</div>}
     </header>
   )
 }

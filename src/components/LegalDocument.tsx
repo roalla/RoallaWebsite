@@ -39,8 +39,8 @@ export default function LegalDocument({ doc, sectionCount }: LegalDocumentProps)
           <section key={section.title}>
             <h2 className="text-lg font-semibold text-slate-900 mb-2">{section.title}</h2>
             <div className="space-y-3 text-slate-600 leading-relaxed text-[15px]">
-              {section.body.split('\n\n').map((para) => (
-                <p key={para.slice(0, 48)}>{para}</p>
+              {section.body.split('\n\n').map((para, idx) => (
+                <p key={`${section.title}-${idx}`}>{para}</p>
               ))}
             </div>
           </section>

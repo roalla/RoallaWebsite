@@ -525,7 +525,7 @@ export default function ConsultationRequestForm({
                       <button
                         key={option.value}
                         type="button"
-                        onClick={() =>
+                        onClick={() => {
                           update({
                             intent: option.value,
                             consultingFocus: option.value === 'consulting' ? form.consultingFocus : '',
@@ -537,16 +537,17 @@ export default function ConsultationRequestForm({
                             workshopTopic: option.value === 'workshop' ? form.workshopTopic : '',
                             hasExistingSite: option.value === 'website' ? form.hasExistingSite : '',
                           })
-                        }
-                        className={`text-left rounded-xl border p-4 transition-all duration-200 ${
+                          setStep(2)
+                        }}
+                        className={`text-left rounded-xl border p-4 transition-all duration-200 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/30 hover:ring-2 hover:ring-primary/35 hover:border-primary/50 hover:bg-white ${
                           selected
-                            ? 'border-primary-dark bg-primary-dark/5 shadow-sm ring-1 ring-primary-dark/20'
-                            : 'border-slate-200 hover:border-primary-dark/30 hover:bg-slate-50'
+                            ? 'border-primary-dark bg-primary-dark/5 shadow-md shadow-primary/20 ring-2 ring-primary-dark/25'
+                            : 'border-slate-200 bg-white shadow-sm'
                         }`}
                       >
                         <div className="flex items-start gap-3">
                           <div
-                            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${
+                            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition-colors ${
                               selected ? 'bg-primary-dark/15 text-primary-dark' : 'bg-slate-100 text-slate-500'
                             }`}
                           >

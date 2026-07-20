@@ -31,7 +31,13 @@ export default function LegalDocument({ doc, sectionCount }: LegalDocumentProps)
         </p>
         <h1 className="text-3xl md:text-4xl font-serif font-bold text-slate-900 mb-3">{t('title')}</h1>
         <p className="text-sm text-slate-500">{t('lastUpdated')}</p>
-        <p className="mt-4 text-slate-600 leading-relaxed">{t('intro')}</p>
+        <div className="mt-4 space-y-3 text-slate-600 leading-relaxed">
+          {t('intro')
+            .split('\n\n')
+            .map((para, idx) => (
+              <p key={`intro-${idx}`}>{para}</p>
+            ))}
+        </div>
       </header>
 
       <div className="space-y-8">

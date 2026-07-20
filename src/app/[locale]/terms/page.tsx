@@ -38,7 +38,7 @@ export default async function TermsPage({ params }: Props) {
       />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-8">
         <Breadcrumb items={[{ label: t('home'), href: '/' }, { label: tTerms('title') }]} />
-        <LegalDocument doc="terms" sectionCount={8} />
+        <LegalDocument doc="terms" sectionCount={14} />
       </div>
     </div>
   )

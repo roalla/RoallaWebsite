@@ -16,9 +16,7 @@ import {
   Hammer,
   Rocket,
   Package,
-  Clock,
   Users,
-  Cpu,
   ExternalLink,
 } from 'lucide-react'
 import ScheduleButton from './ScheduleButton'
@@ -28,6 +26,7 @@ import ServiceTestimonialBand from './services/ServiceTestimonialBand'
 import Breadcrumb from './Breadcrumb'
 import BrowserFrame from './digital/BrowserFrame'
 import BrandJourneyBand from './services/BrandJourneyBand'
+import { SERVICE_PAGE_FAQ_KEYS } from '@/lib/service-faq-jsonld'
 import {
   getOrderedPortfolioItems,
   getPortfolioItem,
@@ -59,7 +58,6 @@ import {
   PillarSectionHeader,
   pillarSectionClass,
   serviceCardClass,
-  serviceSecondaryButtonClass,
   serviceHeroSecondaryButtonClass,
   servicePrimaryLinkClass,
 } from './services/ServicePageSections'
@@ -79,13 +77,6 @@ const buildSteps = [
   { icon: Layout, titleKey: 'step2Title', stepKey: 'step2', hintKey: 'step2Hint' },
   { icon: Hammer, titleKey: 'step3Title', stepKey: 'step3', hintKey: 'step3Hint' },
   { icon: Rocket, titleKey: 'step4Title', stepKey: 'step4', hintKey: 'step4Hint' },
-] as const
-
-const credibilityItems = [
-  { icon: Package, titleKey: 'credDeliverables', descKey: 'credDeliverablesDesc' },
-  { icon: Clock, titleKey: 'credTimelines', descKey: 'credTimelinesDesc' },
-  { icon: Users, titleKey: 'credCollaboration', descKey: 'credCollaborationDesc' },
-  { icon: Cpu, titleKey: 'credStack', descKey: 'credStackDesc' },
 ] as const
 
 const fitKeys = ['fit1', 'fit2', 'fit3'] as const
@@ -359,7 +350,7 @@ const DigitalBuilds = () => {
         title={t('title')}
         subtitle={t('subtitle')}
         subtitleHighlight={t('subtitleHighlight')}
-        journeyLine={t('heroJourneyLine')}
+        journeyLine={undefined}
         stats={stats}
         visual={
           <ConsultingHeroVisual
@@ -395,20 +386,7 @@ const DigitalBuilds = () => {
 
         <ServiceAnchorNav
           label={tBrand('jumpNavPillars')}
-          items={[]}
-          groups={[
-            {
-              groupLabel: tBrand('jumpNavPillars'),
-              items: BRAND_PILLARS.map((pillar) => ({
-                id: PILLAR_SECTION_IDS[pillar],
-                label: tBrand(PILLAR_TITLE_KEYS[pillar]),
-              })),
-            },
-            {
-              groupLabel: t('buildTitle'),
-              items: builds.map((b) => ({ id: b.anchor, label: b.title })),
-            },
-          ]}
+          items={builds.map((b) => ({ id: b.anchor, label: b.title }))}
         />
 
         {BRAND_PILLARS.map((pillar) => (
@@ -532,28 +510,8 @@ const DigitalBuilds = () => {
         </Reveal>
 
         <Reveal className="mt-16 pt-12 border-t border-slate-200">
-          <ServiceSectionHeading title={t('credibilityTitle')} className="text-center mx-auto mb-8" />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {credibilityItems.map((item) => (
-              <div key={item.titleKey} className="rounded-lg border border-slate-200 bg-white p-5">
-                <div className="w-9 h-9 rounded-md border border-slate-200 bg-slate-50 flex items-center justify-center mb-3">
-                  <item.icon className="w-4 h-4 text-primary" />
-                </div>
-                <p className="font-semibold text-slate-900 text-sm mb-1">{t(item.titleKey)}</p>
-                <p className="text-sm text-slate-600 leading-relaxed">{t(item.descKey)}</p>
-              </div>
-            ))}
-          </div>
-        </Reveal>
-
-        <Reveal className="mt-16 pt-12 border-t border-slate-200">
           <ServiceSectionHeading title={t('faqTitle')} />
-          <ServiceMiniFAQ namespace="digitalBuilds" />
-        </Reveal>
-
-        <Reveal className="mt-8 rounded-lg border border-slate-200 bg-slate-50 px-6 py-5">
-          <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark mb-2">{t('typicalEngagementTitle')}</p>
-          <p className="text-sm text-slate-700 leading-relaxed">{t('typicalEngagementDesc')}</p>
+          <ServiceMiniFAQ namespace="digitalBuilds" keys={SERVICE_PAGE_FAQ_KEYS} />
         </Reveal>
 
         <ServiceTestimonialBand />

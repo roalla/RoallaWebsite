@@ -2,56 +2,18 @@
 
 import React from 'react'
 import Image from 'next/image'
-import { ArrowRight, ClipboardCheck, Globe, Layers, Sparkles } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import ScheduleButton from '../ScheduleButton'
-import { HERO_PATH_USE_CASES, useCasePageHref } from '@/lib/use-cases'
 
 /** Solid panel — no backdrop-blur so content stays stable during slide transitions */
 const heroGlassPanel =
   'bg-white/95 border border-white/70 shadow-[0_8px_40px_rgba(15,23,42,0.1)]'
-const pathCardClass =
-  'group flex flex-col rounded-xl border border-slate-200/80 bg-white/90 backdrop-blur-sm p-4 motion-safe:transition-all motion-safe:duration-300 motion-safe:hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-card'
 
 export default function HomeHeroContent() {
   const t = useTranslations('home.hero')
   const tCommon = useTranslations('common')
-
-  const pathCards = [
-    {
-      useCaseId: HERO_PATH_USE_CASES.website,
-      scheduleHref: { pathname: '/schedule' as const, query: { intent: 'website' } },
-      icon: Globe,
-      titleKey: 'pathWebsiteTitle' as const,
-      descKey: 'pathWebsiteDesc' as const,
-      analytics: 'hero-path-website',
-    },
-    {
-      useCaseId: HERO_PATH_USE_CASES.platform,
-      scheduleHref: { pathname: '/schedule' as const, query: { intent: 'platform' } },
-      icon: Layers,
-      titleKey: 'pathPlatformTitle' as const,
-      descKey: 'pathPlatformDesc' as const,
-      analytics: 'hero-path-platform',
-    },
-    {
-      useCaseId: HERO_PATH_USE_CASES.automation,
-      scheduleHref: { pathname: '/schedule' as const, query: { intent: 'automation' } },
-      icon: Sparkles,
-      titleKey: 'pathAutomationTitle' as const,
-      descKey: 'pathAutomationDesc' as const,
-      analytics: 'hero-path-automation',
-    },
-    {
-      useCaseId: null,
-      scheduleHref: '/assessment' as const,
-      icon: ClipboardCheck,
-      titleKey: 'pathAssessmentTitle' as const,
-      descKey: 'pathAssessmentDesc' as const,
-      analytics: 'hero-path-assessment',
-    },
-  ] as const
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-12 lg:py-20">
@@ -67,6 +29,9 @@ export default function HomeHeroContent() {
               priority
             />
             <div className="min-w-0 flex-1">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-dark mb-3">
+                {tCommon('companyName')}
+              </p>
               <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-serif font-extrabold text-slate-900 leading-tight tracking-tight">
                 {t('title')}{' '}
                 <span className="text-primary-dark">{t('titleHighlight')}</span>
@@ -74,65 +39,27 @@ export default function HomeHeroContent() {
               <p className="mt-6 text-lg sm:text-xl text-slate-700 max-w-xl leading-relaxed">
                 {t('subtitle')}
               </p>
-              <p className="mt-4 text-sm font-medium text-primary-dark">{t('journeyLine')}</p>
             </div>
           </div>
 
-          <div className="mt-6">
-            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">
-              {t('pathChooserLabel')}
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              {pathCards.map((card) => {
-                const Icon = card.icon
-                const useCaseHref = card.useCaseId ? useCasePageHref(card.useCaseId) : useCasePageHref('all')
-
-                return (
-                  <div key={card.analytics} className={pathCardClass} data-analytics={card.analytics}>
-                    <Icon className="w-5 h-5 text-primary-dark mb-2" aria-hidden />
-                    <span className="text-sm font-semibold text-slate-900">{t(card.titleKey)}</span>
-                    <span className="mt-1 text-xs text-slate-600 leading-snug">{t(card.descKey)}</span>
-                    <div className="mt-3 flex flex-col gap-2">
-                      <Link
-                        href={useCaseHref}
-                        className="inline-flex items-center text-xs font-semibold text-primary-dark hover:underline"
-                      >
-                        {t('pathSeeUseCase')}
-                        <ArrowRight className="ml-1 w-3.5 h-3.5 motion-safe:transition-transform group-hover:translate-x-0.5" aria-hidden />
-                      </Link>
-                      <Link
-                        href={card.scheduleHref}
-                        className="inline-flex items-center text-xs text-slate-500 hover:text-slate-800 transition-colors"
-                      >
-                        {t('pathStartInquiry')}
-                        <ArrowRight className="ml-1 w-3 h-3" aria-hidden />
-                      </Link>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-            <p className="mt-4 text-xs text-slate-500">
-              {t('programsLink')}{' '}
-              <Link href="/programs/business-enablement" className="font-semibold text-primary-dark hover:underline">
-                {t('programsLinkCta')}
-                <ArrowRight className="inline w-3 h-3 ml-0.5" aria-hidden />
-              </Link>
-            </p>
-          </div>
-
-          <div className="mt-8">
+          <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-4">
             <ScheduleButton
               variant="primary"
               size="lg"
               icon
-              block
               className="w-full sm:w-auto sm:min-w-[16rem]"
               sublabel={t('responseTime')}
               sublabelClassName="text-slate-600"
             >
               {t('cta')}
             </ScheduleButton>
+            <Link
+              href="/services/portfolio"
+              className="inline-flex items-center justify-center text-sm font-semibold text-primary-dark hover:underline min-h-[44px]"
+            >
+              {t('exploreDigitalLink')}
+              <ArrowRight className="ml-1.5 w-4 h-4" aria-hidden />
+            </Link>
           </div>
           <p className="mt-4 text-xs font-medium text-slate-500">{t('proofLine')}</p>
         </div>

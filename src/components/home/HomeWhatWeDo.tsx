@@ -8,13 +8,10 @@ import {
   Globe,
   Layers,
   Workflow,
-  Sparkles,
-  CalendarDays,
   ArrowRight,
   GraduationCap,
   Briefcase,
 } from 'lucide-react'
-import HomeDeliveryPhases from './HomeDeliveryPhases'
 
 const capabilityCards = [
   {
@@ -35,18 +32,6 @@ const capabilityCards = [
     descKey: 'capabilityAutomationDesc',
     href: { pathname: '/services/digital', hash: 'automation' } as const,
   },
-  {
-    icon: Sparkles,
-    titleKey: 'capabilityAiTitle',
-    descKey: 'capabilityAiDesc',
-    href: { pathname: '/services/digital', hash: 'ai-support' } as const,
-  },
-  {
-    icon: CalendarDays,
-    titleKey: 'capabilityEventsTitle',
-    descKey: 'capabilityEventsDesc',
-    href: '/services/digital-events' as const,
-  },
 ] as const
 
 export default function HomeWhatWeDo() {
@@ -61,7 +46,7 @@ export default function HomeWhatWeDo() {
           <p className="mt-3 text-lg text-slate-600">{t('description')}</p>
         </Reveal>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5 mb-10">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5 mb-8">
           {capabilityCards.map((card, index) => {
             const Icon = card.icon
             return (
@@ -87,16 +72,13 @@ export default function HomeWhatWeDo() {
           })}
         </div>
 
-        <HomeDeliveryPhases />
-
-        <Reveal className="rounded-xl border border-slate-200 bg-white px-5 py-4 lg:px-6 lg:py-5 mb-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <p className="text-sm text-slate-700 leading-relaxed">{t('portfolioTeaser')}</p>
+        <Reveal className="mb-8">
           <Link
-            href="/services/portfolio"
-            className="inline-flex items-center shrink-0 link-action font-semibold hover:underline text-sm"
+            href="/services/digital"
+            className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
           >
-            {t('viewAllWork')}
-            <ArrowRight className="ml-2 w-4 h-4" />
+            {t('viewAllDigital')}
+            <ArrowRight className="ml-1.5 w-4 h-4" />
           </Link>
         </Reveal>
 

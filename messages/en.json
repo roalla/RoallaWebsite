@@ -24,6 +24,8 @@
     "digitalOverviewDesc": "Websites, apps, integrations, automation, and AI support",
     "digitalWebsites": "Websites",
     "digitalWebsitesDesc": "Marketing sites, booking flows, and conversion-focused design",
+    "digitalWebsitePackage": "5-Page Website Package",
+    "digitalWebsitePackageDesc": "Fixed-scope 5-page site — $999 CAD",
     "digitalPlatforms": "Apps & Platforms",
     "digitalPlatformsDesc": "Custom tools, portals, and workflow-specific software",
     "digitalAutomation": "Integrations & Automation",
@@ -161,6 +163,7 @@
       "capabilityEventsTitle": "Digital Events",
       "capabilityEventsDesc": "Event pages, booth kits, and apps ready when the floor opens.",
       "exploreCapability": "Learn more",
+      "viewAllDigital": "Explore Digital Enablement",
       "programsStripTitle": "Also available",
       "programsStripDesc": "Business Enablement and team workshops for organizations that want guided strategy and skill-building.",
       "programsBusinessEnablement": "Business Enablement",
@@ -981,7 +984,8 @@
     "ctaButton": "Start your inquiry",
     "ctaSubtext": "$500 deposit · Live in 2–3 weeks · English · Français",
     "ctaLinkWebsite": "Full website design services",
-    "ctaLinkPortfolio": "See live work"
+    "ctaLinkPortfolio": "See live work",
+    "aodaFootnote": "Built to WCAG standards (AODA-aligned) so more visitors can use your site."
   },
   "websiteDesign": {
     "metadataTitle": "Business Website Design | ROALLA",

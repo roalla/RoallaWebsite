@@ -13,12 +13,7 @@ import {
   Zap,
   ArrowRight,
   CheckCircle,
-  Search,
-  Map,
-  Rocket,
-  Shield,
   Award,
-  GraduationCap,
   Briefcase,
   type LucideIcon,
 } from 'lucide-react'
@@ -29,12 +24,10 @@ import ServiceTestimonialBand from './services/ServiceTestimonialBand'
 import Breadcrumb from './Breadcrumb'
 import BrandJourneyBand from './services/BrandJourneyBand'
 import type { ConsultingFocus } from '@/lib/consultation-request'
+import { SERVICE_PAGE_FAQ_KEYS } from '@/lib/service-faq-jsonld'
 import {
   BRAND_PILLARS,
-  CONSULTING_ENGAGEMENT_STEP_PILLARS,
   CONSULTING_PILLAR_INTRO_KEYS,
-  ENGAGEMENT_PHASE_LABEL_KEYS,
-  ENGAGEMENT_PHASE_RANGE_KEYS,
   PILLAR_BADGE_KEYS,
   PILLAR_CTA_KEYS,
   PILLAR_SECTION_IDS,
@@ -53,15 +46,11 @@ import {
   pillarSectionClass,
   serviceCardClass,
   serviceCardIconMotionClass,
-  serviceMiniTileClass,
-  serviceSecondaryButtonClass,
   servicePrimaryLinkClass,
 } from './services/ServicePageSections'
 
 const serviceIcons = [Target, TrendingUp, Users, BarChart3, Lightbulb, Zap] as const
 const serviceAnchors = ['strategic', 'operations', 'people', 'analytics', 'innovation', 'digital'] as const
-const engagementIcons = [Search, Map, Target, Rocket] as const
-const credibilityIcons = [Award, GraduationCap, Briefcase, Shield] as const
 const fitKeys = ['fit1', 'fit2', 'fit3'] as const
 
 const SERVICE_PILLARS: BrandPillar[] = ['prepare', 'transform', 'emerge', 'emerge', 'soar', 'transform']
@@ -244,20 +233,6 @@ const Services = () => {
     { value: t('stat3Value'), label: t('stat3Label'), icon: Users },
   ]
 
-  const credibilityItems = [
-    { icon: credibilityIcons[0], titleKey: 'cred1Title', descKey: 'cred1Desc', pillar: 'emerge' as const },
-    { icon: credibilityIcons[1], titleKey: 'cred2Title', descKey: 'cred2Desc', pillar: 'soar' as const },
-    { icon: credibilityIcons[2], titleKey: 'cred3Title', descKey: 'cred3Desc', pillar: 'all' as const },
-    { icon: credibilityIcons[3], titleKey: 'cred4Title', descKey: 'cred4Desc', pillar: 'prepare' as const },
-  ] as const
-
-  const credPillarLabel = (pillar: 'prepare' | 'transform' | 'emerge' | 'soar' | 'all') => {
-    if (pillar === 'all') return tBrand('pillarBadgeAll')
-    return tBrand(PILLAR_BADGE_KEYS[pillar])
-  }
-
-  const engagementSteps = [t('step1'), t('step2'), t('step3'), t('step4')]
-
   const pillarFocus: Record<BrandPillar, ConsultingFocus> = {
     prepare: 'strategy',
     transform: 'operations',
@@ -273,7 +248,7 @@ const Services = () => {
         title={t('title')}
         subtitle={t('subtitle')}
         subtitleHighlight={t('subtitleHighlight')}
-        journeyLine={t('heroJourneyLine')}
+        journeyLine={undefined}
         stats={stats}
         visual={
           <ConsultingHeroVisual
@@ -304,21 +279,8 @@ const Services = () => {
         <BrandJourneyBand />
 
         <ServiceAnchorNav
-          label={t('jumpNavPillarsLabel')}
-          items={[]}
-          groups={[
-            {
-              groupLabel: tBrand('jumpNavPillars'),
-              items: BRAND_PILLARS.map((pillar) => ({
-                id: PILLAR_SECTION_IDS[pillar],
-                label: tBrand(PILLAR_TITLE_KEYS[pillar]),
-              })),
-            },
-            {
-              groupLabel: t('jumpNavLabel'),
-              items: services.map((s) => ({ id: s.anchor, label: s.title })),
-            },
-          ]}
+          label={t('jumpNavLabel')}
+          items={services.map((s) => ({ id: s.anchor, label: s.title }))}
         />
 
         {BRAND_PILLARS.map((pillar) => (
@@ -343,49 +305,6 @@ const Services = () => {
           </section>
         ))}
 
-        <Reveal className="mt-16 pt-12 border-t-2 border-slate-200">
-          <ServiceSectionHeading title={t('credibilityTitle')} description={t('credibilityDesc')} className="text-center mx-auto" />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {credibilityItems.map((item) => (
-              <div key={item.titleKey} className={serviceMiniTileClass}>
-                <div className="flex items-start justify-between gap-2 mb-3">
-                  <div className={`w-9 h-9 rounded-md border border-primary/20 bg-primary/10 flex items-center justify-center shrink-0 group-hover:border-primary/35 group-hover:bg-primary/15 transition-colors duration-300 ${serviceCardIconMotionClass}`}>
-                    <item.icon className="w-4 h-4 text-primary-dark" />
-                  </div>
-                  <PillarBadge label={credPillarLabel(item.pillar)} />
-                </div>
-                <p className="font-bold text-slate-900 text-sm mb-1">{t(item.titleKey)}</p>
-                <p className="text-sm text-slate-700 leading-relaxed">{t(item.descKey)}</p>
-              </div>
-            ))}
-          </div>
-        </Reveal>
-
-        <Reveal className="mt-16 pt-12 border-t-2 border-slate-200">
-          <ServiceSectionHeading title={t('engagementTitle')} description={t('engagementSubtitle')} />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {engagementSteps.map((step, idx) => {
-              const Icon = engagementIcons[idx]
-              const stepPillar = CONSULTING_ENGAGEMENT_STEP_PILLARS[idx]
-              return (
-                <div key={step} className={serviceMiniTileClass}>
-                  <div className="flex flex-wrap items-center gap-2 mb-3">
-                    <span className="w-7 h-7 rounded-full bg-primary-dark text-white text-xs font-bold flex items-center justify-center">
-                      {idx + 1}
-                    </span>
-                    <Icon className="w-4 h-4 text-primary-dark" />
-                    <PillarBadge label={tBrand(ENGAGEMENT_PHASE_LABEL_KEYS[stepPillar])} />
-                  </div>
-                  <p className="text-xs font-medium uppercase tracking-wide text-slate-500 mb-2">
-                    {tBrand(ENGAGEMENT_PHASE_RANGE_KEYS[stepPillar])}
-                  </p>
-                  <p className="text-sm font-medium text-slate-800 leading-relaxed">{step}</p>
-                </div>
-              )
-            })}
-          </div>
-        </Reveal>
-
         <Reveal className="mt-16 pt-12 border-t-2 border-slate-200 grid lg:grid-cols-2 gap-6">
           <div className="rounded-lg border-2 border-primary/30 bg-primary/[0.04] p-6 lg:p-8">
             <h2 className="text-xl font-serif font-bold text-slate-900 mb-4">{t('fitTitle')}</h2>
@@ -400,20 +319,10 @@ const Services = () => {
           </div>
           <div className="rounded-lg border border-slate-300 bg-slate-100 p-6 lg:p-8 flex flex-col justify-center gap-4">
             <p className="text-slate-800 leading-relaxed text-sm font-medium">{t('fitDigitalNote')}</p>
-            <div className="flex flex-col gap-2">
-              <Link href="/programs/workshops" className="inline-flex items-center text-primary-dark font-semibold text-sm hover:underline">
-                {t('crossLinkWorkshops')}
-                <ArrowRight className="ml-1.5 w-4 h-4" />
-              </Link>
-              <Link href="/services/digital-events" className="inline-flex items-center text-primary-dark font-semibold text-sm hover:underline">
-                {t('crossLinkDigitalEvents')}
-                <ArrowRight className="ml-1.5 w-4 h-4" />
-              </Link>
-              <Link href="/services/digital" className="inline-flex items-center text-primary-dark font-semibold text-sm hover:underline">
-                {t('compareBuildingLink')}
-                <ArrowRight className="ml-1.5 w-4 h-4" />
-              </Link>
-            </div>
+            <Link href="/services/digital" className="inline-flex items-center text-primary-dark font-semibold text-sm hover:underline">
+              {t('compareBuildingLink')}
+              <ArrowRight className="ml-1.5 w-4 h-4" />
+            </Link>
             <p className="text-sm text-slate-700 border-t border-slate-200 pt-4">
               {t('fitAssessmentTeaser')}{' '}
               <Link href="/assessment" className="link-action font-medium">
@@ -423,18 +332,9 @@ const Services = () => {
           </div>
         </Reveal>
 
-        <Reveal className="mt-8 rounded-lg border border-slate-200 bg-white px-6 py-5 text-center">
-          <p className="text-sm text-slate-700 leading-relaxed">{tBrand('crossLaneBridge')}</p>
-        </Reveal>
-
         <Reveal className="mt-16 pt-12 border-t-2 border-slate-200">
           <ServiceSectionHeading title={t('faqTitle')} />
-          <ServiceMiniFAQ namespace="services" />
-        </Reveal>
-
-        <Reveal className="mt-8 rounded-lg border border-slate-200 bg-slate-50 px-6 py-5">
-          <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark mb-2">{t('typicalEngagementTitle')}</p>
-          <p className="text-sm text-slate-700 leading-relaxed">{t('typicalEngagementDesc')}</p>
+          <ServiceMiniFAQ namespace="services" keys={SERVICE_PAGE_FAQ_KEYS} />
         </Reveal>
 
         <ServiceTestimonialBand />

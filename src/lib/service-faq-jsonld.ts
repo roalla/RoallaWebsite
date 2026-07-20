@@ -1,6 +1,9 @@
 export const SERVICE_MINI_FAQ_KEYS = ['faq1', 'faq2', 'faq3', 'faq4', 'faq5'] as const
 
-export const FOUNDING_CLIENT_FAQ_KEYS = [...SERVICE_MINI_FAQ_KEYS, 'faq6'] as const
+/** Keep package FAQ short: price, what's included, next step. */
+export const FOUNDING_CLIENT_FAQ_KEYS = ['faq1', 'faq3', 'faq5'] as const
+
+export const SERVICE_PAGE_FAQ_KEYS = ['faq1', 'faq2', 'faq3'] as const
 
 export type ServiceMiniFaqNamespace =
   | 'services'

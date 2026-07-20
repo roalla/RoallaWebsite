@@ -24,6 +24,8 @@
     "digitalOverviewDesc": "Sites, applis, intégrations, automatisation et soutien IA",
     "digitalWebsites": "Sites Web",
     "digitalWebsitesDesc": "Sites marketing, réservation et design orienté conversion",
+    "digitalWebsitePackage": "Forfait site 5 pages",
+    "digitalWebsitePackageDesc": "Site 5 pages à portée fixe — 999 $ CAD",
     "digitalPlatforms": "Applis et plateformes",
     "digitalPlatformsDesc": "Outils sur mesure, portails et logiciels adaptés à vos flux",
     "digitalAutomation": "Intégrations et automatisation",
@@ -161,6 +163,7 @@
       "capabilityEventsTitle": "Événements numériques",
       "capabilityEventsDesc": "Pages d'événement, kits de kiosque et applis prêts pour l'ouverture du salon.",
       "exploreCapability": "En savoir plus",
+      "viewAllDigital": "Explorer l'accompagnement numérique",
       "programsStripTitle": "Aussi disponible",
       "programsStripDesc": "Accompagnement d'entreprise et ateliers d'équipe pour les organisations qui veulent stratégie guidée et montée en compétences.",
       "programsBusinessEnablement": "Accompagnement d'entreprise",
@@ -962,7 +965,8 @@
     "ctaButton": "Démarrer votre demande",
     "ctaSubtext": "500 $ de dépôt · En ligne en 2–3 semaines · English · Français",
     "ctaLinkWebsite": "Services complets de conception Web",
-    "ctaLinkPortfolio": "Voir travaux en ligne"
+    "ctaLinkPortfolio": "Voir travaux en ligne",
+    "aodaFootnote": "Conforme aux normes WCAG (alignées avec la LAPHO) pour un site utilisable par plus de visiteurs."
   },
   "websiteDesign": {
     "metadataTitle": "Conception de sites Web d'affaires | ROALLA",

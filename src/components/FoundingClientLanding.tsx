@@ -6,14 +6,10 @@ import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import {
   ArrowRight,
-  Award,
-  Briefcase,
   CheckCircle,
   Clock,
   DollarSign,
   Globe,
-  Languages,
-  Lock,
   MapPin,
   Rocket,
   ShieldCheck,
@@ -37,7 +33,6 @@ import { FOUNDING_CLIENT_FAQ_KEYS } from '@/lib/service-faq-jsonld'
 
 const includeKeys = ['include1', 'include2', 'include3', 'include4', 'include5', 'include6'] as const
 const excludeKeys = ['exclude1', 'exclude2', 'exclude3', 'exclude4', 'exclude5', 'exclude6', 'exclude7'] as const
-const addonKeys = ['addon1', 'addon2', 'addon3'] as const
 const termKeys = ['term1', 'term2', 'term3'] as const
 const processSteps = [
   { icon: MapPin, titleKey: 'process1Title', descKey: 'process1Desc' },
@@ -45,9 +40,6 @@ const processSteps = [
   { icon: Rocket, titleKey: 'process3Title', descKey: 'process3Desc' },
   { icon: ShieldCheck, titleKey: 'process4Title', descKey: 'process4Desc' },
 ] as const
-const coverageKeys = ['coverage1', 'coverage2', 'coverage3'] as const
-const valueKeys = ['value1', 'value2', 'value3'] as const
-const certKeys = ['certItil', 'certAi', 'certSecurity', 'certExecutive'] as const
 
 export default function FoundingClientLanding() {
   const t = useTranslations('foundingClient')
@@ -108,56 +100,16 @@ export default function FoundingClientLanding() {
       />
 
       <div className="max-w-6xl mx-auto">
-        <Reveal className="mb-10 rounded-xl border border-amber-200 bg-amber-50/80 px-5 py-4 flex flex-wrap items-center gap-3">
-          <Languages className="w-5 h-5 text-amber-800 shrink-0" aria-hidden />
-          <p className="text-sm text-amber-950 leading-relaxed flex-1">{t('languageBanner')}</p>
-        </Reveal>
-
         <ServiceAnchorNav
           label={t('jumpNavLabel')}
           items={[
-            { id: 'why', label: t('whyNav') },
             { id: 'offer', label: t('offerNav') },
             { id: 'process', label: t('processNav') },
-            { id: 'coverage', label: t('coverageNav') },
             { id: 'faq', label: t('faqNav') },
           ]}
         />
 
-        <section id="why" className="scroll-mt-28 mb-16">
-          <ServiceSectionHeading
-            eyebrow={t('whyEyebrow')}
-            title={t('whyTitle')}
-            description={t('whyDesc')}
-          />
-          <Reveal className="flex flex-wrap gap-2 mb-6">
-            {certKeys.map((key) => (
-              <span
-                key={key}
-                className="inline-flex items-center rounded-full border border-primary/20 bg-primary/[0.06] px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-primary-dark"
-              >
-                {t(key)}
-              </span>
-            ))}
-          </Reveal>
-          <div className="grid md:grid-cols-3 gap-4">
-            {valueKeys.map((key, index) => {
-              const icons = [Briefcase, Award, Lock] as const
-              const Icon = icons[index] ?? Briefcase
-              return (
-                <Reveal key={key} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-                  <Icon className="w-5 h-5 text-primary mb-3" aria-hidden />
-                  <p className="text-sm text-slate-700 leading-relaxed">{t(key)}</p>
-                </Reveal>
-              )
-            })}
-          </div>
-          <Reveal className="mt-6 rounded-xl border border-slate-200 bg-slate-50/80 p-5 md:p-6">
-            <p className="text-sm md:text-base text-slate-800 leading-relaxed">{t('whyResolution')}</p>
-          </Reveal>
-        </section>
-
-        <section id="offer" className="scroll-mt-28 mb-16 pt-4 border-t border-slate-200">
+        <section id="offer" className="scroll-mt-28 mb-16">
           <ServiceSectionHeading eyebrow={t('offerEyebrow')} title={t('offerTitle')} description={t('offerDesc')} />
           <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-8 items-start">
             <Reveal className={`${serviceCardClass} p-6 md:p-8 border-primary/25 ring-1 ring-primary/10`}>
@@ -181,16 +133,20 @@ export default function FoundingClientLanding() {
                   </li>
                 ))}
               </ul>
-              <div className="mt-8 pt-6 border-t border-slate-200">
-                <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">{t('excludeLabel')}</p>
-                <ul className="space-y-2">
+              <p className="mt-4 text-xs text-slate-500 leading-relaxed">{t('aodaFootnote')}</p>
+              <details className="mt-6 pt-4 border-t border-slate-200 group">
+                <summary className="cursor-pointer text-sm font-semibold text-slate-700 list-none flex items-center justify-between">
+                  {t('excludeLabel')}
+                  <span className="text-slate-400 group-open:rotate-180 transition-transform">▾</span>
+                </summary>
+                <ul className="mt-3 space-y-2">
                   {excludeKeys.map((key) => (
                     <li key={key} className="text-sm text-slate-600 leading-relaxed">
                       {t(key)}
                     </li>
                   ))}
                 </ul>
-              </div>
+              </details>
               <div className="mt-8">
                 <ScheduleButton
                   variant="primary"
@@ -226,16 +182,6 @@ export default function FoundingClientLanding() {
                   ))}
                 </ul>
               </div>
-              <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-                <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark mb-2">{t('addonEyebrow')}</p>
-                <ul className="space-y-3">
-                  {addonKeys.map((key) => (
-                    <li key={key} className="text-sm text-slate-700 leading-relaxed">
-                      {t(key)}
-                    </li>
-                  ))}
-                </ul>
-              </div>
             </Reveal>
           </div>
         </section>
@@ -254,22 +200,6 @@ export default function FoundingClientLanding() {
               </Reveal>
             ))}
           </div>
-        </section>
-
-        <section id="coverage" className="scroll-mt-28 mb-16 pt-4 border-t border-slate-200">
-          <ServiceSectionHeading
-            eyebrow={t('coverageEyebrow')}
-            title={t('coverageTitle')}
-            description={t('coverageDesc')}
-          />
-          <div className="grid md:grid-cols-3 gap-4">
-            {coverageKeys.map((key) => (
-              <Reveal key={key} className="rounded-xl border border-slate-200 bg-slate-50/80 p-5">
-                <p className="text-sm text-slate-700 leading-relaxed">{t(key)}</p>
-              </Reveal>
-            ))}
-          </div>
-          <p className="mt-6 text-sm text-slate-600 leading-relaxed">{t('coverageFootnote')}</p>
         </section>
 
         <section id="faq" className="scroll-mt-28 mb-4 pt-4 border-t border-slate-200">

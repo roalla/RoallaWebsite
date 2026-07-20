@@ -253,6 +253,7 @@ const Header = () => {
   type DigitalNavHref =
     | '/services/digital'
     | '/website-design'
+    | '/website-package'
     | '/services/digital-events'
     | { pathname: '/services/digital'; hash: 'platforms' | 'automation' | 'ai-support' }
 
@@ -262,6 +263,7 @@ const Header = () => {
     nameKey:
       | 'digitalOverview'
       | 'digitalWebsites'
+      | 'digitalWebsitePackage'
       | 'digitalPlatforms'
       | 'digitalAutomation'
       | 'digitalAiSupport'
@@ -269,6 +271,7 @@ const Header = () => {
     descKey:
       | 'digitalOverviewDesc'
       | 'digitalWebsitesDesc'
+      | 'digitalWebsitePackageDesc'
       | 'digitalPlatformsDesc'
       | 'digitalAutomationDesc'
       | 'digitalAiSupportDesc'
@@ -278,6 +281,7 @@ const Header = () => {
   }[] = [
     { nameKey: 'digitalOverview', descKey: 'digitalOverviewDesc', href: '/services/digital', icon: Globe },
     { nameKey: 'digitalWebsites', descKey: 'digitalWebsitesDesc', href: '/website-design', icon: Globe },
+    { nameKey: 'digitalWebsitePackage', descKey: 'digitalWebsitePackageDesc', href: '/website-package', icon: Flag },
     { nameKey: 'digitalPlatforms', descKey: 'digitalPlatformsDesc', href: { pathname: '/services/digital', hash: 'platforms' }, icon: Layers },
     { nameKey: 'digitalAutomation', descKey: 'digitalAutomationDesc', href: { pathname: '/services/digital', hash: 'automation' }, icon: Workflow },
     { nameKey: 'digitalAiSupport', descKey: 'digitalAiSupportDesc', href: { pathname: '/services/digital', hash: 'ai-support' }, icon: Sparkles },
@@ -302,7 +306,11 @@ const Header = () => {
 
   const isProgramsActive = pathname.startsWith('/programs')
 
-  const showFoundingPromo = pathname !== '/website-package'
+  const showFoundingPromo =
+    pathname === '/services/digital' ||
+    pathname === '/website-design' ||
+    pathname === '/services/digital-events' ||
+    pathname === '/services/portfolio'
 
   const foundingPromoLinkClass =
     'group flex items-center gap-1.5 rounded-lg border border-primary/40 bg-primary/10 px-2.5 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/20 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black'

@@ -52,16 +52,14 @@ test.describe('Header', () => {
     await expect(page.getByRole('heading', { name: 'Digital Portfolio', level: 1 })).toBeVisible()
   })
 
-  test('homepage shows founding client promo link', async ({ page }) => {
+  test('homepage hides founding client promo link', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 })
     await page.goto('/en')
 
-    const promo = page.getByRole('link', { name: /5-page website package/i })
-    await expect(promo).toBeVisible()
-    await expect(promo).toHaveAttribute('href', '/en/website-package')
+    await expect(page.getByRole('link', { name: /5-page website package/i })).toHaveCount(0)
   })
 
-  test('founding client promo appears across public pages', async ({ page }) => {
+  test('founding client promo appears on digital routes', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 })
     await page.goto('/en/services/digital')
 

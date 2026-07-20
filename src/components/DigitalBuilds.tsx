@@ -60,7 +60,6 @@ function portfolioItemName(
 ) {
   const map = {
     t1: 't1Name',
-    t3: 't3Name',
     t4: 't4Name',
     t5: 't5Name',
     t6: 't6Name',
@@ -174,8 +173,8 @@ const DigitalBuilds = () => {
       icon: buildIcons[0],
       requestCta: t('s0RequestCta'),
       proofText: t('s0Proof'),
-      proofHash: 'ken-effect',
-      proofReference: 'ken-effect',
+      proofHash: 'kaylan-kaptures',
+      proofReference: 'kaylan-kaptures',
       timeline: t('websiteTimeline'),
       anchor: buildAnchors[0],
     },

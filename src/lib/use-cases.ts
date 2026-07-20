@@ -21,7 +21,7 @@ export const USE_CASES = [
     id: 'website-refresh',
     category: 'websites',
     maturity: 'proven',
-    portfolio: ['ken-effect'] as const satisfies readonly CaseStudySlug[],
+    portfolio: [] as const satisfies readonly CaseStudySlug[],
   },
   {
     id: 'lead-capture',

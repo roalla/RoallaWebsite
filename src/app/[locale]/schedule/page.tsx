@@ -22,7 +22,6 @@ import type { PortfolioIndustryCategoryId, PortfolioItemId } from '@/lib/digital
 
 const PORTFOLIO_NAME_KEYS = {
   t1: 't1Name',
-  t3: 't3Name',
   t4: 't4Name',
   t5: 't5Name',
   t6: 't6Name',

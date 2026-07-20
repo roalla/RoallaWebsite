@@ -3,7 +3,6 @@ export type PortfolioCategory = 'website' | 'platform'
 export type PortfolioProjectType = 'client' | 'roalla-product' | 'roalla-site'
 
 export type PortfolioItemId =
-  | 'ken-effect'
   | 'roalla-site'
   | 'business-cocoon'
   | '4theblueprint'
@@ -38,7 +37,7 @@ export type PortfolioItemConfig = {
   tryUrl: string
   domain?: string
   contactService: 'websites-brand' | 'custom-platforms'
-  i18nPrefix: 't3' | 't5' | 't4' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10' | 't11' | 't12' | 't13' | 't14' | 't15' | 't16'
+  i18nPrefix: 't5' | 't4' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10' | 't11' | 't12' | 't13' | 't14' | 't15' | 't16'
   tagKeys?: readonly [string, string, string]
   /** Shown in the featured case-study block for this category */
   featuredCategory?: PortfolioCategory
@@ -84,7 +83,6 @@ export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'goalie-stop',
   'cold-dejabru-event',
   'roalla-site',
-  'ken-effect',
 ]
 
 /** Domains shown as quick-open chips in the portfolio hero. Featured pitch leads. */
@@ -97,7 +95,7 @@ export const portfolioHeroLiveChipIds: readonly PortfolioItemId[] = [
 export const portfolioCuratedPaths = [
   {
     id: 'marketing-site',
-    itemIds: ['ken-effect', 'kaylan-kaptures', 'goalie-stop'] as const satisfies readonly PortfolioItemId[],
+    itemIds: ['kaylan-kaptures', 'goalie-stop', 'hockey-gaze'] as const satisfies readonly PortfolioItemId[],
   },
   {
     id: 'custom-platform',
@@ -147,7 +145,7 @@ export const portfolioIndustryCategories: PortfolioIndustryCategoryConfig[] = [
   },
   {
     id: 'professional-services',
-    itemIds: ['grcstatus', 'ken-effect', 'kaylan-kaptures'],
+    itemIds: ['grcstatus', 'kaylan-kaptures'],
     contactService: 'websites-brand',
     i18nPrefix: 'industryProfessional',
   },
@@ -270,18 +268,6 @@ export const portfolioItems: PortfolioItemConfig[] = [
     industryCategory: 'fleet-logistics',
   },
   {
-    id: 'ken-effect',
-    category: 'website',
-    projectType: 'client',
-    imageUrl: '/Keneffectsite.jpg',
-    tryUrl: 'https://www.keneffect.com/',
-    domain: 'keneffect.com',
-    contactService: 'websites-brand',
-    i18nPrefix: 't3',
-    tagKeys: ['t3Tag1', 't3Tag2', 't3Tag3'],
-    industryCategory: 'professional-services',
-  },
-  {
     id: 'cold-dejabru-event',
     category: 'website',
     projectType: 'client',
@@ -311,8 +297,8 @@ export const portfolioItems: PortfolioItemConfig[] = [
     category: 'website',
     projectType: 'client',
     imageUrl: '/goaliestop_sample.jpg',
-    tryUrl: 'https://www.goaliestop.com/',
-    domain: 'goaliestop.com',
+    tryUrl: 'https://www.ryanmuncegoaltending.com/',
+    domain: 'ryanmuncegoaltending.com',
     contactService: 'websites-brand',
     i18nPrefix: 't12',
     tagKeys: ['t12Tag1', 't12Tag2', 't12Tag3'],
@@ -345,7 +331,6 @@ export const portfolioItems: PortfolioItemConfig[] = [
 ]
 
 export const portfolioImageAlts: Record<PortfolioItemId, string> = {
-  'ken-effect': 'Ken Effect home page hero — speaking, events, and leadership resources',
   'roalla-site': 'ROALLA business enablement website homepage',
   'business-cocoon': 'The Business Cocoon products catalog with guided workflows',
   '4theblueprint': '4 The Blueprint course planner — certification framework, guided wizard, and lean launch path',
@@ -359,11 +344,11 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
   my360vision:
     'My360Vision homepage — multi-industry IoT management platform with industry profile cards for property, venues, healthcare, and fleet',
   'goalie-stop':
-    'Goalie Stop (RMG) homepage — elite goaltending camps, private training, instructor profiles, and Book with Ryan booking paths',
+    'Ryan Munce Goaltending homepage — elite goaltending camps, private training, instructor profiles, and Book with Ryan booking paths',
   grcstatus:
-    'GRCStatus homepage — compliance readiness snapshot for SOC 2, HIPAA, and NIST CSF with live preview and free assessment CTAs',
+    'GRC Status homepage — compliance readiness snapshot for SOC 2, HIPAA, and NIST CSF with live preview and free assessment CTAs',
   unjargonit:
-    'Unjargonit homepage — plain-language tech learning tracks for students, parents, and teachers with progress dashboards and hands-on playgrounds',
+    'UnJargon It homepage — plain-language tech learning tracks for students, parents, and teachers with progress dashboards and hands-on playgrounds',
   'kaylan-kaptures':
     'Kaylan Kaptures homepage — photography brand site with scenic hero, Book a Session CTA, and portfolio path',
   'hockey-gaze':

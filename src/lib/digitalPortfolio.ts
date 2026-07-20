@@ -357,7 +357,7 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
   'pitch-hotshots':
     'Pitch Hotshots — rehearse investor pitches and sales talks with AI scoring, delivery metrics, and stage-ready feedback',
   my360vision:
-    'My360Vision homepage — IoT management and telematics for every industry, with fleet overview dashboards and industry profile cards',
+    'My360Vision homepage — multi-industry IoT management platform with industry profile cards for property, venues, healthcare, and fleet',
   'goalie-stop':
     'Goalie Stop (RMG) homepage — elite goaltending camps, private training, instructor profiles, and Book with Ryan booking paths',
   grcstatus:

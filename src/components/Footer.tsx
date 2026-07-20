@@ -155,7 +155,25 @@ const Footer = () => {
           <p className="text-xs text-slate-500" suppressHydrationWarning>
             {t('copyright', { year: currentYear })}
           </p>
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <Link
+              href="/terms"
+              className="text-xs font-medium text-slate-500 hover:text-primary transition-colors w-fit"
+            >
+              {t('terms')}
+            </Link>
+            <Link
+              href="/privacy"
+              className="text-xs font-medium text-slate-500 hover:text-primary transition-colors w-fit"
+            >
+              {t('privacy')}
+            </Link>
+            <Link
+              href="/ai-policy"
+              className="text-xs font-medium text-slate-500 hover:text-primary transition-colors w-fit"
+            >
+              {t('aiPolicy')}
+            </Link>
             <Link
               href="/hub/login"
               className="inline-flex items-center gap-1 text-xs font-medium text-slate-500 hover:text-primary transition-colors w-fit"

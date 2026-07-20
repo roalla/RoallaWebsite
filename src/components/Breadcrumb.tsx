@@ -19,6 +19,9 @@ type BreadcrumbHref =
   | '/schedule'
   | '/website-design'
   | '/insights'
+  | '/terms'
+  | '/privacy'
+  | '/ai-policy'
 
 interface BreadcrumbProps {
   items: { label: string; href?: BreadcrumbHref }[]

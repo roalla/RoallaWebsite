@@ -20,6 +20,9 @@ const paths = [
   '/use-cases',
   '/contact',
   '/schedule',
+  '/terms',
+  '/privacy',
+  '/ai-policy',
   '/insights',
   ...INSIGHT_SLUGS.map((slug) => `/insights/${slug}`),
   ...CASE_STUDY_SLUGS.map((slug) => `/services/portfolio/${slug}`),
@@ -40,6 +43,9 @@ const priorities: Record<string, number> = {
   '/use-cases': 0.85,
   '/contact': 0.8,
   '/schedule': 0.85,
+  '/terms': 0.4,
+  '/privacy': 0.4,
+  '/ai-policy': 0.4,
   '/insights': 0.75,
 }
 

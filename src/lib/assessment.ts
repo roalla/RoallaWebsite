@@ -270,7 +270,7 @@ export function computeAssessmentResult(answers: AssessmentAnswers): AssessmentR
     scheduleGoal: '',
     serviceHref: `/programs/business-enablement#${meta.anchor}`,
     laneHref: '/programs/business-enablement',
-    exploreServicesHref: `/programs/business-enablement#${meta.pillarSectionId}`,
+    exploreServicesHref: `/programs/business-enablement#${meta.anchor}`,
     useCaseHref: null,
   }
 

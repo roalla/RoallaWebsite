@@ -22,28 +22,14 @@ import StickyMobileCTA from './StickyMobileCTA'
 import ServiceMiniFAQ from './services/ServiceMiniFAQ'
 import ServiceTestimonialBand from './services/ServiceTestimonialBand'
 import Breadcrumb from './Breadcrumb'
-import BrandJourneyBand from './services/BrandJourneyBand'
 import type { ConsultingFocus } from '@/lib/consultation-request'
 import { SERVICE_PAGE_FAQ_KEYS } from '@/lib/service-faq-jsonld'
-import {
-  BRAND_PILLARS,
-  CONSULTING_PILLAR_INTRO_KEYS,
-  PILLAR_BADGE_KEYS,
-  PILLAR_CTA_KEYS,
-  PILLAR_SECTION_IDS,
-  PILLAR_TITLE_KEYS,
-  START_HERE_KEYS,
-  type BrandPillar,
-} from '@/lib/brand-journey'
 import {
   ServicePageHero,
   ConsultingHeroVisual,
   ServiceAnchorNav,
   ServiceSectionHeading,
   ServicePageCTA,
-  PillarBadge,
-  PillarSectionHeader,
-  pillarSectionClass,
   serviceCardClass,
   serviceCardIconMotionClass,
   servicePrimaryLinkClass,
@@ -52,15 +38,7 @@ import {
 const serviceIcons = [Target, TrendingUp, Users, BarChart3, Lightbulb, Zap] as const
 const serviceAnchors = ['strategic', 'operations', 'people', 'analytics', 'innovation', 'digital'] as const
 const fitKeys = ['fit1', 'fit2', 'fit3'] as const
-
-const SERVICE_PILLARS: BrandPillar[] = ['prepare', 'transform', 'emerge', 'emerge', 'soar', 'transform']
-
-const PILLAR_SERVICES: Record<BrandPillar, number[]> = {
-  prepare: [0],
-  transform: [1, 5],
-  emerge: [2, 3],
-  soar: [4],
-}
+const howWeWorkSteps = ['step1', 'step2', 'step3', 'step4'] as const
 
 type ConsultingService = {
   title: string
@@ -72,7 +50,6 @@ type ConsultingService = {
   icon: LucideIcon
   focus: ConsultingFocus
   anchor: string
-  pillar: BrandPillar
 }
 
 function ConsultingServiceCard({
@@ -82,65 +59,60 @@ function ConsultingServiceCard({
   service: ConsultingService
   t: ReturnType<typeof useTranslations<'services'>>
 }) {
-  const tBrand = useTranslations('brandJourney')
-
   return (
     <Reveal as="article" id={service.anchor} className="scroll-mt-28 h-full">
       <div className={serviceCardClass}>
-      <div className="p-7 lg:p-8 flex flex-col flex-1">
-        <div className="flex items-start gap-4 mb-5">
-          <div
-            className={`w-11 h-11 shrink-0 rounded-md border border-primary/20 bg-primary/10 flex items-center justify-center group-hover:border-primary/35 group-hover:bg-primary/15 transition-colors duration-300 ${serviceCardIconMotionClass}`}
-          >
-            <service.icon className="w-5 h-5 text-primary-dark" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <div className="mb-2">
-              <PillarBadge label={tBrand(PILLAR_BADGE_KEYS[service.pillar])} />
+        <div className="p-7 lg:p-8 flex flex-col flex-1">
+          <div className="flex items-start gap-4 mb-5">
+            <div
+              className={`w-11 h-11 shrink-0 rounded-md border border-primary/20 bg-primary/10 flex items-center justify-center group-hover:border-primary/35 group-hover:bg-primary/15 transition-colors duration-300 ${serviceCardIconMotionClass}`}
+            >
+              <service.icon className="w-5 h-5 text-primary-dark" />
             </div>
-            <h3 className="text-lg font-serif font-bold text-slate-900">{service.title}</h3>
-            <p className="mt-2 text-sm text-slate-700 leading-relaxed">{service.desc}</p>
+            <div className="min-w-0 flex-1">
+              <h3 className="text-lg font-serif font-bold text-slate-900">{service.title}</h3>
+              <p className="mt-2 text-sm text-slate-700 leading-relaxed">{service.desc}</p>
+            </div>
+          </div>
+
+          <p className="text-sm font-medium text-slate-800 border-l-4 border-primary bg-primary/[0.06] rounded-r-md pl-3 py-2 mb-5 leading-relaxed">
+            {service.ideal}
+          </p>
+
+          <div className="space-y-3 mb-5 text-sm">
+            <p className="text-slate-800 bg-slate-50 rounded-md border border-slate-200 px-3 py-2.5">
+              <span className="block text-xs font-semibold uppercase tracking-wide text-primary-dark mb-1">
+                {t('outcomeLabel')}
+              </span>
+              {service.outcome}
+            </p>
+            <p className="text-slate-700 px-3">
+              <span className="block text-xs font-semibold uppercase tracking-wide text-slate-600 mb-1">
+                {t('notForLabel')}
+              </span>
+              {service.notFor}
+            </p>
+          </div>
+
+          <ul className="space-y-2 mb-6">
+            {service.features.map((feature) => (
+              <li key={feature} className="flex items-start text-sm text-slate-700">
+                <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0 mt-0.5 text-primary-dark" />
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-auto pt-5 border-t border-slate-200">
+            <Link
+              href={{ pathname: '/schedule', query: { intent: 'consulting', focus: service.focus } }}
+              className={servicePrimaryLinkClass}
+            >
+              {t('requestConsultation')}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
           </div>
         </div>
-
-        <p className="text-sm font-medium text-slate-800 border-l-4 border-primary bg-primary/[0.06] rounded-r-md pl-3 py-2 mb-5 leading-relaxed">
-          {service.ideal}
-        </p>
-
-        <div className="space-y-3 mb-5 text-sm">
-          <p className="text-slate-800 bg-slate-50 rounded-md border border-slate-200 px-3 py-2.5">
-            <span className="block text-xs font-semibold uppercase tracking-wide text-primary-dark mb-1">
-              {t('outcomeLabel')}
-            </span>
-            {service.outcome}
-          </p>
-          <p className="text-slate-700 px-3">
-            <span className="block text-xs font-semibold uppercase tracking-wide text-slate-600 mb-1">
-              {t('notForLabel')}
-            </span>
-            {service.notFor}
-          </p>
-        </div>
-
-        <ul className="space-y-2 mb-6">
-          {service.features.map((feature) => (
-            <li key={feature} className="flex items-start text-sm text-slate-700">
-              <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0 mt-0.5 text-primary-dark" />
-              <span>{feature}</span>
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-auto pt-5 border-t border-slate-200">
-          <Link
-            href={{ pathname: '/schedule', query: { intent: 'consulting', focus: service.focus } }}
-            className={servicePrimaryLinkClass}
-          >
-            {t('requestConsultation')}
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Link>
-        </div>
-      </div>
       </div>
     </Reveal>
   )
@@ -148,7 +120,6 @@ function ConsultingServiceCard({
 
 const Services = () => {
   const t = useTranslations('services')
-  const tBrand = useTranslations('brandJourney')
   const tBc = useTranslations('breadcrumb')
   const tCommon = useTranslations('common')
 
@@ -163,7 +134,6 @@ const Services = () => {
       icon: serviceIcons[0],
       focus: 'strategy',
       anchor: serviceAnchors[0],
-      pillar: SERVICE_PILLARS[0],
     },
     {
       title: t('s1Title'),
@@ -175,7 +145,6 @@ const Services = () => {
       icon: serviceIcons[1],
       focus: 'operations',
       anchor: serviceAnchors[1],
-      pillar: SERVICE_PILLARS[1],
     },
     {
       title: t('s2Title'),
@@ -187,7 +156,6 @@ const Services = () => {
       icon: serviceIcons[2],
       focus: 'team',
       anchor: serviceAnchors[2],
-      pillar: SERVICE_PILLARS[2],
     },
     {
       title: t('s3Title'),
@@ -199,7 +167,6 @@ const Services = () => {
       icon: serviceIcons[3],
       focus: 'data',
       anchor: serviceAnchors[3],
-      pillar: SERVICE_PILLARS[3],
     },
     {
       title: t('s4Title'),
@@ -211,7 +178,6 @@ const Services = () => {
       icon: serviceIcons[4],
       focus: 'innovation',
       anchor: serviceAnchors[4],
-      pillar: SERVICE_PILLARS[4],
     },
     {
       title: t('s5Title'),
@@ -223,7 +189,6 @@ const Services = () => {
       icon: serviceIcons[5],
       focus: 'other',
       anchor: serviceAnchors[5],
-      pillar: SERVICE_PILLARS[5],
     },
   ]
 
@@ -232,13 +197,6 @@ const Services = () => {
     { value: t('stat2Value'), label: t('stat2Label'), icon: Briefcase },
     { value: t('stat3Value'), label: t('stat3Label'), icon: Users },
   ]
-
-  const pillarFocus: Record<BrandPillar, ConsultingFocus> = {
-    prepare: 'strategy',
-    transform: 'operations',
-    emerge: 'team',
-    soar: 'innovation',
-  }
 
   return (
     <section id="services" className="section-padding relative bg-slate-50/60">
@@ -276,34 +234,38 @@ const Services = () => {
       />
 
       <div className="max-w-6xl mx-auto">
-        <BrandJourneyBand />
-
         <ServiceAnchorNav
           label={t('jumpNavLabel')}
           items={services.map((s) => ({ id: s.anchor, label: s.title }))}
         />
 
-        {BRAND_PILLARS.map((pillar) => (
-          <section key={pillar} id={PILLAR_SECTION_IDS[pillar]} className={pillarSectionClass}>
-            <PillarSectionHeader
-              pillarTitle={tBrand(PILLAR_TITLE_KEYS[pillar])}
-              intro={tBrand(CONSULTING_PILLAR_INTRO_KEYS[pillar])}
-              startHere={tBrand(START_HERE_KEYS[pillar])}
-            />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-6">
-              {PILLAR_SERVICES[pillar].map((idx) => (
-                <ConsultingServiceCard key={services[idx].anchor} service={services[idx]} t={t} />
-              ))}
-            </div>
-            <Link
-              href={{ pathname: '/schedule', query: { intent: 'consulting', focus: pillarFocus[pillar] } }}
-              className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
-            >
-              {tBrand(PILLAR_CTA_KEYS[pillar])}
-              <ArrowRight className="ml-1.5 w-4 h-4" />
-            </Link>
-          </section>
-        ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          {services.map((service) => (
+            <ConsultingServiceCard key={service.anchor} service={service} t={t} />
+          ))}
+        </div>
+
+        <Reveal className="mt-16 pt-12 border-t-2 border-slate-200">
+          <ServiceSectionHeading title={t('engagementTitle')} description={t('engagementSubtitle')} />
+          <ol className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+            {howWeWorkSteps.map((stepKey, index) => (
+              <li
+                key={stepKey}
+                className="rounded-lg border border-slate-200 bg-white p-5 lg:p-6 flex gap-4"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-primary/10 text-sm font-bold text-primary-dark">
+                  {index + 1}
+                </span>
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1">
+                    {t('stepLabel', { number: index + 1 })}
+                  </p>
+                  <p className="text-sm text-slate-800 leading-relaxed">{t(stepKey)}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </Reveal>
 
         <Reveal className="mt-16 pt-12 border-t-2 border-slate-200 grid lg:grid-cols-2 gap-6">
           <div className="rounded-lg border-2 border-primary/30 bg-primary/[0.04] p-6 lg:p-8">

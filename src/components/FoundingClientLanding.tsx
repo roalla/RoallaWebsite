@@ -8,8 +8,8 @@ import {
   ArrowRight,
   CheckCircle,
   Clock,
+  Compass,
   DollarSign,
-  Eye,
   MapPin,
   PhoneCall,
   Rocket,
@@ -54,17 +54,18 @@ const excludeKeys = [
 ] as const
 const termKeys = ['term1', 'term2', 'term3'] as const
 const diffItems = [
-  { icon: PhoneCall, titleKey: 'diff1Title', descKey: 'diff1Desc' },
-  { icon: Search, titleKey: 'diff2Title', descKey: 'diff2Desc' },
-  { icon: Scale, titleKey: 'diff3Title', descKey: 'diff3Desc' },
-  { icon: ShieldCheck, titleKey: 'diff4Title', descKey: 'diff4Desc' },
-  { icon: Eye, titleKey: 'diff5Title', descKey: 'diff5Desc' },
+  { icon: Compass, titleKey: 'diff1Title', descKey: 'diff1Desc' },
+  { icon: PhoneCall, titleKey: 'diff2Title', descKey: 'diff2Desc' },
+  { icon: Search, titleKey: 'diff3Title', descKey: 'diff3Desc' },
+  { icon: Scale, titleKey: 'diff4Title', descKey: 'diff4Desc' },
+  { icon: ShieldCheck, titleKey: 'diff5Title', descKey: 'diff5Desc' },
 ] as const
 const processSteps = [
   { icon: MapPin, titleKey: 'process1Title', descKey: 'process1Desc' },
   { icon: DollarSign, titleKey: 'process2Title', descKey: 'process2Desc' },
-  { icon: Rocket, titleKey: 'process3Title', descKey: 'process3Desc' },
-  { icon: ShieldCheck, titleKey: 'process4Title', descKey: 'process4Desc' },
+  { icon: Compass, titleKey: 'process3Title', descKey: 'process3Desc' },
+  { icon: Rocket, titleKey: 'process4Title', descKey: 'process4Desc' },
+  { icon: ShieldCheck, titleKey: 'process5Title', descKey: 'process5Desc' },
 ] as const
 
 export default function FoundingClientLanding() {
@@ -229,7 +230,7 @@ export default function FoundingClientLanding() {
 
         <section id="process" className="scroll-mt-28 mb-16 pt-4 border-t border-slate-200">
           <ServiceSectionHeading title={t('processTitle')} description={t('processDesc')} />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
             {processSteps.map(({ icon: Icon, titleKey, descKey }, index) => (
               <Reveal key={titleKey} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
                 <div className="flex items-center gap-2 mb-3">

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback, useSyncExternalStore } from 'react'
 import { Menu, X, ChevronDown, Briefcase, Globe, GraduationCap, CalendarDays, Layers, Workflow, Sparkles, Flag } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname as useNextPathname } from 'next/navigation'
@@ -46,9 +46,47 @@ function getFocusables(container: HTMLElement | null): HTMLElement[] {
   return Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR))
 }
 
+/** Viewport band used to decide whether the fixed header sits over dark content */
+const HEADER_TONE_BAND_PX = 88
+
+function getHeaderOverDark(): boolean {
+  if (typeof document === 'undefined') return false
+  const targets = document.querySelectorAll('[data-header-tone="dark"]')
+  if (targets.length === 0) return false
+  for (const el of targets) {
+    const rect = el.getBoundingClientRect()
+    if (rect.top < HEADER_TONE_BAND_PX && rect.bottom > 0) return true
+  }
+  return false
+}
+
+function subscribeHeaderTone(onStoreChange: () => void) {
+  let frame: number | null = null
+  const notify = () => {
+    if (frame !== null) return
+    frame = requestAnimationFrame(() => {
+      frame = null
+      onStoreChange()
+    })
+  }
+  window.addEventListener('scroll', notify, { passive: true })
+  window.addEventListener('resize', notify)
+  return () => {
+    window.removeEventListener('scroll', notify)
+    window.removeEventListener('resize', notify)
+    if (frame !== null) cancelAnimationFrame(frame)
+  }
+}
+
 const Header = () => {
+  const pathname = usePathname() ?? '/'
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const overDark = useSyncExternalStore(
+    subscribeHeaderTone,
+    getHeaderOverDark,
+    () => pathname === '/',
+  )
   const [mounted, setMounted] = useState(false)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
@@ -87,12 +125,21 @@ const Header = () => {
         scrollTick.current = null
       })
     }
+    setIsScrolled(window.scrollY > 10)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => {
       window.removeEventListener('scroll', handleScroll)
-      if (scrollTick.current !== null) cancelAnimationFrame(scrollTick.current)
+      if (scrollTick.current !== null) {
+        cancelAnimationFrame(scrollTick.current)
+        scrollTick.current = null
+      }
     }
   }, [mounted])
+
+  // Re-check tone after client navigations swap page sections
+  useEffect(() => {
+    window.dispatchEvent(new Event('resize'))
+  }, [pathname])
 
   useEffect(() => {
     if (!isMenuOpen) return
@@ -176,7 +223,6 @@ const Header = () => {
     setProgramsMobileExpanded(false)
   }, [])
 
-  const pathname = usePathname() ?? '/'
   const fullPathname = useNextPathname() ?? ''
   const isLocaleRoute = fullPathname.startsWith('/en') || fullPathname.startsWith('/fr')
   const t = useTranslations('nav')
@@ -312,8 +358,9 @@ const Header = () => {
     pathname === '/services/digital-events' ||
     pathname === '/services/portfolio'
 
-  const foundingPromoLinkClass =
-    'group flex items-center gap-1.5 rounded-lg border border-primary/40 bg-primary/10 px-2.5 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/20 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black'
+  const foundingPromoLinkClass = overDark
+    ? 'group flex items-center gap-1.5 rounded-lg border border-primary/40 bg-primary/10 px-2.5 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/20 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black'
+    : 'group flex items-center gap-1.5 rounded-lg border border-primary/40 bg-primary/10 px-2.5 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/20 hover:text-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white'
 
   const foundingPromoLink = showFoundingPromo ? (
     <Link
@@ -342,14 +389,36 @@ const Header = () => {
   const mobileDropdownItemClass =
     'flex gap-3 pl-5 pr-3 py-3 min-h-[44px] rounded-md transition-colors duration-200 text-gray-300 hover:text-primary hover:bg-white/5 focus-visible:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40'
 
+  const headerShellClass = overDark
+    ? isScrolled
+      ? 'bg-black/80 backdrop-blur-md shadow-lg shadow-black/40 border-white/15'
+      : 'bg-black/65 backdrop-blur-lg shadow-md shadow-black/20 border-white/15'
+    : isScrolled
+      ? 'bg-white/85 backdrop-blur-md shadow-md shadow-slate-900/10 border-slate-200/70'
+      : 'bg-white/70 backdrop-blur-xl shadow-sm shadow-slate-900/5 border-slate-200/60'
+
+  const brandTextClass = overDark
+    ? 'text-white group-hover:text-primary'
+    : 'text-slate-900 group-hover:text-primary'
+
+  const navIdleClass = overDark ? 'text-gray-300 hover:text-primary' : 'text-slate-600 hover:text-primary'
+  const navOpenBgClass = overDark ? 'bg-white/5' : 'bg-slate-900/5'
+
+  const localeBtnClass = overDark
+    ? 'flex items-center gap-1.5 text-sm font-medium text-white/90 hover:text-white bg-white/10 hover:bg-white/15 border border-white/20 rounded-lg px-2.5 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors'
+    : 'flex items-center gap-1.5 text-sm font-medium text-slate-700 hover:text-slate-900 bg-slate-900/5 hover:bg-slate-900/10 border border-slate-300/70 rounded-lg px-2.5 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors'
+
+  const mobileToggleClass = overDark
+    ? 'mobile-nav-toggle p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black min-h-[44px] min-w-[44px] flex items-center justify-center'
+    : 'mobile-nav-toggle p-2 rounded-lg bg-slate-900/5 hover:bg-slate-900/10 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white min-h-[44px] min-w-[44px] flex items-center justify-center'
+
+  const mobileToggleIconClass = overDark ? 'w-6 h-6 text-white' : 'w-6 h-6 text-slate-800'
+
   return (
     <header
       role="banner"
-      className={`fixed top-0 left-0 right-0 z-40 pt-[env(safe-area-inset-top)] border-b border-white/15 transition-[background-color,box-shadow,backdrop-filter] duration-300 ${
-        isScrolled
-          ? 'bg-black/80 backdrop-blur-md shadow-lg shadow-black/40'
-          : 'bg-black/65 backdrop-blur-lg shadow-md shadow-black/20'
-      }`}
+      data-header-over-dark={overDark ? 'true' : 'false'}
+      className={`fixed top-0 left-0 right-0 z-40 pt-[env(safe-area-inset-top)] border-b transition-[background-color,box-shadow,backdrop-filter,border-color] duration-300 ${headerShellClass}`}
     >
       {/* Skip to main content - visible on focus for keyboard/screen reader users */}
       <a href="#main-content" className="skip-link">
@@ -377,7 +446,7 @@ const Header = () => {
                 />
               </div>
               <div className="min-w-0">
-                <span className="text-base sm:text-xl font-bold text-white group-hover:text-primary transition-colors duration-200 truncate">
+                <span className={`text-base sm:text-xl font-bold ${brandTextClass} transition-colors duration-200 truncate`}>
                   {tCommon('companyName')}
                 </span>
               </div>
@@ -392,7 +461,7 @@ const Header = () => {
                   href="/"
                   aria-current={isActive('/') ? 'page' : undefined}
                   className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap block py-2 ${
-                    isActive('/') ? 'text-primary' : 'text-gray-300 hover:text-primary'
+                    isActive('/') ? 'text-primary' : navIdleClass
                   }`}
                   onClick={closeMenu}
                 >
@@ -415,8 +484,8 @@ const Header = () => {
                   className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
                     isDigitalActive || digitalDropdownOpen
                       ? 'text-primary'
-                      : 'text-gray-300 hover:text-primary'
-                  } ${digitalDropdownOpen ? 'bg-white/5' : ''}`}
+                      : navIdleClass
+                  } ${digitalDropdownOpen ? navOpenBgClass : ''}`}
                 >
                   {t('digitalEnablement')}
                   <ChevronDown className={`w-4 h-4 transition-transform ${digitalDropdownOpen ? 'rotate-180' : ''}`} />
@@ -474,7 +543,7 @@ const Header = () => {
                   href="/services/portfolio"
                   aria-current={isActive('/services/portfolio') ? 'page' : undefined}
                   className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap block py-2 ${
-                    isActive('/services/portfolio') ? 'text-primary' : 'text-gray-300 hover:text-primary'
+                    isActive('/services/portfolio') ? 'text-primary' : navIdleClass
                   }`}
                   onClick={closeMenu}
                 >
@@ -494,9 +563,9 @@ const Header = () => {
                   aria-expanded={programsDropdownOpen}
                   aria-haspopup="menu"
                   id="programs-dropdown-desktop"
-                  className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 text-slate-400 hover:text-gray-200 ${
-                    isProgramsActive || programsDropdownOpen ? 'text-gray-200' : ''
-                  } ${programsDropdownOpen ? 'bg-white/5' : ''}`}
+                  className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
+                    isProgramsActive || programsDropdownOpen ? 'text-primary' : navIdleClass
+                  } ${programsDropdownOpen ? navOpenBgClass : ''}`}
                 >
                   {t('programs')}
                   <ChevronDown className={`w-4 h-4 transition-transform ${programsDropdownOpen ? 'rotate-180' : ''}`} />
@@ -558,7 +627,7 @@ const Header = () => {
                 <button
                   type="button"
                   onClick={() => setLocaleDropdownOpen((o) => !o)}
-                  className="flex items-center gap-1.5 text-sm font-medium text-white/90 hover:text-white bg-white/10 hover:bg-white/15 border border-white/20 rounded-lg px-2.5 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+                  className={localeBtnClass}
                   aria-expanded={localeDropdownOpen}
                   aria-haspopup="listbox"
                   aria-label={tCommon('selectLanguage')}
@@ -631,15 +700,15 @@ const Header = () => {
               ref={menuButtonRef}
               onClick={toggleMenu}
               onKeyDown={handleNavButtonKeyDown}
-              className="mobile-nav-toggle p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black min-h-[44px] min-w-[44px] flex items-center justify-center"
+              className={mobileToggleClass}
               aria-label={isMenuOpen ? t('closeMenu') : t('openMenu')}
               aria-expanded={isMenuOpen}
               aria-controls="mobile-menu"
             >
               {isMenuOpen ? (
-                <X className="w-6 h-6 text-white" aria-hidden />
+                <X className={mobileToggleIconClass} aria-hidden />
               ) : (
-                <Menu className="w-6 h-6 text-white" aria-hidden />
+                <Menu className={mobileToggleIconClass} aria-hidden />
               )}
             </button>
           </div>

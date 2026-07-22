@@ -22,6 +22,23 @@ export const INSIGHT_OG_IMAGES: Partial<Record<InsightSlug, string>> = {
   'smb-digital-growth': '/roalla-snapshot.jpg',
 }
 
+/** Insights rooted in delivery work — shown with an engagement chip on the homepage */
+export const INSIGHT_ENGAGEMENT_SLUGS: readonly InsightSlug[] = [
+  'smb-digitization-benefits',
+  'smb-digital-efficiency',
+  'smb-digital-growth',
+  'search-and-ai-visibility',
+  'process-optimization',
+]
+
+export function insightCoverImage(slug: InsightSlug): string {
+  return INSIGHT_OG_IMAGES[slug] ?? '/og-image.jpg'
+}
+
+export function insightFromEngagement(slug: InsightSlug): boolean {
+  return INSIGHT_ENGAGEMENT_SLUGS.includes(slug)
+}
+
 export const INSIGHT_PUBLISHED_DATES: Record<InsightSlug, string> = {
   'fractional-coo': '2025-11-01',
   'strategic-planning': '2025-12-01',

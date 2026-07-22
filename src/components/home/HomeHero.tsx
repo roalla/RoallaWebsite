@@ -7,7 +7,10 @@ export default function HomeHero() {
   const first = HERO_SLIDES[0]
 
   return (
-    <section className="relative isolate min-h-[min(100svh,56rem)] flex items-start overflow-hidden pt-28 sm:pt-32 lg:pt-36 bg-slate-950">
+    <section
+      data-header-tone="dark"
+      className="relative isolate min-h-[min(100svh,56rem)] flex items-start overflow-hidden pt-28 sm:pt-32 lg:pt-36 bg-slate-950"
+    >
       {/* LCP fallback before slideshow paints — art direction by viewport */}
       <div
         className="absolute inset-0 z-0 bg-cover bg-center md:hidden"

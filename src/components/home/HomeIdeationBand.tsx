@@ -14,6 +14,7 @@ export default function HomeIdeationBand() {
 
   return (
     <section
+      data-header-tone="dark"
       className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-primary-darker text-white border-y border-primary/25"
       aria-labelledby="ideation-band-heading"
     >

@@ -91,6 +91,20 @@ export const portfolioHeroLiveChipIds: readonly PortfolioItemId[] = [
   ...portfolioHeroItemOrder.filter((id) => id !== 'pitch-hotshots').slice(0, 7),
 ]
 
+/** Homepage Outcomes strip — live sites customers can open in one click */
+export const homeProofItemIds = [
+  'pitch-hotshots',
+  'kaylan-kaptures',
+  'goalie-stop',
+] as const satisfies readonly PortfolioItemId[]
+
+/** Homepage “What we build” capability → live example */
+export const homeCapabilityExamples = {
+  websites: 'kaylan-kaptures',
+  platforms: 'pitch-hotshots',
+  automation: 'boothlio',
+} as const satisfies Record<string, PortfolioItemId>
+
 /** Curated entry paths for visitors browsing the portfolio grid. */
 export const portfolioCuratedPaths = [
   {

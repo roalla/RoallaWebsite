@@ -41,7 +41,7 @@ const Footer = () => {
   const tCommon = useTranslations('common')
 
   return (
-    <footer className="bg-slate-950 text-slate-300 border-t border-white/10">
+    <footer data-header-tone="dark" className="bg-slate-950 text-slate-300 border-t border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="py-12 lg:py-14 grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12">
           <div className="md:col-span-5 lg:col-span-4">

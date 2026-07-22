@@ -1,12 +1,18 @@
 'use client'
 
 import React, { useCallback, useEffect, useState } from 'react'
+import Image from 'next/image'
 import { ArrowRight, BookOpen, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import Reveal from '../motion/Reveal'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
-import { INSIGHT_SLUGS, type InsightSlug } from '@/lib/insights'
+import {
+  INSIGHT_SLUGS,
+  insightCoverImage,
+  insightFromEngagement,
+  type InsightSlug,
+} from '@/lib/insights'
 import { formatInsightReadTime } from '@/lib/insight-read-time'
 
 const VISIBLE_COUNT = 3
@@ -77,27 +83,52 @@ export default function HomeFeaturedInsight() {
             aria-live={canRotate ? 'polite' : undefined}
             aria-atomic="true"
           >
-            {slugs.map((slug) => (
-              <div key={slug} className="insight-card-enter h-full">
-                <Link
-                  href={{ pathname: '/insights/[slug]', params: { slug } }}
-                  className="home-tile group flex h-full flex-col rounded-2xl bg-white p-6"
-                >
-                  <BookOpen className="w-8 h-8 text-primary/70 mb-4" aria-hidden />
-                  <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark">
-                    {formatInsightReadTime(tInsights, slug)}
-                  </p>
-                  <h3 className="mt-2 text-lg font-semibold text-slate-900 group-hover:text-primary-dark transition-colors">
-                    {tInsights(`${slug}.title`)}
-                  </h3>
-                  <p className="mt-3 flex-1 text-sm text-slate-600 leading-relaxed">{tInsights(`${slug}.summary`)}</p>
-                  <span className="mt-5 inline-flex items-center text-sm font-semibold text-primary-dark">
-                    {t('readMore')}
-                    <ArrowRight className="ml-2 w-4 h-4 motion-safe:group-hover:translate-x-0.5 transition-transform" />
-                  </span>
-                </Link>
-              </div>
-            ))}
+            {slugs.map((slug) => {
+              const fromEngagement = insightFromEngagement(slug)
+              return (
+                <div key={slug} className="insight-card-enter h-full">
+                  <Link
+                    href={{ pathname: '/insights/[slug]', params: { slug } }}
+                    className="home-tile group flex h-full flex-col overflow-hidden rounded-2xl bg-white p-0"
+                  >
+                    <div className="relative aspect-[16/9] overflow-hidden bg-slate-100">
+                      <Image
+                        src={insightCoverImage(slug)}
+                        alt=""
+                        fill
+                        className="object-cover motion-safe:transition-transform motion-safe:duration-500 group-hover:scale-[1.03]"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        unoptimized
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/35 to-transparent" aria-hidden />
+                      {fromEngagement ? (
+                        <span className="absolute left-3 bottom-3 rounded-md bg-white/95 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary-dark shadow-sm">
+                          {t('engagementChip')}
+                        </span>
+                      ) : null}
+                    </div>
+                    <div className="flex flex-1 flex-col p-5 sm:p-6">
+                      <div className="flex items-center gap-2">
+                        <BookOpen className="w-5 h-5 text-primary/70 shrink-0" aria-hidden />
+                        <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark">
+                          {formatInsightReadTime(tInsights, slug)}
+                        </p>
+                      </div>
+                      <h3 className="mt-2 text-lg font-semibold text-slate-900 group-hover:text-primary-dark transition-colors">
+                        {tInsights(`${slug}.title`)}
+                      </h3>
+                      <p className="mt-3 flex-1 text-sm text-slate-600 leading-relaxed">
+                        {tInsights(`${slug}.summary`)}
+                      </p>
+                      <span className="mt-5 inline-flex items-center text-sm font-semibold text-primary-dark">
+                        {t('readMore')}
+                        <ArrowRight className="ml-2 w-4 h-4 motion-safe:group-hover:translate-x-0.5 transition-transform" />
+                      </span>
+                    </div>
+                  </Link>
+                </div>
+              )
+            })}
           </div>
 
           {canRotate && (

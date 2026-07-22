@@ -8,7 +8,6 @@ import StickyMobileCTA from '../StickyMobileCTA'
 
 export default function HomeClosing() {
   const t = useTranslations('home.closing')
-  const tHero = useTranslations('home.hero')
   const tCommon = useTranslations('common')
   return (
     <>
@@ -26,7 +25,11 @@ export default function HomeClosing() {
         </Reveal>
       </div>
     </section>
-    <StickyMobileCTA label={tHero('cta')} sublabel={tCommon('ctaSubtext')} />
+    <StickyMobileCTA
+      href="/schedule"
+      label={tCommon('scheduleConsultationDigital')}
+      sublabel={tCommon('ctaSubtext')}
+    />
     </>
   )
 }

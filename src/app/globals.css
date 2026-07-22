@@ -245,6 +245,36 @@
     }
   }
 
+  .hero-rule {
+    transform-origin: left center;
+    animation: hero-rule-draw 0.7s ease-out 0.2s both;
+  }
+
+  @keyframes hero-rule-draw {
+    from {
+      transform: scaleX(0);
+      opacity: 0;
+    }
+    to {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+  }
+
+  .hero-soar {
+    animation: hero-soar-pulse 3.2s ease-in-out 0.6s infinite;
+  }
+
+  @keyframes hero-soar-pulse {
+    0%,
+    100% {
+      color: #ffd700;
+    }
+    50% {
+      color: #ffe033;
+    }
+  }
+
   @keyframes skeleton-pulse {
     0%,
     100% {
@@ -342,6 +372,11 @@
 
     .hero-slide:not(:first-child) {
       opacity: 0;
+    }
+
+    .hero-rule,
+    .hero-soar {
+      animation: none;
     }
 
     .insight-card-enter {

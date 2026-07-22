@@ -98,8 +98,10 @@
     "metadataDescription": "Nous idéationnons avec une expérience sectorielle avant de construire—pour que sites, applis, intégrations et automatisation répondent à vos objectifs d'affaires. Une équipe responsable de la portée au lancement.",
     "hero": {
       "title": "Accompagnement numérique",
-      "titleHighlight": "qui vous aide à émerger.",
-      "subtitle": "Sites Web, applis sur mesure, intégrations, automatisation des flux et IA pratique—cadrés, construits et lancés par une équipe responsable.",
+      "titleLine": "Préparer. Transformer. Émerger.",
+      "titleHighlight": "S'élever.",
+      "subtitle": "Modernisez vos opérations, accélerez votre croissance et livrez une technologie aux résultats mesurables—sites, plateformes, automatisation et IA pratique.",
+      "ctaAssessment": "Démarrer votre évaluation d'affaires",
       "pathChooserLabel": "Que voulez-vous construire?",
       "pathWebsiteTitle": "Site Web ou refonte",
       "pathWebsiteDesc": "Sites marketing, parcours de réservation et présence Web orientée conversion.",
@@ -141,7 +143,7 @@
       "consultingOutcome3": "Priorités, responsables et KPI prêts pour la direction",
       "digitalProofLabel": "Réalisations numériques en ligne",
       "exploreConsultingLink": "Explorer l'accompagnement d'entreprise",
-      "exploreDigitalLink": "Voir le portfolio numérique",
+      "exploreDigitalLink": "Voir nos réalisations",
       "exploreDigitalServiceLink": "Explorer l'accompagnement numérique",
       "journeyLine": "Préparer → Transformer → Émerger → S'élever — notre modèle pour chaque mandat numérique."
     },

@@ -98,8 +98,10 @@
     "metadataDescription": "We ideate with industry experience before we build—so websites, apps, integrations, and automation meet your business goals. One accountable team from scope through launch.",
     "hero": {
       "title": "Digital Enablement",
-      "titleHighlight": "that helps you emerge.",
-      "subtitle": "Production-ready websites, custom apps, integrations, workflow automation, and practical AI—scoped, built, and launched by one accountable team.",
+      "titleLine": "Prepare. Transform. Emerge.",
+      "titleHighlight": "Soar.",
+      "subtitle": "Modernize operations, accelerate growth, and ship technology that delivers measurable outcomes—websites, platforms, automation, and practical AI.",
+      "ctaAssessment": "Start your business assessment",
       "pathChooserLabel": "What do you need built?",
       "pathWebsiteTitle": "Website or redesign",
       "pathWebsiteDesc": "Marketing sites, booking flows, and conversion-focused web presence.",
@@ -141,7 +143,7 @@
       "consultingOutcome3": "Board-ready priorities, owners, and KPIs",
       "digitalProofLabel": "Live digital work",
       "exploreConsultingLink": "Explore Business Enablement",
-      "exploreDigitalLink": "View Digital Portfolio",
+      "exploreDigitalLink": "View our work",
       "exploreDigitalServiceLink": "Explore Digital Enablement",
       "journeyLine": "Prepare → Transform → Emerge → Soar — our model for every digital engagement."
     },

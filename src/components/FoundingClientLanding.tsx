@@ -13,6 +13,7 @@ import {
   MapPin,
   PhoneCall,
   Rocket,
+  Scale,
   Search,
   ShieldCheck,
   Sparkles,
@@ -49,13 +50,15 @@ const excludeKeys = [
   'exclude6',
   'exclude7',
   'exclude8',
+  'exclude9',
 ] as const
 const termKeys = ['term1', 'term2', 'term3'] as const
 const diffItems = [
   { icon: PhoneCall, titleKey: 'diff1Title', descKey: 'diff1Desc' },
   { icon: Search, titleKey: 'diff2Title', descKey: 'diff2Desc' },
-  { icon: ShieldCheck, titleKey: 'diff3Title', descKey: 'diff3Desc' },
-  { icon: Eye, titleKey: 'diff4Title', descKey: 'diff4Desc' },
+  { icon: Scale, titleKey: 'diff3Title', descKey: 'diff3Desc' },
+  { icon: ShieldCheck, titleKey: 'diff4Title', descKey: 'diff4Desc' },
+  { icon: Eye, titleKey: 'diff5Title', descKey: 'diff5Desc' },
 ] as const
 const processSteps = [
   { icon: MapPin, titleKey: 'process1Title', descKey: 'process1Desc' },

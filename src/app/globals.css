@@ -223,12 +223,16 @@
   }
 
   .hero-slide {
-    @apply absolute inset-0 h-full w-full object-cover scale-105;
+    @apply absolute inset-0 h-full w-full block;
     opacity: 0;
     animation-name: hero-slide-fade;
     animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;
     animation-fill-mode: both;
+  }
+
+  .hero-slide-img {
+    @apply h-full w-full object-cover scale-105;
   }
 
   @keyframes hero-slide-fade {

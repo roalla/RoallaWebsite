@@ -1,16 +1,25 @@
 import React from 'react'
 import HomeHeroContent from './HomeHeroContent'
 import HomeHeroSlideshow from './HomeHeroSlideshow'
-import { HERO_SLIDESHOW_IMAGES } from '@/lib/heroSlideshow'
+import { HERO_SLIDES } from '@/lib/heroSlideshow'
 
 export default function HomeHero() {
-  const firstSlide = HERO_SLIDESHOW_IMAGES[0]
+  const first = HERO_SLIDES[0]
 
   return (
-    <section
-      className="relative isolate min-h-[min(100svh,56rem)] flex items-start overflow-hidden pt-28 sm:pt-32 lg:pt-36 bg-slate-950 bg-cover bg-center"
-      style={{ backgroundImage: `url('${firstSlide}')` }}
-    >
+    <section className="relative isolate min-h-[min(100svh,56rem)] flex items-start overflow-hidden pt-28 sm:pt-32 lg:pt-36 bg-slate-950">
+      {/* LCP fallback before slideshow paints — art direction by viewport */}
+      <div
+        className="absolute inset-0 z-0 bg-cover bg-center md:hidden"
+        style={{ backgroundImage: `url('${first.mobile}')` }}
+        aria-hidden
+      />
+      <div
+        className="absolute inset-0 z-0 bg-cover bg-center hidden md:block"
+        style={{ backgroundImage: `url('${first.desktop}')` }}
+        aria-hidden
+      />
+
       <HomeHeroSlideshow />
 
       {/* Left-weighted scrim for headline legibility; keep right imagery open */}

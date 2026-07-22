@@ -9,7 +9,7 @@ import HomeTestimonials from '@/components/home/HomeTestimonials'
 import HomeFeaturedInsight from '@/components/home/HomeFeaturedInsight'
 import HomeCTA from '@/components/home/HomeCTA'
 import HomeClosing from '@/components/home/HomeClosing'
-import { HERO_SLIDESHOW_IMAGES } from '@/lib/heroSlideshow'
+import { HERO_MOBILE_MAX_WIDTH_PX, HERO_SLIDES } from '@/lib/heroSlideshow'
 import { buildPageMetadata } from '@/lib/page-metadata'
 import JsonLd from '@/components/JsonLd'
 import { webPageJsonLd } from '@/lib/structured-data'
@@ -39,15 +39,21 @@ export default async function Home({ params }: Props) {
       <JsonLd
         data={webPageJsonLd(locale, '', t('metadataTitle'), t('metadataDescription'))}
       />
-      {HERO_SLIDESHOW_IMAGES.map((src, index) => (
-        <link
-          key={src}
-          rel="preload"
-          as="image"
-          href={src}
-          fetchPriority={index === 0 ? 'high' : 'low'}
-        />
-      ))}
+      {/* Preload first slide only — art-directed by viewport */}
+      <link
+        rel="preload"
+        as="image"
+        href={HERO_SLIDES[0].mobile}
+        media={`(max-width: ${HERO_MOBILE_MAX_WIDTH_PX}px)`}
+        fetchPriority="high"
+      />
+      <link
+        rel="preload"
+        as="image"
+        href={HERO_SLIDES[0].desktop}
+        media={`(min-width: ${HERO_MOBILE_MAX_WIDTH_PX + 1}px)`}
+        fetchPriority="high"
+      />
       <HomeHero />
       <HomeServicesMarquee />
       <HomeWhatWeDo />

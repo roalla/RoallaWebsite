@@ -3,9 +3,7 @@
 import React from 'react'
 import Reveal from './motion/Reveal'
 import { useTranslations } from 'next-intl'
-import { Link } from '@/i18n/navigation'
 import {
-  ArrowRight,
   CheckCircle,
   Clock,
   Compass,
@@ -21,6 +19,7 @@ import {
 import ScheduleButton from './ScheduleButton'
 import StickyMobileCTA from './StickyMobileCTA'
 import ServiceMiniFAQ from './services/ServiceMiniFAQ'
+import BrowserFrame from './digital/BrowserFrame'
 import {
   ConsultingHeroVisual,
   ServiceAnchorNav,
@@ -28,9 +27,15 @@ import {
   ServicePageHero,
   ServiceSectionHeading,
   serviceCardClass,
-  serviceHeroSecondaryButtonClass,
 } from './services/ServicePageSections'
 import { FOUNDING_CLIENT_FAQ_KEYS } from '@/lib/service-faq-jsonld'
+import {
+  getPortfolioItem,
+  portfolioImageAlts,
+  type PortfolioItemId,
+} from '@/lib/digitalPortfolio'
+
+const PROOF_IDS = ['kaylan-kaptures', 'goalie-stop'] as const satisfies readonly PortfolioItemId[]
 
 const includeKeys = [
   'include1',
@@ -53,6 +58,17 @@ const excludeKeys = [
   'exclude9',
 ] as const
 const termKeys = ['term1', 'term2', 'term3'] as const
+const discoveryAgendaKeys = [
+  'discoveryAgenda1',
+  'discoveryAgenda2',
+  'discoveryAgenda3',
+  'discoveryAgenda4',
+] as const
+const hostOpts = [
+  { titleKey: 'hostOpt1Title', priceKey: 'hostOpt1Price', descKey: 'hostOpt1Desc' },
+  { titleKey: 'hostOpt2Title', priceKey: 'hostOpt2Price', descKey: 'hostOpt2Desc' },
+  { titleKey: 'hostOpt3Title', priceKey: 'hostOpt3Price', descKey: 'hostOpt3Desc' },
+] as const
 const diffItems = [
   { icon: Compass, titleKey: 'diff1Title', descKey: 'diff1Desc' },
   { icon: PhoneCall, titleKey: 'diff2Title', descKey: 'diff2Desc' },
@@ -76,6 +92,10 @@ export default function FoundingClientLanding() {
     { value: t('stat2Value'), label: t('stat2Label'), icon: Clock },
     { value: t('stat3Value'), label: t('stat3Label'), icon: Search },
   ]
+
+  const proofItems = PROOF_IDS.map((id) => getPortfolioItem(id)).filter(
+    (item): item is NonNullable<typeof item> => Boolean(item?.imageUrl && item.tryUrl),
+  )
 
   return (
     <section id="website-package" className="section-padding relative">
@@ -108,12 +128,6 @@ export default function FoundingClientLanding() {
             {t('heroCtaPrimary')}
           </ScheduleButton>
         }
-        secondaryCta={
-          <Link href="/services/portfolio" className={serviceHeroSecondaryButtonClass}>
-            {t('heroCtaSecondary')}
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Link>
-        }
         ctaSubtext={t('heroCtaSubtext')}
       />
 
@@ -121,12 +135,35 @@ export default function FoundingClientLanding() {
         <ServiceAnchorNav
           label={t('jumpNavLabel')}
           items={[
+            { id: 'live-proof', label: t('proofNav') },
             { id: 'differences', label: t('diffNav') },
             { id: 'offer', label: t('offerNav') },
             { id: 'process', label: t('processNav') },
             { id: 'faq', label: t('faqNav') },
           ]}
         />
+
+        <section id="live-proof" className="scroll-mt-28 mb-16">
+          <ServiceSectionHeading
+            eyebrow={t('proofEyebrow')}
+            title={t('proofTitle')}
+            description={t('proofDesc')}
+          />
+          <div className="grid sm:grid-cols-2 gap-5">
+            {proofItems.map((item, index) => (
+              <Reveal key={item.id}>
+                <BrowserFrame
+                  imageUrl={item.imageUrl}
+                  imageAlt={portfolioImageAlts[item.id]}
+                  domain={item.domain}
+                  href={item.tryUrl}
+                  openLabel={t('proofOpenLabel')}
+                  priority={index === 0}
+                />
+              </Reveal>
+            ))}
+          </div>
+        </section>
 
         <section id="differences" className="scroll-mt-28 mb-16">
           <ServiceSectionHeading
@@ -161,12 +198,16 @@ export default function FoundingClientLanding() {
                 </span>
                 <span className="text-sm font-medium text-slate-600">{t('offerTimeline')}</span>
               </div>
-              <div className="flex flex-wrap items-baseline gap-2 mb-2">
+              <div className="mb-2">
                 <p className="text-4xl font-serif font-bold text-slate-900">{t('offerPrice')}</p>
-                <p className="text-sm text-slate-500 line-through">{t('offerComparePrice')}</p>
+                <p className="mt-1 text-sm font-medium text-primary-dark">{t('offerComparePrice')}</p>
+                <p className="mt-2 text-sm font-semibold text-slate-800">{t('offerYear1Total')}</p>
               </div>
               <p className="text-sm text-slate-600 leading-relaxed mb-2">{t('offerHostingNote')}</p>
-              <p className="text-sm text-slate-600 leading-relaxed">{t('offerIdeal')}</p>
+              <p className="text-sm text-slate-600 leading-relaxed mb-3">{t('offerIdeal')}</p>
+              <p className="text-sm font-medium text-amber-900 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2 leading-relaxed">
+                {t('offerNotFor')}
+              </p>
               <ul className="mt-6 space-y-3">
                 {includeKeys.map((key) => (
                   <li key={key} className="flex items-start gap-2.5 text-sm text-slate-700">
@@ -209,6 +250,22 @@ export default function FoundingClientLanding() {
 
             <Reveal className="space-y-4">
               <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+                <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark mb-2">{t('hostingEyebrow')}</p>
+                <h3 className="text-lg font-serif font-bold text-slate-900">{t('hostingTitle')}</h3>
+                <p className="mt-2 text-sm text-slate-600 leading-relaxed">{t('hostingDesc')}</p>
+                <ul className="mt-4 space-y-3">
+                  {hostOpts.map(({ titleKey, priceKey, descKey }) => (
+                    <li key={titleKey} className="rounded-lg border border-slate-100 bg-slate-50/80 p-3">
+                      <div className="flex items-baseline justify-between gap-2">
+                        <p className="text-sm font-bold text-slate-900">{t(titleKey)}</p>
+                        <p className="text-sm font-semibold text-primary-dark shrink-0">{t(priceKey)}</p>
+                      </div>
+                      <p className="mt-1 text-sm text-slate-600 leading-relaxed">{t(descKey)}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
                 <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark mb-2">{t('paymentEyebrow')}</p>
                 <h3 className="text-lg font-serif font-bold text-slate-900">{t('paymentTitle')}</h3>
                 <p className="mt-2 text-sm text-slate-600 leading-relaxed">{t('paymentDesc')}</p>
@@ -242,6 +299,17 @@ export default function FoundingClientLanding() {
               </Reveal>
             ))}
           </div>
+          <Reveal className="mt-6 rounded-xl border border-slate-200 bg-slate-50/80 p-5 md:p-6">
+            <h3 className="text-base font-serif font-bold text-slate-900">{t('discoveryAgendaTitle')}</h3>
+            <ul className="mt-3 grid sm:grid-cols-2 gap-2.5">
+              {discoveryAgendaKeys.map((key) => (
+                <li key={key} className="flex items-start gap-2 text-sm text-slate-700">
+                  <CheckCircle className="w-4 h-4 text-primary shrink-0 mt-0.5" aria-hidden />
+                  {t(key)}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
         </section>
 
         <section id="faq" className="scroll-mt-28 mb-4 pt-4 border-t border-slate-200">
@@ -269,10 +337,6 @@ export default function FoundingClientLanding() {
             </ScheduleButton>
           }
           ctaSubtext={t('ctaSubtext')}
-          links={[
-            { href: '/website-design', label: t('ctaLinkWebsite') },
-            { href: '/services/portfolio', label: t('ctaLinkPortfolio') },
-          ]}
         />
       </div>
 

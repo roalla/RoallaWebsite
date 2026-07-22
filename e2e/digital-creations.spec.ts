@@ -17,6 +17,7 @@ test.describe('Digital creations portfolio', () => {
 
   test('origin filter shows client sites only', async ({ page }) => {
     await page.goto('/en/services/portfolio')
+    await page.waitForLoadState('networkidle')
     await page.getByRole('tab', { name: 'Client sites' }).click()
     await expect(page).toHaveURL(/origin=client/)
     await expect(page.locator('#portfolio-grid').getByText('Client project').first()).toBeVisible()

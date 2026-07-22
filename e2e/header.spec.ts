@@ -16,17 +16,23 @@ test.describe('Header', () => {
 
     await page.locator('#digital-dropdown-desktop').click()
     const menu = page.locator('[aria-labelledby="digital-dropdown-desktop"]')
-    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(6)
+    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(9)
+    await expect(
+      menu.locator('a[href="/en/services/digital-visibility-optimization"]'),
+    ).toHaveAttribute('role', 'menuitem')
+    await expect(menu.locator('a[href="/en/services/managed-optimization"]')).toHaveAttribute(
+      'role',
+      'menuitem',
+    )
   })
 
   test('digital portfolio link is in the header', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 })
     await page.goto('/en')
 
-    await expect(page.getByRole('link', { name: 'Digital Portfolio' })).toHaveAttribute(
-      'href',
-      '/en/services/portfolio'
-    )
+    await expect(
+      page.getByLabel('Main navigation').getByRole('link', { name: 'Digital Portfolio' }),
+    ).toHaveAttribute('href', '/en/services/portfolio')
   })
 
   test('programs dropdown lists program destinations when open', async ({ page }) => {

@@ -9,9 +9,11 @@ import {
   CheckCircle,
   Clock,
   DollarSign,
-  Globe,
+  Eye,
   MapPin,
+  PhoneCall,
   Rocket,
+  Search,
   ShieldCheck,
   Sparkles,
 } from 'lucide-react'
@@ -26,13 +28,35 @@ import {
   ServiceSectionHeading,
   serviceCardClass,
   serviceHeroSecondaryButtonClass,
-  servicePrimaryLinkClass,
 } from './services/ServicePageSections'
 import { FOUNDING_CLIENT_FAQ_KEYS } from '@/lib/service-faq-jsonld'
 
-const includeKeys = ['include1', 'include2', 'include3', 'include4', 'include5', 'include6'] as const
-const excludeKeys = ['exclude1', 'exclude2', 'exclude3', 'exclude4', 'exclude5', 'exclude6', 'exclude7'] as const
+const includeKeys = [
+  'include1',
+  'include2',
+  'include3',
+  'include4',
+  'include5',
+  'include6',
+  'include7',
+] as const
+const excludeKeys = [
+  'exclude1',
+  'exclude2',
+  'exclude3',
+  'exclude4',
+  'exclude5',
+  'exclude6',
+  'exclude7',
+  'exclude8',
+] as const
 const termKeys = ['term1', 'term2', 'term3'] as const
+const diffItems = [
+  { icon: PhoneCall, titleKey: 'diff1Title', descKey: 'diff1Desc' },
+  { icon: Search, titleKey: 'diff2Title', descKey: 'diff2Desc' },
+  { icon: ShieldCheck, titleKey: 'diff3Title', descKey: 'diff3Desc' },
+  { icon: Eye, titleKey: 'diff4Title', descKey: 'diff4Desc' },
+] as const
 const processSteps = [
   { icon: MapPin, titleKey: 'process1Title', descKey: 'process1Desc' },
   { icon: DollarSign, titleKey: 'process2Title', descKey: 'process2Desc' },
@@ -46,7 +70,7 @@ export default function FoundingClientLanding() {
   const stats = [
     { value: t('stat1Value'), label: t('stat1Label'), icon: DollarSign },
     { value: t('stat2Value'), label: t('stat2Label'), icon: Clock },
-    { value: t('stat3Value'), label: t('stat3Label'), icon: Globe },
+    { value: t('stat3Value'), label: t('stat3Label'), icon: Search },
   ]
 
   return (
@@ -93,11 +117,35 @@ export default function FoundingClientLanding() {
         <ServiceAnchorNav
           label={t('jumpNavLabel')}
           items={[
+            { id: 'differences', label: t('diffNav') },
             { id: 'offer', label: t('offerNav') },
             { id: 'process', label: t('processNav') },
             { id: 'faq', label: t('faqNav') },
           ]}
         />
+
+        <section id="differences" className="scroll-mt-28 mb-16">
+          <ServiceSectionHeading
+            eyebrow={t('diffEyebrow')}
+            title={t('diffTitle')}
+            description={t('diffDesc')}
+          />
+          <div className="grid sm:grid-cols-2 gap-4">
+            {diffItems.map(({ icon: Icon, titleKey, descKey }) => (
+              <Reveal key={titleKey} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                    <Icon className="w-5 h-5 text-primary" aria-hidden />
+                  </div>
+                  <div>
+                    <h3 className="font-serif font-bold text-slate-900">{t(titleKey)}</h3>
+                    <p className="mt-1.5 text-sm text-slate-600 leading-relaxed">{t(descKey)}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </section>
 
         <section id="offer" className="scroll-mt-28 mb-16">
           <ServiceSectionHeading eyebrow={t('offerEyebrow')} title={t('offerTitle')} description={t('offerDesc')} />

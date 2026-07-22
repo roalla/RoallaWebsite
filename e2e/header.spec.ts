@@ -79,7 +79,7 @@ test.describe("Header", () => {
     await page.goto("/en");
 
     await expect(
-      page.getByRole("link", { name: /5-page website package/i }),
+      page.getByRole("link", { name: /launch website package/i }),
     ).toHaveCount(0);
   });
 
@@ -87,7 +87,7 @@ test.describe("Header", () => {
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.goto("/en/services/digital");
 
-    const promo = page.getByRole("link", { name: /5-page website package/i });
+    const promo = page.getByRole("link", { name: /launch website package/i });
     await expect(promo).toBeVisible();
     await expect(promo).toHaveAttribute("href", "/en/website-package");
   });
@@ -99,7 +99,7 @@ test.describe("Header", () => {
     await page.goto("/en/website-package");
 
     await expect(
-      page.getByRole("link", { name: /5-page website package/i }),
+      page.getByRole("link", { name: /launch website package/i }),
     ).toHaveCount(0);
   });
 });

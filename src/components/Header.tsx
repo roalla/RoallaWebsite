@@ -53,8 +53,8 @@ function getHeaderOverDark(): boolean {
   if (typeof document === 'undefined') return false
   const targets = document.querySelectorAll('[data-header-tone="dark"]')
   if (targets.length === 0) return false
-  for (const el of targets) {
-    const rect = el.getBoundingClientRect()
+  for (let i = 0; i < targets.length; i++) {
+    const rect = targets[i].getBoundingClientRect()
     if (rect.top < HEADER_TONE_BAND_PX && rect.bottom > 0) return true
   }
   return false

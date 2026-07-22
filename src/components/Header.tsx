@@ -8,10 +8,8 @@ import {
   Briefcase,
   Globe,
   GraduationCap,
-  CalendarDays,
   Layers,
   Workflow,
-  Sparkles,
   Flag,
   SearchCheck,
   RefreshCw,
@@ -348,12 +346,6 @@ const Header = () => {
       icon: Globe,
     },
     {
-      nameKey: "digitalWebsitePackage",
-      descKey: "digitalWebsitePackageDesc",
-      href: "/website-package",
-      icon: Flag,
-    },
-    {
       nameKey: "digitalPlatforms",
       descKey: "digitalPlatformsDesc",
       href: "/services/digital-products",
@@ -376,18 +368,6 @@ const Header = () => {
       descKey: "digitalManagedOptimizationDesc",
       href: "/services/managed-optimization",
       icon: RefreshCw,
-    },
-    {
-      nameKey: "digitalAiSupport",
-      descKey: "digitalAiSupportDesc",
-      href: { pathname: "/services/digital", hash: "ai-support" },
-      icon: Sparkles,
-    },
-    {
-      nameKey: "digitalEvents",
-      descKey: "digitalEventsDesc",
-      href: "/services/digital-events",
-      icon: CalendarDays,
     },
   ];
 

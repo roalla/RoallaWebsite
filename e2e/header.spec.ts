@@ -16,7 +16,7 @@ test.describe('Header', () => {
 
     await page.locator('#digital-dropdown-desktop').click()
     const menu = page.locator('[aria-labelledby="digital-dropdown-desktop"]')
-    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(9)
+    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(6)
     await expect(
       menu.locator('a[href="/en/services/digital-visibility-optimization"]'),
     ).toHaveAttribute('role', 'menuitem')

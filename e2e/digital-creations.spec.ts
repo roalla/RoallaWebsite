@@ -9,6 +9,7 @@ test.describe('Digital creations portfolio', () => {
 
     await expect(page.locator('#featured-case').getByRole('heading', { name: /Pitch Hotshots/i })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Digital Portfolio', level: 1 })).toBeVisible()
+    await expect(page.getByText("What you'll find")).toHaveCount(0)
 
     const projectCards = page.locator('#portfolio-grid article h3')
     await expect(projectCards.first()).toBeVisible()

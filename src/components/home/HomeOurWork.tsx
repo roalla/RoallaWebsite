@@ -10,6 +10,7 @@ import {
   getPortfolioItem,
   homeProofItemIds,
   portfolioImageAlts,
+  portfolioMetrics,
   type PortfolioItemId,
 } from '@/lib/digitalPortfolio'
 
@@ -51,7 +52,13 @@ export default function HomeOurWork() {
             <h3 className="text-lg font-serif font-bold text-slate-900">{t('digitalTitle')}</h3>
             <p className="mt-1 text-sm text-slate-600">{t('liveProjectsEyebrow')}</p>
           </div>
-          <p className="text-xs font-medium text-primary-dark">{t('digitalStats')}</p>
+          <p className="text-xs font-medium text-primary-dark">
+            {t('digitalStats', {
+              websiteCount: portfolioMetrics.websites,
+              digitalProductCount: portfolioMetrics.digitalProducts,
+              totalCount: portfolioMetrics.total,
+            })}
+          </p>
         </Reveal>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 mb-10">

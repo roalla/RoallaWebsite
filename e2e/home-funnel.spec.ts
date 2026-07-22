@@ -19,4 +19,37 @@ test.describe('Homepage funnel', () => {
     expect(workBox).not.toBeNull()
     expect(whatBox!.y).toBeLessThan(workBox!.y)
   })
+
+  test('business outcomes and visibility positioning are present in English', async ({ page }) => {
+    await page.goto('/en')
+
+    await expect(
+      page.getByRole('heading', { name: 'Digital assets should create business value.' }),
+    ).toBeVisible()
+    await expect(
+      page.getByRole('heading', { name: 'Applications & Digital Products' }),
+    ).toBeVisible()
+    await expect(
+      page.getByRole('heading', { name: 'Become easier to find, understand, and trust' }),
+    ).toBeVisible()
+    await expect(page.getByText('5 websites · 9 digital products · 14 verified examples')).toBeVisible()
+  })
+
+  test('new homepage positioning has French parity', async ({ page }) => {
+    await page.goto('/fr')
+
+    await expect(
+      page.getByRole('heading', {
+        name: "Les actifs numériques doivent créer de la valeur d'affaires.",
+      }),
+    ).toBeVisible()
+    await expect(
+      page.getByRole('heading', { name: 'Applications et produits numériques' }),
+    ).toBeVisible()
+    await expect(
+      page.getByRole('heading', {
+        name: 'Devenez plus facile à trouver, à comprendre et à reconnaître',
+      }),
+    ).toBeVisible()
+  })
 })

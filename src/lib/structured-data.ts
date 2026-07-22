@@ -28,12 +28,12 @@ export const organizationJsonLd = {
   logo: `${SITE_URL}/logo.svg`,
   image: `${SITE_URL}/og-image.jpg`,
   description:
-    'Digital Enablement—websites, custom apps, integrations, workflow automation, and AI support with accountable delivery.',
+    'ROALLA helps organizations assess, build, optimize, and evolve digital assets that drive visibility, revenue, operational efficiency, and customer value.',
   areaServed: 'Global',
   foundingDate: '1994',
   knowsAbout: [
     'website development',
-    'custom app development',
+    'digital product development',
     'client portal development',
     'workflow automation',
     'system integration',
@@ -44,6 +44,11 @@ export const organizationJsonLd = {
     'e-commerce websites',
     'digital transformation',
     'business enablement',
+    'digital visibility optimization',
+    'technical SEO',
+    'structured data',
+    'accessibility optimization',
+    'conversion optimization',
   ],
   sameAs: [SOCIAL_LINKS.linkedin, SOCIAL_LINKS.youtube],
   contactPoint: {
@@ -70,6 +75,39 @@ export const websiteJsonLd = {
   name: 'Roalla Business Enablement Group',
   publisher: { '@id': `${SITE_URL}/#organization` },
   inLanguage: ['en-CA', 'fr-CA'],
+}
+
+export function homeServiceCatalogJsonLd(locale: string) {
+  const french = locale === 'fr'
+  const services = french
+    ? [
+        ['Sites Web et présence numérique', 'Des parcours numériques conçus pour attirer, informer et convertir.'],
+        ['Applications et produits numériques', 'Des portails, plateformes et services numériques qui créent des revenus, de la valeur client ou une capacité opérationnelle.'],
+        ['Automatisation et intégration', 'Des flux connectés qui réduisent le travail manuel et améliorent les opérations.'],
+        ['Optimisation de la visibilité numérique', 'Des améliorations techniques, de contenu et de confiance qui soutiennent la découvrabilité.'],
+      ]
+    : [
+        ['Websites and Digital Presence', 'Digital journeys designed to attract, educate, and convert.'],
+        ['Applications and Digital Products', 'Portals, platforms, and digital services that create revenue, customer value, or operational capability.'],
+        ['Automation and Integration', 'Connected workflows that reduce manual work and improve operations.'],
+        ['Digital Visibility Optimization', 'Technical, content, and trust improvements that support discoverability.'],
+      ]
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'OfferCatalog',
+    name: french ? 'Services numériques ROALLA' : 'ROALLA digital services',
+    url: pageUrl(locale, ''),
+    itemListElement: services.map(([name, description]) => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name,
+        description,
+        provider: { '@id': `${SITE_URL}/#organization` },
+      },
+    })),
+  }
 }
 
 export function webPageJsonLd(locale: string, path: string, name: string, description: string) {

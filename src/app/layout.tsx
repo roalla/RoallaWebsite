@@ -28,10 +28,10 @@ const bingVerification = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
 export const metadata: Metadata = {
   title: 'Roalla Business Enablement Group',
   description:
-    'Digital Enablement—websites, custom apps, integrations, workflow automation, and AI support from one accountable team.',
+    'ROALLA helps organizations assess, build, optimize, and evolve digital assets that drive visibility, revenue, operational efficiency, and customer value.',
   keywords: [
     'website development',
-    'custom app development',
+    'digital product development',
     'client portal development',
     'workflow automation',
     'system integration',
@@ -44,6 +44,9 @@ export const metadata: Metadata = {
     'business website design',
     'custom software development',
     'digital enablement',
+    'digital visibility optimization',
+    'technical SEO',
+    'structured data',
   ],
   authors: [{ name: 'Roalla Business Enablement Group' }],
   creator: 'Roalla Business Enablement Group',
@@ -67,9 +70,9 @@ export const metadata: Metadata = {
     locale: 'en_CA',
     url: `${SITE_URL}/en`,
     siteName: 'Roalla Business Enablement Group',
-    title: 'Roalla Business Enablement Group | Digital Enablement',
+    title: 'Roalla Business Enablement Group | Digital Assets for Business Value',
     description:
-      'Websites, custom apps, integrations, workflow automation, and AI support—built and launched by one accountable team.',
+      'Websites, digital products, automation, AI, and visibility optimization designed to increase revenue, customer value, and operational capability.',
     images: [
       {
         url: OG_IMAGE,
@@ -81,9 +84,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Roalla Business Enablement Group | Digital Enablement',
+    title: 'Roalla Business Enablement Group | Digital Assets for Business Value',
     description:
-      'Websites, custom apps, integrations, workflow automation, and AI support—built and launched by one accountable team.',
+      'Websites, digital products, automation, AI, and visibility optimization designed to increase revenue, customer value, and operational capability.',
     images: [OG_IMAGE],
     creator: '@roalla',
   },

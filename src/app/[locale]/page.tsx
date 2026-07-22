@@ -4,6 +4,8 @@ import { getTranslations } from 'next-intl/server'
 import HomeHero from '@/components/home/HomeHero'
 import { HomeServicesMarquee } from '@/components/home/HomeMarquees'
 import HomeWhatWeDo from '@/components/home/HomeWhatWeDo'
+import HomeBusinessOutcomes from '@/components/home/HomeBusinessOutcomes'
+import HomeVisibilityOptimization from '@/components/home/HomeVisibilityOptimization'
 import HomeOurWork from '@/components/home/HomeOurWork'
 import HomeTestimonials from '@/components/home/HomeTestimonials'
 import HomeFeaturedInsight from '@/components/home/HomeFeaturedInsight'
@@ -12,7 +14,7 @@ import HomeClosing from '@/components/home/HomeClosing'
 import { HERO_MOBILE_MAX_WIDTH_PX, HERO_SLIDES } from '@/lib/heroSlideshow'
 import { buildPageMetadata } from '@/lib/page-metadata'
 import JsonLd from '@/components/JsonLd'
-import { webPageJsonLd } from '@/lib/structured-data'
+import { homeServiceCatalogJsonLd, webPageJsonLd } from '@/lib/structured-data'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -37,7 +39,10 @@ export default async function Home({ params }: Props) {
   return (
     <div className="page-shell pb-24 lg:pb-0">
       <JsonLd
-        data={webPageJsonLd(locale, '', t('metadataTitle'), t('metadataDescription'))}
+        data={[
+          webPageJsonLd(locale, '', t('metadataTitle'), t('metadataDescription')),
+          homeServiceCatalogJsonLd(locale),
+        ]}
       />
       {/* Preload first slide only — art-directed by viewport */}
       <link
@@ -56,7 +61,9 @@ export default async function Home({ params }: Props) {
       />
       <HomeHero />
       <HomeServicesMarquee />
+      <HomeBusinessOutcomes />
       <HomeWhatWeDo />
+      <HomeVisibilityOptimization />
       <HomeOurWork />
       <HomeTestimonials />
       <HomeFeaturedInsight />

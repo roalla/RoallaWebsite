@@ -344,6 +344,13 @@ export const portfolioItems: PortfolioItemConfig[] = [
   },
 ]
 
+/** Verifiable counts derived from the published portfolio records in this repository. */
+export const portfolioMetrics = {
+  total: portfolioItems.length,
+  websites: portfolioItems.filter((item) => item.category === 'website').length,
+  digitalProducts: portfolioItems.filter((item) => item.category === 'platform').length,
+} as const
+
 export const portfolioImageAlts: Record<PortfolioItemId, string> = {
   'roalla-site': 'ROALLA business enablement website homepage',
   'business-cocoon': 'The Business Cocoon products catalog with guided workflows',

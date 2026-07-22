@@ -3,7 +3,11 @@ import Script from 'next/script'
 import type { Metadata } from 'next'
 import { getLocale, getTranslations } from 'next-intl/server'
 import DigitalCreations from '@/components/DigitalCreations'
-import { getOrderedPortfolioItems, portfolioImageAlts } from '@/lib/digitalPortfolio'
+import {
+  getOrderedPortfolioItems,
+  portfolioImageAlts,
+  portfolioMetrics,
+} from '@/lib/digitalPortfolio'
 import { buildPageMetadata } from '@/lib/page-metadata'
 
 type Props = {
@@ -30,7 +34,7 @@ export default async function DigitalPortfolioPage() {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: 'ROALLA Digital Portfolio',
-    description: 'Live websites and custom platforms built by Roalla.',
+    description: `${portfolioMetrics.total} verified live examples: ${portfolioMetrics.websites} websites and ${portfolioMetrics.digitalProducts} digital products built by ROALLA.`,
     url: pageUrl,
     itemListElement: getOrderedPortfolioItems().map((item, index) => ({
       '@type': 'ListItem',

@@ -26,7 +26,7 @@ test.describe('Services brand journey', () => {
     await page.goto('/en/services/digital')
 
     await expect(page.getByRole('heading', { name: 'Websites & Brand Presence', level: 3 })).toBeVisible()
-    await expect(page.getByRole('heading', { name: 'Custom Platforms & Digital Tools', level: 3 })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Applications & Digital Products', level: 3 })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Workflow Automation & Integrations', level: 3 })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'AI Support & Intelligent Workflows', level: 3 })).toBeVisible()
     await expect(page.locator('#websites')).toBeVisible()

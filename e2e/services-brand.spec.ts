@@ -21,22 +21,25 @@ test.describe("Services brand journey", () => {
     await expect(page.locator("#pillar-soar")).toHaveCount(0);
 
     await expect(
-      page.getByRole("heading", { name: "Strategic Planning", level: 3 }),
+      page.getByRole("heading", { name: "Strategy & Roadmaps", level: 3 }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Process Optimization", level: 3 }),
+      page.getByRole("heading", {
+        name: "Operations & Process Improvement",
+        level: 3,
+      }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Team Development", level: 3 }),
+      page.getByRole("heading", {
+        name: "Leadership & Team Enablement",
+        level: 3,
+      }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Data Analytics", level: 3 }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "Innovation & Growth", level: 3 }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "Digital Transformation", level: 3 }),
+      page.getByRole("heading", {
+        name: "Data, Innovation & Digital Readiness",
+        level: 3,
+      }),
     ).toBeVisible();
 
     await expect(
@@ -91,9 +94,8 @@ test.describe("Services brand journey", () => {
   test("service jump nav scrolls to section", async ({ page }) => {
     await page.goto("/en/programs/business-enablement");
     await page
-      .getByRole("link", { name: "Team Development", exact: true })
-      .first()
+      .getByRole("link", { name: "Leadership & Team Enablement", exact: true })
       .click();
-    await expect(page.locator("#people")).toBeInViewport();
+    await expect(page.locator("#leadership")).toBeInViewport();
   });
 });

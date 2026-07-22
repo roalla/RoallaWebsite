@@ -18,7 +18,6 @@ import {
 import ScheduleButton from './ScheduleButton'
 import StickyMobileCTA from './StickyMobileCTA'
 import ServiceMiniFAQ from './services/ServiceMiniFAQ'
-import Breadcrumb from './Breadcrumb'
 import {
   ConsultingHeroVisual,
   ServiceAnchorNav,
@@ -43,7 +42,6 @@ const processSteps = [
 
 export default function FoundingClientLanding() {
   const t = useTranslations('foundingClient')
-  const tBc = useTranslations('breadcrumb')
 
   const stats = [
     { value: t('stat1Value'), label: t('stat1Label'), icon: DollarSign },
@@ -89,14 +87,6 @@ export default function FoundingClientLanding() {
           </Link>
         }
         ctaSubtext={t('heroCtaSubtext')}
-      />
-
-      <Breadcrumb
-        items={[
-          { label: tBc('home'), href: '/' },
-          { label: tBc('websiteDesign'), href: '/website-design' },
-          { label: tBc('foundingClient') },
-        ]}
       />
 
       <div className="max-w-6xl mx-auto">

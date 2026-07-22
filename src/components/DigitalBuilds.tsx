@@ -19,7 +19,6 @@ import ScheduleButton from "./ScheduleButton";
 import StickyMobileCTA from "./StickyMobileCTA";
 import ServiceMiniFAQ from "./services/ServiceMiniFAQ";
 import ServiceTestimonialBand from "./services/ServiceTestimonialBand";
-import Breadcrumb from "./Breadcrumb";
 import BrowserFrame from "./digital/BrowserFrame";
 import { SERVICE_PAGE_FAQ_KEYS } from "@/lib/service-faq-jsonld";
 import {
@@ -176,7 +175,6 @@ function DigitalBuildCard({
 
 const DigitalBuilds = () => {
   const t = useTranslations("digitalBuilds");
-  const tBc = useTranslations("breadcrumb");
   const tPortfolio = useTranslations("digitalCreations");
   const tCommon = useTranslations("common");
   const locale = useLocale();
@@ -303,13 +301,6 @@ const DigitalBuilds = () => {
           </Link>
         }
         ctaSubtext={tCommon("ctaSubtext")}
-      />
-
-      <Breadcrumb
-        items={[
-          { label: tBc("home"), href: "/" },
-          { label: tBc("websitesAndDigital") },
-        ]}
       />
 
       <div className="max-w-6xl mx-auto">

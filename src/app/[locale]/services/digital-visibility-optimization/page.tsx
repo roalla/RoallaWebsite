@@ -1,7 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
 import { CheckCircle2, SearchCheck } from "lucide-react";
-import Breadcrumb from "@/components/Breadcrumb";
 import JsonLd from "@/components/JsonLd";
 import VisibilityCtas from "@/components/visibility/VisibilityCtas";
 import { Link } from "@/i18n/navigation";
@@ -70,20 +69,6 @@ export default async function DigitalVisibilityOptimizationPage({
       />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
-        <Breadcrumb
-          items={[
-            { label: locale === "fr" ? "Accueil" : "Home", href: "/" },
-            {
-              label:
-                locale === "fr"
-                  ? "Accompagnement numérique"
-                  : "Digital Enablement",
-              href: "/services/digital",
-            },
-            { label: content.breadcrumb },
-          ]}
-        />
-
         <header className="relative overflow-hidden rounded-2xl border border-slate-700 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-6 py-10 lg:px-12 lg:py-14 shadow-xl">
           <div
             className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-primary/15 blur-3xl"

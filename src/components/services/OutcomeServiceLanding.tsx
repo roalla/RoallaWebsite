@@ -1,6 +1,5 @@
 import React from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
-import Breadcrumb from "@/components/Breadcrumb";
 import { Link } from "@/i18n/navigation";
 import type { ServiceLandingCopy } from "@/lib/service-landing-types";
 
@@ -36,19 +35,6 @@ export default function OutcomeServiceLanding({
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
-      <Breadcrumb
-        items={[
-          { label: locale === "fr" ? "Accueil" : "Home", href: "/" },
-          {
-            label:
-              locale === "fr"
-                ? "Accompagnement numérique"
-                : "Digital Enablement",
-            href: "/services/digital",
-          },
-          { label: content.title },
-        ]}
-      />
       <header className="rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-7 py-12 lg:px-12 lg:py-16 text-white">
         <p className="text-xs font-semibold uppercase tracking-[.18em] text-primary-light">
           {content.eyebrow}

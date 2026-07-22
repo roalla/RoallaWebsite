@@ -20,7 +20,6 @@ import ScheduleButton from './ScheduleButton'
 import StickyMobileCTA from './StickyMobileCTA'
 import ServiceMiniFAQ from './services/ServiceMiniFAQ'
 import ServiceTestimonialBand from './services/ServiceTestimonialBand'
-import Breadcrumb from './Breadcrumb'
 import BrowserFrame from './digital/BrowserFrame'
 import { companyApps, type CompanyAppId } from '@/lib/companyApps'
 import { portfolioItems, portfolioImageAlts } from '@/lib/digitalPortfolio'
@@ -117,7 +116,6 @@ function EventCapabilityCard({
 export default function DigitalEvents() {
   const t = useTranslations('digitalEvents')
   const tNav = useTranslations('nav')
-  const tBc = useTranslations('breadcrumb')
   const tCommon = useTranslations('common')
 
   const stats = [
@@ -166,14 +164,6 @@ export default function DigitalEvents() {
           </Link>
         }
         ctaSubtext={tCommon('ctaSubtext')}
-      />
-
-      <Breadcrumb
-        items={[
-          { label: tBc('home'), href: '/' },
-          { label: tBc('programs'), href: '/programs/business-enablement' },
-          { label: tBc('digitalEvents') },
-        ]}
       />
 
       <div className="max-w-6xl mx-auto">

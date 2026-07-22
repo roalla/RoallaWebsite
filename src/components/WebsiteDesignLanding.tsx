@@ -20,7 +20,6 @@ import {
 import ScheduleButton from './ScheduleButton'
 import StickyMobileCTA from './StickyMobileCTA'
 import ServiceMiniFAQ from './services/ServiceMiniFAQ'
-import Breadcrumb from './Breadcrumb'
 import BrowserFrame from './digital/BrowserFrame'
 import {
   getPortfolioItem,
@@ -69,7 +68,6 @@ export default function WebsiteDesignLanding() {
   const t = useTranslations('websiteDesign')
   const tCommon = useTranslations('common')
   const tPortfolio = useTranslations('digitalCreations')
-  const tBc = useTranslations('breadcrumb')
 
   const stats = [
     { value: t('stat1Value'), label: t('stat1Label'), icon: Clock },
@@ -107,14 +105,6 @@ export default function WebsiteDesignLanding() {
           </Link>
         }
         ctaSubtext={t('heroCtaSubtext')}
-      />
-
-      <Breadcrumb
-        items={[
-          { label: tBc('home'), href: '/' },
-          { label: tBc('programs'), href: '/programs/business-enablement' },
-          { label: tBc('websiteDesign') },
-        ]}
       />
 
       <Reveal className="mb-8 rounded-xl border border-primary/25 bg-primary/[0.05] p-5 md:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">

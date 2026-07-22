@@ -92,17 +92,29 @@ function ScheduleContent() {
   const needParam = searchParams.get('need')
   const referenceParam = searchParams.get('reference')
   const offerParam = searchParams.get('offer')
-  const fromFoundingOffer = offerParam === 'founding'
+  const packageOffers = ['founding', 'visibility', 'growth', 'custom'] as const
+  type PackageOffer = (typeof packageOffers)[number]
+  const isPackageOffer = (value: string | null): value is PackageOffer =>
+    value !== null && (packageOffers as readonly string[]).includes(value)
+  const fromPackageOffer = isPackageOffer(offerParam)
   const tFounding = useTranslations('foundingClient')
+  const packagePrefillGoal = (() => {
+    if (!fromPackageOffer) return null
+    if (offerParam === 'visibility') return tFounding('schedulePrefillGoalVisibility')
+    if (offerParam === 'growth') return tFounding('schedulePrefillGoalGrowth')
+    if (offerParam === 'custom') return tFounding('schedulePrefillGoalCustom')
+    return tFounding('schedulePrefillGoal')
+  })()
   const initialIntent =
     resolveInitialIntent(
       searchParams.get('intent'),
       searchParams.get('service'),
       needParam,
-    ) ?? (fromFoundingOffer ? 'website' : null)
+    ) ?? (fromPackageOffer ? (offerParam === 'custom' ? 'platform' : 'website') : null)
   const initialFocus = resolveInitialFocus(searchParams.get('focus'))
   const initialWebsiteGoal =
-    resolveInitialWebsiteGoal(needParam) ?? (fromFoundingOffer ? 'new' : null)
+    resolveInitialWebsiteGoal(needParam) ??
+    (fromPackageOffer && offerParam !== 'custom' ? 'new' : null)
   const initialPlatformType = resolveInitialPlatformType(needParam)
   const initialAutomationGoal = resolveInitialAutomationGoal(needParam)
   const initialAiGoal = resolveInitialAiGoal(needParam)
@@ -116,7 +128,7 @@ function ScheduleContent() {
     [referenceParam, t, tPortfolio],
   )
 
-  const initialGoal = referenceGoal ?? (fromFoundingOffer ? tFounding('schedulePrefillGoal') : searchParams.get('goal'))
+  const initialGoal = referenceGoal ?? packagePrefillGoal ?? searchParams.get('goal')
 
   const isDigital = isDigitalIntent(initialIntent)
   const whatYouGetItems = isDigital
@@ -166,7 +178,7 @@ function ScheduleContent() {
               initialWorkshopTopic={initialWorkshopTopic}
               initialSourcePage={initialSourcePage}
               fromAssessment={fromAssessment}
-              fromFoundingOffer={fromFoundingOffer}
+              fromFoundingOffer={fromPackageOffer}
             />
             <aside className="hidden lg:block rounded-2xl border border-slate-200 bg-slate-50 p-6 sticky top-28">
               <p className="text-sm font-semibold text-slate-900 mb-4">{t('whatYouGetTitle')}</p>

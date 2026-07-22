@@ -31,12 +31,44 @@ export default async function WebsitePackagePage() {
 
   const servicesJsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Offer',
-    name: t('offerTitle'),
+    '@type': 'AggregateOffer',
+    name: t('packagesTitle'),
     description: t('metadataDescription'),
-    price: '999',
     priceCurrency: 'CAD',
+    lowPrice: '999',
+    highPrice: '5000',
+    offerCount: 4,
     url: pageUrl,
+    offers: [
+      {
+        '@type': 'Offer',
+        name: t('pkgLaunchName'),
+        price: '999',
+        priceCurrency: 'CAD',
+        url: pageUrl,
+      },
+      {
+        '@type': 'Offer',
+        name: t('pkgVisName'),
+        price: '1999',
+        priceCurrency: 'CAD',
+        url: pageUrl,
+      },
+      {
+        '@type': 'Offer',
+        name: t('pkgGrowthName'),
+        price: '2999',
+        priceCurrency: 'CAD',
+        url: pageUrl,
+      },
+      {
+        '@type': 'Offer',
+        name: t('pkgCustomName'),
+        price: '5000',
+        priceCurrency: 'CAD',
+        url: pageUrl,
+      },
+    ],
     seller: {
       '@type': 'Organization',
       name: 'ROALLA Business Enablement Group',

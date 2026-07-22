@@ -1,7 +1,7 @@
 export const SERVICE_MINI_FAQ_KEYS = ['faq1', 'faq2', 'faq3', 'faq4', 'faq5'] as const
 
-/** Keep package FAQ short: price, discovery, visibility, compliance, hosting. */
-export const FOUNDING_CLIENT_FAQ_KEYS = ['faq1', 'faq9', 'faq7', 'faq8', 'faq3'] as const
+/** Keep package FAQ short: market, ladder, discovery, hosting, compliance. */
+export const FOUNDING_CLIENT_FAQ_KEYS = ['faq1', 'faq10', 'faq9', 'faq3', 'faq8'] as const
 
 export const SERVICE_PAGE_FAQ_KEYS = ['faq1', 'faq2', 'faq3'] as const
 

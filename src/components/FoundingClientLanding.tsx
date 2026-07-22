@@ -3,7 +3,9 @@
 import React from 'react'
 import Reveal from './motion/Reveal'
 import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 import {
+  ArrowRight,
   CheckCircle,
   Clock,
   Compass,
@@ -68,6 +70,7 @@ const hostOpts = [
   { titleKey: 'hostOpt1Title', priceKey: 'hostOpt1Price', descKey: 'hostOpt1Desc' },
   { titleKey: 'hostOpt2Title', priceKey: 'hostOpt2Price', descKey: 'hostOpt2Desc' },
   { titleKey: 'hostOpt3Title', priceKey: 'hostOpt3Price', descKey: 'hostOpt3Desc' },
+  { titleKey: 'hostOpt4Title', priceKey: 'hostOpt4Price', descKey: 'hostOpt4Desc' },
 ] as const
 const diffItems = [
   { icon: Compass, titleKey: 'diff1Title', descKey: 'diff1Desc' },
@@ -82,6 +85,15 @@ const processSteps = [
   { icon: Compass, titleKey: 'process3Title', descKey: 'process3Desc' },
   { icon: Rocket, titleKey: 'process4Title', descKey: 'process4Desc' },
   { icon: ShieldCheck, titleKey: 'process5Title', descKey: 'process5Desc' },
+] as const
+
+const visIncludeKeys = ['pkgVisInclude1', 'pkgVisInclude2', 'pkgVisInclude3', 'pkgVisInclude4'] as const
+const growthIncludeKeys = [
+  'pkgGrowthInclude1',
+  'pkgGrowthInclude2',
+  'pkgGrowthInclude3',
+  'pkgGrowthInclude4',
+  'pkgGrowthInclude5',
 ] as const
 
 export default function FoundingClientLanding() {
@@ -135,6 +147,7 @@ export default function FoundingClientLanding() {
         <ServiceAnchorNav
           label={t('jumpNavLabel')}
           items={[
+            { id: 'packages', label: t('packagesNav') },
             { id: 'live-proof', label: t('proofNav') },
             { id: 'differences', label: t('diffNav') },
             { id: 'offer', label: t('offerNav') },
@@ -142,6 +155,143 @@ export default function FoundingClientLanding() {
             { id: 'faq', label: t('faqNav') },
           ]}
         />
+
+        <section id="packages" className="scroll-mt-28 mb-16">
+          <ServiceSectionHeading
+            eyebrow={t('packagesEyebrow')}
+            title={t('packagesTitle')}
+            description={t('packagesDesc')}
+          />
+          <div className="grid md:grid-cols-2 gap-5">
+            <Reveal className={`${serviceCardClass} p-6 border-primary/30 ring-1 ring-primary/15 flex flex-col`}>
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <span className="inline-flex rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-primary-dark">
+                  {t('pkgLaunchBadge')}
+                </span>
+                <span className="text-xs text-slate-500">{t('pkgLaunchTimeline')}</span>
+              </div>
+              <h3 className="text-xl font-serif font-bold text-slate-900">{t('pkgLaunchName')}</h3>
+              <p className="mt-1 text-2xl font-serif font-bold text-slate-900">{t('pkgLaunchPrice')}</p>
+              <p className="mt-3 text-sm text-slate-600 leading-relaxed flex-1">{t('pkgLaunchDesc')}</p>
+              <p className="mt-2 text-xs font-medium text-slate-500">{t('pkgLaunchIdeal')}</p>
+              <ScheduleButton
+                variant="primary"
+                size="md"
+                icon
+                block
+                intent="website"
+                service="websites-brand"
+                need="new"
+                offer="founding"
+                className="w-full mt-5"
+              >
+                {t('pkgLaunchCta')}
+              </ScheduleButton>
+            </Reveal>
+
+            <Reveal className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col">
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <span className="inline-flex rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-emerald-800">
+                  {t('pkgVisBadge')}
+                </span>
+                <span className="text-xs text-slate-500">{t('pkgVisTimeline')}</span>
+              </div>
+              <h3 className="text-xl font-serif font-bold text-slate-900">{t('pkgVisName')}</h3>
+              <p className="mt-1 text-2xl font-serif font-bold text-slate-900">{t('pkgVisPrice')}</p>
+              <p className="mt-3 text-sm text-slate-600 leading-relaxed">{t('pkgVisDesc')}</p>
+              <ul className="mt-4 space-y-2 flex-1">
+                {visIncludeKeys.map((key) => (
+                  <li key={key} className="flex items-start gap-2 text-sm text-slate-700">
+                    <CheckCircle className="w-4 h-4 text-primary shrink-0 mt-0.5" aria-hidden />
+                    {t(key)}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-3 text-xs font-medium text-slate-500">{t('pkgVisIdeal')}</p>
+              <ScheduleButton
+                variant="secondary"
+                size="md"
+                icon
+                block
+                intent="website"
+                service="websites-brand"
+                need="new"
+                offer="visibility"
+                className="w-full mt-5"
+              >
+                {t('pkgVisCta')}
+              </ScheduleButton>
+            </Reveal>
+
+            <Reveal className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col">
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <span className="inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-slate-700">
+                  {t('pkgGrowthBadge')}
+                </span>
+                <span className="text-xs text-slate-500">{t('pkgGrowthTimeline')}</span>
+              </div>
+              <h3 className="text-xl font-serif font-bold text-slate-900">{t('pkgGrowthName')}</h3>
+              <p className="mt-1 text-2xl font-serif font-bold text-slate-900">{t('pkgGrowthPrice')}</p>
+              <p className="mt-3 text-sm text-slate-600 leading-relaxed">{t('pkgGrowthDesc')}</p>
+              <ul className="mt-4 space-y-2 flex-1">
+                {growthIncludeKeys.map((key) => (
+                  <li key={key} className="flex items-start gap-2 text-sm text-slate-700">
+                    <CheckCircle className="w-4 h-4 text-primary shrink-0 mt-0.5" aria-hidden />
+                    {t(key)}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-3 text-xs font-medium text-slate-500">{t('pkgGrowthIdeal')}</p>
+              <ScheduleButton
+                variant="secondary"
+                size="md"
+                icon
+                block
+                intent="website"
+                service="websites-brand"
+                need="new"
+                offer="growth"
+                className="w-full mt-5"
+              >
+                {t('pkgGrowthCta')}
+              </ScheduleButton>
+            </Reveal>
+
+            <Reveal className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col">
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <span className="inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-slate-700">
+                  {t('pkgCustomBadge')}
+                </span>
+                <span className="text-xs text-slate-500">{t('pkgCustomTimeline')}</span>
+              </div>
+              <h3 className="text-xl font-serif font-bold text-slate-900">{t('pkgCustomName')}</h3>
+              <p className="mt-1 text-2xl font-serif font-bold text-slate-900">{t('pkgCustomPrice')}</p>
+              <p className="mt-3 text-sm text-slate-600 leading-relaxed flex-1">{t('pkgCustomDesc')}</p>
+              <p className="mt-2 text-xs font-medium text-slate-500">{t('pkgCustomIdeal')}</p>
+              <div className="mt-5 space-y-2">
+                <ScheduleButton
+                  variant="secondary"
+                  size="md"
+                  icon
+                  block
+                  intent="platform"
+                  service="custom-platforms"
+                  offer="custom"
+                  className="w-full"
+                >
+                  {t('pkgCustomCta')}
+                </ScheduleButton>
+                <Link
+                  href="/services/digital"
+                  className="inline-flex items-center justify-center w-full text-sm font-semibold text-primary-dark hover:underline py-2"
+                >
+                  {t('pkgCustomLink')}
+                  <ArrowRight className="ml-1.5 w-4 h-4" aria-hidden />
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+        </section>
 
         <section id="live-proof" className="scroll-mt-28 mb-16">
           <ServiceSectionHeading

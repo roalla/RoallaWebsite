@@ -39,7 +39,7 @@ export default function OutcomeServiceLanding({
         <p className="text-xs font-semibold uppercase tracking-[.18em] text-primary-light">
           {content.eyebrow}
         </p>
-        <h1 className="mt-4 max-w-4xl text-4xl md:text-5xl font-serif font-bold leading-tight">
+        <h1 className="mt-4 max-w-4xl text-4xl md:text-5xl font-serif font-bold leading-tight text-white">
           {content.title}
         </h1>
         <p className="mt-5 max-w-3xl text-lg text-slate-300 leading-relaxed">
@@ -50,7 +50,7 @@ export default function OutcomeServiceLanding({
         </p>
         <Link
           href="/schedule"
-          className="mt-8 inline-flex min-h-[48px] items-center rounded-lg bg-primary px-6 py-3 font-semibold hover:bg-primary-dark transition-colors"
+          className="mt-8 inline-flex min-h-[48px] items-center rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-dark transition-colors"
         >
           {content.cta}
           <ArrowRight className="ml-2 w-4 h-4" aria-hidden />

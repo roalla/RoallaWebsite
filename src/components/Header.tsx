@@ -419,7 +419,7 @@ const Header = () => {
       onClick={closeMenu}
     >
       <Flag className="h-4 w-4 shrink-0" aria-hidden />
-      <span className="hidden xl:inline whitespace-nowrap">
+      <span className="hidden 2xl:inline whitespace-nowrap">
         {t("foundingPromoShort")}
       </span>
     </Link>
@@ -513,26 +513,8 @@ const Header = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center justify-center min-w-0 flex-1 px-4">
-            <div className="flex items-center justify-center gap-8 xl:gap-10">
-              <div>
-                <Link
-                  href="/"
-                  aria-current={isActive("/") ? "page" : undefined}
-                  className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap block py-2 ${
-                    isActive("/") ? "text-primary" : navIdleClass
-                  }`}
-                  onClick={closeMenu}
-                >
-                  {t("home")}
-                  <span
-                    className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
-                      isActive("/") ? "w-full" : "w-0 group-hover:w-full"
-                    }`}
-                  />
-                </Link>
-              </div>
-
+          <div className="hidden lg:flex items-center justify-center min-w-0 flex-1 px-2 xl:px-4">
+            <div className="flex items-center justify-center gap-5 xl:gap-8">
               <div className="relative" ref={digitalDropdownDesktopRef}>
                 <button
                   type="button"
@@ -694,7 +676,7 @@ const Header = () => {
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center justify-end gap-3 flex-shrink-0">
+          <div className="hidden lg:flex items-center justify-end gap-2 xl:gap-3 flex-shrink-0">
             {foundingPromoLink}
             {isLocaleRoute && (
               <div
@@ -825,20 +807,6 @@ const Header = () => {
                   </span>
                 </Link>
               )}
-              <div>
-                <Link
-                  href="/"
-                  aria-current={isActive("/") ? "page" : undefined}
-                  className={`block px-3 py-3 min-h-[44px] flex items-center rounded-md text-base font-medium transition-colors duration-200 ${
-                    isActive("/")
-                      ? "text-primary bg-primary/10"
-                      : "text-gray-300 hover:text-primary hover:bg-white/5"
-                  }`}
-                  onClick={(e) => handleMobileNavClick(e, "/")}
-                >
-                  {t("home")}
-                </Link>
-              </div>
 
               <div>
                 <button

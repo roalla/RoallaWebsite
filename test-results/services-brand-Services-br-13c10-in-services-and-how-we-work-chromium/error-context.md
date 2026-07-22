@@ -1,0 +1,410 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - link "Skip to main content" [ref=e3] [cursor=pointer]:
+      - /url: "#main-content"
+    - navigation "Main navigation" [ref=e4]:
+      - generic [ref=e5]:
+        - link "Go to homepage" [ref=e7] [cursor=pointer]:
+          - /url: /en
+          - img "Roalla Business Enablement Group Logo" [ref=e9]
+          - generic [ref=e10]: ROALLA
+        - generic [ref=e12]:
+          - link "Home" [ref=e14] [cursor=pointer]:
+            - /url: /en
+            - text: Home
+          - button "Digital Enablement" [ref=e16] [cursor=pointer]:
+            - text: Digital Enablement
+            - img [ref=e17]
+          - link "Digital Portfolio" [ref=e20] [cursor=pointer]:
+            - /url: /en/services/portfolio
+            - text: Digital Portfolio
+          - button "Advisory & Workshops" [ref=e22] [cursor=pointer]:
+            - text: Advisory & Workshops
+            - img [ref=e23]
+        - generic [ref=e26]:
+          - button "Select language" [ref=e28] [cursor=pointer]:
+            - img [ref=e29]
+            - generic [ref=e34]: EN
+            - img [ref=e35]
+          - generic [ref=e38]:
+            - link "Plan your next move" [ref=e39] [cursor=pointer]:
+              - /url: /en/schedule
+              - img [ref=e40]
+              - text: Plan your next move
+            - tooltip "~3 min · No obligation · Reply in 1 business day"
+  - main [ref=e42]:
+    - generic [ref=e46]:
+      - generic [ref=e48]:
+        - generic [ref=e49]:
+          - paragraph [ref=e51]: Advisory & Workshops · Business Advisory
+          - heading "Business guidance that turns priorities into execution." [level=1] [ref=e53]
+          - paragraph [ref=e55]: Senior guidance for strategy, operations, leadership, and digital readiness—with a partner who stays through implementation.
+          - link "Plan Your Next Move" [ref=e57] [cursor=pointer]:
+            - /url: /en/schedule
+            - img [ref=e58]
+            - text: Plan Your Next Move
+          - paragraph [ref=e61]: ~3 min · No obligation · Reply in 1 business day
+          - paragraph [ref=e63]:
+            - link "Take 5-min assessment" [ref=e64] [cursor=pointer]:
+              - /url: /en/assessment
+          - generic [ref=e65]:
+            - generic [ref=e67]:
+              - img [ref=e68]
+              - generic [ref=e71]:
+                - term [ref=e72]: 30+
+                - definition [ref=e73]: years experience
+            - generic [ref=e75]:
+              - img [ref=e76]
+              - generic [ref=e79]:
+                - term [ref=e80]: Senior
+                - definition [ref=e81]: direct attention
+            - generic [ref=e83]:
+              - img [ref=e84]
+              - generic [ref=e89]:
+                - term [ref=e90]: Hands-on
+                - definition [ref=e91]: through implementation
+        - generic [ref=e93]:
+          - generic [ref=e94]:
+            - img [ref=e96]
+            - generic [ref=e99]:
+              - heading "What you get" [level=2] [ref=e100]
+              - paragraph [ref=e101]: Clear plans with accountable follow-through.
+          - list [ref=e102]:
+            - listitem [ref=e103]:
+              - img [ref=e104]
+              - text: 90-day strategic plans with measurable milestones
+            - listitem [ref=e107]:
+              - img [ref=e108]
+              - text: Reduced cycle time and smoother operating rhythms
+            - listitem [ref=e111]:
+              - img [ref=e112]
+              - text: Board-ready priorities, owners, and KPIs
+          - generic [ref=e115]:
+            - paragraph [ref=e116]: Reduced handoff cycle time ~30% for a 40-person operations team.
+            - paragraph [ref=e117]: 90-day strategic plan with board-ready KPIs for a growth-stage SaaS company.
+      - navigation "Breadcrumb" [ref=e118]:
+        - list [ref=e119]:
+          - listitem [ref=e120]:
+            - link "Home" [ref=e121] [cursor=pointer]:
+              - /url: /en
+          - listitem [ref=e122]:
+            - img [ref=e123]
+            - link "Advisory & Workshops" [ref=e125] [cursor=pointer]:
+              - /url: /en/programs/business-enablement
+          - listitem [ref=e126]:
+            - img [ref=e127]
+            - generic [ref=e129]: Business Advisory
+      - generic [ref=e130]:
+        - navigation "Jump to a service" [ref=e131]:
+          - paragraph [ref=e132]: Jump to a service
+          - generic [ref=e133]:
+            - link "Strategy & Roadmaps" [ref=e134] [cursor=pointer]:
+              - /url: "#strategy-roadmaps"
+              - text: Strategy & Roadmaps
+              - img [ref=e135]
+            - link "Operations & Process Improvement" [ref=e137] [cursor=pointer]:
+              - /url: "#operations"
+              - text: Operations & Process Improvement
+              - img [ref=e138]
+            - link "Leadership & Team Enablement" [ref=e140] [cursor=pointer]:
+              - /url: "#leadership"
+              - text: Leadership & Team Enablement
+              - img [ref=e141]
+            - link "Data, Innovation & Digital Readiness" [ref=e143] [cursor=pointer]:
+              - /url: "#readiness"
+              - text: Data, Innovation & Digital Readiness
+              - img [ref=e144]
+        - generic [ref=e146]:
+          - article [ref=e147]:
+            - generic [ref=e149]:
+              - generic [ref=e150]:
+                - img [ref=e152]
+                - generic [ref=e156]:
+                  - heading "Strategy & Roadmaps" [level=3] [ref=e157]
+                  - paragraph [ref=e158]: Turn business objectives, market context, and competing priorities into a practical direction for execution.
+              - paragraph [ref=e159]: "Best when: Leadership needs a clear growth direction, aligned priorities, and a decision framework"
+              - generic [ref=e160]:
+                - paragraph [ref=e161]:
+                  - generic [ref=e162]: "Outcome:"
+                  - text: A 90-day strategic plan with aligned priorities and measurable milestones.
+                - paragraph [ref=e163]:
+                  - generic [ref=e164]: "Not ideal when:"
+                  - text: You only need one-off tactical execution without strategic alignment.
+              - list [ref=e165]:
+                - listitem [ref=e166]:
+                  - img [ref=e167]
+                  - generic [ref=e170]: Business and market assessment
+                - listitem [ref=e171]:
+                  - img [ref=e172]
+                  - generic [ref=e175]: Priorities and decision criteria
+                - listitem [ref=e176]:
+                  - img [ref=e177]
+                  - generic [ref=e180]: 90-day roadmap with owners and measures
+              - link "Discuss This Advisory Need" [ref=e182] [cursor=pointer]:
+                - /url: /en/schedule?intent=consulting&focus=strategy
+                - text: Discuss This Advisory Need
+                - img [ref=e183]
+          - article [ref=e185]:
+            - generic [ref=e187]:
+              - generic [ref=e188]:
+                - img [ref=e190]
+                - generic [ref=e193]:
+                  - heading "Operations & Process Improvement" [level=3] [ref=e194]
+                  - paragraph [ref=e195]: Clarify ownership, reduce delays, and improve how work moves across people, processes, and systems.
+              - paragraph [ref=e196]: "Best when: Bottlenecks, handoff delays, or inconsistent delivery are constraining growth momentum"
+              - generic [ref=e197]:
+                - paragraph [ref=e198]:
+                  - generic [ref=e199]: "Outcome:"
+                  - text: Reduced cycle time, stronger ownership, and smoother operating rhythms.
+                - paragraph [ref=e200]:
+                  - generic [ref=e201]: "Not ideal when:"
+                  - text: Your core process already performs reliably with clear ownership.
+              - list [ref=e202]:
+                - listitem [ref=e203]:
+                  - img [ref=e204]
+                  - generic [ref=e207]: Workflow and handoff analysis
+                - listitem [ref=e208]:
+                  - img [ref=e209]
+                  - generic [ref=e212]: Operating measures and accountability
+                - listitem [ref=e213]:
+                  - img [ref=e214]
+                  - generic [ref=e217]: Implementation and adoption support
+              - link "Discuss This Advisory Need" [ref=e219] [cursor=pointer]:
+                - /url: /en/schedule?intent=consulting&focus=operations
+                - text: Discuss This Advisory Need
+                - img [ref=e220]
+          - article [ref=e222]:
+            - generic [ref=e224]:
+              - generic [ref=e225]:
+                - img [ref=e227]
+                - generic [ref=e232]:
+                  - heading "Leadership & Team Enablement" [level=3] [ref=e233]
+                  - paragraph [ref=e234]: Strengthen leadership cadence, role clarity, and the habits teams need to execute consistently.
+              - paragraph [ref=e235]: "Best when: Leadership gaps or team misalignment are limiting execution quality at scale"
+              - generic [ref=e236]:
+                - paragraph [ref=e237]:
+                  - generic [ref=e238]: "Outcome:"
+                  - text: Sharper role clarity, stronger leadership cadence, and improved cross-team execution.
+                - paragraph [ref=e239]:
+                  - generic [ref=e240]: "Not ideal when:"
+                  - text: You only need short-term staffing rather than capability development.
+              - list [ref=e241]:
+                - listitem [ref=e242]:
+                  - img [ref=e243]
+                  - generic [ref=e246]: Leadership roles and decision rights
+                - listitem [ref=e247]:
+                  - img [ref=e248]
+                  - generic [ref=e251]: Team alignment and operating rhythms
+                - listitem [ref=e252]:
+                  - img [ref=e253]
+                  - generic [ref=e256]: Performance and capability development
+              - link "Discuss This Advisory Need" [ref=e258] [cursor=pointer]:
+                - /url: /en/schedule?intent=consulting&focus=team
+                - text: Discuss This Advisory Need
+                - img [ref=e259]
+          - article [ref=e261]:
+            - generic [ref=e263]:
+              - generic [ref=e264]:
+                - img [ref=e266]
+                - generic [ref=e268]:
+                  - heading "Data, Innovation & Digital Readiness" [level=3] [ref=e269]
+                  - paragraph [ref=e270]: Decide where data, technology, automation, or a new digital initiative can create practical business value.
+              - paragraph [ref=e271]: "Best when: You need to validate a data, technology, automation, or innovation initiative before committing significant budget"
+              - generic [ref=e272]:
+                - paragraph [ref=e273]:
+                  - generic [ref=e274]: "Outcome:"
+                  - text: A prioritized readiness roadmap with evidence, risks, owners, and a practical next investment.
+                - paragraph [ref=e275]:
+                  - generic [ref=e276]: "Not ideal when:"
+                  - text: You already have an approved build scope and only need implementation—Digital Enablement is the clearer path.
+              - list [ref=e277]:
+                - listitem [ref=e278]:
+                  - img [ref=e279]
+                  - generic [ref=e282]: Decision-ready measures and reporting
+                - listitem [ref=e283]:
+                  - img [ref=e284]
+                  - generic [ref=e287]: Opportunity and technology assessment
+                - listitem [ref=e288]:
+                  - img [ref=e289]
+                  - generic [ref=e292]: Pilot, adoption, and change roadmap
+              - link "Discuss This Advisory Need" [ref=e294] [cursor=pointer]:
+                - /url: /en/schedule?intent=consulting&focus=data
+                - text: Discuss This Advisory Need
+                - img [ref=e295]
+        - generic [ref=e297]:
+          - generic [ref=e298]:
+            - heading "How we work with you" [level=2] [ref=e299]
+            - paragraph [ref=e300]: Four plain steps—from first conversation to hands-on follow-through.
+          - list [ref=e301]:
+            - listitem [ref=e302]:
+              - generic [ref=e303]: "1"
+              - generic [ref=e304]:
+                - paragraph [ref=e305]: Step 1
+                - paragraph [ref=e306]: Discovery call to align on goals, constraints, and urgency.
+            - listitem [ref=e307]:
+              - generic [ref=e308]: "2"
+              - generic [ref=e309]:
+                - paragraph [ref=e310]: Step 2
+                - paragraph [ref=e311]: Short diagnostic to isolate the highest-impact priorities.
+            - listitem [ref=e312]:
+              - generic [ref=e313]: "3"
+              - generic [ref=e314]:
+                - paragraph [ref=e315]: Step 3
+                - paragraph [ref=e316]: Roadmap and operating plan with owners, milestones, and KPIs.
+            - listitem [ref=e317]:
+              - generic [ref=e318]: "4"
+              - generic [ref=e319]:
+                - paragraph [ref=e320]: Step 4
+                - paragraph [ref=e321]: Implementation support with regular check-ins and course correction.
+        - generic [ref=e322]:
+          - generic [ref=e323]:
+            - heading "A strong fit if you…" [level=2] [ref=e324]
+            - list [ref=e325]:
+              - listitem [ref=e326]:
+                - img [ref=e327]
+                - text: Need strategic clarity and operating discipline—not just advice
+              - listitem [ref=e330]:
+                - img [ref=e331]
+                - text: Want owners, milestones, and KPIs tied to business priorities
+              - listitem [ref=e334]:
+                - img [ref=e335]
+                - text: Prefer a partner who stays through implementation, not a one-off report
+          - generic [ref=e338]:
+            - paragraph [ref=e339]: If you need a website, app, or automation—not Programs first—see Digital Enablement. Many clients combine Programs advisory with a digital build when the roadmap is clear.
+            - link "Explore Digital Enablement" [ref=e340] [cursor=pointer]:
+              - /url: /en/services/digital
+              - text: Explore Digital Enablement
+              - img [ref=e341]
+            - paragraph [ref=e343]:
+              - text: Not sure which lane fits?
+              - link "Take 5-min assessment" [ref=e344] [cursor=pointer]:
+                - /url: /en/assessment
+        - generic [ref=e345]:
+          - heading "Common questions" [level=2] [ref=e347]
+          - generic [ref=e348]:
+            - generic [ref=e349]:
+              - button "Which service should I start with?" [expanded] [ref=e350] [cursor=pointer]:
+                - generic [ref=e351]: Which service should I start with?
+                - img [ref=e352]
+              - paragraph [ref=e356]: Start with a discovery call—we'll listen to your goals and recommend the right lane. Most needs begin with strategy and roadmaps, operations, leadership, or data and digital readiness.
+            - generic [ref=e357]:
+              - button "How is this different from a big-firm engagement?" [ref=e358] [cursor=pointer]:
+                - generic [ref=e359]: How is this different from a big-firm engagement?
+                - img [ref=e360]
+              - paragraph [ref=e362]: You get senior attention without the overhead. We work in focused sprints with clear deliverables and direct access to the people doing the work.
+            - generic [ref=e363]:
+              - button "Do you also build websites and platforms?" [ref=e364] [cursor=pointer]:
+                - generic [ref=e365]: Do you also build websites and platforms?
+                - img [ref=e366]
+              - paragraph [ref=e368]: Yes. Programs live on this page; design and build work lives under Digital Enablement. One team can do both when it makes sense.
+        - complementary [ref=e369]:
+          - paragraph [ref=e370]: Executive planning
+          - heading "Ready to define your next move?" [level=2] [ref=e371]
+          - paragraph [ref=e372]: Share your priorities and we'll identify the right entry point and a clear, leadership-aligned plan.
+          - paragraph [ref=e373]: Best fit for growth-stage teams that need strategic clarity, operating discipline, and measurable execution.
+          - generic [ref=e374]:
+            - link "Plan Your Next Move" [ref=e375] [cursor=pointer]:
+              - /url: /en/schedule
+              - img [ref=e376]
+              - text: Plan Your Next Move
+            - link "Not sure which service fits? Take our 5-min assessment (secondary option)" [ref=e378] [cursor=pointer]:
+              - /url: /en/assessment
+          - paragraph [ref=e379]: ~3 min · No obligation · Reply in 1 business day
+          - paragraph [ref=e380]:
+            - link "Questions about confidentiality? Contact us to discuss your needs" [ref=e381] [cursor=pointer]:
+              - /url: /en/contact
+          - generic [ref=e382]:
+            - link "Want applied team learning? Explore Team Workshops" [ref=e383] [cursor=pointer]:
+              - /url: /en/programs/workshops
+              - text: Want applied team learning? Explore Team Workshops
+              - img [ref=e384]
+            - link "Need event pages, booth digital, or event apps? See Digital Events" [ref=e386] [cursor=pointer]:
+              - /url: /en/services/digital-events
+              - text: Need event pages, booth digital, or event apps? See Digital Events
+              - img [ref=e387]
+            - link "Need a website, app, or automation built? See Digital Enablement" [ref=e389] [cursor=pointer]:
+              - /url: /en/services/digital
+              - text: Need a website, app, or automation built? See Digital Enablement
+              - img [ref=e390]
+            - link "See live examples in Digital Portfolio" [ref=e392] [cursor=pointer]:
+              - /url: /en/services/portfolio
+              - text: See live examples in Digital Portfolio
+              - img [ref=e393]
+  - contentinfo [ref=e395]:
+    - generic [ref=e396]:
+      - generic [ref=e397]:
+        - generic [ref=e398]:
+          - link "ROALLA" [ref=e399] [cursor=pointer]:
+            - /url: /en
+            - generic [ref=e400]: ROALLA
+          - paragraph [ref=e401]: Digital assets that drive visibility, revenue, customer value, and operational efficiency.
+          - paragraph [ref=e402]: Assess · Build · Optimize · Automate · Evolve
+        - generic [ref=e403]:
+          - paragraph [ref=e404]: Explore
+          - navigation "Explore" [ref=e405]:
+            - link "Use Cases" [ref=e406] [cursor=pointer]:
+              - /url: /en/use-cases
+            - link "Digital Enablement" [ref=e407] [cursor=pointer]:
+              - /url: /en/services/digital
+            - link "Digital Portfolio" [ref=e408] [cursor=pointer]:
+              - /url: /en/services/portfolio
+            - link "Advisory & Workshops" [ref=e409] [cursor=pointer]:
+              - /url: /en/programs/business-enablement
+            - link "Service Inquiry" [ref=e410] [cursor=pointer]:
+              - /url: /en/schedule
+        - generic [ref=e411]:
+          - paragraph [ref=e412]: Company
+          - navigation "Company" [ref=e413]:
+            - link "About" [ref=e414] [cursor=pointer]:
+              - /url: /en/about
+            - link "Insights" [ref=e415] [cursor=pointer]:
+              - /url: /en/insights
+            - link "FAQ" [ref=e416] [cursor=pointer]:
+              - /url: /en/faq
+            - link "Contact" [ref=e417] [cursor=pointer]:
+              - /url: /en/contact
+        - generic [ref=e418]:
+          - paragraph [ref=e419]: Contact
+          - list [ref=e420]:
+            - listitem [ref=e421]:
+              - link "sales@roalla.com" [ref=e422] [cursor=pointer]:
+                - /url: mailto:sales@roalla.com
+                - img [ref=e424]
+                - text: sales@roalla.com
+            - listitem [ref=e427]:
+              - link "(289) 838-5868" [ref=e428] [cursor=pointer]:
+                - /url: tel:289-838-5868
+                - img [ref=e430]
+                - text: (289) 838-5868
+          - generic [ref=e432]:
+            - link "Roalla on LinkedIn" [ref=e433] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/102042431/
+              - img [ref=e434]
+            - link "Roalla on YouTube" [ref=e438] [cursor=pointer]:
+              - /url: https://www.youtube.com/@RoallaGroup
+              - img [ref=e439]
+          - link "Scope your project" [ref=e442] [cursor=pointer]:
+            - /url: /en/schedule
+            - img [ref=e443]
+            - text: Scope your project
+          - paragraph [ref=e445]: ~3 min · No obligation · Reply in 1 business day
+      - generic [ref=e446]:
+        - paragraph [ref=e447]: © 2026 Roalla Business Enablement Group. All Rights Reserved.
+        - generic [ref=e448]:
+          - link "Terms & Conditions" [ref=e449] [cursor=pointer]:
+            - /url: /en/terms
+          - link "Privacy Policy" [ref=e450] [cursor=pointer]:
+            - /url: /en/privacy
+          - link "AI Policy" [ref=e451] [cursor=pointer]:
+            - /url: /en/ai-policy
+          - link "Employee sign in" [ref=e452] [cursor=pointer]:
+            - /url: /en/hub/login
+          - link "Contact" [ref=e453] [cursor=pointer]:
+            - /url: /en/contact
+            - text: Contact
+            - img [ref=e454]
+  - alert [ref=e457]
+```

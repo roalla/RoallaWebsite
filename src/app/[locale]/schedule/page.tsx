@@ -5,7 +5,6 @@ import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { CheckCircle2 } from 'lucide-react'
-import Breadcrumb from '@/components/Breadcrumb'
 import ConsultationRequestForm, {
   resolveInitialAiGoal,
   resolveInitialAutomationGoal,
@@ -89,7 +88,6 @@ function resolvePortfolioReference(
 function ScheduleContent() {
   const t = useTranslations('consultationRequest')
   const tPortfolio = useTranslations('digitalCreations')
-  const tBc = useTranslations('breadcrumb')
   const searchParams = useSearchParams()
   const needParam = searchParams.get('need')
   const referenceParam = searchParams.get('reference')
@@ -131,7 +129,6 @@ function ScheduleContent() {
     <div className="page-shell">
       <div className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent" aria-hidden />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
-        <Breadcrumb items={[{ label: tBc('home'), href: '/' }, { label: tBc('schedule') }]} />
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10 lg:mb-12">
             <h1 className="text-4xl md:text-5xl font-serif font-extrabold text-slate-900">

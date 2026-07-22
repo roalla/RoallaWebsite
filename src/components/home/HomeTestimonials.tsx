@@ -25,7 +25,7 @@ export default function HomeTestimonials() {
           {testimonialKeys.map((key) => (
             <div
               key={key}
-              className="flex flex-col rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-6 lg:p-8 shadow-card"
+              className="home-tile flex flex-col rounded-2xl bg-gradient-to-br from-slate-50 to-white p-6 lg:p-8"
             >
               <Quote className="w-8 h-8 text-primary/30 mb-4 shrink-0" aria-hidden />
               <blockquote className="flex-1 text-slate-700 leading-relaxed text-sm">

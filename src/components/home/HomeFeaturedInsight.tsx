@@ -81,7 +81,7 @@ export default function HomeFeaturedInsight() {
               <div key={slug} className="insight-card-enter h-full">
                 <Link
                   href={{ pathname: '/insights/[slug]', params: { slug } }}
-                  className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-card hover:border-primary/30 hover:shadow-card-hover transition-all duration-300"
+                  className="home-tile group flex h-full flex-col rounded-2xl bg-white p-6"
                 >
                   <BookOpen className="w-8 h-8 text-primary/70 mb-4" aria-hidden />
                   <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark">

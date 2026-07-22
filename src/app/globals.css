@@ -120,6 +120,23 @@
     @apply bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md hover:border-primary/25 transition-all duration-300;
   }
 
+  /* Homepage tile hover — stronger lift + primary glow */
+  .home-tile {
+    @apply shadow-card border border-slate-200 transition-all duration-300 ease-out;
+  }
+
+  .home-tile:hover,
+  .home-tile:focus-within {
+    @apply -translate-y-1 border-primary/45 shadow-card-hover;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-tile:hover,
+    .home-tile:focus-within {
+      transform: none;
+    }
+  }
+
   .text-body {
     @apply text-slate-600;
   }

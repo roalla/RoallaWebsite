@@ -50,7 +50,7 @@ export default function HomeWhatWeDo() {
           {capabilityCards.map((card, index) => {
             const Icon = card.icon
             return (
-              <Reveal key={card.titleKey} delayMs={index * 40} className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 lg:p-6 shadow-card hover:shadow-card-hover hover:border-primary/25 transition-all duration-300">
+              <Reveal key={card.titleKey} delayMs={index * 40} className="home-tile flex flex-col rounded-2xl bg-white p-5 lg:p-6">
                 <div className="flex items-start gap-3 mb-3">
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center border border-primary/10 shrink-0">
                     <Icon className="w-5 h-5 text-primary" />

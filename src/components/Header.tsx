@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef, useCallback, useSyncExternalStore } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { Menu, X, ChevronDown, Briefcase, Globe, GraduationCap, CalendarDays, Layers, Workflow, Sparkles, Flag } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname as useNextPathname } from 'next/navigation'
@@ -60,33 +60,11 @@ function getHeaderOverDark(): boolean {
   return false
 }
 
-function subscribeHeaderTone(onStoreChange: () => void) {
-  let frame: number | null = null
-  const notify = () => {
-    if (frame !== null) return
-    frame = requestAnimationFrame(() => {
-      frame = null
-      onStoreChange()
-    })
-  }
-  window.addEventListener('scroll', notify, { passive: true })
-  window.addEventListener('resize', notify)
-  return () => {
-    window.removeEventListener('scroll', notify)
-    window.removeEventListener('resize', notify)
-    if (frame !== null) cancelAnimationFrame(frame)
-  }
-}
-
 const Header = () => {
   const pathname = usePathname() ?? '/'
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const overDark = useSyncExternalStore(
-    subscribeHeaderTone,
-    getHeaderOverDark,
-    () => pathname === '/',
-  )
+  const [overDark, setOverDark] = useState(pathname === '/')
   const [mounted, setMounted] = useState(false)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
@@ -95,7 +73,6 @@ const Header = () => {
   const localeDropdownMobileRef = useRef<HTMLDivElement>(null)
   const digitalDropdownDesktopRef = useRef<HTMLDivElement>(null)
   const programsDropdownDesktopRef = useRef<HTMLDivElement>(null)
-  const scrollTick = useRef<number | null>(null)
   const previousMenuOpen = useRef(false)
   const [localeDropdownOpen, setLocaleDropdownOpen] = useState(false)
   const [digitalDropdownOpen, setDigitalDropdownOpen] = useState(false)
@@ -117,28 +94,29 @@ const Header = () => {
   }, [mounted])
 
   useEffect(() => {
-    if (!mounted) return
-    const handleScroll = () => {
-      if (scrollTick.current !== null) return
-      scrollTick.current = requestAnimationFrame(() => {
-        setIsScrolled(window.scrollY > 10)
-        scrollTick.current = null
+    let frame: number | null = null
+
+    const syncChrome = () => {
+      setIsScrolled(window.scrollY > 10)
+      setOverDark(getHeaderOverDark())
+    }
+
+    const onScrollOrResize = () => {
+      if (frame !== null) return
+      frame = window.requestAnimationFrame(() => {
+        frame = null
+        syncChrome()
       })
     }
-    setIsScrolled(window.scrollY > 10)
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-      if (scrollTick.current !== null) {
-        cancelAnimationFrame(scrollTick.current)
-        scrollTick.current = null
-      }
-    }
-  }, [mounted])
 
-  // Re-check tone after client navigations swap page sections
-  useEffect(() => {
-    window.dispatchEvent(new Event('resize'))
+    syncChrome()
+    window.addEventListener('scroll', onScrollOrResize, { passive: true })
+    window.addEventListener('resize', onScrollOrResize)
+    return () => {
+      window.removeEventListener('scroll', onScrollOrResize)
+      window.removeEventListener('resize', onScrollOrResize)
+      if (frame !== null) window.cancelAnimationFrame(frame)
+    }
   }, [pathname])
 
   useEffect(() => {
@@ -394,8 +372,8 @@ const Header = () => {
       ? 'bg-black/80 backdrop-blur-md shadow-lg shadow-black/40 border-white/15'
       : 'bg-black/65 backdrop-blur-lg shadow-md shadow-black/20 border-white/15'
     : isScrolled
-      ? 'bg-white/85 backdrop-blur-md shadow-md shadow-slate-900/10 border-slate-200/70'
-      : 'bg-white/70 backdrop-blur-xl shadow-sm shadow-slate-900/5 border-slate-200/60'
+      ? 'bg-white/80 backdrop-blur-md shadow-md shadow-slate-900/8 border-slate-200/80'
+      : 'bg-white/55 backdrop-blur-xl shadow-sm shadow-slate-900/5 border-slate-200/50'
 
   const brandTextClass = overDark
     ? 'text-white group-hover:text-primary'

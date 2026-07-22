@@ -2,7 +2,6 @@ import React, { Suspense } from 'react'
 import Script from 'next/script'
 import type { Metadata } from 'next'
 import { getLocale, getTranslations } from 'next-intl/server'
-import Breadcrumb from '@/components/Breadcrumb'
 import DigitalCreations from '@/components/DigitalCreations'
 import { getOrderedPortfolioItems, portfolioImageAlts } from '@/lib/digitalPortfolio'
 import { buildPageMetadata } from '@/lib/page-metadata'
@@ -24,7 +23,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function DigitalPortfolioPage() {
-  const t = await getTranslations('breadcrumb')
   const locale = await getLocale()
   const pageUrl = `https://www.roalla.com/${locale}/services/portfolio`
 
@@ -56,13 +54,6 @@ export default async function DigitalPortfolioPage() {
       />
       <div className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent" aria-hidden />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
-        <Breadcrumb
-          items={[
-            { label: t('home'), href: '/' },
-            { label: t('digitalCreations'), href: '/services/digital' },
-            { label: t('ourWork') },
-          ]}
-        />
         <Suspense fallback={null}>
           <DigitalCreations />
         </Suspense>

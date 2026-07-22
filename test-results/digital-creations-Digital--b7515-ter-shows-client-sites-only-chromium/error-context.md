@@ -1,0 +1,180 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - link "Skip to main content" [ref=e3] [cursor=pointer]:
+      - /url: "#main-content"
+    - navigation "Main navigation" [ref=e4]:
+      - generic [ref=e5]:
+        - link "Go to homepage" [ref=e7] [cursor=pointer]:
+          - /url: /en
+          - img "Roalla Business Enablement Group Logo" [ref=e9]
+          - generic [ref=e10]: ROALLA
+        - generic [ref=e12]:
+          - link "Home" [ref=e14] [cursor=pointer]:
+            - /url: /en
+            - text: Home
+          - generic [ref=e15]:
+            - button "Digital Enablement" [ref=e16]:
+              - text: Digital Enablement
+              - img [ref=e17]
+            - menu "Digital Enablement" [ref=e19]:
+              - paragraph [ref=e21]: What we build
+              - generic [ref=e22]:
+                - menuitem "Overview Websites, apps, integrations, automation, and AI support" [ref=e23] [cursor=pointer]:
+                  - img [ref=e25]
+                  - generic [ref=e28]:
+                    - paragraph [ref=e29]: Overview
+                    - paragraph [ref=e30]: Websites, apps, integrations, automation, and AI support
+                - menuitem "Websites Marketing sites, booking flows, and conversion-focused design" [ref=e31] [cursor=pointer]:
+                  - img [ref=e33]
+                  - generic [ref=e36]:
+                    - paragraph [ref=e37]: Websites
+                    - paragraph [ref=e38]: Marketing sites, booking flows, and conversion-focused design
+                - menuitem "Apps & Platforms Custom tools, portals, and workflow-specific software" [ref=e39] [cursor=pointer]:
+                  - img [ref=e41]
+                  - generic [ref=e45]:
+                    - paragraph [ref=e46]: Apps & Platforms
+                    - paragraph [ref=e47]: Custom tools, portals, and workflow-specific software
+                - menuitem "Visibility Optimization Search, AI readability, accessibility, performance, and conversion" [ref=e48] [cursor=pointer]:
+                  - img [ref=e50]
+                  - generic [ref=e54]:
+                    - paragraph [ref=e55]: Visibility Optimization
+                    - paragraph [ref=e56]: Search, AI readability, accessibility, performance, and conversion
+                - menuitem "Integrations & Automation Connect tools and remove manual handoffs" [ref=e57] [cursor=pointer]:
+                  - img [ref=e59]
+                  - generic [ref=e63]:
+                    - paragraph [ref=e64]: Integrations & Automation
+                    - paragraph [ref=e65]: Connect tools and remove manual handoffs
+                - menuitem "Managed Optimization Ongoing care, measurement, product improvement, and advisory" [ref=e66] [cursor=pointer]:
+                  - img [ref=e68]
+                  - generic [ref=e73]:
+                    - paragraph [ref=e74]: Managed Optimization
+                    - paragraph [ref=e75]: Ongoing care, measurement, product improvement, and advisory
+          - link "Digital Portfolio" [ref=e77] [cursor=pointer]:
+            - /url: /en/services/portfolio
+            - text: Digital Portfolio
+          - generic [ref=e78]:
+            - button "Advisory & Workshops" [ref=e79]:
+              - text: Advisory & Workshops
+              - img [ref=e80]
+            - menu "Advisory & Workshops" [ref=e82]:
+              - paragraph [ref=e84]: Advisory & workshops
+              - generic [ref=e85]:
+                - menuitem "Business Advisory Strategy, operations, leadership, and readiness with implementation support" [ref=e86] [cursor=pointer]:
+                  - img [ref=e88]
+                  - generic [ref=e91]:
+                    - paragraph [ref=e92]: Business Advisory
+                    - paragraph [ref=e93]: Strategy, operations, leadership, and readiness with implementation support
+                - menuitem "Team Workshops Applied sessions for branding, sales, productivity, and ideation" [ref=e94] [cursor=pointer]:
+                  - img [ref=e96]
+                  - generic [ref=e99]:
+                    - paragraph [ref=e100]: Team Workshops
+                    - paragraph [ref=e101]: Applied sessions for branding, sales, productivity, and ideation
+        - generic [ref=e102]:
+          - link "5-page website package — $999" [ref=e103] [cursor=pointer]:
+            - /url: /en/website-package
+            - img [ref=e104]
+            - text: 5-page site — $999
+          - generic [ref=e106]:
+            - button "Select language" [ref=e107]:
+              - img [ref=e108]
+              - text: EN
+              - img [ref=e113]
+            - listbox [ref=e115]:
+              - option [selected] [ref=e116]:
+                - img [ref=e117]
+                - text: EN
+              - option [ref=e122]:
+                - img [ref=e123]
+                - text: FR
+          - generic [ref=e132]:
+            - link "Scope your project" [ref=e133] [cursor=pointer]:
+              - /url: /en/schedule
+              - img [ref=e134]
+              - text: Scope your project
+            - tooltip "~3 min · No obligation · Reply in 1 business day" [ref=e136]
+        - generic [ref=e137]:
+          - link "5-page website package — $999" [ref=e138] [cursor=pointer]:
+            - /url: /en/website-package
+            - img [ref=e139]
+          - button "Open menu" [ref=e141]:
+            - img [ref=e142]
+  - main [ref=e143]:
+    - generic [ref=e145]:
+      - heading "404" [level=1] [ref=e146]
+      - heading "This page could not be found." [level=2] [ref=e148]
+  - contentinfo [ref=e149]:
+    - generic [ref=e150]:
+      - generic [ref=e151]:
+        - generic [ref=e152]:
+          - link "ROALLA" [ref=e153] [cursor=pointer]:
+            - /url: /en
+          - paragraph [ref=e154]: Digital assets that drive visibility, revenue, customer value, and operational efficiency.
+          - paragraph [ref=e155]: Assess · Build · Optimize · Automate · Evolve
+        - generic [ref=e156]:
+          - paragraph [ref=e157]: Explore
+          - navigation "Explore" [ref=e158]:
+            - link "Use Cases" [ref=e159] [cursor=pointer]:
+              - /url: /en/use-cases
+            - link "Digital Enablement" [ref=e160] [cursor=pointer]:
+              - /url: /en/services/digital
+            - link "Digital Portfolio" [ref=e161] [cursor=pointer]:
+              - /url: /en/services/portfolio
+            - link "Advisory & Workshops" [ref=e162] [cursor=pointer]:
+              - /url: /en/programs/business-enablement
+            - link "Service Inquiry" [ref=e163] [cursor=pointer]:
+              - /url: /en/schedule
+        - generic [ref=e164]:
+          - paragraph [ref=e165]: Company
+          - navigation "Company" [ref=e166]:
+            - link "About" [ref=e167] [cursor=pointer]:
+              - /url: /en/about
+            - link "Insights" [ref=e168] [cursor=pointer]:
+              - /url: /en/insights
+            - link "FAQ" [ref=e169] [cursor=pointer]:
+              - /url: /en/faq
+            - link "Contact" [ref=e170] [cursor=pointer]:
+              - /url: /en/contact
+        - generic [ref=e171]:
+          - paragraph [ref=e172]: Contact
+          - list [ref=e173]:
+            - listitem [ref=e174]:
+              - link "sales@roalla.com" [ref=e175] [cursor=pointer]:
+                - /url: mailto:sales@roalla.com
+                - img [ref=e177]
+                - text: sales@roalla.com
+            - listitem [ref=e180]:
+              - link "(289) 838-5868" [ref=e181] [cursor=pointer]:
+                - /url: tel:289-838-5868
+                - img [ref=e183]
+                - text: (289) 838-5868
+          - generic [ref=e185]:
+            - link "Roalla on LinkedIn" [ref=e186] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/102042431/
+              - img [ref=e187]
+            - link "Roalla on YouTube" [ref=e191] [cursor=pointer]:
+              - /url: https://www.youtube.com/@RoallaGroup
+              - img [ref=e192]
+          - link "Scope your project" [ref=e195] [cursor=pointer]:
+            - /url: /en/schedule
+            - img [ref=e196]
+            - text: Scope your project
+          - paragraph [ref=e198]: ~3 min · No obligation · Reply in 1 business day
+      - generic [ref=e199]:
+        - paragraph [ref=e200]: © 2026 Roalla Business Enablement Group. All Rights Reserved.
+        - generic [ref=e201]:
+          - link "Terms & Conditions" [ref=e202] [cursor=pointer]:
+            - /url: /en/terms
+          - link "Privacy Policy" [ref=e203] [cursor=pointer]:
+            - /url: /en/privacy
+          - link "AI Policy" [ref=e204] [cursor=pointer]:
+            - /url: /en/ai-policy
+          - link "Employee sign in" [ref=e205] [cursor=pointer]:
+            - /url: /en/hub/login
+          - link "Contact" [ref=e206] [cursor=pointer]:
+            - /url: /en/contact
+            - text: Contact
+            - img [ref=e207]
+```

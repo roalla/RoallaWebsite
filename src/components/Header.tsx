@@ -652,7 +652,7 @@ const Header = () => {
                 <div
                   role="menu"
                   aria-labelledby="programs-dropdown-desktop"
-                  className={`absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[min(100vw-2rem,320px)] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50 ${dropdownPanelClass(programsDropdownOpen)}`}
+                  className={`absolute right-0 top-full mt-2 w-[min(100vw-2rem,320px)] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50 ${dropdownPanelClass(programsDropdownOpen)}`}
                 >
                   <div className="px-4 py-2.5 border-b border-white/10 bg-white/[0.03]">
                     <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">

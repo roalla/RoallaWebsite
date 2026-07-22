@@ -18,7 +18,6 @@ import {
 import ScheduleButton from "./ScheduleButton";
 import StickyMobileCTA from "./StickyMobileCTA";
 import ServiceMiniFAQ from "./services/ServiceMiniFAQ";
-import Breadcrumb from "./Breadcrumb";
 import type { ConsultingFocus } from "@/lib/consultation-request";
 import { SERVICE_PAGE_FAQ_KEYS } from "@/lib/service-faq-jsonld";
 import {
@@ -132,7 +131,6 @@ function ConsultingServiceCard({
 
 const Services = () => {
   const t = useTranslations("services");
-  const tBc = useTranslations("breadcrumb");
   const tCommon = useTranslations("common");
 
   const services: ConsultingService[] = [
@@ -213,14 +211,6 @@ const Services = () => {
         }
         ctaSubtext={tCommon("ctaSubtext")}
         tertiaryLink={{ href: "/assessment", label: t("heroCtaAssessment") }}
-      />
-
-      <Breadcrumb
-        items={[
-          { label: tBc("home"), href: "/" },
-          { label: tBc("programs"), href: "/programs/business-enablement" },
-          { label: tBc("businessEnablement") },
-        ]}
       />
 
       <div className="max-w-6xl mx-auto">

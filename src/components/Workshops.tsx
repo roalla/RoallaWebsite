@@ -19,7 +19,6 @@ import {
 import ScheduleButton from "./ScheduleButton";
 import StickyMobileCTA from "./StickyMobileCTA";
 import ServiceMiniFAQ from "./services/ServiceMiniFAQ";
-import Breadcrumb from "./Breadcrumb";
 import {
   ServicePageHero,
   ConsultingHeroVisual,
@@ -123,7 +122,6 @@ function WorkshopTopicCard({
 
 const Workshops = () => {
   const t = useTranslations("workshops");
-  const tBc = useTranslations("breadcrumb");
   const tCommon = useTranslations("common");
 
   const stats = [
@@ -178,14 +176,6 @@ const Workshops = () => {
           </Link>
         }
         ctaSubtext={tCommon("ctaSubtext")}
-      />
-
-      <Breadcrumb
-        items={[
-          { label: tBc("home"), href: "/" },
-          { label: tBc("programs"), href: "/programs/workshops" },
-          { label: tBc("workshops") },
-        ]}
       />
 
       <div className="max-w-6xl mx-auto">

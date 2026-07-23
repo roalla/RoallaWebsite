@@ -22,8 +22,8 @@ const concepts = {
     {
       title: "Northpoint Engineering Group",
       industry: "Engineering consulting concept",
-      image: "/concept-northpoint.svg",
-      url: "https://web-production-8d85b.up.railway.app",
+      image: "/northpoint_snapshot.jpg",
+      url: "https://northpointengineering.up.railway.app/",
       challenge:
         "Earn B2B capital-project trust when owners need constraints and constructability on the table before capital locks.",
       solution:
@@ -34,8 +34,8 @@ const concepts = {
     {
       title: "Oakridge Legal Partners",
       industry: "Business law concept",
-      image: "/concept-oakridge.svg",
-      url: "https://web-production-327b0.up.railway.app",
+      image: "/oakridge_snapshot.jpg",
+      url: "https://oakridge.up.railway.app/",
       challenge:
         "Build professional-services trust for business owners who need decisions they can defend — without fake credentials or bar-number theatre.",
       solution:
@@ -46,8 +46,8 @@ const concepts = {
     {
       title: "Maple Health Medical Centre",
       industry: "Multidisciplinary clinic concept",
-      image: "/concept-maple-health.svg",
-      url: "https://web-production-81d7f.up.railway.app",
+      image: "/maplehealth_snapshot.jpg",
+      url: "https://maplehealth.up.railway.app/",
       challenge:
         "Help families find the next care step without medical claims presented as fact or opaque service navigation.",
       solution:
@@ -58,8 +58,8 @@ const concepts = {
     {
       title: "Summit Industrial Systems",
       industry: "Manufacturing and automation concept",
-      image: "/concept-summit.svg",
-      url: "https://web-production-240db8.up.railway.app",
+      image: "/summit_snapshot.jpg",
+      url: "https://summitindustrial.up.railway.app/",
       challenge:
         "Give plant and operations leaders capability clarity without fake certifications, throughput claims, or brochure vagueness.",
       solution:
@@ -70,8 +70,8 @@ const concepts = {
     {
       title: "Skyline Commercial Realty",
       industry: "Commercial real estate concept",
-      image: "/concept-skyline.svg",
-      url: "https://web-production-252f4.up.railway.app",
+      image: "/skyline_snapshot.jpg",
+      url: "https://skylinerealty.up.railway.app/",
       challenge:
         "Present commercial space for occupiers and investors without fake MLS inventory, ROI claims, or an endless unverified feed.",
       solution:
@@ -118,8 +118,8 @@ const concepts = {
     {
       title: "Northpoint Engineering Group",
       industry: "Concept de génie-conseil",
-      image: "/concept-northpoint.svg",
-      url: "https://web-production-8d85b.up.railway.app",
+      image: "/northpoint_snapshot.jpg",
+      url: "https://northpointengineering.up.railway.app/",
       challenge:
         "Gagner la confiance B2B sur des projets d’immobilisation lorsque les propriétaires doivent voir contraintes et constructibilité avant que le capital se verrouille.",
       solution:
@@ -130,8 +130,8 @@ const concepts = {
     {
       title: "Oakridge Legal Partners",
       industry: "Concept de droit des affaires",
-      image: "/concept-oakridge.svg",
-      url: "https://web-production-327b0.up.railway.app",
+      image: "/oakridge_snapshot.jpg",
+      url: "https://oakridge.up.railway.app/",
       challenge:
         "Bâtir la confiance des services professionnels pour des dirigeants qui ont besoin de décisions défendables — sans fausses certifications ni théâtralisation des numéros de barreau.",
       solution:
@@ -142,8 +142,8 @@ const concepts = {
     {
       title: "Maple Health Medical Centre",
       industry: "Concept de clinique multidisciplinaire",
-      image: "/concept-maple-health.svg",
-      url: "https://web-production-81d7f.up.railway.app",
+      image: "/maplehealth_snapshot.jpg",
+      url: "https://maplehealth.up.railway.app/",
       challenge:
         "Aider les familles à trouver la prochaine étape de soins sans présenter d’affirmations médicales comme des faits ni une navigation opaque.",
       solution:
@@ -154,8 +154,8 @@ const concepts = {
     {
       title: "Summit Industrial Systems",
       industry: "Concept de fabrication et d’automatisation",
-      image: "/concept-summit.svg",
-      url: "https://web-production-240db8.up.railway.app",
+      image: "/summit_snapshot.jpg",
+      url: "https://summitindustrial.up.railway.app/",
       challenge:
         "Offrir aux dirigeants d’usine une clarté sur les capacités sans fausses certifications, sans allégations de débit ni brochures vagues.",
       solution:
@@ -166,8 +166,8 @@ const concepts = {
     {
       title: "Skyline Commercial Realty",
       industry: "Concept d’immobilier commercial",
-      image: "/concept-skyline.svg",
-      url: "https://web-production-252f4.up.railway.app",
+      image: "/skyline_snapshot.jpg",
+      url: "https://skylinerealty.up.railway.app/",
       challenge:
         "Présenter l’espace commercial aux occupants et investisseurs sans inventaire MLS fictif, sans allégations de ROI ni flux non vérifié.",
       solution:

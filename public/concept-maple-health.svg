@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Maple Health Medical Centre website concept</title>
+  <desc id="desc">A polished multidisciplinary clinic homepage concept with soft teal and sage palette, clear care pathways, and an appointment CTA.</desc>
+  <rect width="1200" height="675" fill="#eef3f2"/>
+  <rect x="0" y="0" width="1200" height="80" fill="#fff"/>
+  <circle cx="68" cy="40" r="20" fill="#2a7a7b"/>
+  <text x="104" y="49" font-family="Georgia" font-weight="700" font-size="24" fill="#0f3d3e">Maple Health Medical Centre</text>
+  <text x="700" y="48" font-family="Arial" font-size="17" fill="#5a7374">Services   Pathways   Team   Contact</text>
+  <rect x="1010" y="20" rx="10" width="150" height="42" fill="#2a7a7b"/>
+  <text x="1030" y="47" font-family="Arial" font-weight="700" font-size="14" fill="#fff">Contact clinic</text>
+  <circle cx="280" cy="360" r="200" fill="#d4e5e4"/>
+  <circle cx="320" cy="320" r="130" fill="#b8d4d2"/>
+  <ellipse cx="320" cy="470" rx="110" ry="40" fill="#fff" opacity=".7"/>
+  <rect x="240" y="250" rx="60" width="160" height="200" fill="#fff" opacity=".55"/>
+  <text x="620" y="190" font-family="Arial" font-weight="700" font-size="15" fill="#2a7a7b" letter-spacing="1.5">MULTIDISCIPLINARY CLINIC CONCEPT</text>
+  <text x="620" y="260" font-family="Georgia" font-weight="700" font-size="44" fill="#0f3d3e">Care you can follow,</text>
+  <text x="620" y="318" font-family="Georgia" font-weight="700" font-size="44" fill="#0f3d3e">visit by visit.</text>
+  <text x="620" y="375" font-family="Arial" font-size="19" fill="#5a7374">Clear pathways for families and recovery </text>
+  <text x="620" y="405" font-family="Arial" font-size="19" fill="#5a7374">so the next step is never a mystery.</text>
+  <rect x="620" y="450" rx="10" width="230" height="52" fill="#2a7a7b"/>
+  <text x="648" y="483" font-family="Arial" font-weight="700" font-size="16" fill="#fff">Request an appointment</text>
+  <rect x="870" y="450" rx="10" width="160" height="52" fill="#fff" stroke="#2a7a7b" stroke-width="2"/>
+  <text x="900" y="483" font-family="Arial" font-weight="700" font-size="16" fill="#2a7a7b">View services</text>
+  <rect x="70" y="590" rx="12" width="1060" height="55" fill="#fff"/>
+  <text x="110" y="625" font-family="Arial" font-weight="700" font-size="16" fill="#0f3d3e">Family medicine</text>
+  <text x="420" y="625" font-family="Arial" font-weight="700" font-size="16" fill="#0f3d3e">Physiotherapy</text>
+  <text x="720" y="625" font-family="Arial" font-weight="700" font-size="16" fill="#0f3d3e">Readable care pathways</text>
+</svg>

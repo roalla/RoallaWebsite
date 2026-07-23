@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Skyline Commercial Realty website concept</title>
+  <desc id="desc">A polished commercial real estate homepage concept with graphite and glass blue palette, property briefings, and a briefing request CTA.</desc>
+  <defs>
+    <linearGradient id="sk-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d4dde6"/>
+      <stop offset="45%" stop-color="#eef1f4"/>
+      <stop offset="100%" stop-color="#c5ced6"/>
+    </linearGradient>
+    <linearGradient id="sk-glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a6b8c" stop-opacity=".35"/>
+      <stop offset="100%" stop-color="#1a1f26" stop-opacity=".75"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#sk-sky)"/>
+  <rect x="0" y="0" width="1200" height="80" fill="#1a1f26"/>
+  <rect x="55" y="26" width="30" height="30" rx="2" fill="#3a6b8c"/>
+  <text x="100" y="49" font-family="Georgia" font-weight="700" font-size="24" fill="#f6f8fa">Skyline Commercial Realty</text>
+  <text x="680" y="48" font-family="Arial" font-size="16" fill="#c5ced6">Services   Properties   Process   Contact</text>
+  <rect x="1010" y="20" rx="4" width="150" height="42" fill="#3a6b8c"/>
+  <text x="1028" y="47" font-family="Arial" font-weight="700" font-size="13" fill="#fff">Contact advisor</text>
+  <!-- Glass towers silhouette -->
+  <rect x="80" y="220" width="90" height="380" fill="url(#sk-glass)"/>
+  <rect x="185" y="160" width="110" height="440" fill="url(#sk-glass)"/>
+  <rect x="310" y="250" width="75" height="350" fill="url(#sk-glass)"/>
+  <rect x="400" y="190" width="95" height="410" fill="url(#sk-glass)"/>
+  <line x1="95" y1="260" x2="155" y2="260" stroke="#f6f8fa" stroke-opacity=".15" stroke-width="1"/>
+  <line x1="95" y1="300" x2="155" y2="300" stroke="#f6f8fa" stroke-opacity=".15" stroke-width="1"/>
+  <line x1="95" y1="340" x2="155" y2="340" stroke="#f6f8fa" stroke-opacity=".15" stroke-width="1"/>
+  <line x1="200" y1="200" x2="280" y2="200" stroke="#f6f8fa" stroke-opacity=".15" stroke-width="1"/>
+  <line x1="200" y1="250" x2="280" y2="250" stroke="#f6f8fa" stroke-opacity=".15" stroke-width="1"/>
+  <line x1="200" y1="300" x2="280" y2="300" stroke="#f6f8fa" stroke-opacity=".15" stroke-width="1"/>
+  <line x1="200" y1="350" x2="280" y2="350" stroke="#f6f8fa" stroke-opacity=".15" stroke-width="1"/>
+  <rect x="70" y="595" width="440" height="8" fill="#1a1f26" opacity=".2"/>
+  <text x="560" y="185" font-family="Arial" font-weight="700" font-size="14" fill="#3a6b8c" letter-spacing="2">COMMERCIAL REAL ESTATE CONCEPT</text>
+  <text x="560" y="255" font-family="Georgia" font-weight="700" font-size="40" fill="#1a1f26">Commercial space you</text>
+  <text x="560" y="310" font-family="Georgia" font-weight="700" font-size="40" fill="#1a1f26">can brief with confidence.</text>
+  <text x="560" y="370" font-family="Arial" font-size="19" fill="#5c6770">Property briefings for occupiers and investors</text>
+  <text x="560" y="400" font-family="Arial" font-size="19" fill="#5c6770">who need clarity before they commit.</text>
+  <rect x="560" y="450" rx="4" width="260" height="52" fill="#3a6b8c"/>
+  <text x="585" y="483" font-family="Arial" font-weight="700" font-size="16" fill="#fff">Request a property briefing</text>
+  <rect x="840" y="450" rx="4" width="170" height="52" fill="#fff" stroke="#3a6b8c" stroke-width="2"/>
+  <text x="868" y="483" font-family="Arial" font-weight="700" font-size="16" fill="#3a6b8c">View properties</text>
+  <rect x="560" y="540" rx="8" width="450" height="70" fill="#fff" opacity=".9"/>
+  <text x="585" y="572" font-family="Arial" font-weight="700" font-size="14" fill="#1a1f26">Illustrative assets · Leasing · Investment sales</text>
+  <text x="585" y="596" font-family="Arial" font-size="13" fill="#5c6770">Not a live listings feed  concept demonstration only</text>
+</svg>

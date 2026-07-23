@@ -186,16 +186,13 @@ function projectTypeLabel(
   projectType: PortfolioProjectType,
 ) {
   if (projectType === "client") return t("projectBadgeClient");
-  if (projectType === "roalla-product") return t("projectBadgeRoallaProduct");
-  return t("projectBadgeRoallaSite");
+  return t("projectBadgeRoallaProduct");
 }
 
 function matchesOrigin(item: PortfolioItemConfig, origin: OriginFilter) {
   if (origin === "all") return true;
   if (origin === "client") return item.projectType === "client";
-  return (
-    item.projectType === "roalla-product" || item.projectType === "roalla-site"
-  );
+  return item.projectType === "roalla-product";
 }
 
 const industryTitleKeys = {

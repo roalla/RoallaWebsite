@@ -1,9 +1,8 @@
 export type PortfolioCategory = 'website' | 'platform'
 
-export type PortfolioProjectType = 'client' | 'roalla-product' | 'roalla-site'
+export type PortfolioProjectType = 'client' | 'roalla-product'
 
 export type PortfolioItemId =
-  | 'roalla-site'
   | 'business-cocoon'
   | '4theblueprint'
   | 'soaring-puck'
@@ -82,7 +81,6 @@ export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'kaylan-kaptures',
   'goalie-stop',
   'cold-dejabru-event',
-  'roalla-site',
 ]
 
 /** Domains shown as quick-open chips in the portfolio hero. Featured pitch leads. */
@@ -330,18 +328,6 @@ export const portfolioItems: PortfolioItemConfig[] = [
     tagKeys: ['t15Tag1', 't15Tag2', 't15Tag3'],
     industryCategory: 'professional-services',
   },
-  {
-    id: 'roalla-site',
-    category: 'website',
-    projectType: 'roalla-site',
-    imageUrl: '/roalla-snapshot.jpg',
-    tryUrl: 'https://www.roalla.com',
-    domain: 'roalla.com',
-    contactService: 'websites-brand',
-    i18nPrefix: 't5',
-    tagKeys: ['t5Tag1', 't5Tag2', 't5Tag3'],
-    industryCategory: 'professional-services',
-  },
 ]
 
 /** Verifiable counts derived from the published portfolio records in this repository. */
@@ -352,7 +338,6 @@ export const portfolioMetrics = {
 } as const
 
 export const portfolioImageAlts: Record<PortfolioItemId, string> = {
-  'roalla-site': 'ROALLA business enablement website homepage',
   'business-cocoon': 'The Business Cocoon products catalog with guided workflows',
   '4theblueprint': '4 The Blueprint course planner — certification framework, guided wizard, and lean launch path',
   'soaring-puck': 'Soaring Puck youth hockey platform dashboard',

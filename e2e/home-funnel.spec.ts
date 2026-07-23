@@ -32,7 +32,7 @@ test.describe('Homepage funnel', () => {
     await expect(
       page.getByRole('heading', { name: 'Become easier to find, understand, and trust' }),
     ).toBeVisible()
-    await expect(page.getByText('5 websites · 9 digital products · 14 verified examples')).toBeVisible()
+    await expect(page.getByText('4 websites · 9 digital products · 13 verified examples')).toBeVisible()
   })
 
   test('new homepage positioning has French parity', async ({ page }) => {

@@ -83,6 +83,7 @@ const concepts = {
       title: "Harbour Community Care",
       industry: "Healthcare concept",
       image: "/concept-community-care.svg",
+      url: "https://web-production-39708.up.railway.app",
       challenge:
         "Make services, eligibility, accessibility, and booking understandable without overwhelming visitors.",
       solution:
@@ -94,6 +95,7 @@ const concepts = {
       title: "Northline Field Services",
       industry: "Industrial services concept",
       image: "/concept-field-services.svg",
+      url: "https://web-production-47133.up.railway.app",
       challenge:
         "Help urgent and planned-service buyers confirm capability, service area, safety, and availability quickly.",
       solution:
@@ -179,6 +181,7 @@ const concepts = {
       title: "Harbour Community Care",
       industry: "Concept de soins de santé",
       image: "/concept-community-care.svg",
+      url: "https://web-production-39708.up.railway.app",
       challenge:
         "Rendre les services, l’admissibilité, l’accessibilité et la réservation compréhensibles sans surcharger les visiteurs.",
       solution:
@@ -190,6 +193,7 @@ const concepts = {
       title: "Northline Field Services",
       industry: "Concept de services industriels",
       image: "/concept-field-services.svg",
+      url: "https://web-production-47133.up.railway.app",
       challenge:
         "Aider les acheteurs urgents et planifiés à confirmer rapidement capacité, territoire, sécurité et disponibilité.",
       solution:

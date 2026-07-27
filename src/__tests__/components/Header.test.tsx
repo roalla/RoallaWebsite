@@ -53,6 +53,15 @@ describe('Header', () => {
     expect(screen.getByRole('link', { name: /scheduleConsultationDigital/i })).toBeInTheDocument()
   })
 
+  it('renders Client Portal link to portal.roalla.com', () => {
+    render(<Header />)
+    const portalLinks = screen.getAllByRole('link', { name: 'clientPortalAria' })
+    expect(portalLinks.length).toBeGreaterThan(0)
+    portalLinks.forEach((link) => {
+      expect(link).toHaveAttribute('href', 'https://portal.roalla.com')
+    })
+  })
+
   it('renders digital enablement dropdown with digital service links', () => {
     render(<Header />)
     const digitalButton = screen.getByRole('button', { name: 'digitalEnablement' })

@@ -12,6 +12,7 @@ import {
   randomPkceVerifier,
   storePkceVerifier,
 } from '@/lib/roalla-auth/pkce-client'
+import { CLIENT_PORTAL_URL } from '@/lib/site'
 
 type Props = {
   callbackUrl: string
@@ -246,6 +247,16 @@ export default function HubLoginForm({
             </p>
           )}
         </div>
+
+        <p className="mt-6 text-center text-sm text-slate-500">
+          {t('loginClientPortalPrompt')}{' '}
+          <a
+            href={CLIENT_PORTAL_URL}
+            className="font-medium text-primary-dark hover:underline"
+          >
+            {t('loginClientPortalLink')}
+          </a>
+        </p>
       </div>
 
       {mfaOpen && (

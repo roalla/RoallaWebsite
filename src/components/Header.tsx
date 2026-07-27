@@ -19,6 +19,7 @@ import { usePathname as useNextPathname } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import ScheduleButton from "./ScheduleButton";
+import { CLIENT_PORTAL_URL } from "@/lib/site";
 
 /** Canadian flag: red bands, white centre, red maple leaf (simplified) */
 function CanadianFlagIcon({ className }: { className?: string }) {
@@ -460,6 +461,10 @@ const Header = () => {
     ? "flex items-center gap-1.5 text-sm font-medium text-white/90 hover:text-white bg-white/10 hover:bg-white/15 border border-white/20 rounded-lg px-2.5 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
     : "flex items-center gap-1.5 text-sm font-medium text-slate-700 hover:text-slate-900 bg-slate-900/5 hover:bg-slate-900/10 border border-slate-300/70 rounded-lg px-2.5 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors";
 
+  const clientPortalLinkClass = overDark
+    ? "text-sm font-medium text-gray-300 hover:text-primary whitespace-nowrap transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black rounded-md px-1 py-2"
+    : "text-sm font-medium text-slate-600 hover:text-primary whitespace-nowrap transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white rounded-md px-1 py-2";
+
   const mobileToggleClass = overDark
     ? "mobile-nav-toggle p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black min-h-[44px] min-w-[44px] flex items-center justify-center"
     : "mobile-nav-toggle p-2 rounded-lg bg-slate-900/5 hover:bg-slate-900/10 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white min-h-[44px] min-w-[44px] flex items-center justify-center";
@@ -731,6 +736,13 @@ const Header = () => {
                 </div>
               </div>
             )}
+            <a
+              href={CLIENT_PORTAL_URL}
+              className={clientPortalLinkClass}
+              aria-label={t("clientPortalAria")}
+            >
+              {t("clientPortal")}
+            </a>
             <div className="flex items-center">
               <ScheduleButton
                 variant="primary"
@@ -930,6 +942,15 @@ const Header = () => {
                   </div>
                 </div>
               </div>
+
+              <a
+                href={CLIENT_PORTAL_URL}
+                className="block px-3 py-3 min-h-[44px] flex items-center rounded-md text-base font-medium text-gray-300 hover:text-primary hover:bg-white/5 transition-colors duration-200 border-t border-white/10"
+                aria-label={t("clientPortalAria")}
+                onClick={closeMenu}
+              >
+                {t("clientPortal")}
+              </a>
 
               {isLocaleRoute && (
                 <div

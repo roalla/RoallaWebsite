@@ -66,7 +66,9 @@
     "closeMenu": "Fermer le menu",
     "foundingPromoLabel": "Forfaits sites — dès 999 $",
     "foundingPromoShort": "Forfaits dès 999 $",
-    "foundingPromoMenuDesc": "Lancement · Visibilité · Croissance · Sur mesure"
+    "foundingPromoMenuDesc": "Lancement · Visibilité · Croissance · Sur mesure",
+    "clientPortal": "Portail client",
+    "clientPortalAria": "Se connecter au portail client Roalla"
   },
   "footer": {
     "apps": "Applications Roalla",
@@ -92,6 +94,8 @@
     "programs": "Conseil et ateliers",
     "insights": "Perspectives",
     "useCases": "Cas d'usage",
+    "clientPortal": "Portail client",
+    "clientPortalAria": "Se connecter au portail client Roalla",
     "teamSignIn": "Connexion employés",
     "terms": "Conditions d'utilisation",
     "privacy": "Politique de confidentialité",
@@ -2382,6 +2386,8 @@
     "loginSigningIn": "Connexion…",
     "loginForgotPassword": "Mot de passe oublié?",
     "loginNeedAccess": "Besoin d'accès? Contactez",
+    "loginClientPortalPrompt": "Vous cherchez votre espace projet?",
+    "loginClientPortalLink": "Ouvrir le portail client",
     "loginVerified": "Courriel vérifié. Vous pouvez vous connecter.",
     "loginNotConfigured": "La connexion n'est pas configurée.",
     "loginMfaTitle": "Authentification à deux facteurs",

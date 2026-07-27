@@ -66,7 +66,9 @@
     "closeMenu": "Close menu",
     "foundingPromoLabel": "Website packages — from $999",
     "foundingPromoShort": "Packages from $999",
-    "foundingPromoMenuDesc": "Launch · Visibility · Growth · Custom"
+    "foundingPromoMenuDesc": "Launch · Visibility · Growth · Custom",
+    "clientPortal": "Client Portal",
+    "clientPortalAria": "Sign in to the Roalla Client Portal"
   },
   "footer": {
     "apps": "Roalla apps",
@@ -92,6 +94,8 @@
     "programs": "Advisory & Workshops",
     "insights": "Insights",
     "useCases": "Use Cases",
+    "clientPortal": "Client Portal",
+    "clientPortalAria": "Sign in to the Roalla Client Portal",
     "teamSignIn": "Employee sign in",
     "terms": "Terms & Conditions",
     "privacy": "Privacy Policy",
@@ -2382,6 +2386,8 @@
     "loginSigningIn": "Signing in…",
     "loginForgotPassword": "Forgot password?",
     "loginNeedAccess": "Need access? Contact",
+    "loginClientPortalPrompt": "Looking for your project workspace?",
+    "loginClientPortalLink": "Open Client Portal",
     "loginVerified": "Email verified. You can sign in now.",
     "loginNotConfigured": "Sign-in is not configured.",
     "loginMfaTitle": "Two-factor authentication",

@@ -6,6 +6,7 @@ const scriptSrc =
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "standalone",
   async redirects() {
     const legacyAppRedirects = [
       // Legacy auth → internal hub

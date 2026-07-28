@@ -1,14 +1,21 @@
+# Fallback if Railway uses Nixpacks instead of Dockerfile.
 [phases.setup]
 nixPkgs = ["nodejs_20"]
 
 [variables]
 NODE_VERSION = "20"
+NODE_ENV = "production"
+NEXT_TELEMETRY_DISABLED = "1"
 
 [phases.install]
 cmds = ["npm ci"]
 
 [phases.build]
-cmds = ["npm run build"]
+cmds = [
+  "npm run build",
+  "npm prune --omit=dev",
+  "rm -rf node_modules/@playwright node_modules/playwright node_modules/playwright-core node_modules/jest node_modules/eslint 2>/dev/null || true"
+]
 
 [start]
 cmd = "npm start"

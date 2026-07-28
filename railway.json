@@ -1,12 +1,25 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "builder": "NIXPACKS"
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "Dockerfile",
+    "watchPatterns": [
+      "Dockerfile",
+      "package.json",
+      "package-lock.json",
+      "next.config.js",
+      "src/**",
+      "public/**",
+      "messages/**",
+      "vendor/**",
+      ".dockerignore"
+    ]
   },
   "deploy": {
-    "startCommand": "npm start",
+    "startCommand": "node server.js",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10,
+    "healthcheckPath": "/",
     "multiRegionConfig": {
       "us-west2": {
         "numReplicas": 1

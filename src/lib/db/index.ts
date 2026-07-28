@@ -419,6 +419,9 @@ function getPool(): Pool {
           : process.env.NODE_ENV === 'production'
             ? { rejectUnauthorized: false }
             : undefined,
+      max: Number(process.env.PG_POOL_MAX) || 3,
+      idleTimeoutMillis: Number(process.env.PG_IDLE_TIMEOUT_MS) || 10_000,
+      connectionTimeoutMillis: Number(process.env.PG_CONNECT_TIMEOUT_MS) || 5_000,
     })
   }
   return pool

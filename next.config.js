@@ -213,6 +213,17 @@ const nextConfig = {
         destination: "/:locale/services/portfolio",
         permanent: true,
       },
+      // Retired product: Business Cocoon case study
+      {
+        source: "/services/portfolio/business-cocoon",
+        destination: "/en/services/portfolio",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|fr)/services/portfolio/business-cocoon",
+        destination: "/:locale/services/portfolio",
+        permanent: true,
+      },
       {
         source: "/founding-client",
         destination: "/en/website-package",

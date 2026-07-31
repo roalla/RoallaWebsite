@@ -52,7 +52,6 @@ const capabilityCards = [
 ]
 
 const portfolioNameKey: Record<PortfolioItemId, string> = {
-  'business-cocoon': 't4Name',
   '4theblueprint': 't7Name',
   'soaring-puck': 't1Name',
   'cold-dejabru-event': 't6Name',

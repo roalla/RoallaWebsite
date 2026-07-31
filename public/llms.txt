@@ -43,7 +43,6 @@
 
 ## Portfolio case studies
 - GRC Status: https://www.roalla.com/en/services/portfolio/grcstatus
-- The Business Cocoon: https://www.roalla.com/en/services/portfolio/business-cocoon
 - Pitch Hotshots: https://www.roalla.com/en/services/portfolio/pitch-hotshots
 - Boothlio: https://www.roalla.com/en/services/portfolio/boothlio
 - UnJargon It: https://www.roalla.com/en/services/portfolio/unjargonit

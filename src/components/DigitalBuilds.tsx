@@ -68,7 +68,6 @@ function portfolioItemName(
 ) {
   const map = {
     t1: "t1Name",
-    t4: "t4Name",
     t5: "t5Name",
     t6: "t6Name",
     t7: "t7Name",
@@ -229,7 +228,7 @@ const DigitalBuilds = () => {
       icon: buildIcons[3],
       requestCta: t("s3RequestCta"),
       proofText: t("s3Proof"),
-      proofHash: "business-cocoon",
+      proofHash: "pitch-hotshots",
       proofReference: "pitch-hotshots",
       timeline: t("aiTimeline"),
       anchor: buildAnchors[3],

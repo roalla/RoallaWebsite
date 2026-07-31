@@ -3,7 +3,6 @@ export type PortfolioCategory = 'website' | 'platform'
 export type PortfolioProjectType = 'client' | 'roalla-product'
 
 export type PortfolioItemId =
-  | 'business-cocoon'
   | '4theblueprint'
   | 'soaring-puck'
   | 'cold-dejabru-event'
@@ -36,7 +35,7 @@ export type PortfolioItemConfig = {
   tryUrl: string
   domain?: string
   contactService: 'websites-brand' | 'custom-platforms'
-  i18nPrefix: 't5' | 't4' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10' | 't11' | 't12' | 't13' | 't14' | 't15' | 't16'
+  i18nPrefix: 't5' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10' | 't11' | 't12' | 't13' | 't14' | 't15' | 't16'
   tagKeys?: readonly [string, string, string]
   /** Shown in the featured case-study block for this category */
   featuredCategory?: PortfolioCategory
@@ -68,7 +67,6 @@ export type PortfolioIndustryCategoryConfig = {
 
 /** Hero / proof grids: platforms first, then websites */
 export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
-  'business-cocoon',
   'grcstatus',
   '4theblueprint',
   'unjargonit',
@@ -111,7 +109,7 @@ export const portfolioCuratedPaths = [
   },
   {
     id: 'custom-platform',
-    itemIds: ['grcstatus', 'business-cocoon', 'boothlio'] as const satisfies readonly PortfolioItemId[],
+    itemIds: ['grcstatus', 'boothlio'] as const satisfies readonly PortfolioItemId[],
   },
   {
     id: 'education',
@@ -163,25 +161,13 @@ export const portfolioIndustryCategories: PortfolioIndustryCategoryConfig[] = [
   },
   {
     id: 'business-platforms',
-    itemIds: ['business-cocoon', 'pitch-hotshots'],
+    itemIds: ['pitch-hotshots'],
     contactService: 'custom-platforms',
     i18nPrefix: 'industryPlatforms',
   },
 ]
 
 export const portfolioItems: PortfolioItemConfig[] = [
-  {
-    id: 'business-cocoon',
-    category: 'platform',
-    projectType: 'roalla-product',
-    imageUrl: '/businesscocoon_image.jpg',
-    tryUrl: 'https://www.businesscocoon.com/products',
-    domain: 'businesscocoon.com',
-    contactService: 'custom-platforms',
-    i18nPrefix: 't4',
-    tagKeys: ['t4Tag1', 't4Tag2', 't4Tag3'],
-    industryCategory: 'business-platforms',
-  },
   {
     id: '4theblueprint',
     category: 'platform',
@@ -338,7 +324,6 @@ export const portfolioMetrics = {
 } as const
 
 export const portfolioImageAlts: Record<PortfolioItemId, string> = {
-  'business-cocoon': 'The Business Cocoon products catalog with guided workflows',
   '4theblueprint': '4 The Blueprint course planner — certification framework, guided wizard, and lean launch path',
   'soaring-puck': 'Soaring Puck youth hockey platform dashboard',
   'cold-dejabru-event': 'Cold Deja Bru event landing page — six-step MR. COLDBRU demo, QR paths from the booth floor, and persona-specific CTAs',

@@ -10,7 +10,6 @@ import { Link } from "@/i18n/navigation";
 import ScheduleButton from "./ScheduleButton";
 import StickyMobileCTA from "./StickyMobileCTA";
 import BrowserFrame from "./digital/BrowserFrame";
-import PortfolioConcepts from "./portfolio/PortfolioConcepts";
 import { ServicePageHero } from "./services/ServicePageSections";
 import {
   getOrderedPortfolioItems,
@@ -50,14 +49,6 @@ function getItemCopy(
       b2: "t1B2",
       b3: "t1B3",
       cs: "t1CaseStudy",
-    },
-    t4: {
-      name: "t4Name",
-      desc: "t4Desc",
-      b1: "t4B1",
-      b2: "t4B2",
-      b3: "t4B3",
-      cs: "t4CaseStudy",
     },
     t5: {
       name: "t5Name",
@@ -171,7 +162,6 @@ function categoryLabel(
 ) {
   if (item.category === "website") return t("categoryWebsite");
   if (
-    item.i18nPrefix === "t4" ||
     item.i18nPrefix === "t7" ||
     item.i18nPrefix === "t13" ||
     item.i18nPrefix === "t14"
@@ -742,8 +732,6 @@ const DigitalCreations = ({
           </p>
         )}
       </div>
-
-      {categoryFilter !== 'platform' ? <PortfolioConcepts /> : null}
 
       <Reveal
         id="digital-cta"

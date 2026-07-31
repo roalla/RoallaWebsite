@@ -115,7 +115,7 @@ Long lines = strong interest + drop-off risk. Put **QR (and optional NFC) at the
 
 - **What:** Step-by-step “how it works,” before/after sliders, short product video with chapters, ROI calculators, or product-fit quiz ending in a recommended tier.
 - **Why:** Booth staff repeat one story; visitors self-serve when the booth is busy.
-- **Roalla fit:** Business Cocoon-style guided workflows. Reusable “demo wizard” module.
+- **Roalla fit:** Guided-workflow builds. Reusable “demo wizard” module.
 - **Dependencies:** Product copy and visuals · Demo step outline from client
 
 ### Floor-optimized lead capture · Small (days)
@@ -198,7 +198,7 @@ Conferences and multi-day events.
 
 Complex B2B products where qualification matters.
 
-- Custom wizard or scorecard (Business Cocoon pattern)
+- Custom wizard or scorecard (guided-workflow pattern)
 - Exportable brief for sales follow-up
 - Optional bilingual EN/FR
 

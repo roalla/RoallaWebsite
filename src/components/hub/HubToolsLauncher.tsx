@@ -10,10 +10,6 @@ const HUB_TOOL_KEYS: Record<
   (typeof companyApps)[number]['id'],
   { nameKey: string; descKey: string }
 > = {
-  'business-cocoon': {
-    nameKey: 'toolBusinessCocoon',
-    descKey: 'toolBusinessCocoonDesc',
-  },
   '4theblueprint': {
     nameKey: 'toolBlueprint',
     descKey: 'toolBlueprintDesc',

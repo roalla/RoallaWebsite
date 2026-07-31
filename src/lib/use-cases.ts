@@ -63,7 +63,7 @@ export const USE_CASES = [
     id: 'ai-workflows',
     category: 'ai',
     maturity: 'proven',
-    portfolio: ['business-cocoon', 'pitch-hotshots'] as const satisfies readonly CaseStudySlug[],
+    portfolio: ['pitch-hotshots'] as const satisfies readonly CaseStudySlug[],
   },
 ] as const
 

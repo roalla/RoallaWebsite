@@ -281,7 +281,7 @@ export const playbookBoothFeatures: PlaybookFeature[] = [
     title: 'Guided product demo flows',
     what: 'Step-by-step “how it works,” before/after sliders, short product video with chapters, ROI calculators, or product-fit quiz ending in a recommended tier.',
     why: 'Booth staff repeat one story; visitors self-serve when the booth is busy. Product education scales beyond headcount.',
-    roallaFit: 'Strong overlap with Business Cocoon-style guided workflows. Reusable “demo wizard” module.',
+    roallaFit: 'Strong overlap with our guided-workflow builds. Reusable “demo wizard” module.',
     effort: 'M',
     dependencies: ['Product copy and visuals', 'Demo step outline from client'],
   },
@@ -399,7 +399,7 @@ export const playbookPackages: PlaybookPackage[] = [
     timeline: 'Scoped after discovery',
     bestFor: 'Complex B2B products where qualification matters more than a single landing page.',
     includes: [
-      'Custom wizard or scorecard (Business Cocoon pattern)',
+      'Custom wizard or scorecard (guided-workflow pattern)',
       'Exportable brief for sales follow-up',
       'Optional bilingual EN/FR',
     ],

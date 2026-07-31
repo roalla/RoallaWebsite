@@ -239,7 +239,7 @@ export default function DigitalEventsPlaybook() {
         </p>
       </header>
 
-      <nav aria-label="Playbook sections" className="mb-8 sticky top-[calc(4rem+env(safe-area-inset-top,0px))] z-20 lg:top-[calc(5rem+env(safe-area-inset-top,0px))]">
+      <nav aria-label="Playbook sections" className="mb-8 sticky top-[calc(4rem+env(safe-area-inset-top,0px))] z-20 xl:top-[calc(5rem+env(safe-area-inset-top,0px))]">
         <div className="rounded-xl border border-slate-300 bg-white/95 backdrop-blur-md px-3 py-3 shadow-card">
           <p className="px-1 pb-2 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-600">Jump to</p>
           <div className="flex flex-wrap gap-2">

@@ -414,15 +414,13 @@ const Header = () => {
   const foundingPromoLink = showFoundingPromo ? (
     <Link
       href="/website-package"
-      className={foundingPromoLinkClass}
+      className={`${foundingPromoLinkClass} hidden xl:flex`}
       aria-label={t("foundingPromoLabel")}
       title={t("foundingPromoLabel")}
       onClick={closeMenu}
     >
       <Flag className="h-4 w-4 shrink-0" aria-hidden />
-      <span className="hidden 2xl:inline whitespace-nowrap">
-        {t("foundingPromoShort")}
-      </span>
+      <span className="sr-only">{t("foundingPromoShort")}</span>
     </Link>
   ) : null;
 
@@ -488,7 +486,7 @@ const Header = () => {
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
         aria-label="Main navigation"
       >
-        <div className="flex items-center justify-between gap-6 h-16 lg:h-20">
+        <div className="flex items-center justify-between gap-3 xl:gap-4 h-16 xl:h-20">
           {/* Logo */}
           <div className="flex-shrink-0 min-w-0 max-w-[140px] sm:max-w-[200px]">
             <Link
@@ -509,7 +507,7 @@ const Header = () => {
               </div>
               <div className="min-w-0">
                 <span
-                  className={`text-base sm:text-xl font-bold ${brandTextClass} transition-colors duration-200 truncate`}
+                  className={`text-base sm:text-lg 2xl:text-xl font-bold ${brandTextClass} transition-colors duration-200 truncate`}
                 >
                   {tCommon("companyName")}
                 </span>
@@ -518,8 +516,8 @@ const Header = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center justify-center min-w-0 flex-1 px-2 xl:px-4">
-            <div className="flex items-center justify-center gap-5 xl:gap-8">
+          <div className="hidden xl:flex items-center justify-center min-w-0 flex-1">
+            <div className="flex items-center justify-center gap-4 xl:gap-5 2xl:gap-6">
               <div className="relative" ref={digitalDropdownDesktopRef}>
                 <button
                   type="button"
@@ -527,7 +525,7 @@ const Header = () => {
                   aria-expanded={digitalDropdownOpen}
                   aria-haspopup="menu"
                   id="digital-dropdown-desktop"
-                  className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
+                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
                     isDigitalActive || digitalDropdownOpen
                       ? "text-primary"
                       : navIdleClass
@@ -595,7 +593,7 @@ const Header = () => {
                   aria-current={
                     isActive("/services/portfolio") ? "page" : undefined
                   }
-                  className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap block py-2 ${
+                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap block py-2 ${
                     isActive("/services/portfolio")
                       ? "text-primary"
                       : navIdleClass
@@ -620,7 +618,7 @@ const Header = () => {
                   aria-expanded={programsDropdownOpen}
                   aria-haspopup="menu"
                   id="programs-dropdown-desktop"
-                  className={`text-sm xl:text-base font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
+                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
                     isProgramsActive || programsDropdownOpen
                       ? "text-primary"
                       : navIdleClass
@@ -681,7 +679,7 @@ const Header = () => {
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center justify-end gap-2 xl:gap-3 flex-shrink-0">
+          <div className="hidden xl:flex items-center justify-end gap-2 xl:gap-3 flex-shrink-0">
             {foundingPromoLink}
             {isLocaleRoute && (
               <div
@@ -738,7 +736,7 @@ const Header = () => {
             )}
             <a
               href={CLIENT_PORTAL_URL}
-              className={clientPortalLinkClass}
+              className={`${clientPortalLinkClass} hidden xl:block`}
               aria-label={t("clientPortalAria")}
             >
               {t("clientPortal")}
@@ -748,7 +746,7 @@ const Header = () => {
                 variant="primary"
                 size="sm"
                 icon
-                className="!py-2.5 !px-5 !text-sm"
+                className="!py-2.5 !px-3.5 xl:!px-4 2xl:!px-5 !text-sm"
                 hoverHint={headerCtaSubtext}
               >
                 {headerCtaLabel}
@@ -757,7 +755,7 @@ const Header = () => {
           </div>
 
           {/* Mobile menu button */}
-          <div className="lg:hidden flex items-center space-x-2">
+          <div className="xl:hidden flex items-center space-x-2">
             {showFoundingPromo && (
               <Link
                 href="/website-package"
@@ -796,7 +794,7 @@ const Header = () => {
             aria-modal="true"
             aria-label="Mobile navigation"
             onKeyDown={handleMenuKeyDown}
-            className="lg:hidden overflow-hidden fixed left-0 right-0 z-50 shadow-lg top-[calc(4rem+env(safe-area-inset-top,0px))] flex flex-col mobile-menu-panel mobile-menu-panel-open"
+            className="xl:hidden overflow-hidden fixed left-0 right-0 z-50 shadow-lg top-[calc(4rem+env(safe-area-inset-top,0px))] flex flex-col mobile-menu-panel mobile-menu-panel-open"
             style={{
               maxHeight: "calc(100vh - 4rem - env(safe-area-inset-top, 0px))",
             }}
@@ -1029,7 +1027,7 @@ const Header = () => {
       {/* Backdrop - cursor-pointer to show it's clickable */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 bg-black/60 z-30 lg:hidden cursor-pointer transition-opacity duration-200"
+          className="fixed inset-0 bg-black/60 z-30 xl:hidden cursor-pointer transition-opacity duration-200"
           onClick={closeMenu}
           aria-hidden="true"
         />

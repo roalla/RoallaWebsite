@@ -55,7 +55,7 @@ export default function StickyMobileCTA({
 
   return (
     <div
-      className="fixed bottom-0 inset-x-0 z-30 lg:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_30px_rgba(15,23,42,0.12)]"
+      className="fixed bottom-0 inset-x-0 z-30 xl:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_30px_rgba(15,23,42,0.12)]"
       role="region"
       aria-label={label}
     >

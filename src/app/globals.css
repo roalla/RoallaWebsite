@@ -404,6 +404,148 @@
     animation: insight-card-enter 0.45s ease-out;
   }
 
+  /* ---------- About / founder story ---------- */
+
+  @keyframes about-aurora-drift {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    33% {
+      transform: translate3d(4%, -6%, 0) scale(1.14);
+    }
+    66% {
+      transform: translate3d(-5%, 5%, 0) scale(0.92);
+    }
+  }
+
+  .about-aurora {
+    animation: about-aurora-drift 20s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .about-aurora-slow {
+    animation-duration: 30s;
+    animation-direction: reverse;
+  }
+
+  .about-aurora-offset {
+    animation-duration: 25s;
+    animation-delay: -8s;
+  }
+
+  .about-grid {
+    background-image:
+      linear-gradient(rgb(255 255 255 / 0.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(255 255 255 / 0.055) 1px, transparent 1px);
+    background-size: 58px 58px;
+    mask-image: radial-gradient(ellipse 75% 65% at 50% 35%, #000 10%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 35%, #000 10%, transparent 78%);
+  }
+
+  @keyframes about-shimmer {
+    to {
+      background-position: 200% center;
+    }
+  }
+
+  .about-shimmer-text {
+    background-image: linear-gradient(
+      100deg,
+      #ffffff 18%,
+      #7fe6f0 34%,
+      #ffd700 50%,
+      #7fe6f0 66%,
+      #ffffff 82%
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: about-shimmer 7s linear infinite;
+  }
+
+  @keyframes about-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-14px);
+    }
+  }
+
+  .about-float {
+    animation: about-float 7.5s ease-in-out infinite;
+  }
+
+  @keyframes about-ring-spin {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+
+  .about-ring-spin {
+    animation: about-ring-spin 16s linear infinite;
+  }
+
+  @keyframes about-pulse-glow {
+    0%,
+    100% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.7;
+      transform: scale(1.07);
+    }
+  }
+
+  .about-pulse-glow {
+    animation: about-pulse-glow 6s ease-in-out infinite;
+  }
+
+  .about-card {
+    @apply transition-transform duration-300 ease-out;
+  }
+
+  .about-card:hover,
+  .about-card:focus-within {
+    @apply -translate-y-1.5;
+  }
+
+  /* Gradient hairline that fades in on hover, drawn with a masked ring */
+  .about-glow-border::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgb(0 180 197 / 0.85), rgb(255 215 0 / 0.6));
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .about-glow-border:hover::after,
+  .about-glow-border:focus-within::after {
+    opacity: 1;
+  }
+
+  .about-rule {
+    transform-origin: left center;
+    animation: hero-rule-draw 0.8s ease-out 0.25s both;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal-hidden,
     .reveal-visible {
@@ -446,6 +588,22 @@
     .marquee-mask {
       mask-image: none;
       -webkit-mask-image: none;
+    }
+
+    .about-aurora,
+    .about-float,
+    .about-ring-spin,
+    .about-pulse-glow,
+    .about-shimmer-text,
+    .about-rule {
+      animation: none;
+    }
+
+    .about-card,
+    .about-card:hover,
+    .about-card:focus-within {
+      transform: none;
+      transition: none;
     }
   }
 }

@@ -40,10 +40,10 @@ export default async function AboutPage({ params }: Props) {
           founderPersonJsonLd(locale, tAbout('founderBio1')),
         ]}
       />
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28">
         <Breadcrumb items={[{ label: t('home'), href: '/' }, { label: t('about') }]} />
-        <About />
       </div>
+      <About />
     </div>
   )
 }

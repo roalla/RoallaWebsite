@@ -5,7 +5,7 @@ import Breadcrumb from '@/components/Breadcrumb'
 import About from '@/components/About'
 import JsonLd from '@/components/JsonLd'
 import { buildPageMetadata } from '@/lib/page-metadata'
-import { aboutPageJsonLd, breadcrumbJsonLd } from '@/lib/structured-data'
+import { aboutPageJsonLd, breadcrumbJsonLd, founderPersonJsonLd } from '@/lib/structured-data'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -37,6 +37,7 @@ export default async function AboutPage({ params }: Props) {
             { name: t('about') },
           ]),
           aboutPageJsonLd(locale, tAbout('metadataDescription')),
+          founderPersonJsonLd(locale, tAbout('founderBio1')),
         ]}
       />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-8">

@@ -272,13 +272,56 @@ export function serviceInquiryPageJsonLd(
 }
 
 export function aboutPageJsonLd(locale: string, description: string) {
+  const french = locale === "fr";
+
   return {
     "@context": "https://schema.org",
     "@type": "AboutPage",
-    name: "About Roalla Business Enablement Group",
+    name: french
+      ? "À propos de Roalla Business Enablement Group"
+      : "About Roalla Business Enablement Group",
     description,
     url: pageUrl(locale, "/about"),
     mainEntity: { "@id": `${SITE_URL}/#organization` },
+    about: [
+      { "@id": `${SITE_URL}/#organization` },
+      { "@id": `${SITE_URL}/#steven-robin` },
+    ],
+    inLanguage: french ? "fr-CA" : "en-CA",
+  };
+}
+
+export function founderPersonJsonLd(locale: string, description: string) {
+  const french = locale === "fr";
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": `${SITE_URL}/#steven-robin`,
+    name: "Steven Robin",
+    jobTitle: french ? "Fondateur et conseiller principal" : "Founder & Principal Consultant",
+    description,
+    url: pageUrl(locale, "/about"),
+    sameAs: ["https://www.linkedin.com/in/stevenrobin/"],
+    worksFor: { "@id": `${SITE_URL}/#organization` },
+    knowsLanguage: ["English", "French"],
+    knowsAbout: [
+      "business transformation",
+      "digital strategy",
+      "technology strategy",
+      "product development",
+      "operations",
+      "service management",
+      "customer experience",
+      "solution architecture",
+      "workflow automation",
+    ],
+    award: [
+      "Bell Bravo Award",
+      "Bell Business Markets President's Club",
+      "Bell Unity Award",
+      "Bell Excellence and Innovation Awards",
+    ],
   };
 }
 

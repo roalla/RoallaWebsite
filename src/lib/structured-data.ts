@@ -301,6 +301,7 @@ export function founderPersonJsonLd(locale: string, description: string) {
     name: "Steven Robin",
     jobTitle: french ? "Fondateur et conseiller principal" : "Founder & Principal Consultant",
     description,
+    image: `${SITE_URL}/images/team/steven-robin.webp`,
     url: pageUrl(locale, "/about"),
     sameAs: ["https://www.linkedin.com/in/stevenrobin/"],
     worksFor: { "@id": `${SITE_URL}/#organization` },

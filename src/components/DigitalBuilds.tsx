@@ -80,6 +80,8 @@ function portfolioItemName(
     t14: "t14Name",
     t15: "t15Name",
     t16: "t16Name",
+    t17: "t17Name",
+    t18: "t18Name",
   } as const;
   return tPortfolio(map[item.i18nPrefix]);
 }

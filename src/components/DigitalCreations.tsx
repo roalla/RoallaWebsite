@@ -146,6 +146,22 @@ function getItemCopy(
       b3: "t16B3",
       cs: "t16CaseStudy",
     },
+    t17: {
+      name: "t17Name",
+      desc: "t17Desc",
+      b1: "t17B1",
+      b2: "t17B2",
+      b3: "t17B3",
+      cs: "t17CaseStudy",
+    },
+    t18: {
+      name: "t18Name",
+      desc: "t18Desc",
+      b1: "t18B1",
+      b2: "t18B2",
+      b3: "t18B3",
+      cs: "t18CaseStudy",
+    },
   } as const;
   const k = keys[prefix];
   return {

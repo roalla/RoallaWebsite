@@ -15,6 +15,8 @@ export type PortfolioItemId =
   | 'unjargonit'
   | 'kaylan-kaptures'
   | 'hockey-gaze'
+  | 'outset'
+  | 'wj-wellness'
 
 export type PortfolioVerticalId = 'fleet'
 
@@ -35,7 +37,7 @@ export type PortfolioItemConfig = {
   tryUrl: string
   domain?: string
   contactService: 'websites-brand' | 'custom-platforms'
-  i18nPrefix: 't5' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10' | 't11' | 't12' | 't13' | 't14' | 't15' | 't16'
+  i18nPrefix: 't5' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10' | 't11' | 't12' | 't13' | 't14' | 't15' | 't16' | 't17' | 't18'
   tagKeys?: readonly [string, string, string]
   /** Shown in the featured case-study block for this category */
   featuredCategory?: PortfolioCategory
@@ -67,6 +69,7 @@ export type PortfolioIndustryCategoryConfig = {
 
 /** Hero / proof grids: platforms first, then websites */
 export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
+  'outset',
   'grcstatus',
   '4theblueprint',
   'unjargonit',
@@ -78,6 +81,7 @@ export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'pitch-hotshots',
   'kaylan-kaptures',
   'goalie-stop',
+  'wj-wellness',
   'cold-dejabru-event',
 ]
 
@@ -105,7 +109,7 @@ export const homeCapabilityExamples = {
 export const portfolioCuratedPaths = [
   {
     id: 'marketing-site',
-    itemIds: ['kaylan-kaptures', 'goalie-stop', 'hockey-gaze'] as const satisfies readonly PortfolioItemId[],
+    itemIds: ['kaylan-kaptures', 'wj-wellness', 'goalie-stop', 'hockey-gaze'] as const satisfies readonly PortfolioItemId[],
   },
   {
     id: 'custom-platform',
@@ -113,7 +117,7 @@ export const portfolioCuratedPaths = [
   },
   {
     id: 'education',
-    itemIds: ['4theblueprint', 'unjargonit'] as const satisfies readonly PortfolioItemId[],
+    itemIds: ['outset', '4theblueprint', 'unjargonit'] as const satisfies readonly PortfolioItemId[],
   },
 ] as const
 
@@ -149,13 +153,13 @@ export const portfolioIndustryCategories: PortfolioIndustryCategoryConfig[] = [
   },
   {
     id: 'education-training',
-    itemIds: ['4theblueprint', 'unjargonit'],
+    itemIds: ['outset', '4theblueprint', 'unjargonit'],
     contactService: 'custom-platforms',
     i18nPrefix: 'industryEducation',
   },
   {
     id: 'professional-services',
-    itemIds: ['grcstatus', 'kaylan-kaptures'],
+    itemIds: ['grcstatus', 'kaylan-kaptures', 'wj-wellness'],
     contactService: 'websites-brand',
     i18nPrefix: 'industryProfessional',
   },
@@ -168,6 +172,18 @@ export const portfolioIndustryCategories: PortfolioIndustryCategoryConfig[] = [
 ]
 
 export const portfolioItems: PortfolioItemConfig[] = [
+  {
+    id: 'outset',
+    category: 'platform',
+    projectType: 'roalla-product',
+    imageUrl: '/outset_snapshot.jpg',
+    tryUrl: 'https://www.outset.games/',
+    domain: 'outset.games',
+    contactService: 'custom-platforms',
+    i18nPrefix: 't17',
+    tagKeys: ['t17Tag1', 't17Tag2', 't17Tag3'],
+    industryCategory: 'education-training',
+  },
   {
     id: '4theblueprint',
     category: 'platform',
@@ -314,6 +330,18 @@ export const portfolioItems: PortfolioItemConfig[] = [
     tagKeys: ['t15Tag1', 't15Tag2', 't15Tag3'],
     industryCategory: 'professional-services',
   },
+  {
+    id: 'wj-wellness',
+    category: 'website',
+    projectType: 'client',
+    imageUrl: '/wjwellness_snapshot.jpg',
+    tryUrl: 'https://www.wjwellness.com/',
+    domain: 'wjwellness.com',
+    contactService: 'websites-brand',
+    i18nPrefix: 't18',
+    tagKeys: ['t18Tag1', 't18Tag2', 't18Tag3'],
+    industryCategory: 'professional-services',
+  },
 ]
 
 /** Verifiable counts derived from the published portfolio records in this repository. */
@@ -324,6 +352,8 @@ export const portfolioMetrics = {
 } as const
 
 export const portfolioImageAlts: Record<PortfolioItemId, string> = {
+  outset:
+    'Outset homepage — fictional Ontario life practice for money, work, and housing choices with create-character and try-a-moment CTAs',
   '4theblueprint': '4 The Blueprint course planner — certification framework, guided wizard, and lean launch path',
   'soaring-puck': 'Soaring Puck youth hockey platform dashboard',
   'cold-dejabru-event': 'Cold Deja Bru event landing page — six-step MR. COLDBRU demo, QR paths from the booth floor, and persona-specific CTAs',
@@ -344,6 +374,8 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
     'Kaylan Kaptures homepage — photography brand site with scenic hero, Book a Session CTA, and portfolio path',
   'hockey-gaze':
     'Hockey Gaze app homepage — position-specific hockey vision and decision training with a 45-second free drill',
+  'wj-wellness':
+    'Wealth & Joy Wellness homepage — money, relationships, and psychology practice site with Work With Me pathways for Yvonne Zhu',
 }
 
 export type PortfolioScheduleQuery = {

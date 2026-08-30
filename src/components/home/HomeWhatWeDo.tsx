@@ -64,6 +64,8 @@ const portfolioNameKey: Record<PortfolioItemId, string> = {
   unjargonit: 't14Name',
   'kaylan-kaptures': 't15Name',
   'hockey-gaze': 't16Name',
+  outset: 't17Name',
+  'wj-wellness': 't18Name',
 }
 
 export default function HomeWhatWeDo() {

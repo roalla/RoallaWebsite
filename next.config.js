@@ -1,8 +1,8 @@
 const withNextIntl = require("next-intl/plugin")("./src/i18n/request.ts");
 const scriptSrc =
   process.env.NODE_ENV === "development"
-    ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
-    : "script-src 'self' 'unsafe-inline'";
+    ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.cloudflareinsights.com"
+    : "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -288,7 +288,7 @@ const nextConfig = {
               scriptSrc,
               "style-src 'self' 'unsafe-inline'",
               "frame-src https://www.youtube.com https://www.youtube-nocookie.com https://www.notion.so https://notion.so https://*.notion.site https://v2.notion.so https://v2.notion.site",
-              "connect-src 'self' https://sso.roalla.com",
+              "connect-src 'self' https://sso.roalla.com https://cloudflareinsights.com",
               "img-src 'self' data: https:",
               "font-src 'self'",
               "object-src 'none'",

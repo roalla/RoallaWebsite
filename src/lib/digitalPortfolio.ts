@@ -17,6 +17,7 @@ export type PortfolioItemId =
   | 'hockey-gaze'
   | 'outset'
   | 'wj-wellness'
+  | 'careqlo'
 
 export type PortfolioVerticalId = 'fleet'
 
@@ -37,7 +38,7 @@ export type PortfolioItemConfig = {
   tryUrl: string
   domain?: string
   contactService: 'websites-brand' | 'custom-platforms'
-  i18nPrefix: 't5' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10' | 't11' | 't12' | 't13' | 't14' | 't15' | 't16' | 't17' | 't18'
+  i18nPrefix: 't5' | 't1' | 't6' | 't7' | 't8' | 't9' | 't10' | 't11' | 't12' | 't13' | 't14' | 't15' | 't16' | 't17' | 't18' | 't19'
   tagKeys?: readonly [string, string, string]
   /** Shown in the featured case-study block for this category */
   featuredCategory?: PortfolioCategory
@@ -83,6 +84,7 @@ export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'goalie-stop',
   'wj-wellness',
   'cold-dejabru-event',
+  'careqlo',
 ]
 
 /** Domains shown as quick-open chips in the portfolio hero. Featured pitch leads. */
@@ -159,7 +161,7 @@ export const portfolioIndustryCategories: PortfolioIndustryCategoryConfig[] = [
   },
   {
     id: 'professional-services',
-    itemIds: ['grcstatus', 'kaylan-kaptures', 'wj-wellness'],
+    itemIds: ['grcstatus', 'kaylan-kaptures', 'wj-wellness', 'careqlo'],
     contactService: 'websites-brand',
     i18nPrefix: 'industryProfessional',
   },
@@ -342,6 +344,18 @@ export const portfolioItems: PortfolioItemConfig[] = [
     tagKeys: ['t18Tag1', 't18Tag2', 't18Tag3'],
     industryCategory: 'professional-services',
   },
+  {
+    id: 'careqlo',
+    category: 'website',
+    projectType: 'client',
+    imageUrl: '/careqlo_snapshot.jpg',
+    tryUrl: 'https://www.careqlo.com/',
+    domain: 'careqlo.com',
+    contactService: 'websites-brand',
+    i18nPrefix: 't19',
+    tagKeys: ['t19Tag1', 't19Tag2', 't19Tag3'],
+    industryCategory: 'professional-services',
+  },
 ]
 
 /** Verifiable counts derived from the published portfolio records in this repository. */
@@ -376,6 +390,7 @@ export const portfolioImageAlts: Record<PortfolioItemId, string> = {
     'Hockey Gaze app homepage — position-specific hockey vision and decision training with a 45-second free drill',
   'wj-wellness':
     'Wealth & Joy Wellness homepage — money, relationships, and psychology practice site with Work With Me pathways for Yvonne Zhu',
+  careqlo: 'CareQLO homepage — "Finding care should feel clearer" hero, plain-language care-matching flow, and practitioner shortlist with human confirmation steps',
 }
 
 export type PortfolioScheduleQuery = {

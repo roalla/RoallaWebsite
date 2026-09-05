@@ -35,6 +35,7 @@ const PORTFOLIO_NAME_KEYS = {
   t16: 't16Name',
   t17: 't17Name',
   t18: 't18Name',
+  t19: 't19Name',
 } as const
 
 function resolvePortfolioReference(

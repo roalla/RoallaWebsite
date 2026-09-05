@@ -81,10 +81,10 @@ export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
   'hockey-gaze',
   'pitch-hotshots',
   'kaylan-kaptures',
+  'careqlo',
   'goalie-stop',
   'wj-wellness',
   'cold-dejabru-event',
-  'careqlo',
 ]
 
 /** Domains shown as quick-open chips in the portfolio hero. Featured pitch leads. */

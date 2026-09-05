@@ -66,6 +66,7 @@ const portfolioNameKey: Record<PortfolioItemId, string> = {
   'hockey-gaze': 't16Name',
   outset: 't17Name',
   'wj-wellness': 't18Name',
+  careqlo: 't19Name',
 }
 
 export default function HomeWhatWeDo() {

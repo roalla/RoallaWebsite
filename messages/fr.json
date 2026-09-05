@@ -1742,6 +1742,7 @@
     "t19B1": "Flux d'accueil en langage clair : le patient décrit ses besoins, CareQLO construit une demande réfléchie et les praticiens confirment la compatibilité",
     "t19B2": "Design axé sur la confiance — liste restreinte plutôt qu'un mur de profils, avec confirmation humaine à chaque étape",
     "t19B3": "Parcours distincts pour patients et praticiens, sur une marque calme aux tons violets",
+    "t19CaseStudy": "Aidez les gens à décrire leurs besoins dans leurs propres mots, puis transformez cela en une petite liste de praticiens pertinents plutôt qu’un autre répertoire sans fin.",
     "t19Tag1": "Santé",
     "t19Tag2": "Mise en relation",
     "t19Tag3": "Site client",

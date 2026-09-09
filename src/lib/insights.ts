@@ -1,3 +1,5 @@
+import { OG_IMAGE } from '@/lib/site'
+
 export const INSIGHT_SLUGS = [
   "fractional-coo",
   "strategic-planning",
@@ -18,7 +20,7 @@ export function isInsightSlug(value: string): value is InsightSlug {
 
 /** Optional per-article social preview images (defaults to site OG image). */
 export const INSIGHT_OG_IMAGES: Partial<Record<InsightSlug, string>> = {
-  "search-and-ai-visibility": "/og-image.jpg",
+  "search-and-ai-visibility": OG_IMAGE,
   "smb-digitization-benefits": "/roalla-snapshot.jpg",
   "smb-digital-efficiency": "/roalla-snapshot.jpg",
   "smb-digital-growth": "/roalla-snapshot.jpg",
@@ -34,7 +36,7 @@ export const INSIGHT_ENGAGEMENT_SLUGS: readonly InsightSlug[] = [
 ];
 
 export function insightCoverImage(slug: InsightSlug): string {
-  return INSIGHT_OG_IMAGES[slug] ?? "/og-image.jpg";
+  return INSIGHT_OG_IMAGES[slug] ?? OG_IMAGE;
 }
 
 export function insightFromEngagement(slug: InsightSlug): boolean {

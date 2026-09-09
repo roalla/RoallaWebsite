@@ -1,6 +1,7 @@
 export const SITE_URL = 'https://www.roalla.com'
-export const OG_IMAGE = '/og-image.jpg'
-export const OG_IMAGE_ALT = 'Roalla Business Enablement Group — Digital Enablement'
+export const OG_IMAGE = '/og-landing.jpg'
+export const OG_IMAGE_ALT =
+  'ROALLA homepage — Prepare. Transform. Emerge. Soar. Websites, digital products, automation, and AI.'
 
 /** Client Portal (engagements) — separate from employee /hub login on this site. */
 export const CLIENT_PORTAL_URL =

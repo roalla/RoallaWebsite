@@ -35,7 +35,7 @@ type PageMetadataOptions = {
 }
 
 function buildOgImages(image: string, alt: string) {
-  return [{ url: image, width: 1200, height: 630, alt }]
+  return [{ url: image, width: 1440, height: 754, alt }]
 }
 
 /** Shared title, description, hreflang, Open Graph, and Twitter metadata for public pages. */

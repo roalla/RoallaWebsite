@@ -24,7 +24,7 @@ export const organizationJsonLd = {
   name: "Roalla Business Enablement Group",
   url: SITE_URL,
   logo: `${SITE_URL}/logo.svg`,
-  image: `${SITE_URL}/og-image.jpg`,
+  image: `${SITE_URL}${OG_IMAGE}`,
   description:
     "ROALLA helps organizations assess, build, optimize, and evolve digital assets that drive visibility, revenue, operational efficiency, and customer value.",
   areaServed: "Global",

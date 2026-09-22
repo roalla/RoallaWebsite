@@ -9,14 +9,14 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#00b4c5',
+          DEFAULT: 'var(--roalla-color-brand)',
           light: '#33c3d1',
-          dark: '#0099a8',
+          dark: 'var(--roalla-color-brand-mid)',
           lighter: 'rgba(0, 180, 197, 0.1)',
-          darker: '#007a87',
+          darker: 'var(--roalla-color-brand-deep)',
         },
         'brand-gold': {
-          DEFAULT: '#f5c518',
+          DEFAULT: 'var(--roalla-color-accent)',
           light: '#f7d045',
           dark: '#d4a80f',
         },
@@ -34,9 +34,9 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['var(--font-portal-body)', 'Figtree', 'system-ui', 'sans-serif'],
-        serif: ['var(--font-portal-display)', 'Sora', 'system-ui', 'sans-serif'],
-        display: ['var(--font-portal-display)', 'Sora', 'system-ui', 'sans-serif'],
+        sans: ['var(--roalla-font-body)'],
+        serif: ['var(--roalla-font-display)'],
+        display: ['var(--roalla-font-display)'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

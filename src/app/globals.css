@@ -1,3 +1,5 @@
+@import "./roalla-tokens.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,16 +13,18 @@
   body {
     @apply bg-white text-slate-800 font-sans transition-colors duration-300 antialiased;
     line-height: 1.6;
+    font-family: var(--roalla-font-body);
   }
   
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif font-bold text-slate-900;
     line-height: 1.2;
+    font-family: var(--roalla-font-display);
   }
 
   *:focus-visible {
-    outline: 2px solid #f5c518;
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: var(--roalla-focus);
   }
 
   /* Visually hidden until keyboard focus — keeps a11y without a visible chip */
@@ -48,7 +52,7 @@
     overflow: visible;
     clip: auto;
     white-space: normal;
-    background: #00b4c5;
+    background: var(--roalla-color-brand, #00b4c5);
     color: white;
     text-decoration: none;
     border-radius: 4px;
@@ -56,16 +60,16 @@
 
   button:focus-visible,
   a:focus-visible {
-    outline: 2px solid #00b4c5;
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: var(--roalla-focus);
   }
 
   input:focus-visible,
   textarea:focus-visible,
   select:focus-visible {
-    outline: 2px solid #00b4c5;
-    outline-offset: 2px;
-    border-color: #00b4c5;
+    outline: none;
+    box-shadow: var(--roalla-focus);
+    border-color: var(--roalla-color-brand);
   }
 
   @media (max-width: 768px) {

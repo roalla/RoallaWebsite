@@ -1,0 +1,30 @@
+:root {
+  color-scheme: light;
+  --roalla-color-ink: #07111f;
+  --roalla-color-text: #1e293b;
+  --roalla-color-muted: #5b6b7c;
+  --roalla-color-paper: #f4f7fb;
+  --roalla-color-surface: #ffffff;
+  --roalla-color-brand: #00b4c5;
+  --roalla-color-brand-deep: #007a87;
+  --roalla-color-brand-mid: #0099a8;
+  --roalla-color-brand-soft: #d9f6f9;
+  --roalla-color-brand-faint: #eefbfd;
+  --roalla-color-accent: #f5c518;
+  --roalla-color-danger: #c62828;
+  --roalla-color-success: #2e7d32;
+  --roalla-color-warning: #9a6700;
+  --roalla-color-navy: #04101f;
+  --roalla-color-navy-elevated: #0a1a2e;
+  --roalla-border: color-mix(in srgb, #94a3b8 35%, transparent);
+  --roalla-radius-sm: 0.55rem;
+  --roalla-radius-md: 0.85rem;
+  --roalla-radius-lg: 1.25rem;
+  --roalla-shadow-sm: 0 1px 2px rgba(4, 16, 31, 0.04);
+  --roalla-shadow-md: 0 10px 30px rgba(4, 16, 31, 0.08);
+  --roalla-shadow-lg: 0 24px 60px rgba(4, 16, 31, 0.12);
+  --roalla-focus: 0 0 0 3px rgba(245, 197, 24, 0.72);
+  --roalla-font-body: var(--font-portal-body, "Figtree"), "Segoe UI", system-ui, sans-serif;
+  --roalla-font-display: var(--font-portal-display, "Sora"), var(--roalla-font-body);
+  --roalla-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}

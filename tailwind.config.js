@@ -16,9 +16,9 @@ module.exports = {
           darker: '#007a87',
         },
         'brand-gold': {
-          DEFAULT: '#ffd700',
-          light: '#ffe033',
-          dark: '#e6c200',
+          DEFAULT: '#f5c518',
+          light: '#f7d045',
+          dark: '#d4a80f',
         },
         'brand-muted': '#64748b',
         surface: {
@@ -34,8 +34,9 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        serif: ['var(--font-merriweather)', 'Georgia', 'serif'],
+        sans: ['var(--font-portal-body)', 'Figtree', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-portal-display)', 'Sora', 'system-ui', 'sans-serif'],
+        display: ['var(--font-portal-display)', 'Sora', 'system-ui', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

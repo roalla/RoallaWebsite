@@ -19,7 +19,7 @@
   }
 
   *:focus-visible {
-    outline: 2px solid #00b4c5;
+    outline: 2px solid #f5c518;
     outline-offset: 2px;
   }
 
@@ -324,10 +324,10 @@
   @keyframes hero-soar-pulse {
     0%,
     100% {
-      color: #ffd700;
+      color: #f5c518;
     }
     50% {
-      color: #ffe033;
+      color: #f7d045;
     }
   }
 
@@ -454,7 +454,7 @@
       100deg,
       #ffffff 18%,
       #7fe6f0 34%,
-      #ffd700 50%,
+      #f5c518 50%,
       #7fe6f0 66%,
       #ffffff 82%
     );

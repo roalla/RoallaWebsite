@@ -52,8 +52,8 @@ When someone submits the contact form:
 ### 5. Email Templates
 
 The emails use your brand colors:
-- Primary: #00b4c5 (blue)
-- Secondary: #ffd700 (gold)
+- Primary: #00b4c5 (teal)
+- Secondary: #f5c518 (gold)
 
 ### 6. Testing
 

@@ -129,7 +129,7 @@ The Roalla Team
           text: userEmailContent,
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <div style="background: linear-gradient(135deg, #00b4c5, #ffd700); padding: 30px; text-align: center; color: white;">
+              <div style="background: linear-gradient(135deg, #00b4c5, #f5c518); padding: 30px; text-align: center; color: white;">
                 <h1 style="margin: 0; font-size: 28px;">Thank You!</h1>
                 <p style="margin: 10px 0 0 0; font-size: 16px;">We've received your inquiry</p>
               </div>

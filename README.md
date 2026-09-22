@@ -4,7 +4,7 @@ A professional consulting website built with Next.js 14, TypeScript, Tailwind CS
 
 ## Features
 
-- **Modern Design**: Clean, professional design with brand colors (blue #00b4c5, gold #ffd700)
+- **Modern Design**: Clean, professional design with brand colors (teal #00b4c5, gold #f5c518)
 - **Responsive**: Fully responsive design that works on all devices
 - **Contact Form**: Functional contact form with email notifications
 - **Calendly Integration**: Scheduling buttons that open Calendly popup
@@ -119,11 +119,11 @@ Update the brand colors in `tailwind.config.js`:
 
 ```js
 colors: {
-  primary: '#00b4c5',    // Blue
+  primary: '#00b4c5',    // Teal
   'primary-dark': '#0099a8',
   'primary-light': '#33c3d1',
   'primary-lighter': '#e6f7f9',
-  secondary: '#ffd700',  // Gold
+  secondary: '#f5c518',  // Gold (design-system accent)
 }
 ```
 

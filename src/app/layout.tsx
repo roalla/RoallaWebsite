@@ -1,6 +1,6 @@
 import React from 'react'
 import type { Metadata } from 'next'
-import { Inter, Merriweather } from 'next/font/google'
+import { Figtree, Sora } from 'next/font/google'
 import './globals.css'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
@@ -11,15 +11,16 @@ import JsonLd from '@/components/JsonLd'
 import { organizationJsonLd, websiteJsonLd } from '@/lib/structured-data'
 import { OG_IMAGE, OG_IMAGE_ALT, SITE_URL } from '@/lib/site'
 
-const inter = Inter({
+const figtree = Figtree({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-portal-body',
+  display: 'swap',
 })
 
-const merriweather = Merriweather({
+const sora = Sora({
   subsets: ['latin'],
-  weight: ['300', '400', '700'],
-  variable: '--font-merriweather',
+  variable: '--font-portal-display',
+  display: 'swap',
 })
 
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
@@ -116,7 +117,7 @@ export default async function RootLayout({
   const locale = await getLocale()
 
   return (
-    <html lang={locale} className={`${inter.variable} ${merriweather.variable} font-sans`}>
+    <html lang={locale} className={`${figtree.variable} ${sora.variable} font-sans`}>
       <head>
         <JsonLd data={[organizationJsonLd, websiteJsonLd]} />
         <link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml" />
@@ -131,7 +132,7 @@ export default async function RootLayout({
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
       </head>
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${figtree.className} antialiased`}>
         <GoogleAnalytics />
         <Providers>
           <NextIntlClientProvider messages={messages}>

@@ -7,7 +7,7 @@ import Image from 'next/image'
 export const FOUNDER_PORTRAIT_SRC = '/images/team/steven-robin.webp'
 
 const RING_GRADIENT =
-  'conic-gradient(from 0deg, transparent 0deg, #00b4c5 80deg, #7fe6f0 150deg, #ffd700 215deg, transparent 320deg)'
+  'conic-gradient(from 0deg, transparent 0deg, #00b4c5 80deg, #7fe6f0 150deg, #f5c518 215deg, transparent 320deg)'
 
 function initialsFrom(name: string): string {
   return name

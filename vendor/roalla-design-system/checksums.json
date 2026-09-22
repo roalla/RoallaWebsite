@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "1.0",
+  "package": "@roalla/design-system",
+  "version": "1.0.0",
+  "files": {
+    "tokens.css": "f84b9f72ea174e42cdfa76eea938ec902d09abb307a43b886b0d314680a590be",
+    "base.css": "cc1295403e4ccae4610d5e040e62d78872c08dc6f1d54968232e30c52cb9e21b",
+    "tokens.json": "c41704a085f30d11aae1e864ff4b90825f91ec7245278e90e4d34f3040f11f35",
+    "logo.svg": "e55f5bb7a9e97a4bd5cb453f8d6ae4736fdd69756af6ed46b524f1e3acbfbc67"
+  },
+  "notes": "SHA-256 of package files. Sibling repos must match these digests for tokens.css and logo.svg adapters."
+}

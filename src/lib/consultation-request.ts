@@ -87,6 +87,7 @@ export const eventGoalValues = [
 export type EventGoal = (typeof eventGoalValues)[number];
 
 export const workshopTopicValues = [
+  "focus-circle",
   "branding",
   "sales",
   "productivity",

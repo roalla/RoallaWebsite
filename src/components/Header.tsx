@@ -8,6 +8,7 @@ import {
   Briefcase,
   Globe,
   GraduationCap,
+  Target,
   Images,
   Layers,
   Workflow,
@@ -262,7 +263,8 @@ const Header = () => {
     pathname === "/programs/business-enablement" ||
     pathname === "/programs/technology-advisory";
   const headerCtaLabel =
-    pathname === "/programs/workshops"
+    pathname === "/programs/workshops" ||
+    pathname === "/programs/workshops/focus-circle"
       ? tCommon("scheduleConsultationWorkshops")
       : pathname === "/services/digital-events"
         ? tCommon("scheduleConsultationDigitalEvents")
@@ -353,7 +355,9 @@ const Header = () => {
     | "/programs/business-enablement"
     | "/programs/technology-advisory";
 
-  type WorkshopNavHref = "/programs/workshops";
+  type WorkshopNavHref =
+    | "/programs/workshops"
+    | "/programs/workshops/focus-circle";
 
   const digitalLinks: {
     nameKey:
@@ -438,11 +442,17 @@ const Header = () => {
   ];
 
   const workshopLinks: {
-    nameKey: "teamWorkshops";
-    descKey: "workshopsDesc";
+    nameKey: "focusCircle" | "teamWorkshops";
+    descKey: "focusCircleDesc" | "workshopsDesc";
     href: WorkshopNavHref;
     icon: typeof GraduationCap;
   }[] = [
+    {
+      nameKey: "focusCircle",
+      descKey: "focusCircleDesc",
+      href: "/programs/workshops/focus-circle",
+      icon: Target,
+    },
     {
       nameKey: "teamWorkshops",
       descKey: "workshopsDesc",
@@ -468,7 +478,9 @@ const Header = () => {
   const isAdvisoryActive =
     pathname === "/programs/business-enablement" ||
     pathname === "/programs/technology-advisory";
-  const isWorkshopsActive = pathname === "/programs/workshops";
+  const isWorkshopsActive =
+    pathname === "/programs/workshops" ||
+    pathname === "/programs/workshops/focus-circle";
 
   useEffect(() => {
     if (!isMenuOpen) return;

@@ -23,6 +23,7 @@ export const routing = defineRouting({
     "/programs/business-enablement": "/programs/business-enablement",
     "/programs/technology-advisory": "/programs/technology-advisory",
     "/programs/workshops": "/programs/workshops",
+    "/programs/workshops/focus-circle": "/programs/workshops/focus-circle",
     "/website-design": "/website-design",
     "/website-package": "/website-package",
     "/about": "/about",

@@ -72,6 +72,7 @@ const EMAIL_LABELS: Record<string, string> = {
   "eventGoal_event-app": "Event app",
   eventGoal_activation: "On-site activation",
   workshopTopic: "Workshop topic",
+  "workshopTopic_focus-circle": "Focus Circle",
   workshopTopic_branding: "Branding & positioning",
   workshopTopic_sales: "Sales & growth",
   workshopTopic_productivity: "Productivity & systems",

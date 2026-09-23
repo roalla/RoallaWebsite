@@ -9,6 +9,7 @@ type BreadcrumbHref =
   | '/programs/business-enablement'
   | '/programs/technology-advisory'
   | '/programs/workshops'
+  | '/programs/workshops/focus-circle'
   | '/services/digital'
   | '/services/digital-events'
   | '/about'

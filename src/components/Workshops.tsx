@@ -2,7 +2,7 @@
 
 import React from "react";
 import Reveal from "./motion/Reveal";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import {
   Sparkles,
@@ -19,6 +19,8 @@ import {
 import ScheduleButton from "./ScheduleButton";
 import StickyMobileCTA from "./StickyMobileCTA";
 import ServiceMiniFAQ from "./services/ServiceMiniFAQ";
+import { focusCircleCopy } from "@/lib/workshops/focus-circle-content";
+import { featuredHostedWorkshops } from "@/lib/workshops/hosted-workshops";
 import {
   ServicePageHero,
   ConsultingHeroVisual,
@@ -104,12 +106,22 @@ function WorkshopTopicCard({
             ))}
           </ul>
 
+          {topic.anchor === "productivity" ? (
+            <Link href="/programs/workshops/focus-circle" className={servicePrimaryLinkClass}>
+              {t("openFocusCircle")}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
+          ) : null}
           <Link
             href={{
               pathname: "/schedule",
               query: { intent: "workshop", need: topic.anchor },
             }}
-            className={servicePrimaryLinkClass}
+            className={
+              topic.anchor === "productivity"
+                ? "inline-flex items-center text-sm font-medium text-primary hover:underline mt-3"
+                : servicePrimaryLinkClass
+            }
           >
             {t("topicCta")}
             <ArrowRight className="ml-2 w-4 h-4" />
@@ -123,6 +135,9 @@ function WorkshopTopicCard({
 const Workshops = () => {
   const t = useTranslations("workshops");
   const tCommon = useTranslations("common");
+  const locale = useLocale();
+  const focus = focusCircleCopy(locale);
+  const featured = featuredHostedWorkshops();
 
   const stats = [
     { value: t("stat1Value"), label: t("stat1Label"), icon: GraduationCap },
@@ -182,6 +197,48 @@ const Workshops = () => {
         <Reveal className="mb-10 max-w-3xl">
           <p className="text-slate-600 leading-relaxed">{t("intro")}</p>
         </Reveal>
+
+        {featured.length > 0 ? (
+          <section className="mb-14">
+            <ServiceSectionHeading
+              eyebrow={t("featuredEyebrow")}
+              title={t("featuredTitle")}
+              description={t("featuredDesc")}
+              className="mb-8"
+            />
+            <div className="grid md:grid-cols-2 gap-6">
+              {featured.map((workshop) => (
+                <Reveal as="article" key={workshop.id} className="h-full">
+                  <div className={serviceCardClass}>
+                    <div className="p-6 lg:p-7 flex flex-col h-full">
+                      <h3 className="text-xl font-serif font-bold text-slate-900">{focus.title}</h3>
+                      <p className="mt-3 text-sm text-slate-600 leading-relaxed flex-1">{focus.listingLede}</p>
+                      <p className="mt-4 text-sm text-slate-700 border-l-2 border-primary/30 pl-3">
+                        {focus.audienceLine}
+                      </p>
+                      <div className="mt-6 flex flex-col gap-3">
+                        <Link href={workshop.path} className={servicePrimaryLinkClass}>
+                          {t("openWorkshop")}
+                          <ArrowRight className="ml-2 w-4 h-4" />
+                        </Link>
+                        <Link
+                          href={{
+                            pathname: "/schedule",
+                            query: { intent: "workshop", need: workshop.id },
+                          }}
+                          className="inline-flex items-center justify-center text-sm font-medium text-primary hover:underline"
+                        >
+                          {t("hostThisWorkshop")}
+                          <ArrowRight className="ml-1.5 w-4 h-4" />
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <Reveal className="mb-12 rounded-xl border border-slate-200 bg-slate-50 p-6 lg:p-8">
           <ServiceSectionHeading

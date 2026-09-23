@@ -940,6 +940,9 @@ export default function ConsultationRequestForm({
                       required
                     >
                       <option value="">{t("selectPlaceholder")}</option>
+                      <option value="focus-circle">
+                        {t("workshopTopicFocusCircle")}
+                      </option>
                       <option value="branding">
                         {t("workshopTopicBranding")}
                       </option>

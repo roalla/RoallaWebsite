@@ -314,6 +314,7 @@ const consultingFocusValues = [
   "team",
   "data",
   "innovation",
+  "technology",
   "other",
 ] as const;
 export type ConsultingFocus = (typeof consultingFocusValues)[number];

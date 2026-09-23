@@ -739,6 +739,7 @@ export default function ConsultationRequestForm({
                       <option value="team">{t("focusTeam")}</option>
                       <option value="data">{t("focusData")}</option>
                       <option value="innovation">{t("focusInnovation")}</option>
+                      <option value="technology">{t("focusTechnology")}</option>
                       <option value="other">{t("focusOther")}</option>
                     </select>
                   </Field>

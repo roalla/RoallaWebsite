@@ -5,6 +5,7 @@ import {
   intentFromServiceParam,
   intentFromNeedParam,
   parseWorkshopTopic,
+  parseConsultingFocus,
   websiteGoalRequiresExistingSite,
   hasIntentSubSelection,
   isDigitalIntent,
@@ -23,6 +24,7 @@ describe('consultation-request', () => {
 
   it('accepts a valid consulting request', () => {
     expect(validateConsultationRequest(validBase)).toBeNull()
+    expect(parseConsultingFocus('technology')).toBe('technology')
   })
 
   it('requires website-specific fields', () => {

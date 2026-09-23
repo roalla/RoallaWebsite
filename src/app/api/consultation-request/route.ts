@@ -35,6 +35,7 @@ const EMAIL_LABELS: Record<string, string> = {
   focus_team: "Team development",
   focus_data: "Data & analytics",
   focus_innovation: "Innovation consulting",
+  focus_technology: "Technology advisory & solution sourcing",
   focus_other: "Other / multiple areas",
   websiteGoal: "Website need",
   websiteGoal_new: "New website",

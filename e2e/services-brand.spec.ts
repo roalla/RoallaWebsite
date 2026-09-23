@@ -41,6 +41,18 @@ test.describe("Services brand journey", () => {
         level: 3,
       }),
     ).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: "Technology Advisory & Solution Sourcing",
+        level: 3,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: "Expanded supplier access through Telarus",
+        level: 2,
+      }),
+    ).toBeVisible();
 
     await expect(
       page.getByRole("heading", { name: "How we work with you", level: 2 }),
@@ -50,6 +62,18 @@ test.describe("Services brand journey", () => {
         "Discovery call to align on goals, constraints, and urgency.",
       ),
     ).toBeVisible();
+  });
+
+  test("partners page publishes the verified relationship and compensation disclosure", async ({ page }) => {
+    await page.goto("/en/partners");
+
+    await expect(page.getByRole("heading", { name: "Partners & Platforms", level: 1 })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Telarus Technology Advisor", level: 2 })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "How ROALLA is compensated", level: 2 })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Discuss Your Technology Needs" })).toHaveAttribute(
+      "href",
+      /intent=consulting.*focus=technology|focus=technology.*intent=consulting/,
+    );
   });
 
   test("digital page leads with build offers and process line", async ({

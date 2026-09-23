@@ -12,6 +12,7 @@ const companyLinks = [
   { nameKey: 'about' as const, href: '/about' as const },
   { nameKey: 'insights' as const, href: '/insights' as const },
   { nameKey: 'faq' as const, href: '/faq' as const },
+  { nameKey: 'partners' as const, href: '/partners' as const },
   { nameKey: 'contact' as const, href: '/contact' as const },
 ]
 

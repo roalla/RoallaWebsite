@@ -81,9 +81,13 @@ describe('Header', () => {
     })
   })
 
-  it('renders digital portfolio as a top-level nav link', () => {
+  it('renders digital portfolio as an icon link with accessible label', () => {
     render(<Header />)
-    expect(screen.getByRole('link', { name: 'digitalPortfolio' })).toHaveAttribute('href', '/services/portfolio')
+    const portfolioLinks = screen.getAllByRole('link', { name: 'digitalPortfolio' })
+    expect(portfolioLinks.length).toBeGreaterThan(0)
+    portfolioLinks.forEach((link) => {
+      expect(link).toHaveAttribute('href', '/services/portfolio')
+    })
   })
 
   it('renders programs dropdown with program links', () => {

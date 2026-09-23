@@ -9,6 +9,7 @@ import {
   Globe,
   GraduationCap,
   Layers,
+  LayoutGrid,
   Workflow,
   Flag,
   SearchCheck,
@@ -587,28 +588,35 @@ const Header = () => {
                 </div>
               </div>
 
-              <div>
+              <div className="relative group/portfolio">
                 <Link
                   href="/services/portfolio"
+                  aria-label={t("digitalPortfolio")}
                   aria-current={
                     isActive("/services/portfolio") ? "page" : undefined
                   }
-                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap block py-2 ${
+                  className={`relative flex items-center justify-center rounded-md p-2 transition-colors duration-200 ${
                     isActive("/services/portfolio")
                       ? "text-primary"
                       : navIdleClass
                   }`}
                   onClick={closeMenu}
                 >
-                  {t("digitalPortfolio")}
+                  <LayoutGrid className="h-5 w-5" aria-hidden />
                   <span
-                    className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                    className={`absolute -bottom-0.5 left-1/2 h-0.5 -translate-x-1/2 bg-primary transition-all duration-300 ${
                       isActive("/services/portfolio")
-                        ? "w-full"
-                        : "w-0 group-hover:w-full"
+                        ? "w-5"
+                        : "w-0 group-hover/portfolio:w-5"
                     }`}
                   />
                 </Link>
+                <span
+                  role="tooltip"
+                  className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-zinc-950 px-2.5 py-1.5 text-xs font-medium text-white opacity-0 shadow-lg border border-white/10 transition-opacity duration-150 group-hover/portfolio:opacity-100 group-focus-within/portfolio:opacity-100"
+                >
+                  {t("digitalPortfolio")}
+                </span>
               </div>
 
               <div className="relative" ref={programsDropdownDesktopRef}>
@@ -880,7 +888,7 @@ const Header = () => {
                   aria-current={
                     isActive("/services/portfolio") ? "page" : undefined
                   }
-                  className={`block px-3 py-3 min-h-[44px] flex items-center rounded-md text-base font-medium transition-colors duration-200 ${
+                  className={`block px-3 py-3 min-h-[44px] flex items-center gap-3 rounded-md text-base font-medium transition-colors duration-200 ${
                     isActive("/services/portfolio")
                       ? "text-primary bg-primary/10"
                       : "text-gray-300 hover:text-primary hover:bg-white/5"
@@ -889,6 +897,7 @@ const Header = () => {
                     handleMobileNavClick(e, "/services/portfolio")
                   }
                 >
+                  <LayoutGrid className="h-4 w-4 shrink-0 opacity-70" aria-hidden />
                   {t("digitalPortfolio")}
                 </Link>
               </div>

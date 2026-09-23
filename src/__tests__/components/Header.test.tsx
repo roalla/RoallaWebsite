@@ -14,7 +14,10 @@ jest.mock('next-intl', () => ({
 }))
 
 jest.mock('@/i18n/navigation', () => ({
-  Link: ({ children, href, ...props }: { children: React.ReactNode; href: string }) => <a href={href} {...props}>{children}</a>,
+  Link: ({ children, href, ...props }: { children: React.ReactNode; href: string | { pathname: string; hash?: string } }) => {
+    const resolvedHref = typeof href === 'string' ? href : `${href.pathname}${href.hash ? `#${href.hash}` : ''}`
+    return <a href={resolvedHref} {...props}>{children}</a>
+  },
   usePathname: () => mockPathname(),
 }))
 
@@ -96,6 +99,10 @@ describe('Header', () => {
     expect(screen.getByRole('menuitem', { name: /businessEnablement/i })).toHaveAttribute(
       'href',
       '/programs/business-enablement',
+    )
+    expect(screen.getByRole('menuitem', { name: /technologyAdvisory/i })).toHaveAttribute(
+      'href',
+      '/programs/business-enablement#technology-advisory',
     )
   })
 

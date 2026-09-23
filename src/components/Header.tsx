@@ -14,6 +14,7 @@ import {
   Flag,
   SearchCheck,
   RefreshCw,
+  Network,
 } from "lucide-react";
 import Image from "next/image";
 import { usePathname as useNextPathname } from "next/navigation";
@@ -309,7 +310,12 @@ const Header = () => {
     | "/services/managed-optimization"
     | { pathname: "/services/digital"; hash: "ai-support" };
 
-  type AdvisoryNavHref = "/programs/business-enablement";
+  type AdvisoryNavHref =
+    | "/programs/business-enablement"
+    | {
+        pathname: "/programs/business-enablement";
+        hash: "technology-advisory";
+      };
 
   const digitalLinks: {
     nameKey:
@@ -374,8 +380,8 @@ const Header = () => {
   ];
 
   const advisoryLinks: {
-    nameKey: "businessEnablement";
-    descKey: "businessEnablementDesc";
+    nameKey: "businessEnablement" | "technologyAdvisory";
+    descKey: "businessEnablementDesc" | "technologyAdvisoryDesc";
     href: AdvisoryNavHref;
     icon: typeof Briefcase;
   }[] = [
@@ -385,7 +391,15 @@ const Header = () => {
       href: "/programs/business-enablement",
       icon: Briefcase,
     },
-    // Future: Technology Advisor
+    {
+      nameKey: "technologyAdvisory",
+      descKey: "technologyAdvisoryDesc",
+      href: {
+        pathname: "/programs/business-enablement",
+        hash: "technology-advisory",
+      },
+      icon: Network,
+    },
   ];
 
   const isDigitalActive =
@@ -653,7 +667,7 @@ const Header = () => {
                       const Icon = item.icon;
                       return (
                         <Link
-                          key={item.href}
+                          key={item.nameKey}
                           href={item.href}
                           role="menuitem"
                           onClick={() => {
@@ -942,10 +956,17 @@ const Header = () => {
                       const Icon = item.icon;
                       return (
                         <Link
-                          key={item.href}
+                          key={item.nameKey}
                           href={item.href}
                           className={mobileDropdownItemClass}
-                          onClick={(e) => handleMobileNavClick(e, item.href)}
+                          onClick={(e) =>
+                            handleMobileNavClick(
+                              e,
+                              typeof item.href === "string"
+                                ? item.href
+                                : item.href.pathname,
+                            )
+                          }
                         >
                           <Icon
                             className="h-4 w-4 shrink-0 mt-0.5 opacity-70"

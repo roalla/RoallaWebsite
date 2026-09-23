@@ -95,7 +95,7 @@
   }
   
   .btn-secondary {
-    @apply bg-transparent hover:bg-primary/10 text-primary-dark font-semibold py-3 px-6 rounded-lg transition-all duration-300 border-2 border-primary-dark hover:border-primary-darker;
+    @apply bg-transparent hover:bg-primary-lighter text-primary-dark font-semibold py-3 px-6 rounded-lg transition-all duration-300 border-2 border-primary-dark hover:border-primary-darker;
   }
 
   .link-action {
@@ -131,11 +131,11 @@
   }
 
   .section-divider {
-    @apply absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent;
+    @apply absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary-soft to-transparent;
   }
 
   .card-elevated {
-    @apply bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md hover:border-primary/25 transition-all duration-300;
+    @apply bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md hover:border-primary-soft transition-all duration-300;
   }
 
   /* Homepage tile hover — stronger lift + primary glow */
@@ -145,7 +145,7 @@
 
   .home-tile:hover,
   .home-tile:focus-within {
-    @apply -translate-y-1 border-primary/45 shadow-card-hover;
+    @apply -translate-y-1 border-primary-glow shadow-card-hover;
   }
 
   .home-live-dot {

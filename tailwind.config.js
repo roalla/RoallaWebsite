@@ -13,6 +13,8 @@ module.exports = {
           light: '#33c3d1',
           dark: 'var(--roalla-color-brand-mid)',
           lighter: 'rgba(0, 180, 197, 0.1)',
+          soft: 'rgba(0, 180, 197, 0.25)',
+          glow: 'rgba(0, 180, 197, 0.45)',
           darker: 'var(--roalla-color-brand-deep)',
         },
         'brand-gold': {

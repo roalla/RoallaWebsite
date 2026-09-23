@@ -963,14 +963,7 @@ const Header = () => {
                           key={item.nameKey}
                           href={item.href}
                           className={mobileDropdownItemClass}
-                          onClick={(e) =>
-                            handleMobileNavClick(
-                              e,
-                              typeof item.href === "string"
-                                ? item.href
-                                : item.href.pathname,
-                            )
-                          }
+                          onClick={(e) => handleMobileNavClick(e, item.href)}
                         >
                           <Icon
                             className="h-4 w-4 shrink-0 mt-0.5 opacity-70"

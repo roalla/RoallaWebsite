@@ -2,12 +2,14 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Maximize2, Minimize2 } from "lucide-react";
+import { useLocale } from "next-intl";
 import {
   formatFocusTemplate,
   type FocusChapter,
   type FocusCircleCopy,
   type FocusSlide,
 } from "@/lib/workshops/focus-circle-content";
+import { focusCircleQrHref } from "@/lib/workshops/hosted-workshops";
 
 const SLIDE_KEY = "roalla-focus-circle-slide";
 const MODE_KEY = "roalla-focus-circle-view-mode";
@@ -18,6 +20,8 @@ export default function FocusCirclePresentation({
   copy: FocusCircleCopy;
 }) {
   const slides = copy.slides;
+  const locale = useLocale();
+  const qrSrc = focusCircleQrHref(locale);
   const [index, setIndex] = useState(0);
   const [mode, setMode] = useState<"read" | "present">("read");
   const [modeReady, setModeReady] = useState(false);
@@ -141,17 +145,18 @@ export default function FocusCirclePresentation({
   const currentChapter = [...copy.chapters].reverse().find((chapter) => index >= chapter.slide);
 
   return (
-    <div ref={shellRef} className="rounded-2xl border border-slate-300 bg-white shadow-sm overflow-hidden">
+    <div ref={shellRef}>
+      <div className="overflow-hidden rounded-2xl border border-slate-800 bg-[#07111f] pb-5 text-white shadow-xl">
       <div className="flex flex-wrap items-end justify-between gap-3 px-5 pt-5 sm:px-6">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-dark">{copy.viewerLabel}</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-light">{copy.viewerLabel}</p>
           <h2 className="sr-only">{copy.viewerLabel}</h2>
         </div>
-        <p className="text-sm text-slate-500" aria-live="polite">
+        <p className="text-sm text-slate-400" aria-live="polite">
           {formatFocusTemplate(copy.slideOf, { current: index + 1, total: slides.length })}
         </p>
       </div>
-      <p className="px-5 sm:px-6 mt-2 text-sm text-slate-500">{copy.viewerHelp}</p>
+      <p className="px-5 sm:px-6 mt-2 text-sm text-slate-400">{copy.viewerHelp}</p>
       <div className="px-5 sm:px-6 mt-4 flex flex-wrap gap-2" role="group" aria-label={copy.viewModeAria}>
         <ModeButton active={mode === "read"} onClick={() => setMode("read")}>
           {copy.readMode}
@@ -163,7 +168,7 @@ export default function FocusCirclePresentation({
       <nav
         ref={chaptersRef}
         aria-label={copy.chaptersLabel}
-        className="mt-4 flex gap-2 overflow-x-auto px-5 sm:px-6 pb-2"
+        className="mt-4 flex gap-2 overflow-x-auto px-5 pb-1 sm:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {copy.chapters.map((chapter) => (
           <ChapterChip
@@ -192,24 +197,30 @@ export default function FocusCirclePresentation({
           touchStart.current = event.changedTouches[0]?.clientX ?? null;
         }}
         onTouchEnd={(event) => finishSwipe(event.changedTouches[0]?.clientX ?? 0)}
-        className={`mx-5 sm:mx-6 mt-3 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-primary ${
-          presenting
-            ? "bg-slate-950 text-white min-h-[28rem]"
-            : "bg-slate-50 text-slate-900 border border-slate-200 min-h-[22rem]"
+        className={`mx-4 sm:mx-6 mt-4 overflow-hidden rounded-xl border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-brand-gold ${
+          presenting ? "min-h-[32rem]" : "min-h-[26rem]"
         } ${fullscreen && !document.fullscreenElement ? "fixed inset-4 z-50 shadow-2xl" : ""}`}
       >
-        <SlideBody slide={slide} presenting={presenting} index={index} total={slides.length} />
-        <div className={`flex flex-wrap items-center gap-3 px-4 py-4 sm:px-6 ${presenting ? "border-t border-white/10" : "border-t border-slate-200"}`}>
+        <SlideBody
+          slide={slide}
+          presenting={presenting}
+          index={index}
+          total={slides.length}
+          footer={copy.deckFooter}
+          qrSrc={qrSrc}
+          qrAlt={copy.qrAlt}
+        />
+        <div className="flex flex-wrap items-center gap-3 border-t border-white/10 px-4 py-4 sm:px-6">
           <button
             type="button"
             onClick={() => goTo(index - 1)}
             disabled={index === 0}
-            className={controlClass(presenting)}
+            className={controlClass()}
           >
             <ChevronLeft className="w-4 h-4" aria-hidden />
             {copy.previous}
           </button>
-          <p className={`text-sm ${presenting ? "text-slate-300" : "text-slate-500"}`}>
+          <p className="text-sm text-slate-300">
             {index + 1} / {slides.length}
             <span className="hidden sm:inline"> · {copy.orSwipe}</span>
           </p>
@@ -217,24 +228,25 @@ export default function FocusCirclePresentation({
             type="button"
             onClick={() => goTo(index + 1)}
             disabled={index === slides.length - 1}
-            className={controlClass(presenting)}
+            className={controlClass()}
           >
             {copy.next}
             <ChevronRight className="w-4 h-4" aria-hidden />
           </button>
-          <button type="button" onClick={() => void toggleFullscreen()} className={`${controlClass(presenting)} sm:ml-auto`}>
+          <button type="button" onClick={() => void toggleFullscreen()} className={`${controlClass()} sm:ml-auto`}>
             {fullscreen ? <Minimize2 className="w-4 h-4" aria-hidden /> : <Maximize2 className="w-4 h-4" aria-hidden />}
             {fullscreen ? copy.exitFullscreen : copy.fullscreen}
           </button>
         </div>
       </div>
       {fullscreenBlocked ? (
-        <p className="px-5 sm:px-6 mt-3 text-sm text-slate-600" role="status">
+        <p className="px-5 sm:px-6 pb-4 text-sm text-slate-300" role="status">
           {copy.fullscreenUnavailable}
         </p>
       ) : null}
+      </div>
 
-      <div className="px-5 sm:px-6 py-5 space-y-3">
+      <div className="mt-4 space-y-3">
         <details className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3">
           <summary className="cursor-pointer text-sm font-semibold text-slate-900">{copy.discussionLabel}</summary>
           <p className="mt-2 text-sm text-slate-700">{copy.discussionQuestion}</p>
@@ -264,8 +276,8 @@ function ModeButton({
       onClick={onClick}
       className={`rounded-full px-3 py-1.5 text-sm font-medium border transition-colors ${
         active
-          ? "bg-slate-900 text-white border-slate-900"
-          : "bg-white text-slate-700 border-slate-300 hover:border-primary"
+          ? "bg-white text-slate-950 border-white"
+          : "bg-transparent text-slate-300 border-white/20 hover:border-white/50"
       }`}
     >
       {children}
@@ -290,8 +302,8 @@ function ChapterChip({
       onClick={onClick}
       className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold border transition-colors ${
         current
-          ? "bg-primary/10 text-primary-darker border-primary/40"
-          : "bg-white text-slate-600 border-slate-200 hover:border-slate-400"
+          ? "bg-brand-gold text-slate-950 border-brand-gold"
+          : "bg-transparent text-slate-300 border-white/15 hover:border-white/40"
       }`}
     >
       {chapter.label}
@@ -299,56 +311,93 @@ function ChapterChip({
   );
 }
 
+function splitPoint(point: string) {
+  const [label, ...rest] = point.split("|");
+  return { label, detail: rest.join("|") };
+}
+
 function SlideBody({
   slide,
   presenting,
   index,
   total,
+  footer,
+  qrSrc,
+  qrAlt,
 }: {
   slide: FocusSlide;
   presenting: boolean;
   index: number;
   total: number;
+  footer: string;
+  qrSrc: string;
+  qrAlt: string;
 }) {
+  const points = (slide.points ?? []).map(splitPoint);
+  const columns = slide.layout === "columns";
+  const titleClass = presenting
+    ? "text-4xl sm:text-5xl"
+    : "text-3xl sm:text-4xl";
+
   return (
-    <div className="px-5 py-8 sm:px-10 sm:py-12 min-h-[18rem] flex flex-col">
-      <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${presenting ? "text-primary-light" : "text-primary-dark"}`}>
-        {slide.kicker}
-      </p>
-      <h3 className={`mt-3 font-serif font-bold leading-tight ${presenting ? "text-4xl sm:text-5xl text-white" : "text-3xl text-slate-900"}`}>
-        {slide.title}
-      </h3>
-      <p className={`mt-4 max-w-2xl text-base sm:text-lg leading-relaxed ${presenting ? "text-slate-200" : "text-slate-600"}`}>
-        {slide.body}
-      </p>
-      {slide.points && slide.points.length > 0 ? (
-        <ul className="mt-6 space-y-2 max-w-xl">
-          {slide.points.map((point) => (
-            <li key={point} className={`text-sm sm:text-base ${presenting ? "text-slate-100" : "text-slate-700"}`}>
-              <span className={`mr-2 ${presenting ? "text-brand-gold" : "text-primary"}`} aria-hidden>
-                —
-              </span>
-              {point}
-            </li>
-          ))}
-        </ul>
-      ) : null}
-      {slide.statement ? (
-        <p className={`mt-6 max-w-2xl font-serif text-xl leading-snug ${presenting ? "text-brand-gold-light" : "text-slate-900"}`}>
-          {slide.statement}
-        </p>
-      ) : null}
-      <p className={`mt-auto pt-8 text-xs tracking-[0.14em] uppercase ${presenting ? "text-slate-400" : "text-slate-400"}`}>
-        Roalla · {index + 1} / {total}
-      </p>
-    </div>
+    <article
+      className="relative flex min-h-[22rem] flex-col bg-[#07111f] text-white"
+      aria-roledescription="slide"
+    >
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,180,197,0.16),transparent_52%)]"
+        aria-hidden
+      />
+      <div className="relative flex items-center justify-between gap-4 px-5 pt-5 sm:px-8">
+        <p className="text-[11px] font-semibold tracking-[0.32em] text-white">ROALLA</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-light">{slide.kicker}</p>
+      </div>
+      <div className="relative mx-5 mt-3 h-0.5 w-12 bg-brand-gold sm:mx-8" aria-hidden />
+      <div className={`relative flex flex-1 flex-col px-5 py-5 sm:px-8 sm:py-6 ${slide.layout === "close" ? "sm:flex-row sm:items-end sm:gap-8" : ""}`}>
+        <div className="min-w-0 flex-1">
+          <h3 className={`font-serif font-bold leading-[1.08] tracking-tight text-white ${titleClass}`}>
+            {slide.title}
+          </h3>
+          <p className="mt-3 max-w-3xl text-base leading-relaxed text-slate-300 sm:text-lg">{slide.body}</p>
+          {points.length > 0 ? (
+            <ul className={`mt-5 grid gap-3 ${columns ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
+              {points.map((point, pointIndex) => (
+                <li
+                  key={point.label}
+                  className="rounded-lg border border-white/10 bg-white/[0.04] px-4 py-3"
+                >
+                  <p className="text-[11px] font-semibold tracking-[0.16em] text-brand-gold">
+                    {String(pointIndex + 1).padStart(2, "0")}
+                  </p>
+                  <p className="mt-1 font-serif text-lg leading-snug text-white">{point.label}</p>
+                  {point.detail ? <p className="mt-1 text-sm leading-relaxed text-slate-300">{point.detail}</p> : null}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          {slide.statement ? (
+            <p className="mt-5 max-w-3xl border-l-2 border-brand-gold pl-4 font-serif text-xl leading-snug text-white sm:text-2xl">
+              {slide.statement}
+            </p>
+          ) : null}
+        </div>
+        {slide.layout === "close" ? (
+          <div className="mt-5 flex shrink-0 flex-col items-center gap-2 sm:mt-0">
+            <img src={qrSrc} alt={qrAlt} width={132} height={132} className="rounded-md bg-white p-1.5" />
+          </div>
+        ) : null}
+      </div>
+      <div className="relative h-0.5 bg-white/10" aria-hidden>
+        <div className="h-full bg-brand-gold" style={{ width: `${((index + 1) / total) * 100}%` }} />
+      </div>
+      <div className="relative flex items-center justify-between gap-4 px-5 py-3 sm:px-8">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">{footer}</p>
+        <p className="text-sm font-semibold tabular-nums text-brand-gold">{String(index + 1).padStart(2, "0")}</p>
+      </div>
+    </article>
   );
 }
 
-function controlClass(presenting: boolean) {
-  return `inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium disabled:opacity-40 ${
-    presenting
-      ? "bg-white/10 text-white hover:bg-white/15"
-      : "bg-white border border-slate-300 text-slate-800 hover:border-primary"
-  }`;
+function controlClass() {
+  return "inline-flex items-center gap-1.5 rounded-md bg-white/10 px-3 py-2 text-sm font-medium text-white hover:bg-white/15 disabled:opacity-40";
 }

@@ -3,7 +3,7 @@
 import React, { useId } from 'react'
 import { Link } from '@/i18n/navigation'
 import { ArrowRight } from 'lucide-react'
-import type { ConsultationIntent } from '@/lib/consultation-request'
+import type { ConsultationIntent, ConsultingFocus } from '@/lib/consultation-request'
 
 interface ScheduleButtonProps {
   children: React.ReactNode
@@ -12,6 +12,7 @@ interface ScheduleButtonProps {
   size?: 'sm' | 'md' | 'lg'
   icon?: boolean
   intent?: ConsultationIntent
+  focus?: ConsultingFocus
   service?: 'websites-brand' | 'custom-platforms'
   need?: string
   reference?: string
@@ -30,6 +31,7 @@ const ScheduleButton: React.FC<ScheduleButtonProps> = ({
   size = 'md',
   icon = false,
   intent,
+  focus,
   service,
   need,
   reference,
@@ -55,6 +57,7 @@ const ScheduleButton: React.FC<ScheduleButtonProps> = ({
   const href = (() => {
     const query: Record<string, string> = {}
     if (intent) query.intent = intent
+    if (focus) query.focus = focus
     if (service) query.service = service
     if (need) query.need = need
     if (reference) query.reference = reference

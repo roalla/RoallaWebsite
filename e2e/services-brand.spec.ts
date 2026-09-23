@@ -44,15 +44,12 @@ test.describe("Services brand journey", () => {
     await expect(
       page.getByRole("heading", {
         name: "Technology Advisory & Solution Sourcing",
-        level: 3,
-      }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("heading", {
-        name: "Expanded supplier access through Telarus",
         level: 2,
       }),
     ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Explore Technology Advisory" }),
+    ).toHaveAttribute("href", "/en/programs/technology-advisory");
 
     await expect(
       page.getByRole("heading", { name: "How we work with you", level: 2 }),

@@ -15,6 +15,25 @@ test.describe("Service pages", () => {
     await expect(page.getByText(/Not sure which lane fits/i)).toBeVisible();
   });
 
+  test("technology advisory page is separate from business advisory", async ({
+    page,
+  }) => {
+    await page.goto("/en/programs/technology-advisory");
+    await expect(
+      page.getByRole("heading", {
+        name: "Choose technology with clearer requirements and stronger options.",
+        level: 1,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: "Expanded supplier access through Telarus",
+        level: 2,
+      }),
+    ).toBeVisible();
+    await expect(page.locator("#strategy-roadmaps")).toHaveCount(0);
+  });
+
   test("digital enablement service page links to portfolio", async ({
     page,
   }) => {

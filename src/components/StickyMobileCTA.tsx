@@ -2,13 +2,14 @@
 
 import React, { useEffect, useState } from 'react'
 import { Link } from '@/i18n/navigation'
-import type { ConsultationIntent } from '@/lib/consultation-request'
+import type { ConsultationIntent, ConsultingFocus } from '@/lib/consultation-request'
 
 type StickyMobileCTAProps = {
   label: string
   href?: '/schedule' | '/programs/business-enablement' | '/programs/workshops' | '/services/digital' | '/services/portfolio' | '/assessment'
   anchorHref?: string
   intent?: ConsultationIntent
+  focus?: ConsultingFocus
   service?: 'websites-brand' | 'custom-platforms'
   need?: string
   reference?: string
@@ -21,6 +22,7 @@ export default function StickyMobileCTA({
   href = '/schedule',
   anchorHref,
   intent,
+  focus,
   service,
   need,
   reference,
@@ -30,6 +32,7 @@ export default function StickyMobileCTA({
   const linkHref = (() => {
     const query: Record<string, string> = {}
     if (intent) query.intent = intent
+    if (focus) query.focus = focus
     if (service) query.service = service
     if (need) query.need = need
     if (reference) query.reference = reference

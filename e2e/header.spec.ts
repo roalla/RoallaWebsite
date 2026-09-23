@@ -58,6 +58,14 @@ test.describe("Header", () => {
       }),
     ).toBeVisible();
 
+    await page.goto("/en/programs/technology-advisory");
+    await expect(
+      page.getByRole("heading", {
+        name: "Choose technology with clearer requirements and stronger options.",
+        level: 1,
+      }),
+    ).toBeVisible();
+
     await page.goto("/en/services/digital");
     await expect(
       page.getByRole("heading", { name: "Digital Enablement", level: 1 }),

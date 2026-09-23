@@ -176,7 +176,7 @@ export default function HomeWhatWeDo() {
               <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
             </Link>
             <Link
-              href={{ pathname: '/programs/business-enablement', hash: 'technology-advisory' }}
+              href="/programs/technology-advisory"
               className="inline-flex items-center text-sm font-semibold text-slate-700 hover:text-primary hover:underline"
             >
               <Network className="w-4 h-4 mr-1.5 shrink-0" aria-hidden />

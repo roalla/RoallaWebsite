@@ -102,7 +102,7 @@ describe('Header', () => {
     )
     expect(screen.getByRole('menuitem', { name: /technologyAdvisory/i })).toHaveAttribute(
       'href',
-      '/programs/business-enablement#technology-advisory',
+      '/programs/technology-advisory',
     )
   })
 

@@ -225,15 +225,21 @@ const Header = () => {
   const tCommon = useTranslations("common");
   const locale = useLocale();
 
+  const isConsultingPage =
+    pathname === "/programs/business-enablement" ||
+    pathname === "/programs/technology-advisory";
   const headerCtaLabel =
     pathname === "/programs/workshops"
       ? tCommon("scheduleConsultationWorkshops")
       : pathname === "/services/digital-events"
         ? tCommon("scheduleConsultationDigitalEvents")
-        : pathname === "/programs/business-enablement"
+        : isConsultingPage
           ? tCommon("scheduleConsultationConsulting")
           : tCommon("scheduleConsultationDigital");
   const headerCtaSubtext = tCommon("ctaSubtext");
+  const headerCtaIntent = isConsultingPage ? ("consulting" as const) : undefined;
+  const headerCtaFocus =
+    pathname === "/programs/technology-advisory" ? ("technology" as const) : undefined;
 
   const handleLocaleSelect = useCallback(
     (newLocale: "en" | "fr") => {
@@ -312,10 +318,7 @@ const Header = () => {
 
   type AdvisoryNavHref =
     | "/programs/business-enablement"
-    | {
-        pathname: "/programs/business-enablement";
-        hash: "technology-advisory";
-      };
+    | "/programs/technology-advisory";
 
   const digitalLinks: {
     nameKey:
@@ -394,10 +397,7 @@ const Header = () => {
     {
       nameKey: "technologyAdvisory",
       descKey: "technologyAdvisoryDesc",
-      href: {
-        pathname: "/programs/business-enablement",
-        hash: "technology-advisory",
-      },
+      href: "/programs/technology-advisory",
       icon: Network,
     },
   ];
@@ -409,7 +409,9 @@ const Header = () => {
     pathname === "/services/digital-events" ||
     pathname === "/services/portfolio";
 
-  const isAdvisoryActive = pathname === "/programs/business-enablement";
+  const isAdvisoryActive =
+    pathname === "/programs/business-enablement" ||
+    pathname === "/programs/technology-advisory";
   const isWorkshopsActive = pathname === "/programs/workshops";
 
   const showFoundingPromo =
@@ -786,6 +788,8 @@ const Header = () => {
                 icon
                 className="!py-2.5 !px-3.5 xl:!px-4 2xl:!px-5 !text-sm"
                 hoverHint={headerCtaSubtext}
+                intent={headerCtaIntent}
+                focus={headerCtaFocus}
               >
                 {headerCtaLabel}
               </ScheduleButton>
@@ -1083,6 +1087,8 @@ const Header = () => {
                 block
                 className="justify-center"
                 hoverHint={headerCtaSubtext}
+                intent={headerCtaIntent}
+                focus={headerCtaFocus}
               >
                 {headerCtaLabel}
               </ScheduleButton>

@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Reveal from "./motion/Reveal";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import {
   TrendingUp,
   Users,
@@ -14,7 +14,6 @@ import {
   Award,
   Briefcase,
   Network,
-  ShieldCheck,
   type LucideIcon,
 } from "lucide-react";
 import ScheduleButton from "./ScheduleButton";
@@ -33,23 +32,12 @@ import {
   servicePrimaryLinkClass,
 } from "./services/ServicePageSections";
 
-const serviceIcons = [Target, TrendingUp, Users, BarChart3, Network] as const;
+const serviceIcons = [Target, TrendingUp, Users, BarChart3] as const;
 const serviceAnchors = [
   "strategy-roadmaps",
   "operations",
   "leadership",
   "readiness",
-  "technology-advisory",
-] as const;
-const technologyEvaluationKeys = [
-  "technologyEvaluation1",
-  "technologyEvaluation2",
-  "technologyEvaluation3",
-  "technologyEvaluation4",
-  "technologyEvaluation5",
-  "technologyEvaluation6",
-  "technologyEvaluation7",
-  "technologyEvaluation8",
 ] as const;
 const fitKeys = ["fit1", "fit2", "fit3"] as const;
 const howWeWorkSteps = ["step1", "step2", "step3", "step4"] as const;
@@ -145,6 +133,13 @@ function ConsultingServiceCard({
 const Services = () => {
   const t = useTranslations("services");
   const tCommon = useTranslations("common");
+  const router = useRouter();
+
+  useEffect(() => {
+    if (window.location.hash === "#technology-advisory") {
+      router.replace("/programs/technology-advisory");
+    }
+  }, [router]);
 
   const services: ConsultingService[] = [
     {
@@ -190,26 +185,6 @@ const Services = () => {
       icon: serviceIcons[3],
       focus: "data",
       anchor: serviceAnchors[3],
-    },
-    {
-      title: t("technologyTitle"),
-      desc: t("technologyDesc"),
-      features: [
-        t("technologyF1"),
-        t("technologyF2"),
-        t("technologyF3"),
-        t("technologyF4"),
-        t("technologyF5"),
-        t("technologyF6"),
-        t("technologyF7"),
-        t("technologyF8"),
-      ],
-      ideal: t("technologyIdeal"),
-      outcome: t("technologyOutcome"),
-      notFor: t("technologyNotFor"),
-      icon: serviceIcons[4],
-      focus: "technology",
-      anchor: serviceAnchors[4],
     },
   ];
 
@@ -263,46 +238,27 @@ const Services = () => {
         </div>
 
         <Reveal className="mt-10 rounded-2xl border border-primary/25 bg-white p-6 lg:p-8">
-          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark">
-                {t("technologyPartnerEyebrow")}
-              </p>
-              <h2 className="mt-2 text-2xl font-serif font-bold text-slate-900">
-                {t("technologyPartnerTitle")}
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-slate-700">
-                {t("technologyPartnerBody")}
-              </p>
-              <p className="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-relaxed text-amber-950">
-                {t("technologyCompensation")}
-              </p>
-              <Link
-                href="/partners"
-                className="mt-4 inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
-              >
-                {t("technologyPartnersLink")}
-                <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
-              </Link>
-            </div>
-            <div>
-              <div className="flex items-center gap-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                  <ShieldCheck className="h-5 w-5 text-primary-dark" aria-hidden />
-                </span>
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex items-start gap-4 max-w-3xl">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                <Network className="h-5 w-5 text-primary-dark" aria-hidden />
+              </span>
+              <div>
                 <h2 className="text-xl font-serif font-bold text-slate-900">
-                  {t("technologyEvaluationTitle")}
+                  {t("technologyTitle")}
                 </h2>
+                <p className="mt-2 text-sm leading-relaxed text-slate-700">
+                  {t("technologyPageTeaser")}
+                </p>
               </div>
-              <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-                {technologyEvaluationKeys.map((key) => (
-                  <li key={key} className="flex items-start gap-2 text-sm text-slate-700">
-                    <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-primary-dark" aria-hidden />
-                    {t(key)}
-                  </li>
-                ))}
-              </ul>
             </div>
+            <Link
+              href="/programs/technology-advisory"
+              className={servicePrimaryLinkClass}
+            >
+              {t("technologyPageTeaserCta")}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
           </div>
         </Reveal>
 
@@ -404,6 +360,7 @@ const Services = () => {
             label: t("confidentialityLink"),
           }}
           links={[
+            { href: "/programs/technology-advisory", label: t("technologyPageTeaserCta") },
             { href: "/programs/workshops", label: t("crossLinkWorkshops") },
             {
               href: "/services/digital-events",

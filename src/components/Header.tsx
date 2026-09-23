@@ -90,12 +90,15 @@ const Header = () => {
   const localeDropdownMobileRef = useRef<HTMLDivElement>(null);
   const digitalDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const advisoryDropdownDesktopRef = useRef<HTMLDivElement>(null);
+  const workshopsDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const previousMenuOpen = useRef(false);
   const [localeDropdownOpen, setLocaleDropdownOpen] = useState(false);
   const [digitalDropdownOpen, setDigitalDropdownOpen] = useState(false);
   const [advisoryDropdownOpen, setAdvisoryDropdownOpen] = useState(false);
+  const [workshopsDropdownOpen, setWorkshopsDropdownOpen] = useState(false);
   const [digitalMobileExpanded, setDigitalMobileExpanded] = useState(false);
   const [advisoryMobileExpanded, setAdvisoryMobileExpanded] = useState(false);
+  const [workshopsMobileExpanded, setWorkshopsMobileExpanded] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -208,6 +211,35 @@ const Header = () => {
     };
   }, [advisoryDropdownOpen]);
 
+  useEffect(() => {
+    if (!workshopsDropdownOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as Node;
+      if (!workshopsDropdownDesktopRef.current?.contains(target)) {
+        setWorkshopsDropdownOpen(false);
+      }
+    };
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setWorkshopsDropdownOpen(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [workshopsDropdownOpen]);
+
+  const closeOtherDesktopDropdowns = useCallback(
+    (keep: "digital" | "advisory" | "workshops" | "locale") => {
+      if (keep !== "digital") setDigitalDropdownOpen(false);
+      if (keep !== "advisory") setAdvisoryDropdownOpen(false);
+      if (keep !== "workshops") setWorkshopsDropdownOpen(false);
+      if (keep !== "locale") setLocaleDropdownOpen(false);
+    },
+    [],
+  );
+
   const toggleMenu = () => {
     setIsMenuOpen((open) => !open);
   };
@@ -216,6 +248,7 @@ const Header = () => {
     setIsMenuOpen(false);
     setDigitalMobileExpanded(false);
     setAdvisoryMobileExpanded(false);
+    setWorkshopsMobileExpanded(false);
   }, []);
 
   const fullPathname = useNextPathname() ?? "";
@@ -320,6 +353,8 @@ const Header = () => {
     | "/programs/business-enablement"
     | "/programs/technology-advisory";
 
+  type WorkshopNavHref = "/programs/workshops";
+
   const digitalLinks: {
     nameKey:
       | "digitalOverview"
@@ -402,6 +437,27 @@ const Header = () => {
     },
   ];
 
+  const workshopLinks: {
+    nameKey: "teamWorkshops";
+    descKey: "workshopsDesc";
+    href: WorkshopNavHref;
+    icon: typeof GraduationCap;
+  }[] = [
+    {
+      nameKey: "teamWorkshops",
+      descKey: "workshopsDesc",
+      href: "/programs/workshops",
+      icon: GraduationCap,
+    },
+  ];
+
+  const isCurrentHref = (
+    href: string | { pathname: string; hash?: string },
+  ) => {
+    const path = typeof href === "string" ? href : href.pathname;
+    return pathname === path;
+  };
+
   const isDigitalActive =
     pathname === "/services/digital" ||
     pathname === "/website-design" ||
@@ -413,6 +469,19 @@ const Header = () => {
     pathname === "/programs/business-enablement" ||
     pathname === "/programs/technology-advisory";
   const isWorkshopsActive = pathname === "/programs/workshops";
+
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    if (digitalLinks.some((item) => isCurrentHref(item.href))) {
+      setDigitalMobileExpanded(true);
+    }
+    if (advisoryLinks.some((item) => isCurrentHref(item.href))) {
+      setAdvisoryMobileExpanded(true);
+    }
+    if (workshopLinks.some((item) => isCurrentHref(item.href))) {
+      setWorkshopsMobileExpanded(true);
+    }
+  }, [isMenuOpen, pathname]);
 
   const showFoundingPromo =
     pathname === "/services/digital" ||
@@ -534,7 +603,10 @@ const Header = () => {
               <div className="relative" ref={digitalDropdownDesktopRef}>
                 <button
                   type="button"
-                  onClick={() => setDigitalDropdownOpen((o) => !o)}
+                  onClick={() => {
+                    closeOtherDesktopDropdowns("digital");
+                    setDigitalDropdownOpen((o) => !o);
+                  }}
                   aria-expanded={digitalDropdownOpen}
                   aria-haspopup="menu"
                   id="digital-dropdown-desktop"
@@ -571,22 +643,30 @@ const Header = () => {
                         typeof item.href === "string"
                           ? item.href
                           : `${item.href.pathname}#${item.href.hash}`;
+                      const current = isCurrentHref(item.href);
                       return (
                         <Link
                           key={linkKey}
                           href={item.href}
                           role="menuitem"
+                          aria-current={current ? "page" : undefined}
                           onClick={() => {
                             setDigitalDropdownOpen(false);
                             closeMenu();
                           }}
-                          className={digitalDropdownItemClass}
+                          className={`${digitalDropdownItemClass} ${current ? "bg-primary/10" : ""}`}
                         >
                           <div className={digitalDropdownIconClass}>
                             <Icon className="h-4 w-4" aria-hidden />
                           </div>
                           <div className="min-w-0 text-left">
-                            <p className="text-sm font-semibold leading-snug text-white group-hover:text-primary transition-colors">
+                            <p
+                              className={`text-sm font-semibold leading-snug transition-colors ${
+                                current
+                                  ? "text-primary"
+                                  : "text-white group-hover:text-primary"
+                              }`}
+                            >
                               {t(item.nameKey)}
                             </p>
                             <p className="mt-0.5 text-xs leading-snug text-slate-400 group-hover:text-slate-300">
@@ -634,7 +714,10 @@ const Header = () => {
               <div className="relative" ref={advisoryDropdownDesktopRef}>
                 <button
                   type="button"
-                  onClick={() => setAdvisoryDropdownOpen((o) => !o)}
+                  onClick={() => {
+                    closeOtherDesktopDropdowns("advisory");
+                    setAdvisoryDropdownOpen((o) => !o);
+                  }}
                   aria-expanded={advisoryDropdownOpen}
                   aria-haspopup="menu"
                   id="advisory-dropdown-desktop"
@@ -667,22 +750,30 @@ const Header = () => {
                   <div className="p-1.5">
                     {advisoryLinks.map((item) => {
                       const Icon = item.icon;
+                      const current = isCurrentHref(item.href);
                       return (
                         <Link
                           key={item.nameKey}
                           href={item.href}
                           role="menuitem"
+                          aria-current={current ? "page" : undefined}
                           onClick={() => {
                             setAdvisoryDropdownOpen(false);
                             closeMenu();
                           }}
-                          className={advisoryDropdownItemClass}
+                          className={`${advisoryDropdownItemClass} ${current ? "bg-primary/10" : ""}`}
                         >
                           <div className={advisoryDropdownIconClass}>
                             <Icon className="h-4 w-4" aria-hidden />
                           </div>
                           <div className="min-w-0 text-left">
-                            <p className="text-sm font-semibold leading-snug text-gray-200 group-hover:text-primary transition-colors">
+                            <p
+                              className={`text-sm font-semibold leading-snug transition-colors ${
+                                current
+                                  ? "text-primary"
+                                  : "text-gray-200 group-hover:text-primary"
+                              }`}
+                            >
                               {t(item.nameKey)}
                             </p>
                             <p className="mt-0.5 text-xs leading-snug text-slate-500 group-hover:text-slate-400">
@@ -696,24 +787,80 @@ const Header = () => {
                 </div>
               </div>
 
-              <div>
-                <Link
-                  href="/programs/workshops"
-                  aria-current={isWorkshopsActive ? "page" : undefined}
-                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap block py-2 ${
-                    isWorkshopsActive ? "text-primary" : navIdleClass
-                  }`}
-                  onClick={closeMenu}
+              <div className="relative" ref={workshopsDropdownDesktopRef}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    closeOtherDesktopDropdowns("workshops");
+                    setWorkshopsDropdownOpen((o) => !o);
+                  }}
+                  aria-expanded={workshopsDropdownOpen}
+                  aria-haspopup="menu"
+                  id="workshops-dropdown-desktop"
+                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
+                    isWorkshopsActive || workshopsDropdownOpen
+                      ? "text-primary"
+                      : navIdleClass
+                  } ${workshopsDropdownOpen ? navOpenBgClass : ""}`}
                 >
                   {t("workshops")}
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${workshopsDropdownOpen ? "rotate-180" : ""}`}
+                  />
                   <span
                     className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
-                      isWorkshopsActive
-                        ? "w-full"
-                        : "w-0 group-hover:w-full"
+                      isWorkshopsActive ? "w-full" : "w-0 group-hover:w-full"
                     }`}
                   />
-                </Link>
+                </button>
+                <div
+                  role="menu"
+                  aria-labelledby="workshops-dropdown-desktop"
+                  className={`absolute right-0 top-full mt-2 w-[min(100vw-2rem,320px)] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50 ${dropdownPanelClass(workshopsDropdownOpen)}`}
+                >
+                  <div className="px-4 py-2.5 border-b border-white/10 bg-white/[0.03]">
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                      {t("workshopsMenuLabel")}
+                    </p>
+                  </div>
+                  <div className="p-1.5">
+                    {workshopLinks.map((item) => {
+                      const Icon = item.icon;
+                      const current = isCurrentHref(item.href);
+                      return (
+                        <Link
+                          key={item.nameKey}
+                          href={item.href}
+                          role="menuitem"
+                          aria-current={current ? "page" : undefined}
+                          onClick={() => {
+                            setWorkshopsDropdownOpen(false);
+                            closeMenu();
+                          }}
+                          className={`${advisoryDropdownItemClass} ${current ? "bg-primary/10" : ""}`}
+                        >
+                          <div className={advisoryDropdownIconClass}>
+                            <Icon className="h-4 w-4" aria-hidden />
+                          </div>
+                          <div className="min-w-0 text-left">
+                            <p
+                              className={`text-sm font-semibold leading-snug transition-colors ${
+                                current
+                                  ? "text-primary"
+                                  : "text-gray-200 group-hover:text-primary"
+                              }`}
+                            >
+                              {t(item.nameKey)}
+                            </p>
+                            <p className="mt-0.5 text-xs leading-snug text-slate-500 group-hover:text-slate-400">
+                              {t(item.descKey)}
+                            </p>
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -728,7 +875,10 @@ const Header = () => {
               >
                 <button
                   type="button"
-                  onClick={() => setLocaleDropdownOpen((o) => !o)}
+                  onClick={() => {
+                    closeOtherDesktopDropdowns("locale");
+                    setLocaleDropdownOpen((o) => !o);
+                  }}
                   className={localeBtnClass}
                   aria-expanded={localeDropdownOpen}
                   aria-haspopup="listbox"
@@ -890,11 +1040,13 @@ const Header = () => {
                         typeof item.href === "string"
                           ? item.href
                           : item.href.pathname;
+                      const current = isCurrentHref(item.href);
                       return (
                         <Link
                           key={linkKey}
                           href={item.href}
-                          className={mobileDropdownItemClass}
+                          aria-current={current ? "page" : undefined}
+                          className={`${mobileDropdownItemClass} ${current ? "text-primary bg-primary/10" : ""}`}
                           onClick={(e) => handleMobileNavClick(e, mobilePath)}
                         >
                           <Icon
@@ -958,11 +1110,13 @@ const Header = () => {
                   <div className="overflow-hidden min-h-0">
                     {advisoryLinks.map((item) => {
                       const Icon = item.icon;
+                      const current = isCurrentHref(item.href);
                       return (
                         <Link
                           key={item.nameKey}
                           href={item.href}
-                          className={mobileDropdownItemClass}
+                          aria-current={current ? "page" : undefined}
+                          className={`${mobileDropdownItemClass} ${current ? "text-primary bg-primary/10" : ""}`}
                           onClick={(e) => handleMobileNavClick(e, item.href)}
                         >
                           <Icon
@@ -985,24 +1139,53 @@ const Header = () => {
               </div>
 
               <div>
-                <Link
-                  href="/programs/workshops"
-                  aria-current={isWorkshopsActive ? "page" : undefined}
-                  className={`block px-3 py-3 min-h-[44px] flex items-center gap-3 rounded-md text-base font-medium transition-colors duration-200 ${
+                <button
+                  type="button"
+                  onClick={() => setWorkshopsMobileExpanded((o) => !o)}
+                  aria-expanded={workshopsMobileExpanded}
+                  className={`w-full flex items-center justify-between px-3 py-3 min-h-[44px] rounded-md text-base font-medium transition-colors duration-200 ${
                     isWorkshopsActive
                       ? "text-primary bg-primary/10"
                       : "text-gray-300 hover:text-primary hover:bg-white/5"
                   }`}
-                  onClick={(e) =>
-                    handleMobileNavClick(e, "/programs/workshops")
-                  }
                 >
-                  <GraduationCap
-                    className="h-4 w-4 shrink-0 opacity-70"
-                    aria-hidden
-                  />
                   {t("workshops")}
-                </Link>
+                  <ChevronDown
+                    className={`w-5 h-5 transition-transform ${workshopsMobileExpanded ? "rotate-180" : ""}`}
+                  />
+                </button>
+                <div
+                  className={`collapse-grid ${workshopsMobileExpanded ? "collapse-grid-open" : "collapse-grid-closed"}`}
+                >
+                  <div className="overflow-hidden min-h-0">
+                    {workshopLinks.map((item) => {
+                      const Icon = item.icon;
+                      const current = isCurrentHref(item.href);
+                      return (
+                        <Link
+                          key={item.nameKey}
+                          href={item.href}
+                          aria-current={current ? "page" : undefined}
+                          className={`${mobileDropdownItemClass} ${current ? "text-primary bg-primary/10" : ""}`}
+                          onClick={(e) => handleMobileNavClick(e, item.href)}
+                        >
+                          <Icon
+                            className="h-4 w-4 shrink-0 mt-0.5 opacity-70"
+                            aria-hidden
+                          />
+                          <span>
+                            <span className="block text-base font-medium">
+                              {t(item.nameKey)}
+                            </span>
+                            <span className="block text-xs text-slate-500 mt-0.5">
+                              {t(item.descKey)}
+                            </span>
+                          </span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
 
               <a

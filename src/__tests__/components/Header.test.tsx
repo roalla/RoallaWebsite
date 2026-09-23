@@ -74,14 +74,16 @@ describe('Header', () => {
     expect(screen.getByRole('menuitem', { name: /digitalWebsites/i })).toHaveAttribute('href', '/website-design')
   })
 
-  it('does not pre-highlight digital dropdown items on the current page', () => {
+  it('marks only the matching dropdown item for the current page', () => {
     mockPathname.mockReturnValue('/services/digital')
     render(<Header />)
     fireEvent.click(screen.getByRole('button', { name: 'digitalEnablement' }))
 
-    screen.getAllByRole('menuitem').forEach((item) => {
-      expect(item).not.toHaveAttribute('aria-current')
-    })
+    const current = screen.getAllByRole('menuitem').filter(
+      (item) => item.getAttribute('aria-current') === 'page',
+    )
+    expect(current).toHaveLength(1)
+    expect(current[0]).toHaveAttribute('href', '/services/digital')
   })
 
   it('renders digital portfolio as an icon link with accessible label', () => {
@@ -106,13 +108,23 @@ describe('Header', () => {
     )
   })
 
-  it('renders workshops as a top-level nav link', () => {
+  it('renders team workshops as a submenu of workshops', () => {
     render(<Header />)
-    const workshopLinks = screen.getAllByRole('link', { name: 'workshops' })
-    expect(workshopLinks.length).toBeGreaterThan(0)
-    workshopLinks.forEach((link) => {
-      expect(link).toHaveAttribute('href', '/programs/workshops')
-    })
+    fireEvent.click(screen.getByRole('button', { name: 'workshops' }))
+    expect(screen.getByRole('menuitem', { name: /teamWorkshops/i })).toHaveAttribute(
+      'href',
+      '/programs/workshops',
+    )
+  })
+
+  it('marks team workshops when that page is selected', () => {
+    mockPathname.mockReturnValue('/programs/workshops')
+    render(<Header />)
+    fireEvent.click(screen.getByRole('button', { name: 'workshops' }))
+    expect(screen.getByRole('menuitem', { name: /teamWorkshops/i })).toHaveAttribute(
+      'aria-current',
+      'page',
+    )
   })
 
   it('hides founding client promo on the homepage', () => {

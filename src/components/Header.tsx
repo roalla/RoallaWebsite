@@ -8,8 +8,8 @@ import {
   Briefcase,
   Globe,
   GraduationCap,
+  Images,
   Layers,
-  LayoutGrid,
   Workflow,
   Flag,
   SearchCheck,
@@ -602,7 +602,7 @@ const Header = () => {
                   }`}
                   onClick={closeMenu}
                 >
-                  <LayoutGrid className="h-5 w-5" aria-hidden />
+                  <Images className="h-5 w-5" aria-hidden />
                   <span
                     className={`absolute -bottom-0.5 left-1/2 h-0.5 -translate-x-1/2 bg-primary transition-all duration-300 ${
                       isActive("/services/portfolio")
@@ -897,7 +897,7 @@ const Header = () => {
                     handleMobileNavClick(e, "/services/portfolio")
                   }
                 >
-                  <LayoutGrid className="h-4 w-4 shrink-0 opacity-70" aria-hidden />
+                  <Images className="h-4 w-4 shrink-0 opacity-70" aria-hidden />
                   {t("digitalPortfolio")}
                 </Link>
               </div>

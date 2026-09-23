@@ -88,13 +88,13 @@ const Header = () => {
   const localeDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const localeDropdownMobileRef = useRef<HTMLDivElement>(null);
   const digitalDropdownDesktopRef = useRef<HTMLDivElement>(null);
-  const programsDropdownDesktopRef = useRef<HTMLDivElement>(null);
+  const advisoryDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const previousMenuOpen = useRef(false);
   const [localeDropdownOpen, setLocaleDropdownOpen] = useState(false);
   const [digitalDropdownOpen, setDigitalDropdownOpen] = useState(false);
-  const [programsDropdownOpen, setProgramsDropdownOpen] = useState(false);
+  const [advisoryDropdownOpen, setAdvisoryDropdownOpen] = useState(false);
   const [digitalMobileExpanded, setDigitalMobileExpanded] = useState(false);
-  const [programsMobileExpanded, setProgramsMobileExpanded] = useState(false);
+  const [advisoryMobileExpanded, setAdvisoryMobileExpanded] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -189,15 +189,15 @@ const Header = () => {
   }, [digitalDropdownOpen]);
 
   useEffect(() => {
-    if (!programsDropdownOpen) return;
+    if (!advisoryDropdownOpen) return;
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
-      if (!programsDropdownDesktopRef.current?.contains(target)) {
-        setProgramsDropdownOpen(false);
+      if (!advisoryDropdownDesktopRef.current?.contains(target)) {
+        setAdvisoryDropdownOpen(false);
       }
     };
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setProgramsDropdownOpen(false);
+      if (e.key === "Escape") setAdvisoryDropdownOpen(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("keydown", handleEscape);
@@ -205,7 +205,7 @@ const Header = () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleEscape);
     };
-  }, [programsDropdownOpen]);
+  }, [advisoryDropdownOpen]);
 
   const toggleMenu = () => {
     setIsMenuOpen((open) => !open);
@@ -214,7 +214,7 @@ const Header = () => {
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
     setDigitalMobileExpanded(false);
-    setProgramsMobileExpanded(false);
+    setAdvisoryMobileExpanded(false);
   }, []);
 
   const fullPathname = useNextPathname() ?? "";
@@ -309,7 +309,7 @@ const Header = () => {
     | "/services/managed-optimization"
     | { pathname: "/services/digital"; hash: "ai-support" };
 
-  type ProgramNavHref = "/programs/business-enablement" | "/programs/workshops";
+  type AdvisoryNavHref = "/programs/business-enablement";
 
   const digitalLinks: {
     nameKey:
@@ -373,10 +373,10 @@ const Header = () => {
     },
   ];
 
-  const programLinks: {
-    nameKey: "businessEnablement" | "workshops";
-    descKey: "businessEnablementDesc" | "workshopsDesc";
-    href: ProgramNavHref;
+  const advisoryLinks: {
+    nameKey: "businessEnablement";
+    descKey: "businessEnablementDesc";
+    href: AdvisoryNavHref;
     icon: typeof Briefcase;
   }[] = [
     {
@@ -385,12 +385,7 @@ const Header = () => {
       href: "/programs/business-enablement",
       icon: Briefcase,
     },
-    {
-      nameKey: "workshops",
-      descKey: "workshopsDesc",
-      href: "/programs/workshops",
-      icon: GraduationCap,
-    },
+    // Future: Technology Advisor
   ];
 
   const isDigitalActive =
@@ -400,7 +395,8 @@ const Header = () => {
     pathname === "/services/digital-events" ||
     pathname === "/services/portfolio";
 
-  const isProgramsActive = pathname.startsWith("/programs");
+  const isAdvisoryActive = pathname === "/programs/business-enablement";
+  const isWorkshopsActive = pathname === "/programs/workshops";
 
   const showFoundingPromo =
     pathname === "/services/digital" ||
@@ -432,9 +428,9 @@ const Header = () => {
     "group flex gap-3 rounded-lg px-3 py-3 transition-colors hover:bg-white/5 focus-visible:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40";
   const digitalDropdownIconClass =
     "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/5 text-slate-400 transition-colors group-hover:bg-primary/10 group-hover:text-primary group-focus-visible:bg-primary/10 group-focus-visible:text-primary";
-  const programDropdownItemClass =
+  const advisoryDropdownItemClass =
     "group flex gap-3 rounded-lg px-3 py-3 transition-colors hover:bg-white/5 focus-visible:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40";
-  const programDropdownIconClass =
+  const advisoryDropdownIconClass =
     "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/5 text-slate-500 transition-colors group-hover:bg-primary/10 group-hover:text-primary group-focus-visible:bg-primary/10 group-focus-visible:text-primary";
   const mobileDropdownItemClass =
     "flex gap-3 pl-5 pr-3 py-3 min-h-[44px] rounded-md transition-colors duration-200 text-gray-300 hover:text-primary hover:bg-white/5 focus-visible:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40";
@@ -619,41 +615,41 @@ const Header = () => {
                 </span>
               </div>
 
-              <div className="relative" ref={programsDropdownDesktopRef}>
+              <div className="relative" ref={advisoryDropdownDesktopRef}>
                 <button
                   type="button"
-                  onClick={() => setProgramsDropdownOpen((o) => !o)}
-                  aria-expanded={programsDropdownOpen}
+                  onClick={() => setAdvisoryDropdownOpen((o) => !o)}
+                  aria-expanded={advisoryDropdownOpen}
                   aria-haspopup="menu"
-                  id="programs-dropdown-desktop"
+                  id="advisory-dropdown-desktop"
                   className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
-                    isProgramsActive || programsDropdownOpen
+                    isAdvisoryActive || advisoryDropdownOpen
                       ? "text-primary"
                       : navIdleClass
-                  } ${programsDropdownOpen ? navOpenBgClass : ""}`}
+                  } ${advisoryDropdownOpen ? navOpenBgClass : ""}`}
                 >
-                  {t("programs")}
+                  {t("advisory")}
                   <ChevronDown
-                    className={`w-4 h-4 transition-transform ${programsDropdownOpen ? "rotate-180" : ""}`}
+                    className={`w-4 h-4 transition-transform ${advisoryDropdownOpen ? "rotate-180" : ""}`}
                   />
                   <span
                     className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
-                      isProgramsActive ? "w-full" : "w-0 group-hover:w-full"
+                      isAdvisoryActive ? "w-full" : "w-0 group-hover:w-full"
                     }`}
                   />
                 </button>
                 <div
                   role="menu"
-                  aria-labelledby="programs-dropdown-desktop"
-                  className={`absolute right-0 top-full mt-2 w-[min(100vw-2rem,320px)] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50 ${dropdownPanelClass(programsDropdownOpen)}`}
+                  aria-labelledby="advisory-dropdown-desktop"
+                  className={`absolute right-0 top-full mt-2 w-[min(100vw-2rem,320px)] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50 ${dropdownPanelClass(advisoryDropdownOpen)}`}
                 >
                   <div className="px-4 py-2.5 border-b border-white/10 bg-white/[0.03]">
                     <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                      {t("programsMenuLabel")}
+                      {t("advisoryMenuLabel")}
                     </p>
                   </div>
                   <div className="p-1.5">
-                    {programLinks.map((item) => {
+                    {advisoryLinks.map((item) => {
                       const Icon = item.icon;
                       return (
                         <Link
@@ -661,12 +657,12 @@ const Header = () => {
                           href={item.href}
                           role="menuitem"
                           onClick={() => {
-                            setProgramsDropdownOpen(false);
+                            setAdvisoryDropdownOpen(false);
                             closeMenu();
                           }}
-                          className={programDropdownItemClass}
+                          className={advisoryDropdownItemClass}
                         >
-                          <div className={programDropdownIconClass}>
+                          <div className={advisoryDropdownIconClass}>
                             <Icon className="h-4 w-4" aria-hidden />
                           </div>
                           <div className="min-w-0 text-left">
@@ -682,6 +678,26 @@ const Header = () => {
                     })}
                   </div>
                 </div>
+              </div>
+
+              <div>
+                <Link
+                  href="/programs/workshops"
+                  aria-current={isWorkshopsActive ? "page" : undefined}
+                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap block py-2 ${
+                    isWorkshopsActive ? "text-primary" : navIdleClass
+                  }`}
+                  onClick={closeMenu}
+                >
+                  {t("workshops")}
+                  <span
+                    className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                      isWorkshopsActive
+                        ? "w-full"
+                        : "w-0 group-hover:w-full"
+                    }`}
+                  />
+                </Link>
               </div>
             </div>
           </div>
@@ -905,24 +921,24 @@ const Header = () => {
               <div className="border-t border-white/10 pt-1">
                 <button
                   type="button"
-                  onClick={() => setProgramsMobileExpanded((o) => !o)}
-                  aria-expanded={programsMobileExpanded}
+                  onClick={() => setAdvisoryMobileExpanded((o) => !o)}
+                  aria-expanded={advisoryMobileExpanded}
                   className={`w-full flex items-center justify-between px-3 py-3 min-h-[44px] rounded-md text-base font-medium transition-colors duration-200 ${
-                    isProgramsActive
+                    isAdvisoryActive
                       ? "text-gray-200 bg-white/5"
                       : "text-slate-400 hover:text-gray-200 hover:bg-white/5"
                   }`}
                 >
-                  {t("programs")}
+                  {t("advisory")}
                   <ChevronDown
-                    className={`w-5 h-5 transition-transform ${programsMobileExpanded ? "rotate-180" : ""}`}
+                    className={`w-5 h-5 transition-transform ${advisoryMobileExpanded ? "rotate-180" : ""}`}
                   />
                 </button>
                 <div
-                  className={`collapse-grid ${programsMobileExpanded ? "collapse-grid-open" : "collapse-grid-closed"}`}
+                  className={`collapse-grid ${advisoryMobileExpanded ? "collapse-grid-open" : "collapse-grid-closed"}`}
                 >
                   <div className="overflow-hidden min-h-0">
-                    {programLinks.map((item) => {
+                    {advisoryLinks.map((item) => {
                       const Icon = item.icon;
                       return (
                         <Link
@@ -948,6 +964,27 @@ const Header = () => {
                     })}
                   </div>
                 </div>
+              </div>
+
+              <div>
+                <Link
+                  href="/programs/workshops"
+                  aria-current={isWorkshopsActive ? "page" : undefined}
+                  className={`block px-3 py-3 min-h-[44px] flex items-center gap-3 rounded-md text-base font-medium transition-colors duration-200 ${
+                    isWorkshopsActive
+                      ? "text-primary bg-primary/10"
+                      : "text-gray-300 hover:text-primary hover:bg-white/5"
+                  }`}
+                  onClick={(e) =>
+                    handleMobileNavClick(e, "/programs/workshops")
+                  }
+                >
+                  <GraduationCap
+                    className="h-4 w-4 shrink-0 opacity-70"
+                    aria-hidden
+                  />
+                  {t("workshops")}
+                </Link>
               </div>
 
               <a

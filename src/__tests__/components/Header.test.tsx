@@ -90,14 +90,22 @@ describe('Header', () => {
     })
   })
 
-  it('renders programs dropdown with program links', () => {
+  it('renders advisory dropdown with business advisory link', () => {
     render(<Header />)
-    fireEvent.click(screen.getByRole('button', { name: 'programs' }))
+    fireEvent.click(screen.getByRole('button', { name: 'advisory' }))
     expect(screen.getByRole('menuitem', { name: /businessEnablement/i })).toHaveAttribute(
       'href',
       '/programs/business-enablement',
     )
-    expect(screen.getByRole('menuitem', { name: /workshops/i })).toHaveAttribute('href', '/programs/workshops')
+  })
+
+  it('renders workshops as a top-level nav link', () => {
+    render(<Header />)
+    const workshopLinks = screen.getAllByRole('link', { name: 'workshops' })
+    expect(workshopLinks.length).toBeGreaterThan(0)
+    workshopLinks.forEach((link) => {
+      expect(link).toHaveAttribute('href', '/programs/workshops')
+    })
   })
 
   it('hides founding client promo on the homepage', () => {

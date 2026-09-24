@@ -22,5 +22,8 @@ describe("companion workshop content", () => {
     expect(companionWorkshopCopy("ideation", "fr").title).toContain("liste");
     expect(companionWorkshopCopy("first-offer", "fr").title).toContain("première");
     expect(companionWorkshopCopy("first-offer", "en").tools.some((tool) => tool.href === "https://www.pitchhotshot.com/")).toBe(true);
+    expect(companionWorkshopCopy("offer-page", "en").tools.find((tool) => tool.title === "Repeat sentence")?.href).toBe("https://www.pitchhotshot.com/");
+    expect(companionWorkshopCopy("offer-page", "fr").tools.find((tool) => tool.title === "Phrase à répéter")?.href).toBe("https://www.pitchhotshot.com/");
+    expect(companionWorkshopCopy("offer-page", "en").tools.find((tool) => tool.title === "One-job brief")?.href).toBeUndefined();
   });
 });

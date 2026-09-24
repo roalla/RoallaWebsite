@@ -121,7 +121,7 @@ const offerEn = {
   framework: [
     { name: "Prepare", title: "Name who it is for", body: "Choose the person who already feels the problem, and the people this page is not for." },
     { name: "Transform", title: "Separate proof from claim", body: "Keep the sentence that can be shown. Park the sentence that only sounds impressive." },
-    { name: "Emerge", title: "Agree the sentence", body: "Practise the offer until two people can say it the same way." },
+    { name: "Emerge", title: "Agree the sentence", body: "Practise the offer until two people can say it the same way, then rehearse the delivery on PitchHotshot." },
     { name: "Soar", title: "Give the next asset one job", body: "The site, deck, or conversation does one thing. Write what it will not do." },
   ],
   practiceTitle: "Can you hear the offer that will survive the next room?",
@@ -139,7 +139,7 @@ const offerEn = {
   tools: [
     { title: "Audience line", body: "Who it is for, and who it is not for.", points: ["They already feel…", "They are trying to…", "They are not…", "They decide when…"] },
     { title: "Proof card", body: "A claim earns its place only if it can be shown.", points: ["Claim", "Proof", "Where it appears", "What we will not say"] },
-    { title: "Repeat sentence", body: "One line, said the same way by two people.", points: ["Who", "Problem", "Outcome", "Next step"] },
+    { title: "Repeat sentence", body: "One line, said the same way by two people. Rehearse it on PitchHotshot: an AI score, and notes from one teammate on the same take.", points: ["Who", "Problem", "Outcome", "Next step"], href: "https://www.pitchhotshot.com/" },
     { title: "One-job brief", body: "The next asset does one job.", points: ["The job", "The reader", "The proof", "Out of scope"] },
   ],
   faqs: [
@@ -157,11 +157,11 @@ const offerSlidesEn: WorkshopSlide[] = [
   { kicker: "Prepare", title: "Write who it is for in their words.", body: "A page for everyone is a page the right reader cannot see themselves in.", stage: "prepare", visual: "map", points: ["Person|Who already feels the problem", "Words|How they describe it", "Not for|Who this page will not chase", "Moment|When they are ready to act"], notes: "Push for a person, not a category." },
   { kicker: "Transform", title: "A claim needs proof, or it leaves the page.", body: "Impressive language that cannot be shown becomes a risk in the next conversation.", stage: "transform", visual: "separate", points: ["Claim|What we want to say", "Proof|What we can show", "Place|Where the proof appears", "Park|What we will not say yet"], notes: "Parked claims are not failures. They are waiting for evidence." },
   { kicker: "Transform", title: "The next page has one job.", body: "A site, a deck, and a proposal can share an offer and still do different work. This page names one job.", stage: "transform", visual: "choices", points: ["Start a conversation|The reader knows who to contact", "Explain the offer|The reader can repeat it", "Prove the fit|The reader sees themselves", "Out of scope|What this page will not do"], statement: "One job, written down, is a brief.", notes: "Choosing the job is the decision. The design comes later." },
-  { kicker: "Emerge", title: "Say it until two people match.", body: "The sentence has a person, a problem, an outcome, and a next step.", stage: "emerge", visual: "script", points: ["Who|For teams that…", "Problem|When…", "Outcome|So they can…", "Next|The next step is…"], notes: "Practise out loud. Exact words matter less than a shared meaning." },
+  { kicker: "Emerge", title: "Say it until two people match.", body: "The sentence has a person, a problem, an outcome, and a next step. Once it is written, PitchHotshot can score the delivery.", stage: "emerge", visual: "script", points: ["Who|For teams that…", "Problem|When…", "Outcome|So they can…", "Next|The next step is…"], notes: "Practise out loud. Exact words matter less than a shared meaning. Open PitchHotshot only after the sentence exists." },
   { kicker: "Practice", title: "Choose the line a buyer can repeat.", body: "The steadier line is specific enough to remember and honest enough to defend.", stage: "emerge", visual: "practice", points: ["The feature list|Everything the company can do", "The broad promise|Helpful to any business", "The specific offer|One reader, one problem, one next step"], notes: "Use the situations after the slides." },
   { kicker: "Soar", title: "Hand the page to the next asset.", body: "The website, the deck, or the next call inherits the sentence. It does not invent a new one.", stage: "soar", visual: "rhythm", points: ["Reader|Who it is for", "Sentence|What we repeat", "Proof|What we can show", "Job|What this asset must do"], notes: "If a later asset needs a new audience, that is a new page, not a footnote." },
   { kicker: "Your plan", title: "Write the page you will use next.", body: "Who it is for, the sentence, and the job of the next asset.", stage: "soar", visual: "plan", points: ["Reader|Who already feels this?", "Sentence|What will we repeat?", "Job|What must the next page do?"], notes: "Leave time to write." },
-  { kicker: "Take-home tools", title: "Keep the offer from drifting.", body: "The audience line, the proof card, the sentence, and the brief stay on this page.", stage: "soar", visual: "tools", points: ["Audience|Who it is for", "Proof|What we can show", "Sentence|What we repeat", "Brief|The job of the next asset"], notes: "Name the tools without reading every line." },
+  { kicker: "Take-home tools", title: "Keep the offer from drifting.", body: "The audience line, the proof card, the sentence, and the brief stay on this page. The sentence card opens PitchHotshot.", stage: "soar", visual: "tools", points: ["Audience|Who it is for", "Proof|What we can show", "Sentence|What we repeat", "Brief|The job of the next asset"], notes: "Name the tools without reading every line. The sentence card links to PitchHotshot." },
   { kicker: "Close", title: "One offer, said the same way.", body: "The next room should not have to invent the story again.", stage: "soar", visual: "close", statement: "Use the sentence in the next real conversation.", notes: "Invite one commitment and close." },
 ];
 
@@ -187,11 +187,11 @@ const offerSlidesFr: Partial<WorkshopSlide>[] = [
   { kicker: "Préparer", title: "Écrire pour qui, dans leurs mots.", body: "Une page pour tout le monde est une page où le bon lecteur ne se reconnaît pas.", points: ["Personne|Qui sent déjà le problème", "Mots|Comment cette personne le dit", "Pas pour|Qui cette page ne poursuit pas", "Moment|Quand elle est prête à agir"], notes: "Demander une personne, pas une catégorie." },
   { kicker: "Transformer", title: "Une promesse a besoin d’une preuve, ou elle quitte la page.", body: "Un langage impressionnant qu’on ne peut pas montrer devient un risque.", points: ["Promesse|Ce que nous voulons dire", "Preuve|Ce que nous pouvons montrer", "Endroit|Où la preuve apparaît", "En attente|Ce que nous ne dirons pas encore"], notes: "Une promesse en attente n’est pas un échec." },
   { kicker: "Transformer", title: "La prochaine page a un seul rôle.", body: "Le site, le dossier et la proposition peuvent partager l’offre et faire un travail différent. Cette page nomme un rôle.", points: ["Ouvrir|Le lecteur sait qui joindre", "Expliquer|Le lecteur peut répéter l’offre", "Prouver|Le lecteur s’y reconnaît", "Hors périmètre|Ce que cette page ne fera pas"], statement: "Un rôle écrit est un cahier des charges.", notes: "Choisir le rôle est la décision. Le design vient après." },
-  { kicker: "Émerger", title: "Le dire jusqu’à ce que deux personnes concordent.", body: "La phrase a une personne, un problème, un résultat et une prochaine étape.", points: ["Qui|Pour les équipes qui…", "Problème|Quand…", "Résultat|Afin qu’elles puissent…", "Suite|La prochaine étape est…"], notes: "Pratiquer à voix haute." },
+  { kicker: "Émerger", title: "Le dire jusqu’à ce que deux personnes concordent.", body: "La phrase a une personne, un problème, un résultat et une prochaine étape. Une fois écrite, PitchHotshot peut noter la prestation.", points: ["Qui|Pour les équipes qui…", "Problème|Quand…", "Résultat|Afin qu’elles puissent…", "Suite|La prochaine étape est…"], notes: "Pratiquer à voix haute. Ouvrir PitchHotshot seulement quand la phrase existe." },
   { kicker: "Pratique", title: "Choisir la ligne qu’un acheteur peut répéter.", body: "La ligne stable est assez précise pour être retenue et assez honnête pour être défendue.", points: ["La liste de fonctions|Tout ce que l’entreprise peut faire", "La promesse large|Utile à toute entreprise", "L’offre précise|Un lecteur, un problème, une suite"], notes: "Utiliser les situations après les diapositives." },
   { kicker: "S’élever", title: "Remettre la page au prochain support.", body: "Le site, le dossier ou le prochain appel hérite de la phrase. Il n’en invente pas une nouvelle.", points: ["Lecteur|Pour qui", "Phrase|Ce que nous répétons", "Preuve|Ce que nous pouvons montrer", "Rôle|Ce que ce support doit faire"], notes: "Un nouveau public demande une nouvelle page." },
   { kicker: "Votre plan", title: "Écrire la page que vous utiliserez.", body: "Pour qui, la phrase, et le rôle du prochain support.", points: ["Lecteur|Qui sent déjà cela?", "Phrase|Que répéterons-nous?", "Rôle|Que doit faire la prochaine page?"], notes: "Laisser un temps d’écriture." },
-  { kicker: "Outils", title: "Empêcher l’offre de dériver.", body: "Le public, la preuve, la phrase et le cahier restent sur cette page.", points: ["Public|Pour qui", "Preuve|Ce que nous pouvons montrer", "Phrase|Ce que nous répétons", "Cahier|Le rôle du prochain support"], notes: "Nommer les outils sans tout lire." },
+  { kicker: "Outils", title: "Empêcher l’offre de dériver.", body: "Le public, la preuve, la phrase et le cahier restent sur cette page. La carte de la phrase ouvre PitchHotshot.", points: ["Public|Pour qui", "Preuve|Ce que nous pouvons montrer", "Phrase|Ce que nous répétons", "Cahier|Le rôle du prochain support"], notes: "Nommer les outils sans tout lire. La carte de la phrase ouvre PitchHotshot." },
   { kicker: "Clôture", title: "Une offre, dite de la même façon.", body: "La prochaine salle ne devrait pas avoir à inventer l’histoire.", statement: "Utiliser la phrase dans la prochaine vraie conversation.", notes: "Inviter un engagement et clore." },
 ];
 
@@ -337,7 +337,7 @@ const offerFrBase: AddedWorkshopFields = {
   framework: [
     { name: "Préparer", title: "Nommer pour qui", body: "Choisir la personne qui sent déjà le problème, et celles pour qui cette page n’est pas." },
     { name: "Transformer", title: "Séparer la preuve de la promesse", body: "Garder la phrase qu’on peut montrer. Mettre de côté celle qui sonne seulement bien." },
-    { name: "Émerger", title: "Convenir de la phrase", body: "La pratiquer jusqu’à ce que deux personnes la disent de la même façon." },
+    { name: "Émerger", title: "Convenir de la phrase", body: "La pratiquer jusqu’à ce que deux personnes la disent de la même façon, puis répéter la prestation sur PitchHotshot." },
     { name: "S’élever", title: "Donner un seul rôle au prochain support", body: "Le site, le dossier ou la conversation fait une chose. Écrire ce qu’il ne fera pas." },
   ],
   practiceTitle: "Entendez-vous l’offre qui survivra à la prochaine salle?",
@@ -355,7 +355,7 @@ const offerFrBase: AddedWorkshopFields = {
   tools: [
     { title: "Ligne de public", body: "Pour qui, et pour qui ce n’est pas.", points: ["Cette personne sent déjà…", "Elle essaie de…", "Ce n’est pas pour…", "Elle décide quand…"] },
     { title: "Carte de preuve", body: "Une promesse reste seulement si on peut la montrer.", points: ["Promesse", "Preuve", "Où elle apparaît", "Ce que nous ne dirons pas"] },
-    { title: "Phrase à répéter", body: "Une ligne, dite de la même façon par deux personnes.", points: ["Qui", "Problème", "Résultat", "Prochaine étape"] },
+    { title: "Phrase à répéter", body: "Une ligne, dite de la même façon par deux personnes. La répéter sur PitchHotshot : une note d’IA, et les notes d’un coéquipier sur la même prise.", points: ["Qui", "Problème", "Résultat", "Prochaine étape"], href: "https://www.pitchhotshot.com/" },
     { title: "Cahier à un rôle", body: "Le prochain support fait un seul travail.", points: ["Le rôle", "Le lecteur", "La preuve", "Hors périmètre"] },
   ],
   faqs: [

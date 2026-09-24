@@ -80,7 +80,7 @@ const EMAIL_LABELS: Record<string, string> = {
   workshopTopic_branding: "Branding & positioning",
   workshopTopic_sales: "Sales & growth",
   workshopTopic_productivity: "Productivity & systems",
-  workshopTopic_ideation: "Ideation & innovation",
+  workshopTopic_ideation: "The Shortlist",
   workshopTopic_other: "Other / custom topic",
   industry: "Industry",
   "industry_fleet-logistics": "Fleet & logistics",

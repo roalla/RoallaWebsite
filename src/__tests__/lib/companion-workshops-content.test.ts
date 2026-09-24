@@ -19,5 +19,6 @@ describe("companion workshop content", () => {
     expect(companionWorkshopCopy("digital-calm", "fr").slides[0].title).toContain("Calmer");
     expect(companionWorkshopCopy("decision-hour", "fr").slides[0].title).toContain("responsable");
     expect(companionWorkshopCopy("offer-page", "fr").title).toContain("offre");
+    expect(companionWorkshopCopy("ideation", "fr").title).toContain("liste");
   });
 });

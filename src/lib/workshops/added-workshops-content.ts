@@ -389,3 +389,151 @@ export function offerPageCopy(locale: string): CompanionWorkshopCopy {
     : offerPracticeEn;
   return withCommon(locale === "fr" ? offerFrBase : offerEn, slides, practice, locale === "fr" ? "fr" : "en");
 }
+
+const ideationEn = {
+  id: "ideation",
+  path: "/programs/workshops/ideation",
+  metaTitle: "The Shortlist Workshop | ROALLA",
+  metaDescription: "A practical ROALLA workshop for generating ideas inside a constraint, scoring them, and leaving with one experiment that can earn a budget.",
+  eyebrow: "Roalla workshop",
+  title: "The Shortlist",
+  promise: "Leave with ideas that can earn a budget.",
+  intro: "A facilitated workshop for teams that need fresh options and keep leaving brainstorms with a wall of sticky notes and no owner.",
+  listingLede: "Frame the constraint, separate a wish from an idea that can be tried, and leave with a shortlist, a score, and one experiment.",
+  audienceLine: "Founders, product teams, operators, and leaders who must choose before they spend",
+  heroImage: "/workshops/ideation/hero.webp",
+  heroAlt: "A navy cover with a short pale list and one line marked to try.",
+  storyEyebrow: "Why this workshop",
+  storyTitle: "The room is full of ideas. None of them can be tried.",
+  storyBody: "An open brainstorm protects every suggestion and decides none of them. The Shortlist starts with the constraint the idea must survive, keeps only the options someone can try, and ends with one experiment that has an owner and a way to know if it worked.",
+  storyAside: "An idea without a constraint is still a wish.",
+  frameworkEyebrow: "The four moves",
+  frameworkTitle: "From a wall of notes to one experiment",
+  framework: [
+    { name: "Prepare", title: "Name the constraint first", body: "Write who it is for, what must not change, and the decision the ideas are meant to inform." },
+    { name: "Transform", title: "Turn wishes into options", body: "An option names the person, the change, and how you would know." },
+    { name: "Emerge", title: "Score in the open", body: "Use a few shared criteria. The score is a conversation, not a vote that hides disagreement." },
+    { name: "Soar", title: "Fund one experiment", body: "The winner leaves with an owner, a small test, and a date to look at the result." },
+  ],
+  practiceTitle: "Can you hear the idea that can be tried?",
+  practiceIntro: "Three familiar brainstorms. Choose the move that produces an option, not another round of suggestions.",
+  planEyebrow: "Your shortlist",
+  planTitle: "Leave with three lines",
+  planIntro: "Name a real decision you can inform within seven days. Your answers stay on this device.",
+  planFields: [
+    { label: "The constraint", hint: "Who it is for, what must not change, and the decision this list informs." },
+    { label: "The shortlist", hint: "Two or three options that name a person, a change, and a way to know." },
+    { label: "The experiment", hint: "Who will try the first option, by when, and what result would earn the next step." },
+  ],
+  toolsEyebrow: "Take-home tools",
+  toolsTitle: "Keep the next session from becoming a wall of notes",
+  tools: [
+    { title: "Constraint card", body: "The idea has to survive something specific.", points: ["Who it is for", "What must not change", "The decision it informs", "What is out of scope"] },
+    { title: "Option line", body: "A wish becomes an option only when it can be tried.", points: ["The person", "The change", "How we would know", "What we will not do"] },
+    { title: "Score in the open", body: "A few criteria, said aloud.", points: ["Fit for the person", "Possible inside the constraint", "Evidence we could get", "Where we disagree"] },
+    { title: "Experiment card", body: "One test, one owner, one date.", points: ["What we will try", "Who owns it", "The date we look", "What would earn the next step"] },
+  ],
+  faqs: [
+    { q: "Is this a design-thinking certification?", a: "No. It is a practical session for choosing among ideas. It does not certify facilitators or replace a product strategy engagement." },
+    { q: "Do we need to arrive with ideas?", a: "No. The room can generate them. The session still starts with the constraint, so new ideas have somewhere to land." },
+    { q: "What if the group cannot agree?", a: "Disagreement is written on the score. The experiment tests the option, it does not pretend the room was unanimous." },
+    { q: "How long is a typical session?", a: "A focused session is a half day. It can follow The Offer on One Page or sit before a decision about budget." },
+  ],
+} satisfies AddedWorkshopFields;
+
+const ideationSlidesEn: WorkshopSlide[] = [
+  { kicker: "Welcome", title: "Leave with an idea you can try.", body: "A useful session ends with a shortlist, not a wall of notes.", stage: "prepare", visual: "photo", statement: "An idea without a constraint is still a wish.", notes: "Ask the room to name a brainstorm that felt energetic and still did not change a decision." },
+  { kicker: "The wall", title: "Every suggestion is protected. None is chosen.", body: "Quantity feels like progress when the decision is still unnamed.", stage: "prepare", visual: "load", points: ["Wish|What we hope", "Opinion|What we prefer", "Constraint|What must survive", "Option|What someone can try"], notes: "Ask which of the four the last session actually produced." },
+  { kicker: "The path", title: "One constraint. A short list. One experiment.", body: "Four moves turn an open brainstorm into a choice that can earn a budget.", stage: "prepare", visual: "path", points: ["Prepare|Name the constraint", "Transform|Turn wishes into options", "Emerge|Score in the open", "Soar|Fund one experiment"], notes: "Walk the four moves once." },
+  { kicker: "Prepare", title: "Write the constraint before the ideas.", body: "If the room does not know what the idea must survive, every note will look equally good.", stage: "prepare", visual: "map", points: ["Person|Who it is for", "Fixed|What must not change", "Decision|What this list will inform", "Out|What this session will not solve"], notes: "A missing constraint is the first thing to repair." },
+  { kicker: "Transform", title: "A wish names a hope. An option names a try.", body: "Keep the line that says who changes, what changes, and how you would know.", stage: "transform", visual: "separate", points: ["Wish|We should be more innovative", "Option|This person tries this change", "Know|The signal we will watch", "Park|Interesting, and not this decision"], notes: "Parked ideas are not insults. They are waiting for a different constraint." },
+  { kicker: "Transform", title: "Three options are a shortlist. Thirty are a backlog.", body: "The room chooses which ideas are allowed to be scored.", stage: "transform", visual: "choices", points: ["Keep|It fits the person and the constraint", "Combine|Two notes are one option", "Park|Real, and not this decision", "Drop|It cannot be tried"], statement: "A shortlist is a decision about attention.", notes: "Do not score a list the room cannot hold." },
+  { kicker: "Emerge", title: "Score where people can hear the disagreement.", body: "A private vote hides the criterion that actually matters.", stage: "emerge", visual: "script", points: ["Fit|Does it serve the person?", "Possible|Can it live inside the constraint?", "Evidence|What could we learn quickly?", "Disagree|Where do we not match?"], notes: "The score starts a conversation. It does not replace one." },
+  { kicker: "Practice", title: "Choose the move that produces an option.", body: "The steadier response names a try, not another round of suggestions.", stage: "emerge", visual: "practice", points: ["The sticky wall|Many notes, no constraint", "The favourite|One idea, no way to know", "The tie|Two options, no experiment"], notes: "Use the situations after the slides." },
+  { kicker: "Soar", title: "Fund one experiment, not the whole list.", body: "The other options wait. The first one gets an owner and a date.", stage: "soar", visual: "rhythm", points: ["Try|The smallest honest test", "Owner|Who carries it", "Date|When we look at the result", "Next|What result would earn another step"], notes: "An experiment is allowed to fail. A vague pilot is not." },
+  { kicker: "Your plan", title: "Write the list you will use.", body: "The constraint, the shortlist, and the experiment.", stage: "soar", visual: "plan", points: ["Constraint|What must the idea survive?", "Shortlist|Which options remain?", "Experiment|Who tries the first one?"], notes: "Leave time to write." },
+  { kicker: "Take-home tools", title: "Keep the next session able to choose.", body: "The card, the option line, the score, and the experiment stay on this page.", stage: "soar", visual: "tools", points: ["Card|The constraint first", "Option|A person, a change, a signal", "Score|Said in the open", "Experiment|One owner and a date"], notes: "Name the tools without reading every line." },
+  { kicker: "Close", title: "An idea earns its place by being tried.", body: "More notes are not more progress.", stage: "soar", visual: "close", statement: "Put one experiment on a real calendar.", notes: "Invite one commitment and close." },
+];
+
+const ideationSlidesFr: Partial<WorkshopSlide>[] = [
+  { kicker: "Accueil", title: "Partir avec une idée qu’on peut essayer.", body: "Une session utile finit avec une liste courte, pas un mur de notes.", statement: "Une idée sans contrainte reste un souhait.", notes: "Demander une séance qui a semblé énergique sans changer une décision." },
+  { kicker: "Le mur", title: "Chaque suggestion est protégée. Aucune n’est choisie.", body: "La quantité ressemble à du progrès quand la décision n’est pas nommée.", points: ["Souhait|Ce que nous espérons", "Avis|Ce que nous préférons", "Contrainte|Ce qui doit survivre", "Option|Ce que quelqu’un peut essayer"], notes: "Demander lequel des quatre la dernière séance a produit." },
+  { kicker: "Le chemin", title: "Une contrainte. Une liste courte. Une expérience.", body: "Quatre mouvements transforment un remue-méninges en choix qui peut mériter un budget.", points: ["Préparer|Nommer la contrainte", "Transformer|Faire des options", "Émerger|Noter à voix haute", "S’élever|Financer une expérience"], notes: "Parcourir les quatre mouvements une fois." },
+  { kicker: "Préparer", title: "Écrire la contrainte avant les idées.", body: "Sans ce que l’idée doit survivre, chaque note semble également bonne.", points: ["Personne|Pour qui", "Fixe|Ce qui ne doit pas changer", "Décision|Ce que cette liste éclaire", "Hors|Ce que cette session ne réglera pas"], notes: "Une contrainte absente est la première réparation." },
+  { kicker: "Transformer", title: "Un souhait nomme un espoir. Une option nomme un essai.", body: "Garder la ligne qui dit qui change, ce qui change, et comment on le saurait.", points: ["Souhait|Nous devrions être plus innovants", "Option|Cette personne essaie ce changement", "Savoir|Le signal que nous regarderons", "En attente|Intéressant, pas cette décision"], notes: "Une idée en attente n’est pas une insulte." },
+  { kicker: "Transformer", title: "Trois options font une liste courte. Trente font un carnet.", body: "La salle choisit quelles idées ont le droit d’être notées.", points: ["Garder|Cela sert la personne et la contrainte", "Combiner|Deux notes sont une option", "Stationner|Réel, mais pas cette décision", "Retirer|Cela ne peut pas être essayé"], statement: "Une liste courte est une décision sur l’attention.", notes: "Ne pas noter une liste que la salle ne peut pas tenir." },
+  { kicker: "Émerger", title: "Noter là où l’on entend le désaccord.", body: "Un vote privé cache le critère qui compte vraiment.", points: ["Justesse|Est-ce que cela sert la personne?", "Possible|Peut-il vivre dans la contrainte?", "Preuve|Qu’apprendrions-nous vite?", "Désaccord|Où ne concordons-nous pas?"], notes: "La note ouvre une conversation. Elle ne la remplace pas." },
+  { kicker: "Pratique", title: "Choisir le geste qui produit une option.", body: "La réponse stable nomme un essai, pas une autre ronde de suggestions.", points: ["Le mur de notes|Beaucoup de notes, aucune contrainte", "Le favori|Une idée, aucun moyen de savoir", "L’égalité|Deux options, aucune expérience"], notes: "Utiliser les situations après les diapositives." },
+  { kicker: "S’élever", title: "Financer une expérience, pas toute la liste.", body: "Les autres options attendent. La première a un responsable et une date.", points: ["Essai|Le plus petit test honnête", "Responsable|Qui le porte", "Date|Quand nous regardons le résultat", "Suite|Quel résultat mériterait une autre étape"], notes: "Une expérience a le droit d’échouer. Un pilote vague, non." },
+  { kicker: "Votre plan", title: "Écrire la liste que vous utiliserez.", body: "La contrainte, la liste courte et l’expérience.", points: ["Contrainte|Que doit survivre l’idée?", "Liste|Quelles options restent?", "Expérience|Qui essaie la première?"], notes: "Laisser un temps d’écriture." },
+  { kicker: "Outils", title: "Garder la prochaine session capable de choisir.", body: "La carte, la ligne, la note et l’expérience restent sur cette page.", points: ["Carte|La contrainte d’abord", "Option|Une personne, un changement, un signal", "Note|Dite à voix haute", "Expérience|Un responsable et une date"], notes: "Nommer les outils sans tout lire." },
+  { kicker: "Clôture", title: "Une idée mérite sa place en étant essayée.", body: "Plus de notes n’est pas plus de progrès.", statement: "Mettre une expérience sur un vrai calendrier.", notes: "Inviter un engagement et clore." },
+];
+
+const ideationPracticeEn = [
+  { title: "The sticky wall", prompt: "The board is full and nobody has named what the idea must survive.", choices: ["Add another round so quieter people can contribute", "Stop and write the person, the constraint, and the decision", "Pick the idea the senior person likes"], correct: 1, response: "More notes do not help until the room knows what an idea has to survive." },
+  { title: "The favourite", prompt: "The group loves one idea and cannot say how they would know it worked.", choices: ["Protect it because the energy is high", "Rewrite it as a person, a change, and a signal", "Schedule a longer innovation offsite"], correct: 1, response: "Affection is not evidence. An option can be tried and watched." },
+  { title: "The tie", prompt: "Two options score the same and the meeting is about to adjourn.", choices: ["Vote again until someone wins", "Choose one experiment and write what result would earn the next step", "Keep both in a pilot with no owner"], correct: 1, response: "A tie still needs one try. The other option can wait for the result." },
+];
+
+const ideationFrBase: AddedWorkshopFields = {
+  ...ideationEn,
+  metaTitle: "Atelier La liste courte | ROALLA",
+  metaDescription: "Un atelier ROALLA pour générer des idées dans une contrainte, les noter, et partir avec une expérience qui peut mériter un budget.",
+  eyebrow: "Atelier Roalla",
+  title: "La liste courte",
+  promise: "Partir avec des idées qui peuvent mériter un budget.",
+  intro: "Un atelier pour les équipes qui ont besoin d’options nouvelles et qui quittent les remue-méninges avec un mur de notes et sans responsable.",
+  listingLede: "Poser la contrainte, séparer un souhait d’une idée qu’on peut essayer, et partir avec une liste courte, une note et une expérience.",
+  audienceLine: "Fondateurs, équipes produit, opérations et dirigeants qui doivent choisir avant de dépenser",
+  heroAlt: "Une couverture marine avec une courte liste pâle et une ligne marquée pour l’essai.",
+  storyEyebrow: "Pourquoi cet atelier",
+  storyTitle: "La salle est pleine d’idées. Aucune ne peut être essayée.",
+  storyBody: "Un remue-méninges ouvert protège chaque suggestion et n’en décide aucune. La liste courte commence par la contrainte, ne garde que les options qu’on peut essayer, et finit avec une expérience, un responsable et un moyen de savoir.",
+  storyAside: "Une idée sans contrainte reste un souhait.",
+  frameworkEyebrow: "Les quatre mouvements",
+  frameworkTitle: "D’un mur de notes à une expérience",
+  framework: [
+    { name: "Préparer", title: "Nommer d’abord la contrainte", body: "Écrire pour qui, ce qui ne doit pas changer, et la décision que les idées doivent éclairer." },
+    { name: "Transformer", title: "Transformer les souhaits en options", body: "Une option nomme la personne, le changement et comment on saurait." },
+    { name: "Émerger", title: "Noter à voix haute", body: "Quelques critères partagés. La note est une conversation, pas un vote qui cache le désaccord." },
+    { name: "S’élever", title: "Financer une expérience", body: "La première option part avec un responsable, un petit essai et une date pour regarder le résultat." },
+  ],
+  practiceTitle: "Entendez-vous l’idée qui peut être essayée?",
+  practiceIntro: "Trois remue-méninges familiers. Choisissez le geste qui produit une option.",
+  planEyebrow: "Votre liste courte",
+  planTitle: "Partir avec trois lignes",
+  planIntro: "Nommez une vraie décision à éclairer dans les sept jours. Vos réponses restent sur cet appareil.",
+  planFields: [
+    { label: "La contrainte", hint: "Pour qui, ce qui ne doit pas changer, et la décision que cette liste éclaire." },
+    { label: "La liste courte", hint: "Deux ou trois options qui nomment une personne, un changement et un moyen de savoir." },
+    { label: "L’expérience", hint: "Qui essaiera la première option, pour quand, et quel résultat mériterait la suite." },
+  ],
+  toolsEyebrow: "Outils à emporter",
+  toolsTitle: "Empêcher la prochaine session de devenir un mur de notes",
+  tools: [
+    { title: "Carte de contrainte", body: "L’idée doit survivre à quelque chose de précis.", points: ["Pour qui", "Ce qui ne doit pas changer", "La décision éclairée", "Ce qui est hors périmètre"] },
+    { title: "Ligne d’option", body: "Un souhait devient une option seulement s’il peut être essayé.", points: ["La personne", "Le changement", "Comment nous saurions", "Ce que nous ne ferons pas"] },
+    { title: "Note à voix haute", body: "Quelques critères, dits dans la salle.", points: ["Justesse pour la personne", "Possible dans la contrainte", "Preuve qu’on peut obtenir", "Là où nous ne concordons pas"] },
+    { title: "Carte d’expérience", body: "Un essai, un responsable, une date.", points: ["Ce que nous essaierons", "Qui le porte", "La date où nous regardons", "Ce qui mériterait la suite"] },
+  ],
+  faqs: [
+    { q: "Est-ce une certification en design thinking?", a: "Non. C’est une session pratique pour choisir parmi des idées. Elle ne certifie pas les animateurs et ne remplace pas une stratégie de produit." },
+    { q: "Faut-il arriver avec des idées?", a: "Non. La salle peut les produire. La session commence quand même par la contrainte, pour que les idées aient un endroit où atterrir." },
+    { q: "Et si le groupe n’est pas d’accord?", a: "Le désaccord s’écrit sur la note. L’expérience teste l’option. Elle ne prétend pas que la salle était unanime." },
+    { q: "Quelle est la durée habituelle?", a: "Une session ciblée dure une demi-journée. Elle peut suivre L’offre sur une page ou précéder une décision de budget." },
+  ],
+};
+
+export function ideationCopy(locale: string): CompanionWorkshopCopy {
+  const slides = locale === "fr" ? ideationSlidesEn.map((slide, index) => ({ ...slide, ...(ideationSlidesFr[index] ?? {}) })) : ideationSlidesEn;
+  const practice = locale === "fr"
+    ? [
+        { title: "Le mur de notes", prompt: "Le tableau est plein et personne n’a nommé ce que l’idée doit survivre.", choices: ["Ajouter une ronde pour les personnes plus silencieuses", "S’arrêter et écrire la personne, la contrainte et la décision", "Choisir l’idée que préfère la personne la plus senior"], correct: 1, response: "Plus de notes n’aident pas tant que la salle ne sait pas ce qu’une idée doit survivre." },
+        { title: "Le favori", prompt: "Le groupe aime une idée et ne peut pas dire comment il saurait qu’elle a fonctionné.", choices: ["La protéger parce que l’énergie est haute", "La réécrire comme une personne, un changement et un signal", "Planifier une plus longue retraite d’innovation"], correct: 1, response: "L’affection n’est pas une preuve. Une option peut être essayée et observée." },
+        { title: "L’égalité", prompt: "Deux options ont la même note et la réunion va se terminer.", choices: ["Voter encore jusqu’à ce que quelqu’un gagne", "Choisir une expérience et écrire quel résultat mériterait la suite", "Garder les deux dans un pilote sans responsable"], correct: 1, response: "Une égalité a encore besoin d’un essai. L’autre option peut attendre le résultat." },
+      ]
+    : ideationPracticeEn;
+  return withCommon(locale === "fr" ? ideationFrBase : ideationEn, slides, practice, locale === "fr" ? "fr" : "en");
+}

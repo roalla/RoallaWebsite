@@ -20,6 +20,7 @@ import {
   BellOff,
   Timer,
   FileText,
+  Lightbulb,
 } from "lucide-react";
 import Image from "next/image";
 import { usePathname as useNextPathname } from "next/navigation";
@@ -272,7 +273,8 @@ const Header = () => {
     pathname === "/programs/workshops/workload-conversation" ||
     pathname === "/programs/workshops/digital-calm" ||
     pathname === "/programs/workshops/decision-hour" ||
-    pathname === "/programs/workshops/offer-page"
+    pathname === "/programs/workshops/offer-page" ||
+    pathname === "/programs/workshops/ideation"
       ? tCommon("scheduleConsultationWorkshops")
       : pathname === "/services/digital-events"
         ? tCommon("scheduleConsultationDigitalEvents")
@@ -369,7 +371,8 @@ const Header = () => {
     | "/programs/workshops/workload-conversation"
     | "/programs/workshops/digital-calm"
     | "/programs/workshops/decision-hour"
-    | "/programs/workshops/offer-page";
+    | "/programs/workshops/offer-page"
+    | "/programs/workshops/ideation";
 
   const digitalLinks: {
     nameKey:
@@ -454,8 +457,8 @@ const Header = () => {
   ];
 
   const workshopLinks: {
-    nameKey: "focusCircle" | "workloadConversation" | "digitalCalm" | "decisionHour" | "offerPage" | "teamWorkshops";
-    descKey: "focusCircleDesc" | "workloadConversationDesc" | "digitalCalmDesc" | "decisionHourDesc" | "offerPageDesc" | "workshopsDesc";
+    nameKey: "focusCircle" | "workloadConversation" | "digitalCalm" | "decisionHour" | "offerPage" | "theShortlist" | "teamWorkshops";
+    descKey: "focusCircleDesc" | "workloadConversationDesc" | "digitalCalmDesc" | "decisionHourDesc" | "offerPageDesc" | "theShortlistDesc" | "workshopsDesc";
     href: WorkshopNavHref;
     icon: typeof GraduationCap;
   }[] = [
@@ -488,6 +491,12 @@ const Header = () => {
       descKey: "offerPageDesc",
       href: "/programs/workshops/offer-page",
       icon: FileText,
+    },
+    {
+      nameKey: "theShortlist",
+      descKey: "theShortlistDesc",
+      href: "/programs/workshops/ideation",
+      icon: Lightbulb,
     },
     {
       nameKey: "teamWorkshops",
@@ -527,7 +536,8 @@ const Header = () => {
     pathname === "/programs/workshops/workload-conversation" ||
     pathname === "/programs/workshops/digital-calm" ||
     pathname === "/programs/workshops/decision-hour" ||
-    pathname === "/programs/workshops/offer-page";
+    pathname === "/programs/workshops/offer-page" ||
+    pathname === "/programs/workshops/ideation";
 
   useEffect(() => {
     if (!isMenuOpen) return;

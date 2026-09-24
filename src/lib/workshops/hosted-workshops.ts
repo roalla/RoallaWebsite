@@ -3,6 +3,7 @@ export const workloadConversationPath = "/programs/workshops/workload-conversati
 export const digitalCalmPath = "/programs/workshops/digital-calm" as const;
 export const decisionHourPath = "/programs/workshops/decision-hour" as const;
 export const offerPagePath = "/programs/workshops/offer-page" as const;
+export const ideationPath = "/programs/workshops/ideation" as const;
 
 export const focusCirclePdfFiles = [
   { id: "checklist", file: "weekly-focus-checklist" },
@@ -53,6 +54,11 @@ export const hostedWorkshops = [
   {
     id: "offer-page",
     path: offerPagePath,
+    featured: true,
+  },
+  {
+    id: "ideation",
+    path: ideationPath,
     featured: true,
   },
 ] as const;

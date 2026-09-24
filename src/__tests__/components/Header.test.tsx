@@ -147,6 +147,10 @@ describe('Header', () => {
       'href',
       '/programs/workshops/offer-page',
     )
+    expect(screen.getByRole('menuitem', { name: /theShortlist/i })).toHaveAttribute(
+      'href',
+      '/programs/workshops/ideation',
+    )
   })
 
   it('marks team workshops when that page is selected', () => {

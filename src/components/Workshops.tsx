@@ -119,13 +119,19 @@ function WorkshopTopicCard({
               <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
           ) : null}
+          {topic.anchor === "ideation" ? (
+            <Link href="/programs/workshops/ideation" className={servicePrimaryLinkClass}>
+              {t("openTheShortlist")}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
+          ) : null}
           <Link
             href={{
               pathname: "/schedule",
               query: { intent: "workshop", need: topic.anchor },
             }}
             className={
-              topic.anchor === "productivity" || topic.anchor === "branding"
+              topic.anchor === "productivity" || topic.anchor === "branding" || topic.anchor === "ideation"
                 ? "inline-flex items-center text-sm font-medium text-primary hover:underline mt-3"
                 : servicePrimaryLinkClass
             }

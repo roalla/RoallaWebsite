@@ -130,6 +130,8 @@ describe('consultation-request', () => {
   it('parses workshop topic values', () => {
     expect(parseWorkshopTopic('ideation')).toBe('ideation')
     expect(parseWorkshopTopic('focus-circle')).toBe('focus-circle')
+    expect(parseWorkshopTopic('workload-conversation')).toBe('workload-conversation')
+    expect(parseWorkshopTopic('digital-calm')).toBe('digital-calm')
     expect(parseWorkshopTopic('invalid')).toBeNull()
   })
 

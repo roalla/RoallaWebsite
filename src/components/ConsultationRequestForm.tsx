@@ -943,6 +943,12 @@ export default function ConsultationRequestForm({
                       <option value="focus-circle">
                         {t("workshopTopicFocusCircle")}
                       </option>
+                      <option value="workload-conversation">
+                        {t("workshopTopicWorkloadConversation")}
+                      </option>
+                      <option value="digital-calm">
+                        {t("workshopTopicDigitalCalm")}
+                      </option>
                       <option value="branding">
                         {t("workshopTopicBranding")}
                       </option>

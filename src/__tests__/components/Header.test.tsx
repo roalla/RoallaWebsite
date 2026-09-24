@@ -115,6 +115,14 @@ describe('Header', () => {
       'href',
       '/programs/workshops',
     )
+    expect(screen.getByRole('menuitem', { name: /workloadConversation/i })).toHaveAttribute(
+      'href',
+      '/programs/workshops/workload-conversation',
+    )
+    expect(screen.getByRole('menuitem', { name: /digitalCalm/i })).toHaveAttribute(
+      'href',
+      '/programs/workshops/digital-calm',
+    )
   })
 
   it('marks team workshops when that page is selected', () => {

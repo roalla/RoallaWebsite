@@ -20,6 +20,7 @@ import ScheduleButton from "./ScheduleButton";
 import StickyMobileCTA from "./StickyMobileCTA";
 import ServiceMiniFAQ from "./services/ServiceMiniFAQ";
 import { focusCircleCopy } from "@/lib/workshops/focus-circle-content";
+import { companionWorkshopCopy } from "@/lib/workshops/companion-workshops-content";
 import { featuredHostedWorkshops } from "@/lib/workshops/hosted-workshops";
 import {
   ServicePageHero,
@@ -211,10 +212,13 @@ const Workshops = () => {
                 <Reveal as="article" key={workshop.id} className="h-full">
                   <div className={serviceCardClass}>
                     <div className="p-6 lg:p-7 flex flex-col h-full">
-                      <h3 className="text-xl font-serif font-bold text-slate-900">{focus.title}</h3>
-                      <p className="mt-3 text-sm text-slate-600 leading-relaxed flex-1">{focus.listingLede}</p>
+                      {(() => {
+                        const workshopCopy = workshop.id === "focus-circle" ? focus : companionWorkshopCopy(workshop.id, locale);
+                        return <>
+                      <h3 className="text-xl font-serif font-bold text-slate-900">{workshopCopy.title}</h3>
+                      <p className="mt-3 text-sm text-slate-600 leading-relaxed flex-1">{workshopCopy.listingLede}</p>
                       <p className="mt-4 text-sm text-slate-700 border-l-2 border-primary/30 pl-3">
-                        {focus.audienceLine}
+                        {workshopCopy.audienceLine}
                       </p>
                       <div className="mt-6 flex flex-col gap-3">
                         <Link href={workshop.path} className={servicePrimaryLinkClass}>
@@ -232,6 +236,8 @@ const Workshops = () => {
                           <ArrowRight className="ml-1.5 w-4 h-4" />
                         </Link>
                       </div>
+                        </>;
+                      })()}
                     </div>
                   </div>
                 </Reveal>

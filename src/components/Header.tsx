@@ -16,6 +16,8 @@ import {
   SearchCheck,
   RefreshCw,
   Network,
+  MessageCircle,
+  BellOff,
 } from "lucide-react";
 import Image from "next/image";
 import { usePathname as useNextPathname } from "next/navigation";
@@ -264,7 +266,9 @@ const Header = () => {
     pathname === "/programs/technology-advisory";
   const headerCtaLabel =
     pathname === "/programs/workshops" ||
-    pathname === "/programs/workshops/focus-circle"
+    pathname === "/programs/workshops/focus-circle" ||
+    pathname === "/programs/workshops/workload-conversation" ||
+    pathname === "/programs/workshops/digital-calm"
       ? tCommon("scheduleConsultationWorkshops")
       : pathname === "/services/digital-events"
         ? tCommon("scheduleConsultationDigitalEvents")
@@ -357,7 +361,9 @@ const Header = () => {
 
   type WorkshopNavHref =
     | "/programs/workshops"
-    | "/programs/workshops/focus-circle";
+    | "/programs/workshops/focus-circle"
+    | "/programs/workshops/workload-conversation"
+    | "/programs/workshops/digital-calm";
 
   const digitalLinks: {
     nameKey:
@@ -442,8 +448,8 @@ const Header = () => {
   ];
 
   const workshopLinks: {
-    nameKey: "focusCircle" | "teamWorkshops";
-    descKey: "focusCircleDesc" | "workshopsDesc";
+    nameKey: "focusCircle" | "workloadConversation" | "digitalCalm" | "teamWorkshops";
+    descKey: "focusCircleDesc" | "workloadConversationDesc" | "digitalCalmDesc" | "workshopsDesc";
     href: WorkshopNavHref;
     icon: typeof GraduationCap;
   }[] = [
@@ -452,6 +458,18 @@ const Header = () => {
       descKey: "focusCircleDesc",
       href: "/programs/workshops/focus-circle",
       icon: Target,
+    },
+    {
+      nameKey: "workloadConversation",
+      descKey: "workloadConversationDesc",
+      href: "/programs/workshops/workload-conversation",
+      icon: MessageCircle,
+    },
+    {
+      nameKey: "digitalCalm",
+      descKey: "digitalCalmDesc",
+      href: "/programs/workshops/digital-calm",
+      icon: BellOff,
     },
     {
       nameKey: "teamWorkshops",
@@ -480,7 +498,9 @@ const Header = () => {
     pathname === "/programs/technology-advisory";
   const isWorkshopsActive =
     pathname === "/programs/workshops" ||
-    pathname === "/programs/workshops/focus-circle";
+    pathname === "/programs/workshops/focus-circle" ||
+    pathname === "/programs/workshops/workload-conversation" ||
+    pathname === "/programs/workshops/digital-calm";
 
   useEffect(() => {
     if (!isMenuOpen) return;

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Maximize2, Minimize2 } from "lucide-react";
 import { useLocale } from "next-intl";
@@ -218,7 +219,7 @@ function SlideBody({ slide, presenting, index, total, stageLabels, qrSrc, qrAlt 
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,180,197,0.18),transparent_52%)]" aria-hidden />
       {isPhotoLead && slide.imageSrc ? (
         <>
-          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${slide.imageSrc})` }} aria-hidden />
+          <Image src={slide.imageSrc} alt="" fill unoptimized sizes="(max-width: 768px) 100vw, 800px" className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#07111f] via-[#07111f]/88 to-[#07111f]/20" aria-hidden />
           {slide.imageAlt ? <span className="sr-only">{slide.imageAlt}</span> : null}
         </>

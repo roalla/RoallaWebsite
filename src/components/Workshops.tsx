@@ -66,7 +66,7 @@ function WorkshopTopicCard({
 }) {
   return (
     <Reveal as="article" id={topic.anchor} className="scroll-mt-28 h-full">
-      <div className={serviceCardClass}>
+      <div className={`${serviceCardClass} workshop-tile`}>
         <div className="p-6 lg:p-7 flex flex-col flex-1 h-full">
           <div className="flex items-start gap-4 mb-4">
             <div
@@ -210,7 +210,7 @@ const Workshops = () => {
             <div className="grid md:grid-cols-2 gap-6">
               {featured.map((workshop) => (
                 <Reveal as="article" key={workshop.id} className="h-full">
-                  <div className={serviceCardClass}>
+                  <div className={`${serviceCardClass} workshop-tile`}>
                     <div className="p-6 lg:p-7 flex flex-col h-full">
                       {(() => {
                         const workshopCopy = workshop.id === "focus-circle" ? focus : companionWorkshopCopy(workshop.id, locale);
@@ -254,7 +254,7 @@ const Workshops = () => {
           />
           <div className="grid sm:grid-cols-3 gap-5">
             {formatKeys.map((key, i) => (
-              <div key={key} className={serviceMiniTileClass}>
+              <div key={key} className={`${serviceMiniTileClass} workshop-tile`}>
                 <div
                   className={`w-9 h-9 rounded-md border border-slate-200 bg-slate-50 flex items-center justify-center mb-3 group-hover:border-primary/30 group-hover:bg-primary/5 transition-colors duration-300 ${serviceCardIconMotionClass}`}
                 >

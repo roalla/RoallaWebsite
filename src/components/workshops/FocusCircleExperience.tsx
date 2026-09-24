@@ -119,7 +119,7 @@ export default function FocusCircleExperience() {
         <h2 className="mt-3 text-3xl font-serif font-bold text-slate-900">{copy.pillarsTitle}</h2>
         <ol className="mt-8 grid md:grid-cols-2 gap-5">
           {copy.pillars.map((pillar, index) => (
-            <li key={pillar.name} className="rounded-xl border border-slate-300 bg-white p-6 shadow-sm">
+            <li key={pillar.name} className="workshop-tile rounded-xl border border-slate-300 bg-white p-6 shadow-sm">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-dark">
                 {String(index + 1).padStart(2, "0")}
               </p>
@@ -139,6 +139,8 @@ export default function FocusCircleExperience() {
           alt={copy.facilitatorPhotoAlt}
           width={280}
           height={340}
+          sizes="280px"
+          quality={55}
           className="w-full max-w-xs rounded-2xl object-cover border border-slate-200"
         />
         <div>
@@ -155,7 +157,7 @@ export default function FocusCircleExperience() {
         <h2 className="mt-3 text-3xl font-serif font-bold text-slate-900">{copy.guidesTitle}</h2>
         <ol className="mt-8 grid md:grid-cols-2 gap-5">
           {copy.guides.map((guide, index) => (
-            <li key={guide.title} className="rounded-xl border border-slate-200 bg-white p-6">
+            <li key={guide.title} className="workshop-tile rounded-xl border border-slate-200 bg-white p-6">
               <p className="text-xs font-semibold text-primary-dark">{String(index + 1).padStart(2, "0")}</p>
               <h3 className="mt-2 font-serif text-lg font-bold text-slate-900">{guide.title}</h3>
               <p className="mt-2 text-sm text-slate-600">{guide.body}</p>

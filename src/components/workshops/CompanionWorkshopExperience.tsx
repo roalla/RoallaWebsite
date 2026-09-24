@@ -74,7 +74,7 @@ export default function CompanionWorkshopExperience({ copy }: { copy: CompanionW
       <Breadcrumb items={[{ label: copy.workshopsLabel, href: "/programs/workshops" }, { label: copy.title }]} />
 
       <header className="relative mb-10 min-h-[31rem] overflow-hidden rounded-2xl border border-slate-700 bg-[#07111f] shadow-xl">
-        <Image src={copy.heroImage} alt={copy.heroAlt} fill priority sizes="(max-width: 1280px) 100vw, 1200px" className="object-cover" />
+        <Image src={copy.heroImage} alt={copy.heroAlt} fill priority unoptimized sizes="(max-width: 768px) 100vw, 800px" className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#07111f] via-[#07111f]/90 to-[#07111f]/15" aria-hidden />
         <div className="relative flex min-h-[31rem] max-w-3xl flex-col justify-center px-6 py-12 lg:px-12">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-light">{copy.eyebrow}</p>
@@ -101,7 +101,7 @@ export default function CompanionWorkshopExperience({ copy }: { copy: CompanionW
         <h2 className="mt-3 text-3xl font-serif font-bold text-slate-900">{copy.frameworkTitle}</h2>
         <ol className="mt-8 grid gap-5 md:grid-cols-2">
           {copy.framework.map((item, index) => (
-            <li key={item.name} className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+            <li key={item.name} className="workshop-tile rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-dark">0{index + 1} · {item.name}</p>
               <h3 className="mt-2 font-serif text-xl font-bold text-slate-900">{item.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-slate-600">{item.body}</p>
@@ -113,7 +113,7 @@ export default function CompanionWorkshopExperience({ copy }: { copy: CompanionW
       <Practice copy={copy} />
 
       <section className="mt-16 grid items-center gap-8 lg:grid-cols-[12rem_1fr]">
-        <Image src="/images/team/steven-robin.webp" alt="Steven Robin" width={220} height={270} className="mx-auto aspect-[4/5] w-44 rounded-2xl border border-slate-200 object-cover" />
+        <Image src="/images/team/steven-robin.webp" alt="Steven Robin" width={176} height={220} sizes="176px" quality={55} className="mx-auto aspect-[4/5] w-44 rounded-2xl border border-slate-200 object-cover" />
         <div><Eyebrow>{copy.facilitatorEyebrow}</Eyebrow><h2 className="mt-3 text-3xl font-serif font-bold text-slate-900">{copy.facilitatorTitle}</h2><p className="mt-4 max-w-3xl leading-relaxed text-slate-600">{copy.facilitatorBody}</p></div>
       </section>
 
@@ -122,7 +122,7 @@ export default function CompanionWorkshopExperience({ copy }: { copy: CompanionW
         <h2 className="mt-3 text-3xl font-serif font-bold text-slate-900">{copy.toolsTitle}</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-2">
           {copy.tools.map((tool) => (
-            <article key={tool.title} className="rounded-xl border border-slate-200 bg-white p-6">
+            <article key={tool.title} className="workshop-tile rounded-xl border border-slate-200 bg-white p-6">
               <h3 className="font-serif text-xl font-bold text-slate-900">{tool.title}</h3>
               <p className="mt-2 text-sm text-slate-600">{tool.body}</p>
               <ul className="mt-4 space-y-2">{tool.points.map((point) => <li key={point} className="flex gap-2 text-sm text-slate-700"><CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />{point}</li>)}</ul>
@@ -231,10 +231,10 @@ function Slide({ slide, copy, presenting, index }: { slide: WorkshopSlide; copy:
   const photo = slide.visual === "photo";
   return (
     <article className={`relative flex min-h-[31rem] flex-col overflow-hidden ${presenting ? "md:min-h-[min(76vh,52rem)]" : "md:min-h-[34rem]"}`} aria-roledescription="slide" aria-label={`${index + 1}: ${slide.title}`}>
-      {photo ? <><Image src={copy.heroImage} alt={copy.heroAlt} fill sizes="100vw" className="object-cover" /><div className="absolute inset-0 bg-gradient-to-r from-[#07111f] via-[#07111f]/90 to-[#07111f]/20" /></> : <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,180,197,0.18),transparent_50%)]" />}
+      {photo ? <><Image src={copy.heroImage} alt="" fill unoptimized sizes="(max-width: 768px) 100vw, 640px" className="object-cover" /><div className="absolute inset-0 bg-gradient-to-r from-[#07111f] via-[#07111f]/90 to-[#07111f]/20" /></> : <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,180,197,0.18),transparent_50%)]" />}
       <div className="relative flex items-center justify-between px-5 pt-5 sm:px-8"><p className="text-[11px] font-semibold tracking-[0.32em]">ROALLA</p><p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-light">{slide.kicker}</p></div>
       <div className={`relative grid flex-1 items-center gap-8 px-5 py-8 sm:px-8 md:grid-cols-[0.9fr_1.1fr] ${photo ? "md:grid-cols-[0.75fr_1.25fr]" : ""}`}>
-        <div className="z-10"><div className="mb-4 h-0.5 w-12 bg-brand-gold" /><h3 className={`${presenting ? "text-4xl sm:text-6xl" : "text-3xl sm:text-5xl"} max-w-3xl font-serif font-bold leading-[1.04]`}>{slide.title}</h3><p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-200 sm:text-lg">{slide.body}</p>{slide.statement ? <p className="mt-5 border-l-2 border-brand-gold pl-4 font-serif text-xl text-white sm:text-2xl">{slide.statement}</p> : null}{!presenting && points.length ? <ul className="mt-5 grid gap-2 sm:grid-cols-2">{points.map((point) => <li key={point.label} className="rounded-lg border border-white/10 bg-black/20 p-2.5 text-sm text-slate-300"><strong className="text-white">{point.label}</strong>{point.detail ? ` — ${point.detail}` : ""}</li>)}</ul> : null}</div>
+        <div className="z-10"><div className="mb-4 h-0.5 w-12 bg-brand-gold" /><h3 className={`${presenting ? "text-4xl sm:text-6xl" : "text-3xl sm:text-5xl"} max-w-3xl font-serif font-bold leading-[1.04] text-white`}>{slide.title}</h3><p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-200 sm:text-lg">{slide.body}</p>{slide.statement ? <p className="mt-5 border-l-2 border-brand-gold pl-4 font-serif text-xl text-white sm:text-2xl">{slide.statement}</p> : null}{!presenting && points.length ? <ul className="mt-5 grid gap-2 sm:grid-cols-2">{points.map((point) => <li key={point.label} className="rounded-lg border border-white/10 bg-black/20 p-2.5 text-sm text-slate-300"><strong className="text-white">{point.label}</strong>{point.detail ? ` — ${point.detail}` : ""}</li>)}</ul> : null}</div>
         <div className={photo ? "hidden md:block" : "min-h-[15rem]"}><SlideVisual visual={slide.visual} points={points} /></div>
       </div>
       <StageMotif labels={copy.stages} active={slide.stage} />
@@ -244,12 +244,13 @@ function Slide({ slide, copy, presenting, index }: { slide: WorkshopSlide; copy:
 }
 
 function SlideVisual({ visual, points }: { visual: WorkshopSlide["visual"]; points: { label: string; detail: string }[] }) {
-  if (visual === "load") return <div className="relative mx-auto flex max-w-sm flex-col gap-2">{points.map((point, index) => <div key={point.label} className="rounded-xl border border-white/15 bg-white/[0.06] p-3 shadow-lg" style={{ marginLeft: `${index * 1.25}rem` }}><p className="font-semibold text-white">{point.label}</p><p className="text-sm text-slate-300">{point.detail}</p></div>)}</div>;
-  if (visual === "path") return <ol className="grid gap-2 sm:grid-cols-4">{points.map((point, index) => <li key={point.label} className="relative rounded-xl border border-white/15 bg-white/[0.05] p-3 pt-10"><span className="absolute right-3 top-2 text-xs font-bold text-brand-gold">0{index + 1}</span><p className="font-semibold">{point.label}</p><p className="mt-1 text-xs text-slate-300">{point.detail}</p></li>)}</ol>;
-  if (visual === "choices" || visual === "map" || visual === "separate") return <div className="grid gap-2 sm:grid-cols-2">{points.map((point, index) => <div key={point.label} className={`rounded-xl border p-3 ${index === 0 ? "border-brand-gold/50 bg-brand-gold/10" : "border-white/15 bg-white/[0.05]"}`}><p className="font-semibold text-white">{point.label}</p><p className="mt-1 text-sm text-slate-300">{point.detail}</p></div>)}</div>;
-  if (visual === "script") return <div className="space-y-2">{points.map((point, index) => <div key={point.label} className="flex gap-3 rounded-xl border border-white/15 bg-white/[0.05] p-3"><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/15 text-sm font-bold text-primary-light">{index + 1}</span><div><p className="font-semibold text-white">{point.label}</p><p className="text-sm text-slate-300">{point.detail}</p></div></div>)}</div>;
-  if (visual === "rhythm") return <div className="relative grid grid-cols-2 gap-3">{points.map((point, index) => <div key={point.label} className="rounded-2xl border border-white/15 bg-white/[0.05] p-4">{index % 2 === 0 ? <Clock3 className="h-5 w-5 text-brand-gold" /> : <ShieldCheck className="h-5 w-5 text-primary-light" />}<p className="mt-2 font-semibold">{point.label}</p><p className="mt-1 text-sm text-slate-300">{point.detail}</p></div>)}</div>;
-  if (visual === "practice" || visual === "plan" || visual === "tools") return <div className="space-y-2">{points.map((point, index) => <div key={point.label} className="flex items-center gap-3 rounded-xl border border-white/15 bg-white/[0.05] p-3"><span className="font-serif text-2xl font-bold text-brand-gold">0{index + 1}</span><div><p className="font-semibold">{point.label}</p><p className="text-sm text-slate-300">{point.detail}</p></div>{visual === "plan" ? <Check className="ml-auto h-5 w-5 text-primary-light" /> : null}</div>)}</div>;
+  const tile = "workshop-tile workshop-tile-dark";
+  if (visual === "load") return <div className="relative mx-auto flex max-w-sm flex-col gap-2">{points.map((point, index) => <div key={point.label} className={`${tile} rounded-xl border border-white/15 bg-white/[0.06] p-3 shadow-lg`} style={{ marginLeft: `${index * 1.25}rem` }}><p className="font-semibold text-white">{point.label}</p><p className="text-sm text-slate-300">{point.detail}</p></div>)}</div>;
+  if (visual === "path") return <ol className="grid gap-2 sm:grid-cols-4">{points.map((point, index) => <li key={point.label} className={`${tile} relative rounded-xl border border-white/15 bg-white/[0.05] p-3 pt-10`}><span className="absolute right-3 top-2 text-xs font-bold text-brand-gold">0{index + 1}</span><p className="font-semibold">{point.label}</p><p className="mt-1 text-xs text-slate-300">{point.detail}</p></li>)}</ol>;
+  if (visual === "choices" || visual === "map" || visual === "separate") return <div className="grid gap-2 sm:grid-cols-2">{points.map((point, index) => <div key={point.label} className={`${tile} rounded-xl border p-3 ${index === 0 ? "border-brand-gold/50 bg-brand-gold/10" : "border-white/15 bg-white/[0.05]"}`}><p className="font-semibold text-white">{point.label}</p><p className="mt-1 text-sm text-slate-300">{point.detail}</p></div>)}</div>;
+  if (visual === "script") return <div className="space-y-2">{points.map((point, index) => <div key={point.label} className={`${tile} flex gap-3 rounded-xl border border-white/15 bg-white/[0.05] p-3`}><span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/15 text-sm font-bold text-primary-light">{index + 1}</span><div><p className="font-semibold text-white">{point.label}</p><p className="text-sm text-slate-300">{point.detail}</p></div></div>)}</div>;
+  if (visual === "rhythm") return <div className="relative grid grid-cols-2 gap-3">{points.map((point, index) => <div key={point.label} className={`${tile} rounded-2xl border border-white/15 bg-white/[0.05] p-4`}>{index % 2 === 0 ? <Clock3 className="h-5 w-5 text-brand-gold" /> : <ShieldCheck className="h-5 w-5 text-primary-light" />}<p className="mt-2 font-semibold">{point.label}</p><p className="mt-1 text-sm text-slate-300">{point.detail}</p></div>)}</div>;
+  if (visual === "practice" || visual === "plan" || visual === "tools") return <div className="space-y-2">{points.map((point, index) => <div key={point.label} className={`${tile} flex items-center gap-3 rounded-xl border border-white/15 bg-white/[0.05] p-3`}><span className="font-serif text-2xl font-bold text-brand-gold">0{index + 1}</span><div><p className="font-semibold">{point.label}</p><p className="text-sm text-slate-300">{point.detail}</p></div>{visual === "plan" ? <Check className="ml-auto h-5 w-5 text-primary-light" /> : null}</div>)}</div>;
   if (visual === "close") return <div className="flex min-h-[15rem] items-center justify-center"><div className="flex h-40 w-40 items-center justify-center rounded-full border border-brand-gold/50 bg-brand-gold/10 shadow-[0_0_60px_rgba(245,185,66,0.15)]">{points.length ? <Layers3 className="h-16 w-16 text-brand-gold" /> : <BellOff className="h-16 w-16 text-brand-gold" />}</div></div>;
   return null;
 }

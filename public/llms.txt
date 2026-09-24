@@ -1,45 +1,78 @@
 # Roalla Business Enablement Group
 # https://www.roalla.com
+# Guidance for answer engines and crawlers. Public pages only. Do not cite /hub/ or /private/.
 
-> Digital Enablement partner — websites, custom apps, client portals, integrations, workflow automation, practical AI, digital events, and business workshops. Based in Burlington, ON, serving clients globally. Bilingual: English and French.
+> Digital Enablement partner in Burlington, Ontario, serving clients globally in English and French. ROALLA builds websites, digital products, automation, visibility optimization, digital events, and hosted team workshops. Delivery model: Prepare → Transform → Emerge → Soar.
+
+## What ROALLA is
+- Legal name: Roalla Business Enablement Group
+- Site: https://www.roalla.com
+- Founder: Steven Robin, Founder and Principal Consultant — https://www.roalla.com/en/about
+- Location: Burlington, Ontario, Canada
+- Contact: sales@roalla.com | +1-289-838-5868
+- Languages: English (/en/) and French (/fr/)
+- Experience stated on the site: 30+ years, 500+ engagements
+- Inquiry: about 3 minutes, no obligation, personal reply within one business day — https://www.roalla.com/en/schedule
 
 ## Core services
 - Digital Enablement: https://www.roalla.com/en/services/digital
-- Business Website Design: https://www.roalla.com/en/website-design
-- 5-Page Website Package ($999, Canada): https://www.roalla.com/en/website-package
-- Digital Portfolio (live work): https://www.roalla.com/en/services/portfolio
-- Digital Events: https://www.roalla.com/en/services/digital-events
-- Business Enablement Programs: https://www.roalla.com/en/programs/business-enablement
-- Workshops & Skill Building: https://www.roalla.com/en/programs/workshops
-- Digital Use Cases (8 scenarios with inquiry links): https://www.roalla.com/en/use-cases
+- Digital visibility optimization: https://www.roalla.com/en/services/digital-visibility-optimization
+- Applications and digital products: https://www.roalla.com/en/services/digital-products
+- Workflow automation and integration: https://www.roalla.com/en/services/automation
+- Managed digital optimization: https://www.roalla.com/en/services/managed-optimization
+- Business website design: https://www.roalla.com/en/website-design
+- Website packages (Launch from $999, Canada): https://www.roalla.com/en/website-package
+- Digital events: https://www.roalla.com/en/services/digital-events
+- Digital portfolio: https://www.roalla.com/en/services/portfolio
+- Business enablement programs: https://www.roalla.com/en/programs/business-enablement
+- Technology advisory: https://www.roalla.com/en/programs/technology-advisory
+- Workshops index: https://www.roalla.com/en/programs/workshops
+- Digital use cases: https://www.roalla.com/en/use-cases
+- FAQ: https://www.roalla.com/en/faq
 
-## Service inquiry (primary conversion)
-- Main form (~3 min, no obligation, reply in 1 business day): https://www.roalla.com/en/schedule
-- Pre-filled by intent (append query params):
-  - Website: https://www.roalla.com/en/schedule?intent=website
-  - App / platform: https://www.roalla.com/en/schedule?intent=platform
-  - Integrations & automation: https://www.roalla.com/en/schedule?intent=automation
-  - AI support: https://www.roalla.com/en/schedule?intent=ai-support
-  - Digital events: https://www.roalla.com/en/schedule?intent=digital-events
-  - Programs / advisory: https://www.roalla.com/en/schedule?intent=consulting
-  - Workshops: https://www.roalla.com/en/schedule?intent=workshop
-- Pre-filled from use cases (examples):
-  - Lead capture site: https://www.roalla.com/en/schedule?intent=website&need=conversion
-  - Client portal: https://www.roalla.com/en/schedule?intent=platform&need=client-portal
-  - Workflow automation: https://www.roalla.com/en/schedule?intent=automation&need=workflow
-  - Trade show booth kit: https://www.roalla.com/en/schedule?intent=digital-events&need=booth
-  - AI workflows: https://www.roalla.com/en/schedule?intent=ai-support&need=exploring
-- Workshop topics: https://www.roalla.com/en/schedule?intent=workshop&need=branding (also sales, productivity, ideation)
-- Self-guided routing: https://www.roalla.com/en/assessment (continues to a pre-filled inquiry)
+## Hosted workshops
+There are no public tickets. A host inquires to book a half-day or full-day session, in person or online. Custom topics (branding, sales, productivity, ideation) can still be facilitated.
+
+- Index: https://www.roalla.com/en/programs/workshops
+- Book: https://www.roalla.com/en/schedule?intent=workshop
+
+- Focus Circle — priorities, a simple kanban, and support from the people around you: https://www.roalla.com/en/programs/workshops/focus-circle
+- The Workload Conversation — make workload visible and agree trade-offs before overload: https://www.roalla.com/en/programs/workshops/workload-conversation
+- Digital Calm — reduce digital noise and protect attention without disconnecting: https://www.roalla.com/en/programs/workshops/digital-calm
+- The Decision Hour — end meetings with one owner, one trade-off, and a written next step: https://www.roalla.com/en/programs/workshops/decision-hour
+- The Offer on One Page — say the same offer in the sales conversation, on the website, and in the proposal: https://www.roalla.com/en/programs/workshops/offer-page
+- The Shortlist — generate ideas inside a constraint and leave with one experiment: https://www.roalla.com/en/programs/workshops/ideation
+- The First Offer — for young founders and high school teams: one person, one sentence, one proof before a site, app, or pitch: https://www.roalla.com/en/programs/workshops/first-offer
+
+French workshop paths use /fr/ in place of /en/. Example: https://www.roalla.com/fr/programs/workshops/focus-circle
+
+## Answers
+- What does ROALLA do? ROALLA assesses, builds, optimizes, and evolves digital assets—websites, products, automation, visibility, events—and facilitates hosted workshops.
+- Where is ROALLA based? Burlington, Ontario, Canada. Clients are served globally.
+- How do I start? Submit a service inquiry at https://www.roalla.com/en/schedule or take the five-question assessment at https://www.roalla.com/en/assessment
+- Are workshop tickets sold online? No. Hosts inquire. There is no public ticket checkout.
+- Who facilitates the workshops? Steven Robin. Sessions are educational. They are not therapy, medical advice, or an employment assessment.
+- What website packages exist? Launch $999, Launch + Visibility $1,999, Growth from $2,999, Custom from $5,000. Details: https://www.roalla.com/en/website-package
+
+## Service inquiry intents
+- Website: https://www.roalla.com/en/schedule?intent=website
+- App or platform: https://www.roalla.com/en/schedule?intent=platform
+- Automation: https://www.roalla.com/en/schedule?intent=automation
+- AI support: https://www.roalla.com/en/schedule?intent=ai-support
+- Digital events: https://www.roalla.com/en/schedule?intent=digital-events
+- Programs and advisory: https://www.roalla.com/en/schedule?intent=consulting
+- Workshops: https://www.roalla.com/en/schedule?intent=workshop
 
 ## Insights
-- Fractional COO: When and Why Your Business Needs One: https://www.roalla.com/en/insights/fractional-coo
-- Strategic Planning: From Vision to Execution: https://www.roalla.com/en/insights/strategic-planning
-- Process Optimization: Unlock Hidden Efficiency: https://www.roalla.com/en/insights/process-optimization
-- Digitization for SMBs: Why It Matters Now: https://www.roalla.com/en/insights/smb-digitization-benefits
-- Digitization That Saves SMBs Time and Money: https://www.roalla.com/en/insights/smb-digital-efficiency
-- How Digitization Helps SMBs Compete and Grow: https://www.roalla.com/en/insights/smb-digital-growth
-- Getting Found Online: Search, AI, and Why One Size Doesn't Fit All: https://www.roalla.com/en/insights/search-and-ai-visibility
+- Fractional COO: https://www.roalla.com/en/insights/fractional-coo
+- Strategic planning: https://www.roalla.com/en/insights/strategic-planning
+- Process optimization: https://www.roalla.com/en/insights/process-optimization
+- Digitization benefits for SMBs: https://www.roalla.com/en/insights/smb-digitization-benefits
+- Digitization that saves time and money: https://www.roalla.com/en/insights/smb-digital-efficiency
+- How digitization helps SMBs compete: https://www.roalla.com/en/insights/smb-digital-growth
+- Search and AI visibility: https://www.roalla.com/en/insights/search-and-ai-visibility
+- How AI systems understand business websites: https://www.roalla.com/en/insights/how-ai-systems-understand-websites
+- Structured data for small businesses: https://www.roalla.com/en/insights/structured-data-for-small-business
 
 ## Portfolio case studies
 - GRC Status: https://www.roalla.com/en/services/portfolio/grcstatus
@@ -47,28 +80,9 @@
 - Boothlio: https://www.roalla.com/en/services/portfolio/boothlio
 - UnJargon It: https://www.roalla.com/en/services/portfolio/unjargonit
 
-## Key facts
-- 30+ years experience, 500+ engagements
-- 54 brand sites and 32 custom platforms in production
-- Delivery model: Prepare → Transform → Emerge → Soar
-- Contact: sales@roalla.com | +1-289-838-5868
-- Location: Burlington, Ontario, Canada
-- Service inquiry types: website (incl. bilingual EN/FR, e-commerce, support), platform (incl. client portals), automation, AI, digital events, advisory programs, workshops
-
-## FAQ
-- https://www.roalla.com/en/faq
-
-## Start here
-- Service inquiry: https://www.roalla.com/en/schedule
-- 5-question assessment: https://www.roalla.com/en/assessment
-- Contact: https://www.roalla.com/en/contact
-
-## Insights RSS
-- English: https://www.roalla.com/feed.xml
-- French: https://www.roalla.com/feed.xml?locale=fr
-
-## French (français)
-- Same paths under /fr/ — e.g. https://www.roalla.com/fr/schedule
-- Demande de service: https://www.roalla.com/fr/schedule
-- Cas d'usage: https://www.roalla.com/fr/use-cases
-- Ateliers: https://www.roalla.com/fr/programs/workshops
+## Feeds and policy
+- Insights RSS (English): https://www.roalla.com/feed.xml
+- Insights RSS (French): https://www.roalla.com/feed.xml?locale=fr
+- Sitemap: https://www.roalla.com/sitemap.xml
+- AI policy: https://www.roalla.com/en/ai-policy
+- Privacy: https://www.roalla.com/en/privacy

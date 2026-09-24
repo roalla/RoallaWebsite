@@ -1,9 +1,9 @@
 import React from "react";
 import Script from "next/script";
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
 import FocusCircleExperience from "@/components/workshops/FocusCircleExperience";
 import { buildPageMetadata } from "@/lib/page-metadata";
+import { workshopPageJsonLd } from "@/lib/structured-data";
 import { focusCircleCopy } from "@/lib/workshops/focus-circle-content";
 import { focusCirclePath } from "@/lib/workshops/hosted-workshops";
 
@@ -25,33 +25,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function FocusCirclePage({ params }: Props) {
   const { locale } = await params;
   const copy = focusCircleCopy(locale);
-  const tCommon = await getTranslations({ locale, namespace: "common" });
-  const pageUrl = `https://www.roalla.com/${locale}${focusCirclePath}`;
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Course",
-        name: copy.title,
-        description: copy.metaDescription,
-        provider: {
-          "@type": "Organization",
-          name: tCommon("companyName"),
-          url: "https://www.roalla.com",
-        },
-        url: pageUrl,
-      },
-      {
-        "@type": "FAQPage",
-        mainEntity: copy.faqs.map((item) => ({
-          "@type": "Question",
-          name: item.q,
-          acceptedAnswer: { "@type": "Answer", text: item.a },
-        })),
-      },
-    ],
-  };
+  const jsonLd = workshopPageJsonLd(locale, {
+    title: copy.title,
+    metaDescription: copy.metaDescription,
+    path: focusCirclePath,
+    audienceLine: copy.audienceLine,
+    promise: copy.promise,
+    faqs: copy.faqs,
+  });
 
   return (
     <div className="page-shell">

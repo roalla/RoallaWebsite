@@ -5,6 +5,9 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import Workshops from '@/components/Workshops'
 import { buildPageMetadata } from '@/lib/page-metadata'
 import { serviceMiniFaqJsonLd } from '@/lib/service-faq-jsonld'
+import { workshopsCatalogJsonLd } from '@/lib/structured-data'
+import { focusCircleCopy } from '@/lib/workshops/focus-circle-content'
+import { companionWorkshopCopy, companionWorkshopIds } from '@/lib/workshops/companion-workshops-content'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -25,33 +28,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProgramsWorkshopsPage() {
   const tWorkshops = await getTranslations('workshops')
   const locale = await getLocale()
-  const pageUrl = `https://www.roalla.com/${locale}/programs/workshops`
 
   const faqJsonLd = serviceMiniFaqJsonLd((key) => tWorkshops(key))
-
-  const servicesJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    serviceType: 'Business Workshops and Training',
-    provider: {
-      '@type': 'Organization',
-      name: 'ROALLA Business Enablement Group',
-      url: 'https://www.roalla.com',
-    },
-    areaServed: 'Global',
-    url: pageUrl,
-    hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: tWorkshops('title'),
-      itemListElement: [0, 1, 2, 3].map((i) => ({
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: tWorkshops(`topic${i}Title` as 'topic0Title'),
-        },
-      })),
-    },
-  }
+  const focus = focusCircleCopy(locale)
+  const courses = [
+    { name: focus.title, description: focus.metaDescription, path: '/programs/workshops/focus-circle' },
+    ...companionWorkshopIds.map((id) => {
+      const copy = companionWorkshopCopy(id, locale)
+      return { name: copy.title, description: copy.metaDescription, path: copy.path }
+    }),
+  ]
+  const servicesJsonLd = workshopsCatalogJsonLd(locale, courses)
 
   return (
     <div className="page-shell">

@@ -39,6 +39,10 @@ export const metadata: Metadata = {
     'AI workflow support',
     'digital events',
     'business workshops',
+    'Focus Circle workshop',
+    'workload conversation',
+    'digital calm',
+    'team workshops Burlington',
     'bilingual websites',
     'e-commerce websites',
     'digital transformation',
@@ -124,6 +128,7 @@ export default async function RootLayout({
         <link rel="icon" href="/favicon.ico?v=3" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3" />
         <link rel="manifest" href="/site.webmanifest" />
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM guidance for Roalla" />
         <link rel="alternate" type="application/rss+xml" title="Roalla Insights (English)" href="/feed.xml" />
         <link rel="alternate" type="application/rss+xml" title="Roalla Insights (Français)" href="/feed.xml?locale=fr" hrefLang="fr" />
         <meta name="theme-color" content="#000000" />

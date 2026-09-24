@@ -38,6 +38,13 @@ export const organizationJsonLd = {
     "AI workflow support",
     "digital events",
     "business workshops",
+    "Focus Circle workshop",
+    "workload conversation workshop",
+    "digital calm workshop",
+    "decision hour workshop",
+    "offer positioning workshop",
+    "ideation workshop",
+    "first offer workshop",
     "bilingual websites",
     "e-commerce websites",
     "digital transformation",
@@ -95,6 +102,10 @@ export function homeServiceCatalogJsonLd(locale: string) {
           "Optimisation de la visibilité numérique",
           "Des améliorations techniques, de contenu et de confiance qui soutiennent la découvrabilité.",
         ],
+        [
+          "Ateliers d'équipe",
+          "Sessions sur demande : Cercle de concentration, La conversation sur la charge de travail, Calme numérique, L'heure de la décision, L'offre sur une page, La liste courte et La première offre. Aucun billet public.",
+        ],
       ]
     : [
         [
@@ -112,6 +123,10 @@ export function homeServiceCatalogJsonLd(locale: string) {
         [
           "Digital Visibility Optimization",
           "Technical, content, and trust improvements that support discoverability.",
+        ],
+        [
+          "Team Workshops",
+          "Hosted sessions including Focus Circle, The Workload Conversation, Digital Calm, The Decision Hour, The Offer on One Page, The Shortlist, and The First Offer. No public tickets.",
         ],
       ];
 
@@ -198,6 +213,80 @@ export function servicePageJsonLd({
   ];
 }
 
+type WorkshopSeoCopy = {
+  title: string;
+  metaDescription: string;
+  path: string;
+  audienceLine: string;
+  promise: string;
+  faqs: readonly { q: string; a: string }[];
+};
+
+/** Course, breadcrumb, and FAQ schema for a hosted workshop page. */
+export function workshopPageJsonLd(locale: string, copy: WorkshopSeoCopy) {
+  const url = pageUrl(locale, copy.path);
+  const hosted = locale === "fr" ? "Sur demande. Aucun billet public." : "Hosted on request. No public tickets.";
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Course",
+        name: copy.title,
+        description: copy.metaDescription,
+        url,
+        inLanguage: locale === "fr" ? "fr-CA" : "en-CA",
+        courseMode: ["onsite", "online"],
+        provider: { "@id": `${SITE_URL}/#organization` },
+        audience: { "@type": "Audience", audienceType: copy.audienceLine },
+        about: copy.promise,
+        offers: {
+          "@type": "Offer",
+          url: `${pageUrl(locale, "/schedule")}?intent=workshop`,
+          availability: "https://schema.org/InStock",
+          description: hosted,
+        },
+      },
+      breadcrumbJsonLd(locale, [
+        { name: "ROALLA", path: "" },
+        { name: locale === "fr" ? "Ateliers" : "Workshops", path: "/programs/workshops" },
+        { name: copy.title },
+      ]),
+      {
+        "@type": "FAQPage",
+        mainEntity: copy.faqs.map((item) => ({
+          "@type": "Question",
+          name: item.q,
+          acceptedAnswer: { "@type": "Answer", text: item.a },
+        })),
+      },
+    ],
+  };
+}
+
+export function workshopsCatalogJsonLd(
+  locale: string,
+  courses: readonly { name: string; description: string; path: string }[],
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: locale === "fr" ? "Ateliers ROALLA" : "ROALLA workshops",
+    url: pageUrl(locale, "/programs/workshops"),
+    itemListElement: courses.map((course, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "Course",
+        name: course.name,
+        description: course.description,
+        url: pageUrl(locale, course.path),
+        provider: { "@id": `${SITE_URL}/#organization` },
+      },
+    })),
+  };
+}
+
 export function contactPageJsonLd(locale: string) {
   return {
     "@context": "https://schema.org",
@@ -218,7 +307,7 @@ const SERVICE_INQUIRY_TYPES_EN = [
   "AI support — lead scoring, content workflows, custom models",
   "Digital events — booth kits, microsites, event apps, activations",
   "Programs and advisory — strategy, operations, team, data, innovation",
-  "Workshops — branding, sales, productivity, ideation",
+  "Workshops — Focus Circle, workload, digital calm, decisions, offers, ideation, first offers, plus custom branding, sales, and productivity sessions",
 ] as const;
 
 const SERVICE_INQUIRY_TYPES_FR = [
@@ -228,7 +317,7 @@ const SERVICE_INQUIRY_TYPES_FR = [
   "Soutien IA — notation de leads, flux de contenu, modèles sur mesure",
   "Événements numériques — kits kiosque, microsites, apps événementielles, activations",
   "Programmes et conseil — stratégie, opérations, équipe, données, innovation",
-  "Ateliers — image de marque, ventes, productivité, idéation",
+  "Ateliers — Cercle de concentration, charge de travail, calme numérique, décisions, offres, idéation, première offre, plus sessions sur mesure",
 ] as const;
 
 export function serviceInquiryPageJsonLd(

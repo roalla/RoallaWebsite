@@ -908,8 +908,11 @@ const Header = () => {
                       const Icon = item.icon;
                       const current = isCurrentHref(item.href);
                       return (
+                        <React.Fragment key={item.nameKey}>
+                        {item.nameKey === "teamWorkshops" ? (
+                          <div role="separator" className="mx-3 my-1.5 border-t border-white/10" />
+                        ) : null}
                         <Link
-                          key={item.nameKey}
                           href={item.href}
                           role="menuitem"
                           aria-current={current ? "page" : undefined}
@@ -937,6 +940,7 @@ const Header = () => {
                             </p>
                           </div>
                         </Link>
+                        </React.Fragment>
                       );
                     })}
                   </div>
@@ -1244,8 +1248,11 @@ const Header = () => {
                       const Icon = item.icon;
                       const current = isCurrentHref(item.href);
                       return (
+                        <React.Fragment key={item.nameKey}>
+                        {item.nameKey === "teamWorkshops" ? (
+                          <div role="separator" className="mx-3 my-1.5 border-t border-white/10" />
+                        ) : null}
                         <Link
-                          key={item.nameKey}
                           href={item.href}
                           aria-current={current ? "page" : undefined}
                           className={`${mobileDropdownItemClass} ${current ? "text-primary bg-primary/10" : ""}`}
@@ -1264,6 +1271,7 @@ const Header = () => {
                             </span>
                           </span>
                         </Link>
+                        </React.Fragment>
                       );
                     })}
                   </div>

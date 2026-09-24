@@ -56,14 +56,14 @@ const priorities: Record<string, number> = {
   "/services/digital-events": 0.85,
   "/programs/business-enablement": 0.6,
   "/programs/technology-advisory": 0.6,
-  "/programs/workshops": 0.55,
-  "/programs/workshops/focus-circle": 0.62,
-  "/programs/workshops/workload-conversation": 0.62,
-  "/programs/workshops/digital-calm": 0.62,
-  "/programs/workshops/decision-hour": 0.62,
-  "/programs/workshops/offer-page": 0.62,
-  "/programs/workshops/ideation": 0.62,
-  "/programs/workshops/first-offer": 0.62,
+  "/programs/workshops": 0.9,
+  "/programs/workshops/focus-circle": 0.84,
+  "/programs/workshops/workload-conversation": 0.84,
+  "/programs/workshops/digital-calm": 0.84,
+  "/programs/workshops/decision-hour": 0.84,
+  "/programs/workshops/offer-page": 0.84,
+  "/programs/workshops/ideation": 0.84,
+  "/programs/workshops/first-offer": 0.84,
   "/about": 0.8,
   "/partners": 0.65,
   "/assessment": 0.7,
@@ -81,6 +81,7 @@ const changeFrequency = (
   path: string,
 ): MetadataRoute.Sitemap[number]["changeFrequency"] => {
   if (path === "") return "weekly";
+  if (path.startsWith("/programs/workshops")) return "weekly";
   if (path.startsWith("/insights")) return "monthly";
   return "monthly";
 };

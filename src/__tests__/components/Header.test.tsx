@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, within } from '@testing-library/react'
 import Header from '@/components/Header'
 
 const mockPathname = jest.fn(() => '/')
@@ -155,6 +155,10 @@ describe('Header', () => {
       'href',
       '/programs/workshops/first-offer',
     )
+    const menu = screen.getByRole('menu', { name: 'workshops' })
+    const items = within(menu).getAllByRole('menuitem')
+    expect(items[items.length - 1]).toHaveAttribute('href', '/programs/workshops')
+    expect(within(menu).getByRole('separator')).toBeInTheDocument()
   })
 
   it('marks team workshops when that page is selected', () => {

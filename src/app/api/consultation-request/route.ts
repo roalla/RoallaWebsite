@@ -75,6 +75,8 @@ const EMAIL_LABELS: Record<string, string> = {
   "workshopTopic_focus-circle": "Focus Circle",
   "workshopTopic_workload-conversation": "The Workload Conversation",
   "workshopTopic_digital-calm": "Digital Calm",
+  "workshopTopic_decision-hour": "The Decision Hour",
+  "workshopTopic_offer-page": "The Offer on One Page",
   workshopTopic_branding: "Branding & positioning",
   workshopTopic_sales: "Sales & growth",
   workshopTopic_productivity: "Productivity & systems",

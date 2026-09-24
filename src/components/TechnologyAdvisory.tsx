@@ -285,12 +285,34 @@ const TechnologyAdvisory = () => {
           confidentiality={{
             href: "/contact",
             label: t("confidentialityLink"),
+            title: t("ctaConfidentialTitle"),
+            hint: t("ctaConfidentialHint"),
           }}
           links={[
-            { href: "/programs/business-enablement", label: t("technologyCrossLinkBusiness") },
-            { href: "/programs/workshops", label: t("crossLinkWorkshops") },
-            { href: "/services/digital", label: t("crossLinkDigital") },
-            { href: "/services/portfolio", label: t("crossLinkOurWork") },
+            {
+              href: "/programs/business-enablement",
+              label: t("technologyCrossLinkBusiness"),
+              title: t("ctaPathBusinessTitle"),
+              hint: t("ctaPathBusinessHint"),
+            },
+            {
+              href: "/programs/workshops",
+              label: t("crossLinkWorkshops"),
+              title: t("ctaPathWorkshopsTitle"),
+              hint: t("ctaPathWorkshopsHint"),
+            },
+            {
+              href: "/services/digital",
+              label: t("crossLinkDigital"),
+              title: t("ctaPathDigitalTitle"),
+              hint: t("ctaPathDigitalHint"),
+            },
+            {
+              href: "/services/portfolio",
+              label: t("crossLinkOurWork"),
+              title: t("ctaPathPortfolioTitle"),
+              hint: t("ctaPathPortfolioHint"),
+            },
           ]}
         />
       </div>

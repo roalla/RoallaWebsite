@@ -86,7 +86,14 @@ describe('Header', () => {
     expect(current[0]).toHaveAttribute('href', '/services/digital')
   })
 
-  it('renders digital portfolio as an icon link with accessible label', () => {
+  it.each([
+    '/services/digital',
+    '/website-design',
+    '/services/digital-products',
+    '/services/portfolio',
+    '/services/portfolio/websites',
+  ])('renders digital portfolio on %s', (path) => {
+    mockPathname.mockReturnValue(path)
     render(<Header />)
     const portfolioLinks = screen.getAllByRole('link', { name: 'digitalPortfolio' })
     expect(portfolioLinks.length).toBeGreaterThan(0)
@@ -94,6 +101,15 @@ describe('Header', () => {
       expect(link).toHaveAttribute('href', '/services/portfolio')
     })
   })
+
+  it.each(['/', '/services/automation', '/programs/workshops'])(
+    'hides digital portfolio on %s',
+    (path) => {
+      mockPathname.mockReturnValue(path)
+      render(<Header />)
+      expect(screen.queryByRole('link', { name: 'digitalPortfolio' })).not.toBeInTheDocument()
+    },
+  )
 
   it('renders advisory dropdown with business advisory link', () => {
     render(<Header />)
@@ -122,6 +138,14 @@ describe('Header', () => {
     expect(screen.getByRole('menuitem', { name: /digitalCalm/i })).toHaveAttribute(
       'href',
       '/programs/workshops/digital-calm',
+    )
+    expect(screen.getByRole('menuitem', { name: /decisionHour/i })).toHaveAttribute(
+      'href',
+      '/programs/workshops/decision-hour',
+    )
+    expect(screen.getByRole('menuitem', { name: /offerPage/i })).toHaveAttribute(
+      'href',
+      '/programs/workshops/offer-page',
     )
   })
 

@@ -18,6 +18,8 @@ import {
   Network,
   MessageCircle,
   BellOff,
+  Timer,
+  FileText,
 } from "lucide-react";
 import Image from "next/image";
 import { usePathname as useNextPathname } from "next/navigation";
@@ -268,7 +270,9 @@ const Header = () => {
     pathname === "/programs/workshops" ||
     pathname === "/programs/workshops/focus-circle" ||
     pathname === "/programs/workshops/workload-conversation" ||
-    pathname === "/programs/workshops/digital-calm"
+    pathname === "/programs/workshops/digital-calm" ||
+    pathname === "/programs/workshops/decision-hour" ||
+    pathname === "/programs/workshops/offer-page"
       ? tCommon("scheduleConsultationWorkshops")
       : pathname === "/services/digital-events"
         ? tCommon("scheduleConsultationDigitalEvents")
@@ -363,7 +367,9 @@ const Header = () => {
     | "/programs/workshops"
     | "/programs/workshops/focus-circle"
     | "/programs/workshops/workload-conversation"
-    | "/programs/workshops/digital-calm";
+    | "/programs/workshops/digital-calm"
+    | "/programs/workshops/decision-hour"
+    | "/programs/workshops/offer-page";
 
   const digitalLinks: {
     nameKey:
@@ -448,8 +454,8 @@ const Header = () => {
   ];
 
   const workshopLinks: {
-    nameKey: "focusCircle" | "workloadConversation" | "digitalCalm" | "teamWorkshops";
-    descKey: "focusCircleDesc" | "workloadConversationDesc" | "digitalCalmDesc" | "workshopsDesc";
+    nameKey: "focusCircle" | "workloadConversation" | "digitalCalm" | "decisionHour" | "offerPage" | "teamWorkshops";
+    descKey: "focusCircleDesc" | "workloadConversationDesc" | "digitalCalmDesc" | "decisionHourDesc" | "offerPageDesc" | "workshopsDesc";
     href: WorkshopNavHref;
     icon: typeof GraduationCap;
   }[] = [
@@ -470,6 +476,18 @@ const Header = () => {
       descKey: "digitalCalmDesc",
       href: "/programs/workshops/digital-calm",
       icon: BellOff,
+    },
+    {
+      nameKey: "decisionHour",
+      descKey: "decisionHourDesc",
+      href: "/programs/workshops/decision-hour",
+      icon: Timer,
+    },
+    {
+      nameKey: "offerPage",
+      descKey: "offerPageDesc",
+      href: "/programs/workshops/offer-page",
+      icon: FileText,
     },
     {
       nameKey: "teamWorkshops",
@@ -493,6 +511,13 @@ const Header = () => {
     pathname === "/services/digital-events" ||
     pathname === "/services/portfolio";
 
+  const showDigitalPortfolio =
+    pathname === "/services/digital" ||
+    pathname === "/website-design" ||
+    pathname === "/services/digital-products" ||
+    pathname === "/services/portfolio" ||
+    pathname.startsWith("/services/portfolio/");
+
   const isAdvisoryActive =
     pathname === "/programs/business-enablement" ||
     pathname === "/programs/technology-advisory";
@@ -500,7 +525,9 @@ const Header = () => {
     pathname === "/programs/workshops" ||
     pathname === "/programs/workshops/focus-circle" ||
     pathname === "/programs/workshops/workload-conversation" ||
-    pathname === "/programs/workshops/digital-calm";
+    pathname === "/programs/workshops/digital-calm" ||
+    pathname === "/programs/workshops/decision-hour" ||
+    pathname === "/programs/workshops/offer-page";
 
   useEffect(() => {
     if (!isMenuOpen) return;
@@ -712,6 +739,7 @@ const Header = () => {
                 </div>
               </div>
 
+              {showDigitalPortfolio && (
               <div className="relative group/portfolio">
                 <Link
                   href="/services/portfolio"
@@ -742,6 +770,7 @@ const Header = () => {
                   {t("digitalPortfolio")}
                 </span>
               </div>
+              )}
 
               <div className="relative" ref={advisoryDropdownDesktopRef}>
                 <button
@@ -1100,6 +1129,7 @@ const Header = () => {
                 </div>
               </div>
 
+              {showDigitalPortfolio && (
               <div>
                 <Link
                   href="/services/portfolio"
@@ -1119,6 +1149,7 @@ const Header = () => {
                   {t("digitalPortfolio")}
                 </Link>
               </div>
+              )}
 
               <div className="border-t border-white/10 pt-1">
                 <button

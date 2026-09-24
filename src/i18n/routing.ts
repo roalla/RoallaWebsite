@@ -26,6 +26,8 @@ export const routing = defineRouting({
     "/programs/workshops/focus-circle": "/programs/workshops/focus-circle",
     "/programs/workshops/workload-conversation": "/programs/workshops/workload-conversation",
     "/programs/workshops/digital-calm": "/programs/workshops/digital-calm",
+    "/programs/workshops/decision-hour": "/programs/workshops/decision-hour",
+    "/programs/workshops/offer-page": "/programs/workshops/offer-page",
     "/website-design": "/website-design",
     "/website-package": "/website-package",
     "/about": "/about",

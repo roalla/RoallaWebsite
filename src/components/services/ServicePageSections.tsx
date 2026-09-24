@@ -1,7 +1,25 @@
 'use client'
 
 import React from 'react'
-import { ArrowRight, ArrowDown, Briefcase, CheckCircle2, Layers, type LucideIcon } from 'lucide-react'
+import {
+  ArrowRight,
+  ArrowDown,
+  Briefcase,
+  CalendarDays,
+  CheckCircle2,
+  ClipboardCheck,
+  Compass,
+  Cpu,
+  Globe,
+  Images,
+  Layers,
+  MonitorSmartphone,
+  Package,
+  Shield,
+  Users,
+  type LucideIcon,
+} from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import Reveal from '../motion/Reveal'
 
@@ -327,6 +345,59 @@ export function ServiceSectionHeading({
   )
 }
 
+type ServiceCtaHref =
+  | '/programs/business-enablement'
+  | '/programs/technology-advisory'
+  | '/programs/workshops'
+  | '/services/digital'
+  | '/services/digital-events'
+  | '/services/portfolio'
+  | '/assessment'
+  | '/website-design'
+  | '/website-package'
+  | '/contact'
+
+type ServiceCtaLink = {
+  href: ServiceCtaHref
+  label: string
+  title?: string
+  hint?: string
+}
+
+const pathIcons: Partial<Record<ServiceCtaHref, LucideIcon>> = {
+  '/programs/business-enablement': Compass,
+  '/programs/technology-advisory': Cpu,
+  '/programs/workshops': Users,
+  '/services/digital': MonitorSmartphone,
+  '/services/digital-events': CalendarDays,
+  '/services/portfolio': Images,
+  '/assessment': ClipboardCheck,
+  '/website-design': Globe,
+  '/website-package': Package,
+  '/contact': Shield,
+}
+
+const pathCardClass =
+  'group flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-3 text-left transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/50 hover:bg-white/[0.09] hover:shadow-[0_10px_28px_rgba(0,0,0,0.28)]'
+
+function PathCard({ href, label, title, hint, className = '' }: ServiceCtaLink & { className?: string }) {
+  const Icon = pathIcons[href] ?? ArrowRight
+  const heading = title ?? label
+
+  return (
+    <Link href={href} className={`${pathCardClass} ${className}`}>
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-primary/25 bg-primary/15 text-primary-light transition-colors group-hover:border-primary/50 group-hover:bg-primary/25">
+        <Icon className="h-4 w-4" aria-hidden />
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block text-sm font-semibold text-white">{heading}</span>
+        {hint && <span className="mt-0.5 block text-xs leading-snug text-slate-400">{hint}</span>}
+      </span>
+      <ArrowRight className="h-4 w-4 shrink-0 text-slate-500 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-primary-light" aria-hidden />
+    </Link>
+  )
+}
+
 type ServicePageCTAProps = {
   badge: string
   title: string
@@ -335,8 +406,8 @@ type ServicePageCTAProps = {
   primaryCta: React.ReactNode
   secondaryCta?: React.ReactNode
   ctaSubtext?: string
-  confidentiality?: { href: '/contact'; label: string }
-  links?: { href: '/programs/business-enablement' | '/programs/technology-advisory' | '/programs/workshops' | '/services/digital' | '/services/digital-events' | '/services/portfolio' | '/assessment' | '/website-design' | '/website-package'; label: string }[]
+  confidentiality?: ServiceCtaLink
+  links?: ServiceCtaLink[]
 }
 
 export function ServicePageCTA({
@@ -350,10 +421,13 @@ export function ServicePageCTA({
   confidentiality,
   links,
 }: ServicePageCTAProps) {
+  const tCommon = useTranslations('common')
+  const hasPaths = (links && links.length > 0) || confidentiality
+
   return (
     <Reveal
       as="aside"
-      className="mt-16 rounded-xl border border-slate-700 bg-slate-900 px-8 py-12 md:px-14 md:py-16 text-center shadow-xl"
+      className="mt-16 rounded-xl border border-slate-700 bg-slate-900 px-6 py-12 sm:px-8 md:px-14 md:py-16 text-center shadow-xl"
     >
       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-light mb-4">{badge}</p>
       <h2 className="text-2xl md:text-3xl font-serif font-bold text-white tracking-tight">{title}</h2>
@@ -368,25 +442,22 @@ export function ServicePageCTA({
       {ctaSubtext && (
         <p className="mt-4 text-sm text-slate-400 max-w-xl mx-auto leading-relaxed">{ctaSubtext}</p>
       )}
-      {confidentiality && (
-        <p className="mt-6 text-sm text-slate-400">
-          <Link href={confidentiality.href} className="underline underline-offset-2 hover:text-white transition-colors">
-            {confidentiality.label}
-          </Link>
-        </p>
-      )}
-      {links && links.length > 0 && (
-        <div className="mt-5 flex flex-col sm:flex-row items-center justify-center gap-x-6 gap-y-2 text-sm text-slate-400">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="inline-flex items-center underline underline-offset-2 hover:text-white transition-colors"
-            >
-              {link.label}
-              <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
-            </Link>
-          ))}
+      {hasPaths && (
+        <div className="mt-10 border-t border-white/10 pt-8 text-left">
+          <p className="mb-4 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+            {tCommon('continueExploring')}
+          </p>
+          <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+            {links?.map((link) => (
+              <PathCard key={link.href} {...link} />
+            ))}
+            {confidentiality && (
+              <PathCard
+                {...confidentiality}
+                className={(links?.length ?? 0) % 2 === 0 ? 'sm:col-span-2' : ''}
+              />
+            )}
+          </div>
         </div>
       )}
     </Reveal>

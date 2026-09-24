@@ -1,4 +1,6 @@
-export type CompanionWorkshopId = "workload-conversation" | "digital-calm";
+import { decisionHourCopy, offerPageCopy } from "@/lib/workshops/added-workshops-content";
+
+export type CompanionWorkshopId = "workload-conversation" | "digital-calm" | "decision-hour" | "offer-page";
 export type WorkshopStage = "prepare" | "transform" | "emerge" | "soar";
 
 export type WorkshopSlide = {
@@ -428,7 +430,9 @@ digitalFr.slides = digitalEn.slides.map((slide, index) => ({ ...slide, ...(digit
 
 export function companionWorkshopCopy(id: CompanionWorkshopId, locale: string): CompanionWorkshopCopy {
   if (id === "workload-conversation") return locale === "fr" ? workloadFr : workloadEn;
-  return locale === "fr" ? digitalFr : digitalEn;
+  if (id === "digital-calm") return locale === "fr" ? digitalFr : digitalEn;
+  if (id === "decision-hour") return decisionHourCopy(locale);
+  return offerPageCopy(locale);
 }
 
-export const companionWorkshopIds: CompanionWorkshopId[] = ["workload-conversation", "digital-calm"];
+export const companionWorkshopIds: CompanionWorkshopId[] = ["workload-conversation", "digital-calm", "decision-hour", "offer-page"];

@@ -90,6 +90,8 @@ export const workshopTopicValues = [
   "focus-circle",
   "workload-conversation",
   "digital-calm",
+  "decision-hour",
+  "offer-page",
   "branding",
   "sales",
   "productivity",

@@ -122,6 +122,7 @@ export default function CompanionWorkshopExperience({ copy }: { copy: CompanionW
               <h3 className="font-serif text-xl font-bold text-slate-900">{tool.title}</h3>
               <p className="mt-2 text-sm text-slate-600">{tool.body}</p>
               <ul className="mt-4 space-y-2">{tool.points.map((point) => <li key={point} className="flex gap-2 text-sm text-slate-700"><CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />{point}</li>)}</ul>
+              {tool.href ? <a href={tool.href} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center text-sm font-semibold text-primary hover:underline">{tool.href.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}<ArrowRight className="ml-1.5 h-4 w-4" aria-hidden /></a> : null}
             </article>
           ))}
         </div>

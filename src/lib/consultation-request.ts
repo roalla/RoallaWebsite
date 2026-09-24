@@ -96,6 +96,7 @@ export const workshopTopicValues = [
   "sales",
   "productivity",
   "ideation",
+  "first-offer",
   "other",
 ] as const;
 export type WorkshopTopic = (typeof workshopTopicValues)[number];

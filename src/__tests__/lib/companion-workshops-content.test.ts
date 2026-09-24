@@ -20,5 +20,7 @@ describe("companion workshop content", () => {
     expect(companionWorkshopCopy("decision-hour", "fr").slides[0].title).toContain("responsable");
     expect(companionWorkshopCopy("offer-page", "fr").title).toContain("offre");
     expect(companionWorkshopCopy("ideation", "fr").title).toContain("liste");
+    expect(companionWorkshopCopy("first-offer", "fr").title).toContain("première");
+    expect(companionWorkshopCopy("first-offer", "en").tools.some((tool) => tool.href === "https://www.pitchhotshot.com/")).toBe(true);
   });
 });

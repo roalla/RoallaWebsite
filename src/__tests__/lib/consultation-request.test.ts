@@ -134,6 +134,7 @@ describe('consultation-request', () => {
     expect(parseWorkshopTopic('digital-calm')).toBe('digital-calm')
     expect(parseWorkshopTopic('decision-hour')).toBe('decision-hour')
     expect(parseWorkshopTopic('offer-page')).toBe('offer-page')
+    expect(parseWorkshopTopic('first-offer')).toBe('first-offer')
     expect(parseWorkshopTopic('invalid')).toBeNull()
   })
 

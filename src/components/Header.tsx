@@ -274,7 +274,8 @@ const Header = () => {
     pathname === "/programs/workshops/digital-calm" ||
     pathname === "/programs/workshops/decision-hour" ||
     pathname === "/programs/workshops/offer-page" ||
-    pathname === "/programs/workshops/ideation"
+    pathname === "/programs/workshops/ideation" ||
+    pathname === "/programs/workshops/first-offer"
       ? tCommon("scheduleConsultationWorkshops")
       : pathname === "/services/digital-events"
         ? tCommon("scheduleConsultationDigitalEvents")
@@ -372,7 +373,8 @@ const Header = () => {
     | "/programs/workshops/digital-calm"
     | "/programs/workshops/decision-hour"
     | "/programs/workshops/offer-page"
-    | "/programs/workshops/ideation";
+    | "/programs/workshops/ideation"
+    | "/programs/workshops/first-offer";
 
   const digitalLinks: {
     nameKey:
@@ -457,8 +459,8 @@ const Header = () => {
   ];
 
   const workshopLinks: {
-    nameKey: "focusCircle" | "workloadConversation" | "digitalCalm" | "decisionHour" | "offerPage" | "theShortlist" | "teamWorkshops";
-    descKey: "focusCircleDesc" | "workloadConversationDesc" | "digitalCalmDesc" | "decisionHourDesc" | "offerPageDesc" | "theShortlistDesc" | "workshopsDesc";
+    nameKey: "focusCircle" | "workloadConversation" | "digitalCalm" | "decisionHour" | "offerPage" | "theShortlist" | "firstOffer" | "teamWorkshops";
+    descKey: "focusCircleDesc" | "workloadConversationDesc" | "digitalCalmDesc" | "decisionHourDesc" | "offerPageDesc" | "theShortlistDesc" | "firstOfferDesc" | "workshopsDesc";
     href: WorkshopNavHref;
     icon: typeof GraduationCap;
   }[] = [
@@ -499,6 +501,12 @@ const Header = () => {
       icon: Lightbulb,
     },
     {
+      nameKey: "firstOffer",
+      descKey: "firstOfferDesc",
+      href: "/programs/workshops/first-offer",
+      icon: GraduationCap,
+    },
+    {
       nameKey: "teamWorkshops",
       descKey: "workshopsDesc",
       href: "/programs/workshops",
@@ -537,7 +545,8 @@ const Header = () => {
     pathname === "/programs/workshops/digital-calm" ||
     pathname === "/programs/workshops/decision-hour" ||
     pathname === "/programs/workshops/offer-page" ||
-    pathname === "/programs/workshops/ideation";
+    pathname === "/programs/workshops/ideation" ||
+    pathname === "/programs/workshops/first-offer";
 
   useEffect(() => {
     if (!isMenuOpen) return;

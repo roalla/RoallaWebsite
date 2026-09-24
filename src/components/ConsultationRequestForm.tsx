@@ -955,6 +955,9 @@ export default function ConsultationRequestForm({
                       <option value="offer-page">
                         {t("workshopTopicOfferPage")}
                       </option>
+                      <option value="first-offer">
+                        {t("workshopTopicFirstOffer")}
+                      </option>
                       <option value="branding">
                         {t("workshopTopicBranding")}
                       </option>

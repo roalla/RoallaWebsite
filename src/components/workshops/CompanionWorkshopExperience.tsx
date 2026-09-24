@@ -21,6 +21,7 @@ import Breadcrumb from "@/components/Breadcrumb";
 import ScheduleButton from "@/components/ScheduleButton";
 import StickyMobileCTA from "@/components/StickyMobileCTA";
 import Reveal from "@/components/motion/Reveal";
+import WorkshopPrintSheet from "@/components/workshops/WorkshopPrintSheet";
 import type {
   CompanionWorkshopCopy,
   WorkshopPractice,
@@ -59,18 +60,13 @@ export default function CompanionWorkshopExperience({ copy }: { copy: CompanionW
 
   return (
     <div id="workshop-content">
-      <PrintSheet copy={copy} plan={plan} />
-      <style jsx global>{`
-        .companion-workshop-print { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
-        @media print {
-          body * { visibility: hidden !important; }
-          .companion-workshop-print, .companion-workshop-print * { visibility: visible !important; }
-          .companion-workshop-print { position: static; width: auto; height: auto; overflow: visible; clip: auto; padding: 2rem; color: #0f172a; }
-          .companion-workshop-print h1 { font-size: 28pt; margin-bottom: 0.5rem; }
-          .companion-workshop-print h2 { font-size: 14pt; margin-top: 1.5rem; }
-          .companion-workshop-print p { white-space: pre-wrap; }
-        }
-      `}</style>
+      <WorkshopPrintSheet
+        title={copy.title}
+        promise={copy.promise}
+        journey={copy.stages.join("  →  ")}
+        path={copy.path}
+        fields={copy.planFields.map((field, index) => ({ label: field.label, hint: field.hint, value: plan[index] }))}
+      />
       <Breadcrumb items={[{ label: copy.workshopsLabel, href: "/programs/workshops" }, { label: copy.title }]} />
 
       <header className="relative mb-10 min-h-[31rem] overflow-hidden rounded-2xl border border-slate-700 bg-[#07111f] shadow-xl">
@@ -232,7 +228,7 @@ function Slide({ slide, copy, presenting, index }: { slide: WorkshopSlide; copy:
   return (
     <article className={`relative flex min-h-[31rem] flex-col overflow-hidden ${presenting ? "md:min-h-[min(76vh,52rem)]" : "md:min-h-[34rem]"}`} aria-roledescription="slide" aria-label={`${index + 1}: ${slide.title}`}>
       {photo ? <><Image src={copy.heroImage} alt="" fill unoptimized sizes="(max-width: 768px) 100vw, 640px" className="object-cover" /><div className="absolute inset-0 bg-gradient-to-r from-[#07111f] via-[#07111f]/90 to-[#07111f]/20" /></> : <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,180,197,0.18),transparent_50%)]" />}
-      <div className="relative flex items-center justify-between px-5 pt-5 sm:px-8"><p className="text-[11px] font-semibold tracking-[0.32em]">ROALLA</p><p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-light">{slide.kicker}</p></div>
+      <div className="relative flex items-center justify-between px-5 pt-5 sm:px-8"><p className="flex items-center gap-2 text-[11px] font-semibold tracking-[0.32em] text-white"><Image src="/logo.svg" alt="" width={20} height={20} className="h-5 w-5" />ROALLA</p><p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-light">{slide.kicker}</p></div>
       <div className={`relative grid flex-1 items-center gap-8 px-5 py-8 sm:px-8 md:grid-cols-[0.9fr_1.1fr] ${photo ? "md:grid-cols-[0.75fr_1.25fr]" : ""}`}>
         <div className="z-10"><div className="mb-4 h-0.5 w-12 bg-brand-gold" /><h3 className={`${presenting ? "text-4xl sm:text-6xl" : "text-3xl sm:text-5xl"} max-w-3xl font-serif font-bold leading-[1.04] text-white`}>{slide.title}</h3><p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-200 sm:text-lg">{slide.body}</p>{slide.statement ? <p className="mt-5 border-l-2 border-brand-gold pl-4 font-serif text-xl text-white sm:text-2xl">{slide.statement}</p> : null}{!presenting && points.length ? <ul className="mt-5 grid gap-2 sm:grid-cols-2">{points.map((point) => <li key={point.label} className="rounded-lg border border-white/10 bg-black/20 p-2.5 text-sm text-slate-300"><strong className="text-white">{point.label}</strong>{point.detail ? ` — ${point.detail}` : ""}</li>)}</ul> : null}</div>
         <div className={photo ? "hidden md:block" : "min-h-[15rem]"}><SlideVisual visual={slide.visual} points={points} /></div>
@@ -268,10 +264,6 @@ function Practice({ copy }: { copy: CompanionWorkshopCopy }) {
   const scenario: WorkshopPractice = copy.practice[index];
   function choose(next: number) { if (choice !== null) return; setChoice(next); if (next === scenario.correct) setScore((current) => current + 1); }
   return <section className="mt-16 rounded-2xl border border-slate-300 bg-white p-6 lg:p-8"><Eyebrow>{copy.practiceEyebrow}</Eyebrow><h2 className="mt-3 text-3xl font-serif font-bold text-slate-900">{copy.practiceTitle}</h2><p className="mt-3 max-w-3xl text-slate-600">{copy.practiceIntro}</p>{done ? <div className="mt-8"><p className="text-lg font-semibold text-slate-900">{copy.practiceScore.replace("{score}", String(score)).replace("{total}", String(copy.practice.length))}</p><button type="button" onClick={() => { setIndex(0); setChoice(null); setScore(0); setDone(false); }} className="mt-4 rounded-lg bg-primary-dark px-4 py-2.5 text-sm font-semibold text-white">{copy.practiceRestart}</button></div> : <div className="mt-8"><p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary-dark">{index + 1} / {copy.practice.length}</p><h3 className="mt-2 font-serif text-2xl font-bold text-slate-900">{scenario.title}</h3><p className="mt-2 text-slate-700">{scenario.prompt}</p><p className="mt-5 text-sm font-semibold text-slate-900">{copy.practiceQuestion}</p><div className="mt-3 grid gap-2">{scenario.choices.map((item, itemIndex) => <button key={item} type="button" onClick={() => choose(itemIndex)} disabled={choice !== null} className={`rounded-lg border px-4 py-3 text-left text-sm ${choice === itemIndex ? itemIndex === scenario.correct ? "border-emerald-500 bg-emerald-50 text-emerald-900" : "border-rose-400 bg-rose-50 text-rose-900" : "border-slate-300 bg-white text-slate-800 hover:border-primary"}`}>{item}</button>)}</div>{choice !== null ? <div className="mt-4 rounded-lg bg-slate-50 p-4"><p className="text-sm text-slate-700">{scenario.response}</p><button type="button" onClick={() => { if (index === copy.practice.length - 1) setDone(true); else { setIndex((current) => current + 1); setChoice(null); } }} className="mt-3 rounded-lg bg-primary-dark px-4 py-2 text-sm font-semibold text-white">{copy.practiceNext}</button></div> : null}</div>}</section>;
-}
-
-function PrintSheet({ copy, plan }: { copy: CompanionWorkshopCopy; plan: string[] }) {
-  return <article id={`${copy.id}-print`} aria-hidden="true" className="companion-workshop-print"><h1>{copy.title}</h1><p>{copy.promise}</p>{copy.planFields.map((field, index) => <section key={field.label}><h2>{field.label}</h2><p>{plan[index] || "________________________________________"}</p></section>)}</article>;
 }
 
 function Eyebrow({ children }: { children: React.ReactNode }) { return <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-dark">{children}</p>; }

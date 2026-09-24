@@ -10,6 +10,7 @@ import ScheduleButton from "@/components/ScheduleButton";
 import StickyMobileCTA from "@/components/StickyMobileCTA";
 import Reveal from "@/components/motion/Reveal";
 import FocusCirclePresentation from "@/components/workshops/FocusCirclePresentation";
+import WorkshopPrintSheet from "@/components/workshops/WorkshopPrintSheet";
 import {
   focusCircleCopy,
   formatFocusTemplate,
@@ -65,7 +66,13 @@ export default function FocusCircleExperience() {
 
   return (
     <div id="workshop-content">
-      <PrintSheet copy={copy} plan={plan} pageUrl={pageUrl} />
+      <WorkshopPrintSheet
+        title={copy.title}
+        promise={copy.promise}
+        journey={copy.deckFooter}
+        path="/programs/workshops/focus-circle"
+        fields={copy.planFields.map((field, index) => ({ label: field.label, hint: field.hint, value: plan[index] }))}
+      />
       <Breadcrumb
         items={[
           { label: copy.breadcrumbWorkshops, href: "/programs/workshops" },
@@ -404,48 +411,3 @@ function Practice({ copy }: { copy: FocusCircleCopy }) {
   );
 }
 
-function PrintSheet({
-  copy,
-  plan,
-  pageUrl,
-}: {
-  copy: FocusCircleCopy;
-  plan: string[];
-  pageUrl: string;
-}) {
-  return (
-    <>
-      <style>{`
-        #focus-circle-print { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
-        @media print {
-          body * { visibility: hidden; }
-          #focus-circle-print, #focus-circle-print * { visibility: visible; }
-          #focus-circle-print {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: auto;
-            overflow: visible;
-            clip: auto;
-            background: white;
-            color: #07111f;
-            padding: 24px;
-          }
-        }
-      `}</style>
-      <article id="focus-circle-print" aria-hidden="true">
-        <p>ROALLA</p>
-        <h1>{copy.title}</h1>
-        <p>{copy.promise}</p>
-        {copy.planFields.map((field, index) => (
-          <section key={field.label}>
-            <h2>{field.label}</h2>
-            <p>{plan[index] || " "}</p>
-          </section>
-        ))}
-        <p>{pageUrl}</p>
-      </article>
-    </>
-  );
-}

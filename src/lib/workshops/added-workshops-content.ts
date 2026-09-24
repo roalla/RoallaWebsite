@@ -1,5 +1,38 @@
 import type { CompanionWorkshopCopy, WorkshopSlide } from "@/lib/workshops/companion-workshops-content";
 
+/** Workshop-specific copy. Shared chrome and practice are added in `withCommon`. */
+type AddedWorkshopFields = Omit<
+  CompanionWorkshopCopy,
+  | "slides"
+  | "practice"
+  | "hostCta"
+  | "workshopsLabel"
+  | "notesLabel"
+  | "viewerLabel"
+  | "viewerHelp"
+  | "readMode"
+  | "presentMode"
+  | "previous"
+  | "next"
+  | "fullscreen"
+  | "exitFullscreen"
+  | "slideOf"
+  | "stages"
+  | "practiceEyebrow"
+  | "practiceQuestion"
+  | "practiceNext"
+  | "practiceRestart"
+  | "practiceScore"
+  | "planPlaceholder"
+  | "planSaved"
+  | "planPrint"
+  | "planClear"
+  | "facilitatorEyebrow"
+  | "facilitatorTitle"
+  | "facilitatorBody"
+  | "faqTitle"
+>;
+
 const decisionEn = {
   id: "decision-hour",
   path: "/programs/workshops/decision-hour",
@@ -49,7 +82,7 @@ const decisionEn = {
     { q: "What if the room does not have authority to decide?", a: "Then the decision is who will take the question to the person who does, and by when. The workshop treats missing authority as something to name, not something to talk around." },
     { q: "How long is a typical session?", a: "A focused session is a half day. It can sit inside a longer workshop series with The Workload Conversation or Digital Calm." },
   ],
-} satisfies Omit<CompanionWorkshopCopy, "slides">;
+} satisfies AddedWorkshopFields;
 
 const decisionSlidesEn: WorkshopSlide[] = [
   { kicker: "Welcome", title: "End with an owner.", body: "A useful meeting leaves with a decision someone can repeat.", stage: "prepare", visual: "photo", statement: "Discussion is not a decision.", notes: "Ask the room to name a recent meeting that felt busy and still did not close." },
@@ -115,7 +148,7 @@ const offerEn = {
     { q: "Can sales and marketing attend together?", a: "Yes. The workshop is strongest when the people who say the offer in different rooms are in the same room." },
     { q: "What happens after the session?", a: "You leave with a one-page brief. Many teams use it to scope a website or a Digital Enablement engagement. That is a separate conversation." },
   ],
-} satisfies Omit<CompanionWorkshopCopy, "slides">;
+} satisfies AddedWorkshopFields;
 
 const offerSlidesEn: WorkshopSlide[] = [
   { kicker: "Welcome", title: "Say the same offer in every room.", body: "The call, the website, and the proposal should not tell three stories.", stage: "prepare", visual: "photo", statement: "If the team cannot repeat it, the page cannot say it.", notes: "Ask two people to describe the offer in one sentence. Notice where they diverge." },
@@ -174,7 +207,7 @@ const offerPracticeEn = [
   { title: "The new audience", prompt: "Halfway through the proposal, the team adds a second industry.", choices: ["Mention both so the document feels larger", "Keep this page for one reader and note the other as a separate offer", "Let sales explain the difference on the call"], correct: 1, response: "A second audience is a second page. Folding it in is how the offer starts to drift." },
 ];
 
-function withCommon(base: Omit<CompanionWorkshopCopy, "slides">, slides: WorkshopSlide[], practice: CompanionWorkshopCopy["practice"], locale: "en" | "fr"): CompanionWorkshopCopy {
+function withCommon(base: AddedWorkshopFields, slides: WorkshopSlide[], practice: CompanionWorkshopCopy["practice"], locale: "en" | "fr"): CompanionWorkshopCopy {
   const shared = locale === "fr"
     ? {
         hostCta: "Demander à accueillir cet atelier",
@@ -235,7 +268,7 @@ function withCommon(base: Omit<CompanionWorkshopCopy, "slides">, slides: Worksho
   return { ...shared, ...base, slides, practice };
 }
 
-const decisionFrBase: Omit<CompanionWorkshopCopy, "slides"> = {
+const decisionFrBase: AddedWorkshopFields = {
   ...decisionEn,
   metaTitle: "Atelier L’heure de la décision | ROALLA",
   metaDescription: "Un atelier ROALLA pour finir les réunions avec un responsable, un compromis et une prochaine étape écrite.",
@@ -284,7 +317,7 @@ const decisionFrBase: Omit<CompanionWorkshopCopy, "slides"> = {
   ],
 };
 
-const offerFrBase: Omit<CompanionWorkshopCopy, "slides"> = {
+const offerFrBase: AddedWorkshopFields = {
   ...offerEn,
   metaTitle: "Atelier L’offre sur une page | ROALLA",
   metaDescription: "Un atelier ROALLA pour dire la même offre dans la conversation de vente, sur le site et dans la proposition.",

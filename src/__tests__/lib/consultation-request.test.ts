@@ -10,7 +10,18 @@ import {
   hasIntentSubSelection,
   isDigitalIntent,
   resolveSkippedStep2Defaults,
+  buildConsultationSalesEmailHtml,
+  buildConsultationUserConfirmationHtml,
+  LIGHT_MODE_DEFAULT_GOAL,
 } from '@/lib/consultation-request'
+import {
+  buildDigitalEnablementUrl,
+  enablementGoalFromIntent,
+  resolveDiscoveryUrl,
+  shouldUseDigitalDiscoveryFunnel,
+  DIGITAL_ENABLEMENT_BASE_URL,
+  DIGITAL_DISCOVERY_BASE_URL,
+} from '@/lib/discovery-funnel'
 
 describe('consultation-request', () => {
   const validBase = {
@@ -86,6 +97,37 @@ describe('consultation-request', () => {
     expect(validateConsultationRequest({ ...validBase, website: 'spam' })).toBe('Invalid submission')
   })
 
+  it('accepts slim digital light-mode requests without discovery fields', () => {
+    expect(
+      validateConsultationRequest({
+        intent: 'website',
+        lightMode: true,
+        name: 'Alex Roe',
+        email: 'alex@example.com',
+      }),
+    ).toBeNull()
+
+    expect(
+      validateConsultationRequest({
+        intent: 'platform',
+        lightMode: true,
+        name: 'Alex Roe',
+        email: 'alex@example.com',
+        goal: 'Need a client portal',
+        company: 'Acme',
+      }),
+    ).toBeNull()
+
+    expect(
+      validateConsultationRequest({
+        intent: 'consulting',
+        lightMode: true,
+        name: 'Alex Roe',
+        email: 'alex@example.com',
+      }),
+    ).toBe('Light mode is only available for digital service requests')
+  })
+
   it('maps service query params to intent', () => {
     expect(intentFromServiceParam('websites-brand')).toBe('website')
     expect(intentFromServiceParam('custom-platforms')).toBe('platform')
@@ -153,5 +195,101 @@ describe('consultation-request', () => {
         { foundingOffer: true },
       ),
     ).toEqual({ timeline: '1to3', hasExistingSite: 'no' })
+  })
+
+  it('embeds enablement discovery URL in sales and user emails', () => {
+    const discoveryUrl = buildDigitalEnablementUrl('website', {
+      name: 'Jane Doe',
+      email: 'jane@example.com',
+      company: 'Acme',
+      sourceRef: 'CR-123',
+    })
+    const labels: Record<string, string> = {
+      emailHeading: 'New Service Inquiry',
+      emailIntro: 'Intro',
+      intent: 'Request type',
+      intent_website: 'Website project',
+      goal: 'Goal',
+      timeline: 'Timeline',
+      timeline_exploring: 'Just exploring',
+      name: 'Name',
+      email: 'Email',
+      company: 'Company',
+      phone: 'Phone',
+      notProvided: 'Not provided',
+      submittedAt: 'Submitted',
+      source: 'Website',
+      submissionId: 'Reference',
+      discoveryUrl: 'Suggested discovery URL',
+      discoveryHeading: 'Suggested discovery link',
+      discoverySalesHint: 'Share enablement',
+      reminderSalesHint: 'Nudge at T+2',
+      userHtmlHeading: 'Request Received',
+      userGreeting: 'Thanks',
+      userBody: 'We got it.',
+      userUrgent: 'Call us',
+      userDiscoveryEyebrow: 'Optional next step',
+      userDiscoveryBody: 'Start a brief',
+      userDiscoveryCta: 'Start your digital brief',
+    }
+    const salesHtml = buildConsultationSalesEmailHtml(
+      {
+        intent: 'website',
+        goal: LIGHT_MODE_DEFAULT_GOAL,
+        timeline: 'exploring',
+        lightMode: true,
+        name: 'Jane Doe',
+        email: 'jane@example.com',
+      },
+      labels,
+      'Sep 25, 2026',
+      'https://www.roalla.com',
+      { discoveryUrl, submissionId: 'CR-123' },
+    )
+    const userHtml = buildConsultationUserConfirmationHtml(
+      {
+        intent: 'website',
+        goal: LIGHT_MODE_DEFAULT_GOAL,
+        timeline: 'exploring',
+        lightMode: true,
+        name: 'Jane Doe',
+        email: 'jane@example.com',
+      },
+      labels,
+      { discoveryUrl },
+    )
+
+    expect(salesHtml).toContain(DIGITAL_ENABLEMENT_BASE_URL)
+    expect(salesHtml).toContain('goal=website')
+    expect(salesHtml).not.toContain(DIGITAL_DISCOVERY_BASE_URL)
+    expect(userHtml).toContain('Start your digital brief')
+    expect(userHtml).toContain('goal=website')
+    expect(userHtml).not.toContain('/digitaldiscovery')
+  })
+})
+
+describe('discovery-funnel', () => {
+  it('routes digital intents to enablement, never cold digitaldiscovery', () => {
+    expect(shouldUseDigitalDiscoveryFunnel('website')).toBe(true)
+    expect(shouldUseDigitalDiscoveryFunnel('consulting')).toBe(false)
+    expect(enablementGoalFromIntent('platform')).toBe('app')
+    expect(enablementGoalFromIntent('ai-support')).toBe('ai')
+
+    const url = resolveDiscoveryUrl('visibility', {
+      name: 'Pat',
+      email: 'pat@example.com',
+      company: 'Co',
+      sourceRef: 'CR-9',
+      locale: 'en',
+    })
+    expect(url).toContain(DIGITAL_ENABLEMENT_BASE_URL)
+    expect(url).toContain('goal=visibility')
+    expect(url).toContain('source=roalla.com')
+    expect(url).toContain('name=Pat')
+    expect(url).toContain('email=pat%40example.com')
+    expect(url).toContain('company=Co')
+    expect(url).toContain('cr=CR-9')
+    expect(url).not.toContain('digitaldiscovery')
+    expect(resolveDiscoveryUrl('workshop')).toBeNull()
   })
 })

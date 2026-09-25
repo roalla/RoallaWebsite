@@ -35,9 +35,18 @@ export type ConsultationRequestPayload = {
   company?: string;
   phone?: string;
   locale?: string;
+  /**
+   * Slim digital path: name, email, optional company, service type, optional note.
+   * Skips scary discovery / deep intake fields.
+   */
+  lightMode?: boolean;
   /** Honeypot — must be empty */
   website?: string;
 };
+
+/** Default note when light-mode submissions omit the optional one-liner. */
+export const LIGHT_MODE_DEFAULT_GOAL =
+  "Digital enablement inquiry — brief details to follow.";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -375,6 +384,25 @@ export function validateConsultationRequest(
   const intent = parseConsultationIntent(body.intent);
   if (!intent) return "Please select what you need help with";
 
+  if (!body.name?.trim()) return "Name is required";
+  if (!body.email?.trim() || !EMAIL_REGEX.test(body.email.trim())) {
+    return "A valid email address is required";
+  }
+
+  // Slim digital path: service type + contact + optional one-line note only.
+  if (body.lightMode) {
+    if (
+      intent === "consulting" ||
+      intent === "workshop"
+    ) {
+      return "Light mode is only available for digital service requests";
+    }
+    if (body.goal?.trim() && body.goal.trim().length < 3) {
+      return "Please add a short note (at least 3 characters) or leave it blank";
+    }
+    return null;
+  }
+
   if (!body.goal?.trim() || body.goal.trim().length < 5) {
     return "Please describe your goal or challenge (at least 5 characters)";
   }
@@ -421,11 +449,6 @@ export function validateConsultationRequest(
     return "Please select a workshop topic";
   }
 
-  if (!body.name?.trim()) return "Name is required";
-  if (!body.email?.trim() || !EMAIL_REGEX.test(body.email.trim())) {
-    return "A valid email address is required";
-  }
-
   return null;
 }
 
@@ -448,7 +471,7 @@ export function buildConsultationEmailSubject(
 }
 
 export function escapeHtml(value: string): string {
-  return value
+  return String(value ?? "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
@@ -550,12 +573,20 @@ export function buildConsultationSalesEmailHtml(
   labels: Record<string, string>,
   submittedAt: string,
   origin: string,
+  options?: {
+    discoveryUrl?: string | null;
+    submissionId?: string;
+  },
 ): string {
   const rows: [string, string][] = [
     [labels.intent, labels[`intent_${data.intent}`] ?? data.intent],
     [labels.goal, data.goal.trim()],
     [labels.timeline, labels[`timeline_${data.timeline}`] ?? data.timeline],
   ];
+
+  if (data.lightMode) {
+    rows.push([labels.formPath, labels.formPathLight]);
+  }
 
   appendIntentSpecificRows(data, rows, labels);
 
@@ -568,14 +599,30 @@ export function buildConsultationSalesEmailHtml(
     [labels.source, origin],
   );
 
+  if (options?.submissionId) {
+    rows.push([labels.submissionId, options.submissionId]);
+  }
+  if (options?.discoveryUrl) {
+    rows.push([labels.discoveryUrl, options.discoveryUrl]);
+  }
   if (data.locale) rows.push([labels.locale, data.locale]);
 
   const detailRows = rows
     .map(
       ([label, value]) =>
-        `<tr><td style="padding:10px 12px;border-bottom:1px solid #e2e8f0;color:#64748b;font-size:13px;width:38%;vertical-align:top;"><strong>${escapeHtml(label)}</strong></td><td style="padding:10px 12px;border-bottom:1px solid #e2e8f0;color:#0f172a;font-size:14px;white-space:pre-wrap;">${escapeHtml(value)}</td></tr>`,
+        `<tr><td style="padding:10px 12px;border-bottom:1px solid #e2e8f0;color:#64748b;font-size:13px;width:38%;vertical-align:top;"><strong>${escapeHtml(label)}</strong></td><td style="padding:10px 12px;border-bottom:1px solid #e2e8f0;color:#0f172a;font-size:14px;white-space:pre-wrap;word-break:break-word;">${escapeHtml(value)}</td></tr>`,
     )
     .join("");
+
+  const discoveryBlock = options?.discoveryUrl
+    ? `
+        <div style="margin-top:20px;padding:16px;background:#f0fdfa;border:1px solid #99f6e4;border-radius:8px;">
+          <p style="margin:0 0 8px;color:#0f766e;font-size:13px;font-weight:bold;text-transform:uppercase;letter-spacing:0.04em;">${escapeHtml(labels.discoveryHeading)}</p>
+          <p style="margin:0 0 10px;color:#475569;font-size:14px;line-height:1.5;">${escapeHtml(labels.discoverySalesHint)}</p>
+          <p style="margin:0;"><a href="${escapeHtml(options.discoveryUrl)}" style="color:#0d9488;font-size:14px;word-break:break-all;">${escapeHtml(options.discoveryUrl)}</a></p>
+          <p style="margin:12px 0 0;color:#64748b;font-size:13px;line-height:1.5;">${escapeHtml(labels.reminderSalesHint)}</p>
+        </div>`
+    : "";
 
   return `
     <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;color:#0f172a;">
@@ -586,6 +633,7 @@ export function buildConsultationSalesEmailHtml(
       <div style="padding:24px;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 12px 12px;">
         <p style="margin:0 0 20px;color:#475569;font-size:15px;line-height:1.6;">${escapeHtml(labels.emailIntro)}</p>
         <table style="width:100%;border-collapse:collapse;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;">${detailRows}</table>
+        ${discoveryBlock}
       </div>
     </div>
   `.trim();
@@ -596,6 +644,10 @@ export function buildConsultationSalesEmailText(
   labels: Record<string, string>,
   submittedAt: string,
   origin: string,
+  options?: {
+    discoveryUrl?: string | null;
+    submissionId?: string;
+  },
 ): string {
   const lines = [
     labels.emailHeading,
@@ -604,6 +656,10 @@ export function buildConsultationSalesEmailText(
     `${labels.goal}: ${data.goal.trim()}`,
     `${labels.timeline}: ${labels[`timeline_${data.timeline}`] ?? data.timeline}`,
   ];
+
+  if (data.lightMode) {
+    lines.push(`${labels.formPath}: ${labels.formPathLight}`);
+  }
 
   const rowCapture: [string, string][] = [];
   appendIntentSpecificRows(data, rowCapture, labels);
@@ -621,7 +677,119 @@ export function buildConsultationSalesEmailText(
     `${labels.source}: ${origin}`,
   );
 
+  if (options?.submissionId) {
+    lines.push(`${labels.submissionId}: ${options.submissionId}`);
+  }
   if (data.locale) lines.push(`${labels.locale}: ${data.locale}`);
 
+  if (options?.discoveryUrl) {
+    lines.push(
+      "",
+      labels.discoveryHeading,
+      labels.discoverySalesHint,
+      options.discoveryUrl,
+      "",
+      labels.reminderSalesHint,
+    );
+  }
+
   return lines.join("\n");
+}
+
+export function buildConsultationUserConfirmationHtml(
+  data: ConsultationRequestPayload,
+  labels: Record<string, string>,
+  options?: { discoveryUrl?: string | null },
+): string {
+  const discoveryBlock = options?.discoveryUrl
+    ? `
+                <div style="margin:24px 0;padding:18px;background:#f0fdfa;border:1px solid #99f6e4;border-radius:8px;text-align:center;">
+                  <p style="margin:0 0 8px;color:#0f766e;font-size:12px;font-weight:bold;text-transform:uppercase;letter-spacing:0.05em;">${escapeHtml(labels.userDiscoveryEyebrow)}</p>
+                  <p style="margin:0 0 14px;color:#475569;font-size:14px;line-height:1.5;">${escapeHtml(labels.userDiscoveryBody)}</p>
+                  <a href="${escapeHtml(options.discoveryUrl)}" style="display:inline-block;background:#0d9488;color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:12px 20px;border-radius:8px;">${escapeHtml(labels.userDiscoveryCta)}</a>
+                </div>`
+    : "";
+
+  return `
+            <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;">
+              <div style="background:linear-gradient(135deg,#00b4c5,#0099a8);padding:28px 24px;border-radius:12px 12px 0 0;color:#fff;text-align:center;">
+                <h1 style="margin:0;font-size:24px;">${escapeHtml(labels.userHtmlHeading)}</h1>
+              </div>
+              <div style="padding:28px 24px;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 12px 12px;">
+                <p style="color:#0f172a;">Dear ${escapeHtml(data.name.trim())},</p>
+                <p style="color:#475569;line-height:1.6;">${escapeHtml(labels.userGreeting)} ${escapeHtml(labels.userBody)}</p>
+                ${discoveryBlock}
+                <p style="color:#475569;line-height:1.6;">${escapeHtml(labels.userUrgent)}</p>
+                <p style="color:#0f172a;margin-top:24px;">Best regards,<br><strong>The ROALLA Team</strong></p>
+                <hr style="margin:28px 0;border:none;border-top:1px solid #e2e8f0;">
+                <p style="color:#64748b;font-size:13px;margin:0;">ROALLA Business Enablement Group · sales@roalla.com · (289) 838-5868</p>
+              </div>
+            </div>
+          `.trim();
+}
+
+export function buildConsultationUserConfirmationText(
+  data: ConsultationRequestPayload,
+  labels: Record<string, string>,
+  options?: { discoveryUrl?: string | null },
+): string {
+  const lines = [
+    `${labels.userGreeting}`,
+    "",
+    labels.userBody,
+  ];
+
+  if (options?.discoveryUrl) {
+    lines.push(
+      "",
+      labels.userDiscoveryEyebrow,
+      labels.userDiscoveryBody,
+      options.discoveryUrl,
+    );
+  }
+
+  lines.push("", labels.userUrgent, "", labels.userSignoff);
+  return lines.join("\n");
+}
+
+export function buildConsultationReminderHtml(
+  name: string,
+  discoveryUrl: string,
+  labels: Record<string, string>,
+): string {
+  return `
+    <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;">
+      <div style="background:linear-gradient(135deg,#00b4c5,#0099a8);padding:28px 24px;border-radius:12px 12px 0 0;color:#fff;text-align:center;">
+        <h1 style="margin:0;font-size:22px;">${escapeHtml(labels.reminderSubject)}</h1>
+      </div>
+      <div style="padding:28px 24px;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 12px 12px;">
+        <p style="color:#0f172a;">Hi ${escapeHtml(name)},</p>
+        <p style="color:#475569;line-height:1.6;">${escapeHtml(labels.reminderBody)}</p>
+        <p style="text-align:center;margin:28px 0;">
+          <a href="${escapeHtml(discoveryUrl)}" style="display:inline-block;background:#0d9488;color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:12px 22px;border-radius:8px;">${escapeHtml(labels.reminderCta)}</a>
+        </p>
+        <p style="color:#64748b;font-size:13px;line-height:1.5;">${escapeHtml(labels.reminderFooter)}</p>
+        <hr style="margin:28px 0;border:none;border-top:1px solid #e2e8f0;">
+        <p style="color:#64748b;font-size:13px;margin:0;">ROALLA Business Enablement Group · sales@roalla.com · (289) 838-5868</p>
+      </div>
+    </div>
+  `.trim();
+}
+
+export function buildConsultationReminderText(
+  name: string,
+  discoveryUrl: string,
+  labels: Record<string, string>,
+): string {
+  return [
+    `Hi ${name},`,
+    "",
+    labels.reminderBody,
+    "",
+    discoveryUrl,
+    "",
+    labels.reminderFooter,
+    "",
+    labels.userSignoff,
+  ].join("\n");
 }

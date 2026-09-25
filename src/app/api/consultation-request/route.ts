@@ -4,10 +4,15 @@ import {
   buildConsultationEmailSubject,
   buildConsultationSalesEmailHtml,
   buildConsultationSalesEmailText,
+  buildConsultationUserConfirmationHtml,
+  buildConsultationUserConfirmationText,
+  LIGHT_MODE_DEFAULT_GOAL,
   parseConsultationIntent,
   validateConsultationRequest,
   type ConsultationRequestPayload,
 } from "@/lib/consultation-request";
+import { resolveDiscoveryUrl } from "@/lib/discovery-funnel";
+import { enqueueConsultationReminder } from "@/lib/consultation-reminders";
 
 const EMAIL_LABELS: Record<string, string> = {
   emailHeading: "New Service Inquiry",
@@ -29,6 +34,8 @@ const EMAIL_LABELS: Record<string, string> = {
   timeline_1to3: "1–3 months",
   timeline_3to6: "3–6 months",
   timeline_exploring: "Just exploring",
+  formPath: "Form path",
+  formPathLight: "Slim digital request (marketing)",
   consultingFocus: "Consulting focus",
   focus_strategy: "Strategic planning",
   focus_operations: "Process optimization",
@@ -118,11 +125,25 @@ const EMAIL_LABELS: Record<string, string> = {
   submittedAt: "Submitted",
   source: "Website",
   locale: "Language",
+  submissionId: "Reference",
+  discoveryUrl: "Suggested discovery URL",
+  discoveryHeading: "Suggested discovery link",
+  discoverySalesHint:
+    "Share this Digital Enablement brief with the prospect (not Digital Discovery — that is a technical access questionnaire for engaged website work).",
+  reminderSalesHint:
+    "Soft reminder: if they have not started the brief in ~2 days, nudge them with this same link. Automated T+2 reminders run when DATABASE_URL + CRON_SECRET (or AUTH_MAIL_SECRET) are configured via POST /api/cron/consultation-reminders.",
   userSubject: "We received your service inquiry",
+  userHtmlHeading: "Request Received",
   userGreeting: "Thank you for reaching out to ROALLA.",
   userBody:
     "Our team has received your request and will review the details. You can expect a response within one business day.",
+  userUrgent:
+    "If your matter is urgent, call us at (289) 838-5868 or reply to this email.",
   userSignoff: "Best regards,\nThe ROALLA Team",
+  userDiscoveryEyebrow: "Optional next step",
+  userDiscoveryBody:
+    "When you're ready, you can start a short digital brief so we can prepare clearer recommendations. Completely optional — we'll still follow up either way.",
+  userDiscoveryCta: "Start your digital brief",
 };
 
 export async function POST(request: NextRequest) {
@@ -134,10 +155,18 @@ export async function POST(request: NextRequest) {
     }
 
     const intent = parseConsultationIntent(body.intent)!;
+    const lightMode = Boolean(body.lightMode);
+    const goal =
+      body.goal?.trim() ||
+      (lightMode ? LIGHT_MODE_DEFAULT_GOAL : body.goal!.trim());
+    const timeline =
+      body.timeline?.trim() || (lightMode ? "exploring" : body.timeline!.trim());
+
     const payload: ConsultationRequestPayload = {
       intent,
-      goal: body.goal!.trim(),
-      timeline: body.timeline!.trim(),
+      goal,
+      timeline,
+      lightMode: lightMode || undefined,
       consultingFocus: body.consultingFocus?.trim(),
       websiteGoal: body.websiteGoal?.trim(),
       hasExistingSite: body.hasExistingSite?.trim(),
@@ -161,6 +190,15 @@ export async function POST(request: NextRequest) {
       locale: body.locale?.trim(),
     };
 
+    const submissionId = `CR-${Date.now()}`;
+    const discoveryUrl = resolveDiscoveryUrl(payload.intent, {
+      name: payload.name,
+      email: payload.email,
+      company: payload.company,
+      sourceRef: submissionId,
+      locale: payload.locale,
+    });
+
     const submittedAt = new Date().toLocaleString("en-CA", {
       timeZone: "America/Toronto",
       dateStyle: "medium",
@@ -168,17 +206,20 @@ export async function POST(request: NextRequest) {
     });
     const origin = request.headers.get("origin") || "Unknown";
     const subject = buildConsultationEmailSubject(payload.name, payload.intent);
+    const emailOptions = { discoveryUrl, submissionId };
     const text = buildConsultationSalesEmailText(
       payload,
       EMAIL_LABELS,
       submittedAt,
       origin,
+      emailOptions,
     );
     const html = buildConsultationSalesEmailHtml(
       payload,
       EMAIL_LABELS,
       submittedAt,
       origin,
+      emailOptions,
     );
 
     if (hubMailConfigured()) {
@@ -195,22 +236,12 @@ export async function POST(request: NextRequest) {
         const userResult = await sendHubMail({
           to: payload.email,
           subject: EMAIL_LABELS.userSubject,
-          text: `${EMAIL_LABELS.userGreeting}\n\n${EMAIL_LABELS.userBody}\n\n${EMAIL_LABELS.userSignoff}`,
-          html: `
-            <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;">
-              <div style="background:linear-gradient(135deg,#00b4c5,#0099a8);padding:28px 24px;border-radius:12px 12px 0 0;color:#fff;text-align:center;">
-                <h1 style="margin:0;font-size:24px;">Request Received</h1>
-              </div>
-              <div style="padding:28px 24px;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 12px 12px;">
-                <p style="color:#0f172a;">Dear ${payload.name},</p>
-                <p style="color:#475569;line-height:1.6;">${EMAIL_LABELS.userGreeting} ${EMAIL_LABELS.userBody}</p>
-                <p style="color:#475569;line-height:1.6;">If your matter is urgent, call us at <strong>(289) 838-5868</strong> or reply to this email.</p>
-                <p style="color:#0f172a;margin-top:24px;">Best regards,<br><strong>The ROALLA Team</strong></p>
-                <hr style="margin:28px 0;border:none;border-top:1px solid #e2e8f0;">
-                <p style="color:#64748b;font-size:13px;margin:0;">ROALLA Business Enablement Group · sales@roalla.com · (289) 838-5868</p>
-              </div>
-            </div>
-          `,
+          text: buildConsultationUserConfirmationText(payload, EMAIL_LABELS, {
+            discoveryUrl,
+          }),
+          html: buildConsultationUserConfirmationHtml(payload, EMAIL_LABELS, {
+            discoveryUrl,
+          }),
         });
         if (!userResult.ok) throw new Error(userResult.error);
       } catch (emailError) {
@@ -230,10 +261,26 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (discoveryUrl) {
+      const enqueue = await enqueueConsultationReminder({
+        submissionId,
+        intent: payload.intent,
+        name: payload.name,
+        email: payload.email,
+        company: payload.company,
+        locale: payload.locale,
+        discoveryUrl,
+      });
+      if (!enqueue.queued && enqueue.reason !== "database_not_configured") {
+        console.warn("Consultation reminder not queued:", enqueue.reason);
+      }
+    }
+
     return NextResponse.json({
       success: true,
       message: "Thank you. Our team will respond within one business day.",
-      submissionId: `CR-${Date.now()}`,
+      submissionId,
+      discoveryUrl: discoveryUrl ?? undefined,
     });
   } catch (error) {
     console.error("Consultation request error:", error);

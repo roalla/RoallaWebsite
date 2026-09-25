@@ -45,6 +45,7 @@ import {
   type WebsiteGoal,
   type WorkshopTopic,
 } from "@/lib/consultation-request";
+import { shouldUseDigitalDiscoveryFunnel } from "@/lib/discovery-funnel";
 import { trackAnalyticsEvent } from "@/lib/analytics";
 import {
   getPortfolioItem,
@@ -289,6 +290,7 @@ export default function ConsultationRequestForm({
   const [submittedIntent, setSubmittedIntent] = useState<
     ConsultationIntent | ""
   >("");
+  const [discoveryUrl, setDiscoveryUrl] = useState<string | null>(null);
   const [sourcePage, setSourcePage] = useState(initialSourcePage ?? "");
 
   const initialSubFields = {
@@ -301,14 +303,22 @@ export default function ConsultationRequestForm({
     consultingFocus: initialFocus ?? "",
   };
 
-  const initialStep = computeInitialStep(
-    initialIntent,
-    initialFocus,
-    initialGoal,
-    initialSubFields,
-  );
+  const startInDigitalLight =
+    shouldUseDigitalDiscoveryFunnel(initialIntent) &&
+    !fromAssessment &&
+    !fromFoundingOffer &&
+    !initialReference;
+
+  const initialStep = startInDigitalLight
+    ? 1
+    : computeInitialStep(
+        initialIntent,
+        initialFocus,
+        initialGoal,
+        initialSubFields,
+      );
   const skippedStep2Defaults =
-    initialStep === 3
+    !startInDigitalLight && initialStep === 3
       ? resolveSkippedStep2Defaults(
           initialIntent,
           {
@@ -322,6 +332,7 @@ export default function ConsultationRequestForm({
 
   const [step, setStep] = useState(() => initialStep);
   const [quickMode, setQuickMode] = useState(false);
+  const [digitalLightMode, setDigitalLightMode] = useState(startInDigitalLight);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState<FormState>({
@@ -388,19 +399,34 @@ export default function ConsultationRequestForm({
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()) &&
     form.goal.trim().length >= 5;
 
+  const canSubmitDigitalLight =
+    !!form.intent &&
+    !!form.name.trim() &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()) &&
+    (!form.goal.trim() || form.goal.trim().length >= 3);
+
+  const useLightSubmit = digitalLightMode || quickMode;
+
   const canSubmit =
     !!form.name.trim() &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()) &&
-    (quickMode ? canSubmitQuick : canContinueStep2);
+    (digitalLightMode
+      ? canSubmitDigitalLight
+      : quickMode
+        ? canSubmitQuick
+        : canContinueStep2);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!canSubmit) return;
 
     const submitIntent: ConsultationIntent = quickMode
-      ? "unsure"
+      ? form.intent && shouldUseDigitalDiscoveryFunnel(form.intent)
+        ? (form.intent as ConsultationIntent)
+        : "unsure"
       : (form.intent as ConsultationIntent);
     if (!quickMode && !form.intent) return;
+    if (digitalLightMode && !form.intent) return;
 
     setSubmitting(true);
     try {
@@ -410,21 +436,40 @@ export default function ConsultationRequestForm({
         body: JSON.stringify({
           intent: submitIntent,
           goal: form.goal,
-          timeline: quickMode ? "exploring" : form.timeline,
-          consultingFocus: form.consultingFocus || undefined,
-          websiteGoal: form.websiteGoal || undefined,
-          hasExistingSite: form.hasExistingSite || undefined,
-          platformType: form.platformType || undefined,
-          automationGoal: form.automationGoal || undefined,
-          aiGoal: form.aiGoal || undefined,
-          eventGoal: form.eventGoal || undefined,
-          workshopTopic: form.workshopTopic || undefined,
-          currentSiteUrl: form.currentSiteUrl || undefined,
-          industry: form.industry || undefined,
-          primaryOutcome: form.primaryOutcome || undefined,
-          systemsToConnect: form.systemsToConnect || undefined,
-          userScale: form.userScale || undefined,
-          budgetBand: form.budgetBand || undefined,
+          timeline: useLightSubmit ? "exploring" : form.timeline,
+          lightMode: useLightSubmit || undefined,
+          consultingFocus: useLightSubmit
+            ? undefined
+            : form.consultingFocus || undefined,
+          websiteGoal: useLightSubmit
+            ? undefined
+            : form.websiteGoal || undefined,
+          hasExistingSite: useLightSubmit
+            ? undefined
+            : form.hasExistingSite || undefined,
+          platformType: useLightSubmit
+            ? undefined
+            : form.platformType || undefined,
+          automationGoal: useLightSubmit
+            ? undefined
+            : form.automationGoal || undefined,
+          aiGoal: useLightSubmit ? undefined : form.aiGoal || undefined,
+          eventGoal: useLightSubmit ? undefined : form.eventGoal || undefined,
+          workshopTopic: useLightSubmit
+            ? undefined
+            : form.workshopTopic || undefined,
+          currentSiteUrl: useLightSubmit
+            ? undefined
+            : form.currentSiteUrl || undefined,
+          industry: useLightSubmit ? undefined : form.industry || undefined,
+          primaryOutcome: useLightSubmit
+            ? undefined
+            : form.primaryOutcome || undefined,
+          systemsToConnect: useLightSubmit
+            ? undefined
+            : form.systemsToConnect || undefined,
+          userScale: useLightSubmit ? undefined : form.userScale || undefined,
+          budgetBand: useLightSubmit ? undefined : form.budgetBand || undefined,
           portfolioReference: initialReference || undefined,
           sourcePage: sourcePage || undefined,
           name: form.name,
@@ -443,6 +488,9 @@ export default function ConsultationRequestForm({
       }
 
       setSubmittedIntent(submitIntent);
+      setDiscoveryUrl(
+        typeof data.discoveryUrl === "string" ? data.discoveryUrl : null,
+      );
       setSubmitted(true);
       trackAnalyticsEvent("consultation_request_submitted", {
         intent: submitIntent,
@@ -459,13 +507,13 @@ export default function ConsultationRequestForm({
     const exploreHref =
       submittedIntent === "workshop"
         ? "/programs/workshops"
-        : isDigitalIntent(submittedIntent)
+        : isDigitalIntent(submittedIntent) || submittedIntent === "unsure"
           ? "/services/digital"
           : "/programs/business-enablement";
     const exploreLabel =
       submittedIntent === "workshop"
         ? t("successExploreWorkshops")
-        : isDigitalIntent(submittedIntent)
+        : isDigitalIntent(submittedIntent) || submittedIntent === "unsure"
           ? t("successExploreDigital")
           : t("successExplore");
 
@@ -483,6 +531,19 @@ export default function ConsultationRequestForm({
         <p className="mt-4 text-sm text-slate-500 max-w-md mx-auto">
           {t("successNextSteps")}
         </p>
+        {discoveryUrl && (
+          <p className="mt-5 text-sm text-slate-600 max-w-md mx-auto">
+            <a
+              href={discoveryUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-primary hover:underline"
+            >
+              {t("successStartBrief")}
+            </a>
+            <span className="text-slate-500"> — {t("successStartBriefHint")}</span>
+          </p>
+        )}
         <p className="mt-4 text-sm text-slate-500 max-w-md mx-auto">
           {t("successPhone")}
         </p>
@@ -511,7 +572,7 @@ export default function ConsultationRequestForm({
   return (
     <div className="rounded-2xl border border-slate-200 bg-white shadow-card overflow-hidden">
       <div className="border-b border-slate-200 bg-slate-50 px-6 py-4">
-        {!quickMode && (
+        {!quickMode && !digitalLightMode && (
           <>
             <div className="flex flex-wrap items-center justify-between gap-2">
               <p className="text-sm font-medium text-slate-500">
@@ -529,6 +590,14 @@ export default function ConsultationRequestForm({
             </div>
           </>
         )}
+        {digitalLightMode && (
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-sm font-medium text-slate-500">
+              {t("digitalLightEyebrow")}
+            </p>
+            <p className="text-xs text-slate-400">{t("digitalLightTimeHint")}</p>
+          </div>
+        )}
       </div>
 
       <form onSubmit={handleSubmit} className="p-6 lg:p-8">
@@ -543,7 +612,101 @@ export default function ConsultationRequestForm({
           aria-hidden
         />
 
-        {quickMode ? (
+        {digitalLightMode ? (
+          <div key="digital-light" className="animate-fade-in space-y-5">
+            <h2 className="text-xl font-serif font-bold text-slate-900">
+              {t("digitalLightTitle")}
+            </h2>
+            <p className="text-sm text-slate-600">{t("digitalLightHint")}</p>
+
+            <Field label={t("serviceTypeLabel")} required>
+              <select
+                value={form.intent}
+                onChange={(e) => {
+                  const next = e.target.value as ConsultationIntent | "";
+                  if (next === "consulting" || next === "workshop") {
+                    update({ intent: next });
+                    setDigitalLightMode(false);
+                    setQuickMode(false);
+                    setStep(2);
+                    return;
+                  }
+                  update({ intent: next });
+                }}
+                className={inputClass}
+                required
+              >
+                <option value="">{t("selectPlaceholder")}</option>
+                <option value="website">{t("intentWebsite")}</option>
+                <option value="platform">{t("intentPlatform")}</option>
+                <option value="visibility">{t("intentVisibility")}</option>
+                <option value="automation">{t("intentAutomation")}</option>
+                <option value="ai-support">{t("intentAiSupport")}</option>
+                <option value="digital-events">{t("intentDigitalEvents")}</option>
+                <option value="unsure">{t("intentUnsure")}</option>
+              </select>
+            </Field>
+
+            <div className="grid sm:grid-cols-2 gap-5">
+              <Field label={t("nameLabel")} required>
+                <input
+                  type="text"
+                  value={form.name}
+                  onChange={(e) => update({ name: e.target.value })}
+                  className={inputClass}
+                  autoComplete="name"
+                  required
+                />
+              </Field>
+              <Field label={t("emailLabel")} required hint={t("emailHint")}>
+                <input
+                  type="email"
+                  value={form.email}
+                  onChange={(e) => update({ email: e.target.value })}
+                  className={inputClass}
+                  autoComplete="email"
+                  required
+                />
+              </Field>
+              <Field label={t("companyLabel")}>
+                <input
+                  type="text"
+                  value={form.company}
+                  onChange={(e) => update({ company: e.target.value })}
+                  className={inputClass}
+                  autoComplete="organization"
+                />
+              </Field>
+            </div>
+
+            <Field label={t("digitalLightNoteLabel")}>
+              <textarea
+                value={form.goal}
+                onChange={(e) => update({ goal: e.target.value })}
+                rows={2}
+                placeholder={t("digitalLightNotePlaceholder")}
+                className={`${inputClass} resize-y min-h-[72px]`}
+                maxLength={280}
+              />
+              <p className="mt-1.5 text-xs text-slate-500">
+                {t("digitalLightNoteHint")}
+              </p>
+            </Field>
+
+            <p className="text-xs text-slate-500">{t("privacyNote")}</p>
+            <button
+              type="button"
+              onClick={() => {
+                setDigitalLightMode(false);
+                setQuickMode(false);
+                setStep(form.intent ? 2 : 1);
+              }}
+              className="text-sm text-primary font-medium hover:underline"
+            >
+              {t("digitalLightMoreDetail")}
+            </button>
+          </div>
+        ) : quickMode ? (
           <div key="quick" className="animate-fade-in space-y-5">
             <h2 className="text-xl font-serif font-bold text-slate-900">
               {t("step3Title")}
@@ -605,7 +768,10 @@ export default function ConsultationRequestForm({
                 <div className="mt-4 mb-2 text-center">
                   <button
                     type="button"
-                    onClick={() => setQuickMode(true)}
+                    onClick={() => {
+                      setQuickMode(true);
+                      setDigitalLightMode(false);
+                    }}
                     className="text-sm text-primary font-medium hover:underline"
                   >
                     {t("quickInquiryToggle")}
@@ -653,7 +819,14 @@ export default function ConsultationRequestForm({
                                 ? form.hasExistingSite
                                 : "",
                           });
-                          setStep(2);
+                          if (shouldUseDigitalDiscoveryFunnel(option.value)) {
+                            setDigitalLightMode(true);
+                            setQuickMode(false);
+                            setStep(1);
+                          } else {
+                            setDigitalLightMode(false);
+                            setStep(2);
+                          }
                         }}
                         className={`text-left rounded-xl border p-4 transition-all duration-200 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/30 hover:ring-2 hover:ring-primary/35 hover:border-primary/50 hover:bg-white ${
                           selected
@@ -1160,7 +1333,7 @@ export default function ConsultationRequestForm({
         )}
 
         <div className="mt-8 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3">
-          {!quickMode && step > 1 ? (
+          {!quickMode && !digitalLightMode && step > 1 ? (
             <button
               type="button"
               onClick={() => setStep((s) => s - 1)}
@@ -1173,7 +1346,7 @@ export default function ConsultationRequestForm({
             <span />
           )}
 
-          {quickMode ? (
+          {digitalLightMode || quickMode ? (
             <button
               type="submit"
               disabled={!canSubmit || submitting}

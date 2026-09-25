@@ -121,3 +121,20 @@ export const partners = pgTable('partners', {
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 })
+
+/** Soft T+2d discovery reminder queue for marketing consultation requests. */
+export const consultationLeads = pgTable('consultation_leads', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  submissionId: text('submission_id').notNull().unique(),
+  intent: text('intent').notNull(),
+  name: text('name').notNull(),
+  email: text('email').notNull(),
+  company: text('company').notNull().default(''),
+  locale: text('locale').notNull().default(''),
+  discoveryUrl: text('discovery_url').notNull().default(''),
+  remindAt: timestamp('remind_at', { withTimezone: true }).notNull(),
+  reminderSentAt: timestamp('reminder_sent_at', { withTimezone: true }),
+  cancelledAt: timestamp('cancelled_at', { withTimezone: true }),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+})

@@ -47,6 +47,20 @@ test.describe("Service pages", () => {
     await expect(page.locator("#ai-support")).toBeVisible();
   });
 
+  test("digital schedule path uses slim light form", async ({ page }) => {
+    await page.goto("/en/schedule?intent=website");
+    await expect(
+      page.getByRole("heading", { name: /Tell us how to reach you/i }),
+    ).toBeVisible();
+    await expect(page.getByLabel(/Service type/i)).toBeVisible();
+    await expect(page.getByLabel(/Full name/i)).toBeVisible();
+    await expect(page.getByLabel(/Work email/i)).toBeVisible();
+    await expect(page.getByLabel(/One-line note/i)).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: /Send my request/i }),
+    ).toBeVisible();
+  });
+
   test("schedule page shows website intent first", async ({ page }) => {
     await page.goto("/en/schedule");
     await expect(

@@ -129,3 +129,26 @@ CREATE TABLE IF NOT EXISTS partners (
 
 CREATE INDEX IF NOT EXISTS partners_status_idx ON partners(status);
 CREATE INDEX IF NOT EXISTS partners_updated_idx ON partners(updated_at DESC);
+
+-- Marketing consultation leads (soft discovery reminder queue)
+CREATE TABLE IF NOT EXISTS consultation_leads (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  submission_id TEXT NOT NULL UNIQUE,
+  intent TEXT NOT NULL,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  company TEXT NOT NULL DEFAULT '',
+  locale TEXT NOT NULL DEFAULT '',
+  discovery_url TEXT NOT NULL DEFAULT '',
+  remind_at TIMESTAMPTZ NOT NULL,
+  reminder_sent_at TIMESTAMPTZ,
+  cancelled_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS consultation_leads_remind_due_idx
+  ON consultation_leads (remind_at)
+  WHERE reminder_sent_at IS NULL AND cancelled_at IS NULL;
+
+CREATE INDEX IF NOT EXISTS consultation_leads_email_idx ON consultation_leads(email);

@@ -13,9 +13,11 @@ import {
 } from "@/lib/consultation-request";
 import { resolveDiscoveryUrl } from "@/lib/discovery-funnel";
 import { enqueueConsultationReminder } from "@/lib/consultation-reminders";
+import { CONTACT } from "@/lib/site";
 
 const EMAIL_LABELS: Record<string, string> = {
   emailHeading: "New Service Inquiry",
+  emailEyebrow: "Sales desk",
   emailIntro:
     "A prospective client submitted a service inquiry through the ROALLA website.",
   intent: "Request type",
@@ -127,18 +129,27 @@ const EMAIL_LABELS: Record<string, string> = {
   locale: "Language",
   submissionId: "Reference",
   discoveryUrl: "Suggested discovery URL",
+  discoveryCta: "Open the brief",
   discoveryHeading: "Suggested discovery link",
   discoverySalesHint:
     "Share this Digital Enablement brief with the prospect (not Digital Discovery — that is a technical access questionnaire for engaged website work).",
   reminderSalesHint:
     "Soft reminder: if they have not started the brief in ~2 days, nudge them with this same link. Automated T+2 reminders run when DATABASE_URL + CRON_SECRET (or AUTH_MAIL_SECRET) are configured via POST /api/cron/consultation-reminders.",
   userSubject: "We received your service inquiry",
-  userHtmlHeading: "Request Received",
-  userGreeting: "Thank you for reaching out to ROALLA.",
+  userPreheader:
+    "Your inquiry is with the Roalla team. We reply within one business day.",
+  userEyebrow: "Service inquiry",
+  userHtmlHeading: "We received your inquiry",
+  userGreeting: "Thank you for contacting Roalla Business Enablement Group.",
   userBody:
-    "Our team has received your request and will review the details. You can expect a response within one business day.",
+    "A member of our team will review your request and reply within one business day with a recommended next step.",
+  userSummaryHeading: "Your inquiry",
+  userNextHeading: "What happens next",
+  userNext1: "A personal review by the Roalla team.",
+  userNext2: "A recommended entry point and clear next steps.",
+  userNext3: "A reply within one business day.",
   userUrgent:
-    "If your matter is urgent, call us at (289) 838-5868 or reply to this email.",
+    "If you would like to speak with us sooner, call (289) 838-5868 or reply to this email.",
   userSignoff: "Best regards,\nThe ROALLA Team",
   userDiscoveryEyebrow: "Optional next step",
   userDiscoveryBody:
@@ -225,7 +236,7 @@ export async function POST(request: NextRequest) {
     if (hubMailConfigured()) {
       try {
         const salesResult = await sendHubMail({
-          to: "sales@roalla.com",
+          to: CONTACT.email,
           replyTo: payload.email,
           subject,
           text,
@@ -235,12 +246,15 @@ export async function POST(request: NextRequest) {
 
         const userResult = await sendHubMail({
           to: payload.email,
+          replyTo: CONTACT.email,
           subject: EMAIL_LABELS.userSubject,
           text: buildConsultationUserConfirmationText(payload, EMAIL_LABELS, {
             discoveryUrl,
+            submissionId,
           }),
           html: buildConsultationUserConfirmationHtml(payload, EMAIL_LABELS, {
             discoveryUrl,
+            submissionId,
           }),
         });
         if (!userResult.ok) throw new Error(userResult.error);

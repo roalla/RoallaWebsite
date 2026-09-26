@@ -373,26 +373,35 @@ export default function ConsultationRequestForm({
         : t("stepTimeHint3");
 
   const canContinueStep1 = !!form.intent;
-  const canContinueStep2 = useMemo(() => {
-    if (!form.goal.trim() || form.goal.trim().length < 5 || !form.timeline)
-      return false;
-    if (form.intent === "consulting") return !!form.consultingFocus;
-    if (form.intent === "website") {
-      if (!form.websiteGoal) return false;
-      if (
-        websiteGoalRequiresExistingSite(form.websiteGoal) &&
-        !form.hasExistingSite
-      )
-        return false;
-      return true;
+  const step2Gaps = useMemo(() => {
+    const gaps: string[] = [];
+    if (form.intent === "consulting" && !form.consultingFocus)
+      gaps.push(t("gapConsultingFocus"));
+    if (form.intent === "website" && !form.websiteGoal)
+      gaps.push(t("gapWebsiteGoal"));
+    if (
+      form.intent === "website" &&
+      form.websiteGoal &&
+      websiteGoalRequiresExistingSite(form.websiteGoal) &&
+      !form.hasExistingSite
+    ) {
+      gaps.push(t("gapExistingSite"));
     }
-    if (form.intent === "platform") return !!form.platformType;
-    if (form.intent === "automation") return !!form.automationGoal;
-    if (form.intent === "ai-support") return !!form.aiGoal;
-    if (form.intent === "digital-events") return !!form.eventGoal;
-    if (form.intent === "workshop") return !!form.workshopTopic;
-    return true;
-  }, [form]);
+    if (form.intent === "platform" && !form.platformType)
+      gaps.push(t("gapPlatform"));
+    if (form.intent === "automation" && !form.automationGoal)
+      gaps.push(t("gapAutomation"));
+    if (form.intent === "ai-support" && !form.aiGoal) gaps.push(t("gapAi"));
+    if (form.intent === "digital-events" && !form.eventGoal)
+      gaps.push(t("gapEvent"));
+    if (form.intent === "workshop" && !form.workshopTopic)
+      gaps.push(t("gapWorkshop"));
+    if (form.goal.trim().length < 5) gaps.push(t("gapGoal"));
+    if (!form.timeline) gaps.push(t("gapTimeline"));
+    return gaps;
+  }, [form, t]);
+
+  const canContinueStep2 = step2Gaps.length === 0;
 
   const canSubmitQuick =
     !!form.name.trim() &&
@@ -418,6 +427,11 @@ export default function ConsultationRequestForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!digitalLightMode && !quickMode && step < 3) {
+      const ready = step === 1 ? canContinueStep1 : canContinueStep2;
+      if (ready) setStep((current) => current + 1);
+      return;
+    }
     if (!canSubmit) return;
 
     const submitIntent: ConsultationIntent = quickMode
@@ -600,7 +614,7 @@ export default function ConsultationRequestForm({
         )}
       </div>
 
-      <form onSubmit={handleSubmit} className="p-6 lg:p-8">
+      <form noValidate onSubmit={handleSubmit} className="p-6 lg:p-8">
         <input
           type="text"
           name="website"
@@ -959,37 +973,46 @@ export default function ConsultationRequestForm({
                     </Field>
                     {websiteGoalRequiresExistingSite(form.websiteGoal) && (
                       <>
-                        <Field label={t("hasExistingSiteLabel")} required>
-                          <div className="flex gap-3">
-                            {(["yes", "no"] as const).map((value) => (
-                              <label
-                                key={value}
-                                className={`flex-1 cursor-pointer rounded-lg border px-4 py-3 text-center text-sm font-medium transition-colors ${
-                                  form.hasExistingSite === value
-                                    ? "border-primary bg-primary/5 text-primary"
-                                    : "border-slate-200 text-slate-700 hover:border-primary/30"
-                                }`}
-                              >
-                                <input
-                                  type="radio"
-                                  name="hasExistingSite"
-                                  value={value}
-                                  checked={form.hasExistingSite === value}
-                                  onChange={(e) =>
+                        <div>
+                          <p
+                            id="existing-site-label"
+                            className="block text-sm font-medium text-slate-700 mb-1.5"
+                          >
+                            {t("hasExistingSiteLabel")}
+                            <span className="text-primary ml-0.5">*</span>
+                          </p>
+                          <div
+                            className="flex gap-3"
+                            role="group"
+                            aria-labelledby="existing-site-label"
+                          >
+                            {(["yes", "no"] as const).map((value) => {
+                              const selected = form.hasExistingSite === value;
+                              return (
+                                <button
+                                  key={value}
+                                  type="button"
+                                  aria-pressed={selected}
+                                  onClick={() =>
                                     update({
-                                      hasExistingSite: e.target.value,
-                                      ...(e.target.value === "no"
+                                      hasExistingSite: value,
+                                      ...(value === "no"
                                         ? { currentSiteUrl: "" }
                                         : {}),
                                     })
                                   }
-                                  className="sr-only"
-                                />
-                                {t(value === "yes" ? "yes" : "no")}
-                              </label>
-                            ))}
+                                  className={`flex-1 rounded-lg border px-4 py-3 text-center text-sm font-medium transition-colors ${
+                                    selected
+                                      ? "border-primary bg-primary/5 text-primary"
+                                      : "border-slate-200 text-slate-700 hover:border-primary/30"
+                                  }`}
+                                >
+                                  {t(value === "yes" ? "yes" : "no")}
+                                </button>
+                              );
+                            })}
                           </div>
-                        </Field>
+                        </div>
                         {form.hasExistingSite === "yes" && (
                           <Field label={t("currentSiteUrlLabel")}>
                             <input
@@ -1332,7 +1355,19 @@ export default function ConsultationRequestForm({
           </>
         )}
 
-        <div className="mt-8 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3">
+        {!digitalLightMode && !quickMode && step === 2 && step2Gaps.length > 0 && (
+          <p className="mt-6 text-sm text-slate-600" role="status">
+            {t("step2StillNeeded", { items: step2Gaps.join(" · ") })}
+          </p>
+        )}
+
+        <div
+          className={`${
+            !digitalLightMode && !quickMode && step === 2 && step2Gaps.length > 0
+              ? "mt-4"
+              : "mt-8"
+          } flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3`}
+        >
           {!quickMode && !digitalLightMode && step > 1 ? (
             <button
               type="button"

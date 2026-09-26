@@ -6,6 +6,7 @@ import {
   buildConsultationReminderText,
 } from "@/lib/consultation-request";
 import { hubMailConfigured, sendHubMail } from "@/lib/roalla-auth/hub-mail";
+import { CONTACT } from "@/lib/site";
 
 const REMINDER_DELAY_MS = 2 * 24 * 60 * 60 * 1000; // T+2 days
 
@@ -163,6 +164,7 @@ export async function processDueConsultationReminders(options?: {
 
     const result = await sendHubMail({
       to: row.email,
+      replyTo: CONTACT.email,
       subject: CONSULTATION_REMINDER_LABELS.reminderSubject,
       text: buildConsultationReminderText(
         row.name,

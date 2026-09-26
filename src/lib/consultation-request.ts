@@ -1,3 +1,12 @@
+import {
+  INQUIRY_EMAIL_CUSTOMER_NOTE,
+  INQUIRY_EMAIL_INTERNAL_NOTE,
+  inquiryEmailButton,
+  inquiryEmailParagraph,
+  inquiryEmailPlainFooter,
+  renderInquiryEmail,
+} from "@/lib/inquiry-email";
+
 export type ConsultationIntent =
   | "consulting"
   | "website"
@@ -602,41 +611,44 @@ export function buildConsultationSalesEmailHtml(
   if (options?.submissionId) {
     rows.push([labels.submissionId, options.submissionId]);
   }
-  if (options?.discoveryUrl) {
-    rows.push([labels.discoveryUrl, options.discoveryUrl]);
-  }
   if (data.locale) rows.push([labels.locale, data.locale]);
 
   const detailRows = rows
-    .map(
-      ([label, value]) =>
-        `<tr><td style="padding:10px 12px;border-bottom:1px solid #e2e8f0;color:#64748b;font-size:13px;width:38%;vertical-align:top;"><strong>${escapeHtml(label)}</strong></td><td style="padding:10px 12px;border-bottom:1px solid #e2e8f0;color:#0f172a;font-size:14px;white-space:pre-wrap;word-break:break-word;">${escapeHtml(value)}</td></tr>`,
-    )
+    .filter((row): row is [string, string] => Boolean(row[0] && row[1]))
+    .map(([label, value]) => {
+      const cell = "padding:12px 14px;border-bottom:1px solid #e2e8f0;font-family:Arial,Helvetica,sans-serif;vertical-align:top;";
+      return `<tr><td width="38%" bgcolor="#f8fafc" style="${cell}width:38%;font-size:12px;line-height:1.45;color:#5b6b7c;font-weight:bold;">${escapeHtml(label)}</td><td bgcolor="#ffffff" style="${cell}font-size:14px;line-height:1.5;color:#1e293b;white-space:pre-wrap;word-break:break-word;">${formatInquiryDetailValue(label, value, labels)}</td></tr>`;
+    })
     .join("");
 
   const discoveryBlock = options?.discoveryUrl
     ? `
-        <div style="margin-top:20px;padding:16px;background:#f0fdfa;border:1px solid #99f6e4;border-radius:8px;">
-          <p style="margin:0 0 8px;color:#0f766e;font-size:13px;font-weight:bold;text-transform:uppercase;letter-spacing:0.04em;">${escapeHtml(labels.discoveryHeading)}</p>
-          <p style="margin:0 0 10px;color:#475569;font-size:14px;line-height:1.5;">${escapeHtml(labels.discoverySalesHint)}</p>
-          <p style="margin:0;"><a href="${escapeHtml(options.discoveryUrl)}" style="color:#0d9488;font-size:14px;word-break:break-all;">${escapeHtml(options.discoveryUrl)}</a></p>
-          <p style="margin:12px 0 0;color:#64748b;font-size:13px;line-height:1.5;">${escapeHtml(labels.reminderSalesHint)}</p>
-        </div>`
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:22px;">
+          <tr>
+            <td bgcolor="#eefbfd" style="background-color:#eefbfd;border:1px solid #c5eef3;padding:18px 18px 16px;">
+              <p style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.4;letter-spacing:0.08em;text-transform:uppercase;color:#007a87;font-weight:bold;">${escapeHtml(labels.discoveryHeading)}</p>
+              <p style="margin:0 0 12px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.55;color:#334155;">${escapeHtml(labels.discoverySalesHint)}</p>
+              <p style="margin:0 0 14px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.5;word-break:break-all;"><a href="${escapeHtml(options.discoveryUrl)}" style="color:#007a87;text-decoration:none;">${escapeHtml(options.discoveryUrl)}</a></p>
+              ${inquiryEmailButton(options.discoveryUrl, labels.discoveryCta || "Open the brief", "left")}
+              <p style="margin:14px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.55;color:#5b6b7c;">${escapeHtml(labels.reminderSalesHint)}</p>
+            </td>
+          </tr>
+        </table>`
     : "";
 
-  return `
-    <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;color:#0f172a;">
-      <div style="background:linear-gradient(135deg,#00b4c5,#0099a8);padding:28px 24px;border-radius:12px 12px 0 0;color:#fff;">
-        <p style="margin:0 0 6px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.9;">ROALLA</p>
-        <h1 style="margin:0;font-size:24px;line-height:1.3;">${escapeHtml(labels.emailHeading)}</h1>
-      </div>
-      <div style="padding:24px;background:#fff;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 12px 12px;">
-        <p style="margin:0 0 20px;color:#475569;font-size:15px;line-height:1.6;">${escapeHtml(labels.emailIntro)}</p>
-        <table style="width:100%;border-collapse:collapse;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;">${detailRows}</table>
-        ${discoveryBlock}
-      </div>
-    </div>
-  `.trim();
+  return renderInquiryEmail({
+    title: labels.emailHeading,
+    preheader: `New service inquiry from ${data.name.trim()}.`,
+    eyebrow: labels.emailEyebrow || "Sales desk",
+    headline: labels.emailHeading,
+    footerNote: INQUIRY_EMAIL_INTERNAL_NOTE,
+    bodyHtml: `
+      ${inquiryEmailParagraph(escapeHtml(labels.emailIntro))}
+      ${inquiryEmailParagraph("Reply to this message to write to the client directly.")}
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #e2e8f0;">${detailRows}</table>
+      ${discoveryBlock}
+    `,
+  });
 }
 
 export function buildConsultationSalesEmailText(
@@ -693,51 +705,140 @@ export function buildConsultationSalesEmailText(
     );
   }
 
+  lines.push(
+    "",
+    "Reply to this message to write to the client directly.",
+    inquiryEmailPlainFooter(INQUIRY_EMAIL_INTERNAL_NOTE),
+  );
+
   return lines.join("\n");
 }
 
 export function buildConsultationUserConfirmationHtml(
   data: ConsultationRequestPayload,
   labels: Record<string, string>,
-  options?: { discoveryUrl?: string | null },
+  options?: { discoveryUrl?: string | null; submissionId?: string },
 ): string {
+  const intentLabel = labels[`intent_${data.intent}`] ?? data.intent;
+  const summaryRows: [string, string][] = [
+    [labels.intent || "Request", intentLabel],
+  ];
+  if (data.company?.trim()) {
+    summaryRows.push([labels.company || "Company", data.company.trim()]);
+  }
+  if (
+    data.goal.trim() &&
+    data.goal.trim() !== LIGHT_MODE_DEFAULT_GOAL
+  ) {
+    summaryRows.push([labels.goal || "Note", data.goal.trim()]);
+  }
+  if (options?.submissionId) {
+    summaryRows.push([labels.submissionId || "Reference", options.submissionId]);
+  }
+
+  const summary = summaryRows
+    .map(([label, value], index) => {
+      const pad = index === summaryRows.length - 1 ? "0" : "0 0 12px";
+      return `<tr><td style="padding:${pad};font-family:Arial,Helvetica,sans-serif;"><p style="margin:0 0 2px;font-size:12px;line-height:1.4;color:#5b6b7c;">${escapeHtml(label)}</p><p style="margin:0;font-size:15px;line-height:1.5;color:#1e293b;">${escapeHtml(value)}</p></td></tr>`;
+    })
+    .join("");
+
+  const nextSteps = [
+    labels.userNext1 || "A personal review by the Roalla team.",
+    labels.userNext2 || "A recommended entry point and clear next steps.",
+    labels.userNext3 || "A reply within one business day.",
+  ];
+  const nextRows = nextSteps
+    .map((step, index) => {
+      return `<tr><td valign="top" width="28" style="padding:0 0 10px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.5;font-weight:bold;color:#007a87;">${index + 1}</td><td valign="top" style="padding:0 0 10px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.5;color:#1e293b;">${escapeHtml(step)}</td></tr>`;
+    })
+    .join("");
+
   const discoveryBlock = options?.discoveryUrl
     ? `
-                <div style="margin:24px 0;padding:18px;background:#f0fdfa;border:1px solid #99f6e4;border-radius:8px;text-align:center;">
-                  <p style="margin:0 0 8px;color:#0f766e;font-size:12px;font-weight:bold;text-transform:uppercase;letter-spacing:0.05em;">${escapeHtml(labels.userDiscoveryEyebrow)}</p>
-                  <p style="margin:0 0 14px;color:#475569;font-size:14px;line-height:1.5;">${escapeHtml(labels.userDiscoveryBody)}</p>
-                  <a href="${escapeHtml(options.discoveryUrl)}" style="display:inline-block;background:#0d9488;color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:12px 20px;border-radius:8px;">${escapeHtml(labels.userDiscoveryCta)}</a>
-                </div>`
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 22px;">
+          <tr>
+            <td bgcolor="#eefbfd" style="background-color:#eefbfd;border:1px solid #c5eef3;padding:20px 18px;text-align:center;">
+              <p style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.4;letter-spacing:0.08em;text-transform:uppercase;color:#007a87;font-weight:bold;">${escapeHtml(labels.userDiscoveryEyebrow)}</p>
+              <p style="margin:0 0 16px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#334155;">${escapeHtml(labels.userDiscoveryBody)}</p>
+              ${inquiryEmailButton(options.discoveryUrl, labels.userDiscoveryCta)}
+            </td>
+          </tr>
+        </table>`
     : "";
 
-  return `
-            <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;">
-              <div style="background:linear-gradient(135deg,#00b4c5,#0099a8);padding:28px 24px;border-radius:12px 12px 0 0;color:#fff;text-align:center;">
-                <h1 style="margin:0;font-size:24px;">${escapeHtml(labels.userHtmlHeading)}</h1>
-              </div>
-              <div style="padding:28px 24px;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 12px 12px;">
-                <p style="color:#0f172a;">Dear ${escapeHtml(data.name.trim())},</p>
-                <p style="color:#475569;line-height:1.6;">${escapeHtml(labels.userGreeting)} ${escapeHtml(labels.userBody)}</p>
-                ${discoveryBlock}
-                <p style="color:#475569;line-height:1.6;">${escapeHtml(labels.userUrgent)}</p>
-                <p style="color:#0f172a;margin-top:24px;">Best regards,<br><strong>The ROALLA Team</strong></p>
-                <hr style="margin:28px 0;border:none;border-top:1px solid #e2e8f0;">
-                <p style="color:#64748b;font-size:13px;margin:0;">ROALLA Business Enablement Group · sales@roalla.com · (289) 838-5868</p>
-              </div>
-            </div>
-          `.trim();
+  const signoff = (labels.userSignoff || "Best regards,\nThe ROALLA Team")
+    .split("\n")
+    .map((line, index, lines) =>
+      index === lines.length - 1
+        ? `<strong>${escapeHtml(line)}</strong>`
+        : escapeHtml(line),
+    )
+    .join("<br>");
+
+  return renderInquiryEmail({
+    title: labels.userHtmlHeading,
+    preheader:
+      labels.userPreheader ||
+      "Your inquiry is with the Roalla team. We reply within one business day.",
+    eyebrow: labels.userEyebrow || "Service inquiry",
+    headline: labels.userHtmlHeading,
+    footerNote: INQUIRY_EMAIL_CUSTOMER_NOTE,
+    bodyHtml: `
+      ${inquiryEmailParagraph(`Dear ${escapeHtml(data.name.trim())},`)}
+      ${inquiryEmailParagraph(escapeHtml(labels.userGreeting))}
+      ${inquiryEmailParagraph(escapeHtml(labels.userBody))}
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0 22px;">
+        <tr>
+          <td bgcolor="#f4f7fb" style="background-color:#f4f7fb;border:1px solid #e2e8f0;border-left:3px solid #00b4c5;padding:16px 18px;">
+            <p style="margin:0 0 10px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.4;letter-spacing:0.08em;text-transform:uppercase;color:#007a87;font-weight:bold;">${escapeHtml(labels.userSummaryHeading || "Your inquiry")}</p>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0">${summary}</table>
+          </td>
+        </tr>
+      </table>
+      <p style="margin:0 0 12px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.4;letter-spacing:0.08em;text-transform:uppercase;color:#007a87;font-weight:bold;">${escapeHtml(labels.userNextHeading || "What happens next")}</p>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 22px;">${nextRows}</table>
+      ${discoveryBlock}
+      ${inquiryEmailParagraph(escapeHtml(labels.userUrgent))}
+      <p style="margin:8px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.65;color:#1e293b;">${signoff}</p>
+    `,
+  });
 }
 
 export function buildConsultationUserConfirmationText(
   data: ConsultationRequestPayload,
   labels: Record<string, string>,
-  options?: { discoveryUrl?: string | null },
+  options?: { discoveryUrl?: string | null; submissionId?: string },
 ): string {
+  const intentLabel = labels[`intent_${data.intent}`] ?? data.intent;
   const lines = [
-    `${labels.userGreeting}`,
+    `Dear ${data.name.trim()},`,
+    "",
+    labels.userGreeting,
     "",
     labels.userBody,
+    "",
+    labels.userSummaryHeading || "Your inquiry",
+    `${labels.intent || "Request"}: ${intentLabel}`,
   ];
+
+  if (data.company?.trim()) {
+    lines.push(`${labels.company || "Company"}: ${data.company.trim()}`);
+  }
+  if (data.goal.trim() && data.goal.trim() !== LIGHT_MODE_DEFAULT_GOAL) {
+    lines.push(`${labels.goal || "Note"}: ${data.goal.trim()}`);
+  }
+  if (options?.submissionId) {
+    lines.push(`${labels.submissionId || "Reference"}: ${options.submissionId}`);
+  }
+
+  lines.push(
+    "",
+    labels.userNextHeading || "What happens next",
+    `1. ${labels.userNext1 || "A personal review by the Roalla team."}`,
+    `2. ${labels.userNext2 || "A recommended entry point and clear next steps."}`,
+    `3. ${labels.userNext3 || "A reply within one business day."}`,
+  );
 
   if (options?.discoveryUrl) {
     lines.push(
@@ -748,7 +849,13 @@ export function buildConsultationUserConfirmationText(
     );
   }
 
-  lines.push("", labels.userUrgent, "", labels.userSignoff);
+  lines.push(
+    "",
+    labels.userUrgent,
+    "",
+    labels.userSignoff,
+    inquiryEmailPlainFooter(INQUIRY_EMAIL_CUSTOMER_NOTE),
+  );
   return lines.join("\n");
 }
 
@@ -757,23 +864,33 @@ export function buildConsultationReminderHtml(
   discoveryUrl: string,
   labels: Record<string, string>,
 ): string {
-  return `
-    <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;">
-      <div style="background:linear-gradient(135deg,#00b4c5,#0099a8);padding:28px 24px;border-radius:12px 12px 0 0;color:#fff;text-align:center;">
-        <h1 style="margin:0;font-size:22px;">${escapeHtml(labels.reminderSubject)}</h1>
-      </div>
-      <div style="padding:28px 24px;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 12px 12px;">
-        <p style="color:#0f172a;">Hi ${escapeHtml(name)},</p>
-        <p style="color:#475569;line-height:1.6;">${escapeHtml(labels.reminderBody)}</p>
-        <p style="text-align:center;margin:28px 0;">
-          <a href="${escapeHtml(discoveryUrl)}" style="display:inline-block;background:#0d9488;color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:12px 22px;border-radius:8px;">${escapeHtml(labels.reminderCta)}</a>
-        </p>
-        <p style="color:#64748b;font-size:13px;line-height:1.5;">${escapeHtml(labels.reminderFooter)}</p>
-        <hr style="margin:28px 0;border:none;border-top:1px solid #e2e8f0;">
-        <p style="color:#64748b;font-size:13px;margin:0;">ROALLA Business Enablement Group · sales@roalla.com · (289) 838-5868</p>
-      </div>
-    </div>
-  `.trim();
+  const signoff = (labels.userSignoff || "Best regards,\nThe ROALLA Team")
+    .split("\n")
+    .map((line, index, lines) =>
+      index === lines.length - 1
+        ? `<strong>${escapeHtml(line)}</strong>`
+        : escapeHtml(line),
+    )
+    .join("<br>");
+
+  return renderInquiryEmail({
+    title: labels.reminderSubject,
+    preheader: "A short digital brief is ready whenever you are. We will still follow up.",
+    eyebrow: "Service inquiry",
+    headline: labels.reminderSubject,
+    footerNote: INQUIRY_EMAIL_CUSTOMER_NOTE,
+    bodyHtml: `
+      ${inquiryEmailParagraph(`Dear ${escapeHtml(name)},`)}
+      ${inquiryEmailParagraph(escapeHtml(labels.reminderBody))}
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 18px;">
+        <tr>
+          <td align="center">${inquiryEmailButton(discoveryUrl, labels.reminderCta)}</td>
+        </tr>
+      </table>
+      ${inquiryEmailParagraph(`<span style="color:#5b6b7c;">${escapeHtml(labels.reminderFooter)}</span>`)}
+      <p style="margin:8px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.65;color:#1e293b;">${signoff}</p>
+    `,
+  });
 }
 
 export function buildConsultationReminderText(
@@ -782,7 +899,7 @@ export function buildConsultationReminderText(
   labels: Record<string, string>,
 ): string {
   return [
-    `Hi ${name},`,
+    `Dear ${name},`,
     "",
     labels.reminderBody,
     "",
@@ -791,5 +908,25 @@ export function buildConsultationReminderText(
     labels.reminderFooter,
     "",
     labels.userSignoff,
+    inquiryEmailPlainFooter(INQUIRY_EMAIL_CUSTOMER_NOTE),
   ].join("\n");
+}
+
+function formatInquiryDetailValue(
+  label: string,
+  value: string,
+  labels: Record<string, string>,
+): string {
+  const safe = escapeHtml(value);
+  if (label === labels.email && value.includes("@")) {
+    return `<a href="mailto:${safe}" style="color:#007a87;text-decoration:none;">${safe}</a>`;
+  }
+  if (label === labels.phone && value !== labels.notProvided) {
+    const href = `tel:${value.replace(/[^\d+]/g, "")}`;
+    return `<a href="${escapeHtml(href)}" style="color:#007a87;text-decoration:none;">${safe}</a>`;
+  }
+  if (/^https?:\/\//i.test(value)) {
+    return `<a href="${safe}" style="color:#007a87;text-decoration:none;word-break:break-all;">${safe}</a>`;
+  }
+  return safe;
 }

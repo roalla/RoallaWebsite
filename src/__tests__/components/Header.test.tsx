@@ -67,17 +67,31 @@ describe('Header', () => {
     })
   })
 
-  it('renders resources grouped by digital enablement, advisory, and other', () => {
+  it('renders the five featured insights under digital enablement, advisory, and other', () => {
     render(<Header />)
     fireEvent.click(screen.getByRole('button', { name: 'resources' }))
-    expect(screen.getByRole('menuitem', { name: /smb-digitization-benefits\.title/ })).toHaveAttribute(
+    expect(screen.getByRole('menuitem', { name: /is-your-website-builder-limiting-growth\.title/ })).toHaveAttribute(
       'href',
-      '/insights/smb-digitization-benefits',
+      '/insights/is-your-website-builder-limiting-growth',
+    )
+    expect(screen.getByRole('menuitem', { name: /professional-email-avoid-spam-phishing\.title/ })).toHaveAttribute(
+      'href',
+      '/insights/professional-email-avoid-spam-phishing',
+    )
+    expect(screen.getByRole('menuitem', { name: /search-and-ai-visibility\.title/ })).toHaveAttribute(
+      'href',
+      '/insights/search-and-ai-visibility',
     )
     expect(screen.getByRole('menuitem', { name: /fractional-coo\.title/ })).toHaveAttribute(
       'href',
       '/insights/fractional-coo',
     )
+    expect(screen.getByRole('menuitem', { name: /strategic-planning\.title/ })).toHaveAttribute(
+      'href',
+      '/insights/strategic-planning',
+    )
+    expect(screen.queryByRole('menuitem', { name: /smb-digitization-benefits\.title/ })).not.toBeInTheDocument()
+    expect(screen.queryByRole('menuitem', { name: /process-optimization\.title/ })).not.toBeInTheDocument()
     expect(screen.getByRole('menuitem', { name: /resourcesUseCases/ })).toHaveAttribute('href', '/use-cases')
     expect(screen.getByRole('menuitem', { name: /resourcesAll/ })).toHaveAttribute('href', '/insights')
   })

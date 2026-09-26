@@ -33,6 +33,23 @@ export const INSIGHT_GROUPS: Record<InsightGroup, readonly InsightSlug[]> = {
   advisory: ["fractional-coo", "strategic-planning", "process-optimization"],
 };
 
+/**
+ * The five articles featured in the header Insights menu, in priority order.
+ * Replace this list to change the menu. The insights index still lists every article.
+ */
+export const HEADER_INSIGHT_SLUGS = [
+  "is-your-website-builder-limiting-growth",
+  "professional-email-avoid-spam-phishing",
+  "search-and-ai-visibility",
+  "fractional-coo",
+  "strategic-planning",
+] as const satisfies readonly InsightSlug[];
+
+export function headerInsightsForGroup(group: InsightGroup): InsightSlug[] {
+  const inGroup = new Set(INSIGHT_GROUPS[group]);
+  return HEADER_INSIGHT_SLUGS.filter((slug) => inGroup.has(slug));
+}
+
 export function isInsightSlug(value: string): value is InsightSlug {
   return (INSIGHT_SLUGS as readonly string[]).includes(value);
 }

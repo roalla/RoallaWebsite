@@ -11,6 +11,7 @@ export const INSIGHT_SLUGS = [
   "how-ai-systems-understand-websites",
   "structured-data-for-small-business",
   "professional-email-avoid-spam-phishing",
+  "authentic-professional-portrait-selection",
   "is-your-website-builder-limiting-growth",
 ] as const;
 
@@ -28,6 +29,7 @@ export const INSIGHT_GROUPS: Record<InsightGroup, readonly InsightSlug[]> = {
     "how-ai-systems-understand-websites",
     "structured-data-for-small-business",
     "professional-email-avoid-spam-phishing",
+    "authentic-professional-portrait-selection",
     "is-your-website-builder-limiting-growth",
   ],
   advisory: ["fractional-coo", "strategic-planning", "process-optimization"],
@@ -66,6 +68,7 @@ export const INSIGHT_OG_IMAGES: Partial<Record<InsightSlug, string>> = {
   "how-ai-systems-understand-websites": "/images/insights/library/how-ai-systems-understand-websites.webp",
   "structured-data-for-small-business": "/images/insights/library/structured-data-for-small-business.webp",
   "professional-email-avoid-spam-phishing": "/images/insights/library/professional-email-avoid-spam-phishing.webp",
+  "authentic-professional-portrait-selection": "/images/insights/library/authentic-professional-portrait-selection.webp",
 };
 
 /** Insights rooted in delivery work — shown with an engagement chip on the homepage */
@@ -96,5 +99,6 @@ export const INSIGHT_PUBLISHED_DATES: Record<InsightSlug, string> = {
   "how-ai-systems-understand-websites": "2026-07-15",
   "structured-data-for-small-business": "2026-07-22",
   "professional-email-avoid-spam-phishing": "2026-09-26",
+  "authentic-professional-portrait-selection": "2026-09-26",
   "is-your-website-builder-limiting-growth": "2026-09-26",
 };

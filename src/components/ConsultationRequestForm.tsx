@@ -372,67 +372,137 @@ export default function ConsultationRequestForm({
         ? t("stepTimeHint2")
         : t("stepTimeHint3");
 
-  const canContinueStep1 = !!form.intent;
-  const step2Gaps = useMemo(() => {
-    const gaps: string[] = [];
-    if (form.intent === "consulting" && !form.consultingFocus)
-      gaps.push(t("gapConsultingFocus"));
-    if (form.intent === "website" && !form.websiteGoal)
-      gaps.push(t("gapWebsiteGoal"));
-    if (
-      form.intent === "website" &&
-      form.websiteGoal &&
-      websiteGoalRequiresExistingSite(form.websiteGoal) &&
-      !form.hasExistingSite
-    ) {
-      gaps.push(t("gapExistingSite"));
+  const [attempted, setAttempted] = useState(false);
+
+  useEffect(() => {
+    setAttempted(false);
+  }, [step, quickMode, digitalLightMode]);
+
+  const missingFields = useMemo(() => {
+    const email = form.email.trim();
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const contactGaps = (): MissingField[] => {
+      const gaps: MissingField[] = [];
+      if (!form.name.trim()) gaps.push({ id: "field-name", label: t("gapName") });
+      if (!email) gaps.push({ id: "field-email", label: t("gapEmail") });
+      else if (!emailValid)
+        gaps.push({ id: "field-email", label: t("gapEmailInvalid") });
+      return gaps;
+    };
+
+    if (digitalLightMode) {
+      const gaps: MissingField[] = [];
+      if (!form.intent)
+        gaps.push({ id: "field-intent", label: t("gapServiceType") });
+      gaps.push(...contactGaps());
+      if (form.goal.trim() && form.goal.trim().length < 3) {
+        gaps.push({ id: "field-goal", label: t("gapLightNote") });
+      }
+      return gaps;
     }
-    if (form.intent === "platform" && !form.platformType)
-      gaps.push(t("gapPlatform"));
-    if (form.intent === "automation" && !form.automationGoal)
-      gaps.push(t("gapAutomation"));
-    if (form.intent === "ai-support" && !form.aiGoal) gaps.push(t("gapAi"));
-    if (form.intent === "digital-events" && !form.eventGoal)
-      gaps.push(t("gapEvent"));
-    if (form.intent === "workshop" && !form.workshopTopic)
-      gaps.push(t("gapWorkshop"));
-    if (form.goal.trim().length < 5) gaps.push(t("gapGoal"));
-    if (!form.timeline) gaps.push(t("gapTimeline"));
-    return gaps;
-  }, [form, t]);
 
-  const canContinueStep2 = step2Gaps.length === 0;
+    if (quickMode) {
+      const gaps: MissingField[] = [];
+      if (form.goal.trim().length < 5) {
+        gaps.push({ id: "field-goal", label: t("gapQuickMessage") });
+      }
+      gaps.push(...contactGaps());
+      return gaps;
+    }
 
-  const canSubmitQuick =
-    !!form.name.trim() &&
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()) &&
-    form.goal.trim().length >= 5;
+    if (step === 1) {
+      return form.intent
+        ? []
+        : [{ id: "field-intent", label: t("gapIntent") }];
+    }
 
-  const canSubmitDigitalLight =
-    !!form.intent &&
-    !!form.name.trim() &&
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()) &&
-    (!form.goal.trim() || form.goal.trim().length >= 3);
+    if (step === 2) {
+      const gaps: MissingField[] = [];
+      if (form.intent === "consulting" && !form.consultingFocus) {
+        gaps.push({ id: "field-consulting-focus", label: t("gapConsultingFocus") });
+      }
+      if (form.intent === "website" && !form.websiteGoal) {
+        gaps.push({ id: "field-website-goal", label: t("gapWebsiteGoal") });
+      }
+      if (
+        form.intent === "website" &&
+        form.websiteGoal &&
+        websiteGoalRequiresExistingSite(form.websiteGoal) &&
+        !form.hasExistingSite
+      ) {
+        gaps.push({ id: "field-existing-site", label: t("gapExistingSite") });
+      }
+      if (form.intent === "platform" && !form.platformType) {
+        gaps.push({ id: "field-platform", label: t("gapPlatform") });
+      }
+      if (form.intent === "automation" && !form.automationGoal) {
+        gaps.push({ id: "field-automation", label: t("gapAutomation") });
+      }
+      if (form.intent === "ai-support" && !form.aiGoal) {
+        gaps.push({ id: "field-ai", label: t("gapAi") });
+      }
+      if (form.intent === "digital-events" && !form.eventGoal) {
+        gaps.push({ id: "field-event", label: t("gapEvent") });
+      }
+      if (form.intent === "workshop" && !form.workshopTopic) {
+        gaps.push({ id: "field-workshop", label: t("gapWorkshop") });
+      }
+      if (form.goal.trim().length < 5) {
+        gaps.push({ id: "field-goal", label: t("gapGoal") });
+      }
+      if (!form.timeline) {
+        gaps.push({ id: "field-timeline", label: t("gapTimeline") });
+      }
+      return gaps;
+    }
 
+    return contactGaps();
+  }, [digitalLightMode, form, quickMode, step, t]);
+
+  const missingIds = useMemo(
+    () => new Set(missingFields.map((field) => field.id)),
+    [missingFields],
+  );
+  const fieldInvalid = (id: string) => attempted && missingIds.has(id);
+  const controlClass = (id: string, extra = "") =>
+    `${fieldInvalid(id) ? invalidInputClass : inputClass}${extra ? ` ${extra}` : ""}`;
+
+  const canContinueStep1 = step !== 1 || missingFields.length === 0;
+  const canContinueStep2 = step !== 2 || missingFields.length === 0;
+  const canSubmit = missingFields.length === 0;
   const useLightSubmit = digitalLightMode || quickMode;
 
-  const canSubmit =
-    !!form.name.trim() &&
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()) &&
-    (digitalLightMode
-      ? canSubmitDigitalLight
-      : quickMode
-        ? canSubmitQuick
-        : canContinueStep2);
+  const revealMissing = () => {
+    setAttempted(true);
+    const first = missingFields[0];
+    if (!first) return;
+    window.setTimeout(() => focusInquiryField(first.id), 0);
+  };
+
+  const showMissingNotice =
+    missingFields.length > 0 &&
+    (attempted || digitalLightMode || quickMode || step > 1);
+  const missingLead =
+    digitalLightMode || quickMode || step === 3
+      ? t("missingBeforeSendLead")
+      : t("missingBeforeContinueLead");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!digitalLightMode && !quickMode && step < 3) {
       const ready = step === 1 ? canContinueStep1 : canContinueStep2;
-      if (ready) setStep((current) => current + 1);
+      if (ready) {
+        setAttempted(false);
+        setStep((current) => current + 1);
+      } else {
+        revealMissing();
+      }
       return;
     }
-    if (!canSubmit) return;
+    if (!canSubmit) {
+      revealMissing();
+      return;
+    }
 
     const submitIntent: ConsultationIntent = quickMode
       ? form.intent && shouldUseDigitalDiscoveryFunnel(form.intent)
@@ -633,8 +703,10 @@ export default function ConsultationRequestForm({
             </h2>
             <p className="text-sm text-slate-600">{t("digitalLightHint")}</p>
 
-            <Field label={t("serviceTypeLabel")} required>
+            <Field label={t("serviceTypeLabel")} required fieldId="field-intent">
               <select
+                id="field-intent"
+                aria-invalid={fieldInvalid("field-intent") || undefined}
                 value={form.intent}
                 onChange={(e) => {
                   const next = e.target.value as ConsultationIntent | "";
@@ -647,7 +719,7 @@ export default function ConsultationRequestForm({
                   }
                   update({ intent: next });
                 }}
-                className={inputClass}
+                className={controlClass("field-intent")}
                 required
               >
                 <option value="">{t("selectPlaceholder")}</option>
@@ -662,23 +734,27 @@ export default function ConsultationRequestForm({
             </Field>
 
             <div className="grid sm:grid-cols-2 gap-5">
-              <Field label={t("nameLabel")} required>
+              <Field label={t("nameLabel")} required fieldId="field-name">
                 <input
+                  id="field-name"
                   type="text"
                   value={form.name}
                   onChange={(e) => update({ name: e.target.value })}
-                  className={inputClass}
+                  className={controlClass("field-name")}
                   autoComplete="name"
+                  aria-invalid={fieldInvalid("field-name") || undefined}
                   required
                 />
               </Field>
-              <Field label={t("emailLabel")} required hint={t("emailHint")}>
+              <Field label={t("emailLabel")} required hint={t("emailHint")} fieldId="field-email">
                 <input
+                  id="field-email"
                   type="email"
                   value={form.email}
                   onChange={(e) => update({ email: e.target.value })}
-                  className={inputClass}
+                  className={controlClass("field-email")}
                   autoComplete="email"
+                  aria-invalid={fieldInvalid("field-email") || undefined}
                   required
                 />
               </Field>
@@ -693,13 +769,15 @@ export default function ConsultationRequestForm({
               </Field>
             </div>
 
-            <Field label={t("digitalLightNoteLabel")}>
+            <Field label={t("digitalLightNoteLabel")} fieldId="field-goal">
               <textarea
+                id="field-goal"
                 value={form.goal}
                 onChange={(e) => update({ goal: e.target.value })}
                 rows={2}
                 placeholder={t("digitalLightNotePlaceholder")}
-                className={`${inputClass} resize-y min-h-[72px]`}
+                className={controlClass("field-goal", "resize-y min-h-[72px]")}
+                aria-invalid={fieldInvalid("field-goal") || undefined}
                 maxLength={280}
               />
               <p className="mt-1.5 text-xs text-slate-500">
@@ -726,35 +804,41 @@ export default function ConsultationRequestForm({
               {t("step3Title")}
             </h2>
             <p className="text-sm text-slate-600">{t("quickInquiryHint")}</p>
-            <Field label={t("quickInquiryMessageLabel")} required>
+            <Field label={t("quickInquiryMessageLabel")} required fieldId="field-goal">
               <textarea
+                id="field-goal"
                 value={form.goal}
                 onChange={(e) => update({ goal: e.target.value })}
                 rows={4}
                 placeholder={t("quickInquiryMessagePlaceholder")}
-                className={`${inputClass} resize-y min-h-[112px]`}
+                className={controlClass("field-goal", "resize-y min-h-[112px]")}
+                aria-invalid={fieldInvalid("field-goal") || undefined}
                 required
                 minLength={5}
               />
             </Field>
             <div className="grid sm:grid-cols-2 gap-5">
-              <Field label={t("nameLabel")} required>
+              <Field label={t("nameLabel")} required fieldId="field-name">
                 <input
+                  id="field-name"
                   type="text"
                   value={form.name}
                   onChange={(e) => update({ name: e.target.value })}
-                  className={inputClass}
+                  className={controlClass("field-name")}
                   autoComplete="name"
+                  aria-invalid={fieldInvalid("field-name") || undefined}
                   required
                 />
               </Field>
-              <Field label={t("emailLabel")} required hint={t("emailHint")}>
+              <Field label={t("emailLabel")} required hint={t("emailHint")} fieldId="field-email">
                 <input
+                  id="field-email"
                   type="email"
                   value={form.email}
                   onChange={(e) => update({ email: e.target.value })}
-                  className={inputClass}
+                  className={controlClass("field-email")}
                   autoComplete="email"
+                  aria-invalid={fieldInvalid("field-email") || undefined}
                   required
                 />
               </Field>
@@ -791,7 +875,15 @@ export default function ConsultationRequestForm({
                     {t("quickInquiryToggle")}
                   </button>
                 </div>
-                <div className="mt-4 grid sm:grid-cols-2 gap-3">
+                <div
+                  id="field-intent"
+                  data-inquiry-field="field-intent"
+                  className={`mt-4 grid scroll-mt-28 sm:grid-cols-2 gap-3 ${
+                    fieldInvalid("field-intent")
+                      ? "rounded-xl ring-2 ring-red-400 ring-offset-2"
+                      : ""
+                  }`}
+                >
                   {intentOptions.map((option) => {
                     const Icon = option.icon;
                     const selected = form.intent === option.value;
@@ -911,13 +1003,15 @@ export default function ConsultationRequestForm({
                 )}
 
                 {form.intent === "consulting" && (
-                  <Field label={t("consultingFocusLabel")} required>
+                  <Field label={t("consultingFocusLabel")} required fieldId="field-consulting-focus">
                     <select
+                      id="field-consulting-focus"
+                      aria-invalid={fieldInvalid("field-consulting-focus") || undefined}
                       value={form.consultingFocus}
                       onChange={(e) =>
                         update({ consultingFocus: e.target.value })
                       }
-                      className={inputClass}
+                      className={controlClass("field-consulting-focus")}
                       required
                     >
                       <option value="">{t("selectPlaceholder")}</option>
@@ -934,8 +1028,10 @@ export default function ConsultationRequestForm({
 
                 {form.intent === "website" && (
                   <>
-                    <Field label={t("websiteGoalLabel")} required>
+                    <Field label={t("websiteGoalLabel")} required fieldId="field-website-goal">
                       <select
+                        id="field-website-goal"
+                        aria-invalid={fieldInvalid("field-website-goal") || undefined}
                         value={form.websiteGoal}
                         onChange={(e) => {
                           const websiteGoal = e.target.value;
@@ -946,7 +1042,7 @@ export default function ConsultationRequestForm({
                               : { hasExistingSite: "", currentSiteUrl: "" }),
                           });
                         }}
-                        className={inputClass}
+                        className={controlClass("field-website-goal")}
                         required
                       >
                         <option value="">{t("selectPlaceholder")}</option>
@@ -973,7 +1069,15 @@ export default function ConsultationRequestForm({
                     </Field>
                     {websiteGoalRequiresExistingSite(form.websiteGoal) && (
                       <>
-                        <div>
+                        <div
+                          id="field-existing-site"
+                          data-inquiry-field="field-existing-site"
+                          className={`scroll-mt-28 rounded-lg ${
+                            fieldInvalid("field-existing-site")
+                              ? "ring-2 ring-red-400 ring-offset-2"
+                              : ""
+                          }`}
+                        >
                           <p
                             id="existing-site-label"
                             className="block text-sm font-medium text-slate-700 mb-1.5"
@@ -985,6 +1089,7 @@ export default function ConsultationRequestForm({
                             className="flex gap-3"
                             role="group"
                             aria-labelledby="existing-site-label"
+                            aria-invalid={fieldInvalid("field-existing-site") || undefined}
                           >
                             {(["yes", "no"] as const).map((value) => {
                               const selected = form.hasExistingSite === value;
@@ -1032,11 +1137,13 @@ export default function ConsultationRequestForm({
                 )}
 
                 {form.intent === "platform" && (
-                  <Field label={t("platformTypeLabel")} required>
+                  <Field label={t("platformTypeLabel")} required fieldId="field-platform">
                     <select
+                      id="field-platform"
+                      aria-invalid={fieldInvalid("field-platform") || undefined}
                       value={form.platformType}
                       onChange={(e) => update({ platformType: e.target.value })}
-                      className={inputClass}
+                      className={controlClass("field-platform")}
                       required
                     >
                       <option value="">{t("selectPlaceholder")}</option>
@@ -1060,13 +1167,15 @@ export default function ConsultationRequestForm({
                 )}
 
                 {form.intent === "automation" && (
-                  <Field label={t("automationGoalLabel")} required>
+                  <Field label={t("automationGoalLabel")} required fieldId="field-automation">
                     <select
+                      id="field-automation"
+                      aria-invalid={fieldInvalid("field-automation") || undefined}
                       value={form.automationGoal}
                       onChange={(e) =>
                         update({ automationGoal: e.target.value })
                       }
-                      className={inputClass}
+                      className={controlClass("field-automation")}
                       required
                     >
                       <option value="">{t("selectPlaceholder")}</option>
@@ -1082,11 +1191,13 @@ export default function ConsultationRequestForm({
                 )}
 
                 {form.intent === "ai-support" && (
-                  <Field label={t("aiGoalLabel")} required>
+                  <Field label={t("aiGoalLabel")} required fieldId="field-ai">
                     <select
+                      id="field-ai"
+                      aria-invalid={fieldInvalid("field-ai") || undefined}
                       value={form.aiGoal}
                       onChange={(e) => update({ aiGoal: e.target.value })}
-                      className={inputClass}
+                      className={controlClass("field-ai")}
                       required
                     >
                       <option value="">{t("selectPlaceholder")}</option>
@@ -1103,11 +1214,13 @@ export default function ConsultationRequestForm({
                 )}
 
                 {form.intent === "digital-events" && (
-                  <Field label={t("eventGoalLabel")} required>
+                  <Field label={t("eventGoalLabel")} required fieldId="field-event">
                     <select
+                      id="field-event"
+                      aria-invalid={fieldInvalid("field-event") || undefined}
                       value={form.eventGoal}
                       onChange={(e) => update({ eventGoal: e.target.value })}
-                      className={inputClass}
+                      className={controlClass("field-event")}
                       required
                     >
                       <option value="">{t("selectPlaceholder")}</option>
@@ -1126,13 +1239,15 @@ export default function ConsultationRequestForm({
                 )}
 
                 {form.intent === "workshop" && (
-                  <Field label={t("workshopTopicLabel")} required>
+                  <Field label={t("workshopTopicLabel")} required fieldId="field-workshop">
                     <select
+                      id="field-workshop"
+                      aria-invalid={fieldInvalid("field-workshop") || undefined}
                       value={form.workshopTopic}
                       onChange={(e) =>
                         update({ workshopTopic: e.target.value })
                       }
-                      className={inputClass}
+                      className={controlClass("field-workshop")}
                       required
                     >
                       <option value="">{t("selectPlaceholder")}</option>
@@ -1269,13 +1384,15 @@ export default function ConsultationRequestForm({
                   </Field>
                 )}
 
-                <Field label={t("goalLabel")} required>
+                <Field label={t("goalLabel")} required fieldId="field-goal">
                   <textarea
+                    id="field-goal"
                     value={form.goal}
                     onChange={(e) => update({ goal: e.target.value })}
                     rows={4}
                     placeholder={t(goalPlaceholderKey(form.intent))}
-                    className={`${inputClass} resize-y min-h-[112px]`}
+                    className={controlClass("field-goal", "resize-y min-h-[112px]")}
+                    aria-invalid={fieldInvalid("field-goal") || undefined}
                     required
                     minLength={5}
                   />
@@ -1287,11 +1404,13 @@ export default function ConsultationRequestForm({
                   </p>
                 </Field>
 
-                <Field label={t("timelineLabel")} required>
+                <Field label={t("timelineLabel")} required fieldId="field-timeline">
                   <select
+                    id="field-timeline"
+                    aria-invalid={fieldInvalid("field-timeline") || undefined}
                     value={form.timeline}
                     onChange={(e) => update({ timeline: e.target.value })}
-                    className={inputClass}
+                    className={controlClass("field-timeline")}
                     required
                   >
                     <option value="">{t("selectPlaceholder")}</option>
@@ -1310,23 +1429,27 @@ export default function ConsultationRequestForm({
                   {t("step3Title")}
                 </h2>
                 <div className="grid sm:grid-cols-2 gap-5">
-                  <Field label={t("nameLabel")} required>
+                  <Field label={t("nameLabel")} required fieldId="field-name">
                     <input
+                      id="field-name"
                       type="text"
                       value={form.name}
                       onChange={(e) => update({ name: e.target.value })}
-                      className={inputClass}
+                      className={controlClass("field-name")}
                       autoComplete="name"
+                      aria-invalid={fieldInvalid("field-name") || undefined}
                       required
                     />
                   </Field>
-                  <Field label={t("emailLabel")} required hint={t("emailHint")}>
+                  <Field label={t("emailLabel")} required hint={t("emailHint")} fieldId="field-email">
                     <input
+                      id="field-email"
                       type="email"
                       value={form.email}
                       onChange={(e) => update({ email: e.target.value })}
-                      className={inputClass}
+                      className={controlClass("field-email")}
                       autoComplete="email"
+                      aria-invalid={fieldInvalid("field-email") || undefined}
                       required
                     />
                   </Field>
@@ -1355,17 +1478,34 @@ export default function ConsultationRequestForm({
           </>
         )}
 
-        {!digitalLightMode && !quickMode && step === 2 && step2Gaps.length > 0 && (
-          <p className="mt-6 text-sm text-slate-600" role="status">
-            {t("step2StillNeeded", { items: step2Gaps.join(" · ") })}
+        {showMissingNotice && (
+          <p
+            id="missing-fields"
+            className={`mt-6 text-sm ${attempted ? "text-red-700" : "text-slate-600"}`}
+            role={attempted ? "alert" : "status"}
+          >
+            {missingLead}{" "}
+            {missingFields.map((field, index) => (
+              <React.Fragment key={field.id}>
+                {index > 0 && " · "}
+                <button
+                  type="button"
+                  className="font-medium underline underline-offset-2"
+                  onClick={() => {
+                    setAttempted(true);
+                    focusInquiryField(field.id);
+                  }}
+                >
+                  {field.label}
+                </button>
+              </React.Fragment>
+            ))}
           </p>
         )}
 
         <div
           className={`${
-            !digitalLightMode && !quickMode && step === 2 && step2Gaps.length > 0
-              ? "mt-4"
-              : "mt-8"
+            showMissingNotice ? "mt-4" : "mt-8"
           } flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3`}
         >
           {!quickMode && !digitalLightMode && step > 1 ? (
@@ -1384,7 +1524,8 @@ export default function ConsultationRequestForm({
           {digitalLightMode || quickMode ? (
             <button
               type="submit"
-              disabled={!canSubmit || submitting}
+              disabled={submitting}
+              aria-describedby={showMissingNotice ? "missing-fields" : undefined}
               className="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white shadow-md hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors sm:ml-auto"
             >
               {submitting ? (
@@ -1399,8 +1540,15 @@ export default function ConsultationRequestForm({
           ) : step < 3 ? (
             <button
               type="button"
-              disabled={step === 1 ? !canContinueStep1 : !canContinueStep2}
-              onClick={() => setStep((s) => s + 1)}
+              aria-describedby={showMissingNotice ? "missing-fields" : undefined}
+              onClick={() => {
+                if ((step === 1 && !canContinueStep1) || (step === 2 && !canContinueStep2)) {
+                  revealMissing();
+                  return;
+                }
+                setAttempted(false);
+                setStep((s) => s + 1);
+              }}
               className="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white shadow-md hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {t("continue")}
@@ -1409,7 +1557,8 @@ export default function ConsultationRequestForm({
           ) : (
             <button
               type="submit"
-              disabled={!canSubmit || submitting}
+              disabled={submitting}
+              aria-describedby={showMissingNotice ? "missing-fields" : undefined}
               className="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white shadow-md hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {submitting ? (
@@ -1433,28 +1582,57 @@ function Field({
   required,
   hint,
   children,
+  fieldId,
 }: {
   label: string;
   required?: boolean;
   hint?: string;
   children: React.ReactNode;
+  fieldId?: string;
 }) {
   return (
-    <label className="block">
-      <span className="block text-sm font-medium text-slate-700 mb-1.5">
-        {label}
-        {required && <span className="text-primary ml-0.5">*</span>}
-      </span>
-      {hint && (
-        <span className="block text-xs text-slate-500 mb-1.5">{hint}</span>
-      )}
-      {children}
-    </label>
+    <div
+      data-inquiry-field={fieldId}
+      className={fieldId ? "scroll-mt-28" : undefined}
+    >
+      <label className="block">
+        <span className="block text-sm font-medium text-slate-700 mb-1.5">
+          {label}
+          {required && <span className="text-primary ml-0.5">*</span>}
+        </span>
+        {hint && (
+          <span className="block text-xs text-slate-500 mb-1.5">{hint}</span>
+        )}
+        {children}
+      </label>
+    </div>
   );
 }
 
 const inputClass =
   "w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-colors";
+
+const invalidInputClass =
+  "w-full rounded-lg border border-red-400 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-200 focus:border-red-500 transition-colors";
+
+type MissingField = { id: string; label: string };
+
+function focusInquiryField(id: string) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const block = el.closest("[data-inquiry-field]") ?? el;
+  block.scrollIntoView({ behavior: "smooth", block: "center" });
+  const focusable =
+    el instanceof HTMLInputElement ||
+    el instanceof HTMLSelectElement ||
+    el instanceof HTMLTextAreaElement ||
+    el instanceof HTMLButtonElement
+      ? el
+      : el.querySelector("input, select, textarea, button");
+  if (focusable instanceof HTMLElement) {
+    focusable.focus({ preventScroll: true });
+  }
+}
 
 export function resolveInitialIntent(
   intentParam: string | null,

@@ -37,10 +37,15 @@ export function isInsightSlug(value: string): value is InsightSlug {
 
 /** Optional per-article social preview images (defaults to site OG image). */
 export const INSIGHT_OG_IMAGES: Partial<Record<InsightSlug, string>> = {
-  "search-and-ai-visibility": OG_IMAGE,
-  "smb-digitization-benefits": "/roalla-snapshot.jpg",
-  "smb-digital-efficiency": "/roalla-snapshot.jpg",
-  "smb-digital-growth": "/roalla-snapshot.jpg",
+  "fractional-coo": "/images/insights/library/fractional-coo.webp",
+  "strategic-planning": "/images/insights/library/strategic-planning.webp",
+  "process-optimization": "/images/insights/library/process-optimization.webp",
+  "smb-digitization-benefits": "/images/insights/library/smb-digitization-benefits.webp",
+  "smb-digital-efficiency": "/images/insights/library/smb-digital-efficiency.webp",
+  "smb-digital-growth": "/images/insights/library/smb-digital-growth.webp",
+  "search-and-ai-visibility": "/images/insights/library/search-and-ai-visibility.webp",
+  "how-ai-systems-understand-websites": "/images/insights/library/how-ai-systems-understand-websites.webp",
+  "structured-data-for-small-business": "/images/insights/library/structured-data-for-small-business.webp",
 };
 
 /** Insights rooted in delivery work — shown with an engagement chip on the homepage */

@@ -3,11 +3,12 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import Breadcrumb from '@/components/Breadcrumb'
+import EnrichedInsightArticle from '@/components/insights/EnrichedInsightArticle'
 import WebsiteBuilderLimitationsArticle from '@/components/insights/WebsiteBuilderLimitationsArticle'
 import JsonLd from '@/components/JsonLd'
-import { Link } from '@/i18n/navigation'
+import type { EnrichedInsightSlug } from '@/lib/enriched-insights'
 import { INSIGHT_OG_IMAGES, INSIGHT_SLUGS, isInsightSlug } from '@/lib/insights'
-import { formatInsightReadTime, INSIGHT_BODY_KEYS } from '@/lib/insight-read-time'
+import { formatInsightReadTime } from '@/lib/insight-read-time'
 import { buildArticlePageMetadata } from '@/lib/page-metadata'
 import { OG_IMAGE, OG_IMAGE_ALT } from '@/lib/site'
 import { articleJsonLd, breadcrumbJsonLd } from '@/lib/structured-data'
@@ -54,7 +55,6 @@ export default async function InsightArticlePage({ params }: Props) {
   const tBc = await getTranslations('breadcrumb')
   const title = t(`${slug}.title`)
   const description = t(`${slug}.metadataDescription`)
-  const bodyKeys = INSIGHT_BODY_KEYS
   const readTime = formatInsightReadTime(t, slug)
   const ogImage = INSIGHT_OG_IMAGES[slug] ?? OG_IMAGE
   const isWebsiteBuilderArticle = slug === WEBSITE_BUILDER_INSIGHT_SLUG
@@ -99,36 +99,24 @@ export default async function InsightArticlePage({ params }: Props) {
           />
         </>
       ) : (
-      <article className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16 max-w-3xl">
-        <Breadcrumb
-          items={[
-            { label: tBc('home'), href: '/' },
-            { label: t('indexTitle'), href: '/insights' },
-            { label: title },
-          ]}
-        />
-        <header className="mb-10">
-          <p className="text-sm font-medium text-primary-dark">{readTime}</p>
-          <h1 className="mt-3 text-3xl sm:text-4xl font-serif font-extrabold text-slate-900">{title}</h1>
-          <p className="mt-4 text-lg text-slate-600">{t(`${slug}.summary`)}</p>
-        </header>
-        <div className="prose prose-slate max-w-none space-y-5 text-slate-700 leading-relaxed">
-          {bodyKeys.map((key) => (
-            <p key={key}>{t(`${slug}.${key}`)}</p>
-          ))}
-        </div>
-        <footer className="mt-12 pt-8 border-t border-slate-200">
-          <p className="text-slate-600">{t('ctaText')}</p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <Link href="/contact" className="btn-primary inline-flex items-center px-5 py-2.5 rounded-lg text-sm font-semibold">
-              {t('ctaSchedule')}
-            </Link>
-            <Link href="/assessment" className="link-action text-sm font-semibold">
-              {t('ctaAssessment')}
-            </Link>
+        <>
+          <div className="container mx-auto max-w-6xl px-4 pt-24 sm:px-6 lg:px-8 lg:pt-28">
+            <Breadcrumb
+              items={[
+                { label: tBc('home'), href: '/' },
+                { label: t('indexTitle'), href: '/insights' },
+                { label: title },
+              ]}
+            />
           </div>
-        </footer>
-      </article>
+          <EnrichedInsightArticle
+            slug={slug as EnrichedInsightSlug}
+            locale={locale}
+            title={title}
+            summary={t(`${slug}.summary`)}
+            readTime={readTime}
+          />
+        </>
       )}
     </div>
   )

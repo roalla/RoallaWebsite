@@ -29,6 +29,9 @@ type InsightTranslator = {
 }
 
 export function formatInsightReadTime(t: InsightTranslator, slug: InsightSlug): string {
+  if (slug === 'is-your-website-builder-limiting-growth') {
+    return t('minRead', { count: 8 })
+  }
   const minutes = insightReadMinutesFromParagraphs((key) => t(`${slug}.${key}`))
   return t('minRead', { count: minutes })
 }

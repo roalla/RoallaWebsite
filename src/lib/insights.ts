@@ -10,6 +10,7 @@ export const INSIGHT_SLUGS = [
   "search-and-ai-visibility",
   "how-ai-systems-understand-websites",
   "structured-data-for-small-business",
+  "is-your-website-builder-limiting-growth",
 ] as const;
 
 export type InsightSlug = (typeof INSIGHT_SLUGS)[number];
@@ -25,6 +26,7 @@ export const INSIGHT_GROUPS: Record<InsightGroup, readonly InsightSlug[]> = {
     "search-and-ai-visibility",
     "how-ai-systems-understand-websites",
     "structured-data-for-small-business",
+    "is-your-website-builder-limiting-growth",
   ],
   advisory: ["fractional-coo", "strategic-planning", "process-optimization"],
 };
@@ -68,4 +70,5 @@ export const INSIGHT_PUBLISHED_DATES: Record<InsightSlug, string> = {
   "search-and-ai-visibility": "2026-05-01",
   "how-ai-systems-understand-websites": "2026-07-15",
   "structured-data-for-small-business": "2026-07-22",
+  "is-your-website-builder-limiting-growth": "2026-09-26",
 };

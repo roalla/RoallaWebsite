@@ -32,6 +32,9 @@ type PageMetadataOptions = {
   ogImageAlt?: string
   ogType?: 'website' | 'article'
   publishedTime?: string
+  modifiedTime?: string
+  ogTitle?: string
+  ogDescription?: string
 }
 
 function buildOgImages(image: string, alt: string) {
@@ -48,6 +51,9 @@ export function buildPageMetadata({
   ogImageAlt = OG_IMAGE_ALT,
   ogType = 'website',
   publishedTime,
+  modifiedTime,
+  ogTitle,
+  ogDescription,
 }: PageMetadataOptions): Metadata {
   const ogLocale = locale === 'fr' ? 'fr_CA' : 'en_CA'
   const alternateLocale = locale === 'fr' ? 'en_CA' : 'fr_CA'
@@ -57,20 +63,21 @@ export function buildPageMetadata({
     description,
     alternates: localeAlternates(path, locale),
     openGraph: {
-      title,
-      description,
+      title: ogTitle ?? title,
+      description: ogDescription ?? description,
       url: pageUrl(locale, path),
       type: ogType,
       locale: ogLocale,
       alternateLocale: [alternateLocale],
       ...(publishedTime ? { publishedTime } : {}),
+      ...(modifiedTime ? { modifiedTime } : {}),
       siteName: 'Roalla Business Enablement Group',
       images: buildOgImages(ogImage, ogImageAlt),
     },
     twitter: {
       card: 'summary_large_image',
-      title,
-      description,
+      title: ogTitle ?? title,
+      description: ogDescription ?? description,
       images: [ogImage],
       creator: '@roalla',
     },
@@ -84,9 +91,12 @@ export function buildArticlePageMetadata({
   title,
   description,
   datePublished,
+  dateModified,
   ogImage = OG_IMAGE,
   ogImageAlt = OG_IMAGE_ALT,
-}: PageMetadataOptions & { datePublished: string }): Metadata {
+  ogTitle,
+  ogDescription,
+}: PageMetadataOptions & { datePublished: string; dateModified?: string }): Metadata {
   return buildPageMetadata({
     locale,
     path,
@@ -96,6 +106,9 @@ export function buildArticlePageMetadata({
     ogImageAlt,
     ogType: 'article',
     publishedTime: datePublished,
+    modifiedTime: dateModified,
+    ogTitle,
+    ogDescription,
   })
 }
 

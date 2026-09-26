@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import Breadcrumb from '@/components/Breadcrumb'
+import WebsiteBuilderLimitationsArticle from '@/components/insights/WebsiteBuilderLimitationsArticle'
 import JsonLd from '@/components/JsonLd'
 import { Link } from '@/i18n/navigation'
 import { INSIGHT_OG_IMAGES, INSIGHT_SLUGS, isInsightSlug } from '@/lib/insights'
@@ -10,6 +11,7 @@ import { formatInsightReadTime, INSIGHT_BODY_KEYS } from '@/lib/insight-read-tim
 import { buildArticlePageMetadata } from '@/lib/page-metadata'
 import { OG_IMAGE, OG_IMAGE_ALT } from '@/lib/site'
 import { articleJsonLd, breadcrumbJsonLd } from '@/lib/structured-data'
+import { WEBSITE_BUILDER_INSIGHT_SLUG } from '@/lib/website-builder-insight'
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>
@@ -28,6 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const t = await getTranslations({ locale, namespace: 'insights' })
   const ogImage = INSIGHT_OG_IMAGES[slug] ?? OG_IMAGE
+  const isWebsiteBuilderArticle = slug === WEBSITE_BUILDER_INSIGHT_SLUG
 
   return buildArticlePageMetadata({
     locale,
@@ -35,8 +38,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: t(`${slug}.metadataTitle`),
     description: t(`${slug}.metadataDescription`),
     datePublished: t(`${slug}.datePublished`),
+    dateModified: isWebsiteBuilderArticle ? t(`${slug}.dateModified`) : undefined,
     ogImage,
     ogImageAlt: OG_IMAGE_ALT,
+    ogTitle: isWebsiteBuilderArticle ? t(`${slug}.socialTitle`) : undefined,
+    ogDescription: isWebsiteBuilderArticle ? t(`${slug}.socialDescription`) : undefined,
   })
 }
 
@@ -51,6 +57,7 @@ export default async function InsightArticlePage({ params }: Props) {
   const bodyKeys = INSIGHT_BODY_KEYS
   const readTime = formatInsightReadTime(t, slug)
   const ogImage = INSIGHT_OG_IMAGES[slug] ?? OG_IMAGE
+  const isWebsiteBuilderArticle = slug === WEBSITE_BUILDER_INSIGHT_SLUG
 
   return (
     <div className="page-shell">
@@ -67,10 +74,31 @@ export default async function InsightArticlePage({ params }: Props) {
             title,
             description,
             datePublished: t(`${slug}.datePublished`),
+            dateModified: isWebsiteBuilderArticle ? t(`${slug}.dateModified`) : undefined,
             image: ogImage,
           }),
         ]}
       />
+      {isWebsiteBuilderArticle ? (
+        <>
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 max-w-6xl">
+            <Breadcrumb
+              items={[
+                { label: tBc('home'), href: '/' },
+                { label: t('indexTitle'), href: '/insights' },
+                { label: title },
+              ]}
+            />
+          </div>
+          <WebsiteBuilderLimitationsArticle
+            locale={locale}
+            title={title}
+            summary={t(`${slug}.summary`)}
+            readTime={readTime}
+            category={t(`${slug}.category`)}
+          />
+        </>
+      ) : (
       <article className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16 max-w-3xl">
         <Breadcrumb
           items={[
@@ -101,6 +129,7 @@ export default async function InsightArticlePage({ params }: Props) {
           </div>
         </footer>
       </article>
+      )}
     </div>
   )
 }

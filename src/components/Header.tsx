@@ -21,6 +21,7 @@ import {
   Timer,
   FileText,
   Lightbulb,
+  BookOpen,
 } from "lucide-react";
 import Image from "next/image";
 import { usePathname as useNextPathname } from "next/navigation";
@@ -28,6 +29,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import ScheduleButton from "./ScheduleButton";
 import { CLIENT_PORTAL_URL } from "@/lib/site";
+import { INSIGHT_GROUPS, type InsightSlug } from "@/lib/insights";
 
 /** Canadian flag: red bands, white centre, red maple leaf (simplified) */
 function CanadianFlagIcon({ className }: { className?: string }) {
@@ -56,6 +58,41 @@ function QuebecFlagIcon({ className }: { className?: string }) {
       <circle cx="4" cy="13" r="1.2" fill="#fff" />
       <circle cx="20" cy="13" r="1.2" fill="#fff" />
     </svg>
+  );
+}
+
+function ResourceArticleLink({
+  slug,
+  title,
+  summary,
+  current,
+  onNavigate,
+}: {
+  slug: InsightSlug;
+  title: string;
+  summary: string;
+  current: boolean;
+  onNavigate: () => void;
+}) {
+  return (
+    <Link
+      href={{ pathname: "/insights/[slug]", params: { slug } }}
+      role="menuitem"
+      aria-current={current ? "page" : undefined}
+      onClick={onNavigate}
+      className={`block rounded-lg px-2.5 py-2 transition-colors hover:bg-white/5 focus-visible:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40 ${current ? "bg-primary/10" : ""}`}
+    >
+      <p
+        className={`text-sm font-semibold leading-snug ${
+          current ? "text-primary" : "text-white"
+        }`}
+      >
+        {title}
+      </p>
+      <p className="mt-0.5 text-xs leading-snug text-slate-400 line-clamp-2">
+        {summary}
+      </p>
+    </Link>
   );
 }
 
@@ -97,14 +134,17 @@ const Header = () => {
   const digitalDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const advisoryDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const workshopsDropdownDesktopRef = useRef<HTMLDivElement>(null);
+  const resourcesDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const previousMenuOpen = useRef(false);
   const [localeDropdownOpen, setLocaleDropdownOpen] = useState(false);
   const [digitalDropdownOpen, setDigitalDropdownOpen] = useState(false);
   const [advisoryDropdownOpen, setAdvisoryDropdownOpen] = useState(false);
   const [workshopsDropdownOpen, setWorkshopsDropdownOpen] = useState(false);
+  const [resourcesDropdownOpen, setResourcesDropdownOpen] = useState(false);
   const [digitalMobileExpanded, setDigitalMobileExpanded] = useState(false);
   const [advisoryMobileExpanded, setAdvisoryMobileExpanded] = useState(false);
   const [workshopsMobileExpanded, setWorkshopsMobileExpanded] = useState(false);
+  const [resourcesMobileExpanded, setResourcesMobileExpanded] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -236,11 +276,31 @@ const Header = () => {
     };
   }, [workshopsDropdownOpen]);
 
+  useEffect(() => {
+    if (!resourcesDropdownOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as Node;
+      if (!resourcesDropdownDesktopRef.current?.contains(target)) {
+        setResourcesDropdownOpen(false);
+      }
+    };
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setResourcesDropdownOpen(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [resourcesDropdownOpen]);
+
   const closeOtherDesktopDropdowns = useCallback(
-    (keep: "digital" | "advisory" | "workshops" | "locale") => {
+    (keep: "digital" | "advisory" | "workshops" | "resources" | "locale") => {
       if (keep !== "digital") setDigitalDropdownOpen(false);
       if (keep !== "advisory") setAdvisoryDropdownOpen(false);
       if (keep !== "workshops") setWorkshopsDropdownOpen(false);
+      if (keep !== "resources") setResourcesDropdownOpen(false);
       if (keep !== "locale") setLocaleDropdownOpen(false);
     },
     [],
@@ -255,12 +315,14 @@ const Header = () => {
     setDigitalMobileExpanded(false);
     setAdvisoryMobileExpanded(false);
     setWorkshopsMobileExpanded(false);
+    setResourcesMobileExpanded(false);
   }, []);
 
   const fullPathname = useNextPathname() ?? "";
   const isLocaleRoute =
     fullPathname.startsWith("/en") || fullPathname.startsWith("/fr");
   const t = useTranslations("nav");
+  const tInsights = useTranslations("insights");
   const tCommon = useTranslations("common");
   const locale = useLocale();
 
@@ -548,6 +610,33 @@ const Header = () => {
     pathname === "/programs/workshops/ideation" ||
     pathname === "/programs/workshops/first-offer";
 
+  const otherResourceLinks: {
+    nameKey: "resourcesUseCases" | "resourcesFaq" | "resourcesAssessment";
+    descKey: "resourcesUseCasesDesc" | "resourcesFaqDesc" | "resourcesAssessmentDesc";
+    href: "/use-cases" | "/faq" | "/assessment";
+  }[] = [
+    {
+      nameKey: "resourcesUseCases",
+      descKey: "resourcesUseCasesDesc",
+      href: "/use-cases",
+    },
+    {
+      nameKey: "resourcesFaq",
+      descKey: "resourcesFaqDesc",
+      href: "/faq",
+    },
+    {
+      nameKey: "resourcesAssessment",
+      descKey: "resourcesAssessmentDesc",
+      href: "/assessment",
+    },
+  ];
+
+  const isResourcesActive =
+    pathname === "/insights" ||
+    pathname.startsWith("/insights/") ||
+    otherResourceLinks.some((item) => pathname === item.href);
+
   useEffect(() => {
     if (!isMenuOpen) return;
     if (digitalLinks.some((item) => isCurrentHref(item.href))) {
@@ -559,7 +648,10 @@ const Header = () => {
     if (workshopLinks.some((item) => isCurrentHref(item.href))) {
       setWorkshopsMobileExpanded(true);
     }
-  }, [isMenuOpen, pathname]);
+    if (isResourcesActive) {
+      setResourcesMobileExpanded(true);
+    }
+  }, [isMenuOpen, pathname, isResourcesActive]);
 
   const showFoundingPromo =
     pathname === "/services/digital" ||
@@ -946,6 +1038,118 @@ const Header = () => {
                   </div>
                 </div>
               </div>
+
+              <div className="relative" ref={resourcesDropdownDesktopRef}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    closeOtherDesktopDropdowns("resources");
+                    setResourcesDropdownOpen((o) => !o);
+                  }}
+                  aria-expanded={resourcesDropdownOpen}
+                  aria-haspopup="menu"
+                  id="resources-dropdown-desktop"
+                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
+                    isResourcesActive || resourcesDropdownOpen
+                      ? "text-primary"
+                      : navIdleClass
+                  } ${resourcesDropdownOpen ? navOpenBgClass : ""}`}
+                >
+                  {t("resources")}
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${resourcesDropdownOpen ? "rotate-180" : ""}`}
+                  />
+                  <span
+                    className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                      isResourcesActive ? "w-full" : "w-0 group-hover:w-full"
+                    }`}
+                  />
+                </button>
+                <div
+                  role="menu"
+                  aria-labelledby="resources-dropdown-desktop"
+                  className={`fixed left-1/2 top-[4.75rem] z-50 w-[min(52rem,calc(100vw-2rem))] -translate-x-1/2 max-h-[min(70vh,34rem)] overflow-y-auto rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 ${dropdownPanelClass(resourcesDropdownOpen)}`}
+                >
+                  <div className="px-4 py-2.5 border-b border-white/10 bg-white/[0.03]">
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                      {t("resourcesMenuLabel")}
+                    </p>
+                  </div>
+                  <div className="grid gap-1 p-2 md:grid-cols-3">
+                    {(
+                      [
+                        ["digital", "resourcesDigital"],
+                        ["advisory", "resourcesAdvisory"],
+                      ] as const
+                    ).map(([group, labelKey]) => (
+                      <div key={group} className="min-w-0">
+                        <p className="px-2.5 pt-2 pb-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                          {t(labelKey)}
+                        </p>
+                        {INSIGHT_GROUPS[group].map((slug) => (
+                          <ResourceArticleLink
+                            key={slug}
+                            slug={slug}
+                            title={tInsights(`${slug}.title`)}
+                            summary={tInsights(`${slug}.summary`)}
+                            current={pathname === `/insights/${slug}`}
+                            onNavigate={() => {
+                              setResourcesDropdownOpen(false);
+                              closeMenu();
+                            }}
+                          />
+                        ))}
+                      </div>
+                    ))}
+                    <div className="min-w-0">
+                      <p className="px-2.5 pt-2 pb-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                        {t("resourcesOther")}
+                      </p>
+                      {otherResourceLinks.map((item) => {
+                        const current = pathname === item.href;
+                        return (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            role="menuitem"
+                            aria-current={current ? "page" : undefined}
+                            onClick={() => {
+                              setResourcesDropdownOpen(false);
+                              closeMenu();
+                            }}
+                            className={`block rounded-lg px-2.5 py-2 transition-colors hover:bg-white/5 focus-visible:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40 ${current ? "bg-primary/10" : ""}`}
+                          >
+                            <p
+                              className={`text-sm font-semibold leading-snug ${
+                                current ? "text-primary" : "text-white"
+                              }`}
+                            >
+                              {t(item.nameKey)}
+                            </p>
+                            <p className="mt-0.5 text-xs leading-snug text-slate-400 line-clamp-2">
+                              {t(item.descKey)}
+                            </p>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  <div className="border-t border-white/10 px-3 py-2">
+                    <Link
+                      href="/insights"
+                      role="menuitem"
+                      onClick={() => {
+                        setResourcesDropdownOpen(false);
+                        closeMenu();
+                      }}
+                      className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm font-semibold text-primary hover:bg-white/5"
+                    >
+                      <BookOpen className="h-4 w-4" aria-hidden />
+                      {t("resourcesAll")}
+                    </Link>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1274,6 +1478,105 @@ const Header = () => {
                         </React.Fragment>
                       );
                     })}
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-white/10 pt-1">
+                <button
+                  type="button"
+                  onClick={() => setResourcesMobileExpanded((o) => !o)}
+                  aria-expanded={resourcesMobileExpanded}
+                  className={`w-full flex items-center justify-between px-3 py-3 min-h-[44px] rounded-md text-base font-medium transition-colors duration-200 ${
+                    isResourcesActive
+                      ? "text-primary bg-primary/10"
+                      : "text-gray-300 hover:text-primary hover:bg-white/5"
+                  }`}
+                >
+                  {t("resources")}
+                  <ChevronDown
+                    className={`w-5 h-5 transition-transform ${resourcesMobileExpanded ? "rotate-180" : ""}`}
+                  />
+                </button>
+                <div
+                  className={`collapse-grid ${resourcesMobileExpanded ? "collapse-grid-open" : "collapse-grid-closed"}`}
+                >
+                  <div className="overflow-hidden min-h-0 pb-2">
+                    <p className="px-5 pt-2 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                      {t("resourcesMenuLabel")}
+                    </p>
+                    {(
+                      [
+                        ["digital", "resourcesDigital"],
+                        ["advisory", "resourcesAdvisory"],
+                      ] as const
+                    ).map(([group, labelKey]) => (
+                      <div key={group}>
+                        <p className="px-5 pt-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                          {t(labelKey)}
+                        </p>
+                        {INSIGHT_GROUPS[group].map((slug) => (
+                          <Link
+                            key={slug}
+                            href={{ pathname: "/insights/[slug]", params: { slug } }}
+                            aria-current={
+                              pathname === `/insights/${slug}` ? "page" : undefined
+                            }
+                            className={`${mobileDropdownItemClass} ${
+                              pathname === `/insights/${slug}`
+                                ? "text-primary bg-primary/10"
+                                : ""
+                            }`}
+                            onClick={(e) =>
+                              handleMobileNavClick(e, `/insights/${slug}`)
+                            }
+                          >
+                            <span>
+                              <span className="block text-base font-medium">
+                                {tInsights(`${slug}.title`)}
+                              </span>
+                              <span className="block text-xs text-slate-500 mt-0.5 line-clamp-2">
+                                {tInsights(`${slug}.summary`)}
+                              </span>
+                            </span>
+                          </Link>
+                        ))}
+                      </div>
+                    ))}
+                    <p className="px-5 pt-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                      {t("resourcesOther")}
+                    </p>
+                    {otherResourceLinks.map((item) => {
+                      const current = pathname === item.href;
+                      return (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          aria-current={current ? "page" : undefined}
+                          className={`${mobileDropdownItemClass} ${current ? "text-primary bg-primary/10" : ""}`}
+                          onClick={(e) => handleMobileNavClick(e, item.href)}
+                        >
+                          <span>
+                            <span className="block text-base font-medium">
+                              {t(item.nameKey)}
+                            </span>
+                            <span className="block text-xs text-slate-500 mt-0.5">
+                              {t(item.descKey)}
+                            </span>
+                          </span>
+                        </Link>
+                      );
+                    })}
+                    <Link
+                      href="/insights"
+                      className={`${mobileDropdownItemClass} font-semibold text-primary`}
+                      onClick={(e) => handleMobileNavClick(e, "/insights")}
+                    >
+                      <BookOpen className="h-4 w-4 shrink-0 mt-0.5" aria-hidden />
+                      <span className="block text-base font-medium">
+                        {t("resourcesAll")}
+                      </span>
+                    </Link>
                   </div>
                 </div>
               </div>

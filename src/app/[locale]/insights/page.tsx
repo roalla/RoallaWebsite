@@ -4,7 +4,7 @@ import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import Breadcrumb from '@/components/Breadcrumb'
 import JsonLd from '@/components/JsonLd'
-import { INSIGHT_SLUGS } from '@/lib/insights'
+import { INSIGHT_GROUPS, type InsightGroup } from '@/lib/insights'
 import { formatInsightReadTime } from '@/lib/insight-read-time'
 import { buildPageMetadata } from '@/lib/page-metadata'
 import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/structured-data'
@@ -28,7 +28,35 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function InsightsIndexPage({ params }: Props) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'insights' })
+  const tNav = await getTranslations({ locale, namespace: 'nav' })
   const tBc = await getTranslations('breadcrumb')
+
+  const articleGroups: { id: InsightGroup; title: string; intro: string }[] = [
+    { id: 'digital', title: t('groupDigital'), intro: t('groupDigitalIntro') },
+    { id: 'advisory', title: t('groupAdvisory'), intro: t('groupAdvisoryIntro') },
+  ]
+
+  const otherLinks: {
+    href: '/use-cases' | '/faq' | '/assessment'
+    title: string
+    summary: string
+  }[] = [
+    {
+      href: '/use-cases',
+      title: tNav('resourcesUseCases'),
+      summary: tNav('resourcesUseCasesDesc'),
+    },
+    {
+      href: '/faq',
+      title: tNav('resourcesFaq'),
+      summary: tNav('resourcesFaqDesc'),
+    },
+    {
+      href: '/assessment',
+      title: tNav('resourcesAssessment'),
+      summary: tNav('resourcesAssessmentDesc'),
+    },
+  ]
 
   return (
     <div className="page-shell">
@@ -55,20 +83,50 @@ export default async function InsightsIndexPage({ params }: Props) {
             </a>
           </p>
         </header>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl">
-          {INSIGHT_SLUGS.map((slug) => (
-            <Link
-              key={slug}
-              href={{ pathname: '/insights/[slug]', params: { slug } }}
-              className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-card hover:border-primary/30 hover:shadow-card-hover transition-all"
-            >
-              <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark">{formatInsightReadTime(t, slug)}</p>
-              <h2 className="mt-3 text-xl font-semibold text-slate-900 group-hover:text-primary-dark transition-colors">
-                {t(`${slug}.title`)}
+        <div className="max-w-6xl space-y-14">
+          {articleGroups.map((group) => (
+            <section key={group.id} aria-labelledby={`insights-${group.id}`}>
+              <h2 id={`insights-${group.id}`} className="text-2xl font-serif font-bold text-slate-900">
+                {group.title}
               </h2>
-              <p className="mt-3 text-sm text-slate-600 leading-relaxed">{t(`${slug}.summary`)}</p>
-            </Link>
+              <p className="mt-2 max-w-2xl text-slate-600">{group.intro}</p>
+              <div className="mt-6 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {INSIGHT_GROUPS[group.id].map((slug) => (
+                  <Link
+                    key={slug}
+                    href={{ pathname: '/insights/[slug]', params: { slug } }}
+                    className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-card hover:border-primary/30 hover:shadow-card-hover transition-all"
+                  >
+                    <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark">{formatInsightReadTime(t, slug)}</p>
+                    <h3 className="mt-3 text-xl font-semibold text-slate-900 group-hover:text-primary-dark transition-colors">
+                      {t(`${slug}.title`)}
+                    </h3>
+                    <p className="mt-3 text-sm text-slate-600 leading-relaxed">{t(`${slug}.summary`)}</p>
+                  </Link>
+                ))}
+              </div>
+            </section>
           ))}
+          <section aria-labelledby="insights-other">
+            <h2 id="insights-other" className="text-2xl font-serif font-bold text-slate-900">
+              {t('groupOther')}
+            </h2>
+            <p className="mt-2 max-w-2xl text-slate-600">{t('groupOtherIntro')}</p>
+            <div className="mt-6 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {otherLinks.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-card hover:border-primary/30 hover:shadow-card-hover transition-all"
+                >
+                  <h3 className="text-xl font-semibold text-slate-900 group-hover:text-primary-dark transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-sm text-slate-600 leading-relaxed">{item.summary}</p>
+                </Link>
+              ))}
+            </div>
+          </section>
         </div>
       </div>
     </div>

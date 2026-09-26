@@ -14,6 +14,21 @@ export const INSIGHT_SLUGS = [
 
 export type InsightSlug = (typeof INSIGHT_SLUGS)[number];
 
+export type InsightGroup = "digital" | "advisory";
+
+/** Articles grouped for the header and insights index. Order is the reading order in each group. */
+export const INSIGHT_GROUPS: Record<InsightGroup, readonly InsightSlug[]> = {
+  digital: [
+    "smb-digitization-benefits",
+    "smb-digital-efficiency",
+    "smb-digital-growth",
+    "search-and-ai-visibility",
+    "how-ai-systems-understand-websites",
+    "structured-data-for-small-business",
+  ],
+  advisory: ["fractional-coo", "strategic-planning", "process-optimization"],
+};
+
 export function isInsightSlug(value: string): value is InsightSlug {
   return (INSIGHT_SLUGS as readonly string[]).includes(value);
 }

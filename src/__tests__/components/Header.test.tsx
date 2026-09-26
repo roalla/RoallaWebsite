@@ -14,8 +14,10 @@ jest.mock('next-intl', () => ({
 }))
 
 jest.mock('@/i18n/navigation', () => ({
-  Link: ({ children, href, ...props }: { children: React.ReactNode; href: string | { pathname: string; hash?: string } }) => {
-    const resolvedHref = typeof href === 'string' ? href : `${href.pathname}${href.hash ? `#${href.hash}` : ''}`
+  Link: ({ children, href, ...props }: { children: React.ReactNode; href: string | { pathname: string; hash?: string; params?: Record<string, string> } }) => {
+    const resolvedHref = typeof href === 'string'
+      ? href
+      : `${Object.entries(href.params ?? {}).reduce((path, [key, value]) => path.replace(`[${key}]`, value), href.pathname)}${href.hash ? `#${href.hash}` : ''}`
     return <a href={resolvedHref} {...props}>{children}</a>
   },
   usePathname: () => mockPathname(),
@@ -63,6 +65,21 @@ describe('Header', () => {
     portalLinks.forEach((link) => {
       expect(link).toHaveAttribute('href', 'https://portal.roalla.com')
     })
+  })
+
+  it('renders resources grouped by digital enablement, advisory, and other', () => {
+    render(<Header />)
+    fireEvent.click(screen.getByRole('button', { name: 'resources' }))
+    expect(screen.getByRole('menuitem', { name: /smb-digitization-benefits\.title/ })).toHaveAttribute(
+      'href',
+      '/insights/smb-digitization-benefits',
+    )
+    expect(screen.getByRole('menuitem', { name: /fractional-coo\.title/ })).toHaveAttribute(
+      'href',
+      '/insights/fractional-coo',
+    )
+    expect(screen.getByRole('menuitem', { name: /resourcesUseCases/ })).toHaveAttribute('href', '/use-cases')
+    expect(screen.getByRole('menuitem', { name: /resourcesAll/ })).toHaveAttribute('href', '/insights')
   })
 
   it('renders digital enablement dropdown with digital service links', () => {

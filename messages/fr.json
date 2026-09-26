@@ -85,7 +85,19 @@
     "foundingPromoShort": "Forfaits dès 999 $",
     "foundingPromoMenuDesc": "Lancement · Visibilité · Croissance · Sur mesure",
     "clientPortal": "Portail client",
-    "clientPortalAria": "Se connecter au portail client Roalla"
+    "clientPortalAria": "Se connecter au portail client Roalla",
+    "resources": "Ressources",
+    "resourcesMenuLabel": "Guides à lire ou à envoyer",
+    "resourcesDigital": "Accompagnement numérique",
+    "resourcesAdvisory": "Conseil",
+    "resourcesOther": "Autres",
+    "resourcesAll": "Tous les articles",
+    "resourcesUseCases": "Cas d'usage",
+    "resourcesUseCasesDesc": "Huit besoins numériques courants, et ce que le faire soi-même rate",
+    "resourcesFaq": "FAQ",
+    "resourcesFaqDesc": "Adéquation, portée, délais et déroulement d'une demande",
+    "resourcesAssessment": "Évaluation de 5 minutes",
+    "resourcesAssessmentDesc": "Un court point de départ à envoyer avant un appel"
   },
   "footer": {
     "apps": "Applications Roalla",
@@ -1910,6 +1922,12 @@
   "insights": {
     "metadataTitle": "Perspectives | ROALLA",
     "metadataDescription": "Guides pratiques sur la numérisation des PME, le leadership fractionnel, la planification stratégique, l'optimisation des processus et l'accompagnement numérique par Roalla.",
+    "groupDigital": "Accompagnement numérique",
+    "groupDigitalIntro": "Pourquoi un site, une plateforme, l'automatisation ou la visibilité rapportent.",
+    "groupAdvisory": "Conseil",
+    "groupAdvisoryIntro": "Pourquoi le leadership opérationnel, la planification et les processus changent l'exécution.",
+    "groupOther": "Autres",
+    "groupOtherIntro": "Des pièces courtes à envoyer quand il faut des exemples, des réponses ou un point de départ.",
     "indexTitle": "Perspectives",
     "indexSubtitle": "Réflexions pratiques sur la numérisation, les opérations, la stratégie et la livraison numérique—pour les dirigeants de PME qui veulent de la clarté avant de s'engager.",
     "rssSubscribe": "S'abonner au fil RSS",

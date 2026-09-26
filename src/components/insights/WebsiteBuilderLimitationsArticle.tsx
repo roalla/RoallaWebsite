@@ -258,7 +258,7 @@ export default function WebsiteBuilderLimitationsArticle({ locale, title, summar
       </div>
 
       <aside className="mx-auto my-6 max-w-5xl rounded-2xl bg-slate-950 px-6 py-9 text-white sm:px-9" aria-labelledby="related-services-title">
-        <h2 id="related-services-title" className="text-2xl font-serif font-bold">
+        <h2 id="related-services-title" className="text-2xl font-serif font-bold text-white">
           {french ? 'Évaluer le site dans son contexte d’affaires' : 'Assess the website in its business context'}
         </h2>
         <p className="mt-3 max-w-3xl text-slate-300">

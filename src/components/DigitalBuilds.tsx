@@ -149,7 +149,7 @@ function DigitalBuildCard({
         <div className="mt-auto pt-5 border-t border-slate-100 space-y-3">
           <Link
             href={{
-              pathname: "/schedule",
+              pathname: "/contact",
               query: buildPortfolioScheduleQuery(
                 getPortfolioItem(build.proofReference)!,
                 undefined,
@@ -403,7 +403,7 @@ const DigitalBuilds = () => {
                           {t("proofSeeCaseStudy")}
                         </a>
                         <Link
-                          href={{ pathname: "/schedule", query: scheduleQuery }}
+                          href={{ pathname: "/contact", query: scheduleQuery }}
                           className="text-xs font-semibold text-slate-600 hover:text-primary hover:underline"
                         >
                           {t("proofRequestBuild")}

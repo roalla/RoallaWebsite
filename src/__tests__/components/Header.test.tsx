@@ -30,7 +30,7 @@ jest.mock('next/image', () => ({
 
 jest.mock('@/components/ScheduleButton', () => ({
   __esModule: true,
-  default: () => <a href="/schedule">scheduleConsultationDigital</a>,
+  default: () => <a href="/contact">scheduleConsultationDigital</a>,
 }))
 
 describe('Header', () => {

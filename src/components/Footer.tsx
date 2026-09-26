@@ -21,7 +21,6 @@ const exploreLinks = [
   { nameKey: 'digitalEnablement' as const, href: '/services/digital' as const },
   { nameKey: 'ourWork' as const, href: '/services/portfolio' as const },
   { nameKey: 'programs' as const, href: '/programs/business-enablement' as const },
-  { nameKey: 'scheduleInquiry' as const, href: '/schedule' as const },
 ]
 
 const socialLinks = [

@@ -115,7 +115,7 @@ function ConsultingServiceCard({
           <div className="mt-auto pt-5 border-t border-slate-200">
             <Link
               href={{
-                pathname: "/schedule",
+                pathname: "/contact",
                 query: { intent: "consulting", focus: service.focus },
               }}
               className={servicePrimaryLinkClass}

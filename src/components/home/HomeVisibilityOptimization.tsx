@@ -37,7 +37,7 @@ export default function HomeVisibilityOptimization() {
               {t('qualification')}
             </p>
             <Link
-              href="/schedule"
+              href="/contact"
               className="mt-7 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 transition-all hover:bg-brand-gold-light hover:scale-[1.02]"
             >
               {t('cta')}

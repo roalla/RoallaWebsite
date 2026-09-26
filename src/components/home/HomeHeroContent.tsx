@@ -36,7 +36,7 @@ export default function HomeHeroContent() {
           className="mt-7 sm:mt-8 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4"
         >
           <Link
-            href="/schedule"
+            href="/contact"
             className="inline-flex items-center justify-center gap-2 w-full sm:w-auto min-h-[48px] px-6 sm:px-8 py-3.5 rounded-lg bg-brand-gold hover:bg-brand-gold-light text-slate-950 font-semibold text-sm sm:text-base transition-all duration-300 hover:scale-[1.02] shadow-md shadow-black/25"
           >
             {tCommon('scheduleConsultationDigital')}

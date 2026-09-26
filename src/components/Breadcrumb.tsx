@@ -18,7 +18,6 @@ type BreadcrumbHref =
   | '/assessment'
   | '/faq'
   | '/use-cases'
-  | '/schedule'
   | '/website-design'
   | '/insights'
   | '/terms'

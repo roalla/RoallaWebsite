@@ -117,6 +117,17 @@ const nextConfig = {
         destination: "/:locale/programs/business-enablement",
         permanent: true,
       },
+      // Legacy inquiry slug
+      {
+        source: "/schedule",
+        destination: "/en/contact",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|fr)/schedule",
+        destination: "/:locale/contact",
+        permanent: true,
+      },
       // Programs URL migration
       {
         source: "/services",

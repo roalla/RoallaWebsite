@@ -123,7 +123,7 @@ export default async function PartnersPage({ params }: Props) {
           <h2 className="text-3xl font-serif font-bold">{t('ctaTitle')}</h2>
           <p className="mx-auto mt-3 max-w-2xl text-slate-300">{t('ctaBody')}</p>
           <Link
-            href={{ pathname: '/schedule', query: { intent: 'consulting', focus: 'technology' } }}
+            href={{ pathname: '/contact', query: { intent: 'consulting', focus: 'technology' } }}
             className="mt-6 inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
           >
             {t('ctaButton')}

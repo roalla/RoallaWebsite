@@ -43,7 +43,7 @@ Use **Brevo Standard** for automation. Segment by city/industry when possible. P
 > Best for trades, clinics, restaurants, and local services that need a site that actually gets calls.  
 >  
 > Reply **yes** and I'll send a one-page scope — or book here:  
-> https://www.roalla.com/en/schedule?intent=website&service=websites-brand&need=new&offer=founding  
+> https://www.roalla.com/en/contact?intent=website&service=websites-brand&need=new&offer=founding  
 >  
 > — [Your name], Roalla
 
@@ -100,7 +100,7 @@ Send when the business, site, or contact is clearly French-first.
 > Idéal pour les entreprises locales qui ont besoin d'un site qui génère des appels.  
 >  
 > Répondez **oui** et j'envoie un mandat d'une page — ou réservez ici :  
-> https://www.roalla.com/fr/schedule?intent=website&service=websites-brand&need=new&offer=founding  
+> https://www.roalla.com/fr/contact?intent=website&service=websites-brand&need=new&offer=founding  
 >  
 > — [Votre nom], Roalla
 

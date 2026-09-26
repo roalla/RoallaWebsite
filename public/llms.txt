@@ -12,7 +12,7 @@
 - Contact: sales@roalla.com | +1-289-838-5868
 - Languages: English (/en/) and French (/fr/)
 - Experience stated on the site: 30+ years, 500+ engagements
-- Inquiry: about 3 minutes, no obligation, personal reply within one business day — https://www.roalla.com/en/schedule
+- Inquiry: about 3 minutes, no obligation, personal reply within one business day — https://www.roalla.com/en/contact
 
 ## Core services
 - Digital Enablement: https://www.roalla.com/en/services/digital
@@ -34,7 +34,7 @@
 There are no public tickets. A host inquires to book a half-day or full-day session, in person or online. Custom topics (branding, sales, productivity, ideation) can still be facilitated.
 
 - Index: https://www.roalla.com/en/programs/workshops
-- Book: https://www.roalla.com/en/schedule?intent=workshop
+- Book: https://www.roalla.com/en/contact?intent=workshop
 
 - Focus Circle — priorities, a simple kanban, and support from the people around you: https://www.roalla.com/en/programs/workshops/focus-circle
 - The Workload Conversation — make workload visible and agree trade-offs before overload: https://www.roalla.com/en/programs/workshops/workload-conversation
@@ -49,19 +49,19 @@ French workshop paths use /fr/ in place of /en/. Example: https://www.roalla.com
 ## Answers
 - What does ROALLA do? ROALLA assesses, builds, optimizes, and evolves digital assets—websites, products, automation, visibility, events—and facilitates hosted workshops.
 - Where is ROALLA based? Burlington, Ontario, Canada. Clients are served globally.
-- How do I start? Submit a service inquiry at https://www.roalla.com/en/schedule or take the five-question assessment at https://www.roalla.com/en/assessment
+- How do I start? Submit a service inquiry at https://www.roalla.com/en/contact or take the five-question assessment at https://www.roalla.com/en/assessment
 - Are workshop tickets sold online? No. Hosts inquire. There is no public ticket checkout.
 - Who facilitates the workshops? Steven Robin. Sessions are educational. They are not therapy, medical advice, or an employment assessment.
 - What website packages exist? Launch $999, Launch + Visibility $1,999, Growth from $2,999, Custom from $5,000. Details: https://www.roalla.com/en/website-package
 
 ## Service inquiry intents
-- Website: https://www.roalla.com/en/schedule?intent=website
-- App or platform: https://www.roalla.com/en/schedule?intent=platform
-- Automation: https://www.roalla.com/en/schedule?intent=automation
-- AI support: https://www.roalla.com/en/schedule?intent=ai-support
-- Digital events: https://www.roalla.com/en/schedule?intent=digital-events
-- Programs and advisory: https://www.roalla.com/en/schedule?intent=consulting
-- Workshops: https://www.roalla.com/en/schedule?intent=workshop
+- Website: https://www.roalla.com/en/contact?intent=website
+- App or platform: https://www.roalla.com/en/contact?intent=platform
+- Automation: https://www.roalla.com/en/contact?intent=automation
+- AI support: https://www.roalla.com/en/contact?intent=ai-support
+- Digital events: https://www.roalla.com/en/contact?intent=digital-events
+- Programs and advisory: https://www.roalla.com/en/contact?intent=consulting
+- Workshops: https://www.roalla.com/en/contact?intent=workshop
 
 ## Insights
 - Fractional COO: https://www.roalla.com/en/insights/fractional-coo

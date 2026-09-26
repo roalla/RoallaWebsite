@@ -63,9 +63,9 @@ const ScheduleButton: React.FC<ScheduleButtonProps> = ({
     if (reference) query.reference = reference
     if (offer) query.offer = offer
     if (Object.keys(query).length > 0) {
-      return { pathname: '/schedule', query } as const
+      return { pathname: '/contact', query } as const
     }
-    return '/schedule'
+    return '/contact'
   })()
 
   const link = (

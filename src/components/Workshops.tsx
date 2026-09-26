@@ -127,7 +127,7 @@ function WorkshopTopicCard({
           ) : null}
           <Link
             href={{
-              pathname: "/schedule",
+              pathname: "/contact",
               query: { intent: "workshop", need: topic.anchor },
             }}
             className={
@@ -239,7 +239,7 @@ const Workshops = () => {
                         </Link>
                         <Link
                           href={{
-                            pathname: "/schedule",
+                            pathname: "/contact",
                             query: { intent: "workshop", need: workshop.id },
                           }}
                           className="inline-flex items-center justify-center text-sm font-medium text-primary hover:underline"

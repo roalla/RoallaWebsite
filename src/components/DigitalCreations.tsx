@@ -269,7 +269,7 @@ function SecondaryLinks({
         </Link>
       ) : null}
       <Link
-        href={{ pathname: "/schedule", query: scheduleQuery }}
+        href={{ pathname: "/contact", query: scheduleQuery }}
         className={textLinkClass}
       >
         {t("discussBuildLike")}

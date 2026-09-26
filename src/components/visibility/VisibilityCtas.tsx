@@ -18,7 +18,7 @@ export default function VisibilityCtas({
     <div className="flex flex-col sm:flex-row gap-3">
       <Link
         href={{
-          pathname: "/schedule",
+          pathname: "/contact",
           query: { intent: "visibility", source: `visibility-${source}` },
         }}
         onClick={() =>

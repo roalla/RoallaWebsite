@@ -19,14 +19,12 @@ export default function HomeClosing() {
             <Link href="/faq" className="link-action hover:underline">{t('faq')}</Link>
             {' '}{t('or')}{' '}
             <Link href="/contact" className="link-action hover:underline">{t('contact')}</Link>
-            {' · '}
-            <Link href="/schedule" className="link-action hover:underline">{t('submitInquiry')}</Link>
           </p>
         </Reveal>
       </div>
     </section>
     <StickyMobileCTA
-      href="/schedule"
+      href="/contact"
       label={tCommon('scheduleConsultationDigital')}
       sublabel={tCommon('ctaSubtext')}
     />

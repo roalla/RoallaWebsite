@@ -134,7 +134,7 @@ const TechnologyAdvisory = () => {
           </ul>
           <div className="mt-6 pt-5 border-t border-slate-200">
             <Link
-              href={{ pathname: "/schedule", query: { intent: "consulting", focus: "technology" } }}
+              href={{ pathname: "/contact", query: { intent: "consulting", focus: "technology" } }}
               className="inline-flex items-center justify-center bg-primary hover:bg-primary-dark text-white font-semibold py-2.5 px-5 rounded-lg text-sm transition-colors"
             >
               {t("requestConsultation")}

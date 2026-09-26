@@ -47,8 +47,8 @@ test.describe("Service pages", () => {
     await expect(page.locator("#ai-support")).toBeVisible();
   });
 
-  test("digital schedule path uses slim light form", async ({ page }) => {
-    await page.goto("/en/schedule?intent=website");
+  test("contact path uses slim light form", async ({ page }) => {
+    await page.goto("/en/contact?intent=website");
     await expect(
       page.getByRole("heading", { name: /Tell us how to reach you/i }),
     ).toBeVisible();
@@ -61,8 +61,16 @@ test.describe("Service pages", () => {
     ).toBeVisible();
   });
 
-  test("schedule page shows website intent first", async ({ page }) => {
-    await page.goto("/en/schedule");
+  test("legacy schedule url redirects to contact", async ({ page }) => {
+    await page.goto("/en/schedule?intent=website");
+    await expect(page).toHaveURL(/\/en\/contact\?intent=website/);
+    await expect(
+      page.getByRole("heading", { name: /Tell us how to reach you/i }),
+    ).toBeVisible();
+  });
+
+  test("contact page shows website intent first", async ({ page }) => {
+    await page.goto("/en/contact");
     await expect(
       page.getByRole("heading", { name: /Service Inquiry/i, level: 1 }),
     ).toBeVisible();

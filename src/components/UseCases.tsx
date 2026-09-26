@@ -86,7 +86,7 @@ function UseCaseInquiryLink({ id }: { id: UseCaseId }) {
 
   return (
     <Link
-      href={{ pathname: '/schedule', query }}
+      href={{ pathname: '/contact', query }}
       className="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-primary hover:text-primary-dark transition-colors"
     >
       {t('rowCta')}

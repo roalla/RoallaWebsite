@@ -100,7 +100,7 @@ function EventCapabilityCard({
         </ul>
 
         <Link
-          href={{ pathname: '/schedule', query: { intent: 'digital-events' } }}
+          href={{ pathname: '/contact', query: { intent: 'digital-events' } }}
           className={servicePrimaryLinkClass}
         >
           {t('topicCta')}

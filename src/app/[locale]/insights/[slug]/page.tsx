@@ -92,7 +92,7 @@ export default async function InsightArticlePage({ params }: Props) {
         <footer className="mt-12 pt-8 border-t border-slate-200">
           <p className="text-slate-600">{t('ctaText')}</p>
           <div className="mt-4 flex flex-wrap gap-3">
-            <Link href="/schedule" className="btn-primary inline-flex items-center px-5 py-2.5 rounded-lg text-sm font-semibold">
+            <Link href="/contact" className="btn-primary inline-flex items-center px-5 py-2.5 rounded-lg text-sm font-semibold">
               {t('ctaSchedule')}
             </Link>
             <Link href="/assessment" className="link-action text-sm font-semibold">

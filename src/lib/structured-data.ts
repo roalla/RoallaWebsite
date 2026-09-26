@@ -242,7 +242,7 @@ export function workshopPageJsonLd(locale: string, copy: WorkshopSeoCopy) {
         about: copy.promise,
         offers: {
           "@type": "Offer",
-          url: `${pageUrl(locale, "/schedule")}?intent=workshop`,
+          url: `${pageUrl(locale, "/contact")}?intent=workshop`,
           availability: "https://schema.org/InStock",
           description: hosted,
         },
@@ -333,7 +333,7 @@ export function serviceInquiryPageJsonLd(
     "@type": "WebPage",
     name,
     description,
-    url: pageUrl(locale, "/schedule"),
+    url: pageUrl(locale, "/contact"),
     isPartOf: { "@id": `${SITE_URL}/#website` },
     about: { "@id": `${SITE_URL}/#organization` },
     inLanguage: locale === "fr" ? "fr-CA" : "en-CA",
@@ -343,7 +343,7 @@ export function serviceInquiryPageJsonLd(
         locale === "fr"
           ? "Soumettre une demande de service"
           : "Submit a service inquiry",
-      target: pageUrl(locale, "/schedule"),
+      target: pageUrl(locale, "/contact"),
     },
     mainEntity: {
       "@type": "ItemList",

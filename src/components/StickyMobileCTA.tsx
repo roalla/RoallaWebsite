@@ -6,7 +6,7 @@ import type { ConsultationIntent, ConsultingFocus } from '@/lib/consultation-req
 
 type StickyMobileCTAProps = {
   label: string
-  href?: '/schedule' | '/programs/business-enablement' | '/programs/workshops' | '/services/digital' | '/services/portfolio' | '/assessment'
+  href?: '/contact' | '/programs/business-enablement' | '/programs/workshops' | '/services/digital' | '/services/portfolio' | '/assessment'
   anchorHref?: string
   intent?: ConsultationIntent
   focus?: ConsultingFocus
@@ -19,7 +19,7 @@ type StickyMobileCTAProps = {
 
 export default function StickyMobileCTA({
   label,
-  href = '/schedule',
+  href = '/contact',
   anchorHref,
   intent,
   focus,
@@ -38,7 +38,7 @@ export default function StickyMobileCTA({
     if (reference) query.reference = reference
     if (offer) query.offer = offer
     if (Object.keys(query).length > 0) {
-      return { pathname: '/schedule', query } as const
+      return { pathname: '/contact', query } as const
     }
     return href
   })()

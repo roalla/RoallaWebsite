@@ -43,7 +43,7 @@ export default function HomeTestimonials() {
           <Link href="/services/portfolio" className="inline-flex items-center link-action hover:underline text-sm font-semibold">
             {t('viewPortfolio')}
           </Link>
-          <Link href="/schedule" className="inline-flex items-center text-sm font-semibold text-slate-600 hover:text-primary-dark hover:underline">
+          <Link href="/contact" className="inline-flex items-center text-sm font-semibold text-slate-600 hover:text-primary-dark hover:underline">
             {t('scheduleLink')}
           </Link>
         </Reveal>

@@ -38,7 +38,6 @@ export const routing = defineRouting({
     "/faq": "/faq",
     "/use-cases": "/use-cases",
     "/contact": "/contact",
-    "/schedule": "/schedule",
     "/terms": "/terms",
     "/privacy": "/privacy",
     "/ai-policy": "/ai-policy",

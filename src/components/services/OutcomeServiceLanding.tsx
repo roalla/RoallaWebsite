@@ -49,7 +49,7 @@ export default function OutcomeServiceLanding({
           {content.outcome}
         </p>
         <Link
-          href="/schedule"
+          href="/contact"
           className="mt-8 inline-flex min-h-[48px] items-center rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-dark transition-colors"
         >
           {content.cta}

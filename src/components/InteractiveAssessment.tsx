@@ -203,7 +203,7 @@ function AssessmentResultsView({
   t: ReturnType<typeof useTranslations<'assessmentTool'>>
 }) {
   const scheduleHref = useMemo(
-    () => ({ pathname: '/schedule' as const, query: buildScheduleQuery(result) }),
+    () => ({ pathname: '/contact' as const, query: buildScheduleQuery(result) }),
     [result],
   )
   const { recommendations, nextSteps } = useMemo(

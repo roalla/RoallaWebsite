@@ -96,6 +96,27 @@ describe('Header', () => {
     expect(screen.getByRole('menuitem', { name: /resourcesAll/ })).toHaveAttribute('href', '/insights')
   })
 
+  it('uses the insight slugs chosen in the hub', () => {
+    render(
+      <Header
+        featuredInsightSlugs={[
+          'process-optimization',
+          'smb-digital-growth',
+          'how-ai-systems-understand-websites',
+          'structured-data-for-small-business',
+          'professional-email-avoid-spam-phishing',
+        ]}
+      />,
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'resources' }))
+    expect(screen.getByRole('menuitem', { name: /process-optimization\.title/ })).toHaveAttribute(
+      'href',
+      '/insights/process-optimization',
+    )
+    expect(screen.queryByRole('menuitem', { name: /fractional-coo\.title/ })).not.toBeInTheDocument()
+    expect(screen.getByRole('menuitem', { name: /resourcesUseCases/ })).toBeInTheDocument()
+  })
+
   it('renders digital enablement dropdown with digital service links', () => {
     render(<Header />)
     const digitalButton = screen.getByRole('button', { name: 'digitalEnablement' })

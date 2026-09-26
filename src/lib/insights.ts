@@ -36,8 +36,8 @@ export const INSIGHT_GROUPS: Record<InsightGroup, readonly InsightSlug[]> = {
 };
 
 /**
- * The five articles featured in the header Insights menu, in priority order.
- * Replace this list to change the menu. The insights index still lists every article.
+ * Fallback when an admin has not saved a header selection in the hub.
+ * The live menu reads the saved selection; this list is the default.
  */
 export const HEADER_INSIGHT_SLUGS = [
   "is-your-website-builder-limiting-growth",
@@ -47,9 +47,12 @@ export const HEADER_INSIGHT_SLUGS = [
   "strategic-planning",
 ] as const satisfies readonly InsightSlug[];
 
-export function headerInsightsForGroup(group: InsightGroup): InsightSlug[] {
+export function headerInsightsForGroup(
+  group: InsightGroup,
+  selected: readonly InsightSlug[] = HEADER_INSIGHT_SLUGS,
+): InsightSlug[] {
   const inGroup = new Set(INSIGHT_GROUPS[group]);
-  return HEADER_INSIGHT_SLUGS.filter((slug) => inGroup.has(slug));
+  return selected.filter((slug) => inGroup.has(slug));
 }
 
 export function isInsightSlug(value: string): value is InsightSlug {

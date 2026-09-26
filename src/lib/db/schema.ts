@@ -1,4 +1,5 @@
 import {
+  integer,
   jsonb,
   pgTable,
   text,
@@ -119,6 +120,13 @@ export const partners = pgTable('partners', {
   notes: text('notes').notNull().default(''),
   ownerId: text('owner_id').references(() => users.id, { onDelete: 'set null' }),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+})
+
+/** Ordered articles shown in the public header Insights menu. Empty table uses the code fallback. */
+export const headerInsightSelection = pgTable('header_insight_selection', {
+  position: integer('position').primaryKey(),
+  slug: text('slug').notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 })
 

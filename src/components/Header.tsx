@@ -29,7 +29,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import ScheduleButton from "./ScheduleButton";
 import { CLIENT_PORTAL_URL } from "@/lib/site";
-import { headerInsightsForGroup, type InsightSlug } from "@/lib/insights";
+import { HEADER_INSIGHT_SLUGS, headerInsightsForGroup, type InsightSlug } from "@/lib/insights";
 
 /** Canadian flag: red bands, white centre, red maple leaf (simplified) */
 function CanadianFlagIcon({ className }: { className?: string }) {
@@ -120,7 +120,15 @@ function getHeaderOverDark(): boolean {
   return false;
 }
 
-const Header = () => {
+const Header = ({
+  featuredInsightSlugs,
+}: {
+  featuredInsightSlugs?: readonly InsightSlug[];
+} = {}) => {
+  const featuredInsights =
+    featuredInsightSlugs && featuredInsightSlugs.length === 5
+      ? featuredInsightSlugs
+      : HEADER_INSIGHT_SLUGS;
   const pathname = usePathname() ?? "/";
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -1086,7 +1094,7 @@ const Header = () => {
                         <p className="px-2.5 pt-2 pb-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
                           {t(labelKey)}
                         </p>
-                        {headerInsightsForGroup(group).map((slug) => (
+                        {headerInsightsForGroup(group, featuredInsights).map((slug) => (
                           <ResourceArticleLink
                             key={slug}
                             slug={slug}
@@ -1515,7 +1523,7 @@ const Header = () => {
                         <p className="px-5 pt-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
                           {t(labelKey)}
                         </p>
-                        {headerInsightsForGroup(group).map((slug) => (
+                        {headerInsightsForGroup(group, featuredInsights).map((slug) => (
                           <Link
                             key={slug}
                             href={{ pathname: "/insights/[slug]", params: { slug } }}

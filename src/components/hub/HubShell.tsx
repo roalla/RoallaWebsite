@@ -14,6 +14,7 @@ import {
   Users,
   Handshake,
   Lightbulb,
+  PanelTop,
   X,
 } from 'lucide-react'
 import type { HubRole } from '@/lib/hub/roles'
@@ -29,6 +30,7 @@ type NavHref =
   | '/hub/lessons'
   | '/hub/recommendations'
   | '/hub/tools'
+  | '/hub/insights'
 
 type NavItem = {
   href: NavHref
@@ -59,6 +61,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: '/hub/lessons', labelKey: 'navLessons', icon: Lightbulb, module: 'lessons' },
       { href: '/hub/recommendations', labelKey: 'navRecommendations', icon: ClipboardList, module: 'recommendations' },
+      { href: '/hub/insights', labelKey: 'navHeaderInsights', icon: PanelTop, module: 'headerInsights' },
     ],
   },
   {

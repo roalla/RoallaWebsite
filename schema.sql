@@ -152,3 +152,9 @@ CREATE INDEX IF NOT EXISTS consultation_leads_remind_due_idx
   WHERE reminder_sent_at IS NULL AND cancelled_at IS NULL;
 
 CREATE INDEX IF NOT EXISTS consultation_leads_email_idx ON consultation_leads(email);
+
+CREATE TABLE IF NOT EXISTS header_insight_selection (
+  position SMALLINT PRIMARY KEY CHECK (position BETWEEN 1 AND 5),
+  slug TEXT NOT NULL,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);

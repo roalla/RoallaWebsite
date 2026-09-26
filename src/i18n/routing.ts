@@ -56,6 +56,7 @@ export const routing = defineRouting({
     "/hub/partners": "/hub/partners",
     "/hub/partners/[id]": "/hub/partners/[id]",
     "/hub/tools": "/hub/tools",
+    "/hub/insights": "/hub/insights",
     "/auth/callback": "/auth/callback",
   },
 });

@@ -7,6 +7,7 @@ import {
   ClipboardList,
   ExternalLink,
   Lightbulb,
+  PanelTop,
   Plus,
   Users,
 } from 'lucide-react'
@@ -33,6 +34,7 @@ export default function HubDashboardExtras({ role, stats, isEmpty }: Props) {
     { href: '/hub/recommendations' as const, labelKey: 'navRecommendations', descKey: 'navRecommendationsSubtitle', icon: ClipboardList, module: 'recommendations' as const },
     { href: '/hub/lessons' as const, labelKey: 'navLessons', descKey: 'navLessonsSubtitle', icon: Lightbulb, module: 'lessons' as const },
     { href: '/hub/tools' as const, labelKey: 'navTools', descKey: 'toolsSubtitle', icon: ExternalLink, module: 'tools' as const },
+    { href: '/hub/insights' as const, labelKey: 'navHeaderInsights', descKey: 'headerInsightsSubtitle', icon: PanelTop, module: 'headerInsights' as const },
   ].filter((l) => canAccessModule(role, l.module))
 
   return (

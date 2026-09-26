@@ -8,6 +8,7 @@ import Providers from '@/components/Providers'
 import ConditionalLayout from '@/components/ConditionalLayout'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import JsonLd from '@/components/JsonLd'
+import { getHeaderInsightSlugs } from '@/lib/header-insights-store'
 import { organizationJsonLd, websiteJsonLd } from '@/lib/structured-data'
 import { OG_IMAGE, OG_IMAGE_ALT, SITE_URL } from '@/lib/site'
 
@@ -119,6 +120,7 @@ export default async function RootLayout({
 }) {
   const messages = await getMessages()
   const locale = await getLocale()
+  const featuredInsightSlugs = await getHeaderInsightSlugs()
 
   return (
     <html lang={locale} className={`${figtree.variable} ${sora.variable} font-sans`}>
@@ -141,7 +143,7 @@ export default async function RootLayout({
         <GoogleAnalytics />
         <Providers>
           <NextIntlClientProvider messages={messages}>
-            <ConditionalLayout>{children}</ConditionalLayout>
+            <ConditionalLayout featuredInsightSlugs={featuredInsightSlugs}>{children}</ConditionalLayout>
           </NextIntlClientProvider>
         </Providers>
       </body>

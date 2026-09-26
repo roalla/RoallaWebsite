@@ -450,10 +450,78 @@ export const ENRICHED_INSIGHTS: Record<EnrichedInsightSlug, InsightEntry> = {
       ctaText: 'ROALLA peut vérifier ensemble le contenu visible, les métadonnées et les données structurées afin que la technique soutienne le vrai message.',
     },
   },
+  'professional-email-avoid-spam-phishing': {
+    image: '/images/insights/library/professional-email-avoid-spam-phishing.webp',
+    en: {
+      category: 'Email Trust & Security',
+      imageAlt: 'A business owner sends authenticated professional email that reaches a trusted customer inbox.',
+      plainAnswer: 'Professional email needs two kinds of trust: an address on your own domain and technical proof that your systems are allowed to send for it.',
+      intro: [
+        'Email is often the first place a customer sees your business. A message from name@yourcompany.com supports the same identity as your website. A free consumer address such as yourbusiness@gmail.com or yourbusiness@outlook.com can look temporary, be easier to imitate and make a payment request or sensitive attachment feel suspicious.',
+        'That does not mean Gmail or Outlook technology is unprofessional. Google Workspace and Microsoft 365 are widely used business platforms. The important difference is using them with your own domain, then configuring SPF, DKIM and DMARC so receiving systems can verify that the message really belongs to your business.',
+        'Microsoft 365 does not automatically send every message from gmail.com or outlook.com to Junk. Its protection systems evaluate the individual message using authentication, the reputation of the sending address, domain and IP, complaint history, list quality, content, links, attachments, sending patterns and the recipient organization’s rules. A legitimate consumer message can reach the inbox, while a poorly configured custom-domain message can still be filtered.',
+        'This is where professional help becomes valuable. Email delivery crosses your domain settings, mailbox provider, website forms, CRM, accounting platform and marketing tools. A professional can identify every legitimate sender, correct records without disrupting real mail, introduce DMARC safely, interpret technical reports and investigate false positives. That replaces guesswork with a coordinated setup and ongoing monitoring as your tools change.',
+      ],
+      exampleTitle: 'A professional address is not enough by itself',
+      example: 'A contractor switches from a free address to quotes@company.ca, but website forms, accounting software and a newsletter tool all send email without coordinated settings. Customers still find quotes in junk, and attackers can more easily pretend to use the domain. A professional review maps every sending source, consolidates the SPF record, enables DKIM where available and begins DMARC in monitoring mode before enforcement. This protects legitimate quotes while steadily reducing impersonation risk.',
+      signsTitle: 'A trustworthy email setup should include…',
+      signs: [
+        'Addresses on a domain your business owns and controls.',
+        'SPF listing every service allowed to send for that domain.',
+        'DKIM signatures that prove messages were not altered in transit.',
+        'DMARC instructions that check alignment and report suspicious use.',
+        'Clear sender names, consistent addresses and replies that actually work.',
+        'Permission-based lists, easy unsubscribing and removal of bad addresses.',
+        'Specific handling for a false positive instead of broadly allowing all of gmail.com or outlook.com.',
+        'A named owner who reviews reports, investigates problems and updates the setup when services change.',
+      ],
+      stepsTitle: 'Set up email in the right order',
+      steps: [
+        { title: 'Use your own domain', body: 'Choose a managed business email provider and send as name@yourcompany.com. Google Workspace or Microsoft 365 are professional when configured this way.' },
+        { title: 'Get the whole system reviewed', body: 'Ask a qualified professional to inventory your mailbox, website, CRM, invoicing and marketing tools. They can configure SPF, enable DKIM and introduce DMARC with reporting before tightening enforcement—without accidentally excluding a legitimate sender.' },
+        { title: 'Monitor with evidence', body: 'Protect your reputation with expected mail, steady volumes, clean lists and sensible separation of transactional and promotional traffic. A professional can read delivery headers and DMARC reports, trace failures and submit specific false positives instead of broadly allowlisting a consumer domain.' },
+      ],
+      takeaway: 'Your domain is a reputation asset. A branded address creates recognition; authentication and responsible sending prove that recognition deserves trust. Professional guidance is especially useful because one incomplete record or forgotten sending tool can affect the entire system, while the right fix must protect delivery and security at the same time.',
+      ctaTitle: 'Would your next important email pass a professional trust check?',
+      ctaText: 'ROALLA can map every service sending on your behalf, review SPF, DKIM and DMARC, investigate delivery evidence and provide a prioritized plan. You gain a safer configuration, clearer ownership and less risk of discovering a problem through a missed customer email.',
+    },
+    fr: {
+      category: 'Confiance et sécurité du courriel',
+      imageAlt: 'Une propriétaire envoie un courriel professionnel authentifié qui atteint une boîte de réception fiable.',
+      plainAnswer: 'Un courriel professionnel exige deux formes de confiance : une adresse sur votre domaine et une preuve technique que vos systèmes peuvent l’utiliser.',
+      intro: [
+        'Le courriel est souvent le premier contact avec votre entreprise. Un message envoyé par nom@votreentreprise.ca renforce la même identité que votre site. Une adresse grand public comme votreentreprise@gmail.com ou votreentreprise@outlook.com peut sembler temporaire, être plus facile à imiter et rendre une demande de paiement ou une pièce jointe plus suspecte.',
+        'Cela ne signifie pas que la technologie Gmail ou Outlook est non professionnelle. Google Workspace et Microsoft 365 sont des plateformes d’affaires reconnues. La différence est d’utiliser votre propre domaine, puis de configurer SPF, DKIM et DMARC afin que les systèmes destinataires puissent vérifier l’origine du message.',
+        'Microsoft 365 n’envoie pas automatiquement tous les messages provenant de gmail.com ou outlook.com dans les indésirables. Ses systèmes évaluent chaque message selon l’authentification, la réputation de l’adresse, du domaine et de l’adresse IP, l’historique des plaintes, la qualité des listes, le contenu, les liens, les pièces jointes, les habitudes d’envoi et les règles de l’organisation destinataire. Un message grand public légitime peut atteindre la boîte de réception, tandis qu’un domaine personnalisé mal configuré peut être filtré.',
+        'C’est ici que l’accompagnement professionnel devient précieux. La livraison dépend des réglages du domaine, du fournisseur de messagerie, des formulaires Web, du CRM, de la comptabilité et des outils marketing. Une personne qualifiée peut recenser chaque expéditeur légitime, corriger les enregistrements sans interrompre les vrais messages, introduire DMARC prudemment, interpréter les rapports techniques et analyser les faux positifs. Cette coordination remplace les essais au hasard et permet un suivi lorsque les outils changent.',
+      ],
+      exampleTitle: 'Une adresse professionnelle ne suffit pas à elle seule',
+      example: 'Un entrepreneur passe à soumissions@entreprise.ca, mais les formulaires Web, le logiciel comptable et l’outil d’infolettre envoient sans réglages coordonnés. Les soumissions vont encore dans les indésirables et des fraudeurs peuvent plus facilement imiter le domaine. Une révision professionnelle recense chaque source d’envoi, consolide le SPF, active DKIM lorsque possible et commence DMARC en mode surveillance avant de l’appliquer. Les soumissions légitimes restent protégées pendant que le risque d’usurpation diminue.',
+      signsTitle: 'Une configuration digne de confiance comprend…',
+      signs: [
+        'Des adresses sur un domaine que l’entreprise possède et contrôle.',
+        'Un SPF qui nomme tous les services autorisés à envoyer.',
+        'Des signatures DKIM prouvant que le message n’a pas été modifié.',
+        'Des règles DMARC qui vérifient l’alignement et signalent les usages suspects.',
+        'Des noms clairs, des adresses cohérentes et des réponses fonctionnelles.',
+        'Des listes consenties, un désabonnement facile et le retrait des mauvaises adresses.',
+        'Un traitement ciblé des faux positifs plutôt qu’une autorisation globale de gmail.com ou outlook.com.',
+        'Une personne responsable qui examine les rapports, analyse les problèmes et met les réglages à jour lorsque les services changent.',
+      ],
+      stepsTitle: 'Configurer le courriel dans le bon ordre',
+      steps: [
+        { title: 'Utiliser votre domaine', body: 'Choisir un fournisseur géré et envoyer depuis nom@votreentreprise.ca. Google Workspace ou Microsoft 365 sont professionnels lorsqu’ils sont configurés ainsi.' },
+        { title: 'Faire réviser tout le système', body: 'Demander à une personne qualifiée d’inventorier la boîte, le site, le CRM, la facturation et le marketing. Elle peut configurer SPF, activer DKIM et introduire DMARC avec des rapports avant de renforcer la politique—sans oublier un expéditeur légitime.' },
+        { title: 'Surveiller avec des preuves', body: 'Protéger la réputation avec des messages attendus, un volume stable, des listes propres et une séparation pertinente des courriels transactionnels et promotionnels. Une personne qualifiée peut lire les en-têtes et rapports DMARC, retracer les échecs et signaler précisément les faux positifs sans autoriser globalement un domaine grand public.' },
+      ],
+      takeaway: 'Votre domaine est un actif de réputation. Une adresse de marque crée la reconnaissance; l’authentification et les bonnes pratiques prouvent qu’elle mérite la confiance. Un accompagnement professionnel est particulièrement utile, car un enregistrement incomplet ou un outil oublié peut toucher tout le système, alors que la bonne correction doit protéger à la fois la livraison et la sécurité.',
+      ctaTitle: 'Votre prochain courriel important passerait-il un contrôle professionnel?',
+      ctaText: 'ROALLA peut recenser chaque service qui envoie en votre nom, réviser SPF, DKIM et DMARC, analyser les preuves de livraison et proposer un plan priorisé. Vous obtenez une configuration plus sûre, des responsabilités claires et moins de risque de découvrir un problème à cause d’un courriel client manqué.',
+    },
+  },
 }
 
 export function getEnrichedInsight(slug: EnrichedInsightSlug, locale: string) {
   const entry = ENRICHED_INSIGHTS[slug]
   return { image: entry.image, copy: locale === 'fr' ? entry.fr : entry.en }
 }
-

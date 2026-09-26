@@ -2034,6 +2034,17 @@
       "p3": "Le balisage doit correspondre à ce que les visiteurs voient. Notes inventées, réponses FAQ cachées, prix non fondés ou territoires exagérés créent du risque. Les outils de validation confirment la syntaxe, mais l’entreprise doit toujours vérifier noms, URL, coordonnées et relations.",
       "p4": "Les données structurées ne garantissent ni résultat enrichi, classement, citation ou réponse générée. Leur valeur est la clarté et la cohérence : elles réduisent l’ambiguïté et donnent aux systèmes une meilleure base factuelle à évaluer avec le contenu, l’accessibilité, la performance et la confiance."
     },
+    "professional-email-avoid-spam-phishing": {
+      "metadataTitle": "Courriel professionnel : éviter les indésirables et l’apparence d’hameçonnage | ROALLA",
+      "metadataDescription": "Découvrez pourquoi une entreprise devrait utiliser son domaine et configurer SPF, DKIM et DMARC pour améliorer la livraison, la confiance et la protection contre l’usurpation.",
+      "title": "Votre courriel d’entreprise semble-t-il légitime—ou frauduleux?",
+      "summary": "Utiliser votre domaine n’est que la première étape. L’authentification, les habitudes d’envoi et la qualité des listes aident les messages à atteindre les clients et à inspirer confiance.",
+      "datePublished": "2026-09-26",
+      "p1": "Une adresse d’entreprise sur votre domaine renforce la même identité que votre site et semble plus établie qu’une adresse grand public gratuite.",
+      "p2": "SPF, DKIM et DMARC aident les systèmes destinataires à vérifier les services autorisés et à repérer les tentatives d’usurpation.",
+      "p3": "Les pratiques comptent aussi : listes consenties, adresse de réponse fonctionnelle, volume stable, nom clair et désabonnement facile.",
+      "p4": "Google Workspace et Microsoft 365 demeurent des choix professionnels lorsqu’ils utilisent un domaine appartenant à votre entreprise."
+    },
     "is-your-website-builder-limiting-growth": {
       "metadataTitle": "Votre outil de création de sites vous coûte-t-il des clients? | ROALLA",
       "metadataDescription": "Votre site peut être beau tout en perdant des prospects, en créant du travail manuel et en cachant ce qui produit des ventes. Découvrez quoi corriger.",

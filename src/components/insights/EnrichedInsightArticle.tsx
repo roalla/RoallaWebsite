@@ -15,6 +15,7 @@ export default function EnrichedInsightArticle({ slug, locale, title, summary, r
   const french = locale === 'fr'
   const { image, copy } = getEnrichedInsight(slug, locale)
   const advisory = ['fractional-coo', 'strategic-planning', 'process-optimization'].includes(slug)
+  const technology = slug === 'professional-email-avoid-spam-phishing'
 
   return (
     <article className="mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-6 lg:px-8">
@@ -111,8 +112,10 @@ export default function EnrichedInsightArticle({ slug, locale, title, summary, r
             {french ? 'Parler de votre situation' : 'Talk through your situation'}
             <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
           </Link>
-          <Link href={advisory ? '/programs/business-enablement' : '/services/digital'} className="inline-flex min-h-[48px] items-center justify-center rounded-lg border-2 border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 transition-colors hover:border-primary hover:text-primary-dark">
-            {advisory
+          <Link href={technology ? '/programs/technology-advisory' : advisory ? '/programs/business-enablement' : '/services/digital'} className="inline-flex min-h-[48px] items-center justify-center rounded-lg border-2 border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 transition-colors hover:border-primary hover:text-primary-dark">
+            {technology
+              ? (french ? 'Explorer le conseil technologique' : 'Explore Technology Advisory')
+              : advisory
               ? (french ? 'Explorer l’accompagnement d’affaires' : 'Explore Business Enablement')
               : (french ? 'Explorer l’accompagnement numérique' : 'Explore Digital Enablement')}
           </Link>
@@ -121,4 +124,3 @@ export default function EnrichedInsightArticle({ slug, locale, title, summary, r
     </article>
   )
 }
-

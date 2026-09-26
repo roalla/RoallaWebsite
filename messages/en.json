@@ -2034,6 +2034,17 @@
       "p3": "The markup must agree with what visitors can see. Invented ratings, hidden FAQ answers, unsupported prices, or exaggerated service areas create risk rather than value. Validation tools can confirm syntax, but business owners still need to verify that names, URLs, contact details, and relationships are accurate.",
       "p4": "Structured data does not guarantee a rich result, ranking, citation, or generated answer. Its value is clarity and consistency: it reduces ambiguity about what a page represents and gives search and answer systems a cleaner factual foundation to evaluate alongside content, accessibility, performance, and trust."
     },
+    "professional-email-avoid-spam-phishing": {
+      "metadataTitle": "Professional Email: Avoid Spam and Phishing Signals | ROALLA",
+      "metadataDescription": "Learn why businesses should use their own email domain and configure SPF, DKIM and DMARC to improve delivery, build trust and reduce impersonation risk.",
+      "title": "Does Your Business Email Look Legitimate—or Like Phishing?",
+      "summary": "Using your own domain is only the first step. Learn how email authentication, sender habits and list hygiene help messages reach customers and earn trust.",
+      "datePublished": "2026-09-26",
+      "p1": "A branded business address supports the same identity as your website and looks more established than a free consumer address.",
+      "p2": "SPF, DKIM and DMARC help receiving systems verify which services can send for your domain and detect suspicious impersonation.",
+      "p3": "Responsible sending also matters: use permission-based lists, working reply addresses, steady volumes, clear sender names and easy unsubscribing.",
+      "p4": "Google Workspace and Microsoft 365 remain professional choices when they are configured to send through a domain your business owns."
+    },
     "is-your-website-builder-limiting-growth": {
       "metadataTitle": "Is Your Website Builder Costing You Leads? | ROALLA",
       "metadataDescription": "Your website can look polished while losing leads, creating manual work and hiding what drives sales. See the warning signs and what to fix first.",

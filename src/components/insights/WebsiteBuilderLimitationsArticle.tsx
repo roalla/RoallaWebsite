@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 import { ArrowRight, Check, Network, SearchCheck, Workflow } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import { getWebsiteBuilderInsight, type LongFormBlock } from '@/lib/website-builder-insight'
@@ -62,7 +63,7 @@ function ArticleBlock({ block }: { block: LongFormBlock }) {
         {block.items.map((item) => (
           <li key={item} className="flex gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 text-[0.98rem] leading-6 text-slate-700">
             <Check className="mt-1 h-4 w-4 shrink-0 text-primary-dark" aria-hidden />
-            <span>{item}</span>
+            <span><InlineEmphasis text={item} /></span>
           </li>
         ))}
       </ul>
@@ -74,7 +75,7 @@ function ArticleBlock({ block }: { block: LongFormBlock }) {
         {block.items.map((item, index) => (
           <li key={item} className="flex gap-4 rounded-xl border border-slate-200 bg-slate-50 px-5 py-4 text-[1rem] leading-7 text-slate-700">
             <span className="font-serif text-xl font-bold text-primary-dark">{index + 1}</span>
-            <span>{item}</span>
+            <span><InlineEmphasis text={item} /></span>
           </li>
         ))}
       </ol>
@@ -134,23 +135,87 @@ export default function WebsiteBuilderLimitationsArticle({ locale, title, summar
         ['search-and-ai-visibility', 'Getting found online: search, AI and visibility'],
       ] as const
 
+  const quickCheck = french
+    ? {
+        working: {
+          title: 'Votre site vous aide si…',
+          items: ['les bons clients vous trouvent', 'les demandes arrivent au bon endroit', 'vous savez ce qui produit des ventes'],
+        },
+        limiting: {
+          title: 'Votre site vous freine si…',
+          items: ['chaque changement exige un contournement', 'votre équipe recopie les mêmes données', 'vous comptez les visites, mais pas les résultats'],
+        },
+      }
+    : {
+        working: {
+          title: 'Your site is helping when…',
+          items: ['the right customers find you', 'inquiries reach the right place', 'you know what produces sales'],
+        },
+        limiting: {
+          title: 'Your site is limiting you when…',
+          items: ['every change needs a workaround', 'your team copies the same data by hand', 'you count visits, but not results'],
+        },
+      }
+
   return (
     <article className="mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-6 lg:px-8">
-      <header className="mx-auto max-w-4xl border-b border-slate-200 pb-10 pt-4">
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm font-semibold text-primary-dark">
-          <span className="rounded-full bg-primary/[0.08] px-3 py-1">{category}</span>
-          <span aria-hidden>·</span>
-          <span>{readTime}</span>
+      <header className="border-b border-slate-200 pb-12 pt-4">
+        <div className="grid items-center gap-10 lg:grid-cols-[0.92fr_1.08fr]">
+          <div>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm font-semibold text-primary-dark">
+              <span className="rounded-full bg-primary/[0.08] px-3 py-1">{category}</span>
+              <span aria-hidden>·</span>
+              <span>{readTime}</span>
+            </div>
+            <h1 className="mt-6 text-4xl font-serif font-extrabold leading-tight text-slate-950 sm:text-5xl lg:text-[3.4rem]">
+              {title}
+            </h1>
+            <p className="mt-6 text-xl leading-8 text-slate-600">{summary}</p>
+          </div>
+          <figure className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 shadow-xl shadow-slate-900/10">
+            <Image
+              src="/images/insights/website-builder-growth/website-builder-growth-hero.webp"
+              alt={french
+                ? 'Une propriétaire d’entreprise examine un beau site qui ne se connecte pas à ses outils essentiels.'
+                : 'A business owner reviews a polished website that is not connecting to essential business tools.'}
+              width={1600}
+              height={900}
+              priority
+              sizes="(min-width: 1024px) 52vw, 100vw"
+              className="h-auto w-full object-cover"
+            />
+          </figure>
         </div>
-        <h1 className="mt-6 max-w-4xl text-4xl font-serif font-extrabold leading-tight text-slate-950 sm:text-5xl lg:text-[3.5rem]">
-          {title}
-        </h1>
-        <p className="mt-6 max-w-3xl text-xl leading-8 text-slate-600">{summary}</p>
       </header>
 
       <div className="mx-auto mt-10 max-w-3xl space-y-5">
         {intro.map((block, index) => <ArticleBlock key={index} block={block} />)}
       </div>
+
+      <aside className="mx-auto mt-10 grid max-w-5xl gap-4 md:grid-cols-2" aria-label={french ? 'Vérification rapide du site Web' : 'Quick website check'}>
+        <div className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-6">
+          <h2 className="text-xl font-serif font-bold text-emerald-950">{quickCheck.working.title}</h2>
+          <ul className="mt-4 space-y-3">
+            {quickCheck.working.items.map((item) => (
+              <li key={item} className="flex gap-3 text-sm leading-6 text-emerald-950/80">
+                <Check className="mt-1 h-4 w-4 shrink-0 text-emerald-700" aria-hidden />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-6">
+          <h2 className="text-xl font-serif font-bold text-amber-950">{quickCheck.limiting.title}</h2>
+          <ul className="mt-4 space-y-3">
+            {quickCheck.limiting.items.map((item) => (
+              <li key={item} className="flex gap-3 text-sm leading-6 text-amber-950/80">
+                <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-amber-500" aria-hidden />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
 
       <div className="mx-auto mt-12 max-w-3xl">
         {bodySections.map((section, sectionIndex) => {
@@ -168,6 +233,25 @@ export default function WebsiteBuilderLimitationsArticle({ locale, title, summar
               <div className={isCeiling ? 'mt-6 space-y-5' : 'mt-5 space-y-5'}>
                 {section.blocks.map((block, blockIndex) => <ArticleBlock key={blockIndex} block={block} />)}
               </div>
+              {sectionIndex === 1 ? (
+                <figure className="mt-9 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-lg shadow-slate-900/10">
+                  <Image
+                    src="/images/insights/website-builder-growth/connected-growth.webp"
+                    alt={french
+                      ? 'Une petite équipe utilise un site connecté aux demandes de clients et aux réservations.'
+                      : 'A small team uses a website connected to customer inquiries and bookings.'}
+                    width={1600}
+                    height={900}
+                    sizes="(min-width: 768px) 768px, 100vw"
+                    className="h-auto w-full object-cover"
+                  />
+                  <figcaption className="bg-slate-950 px-5 py-3 text-sm leading-6 text-slate-200">
+                    {french
+                      ? 'Le bon site ne crée pas plus de travail : il relie les demandes, les réservations et le suivi.'
+                      : 'The right website does not create more work—it connects inquiries, bookings and follow-up.'}
+                  </figcaption>
+                </figure>
+              ) : null}
             </section>
           )
         })}

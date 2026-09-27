@@ -73,11 +73,11 @@ export default function EnrichedInsightArticle({ slug, locale, title, summary, r
       </div>
 
       <section className="mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl bg-slate-950 px-6 py-8 text-white sm:px-9" aria-labelledby="example-title">
-        <div className="flex items-center gap-3 text-primary-light">
-          <SearchCheck className="h-5 w-5" aria-hidden />
+        <div className="flex items-center gap-3 text-white">
+          <SearchCheck className="h-5 w-5 text-primary-light" aria-hidden />
           <span className="text-sm font-bold uppercase tracking-[0.16em]">{french ? 'Exemple réel' : 'Real-world example'}</span>
         </div>
-        <h2 id="example-title" className="mt-4 text-3xl font-serif font-bold">{copy.exampleTitle}</h2>
+        <h2 id="example-title" className="mt-4 text-3xl font-serif font-bold text-white">{copy.exampleTitle}</h2>
         <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-300">{copy.example}</p>
       </section>
 

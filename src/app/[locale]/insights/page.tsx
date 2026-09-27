@@ -1,13 +1,24 @@
 import React from 'react'
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
-import { Link } from '@/i18n/navigation'
 import Breadcrumb from '@/components/Breadcrumb'
+import InsightsBrowser, { type InsightBrowserCard } from '@/components/insights/InsightsBrowser'
 import JsonLd from '@/components/JsonLd'
-import { INSIGHT_GROUPS, type InsightGroup } from '@/lib/insights'
+import { getEnrichedInsight } from '@/lib/enriched-insights'
+import { INSIGHT_GROUPS, type InsightGroup, type InsightSlug } from '@/lib/insights'
 import { formatInsightReadTime } from '@/lib/insight-read-time'
 import { buildPageMetadata } from '@/lib/page-metadata'
 import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/structured-data'
+import { WEBSITE_BUILDER_INSIGHT_SLUG } from '@/lib/website-builder-insight'
+
+function insightCategory(
+  slug: InsightSlug,
+  locale: string,
+  t: Awaited<ReturnType<typeof getTranslations>>,
+) {
+  if (slug === WEBSITE_BUILDER_INSIGHT_SLUG) return t(`${slug}.category`)
+  return getEnrichedInsight(slug, locale).copy.category
+}
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -35,6 +46,17 @@ export default async function InsightsIndexPage({ params }: Props) {
     { id: 'digital', title: t('groupDigital'), intro: t('groupDigitalIntro') },
     { id: 'advisory', title: t('groupAdvisory'), intro: t('groupAdvisoryIntro') },
   ]
+
+  const articles: InsightBrowserCard[] = articleGroups.flatMap((group) =>
+    INSIGHT_GROUPS[group.id].map((slug) => ({
+      slug,
+      group: group.id,
+      title: t(`${slug}.title`),
+      summary: t(`${slug}.summary`),
+      readTime: formatInsightReadTime(t, slug),
+      category: insightCategory(slug, locale, t),
+    })),
+  )
 
   const otherLinks: {
     href: '/use-cases' | '/faq' | '/assessment'
@@ -83,51 +105,13 @@ export default async function InsightsIndexPage({ params }: Props) {
             </a>
           </p>
         </header>
-        <div className="max-w-6xl space-y-14">
-          {articleGroups.map((group) => (
-            <section key={group.id} aria-labelledby={`insights-${group.id}`}>
-              <h2 id={`insights-${group.id}`} className="text-2xl font-serif font-bold text-slate-900">
-                {group.title}
-              </h2>
-              <p className="mt-2 max-w-2xl text-slate-600">{group.intro}</p>
-              <div className="mt-6 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {INSIGHT_GROUPS[group.id].map((slug) => (
-                  <Link
-                    key={slug}
-                    href={{ pathname: '/insights/[slug]', params: { slug } }}
-                    className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-card hover:border-primary/30 hover:shadow-card-hover transition-all"
-                  >
-                    <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark">{formatInsightReadTime(t, slug)}</p>
-                    <h3 className="mt-3 text-xl font-semibold text-slate-900 group-hover:text-primary-dark transition-colors">
-                      {t(`${slug}.title`)}
-                    </h3>
-                    <p className="mt-3 text-sm text-slate-600 leading-relaxed">{t(`${slug}.summary`)}</p>
-                  </Link>
-                ))}
-              </div>
-            </section>
-          ))}
-          <section aria-labelledby="insights-other">
-            <h2 id="insights-other" className="text-2xl font-serif font-bold text-slate-900">
-              {t('groupOther')}
-            </h2>
-            <p className="mt-2 max-w-2xl text-slate-600">{t('groupOtherIntro')}</p>
-            <div className="mt-6 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {otherLinks.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-card hover:border-primary/30 hover:shadow-card-hover transition-all"
-                >
-                  <h3 className="text-xl font-semibold text-slate-900 group-hover:text-primary-dark transition-colors">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 text-sm text-slate-600 leading-relaxed">{item.summary}</p>
-                </Link>
-              ))}
-            </div>
-          </section>
-        </div>
+        <InsightsBrowser
+          articles={articles}
+          groups={articleGroups}
+          otherTitle={t('groupOther')}
+          otherIntro={t('groupOtherIntro')}
+          otherLinks={otherLinks}
+        />
       </div>
     </div>
   )

@@ -1,5 +1,8 @@
 import type { InsightSlug } from '@/lib/insights'
 import { ADDITIONAL_INSIGHTS } from '@/lib/additional-insights'
+import { BACKLOG_ADVISORY_INSIGHTS } from '@/lib/backlog-advisory-insights'
+import { BACKLOG_DIGITAL_INSIGHTS } from '@/lib/backlog-digital-insights'
+import { BACKLOG_PRODUCT_WORKSHOP_INSIGHTS } from '@/lib/backlog-product-workshop-insights'
 
 export type EnrichedInsightSlug = Exclude<InsightSlug, 'is-your-website-builder-limiting-growth'>
 
@@ -33,6 +36,9 @@ export type InsightEntry = {
 
 export const ENRICHED_INSIGHTS: Record<EnrichedInsightSlug, InsightEntry> = {
   ...ADDITIONAL_INSIGHTS,
+  ...BACKLOG_ADVISORY_INSIGHTS,
+  ...BACKLOG_DIGITAL_INSIGHTS,
+  ...BACKLOG_PRODUCT_WORKSHOP_INSIGHTS,
   'fractional-coo': {
     image: '/images/insights/library/fractional-coo.webp',
     en: {

@@ -45,6 +45,7 @@ export default function EnrichedInsightArticle({ slug, locale, title, summary, r
               width={1200}
               height={675}
               priority
+              unoptimized
               sizes="(min-width: 1024px) 640px, 100vw"
               className="h-auto w-full object-cover"
             />

@@ -45,6 +45,22 @@ export default function HomeFeaturedInsight() {
     return () => window.clearInterval(id)
   }, [canRotate, isPaused, advance])
 
+  useEffect(() => {
+    const upcoming = visibleSlugs(activeIndex).concat(
+      visibleSlugs((activeIndex + 1) % INSIGHT_SLUGS.length),
+    )
+    const urls: string[] = []
+    for (const slug of upcoming) {
+      const url = insightCoverImage(slug)
+      if (!urls.includes(url)) urls.push(url)
+    }
+    for (const url of urls) {
+      const preload = new window.Image()
+      preload.decoding = 'async'
+      preload.src = url
+    }
+  }, [activeIndex])
+
   const slugs = visibleSlugs(activeIndex)
 
   return (
@@ -98,6 +114,7 @@ export default function HomeFeaturedInsight() {
                         fill
                         className="object-cover motion-safe:transition-transform motion-safe:duration-500 group-hover:scale-[1.03]"
                         sizes="(max-width: 767px) 100vw, 380px"
+                        unoptimized
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/35 to-transparent" aria-hidden />
                       {fromEngagement ? (

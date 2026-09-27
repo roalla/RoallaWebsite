@@ -181,6 +181,7 @@ export default function WebsiteBuilderLimitationsArticle({ locale, title, summar
               width={1200}
               height={675}
               priority
+              unoptimized
               sizes="(min-width: 1024px) 640px, 100vw"
               className="h-auto w-full object-cover"
             />
@@ -242,6 +243,7 @@ export default function WebsiteBuilderLimitationsArticle({ locale, title, summar
                       : 'A small team uses a website connected to customer inquiries and bookings.'}
                     width={1200}
                     height={675}
+                    unoptimized
                     sizes="(min-width: 768px) 720px, 100vw"
                     className="h-auto w-full object-cover"
                   />

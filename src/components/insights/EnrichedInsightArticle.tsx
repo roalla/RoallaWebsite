@@ -16,6 +16,12 @@ export default function EnrichedInsightArticle({ slug, locale, title, summary, r
   const { image, copy } = getEnrichedInsight(slug, locale)
   const advisory = ['fractional-coo', 'strategic-planning', 'process-optimization'].includes(slug)
   const technology = slug === 'professional-email-avoid-spam-phishing'
+  const serviceHref = copy.serviceHref ?? (technology ? '/programs/technology-advisory' : advisory ? '/programs/business-enablement' : '/services/digital')
+  const serviceLabel = copy.serviceLabel ?? (technology
+    ? (french ? 'Explorer le conseil technologique' : 'Explore Technology Advisory')
+    : advisory
+    ? (french ? 'Explorer l’accompagnement d’affaires' : 'Explore Business Enablement')
+    : (french ? 'Explorer l’accompagnement numérique' : 'Explore Digital Enablement'))
 
   return (
     <article className="mx-auto max-w-6xl px-4 pb-20 pt-8 sm:px-6 lg:px-8">
@@ -71,7 +77,7 @@ export default function EnrichedInsightArticle({ slug, locale, title, summary, r
           <SearchCheck className="h-5 w-5" aria-hidden />
           <span className="text-sm font-bold uppercase tracking-[0.16em]">{french ? 'Exemple réel' : 'Real-world example'}</span>
         </div>
-        <h2 id="example-title" className="mt-4 text-3xl font-serif font-bold text-white">{copy.exampleTitle}</h2>
+        <h2 id="example-title" className="mt-4 text-3xl font-serif font-bold">{copy.exampleTitle}</h2>
         <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-300">{copy.example}</p>
       </section>
 
@@ -112,12 +118,8 @@ export default function EnrichedInsightArticle({ slug, locale, title, summary, r
             {french ? 'Parler de votre situation' : 'Talk through your situation'}
             <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
           </Link>
-          <Link href={technology ? '/programs/technology-advisory' : advisory ? '/programs/business-enablement' : '/services/digital'} className="inline-flex min-h-[48px] items-center justify-center rounded-lg border-2 border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 transition-colors hover:border-primary hover:text-primary-dark">
-            {technology
-              ? (french ? 'Explorer le conseil technologique' : 'Explore Technology Advisory')
-              : advisory
-              ? (french ? 'Explorer l’accompagnement d’affaires' : 'Explore Business Enablement')
-              : (french ? 'Explorer l’accompagnement numérique' : 'Explore Digital Enablement')}
+          <Link href={serviceHref} className="inline-flex min-h-[48px] items-center justify-center rounded-lg border-2 border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 transition-colors hover:border-primary hover:text-primary-dark">
+            {serviceLabel}
           </Link>
         </div>
       </section>

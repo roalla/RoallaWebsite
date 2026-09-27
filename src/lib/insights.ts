@@ -12,6 +12,14 @@ export const INSIGHT_SLUGS = [
   "structured-data-for-small-business",
   "professional-email-avoid-spam-phishing",
   "authentic-professional-portrait-selection",
+  "website-portal-or-custom-app",
+  "what-to-automate-first",
+  "website-redesign-or-conversion-refresh",
+  "build-buy-or-integrate-technology",
+  "website-after-launch",
+  "trade-show-leads-after-qr-scan",
+  "workshop-consultant-or-fractional-leader",
+  "practical-ai-use-cases",
   "is-your-website-builder-limiting-growth",
 ] as const;
 
@@ -30,9 +38,15 @@ export const INSIGHT_GROUPS: Record<InsightGroup, readonly InsightSlug[]> = {
     "structured-data-for-small-business",
     "professional-email-avoid-spam-phishing",
     "authentic-professional-portrait-selection",
+    "website-portal-or-custom-app",
+    "what-to-automate-first",
+    "website-redesign-or-conversion-refresh",
+    "website-after-launch",
+    "trade-show-leads-after-qr-scan",
+    "practical-ai-use-cases",
     "is-your-website-builder-limiting-growth",
   ],
-  advisory: ["fractional-coo", "strategic-planning", "process-optimization"],
+  advisory: ["fractional-coo", "strategic-planning", "process-optimization", "build-buy-or-integrate-technology", "workshop-consultant-or-fractional-leader"],
 };
 
 /**
@@ -72,6 +86,14 @@ export const INSIGHT_OG_IMAGES: Partial<Record<InsightSlug, string>> = {
   "structured-data-for-small-business": "/images/insights/library/structured-data-for-small-business.webp",
   "professional-email-avoid-spam-phishing": "/images/insights/library/professional-email-avoid-spam-phishing.webp",
   "authentic-professional-portrait-selection": "/images/insights/library/authentic-professional-portrait-selection.webp",
+  "website-portal-or-custom-app": "/images/insights/library/website-portal-or-custom-app.webp",
+  "what-to-automate-first": "/images/insights/library/what-to-automate-first.webp",
+  "website-redesign-or-conversion-refresh": "/images/insights/library/website-redesign-or-conversion-refresh.webp",
+  "build-buy-or-integrate-technology": "/images/insights/library/build-buy-or-integrate-technology.webp",
+  "website-after-launch": "/images/insights/library/website-after-launch.webp",
+  "trade-show-leads-after-qr-scan": "/images/insights/library/trade-show-leads-after-qr-scan.webp",
+  "workshop-consultant-or-fractional-leader": "/images/insights/library/workshop-consultant-or-fractional-leader.webp",
+  "practical-ai-use-cases": "/images/insights/library/practical-ai-use-cases.webp",
 };
 
 /** Insights rooted in delivery work — shown with an engagement chip on the homepage */
@@ -103,5 +125,13 @@ export const INSIGHT_PUBLISHED_DATES: Record<InsightSlug, string> = {
   "structured-data-for-small-business": "2026-07-22",
   "professional-email-avoid-spam-phishing": "2026-09-26",
   "authentic-professional-portrait-selection": "2026-09-26",
+  "website-portal-or-custom-app": "2026-09-27",
+  "what-to-automate-first": "2026-09-27",
+  "website-redesign-or-conversion-refresh": "2026-09-27",
+  "build-buy-or-integrate-technology": "2026-09-27",
+  "website-after-launch": "2026-09-27",
+  "trade-show-leads-after-qr-scan": "2026-09-27",
+  "workshop-consultant-or-fractional-leader": "2026-09-27",
+  "practical-ai-use-cases": "2026-09-27",
   "is-your-website-builder-limiting-growth": "2026-09-26",
 };

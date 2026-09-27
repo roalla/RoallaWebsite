@@ -8,7 +8,7 @@ Tools such as Wix, Squarespace, GoDaddy and WordPress page builders are excellen
 
 > If your website cannot help people find you, trust you and take the next step, it is not doing enough for your business.
 
-## Website builders are useful—until the job changes
+## Website builders are useful until the job changes
 
 A website builder is often the right choice when you need:
 
@@ -54,7 +54,7 @@ You do not need to understand code. Ask these five business questions:
 2. **Can visitors understand us quickly?** A new visitor should know what you do, why you are credible and what to do next within seconds.
 3. **Can customers take the next step easily?** Forms, booking, payment and contact options should work well on a phone and send information to the right place.
 4. **Can our tools work together?** The website should connect cleanly with the systems your team already uses instead of creating copy-and-paste work.
-5. **Can we see what creates business?** You should be able to connect important actions—calls, forms, bookings and purchases—to the pages and campaigns that produced them.
+5. **Can we see what creates business?** You should be able to connect calls, forms, bookings and purchases to the pages and campaigns that produced them.
 
 If you answered “not really” more than once, the website deserves a closer look.
 
@@ -98,7 +98,7 @@ Replace a weak service area, sales path or customer portal without rebuilding ev
 
 Move to a new platform when the current one creates ongoing cost, blocks important plans or leaves too little control to improve results.
 
-The right answer depends on business value—not on which platform is fashionable.
+The right answer depends on business value. A fashionable platform is a weak reason to choose one.
 
 ## What a growth-ready website should do
 
@@ -118,4 +118,4 @@ A strong business website should:
 
 ROALLA can review your website from both sides: what customers experience and what your business needs behind the scenes.
 
-You receive a clear, practical recommendation to **fix, extend, selectively rebuild or migrate**—with priorities tied to leads, customer experience, staff time and growth.
+You receive a clear, practical recommendation to **fix, extend, selectively rebuild or migrate**, with priorities tied to leads, customer experience, staff time and growth.

@@ -248,7 +248,7 @@ export default function WebsiteBuilderLimitationsArticle({ locale, title, summar
                   <figcaption className="bg-slate-950 px-5 py-3 text-sm leading-6 text-slate-200">
                     {french
                       ? 'Le bon site ne crée pas plus de travail : il relie les demandes, les réservations et le suivi.'
-                      : 'The right website does not create more work—it connects inquiries, bookings and follow-up.'}
+                      : 'The right website connects inquiries, bookings and follow-up. It should not create more work for the team.'}
                   </figcaption>
                 </figure>
               ) : null}

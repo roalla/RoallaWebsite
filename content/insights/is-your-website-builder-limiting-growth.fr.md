@@ -8,7 +8,7 @@ Wix, Squarespace, GoDaddy et les constructeurs visuels WordPress permettent de s
 
 > Si votre site n’aide pas les gens à vous trouver, à vous faire confiance et à passer à l’étape suivante, il n’en fait pas assez pour votre entreprise.
 
-## Les constructeurs sont utiles—jusqu’à ce que le travail change
+## Les constructeurs sont utiles jusqu’à ce que le travail change
 
 Un constructeur de sites est souvent un bon choix pour :
 

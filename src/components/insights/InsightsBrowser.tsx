@@ -56,7 +56,8 @@ export default function InsightsBrowser({ articles, groups, otherTitle, otherInt
 
   const topics = useMemo(() => {
     const inGroup = groupFilter === 'all' ? articles : articles.filter((article) => article.group === groupFilter)
-    return [...new Set(inGroup.map((article) => article.category))].sort((a, b) => a.localeCompare(b))
+    const categories = inGroup.map((article) => article.category)
+    return categories.filter((category, index) => categories.indexOf(category) === index).sort((a, b) => a.localeCompare(b))
   }, [articles, groupFilter])
 
   const visibleArticles = useMemo(

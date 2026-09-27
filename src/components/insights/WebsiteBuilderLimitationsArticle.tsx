@@ -178,10 +178,10 @@ export default function WebsiteBuilderLimitationsArticle({ locale, title, summar
               alt={french
                 ? 'Une propriétaire d’entreprise examine un beau site qui ne se connecte pas à ses outils essentiels.'
                 : 'A business owner reviews a polished website that is not connecting to essential business tools.'}
-              width={1600}
-              height={900}
+              width={1200}
+              height={675}
               priority
-              sizes="(min-width: 1024px) 52vw, 100vw"
+              sizes="(min-width: 1024px) 640px, 100vw"
               className="h-auto w-full object-cover"
             />
           </figure>
@@ -240,9 +240,9 @@ export default function WebsiteBuilderLimitationsArticle({ locale, title, summar
                     alt={french
                       ? 'Une petite équipe utilise un site connecté aux demandes de clients et aux réservations.'
                       : 'A small team uses a website connected to customer inquiries and bookings.'}
-                    width={1600}
-                    height={900}
-                    sizes="(min-width: 768px) 768px, 100vw"
+                    width={1200}
+                    height={675}
+                    sizes="(min-width: 768px) 720px, 100vw"
                     className="h-auto w-full object-cover"
                   />
                   <figcaption className="bg-slate-950 px-5 py-3 text-sm leading-6 text-slate-200">

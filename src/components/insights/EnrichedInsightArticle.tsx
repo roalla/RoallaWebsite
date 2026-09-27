@@ -42,10 +42,10 @@ export default function EnrichedInsightArticle({ slug, locale, title, summary, r
             <Image
               src={image}
               alt={copy.imageAlt}
-              width={1600}
-              height={900}
+              width={1200}
+              height={675}
               priority
-              sizes="(min-width: 1024px) 52vw, 100vw"
+              sizes="(min-width: 1024px) 640px, 100vw"
               className="h-auto w-full object-cover"
             />
           </figure>

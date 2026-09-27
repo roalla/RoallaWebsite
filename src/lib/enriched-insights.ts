@@ -44,7 +44,7 @@ export const ENRICHED_INSIGHTS: Record<EnrichedInsightSlug, InsightEntry> = {
     en: {
       category: 'Business Operations',
       imageAlt: 'A growing-business founder works with an experienced operations leader to organize priorities.',
-      plainAnswer: 'A fractional COO gives you experienced operational leadership for part of the week—without adding a full-time executive salary.',
+      plainAnswer: 'A fractional COO gives you experienced operational leadership for part of the week, without adding a full-time executive salary.',
       intro: [
         'Growth often creates a strange problem: sales are increasing, but the founder is still approving every purchase, solving every handoff and answering every urgent question. The business is bigger, yet too much still depends on one person.',
         'A fractional chief operating officer steps into that gap. They help the team decide what matters, clarify who owns what and turn plans into a weekly operating rhythm. This is hands-on leadership, not a report that sits in a folder.',
@@ -56,7 +56,7 @@ export const ENRICHED_INSIGHTS: Record<EnrichedInsightSlug, InsightEntry> = {
       stepsTitle: 'What good support should deliver',
       steps: [
         { title: 'Clear priorities', body: 'A short list of outcomes everyone can repeat and use to make trade-offs.' },
-        { title: 'Named ownership', body: 'One accountable person for each important result—not a vague group responsibility.' },
+        { title: 'Named ownership', body: 'One accountable person for each important result, not a vague group responsibility.' },
         { title: 'A working rhythm', body: 'Simple meetings, measures and follow-up that continue after the advisor leaves.' },
       ],
       takeaway: 'You do not need a fractional COO because the business is failing. You may need one because growth has made informal ways of working too expensive.',
@@ -66,7 +66,7 @@ export const ENRICHED_INSIGHTS: Record<EnrichedInsightSlug, InsightEntry> = {
     fr: {
       category: 'Opérations d’affaires',
       imageAlt: 'Une fondatrice travaille avec un leader des opérations expérimenté pour organiser les priorités.',
-      plainAnswer: 'Un COO fractionnel offre un leadership opérationnel expérimenté quelques jours par semaine—sans le salaire d’un cadre à temps plein.',
+      plainAnswer: 'Un COO fractionnel offre un leadership opérationnel expérimenté quelques jours par semaine, sans le salaire d’un cadre à temps plein.',
       intro: [
         'La croissance crée souvent un drôle de problème : les ventes augmentent, mais la personne fondatrice approuve encore chaque achat, règle chaque transfert et répond à chaque urgence. L’entreprise est plus grande, mais dépend toujours trop d’une seule personne.',
         'Un chef des opérations fractionnel comble cet écart. Il aide l’équipe à choisir les vraies priorités, à préciser les responsabilités et à transformer les plans en habitudes hebdomadaires. C’est du leadership pratique, pas un rapport oublié dans un dossier.',
@@ -97,7 +97,7 @@ export const ENRICHED_INSIGHTS: Record<EnrichedInsightSlug, InsightEntry> = {
         'Good planning turns ambition into decisions. It says what the team will focus on, what it will stop doing, who owns each result and how everyone will know whether the plan is working.',
       ],
       exampleTitle: 'From a wish list to a working plan',
-      example: 'A company wants to grow revenue, launch a new service, improve customer retention and replace its software—all this quarter. A practical plan ranks the work, chooses one growth goal, assigns owners and gives each month a clear finish line. The team finally knows what “important” means.',
+      example: 'A company wants to grow revenue, launch a new service, improve customer retention and replace its software, all in the same quarter. A practical plan ranks the work, chooses one growth goal, assigns owners and gives each month a clear finish line. The team finally knows what “important” means.',
       signsTitle: 'Your plan may be too vague if…',
       signs: ['Everything is described as a priority.', 'Projects have teams but no single owner.', 'Weekly work does not connect to company goals.', 'The plan changes whenever a new idea appears.'],
       stepsTitle: 'Build a plan people can run',
@@ -138,7 +138,7 @@ export const ENRICHED_INSIGHTS: Record<EnrichedInsightSlug, InsightEntry> = {
     en: {
       category: 'Operational Efficiency',
       imageAlt: 'A small business team replaces messy handoffs with a clear connected workflow.',
-      plainAnswer: 'Process improvement means removing the waiting, copying and confusion between steps—not making people work faster.',
+      plainAnswer: 'Process improvement means removing the waiting, copying and confusion between steps, not making people work faster.',
       intro: [
         'Most frustrating processes were not designed. They grew one workaround at a time: a spreadsheet added after a missed email, a second approval after one mistake, or a weekly report built by copying numbers from three systems.',
         'The best improvements begin by following one piece of work from start to finish. Where does it wait? Where is information entered twice? Where does nobody know who acts next? Those moments usually hide the biggest gains.',
@@ -160,7 +160,7 @@ export const ENRICHED_INSIGHTS: Record<EnrichedInsightSlug, InsightEntry> = {
     fr: {
       category: 'Efficacité opérationnelle',
       imageAlt: 'Une petite équipe remplace des transferts confus par un flux de travail clair et connecté.',
-      plainAnswer: 'Améliorer un processus, c’est retirer l’attente, la copie et la confusion entre les étapes—pas demander aux gens de travailler plus vite.',
+      plainAnswer: 'Améliorer un processus, c’est retirer l’attente, la copie et la confusion entre les étapes, pas demander aux gens de travailler plus vite.',
       intro: [
         'La plupart des processus frustrants n’ont jamais été conçus. Ils ont grandi un contournement à la fois : une feuille ajoutée après un courriel manqué, une approbation après une erreur ou un rapport produit en recopiant trois systèmes.',
         'Les meilleures améliorations suivent un travail du début à la fin. Où attend-il? Où saisit-on deux fois la même information? Où personne ne sait qui agit ensuite? Ces moments cachent souvent les meilleurs gains.',
@@ -191,7 +191,7 @@ export const ENRICHED_INSIGHTS: Record<EnrichedInsightSlug, InsightEntry> = {
         'A good first project may be a form that creates a customer record automatically, online booking that updates the real calendar, or one dashboard that replaces a weekly reporting spreadsheet.',
       ],
       exampleTitle: 'Start with one painful moment',
-      example: 'A landscaping company receives requests by phone, email and social media. Details are copied into a notebook before someone creates a quote. One online request form with automatic routing gives the team complete information and customers a faster reply—without changing the entire business.',
+      example: 'A landscaping company receives requests by phone, email and social media. Details are copied into a notebook before someone creates a quote. One online request form with automatic routing gives the team complete information and customers a faster reply, without changing the entire business.',
       signsTitle: 'Digitization can help when…',
       signs: ['Customer information lives in several places.', 'People wait for answers only one person can find.', 'Simple updates require repeated emails.', 'Growth means adding admin work at the same pace.'],
       stepsTitle: 'Choose the right first move',
@@ -243,7 +243,7 @@ export const ENRICHED_INSIGHTS: Record<EnrichedInsightSlug, InsightEntry> = {
       signs: ['The task follows the same rules every time.', 'Information is copied from one tool to another.', 'Delays happen because someone must remember the next step.', 'Errors are easy to spot but costly to repair.'],
       stepsTitle: 'Automate without creating new problems',
       steps: [
-        { title: 'Count the real cost', body: 'Include time, rework, delays and customer frustration—not just software fees.' },
+        { title: 'Count the real cost', body: 'Include time, rework, delays and customer frustration, not just software fees.' },
         { title: 'Keep a human decision', body: 'Automate routine movement while people handle judgment and exceptions.' },
         { title: 'Monitor the result', body: 'Make failures visible and give the team a clear recovery path.' },
       ],
@@ -373,7 +373,7 @@ export const ENRICHED_INSIGHTS: Record<EnrichedInsightSlug, InsightEntry> = {
     en: {
       category: 'AI Discoverability',
       imageAlt: 'Clear information about a business website is organized into relationships an AI system can interpret.',
-      plainAnswer: 'AI tools understand your business by assembling facts from your website and other public sources—not by admiring the design.',
+      plainAnswer: 'AI tools understand your business by assembling facts from your website and other public sources, not by admiring the design.',
       intro: [
         'A customer can look at colours, photography and layout and quickly sense what a business is about. An AI system looks for more direct clues: the business name, services, audience, location, expertise, policies and proof.',
         'When those facts are hidden in images, spread across pages or described differently on every profile, the system has to guess. Clear text, useful headings and consistent public information reduce that guessing.',
@@ -395,7 +395,7 @@ export const ENRICHED_INSIGHTS: Record<EnrichedInsightSlug, InsightEntry> = {
     fr: {
       category: 'Découvrabilité par l’IA',
       imageAlt: 'L’information claire d’un site d’entreprise forme des relations qu’un système d’IA peut interpréter.',
-      plainAnswer: 'Les outils d’IA comprennent votre entreprise en assemblant des faits tirés du site et d’autres sources publiques—pas en admirant la conception.',
+      plainAnswer: 'Les outils d’IA comprennent votre entreprise en assemblant des faits tirés du site et d’autres sources publiques, pas en admirant la conception.',
       intro: [
         'Un client regarde les couleurs, les photos et la mise en page pour sentir rapidement ce que fait une entreprise. Un système d’IA cherche des indices directs : nom, services, clientèle, lieu, expertise, politiques et preuves.',
         'Lorsque ces faits sont cachés dans des images, dispersés ou décrits différemment sur chaque profil, le système doit deviner. Du texte clair, des titres utiles et une information publique cohérente réduisent ces suppositions.',
@@ -467,19 +467,19 @@ export const ENRICHED_INSIGHTS: Record<EnrichedInsightSlug, InsightEntry> = {
     en: {
       category: 'Professional Trust & Visibility',
       imageAlt: 'A helping professional sits naturally during a warm, relaxed portrait session in a welcoming consultation room.',
-      plainAnswer: 'When your work depends on personal trust, your portrait is part of the first appointment—even before anyone books it. The strongest image feels current, calm and recognizably you.',
+      plainAnswer: 'When your work depends on personal trust, your portrait is part of the first appointment, even before anyone books it. The strongest image feels current, calm and recognizably you.',
       intro: [
         'Someone looking for a chiropractor, psychotherapist, psychologist, counsellor, coach or other helping professional may arrive at your website uncertain, uncomfortable or unsure whom to trust. Before they understand every qualification, they are quietly asking a simpler question: “Could I feel comfortable speaking with this person?”',
         'Your portrait cannot answer that question by itself, and it should never manufacture closeness or promise a result. It can, however, reduce unnecessary uncertainty. A natural expression, comfortable posture and relevant setting help people form a realistic first impression of the person they may meet.',
         'This is not about being conventionally attractive or showing a large smile. A smile that does not reach the eyes, a rigid pose, crossed arms, an unnatural angle or heavy retouching can feel less trustworthy precisely because it looks performed. A thoughtful neutral expression or small genuine smile is often more inviting than forced enthusiasm.',
-        'Consistency matters too. If the website shows a polished persona that feels very different from the real consultation, the mismatch can weaken confidence. The objective is an accurate, professional introduction—not a character created for marketing.',
+        'Consistency matters too. If the website shows a polished persona that feels very different from the real consultation, the mismatch can weaken confidence. The objective is an accurate, professional introduction, not a character created for marketing.',
       ],
       exampleTitle: 'The same professional can create two very different first impressions',
       example: 'Imagine the same therapist in two photographs. In the first, they stand against a bright studio wall with folded arms, chin raised and a wide instructed smile. In the second, they sit comfortably in their actual consultation space, shoulders relaxed, looking attentive with a gentle expression. Neither image proves clinical ability, but the second gives a prospective client a more believable preview of the interaction and can make contacting the practice feel less intimidating.',
       signsTitle: 'An effective professional portrait should feel…',
       signs: [
         'Current enough that clients recognize you when they arrive.',
-        'Relaxed in the shoulders, hands, jaw and eyes—not frozen into a pose.',
+        'Relaxed in the shoulders, hands, jaw and eyes, not frozen into a pose.',
         'Warm without requiring a large or artificial smile.',
         'Professionally lit while preserving real skin texture and natural features.',
         'Consistent with how you dress and communicate in normal practice.',
@@ -491,7 +491,7 @@ export const ENRICHED_INSIGHTS: Record<EnrichedInsightSlug, InsightEntry> = {
       steps: [
         { title: 'Define the experience', body: 'Start with how a real client should experience you: calm, attentive, practical, energetic or reassuring. Choose two or three honest qualities. This gives the photographer direction without asking you to act like someone else.' },
         { title: 'Create comfort before posing', body: 'Use a skilled photographer or brand professional who can build rapport, guide posture gently and keep the session moving. Conversation, breathing room and small movements usually produce a more genuine expression than repeatedly saying “smile.”' },
-        { title: 'Select for the client’s context', body: 'Compare images at full size and as small mobile crops. Look for ease in the eyes and body, ask whether the setting matches the service, and get feedback from people who understand the clients—not simply the photograph with the biggest smile.' },
+        { title: 'Select for the client’s context', body: 'Compare images at full size and as small mobile crops. Look for ease in the eyes and body, ask whether the setting matches the service, and get feedback from people who understand the clients, not simply the photograph with the biggest smile.' },
       ],
       takeaway: 'Your portrait should not persuade people by pretending. It should remove visual friction and offer an honest preview of your presence. When the expression, setting and real experience agree, prospective clients can make the next step with greater clarity and comfort.',
       ctaTitle: 'Does your current portrait reflect how clients actually experience you?',
@@ -500,12 +500,12 @@ export const ENRICHED_INSIGHTS: Record<EnrichedInsightSlug, InsightEntry> = {
     fr: {
       category: 'Confiance et visibilité professionnelles',
       imageAlt: 'Une professionnelle de l’accompagnement pose naturellement pendant une séance détendue dans un espace de consultation accueillant.',
-      plainAnswer: 'Lorsque votre travail repose sur la confiance, votre portrait fait déjà partie du premier rendez-vous—avant même la réservation. La meilleure image paraît actuelle, calme et fidèle à vous-même.',
+      plainAnswer: 'Lorsque votre travail repose sur la confiance, votre portrait fait déjà partie du premier rendez-vous, avant même la réservation. La meilleure image paraît actuelle, calme et fidèle à vous-même.',
       intro: [
         'Une personne qui cherche un chiropraticien, une psychothérapeute, un psychologue, une conseillère, un coach ou une autre professionnelle de l’accompagnement peut arriver sur votre site avec de l’incertitude ou de l’inconfort. Avant de comprendre chaque qualification, elle se pose une question simple : « Pourrais-je me sentir à l’aise de parler avec cette personne? »',
         'Votre portrait ne peut pas répondre seul à cette question et ne devrait jamais fabriquer une proximité ou promettre un résultat. Il peut toutefois réduire une incertitude inutile. Une expression naturelle, une posture confortable et un décor pertinent donnent une première impression plus réaliste de la personne que le client pourrait rencontrer.',
         'Il ne s’agit pas d’être conventionnellement attirant ni d’afficher un grand sourire. Un sourire qui ne se voit pas dans les yeux, une pose rigide, les bras croisés, un angle inhabituel ou une retouche excessive peuvent sembler moins fiables justement parce qu’ils paraissent joués. Une expression réfléchie ou un petit sourire sincère est souvent plus invitant qu’un enthousiasme forcé.',
-        'La cohérence compte aussi. Si le site présente un personnage très différent de la personne rencontrée en consultation, ce décalage peut affaiblir la confiance. Le but est une présentation professionnelle fidèle—pas un rôle créé pour le marketing.',
+        'La cohérence compte aussi. Si le site présente un personnage très différent de la personne rencontrée en consultation, ce décalage peut affaiblir la confiance. Le but est une présentation professionnelle fidèle, pas un rôle créé pour le marketing.',
       ],
       exampleTitle: 'La même personne peut créer deux premières impressions très différentes',
       example: 'Imaginez la même thérapeute dans deux photos. Dans la première, elle se tient devant un mur de studio très clair, les bras croisés, le menton relevé et un large sourire demandé. Dans la seconde, elle est assise confortablement dans son véritable espace de consultation, les épaules détendues et le regard attentif. Aucune photo ne prouve sa compétence clinique, mais la seconde offre un aperçu plus crédible de l’échange et peut rendre la prise de contact moins intimidante.',
@@ -524,7 +524,7 @@ export const ENRICHED_INSIGHTS: Record<EnrichedInsightSlug, InsightEntry> = {
       steps: [
         { title: 'Définir l’expérience', body: 'Commencez par la façon dont un vrai client devrait vous percevoir : calme, attentive, pratique, énergique ou rassurante. Choisissez deux ou trois qualités sincères. La photographe obtient ainsi une direction sans vous demander de jouer un personnage.' },
         { title: 'Créer le confort avant la pose', body: 'Choisissez une photographe ou une spécialiste de marque capable d’établir un lien, de guider doucement la posture et de garder la séance vivante. La conversation, les pauses et les petits mouvements produisent souvent une expression plus vraie que la consigne répétée de sourire.' },
-        { title: 'Choisir selon le contexte client', body: 'Comparez les images en grand format et en petit cadrage mobile. Recherchez l’aisance dans le regard et le corps, vérifiez si le décor correspond au service et demandez l’avis de personnes qui comprennent les clients—pas seulement la photo avec le plus grand sourire.' },
+        { title: 'Choisir selon le contexte client', body: 'Comparez les images en grand format et en petit cadrage mobile. Recherchez l’aisance dans le regard et le corps, vérifiez si le décor correspond au service et demandez l’avis de personnes qui comprennent les clients, pas seulement la photo avec le plus grand sourire.' },
       ],
       takeaway: 'Votre portrait ne devrait pas convaincre en jouant un rôle. Il devrait réduire la friction visuelle et offrir un aperçu honnête de votre présence. Lorsque l’expression, le décor et l’expérience réelle concordent, les clients potentiels peuvent avancer avec plus de clarté et de confort.',
       ctaTitle: 'Votre portrait actuel reflète-t-il l’expérience réelle de vos clients?',
@@ -559,7 +559,7 @@ export const ENRICHED_INSIGHTS: Record<EnrichedInsightSlug, InsightEntry> = {
       stepsTitle: 'Set up email in the right order',
       steps: [
         { title: 'Use your own domain', body: 'Choose a managed business email provider and send as name@yourcompany.com. Google Workspace or Microsoft 365 are professional when configured this way.' },
-        { title: 'Get the whole system reviewed', body: 'Ask a qualified professional to inventory your mailbox, website, CRM, invoicing and marketing tools. They can configure SPF, enable DKIM and introduce DMARC with reporting before tightening enforcement—without accidentally excluding a legitimate sender.' },
+        { title: 'Get the whole system reviewed', body: 'Ask a qualified professional to inventory your mailbox, website, CRM, invoicing and marketing tools. They can configure SPF, enable DKIM and introduce DMARC with reporting before tightening enforcement, without accidentally excluding a legitimate sender.' },
         { title: 'Monitor with evidence', body: 'Protect your reputation with expected mail, steady volumes, clean lists and sensible separation of transactional and promotional traffic. A professional can read delivery headers and DMARC reports, trace failures and submit specific false positives instead of broadly allowlisting a consumer domain.' },
       ],
       takeaway: 'Your domain is a reputation asset. A branded address creates recognition; authentication and responsible sending prove that recognition deserves trust. Professional guidance is especially useful because one incomplete record or forgotten sending tool can affect the entire system, while the right fix must protect delivery and security at the same time.',
@@ -592,7 +592,7 @@ export const ENRICHED_INSIGHTS: Record<EnrichedInsightSlug, InsightEntry> = {
       stepsTitle: 'Configurer le courriel dans le bon ordre',
       steps: [
         { title: 'Utiliser votre domaine', body: 'Choisir un fournisseur géré et envoyer depuis nom@votreentreprise.ca. Google Workspace ou Microsoft 365 sont professionnels lorsqu’ils sont configurés ainsi.' },
-        { title: 'Faire réviser tout le système', body: 'Demander à une personne qualifiée d’inventorier la boîte, le site, le CRM, la facturation et le marketing. Elle peut configurer SPF, activer DKIM et introduire DMARC avec des rapports avant de renforcer la politique—sans oublier un expéditeur légitime.' },
+        { title: 'Faire réviser tout le système', body: 'Demander à une personne qualifiée d’inventorier la boîte, le site, le CRM, la facturation et le marketing. Elle peut configurer SPF, activer DKIM et introduire DMARC avec des rapports avant de renforcer la politique, sans oublier un expéditeur légitime.' },
         { title: 'Surveiller avec des preuves', body: 'Protéger la réputation avec des messages attendus, un volume stable, des listes propres et une séparation pertinente des courriels transactionnels et promotionnels. Une personne qualifiée peut lire les en-têtes et rapports DMARC, retracer les échecs et signaler précisément les faux positifs sans autoriser globalement un domaine grand public.' },
       ],
       takeaway: 'Votre domaine est un actif de réputation. Une adresse de marque crée la reconnaissance; l’authentification et les bonnes pratiques prouvent qu’elle mérite la confiance. Un accompagnement professionnel est particulièrement utile, car un enregistrement incomplet ou un outil oublié peut toucher tout le système, alors que la bonne correction doit protéger à la fois la livraison et la sécurité.',

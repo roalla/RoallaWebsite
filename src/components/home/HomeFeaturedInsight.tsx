@@ -97,8 +97,7 @@ export default function HomeFeaturedInsight() {
                         alt=""
                         fill
                         className="object-cover motion-safe:transition-transform motion-safe:duration-500 group-hover:scale-[1.03]"
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                        unoptimized
+                        sizes="(max-width: 767px) 100vw, 380px"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/35 to-transparent" aria-hidden />
                       {fromEngagement ? (

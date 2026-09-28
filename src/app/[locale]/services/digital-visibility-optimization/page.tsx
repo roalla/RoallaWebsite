@@ -167,6 +167,22 @@ export default async function DigitalVisibilityOptimizationPage({
             </div>
           </section>
 
+          <section className="pb-16" aria-labelledby="visibility-jobs-title">
+            <h2 id="visibility-jobs-title" className="text-3xl font-serif font-bold text-slate-900">
+              {content.jobsTitle}
+            </h2>
+            <p className="mt-3 max-w-3xl text-slate-700 leading-relaxed">{content.jobsIntro}</p>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {content.jobs.map(([label, role, body]) => (
+                <article key={label} className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <p className="font-serif text-2xl font-bold text-slate-950">{label}</p>
+                  <p className="mt-1 text-sm font-semibold text-primary-dark">{role}</p>
+                  <p className="mt-3 text-sm leading-6 text-slate-700">{body}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
           <section className="py-16 border-y border-slate-200">
             <h2 className="text-3xl font-serif font-bold text-slate-900">
               {content.processTitle}
@@ -247,7 +263,7 @@ export default async function DigitalVisibilityOptimizationPage({
             <h2 className="text-2xl font-serif font-bold text-slate-900">
               {content.insightsTitle}
             </h2>
-            <div className="mt-5 flex flex-col sm:flex-row gap-3">
+            <div className="mt-5 grid gap-3 md:grid-cols-3">
               {content.insights.map(([slug, title]) => (
                 <Link
                   key={slug}

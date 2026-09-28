@@ -2,7 +2,7 @@ export const visibilityContent = {
   en: {
     metadataTitle: "Digital Visibility Optimization | ROALLA",
     metadataDescription:
-      "Improve search visibility, AI readability, technical health, accessibility, content clarity, trust, and conversion through one coordinated service.",
+      "Coordinate SEO, direct answers, AI-readable facts, accessibility, and conversion. ROALLA does not guarantee rankings or AI citations.",
     breadcrumb: "Digital Visibility Optimization",
     eyebrow: "Digital Visibility Optimization",
     title:
@@ -25,6 +25,31 @@ export const visibilityContent = {
     includesTitle: "What digital visibility includes",
     includesIntro:
       "We coordinate technical, content, local, accessibility, performance, and measurement work so improvements reinforce one another.",
+    jobsTitle: "SEO, AEO, GEO, and chatbots are different jobs",
+    jobsIntro:
+      "They share one website. They do not share one outcome. ROALLA treats them as one system, and does not promise a ranking, a featured answer, or a citation.",
+    jobs: [
+      [
+        "SEO",
+        "Search results",
+        "Help the right page earn a place when someone searches. A search engine still has to crawl the page, store it, and judge it useful. Nobody outside that engine can guarantee a ranking.",
+      ],
+      [
+        "AEO",
+        "Direct answers",
+        "Make one specific reply easy to extract for snippets, “People also ask,” and voice. A page can rank and still miss the answer box if the useful sentence is buried.",
+      ],
+      [
+        "GEO",
+        "Written answers",
+        "Make the business easy to describe accurately when a system such as ChatGPT, Perplexity, Gemini, or an AI Overview writes a new answer. A mention is not a click.",
+      ],
+      [
+        "Chatbots and crawlers",
+        "Page fetches",
+        "A chatbot can only repeat pages it can fetch. Search crawlers, retrieval crawlers, and training crawlers are not customers. This site has no public chatbot. Inquiries use the contact form.",
+      ],
+    ],
     lanes: [
       {
         title: "Discoverability Foundation",
@@ -108,7 +133,7 @@ export const visibilityContent = {
     faqs: [
       [
         "Is this just SEO?",
-        "No. SEO is one part. The service also covers AI and answer readability, accessibility, performance, trust, conversion, local visibility, and measurement.",
+        "No. SEO helps a page earn a place in search results. Answer engine optimization makes a direct reply easy to extract. Generative engine optimization makes the business easy to describe when an AI writes an answer. Chatbots and crawlers only fetch pages. The service coordinates those jobs with accessibility, performance, trust, conversion, and measurement.",
       ],
       [
         "Can ROALLA guarantee Google rankings or AI citations?",
@@ -130,6 +155,10 @@ export const visibilityContent = {
     insightsTitle: "Supporting visibility insights",
     insights: [
       [
+        "geo-seo-aeo-and-bots",
+        "SEO, AEO, GEO and bots: four different jobs",
+      ],
+      [
         "how-ai-systems-understand-websites",
         "How AI systems understand business websites",
       ],
@@ -146,7 +175,7 @@ export const visibilityContent = {
   fr: {
     metadataTitle: "Optimisation de la visibilité numérique | ROALLA",
     metadataDescription:
-      "Améliorez la visibilité dans la recherche, la lisibilité par l’IA, la santé technique, l’accessibilité, la clarté, la confiance et la conversion dans un service coordonné.",
+      "Coordonnez le référencement, les réponses directes, les faits lisibles par l’IA, l’accessibilité et la conversion. Aucune garantie de classement ou de citation.",
     breadcrumb: "Optimisation de la visibilité numérique",
     eyebrow: "Optimisation de la visibilité numérique",
     title:
@@ -170,6 +199,31 @@ export const visibilityContent = {
     includesTitle: "Ce que comprend la visibilité numérique",
     includesIntro:
       "Nous coordonnons le travail technique, le contenu, la présence locale, l’accessibilité, la performance et la mesure pour que chaque amélioration renforce les autres.",
+    jobsTitle: "Le SEO, l’AEO, le GEO et les agents conversationnels n’ont pas le même rôle",
+    jobsIntro:
+      "Ils partagent un site Web. Ils ne produisent pas le même résultat. ROALLA les traite comme un seul système, sans promettre un classement, une réponse en vedette ou une citation.",
+    jobs: [
+      [
+        "SEO",
+        "Résultats de recherche",
+        "Aider la bonne page à obtenir une place lorsqu’une personne cherche. Le moteur doit encore explorer la page, la conserver et la juger utile. Personne à l’extérieur de ce moteur ne peut garantir un classement.",
+      ],
+      [
+        "AEO",
+        "Réponses directes",
+        "Rendre une réponse précise facile à extraire pour les extraits, « Autres questions posées » et la voix. Une page peut se classer et rater l’encadré si la phrase utile est enfouie.",
+      ],
+      [
+        "GEO",
+        "Réponses rédigées",
+        "Rendre l’entreprise facile à décrire correctement lorsqu’un système comme ChatGPT, Perplexity, Gemini ou un aperçu IA rédige une nouvelle réponse. Une mention n’est pas un clic.",
+      ],
+      [
+        "Agents et robots",
+        "Récupération des pages",
+        "Un agent conversationnel ne peut répéter que les pages qu’il peut récupérer. Les robots de recherche, de récupération et d’entraînement ne sont pas des clients. Ce site n’a pas d’agent public. Les demandes passent par le formulaire de contact.",
+      ],
+    ],
     lanes: [
       {
         title: "Fondation de découvrabilité",
@@ -253,7 +307,7 @@ export const visibilityContent = {
     faqs: [
       [
         "Est-ce simplement du SEO?",
-        "Non. Le référencement est une composante. Le service couvre aussi la lisibilité pour l’IA et les moteurs de réponses, l’accessibilité, la performance, la confiance, la conversion, la visibilité locale et la mesure.",
+        "Non. Le SEO aide une page à obtenir une place dans les résultats. L’optimisation pour les moteurs de réponses rend une réplique directe facile à extraire. L’optimisation pour les moteurs génératifs rend l’entreprise facile à décrire lorsqu’une IA rédige une réponse. Les agents et les robots ne font que récupérer des pages. Le service coordonne ces tâches avec l’accessibilité, la performance, la confiance, la conversion et la mesure.",
       ],
       [
         "ROALLA peut-elle garantir les classements Google ou les citations IA?",
@@ -274,6 +328,10 @@ export const visibilityContent = {
     ],
     insightsTitle: "Perspectives sur la visibilité",
     insights: [
+      [
+        "geo-seo-aeo-and-bots",
+        "SEO, AEO, GEO et robots : quatre tâches différentes",
+      ],
       [
         "how-ai-systems-understand-websites",
         "Comment les systèmes d’IA comprennent les sites Web d’entreprise",

@@ -204,7 +204,7 @@
     "visibility": {
       "eyebrow": "Digital Visibility Optimization",
       "title": "Become easier to find, understand, and trust",
-      "description": "ROALLA improves how websites and digital products are interpreted by people, search engines, answer engines, and AI systems.",
+      "description": "ROALLA improves how people, search engines, answer boxes, generative AI, and chatbots find and describe a business. Those are related jobs, not one guarantee.",
       "capabilitiesTitle": "A coordinated visibility foundation",
       "technicalSeo": "Technical SEO",
       "structuredData": "Structured data",
@@ -2416,7 +2416,9 @@
     "q18": "What technologies do you use?",
     "a18": "We choose stacks based on your requirements—modern web frameworks, cloud hosting, APIs, and integration platforms that fit your team and budget. The priority is maintainable, production-ready systems your organization can run—not technology for its own sake.",
     "q19": "How do workshops differ from Business Enablement programs?",
-    "a19": "Workshops are hands-on skill-building sessions—branding, sales, productivity, or ideation—for teams that want targeted learning. Business Enablement programs are broader advisory engagements covering strategy, operations, teams, data, and innovation with implementation support."
+    "a19": "Workshops are hands-on skill-building sessions—branding, sales, productivity, or ideation—for teams that want targeted learning. Business Enablement programs are broader advisory engagements covering strategy, operations, teams, data, and innovation with implementation support.",
+    "q20": "What is the difference between SEO, AEO, GEO, and a chatbot?",
+    "a20": "SEO helps a page earn a place in search results. AEO, answer engine optimization, makes one reply easy to extract for snippets and voice. GEO, generative engine optimization, makes a business easy to describe when an AI writes an answer. A chatbot can only repeat pages it can fetch. It does not create rankings or citations. ROALLA does not run a public chatbot on this site, does not guarantee rankings or AI mentions, and takes inquiries through the contact form."
   },
   "contact": {
     "metadataTitle": "Contact Us | ROALLA",

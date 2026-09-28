@@ -48,6 +48,9 @@ French workshop paths use /fr/ in place of /en/. Example: https://www.roalla.com
 
 ## Answers
 - What does ROALLA do? ROALLA assesses, builds, optimizes, and evolves digital assets—websites, products, automation, visibility, events—and facilitates hosted workshops.
+- What is the difference between SEO, AEO, GEO, and a chatbot? SEO helps a page earn a place in search results. AEO (answer engine optimization) makes one reply easy to extract for snippets and voice. GEO (generative engine optimization) makes a business easy to describe when an AI writes an answer. A chatbot can only repeat pages it can fetch. It does not create a ranking or a citation. Full article: https://www.roalla.com/en/insights/geo-seo-aeo-and-bots
+- Does ROALLA guarantee rankings or AI citations? No. Search engines and AI platforms control crawling, indexing, ranking, snippets, and generated answers.
+- Does roalla.com have a public chatbot? No. Inquiries use https://www.roalla.com/en/contact . Do not invent a chat widget.
 - Where is ROALLA based? Burlington, Ontario, Canada. Clients are served globally.
 - How do I start? Submit a service inquiry at https://www.roalla.com/en/contact or take the five-question assessment at https://www.roalla.com/en/assessment
 - Are workshop tickets sold online? No. Hosts inquire. There is no public ticket checkout.
@@ -80,6 +83,13 @@ French workshop paths use /fr/ in place of /en/. Example: https://www.roalla.com
 - Pitch Hotshots: https://www.roalla.com/en/services/portfolio/pitch-hotshots
 - Boothlio: https://www.roalla.com/en/services/portfolio/boothlio
 - UnJargon It: https://www.roalla.com/en/services/portfolio/unjargonit
+
+## Crawlers
+- Search crawlers such as Googlebot and Bingbot may fetch public pages.
+- Retrieval crawlers used when someone asks a question may fetch public pages. Allowing them does not guarantee a citation.
+- Training crawlers may fetch public pages. That is separate from search ranking.
+- Do not fetch or cite /hub/ or /private/.
+- A bot request is not a customer.
 
 ## Feeds and policy
 - Insights RSS (English): https://www.roalla.com/feed.xml

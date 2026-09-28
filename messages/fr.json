@@ -204,7 +204,7 @@
     "visibility": {
       "eyebrow": "Optimisation de la visibilité numérique",
       "title": "Devenez plus facile à trouver, à comprendre et à reconnaître",
-      "description": "ROALLA améliore la façon dont les sites Web et produits numériques sont interprétés par les personnes, les moteurs de recherche, les moteurs de réponses et les systèmes d'IA.",
+      "description": "ROALLA améliore la façon dont les personnes, les moteurs de recherche, les encadrés de réponse, l’IA générative et les agents conversationnels trouvent et décrivent une entreprise. Ce sont des tâches liées, pas une garantie.",
       "capabilitiesTitle": "Une fondation de visibilité coordonnée",
       "technicalSeo": "Référencement technique",
       "structuredData": "Données structurées",
@@ -2416,7 +2416,9 @@
     "q18": "Quelles technologies utilisez-vous?",
     "a18": "Nous choisissons la stack selon vos besoins—frameworks Web modernes, hébergement cloud, API et plateformes d'intégration adaptées à votre équipe et budget. La priorité : des systèmes maintenables et prêts pour la production—notre technologie pour elle-même.",
     "q19": "En quoi les ateliers diffèrent-ils des programmes d'accompagnement d'entreprise?",
-    "a19": "Les ateliers sont des sessions pratiques de montée en compétences—image de marque, ventes, productivité ou idéation—pour les équipes qui veulent un apprentissage ciblé. Les programmes d'accompagnement couvrent stratégie, opérations, équipes, données et innovation avec soutien à la mise en œuvre."
+    "a19": "Les ateliers sont des sessions pratiques de montée en compétences—image de marque, ventes, productivité ou idéation—pour les équipes qui veulent un apprentissage ciblé. Les programmes d'accompagnement couvrent stratégie, opérations, équipes, données et innovation avec soutien à la mise en œuvre.",
+    "q20": "Quelle est la différence entre le SEO, l’AEO, le GEO et un agent conversationnel?",
+    "a20": "Le SEO aide une page à obtenir une place dans les résultats de recherche. L’AEO, l’optimisation pour les moteurs de réponses, rend une réplique facile à extraire pour les extraits et la voix. Le GEO, l’optimisation pour les moteurs génératifs, rend une entreprise facile à décrire lorsqu’une IA rédige une réponse. Un agent conversationnel ne peut répéter que les pages qu’il récupère. Il ne crée ni classement ni citation. ROALLA n’exploite pas d’agent public sur ce site, ne garantit ni les classements ni les mentions par l’IA, et reçoit les demandes par le formulaire de contact."
   },
   "contact": {
     "metadataTitle": "Contact | ROALLA",

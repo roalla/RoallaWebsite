@@ -129,7 +129,7 @@ export default function ContrastTextSizeConversionArticle({ locale, title, summa
           </div>
           <figure className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 shadow-xl shadow-slate-900/10">
             <Image
-              src="/images/insights/library/accessibility-is-customer-experience.webp"
+              src="/images/insights/library/contrast-text-size-accessibility-conversion.webp"
               alt={french ? 'Une interface claire utilise le contraste et la taille du texte pour guider l’attention.' : 'A clear interface uses contrast and text size to guide attention.'}
               width={1600}
               height={900}

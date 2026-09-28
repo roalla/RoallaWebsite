@@ -177,7 +177,7 @@ export const INSIGHT_OG_IMAGES: Partial<Record<InsightSlug, string>> = {
   "prepare-strategic-planning-workshop": "/images/insights/library/strategic-planning.webp",
   "ideation-too-many-ideas": "/images/insights/library/workshop-consultant-or-fractional-leader.webp",
   "free-website-builder-seo-ai-visibility-tradeoffs": "/images/insights/library/is-your-website-builder-limiting-growth.webp",
-  "contrast-text-size-accessibility-conversion": "/images/insights/library/accessibility-is-customer-experience.webp",
+  "contrast-text-size-accessibility-conversion": "/images/insights/library/contrast-text-size-accessibility-conversion.webp",
 };
 
 /** Insights rooted in delivery work — shown with an engagement chip on the homepage */

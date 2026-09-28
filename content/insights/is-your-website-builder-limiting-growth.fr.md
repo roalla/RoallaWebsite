@@ -1,16 +1,16 @@
-# Votre outil de création de sites vous coûte-t-il des clients potentiels?
+# Votre plateforme à modèles vous coûte-t-elle des clients potentiels?
 
 Votre site a une allure professionnelle. Il présente votre logo, vos services et un formulaire de contact. Pourtant, de nouveaux clients disent encore : « Je ne vous trouvais pas », des demandes se perdent dans une boîte de réception et personne ne sait quelles pages génèrent vraiment des affaires.
 
 Voilà le problème : **un site peut être beau tout en freinant la croissance.**
 
-Wix, Squarespace, GoDaddy et les constructeurs visuels WordPress permettent de se mettre rapidement en ligne. Les limites apparaissent quand l’entreprise a besoin de plus qu’une brochure numérique. Le site doit attirer de bons prospects, se connecter aux outils de réservation ou de vente, répondre aux questions et montrer ce qui fonctionne.
+Des plateformes comme Wix, Squarespace et GoDaddy partent d’un modèle prêt à l’emploi que l’on modifie en déplaçant les éléments à l’écran. Un thème WordPress avec un éditeur visuel fonctionne de la même façon. Les limites apparaissent quand l’entreprise a besoin de plus qu’une brochure numérique. Le site doit attirer de bons prospects, se connecter aux outils de réservation ou de vente, répondre aux questions et montrer ce qui fonctionne.
 
 > Si votre site n’aide pas les gens à vous trouver, à vous faire confiance et à passer à l’étape suivante, il n’en fait pas assez pour votre entreprise.
 
-## Les constructeurs sont utiles jusqu’à ce que le travail change
+## Les plateformes à modèles sont utiles jusqu’à ce que le travail change
 
-Un constructeur de sites est souvent un bon choix pour :
+Une plateforme de sites à modèles est souvent un bon choix pour :
 
 - lancer rapidement un site simple;
 - présenter quelques services ou produits;
@@ -18,7 +18,7 @@ Un constructeur de sites est souvent un bon choix pour :
 - regrouper l’hébergement et la sécurité; ou
 - garder un coût mensuel prévisible.
 
-Il n’y a rien de mauvais là-dedans. Le problème commence lorsque les limites de l’outil dictent les décisions de l’entreprise.
+Il n’y a rien de mauvais là-dedans. Le problème commence lorsque les limites de la plateforme dictent les décisions de l’entreprise.
 
 Par exemple, « notre plateforme ne peut pas se connecter à cet outil de réservation » signifie souvent plus de travail manuel, un suivi plus lent et des clients perdus. « Nous ne pouvons pas changer la façon dont cette page apparaît dans Google » peut obliger l’entreprise à payer de la publicité simplement pour être trouvée.
 
@@ -58,7 +58,7 @@ Vous n’avez pas besoin de comprendre le code. Posez cinq questions d’affaire
 
 Si vous avez répondu « pas vraiment » plus d’une fois, votre site mérite un examen plus poussé.
 
-## Sept signes que votre constructeur vous freine peut-être
+## Sept signes que votre plateforme à modèles vous freine peut-être
 
 1. Des pages importantes sont difficiles à trouver dans Google, même avec une recherche très précise.
 2. Le site est lent sur téléphone et réduire la taille des images ne règle pas le problème.
@@ -72,7 +72,7 @@ Un seul signe ne signifie pas qu’il faut remplacer le site. Plusieurs signes r
 
 ## Et WordPress?
 
-WordPress est plus flexible qu’un constructeur fermé, mais cette flexibilité peut aussi créer des problèmes.
+WordPress est plus flexible qu’une plateforme à modèles fermée, mais cette flexibilité peut aussi créer des problèmes.
 
 Un site WordPress bien construit peut être rapide, facile à trouver et bien connecté. Un site assemblé avec un thème lourd, un constructeur visuel et de nombreuses extensions peut devenir lent et fragile. Une mise à jour peut briser une fonction, plusieurs extensions peuvent se disputer les réglages de recherche et personne n’ose plus rien modifier.
 

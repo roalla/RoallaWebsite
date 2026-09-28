@@ -9,6 +9,7 @@ export type EnrichedInsightSlug = Exclude<
   | 'is-your-website-builder-limiting-growth'
   | 'free-website-builder-seo-ai-visibility-tradeoffs'
   | 'contrast-text-size-accessibility-conversion'
+  | 'networking-roi-solopreneurs-small-business'
 >
 
 export type InsightStep = { title: string; body: string }

@@ -12,6 +12,7 @@ import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/structured-data'
 import {
   CONTRAST_TEXT_SIZE_INSIGHT_SLUG,
   FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG,
+  NETWORKING_ROI_INSIGHT_SLUG,
   WEBSITE_BUILDER_INSIGHT_SLUG,
 } from '@/lib/website-builder-insight'
 
@@ -24,6 +25,7 @@ function insightCategory(
     slug === WEBSITE_BUILDER_INSIGHT_SLUG
     || slug === FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG
     || slug === CONTRAST_TEXT_SIZE_INSIGHT_SLUG
+    || slug === NETWORKING_ROI_INSIGHT_SLUG
   ) {
     return t(`${slug}.category`)
   }

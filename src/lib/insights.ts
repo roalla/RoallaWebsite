@@ -54,6 +54,7 @@ export const INSIGHT_SLUGS = [
   "is-your-website-builder-limiting-growth",
   "free-website-builder-seo-ai-visibility-tradeoffs",
   "contrast-text-size-accessibility-conversion",
+  "networking-roi-solopreneurs-small-business",
 ] as const;
 
 export type InsightSlug = (typeof INSIGHT_SLUGS)[number];
@@ -97,7 +98,7 @@ export const INSIGHT_GROUPS: Record<InsightGroup, readonly InsightSlug[]> = {
     "free-website-builder-seo-ai-visibility-tradeoffs",
     "contrast-text-size-accessibility-conversion",
   ],
-  advisory: ["fractional-coo", "strategic-planning", "process-optimization", "build-buy-or-integrate-technology", "workshop-consultant-or-fractional-leader", "founder-decision-bottleneck", "clear-decision-rights", "90-day-plan-vs-five-year-strategy", "process-problems-and-ownership", "team-change-readiness", "questions-before-choosing-business-platform", "what-technology-advisor-does", "compare-technology-proposals", "business-continuity-basics", "small-business-cybersecurity-priorities", "workshop-vs-another-meeting", "why-training-does-not-change-behaviour", "workshop-to-30-days-of-action", "prepare-strategic-planning-workshop", "ideation-too-many-ideas"],
+  advisory: ["fractional-coo", "strategic-planning", "process-optimization", "build-buy-or-integrate-technology", "workshop-consultant-or-fractional-leader", "founder-decision-bottleneck", "clear-decision-rights", "90-day-plan-vs-five-year-strategy", "process-problems-and-ownership", "team-change-readiness", "questions-before-choosing-business-platform", "what-technology-advisor-does", "compare-technology-proposals", "business-continuity-basics", "small-business-cybersecurity-priorities", "workshop-vs-another-meeting", "why-training-does-not-change-behaviour", "workshop-to-30-days-of-action", "prepare-strategic-planning-workshop", "ideation-too-many-ideas", "networking-roi-solopreneurs-small-business"],
 };
 
 /**
@@ -105,7 +106,7 @@ export const INSIGHT_GROUPS: Record<InsightGroup, readonly InsightSlug[]> = {
  * The live menu reads the saved selection; this list is the default.
  */
 export const HEADER_INSIGHT_SLUGS = [
-  "contrast-text-size-accessibility-conversion",
+  "networking-roi-solopreneurs-small-business",
   "professional-email-avoid-spam-phishing",
   "search-and-ai-visibility",
   "fractional-coo",
@@ -178,6 +179,7 @@ export const INSIGHT_OG_IMAGES: Partial<Record<InsightSlug, string>> = {
   "ideation-too-many-ideas": "/images/insights/library/workshop-consultant-or-fractional-leader.webp",
   "free-website-builder-seo-ai-visibility-tradeoffs": "/images/insights/library/is-your-website-builder-limiting-growth.webp",
   "contrast-text-size-accessibility-conversion": "/images/insights/library/contrast-text-size-accessibility-conversion.webp",
+  "networking-roi-solopreneurs-small-business": "/images/insights/library/networking-roi-solopreneurs-small-business.webp",
 };
 
 /** Insights rooted in delivery work — shown with an engagement chip on the homepage */
@@ -251,4 +253,5 @@ export const INSIGHT_PUBLISHED_DATES: Record<InsightSlug, string> = {
   "is-your-website-builder-limiting-growth": "2026-09-26",
   "free-website-builder-seo-ai-visibility-tradeoffs": "2026-09-28",
   "contrast-text-size-accessibility-conversion": "2026-09-28",
+  "networking-roi-solopreneurs-small-business": "2026-09-28",
 };

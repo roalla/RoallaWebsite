@@ -6,6 +6,7 @@ import Breadcrumb from '@/components/Breadcrumb'
 import ContrastTextSizeConversionArticle from '@/components/insights/ContrastTextSizeConversionArticle'
 import EnrichedInsightArticle from '@/components/insights/EnrichedInsightArticle'
 import FreeWebsiteBuilderTradeoffsArticle from '@/components/insights/FreeWebsiteBuilderTradeoffsArticle'
+import NetworkingRoiArticle from '@/components/insights/NetworkingRoiArticle'
 import WebsiteBuilderLimitationsArticle from '@/components/insights/WebsiteBuilderLimitationsArticle'
 import JsonLd from '@/components/JsonLd'
 import type { EnrichedInsightSlug } from '@/lib/enriched-insights'
@@ -17,6 +18,7 @@ import { articleJsonLd, breadcrumbJsonLd } from '@/lib/structured-data'
 import {
   CONTRAST_TEXT_SIZE_INSIGHT_SLUG,
   FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG,
+  NETWORKING_ROI_INSIGHT_SLUG,
   WEBSITE_BUILDER_INSIGHT_SLUG,
 } from '@/lib/website-builder-insight'
 
@@ -40,6 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const isWebsiteBuilderArticle = slug === WEBSITE_BUILDER_INSIGHT_SLUG
   const isFreeWebsiteBuilderTradeoffsArticle = slug === FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG
   const isContrastTextSizeArticle = slug === CONTRAST_TEXT_SIZE_INSIGHT_SLUG
+  const isNetworkingRoiArticle = slug === NETWORKING_ROI_INSIGHT_SLUG
 
   return buildArticlePageMetadata({
     locale,
@@ -50,8 +53,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     dateModified: isWebsiteBuilderArticle ? t(`${slug}.dateModified`) : undefined,
     ogImage,
     ogImageAlt: OG_IMAGE_ALT,
-    ogTitle: isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle ? t(`${slug}.socialTitle`) : undefined,
-    ogDescription: isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle ? t(`${slug}.socialDescription`) : undefined,
+    ogTitle: isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle || isNetworkingRoiArticle ? t(`${slug}.socialTitle`) : undefined,
+    ogDescription: isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle || isNetworkingRoiArticle ? t(`${slug}.socialDescription`) : undefined,
   })
 }
 
@@ -68,6 +71,7 @@ export default async function InsightArticlePage({ params }: Props) {
   const isWebsiteBuilderArticle = slug === WEBSITE_BUILDER_INSIGHT_SLUG
   const isFreeWebsiteBuilderTradeoffsArticle = slug === FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG
   const isContrastTextSizeArticle = slug === CONTRAST_TEXT_SIZE_INSIGHT_SLUG
+  const isNetworkingRoiArticle = slug === NETWORKING_ROI_INSIGHT_SLUG
 
   return (
     <div className="page-shell">
@@ -89,7 +93,7 @@ export default async function InsightArticlePage({ params }: Props) {
           }),
         ]}
       />
-      {isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle ? (
+      {isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle || isNetworkingRoiArticle ? (
         <>
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 max-w-6xl">
             <Breadcrumb
@@ -116,8 +120,16 @@ export default async function InsightArticlePage({ params }: Props) {
               readTime={readTime}
               category={t(`${slug}.category`)}
             />
-          ) : (
+          ) : isContrastTextSizeArticle ? (
             <ContrastTextSizeConversionArticle
+              locale={locale}
+              title={title}
+              summary={t(`${slug}.summary`)}
+              readTime={readTime}
+              category={t(`${slug}.category`)}
+            />
+          ) : (
+            <NetworkingRoiArticle
               locale={locale}
               title={title}
               summary={t(`${slug}.summary`)}

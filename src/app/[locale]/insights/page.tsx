@@ -9,14 +9,19 @@ import { INSIGHT_GROUPS, type InsightGroup, type InsightSlug } from '@/lib/insig
 import { formatInsightReadTime } from '@/lib/insight-read-time'
 import { buildPageMetadata } from '@/lib/page-metadata'
 import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/structured-data'
-import { WEBSITE_BUILDER_INSIGHT_SLUG } from '@/lib/website-builder-insight'
+import {
+  FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG,
+  WEBSITE_BUILDER_INSIGHT_SLUG,
+} from '@/lib/website-builder-insight'
 
 function insightCategory(
   slug: InsightSlug,
   locale: string,
   t: Awaited<ReturnType<typeof getTranslations>>,
 ) {
-  if (slug === WEBSITE_BUILDER_INSIGHT_SLUG) return t(`${slug}.category`)
+  if (slug === WEBSITE_BUILDER_INSIGHT_SLUG || slug === FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG) {
+    return t(`${slug}.category`)
+  }
   return getEnrichedInsight(slug, locale).copy.category
 }
 

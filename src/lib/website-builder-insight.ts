@@ -5,6 +5,7 @@ import path from 'node:path'
 
 export const WEBSITE_BUILDER_INSIGHT_SLUG = 'is-your-website-builder-limiting-growth' as const
 export const FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG = 'free-website-builder-seo-ai-visibility-tradeoffs' as const
+export const CONTRAST_TEXT_SIZE_INSIGHT_SLUG = 'contrast-text-size-accessibility-conversion' as const
 
 export type LongFormBlock =
   | { type: 'paragraph' | 'blockquote'; text: string }
@@ -64,8 +65,15 @@ export function getFreeWebsiteBuilderTradeoffsInsight(locale: string): LongFormB
   return getLongFormInsight(FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG, locale)
 }
 
+export function getContrastTextSizeInsight(locale: string): LongFormBlock[] {
+  return getLongFormInsight(CONTRAST_TEXT_SIZE_INSIGHT_SLUG, locale)
+}
+
 function getLongFormInsight(
-  slug: typeof WEBSITE_BUILDER_INSIGHT_SLUG | typeof FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG,
+  slug:
+    | typeof WEBSITE_BUILDER_INSIGHT_SLUG
+    | typeof FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG
+    | typeof CONTRAST_TEXT_SIZE_INSIGHT_SLUG,
   locale: string,
 ): LongFormBlock[] {
   const language = locale === 'fr' ? 'fr' : 'en'

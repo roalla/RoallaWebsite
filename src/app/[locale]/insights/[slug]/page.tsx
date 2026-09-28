@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import Breadcrumb from '@/components/Breadcrumb'
+import ContrastTextSizeConversionArticle from '@/components/insights/ContrastTextSizeConversionArticle'
 import EnrichedInsightArticle from '@/components/insights/EnrichedInsightArticle'
 import FreeWebsiteBuilderTradeoffsArticle from '@/components/insights/FreeWebsiteBuilderTradeoffsArticle'
 import WebsiteBuilderLimitationsArticle from '@/components/insights/WebsiteBuilderLimitationsArticle'
@@ -14,6 +15,7 @@ import { buildArticlePageMetadata } from '@/lib/page-metadata'
 import { OG_IMAGE, OG_IMAGE_ALT } from '@/lib/site'
 import { articleJsonLd, breadcrumbJsonLd } from '@/lib/structured-data'
 import {
+  CONTRAST_TEXT_SIZE_INSIGHT_SLUG,
   FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG,
   WEBSITE_BUILDER_INSIGHT_SLUG,
 } from '@/lib/website-builder-insight'
@@ -37,6 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const ogImage = INSIGHT_OG_IMAGES[slug] ?? OG_IMAGE
   const isWebsiteBuilderArticle = slug === WEBSITE_BUILDER_INSIGHT_SLUG
   const isFreeWebsiteBuilderTradeoffsArticle = slug === FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG
+  const isContrastTextSizeArticle = slug === CONTRAST_TEXT_SIZE_INSIGHT_SLUG
 
   return buildArticlePageMetadata({
     locale,
@@ -47,8 +50,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     dateModified: isWebsiteBuilderArticle ? t(`${slug}.dateModified`) : undefined,
     ogImage,
     ogImageAlt: OG_IMAGE_ALT,
-    ogTitle: isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle ? t(`${slug}.socialTitle`) : undefined,
-    ogDescription: isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle ? t(`${slug}.socialDescription`) : undefined,
+    ogTitle: isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle ? t(`${slug}.socialTitle`) : undefined,
+    ogDescription: isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle ? t(`${slug}.socialDescription`) : undefined,
   })
 }
 
@@ -64,6 +67,7 @@ export default async function InsightArticlePage({ params }: Props) {
   const ogImage = INSIGHT_OG_IMAGES[slug] ?? OG_IMAGE
   const isWebsiteBuilderArticle = slug === WEBSITE_BUILDER_INSIGHT_SLUG
   const isFreeWebsiteBuilderTradeoffsArticle = slug === FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG
+  const isContrastTextSizeArticle = slug === CONTRAST_TEXT_SIZE_INSIGHT_SLUG
 
   return (
     <div className="page-shell">
@@ -85,7 +89,7 @@ export default async function InsightArticlePage({ params }: Props) {
           }),
         ]}
       />
-      {isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle ? (
+      {isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle ? (
         <>
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 max-w-6xl">
             <Breadcrumb
@@ -104,8 +108,16 @@ export default async function InsightArticlePage({ params }: Props) {
               readTime={readTime}
               category={t(`${slug}.category`)}
             />
-          ) : (
+          ) : isFreeWebsiteBuilderTradeoffsArticle ? (
             <FreeWebsiteBuilderTradeoffsArticle
+              locale={locale}
+              title={title}
+              summary={t(`${slug}.summary`)}
+              readTime={readTime}
+              category={t(`${slug}.category`)}
+            />
+          ) : (
+            <ContrastTextSizeConversionArticle
               locale={locale}
               title={title}
               summary={t(`${slug}.summary`)}

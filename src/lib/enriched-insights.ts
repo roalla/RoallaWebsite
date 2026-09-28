@@ -6,7 +6,9 @@ import { BACKLOG_PRODUCT_WORKSHOP_INSIGHTS } from '@/lib/backlog-product-worksho
 
 export type EnrichedInsightSlug = Exclude<
   InsightSlug,
-  'is-your-website-builder-limiting-growth' | 'free-website-builder-seo-ai-visibility-tradeoffs'
+  | 'is-your-website-builder-limiting-growth'
+  | 'free-website-builder-seo-ai-visibility-tradeoffs'
+  | 'contrast-text-size-accessibility-conversion'
 >
 
 export type InsightStep = { title: string; body: string }

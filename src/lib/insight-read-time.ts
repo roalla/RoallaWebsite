@@ -32,6 +32,9 @@ export function formatInsightReadTime(t: InsightTranslator, slug: InsightSlug): 
   if (slug === 'networking-roi-solopreneurs-small-business') {
     return t('minRead', { count: 9 })
   }
+  if (slug === 'geo-seo-aeo-and-bots') {
+    return t('minRead', { count: 10 })
+  }
   if (slug === 'contrast-text-size-accessibility-conversion') {
     return t('minRead', { count: 8 })
   }

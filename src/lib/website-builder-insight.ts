@@ -7,6 +7,7 @@ export const WEBSITE_BUILDER_INSIGHT_SLUG = 'is-your-website-builder-limiting-gr
 export const FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG = 'free-website-builder-seo-ai-visibility-tradeoffs' as const
 export const CONTRAST_TEXT_SIZE_INSIGHT_SLUG = 'contrast-text-size-accessibility-conversion' as const
 export const NETWORKING_ROI_INSIGHT_SLUG = 'networking-roi-solopreneurs-small-business' as const
+export const GEO_SEO_AEO_BOTS_SLUG = 'geo-seo-aeo-and-bots' as const
 
 export type LongFormBlock =
   | { type: 'paragraph' | 'blockquote'; text: string }
@@ -74,12 +75,17 @@ export function getNetworkingRoiInsight(locale: string): LongFormBlock[] {
   return getLongFormInsight(NETWORKING_ROI_INSIGHT_SLUG, locale)
 }
 
+export function getGeoSeoAeoBotsInsight(locale: string): LongFormBlock[] {
+  return getLongFormInsight(GEO_SEO_AEO_BOTS_SLUG, locale)
+}
+
 function getLongFormInsight(
   slug:
     | typeof WEBSITE_BUILDER_INSIGHT_SLUG
     | typeof FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG
     | typeof CONTRAST_TEXT_SIZE_INSIGHT_SLUG
-    | typeof NETWORKING_ROI_INSIGHT_SLUG,
+    | typeof NETWORKING_ROI_INSIGHT_SLUG
+    | typeof GEO_SEO_AEO_BOTS_SLUG,
   locale: string,
 ): LongFormBlock[] {
   const language = locale === 'fr' ? 'fr' : 'en'

@@ -6,6 +6,7 @@ import Breadcrumb from '@/components/Breadcrumb'
 import ContrastTextSizeConversionArticle from '@/components/insights/ContrastTextSizeConversionArticle'
 import EnrichedInsightArticle from '@/components/insights/EnrichedInsightArticle'
 import FreeWebsiteBuilderTradeoffsArticle from '@/components/insights/FreeWebsiteBuilderTradeoffsArticle'
+import GeoSeoAeoBotsArticle from '@/components/insights/GeoSeoAeoBotsArticle'
 import NetworkingRoiArticle from '@/components/insights/NetworkingRoiArticle'
 import WebsiteBuilderLimitationsArticle from '@/components/insights/WebsiteBuilderLimitationsArticle'
 import JsonLd from '@/components/JsonLd'
@@ -18,6 +19,7 @@ import { articleJsonLd, breadcrumbJsonLd } from '@/lib/structured-data'
 import {
   CONTRAST_TEXT_SIZE_INSIGHT_SLUG,
   FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG,
+  GEO_SEO_AEO_BOTS_SLUG,
   NETWORKING_ROI_INSIGHT_SLUG,
   WEBSITE_BUILDER_INSIGHT_SLUG,
 } from '@/lib/website-builder-insight'
@@ -43,6 +45,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const isFreeWebsiteBuilderTradeoffsArticle = slug === FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG
   const isContrastTextSizeArticle = slug === CONTRAST_TEXT_SIZE_INSIGHT_SLUG
   const isNetworkingRoiArticle = slug === NETWORKING_ROI_INSIGHT_SLUG
+  const isGeoSeoAeoBotsArticle = slug === GEO_SEO_AEO_BOTS_SLUG
+  const hasSocialCopy = isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle || isNetworkingRoiArticle || isGeoSeoAeoBotsArticle
 
   return buildArticlePageMetadata({
     locale,
@@ -53,8 +57,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     dateModified: isWebsiteBuilderArticle ? t(`${slug}.dateModified`) : undefined,
     ogImage,
     ogImageAlt: OG_IMAGE_ALT,
-    ogTitle: isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle || isNetworkingRoiArticle ? t(`${slug}.socialTitle`) : undefined,
-    ogDescription: isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle || isNetworkingRoiArticle ? t(`${slug}.socialDescription`) : undefined,
+    ogTitle: hasSocialCopy ? t(`${slug}.socialTitle`) : undefined,
+    ogDescription: hasSocialCopy ? t(`${slug}.socialDescription`) : undefined,
   })
 }
 
@@ -72,6 +76,8 @@ export default async function InsightArticlePage({ params }: Props) {
   const isFreeWebsiteBuilderTradeoffsArticle = slug === FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG
   const isContrastTextSizeArticle = slug === CONTRAST_TEXT_SIZE_INSIGHT_SLUG
   const isNetworkingRoiArticle = slug === NETWORKING_ROI_INSIGHT_SLUG
+  const isGeoSeoAeoBotsArticle = slug === GEO_SEO_AEO_BOTS_SLUG
+  const isLongFormArticle = isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle || isNetworkingRoiArticle || isGeoSeoAeoBotsArticle
 
   return (
     <div className="page-shell">
@@ -93,7 +99,7 @@ export default async function InsightArticlePage({ params }: Props) {
           }),
         ]}
       />
-      {isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle || isNetworkingRoiArticle ? (
+      {isLongFormArticle ? (
         <>
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 max-w-6xl">
             <Breadcrumb
@@ -122,6 +128,14 @@ export default async function InsightArticlePage({ params }: Props) {
             />
           ) : isContrastTextSizeArticle ? (
             <ContrastTextSizeConversionArticle
+              locale={locale}
+              title={title}
+              summary={t(`${slug}.summary`)}
+              readTime={readTime}
+              category={t(`${slug}.category`)}
+            />
+          ) : isGeoSeoAeoBotsArticle ? (
+            <GeoSeoAeoBotsArticle
               locale={locale}
               title={title}
               summary={t(`${slug}.summary`)}

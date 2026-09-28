@@ -71,6 +71,7 @@ French workshop paths use /fr/ in place of /en/. Example: https://www.roalla.com
 - Digitization that saves time and money: https://www.roalla.com/en/insights/smb-digital-efficiency
 - How digitization helps SMBs compete: https://www.roalla.com/en/insights/smb-digital-growth
 - Search and AI visibility: https://www.roalla.com/en/insights/search-and-ai-visibility
+- SEO, AEO, GEO and bots: https://www.roalla.com/en/insights/geo-seo-aeo-and-bots
 - How AI systems understand business websites: https://www.roalla.com/en/insights/how-ai-systems-understand-websites
 - Structured data for small businesses: https://www.roalla.com/en/insights/structured-data-for-small-business
 

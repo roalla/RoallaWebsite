@@ -13,6 +13,7 @@ export type EnrichedInsightSlug = Exclude<
   | 'free-website-builder-seo-ai-visibility-tradeoffs'
   | 'contrast-text-size-accessibility-conversion'
   | 'networking-roi-solopreneurs-small-business'
+  | 'geo-seo-aeo-and-bots'
 >
 
 export type InsightStep = { title: string; body: string }

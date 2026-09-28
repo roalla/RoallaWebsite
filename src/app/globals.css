@@ -90,6 +90,26 @@
 }
 
 @layer components {
+  /*
+   * Article contrast safeguard.
+   * Global typography assigns dark colours directly to headings and body copy,
+   * so inherited `text-white` on a dark panel is not sufficient. Keep every
+   * text-bearing element readable when an insight uses the shared slate panel.
+   */
+  article .bg-slate-950 {
+    color: #ffffff !important;
+  }
+
+  article .bg-slate-950 :is(h1, h2, h3, h4, h5, h6, a, span, strong) {
+    color: #ffffff !important;
+  }
+
+  article .bg-slate-950 :is(p, li, figcaption) {
+    color: #e2e8f0 !important;
+  }
+}
+
+@layer components {
   .btn-primary {
     @apply bg-primary-dark hover:bg-primary-darker text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg;
   }

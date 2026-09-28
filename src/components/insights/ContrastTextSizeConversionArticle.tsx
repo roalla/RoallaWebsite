@@ -144,11 +144,11 @@ export default function ContrastTextSizeConversionArticle({ locale, title, summa
       <div className="mx-auto mt-10 max-w-3xl space-y-5">{intro.map((block, index) => <ArticleBlock key={index} block={block} />)}</div>
 
       <aside className="mx-auto mt-12 max-w-5xl rounded-2xl bg-slate-950 px-6 py-8 text-white sm:px-8" aria-labelledby="clarity-path-title">
-        <h2 id="clarity-path-title" className="font-serif text-2xl font-bold">{french ? 'La clarté soutient tout le parcours' : 'Clarity supports the whole journey'}</h2>
+        <h2 id="clarity-path-title" className="font-serif text-2xl font-bold text-white">{french ? 'La clarté soutient tout le parcours' : 'Clarity supports the whole journey'}</h2>
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           {outcomes.map(([Icon, label, text]) => (
             <div key={label} className="rounded-xl border border-white/15 bg-white/[0.06] p-5">
-              <Icon className="h-6 w-6 text-primary-light" aria-hidden /><h3 className="mt-4 font-semibold">{label}</h3><p className="mt-2 text-sm leading-6 text-slate-300">{text}</p>
+              <Icon className="h-6 w-6 text-primary-light" aria-hidden /><h3 className="mt-4 font-semibold text-white">{label}</h3><p className="mt-2 text-sm leading-6 text-slate-300">{text}</p>
             </div>
           ))}
         </div>

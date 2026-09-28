@@ -179,7 +179,7 @@ export default function FreeWebsiteBuilderTradeoffsArticle({ locale, title, summ
       </div>
 
       <aside className="mx-auto mt-12 max-w-5xl rounded-2xl bg-slate-950 px-6 py-8 text-white sm:px-8" aria-labelledby="decision-lens-title">
-        <h2 id="decision-lens-title" className="font-serif text-2xl font-bold">
+        <h2 id="decision-lens-title" className="font-serif text-2xl font-bold text-white">
           {french ? 'Évaluez plus que le prix de lancement' : 'Evaluate more than the launch price'}
         </h2>
         <div className="mt-6 grid gap-4 md:grid-cols-3">
@@ -253,4 +253,3 @@ export default function FreeWebsiteBuilderTradeoffsArticle({ locale, title, summ
     </article>
   )
 }
-

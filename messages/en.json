@@ -2213,6 +2213,150 @@
       "summary": "If every approval and answer flows through one person, the owner’s calendar becomes the speed limit for the entire business.",
       "category": "Founder Capacity",
       "datePublished": "2026-09-28"
+    },
+    "which-customers-are-actually-profitable": {
+      "metadataTitle": "Which Customers Are Actually Profitable? | ROALLA",
+      "metadataDescription": "Look beyond revenue to understand customer margin, delivery effort, support burden, payment timing and strategic value.",
+      "title": "Which Customers Are Actually Profitable?",
+      "summary": "Your largest customer is not always your best customer once delivery effort, exceptions and payment behaviour are included.",
+      "category": "Customer Profitability",
+      "datePublished": "2026-09-28"
+    },
+    "minimum-monthly-owner-dashboard": {
+      "metadataTitle": "The Minimum Monthly Dashboard for Business Owners | ROALLA",
+      "metadataDescription": "Build a concise monthly view of cash, margin, receivables, qualified pipeline, capacity and concentration risk.",
+      "title": "The Minimum Monthly Dashboard Every Owner Should Review",
+      "summary": "A one-page decision system can reveal financial, sales and delivery problems before they become emergencies.",
+      "category": "Management Visibility",
+      "datePublished": "2026-09-28"
+    },
+    "what-should-you-stop-doing-this-quarter": {
+      "metadataTitle": "What Should Your Business Stop Doing This Quarter? | ROALLA",
+      "metadataDescription": "Create capacity for strategic work by retiring, pausing, delegating or simplifying lower-value commitments.",
+      "title": "What Should You Stop Doing This Quarter?",
+      "summary": "A credible plan creates focus by removing lower-value work—not simply adding another set of priorities.",
+      "category": "Strategic Focus",
+      "datePublished": "2026-09-28"
+    },
+    "can-business-operate-two-weeks-without-you": {
+      "metadataTitle": "Could Your Business Operate for Two Weeks Without You? | ROALLA",
+      "metadataDescription": "Assess owner dependency across decisions, customer relationships, access, payments, suppliers and operating knowledge.",
+      "title": "Could the Business Operate for Two Weeks Without You?",
+      "summary": "A two-week absence test exposes the decisions, access and relationships that make the owner a single point of failure.",
+      "category": "Owner Independence",
+      "datePublished": "2026-09-28"
+    },
+    "client-boundaries-without-damaging-relationships": {
+      "metadataTitle": "Set Client Boundaries Without Damaging Relationships | ROALLA",
+      "metadataDescription": "Clarify response times, revisions, communication channels, rush work and change approvals while protecting client trust.",
+      "title": "How to Set Boundaries Without Damaging Client Relationships",
+      "summary": "Clear expectations make service more dependable and prevent flexibility from quietly becoming unpriced work.",
+      "category": "Client Operations",
+      "datePublished": "2026-09-28"
+    },
+    "meetings-moving-business-or-reporting-past": {
+      "metadataTitle": "Are Meetings Moving the Business—or Reporting the Past? | ROALLA",
+      "metadataDescription": "Redesign operating meetings around exceptions, decisions, owners and commitments instead of lengthy status reporting.",
+      "title": "Are Meetings Moving the Business—or Reporting the Past?",
+      "summary": "A useful meeting changes what happens next; information that can be read should not consume the room.",
+      "category": "Operating Rhythm",
+      "datePublished": "2026-09-28"
+    },
+    "when-solopreneur-should-form-partnership": {
+      "metadataTitle": "When Should a Solopreneur Form a Partnership? | ROALLA",
+      "metadataDescription": "Compare collaboration, referrals and shared ownership before combining authority, income, reputation and risk.",
+      "title": "When Should a Solopreneur Form a Partnership?",
+      "summary": "Test the relationship and its strategic value before turning a successful collaboration into shared ownership.",
+      "category": "Partnership Strategy",
+      "datePublished": "2026-09-28"
+    },
+    "building-business-or-demanding-job": {
+      "metadataTitle": "Are You Building a Business—or a Demanding Job? | ROALLA",
+      "metadataDescription": "Evaluate owner dependence, repeatable delivery, recurring demand and delegation against the business and life you want.",
+      "title": "Are You Building a Business—or Creating a Demanding Job?",
+      "summary": "The right model creates intentional choices about income, impact, growth and time instead of automatic owner dependence.",
+      "category": "Sustainable Growth",
+      "datePublished": "2026-09-28"
+    },
+    "five-rules-before-team-uses-ai": {
+      "metadataTitle": "Five Rules Before Your Team Uses AI | ROALLA",
+      "metadataDescription": "Define approved AI tools, prohibited information, human review, acceptable uses and accountability before adoption spreads.",
+      "title": "Before Your Team Uses AI: Create These Five Rules",
+      "summary": "A short, practical AI-use framework can encourage useful experimentation while protecting customers, information and accountability.",
+      "category": "Responsible AI",
+      "datePublished": "2026-09-28"
+    },
+    "data-ownership-leaving-software-platform": {
+      "metadataTitle": "Who Owns Your Data When You Leave a Software Platform? | ROALLA",
+      "metadataDescription": "Evaluate exports, formats, deletion, retention, migration costs and vendor lock-in before selecting or leaving software.",
+      "title": "Who Owns Your Data When You Leave a Software Platform?",
+      "summary": "Data ownership matters only when the business can leave with complete, usable information and manageable disruption.",
+      "category": "Data Portability",
+      "datePublished": "2026-09-28"
+    },
+    "software-subscription-stack-audit": {
+      "metadataTitle": "Audit Your Small-Business Software Subscriptions | ROALLA",
+      "metadataDescription": "Find duplicate tools, unused licences, ownership gaps, integration risk and poorly timed renewals across your technology stack.",
+      "title": "How Many Software Subscriptions Is Your Business Actually Paying For?",
+      "summary": "A technology-stack audit reveals more than unused licences: it exposes duplicate data, unclear ownership and unnecessary risk.",
+      "category": "Technology Portfolio",
+      "datePublished": "2026-09-28"
+    },
+    "cloud-backup-sync-recovery-differences": {
+      "metadataTitle": "Cloud Backup, File Sync and Recovery Are Different | ROALLA",
+      "metadataDescription": "Understand synchronization, independent backup and tested recovery before a deletion, outage or ransomware incident.",
+      "title": "Cloud Backup, File Sync and Recovery Are Not the Same Thing",
+      "summary": "Having files in the cloud does not automatically prove that the business can restore the right information in time.",
+      "category": "Recovery Readiness",
+      "datePublished": "2026-09-28"
+    },
+    "it-provider-who-owns-risk": {
+      "metadataTitle": "Your IT Provider Manages Technology—but Who Owns Risk? | ROALLA",
+      "metadataDescription": "Clarify business, provider and vendor responsibility for access, backup, monitoring, response and recovery.",
+      "title": "Your IT Provider Manages the Technology—but Who Owns the Risk?",
+      "summary": "Outsourcing technology does not outsource accountability; both sides need the same responsibility map.",
+      "category": "Technology Governance",
+      "datePublished": "2026-09-28"
+    },
+    "twelve-month-technology-roadmap": {
+      "metadataTitle": "What Belongs in a 12-Month Technology Roadmap? | ROALLA",
+      "metadataDescription": "Sequence systems, data, security, skills, budgets and business capabilities around realistic dependencies and value.",
+      "title": "What Should Be in a 12-Month Technology Roadmap?",
+      "summary": "A roadmap connects business outcomes to technology decisions in the right order instead of becoming a product shopping list.",
+      "category": "Technology Planning",
+      "datePublished": "2026-09-28"
+    },
+    "data-ready-for-automation": {
+      "metadataTitle": "Is Your Business Data Ready for Automation? | ROALLA",
+      "metadataDescription": "Check data ownership, completeness, consistency, validation and exceptions before connecting an automated workflow.",
+      "title": "Before You Automate, Is Your Data Reliable Enough?",
+      "summary": "Automation can scale unreliable information just as efficiently as good information, so readiness must come first.",
+      "category": "Data Readiness",
+      "datePublished": "2026-09-28"
+    },
+    "measure-software-business-value": {
+      "metadataTitle": "How to Measure Whether New Software Is Working | ROALLA",
+      "metadataDescription": "Measure adoption, time saved, errors, customer outcomes, cost and risk after implementation—not merely go-live.",
+      "title": "How to Measure Whether New Software Is Actually Working",
+      "summary": "Implementation is complete when the system launches; value appears only when operating results improve and persist.",
+      "category": "Technology Value",
+      "datePublished": "2026-09-28"
+    },
+    "personal-information-stop-collecting": {
+      "metadataTitle": "What Personal Information Should You Stop Collecting? | ROALLA",
+      "metadataDescription": "Reduce privacy exposure by connecting every personal-data field to a purpose, access rule, retention period and deletion method.",
+      "title": "What Personal Information Should Your Business Stop Collecting?",
+      "summary": "Every unnecessary field adds customer friction and creates another piece of information the business must protect.",
+      "category": "Privacy by Design",
+      "datePublished": "2026-09-28"
+    },
+    "technology-renewal-checklist": {
+      "metadataTitle": "Technology Renewal Checklist for Small Business | ROALLA",
+      "metadataDescription": "Review usage, value, price, support, security, portability and replacement options before an automatic renewal deadline.",
+      "title": "The Technology Renewal Checklist: Review Before It Auto-Renews",
+      "summary": "Renewal leverage comes from reviewing evidence before the cancellation deadline—not reacting near the expiry date.",
+      "category": "Vendor Management",
+      "datePublished": "2026-09-28"
     }
   },
   "faq": {

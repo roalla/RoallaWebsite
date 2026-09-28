@@ -2213,6 +2213,150 @@
       "summary": "Si chaque approbation et réponse passe par une seule personne, son calendrier devient la limite de vitesse de toute l’entreprise.",
       "category": "Capacité de la direction",
       "datePublished": "2026-09-28"
+    },
+    "which-customers-are-actually-profitable": {
+      "metadataTitle": "Quels clients sont réellement rentables? | ROALLA",
+      "metadataDescription": "Allez au-delà des revenus pour comprendre marge, effort de livraison, soutien, paiement et valeur stratégique.",
+      "title": "Quels clients sont réellement rentables?",
+      "summary": "Votre plus grand client n’est pas toujours le meilleur lorsque l’effort, les exceptions et le paiement sont inclus.",
+      "category": "Rentabilité client",
+      "datePublished": "2026-09-28"
+    },
+    "minimum-monthly-owner-dashboard": {
+      "metadataTitle": "Le tableau mensuel minimum pour la direction | ROALLA",
+      "metadataDescription": "Créez une vue concise de la trésorerie, marge, créances, pipeline, capacité et concentration.",
+      "title": "Le tableau mensuel minimum que chaque propriétaire devrait examiner",
+      "summary": "Un système de décision d’une page révèle les problèmes avant qu’ils deviennent des urgences.",
+      "category": "Visibilité de gestion",
+      "datePublished": "2026-09-28"
+    },
+    "what-should-you-stop-doing-this-quarter": {
+      "metadataTitle": "Que devrait cesser votre entreprise ce trimestre? | ROALLA",
+      "metadataDescription": "Créez de la capacité en retirant, reportant, déléguant ou simplifiant les engagements de faible valeur.",
+      "title": "Que devriez-vous cesser de faire ce trimestre?",
+      "summary": "Un plan crédible crée du focus en retirant du travail, pas seulement en ajoutant des priorités.",
+      "category": "Concentration stratégique",
+      "datePublished": "2026-09-28"
+    },
+    "can-business-operate-two-weeks-without-you": {
+      "metadataTitle": "Votre entreprise fonctionnerait-elle deux semaines sans vous? | ROALLA",
+      "metadataDescription": "Évaluez la dépendance à la direction dans les décisions, relations, accès, paiements et connaissances.",
+      "title": "L’entreprise pourrait-elle fonctionner deux semaines sans vous?",
+      "summary": "Un test d’absence révèle les décisions, accès et relations qui rendent la direction indispensable.",
+      "category": "Indépendance de la direction",
+      "datePublished": "2026-09-28"
+    },
+    "client-boundaries-without-damaging-relationships": {
+      "metadataTitle": "Fixer des limites sans nuire aux relations clients | ROALLA",
+      "metadataDescription": "Clarifiez délais, révisions, canaux, urgences et changements tout en protégeant la confiance.",
+      "title": "Comment fixer des limites sans nuire aux relations clients",
+      "summary": "Des attentes claires rendent le service fiable et empêchent la flexibilité de devenir du travail non facturé.",
+      "category": "Opérations client",
+      "datePublished": "2026-09-28"
+    },
+    "meetings-moving-business-or-reporting-past": {
+      "metadataTitle": "Vos rencontres font-elles avancer l’entreprise? | ROALLA",
+      "metadataDescription": "Recentrez les rencontres sur les exceptions, décisions, responsables et engagements plutôt que les statuts.",
+      "title": "Vos rencontres font-elles avancer l’entreprise ou raconter le passé?",
+      "summary": "Une bonne rencontre change la suite; l’information qui peut être lue ne devrait pas occuper la salle.",
+      "category": "Rythme opérationnel",
+      "datePublished": "2026-09-28"
+    },
+    "when-solopreneur-should-form-partnership": {
+      "metadataTitle": "Quand une personne solopreneure devrait-elle s’associer? | ROALLA",
+      "metadataDescription": "Comparez collaboration, recommandation et propriété partagée avant de réunir autorité, revenus et risque.",
+      "title": "Quand une personne solopreneure devrait-elle former un partenariat?",
+      "summary": "Testez la relation et sa valeur avant de transformer une collaboration réussie en propriété partagée.",
+      "category": "Stratégie de partenariat",
+      "datePublished": "2026-09-28"
+    },
+    "building-business-or-demanding-job": {
+      "metadataTitle": "Bâtissez-vous une entreprise ou un emploi exigeant? | ROALLA",
+      "metadataDescription": "Évaluez dépendance, livraison répétable, demande récurrente et délégation selon le modèle souhaité.",
+      "title": "Bâtissez-vous une entreprise ou créez-vous un emploi exigeant?",
+      "summary": "Le bon modèle crée des choix intentionnels sur les revenus, l’impact, la croissance et le temps.",
+      "category": "Croissance durable",
+      "datePublished": "2026-09-28"
+    },
+    "five-rules-before-team-uses-ai": {
+      "metadataTitle": "Cinq règles avant que votre équipe utilise l’IA | ROALLA",
+      "metadataDescription": "Définissez outils approuvés, données interdites, révision humaine, usages acceptables et responsabilité.",
+      "title": "Avant que votre équipe utilise l’IA : créez ces cinq règles",
+      "summary": "Un cadre court permet l’expérimentation utile tout en protégeant clients, information et responsabilité.",
+      "category": "IA responsable",
+      "datePublished": "2026-09-28"
+    },
+    "data-ownership-leaving-software-platform": {
+      "metadataTitle": "Qui possède vos données lorsque vous quittez une plateforme? | ROALLA",
+      "metadataDescription": "Évaluez exports, formats, suppression, rétention, coûts de migration et dépendance au fournisseur.",
+      "title": "Qui possède vos données lorsque vous quittez une plateforme logicielle?",
+      "summary": "La propriété compte seulement si l’entreprise peut partir avec des données complètes et utilisables.",
+      "category": "Portabilité des données",
+      "datePublished": "2026-09-28"
+    },
+    "software-subscription-stack-audit": {
+      "metadataTitle": "Auditer les abonnements logiciels de votre PME | ROALLA",
+      "metadataDescription": "Repérez doublons, licences inutilisées, lacunes de responsabilité, risques et renouvellements.",
+      "title": "Combien d’abonnements logiciels votre entreprise paie-t-elle réellement?",
+      "summary": "Un audit révèle plus que des licences inutilisées : il expose données en double et responsabilités floues.",
+      "category": "Portefeuille technologique",
+      "datePublished": "2026-09-28"
+    },
+    "cloud-backup-sync-recovery-differences": {
+      "metadataTitle": "Sauvegarde, synchronisation et restauration diffèrent | ROALLA",
+      "metadataDescription": "Distinguez synchronisation, sauvegarde indépendante et restauration testée avant un incident.",
+      "title": "Sauvegarde infonuagique, synchronisation et restauration ne sont pas la même chose",
+      "summary": "Des fichiers dans le nuage ne prouvent pas que l’entreprise peut restaurer les bonnes données à temps.",
+      "category": "Préparation au rétablissement",
+      "datePublished": "2026-09-28"
+    },
+    "it-provider-who-owns-risk": {
+      "metadataTitle": "Votre fournisseur TI gère la technologie, mais qui porte le risque? | ROALLA",
+      "metadataDescription": "Clarifiez les responsabilités pour accès, sauvegarde, surveillance, réponse et rétablissement.",
+      "title": "Votre fournisseur TI gère la technologie, mais qui porte le risque?",
+      "summary": "Externaliser la technologie n’externalise pas la responsabilité; les deux parties doivent partager la même carte.",
+      "category": "Gouvernance technologique",
+      "datePublished": "2026-09-28"
+    },
+    "twelve-month-technology-roadmap": {
+      "metadataTitle": "Que contient une feuille de route technologique de 12 mois? | ROALLA",
+      "metadataDescription": "Séquencez systèmes, données, sécurité, compétences, budgets et capacités selon les dépendances.",
+      "title": "Que devrait contenir une feuille de route technologique de 12 mois?",
+      "summary": "Une feuille relie les résultats aux décisions dans le bon ordre au lieu de devenir une liste d’achats.",
+      "category": "Planification technologique",
+      "datePublished": "2026-09-28"
+    },
+    "data-ready-for-automation": {
+      "metadataTitle": "Vos données sont-elles prêtes pour l’automatisation? | ROALLA",
+      "metadataDescription": "Vérifiez responsabilité, intégralité, cohérence, validation et exceptions avant de connecter un flux.",
+      "title": "Avant d’automatiser, vos données sont-elles assez fiables?",
+      "summary": "L’automatisation peut étendre les mauvaises informations aussi efficacement que les bonnes.",
+      "category": "Préparation des données",
+      "datePublished": "2026-09-28"
+    },
+    "measure-software-business-value": {
+      "metadataTitle": "Comment mesurer si un nouveau logiciel fonctionne | ROALLA",
+      "metadataDescription": "Mesurez adoption, temps gagné, erreurs, résultats clients, coûts et risque après la mise en œuvre.",
+      "title": "Comment mesurer si un nouveau logiciel fonctionne réellement",
+      "summary": "Le lancement termine la mise en œuvre; la valeur apparaît seulement lorsque les résultats s’améliorent durablement.",
+      "category": "Valeur technologique",
+      "datePublished": "2026-09-28"
+    },
+    "personal-information-stop-collecting": {
+      "metadataTitle": "Quels renseignements personnels devriez-vous cesser de recueillir? | ROALLA",
+      "metadataDescription": "Réduisez le risque en reliant chaque donnée à une fin, un accès, une rétention et une suppression.",
+      "title": "Quels renseignements personnels votre entreprise devrait-elle cesser de recueillir?",
+      "summary": "Chaque champ inutile ajoute de la friction et une information supplémentaire que l’entreprise doit protéger.",
+      "category": "Protection de la vie privée",
+      "datePublished": "2026-09-28"
+    },
+    "technology-renewal-checklist": {
+      "metadataTitle": "Liste de contrôle du renouvellement technologique | ROALLA",
+      "metadataDescription": "Examinez usage, valeur, prix, soutien, sécurité, portabilité et remplacement avant le préavis.",
+      "title": "La liste de contrôle technologique : révisez avant le renouvellement automatique",
+      "summary": "Le pouvoir de négociation vient d’une revue avant la date d’annulation, pas d’une réaction à l’échéance.",
+      "category": "Gestion des fournisseurs",
+      "datePublished": "2026-09-28"
     }
   },
   "faq": {

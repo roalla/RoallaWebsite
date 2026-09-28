@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import { ArrowRight, Check, Eye, MousePointerClick, Scale, Type } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
+import InsightShare from '@/components/insights/InsightShare'
 import { getContrastTextSizeInsight, type LongFormBlock } from '@/lib/website-builder-insight'
 
 type Props = {
@@ -124,6 +125,7 @@ export default function ContrastTextSizeConversionArticle({ locale, title, summa
             </div>
             <h1 className="mt-6 font-serif text-4xl font-extrabold leading-tight text-slate-950 sm:text-5xl lg:text-[3.25rem]">{title}</h1>
             <p className="mt-6 text-xl leading-8 text-slate-600">{summary}</p>
+            <InsightShare title={title} />
           </div>
           <figure className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 shadow-xl shadow-slate-900/10">
             <Image

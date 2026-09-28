@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { ArrowRight, Check, Lightbulb, SearchCheck } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
+import InsightShare from '@/components/insights/InsightShare'
 import { getEnrichedInsight, type EnrichedInsightSlug } from '@/lib/enriched-insights'
 
 type Props = {
@@ -37,6 +38,7 @@ export default function EnrichedInsightArticle({ slug, locale, title, summary, r
               {title}
             </h1>
             <p className="mt-6 text-xl leading-8 text-slate-600">{summary}</p>
+            <InsightShare title={title} />
           </div>
           <figure className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 shadow-xl shadow-slate-900/10">
             <Image

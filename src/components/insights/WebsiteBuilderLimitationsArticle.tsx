@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import { ArrowRight, Check, Network, SearchCheck, Workflow } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
+import InsightShare from '@/components/insights/InsightShare'
 import { getWebsiteBuilderInsight, type LongFormBlock } from '@/lib/website-builder-insight'
 
 type Props = {
@@ -171,6 +172,7 @@ export default function WebsiteBuilderLimitationsArticle({ locale, title, summar
               {title}
             </h1>
             <p className="mt-6 text-xl leading-8 text-slate-600">{summary}</p>
+            <InsightShare title={title} />
           </div>
           <figure className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 shadow-xl shadow-slate-900/10">
             <Image

@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import { ArrowRight, Check, Gauge, SearchCheck, Workflow } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
+import InsightShare from '@/components/insights/InsightShare'
 import {
   getFreeWebsiteBuilderTradeoffsInsight,
   type LongFormBlock,
@@ -155,6 +156,7 @@ export default function FreeWebsiteBuilderTradeoffsArticle({ locale, title, summ
               {title}
             </h1>
             <p className="mt-6 text-xl leading-8 text-slate-600">{summary}</p>
+            <InsightShare title={title} />
           </div>
           <figure className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 shadow-xl shadow-slate-900/10">
             <Image

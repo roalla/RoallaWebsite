@@ -2,9 +2,9 @@
 
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import { ChevronDown, Search, X } from 'lucide-react'
-import { useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { Link, usePathname, useRouter } from '@/i18n/navigation'
+import { Link } from '@/i18n/navigation'
 import type { InsightGroup, InsightSlug } from '@/lib/insights'
 
 export type InsightBrowserCard = {
@@ -139,7 +139,7 @@ export default function InsightsBrowser({ articles, groups, otherTitle, otherInt
       counts.set(article.category, (counts.get(article.category) ?? 0) + 1)
     }
     const needle = normalize(topicQuery.trim())
-    return [...counts.entries()]
+    return Array.from(counts.entries())
       .map(([name, count]) => ({ name, count }))
       .filter((item) => !needle || normalize(item.name).includes(needle))
       .sort((a, b) => a.name.localeCompare(b.name))
@@ -191,7 +191,7 @@ export default function InsightsBrowser({ articles, groups, otherTitle, otherInt
   function moveTopicOption(current: HTMLButtonElement, direction: 1 | -1) {
     const options = topicRef.current?.querySelectorAll<HTMLButtonElement>('[role="option"]')
     if (!options?.length) return
-    const index = [...options].indexOf(current)
+    const index = Array.from(options).indexOf(current)
     const next = options[index + direction]
     if (next) next.focus()
     else if (direction < 0) topicSearchRef.current?.focus()

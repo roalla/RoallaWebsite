@@ -55,6 +55,13 @@ export const INSIGHT_SLUGS = [
   "free-website-builder-seo-ai-visibility-tradeoffs",
   "contrast-text-size-accessibility-conversion",
   "networking-roi-solopreneurs-small-business",
+  "should-you-say-yes-to-this-opportunity",
+  "hire-or-fix-the-work-first",
+  "revenue-growing-why-not-more-cash",
+  "what-if-biggest-client-leaves",
+  "turn-custom-service-into-repeatable-offer",
+  "sales-pipeline-or-list-of-contacts",
+  "owner-is-the-capacity-problem",
 ] as const;
 
 export type InsightSlug = (typeof INSIGHT_SLUGS)[number];
@@ -98,7 +105,7 @@ export const INSIGHT_GROUPS: Record<InsightGroup, readonly InsightSlug[]> = {
     "free-website-builder-seo-ai-visibility-tradeoffs",
     "contrast-text-size-accessibility-conversion",
   ],
-  advisory: ["fractional-coo", "strategic-planning", "process-optimization", "build-buy-or-integrate-technology", "workshop-consultant-or-fractional-leader", "founder-decision-bottleneck", "clear-decision-rights", "90-day-plan-vs-five-year-strategy", "process-problems-and-ownership", "team-change-readiness", "questions-before-choosing-business-platform", "what-technology-advisor-does", "compare-technology-proposals", "business-continuity-basics", "small-business-cybersecurity-priorities", "workshop-vs-another-meeting", "why-training-does-not-change-behaviour", "workshop-to-30-days-of-action", "prepare-strategic-planning-workshop", "ideation-too-many-ideas", "networking-roi-solopreneurs-small-business"],
+  advisory: ["should-you-say-yes-to-this-opportunity", "hire-or-fix-the-work-first", "revenue-growing-why-not-more-cash", "what-if-biggest-client-leaves", "turn-custom-service-into-repeatable-offer", "sales-pipeline-or-list-of-contacts", "owner-is-the-capacity-problem", "networking-roi-solopreneurs-small-business", "fractional-coo", "strategic-planning", "process-optimization", "build-buy-or-integrate-technology", "workshop-consultant-or-fractional-leader", "founder-decision-bottleneck", "clear-decision-rights", "90-day-plan-vs-five-year-strategy", "process-problems-and-ownership", "team-change-readiness", "questions-before-choosing-business-platform", "what-technology-advisor-does", "compare-technology-proposals", "business-continuity-basics", "small-business-cybersecurity-priorities", "workshop-vs-another-meeting", "why-training-does-not-change-behaviour", "workshop-to-30-days-of-action", "prepare-strategic-planning-workshop", "ideation-too-many-ideas"],
 };
 
 /**
@@ -180,6 +187,13 @@ export const INSIGHT_OG_IMAGES: Partial<Record<InsightSlug, string>> = {
   "free-website-builder-seo-ai-visibility-tradeoffs": "/images/insights/library/is-your-website-builder-limiting-growth.webp",
   "contrast-text-size-accessibility-conversion": "/images/insights/library/contrast-text-size-accessibility-conversion.webp",
   "networking-roi-solopreneurs-small-business": "/images/insights/library/networking-roi-solopreneurs-small-business.webp",
+  "should-you-say-yes-to-this-opportunity": "/images/insights/library/should-you-say-yes-to-this-opportunity.webp",
+  "hire-or-fix-the-work-first": "/images/insights/library/hire-or-fix-the-work-first.webp",
+  "revenue-growing-why-not-more-cash": "/images/insights/library/revenue-growing-why-not-more-cash.webp",
+  "what-if-biggest-client-leaves": "/images/insights/library/what-if-biggest-client-leaves.webp",
+  "turn-custom-service-into-repeatable-offer": "/images/insights/library/turn-custom-service-into-repeatable-offer.webp",
+  "sales-pipeline-or-list-of-contacts": "/images/insights/library/sales-pipeline-or-list-of-contacts.webp",
+  "owner-is-the-capacity-problem": "/images/insights/library/owner-is-the-capacity-problem.webp",
 };
 
 /** Insights rooted in delivery work — shown with an engagement chip on the homepage */
@@ -254,4 +268,11 @@ export const INSIGHT_PUBLISHED_DATES: Record<InsightSlug, string> = {
   "free-website-builder-seo-ai-visibility-tradeoffs": "2026-09-28",
   "contrast-text-size-accessibility-conversion": "2026-09-28",
   "networking-roi-solopreneurs-small-business": "2026-09-28",
+  "should-you-say-yes-to-this-opportunity": "2026-09-28",
+  "hire-or-fix-the-work-first": "2026-09-28",
+  "revenue-growing-why-not-more-cash": "2026-09-28",
+  "what-if-biggest-client-leaves": "2026-09-28",
+  "turn-custom-service-into-repeatable-offer": "2026-09-28",
+  "sales-pipeline-or-list-of-contacts": "2026-09-28",
+  "owner-is-the-capacity-problem": "2026-09-28",
 };

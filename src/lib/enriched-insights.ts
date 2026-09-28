@@ -3,6 +3,7 @@ import { ADDITIONAL_INSIGHTS } from '@/lib/additional-insights'
 import { BACKLOG_ADVISORY_INSIGHTS } from '@/lib/backlog-advisory-insights'
 import { BACKLOG_DIGITAL_INSIGHTS } from '@/lib/backlog-digital-insights'
 import { BACKLOG_PRODUCT_WORKSHOP_INSIGHTS } from '@/lib/backlog-product-workshop-insights'
+import { COACHING_INSIGHTS } from '@/lib/coaching-insights'
 
 export type EnrichedInsightSlug = Exclude<
   InsightSlug,
@@ -45,6 +46,7 @@ export const ENRICHED_INSIGHTS: Record<EnrichedInsightSlug, InsightEntry> = {
   ...BACKLOG_ADVISORY_INSIGHTS,
   ...BACKLOG_DIGITAL_INSIGHTS,
   ...BACKLOG_PRODUCT_WORKSHOP_INSIGHTS,
+  ...COACHING_INSIGHTS,
   'fractional-coo': {
     image: '/images/insights/library/fractional-coo.webp',
     en: {

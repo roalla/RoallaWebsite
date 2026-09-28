@@ -4,6 +4,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 export const WEBSITE_BUILDER_INSIGHT_SLUG = 'is-your-website-builder-limiting-growth' as const
+export const FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG = 'free-website-builder-seo-ai-visibility-tradeoffs' as const
 
 export type LongFormBlock =
   | { type: 'paragraph' | 'blockquote'; text: string }
@@ -56,12 +57,23 @@ function parseLongFormMarkdown(markdown: string): LongFormBlock[] {
 }
 
 export function getWebsiteBuilderInsight(locale: string): LongFormBlock[] {
+  return getLongFormInsight(WEBSITE_BUILDER_INSIGHT_SLUG, locale)
+}
+
+export function getFreeWebsiteBuilderTradeoffsInsight(locale: string): LongFormBlock[] {
+  return getLongFormInsight(FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG, locale)
+}
+
+function getLongFormInsight(
+  slug: typeof WEBSITE_BUILDER_INSIGHT_SLUG | typeof FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG,
+  locale: string,
+): LongFormBlock[] {
   const language = locale === 'fr' ? 'fr' : 'en'
   const filePath = path.join(
     process.cwd(),
     'content',
     'insights',
-    `${WEBSITE_BUILDER_INSIGHT_SLUG}.${language}.md`,
+    `${slug}.${language}.md`,
   )
   return parseLongFormMarkdown(fs.readFileSync(filePath, 'utf8'))
 }

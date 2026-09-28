@@ -4,7 +4,10 @@ import { BACKLOG_ADVISORY_INSIGHTS } from '@/lib/backlog-advisory-insights'
 import { BACKLOG_DIGITAL_INSIGHTS } from '@/lib/backlog-digital-insights'
 import { BACKLOG_PRODUCT_WORKSHOP_INSIGHTS } from '@/lib/backlog-product-workshop-insights'
 
-export type EnrichedInsightSlug = Exclude<InsightSlug, 'is-your-website-builder-limiting-growth'>
+export type EnrichedInsightSlug = Exclude<
+  InsightSlug,
+  'is-your-website-builder-limiting-growth' | 'free-website-builder-seo-ai-visibility-tradeoffs'
+>
 
 export type InsightStep = { title: string; body: string }
 

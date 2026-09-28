@@ -29,6 +29,9 @@ type InsightTranslator = {
 }
 
 export function formatInsightReadTime(t: InsightTranslator, slug: InsightSlug): string {
+  if (slug === 'free-website-builder-seo-ai-visibility-tradeoffs') {
+    return t('minRead', { count: 9 })
+  }
   if (slug === 'is-your-website-builder-limiting-growth') {
     return t('minRead', { count: 7 })
   }

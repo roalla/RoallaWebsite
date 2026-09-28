@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import Breadcrumb from '@/components/Breadcrumb'
 import EnrichedInsightArticle from '@/components/insights/EnrichedInsightArticle'
+import FreeWebsiteBuilderTradeoffsArticle from '@/components/insights/FreeWebsiteBuilderTradeoffsArticle'
 import WebsiteBuilderLimitationsArticle from '@/components/insights/WebsiteBuilderLimitationsArticle'
 import JsonLd from '@/components/JsonLd'
 import type { EnrichedInsightSlug } from '@/lib/enriched-insights'
@@ -12,7 +13,10 @@ import { formatInsightReadTime } from '@/lib/insight-read-time'
 import { buildArticlePageMetadata } from '@/lib/page-metadata'
 import { OG_IMAGE, OG_IMAGE_ALT } from '@/lib/site'
 import { articleJsonLd, breadcrumbJsonLd } from '@/lib/structured-data'
-import { WEBSITE_BUILDER_INSIGHT_SLUG } from '@/lib/website-builder-insight'
+import {
+  FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG,
+  WEBSITE_BUILDER_INSIGHT_SLUG,
+} from '@/lib/website-builder-insight'
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>
@@ -32,6 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: 'insights' })
   const ogImage = INSIGHT_OG_IMAGES[slug] ?? OG_IMAGE
   const isWebsiteBuilderArticle = slug === WEBSITE_BUILDER_INSIGHT_SLUG
+  const isFreeWebsiteBuilderTradeoffsArticle = slug === FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG
 
   return buildArticlePageMetadata({
     locale,
@@ -42,8 +47,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     dateModified: isWebsiteBuilderArticle ? t(`${slug}.dateModified`) : undefined,
     ogImage,
     ogImageAlt: OG_IMAGE_ALT,
-    ogTitle: isWebsiteBuilderArticle ? t(`${slug}.socialTitle`) : undefined,
-    ogDescription: isWebsiteBuilderArticle ? t(`${slug}.socialDescription`) : undefined,
+    ogTitle: isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle ? t(`${slug}.socialTitle`) : undefined,
+    ogDescription: isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle ? t(`${slug}.socialDescription`) : undefined,
   })
 }
 
@@ -58,6 +63,7 @@ export default async function InsightArticlePage({ params }: Props) {
   const readTime = formatInsightReadTime(t, slug)
   const ogImage = INSIGHT_OG_IMAGES[slug] ?? OG_IMAGE
   const isWebsiteBuilderArticle = slug === WEBSITE_BUILDER_INSIGHT_SLUG
+  const isFreeWebsiteBuilderTradeoffsArticle = slug === FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG
 
   return (
     <div className="page-shell">
@@ -79,7 +85,7 @@ export default async function InsightArticlePage({ params }: Props) {
           }),
         ]}
       />
-      {isWebsiteBuilderArticle ? (
+      {isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle ? (
         <>
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 max-w-6xl">
             <Breadcrumb
@@ -90,13 +96,23 @@ export default async function InsightArticlePage({ params }: Props) {
               ]}
             />
           </div>
-          <WebsiteBuilderLimitationsArticle
-            locale={locale}
-            title={title}
-            summary={t(`${slug}.summary`)}
-            readTime={readTime}
-            category={t(`${slug}.category`)}
-          />
+          {isWebsiteBuilderArticle ? (
+            <WebsiteBuilderLimitationsArticle
+              locale={locale}
+              title={title}
+              summary={t(`${slug}.summary`)}
+              readTime={readTime}
+              category={t(`${slug}.category`)}
+            />
+          ) : (
+            <FreeWebsiteBuilderTradeoffsArticle
+              locale={locale}
+              title={title}
+              summary={t(`${slug}.summary`)}
+              readTime={readTime}
+              category={t(`${slug}.category`)}
+            />
+          )}
         </>
       ) : (
         <>

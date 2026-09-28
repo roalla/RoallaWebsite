@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import Breadcrumb from '@/components/Breadcrumb'
@@ -115,13 +115,15 @@ export default async function InsightsIndexPage({ params }: Props) {
             </a>
           </p>
         </header>
-        <InsightsBrowser
-          articles={articles}
-          groups={articleGroups}
-          otherTitle={t('groupOther')}
-          otherIntro={t('groupOtherIntro')}
-          otherLinks={otherLinks}
-        />
+        <Suspense fallback={<div className="h-44 max-w-6xl animate-pulse rounded-2xl bg-slate-100" />}>
+          <InsightsBrowser
+            articles={articles}
+            groups={articleGroups}
+            otherTitle={t('groupOther')}
+            otherIntro={t('groupOtherIntro')}
+            otherLinks={otherLinks}
+          />
+        </Suspense>
       </div>
     </div>
   )

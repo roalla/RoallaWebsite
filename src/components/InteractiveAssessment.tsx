@@ -30,7 +30,15 @@ const NEXT_KEYS = ['next1', 'next2', 'next3'] as const
 type ResultMessages = Record<(typeof REC_KEYS)[number] | (typeof NEXT_KEYS)[number], string>
 
 function isDigitalOrEventLane(lane: AssessmentLane): boolean {
-  return lane === 'website' || lane === 'platform' || lane === 'workshop' || lane === 'event'
+  return (
+    lane === 'technology' ||
+    lane === 'website' ||
+    lane === 'platform' ||
+    lane === 'automation' ||
+    lane === 'ai' ||
+    lane === 'workshop' ||
+    lane === 'event'
+  )
 }
 
 function resultMessagesNamespace(result: AssessmentResult): string {
@@ -330,17 +338,10 @@ function AssessmentResultsView({
             </Link>
           )}
           <Link
-            href={result.laneHref as '/programs/business-enablement' | '/programs/workshops' | '/services/digital' | '/services/digital-events'}
+            href={result.laneHref as '/programs/business-enablement' | '/programs/technology-advisory' | '/programs/workshops' | '/services/digital' | '/services/digital-events'}
             className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
           >
             {laneExploreLabel(result.lane, t)}
-            <ArrowRight className="ml-1.5 w-4 h-4" />
-          </Link>
-          <Link
-            href={result.exploreServicesHref as '/programs/business-enablement'}
-            className="inline-flex items-center text-sm font-semibold text-slate-600 hover:text-primary-dark hover:underline"
-          >
-            {t('explorePhase')}
             <ArrowRight className="ml-1.5 w-4 h-4" />
           </Link>
         </div>
@@ -357,7 +358,10 @@ function laneExploreLabel(
   lane: AssessmentLane,
   t: ReturnType<typeof useTranslations<'assessmentTool'>>,
 ): string {
-  if (lane === 'website' || lane === 'platform') return t('viewDigitalCreations')
+  if (lane === 'technology') return t('viewTechnologyAdvisory')
+  if (lane === 'website' || lane === 'platform' || lane === 'automation' || lane === 'ai') {
+    return t('viewDigitalCreations')
+  }
   if (lane === 'workshop') return t('viewWorkshops')
   if (lane === 'event') return t('viewDigitalEvents')
   return t('viewServices')

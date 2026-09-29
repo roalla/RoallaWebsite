@@ -8,6 +8,8 @@ import {
   Link2,
   Calendar,
   Sparkles,
+  Compass,
+  BriefcaseBusiness,
   Table2,
   ArrowUpRight,
   type LucideIcon,
@@ -29,6 +31,8 @@ import {
 import type { CaseStudySlug } from '@/lib/portfolio-case-studies'
 
 const categoryIcons: Record<UseCaseCategory, LucideIcon> = {
+  business: BriefcaseBusiness,
+  technology: Compass,
   websites: Globe,
   apps: Layers,
   automation: Link2,

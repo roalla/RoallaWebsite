@@ -149,7 +149,7 @@
       "pathAutomationTitle": "Integrate, automate, or add AI",
       "pathAutomationDesc": "Connect systems, remove manual steps, and add practical AI where it helps.",
       "pathAssessmentTitle": "Not sure where to start?",
-      "pathAssessmentDesc": "Five quick questions to find your best entry point—digital build or program.",
+      "pathAssessmentDesc": "Six quick questions to find your best advisory, sourcing, workshop, or digital delivery starting point.",
       "pathSeeUseCase": "See use case guide",
       "pathStartInquiry": "Start an inquiry",
       "programsLink": "Looking for advisory or workshops?",
@@ -350,9 +350,9 @@
     },
     "assessment": {
       "title": "Find your starting point",
-      "description": "Five quick questions to match you with the right digital service or program—then tailored next steps you can discuss with our team.",
+      "description": "Six quick questions to match you with the right advisory, sourcing, workshop, or digital service—then tailored next steps.",
       "cta": "Take the 5-Minute Assessment",
-      "preview": "5 questions · 5 minutes · Phase & service match"
+      "preview": "6 questions · 5 minutes · Service & use-case match"
     },
     "cta": {
       "title": "Ready to move forward?",
@@ -1966,7 +1966,7 @@
       "p1": "Growing businesses often hit a point where the founder or CEO is still the default operator: approving purchases, unblocking projects, and translating strategy for every team. A fractional COO brings senior operational leadership without the cost and commitment of a full-time executive hire.",
       "p2": "Fractional COO engagements typically focus on priorities, owners, and KPIs; process improvements that reduce cycle time; and implementation support so recommendations become weekly habits, not binderware. Roalla applies this operator mindset inside Business Enablement programs and alongside digital builds when execution discipline matters.",
       "p3": "You may be ready for fractional operational support if growth is outpacing your planning rhythm, handoffs between teams are breaking, or leadership needs board-ready clarity on the next 90 days. The fit is especially strong when you want someone in the room for decisions, not a report delivered afterward.",
-      "p4": "If you're unsure whether advisory programs or a digital build is the better starting point, Roalla's five-question assessment maps your gaps to the right entry point, from Prepare through Soar, before you commit to a scope."
+      "p4": "If you're unsure whether business advisory, technology sourcing, a workshop, or digital delivery is the better starting point, Roalla's six-question assessment maps your needs and readiness before you commit to a scope."
     },
     "strategic-planning": {
       "metadataTitle": "Strategic Planning: Vision to Execution | ROALLA",
@@ -1999,7 +1999,7 @@
       "p1": "Small and mid-size businesses (SMBs) often delay digitization because it sounds expensive, disruptive, or reserved for larger competitors. In practice, the opposite is usually true: staying on spreadsheets, email threads, and disconnected tools creates hidden costs: slow quotes, missed follow-ups, duplicate data entry, and decisions made without current numbers.",
       "p2": "Digitization for an SMB doesn't mean replacing everything at once. It means connecting the workflows that matter most: how you capture leads, schedule work, invoice customers, and report to leadership. Even modest improvements, like a modern website with clear conversion paths, a CRM connected to your inbox, or a custom portal for repeat clients, reduce friction your team feels every week.",
       "p3": "The benefits compound quickly. Teams spend less time hunting for information. Customers get faster responses and a more professional experience. Owners gain visibility into pipeline, capacity, and cash flow without waiting for someone to rebuild a spreadsheet. That clarity is what lets an SMB grow without adding headcount at the same pace.",
-      "p4": "Roalla works with SMBs through Digital Enablement, with scoped builds, integrations, and automation sized to your stage, not an enterprise playbook. Start with our five-question assessment or a service inquiry if you want help identifying the highest-return digitization move for your business."
+      "p4": "Roalla works with SMBs through Digital Enablement, with scoped builds, integrations, and automation sized to your stage, not an enterprise playbook. Start with our six-question assessment or a service inquiry if you want help identifying the highest-return digitization move for your business."
     },
     "smb-digital-efficiency": {
       "metadataTitle": "Digitization Saves SMBs Time and Money | ROALLA",
@@ -2392,6 +2392,166 @@
       "category": "SOC 2 Readiness",
       "datePublished": "2026-09-29"
     },
+    "how-to-read-soc-2-report": {
+      "metadataTitle": "How to Read a Vendor SOC 2 Report | ROALLA",
+      "metadataDescription": "Learn how to review SOC 2 scope, opinion, exceptions, subservice organizations and customer responsibilities before relying on a vendor.",
+      "title": "Your Vendor Sent a SOC 2 Report. What Should You Actually Review?",
+      "summary": "The report matters only when its scope, period, findings and customer responsibilities match the service and risk decision in front of you.",
+      "category": "Assurance Review",
+      "datePublished": "2026-09-29"
+    },
+    "saas-enterprise-security-questionnaires": {
+      "metadataTitle": "How SaaS Companies Can Answer Security Questionnaires | ROALLA",
+      "metadataDescription": "Build an approved answer and evidence library that improves the speed, accuracy and governance of enterprise security questionnaires.",
+      "title": "Can Your SaaS Company Answer an Enterprise Security Questionnaire Without Starting From Scratch?",
+      "summary": "A governed library of current answers, evidence and owners supports faster enterprise sales without creating unsupported security promises.",
+      "category": "Customer Assurance",
+      "datePublished": "2026-09-29"
+    },
+    "cloud-shared-responsibility-business": {
+      "metadataTitle": "Cloud Shared Responsibility for Business Leaders | ROALLA",
+      "metadataDescription": "Understand which cloud security and operating responsibilities belong to your provider, your organization or both.",
+      "title": "Your SaaS Provider Secures the Cloud, but What Still Belongs to You?",
+      "summary": "Cloud services change how controls are delivered. They do not remove your responsibility for governance, identities, data, configuration and residual risk.",
+      "category": "Cloud Governance",
+      "datePublished": "2026-09-29"
+    },
+    "cyber-incident-tabletop-exercise": {
+      "metadataTitle": "How to Run a Practical Cyber Incident Tabletop Exercise | ROALLA",
+      "metadataDescription": "Use a structured cyber incident exercise to test authority, communication, escalation, evidence, recovery and improvement actions.",
+      "title": "Could Your Team Handle a Cyber Incident on a Tuesday Morning?",
+      "summary": "A practical tabletop exercise tests whether the people named in the response plan can make sound decisions when facts are incomplete and time matters.",
+      "category": "Incident Readiness",
+      "datePublished": "2026-09-29"
+    },
+    "ai-business-data-vendor-questions": {
+      "metadataTitle": "Questions Before Connecting AI to Business Data | ROALLA",
+      "metadataDescription": "Evaluate AI purpose, data use, provider terms, privacy, human oversight, model changes and exit requirements before connecting business data.",
+      "title": "Before You Connect AI to Customer or Company Data: 12 Questions to Ask",
+      "summary": "Responsible AI adoption starts with a defined use case, clear information boundaries, verified provider practices and accountable human review.",
+      "category": "AI Vendor Governance",
+      "datePublished": "2026-09-29"
+    },
+    "joiner-mover-leaver-access-risk": {
+      "metadataTitle": "Fix Joiner, Mover and Leaver Access Risk | ROALLA",
+      "metadataDescription": "Build an access lifecycle that keeps permissions aligned with employee, contractor and role changes from arrival through departure.",
+      "title": "Who Still Has Access? Fixing Joiner, Mover and Leaver Risk",
+      "summary": "Access risk grows quietly when permissions follow a person’s history instead of their current approved role.",
+      "category": "Identity Governance",
+      "datePublished": "2026-09-29"
+    },
+    "soc-2-iso-27001-cybersecure-canada": {
+      "metadataTitle": "SOC 2, ISO 27001 or CyberSecure Canada? | ROALLA",
+      "metadataDescription": "Compare assurance paths according to customer requirements, market expectations, scope, operating maturity and sustainable effort.",
+      "title": "SOC 2, ISO 27001 or CyberSecure Canada: Which Assurance Path Fits Your Business?",
+      "summary": "These assurance approaches serve different purposes. The right choice begins with the evidence your customers require and the program your organization can sustain.",
+      "category": "Assurance Strategy",
+      "datePublished": "2026-09-29"
+    },
+    "technology-vendor-due-diligence-business-data": {
+      "metadataTitle": "Technology Vendor Due Diligence Before Sharing Data | ROALLA",
+      "metadataDescription": "Review vendor security, privacy, resilience, contracts, portability and exit risk before trusting a provider with business data.",
+      "title": "How to Evaluate a Technology Vendor Before Trusting It With Business Data",
+      "summary": "The depth of vendor review should reflect the information, access and business dependency the supplier will receive.",
+      "category": "Vendor Risk",
+      "datePublished": "2026-09-29"
+    },
+    "technology-migration-readiness": {
+      "metadataTitle": "Technology Migration Readiness and Safe Cutover | ROALLA",
+      "metadataDescription": "Plan data reconciliation, workflow testing, permissions, support, cutover decisions and rollback before a technology migration.",
+      "title": "The Contract Is Signed. Is Your Technology Migration Ready?",
+      "summary": "A migration is ready when the business can accept the result, operate safely after cutover and contain failure if critical assumptions prove wrong.",
+      "category": "Migration Readiness",
+      "datePublished": "2026-09-29"
+    },
+    "data-retention-deletion-schedule": {
+      "metadataTitle": "Build a Practical Data Retention and Deletion Schedule | ROALLA",
+      "metadataDescription": "Create an operating schedule for retaining, holding and deleting records across systems, exports, backups and suppliers.",
+      "title": "What Should Your Data Retention and Deletion Schedule Actually Cover?",
+      "summary": "A useful retention schedule connects purpose and obligation with every known copy, responsible owner, approved exception and verifiable disposal method.",
+      "category": "Data Lifecycle",
+      "datePublished": "2026-09-29"
+    },
+    "rto-rpo-downtime-data-loss": {
+      "metadataTitle": "RTO and RPO for Business Continuity | ROALLA",
+      "metadataDescription": "Translate downtime and acceptable data loss into practical recovery requirements, dependencies, contracts and tests.",
+      "title": "RTO and RPO: How Much Downtime and Data Loss Can Your Business Accept?",
+      "summary": "Recovery objectives are business decisions that should reflect operational impact and the capabilities your systems and suppliers can actually deliver.",
+      "category": "Recovery Planning",
+      "datePublished": "2026-09-29"
+    },
+    "technical-debt-business-risk": {
+      "metadataTitle": "When Technical Debt Becomes Business Risk | ROALLA",
+      "metadataDescription": "Prioritize technical debt according to security, reliability, delivery, customer commitments, dependencies and the cost of change.",
+      "title": "Technical Debt Is Not Just a Developer Problem. When Is It Becoming Business Risk?",
+      "summary": "Technical debt deserves leadership attention when its effect on business outcomes can be identified, evidenced and prioritized.",
+      "category": "Technology Risk",
+      "datePublished": "2026-09-29"
+    },
+    "cyber-insurance-security-readiness": {
+      "metadataTitle": "Cyber Insurance Applications and Security Readiness | ROALLA",
+      "metadataDescription": "Validate cyber insurance answers against actual controls, configurations, exceptions and evidence before coverage is bound.",
+      "title": "What Cyber Insurance Applications Reveal About Your Security Program",
+      "summary": "Insurance questions can expose control gaps, but only when answers are verified across the full environment rather than completed from memory.",
+      "category": "Cyber Insurance Readiness",
+      "datePublished": "2026-09-29"
+    },
+    "technology-due-diligence-acquisition": {
+      "metadataTitle": "Technology Due Diligence Before an Acquisition | ROALLA",
+      "metadataDescription": "Assess systems, contracts, data, security, technical debt, ownership and integration cost before acquiring a business.",
+      "title": "Technology Due Diligence Before Acquiring or Investing in a Business",
+      "summary": "Good diligence identifies the technology obligations, dependencies and transition costs that financial statements may not reveal.",
+      "category": "Transaction Readiness",
+      "datePublished": "2026-09-29"
+    },
+    "fractional-cio-ciso-technology-advisor": {
+      "metadataTitle": "Technology Advisor, Fractional CIO or Fractional CISO? | ROALLA",
+      "metadataDescription": "Choose the right technology leadership model according to the decisions, authority, accountability and duration your business needs.",
+      "title": "When Should a Growing Company Add a Fractional CIO or CISO?",
+      "summary": "A defined decision may need an advisor. An ongoing technology or security leadership gap may require a fractional executive with clear authority.",
+      "category": "Technology Leadership",
+      "datePublished": "2026-09-29"
+    },
+    "continuous-soc-2-evidence-calendar": {
+      "metadataTitle": "Build a Continuous SOC 2 Evidence Calendar | ROALLA",
+      "metadataDescription": "Coordinate recurring SOC 2 controls, populations, evidence, reviews, exceptions and accountable owners throughout the year.",
+      "title": "How to Design an Evidence Calendar for Continuous SOC 2 Readiness",
+      "summary": "Continuous readiness makes evidence part of normal operations instead of a rushed collection exercise before the examination.",
+      "category": "Continuous Assurance",
+      "datePublished": "2026-09-29"
+    },
+    "saas-customer-assurance-package": {
+      "metadataTitle": "Build a SaaS Customer Assurance Package | ROALLA",
+      "metadataDescription": "Organize approved security, privacy, resilience and assurance material into controlled packages for qualified customer review.",
+      "title": "What a SaaS Company Should Include in a Customer Assurance Package",
+      "summary": "A governed assurance package helps buyers make informed decisions while keeping sensitive evidence accurate, current and appropriately restricted.",
+      "category": "Customer Trust",
+      "datePublished": "2026-09-29"
+    },
+    "data-residency-sovereignty-hosting-location": {
+      "metadataTitle": "Data Residency, Sovereignty and Hosting Location | ROALLA",
+      "metadataDescription": "Understand how storage, processing, access, subprocessors, jurisdiction and contracts affect claims about where business data resides.",
+      "title": "Data Residency, Data Sovereignty and Hosting Location: What Is the Difference?",
+      "summary": "A Canadian hosting region does not answer every governance question about processing, access, backups, subprocessors or applicable legal authority.",
+      "category": "Data Location",
+      "datePublished": "2026-09-29"
+    },
+    "privileged-access-review": {
+      "metadataTitle": "How to Review Administrator and Privileged Access | ROALLA",
+      "metadataDescription": "Inventory and govern administrator, service, vendor, emergency and recovery access across critical business systems.",
+      "title": "How to Review Administrator Accounts and Privileged Access",
+      "summary": "Powerful access requires individual accountability, strong authentication, limited duration, monitoring and a reliable review process.",
+      "category": "Privileged Access",
+      "datePublished": "2026-09-29"
+    },
+    "critical-technology-vendor-outage": {
+      "metadataTitle": "Preparing for a Critical Technology Vendor Outage | ROALLA",
+      "metadataDescription": "Plan supplier escalation, alternate work, customer communication, data reconciliation and safe recovery before a critical vendor fails.",
+      "title": "What Should Happen When a Critical Technology Vendor Has an Outage?",
+      "summary": "The provider owns its recovery. Your organization still owns priorities, workarounds, communication, reconciliation and the decision to resume dependent work.",
+      "category": "Supplier Resilience",
+      "datePublished": "2026-09-29"
+    },
     "website-optimized-search-analytics-90-day-review": {
       "metadataTitle": "Is Your Website Optimized for Search and Analytics? | ROALLA",
       "metadataDescription": "Learn how Search Console and GA4 measure different parts of the website journey—and why reliable setup, review and adjustment require a 90-day cycle.",
@@ -2536,26 +2696,26 @@
   },
   "assessmentPage": {
     "metadataTitle": "Find Your Starting Point | ROALLA",
-    "metadataDescription": "Five quick questions to route you to websites, platforms, automation, AI, events, workshops, or programs—with an optional pre-filled service inquiry.",
+    "metadataDescription": "Six quick questions to identify a practical starting point across business advisory, technology sourcing, workshops, websites, apps, automation, AI, and digital events.",
     "title": "Find your starting point",
-    "preview": "5 questions · 5 minutes · Service match",
-    "description": "Answer five short questions and we'll suggest your best starting point—digital build or program—aligned with how we work.",
+    "preview": "6 questions · 5 minutes · Service and use-case match",
+    "description": "Answer six short questions and we'll suggest a practical starting point across business advisory, technology sourcing, workshops, and digital delivery.",
     "whatHappensNext": "~3 min service inquiry · No obligation · Reply in 1 business day",
     "faqTitle": "How this connects to our services",
-    "faq1Q": "How does this relate to Prepare → Transform → Emerge → Soar?",
-    "faq1A": "Your lowest-scoring area maps to the phase where teams usually start. Strategy gaps point to Prepare; process and systems gaps to Transform; team and data visibility to Emerge; pilots and scale to Soar.",
-    "faq2Q": "What if I need a website or platform instead of consulting?",
-    "faq2A": "Question one asks what you're primarily looking for—website, platform, workshop, event digital, automation, AI, or advisory. Results route to Digital Enablement, Programs, Workshops, or Digital Events, with a pre-filled service inquiry if you continue.",
+    "faq1Q": "How does the assessment choose a starting point?",
+    "faq1A": "Your first answer identifies the service path you already recognize. Five readiness questions then tailor the result around strategy, operations, leadership, data, and change. If you are unsure, the lowest-scoring area becomes the recommended advisory starting point.",
+    "faq2Q": "How does it distinguish technology advice from a digital build?",
+    "faq2A": "Choose Technology Advisory when you need requirements, provider comparison, solution sourcing, or migration support. Choose a website, custom app, automation, AI, or digital-event path when you primarily need something designed, built, connected, or improved.",
     "faq3Q": "Is this a replacement for a discovery call?",
     "faq3A": "No—it helps you self-qualify before a conversation. We still review every inquiry personally and recommend the right entry point within one business day.",
     "faq4Q": "What happens after I submit a service inquiry?",
-    "faq4A": "Your assessment summary is included when you continue to a service inquiry. We respond within one business day with the right phase, service, and next steps—no obligation to proceed."
+    "faq4A": "Your assessment summary is included when you continue to a service inquiry. We respond within one business day with the recommended service path, relevant use case, and next steps—no obligation to proceed."
   },
   "assessmentTool": {
     "questionLabel": "Question {current} of {total}",
     "analyzing": "Analyzing your results…",
-    "scoreTitle": "Your Business Health Score: {score}%",
-    "primaryPhase": "Recommended starting phase",
+    "scoreTitle": "Your readiness snapshot: {score}%",
+    "primaryPhase": "Readiness emphasis",
     "recommendedService": "Best-fit service",
     "recommendedLane": "Suggested path",
     "alsoConsider": "Also consider",
@@ -2564,8 +2724,9 @@
     "submitInquiry": "Submit a Service Inquiry",
     "takeAgain": "Take Assessment Again",
     "exploreService": "Explore {service}",
-    "explorePhase": "View phase on Services",
-    "viewServices": "Explore Programs",
+    "explorePhase": "Explore this service",
+    "viewServices": "Explore Business Advisory",
+    "viewTechnologyAdvisory": "Explore Technology Advisory",
     "viewDigitalCreations": "Explore Digital Enablement",
     "viewWorkshops": "Explore Workshops",
     "viewDigitalEvents": "Explore Digital Events",
@@ -2583,30 +2744,36 @@
       "soar": "Start in Soar"
     },
     "lanes": {
-      "consulting": "Programs / Business Enablement",
-      "website": "Website or brand site",
-      "platform": "Custom platform or app",
+      "consulting": "Business Advisory",
+      "technology": "Technology Advisory & Solution Sourcing",
+      "website": "Website and digital visibility",
+      "platform": "Custom app, portal, or business tool",
+      "automation": "Integration and workflow automation",
+      "ai": "Practical AI",
       "workshop": "Team workshop",
-      "event": "Event digital",
+      "event": "Digital events",
       "unsure": "Not sure yet — we'll help you choose"
     },
     "services": {
-      "strategy": "Strategic Planning",
-      "operations": "Process Optimization",
-      "digital": "Digital Transformation",
-      "team": "Team Development",
-      "data": "Data Analytics",
-      "innovation": "Innovation & Growth"
+      "strategy": "Strategy & Roadmaps",
+      "operations": "Operations & Process Improvement",
+      "digital": "Digital Readiness",
+      "team": "Leadership & Team Enablement",
+      "data": "Data & Decision Readiness",
+      "innovation": "Innovation & Change Readiness"
     },
     "questions": {
       "lane": {
         "text": "What are you primarily looking for right now?",
         "options": {
-          "website": "A new or redesigned website",
-          "platform": "A custom platform, portal, or app",
+          "consulting": "Business advisory for strategy, operations, leadership, or readiness",
+          "technology": "Help selecting, comparing, or implementing business technology",
+          "website": "A new website, redesign, visibility, or lead-generation improvement",
+          "platform": "A custom app, portal, or business tool",
+          "automation": "Connected systems, workflow automation, or less repetitive work",
+          "ai": "A practical AI use case, workflow, or solution",
           "event": "Event pages, booth digital, or event apps",
           "workshop": "A facilitated team workshop",
-          "consulting": "Programs / advisory — strategy, operations, and growth",
           "unsure": "Not sure yet — help me choose"
         }
       },
@@ -2643,15 +2810,26 @@
           "5": "High-performing, aligned teams"
         }
       },
-      "scale": {
-        "text": "How ready are you to scale with data, systems, and new initiatives?",
-        "hint": "Decision-ready KPIs, technology adoption, and de-risked pilots.",
+      "data": {
+        "text": "How useful are your data, measures, and management visibility?",
+        "hint": "Reliable information, decision-ready KPIs, and clear ownership of the numbers.",
         "options": {
-          "1": "Little data discipline or systems support",
-          "2": "Basic reporting, limited adoption",
-          "3": "Moderate readiness to scale",
-          "4": "Strong data and systems foundation",
-          "5": "Ready to validate and scale confidently"
+          "1": "Important decisions rely mostly on instinct",
+          "2": "Basic reports exist but are late or inconsistent",
+          "3": "Useful reporting with some gaps or manual effort",
+          "4": "Reliable measures support regular decisions",
+          "5": "Clear, trusted data drives timely action"
+        }
+      },
+      "innovation": {
+        "text": "How ready is your organization to adopt a new initiative or way of working?",
+        "hint": "Clear value, accountable owners, manageable dependencies, and practical adoption support.",
+        "options": {
+          "1": "Change is reactive and rarely sustained",
+          "2": "Ideas start without clear owners or measures",
+          "3": "Some structure exists, but adoption is uneven",
+          "4": "Pilots and change are managed deliberately",
+          "5": "The organization validates, adopts, and scales confidently"
         }
       }
     },
@@ -2662,7 +2840,7 @@
           "rec2": "Build a 90-day plan with measurable milestones",
           "rec3": "Clarify market positioning and growth roadmap",
           "rec4": "Establish decision-ready scope for what to transform first",
-          "next1": "Explore Strategic Planning on our Services page",
+          "next1": "Explore Strategy & Roadmaps in Business Advisory",
           "next2": "Submit a service inquiry with your assessment results",
           "next3": "Book a brief discovery conversation—no obligation"
         },
@@ -2671,7 +2849,7 @@
           "rec2": "Define owners, metrics, and target cycle-time improvements",
           "rec3": "Prioritize process changes that unlock growth momentum",
           "rec4": "Plan implementation support—not recommendations alone",
-          "next1": "Explore Process Optimization on our Services page",
+          "next1": "Explore Operations & Process Improvement",
           "next2": "Share your assessment results in a service inquiry",
           "next3": "Discuss readiness and scope with our team"
         },
@@ -2689,34 +2867,43 @@
           "rec2": "Address cross-team execution gaps limiting scale",
           "rec3": "Invest in capability development—not just staffing",
           "rec4": "Align organizational design with business priorities",
-          "next1": "Explore Team Development on our Services page",
+          "next1": "Explore Leadership & Team Enablement",
           "next2": "Continue to a service inquiry with pre-filled context",
           "next3": "Discuss visibility and capability goals"
         },
         "data": {
           "rec1": "Tie dashboards and KPIs directly to business priorities",
           "rec2": "Improve decision velocity with decision-ready reporting",
-          "rec3": "Close gaps between data volume and leadership clarity",
-          "rec4": "Design reporting systems teams actually use weekly",
-          "next1": "Explore Data Analytics on our Services page",
+          "rec3": "Clarify data ownership, definitions, and decision thresholds",
+          "rec4": "Start with the smallest reporting improvement that changes action",
+          "next1": "Explore Data, Innovation & Digital Readiness",
           "next2": "Submit a service inquiry with your assessment results",
           "next3": "Discuss your data and KPI priorities"
         },
         "innovation": {
           "rec1": "Validate new initiatives before full capital commitment",
           "rec2": "Define pilot roadmaps with clear success metrics",
-          "rec3": "Coordinate change across functions as you scale",
-          "rec4": "Build adoption paths for what's next",
-          "next1": "Explore Innovation & Growth on our Services page",
+          "rec3": "Map dependencies, risks, owners, and adoption needs",
+          "rec4": "Scale only after the evidence supports the next investment",
+          "next1": "Explore Data, Innovation & Digital Readiness",
           "next2": "Share your assessment summary in a service inquiry",
           "next3": "Discuss scale and launch priorities"
         }
       },
       "lane": {
+        "technology": {
+          "rec1": "Define business, technical, security, integration, and adoption requirements first",
+          "rec2": "Compare qualified providers on total cost, support, commitments, and exit options",
+          "rec3": "Plan implementation, migration, and user adoption before committing",
+          "rec4": "Use disclosed partner relationships without replacing needs-led evaluation",
+          "next1": "Explore Technology Advisory & Solution Sourcing",
+          "next2": "Submit an inquiry with your assessment context",
+          "next3": "Discuss what you need to replace, consolidate, add, or compare"
+        },
         "website": {
-          "rec1": "Clarify site goals—conversion, brand, or launch timing",
-          "rec2": "Review whether you need a new build or a redesign",
-          "rec3": "Align site scope with your broader business roadmap",
+          "rec1": "Clarify whether the priority is trust, visibility, conversion, or launch timing",
+          "rec2": "Review whether focused optimization or a new foundation is justified",
+          "rec3": "Connect content, search visibility, forms, and follow-up to a measurable customer action",
           "rec4": "See live examples in our Digital Portfolio",
           "next1": "Explore Digital Enablement for websites and brand sites",
           "next2": "Submit a service inquiry with your assessment context",
@@ -2730,6 +2917,24 @@
           "next1": "Explore Digital Enablement for custom platforms",
           "next2": "Submit a service inquiry with your assessment summary",
           "next3": "Discuss platform type, users, and timeline"
+        },
+        "automation": {
+          "rec1": "Start with the repeated work or broken handoff—not the automation tool",
+          "rec2": "Map systems, data, exceptions, owners, and failure handling",
+          "rec3": "Estimate value conservatively and pilot the smallest useful workflow",
+          "rec4": "Document monitoring and ownership so the automation remains dependable",
+          "next1": "Explore Digital Enablement for integration and automation",
+          "next2": "Submit an inquiry with the workflow and systems involved",
+          "next3": "Discuss volume, exceptions, integrations, and desired outcome"
+        },
+        "ai": {
+          "rec1": "Choose a measurable workflow where AI can assist—not novelty for its own sake",
+          "rec2": "Confirm data quality, privacy, security, and human review requirements",
+          "rec3": "Pilot with representative work and explicit success criteria",
+          "rec4": "Decide whether you need a built workflow or sourced AI platform",
+          "next1": "Explore practical AI through Digital Enablement",
+          "next2": "Submit an inquiry with the task, users, and information involved",
+          "next3": "Discuss guardrails, integrations, review, and adoption"
         },
         "workshop": {
           "rec1": "Pick a workshop topic—branding, sales, productivity, or ideation",
@@ -2751,11 +2956,11 @@
         }
       },
       "fallback": {
-        "rec1": "Review our Services page by phase",
-        "rec2": "Identify whether enablement or digital build is the better fit",
+        "rec1": "Start with the business outcome or constraint you recognize most clearly",
+        "rec2": "Identify whether advisory, technology sourcing, a workshop, or digital delivery fits best",
         "rec3": "Share your priorities in a brief service inquiry",
-        "rec4": "We'll recommend Prepare, Transform, Emerge, or Soar",
-        "next1": "Explore Business Enablement services",
+        "rec4": "We'll recommend the smallest practical starting point",
+        "next1": "Explore Business Advisory and the use-case library",
         "next2": "Submit a service inquiry with your assessment results",
         "next3": "Reply within one business day—no obligation"
       }
@@ -2813,13 +3018,13 @@
     "redirecting": "Redirecting..."
   },
   "useCases": {
-    "metadataTitle": "Digital Use Cases | ROALLA",
-    "metadataDescription": "Plain-language guide to eight common digital needs—each row links to a pre-filled service inquiry. See what DIY misses and how Roalla delivers.",
-    "title": "Digital Use Cases",
-    "subtitle": "Start with the problem you recognize. See what DIY usually misses, and how we deliver—with honesty about how mature each capability is.",
+    "metadataTitle": "Business, Technology & Digital Use Cases | ROALLA",
+    "metadataDescription": "Plain-language guide to common business advisory, technology sourcing, and digital delivery needs. Compare what to consider and how Roalla helps.",
+    "title": "Business, Technology & Digital Use Cases",
+    "subtitle": "Start with the problem you recognize. See what advisory, selection, sourcing, and delivery can involve—and how we help, with honesty about how mature each capability is.",
     "howToReadTitle": "How to read this page",
     "howToRead1": "Common need — written in everyday language, not tech jargon.",
-    "howToRead2": "Things to consider — hidden complexity, timeline risks, and where DIY tools often stall.",
+    "howToRead2": "Things to consider — hidden complexity, decision risks, dependencies, and common blind spots.",
     "howToRead3": "How Roalla delivers — the outcome you get, plus a maturity badge so you know how battle-tested we are.",
     "maturityLegendTitle": "Maturity badges",
     "filterLabel": "Show me",
@@ -2841,14 +3046,22 @@
       },
       "established": {
         "label": "Established",
-        "desc": "Repeatable delivery process; multiple client engagements shipped."
+        "desc": "Repeatable delivery process; multiple client engagements completed."
       },
       "ready": {
         "label": "Ready",
-        "desc": "Capability we scope and build for your workflow—less public portfolio, same accountable team."
+        "desc": "Capability we scope and deliver for your situation—less public proof, same accountable team."
       }
     },
     "categories": {
+      "business": {
+        "title": "Business advisory & execution",
+        "desc": "When priorities, ownership, operating discipline, or growth decisions need to become an executable plan."
+      },
+      "technology": {
+        "title": "Technology advisory & sourcing",
+        "desc": "When you need clearer requirements, qualified provider options, and support through implementation."
+      },
       "websites": {
         "title": "Websites & brand presence",
         "desc": "When visitors need to trust you and take a clear next step."
@@ -2871,6 +3084,96 @@
       }
     },
     "cases": {
+      "strategic-priorities": {
+        "need": "We have too many priorities, and nothing is moving decisively.",
+        "consider": "A credible strategy requires tradeoffs. Adding initiatives without stopping, sequencing, or resourcing existing work creates silent delays and teaches the team that every priority is optional.",
+        "deliver": "A focused business and market assessment, explicit priority and stop-doing decisions, and a realistic 90-day plan with owners, milestones, measures, and a leadership review rhythm."
+      },
+      "process-bottlenecks": {
+        "need": "Work keeps stalling between people, departments, or systems.",
+        "consider": "The visible delay may be caused by unclear ownership, missing information, approval queues, repeated rework, or exceptions nobody owns. New software cannot repair an undefined process by itself.",
+        "deliver": "A workflow and handoff diagnostic, bottleneck and exception analysis, clarified ownership, a cycle-time baseline, and a prioritized improvement plan with implementation follow-through."
+      },
+      "founder-bottleneck": {
+        "need": "Every important decision still comes back to the owner.",
+        "consider": "Founder dependence often hides in approvals, customer relationships, passwords, supplier knowledge, and exceptions. It limits growth while creating continuity risk whenever the owner is unavailable.",
+        "deliver": "An owner-dependency assessment, delegated authority and decision limits, named deputies, documented critical access and escalation rules, and a practical continuity roadmap."
+      },
+      "leadership-decision-rights": {
+        "need": "Our people are capable, but roles, authority, and accountability are unclear.",
+        "consider": "Job titles rarely explain who recommends, decides, contributes, executes, or handles an exception. Ambiguity produces duplicate work, delayed choices, avoidable escalation, and cross-team frustration.",
+        "deliver": "Clear leadership roles, a practical decision-rights and escalation map, stronger operating cadence, and explicit commitments that improve cross-team execution without centralizing every choice."
+      },
+      "management-dashboard": {
+        "need": "We have plenty of data, but cannot see business health clearly enough to act.",
+        "consider": "Bank balances, accounting reports, CRM records, and delivery spreadsheets tell separate stories. More metrics add noise unless each measure has a source, owner, threshold, and decision attached to it.",
+        "deliver": "A concise management dashboard connecting cash, margin, pipeline, capacity, delivery, and risk—with defined owners, thresholds, actions, and a monthly operating review."
+      },
+      "profitability-capacity": {
+        "need": "Revenue is growing, but cash, margin, or delivery capacity is not improving.",
+        "consider": "Revenue can hide direct costs, unpriced owner time, rework, slow payment, customer concentration, and service commitments that consume more capacity than expected.",
+        "deliver": "A practical customer and service profitability view, capacity and cash-pressure assessment, and evidence-based actions to protect, reprice, redesign, delegate, or exit work."
+      },
+      "repeatable-delivery": {
+        "need": "Every new sale creates more custom work and more pressure on the owner.",
+        "consider": "Hiring into a poorly defined workflow can multiply cost and coordination. Growth becomes more sustainable when offers, delivery methods, handoffs, quality expectations, and genuinely personal work are made explicit first.",
+        "deliver": "An offer and operating-model review, standardization opportunities, reusable delivery methods, delegation design, and a staged hiring or partner plan tied to real capacity needs."
+      },
+      "digital-change-readiness": {
+        "need": "We want to pursue data, automation, AI, or another digital initiative without wasting budget.",
+        "consider": "A promising idea may still depend on cleaner data, stable processes, security controls, accountable owners, integration work, and a team prepared to change how the work is done.",
+        "deliver": "An opportunity and readiness assessment, value hypothesis, dependency and risk map, smallest useful pilot, success measures, accountable owners, and an adoption roadmap."
+      },
+      "customer-concentration": {
+        "need": "Too much of our revenue or pipeline depends on one customer, relationship, or source of demand.",
+        "consider": "Concentration risk is not solved by adding names to a contact list. The business needs qualified pipeline stages, realistic conversion evidence, account-retention actions, and a deliberate plan for replacing exposed revenue.",
+        "deliver": "A customer and pipeline concentration assessment, scenario analysis, priority account actions, demand-diversification choices, and leading indicators that show whether resilience is improving."
+      },
+      "partnership-readiness": {
+        "need": "We are considering a business partnership, but need to know whether shared ownership is the right structure.",
+        "consider": "Chemistry and complementary skills do not resolve authority, compensation, effort, intellectual property, client ownership, conflict, or exit decisions. A referral, subcontract, or time-bound collaboration may prove the relationship with less risk.",
+        "deliver": "A facilitated partnership-readiness assessment, comparison of lower-risk collaboration models, clarified commercial and operating expectations, and a decision brief to take to qualified legal and financial advisors."
+      },
+      "technology-stack-review": {
+        "need": "We are paying for too many tools and are not sure what to keep, consolidate, or retire.",
+        "consider": "Unused licences are only part of the cost. Duplicate data, overlapping features, unclear ownership, weak integrations, renewal dates, and exit restrictions can make a rushed cleanup more risky than it appears.",
+        "deliver": "A requirements-led technology-stack review that maps systems, owners, contracts, data, integrations, and business value—then prioritizes safe consolidation, renewal, or replacement decisions."
+      },
+      "platform-selection": {
+        "need": "We need to choose, replace, or consolidate a business platform.",
+        "consider": "A polished demo does not prove fit. Build, buy, and integrate options differ in total cost, security, data ownership, workflow fit, scalability, implementation effort, and what happens if you need to leave.",
+        "deliver": "A clear requirements brief, build-buy-integrate assessment, qualified solution shortlist, and traceable recommendation tied to your business, technical, security, integration, and adoption needs."
+      },
+      "provider-comparison": {
+        "need": "We have several technology proposals, but they are difficult to compare fairly.",
+        "consider": "Providers package scope, assumptions, onboarding, support, service levels, usage limits, renewals, and exit terms differently. The lowest monthly fee can hide migration work, add-ons, or long commitments.",
+        "deliver": "A normalized commercial and technical comparison covering scope, total cost, contract commitments, service levels, implementation, risk, and exit considerations—plus disclosed partner relationships before you commit."
+      },
+      "continuity-recovery": {
+        "need": "We are not confident the business could keep operating if email, internet, cloud, or a key provider failed.",
+        "consider": "Sync is not backup, a backup is not a tested recovery plan, and a supplier promise does not define your internal workaround. Critical services need downtime limits, accountable owners, alternatives, and recovery tests.",
+        "deliver": "A practical continuity and recovery assessment that identifies essential services, dependencies, acceptable downtime, backup and failover gaps, provider responsibilities, and a prioritized testing roadmap."
+      },
+      "cybersecurity-sourcing": {
+        "need": "We need stronger cybersecurity but do not know which controls or providers to prioritize.",
+        "consider": "Buying more security products before identifying critical data, identities, devices, vendors, and likely threats can add cost without reducing the most important risks. Compliance requirements may also change the shortlist.",
+        "deliver": "A risk- and requirements-led starting point, followed by qualified cybersecurity or business-continuity options and an implementation plan that accounts for privacy, compliance, integration, support, and adoption."
+      },
+      "communications-modernization": {
+        "need": "Our phone system or contact-centre setup is outdated, fragmented, or expensive.",
+        "consider": "Replacing dial tone is only one part of the decision. Number porting, call flows, CRM integration, recording, emergency calling, network readiness, specialty lines, failover, training, and support all affect the outcome.",
+        "deliver": "Current-state inventory, communications requirements, qualified unified-communications or contact-centre options, total-cost comparison, and a staged migration plan that protects critical calling and customer service."
+      },
+      "cloud-connectivity": {
+        "need": "Our locations, remote staff, cloud services, and networks are no longer working together reliably.",
+        "consider": "Bandwidth alone does not solve poor application performance or resilience. Provider coverage, routing, security, identity, failover, support, contract terms, and growth plans need to be evaluated together.",
+        "deliver": "Requirements and qualified options across cloud, networking, connectivity, mobility, and related services—with commercial comparison and an implementation path designed around performance, resilience, security, and scale."
+      },
+      "technology-implementation": {
+        "need": "We chose a solution, but need help with migration, rollout, and adoption.",
+        "consider": "A signed contract does not create a successful change. Data migration, integrations, configuration, security, testing, ownership, training, cutover, support, and measurable adoption all need decisions before launch.",
+        "deliver": "A practical implementation plan with owners, milestones, dependencies, acceptance criteria, adoption measures, provider coordination, and regular course correction from discovery through stabilization."
+      },
       "website-refresh": {
         "need": "Our website looks outdated, or we don't have one yet.",
         "consider": "DIY builders (Wix, Squarespace, WordPress themes) are quick to start, but custom domains, mobile layouts, SEO, and forms often need extra plugins. Small changes can break layouts without someone who knows what changed—and you still own the content updates.",

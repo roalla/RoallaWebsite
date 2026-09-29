@@ -120,7 +120,7 @@ export default async function PartnersPage({ params }: Props) {
         </div>
 
         <section className="mt-12 rounded-2xl bg-slate-950 px-6 py-10 text-center text-white lg:px-10 lg:py-12">
-          <h2 className="text-3xl font-serif font-bold">{t('ctaTitle')}</h2>
+          <h2 className="text-3xl font-serif font-bold text-white">{t('ctaTitle')}</h2>
           <p className="mx-auto mt-3 max-w-2xl text-slate-300">{t('ctaBody')}</p>
           <Link
             href={{ pathname: '/contact', query: { intent: 'consulting', focus: 'technology' } }}

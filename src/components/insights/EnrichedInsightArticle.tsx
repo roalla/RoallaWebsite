@@ -2,6 +2,9 @@ import Image from 'next/image'
 import { ArrowRight, Check, Lightbulb, SearchCheck } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import InsightShare from '@/components/insights/InsightShare'
+import IpTelephonyUseCaseMatrix from '@/components/insights/IpTelephonyUseCaseMatrix'
+import SearchAnalyticsComparison from '@/components/insights/SearchAnalyticsComparison'
+import Soc2SaasSizeMatrix from '@/components/insights/Soc2SaasSizeMatrix'
 import { getEnrichedInsight, type EnrichedInsightSlug } from '@/lib/enriched-insights'
 
 type Props = {
@@ -74,6 +77,10 @@ export default function EnrichedInsightArticle({ slug, locale, title, summary, r
           <p key={paragraph} className="text-[1.0625rem] leading-8 text-slate-700">{paragraph}</p>
         ))}
       </div>
+
+      {slug === 'analog-to-ip-business-telephony' ? <IpTelephonyUseCaseMatrix locale={locale} /> : null}
+      {slug === 'website-optimized-search-analytics-90-day-review' ? <SearchAnalyticsComparison locale={locale} /> : null}
+      {slug === 'what-to-expect-soc-2-examination-saas' ? <Soc2SaasSizeMatrix locale={locale} /> : null}
 
       <section className="mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl bg-slate-950 px-6 py-8 text-white sm:px-9" aria-labelledby="example-title">
         <div className="flex items-center gap-3 text-white">

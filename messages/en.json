@@ -2375,6 +2375,30 @@
       "summary": "Fewer unnecessary systems and process variations make security controls easier to own, operate, test and explain—while reducing everyday business risk.",
       "category": "SOC 2 Readiness",
       "datePublished": "2026-09-28"
+    },
+    "analog-to-ip-business-telephony": {
+      "metadataTitle": "From Analog Lines to IP Business Telephony | ROALLA",
+      "metadataDescription": "Compare the cost, integration value, resilience needs and business use cases involved in moving from POTS or analog lines to IP telephony.",
+      "title": "From Analog Lines to IP Telephony: Lower Cost, Greater Business Value",
+      "summary": "Modernizing business voice is not only a line-replacement project. Done well, it connects customer conversations with people, data and workflows while managing resilience and specialty-device risk.",
+      "category": "Business Communications",
+      "datePublished": "2026-09-29"
+    },
+    "what-to-expect-soc-2-examination-saas": {
+      "metadataTitle": "What SaaS Providers Should Expect in a SOC 2 Examination | ROALLA",
+      "metadataDescription": "Understand SOC 2 scope, fieldwork, evidence, common SaaS pitfalls and how preparation reduces risk, rework, duration and avoidable cost.",
+      "title": "What SaaS Providers Should Expect in a SOC 2 Examination",
+      "summary": "SOC 2 is easier to manage when scope, control ownership and evidence are stable before fieldwork. Company size changes complexity—not the need for defensible controls.",
+      "category": "SOC 2 Readiness",
+      "datePublished": "2026-09-29"
+    },
+    "website-optimized-search-analytics-90-day-review": {
+      "metadataTitle": "Is Your Website Optimized for Search and Analytics? | ROALLA",
+      "metadataDescription": "Learn how Search Console and GA4 measure different parts of the website journey—and why reliable setup, review and adjustment require a 90-day cycle.",
+      "title": "Is Your Website Optimized for Search and Analytics? A 90-Day Review",
+      "summary": "Google Search Console shows how people discover you in Google Search. GA4 shows measured behaviour after they arrive. Both depend on a well-built website and an operating rhythm that turns data into improvements.",
+      "category": "Search & Measurement",
+      "datePublished": "2026-09-29"
     }
   },
   "faq": {

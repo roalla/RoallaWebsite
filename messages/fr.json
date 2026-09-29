@@ -2375,6 +2375,30 @@
       "summary": "Moins de systèmes inutiles et de variantes rendent les contrôles plus faciles à attribuer, exploiter, tester et expliquer, tout en réduisant le risque quotidien.",
       "category": "Préparation SOC 2",
       "datePublished": "2026-09-28"
+    },
+    "analog-to-ip-business-telephony": {
+      "metadataTitle": "Des lignes analogiques à la téléphonie IP | ROALLA",
+      "metadataDescription": "Comparez coûts, valeur des intégrations, résilience et cas d’usage lors du passage des lignes POTS ou analogiques à la téléphonie IP.",
+      "title": "Des lignes analogiques à la téléphonie IP : réduire les coûts et accroître la valeur",
+      "summary": "Moderniser la voix ne consiste pas seulement à remplacer des lignes. Une bonne transition relie les conversations aux personnes, données et flux tout en gérant la résilience et les appareils spécialisés.",
+      "category": "Communications d’affaires",
+      "datePublished": "2026-09-29"
+    },
+    "what-to-expect-soc-2-examination-saas": {
+      "metadataTitle": "À quoi s’attendre lors d’un examen SOC 2 pour un fournisseur SaaS | ROALLA",
+      "metadataDescription": "Comprenez la portée, les travaux, les preuves et les pièges SOC 2, puis voyez comment la préparation réduit risques, reprises, délais et coûts évitables.",
+      "title": "À quoi un fournisseur SaaS doit-il s’attendre lors d’un examen SOC 2?",
+      "summary": "SOC 2 se gère mieux lorsque la portée, les responsables des contrôles et les preuves sont stables avant les travaux. La taille change la complexité, pas l’exigence de contrôles défendables.",
+      "category": "Préparation SOC 2",
+      "datePublished": "2026-09-29"
+    },
+    "website-optimized-search-analytics-90-day-review": {
+      "metadataTitle": "Votre site est-il optimisé pour la recherche et l’analytique? | ROALLA",
+      "metadataDescription": "Découvrez les rôles distincts de Search Console et GA4, et pourquoi une configuration fiable exige un cycle de révision et d’ajustement sur 90 jours.",
+      "title": "Votre site est-il optimisé pour la recherche et l’analytique? Une révision sur 90 jours",
+      "summary": "Google Search Console montre comment on vous découvre dans la recherche Google. GA4 montre le comportement mesuré après l’arrivée. Les deux exigent un site bien construit et un rythme qui transforme les données en améliorations.",
+      "category": "Recherche et mesure",
+      "datePublished": "2026-09-29"
     }
   },
   "faq": {

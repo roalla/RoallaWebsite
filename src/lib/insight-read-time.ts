@@ -29,6 +29,15 @@ type InsightTranslator = {
 }
 
 export function formatInsightReadTime(t: InsightTranslator, slug: InsightSlug): string {
+  if (slug === 'website-optimized-search-analytics-90-day-review') {
+    return t('minRead', { count: 9 })
+  }
+  if (slug === 'analog-to-ip-business-telephony') {
+    return t('minRead', { count: 8 })
+  }
+  if (slug === 'what-to-expect-soc-2-examination-saas') {
+    return t('minRead', { count: 9 })
+  }
   if (slug === 'networking-roi-solopreneurs-small-business') {
     return t('minRead', { count: 9 })
   }

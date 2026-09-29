@@ -5,11 +5,11 @@ import { ChevronDown, Search, X } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
-import type { InsightGroup, InsightSlug } from '@/lib/insights'
+import type { InsightBrowserArea, InsightSlug } from '@/lib/insights'
 
 export type InsightBrowserCard = {
   slug: InsightSlug
-  group: InsightGroup
+  group: InsightBrowserArea
   title: string
   summary: string
   readTime: string
@@ -22,11 +22,11 @@ export type InsightOtherLink = {
   summary: string
 }
 
-type GroupFilter = 'all' | InsightGroup
+type GroupFilter = 'all' | InsightBrowserArea | 'advisory'
 
 type Props = {
   articles: InsightBrowserCard[]
-  groups: { id: InsightGroup; title: string; intro: string }[]
+  groups: { id: InsightBrowserArea; title: string; intro: string }[]
   otherTitle: string
   otherIntro: string
   otherLinks: InsightOtherLink[]
@@ -43,7 +43,13 @@ function matchesQuery(query: string, ...fields: string[]) {
 }
 
 function readGroup(value: string | null): GroupFilter {
-  return value === 'digital' || value === 'advisory' ? value : 'all'
+  return value === 'digital' || value === 'business' || value === 'technology' || value === 'advisory' ? value : 'all'
+}
+
+function articleInArea(group: InsightBrowserArea, filter: GroupFilter) {
+  if (filter === 'all') return true
+  if (filter === 'advisory') return group === 'business' || group === 'technology'
+  return group === filter
 }
 
 const filterBtnClass = (active: boolean) =>
@@ -122,18 +128,21 @@ export default function InsightsBrowser({ articles, groups, otherTitle, otherInt
     [articles, query],
   )
 
-  const areaCounts = useMemo(
-    () => ({
+  const areaCounts = useMemo(() => {
+    const digital = searchedArticles.filter((article) => article.group === 'digital').length
+    const business = searchedArticles.filter((article) => article.group === 'business').length
+    const technology = searchedArticles.filter((article) => article.group === 'technology').length
+    return {
       all: searchedArticles.length,
-      digital: searchedArticles.filter((article) => article.group === 'digital').length,
-      advisory: searchedArticles.filter((article) => article.group === 'advisory').length,
-    }),
-    [searchedArticles],
-  )
+      digital,
+      business,
+      technology,
+      advisory: business + technology,
+    }
+  }, [searchedArticles])
 
   const topics = useMemo(() => {
-    const inGroup =
-      groupFilter === 'all' ? searchedArticles : searchedArticles.filter((article) => article.group === groupFilter)
+    const inGroup = searchedArticles.filter((article) => articleInArea(article.group, groupFilter))
     const counts = new Map<string, number>()
     for (const article of inGroup) {
       counts.set(article.category, (counts.get(article.category) ?? 0) + 1)
@@ -148,7 +157,7 @@ export default function InsightsBrowser({ articles, groups, otherTitle, otherInt
   const visibleArticles = useMemo(
     () =>
       searchedArticles.filter((article) => {
-        if (groupFilter !== 'all' && article.group !== groupFilter) return false
+        if (!articleInArea(article.group, groupFilter)) return false
         if (topic !== 'all' && article.category !== topic) return false
         return true
       }),
@@ -161,16 +170,19 @@ export default function InsightsBrowser({ articles, groups, otherTitle, otherInt
   }, [groupFilter, otherLinks, query, topic])
 
   const filtersActive = query.trim().length > 0 || groupFilter !== 'all' || topic !== 'all'
-  const groupButtons: { id: GroupFilter; label: string }[] = [
+  const groupButtons: { id: 'all' | InsightBrowserArea; label: string }[] = [
     { id: 'all', label: t('filterAll') },
     ...groups.map((group) => ({ id: group.id, label: group.title })),
   ]
-  const activeGroupLabel = groups.find((group) => group.id === groupFilter)?.title
+  const activeGroupLabel =
+    groupFilter === 'advisory' ? t('groupAdvisory') : groups.find((group) => group.id === groupFilter)?.title
 
   function selectGroup(next: GroupFilter) {
     setGroupFilter(next)
     if (next === 'all') return
-    const stillAvailable = articles.some((article) => article.group === next && article.category === topic)
+    const stillAvailable = articles.some(
+      (article) => articleInArea(article.group, next) && article.category === topic,
+    )
     if (topic !== 'all' && !stillAvailable) setTopic('all')
   }
 

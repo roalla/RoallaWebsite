@@ -90,6 +90,7 @@ export const INSIGHT_SLUGS = [
 export type InsightSlug = (typeof INSIGHT_SLUGS)[number];
 
 export type InsightGroup = "digital" | "advisory";
+export type InsightBrowserArea = "digital" | "business" | "technology";
 
 /** Articles grouped for the header and insights index. Order is the reading order in each group. */
 export const INSIGHT_GROUPS: Record<InsightGroup, readonly InsightSlug[]> = {
@@ -132,6 +133,37 @@ export const INSIGHT_GROUPS: Record<InsightGroup, readonly InsightSlug[]> = {
   ],
   advisory: ["which-customers-are-actually-profitable", "minimum-monthly-owner-dashboard", "what-should-you-stop-doing-this-quarter", "can-business-operate-two-weeks-without-you", "client-boundaries-without-damaging-relationships", "meetings-moving-business-or-reporting-past", "when-solopreneur-should-form-partnership", "building-business-or-demanding-job", "should-you-say-yes-to-this-opportunity", "hire-or-fix-the-work-first", "revenue-growing-why-not-more-cash", "what-if-biggest-client-leaves", "turn-custom-service-into-repeatable-offer", "sales-pipeline-or-list-of-contacts", "owner-is-the-capacity-problem", "networking-roi-solopreneurs-small-business", "five-rules-before-team-uses-ai", "data-ownership-leaving-software-platform", "software-subscription-stack-audit", "cloud-backup-sync-recovery-differences", "it-provider-who-owns-risk", "twelve-month-technology-roadmap", "data-ready-for-automation", "measure-software-business-value", "personal-information-stop-collecting", "technology-renewal-checklist", "consolidate-systems-before-soc-2-readiness", "what-to-expect-soc-2-examination-saas", "analog-to-ip-business-telephony", "fractional-coo", "strategic-planning", "process-optimization", "build-buy-or-integrate-technology", "workshop-consultant-or-fractional-leader", "founder-decision-bottleneck", "clear-decision-rights", "90-day-plan-vs-five-year-strategy", "process-problems-and-ownership", "team-change-readiness", "questions-before-choosing-business-platform", "what-technology-advisor-does", "compare-technology-proposals", "business-continuity-basics", "small-business-cybersecurity-priorities", "workshop-vs-another-meeting", "why-training-does-not-change-behaviour", "workshop-to-30-days-of-action", "prepare-strategic-planning-workshop", "ideation-too-many-ideas"],
 };
+
+/** Advisory articles whose subject is technology, security, data, or solution sourcing. */
+export const ADVISORY_TECHNOLOGY_SLUGS = [
+  "five-rules-before-team-uses-ai",
+  "data-ownership-leaving-software-platform",
+  "software-subscription-stack-audit",
+  "cloud-backup-sync-recovery-differences",
+  "it-provider-who-owns-risk",
+  "twelve-month-technology-roadmap",
+  "data-ready-for-automation",
+  "measure-software-business-value",
+  "personal-information-stop-collecting",
+  "technology-renewal-checklist",
+  "consolidate-systems-before-soc-2-readiness",
+  "what-to-expect-soc-2-examination-saas",
+  "analog-to-ip-business-telephony",
+  "build-buy-or-integrate-technology",
+  "questions-before-choosing-business-platform",
+  "what-technology-advisor-does",
+  "compare-technology-proposals",
+  "business-continuity-basics",
+  "small-business-cybersecurity-priorities",
+] as const satisfies readonly InsightSlug[];
+
+const ADVISORY_TECHNOLOGY = new Set<string>(ADVISORY_TECHNOLOGY_SLUGS);
+
+export function insightBrowserArea(slug: InsightSlug): InsightBrowserArea {
+  if ((INSIGHT_GROUPS.digital as readonly string[]).includes(slug)) return "digital";
+  if (ADVISORY_TECHNOLOGY.has(slug)) return "technology";
+  return "business";
+}
 
 /**
  * Fallback when an admin has not saved a header selection in the hub.

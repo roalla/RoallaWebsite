@@ -5,7 +5,7 @@ import Breadcrumb from '@/components/Breadcrumb'
 import InsightsBrowser, { type InsightBrowserCard } from '@/components/insights/InsightsBrowser'
 import JsonLd from '@/components/JsonLd'
 import { getEnrichedInsight } from '@/lib/enriched-insights'
-import { INSIGHT_GROUPS, type InsightGroup, type InsightSlug } from '@/lib/insights'
+import { INSIGHT_GROUPS, insightBrowserArea, type InsightBrowserArea, type InsightSlug } from '@/lib/insights'
 import { formatInsightReadTime } from '@/lib/insight-read-time'
 import { buildPageMetadata } from '@/lib/page-metadata'
 import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/structured-data'
@@ -56,21 +56,25 @@ export default async function InsightsIndexPage({ params }: Props) {
   const tNav = await getTranslations({ locale, namespace: 'nav' })
   const tBc = await getTranslations('breadcrumb')
 
-  const articleGroups: { id: InsightGroup; title: string; intro: string }[] = [
+  const articleGroups: { id: InsightBrowserArea; title: string; intro: string }[] = [
     { id: 'digital', title: t('groupDigital'), intro: t('groupDigitalIntro') },
-    { id: 'advisory', title: t('groupAdvisory'), intro: t('groupAdvisoryIntro') },
+    { id: 'business', title: t('groupBusiness'), intro: t('groupBusinessIntro') },
+    { id: 'technology', title: t('groupTechnology'), intro: t('groupTechnologyIntro') },
   ]
 
-  const articles: InsightBrowserCard[] = articleGroups.flatMap((group) =>
-    INSIGHT_GROUPS[group.id].map((slug) => ({
-      slug,
-      group: group.id,
-      title: t(`${slug}.title`),
-      summary: t(`${slug}.summary`),
-      readTime: formatInsightReadTime(t, slug),
-      category: insightCategory(slug, locale, t),
-    })),
-  )
+  const orderedSlugs: { slug: InsightSlug; group: InsightBrowserArea }[] = [
+    ...INSIGHT_GROUPS.digital.map((slug) => ({ slug, group: 'digital' as const })),
+    ...INSIGHT_GROUPS.advisory.map((slug) => ({ slug, group: insightBrowserArea(slug) })),
+  ]
+
+  const articles: InsightBrowserCard[] = orderedSlugs.map(({ slug, group }) => ({
+    slug,
+    group,
+    title: t(`${slug}.title`),
+    summary: t(`${slug}.summary`),
+    readTime: formatInsightReadTime(t, slug),
+    category: insightCategory(slug, locale, t),
+  }))
 
   const otherLinks: {
     href: '/use-cases' | '/faq' | '/assessment'

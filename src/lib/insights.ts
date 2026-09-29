@@ -81,6 +81,7 @@ export const INSIGHT_SLUGS = [
   "measure-software-business-value",
   "personal-information-stop-collecting",
   "technology-renewal-checklist",
+  "consolidate-systems-before-soc-2-readiness",
 ] as const;
 
 export type InsightSlug = (typeof INSIGHT_SLUGS)[number];
@@ -125,7 +126,7 @@ export const INSIGHT_GROUPS: Record<InsightGroup, readonly InsightSlug[]> = {
     "free-website-builder-seo-ai-visibility-tradeoffs",
     "contrast-text-size-accessibility-conversion",
   ],
-  advisory: ["which-customers-are-actually-profitable", "minimum-monthly-owner-dashboard", "what-should-you-stop-doing-this-quarter", "can-business-operate-two-weeks-without-you", "client-boundaries-without-damaging-relationships", "meetings-moving-business-or-reporting-past", "when-solopreneur-should-form-partnership", "building-business-or-demanding-job", "should-you-say-yes-to-this-opportunity", "hire-or-fix-the-work-first", "revenue-growing-why-not-more-cash", "what-if-biggest-client-leaves", "turn-custom-service-into-repeatable-offer", "sales-pipeline-or-list-of-contacts", "owner-is-the-capacity-problem", "networking-roi-solopreneurs-small-business", "five-rules-before-team-uses-ai", "data-ownership-leaving-software-platform", "software-subscription-stack-audit", "cloud-backup-sync-recovery-differences", "it-provider-who-owns-risk", "twelve-month-technology-roadmap", "data-ready-for-automation", "measure-software-business-value", "personal-information-stop-collecting", "technology-renewal-checklist", "fractional-coo", "strategic-planning", "process-optimization", "build-buy-or-integrate-technology", "workshop-consultant-or-fractional-leader", "founder-decision-bottleneck", "clear-decision-rights", "90-day-plan-vs-five-year-strategy", "process-problems-and-ownership", "team-change-readiness", "questions-before-choosing-business-platform", "what-technology-advisor-does", "compare-technology-proposals", "business-continuity-basics", "small-business-cybersecurity-priorities", "workshop-vs-another-meeting", "why-training-does-not-change-behaviour", "workshop-to-30-days-of-action", "prepare-strategic-planning-workshop", "ideation-too-many-ideas"],
+  advisory: ["which-customers-are-actually-profitable", "minimum-monthly-owner-dashboard", "what-should-you-stop-doing-this-quarter", "can-business-operate-two-weeks-without-you", "client-boundaries-without-damaging-relationships", "meetings-moving-business-or-reporting-past", "when-solopreneur-should-form-partnership", "building-business-or-demanding-job", "should-you-say-yes-to-this-opportunity", "hire-or-fix-the-work-first", "revenue-growing-why-not-more-cash", "what-if-biggest-client-leaves", "turn-custom-service-into-repeatable-offer", "sales-pipeline-or-list-of-contacts", "owner-is-the-capacity-problem", "networking-roi-solopreneurs-small-business", "five-rules-before-team-uses-ai", "data-ownership-leaving-software-platform", "software-subscription-stack-audit", "cloud-backup-sync-recovery-differences", "it-provider-who-owns-risk", "twelve-month-technology-roadmap", "data-ready-for-automation", "measure-software-business-value", "personal-information-stop-collecting", "technology-renewal-checklist", "consolidate-systems-before-soc-2-readiness", "fractional-coo", "strategic-planning", "process-optimization", "build-buy-or-integrate-technology", "workshop-consultant-or-fractional-leader", "founder-decision-bottleneck", "clear-decision-rights", "90-day-plan-vs-five-year-strategy", "process-problems-and-ownership", "team-change-readiness", "questions-before-choosing-business-platform", "what-technology-advisor-does", "compare-technology-proposals", "business-continuity-basics", "small-business-cybersecurity-priorities", "workshop-vs-another-meeting", "why-training-does-not-change-behaviour", "workshop-to-30-days-of-action", "prepare-strategic-planning-workshop", "ideation-too-many-ideas"],
 };
 
 /**
@@ -233,6 +234,7 @@ export const INSIGHT_OG_IMAGES: Partial<Record<InsightSlug, string>> = {
   "measure-software-business-value": "/images/insights/library/measure-software-business-value.webp",
   "personal-information-stop-collecting": "/images/insights/library/personal-information-stop-collecting.webp",
   "technology-renewal-checklist": "/images/insights/library/technology-renewal-checklist.webp",
+  "consolidate-systems-before-soc-2-readiness": "/images/insights/library/consolidate-systems-before-soc-2-readiness.webp",
 };
 
 /** Insights rooted in delivery work — shown with an engagement chip on the homepage */
@@ -333,4 +335,5 @@ export const INSIGHT_PUBLISHED_DATES: Record<InsightSlug, string> = {
   "measure-software-business-value": "2026-09-28",
   "personal-information-stop-collecting": "2026-09-28",
   "technology-renewal-checklist": "2026-09-28",
+  "consolidate-systems-before-soc-2-readiness": "2026-09-28",
 };

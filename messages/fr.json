@@ -2367,6 +2367,14 @@
       "summary": "Le pouvoir de négociation vient d’une revue avant la date d’annulation, pas d’une réaction à l’échéance.",
       "category": "Gestion des fournisseurs",
       "datePublished": "2026-09-28"
+    },
+    "consolidate-systems-before-soc-2-readiness": {
+      "metadataTitle": "Consolider les systèmes avant la préparation SOC 2 | ROALLA",
+      "metadataDescription": "Découvrez comment simplifier systèmes, processus, responsabilités et preuves avant SOC 2 afin de réduire les risques et la complexité.",
+      "title": "Consolider avant la préparation SOC 2 : réduire la complexité et le risque",
+      "summary": "Moins de systèmes inutiles et de variantes rendent les contrôles plus faciles à attribuer, exploiter, tester et expliquer, tout en réduisant le risque quotidien.",
+      "category": "Préparation SOC 2",
+      "datePublished": "2026-09-28"
     }
   },
   "faq": {

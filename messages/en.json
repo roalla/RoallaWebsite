@@ -2367,6 +2367,14 @@
       "summary": "Renewal leverage comes from reviewing evidence before the cancellation deadline—not reacting near the expiry date.",
       "category": "Vendor Management",
       "datePublished": "2026-09-28"
+    },
+    "consolidate-systems-before-soc-2-readiness": {
+      "metadataTitle": "Consolidate Systems Before SOC 2 Readiness | ROALLA",
+      "metadataDescription": "Learn how simplifying systems, processes, ownership and evidence before SOC 2 readiness can reduce risk, control variation and audit complexity.",
+      "title": "Consolidate Before SOC 2 Readiness: Reduce Complexity and Risk",
+      "summary": "Fewer unnecessary systems and process variations make security controls easier to own, operate, test and explain—while reducing everyday business risk.",
+      "category": "SOC 2 Readiness",
+      "datePublished": "2026-09-28"
     }
   },
   "faq": {

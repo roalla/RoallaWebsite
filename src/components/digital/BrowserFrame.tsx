@@ -13,6 +13,7 @@ type BrowserFrameProps = {
   openLabel?: string
   className?: string
   aspect?: 'video' | 'portrait'
+  sizes?: string
 }
 
 export default function BrowserFrame({
@@ -25,6 +26,7 @@ export default function BrowserFrame({
   priority = false,
   className = '',
   aspect = 'video',
+  sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 640px',
 }: BrowserFrameProps) {
   const aspectClass = aspect === 'portrait' ? 'aspect-[4/3]' : 'aspect-video'
 
@@ -54,8 +56,8 @@ export default function BrowserFrame({
               alt={imageAlt}
               fill
               className="object-cover object-top motion-safe:transition-transform motion-safe:duration-500 group-hover/frame:scale-[1.02]"
-              sizes="(max-width: 768px) 100vw, 50vw"
-              unoptimized
+              sizes={sizes}
+              quality={70}
               priority={priority}
             />
             {href && openLabel ? (

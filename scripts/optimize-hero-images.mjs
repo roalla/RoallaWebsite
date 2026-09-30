@@ -18,7 +18,7 @@ const manifestPath = path.join(__dirname, '../src/lib/heroSlideshow.ts')
 
 const DESKTOP_MAX_WIDTH = 1920
 const MOBILE_MAX_WIDTH = 828
-const DESKTOP_QUALITY = 82
+const DESKTOP_QUALITY = 72
 const MOBILE_QUALITY = 64
 const SOURCE_EXT = new Set(['.png', '.jpg', '.jpeg'])
 

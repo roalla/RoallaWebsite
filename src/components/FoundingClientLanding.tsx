@@ -18,6 +18,7 @@ import {
   ShieldCheck,
   Sparkles,
 } from 'lucide-react'
+import EmailSafeText from './EmailSafeText'
 import ScheduleButton from './ScheduleButton'
 import StickyMobileCTA from './StickyMobileCTA'
 import ServiceMiniFAQ from './services/ServiceMiniFAQ'
@@ -375,7 +376,7 @@ export default function FoundingClientLanding() {
                 <ul className="mt-3 space-y-2">
                   {excludeKeys.map((key) => (
                     <li key={key} className="text-sm text-slate-600 leading-relaxed">
-                      {t(key)}
+                      <EmailSafeText text={t(key)} />
                     </li>
                   ))}
                 </ul>

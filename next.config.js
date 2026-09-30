@@ -1,3 +1,4 @@
+const path = require("path");
 const withNextIntl = require("next-intl/plugin")("./src/i18n/request.ts");
 const scriptSrc =
   process.env.NODE_ENV === "development"
@@ -268,6 +269,12 @@ const nextConfig = {
         ],
       },
       {
+        source: "/:file(.*\\.(?:jpg|jpeg|gif|avif))",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
         source: "/logo.svg",
         headers: [
           { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
@@ -347,6 +354,19 @@ const nextConfig = {
       },
     ],
     formats: ["image/webp", "image/avif"],
+    minimumCacheTTL: 31536000,
+  },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        [require.resolve("next/dist/build/polyfills/polyfill-module")]: path.join(
+          __dirname,
+          "src/lib/empty-module.js",
+        ),
+      };
+    }
+    return config;
   },
   compress: true,
   poweredByHeader: false,

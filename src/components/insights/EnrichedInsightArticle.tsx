@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { ArrowRight, Check, Lightbulb, SearchCheck } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
+import EmailSafeText from '@/components/EmailSafeText'
 import InsightShare from '@/components/insights/InsightShare'
 import IpTelephonyUseCaseMatrix from '@/components/insights/IpTelephonyUseCaseMatrix'
 import SearchAnalyticsComparison from '@/components/insights/SearchAnalyticsComparison'
@@ -40,7 +41,9 @@ export default function EnrichedInsightArticle({ slug, locale, title, summary, r
             <h1 className="mt-6 text-4xl font-serif font-extrabold leading-tight text-slate-950 sm:text-5xl lg:text-[3.35rem]">
               {title}
             </h1>
-            <p className="mt-6 text-xl leading-8 text-slate-600">{summary}</p>
+            <p className="mt-6 text-xl leading-8 text-slate-600">
+              <EmailSafeText text={summary} />
+            </p>
             <InsightShare title={title} />
           </div>
           <figure className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 shadow-xl shadow-slate-900/10">
@@ -67,14 +70,18 @@ export default function EnrichedInsightArticle({ slug, locale, title, summary, r
             <h2 id="plain-answer-title" className="text-sm font-bold uppercase tracking-[0.16em] text-primary-dark">
               {french ? 'La réponse simple' : 'The simple answer'}
             </h2>
-            <p className="mt-2 text-xl font-serif font-bold leading-8 text-slate-950">{copy.plainAnswer}</p>
+            <p className="mt-2 text-xl font-serif font-bold leading-8 text-slate-950">
+              <EmailSafeText text={copy.plainAnswer} />
+            </p>
           </div>
         </div>
       </section>
 
       <div className="mx-auto mt-10 max-w-3xl space-y-5">
         {copy.intro.map((paragraph) => (
-          <p key={paragraph} className="text-[1.0625rem] leading-8 text-slate-700">{paragraph}</p>
+          <p key={paragraph} className="text-[1.0625rem] leading-8 text-slate-700">
+            <EmailSafeText text={paragraph} />
+          </p>
         ))}
       </div>
 
@@ -88,7 +95,9 @@ export default function EnrichedInsightArticle({ slug, locale, title, summary, r
           <span className="text-sm font-bold uppercase tracking-[0.16em]">{french ? 'Exemple réel' : 'Real-world example'}</span>
         </div>
         <h2 id="example-title" className="mt-4 text-3xl font-serif font-bold text-white">{copy.exampleTitle}</h2>
-        <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-300">{copy.example}</p>
+        <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-300">
+          <EmailSafeText text={copy.example} />
+        </p>
       </section>
 
       <section className="mx-auto mt-14 max-w-4xl" aria-labelledby="signs-title">
@@ -97,7 +106,9 @@ export default function EnrichedInsightArticle({ slug, locale, title, summary, r
           {copy.signs.map((sign) => (
             <li key={sign} className="flex gap-3 rounded-xl border border-slate-200 bg-white px-5 py-4 leading-7 text-slate-700 shadow-sm">
               <Check className="mt-1 h-5 w-5 shrink-0 text-primary-dark" aria-hidden />
-              <span>{sign}</span>
+              <span>
+                <EmailSafeText text={sign} />
+              </span>
             </li>
           ))}
         </ul>
@@ -109,20 +120,26 @@ export default function EnrichedInsightArticle({ slug, locale, title, summary, r
           {copy.steps.map((step, index) => (
             <div key={step.title} className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
               <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-slate-950 text-sm font-bold text-white">{index + 1}</span>
-              <h3 className="mt-5 text-xl font-serif font-bold text-slate-950">{step.title}</h3>
-              <p className="mt-3 leading-7 text-slate-600">{step.body}</p>
+              <h3 className="mt-5 text-xl font-serif font-bold text-slate-950">
+                <EmailSafeText text={step.title} />
+              </h3>
+              <p className="mt-3 leading-7 text-slate-600">
+                <EmailSafeText text={step.body} />
+              </p>
             </div>
           ))}
         </div>
       </section>
 
       <blockquote className="mx-auto my-14 max-w-4xl border-l-4 border-primary bg-primary/[0.05] px-6 py-6 text-xl font-serif font-semibold leading-8 text-slate-900">
-        {copy.takeaway}
+        <EmailSafeText text={copy.takeaway} />
       </blockquote>
 
       <section className="mx-auto max-w-4xl rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/[0.09] via-white to-slate-50 px-6 py-10 text-center sm:px-10 sm:py-12" aria-labelledby="insight-cta-title">
         <h2 id="insight-cta-title" className="text-3xl font-serif font-bold text-slate-950">{copy.ctaTitle}</h2>
-        <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-slate-600">{copy.ctaText}</p>
+        <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-slate-600">
+          <EmailSafeText text={copy.ctaText} />
+        </p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <Link href={{ pathname: '/contact', query: { from_page: `insight-${slug}` } }} className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark">
             {french ? 'Parler de votre situation' : 'Talk through your situation'}

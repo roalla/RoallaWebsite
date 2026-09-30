@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { useRouter } from '@/i18n/navigation'
 import HubBreadcrumbs from '@/components/hub/HubBreadcrumbs'
+import { protectedMailtoAnchor } from '@/lib/email-markup'
 
 type Partner = {
   id: string
@@ -108,9 +109,14 @@ export default function PartnerDetail({ partner: initial, canEdit }: Props) {
             {partner.contact_email && (
               <div>
                 <p className="text-xs font-medium text-slate-500 uppercase">{t('primaryEmail')}</p>
-                <a href={`mailto:${partner.contact_email}`} className="text-sm text-amber-700 hover:underline mt-1">
-                  {partner.contact_email}
-                </a>
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: protectedMailtoAnchor(
+                      partner.contact_email,
+                      'text-sm text-amber-700 hover:underline mt-1',
+                    ),
+                  }}
+                />
               </div>
             )}
             {partner.contact_phone && (

@@ -13,6 +13,7 @@ import {
   storePkceVerifier,
 } from '@/lib/roalla-auth/pkce-client'
 import { CLIENT_PORTAL_URL } from '@/lib/site'
+import { protectedMailtoAnchor } from '@/lib/email-markup'
 
 type Props = {
   callbackUrl: string
@@ -241,9 +242,14 @@ export default function HubLoginForm({
           {hubAdminEmail && (
             <p className="mt-4 text-center text-xs text-slate-500">
               {t('loginNeedAccess')}{' '}
-              <a href={`mailto:${hubAdminEmail}`} className="text-primary-dark hover:underline">
-                {hubAdminEmail}
-              </a>
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: protectedMailtoAnchor(
+                    hubAdminEmail,
+                    'text-primary-dark hover:underline',
+                  ),
+                }}
+              />
             </p>
           )}
         </div>

@@ -80,6 +80,7 @@ export default function HomeOurWork() {
                   domain={item.domain}
                   href={item.tryUrl}
                   openLabel={t('openLive')}
+                  sizes="(max-width: 640px) 92vw, (max-width: 1024px) 45vw, 400px"
                 />
                 <div className="mt-4 px-1 flex-1 flex flex-col">
                   <h4 className="text-base font-serif font-bold text-slate-900">{name}</h4>

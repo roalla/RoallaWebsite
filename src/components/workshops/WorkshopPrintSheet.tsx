@@ -1,6 +1,7 @@
 "use client";
 
 import { useLocale } from "next-intl";
+import { emailSafeHtml } from "@/lib/email-markup";
 import { CONTACT } from "@/lib/site";
 
 type Field = { label: string; hint?: string; value: string };
@@ -108,7 +109,7 @@ export default function WorkshopPrintSheet({
           <div style={{ height: 3, width: 72, background: "#f5c518" }} />
           <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginTop: 10, fontSize: 11, letterSpacing: "0.04em", color: "#334155" }}>
             <span>www.roalla.com</span>
-            <span>{CONTACT.email}</span>
+            <span dangerouslySetInnerHTML={{ __html: emailSafeHtml(CONTACT.email) }} />
             <span>(289) 838-5868</span>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginTop: 6, fontSize: 10, color: "#64748b" }}>

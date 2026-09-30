@@ -3,6 +3,7 @@
 import React from 'react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
+import EmailSafeText from '@/components/EmailSafeText'
 
 type LegalDocKey = 'terms' | 'privacy' | 'aiPolicy'
 
@@ -35,7 +36,9 @@ export default function LegalDocument({ doc, sectionCount }: LegalDocumentProps)
           {t('intro')
             .split('\n\n')
             .map((para, idx) => (
-              <p key={`intro-${idx}`}>{para}</p>
+              <p key={`intro-${idx}`}>
+                <EmailSafeText text={para} />
+              </p>
             ))}
         </div>
       </header>
@@ -46,7 +49,9 @@ export default function LegalDocument({ doc, sectionCount }: LegalDocumentProps)
             <h2 className="text-lg font-semibold text-slate-900 mb-2">{section.title}</h2>
             <div className="space-y-3 text-slate-600 leading-relaxed text-[15px]">
               {section.body.split('\n\n').map((para, idx) => (
-                <p key={`${section.title}-${idx}`}>{para}</p>
+                <p key={`${section.title}-${idx}`}>
+                  <EmailSafeText text={para} />
+                </p>
               ))}
             </div>
           </section>

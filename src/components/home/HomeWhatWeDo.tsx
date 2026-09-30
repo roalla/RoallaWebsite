@@ -107,6 +107,7 @@ export default function HomeWhatWeDo() {
                     href={example.tryUrl}
                     openLabel={t('seeExample')}
                     className="!rounded-xl !shadow-none !border-0"
+                    sizes="(max-width: 640px) 92vw, (max-width: 1024px) 45vw, 420px"
                   />
                 </div>
 

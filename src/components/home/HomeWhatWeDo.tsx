@@ -29,6 +29,7 @@ const capabilityCards = [
     titleKey: 'capabilityWebsitesTitle' as const,
     descKey: 'capabilityWebsitesDesc' as const,
     stackKey: 'capabilityStackWebsites' as const,
+    exploreKey: 'exploreWebsites' as const,
     href: { pathname: '/services/digital', hash: 'websites' } as const,
     exampleId: homeCapabilityExamples.websites,
   },
@@ -38,6 +39,7 @@ const capabilityCards = [
     titleKey: 'capabilityPlatformsTitle' as const,
     descKey: 'capabilityPlatformsDesc' as const,
     stackKey: 'capabilityStackPlatforms' as const,
+    exploreKey: 'explorePlatforms' as const,
     href: { pathname: '/services/digital', hash: 'platforms' } as const,
     exampleId: homeCapabilityExamples.platforms,
   },
@@ -47,6 +49,7 @@ const capabilityCards = [
     titleKey: 'capabilityAutomationTitle' as const,
     descKey: 'capabilityAutomationDesc' as const,
     stackKey: 'capabilityStackAutomation' as const,
+    exploreKey: 'exploreAutomation' as const,
     href: { pathname: '/services/digital', hash: 'automation' } as const,
     exampleId: homeCapabilityExamples.automation,
   },
@@ -136,7 +139,7 @@ export default function HomeWhatWeDo() {
                     href={card.href}
                     className="inline-flex items-center text-sm text-slate-600 font-medium hover:text-primary-dark hover:underline"
                   >
-                    {t('exploreCapability')}
+                    {t(card.exploreKey)}
                     <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
                   </Link>
                 </div>

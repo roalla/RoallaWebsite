@@ -311,13 +311,18 @@
     @apply h-full w-full object-cover scale-105;
   }
 
+  .hero-slide-hold {
+    opacity: 1;
+    animation: none;
+  }
+
   @keyframes hero-slide-fade {
     0%,
-    40% {
+    27% {
       opacity: 1;
     }
-    50%,
-    90% {
+    33%,
+    94% {
       opacity: 0;
     }
     100% {

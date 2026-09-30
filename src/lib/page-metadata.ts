@@ -3,24 +3,32 @@ import { OG_IMAGE, OG_IMAGE_ALT, SITE_URL } from '@/lib/site'
 
 const locales = ['en', 'fr'] as const
 
+/**
+ * Locale-prefixed path with no trailing slash.
+ * `/en/` 308-redirects to `/en`, so a trailing slash makes canonical and hreflang disagree.
+ */
+export function localePath(locale: string, path: string): string {
+  const withSlash = path.startsWith('/') ? path : `/${path}`
+  const suffix = withSlash === '/' ? '' : withSlash.replace(/\/+$/, '')
+  return `/${locale}${suffix}`
+}
+
 /** Canonical path plus en/fr/x-default hreflang alternates for locale-prefixed routes. */
 export function localeAlternates(path: string, locale: string): NonNullable<Metadata['alternates']> {
-  const normalized = path.startsWith('/') ? path : `/${path}`
-  const localized = `/${locale}${normalized}`
+  const suffix = localePath('en', path).slice('/en'.length)
 
   return {
-    canonical: localized,
+    canonical: localePath(locale, path),
     languages: {
-      en: `/en${normalized}`,
-      fr: `/fr${normalized}`,
-      'x-default': `/en${normalized}`,
+      en: `/en${suffix}`,
+      fr: `/fr${suffix}`,
+      'x-default': `/en${suffix}`,
     },
   }
 }
 
 export function pageUrl(locale: string, path: string): string {
-  const normalized = path.startsWith('/') ? path : `/${path}`
-  return `${SITE_URL}/${locale}${normalized}`
+  return `${SITE_URL}${localePath(locale, path)}`
 }
 
 type PageMetadataOptions = {

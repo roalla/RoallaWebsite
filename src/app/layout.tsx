@@ -132,7 +132,7 @@ export default async function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="describedby" href="/llms.txt" type="text/plain" title="LLM guidance for Roalla" />
         <link rel="alternate" type="application/rss+xml" title="Roalla Insights (English)" href="/feed.xml" />
-        <link rel="alternate" type="application/rss+xml" title="Roalla Insights (Français)" href="/feed.xml?locale=fr" hrefLang="fr" />
+        <link rel="alternate" type="application/rss+xml" title="Roalla Insights (Français)" href="/feed.xml?locale=fr" />
         <meta name="theme-color" content="#000000" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta name="author" content="Roalla Business Enablement Group" />

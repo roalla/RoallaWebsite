@@ -52,7 +52,24 @@ export default function middleware(request: NextRequest) {
     return NextResponse.redirect(login)
   }
 
-  return intlMiddleware(request)
+  const response = intlMiddleware(request)
+  alignXDefaultHreflang(response)
+  return response
+}
+
+/** next-intl sets x-default to the unprefixed path, which 307s to /en. Point it at the English URL. */
+function alignXDefaultHreflang(response: NextResponse) {
+  const link = response.headers.get('link')
+  if (!link || !/hreflang="x-default"/i.test(link)) return
+
+  const english = link.match(/<([^>]+)>;\s*rel="alternate";\s*hreflang="en"/i)
+  if (!english) return
+
+  const aligned = link.replace(
+    /<[^>]+>;\s*rel="alternate";\s*hreflang="x-default"/i,
+    `<${english[1]}>; rel="alternate"; hreflang="x-default"`,
+  )
+  if (aligned !== link) response.headers.set('link', aligned)
 }
 
 export const config = {

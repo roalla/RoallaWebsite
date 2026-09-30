@@ -147,6 +147,7 @@ async function optimizeHeroImages() {
     )
 
     const mobileSources = []
+    totalBefore += fs.statSync(path.join(heroDir, slot.mobile)).size
     for (const variant of MOBILE_VARIANTS) {
       const file = `${mobileBase}-${variant.width}.webp`
       const mobileOut = path.join(heroDir, file)
@@ -156,7 +157,6 @@ async function optimizeHeroImages() {
         variant.width,
         variant.quality
       )
-      totalBefore += mob.before
       totalAfter += mob.after
       producedWebp.add(file)
       mobileSources.push({ file, width: variant.width })

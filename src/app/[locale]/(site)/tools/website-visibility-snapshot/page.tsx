@@ -3,10 +3,14 @@ import type { Metadata } from "next";
 import { CheckCircle2, SearchCheck } from "lucide-react";
 import JsonLd from "@/components/JsonLd";
 import WebsiteVisibilitySnapshot from "@/components/visibility/WebsiteVisibilitySnapshot";
+import { Link } from "@/i18n/navigation";
 import { buildPageMetadata } from "@/lib/page-metadata";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
-type Props = { params: Promise<{ locale: string }> };
+type Props = {
+  params: Promise<{ locale: string }>;
+  searchParams?: Promise<{ url?: string | string[] }>;
+};
 
 const content = {
   en: {
@@ -70,8 +74,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-export default async function WebsiteVisibilitySnapshotPage({ params }: Props) {
+export default async function WebsiteVisibilitySnapshotPage({ params, searchParams }: Props) {
   const { locale } = await params;
+  const query = searchParams ? await searchParams : undefined;
+  const rawUrl = typeof query?.url === "string" ? query.url : "";
+  const initialUrl = rawUrl.length <= 2048 ? rawUrl : "";
   const page = contentFor(locale);
   const path = "/tools/website-visibility-snapshot";
 
@@ -95,7 +102,7 @@ export default async function WebsiteVisibilitySnapshotPage({ params }: Props) {
         </header>
 
         <section className="relative z-10 mx-auto -mt-5 max-w-6xl px-2 sm:px-5">
-          <WebsiteVisibilitySnapshot locale={locale} />
+          <WebsiteVisibilitySnapshot locale={locale} initialUrl={initialUrl} />
         </section>
 
         <aside className="mx-auto mt-12 max-w-6xl rounded-2xl border border-brand-gold/40 bg-brand-gold/10 p-6 sm:p-8">
@@ -125,6 +132,19 @@ export default async function WebsiteVisibilitySnapshotPage({ params }: Props) {
           ))}
         </section>
         <p className="mx-auto mt-8 max-w-4xl text-center text-xs leading-5 text-slate-500">{page.privacy}</p>
+        <aside className="mx-auto mt-10 max-w-4xl rounded-2xl border border-primary/20 bg-primary/[0.04] p-6 text-center sm:p-8">
+          <h2 className="text-2xl font-serif font-bold text-slate-950">
+            {locale === "fr" ? "Complétez le portrait avec votre présence sociale." : "Complete the picture with your social presence."}
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-700">
+            {locale === "fr"
+              ? "Vérifiez si vos profils, vos aperçus de partage et vos signaux de marque sont faciles à découvrir depuis votre site."
+              : "Check whether your profiles, sharing previews, and brand signals are easy to discover from your website."}
+          </p>
+          <Link href="/tools/social-presence-snapshot" className="mt-5 inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-dark">
+            {locale === "fr" ? "Vérifier la présence sociale" : "Check social presence"}
+          </Link>
+        </aside>
       </main>
     </div>
   );

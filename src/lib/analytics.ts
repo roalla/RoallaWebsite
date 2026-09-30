@@ -4,6 +4,12 @@ export type AnalyticsEventName =
   | "visibility_snapshot_started"
   | "visibility_snapshot_completed"
   | "visibility_snapshot_cta"
+  | "social_snapshot_started"
+  | "social_snapshot_completed"
+  | "social_snapshot_cta"
+  | "digital_snapshot_started"
+  | "digital_snapshot_completed"
+  | "digital_snapshot_cta"
   | "service_framework_click"
   | "consultation_request_submitted";
 

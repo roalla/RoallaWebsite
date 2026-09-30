@@ -131,21 +131,35 @@ export default async function DigitalVisibilityOptimizationPage({
                 </p>
                 <h2 className="mt-2 text-2xl font-serif font-bold text-slate-950">
                   {locale === "fr"
-                    ? "Commencez par un aperçu technique de votre site."
-                    : "Start with a technical snapshot of your website."}
+                    ? "Commencez par deux aperçus gratuits de votre présence numérique."
+                    : "Start with two free snapshots of your digital presence."}
                 </h2>
                 <p className="mt-3 text-slate-700">
                   {locale === "fr"
-                    ? "Obtenez immédiatement des signaux de performance, d’accessibilité, de bonnes pratiques et de SEO technique—sans fournir votre courriel."
-                    : "Get immediate performance, accessibility, best-practice, and technical SEO signals—without submitting your email."}
+                    ? "Vérifiez les signaux techniques du site, puis la découvrabilité des profils, des aperçus sociaux et de l’identité de marque—sans fournir votre courriel."
+                    : "Check the website’s technical signals, then profile discovery, social previews, and brand identity—without submitting your email."}
                 </p>
               </div>
-              <Link
-                href="/tools/website-visibility-snapshot"
-                className="mt-5 inline-flex min-h-[48px] shrink-0 items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-dark lg:mt-0"
-              >
-                {locale === "fr" ? "Lancer l’aperçu gratuit" : "Run the free snapshot"}
-              </Link>
+              <div className="mt-5 flex shrink-0 flex-col gap-3 lg:mt-0">
+                <Link
+                  href="/tools/digital-presence-snapshot"
+                  className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 transition-colors hover:bg-brand-gold-light"
+                >
+                  {locale === "fr" ? "Aperçu numérique complet" : "Complete digital snapshot"}
+                </Link>
+                <Link
+                  href="/tools/website-visibility-snapshot"
+                  className="inline-flex min-h-[44px] items-center justify-center rounded-lg border border-primary/30 bg-white px-5 py-2 text-sm font-semibold text-primary-dark transition-colors hover:border-primary"
+                >
+                  {locale === "fr" ? "Visibilité du site" : "Website visibility"}
+                </Link>
+                <Link
+                  href="/tools/social-presence-snapshot"
+                  className="inline-flex min-h-[44px] items-center justify-center rounded-lg border border-primary/30 bg-white px-5 py-2 text-sm font-semibold text-primary-dark transition-colors hover:border-primary"
+                >
+                  {locale === "fr" ? "Présence sociale" : "Social presence"}
+                </Link>
+              </div>
             </div>
           </section>
 

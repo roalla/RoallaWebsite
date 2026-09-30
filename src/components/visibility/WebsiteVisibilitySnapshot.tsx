@@ -50,7 +50,7 @@ const copy = {
     ctaBody:
       "ROALLA can interpret the mobile and desktop signals alongside a human content strategy for conversion and adoption—not AI scoring alone—plus audience, competitors, search presence, accessibility, and the path to an inquiry.",
     cta: "Ask ROALLA to help",
-    service: "See the complete visibility service",
+    service: "See the complete digital presence snapshot",
     genericError: "The snapshot could not be completed. Please try again.",
     noteLead: "Visibility snapshot for",
     noteAsk: "Please help interpret the next steps.",
@@ -93,7 +93,7 @@ const copy = {
     ctaBody:
       "ROALLA peut interpréter les signaux mobile et ordinateur avec une stratégie de contenu humaine pour la conversion et l’adoption—pas seulement un score IA—ainsi que votre clientèle, vos concurrents, votre présence dans la recherche, votre accessibilité et le parcours vers une demande.",
     cta: "Demander l’aide de ROALLA",
-    service: "Voir le service complet de visibilité",
+    service: "Voir l’aperçu complet de présence numérique",
     genericError: "L’aperçu n’a pas pu être produit. Veuillez réessayer.",
     noteLead: "Aperçu de visibilité pour",
     noteAsk: "Merci d’aider à interpréter les prochaines étapes.",
@@ -233,10 +233,10 @@ function ReportCard({
   );
 }
 
-export default function WebsiteVisibilitySnapshot({ locale }: { locale: string }) {
+export default function WebsiteVisibilitySnapshot({ locale, initialUrl = "" }: { locale: string; initialUrl?: string }) {
   const language = locale === "fr" ? "fr" : "en";
   const t = copy[language];
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState(initialUrl);
   const [mobile, setMobile] = useState<ReportPayload | null>(null);
   const [desktop, setDesktop] = useState<ReportPayload | null>(null);
   const [error, setError] = useState("");
@@ -398,7 +398,7 @@ export default function WebsiteVisibilitySnapshot({ locale }: { locale: string }
               >
                 {t.cta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
-              <Link href="/services/digital-visibility-optimization" className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-white/30 px-6 py-3 font-semibold text-white hover:bg-white/10">
+              <Link href={{ pathname: "/tools/digital-presence-snapshot", query: { url: pageUrl } }} className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-white/30 px-6 py-3 font-semibold text-white hover:bg-white/10">
                 {t.service}
               </Link>
             </div>

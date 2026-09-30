@@ -38,7 +38,7 @@ export default function HomeVisibilityOptimization() {
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link
-                href="/tools/website-visibility-snapshot"
+                href="/tools/digital-presence-snapshot"
                 className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 transition-all hover:bg-brand-gold-light hover:scale-[1.02]"
               >
                 {t('snapshotCta')}

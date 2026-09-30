@@ -43,7 +43,7 @@ const categoryIcons: Record<UseCaseCategory, LucideIcon> = {
 const maturityStyles: Record<UseCaseMaturity, string> = {
   proven: 'bg-emerald-50 text-emerald-900 border-emerald-200',
   established: 'bg-sky-50 text-sky-950 border-sky-200',
-  ready: 'bg-amber-50 text-amber-950 border-amber-200',
+  ready: 'bg-violet-50 text-violet-950 border-violet-200',
 }
 
 function MaturityBadge({ maturity }: { maturity: UseCaseMaturity }) {

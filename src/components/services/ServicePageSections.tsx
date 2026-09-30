@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
 import {
   ArrowRight,
   ArrowDown,
@@ -39,6 +40,7 @@ type ServicePageHeroProps = {
   statsNote?: string
   variant?: 'consulting' | 'digital'
   visual?: React.ReactNode
+  backgroundImage?: string
   className?: string
 }
 
@@ -116,6 +118,7 @@ export function ServicePageHero({
   statsNote,
   variant = 'consulting',
   visual,
+  backgroundImage,
   className = '',
 }: ServicePageHeroProps) {
   const subtitleParts = subtitleHighlight ? subtitle.split(subtitleHighlight) : [subtitle]
@@ -132,6 +135,27 @@ export function ServicePageHero({
     <header
       className={`relative overflow-hidden rounded-2xl border border-slate-700/80 ${bgClass} mb-8 shadow-xl ${className}`}
     >
+      {backgroundImage && (
+        <>
+          <Image
+            src={backgroundImage}
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 1280px) 100vw, 1152px"
+            className="pointer-events-none object-cover object-[62%_center] opacity-80"
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-900/75 to-slate-900/45"
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/10 via-transparent to-slate-950/55"
+            aria-hidden
+          />
+        </>
+      )}
       <div className="pointer-events-none absolute -top-24 -right-20 h-72 w-72 rounded-full bg-primary/15 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute -bottom-32 -left-16 h-56 w-56 rounded-full bg-primary/10 blur-3xl" aria-hidden />
       <div

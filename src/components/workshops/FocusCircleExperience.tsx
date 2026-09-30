@@ -80,9 +80,18 @@ export default function FocusCircleExperience() {
         ]}
       />
 
-      <header className="relative overflow-hidden rounded-2xl border border-slate-700/80 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 mb-10 shadow-xl">
-        <div className="pointer-events-none absolute -top-24 -right-16 h-72 w-72 rounded-full bg-primary/20 blur-3xl" aria-hidden />
-        <div className="relative px-6 py-10 lg:px-12 lg:py-14 max-w-3xl">
+      <header className="relative mb-10 min-h-[31rem] overflow-hidden rounded-2xl border border-slate-700/80 bg-[#07111f] shadow-xl">
+        <Image
+          src="/workshops/focus-circle/images/overwhelm.webp"
+          alt={copy.slides[0]?.imageAlt ?? ""}
+          fill
+          priority
+          unoptimized
+          sizes="(max-width: 768px) 100vw, 800px"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#07111f] via-[#07111f]/90 to-[#07111f]/15" aria-hidden />
+        <div className="relative flex min-h-[31rem] max-w-3xl flex-col justify-center px-6 py-12 lg:px-12">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-light">{copy.eyebrow}</p>
           <h1 className="mt-4 text-4xl md:text-5xl font-serif font-bold text-white leading-tight">{copy.title}</h1>
           <p className="mt-5 text-xl text-slate-200 leading-relaxed">{copy.promise}</p>

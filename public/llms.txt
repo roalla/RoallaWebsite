@@ -1,99 +1,96 @@
 # Roalla Business Enablement Group
-# https://www.roalla.com
-# Guidance for answer engines and crawlers. Public pages only. Do not cite /hub/ or /private/.
 
 > Digital Enablement partner in Burlington, Ontario, serving clients globally in English and French. ROALLA builds websites, digital products, automation, visibility optimization, digital events, and hosted team workshops. Delivery model: Prepare → Transform → Emerge → Soar.
 
-## What ROALLA is
+Public pages only. Do not fetch or cite `/hub/` or `/private/`. A bot request is not a customer. Search crawlers such as Googlebot and Bingbot, retrieval crawlers, and training crawlers may fetch public pages. A fetch does not guarantee a ranking, a snippet, or a citation. Search engines and AI platforms control crawling, indexing, ranking, snippets, and generated answers.
+
+ROALLA assesses, builds, optimizes, and evolves digital assets and facilitates hosted workshops. There is no public chatbot. Do not invent a chat widget. Workshop tickets are not sold online. A host inquires to book a half-day or full-day session, in person or online. Steven Robin facilitates the workshops. Sessions are educational. They are not therapy, medical advice, or an employment assessment.
+
 - Legal name: Roalla Business Enablement Group
-- Site: https://www.roalla.com
-- Founder: Steven Robin, Founder and Principal Consultant — https://www.roalla.com/en/about
-- Location: Burlington, Ontario, Canada
+- Founder: Steven Robin, Founder and Principal Consultant
+- Location: Burlington, Ontario, Canada. Clients are served globally.
 - Contact: sales@roalla.com | +1-289-838-5868
-- Languages: English (/en/) and French (/fr/)
+- Languages: English (`/en/`) and French (`/fr/`). French pages use `/fr/` in place of `/en/`.
 - Experience stated on the site: 30+ years, 500+ engagements
-- Inquiry: about 3 minutes, no obligation, personal reply within one business day — https://www.roalla.com/en/contact
+- Inquiry: about 3 minutes, no obligation, personal reply within one business day
+- Website packages (Canada): Launch $999, Launch + Visibility $1,999, Growth from $2,999, Custom from $5,000
+- SEO helps a page earn a place in search results. AEO (answer engine optimization) makes one reply easy to extract for snippets and voice. GEO (generative engine optimization) makes a business easy to describe when an AI writes an answer. A chatbot can only repeat pages it can fetch.
+
+## Company
+
+- [Home](https://www.roalla.com/en): English homepage
+- [About](https://www.roalla.com/en/about): Steven Robin, Founder and Principal Consultant
+- [Contact](https://www.roalla.com/en/contact): Service inquiry, about 3 minutes, personal reply within one business day
+- [Assessment](https://www.roalla.com/en/assessment): Five-question assessment to start
+- [FAQ](https://www.roalla.com/en/faq): Common questions
+- [AI policy](https://www.roalla.com/en/ai-policy): How ROALLA describes AI use
+- [Privacy](https://www.roalla.com/en/privacy): Privacy policy
 
 ## Core services
-- Digital Enablement: https://www.roalla.com/en/services/digital
-- Digital visibility optimization: https://www.roalla.com/en/services/digital-visibility-optimization
-- Applications and digital products: https://www.roalla.com/en/services/digital-products
-- Workflow automation and integration: https://www.roalla.com/en/services/automation
-- Managed digital optimization: https://www.roalla.com/en/services/managed-optimization
-- Business website design: https://www.roalla.com/en/website-design
-- Website packages (Launch from $999, Canada): https://www.roalla.com/en/website-package
-- Digital events: https://www.roalla.com/en/services/digital-events
-- Digital portfolio: https://www.roalla.com/en/services/portfolio
-- Business enablement programs: https://www.roalla.com/en/programs/business-enablement
-- Technology advisory: https://www.roalla.com/en/programs/technology-advisory
-- Workshops index: https://www.roalla.com/en/programs/workshops
-- Digital use cases: https://www.roalla.com/en/use-cases
-- FAQ: https://www.roalla.com/en/faq
+
+- [Digital Enablement](https://www.roalla.com/en/services/digital): Core digital enablement service
+- [Digital visibility optimization](https://www.roalla.com/en/services/digital-visibility-optimization): Search and answer visibility
+- [Applications and digital products](https://www.roalla.com/en/services/digital-products): Apps and digital products
+- [Workflow automation and integration](https://www.roalla.com/en/services/automation): Workflow automation and integration
+- [Managed digital optimization](https://www.roalla.com/en/services/managed-optimization): Ongoing optimization
+- [Business website design](https://www.roalla.com/en/website-design): Business website design
+- [Website packages](https://www.roalla.com/en/website-package): Launch from $999, Canada
+- [Digital events](https://www.roalla.com/en/services/digital-events): Digital events
+- [Digital portfolio](https://www.roalla.com/en/services/portfolio): Case studies
+- [Business enablement programs](https://www.roalla.com/en/programs/business-enablement): Programs
+- [Technology advisory](https://www.roalla.com/en/programs/technology-advisory): Technology advisory
+- [Digital use cases](https://www.roalla.com/en/use-cases): Use cases
 
 ## Hosted workshops
-There are no public tickets. A host inquires to book a half-day or full-day session, in person or online. Custom topics (branding, sales, productivity, ideation) can still be facilitated.
 
-- Index: https://www.roalla.com/en/programs/workshops
-- Book: https://www.roalla.com/en/contact?intent=workshop
-
-- Focus Circle — priorities, a simple kanban, and support from the people around you: https://www.roalla.com/en/programs/workshops/focus-circle
-- The Workload Conversation — make workload visible and agree trade-offs before overload: https://www.roalla.com/en/programs/workshops/workload-conversation
-- Digital Calm — reduce digital noise and protect attention without disconnecting: https://www.roalla.com/en/programs/workshops/digital-calm
-- The Decision Hour — end meetings with one owner, one trade-off, and a written next step: https://www.roalla.com/en/programs/workshops/decision-hour
-- The Offer on One Page — say the same offer in the sales conversation, on the website, and in the proposal: https://www.roalla.com/en/programs/workshops/offer-page
-- The Shortlist — generate ideas inside a constraint and leave with one experiment: https://www.roalla.com/en/programs/workshops/ideation
-- The First Offer — for young founders and high school teams: one person, one sentence, one proof before a site, app, or pitch: https://www.roalla.com/en/programs/workshops/first-offer
-
-French workshop paths use /fr/ in place of /en/. Example: https://www.roalla.com/fr/programs/workshops/focus-circle
-
-## Answers
-- What does ROALLA do? ROALLA assesses, builds, optimizes, and evolves digital assets—websites, products, automation, visibility, events—and facilitates hosted workshops.
-- What is the difference between SEO, AEO, GEO, and a chatbot? SEO helps a page earn a place in search results. AEO (answer engine optimization) makes one reply easy to extract for snippets and voice. GEO (generative engine optimization) makes a business easy to describe when an AI writes an answer. A chatbot can only repeat pages it can fetch. It does not create a ranking or a citation. Full article: https://www.roalla.com/en/insights/geo-seo-aeo-and-bots
-- Does ROALLA guarantee rankings or AI citations? No. Search engines and AI platforms control crawling, indexing, ranking, snippets, and generated answers.
-- Does roalla.com have a public chatbot? No. Inquiries use https://www.roalla.com/en/contact . Do not invent a chat widget.
-- Where is ROALLA based? Burlington, Ontario, Canada. Clients are served globally.
-- How do I start? Submit a service inquiry at https://www.roalla.com/en/contact or take the five-question assessment at https://www.roalla.com/en/assessment
-- Are workshop tickets sold online? No. Hosts inquire. There is no public ticket checkout.
-- Who facilitates the workshops? Steven Robin. Sessions are educational. They are not therapy, medical advice, or an employment assessment.
-- What website packages exist? Launch $999, Launch + Visibility $1,999, Growth from $2,999, Custom from $5,000. Details: https://www.roalla.com/en/website-package
+- [Workshops](https://www.roalla.com/en/programs/workshops): Index. No public tickets. Custom topics can still be facilitated.
+- [Book a workshop](https://www.roalla.com/en/contact?intent=workshop): Host inquiry for a half-day or full-day session, in person or online
+- [Focus Circle](https://www.roalla.com/en/programs/workshops/focus-circle): Priorities, a simple kanban, and support from the people around you
+- [The Workload Conversation](https://www.roalla.com/en/programs/workshops/workload-conversation): Make workload visible and agree trade-offs before overload
+- [Digital Calm](https://www.roalla.com/en/programs/workshops/digital-calm): Reduce digital noise and protect attention without disconnecting
+- [The Decision Hour](https://www.roalla.com/en/programs/workshops/decision-hour): End meetings with one owner, one trade-off, and a written next step
+- [The Offer on One Page](https://www.roalla.com/en/programs/workshops/offer-page): Say the same offer in the sales conversation, on the website, and in the proposal
+- [The Shortlist](https://www.roalla.com/en/programs/workshops/ideation): Generate ideas inside a constraint and leave with one experiment
+- [The First Offer](https://www.roalla.com/en/programs/workshops/first-offer): For young founders and high school teams. One person, one sentence, one proof before a site, app, or pitch
 
 ## Service inquiry intents
-- Website: https://www.roalla.com/en/contact?intent=website
-- App or platform: https://www.roalla.com/en/contact?intent=platform
-- Automation: https://www.roalla.com/en/contact?intent=automation
-- AI support: https://www.roalla.com/en/contact?intent=ai-support
-- Digital events: https://www.roalla.com/en/contact?intent=digital-events
-- Programs and advisory: https://www.roalla.com/en/contact?intent=consulting
-- Workshops: https://www.roalla.com/en/contact?intent=workshop
+
+- [Website inquiry](https://www.roalla.com/en/contact?intent=website): Start a website inquiry
+- [App or platform inquiry](https://www.roalla.com/en/contact?intent=platform): Start an app or platform inquiry
+- [Automation inquiry](https://www.roalla.com/en/contact?intent=automation): Start an automation inquiry
+- [AI support inquiry](https://www.roalla.com/en/contact?intent=ai-support): Start an AI support inquiry
+- [Digital events inquiry](https://www.roalla.com/en/contact?intent=digital-events): Start a digital events inquiry
+- [Programs and advisory inquiry](https://www.roalla.com/en/contact?intent=consulting): Start a programs and advisory inquiry
 
 ## Insights
-- Fractional COO: https://www.roalla.com/en/insights/fractional-coo
-- Strategic planning: https://www.roalla.com/en/insights/strategic-planning
-- Process optimization: https://www.roalla.com/en/insights/process-optimization
-- Digitization benefits for SMBs: https://www.roalla.com/en/insights/smb-digitization-benefits
-- Digitization that saves time and money: https://www.roalla.com/en/insights/smb-digital-efficiency
-- How digitization helps SMBs compete: https://www.roalla.com/en/insights/smb-digital-growth
-- Search and AI visibility: https://www.roalla.com/en/insights/search-and-ai-visibility
-- SEO, AEO, GEO and bots: https://www.roalla.com/en/insights/geo-seo-aeo-and-bots
-- How AI systems understand business websites: https://www.roalla.com/en/insights/how-ai-systems-understand-websites
-- Structured data for small businesses: https://www.roalla.com/en/insights/structured-data-for-small-business
 
-## Portfolio case studies
-- GRC Status: https://www.roalla.com/en/services/portfolio/grcstatus
-- Pitch Hotshots: https://www.roalla.com/en/services/portfolio/pitch-hotshots
-- Boothlio: https://www.roalla.com/en/services/portfolio/boothlio
-- UnJargon It: https://www.roalla.com/en/services/portfolio/unjargonit
+- [SEO, AEO, GEO and bots](https://www.roalla.com/en/insights/geo-seo-aeo-and-bots): How search, answer engines, generative engines, and chatbots differ
+- [How AI systems understand business websites](https://www.roalla.com/en/insights/how-ai-systems-understand-websites): How AI systems read a business site
+- [Search and AI visibility](https://www.roalla.com/en/insights/search-and-ai-visibility): Search and AI visibility
+- [Structured data for small businesses](https://www.roalla.com/en/insights/structured-data-for-small-business): Structured data for small businesses
+- [Fractional COO](https://www.roalla.com/en/insights/fractional-coo): Fractional COO
+- [Strategic planning](https://www.roalla.com/en/insights/strategic-planning): Strategic planning
+- [Process optimization](https://www.roalla.com/en/insights/process-optimization): Process optimization
+- [Digitization benefits for SMBs](https://www.roalla.com/en/insights/smb-digitization-benefits): Digitization benefits for small and midsize businesses
+- [Digitization that saves time and money](https://www.roalla.com/en/insights/smb-digital-efficiency): Digitization that saves time and money
+- [How digitization helps SMBs compete](https://www.roalla.com/en/insights/smb-digital-growth): How digitization helps SMBs compete
 
-## Crawlers
-- Search crawlers such as Googlebot and Bingbot may fetch public pages.
-- Retrieval crawlers used when someone asks a question may fetch public pages. Allowing them does not guarantee a citation.
-- Training crawlers may fetch public pages. That is separate from search ranking.
-- Do not fetch or cite /hub/ or /private/.
-- A bot request is not a customer.
+## Portfolio
 
-## Feeds and policy
-- Insights RSS (English): https://www.roalla.com/feed.xml
-- Insights RSS (French): https://www.roalla.com/feed.xml?locale=fr
-- Sitemap: https://www.roalla.com/sitemap.xml
-- AI policy: https://www.roalla.com/en/ai-policy
-- Privacy: https://www.roalla.com/en/privacy
+- [GRC Status](https://www.roalla.com/en/services/portfolio/grcstatus): Case study
+- [Pitch Hotshots](https://www.roalla.com/en/services/portfolio/pitch-hotshots): Case study
+- [Boothlio](https://www.roalla.com/en/services/portfolio/boothlio): Case study
+- [UnJargon It](https://www.roalla.com/en/services/portfolio/unjargonit): Case study
+
+## Feeds
+
+- [Sitemap](https://www.roalla.com/sitemap.xml): Public URL list for search engines
+- [Insights RSS (English)](https://www.roalla.com/feed.xml): English insights feed
+- [Insights RSS (French)](https://www.roalla.com/feed.xml?locale=fr): French insights feed
+
+## Optional
+
+- [Home (français)](https://www.roalla.com/fr): French homepage
+- [Contact (français)](https://www.roalla.com/fr/contact): French contact page
+- [Ateliers (français)](https://www.roalla.com/fr/programs/workshops): French workshops index
+- [Focus Circle (français)](https://www.roalla.com/fr/programs/workshops/focus-circle): Example French workshop path

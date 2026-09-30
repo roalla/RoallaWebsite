@@ -3029,8 +3029,8 @@
     "howToReadTitle": "Comment lire cette page",
     "howToRead1": "Besoin courant — rédigé en langage quotidien, sans jargon technique.",
     "howToRead2": "Points à considérer — complexité cachée, risques de décision, dépendances et angles morts courants.",
-    "howToRead3": "Comment Roalla livre — le résultat obtenu, plus un badge de maturité pour savoir à quel point c'est éprouvé.",
-    "maturityLegendTitle": "Badges de maturité",
+    "howToRead3": "Comment ROALLA livre — la solution recommandée, l’approche de livraison et des exemples concrets lorsqu’ils sont disponibles.",
+    "maturityLegendTitle": "Approche de livraison",
     "filterLabel": "Montrez-moi",
     "filterAll": "Tous les cas d'usage",
     "portfolioExamples": "Exemples en ligne",
@@ -3045,16 +3045,16 @@
     "columnDeliver": "Comment Roalla livre",
     "maturity": {
       "proven": {
-        "label": "Éprouvé",
-        "desc": "En production aujourd'hui—exemples du portfolio que vous pouvez consulter."
+        "label": "Portfolio à l’appui",
+        "desc": "Appuyé par des réalisations pertinentes en production que vous pouvez explorer."
       },
       "established": {
-        "label": "Établi",
-        "desc": "Processus de livraison répétable; plusieurs mandats clients réalisés."
+        "label": "Méthode structurée",
+        "desc": "Livré selon une méthode reproductible, adaptée à votre organisation."
       },
       "ready": {
-        "label": "Prêt",
-        "desc": "Capacité que nous cadrons et livrons selon votre situation—moins de preuves publiques, même équipe responsable."
+        "label": "Livraison sur mesure",
+        "desc": "Conçue et cadrée selon vos objectifs, vos systèmes, vos contraintes et votre environnement opérationnel."
       }
     },
     "categories": {

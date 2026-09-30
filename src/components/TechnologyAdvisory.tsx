@@ -59,6 +59,7 @@ const TechnologyAdvisory = () => {
     <section id="technology-advisory" className="section-padding relative bg-slate-50/60">
       <ServicePageHero
         variant="consulting"
+        backgroundImage="/images/programs/technology-advisory-hero.webp"
         eyebrow={t("technologyHeroEyebrow")}
         title={t("technologyPageTitle")}
         subtitle={t("technologyPageSubtitle")}

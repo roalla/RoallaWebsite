@@ -3029,8 +3029,8 @@
     "howToReadTitle": "How to read this page",
     "howToRead1": "Common need — written in everyday language, not tech jargon.",
     "howToRead2": "Things to consider — hidden complexity, decision risks, dependencies, and common blind spots.",
-    "howToRead3": "How Roalla delivers — the outcome you get, plus a maturity badge so you know how battle-tested we are.",
-    "maturityLegendTitle": "Maturity badges",
+    "howToRead3": "How ROALLA delivers — the recommended solution, delivery approach, and relevant live examples where available.",
+    "maturityLegendTitle": "Delivery approach",
     "filterLabel": "Show me",
     "filterAll": "All use cases",
     "portfolioExamples": "Live examples",
@@ -3045,16 +3045,16 @@
     "columnDeliver": "How Roalla delivers",
     "maturity": {
       "proven": {
-        "label": "Proven",
-        "desc": "Live in production today—portfolio examples you can click through."
+        "label": "Portfolio-backed",
+        "desc": "Supported by relevant live work you can explore."
       },
       "established": {
-        "label": "Established",
-        "desc": "Repeatable delivery process; multiple client engagements completed."
+        "label": "Framework-led",
+        "desc": "Delivered through a repeatable method, adapted to your organization."
       },
       "ready": {
-        "label": "Ready",
-        "desc": "Capability we scope and deliver for your situation—less public proof, same accountable team."
+        "label": "Tailored delivery",
+        "desc": "Designed and scoped around your goals, systems, constraints, and operating environment."
       }
     },
     "categories": {

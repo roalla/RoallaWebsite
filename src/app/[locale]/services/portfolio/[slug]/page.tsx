@@ -101,6 +101,9 @@ export default async function PortfolioCaseStudyPage({ params }: Props) {
           <p className="text-sm font-semibold uppercase tracking-wider text-primary-dark">
             {t("caseStudyEyebrow")}
           </p>
+          <p className="mt-3 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary-dark">
+            {t("caseStudyProofLabel")}: {item.projectType === "client" ? t("caseStudyProofClient") : t("caseStudyProofProduct")}
+          </p>
           <h1 className="mt-3 text-3xl sm:text-4xl font-serif font-extrabold text-slate-900">
             {name}
           </h1>
@@ -167,6 +170,10 @@ export default async function PortfolioCaseStudyPage({ params }: Props) {
             </ul>
           </section>
         </div>
+
+        <aside className="mt-8 max-w-5xl rounded-xl border border-slate-200 bg-slate-50 p-5 text-sm leading-6 text-slate-600">
+          {t("caseStudyEvidenceNote")}
+        </aside>
 
         <div className="mt-12 flex flex-wrap gap-3">
           <ScheduleButton

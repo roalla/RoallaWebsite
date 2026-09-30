@@ -3,7 +3,7 @@ import JsonLd from "@/components/JsonLd";
 import OutcomeServiceLanding from "@/components/services/OutcomeServiceLanding";
 import { buildPageMetadata } from "@/lib/page-metadata";
 import { serviceLandingContent } from "@/lib/service-landing-content";
-import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
+import { breadcrumbJsonLd, servicePageJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 type Props = { params: Promise<{ locale: string }> };
 const path = "/services/automation";
@@ -25,6 +25,7 @@ export default async function Page({ params }: Props) {
       <JsonLd
         data={[
           webPageJsonLd(locale, path, c.title, c.metadataDescription),
+          ...servicePageJsonLd({ locale, path, name: c.title, description: c.metadataDescription, serviceType: "Workflow Automation and Integration", offers: c.packages.map((offer) => ({ name: offer.name, description: offer.description })), faqs: c.faqs.map(([question, answer]) => ({ question, answer })) }),
           breadcrumbJsonLd(locale, [
             { name: locale === "fr" ? "Accueil" : "Home", path: "" },
             {

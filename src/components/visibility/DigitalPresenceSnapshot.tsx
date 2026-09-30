@@ -178,6 +178,17 @@ const copy = {
     print: "Save my branded action plan",
     reportLabel: "ROALLA Digital Presence Action Plan",
     reportPrepared: "Prepared",
+    executiveTitle: "Executive summary",
+    recommendedTitle: "Recommended ROALLA starting point",
+    recommendationVisibility: "Visibility Improvement Sprint",
+    recommendationVisibilityBody: "Improve the search, social, and technical signals that help people and digital systems find and understand the business.",
+    recommendationConversion: "Website Conversion Refresh",
+    recommendationConversionBody: "Address experience and customer-journey barriers before deciding whether a complete rebuild is necessary.",
+    recommendationManaged: "Digital Baseline and Managed Optimization",
+    recommendationManagedBody: "Protect the current foundation, monitor change, and improve the next highest-value opportunity over time.",
+    blueprintLink: "Build my 90-day value blueprint",
+    calculatorsLink: "Estimate potential business value",
+    monitoringLink: "Preview ongoing monitoring",
     ctaTitle: "Get a free 15-minute review of your results",
     ctaBody: "A ROALLA specialist will explain your biggest opportunity, answer your questions, and recommend a practical next step.",
     ctaSteps: ["We review your results", "You receive one clear priority", "You decide whether to continue"],
@@ -290,6 +301,17 @@ const copy = {
     print: "Enregistrer mon plan d’action ROALLA",
     reportLabel: "Plan d’action de présence numérique ROALLA",
     reportPrepared: "Préparé le",
+    executiveTitle: "Sommaire exécutif",
+    recommendedTitle: "Point de départ ROALLA recommandé",
+    recommendationVisibility: "Sprint d’amélioration de la visibilité",
+    recommendationVisibilityBody: "Améliorez les signaux de recherche, de partage social et de santé technique qui aident les personnes et les systèmes numériques à comprendre l’entreprise.",
+    recommendationConversion: "Rafraîchissement de conversion du site",
+    recommendationConversionBody: "Corrigez les obstacles de l’expérience et du parcours client avant de décider si une reconstruction complète est nécessaire.",
+    recommendationManaged: "Référence numérique et optimisation gérée",
+    recommendationManagedBody: "Protégez la fondation actuelle, suivez les changements et améliorez progressivement la prochaine possibilité de grande valeur.",
+    blueprintLink: "Créer mon plan de valeur sur 90 jours",
+    calculatorsLink: "Estimer la valeur d’affaires possible",
+    monitoringLink: "Prévisualiser le suivi continu",
     ctaTitle: "Obtenez un examen gratuit de 15 minutes de vos résultats",
     ctaBody: "Un spécialiste de ROALLA expliquera votre principale possibilité d’amélioration, répondra à vos questions et recommandera une prochaine étape pratique.",
     ctaSteps: ["Nous examinons vos résultats", "Vous recevez une priorité claire", "Vous décidez si vous souhaitez poursuivre"],
@@ -498,6 +520,16 @@ export default function DigitalPresenceSnapshot({
   });
   const currentMobilePerformance = technical?.mobile?.snapshot?.scores.performance ?? null;
   const currentDesktopPerformance = technical?.desktop?.snapshot?.scores.performance ?? null;
+  const scored = (name: ScoreName) => technicalSnapshots.map((snapshot) => snapshot.scores[name]).filter((value): value is number => value != null);
+  const average = (values: number[]) => values.length ? Math.round(values.reduce((sum, value) => sum + value, 0) / values.length) : null;
+  const averagePerformance = average(scored("performance"));
+  const averageAccessibility = average(scored("accessibility"));
+  const averageSeo = average(scored("seo"));
+  const recommendation = averageSeo != null && averageSeo < 70 || social && social.score < 70
+    ? { title: t.recommendationVisibility, body: t.recommendationVisibilityBody, path: "/services/digital-visibility-optimization", intent: "visibility" }
+    : averagePerformance != null && averagePerformance < 60 || averageAccessibility != null && averageAccessibility < 70
+      ? { title: t.recommendationConversion, body: t.recommendationConversionBody, path: "/website-design", intent: "website" }
+      : { title: t.recommendationManaged, body: t.recommendationManagedBody, path: "/services/managed-optimization", intent: "website" };
   const comparisonRows = [
     {
       label: t.mobilePerformance,
@@ -566,6 +598,25 @@ export default function DigitalPresenceSnapshot({
             </div>
             <p className="mt-4 text-xs leading-5 text-slate-500 print:hidden">{t.freshHelp}</p>
           </div>
+
+          <article className="rounded-2xl border border-primary/20 bg-primary/[0.04] p-6 sm:p-8">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">{t.executiveTitle}</p>
+            <div className="mt-3 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
+              <div>
+                <h2 className="text-2xl font-serif font-bold text-slate-950">{t.recommendedTitle}</h2>
+                <h3 className="mt-3 text-lg font-bold text-primary-dark">{recommendation.title}</h3>
+                <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-700">{recommendation.body}</p>
+              </div>
+              <Link href={{ pathname: "/contact", query: { intent: recommendation.intent, website: resultUrl, from_page: "/tools/digital-presence-snapshot", goal: `${note} ${recommendation.title}` } }} className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-5 py-3 font-semibold text-white hover:bg-primary-dark print:hidden">
+                {t.cta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+            </div>
+            <div className="mt-5 flex flex-wrap gap-x-5 gap-y-3 border-t border-primary/15 pt-5 text-sm font-semibold print:hidden">
+              <a href={`/${locale}/tools/digital-value-blueprint`} className="text-primary-dark underline underline-offset-4">{t.blueprintLink}</a>
+              <a href={`/${locale}/tools/business-value-calculators`} className="text-primary-dark underline underline-offset-4">{t.calculatorsLink}</a>
+              <a href={`/${locale}/tools/digital-monitoring-dashboard`} className="text-primary-dark underline underline-offset-4">{t.monitoringLink}</a>
+            </div>
+          </article>
 
           {(technicalError || socialError) ? (
             <div className="rounded-xl border border-amber-200 bg-amber-50 p-5">

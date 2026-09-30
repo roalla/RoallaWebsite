@@ -109,6 +109,13 @@ function DigitalBuildCard({
   t: ReturnType<typeof useTranslations<"digitalBuilds">>;
   locale: string;
 }) {
+  const french = locale === "fr";
+  const starter = {
+    websites: french ? "Forfait de lancement de site à partir de 999 $ CA" : "Launch website package from $999 CAD",
+    platforms: french ? "Sprint de validation de produit, habituellement 1 à 2 semaines" : "Product validation sprint, usually 1 to 2 weeks",
+    automation: french ? "Sprint d’occasion d’automatisation, habituellement 1 à 2 semaines" : "Automation opportunity sprint, usually 1 to 2 weeks",
+    "ai-support": french ? "Pilote d’IA pratique avec révision humaine et mesures convenues" : "Practical AI pilot with human review and agreed measures",
+  }[build.anchor];
   return (
     <Reveal
       as="article"
@@ -145,6 +152,13 @@ function DigitalBuildCard({
             </li>
           ))}
         </ul>
+
+        <div className="mb-5 rounded-lg border border-brand-gold/40 bg-brand-gold/10 p-3 text-sm text-slate-700">
+          <span className="block text-[11px] font-bold uppercase tracking-wide text-slate-600">
+            {french ? "Point de départ recommandé" : "Recommended starting offer"}
+          </span>
+          <span className="mt-1 block font-semibold text-slate-900">{starter}</span>
+        </div>
 
         <div className="mt-auto pt-5 border-t border-slate-100 space-y-3">
           <Link
@@ -341,6 +355,30 @@ const DigitalBuilds = () => {
               </li>
             ))}
           </ol>
+        </Reveal>
+
+        <Reveal className="mb-12">
+          <ServiceSectionHeading
+            eyebrow={locale === "fr" ? "Outils gratuits" : "Free decision tools"}
+            title={locale === "fr" ? "Commencez avec des preuves, pas une proposition générique." : "Start with evidence, not a generic proposal."}
+            description={locale === "fr" ? "Vérifiez votre présence, trouvez le service approprié, estimez la valeur possible et voyez comment le suivi fonctionne." : "Check your presence, find the right service, estimate potential value, and see how ongoing monitoring works."}
+            className="mb-6"
+          />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { icon: Globe, path: "/tools/digital-presence-snapshot", title: locale === "fr" ? "Vérifier ma présence" : "Check my presence", body: locale === "fr" ? "Site, recherche et partage social." : "Website, search, and social setup." },
+              { icon: Sparkles, path: "/tools/digital-value-blueprint", title: locale === "fr" ? "Créer mon plan" : "Build my blueprint", body: locale === "fr" ? "Point de départ et direction sur 90 jours." : "Recommended start and 90-day direction." },
+              { icon: Workflow, path: "/tools/business-value-calculators", title: locale === "fr" ? "Estimer la valeur" : "Estimate value", body: locale === "fr" ? "Scénarios de site, d’automatisation et d’événement." : "Website, automation, and event scenarios." },
+              { icon: Rocket, path: "/tools/digital-monitoring-dashboard", title: locale === "fr" ? "Voir le suivi" : "Preview monitoring", body: locale === "fr" ? "Références privées dans votre navigateur." : "Private baselines in your browser." },
+            ].map((tool) => (
+              <a key={tool.path} href={`/${locale}${tool.path}`} className="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition-all hover:border-primary hover:shadow-md">
+                <tool.icon className="h-5 w-5 text-primary" aria-hidden />
+                <h3 className="mt-3 font-serif font-bold text-slate-950 group-hover:text-primary-dark">{tool.title}</h3>
+                <p className="mt-1 text-xs leading-5 text-slate-600">{tool.body}</p>
+                <span className="mt-3 inline-flex items-center text-xs font-bold text-primary-dark">{locale === "fr" ? "Ouvrir l’outil" : "Open tool"}<ArrowRight className="ml-1 h-3.5 w-3.5" aria-hidden /></span>
+              </a>
+            ))}
+          </div>
         </Reveal>
 
         <ServiceAnchorNav

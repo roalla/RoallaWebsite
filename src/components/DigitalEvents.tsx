@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Reveal from './motion/Reveal'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import {
   ArrowRight,
@@ -113,6 +113,8 @@ function EventCapabilityCard({
 }
 
 export default function DigitalEvents() {
+  const locale = useLocale()
+  const french = locale === 'fr'
   const t = useTranslations('digitalEvents')
   const tNav = useTranslations('nav')
   const tCommon = useTranslations('common')
@@ -259,6 +261,33 @@ export default function DigitalEvents() {
                 <p className="text-sm text-slate-600 leading-relaxed">{t(`${key}Desc` as 'format1Desc')}</p>
               </div>
             ))}
+          </div>
+        </Reveal>
+
+        <Reveal className="mt-16 rounded-2xl border border-brand-gold/50 bg-brand-gold/10 p-7 lg:p-9">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-700">
+            {french ? 'Point de départ à faible risque' : 'Low-risk starting point'}
+          </p>
+          <div className="mt-3 grid gap-7 lg:grid-cols-[1fr_.9fr]">
+            <div>
+              <h2 className="text-3xl font-serif font-bold text-slate-950">
+                {french ? 'Sprint de préparation numérique à l’événement' : 'Event Digital Readiness Sprint'}
+              </h2>
+              <p className="mt-3 text-slate-700 leading-relaxed">
+                {french ? 'Clarifiez le parcours du kiosque ou de l’événement, les appels à l’action, la collecte d’intérêt et le suivi avant de construire.' : 'Clarify the booth or event journey, calls to action, lead capture, and follow-up before building.'}
+              </p>
+              <p className="mt-4 text-sm font-semibold text-slate-800">
+                {french ? 'Délai habituel : 1 à 2 semaines. Portée et prix fixes confirmés après une revue gratuite.' : 'Typical timeline: 1 to 2 weeks. Fixed scope and pricing are confirmed after a free fit review.'}
+              </p>
+            </div>
+            <div>
+              <ul className="space-y-2">
+                {(french ? ['Parcours des visiteurs et publics prioritaires', 'Plan QR, page et appel à l’action', 'Flux de collecte et de suivi des contacts', 'Portée, échéancier et mesures de succès'] : ['Visitor journey and priority audiences', 'QR, page, and call-to-action plan', 'Lead capture and follow-up workflow', 'Scope, timeline, and success measures']).map((item) => <li key={item} className="flex gap-2 rounded-lg bg-white/80 p-3 text-sm text-slate-700"><CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />{item}</li>)}
+              </ul>
+              <Link href={{ pathname: '/contact', query: { intent: 'digital-events', goal: french ? 'Sprint de préparation numérique à l’événement' : 'Event Digital Readiness Sprint' } }} className="mt-5 inline-flex min-h-[48px] items-center rounded-lg bg-primary px-5 py-3 font-semibold text-white hover:bg-primary-dark">
+                {french ? 'Planifier mon événement numérique' : 'Plan my event digital experience'}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+            </div>
           </div>
         </Reveal>
 

@@ -217,7 +217,8 @@
       "analytics": "Analyse et mesure",
       "monitoring": "Suivi continu",
       "qualification": "Aucun fournisseur ne peut garantir les classements, les citations par l'IA ou l'inclusion dans les réponses générées. ROALLA améliore les signaux techniques, de contenu et de confiance qui soutiennent la découvrabilité.",
-      "cta": "Demander une évaluation de visibilité"
+      "cta": "Demander une évaluation de visibilité",
+      "snapshotCta": "Essayer l’aperçu Web gratuit"
     },
     "ideationBand": {
       "eyebrow": "Ce qui nous distingue",

@@ -36,13 +36,21 @@ export default function HomeVisibilityOptimization() {
             <p className="mt-5 text-sm text-slate-400 leading-relaxed border-l-2 border-brand-gold pl-4">
               {t('qualification')}
             </p>
-            <Link
-              href="/contact"
-              className="mt-7 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 transition-all hover:bg-brand-gold-light hover:scale-[1.02]"
-            >
-              {t('cta')}
-              <ArrowRight className="w-4 h-4" aria-hidden />
-            </Link>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/tools/website-visibility-snapshot"
+                className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 transition-all hover:bg-brand-gold-light hover:scale-[1.02]"
+              >
+                {t('snapshotCta')}
+                <ArrowRight className="w-4 h-4" aria-hidden />
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-white/30 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/10"
+              >
+                {t('cta')}
+              </Link>
+            </div>
           </Reveal>
 
           <Reveal delayMs={80} className="rounded-2xl border border-white/10 bg-white/[0.06] p-6 sm:p-8">

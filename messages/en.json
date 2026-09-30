@@ -217,7 +217,8 @@
       "analytics": "Analytics and measurement",
       "monitoring": "Ongoing monitoring",
       "qualification": "No provider can guarantee search rankings, AI citations, or inclusion in generated answers. ROALLA improves the technical, content, and trust signals that support discoverability.",
-      "cta": "Request a Visibility Assessment"
+      "cta": "Request a Visibility Assessment",
+      "snapshotCta": "Try the free website snapshot"
     },
     "ideationBand": {
       "eyebrow": "How we're different",

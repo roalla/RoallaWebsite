@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import Reveal from "./motion/Reveal";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
 import {
   TrendingUp,
@@ -52,6 +52,8 @@ type ConsultingService = {
   icon: LucideIcon;
   focus: ConsultingFocus;
   anchor: string;
+  starter: string;
+  starterBody: string;
 };
 
 function ConsultingServiceCard({
@@ -112,6 +114,14 @@ function ConsultingServiceCard({
             ))}
           </ul>
 
+          <div className="mb-6 rounded-lg border border-brand-gold/40 bg-brand-gold/10 p-4">
+            <span className="text-[11px] font-bold uppercase tracking-wide text-slate-600">
+              {t("starterOfferLabel")}
+            </span>
+            <p className="mt-1 font-serif font-bold text-slate-950">{service.starter}</p>
+            <p className="mt-1 text-xs leading-5 text-slate-600">{service.starterBody}</p>
+          </div>
+
           <div className="mt-auto pt-5 border-t border-slate-200">
             <Link
               href={{
@@ -133,6 +143,8 @@ function ConsultingServiceCard({
 const Services = () => {
   const t = useTranslations("services");
   const tCommon = useTranslations("common");
+  const locale = useLocale();
+  const french = locale === "fr";
   const router = useRouter();
 
   useEffect(() => {
@@ -152,6 +164,8 @@ const Services = () => {
       icon: serviceIcons[0],
       focus: "strategy",
       anchor: serviceAnchors[0],
+      starter: french ? "Sprint d’alignement stratégique" : "Strategy Alignment Sprint",
+      starterBody: french ? "Plan de 90 jours, priorités, propriétaires, mesures et critères de décision. Habituellement 1 à 2 semaines." : "A 90-day plan with priorities, owners, measures, and decision criteria. Usually 1 to 2 weeks.",
     },
     {
       title: t("s1Title"),
@@ -163,6 +177,8 @@ const Services = () => {
       icon: serviceIcons[1],
       focus: "operations",
       anchor: serviceAnchors[1],
+      starter: french ? "Sprint de flux et responsabilités" : "Workflow and Ownership Sprint",
+      starterBody: french ? "Flux actuel, goulots, droits de décision et une expérience d’amélioration mesurable. Habituellement 1 à 2 semaines." : "Current workflow, bottlenecks, decision rights, and one measurable improvement experiment. Usually 1 to 2 weeks.",
     },
     {
       title: t("s2Title"),
@@ -174,6 +190,8 @@ const Services = () => {
       icon: serviceIcons[2],
       focus: "team",
       anchor: serviceAnchors[2],
+      starter: french ? "Sprint de rythme de leadership" : "Leadership Operating Rhythm Sprint",
+      starterBody: french ? "Rôles, décisions, réunions, escalades et cadence de responsabilisation. Habituellement 1 à 2 semaines." : "Roles, decisions, meetings, escalation paths, and accountability cadence. Usually 1 to 2 weeks.",
     },
     {
       title: t("s3Title"),
@@ -185,6 +203,8 @@ const Services = () => {
       icon: serviceIcons[3],
       focus: "data",
       anchor: serviceAnchors[3],
+      starter: french ? "Sprint de données et décisions" : "Data and Decision Readiness Sprint",
+      starterBody: french ? "Mesures prioritaires, sources, définitions, responsabilités et prochaine amélioration de rapport. Habituellement 1 à 2 semaines." : "Priority measures, sources, definitions, ownership, and the next useful reporting improvement. Usually 1 to 2 weeks.",
     },
   ];
 
@@ -222,6 +242,14 @@ const Services = () => {
       />
 
       <div className="max-w-6xl mx-auto">
+        <Reveal className="mb-10 grid gap-4 md:grid-cols-3">
+          {[
+            { href: "/assessment" as const, title: french ? "Plan de valeur d’affaires" : "Business Value Blueprint", body: french ? "Obtenez un point de départ et une direction simple sur 90 jours." : "Get a recommended starting point and a simple 90-day direction." },
+            { href: "/tools/advisory-value-calculators" as const, title: french ? "Calculateurs de valeur" : "Advisory Value Calculators", body: french ? "Explorez le coût possible des processus, des réunions et des décisions retardées." : "Explore the possible cost of workflow friction, meetings, and delayed decisions." },
+            { href: "/tools/execution-partner-dashboard" as const, title: french ? "Aperçu du suivi d’exécution" : "Execution Dashboard Preview", body: french ? "Essayez un tableau simple pour les priorités, les responsables et les mesures." : "Try a simple board for priorities, owners, and measures." },
+          ].map((tool) => <a key={tool.href} href={`/${locale}${tool.href}`} className="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-primary/40"><p className="font-serif text-lg font-bold text-slate-950">{tool.title}</p><p className="mt-2 text-sm leading-6 text-slate-600">{tool.body}</p><span className="mt-4 inline-flex items-center text-sm font-semibold text-primary-dark">{french ? "Ouvrir l’outil" : "Open the tool"}<ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" /></span></a>)}
+        </Reveal>
+
         <ServiceAnchorNav
           label={t("jumpNavLabel")}
           items={services.map((s) => ({ id: s.anchor, label: s.title }))}
@@ -236,6 +264,10 @@ const Services = () => {
             />
           ))}
         </div>
+
+        <p className="mt-6 text-xs leading-5 text-slate-500">
+          {french ? "Les résultats chiffrés publiés reposent sur des preuves d’engagement confirmées. Chaque organisation est différente et aucun résultat futur n’est garanti." : "Published quantified results are based on confirmed engagement evidence. Every organization is different, and future results are not guaranteed."}
+        </p>
 
         <Reveal className="mt-10 rounded-2xl border border-primary/25 bg-white p-6 lg:p-8">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">

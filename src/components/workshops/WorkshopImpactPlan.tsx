@@ -1,0 +1,19 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useLocale } from "next-intl";
+import { Download } from "lucide-react";
+import { trackAnalyticsEvent } from "@/lib/analytics";
+
+type Plan = { before: number; after: number; commitment: string; owner: string; review: string; result: string };
+const initial: Plan = { before: 3, after: 3, commitment: "", owner: "", review: "", result: "" };
+const inputClass = "mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-slate-900";
+
+export default function WorkshopImpactPlan({ workshopId }: { workshopId: string }) {
+  const locale = useLocale(); const fr = locale === "fr"; const key = `roalla-workshop-impact-${workshopId}-${locale}`;
+  const [plan, setPlan] = useState(initial); const [ready, setReady] = useState(false);
+  useEffect(() => { try { setPlan({ ...initial, ...JSON.parse(localStorage.getItem(key) || "{}") }); } catch {} setReady(true); }, [key]);
+  const update = (name: keyof Plan, value: string | number) => setPlan((current) => ({ ...current, [name]: value }));
+  const save = () => { localStorage.setItem(key, JSON.stringify(plan)); trackAnalyticsEvent("workshop_impact_saved", { workshop: workshopId }); };
+  return <section className="mt-16 rounded-2xl border border-primary/25 bg-primary/[.04] p-6 lg:p-8"><p className="text-xs font-semibold uppercase tracking-wider text-primary-dark">{fr ? "Suivi sur 30 jours" : "30-day follow-through"}</p><h2 className="mt-2 text-3xl font-serif font-bold text-slate-950">{fr ? "Transformez l'atelier en changement observable." : "Turn the workshop into observable change."}</h2><p className="mt-3 max-w-3xl text-slate-600">{fr ? "Notez votre point de départ, votre engagement et ce qui a réellement changé après 30 jours." : "Record your starting point, commitment, and what actually changed after 30 days."}</p><div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"><label className="text-sm font-semibold text-slate-700">{fr ? "Confiance avant (1 à 5)" : "Confidence before (1 to 5)"}<input type="number" min="1" max="5" value={plan.before} onChange={(e) => update("before", Number(e.target.value))} className={inputClass}/></label><label className="text-sm font-semibold text-slate-700">{fr ? "Confiance après (1 à 5)" : "Confidence after (1 to 5)"}<input type="number" min="1" max="5" value={plan.after} onChange={(e) => update("after", Number(e.target.value))} className={inputClass}/></label><label className="text-sm font-semibold text-slate-700">{fr ? "Date d'examen" : "Review date"}<input type="date" value={plan.review} onChange={(e) => update("review", e.target.value)} className={inputClass}/></label><label className="text-sm font-semibold text-slate-700">{fr ? "Engagement concret" : "Specific commitment"}<input value={plan.commitment} onChange={(e) => update("commitment", e.target.value)} className={inputClass}/></label><label className="text-sm font-semibold text-slate-700">{fr ? "Responsable ou soutien" : "Owner or support person"}<input value={plan.owner} onChange={(e) => update("owner", e.target.value)} className={inputClass}/></label><label className="text-sm font-semibold text-slate-700">{fr ? "Résultat après 30 jours" : "Result after 30 days"}<input value={plan.result} onChange={(e) => update("result", e.target.value)} className={inputClass}/></label></div><div className="mt-6 flex flex-wrap items-center gap-4"><button type="button" disabled={!ready} onClick={() => { save(); window.print(); }} className="inline-flex items-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white"><Download className="mr-2 h-4 w-4"/>{fr ? "Enregistrer et imprimer" : "Save and print"}</button><p className="text-xs text-slate-500">{fr ? "Enregistré seulement dans ce navigateur. ROALLA ne voit pas vos réponses." : "Saved only in this browser. ROALLA cannot see your answers."}</p></div></section>;
+}

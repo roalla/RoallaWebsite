@@ -11,6 +11,7 @@ import StickyMobileCTA from "@/components/StickyMobileCTA";
 import Reveal from "@/components/motion/Reveal";
 import FocusCirclePresentation from "@/components/workshops/FocusCirclePresentation";
 import WorkshopPrintSheet from "@/components/workshops/WorkshopPrintSheet";
+import WorkshopImpactPlan from "@/components/workshops/WorkshopImpactPlan";
 import {
   focusCircleCopy,
   formatFocusTemplate,
@@ -129,6 +130,8 @@ export default function FocusCircleExperience() {
           ))}
         </ul>
       </section>
+
+      <WorkshopImpactPlan workshopId="focus-circle" />
 
       <section className="mt-16">
         <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-dark">{copy.pillarsEyebrow}</p>

@@ -22,6 +22,7 @@ import ServiceMiniFAQ from "./services/ServiceMiniFAQ";
 import { focusCircleCopy } from "@/lib/workshops/focus-circle-content";
 import { companionWorkshopCopy } from "@/lib/workshops/companion-workshops-content";
 import { featuredHostedWorkshops } from "@/lib/workshops/hosted-workshops";
+import WorkshopFinder from "@/components/workshops/WorkshopFinder";
 import {
   ServicePageHero,
   ConsultingHeroVisual,
@@ -210,6 +211,8 @@ const Workshops = () => {
         <Reveal className="mb-10 max-w-3xl">
           <p className="text-slate-600 leading-relaxed">{t("intro")}</p>
         </Reveal>
+
+        <WorkshopFinder locale={locale} />
 
         {featured.length > 0 ? (
           <section className="mb-14">

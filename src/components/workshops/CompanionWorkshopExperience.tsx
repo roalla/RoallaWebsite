@@ -22,6 +22,7 @@ import ScheduleButton from "@/components/ScheduleButton";
 import StickyMobileCTA from "@/components/StickyMobileCTA";
 import Reveal from "@/components/motion/Reveal";
 import WorkshopPrintSheet from "@/components/workshops/WorkshopPrintSheet";
+import WorkshopImpactPlan from "@/components/workshops/WorkshopImpactPlan";
 import type {
   CompanionWorkshopCopy,
   WorkshopPractice,
@@ -112,6 +113,8 @@ export default function CompanionWorkshopExperience({ copy }: { copy: CompanionW
         <Image src="/images/team/steven-robin.webp" alt="Steven Robin" width={176} height={220} sizes="176px" quality={55} className="mx-auto aspect-[4/5] w-44 rounded-2xl border border-slate-200 object-cover" />
         <div><Eyebrow>{copy.facilitatorEyebrow}</Eyebrow><h2 className="mt-3 text-3xl font-serif font-bold text-slate-900">{copy.facilitatorTitle}</h2><p className="mt-4 max-w-3xl leading-relaxed text-slate-600">{copy.facilitatorBody}</p></div>
       </section>
+
+      <WorkshopImpactPlan workshopId={copy.id} />
 
       <section className="mt-16">
         <Eyebrow>{copy.toolsEyebrow}</Eyebrow>

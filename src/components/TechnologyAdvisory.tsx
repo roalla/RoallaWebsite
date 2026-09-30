@@ -2,7 +2,7 @@
 
 import React from "react";
 import Reveal from "./motion/Reveal";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import {
   ArrowRight,
@@ -48,6 +48,8 @@ const howWeWorkSteps = ["step1", "step2", "step3", "step4"] as const;
 const TechnologyAdvisory = () => {
   const t = useTranslations("services");
   const tCommon = useTranslations("common");
+  const locale = useLocale();
+  const french = locale === "fr";
 
   const stats = [
     { value: t("technologyStat1Value"), label: t("technologyStat1Label") },
@@ -88,6 +90,13 @@ const TechnologyAdvisory = () => {
       />
 
       <div className="max-w-6xl mx-auto">
+        <Reveal className="mb-10 rounded-2xl border border-primary/25 bg-white p-6 shadow-sm lg:p-8">
+          <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div><p className="text-xs font-semibold uppercase tracking-wider text-primary-dark">{french ? "Point de départ sans fournisseur" : "Provider-neutral starting point"}</p><h2 className="mt-2 text-2xl font-serif font-bold text-slate-950">{french ? "Fiche de décision technologique" : "Technology Decision Brief"}</h2><p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{french ? "Clarifiez les besoins, les risques, les coûts et l’adoption avant de comparer les fournisseurs. Poursuivez ensuite avec une liste restreinte ou un soutien à la mise en œuvre, seulement si nécessaire." : "Clarify requirements, risk, cost, and adoption before comparing providers. Continue with a shortlist or implementation support only when needed."}</p></div>
+            <a href={`/${locale}/tools/technology-decision-brief`} className="inline-flex items-center justify-center rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white hover:bg-primary-dark">{french ? "Créer ma fiche" : "Build my brief"}<ArrowRight className="ml-2 h-4 w-4" /></a>
+          </div>
+        </Reveal>
+
         <ServiceAnchorNav
           label={t("jumpNavLabel")}
           items={[

@@ -31,8 +31,8 @@ export function createNonce(): string {
   const bytes = new Uint8Array(16)
   crypto.getRandomValues(bytes)
   let binary = ''
-  for (const byte of bytes) binary += String.fromCharCode(byte)
-  return btoa(binary).replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '')
+  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i])
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
 }
 
 export function buildContentSecurityPolicy(nonce: string, options: CspOptions = {}): string {

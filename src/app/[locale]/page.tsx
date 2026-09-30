@@ -11,7 +11,6 @@ import HomeTestimonials from '@/components/home/HomeTestimonials'
 import HomeFeaturedInsight from '@/components/home/HomeFeaturedInsight'
 import HomeCTA from '@/components/home/HomeCTA'
 import HomeClosing from '@/components/home/HomeClosing'
-import { HERO_MOBILE_MAX_WIDTH_PX, HERO_SLIDES } from '@/lib/heroSlideshow'
 import { buildPageMetadata } from '@/lib/page-metadata'
 import JsonLd from '@/components/JsonLd'
 import { homeServiceCatalogJsonLd, webPageJsonLd } from '@/lib/structured-data'
@@ -43,21 +42,6 @@ export default async function Home({ params }: Props) {
           webPageJsonLd(locale, '', t('metadataTitle'), t('metadataDescription')),
           homeServiceCatalogJsonLd(locale),
         ]}
-      />
-      {/* Preload first slide only — art-directed by viewport */}
-      <link
-        rel="preload"
-        as="image"
-        href={HERO_SLIDES[0].mobile}
-        media={`(max-width: ${HERO_MOBILE_MAX_WIDTH_PX}px)`}
-        fetchPriority="high"
-      />
-      <link
-        rel="preload"
-        as="image"
-        href={HERO_SLIDES[0].desktop}
-        media={`(min-width: ${HERO_MOBILE_MAX_WIDTH_PX + 1}px)`}
-        fetchPriority="high"
       />
       <HomeHero />
       <HomeServicesMarquee />

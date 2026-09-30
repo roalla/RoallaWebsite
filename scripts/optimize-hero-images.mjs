@@ -17,9 +17,12 @@ const heroDir = path.join(__dirname, '../public/images/Hero')
 const manifestPath = path.join(__dirname, '../src/lib/heroSlideshow.ts')
 
 const DESKTOP_MAX_WIDTH = 1920
-const MOBILE_MAX_WIDTH = 828
+/** 480 covers ~1x phones; 736 covers PageSpeed's 412px viewport at 1.75 dpr. */
+const MOBILE_VARIANTS = [
+  { width: 480, quality: 52 },
+  { width: 736, quality: 58 },
+]
 const DESKTOP_QUALITY = 72
-const MOBILE_QUALITY = 64
 const SOURCE_EXT = new Set(['.png', '.jpg', '.jpeg'])
 
 function slugifyBase(name) {
@@ -42,10 +45,18 @@ function parseHeroSource(name) {
 
 function syncManifest(slides) {
   const entries = slides
-    .map(
-      (slide) =>
-        `  {\n    desktop: '/images/Hero/${slide.desktop}',\n    mobile: '/images/Hero/${slide.mobile}',\n  },`
-    )
+    .map((slide) => {
+      const largest = slide.mobileSources[slide.mobileSources.length - 1]
+      const mobileSrcSet = slide.mobileSources
+        .map((item) => `/images/Hero/${item.file} ${item.width}w`)
+        .join(', ')
+      return `  {
+    desktop: '/images/Hero/${slide.desktop}',
+    mobile: '/images/Hero/${largest.file}',
+    mobileSrcSet:
+      '${mobileSrcSet}',
+  },`
+    })
     .join('\n')
 
   const content = `/** Optimized WebP hero slides — regenerate with npm run optimize:hero */
@@ -124,25 +135,37 @@ async function optimizeHeroImages() {
     }
 
     const desktopSlug = `${slugifyBase(slot.desktop)}.webp`
-    const mobileSlug = `${slugifyBase(slot.mobile)}.webp`
+    const mobileBase = slugifyBase(slot.mobile)
     const desktopOut = path.join(heroDir, desktopSlug)
-    const mobileOut = path.join(heroDir, mobileSlug)
 
     const desk = await convertSource(path.join(heroDir, slot.desktop), desktopOut, DESKTOP_MAX_WIDTH, DESKTOP_QUALITY)
-    const mob = await convertSource(path.join(heroDir, slot.mobile), mobileOut, MOBILE_MAX_WIDTH, MOBILE_QUALITY)
-    totalBefore += desk.before + mob.before
-    totalAfter += desk.after + mob.after
+    totalBefore += desk.before
+    totalAfter += desk.after
     producedWebp.add(desktopSlug)
-    producedWebp.add(mobileSlug)
-
     console.log(
       `Pair ${index}: ${slot.desktop} → ${desktopSlug}  ${(desk.before / 1024).toFixed(0)} KB → ${(desk.after / 1024).toFixed(0)} KB`
     )
-    console.log(
-      `Pair ${index}: ${slot.mobile} → ${mobileSlug}  ${(mob.before / 1024).toFixed(0)} KB → ${(mob.after / 1024).toFixed(0)} KB`
-    )
 
-    slides.push({ desktop: desktopSlug, mobile: mobileSlug })
+    const mobileSources = []
+    for (const variant of MOBILE_VARIANTS) {
+      const file = `${mobileBase}-${variant.width}.webp`
+      const mobileOut = path.join(heroDir, file)
+      const mob = await convertSource(
+        path.join(heroDir, slot.mobile),
+        mobileOut,
+        variant.width,
+        variant.quality
+      )
+      totalBefore += mob.before
+      totalAfter += mob.after
+      producedWebp.add(file)
+      mobileSources.push({ file, width: variant.width })
+      console.log(
+        `Pair ${index}: ${slot.mobile} → ${file}  ${(mob.before / 1024).toFixed(0)} KB → ${(mob.after / 1024).toFixed(0)} KB`
+      )
+    }
+
+    slides.push({ desktop: desktopSlug, mobileSources })
   }
 
   if (slides.length === 0) {

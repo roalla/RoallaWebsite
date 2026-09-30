@@ -47,12 +47,17 @@ export default function HomeHeroSlideshow() {
                 : undefined
             }
           >
-            <source media={mobileMedia} srcSet={slide.mobile} type="image/webp" />
+            <source
+              media={mobileMedia}
+              srcSet={slide.mobileSrcSet}
+              sizes="100vw"
+              type="image/webp"
+            />
             <img
               src={slide.desktop}
               alt=""
-              decoding={index === 0 ? 'sync' : 'async'}
-              fetchPriority={index === 0 ? 'high' : 'low'}
+              decoding="async"
+              fetchPriority="low"
               loading={index === 0 ? 'eager' : 'lazy'}
               className="hero-slide-img"
             />

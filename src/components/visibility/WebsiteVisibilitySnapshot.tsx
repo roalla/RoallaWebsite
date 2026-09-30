@@ -35,7 +35,7 @@ const copy = {
     measured: "Measured",
     source: "Data source: Google PageSpeed Insights",
     caveat:
-      "This is a point-in-time technical snapshot, not a complete visibility audit. Scores can vary between runs and do not measure content strategy, local presence, AI readability, trust, or conversion quality.",
+      "This is a point-in-time technical snapshot, not a complete visibility audit. Scores can vary between runs. They do not measure content strategy—which is not an AI score, yet remains critical for sales conversion and user adoption—nor local presence, AI readability, trust, or conversion quality.",
     mobile: "Mobile",
     desktop: "Desktop",
     partialError: "This experience could not be measured.",
@@ -48,7 +48,7 @@ const copy = {
     nextMissing: "{experience} did not return a {label} score.",
     ctaTitle: "Ask ROALLA to help with these results.",
     ctaBody:
-      "ROALLA can interpret the mobile and desktop signals alongside your content, audience, competitors, search presence, accessibility, and conversion path.",
+      "ROALLA can interpret the mobile and desktop signals alongside a human content strategy for conversion and adoption—not AI scoring alone—plus audience, competitors, search presence, accessibility, and the path to an inquiry.",
     cta: "Ask ROALLA to help",
     service: "See the complete visibility service",
     genericError: "The snapshot could not be completed. Please try again.",
@@ -78,7 +78,7 @@ const copy = {
     measured: "Mesuré",
     source: "Source des données : Google PageSpeed Insights",
     caveat:
-      "Il s’agit d’un aperçu technique ponctuel, pas d’un audit complet de visibilité. Les scores peuvent varier et ne mesurent pas la stratégie de contenu, la présence locale, la lisibilité par l’IA, la confiance ou la conversion.",
+      "Il s’agit d’un aperçu technique ponctuel, pas d’un audit complet de visibilité. Les scores peuvent varier. Ils ne mesurent pas la stratégie de contenu—qui n’est pas un score IA, mais demeure essentielle pour la conversion et l’adoption—ni la présence locale, la lisibilité par l’IA, la confiance ou la conversion.",
     mobile: "Mobile",
     desktop: "Ordinateur",
     partialError: "Cette expérience n’a pas pu être mesurée.",
@@ -91,7 +91,7 @@ const copy = {
     nextMissing: "{experience} n’a pas retourné de score pour {label}.",
     ctaTitle: "Demandez à ROALLA de vous aider avec ces résultats.",
     ctaBody:
-      "ROALLA peut interpréter les signaux mobile et ordinateur avec votre contenu, votre clientèle, vos concurrents, votre présence dans la recherche, votre accessibilité et votre parcours de conversion.",
+      "ROALLA peut interpréter les signaux mobile et ordinateur avec une stratégie de contenu humaine pour la conversion et l’adoption—pas seulement un score IA—ainsi que votre clientèle, vos concurrents, votre présence dans la recherche, votre accessibilité et le parcours vers une demande.",
     cta: "Demander l’aide de ROALLA",
     service: "Voir le service complet de visibilité",
     genericError: "L’aperçu n’a pas pu être produit. Veuillez réessayer.",

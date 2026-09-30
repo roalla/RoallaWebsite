@@ -17,8 +17,18 @@ const content = {
     subtitle: "Get an immediate mobile and desktop snapshot using Google PageSpeed Insights data. No email gate. No ranking promises. Just a useful starting point.",
     whatTitle: "What this snapshot checks",
     what: ["Performance and Core Web Vitals signals", "Automated accessibility checks", "Browser best-practice checks", "Technical SEO foundations", "Prioritized performance opportunities"],
+    contentTitle: "Content strategy is critical—and this tool does not score it",
+    contentBody:
+      "PageSpeed measures technical signals. Content strategy is not AI-generated scoring: it is the human work of clarifying the offer, message, and proof so visitors trust you, convert, and adopt what you sell. Strong technical scores still leave conversion and adoption unfinished without that strategy.",
     limitsTitle: "What still needs human judgment",
-    limits: ["Whether your offer and content match customer intent", "Local discovery and competitive position", "Entity clarity and AI-answer readability", "Trust, messaging, navigation, and conversion quality", "A practical roadmap tied to business value"],
+    limits: [
+      "Content strategy for sales conversion and user adoption (not an AI score)",
+      "Whether your offer and content match customer intent",
+      "Local discovery and competitive position",
+      "Entity clarity and AI-answer readability",
+      "Trust, messaging, navigation, and conversion quality",
+      "A practical roadmap tied to business value",
+    ],
     privacy: "ROALLA sends the public page URL to Google PageSpeed Insights to run the snapshot. Query parameters are removed, results are cached briefly, and this tool does not ask for or store your email address.",
   },
   fr: {
@@ -29,8 +39,18 @@ const content = {
     subtitle: "Obtenez un aperçu mobile et ordinateur immédiat à partir des données de Google PageSpeed Insights. Aucun courriel requis. Aucune promesse de classement. Un point de départ utile.",
     whatTitle: "Ce que cet aperçu vérifie",
     what: ["Signaux de performance et Core Web Vitals", "Vérifications automatisées d’accessibilité", "Bonnes pratiques du navigateur", "Fondations du SEO technique", "Possibilités de performance priorisées"],
+    contentTitle: "La stratégie de contenu est essentielle—et cet outil ne la note pas",
+    contentBody:
+      "PageSpeed mesure des signaux techniques. La stratégie de contenu n’est pas un score produit par l’IA : c’est le travail humain de clarifier l’offre, le message et les preuves pour que les visiteurs vous fassent confiance, convertissent et adoptent ce que vous vendez. De bons scores techniques laissent encore la conversion et l’adoption inachevées sans cette stratégie.",
     limitsTitle: "Ce qui exige encore un jugement humain",
-    limits: ["L’adéquation de votre offre et de votre contenu à l’intention client", "La découverte locale et la position concurrentielle", "La clarté de l’entité et la lisibilité dans les réponses IA", "La confiance, le message, la navigation et la conversion", "Une feuille de route pratique liée à la valeur d’affaires"],
+    limits: [
+      "Stratégie de contenu pour la conversion et l’adoption (pas un score IA)",
+      "L’adéquation de votre offre et de votre contenu à l’intention client",
+      "La découverte locale et la position concurrentielle",
+      "La clarté de l’entité et la lisibilité dans les réponses IA",
+      "La confiance, le message, la navigation et la conversion",
+      "Une feuille de route pratique liée à la valeur d’affaires",
+    ],
     privacy: "ROALLA transmet l’URL de la page publique à Google PageSpeed Insights pour produire l’aperçu. Les paramètres de requête sont retirés, les résultats sont brièvement mis en cache et cet outil ne demande ni ne conserve votre adresse courriel.",
   },
 } as const;
@@ -78,7 +98,15 @@ export default async function WebsiteVisibilitySnapshotPage({ params }: Props) {
           <WebsiteVisibilitySnapshot locale={locale} />
         </section>
 
-        <section className="mx-auto mt-16 grid max-w-6xl gap-6 lg:grid-cols-2">
+        <aside className="mx-auto mt-12 max-w-6xl rounded-2xl border border-brand-gold/40 bg-brand-gold/10 p-6 sm:p-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-700">
+            {locale === "fr" ? "Au-delà du score technique" : "Beyond the technical score"}
+          </p>
+          <h2 className="mt-3 text-2xl font-serif font-bold text-slate-950">{page.contentTitle}</h2>
+          <p className="mt-4 max-w-4xl text-base leading-relaxed text-slate-800">{page.contentBody}</p>
+        </aside>
+
+        <section className="mx-auto mt-10 grid max-w-6xl gap-6 lg:grid-cols-2">
           {[
             [page.whatTitle, page.what, "bg-primary/[0.04] border-primary/20"],
             [page.limitsTitle, page.limits, "bg-slate-50 border-slate-200"],

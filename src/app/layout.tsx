@@ -1,8 +1,7 @@
 import React from 'react'
 import type { Metadata } from 'next'
 import { headers } from 'next/headers'
-import { Figtree, Sora } from 'next/font/google'
-import './globals.css'
+import globalCss from './globals.css?inline'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
 import Providers from '@/components/Providers'
@@ -13,18 +12,6 @@ import { getHeaderInsightSlugs } from '@/lib/header-insights-store'
 import { organizationJsonLd, websiteJsonLd } from '@/lib/structured-data'
 import { OG_IMAGE, OG_IMAGE_ALT, SITE_URL } from '@/lib/site'
 import { trustedTypesBootstrap } from '@/lib/security-headers'
-
-const figtree = Figtree({
-  subsets: ['latin'],
-  variable: '--font-portal-body',
-  display: 'swap',
-})
-
-const sora = Sora({
-  subsets: ['latin'],
-  variable: '--font-portal-display',
-  display: 'swap',
-})
 
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
 const bingVerification = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
@@ -126,8 +113,16 @@ export default async function RootLayout({
   const nonce = (await headers()).get('x-nonce') ?? undefined
 
   return (
-    <html lang={locale} className={`${figtree.variable} ${sora.variable} font-sans`}>
+    <html lang={locale} className="font-sans">
       <head>
+        <link
+          rel="preload"
+          as="font"
+          href="/fonts/figtree-latin.woff2"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <style dangerouslySetInnerHTML={{ __html: globalCss }} />
         <script nonce={nonce} dangerouslySetInnerHTML={{ __html: trustedTypesBootstrap }} />
         <JsonLd data={[organizationJsonLd, websiteJsonLd]} />
         <link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml" />
@@ -143,7 +138,7 @@ export default async function RootLayout({
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
       </head>
-      <body className={`${figtree.className} antialiased`}>
+      <body className="antialiased">
         <GoogleAnalytics />
         <Providers>
           <NextIntlClientProvider messages={messages}>

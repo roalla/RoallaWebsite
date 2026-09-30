@@ -19,8 +19,8 @@ const manifestPath = path.join(__dirname, '../src/lib/heroSlideshow.ts')
 const DESKTOP_MAX_WIDTH = 1920
 /** 480 covers ~1x phones; 736 covers PageSpeed's 412px viewport at 1.75 dpr. */
 const MOBILE_VARIANTS = [
-  { width: 480, quality: 52 },
-  { width: 736, quality: 58 },
+  { width: 480, quality: 52, avifQuality: 45 },
+  { width: 736, quality: 58, avifQuality: 45 },
 ]
 const DESKTOP_QUALITY = 72
 const SOURCE_EXT = new Set(['.png', '.jpg', '.jpeg'])
@@ -50,11 +50,16 @@ function syncManifest(slides) {
       const mobileSrcSet = slide.mobileSources
         .map((item) => `/images/Hero/${item.file} ${item.width}w`)
         .join(', ')
+      const mobileAvifSrcSet = slide.mobileAvifSources
+        .map((item) => `/images/Hero/${item.file} ${item.width}w`)
+        .join(', ')
       return `  {
     desktop: '/images/Hero/${slide.desktop}',
     mobile: '/images/Hero/${largest.file}',
     mobileSrcSet:
       '${mobileSrcSet}',
+    mobileAvifSrcSet:
+      '${mobileAvifSrcSet}',
   },`
     })
     .join('\n')
@@ -80,12 +85,14 @@ export const HERO_MOBILE_MAX_WIDTH_PX = 767
   )
 }
 
-async function convertSource(inputPath, outputPath, maxWidth, quality) {
+async function convertSource(inputPath, outputPath, maxWidth, quality, format) {
   const before = fs.statSync(inputPath).size
-  await sharp(inputPath)
-    .resize({ width: maxWidth, withoutEnlargement: true })
-    .webp({ quality, effort: 6 })
-    .toFile(outputPath)
+  let pipeline = sharp(inputPath).resize({ width: maxWidth, withoutEnlargement: true })
+  pipeline =
+    format === 'avif'
+      ? pipeline.avif({ quality, effort: 6 })
+      : pipeline.webp({ quality, effort: 6 })
+  await pipeline.toFile(outputPath)
   const after = fs.statSync(outputPath).size
   return { before, after }
 }
@@ -138,7 +145,7 @@ async function optimizeHeroImages() {
     const mobileBase = slugifyBase(slot.mobile)
     const desktopOut = path.join(heroDir, desktopSlug)
 
-    const desk = await convertSource(path.join(heroDir, slot.desktop), desktopOut, DESKTOP_MAX_WIDTH, DESKTOP_QUALITY)
+    const desk = await convertSource(path.join(heroDir, slot.desktop), desktopOut, DESKTOP_MAX_WIDTH, DESKTOP_QUALITY, 'webp')
     totalBefore += desk.before
     totalAfter += desk.after
     producedWebp.add(desktopSlug)
@@ -147,25 +154,41 @@ async function optimizeHeroImages() {
     )
 
     const mobileSources = []
+    const mobileAvifSources = []
     totalBefore += fs.statSync(path.join(heroDir, slot.mobile)).size
     for (const variant of MOBILE_VARIANTS) {
       const file = `${mobileBase}-${variant.width}.webp`
+      const avifFile = `${mobileBase}-${variant.width}.avif`
       const mobileOut = path.join(heroDir, file)
+      const avifOut = path.join(heroDir, avifFile)
       const mob = await convertSource(
         path.join(heroDir, slot.mobile),
         mobileOut,
         variant.width,
-        variant.quality
+        variant.quality,
+        'webp'
       )
-      totalAfter += mob.after
+      const avif = await convertSource(
+        path.join(heroDir, slot.mobile),
+        avifOut,
+        variant.width,
+        variant.avifQuality,
+        'avif'
+      )
+      totalAfter += mob.after + avif.after
       producedWebp.add(file)
+      producedWebp.add(avifFile)
       mobileSources.push({ file, width: variant.width })
+      mobileAvifSources.push({ file: avifFile, width: variant.width })
       console.log(
         `Pair ${index}: ${slot.mobile} → ${file}  ${(mob.before / 1024).toFixed(0)} KB → ${(mob.after / 1024).toFixed(0)} KB`
       )
+      console.log(
+        `Pair ${index}: ${slot.mobile} → ${avifFile}  ${(avif.before / 1024).toFixed(0)} KB → ${(avif.after / 1024).toFixed(0)} KB`
+      )
     }
 
-    slides.push({ desktop: desktopSlug, mobileSources })
+    slides.push({ desktop: desktopSlug, mobileSources, mobileAvifSources })
   }
 
   if (slides.length === 0) {
@@ -175,7 +198,8 @@ async function optimizeHeroImages() {
 
   // Remove stale WebPs that are not part of the current paired set
   for (const name of fs.readdirSync(heroDir)) {
-    if (!name.toLowerCase().endsWith('.webp')) continue
+    const lower = name.toLowerCase()
+    if (!lower.endsWith('.webp') && !lower.endsWith('.avif')) continue
     if (producedWebp.has(name)) continue
     fs.unlinkSync(path.join(heroDir, name))
     console.log(`Removed stale ${name}`)

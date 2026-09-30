@@ -275,6 +275,12 @@ const nextConfig = {
         ],
       },
       {
+        source: "/fonts/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
         source: "/logo.svg",
         headers: [
           { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
@@ -366,6 +372,27 @@ const nextConfig = {
         ),
       };
     }
+
+    const matchesCss = (test) => {
+      if (test instanceof RegExp) return test.test("app.css");
+      if (Array.isArray(test)) return test.some(matchesCss);
+      return false;
+    };
+    const skipInlinedCss = (rule) => {
+      if (!rule || typeof rule !== "object") return;
+      if (matchesCss(rule.test) && rule.resourceQuery == null) {
+        rule.resourceQuery = { not: [/inline/] };
+      }
+      if (Array.isArray(rule.oneOf)) rule.oneOf.forEach(skipInlinedCss);
+      if (Array.isArray(rule.rules)) rule.rules.forEach(skipInlinedCss);
+    };
+    config.module.rules.forEach(skipInlinedCss);
+    config.module.rules.unshift({
+      test: /globals\.css$/,
+      resourceQuery: /inline/,
+      use: [path.join(__dirname, "scripts/css-to-string-loader.js")],
+    });
+
     return config;
   },
   compress: true,

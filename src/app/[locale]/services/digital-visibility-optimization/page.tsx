@@ -123,6 +123,32 @@ export default async function DigitalVisibilityOptimizationPage({
         </header>
 
         <main className="max-w-6xl mx-auto">
+          <section className="pt-10">
+            <div className="rounded-2xl border border-primary/20 bg-primary/[0.04] p-6 sm:p-8 lg:flex lg:items-center lg:justify-between lg:gap-10">
+              <div className="max-w-3xl">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-dark">
+                  {locale === "fr" ? "Outil gratuit" : "Free tool"}
+                </p>
+                <h2 className="mt-2 text-2xl font-serif font-bold text-slate-950">
+                  {locale === "fr"
+                    ? "Commencez par un aperçu technique de votre site."
+                    : "Start with a technical snapshot of your website."}
+                </h2>
+                <p className="mt-3 text-slate-700">
+                  {locale === "fr"
+                    ? "Obtenez immédiatement des signaux de performance, d’accessibilité, de bonnes pratiques et de SEO technique—sans fournir votre courriel."
+                    : "Get immediate performance, accessibility, best-practice, and technical SEO signals—without submitting your email."}
+                </p>
+              </div>
+              <Link
+                href="/tools/website-visibility-snapshot"
+                className="mt-5 inline-flex min-h-[48px] shrink-0 items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-dark lg:mt-0"
+              >
+                {locale === "fr" ? "Lancer l’aperçu gratuit" : "Run the free snapshot"}
+              </Link>
+            </div>
+          </section>
+
           <section className="py-16 max-w-3xl">
             <h2 className="text-3xl font-serif font-bold text-slate-900">
               {content.problemTitle}

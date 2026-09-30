@@ -32,6 +32,8 @@ export const routing = defineRouting({
     "/programs/workshops/first-offer": "/programs/workshops/first-offer",
     "/website-design": "/website-design",
     "/website-package": "/website-package",
+    "/tools/website-visibility-snapshot":
+      "/tools/website-visibility-snapshot",
     "/about": "/about",
     "/partners": "/partners",
     "/assessment": "/assessment",

@@ -72,7 +72,7 @@ export default function HomeOurWork() {
                   <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-700">
                     {t('liveBadge')}
                   </span>
-                  <span className="text-[11px] text-slate-400 truncate">{item.domain}</span>
+                  <span className="text-[11px] text-slate-600 truncate">{item.domain}</span>
                 </div>
                 <BrowserFrame
                   imageUrl={item.imageUrl}
@@ -80,7 +80,6 @@ export default function HomeOurWork() {
                   domain={item.domain}
                   href={item.tryUrl}
                   openLabel={t('openLive')}
-                  priority={index === 0}
                 />
                 <div className="mt-4 px-1 flex-1 flex flex-col">
                   <h4 className="text-base font-serif font-bold text-slate-900">{name}</h4>

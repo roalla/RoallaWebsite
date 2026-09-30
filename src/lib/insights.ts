@@ -285,8 +285,11 @@ export const INSIGHT_ENGAGEMENT_SLUGS: readonly InsightSlug[] = [
   "process-optimization",
 ];
 
+/** Homepage cards are ~380px wide. Serve a 2x file instead of the full OG image. */
 export function insightCoverImage(slug: InsightSlug): string {
-  return INSIGHT_OG_IMAGES[slug] ?? OG_IMAGE;
+  const full = INSIGHT_OG_IMAGES[slug]
+  if (!full) return OG_IMAGE
+  return full.replace('/images/insights/library/', '/images/insights/cards/')
 }
 
 export function insightFromEngagement(slug: InsightSlug): boolean {

@@ -17,8 +17,9 @@ const heroDir = path.join(__dirname, '../public/images/Hero')
 const manifestPath = path.join(__dirname, '../src/lib/heroSlideshow.ts')
 
 const DESKTOP_MAX_WIDTH = 1920
-const MOBILE_MAX_WIDTH = 1080
-const QUALITY = 82
+const MOBILE_MAX_WIDTH = 828
+const DESKTOP_QUALITY = 82
+const MOBILE_QUALITY = 64
 const SOURCE_EXT = new Set(['.png', '.jpg', '.jpeg'])
 
 function slugifyBase(name) {
@@ -68,11 +69,11 @@ export const HERO_MOBILE_MAX_WIDTH_PX = 767
   )
 }
 
-async function convertSource(inputPath, outputPath, maxWidth) {
+async function convertSource(inputPath, outputPath, maxWidth, quality) {
   const before = fs.statSync(inputPath).size
   await sharp(inputPath)
     .resize({ width: maxWidth, withoutEnlargement: true })
-    .webp({ quality: QUALITY, effort: 4 })
+    .webp({ quality, effort: 6 })
     .toFile(outputPath)
   const after = fs.statSync(outputPath).size
   return { before, after }
@@ -127,8 +128,8 @@ async function optimizeHeroImages() {
     const desktopOut = path.join(heroDir, desktopSlug)
     const mobileOut = path.join(heroDir, mobileSlug)
 
-    const desk = await convertSource(path.join(heroDir, slot.desktop), desktopOut, DESKTOP_MAX_WIDTH)
-    const mob = await convertSource(path.join(heroDir, slot.mobile), mobileOut, MOBILE_MAX_WIDTH)
+    const desk = await convertSource(path.join(heroDir, slot.desktop), desktopOut, DESKTOP_MAX_WIDTH, DESKTOP_QUALITY)
+    const mob = await convertSource(path.join(heroDir, slot.mobile), mobileOut, MOBILE_MAX_WIDTH, MOBILE_QUALITY)
     totalBefore += desk.before + mob.before
     totalAfter += desk.after + mob.after
     producedWebp.add(desktopSlug)

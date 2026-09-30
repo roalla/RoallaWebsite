@@ -59,11 +59,11 @@ const Footer = () => {
               </span>
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed max-w-md">{tCommon('tagline')}</p>
-            <p className="mt-2 text-xs text-slate-500">{t('subtitle')}</p>
+            <p className="mt-2 text-xs text-slate-400">{t('subtitle')}</p>
           </div>
 
           <div className="md:col-span-3 lg:col-span-2">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 mb-4">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400 mb-4">
               {t('exploreLabel')}
             </p>
             <nav className="flex flex-col gap-2.5" aria-label={t('exploreLabel')}>
@@ -80,7 +80,7 @@ const Footer = () => {
           </div>
 
           <div className="md:col-span-2 lg:col-span-2">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 mb-4">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400 mb-4">
               {t('companyLabel')}
             </p>
             <nav className="flex flex-col gap-2.5" aria-label={t('companyLabel')}>
@@ -97,7 +97,7 @@ const Footer = () => {
           </div>
 
           <div className="md:col-span-4 lg:col-span-4">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 mb-4">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400 mb-4">
               {t('contactLabel')}
             </p>
             <ul className="space-y-3 mb-6">
@@ -148,30 +148,30 @@ const Footer = () => {
             >
               {tCommon('scheduleConsultationDigital')}
             </ScheduleButton>
-            <p className="mt-2 text-xs text-slate-500">{tCommon('ctaSubtext')}</p>
+            <p className="mt-2 text-xs text-slate-400">{tCommon('ctaSubtext')}</p>
           </div>
         </div>
 
         <div className="py-5 border-t border-white/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <p className="text-xs text-slate-500" suppressHydrationWarning>
+          <p className="text-xs text-slate-400" suppressHydrationWarning>
             {t('copyright', { year: currentYear })}
           </p>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <Link
               href="/terms"
-              className="text-xs font-medium text-slate-500 hover:text-primary transition-colors w-fit"
+              className="text-xs font-medium text-slate-400 hover:text-primary transition-colors w-fit"
             >
               {t('terms')}
             </Link>
             <Link
               href="/privacy"
-              className="text-xs font-medium text-slate-500 hover:text-primary transition-colors w-fit"
+              className="text-xs font-medium text-slate-400 hover:text-primary transition-colors w-fit"
             >
               {t('privacy')}
             </Link>
             <Link
               href="/ai-policy"
-              className="text-xs font-medium text-slate-500 hover:text-primary transition-colors w-fit"
+              className="text-xs font-medium text-slate-400 hover:text-primary transition-colors w-fit"
             >
               {t('aiPolicy')}
             </Link>
@@ -185,13 +185,13 @@ const Footer = () => {
             </a>
             <Link
               href="/hub/login"
-              className="inline-flex items-center gap-1 text-xs font-medium text-slate-500 hover:text-primary transition-colors w-fit"
+              className="inline-flex items-center gap-1 text-xs font-medium text-slate-400 hover:text-primary transition-colors w-fit"
             >
               {t('teamSignIn')}
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-1 text-xs font-medium text-slate-500 hover:text-primary transition-colors w-fit"
+              className="inline-flex items-center gap-1 text-xs font-medium text-slate-400 hover:text-primary transition-colors w-fit"
             >
               {t('contact')}
               <ArrowUpRight className="w-3.5 h-3.5" aria-hidden />

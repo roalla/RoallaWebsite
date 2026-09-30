@@ -1,5 +1,6 @@
 import React from 'react'
 import type { Metadata } from 'next'
+import { headers } from 'next/headers'
 import { Figtree, Sora } from 'next/font/google'
 import './globals.css'
 import { NextIntlClientProvider } from 'next-intl'
@@ -11,6 +12,7 @@ import JsonLd from '@/components/JsonLd'
 import { getHeaderInsightSlugs } from '@/lib/header-insights-store'
 import { organizationJsonLd, websiteJsonLd } from '@/lib/structured-data'
 import { OG_IMAGE, OG_IMAGE_ALT, SITE_URL } from '@/lib/site'
+import { trustedTypesBootstrap } from '@/lib/security-headers'
 
 const figtree = Figtree({
   subsets: ['latin'],
@@ -121,10 +123,12 @@ export default async function RootLayout({
   const messages = await getMessages()
   const locale = await getLocale()
   const featuredInsightSlugs = await getHeaderInsightSlugs()
+  const nonce = (await headers()).get('x-nonce') ?? undefined
 
   return (
     <html lang={locale} className={`${figtree.variable} ${sora.variable} font-sans`}>
       <head>
+        <script nonce={nonce} dangerouslySetInnerHTML={{ __html: trustedTypesBootstrap }} />
         <JsonLd data={[organizationJsonLd, websiteJsonLd]} />
         <link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml" />
         <link rel="icon" href="/favicon.ico?v=3" sizes="any" />

@@ -2,15 +2,15 @@
 export const HERO_SLIDES = [
   {
     desktop: '/images/Hero/roalla-hero-homepage-desktop-1.webp',
-    mobile: '/images/Hero/roalla-hero-homepage-mobile-1.webp',
+    mobile: '/images/Hero/roalla-hero-homepage-mobile-1-828.webp',
   },
   {
     desktop: '/images/Hero/roalla-hero-homepage-desktop-2.webp',
-    mobile: '/images/Hero/roalla-hero-homepage-mobile-2.webp',
+    mobile: '/images/Hero/roalla-hero-homepage-mobile-2-828.webp',
   },
   {
     desktop: '/images/Hero/roalla-hero-homepage-desktop-3.webp',
-    mobile: '/images/Hero/roalla-hero-homepage-mobile-3.webp',
+    mobile: '/images/Hero/roalla-hero-homepage-mobile-3-828.webp',
   },
 ] as const
 

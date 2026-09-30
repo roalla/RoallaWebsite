@@ -6,8 +6,9 @@
   --roalla-color-paper: #f4f7fb;
   --roalla-color-surface: #ffffff;
   --roalla-color-brand: #00b4c5;
-  --roalla-color-brand-deep: #007a87;
-  --roalla-color-brand-mid: #0099a8;
+  /* Mid/deep clear WCAG AA (4.5:1) for small text on white and white text on filled buttons. */
+  --roalla-color-brand-deep: #005f69;
+  --roalla-color-brand-mid: #007a87;
   --roalla-color-brand-soft: #d9f6f9;
   --roalla-color-brand-faint: #eefbfd;
   --roalla-color-accent: #f5c518;

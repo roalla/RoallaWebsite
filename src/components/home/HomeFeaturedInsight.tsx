@@ -46,18 +46,23 @@ export default function HomeFeaturedInsight() {
   }, [canRotate, isPaused, advance])
 
   useEffect(() => {
-    const upcoming = visibleSlugs(activeIndex).concat(
-      visibleSlugs((activeIndex + 1) % INSIGHT_SLUGS.length),
-    )
-    const urls: string[] = []
-    for (const slug of upcoming) {
-      const url = insightCoverImage(slug)
-      if (!urls.includes(url)) urls.push(url)
+    let timeoutId = 0
+    const preloadUpcoming = () => {
+      const upcoming = visibleSlugs((activeIndex + VISIBLE_COUNT) % INSIGHT_SLUGS.length)
+      for (const slug of upcoming) {
+        const preload = new window.Image()
+        preload.decoding = 'async'
+        preload.src = insightCoverImage(slug)
+      }
     }
-    for (const url of urls) {
-      const preload = new window.Image()
-      preload.decoding = 'async'
-      preload.src = url
+    const start = () => {
+      timeoutId = window.setTimeout(preloadUpcoming, 2000)
+    }
+    if (document.readyState === 'complete') start()
+    else window.addEventListener('load', start, { once: true })
+    return () => {
+      window.removeEventListener('load', start)
+      window.clearTimeout(timeoutId)
     }
   }, [activeIndex])
 

@@ -34,7 +34,7 @@ export default function BrowserFrame({
         <span className="w-2.5 h-2.5 rounded-full bg-red-400/80" aria-hidden />
         <span className="w-2.5 h-2.5 rounded-full bg-amber-400/80" aria-hidden />
         <span className="w-2.5 h-2.5 rounded-full bg-emerald-400/80" aria-hidden />
-        <span className="ml-2 flex-1 h-5 rounded-md bg-white border border-slate-200 text-[10px] text-slate-400 flex items-center px-2 truncate">
+        <span className="ml-2 flex-1 h-5 rounded-md bg-white border border-slate-200 text-[10px] text-slate-600 flex items-center px-2 truncate">
           {domain ?? (brandPreview ? 'roalla.com' : 'live preview')}
         </span>
       </div>

@@ -65,12 +65,12 @@ export default function StickyMobileCTA({
       {anchorHref ? (
         <a href={anchorHref} className={buttonClass}>
           <span>{label}</span>
-          {sublabel && <span className="mt-0.5 text-[11px] font-normal text-white/85">{sublabel}</span>}
+          {sublabel && <span className="mt-0.5 text-[11px] font-normal text-white">{sublabel}</span>}
         </a>
       ) : (
         <Link href={linkHref} className={buttonClass}>
           <span>{label}</span>
-          {sublabel && <span className="mt-0.5 text-[11px] font-normal text-white/85">{sublabel}</span>}
+          {sublabel && <span className="mt-0.5 text-[11px] font-normal text-white">{sublabel}</span>}
         </Link>
       )}
     </div>

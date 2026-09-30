@@ -106,7 +106,6 @@ export default function HomeWhatWeDo() {
                     domain={example.domain}
                     href={example.tryUrl}
                     openLabel={t('seeExample')}
-                    priority={index === 0}
                     className="!rounded-xl !shadow-none !border-0"
                   />
                 </div>
@@ -118,7 +117,7 @@ export default function HomeWhatWeDo() {
                   <div className="min-w-0">
                     <h3 className="text-base font-serif font-bold text-slate-900">{t(card.titleKey)}</h3>
                     <p className="mt-1 text-sm text-slate-600 leading-snug">{t(card.descKey)}</p>
-                    <p className="mt-2 text-[11px] font-semibold uppercase tracking-wider text-primary-dark/80">
+                    <p className="mt-2 text-[11px] font-semibold uppercase tracking-wider text-primary-dark">
                       {t(card.stackKey)}
                     </p>
                   </div>
@@ -129,7 +128,7 @@ export default function HomeWhatWeDo() {
                     href={example.tryUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center text-sm text-primary font-semibold hover:underline"
+                    className="inline-flex items-center text-sm text-primary-dark font-semibold hover:text-primary-darker hover:underline"
                   >
                     {t('seeExample')}
                     <span className="sr-only">: {exampleName}</span>

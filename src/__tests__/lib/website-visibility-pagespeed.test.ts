@@ -1,6 +1,8 @@
 import {
   PageSpeedProviderError,
+  analyzePageSpeed,
   normalizePageSpeedResponse,
+  pageSpeedEndpoint,
 } from "@/lib/website-visibility/pagespeed";
 
 describe("normalizePageSpeedResponse", () => {
@@ -68,5 +70,42 @@ describe("normalizePageSpeedResponse", () => {
     expect(() => normalizePageSpeedResponse({}, "https://example.com/", "desktop")).toThrow(
       PageSpeedProviderError,
     );
+  });
+});
+
+describe("pageSpeedEndpoint", () => {
+  const target = new URL("https://www.roalla.com/");
+
+  it("omits the API key when none is configured", () => {
+    const endpoint = pageSpeedEndpoint(target, "mobile");
+    expect(endpoint.searchParams.get("url")).toBe("https://www.roalla.com/");
+    expect(endpoint.searchParams.has("key")).toBe(false);
+    expect(endpoint.searchParams.getAll("category")).toEqual([
+      "performance",
+      "accessibility",
+      "best-practices",
+      "seo",
+    ]);
+  });
+
+  it("sends a server-side API key to PageSpeed", async () => {
+    let called = "";
+    const fetcher = async (input: RequestInfo | URL) => {
+      called = String(input);
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({
+          lighthouseResult: { categories: { performance: { score: 0.9 } } },
+        }),
+      } as Response;
+    };
+
+    await analyzePageSpeed(target, "desktop", fetcher as typeof fetch, "test-key");
+
+    const endpoint = new URL(called);
+    expect(endpoint.searchParams.get("key")).toBe("test-key");
+    expect(endpoint.searchParams.get("strategy")).toBe("desktop");
+    expect(endpoint.searchParams.get("url")).toBe("https://www.roalla.com/");
   });
 });

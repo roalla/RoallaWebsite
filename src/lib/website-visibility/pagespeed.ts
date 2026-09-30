@@ -161,11 +161,7 @@ export function normalizePageSpeedResponse(
   };
 }
 
-export async function analyzePageSpeed(
-  target: URL,
-  strategy: PageSpeedStrategy,
-  fetcher: typeof fetch = fetch,
-): Promise<WebsiteVisibilitySnapshot> {
+export function pageSpeedEndpoint(target: URL, strategy: PageSpeedStrategy, apiKey?: string) {
   const endpoint = new URL(
     "https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed",
   );
@@ -174,11 +170,25 @@ export async function analyzePageSpeed(
   for (const category of ["performance", "accessibility", "best-practices", "seo"]) {
     endpoint.searchParams.append("category", category);
   }
+  const key = apiKey?.trim();
+  if (key) endpoint.searchParams.set("key", key);
+  return endpoint;
+}
 
+export async function analyzePageSpeed(
+  target: URL,
+  strategy: PageSpeedStrategy,
+  fetcher: typeof fetch = fetch,
+  apiKey = process.env.PAGESPEED_API_KEY,
+): Promise<WebsiteVisibilitySnapshot> {
+  const endpoint = pageSpeedEndpoint(target, strategy, apiKey);
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 45_000);
   let response: Response;
   try {
     response = await fetcher(endpoint, {
-      signal: AbortSignal.timeout(45_000),
+      signal: controller.signal,
       headers: { Accept: "application/json" },
       cache: "no-store",
     });
@@ -186,12 +196,17 @@ export async function analyzePageSpeed(
     throw new PageSpeedProviderError(
       "The PageSpeed service did not respond in time. Try again shortly.",
     );
+  } finally {
+    clearTimeout(timer);
   }
 
   if (!response.ok) {
+    console.error(
+      `[visibility-snapshot] PageSpeed upstream status=${response.status} keyed=${Boolean(apiKey?.trim())}`,
+    );
     throw new PageSpeedProviderError(
       response.status === 429
-        ? "The PageSpeed service is temporarily busy. Try again in a few minutes."
+        ? "The snapshot service has reached its daily analysis limit. Please try again later."
         : "The PageSpeed service could not analyze this page right now.",
     );
   }

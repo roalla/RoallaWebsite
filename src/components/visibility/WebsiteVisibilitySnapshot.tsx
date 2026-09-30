@@ -112,7 +112,7 @@ export default function WebsiteVisibilitySnapshot({ locale }: { locale: string }
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url, strategy, website: form.get("website") }),
       });
-      const payload = (await response.json()) as {
+      const payload = (await response.json().catch(() => ({}))) as {
         snapshot?: Snapshot;
         cached?: boolean;
         error?: string;

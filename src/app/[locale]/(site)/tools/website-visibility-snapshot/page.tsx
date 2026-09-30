@@ -69,7 +69,7 @@ export default async function WebsiteVisibilitySnapshotPage({ params }: Props) {
           <div className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-primary/20 blur-3xl" aria-hidden />
           <div className="relative max-w-4xl">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-light">{page.eyebrow}</p>
-            <h1 className="mt-4 text-4xl font-serif font-bold leading-tight md:text-5xl">{page.title}</h1>
+            <h1 className="mt-4 text-4xl font-serif font-bold leading-tight text-white md:text-5xl">{page.title}</h1>
             <p className="mt-5 max-w-3xl text-lg leading-relaxed text-slate-300">{page.subtitle}</p>
           </div>
         </header>

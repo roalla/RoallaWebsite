@@ -79,7 +79,8 @@ export async function POST(request: NextRequest) {
       return response({ error: error.message }, 422);
     }
     if (error instanceof PageSpeedProviderError) {
-      return response({ error: error.message }, 502);
+      // 503 keeps the JSON body. Cloudflare replaces an origin 502 with plain text "error code: 502".
+      return response({ error: error.message }, 503);
     }
     return response(
       { error: "The snapshot could not be completed. Please try again." },

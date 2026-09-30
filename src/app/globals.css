@@ -1,5 +1,8 @@
 @import "@roalla/design-system/tokens.css";
 
+/* Pin this sheet to the homepage config. Tailwind keeps one plugin instance, so site.css @config would otherwise leak in and blocklist these utilities. */
+@config "../../tailwind.config.js";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

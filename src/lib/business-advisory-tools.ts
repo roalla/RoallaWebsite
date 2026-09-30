@@ -31,4 +31,3 @@ export function technologyDecisionPriorities(input: TechnologyBriefInput) {
   if (input.urgency === "urgent" || input.urgency === "three-months") priorities.push("Transition risk, interim controls, and realistic decision milestones");
   return priorities;
 }
-

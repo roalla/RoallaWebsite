@@ -7,6 +7,7 @@ import {
   Download,
   Gauge,
   LoaderCircle,
+  RefreshCw,
   SearchCheck,
   Share2,
 } from "lucide-react";
@@ -31,6 +32,67 @@ type TechnicalResponse = {
   error?: string;
 };
 
+type SnapshotHistory = {
+  checkedAt: string;
+  mobilePerformance: number | null;
+  desktopPerformance: number | null;
+  socialScore: number | null;
+};
+
+type CompetitorResult = {
+  url: string;
+  technical: TechnicalResponse | null;
+  social: SocialPresenceSnapshot | null;
+};
+
+const HISTORY_PREFIX = "roalla-digital-snapshot:";
+
+function storageKey(value: string) {
+  try {
+    const candidate = /^https?:\/\//i.test(value) ? value : `https://${value}`;
+    const parsed = new URL(candidate);
+    parsed.search = "";
+    parsed.hash = "";
+    return `${HISTORY_PREFIX}${parsed.toString()}`;
+  } catch {
+    return `${HISTORY_PREFIX}${value.trim().toLowerCase()}`;
+  }
+}
+
+function readHistory(value: string): SnapshotHistory | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const stored = window.localStorage.getItem(storageKey(value));
+    return stored ? (JSON.parse(stored) as SnapshotHistory) : null;
+  } catch {
+    return null;
+  }
+}
+
+function saveHistory(
+  value: string,
+  technical: TechnicalResponse | null,
+  social: SocialPresenceSnapshot | null,
+) {
+  if (typeof window === "undefined") return;
+  const history: SnapshotHistory = {
+    checkedAt: new Date().toISOString(),
+    mobilePerformance: technical?.mobile?.snapshot?.scores.performance ?? null,
+    desktopPerformance: technical?.desktop?.snapshot?.scores.performance ?? null,
+    socialScore: social?.score ?? null,
+  };
+  try {
+    window.localStorage.setItem(storageKey(value), JSON.stringify(history));
+  } catch {
+    // The report still works when private browsing blocks local storage.
+  }
+}
+
+function scoreDelta(current: number | null | undefined, previous: number | null | undefined) {
+  if (current == null || previous == null) return null;
+  return current - previous;
+}
+
 const scoreOrder: ScoreName[] = [
   "performance",
   "accessibility",
@@ -40,130 +102,226 @@ const scoreOrder: ScoreName[] = [
 
 const copy = {
   en: {
-    urlLabel: "Public website page",
+    urlLabel: "Your website address",
     placeholder: "https://example.com",
-    submit: "Run digital presence snapshot",
-    starting: "Starting both checks…",
-    both: "Checking technical visibility and social setup…",
-    technicalOnly: "Social setup is ready. Finishing mobile and desktop checks…",
-    socialOnly: "Technical results are ready. Finishing social setup checks…",
-    resultsTitle: "Your digital presence snapshot",
-    resultsIntro: "Two different lenses, one practical starting point. The scores remain separate because they measure different things.",
-    technicalTitle: "Website visibility",
-    technicalDescription: "Automated mobile and desktop technical signals",
-    socialTitle: "Social presence setup",
-    socialDescription: "Website-side profile discovery, sharing, and identity",
+    submit: "Check my website",
+    starting: "Starting your website check…",
+    both: "Checking your website and social sharing setup…",
+    technicalOnly: "Your social sharing results are ready. Finishing the website check…",
+    socialOnly: "Your website results are ready. Finishing the social sharing check…",
+    resultsTitle: "Your website results",
+    resultsIntro: "These scores show how your website works for visitors, search engines, and social sharing. Each area is shown separately so you can see what needs attention.",
+    technicalTitle: "Website experience",
+    technicalDescription: "How your website performs on phones and computers",
+    socialTitle: "Social sharing setup",
+    socialDescription: "How well your website connects to your social profiles and creates sharing previews",
     mobile: "Mobile",
     desktop: "Desktop",
     scoreLabels: {
-      performance: "Performance",
+      performance: "Lighthouse lab performance",
       accessibility: "Accessibility",
-      bestPractices: "Best practices",
-      seo: "Technical SEO",
+      bestPractices: "Reliability",
+      seo: "Search readiness",
     },
-    detailedTechnical: "Open detailed technical results",
-    detailedSocial: "Open detailed social results",
-    actionsTitle: "Three most useful next actions",
-    actionsIntro: "Prioritized by the size of the automated gap. Business context can change the order.",
+    detailedTechnical: "See the full website report",
+    detailedSocial: "See the full social sharing report",
+    notScored: "Not scored",
+    fresh: "Fresh Google test",
+    cached: "Result cached for up to 15 minutes",
+    tested: "Tested",
+    finalUrl: "Final page tested",
+    lighthouse: "Lighthouse version",
+    compareGoogle: "Compare this run with Google PageSpeed",
+    fieldTitle: "Real visitor experience",
+    fieldIntro: "Public Chrome visitor data from the previous 28 days",
+    fieldPage: "This page",
+    fieldOrigin: "Whole website",
+    noFieldData: "Google does not have enough public visitor data for this page yet.",
+    freshTest: "Run a fresh Google test",
+    freshHelp: "Performance can change between tests because traffic, hosting, and page content change. A fresh test bypasses ROALLA’s 15-minute cache.",
+    previousTitle: "Change since your previous check",
+    previousIntro: "Stored only in this browser. This comparison is not shared with ROALLA.",
+    previousChecked: "Previous check",
+    improved: "improved",
+    declined: "lower",
+    unchanged: "no change",
+    competitorTitle: "Compare with another public website",
+    competitorIntro: "Enter a competitor or peer website to compare the same public setup checks. This does not compare business quality, revenue, or market position.",
+    competitorLabel: "Website to compare",
+    competitorButton: "Compare websites",
+    competitorLoading: "Checking the comparison website…",
+    competitorError: "We could not complete the comparison. Check the website address and try again.",
+    yourWebsite: "Your website",
+    comparisonWebsite: "Comparison website",
+    mobilePerformance: "Mobile lab performance",
+    desktopPerformance: "Desktop lab performance",
+    socialScore: "Social sharing setup",
+    impact: "Likely impact",
+    effort: "Typical effort",
+    high: "High",
+    medium: "Medium",
+    low: "Low",
+    actionsTitle: "What to improve first",
+    actionsIntro: "Start with these three areas. They are likely to make the greatest difference based on this check.",
     fixNow: "Fix now",
     planNext: "Plan next",
-    automatedStrong: "The automated checks are strong. The highest-value next step is human review of strategy and conversion.",
-    humanTitle: "Needs human review",
+    automatedStrong: "Your results are strong. The next step is to make sure the message, content, and customer journey are helping visitors take action.",
+    humanTitle: "What the scores cannot tell you",
     human: [
-      "Whether the offer and content match customer intent",
-      "Which social channels deserve investment—and which do not",
-      "Trust, proof, brand voice, publishing quality, and conversion",
+      "Whether visitors quickly understand what you offer",
+      "Which social channels are right for your customers",
+      "Whether your content builds trust and encourages inquiries",
     ],
-    methodology: "How the snapshot works",
+    methodology: "How we calculate the results",
     methodologyBody:
-      "Website visibility uses Google PageSpeed Insights for mobile and desktop. Social presence evaluates the submitted public page for profile links, sharing metadata, structured identity, and canonical page signals. ROALLA does not combine these into one score or claim to measure strategy automatically.",
-    print: "Print or save report",
-    ctaTitle: "Turn these signals into a focused improvement plan.",
-    ctaBody: "ROALLA can validate the automated findings against your audience, offer, competitive context, content, and path to an inquiry.",
-    cta: "Ask ROALLA to prioritize the work",
-    partialTitle: "One part of the snapshot could not be completed",
-    technicalError: "Technical visibility could not be measured.",
-    socialError: "Social setup could not be measured.",
+      "Website category scores come from a Lighthouse lab test run by Google PageSpeed Insights. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. Social sharing results come from public information on the page you entered. These results stay separate because they measure different parts of your online presence.",
+    print: "Save my branded action plan",
+    reportLabel: "ROALLA Digital Presence Action Plan",
+    reportPrepared: "Prepared",
+    ctaTitle: "Get a free 15-minute review of your results",
+    ctaBody: "A ROALLA specialist will explain your biggest opportunity, answer your questions, and recommend a practical next step.",
+    ctaSteps: ["We review your results", "You receive one clear priority", "You decide whether to continue"],
+    ctaProof: "30+ years of business and technology experience across 500+ engagements.",
+    ctaReassurance: "Free review. No obligation. Personal reply within one business day.",
+    cta: "Request my free results review",
+    sprintEyebrow: "Optional paid next step",
+    sprintTitle: "Digital Presence Improvement Sprint",
+    sprintTimeline: "Focused delivery, usually 1 to 2 weeks after scope is confirmed",
+    sprintBody: "Turn the findings into a practical improvement plan with clear priorities, implementation guidance, and a follow-up check.",
+    sprintItems: ["Priority action plan", "Effort and implementation guidance", "Follow-up measurement"],
+    sprintPrice: "Scope and pricing are confirmed after your free results review.",
+    sprintCta: "Discuss the improvement sprint",
+    partialTitle: "We could not complete every part of the check",
+    technicalError: "We could not measure the website experience.",
+    socialError: "We could not measure the social sharing setup.",
     actionTechnical: {
-      performance: "Improve page speed and interaction readiness",
-      accessibility: "Address automated accessibility barriers",
-      bestPractices: "Correct browser and implementation best-practice gaps",
-      seo: "Strengthen the page’s technical SEO foundation",
+      performance: "Help the page load and respond faster",
+      accessibility: "Make the page easier for everyone to use",
+      bestPractices: "Improve website reliability and security",
+      seo: "Help search engines understand the page",
     },
     actionSocial: {
-      profileLinks: "Make priority social profiles discoverable from the website",
-      structuredProfiles: "Connect verified profiles through Organization sameAs data",
-      openGraph: "Complete the Open Graph sharing preview",
-      socialCards: "Complete dedicated social-card metadata",
-      organizationSchema: "Clarify the organization name and logo in structured data",
-      pageIdentity: "Complete the title, description, and canonical identity",
+      profileLinks: "Make your main social profiles easy to find",
+      structuredProfiles: "Help search engines connect your website to your social profiles",
+      openGraph: "Improve how your page looks when it is shared",
+      socialCards: "Add a clear image and message for social sharing",
+      organizationSchema: "Help search engines recognize your business name and logo",
+      pageIdentity: "Add a clear page title, description, and preferred address",
     },
-    actionWhyTechnical: "Lowest automated score: {score}/100 on {strategies}.",
-    actionWhySocial: "Current setup completeness for this check: {score}%.",
+    actionWhyTechnical: "Current score: {score}/100 on {strategies}.",
+    actionWhySocial: "Current score for this area: {score}%.",
     genericError: "The snapshot could not be completed. Please try again.",
     note: "Digital presence snapshot",
   },
   fr: {
-    urlLabel: "Page Web publique",
+    urlLabel: "Adresse de votre site Web",
     placeholder: "https://exemple.ca",
-    submit: "Lancer l’aperçu de présence numérique",
-    starting: "Démarrage des deux vérifications…",
-    both: "Vérification de la visibilité technique et de la configuration sociale…",
-    technicalOnly: "La configuration sociale est prête. Finalisation des vérifications mobile et ordinateur…",
-    socialOnly: "Les résultats techniques sont prêts. Finalisation de la configuration sociale…",
-    resultsTitle: "Votre aperçu de présence numérique",
-    resultsIntro: "Deux angles différents, un point de départ pratique. Les scores restent séparés puisqu’ils mesurent des éléments différents.",
-    technicalTitle: "Visibilité du site",
-    technicalDescription: "Signaux techniques automatisés mobile et ordinateur",
-    socialTitle: "Configuration de la présence sociale",
-    socialDescription: "Découverte des profils, partage et identité depuis le site",
+    submit: "Vérifier mon site",
+    starting: "Démarrage de la vérification…",
+    both: "Vérification de votre site et du partage social…",
+    technicalOnly: "Les résultats du partage social sont prêts. La vérification du site se termine…",
+    socialOnly: "Les résultats du site sont prêts. La vérification du partage social se termine…",
+    resultsTitle: "Les résultats de votre site",
+    resultsIntro: "Ces scores montrent comment votre site fonctionne pour les visiteurs, les moteurs de recherche et le partage social. Chaque aspect est présenté séparément pour faciliter la lecture.",
+    technicalTitle: "Expérience du site Web",
+    technicalDescription: "Le fonctionnement de votre site sur téléphone et ordinateur",
+    socialTitle: "Partage sur les réseaux sociaux",
+    socialDescription: "La façon dont votre site présente vos profils et crée des aperçus de partage",
     mobile: "Mobile",
     desktop: "Ordinateur",
     scoreLabels: {
-      performance: "Performance",
+      performance: "Performance de laboratoire Lighthouse",
       accessibility: "Accessibilité",
-      bestPractices: "Bonnes pratiques",
-      seo: "SEO technique",
+      bestPractices: "Fiabilité",
+      seo: "Préparation à la recherche",
     },
-    detailedTechnical: "Ouvrir les résultats techniques détaillés",
-    detailedSocial: "Ouvrir les résultats sociaux détaillés",
-    actionsTitle: "Trois prochaines actions les plus utiles",
-    actionsIntro: "Priorisées selon l’ampleur de l’écart automatisé. Le contexte d’affaires peut modifier l’ordre.",
+    detailedTechnical: "Voir le rapport complet du site",
+    detailedSocial: "Voir le rapport complet du partage social",
+    notScored: "Non évalué",
+    fresh: "Nouveau test Google",
+    cached: "Résultat conservé pendant un maximum de 15 minutes",
+    tested: "Vérifié",
+    finalUrl: "Page finale vérifiée",
+    lighthouse: "Version de Lighthouse",
+    compareGoogle: "Comparer ce test dans Google PageSpeed",
+    fieldTitle: "Expérience des visiteurs réels",
+    fieldIntro: "Données publiques des visiteurs Chrome des 28 derniers jours",
+    fieldPage: "Cette page",
+    fieldOrigin: "Tout le site",
+    noFieldData: "Google ne dispose pas encore de suffisamment de données publiques sur les visiteurs de cette page.",
+    freshTest: "Lancer un nouveau test Google",
+    freshHelp: "La performance peut changer entre les tests selon le trafic, l’hébergement et le contenu. Un nouveau test contourne la mise en cache de 15 minutes de ROALLA.",
+    previousTitle: "Changement depuis votre vérification précédente",
+    previousIntro: "Ces données sont conservées uniquement dans ce navigateur et ne sont pas transmises à ROALLA.",
+    previousChecked: "Vérification précédente",
+    improved: "amélioration",
+    declined: "baisse",
+    unchanged: "aucun changement",
+    competitorTitle: "Comparer avec un autre site public",
+    competitorIntro: "Entrez le site d’un concurrent ou d’une entreprise comparable pour appliquer les mêmes vérifications publiques. Cette comparaison ne mesure pas la qualité de l’entreprise, ses revenus ni sa position sur le marché.",
+    competitorLabel: "Site à comparer",
+    competitorButton: "Comparer les sites",
+    competitorLoading: "Vérification du site de comparaison…",
+    competitorError: "Nous n’avons pas pu terminer la comparaison. Vérifiez l’adresse du site et réessayez.",
+    yourWebsite: "Votre site",
+    comparisonWebsite: "Site de comparaison",
+    mobilePerformance: "Performance mobile en laboratoire",
+    desktopPerformance: "Performance ordinateur en laboratoire",
+    socialScore: "Configuration du partage social",
+    impact: "Impact probable",
+    effort: "Effort habituel",
+    high: "Élevé",
+    medium: "Moyen",
+    low: "Faible",
+    actionsTitle: "Les améliorations à faire en premier",
+    actionsIntro: "Commencez par ces trois aspects. Selon cette vérification, ce sont ceux qui pourraient faire la plus grande différence.",
     fixNow: "Corriger maintenant",
     planNext: "Planifier ensuite",
-    automatedStrong: "Les vérifications automatisées sont solides. La prochaine étape utile est un examen humain de la stratégie et de la conversion.",
-    humanTitle: "Exige un examen humain",
+    automatedStrong: "Vos résultats sont solides. La prochaine étape consiste à vérifier si le message, le contenu et le parcours client encouragent les visiteurs à agir.",
+    humanTitle: "Ce que les scores ne peuvent pas évaluer",
     human: [
-      "L’adéquation de l’offre et du contenu à l’intention client",
-      "Les canaux sociaux qui méritent un investissement—et ceux qui n’en méritent pas",
-      "La confiance, les preuves, la voix de marque, la qualité éditoriale et la conversion",
+      "La rapidité avec laquelle les visiteurs comprennent votre offre",
+      "Les réseaux sociaux les plus pertinents pour votre clientèle",
+      "La capacité du contenu à inspirer confiance et à générer des demandes",
     ],
-    methodology: "Comment fonctionne l’aperçu",
+    methodology: "Comment les résultats sont calculés",
     methodologyBody:
-      "La visibilité du site utilise Google PageSpeed Insights pour le mobile et l’ordinateur. La présence sociale évalue la page publique soumise pour les liens de profils, les métadonnées de partage, l’identité structurée et les signaux canoniques. ROALLA ne combine pas ces résultats en un seul score et ne prétend pas mesurer automatiquement la stratégie.",
-    print: "Imprimer ou enregistrer le rapport",
-    ctaTitle: "Transformez ces signaux en plan d’amélioration ciblé.",
-    ctaBody: "ROALLA peut valider les constats automatisés selon votre clientèle, votre offre, votre concurrence, votre contenu et le parcours vers une demande.",
-    cta: "Demander à ROALLA de prioriser le travail",
-    partialTitle: "Une partie de l’aperçu n’a pas pu être produite",
-    technicalError: "La visibilité technique n’a pas pu être mesurée.",
-    socialError: "La configuration sociale n’a pas pu être mesurée.",
+      "Les scores du site proviennent d’un test de laboratoire Lighthouse exécuté par Google PageSpeed Insights. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Les résultats du partage social proviennent des renseignements publics de la page entrée. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
+    print: "Enregistrer mon plan d’action ROALLA",
+    reportLabel: "Plan d’action de présence numérique ROALLA",
+    reportPrepared: "Préparé le",
+    ctaTitle: "Obtenez un examen gratuit de 15 minutes de vos résultats",
+    ctaBody: "Un spécialiste de ROALLA expliquera votre principale possibilité d’amélioration, répondra à vos questions et recommandera une prochaine étape pratique.",
+    ctaSteps: ["Nous examinons vos résultats", "Vous recevez une priorité claire", "Vous décidez si vous souhaitez poursuivre"],
+    ctaProof: "Plus de 30 ans d’expérience en affaires et en technologie dans plus de 500 mandats.",
+    ctaReassurance: "Examen gratuit. Sans obligation. Réponse personnelle dans un délai d’un jour ouvrable.",
+    cta: "Demander mon examen gratuit",
+    sprintEyebrow: "Prochaine étape payante optionnelle",
+    sprintTitle: "Sprint d’amélioration de la présence numérique",
+    sprintTimeline: "Livraison ciblée, généralement de 1 à 2 semaines après la confirmation de la portée",
+    sprintBody: "Transformez les constats en plan pratique avec des priorités claires, des conseils de mise en œuvre et une vérification de suivi.",
+    sprintItems: ["Plan d’action priorisé", "Effort et conseils de mise en œuvre", "Mesure de suivi"],
+    sprintPrice: "La portée et le prix sont confirmés après votre examen gratuit des résultats.",
+    sprintCta: "Discuter du sprint d’amélioration",
+    partialTitle: "Nous n’avons pas pu terminer toutes les vérifications",
+    technicalError: "Nous n’avons pas pu mesurer l’expérience du site.",
+    socialError: "Nous n’avons pas pu mesurer le partage social.",
     actionTechnical: {
-      performance: "Améliorer la vitesse et la réactivité de la page",
-      accessibility: "Corriger les obstacles d’accessibilité automatisés",
-      bestPractices: "Corriger les écarts de bonnes pratiques du navigateur et de mise en œuvre",
-      seo: "Renforcer la fondation du SEO technique",
+      performance: "Accélérer le chargement et la réaction de la page",
+      accessibility: "Rendre la page plus facile à utiliser pour tous",
+      bestPractices: "Améliorer la fiabilité et la sécurité du site",
+      seo: "Aider les moteurs de recherche à comprendre la page",
     },
     actionSocial: {
-      profileLinks: "Rendre les profils sociaux prioritaires découvrables depuis le site",
-      structuredProfiles: "Relier les profils vérifiés avec les données sameAs de l’organisation",
-      openGraph: "Compléter l’aperçu de partage Open Graph",
-      socialCards: "Compléter les métadonnées de cartes sociales",
-      organizationSchema: "Clarifier le nom et le logo de l’organisation dans les données structurées",
-      pageIdentity: "Compléter le titre, la description et l’identité canonique",
+      profileLinks: "Rendre vos principaux profils sociaux faciles à trouver",
+      structuredProfiles: "Aider les moteurs de recherche à relier votre site à vos profils sociaux",
+      openGraph: "Améliorer l’apparence de votre page lorsqu’elle est partagée",
+      socialCards: "Ajouter une image et un message clairs pour le partage social",
+      organizationSchema: "Aider les moteurs de recherche à reconnaître votre entreprise et son logo",
+      pageIdentity: "Ajouter un titre, une description et une adresse de page clairs",
     },
-    actionWhyTechnical: "Score automatisé le plus faible : {score}/100 sur {strategies}.",
-    actionWhySocial: "Complétude actuelle de cette vérification : {score} %.",
+    actionWhyTechnical: "Score actuel : {score}/100 sur {strategies}.",
+    actionWhySocial: "Score actuel pour cet aspect : {score} %.",
     genericError: "L’aperçu n’a pas pu être produit. Veuillez réessayer.",
     note: "Aperçu de présence numérique",
   },
@@ -197,6 +355,11 @@ export default function DigitalPresenceSnapshot({
   const [technicalLoading, setTechnicalLoading] = useState(false);
   const [socialLoading, setSocialLoading] = useState(false);
   const [started, setStarted] = useState(false);
+  const [previous, setPrevious] = useState<SnapshotHistory | null>(null);
+  const [competitorUrl, setCompetitorUrl] = useState("");
+  const [competitor, setCompetitor] = useState<CompetitorResult | null>(null);
+  const [competitorLoading, setCompetitorLoading] = useState(false);
+  const [competitorError, setCompetitorError] = useState("");
   const resultsRef = useRef<HTMLElement>(null);
 
   const technicalSnapshots = useMemo(
@@ -216,10 +379,10 @@ export default function DigitalPresenceSnapshot({
     }
   }, [started, technicalLoading, socialLoading, technical, social]);
 
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const body = JSON.stringify({ url, website: form.get("website") });
+  async function runSnapshot(forceFresh = false, honeypot: FormDataEntryValue | null = "") {
+    const body = JSON.stringify({ url, website: honeypot, fresh: forceFresh });
+    const previousResult = readHistory(url);
+    setPrevious(previousResult);
     setStarted(true);
     setTechnical(null);
     setSocial(null);
@@ -227,7 +390,10 @@ export default function DigitalPresenceSnapshot({
     setSocialError("");
     setTechnicalLoading(true);
     setSocialLoading(true);
-    trackAnalyticsEvent("digital_snapshot_started");
+    trackAnalyticsEvent(forceFresh ? "digital_snapshot_fresh" : "digital_snapshot_started");
+
+    let completedTechnical: TechnicalResponse | null = null;
+    let completedSocial: SocialPresenceSnapshot | null = null;
 
     const technicalRequest = fetch("/api/website-visibility-snapshot", {
       method: "POST",
@@ -239,6 +405,7 @@ export default function DigitalPresenceSnapshot({
         if (!payload.mobile?.snapshot && !payload.desktop?.snapshot) {
           throw new Error(payload.error || t.technicalError);
         }
+        completedTechnical = payload;
         setTechnical(payload);
       })
       .catch((error) => setTechnicalError(error instanceof Error ? error.message : t.technicalError))
@@ -255,13 +422,62 @@ export default function DigitalPresenceSnapshot({
           error?: string;
         };
         if (!response.ok || !payload.snapshot) throw new Error(payload.error || t.socialError);
+        completedSocial = payload.snapshot;
         setSocial(payload.snapshot);
       })
       .catch((error) => setSocialError(error instanceof Error ? error.message : t.socialError))
       .finally(() => setSocialLoading(false));
 
     await Promise.allSettled([technicalRequest, socialRequest]);
+    if (completedTechnical || completedSocial) {
+      saveHistory(url, completedTechnical, completedSocial);
+    }
     trackAnalyticsEvent("digital_snapshot_completed");
+  }
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    await runSnapshot(false, form.get("website"));
+  }
+
+  async function compareWebsite(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setCompetitorLoading(true);
+    setCompetitorError("");
+    setCompetitor(null);
+    try {
+      const body = JSON.stringify({ url: competitorUrl });
+      const [technicalResponse, socialResponse] = await Promise.all([
+        fetch("/api/website-visibility-snapshot", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body,
+        }),
+        fetch("/api/social-presence-snapshot", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body,
+        }),
+      ]);
+      const technicalPayload = (await technicalResponse.json().catch(() => ({}))) as TechnicalResponse;
+      const socialPayload = (await socialResponse.json().catch(() => ({}))) as {
+        snapshot?: SocialPresenceSnapshot;
+      };
+      if (!technicalPayload.mobile?.snapshot && !technicalPayload.desktop?.snapshot && !socialPayload.snapshot) {
+        throw new Error(t.competitorError);
+      }
+      setCompetitor({
+        url: competitorUrl,
+        technical: technicalPayload,
+        social: socialPayload.snapshot ?? null,
+      });
+      trackAnalyticsEvent("digital_snapshot_compared");
+    } catch {
+      setCompetitorError(t.competitorError);
+    } finally {
+      setCompetitorLoading(false);
+    }
   }
 
   const loadingMessage = technicalLoading && socialLoading
@@ -274,8 +490,38 @@ export default function DigitalPresenceSnapshot({
   const resultUrl = social?.finalUrl || technicalSnapshots[0]?.finalUrl || url;
   const detailQuery = { url: resultUrl };
   const note = `${t.note}: ${resultUrl}. ${technicalSnapshots
-    .map((snapshot) => `${snapshot.strategy} ${scoreOrder.map((name) => `${name} ${snapshot.scores[name] ?? "—"}`).join(", ")}`)
+    .map((snapshot) => `${snapshot.strategy} ${scoreOrder.map((name) => `${name} ${snapshot.scores[name] ?? t.notScored}`).join(", ")}`)
     .join(". ")}${social ? `. social ${social.score}/100` : ""}`.slice(0, 420);
+  const dateFormatter = new Intl.DateTimeFormat(language === "fr" ? "fr-CA" : "en-CA", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
+  const currentMobilePerformance = technical?.mobile?.snapshot?.scores.performance ?? null;
+  const currentDesktopPerformance = technical?.desktop?.snapshot?.scores.performance ?? null;
+  const comparisonRows = [
+    {
+      label: t.mobilePerformance,
+      primary: currentMobilePerformance,
+      comparison: competitor?.technical?.mobile?.snapshot?.scores.performance ?? null,
+    },
+    {
+      label: t.desktopPerformance,
+      primary: currentDesktopPerformance,
+      comparison: competitor?.technical?.desktop?.snapshot?.scores.performance ?? null,
+    },
+    {
+      label: t.socialScore,
+      primary: social?.score ?? null,
+      comparison: competitor?.social?.score ?? null,
+    },
+  ];
+  const historyRows = previous
+    ? [
+        { label: t.mobilePerformance, current: currentMobilePerformance, old: previous.mobilePerformance },
+        { label: t.desktopPerformance, current: currentDesktopPerformance, old: previous.desktopPerformance },
+        { label: t.socialScore, current: social?.score ?? null, old: previous.socialScore },
+      ]
+    : [];
 
   return (
     <div className="space-y-8">
@@ -299,15 +545,26 @@ export default function DigitalPresenceSnapshot({
       {started && (technical || social || technicalError || socialError) ? (
         <section ref={resultsRef} tabIndex={-1} className="space-y-7 outline-none" aria-live="polite">
           <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+            <div className="hidden border-b border-slate-200 pb-4 print:block">
+              <p className="text-sm font-bold uppercase tracking-wide text-primary-dark">{t.reportLabel}</p>
+              <p className="mt-1 break-all text-sm text-slate-600">{resultUrl}</p>
+              <p className="mt-1 text-xs text-slate-500">{t.reportPrepared} {dateFormatter.format(new Date())}</p>
+            </div>
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <h2 className="text-3xl font-serif font-bold text-slate-950">{t.resultsTitle}</h2>
                 <p className="mt-2 max-w-3xl text-slate-700">{t.resultsIntro}</p>
               </div>
-              <button type="button" onClick={() => window.print()} className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-primary hover:text-primary-dark print:hidden">
-                <Download className="h-4 w-4" aria-hidden />{t.print}
-              </button>
+              <div className="flex shrink-0 flex-col gap-2 print:hidden">
+                <button type="button" disabled={technicalLoading || socialLoading} onClick={() => runSnapshot(true)} className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-primary/30 px-4 py-2 text-sm font-semibold text-primary-dark hover:border-primary disabled:opacity-60">
+                  <RefreshCw className={`h-4 w-4 ${technicalLoading || socialLoading ? "animate-spin" : ""}`} aria-hidden />{t.freshTest}
+                </button>
+                <button type="button" onClick={() => window.print()} className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-primary hover:text-primary-dark">
+                  <Download className="h-4 w-4" aria-hidden />{t.print}
+                </button>
+              </div>
             </div>
+            <p className="mt-4 text-xs leading-5 text-slate-500 print:hidden">{t.freshHelp}</p>
           </div>
 
           {(technicalError || socialError) ? (
@@ -326,19 +583,46 @@ export default function DigitalPresenceSnapshot({
               </div>
               {technicalSnapshots.length ? (
                 <div className="mt-6 space-y-5">
-                  {technicalSnapshots.map((snapshot) => (
-                    <div key={snapshot.strategy}>
-                      <h3 className="font-semibold text-slate-950">{snapshot.strategy === "mobile" ? t.mobile : t.desktop}</h3>
+                  {technicalSnapshots.map((snapshot) => {
+                    const report = snapshot.strategy === "mobile" ? technical?.mobile : technical?.desktop;
+                    const googleUrl = `https://pagespeed.web.dev/analysis?url=${encodeURIComponent(snapshot.finalUrl)}&form_factor=${snapshot.strategy}`;
+                    return (
+                    <div key={snapshot.strategy} className="rounded-xl border border-slate-200 p-4">
+                      <div className="flex flex-wrap items-start justify-between gap-2">
+                        <h3 className="font-semibold text-slate-950">{snapshot.strategy === "mobile" ? t.mobile : t.desktop}</h3>
+                        <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${report?.cached ? "bg-amber-50 text-amber-800" : "bg-emerald-50 text-emerald-800"}`}>
+                          {report?.cached ? t.cached : t.fresh}
+                        </span>
+                      </div>
                       <dl className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
                         {scoreOrder.map((name) => (
                           <div key={name} className="rounded-lg bg-slate-50 p-3">
                             <dt className="text-[11px] font-semibold text-slate-500">{t.scoreLabels[name]}</dt>
-                            <dd className={`mt-1 text-2xl font-bold ${scoreTone(snapshot.scores[name])}`}>{snapshot.scores[name] ?? "—"}</dd>
+                            <dd className={`mt-1 text-2xl font-bold ${scoreTone(snapshot.scores[name])}`}>{snapshot.scores[name] ?? t.notScored}</dd>
                           </div>
                         ))}
                       </dl>
+                      <dl className="mt-4 grid gap-2 text-xs text-slate-600">
+                        <div><dt className="inline font-semibold text-slate-700">{t.tested}: </dt><dd className="inline">{dateFormatter.format(new Date(snapshot.analyzedAt))}</dd></div>
+                        <div><dt className="inline font-semibold text-slate-700">{t.finalUrl}: </dt><dd className="inline break-all">{snapshot.finalUrl}</dd></div>
+                        {snapshot.lighthouseVersion ? <div><dt className="inline font-semibold text-slate-700">{t.lighthouse}: </dt><dd className="inline">{snapshot.lighthouseVersion}</dd></div> : null}
+                      </dl>
+                      <div className="mt-4 rounded-lg bg-slate-50 p-3">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <h4 className="text-sm font-semibold text-slate-900">{t.fieldTitle}</h4>
+                          {snapshot.fieldMetrics.length ? <span className="text-[11px] font-semibold text-slate-500">{snapshot.fieldScope === "page" ? t.fieldPage : t.fieldOrigin}</span> : null}
+                        </div>
+                        <p className="mt-1 text-xs text-slate-500">{t.fieldIntro}</p>
+                        {snapshot.fieldMetrics.length ? (
+                          <dl className="mt-3 grid gap-2 sm:grid-cols-3">
+                            {snapshot.fieldMetrics.map((metric) => <div key={metric.key}><dt className="text-[11px] text-slate-500">{metric.label}</dt><dd className="font-semibold text-slate-900">{metric.displayValue}</dd></div>)}
+                          </dl>
+                        ) : <p className="mt-3 text-xs text-slate-600">{t.noFieldData}</p>}
+                      </div>
+                      <a href={googleUrl} target="_blank" rel="noreferrer" className="mt-4 inline-flex text-sm font-semibold text-primary-dark underline underline-offset-4 print:hidden">{t.compareGoogle}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></a>
                     </div>
-                  ))}
+                    );
+                  })}
                   <Link href={{ pathname: "/tools/website-visibility-snapshot", query: detailQuery }} className="inline-flex font-semibold text-primary-dark underline underline-offset-4 print:hidden">{t.detailedTechnical}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></Link>
                 </div>
               ) : technicalLoading ? <p className="mt-6 text-sm text-slate-600">{loadingMessage}</p> : <p className="mt-6 text-sm text-slate-600">{t.technicalError}</p>}
@@ -366,6 +650,41 @@ export default function DigitalPresenceSnapshot({
             </article>
           </div>
 
+          {historyRows.some((row) => row.current != null && row.old != null) ? (
+            <article className="rounded-2xl border border-primary/20 bg-primary/[0.04] p-6 sm:p-8">
+              <h2 className="text-2xl font-serif font-bold text-slate-950">{t.previousTitle}</h2>
+              <p className="mt-2 text-sm text-slate-600">{t.previousIntro}</p>
+              <p className="mt-1 text-xs text-slate-500">{t.previousChecked}: {dateFormatter.format(new Date(previous!.checkedAt))}</p>
+              <dl className="mt-5 grid gap-3 sm:grid-cols-3">
+                {historyRows.map((row) => {
+                  const delta = scoreDelta(row.current, row.old);
+                  if (delta == null) return null;
+                  const label = delta > 0 ? t.improved : delta < 0 ? t.declined : t.unchanged;
+                  return <div key={row.label} className="rounded-xl bg-white p-4"><dt className="text-xs font-semibold text-slate-600">{row.label}</dt><dd className={`mt-1 text-xl font-bold ${delta > 0 ? "text-emerald-700" : delta < 0 ? "text-rose-700" : "text-slate-700"}`}>{delta > 0 ? "+" : ""}{delta} <span className="text-xs font-semibold">{label}</span></dd></div>;
+                })}
+              </dl>
+            </article>
+          ) : null}
+
+          <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 print:hidden">
+            <h2 className="text-2xl font-serif font-bold text-slate-950">{t.competitorTitle}</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{t.competitorIntro}</p>
+            <form onSubmit={compareWebsite} className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-end">
+              <label className="min-w-0 flex-1"><span className="text-sm font-semibold text-slate-900">{t.competitorLabel}</span><input type="text" inputMode="url" autoComplete="url" required maxLength={2048} value={competitorUrl} onChange={(event) => setCompetitorUrl(event.target.value)} placeholder={t.placeholder} className="mt-2 min-h-[48px] w-full rounded-lg border border-slate-300 px-4 text-slate-950 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" /></label>
+              <button type="submit" disabled={competitorLoading} className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-dark disabled:opacity-60">{competitorLoading ? <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden /> : null}{competitorLoading ? t.competitorLoading : t.competitorButton}</button>
+            </form>
+            {competitorError ? <p className="mt-4 rounded-lg bg-rose-50 p-3 text-sm text-rose-800" role="alert">{competitorError}</p> : null}
+            {competitor ? (
+              <div className="mt-6 overflow-x-auto">
+                <table className="w-full min-w-[520px] border-collapse text-left text-sm">
+                  <thead><tr className="border-b border-slate-200"><th className="px-3 py-3 text-slate-600"> </th><th className="px-3 py-3 text-slate-900">{t.yourWebsite}</th><th className="px-3 py-3 text-slate-900">{t.comparisonWebsite}</th></tr></thead>
+                  <tbody>{comparisonRows.map((row) => <tr key={row.label} className="border-b border-slate-100"><th className="px-3 py-3 font-medium text-slate-700">{row.label}</th><td className="px-3 py-3 text-xl font-bold text-slate-950">{row.primary ?? t.notScored}</td><td className="px-3 py-3 text-xl font-bold text-slate-950">{row.comparison ?? t.notScored}</td></tr>)}</tbody>
+                </table>
+                <p className="mt-3 break-all text-xs text-slate-500">{competitor.url}</p>
+              </div>
+            ) : null}
+          </article>
+
           <div className="grid gap-6 lg:grid-cols-[1.15fr_.85fr]">
             <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
               <h2 className="text-2xl font-serif font-bold text-slate-950">{t.actionsTitle}</h2>
@@ -380,7 +699,7 @@ export default function DigitalPresenceSnapshot({
                     return (
                       <li key={`${action.source}-${action.key}`} className="flex gap-4 rounded-xl border border-slate-200 p-4">
                         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary-dark">{index + 1}</span>
-                        <div><span className={`text-xs font-bold uppercase tracking-wide ${action.priority === "fixNow" ? "text-rose-700" : "text-amber-700"}`}>{action.priority === "fixNow" ? t.fixNow : t.planNext}</span><h3 className="mt-1 font-semibold text-slate-950">{title}</h3><p className="mt-1 text-sm text-slate-600">{why}</p></div>
+                        <div><span className={`text-xs font-bold uppercase tracking-wide ${action.priority === "fixNow" ? "text-rose-700" : "text-amber-700"}`}>{action.priority === "fixNow" ? t.fixNow : t.planNext}</span><h3 className="mt-1 font-semibold text-slate-950">{title}</h3><p className="mt-1 text-sm text-slate-600">{why}</p><div className="mt-3 flex flex-wrap gap-2"><span className="rounded-full bg-primary/[0.08] px-2.5 py-1 text-[11px] font-semibold text-primary-dark">{t.impact}: {t[action.impact]}</span><span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-semibold text-slate-700">{t.effort}: {t[action.effort]}</span></div></div>
                       </li>
                     );
                   })}
@@ -401,11 +720,26 @@ export default function DigitalPresenceSnapshot({
             <p className="mt-3 text-sm leading-6 text-slate-700">{t.methodologyBody}</p>
           </details>
 
+          <aside className="rounded-2xl border border-brand-gold/50 bg-brand-gold/10 p-7 sm:p-9 print:hidden">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-700">{t.sprintEyebrow}</p>
+            <h2 className="mt-3 text-2xl font-serif font-bold text-slate-950">{t.sprintTitle}</h2>
+            <p className="mt-2 text-sm font-semibold text-slate-700">{t.sprintTimeline}</p>
+            <p className="mt-3 max-w-3xl text-slate-700">{t.sprintBody}</p>
+            <ul className="mt-5 grid gap-3 sm:grid-cols-3">{t.sprintItems.map((item) => <li key={item} className="flex gap-2 rounded-lg bg-white/70 p-3 text-sm text-slate-800"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />{item}</li>)}</ul>
+            <p className="mt-4 text-sm text-slate-600">{t.sprintPrice}</p>
+            <Link href={{ pathname: "/contact", query: { intent: "visibility", review: "results", website: resultUrl, from_page: "/tools/digital-presence-snapshot", goal: `${note} ${t.sprintTitle}` } }} className="mt-5 inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-dark">{t.sprintCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></Link>
+          </aside>
+
           <aside className="rounded-2xl bg-slate-950 p-7 text-white sm:p-9 print:hidden">
             <SearchCheck className="h-8 w-8 text-primary-light" aria-hidden />
             <h2 className="mt-4 text-2xl font-serif font-bold text-white">{t.ctaTitle}</h2>
             <p className="mt-3 max-w-3xl text-slate-300">{t.ctaBody}</p>
-            <Link href={{ pathname: "/contact", query: { intent: "visibility", from_page: "/tools/digital-presence-snapshot", goal: note } }} onClick={() => trackAnalyticsEvent("digital_snapshot_cta")} className="mt-6 inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 hover:bg-brand-gold-light">{t.cta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></Link>
+            <ol className="mt-5 grid gap-3 sm:grid-cols-3">
+              {t.ctaSteps.map((step, index) => <li key={step} className="rounded-lg border border-white/15 bg-white/[0.04] p-3 text-sm text-slate-200"><span className="mr-2 font-bold text-brand-gold">{index + 1}.</span>{step}</li>)}
+            </ol>
+            <p className="mt-5 text-sm font-semibold text-white">{t.ctaProof}</p>
+            <Link href={{ pathname: "/contact", query: { intent: "visibility", review: "results", website: resultUrl, from_page: "/tools/digital-presence-snapshot", goal: note } }} onClick={() => trackAnalyticsEvent("digital_snapshot_cta")} className="mt-6 inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 hover:bg-brand-gold-light">{t.cta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></Link>
+            <p className="mt-3 text-xs text-slate-400">{t.ctaReassurance}</p>
           </aside>
         </section>
       ) : null}

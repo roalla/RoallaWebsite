@@ -34,13 +34,15 @@ describe("buildDigitalPresenceActions", () => {
     ], social);
 
     expect(actions).toHaveLength(3);
-    expect(actions[0]).toMatchObject({ source: "social", key: "structuredProfiles", priority: "fixNow" });
+    expect(actions[0]).toMatchObject({ source: "social", key: "structuredProfiles", priority: "fixNow", impact: "medium", effort: "low" });
     expect(actions[1]).toMatchObject({
       source: "technical",
       key: "performance",
       priority: "fixNow",
       score: 35,
       strategies: ["mobile", "desktop"],
+      impact: "high",
+      effort: "medium",
     });
     expect(actions[2]).toMatchObject({ source: "social", key: "openGraph", priority: "planNext" });
   });

@@ -15,45 +15,45 @@ type Props = {
 const content = {
   en: {
     metadataTitle: "Free Website Visibility Snapshot | ROALLA",
-    metadataDescription: "Check a public website page for performance, accessibility, best-practice, and technical SEO signals—then see what the score does not explain.",
+    metadataDescription: "See how your website performs on phones and computers, and learn which improvements could create a better visitor experience.",
     eyebrow: "Free Website Visibility Snapshot",
-    title: "See the technical signals shaping your website experience.",
-    subtitle: "Get an immediate mobile and desktop snapshot using Google PageSpeed Insights data. No email gate. No ranking promises. Just a useful starting point.",
-    whatTitle: "What this snapshot checks",
-    what: ["Performance and Core Web Vitals signals", "Automated accessibility checks", "Browser best-practice checks", "Technical SEO foundations", "Prioritized performance opportunities"],
-    contentTitle: "Content strategy is critical—and this tool does not score it",
+    title: "See how well your website works for your visitors.",
+    subtitle: "Check your website on phones and computers. You will see clear scores, useful explanations, and the improvements worth reviewing first. No email address is required.",
+    whatTitle: "What we check",
+    what: ["Page speed and responsiveness", "Ease of use for people with different needs", "Website reliability and security", "How well search engines can understand the page", "The most useful performance improvements"],
+    contentTitle: "A good score is only part of a successful website",
     contentBody:
-      "PageSpeed measures technical signals. Content strategy is not AI-generated scoring: it is the human work of clarifying the offer, message, and proof so visitors trust you, convert, and adopt what you sell. Strong technical scores still leave conversion and adoption unfinished without that strategy.",
-    limitsTitle: "What still needs human judgment",
+      "A fast, accessible website creates a strong foundation. Your offer, message, proof, and calls to action also need to help visitors understand your value and feel confident contacting you.",
+    limitsTitle: "What deserves a personal review",
     limits: [
-      "Content strategy for sales conversion and user adoption (not an AI score)",
-      "Whether your offer and content match customer intent",
-      "Local discovery and competitive position",
-      "Entity clarity and AI-answer readability",
-      "Trust, messaging, navigation, and conversion quality",
-      "A practical roadmap tied to business value",
+      "Whether visitors quickly understand your offer",
+      "Whether the content answers the right customer questions",
+      "How your business compares with local competitors",
+      "Whether your expertise is clear to search and answer tools",
+      "How well the site builds trust and encourages inquiries",
+      "Which improvements will create the most business value",
     ],
     privacy: "ROALLA sends the public page URL to Google PageSpeed Insights to run the snapshot. Query parameters are removed, results are cached briefly, and this tool does not ask for or store your email address.",
   },
   fr: {
     metadataTitle: "Aperçu gratuit de visibilité Web | ROALLA",
-    metadataDescription: "Vérifiez la performance, l’accessibilité, les bonnes pratiques et les signaux SEO techniques d’une page Web publique—puis découvrez ce que le score n’explique pas.",
+    metadataDescription: "Voyez comment votre site fonctionne sur téléphone et ordinateur, puis découvrez les améliorations qui pourraient bonifier l’expérience des visiteurs.",
     eyebrow: "Aperçu gratuit de visibilité Web",
-    title: "Voyez les signaux techniques qui façonnent l’expérience de votre site.",
-    subtitle: "Obtenez un aperçu mobile et ordinateur immédiat à partir des données de Google PageSpeed Insights. Aucun courriel requis. Aucune promesse de classement. Un point de départ utile.",
-    whatTitle: "Ce que cet aperçu vérifie",
-    what: ["Signaux de performance et Core Web Vitals", "Vérifications automatisées d’accessibilité", "Bonnes pratiques du navigateur", "Fondations du SEO technique", "Possibilités de performance priorisées"],
-    contentTitle: "La stratégie de contenu est essentielle—et cet outil ne la note pas",
+    title: "Voyez si votre site répond bien aux besoins de vos visiteurs.",
+    subtitle: "Vérifiez votre site sur téléphone et ordinateur. Vous obtiendrez des scores clairs, des explications utiles et les améliorations à examiner en premier. Aucune adresse courriel requise.",
+    whatTitle: "Ce que nous vérifions",
+    what: ["La vitesse et la réactivité de la page", "La facilité d’utilisation pour les personnes ayant différents besoins", "La fiabilité et la sécurité du site", "La capacité des moteurs de recherche à comprendre la page", "Les améliorations de rendement les plus utiles"],
+    contentTitle: "Un bon score ne suffit pas pour assurer le succès d’un site",
     contentBody:
-      "PageSpeed mesure des signaux techniques. La stratégie de contenu n’est pas un score produit par l’IA : c’est le travail humain de clarifier l’offre, le message et les preuves pour que les visiteurs vous fassent confiance, convertissent et adoptent ce que vous vendez. De bons scores techniques laissent encore la conversion et l’adoption inachevées sans cette stratégie.",
-    limitsTitle: "Ce qui exige encore un jugement humain",
+      "Un site rapide et accessible constitue une excellente base. Votre offre, votre message, vos preuves et vos appels à l’action doivent aussi aider les visiteurs à comprendre votre valeur et à communiquer avec vous en toute confiance.",
+    limitsTitle: "Ce qui mérite un examen personnalisé",
     limits: [
-      "Stratégie de contenu pour la conversion et l’adoption (pas un score IA)",
-      "L’adéquation de votre offre et de votre contenu à l’intention client",
-      "La découverte locale et la position concurrentielle",
-      "La clarté de l’entité et la lisibilité dans les réponses IA",
-      "La confiance, le message, la navigation et la conversion",
-      "Une feuille de route pratique liée à la valeur d’affaires",
+      "La rapidité avec laquelle les visiteurs comprennent votre offre",
+      "La capacité du contenu à répondre aux bonnes questions",
+      "La position de votre entreprise face aux concurrents locaux",
+      "La clarté de votre expertise pour les outils de recherche et de réponse",
+      "La capacité du site à inspirer confiance et à générer des demandes",
+      "Les améliorations qui créeront le plus de valeur pour votre entreprise",
     ],
     privacy: "ROALLA transmet l’URL de la page publique à Google PageSpeed Insights pour produire l’aperçu. Les paramètres de requête sont retirés, les résultats sont brièvement mis en cache et cet outil ne demande ni ne conserve votre adresse courriel.",
   },
@@ -107,7 +107,7 @@ export default async function WebsiteVisibilitySnapshotPage({ params, searchPara
 
         <aside className="mx-auto mt-12 max-w-6xl rounded-2xl border border-brand-gold/40 bg-brand-gold/10 p-6 sm:p-8">
           <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-700">
-            {locale === "fr" ? "Au-delà du score technique" : "Beyond the technical score"}
+            {locale === "fr" ? "Le score ne dit pas tout" : "The score is only part of the story"}
           </p>
           <h2 className="mt-3 text-2xl font-serif font-bold text-slate-950">{page.contentTitle}</h2>
           <p className="mt-4 max-w-4xl text-base leading-relaxed text-slate-800">{page.contentBody}</p>

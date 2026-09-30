@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  let body: { url?: unknown; website?: unknown };
+  let body: { url?: unknown; website?: unknown; fresh?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -57,10 +57,11 @@ export async function POST(request: NextRequest) {
 
   try {
     const target = normalizePublicTarget(body.url);
+    const forceFresh = body.fresh === true;
     const strategies: PageSpeedStrategy[] = ["mobile", "desktop"];
     const ready = strategies.map((strategy) => ({
       strategy,
-      snapshot: getCachedSnapshot(target, strategy),
+      snapshot: forceFresh ? undefined : getCachedSnapshot(target, strategy),
     }));
 
     if (ready.some((item) => !item.snapshot)) {
@@ -112,7 +113,11 @@ export async function POST(request: NextRequest) {
       return response({ error: message, mobile: reports.mobile, desktop: reports.desktop }, 503);
     }
 
-    return response({ mobile: reports.mobile, desktop: reports.desktop });
+    return response({
+      mobile: reports.mobile,
+      desktop: reports.desktop,
+      freshRequested: forceFresh,
+    });
   } catch (error) {
     if (error instanceof PublicTargetError) {
       return response({ error: error.message }, 422);

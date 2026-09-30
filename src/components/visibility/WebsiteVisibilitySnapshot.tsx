@@ -1,7 +1,7 @@
 "use client";
 
 import React, { FormEvent, useState } from "react";
-import { ArrowRight, Gauge, LoaderCircle, SearchCheck } from "lucide-react";
+import { ArrowRight, Gauge, LoaderCircle, RefreshCw, SearchCheck } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { trackAnalyticsEvent } from "@/lib/analytics";
 import type {
@@ -13,87 +13,101 @@ const SCORE_ORDER: ScoreName[] = ["performance", "accessibility", "bestPractices
 
 const copy = {
   en: {
-    urlLabel: "Public website page",
+    urlLabel: "Your website address",
     urlPlaceholder: "https://example.com",
     submit: "Run free snapshot",
-    loading: "Analyzing mobile and desktop—this can take up to a minute…",
-    scoresTitle: "Technical visibility signals",
-    labTitle: "Lab performance metrics",
-    fieldTitle: "Real-user signals",
+    loading: "Checking your website on phones and computers. This can take up to a minute…",
+    scoresTitle: "Your website scores",
+    labTitle: "Page speed details",
+    fieldTitle: "Experience reported by real visitors",
     fieldPage: "Page-level data",
     fieldOrigin: "Origin-level data",
-    opportunitiesTitle: "Highest-impact technical opportunities",
-    noOpportunities: "No major performance opportunities were returned for this run.",
+    opportunitiesTitle: "Ways to improve page speed",
+    noOpportunities: "No major page speed improvements were found during this check.",
     scoreLabels: {
-      performance: "Performance",
+      performance: "Lighthouse lab performance",
       accessibility: "Accessibility",
-      bestPractices: "Best practices",
-      seo: "Technical SEO",
+      bestPractices: "Reliability",
+      seo: "Search readiness",
     },
     notAvailable: "Not available",
     cached: "Recently cached result",
     measured: "Measured",
+    finalUrl: "Final page tested",
+    lighthouse: "Lighthouse version",
+    compareGoogle: "Compare with Google PageSpeed",
+    freshTest: "Run a fresh Google test",
     source: "Data source: Google PageSpeed Insights",
     caveat:
-      "This is a point-in-time technical snapshot, not a complete visibility audit. Scores can vary between runs. They do not measure content strategy—which is not an AI score, yet remains critical for sales conversion and user adoption—nor local presence, AI readability, trust, or conversion quality.",
+      "The category scores come from a Lighthouse lab test run at the time shown. Real visitor information, when available, summarizes public Chrome data from the previous 28 days. Scores can change between runs and do not measure message quality, trust, or the ability to generate inquiries.",
     mobile: "Mobile",
     desktop: "Desktop",
-    partialError: "This experience could not be measured.",
-    nextTitle: "Next steps from these results",
+    partialError: "We could not measure this version of the page.",
+    nextTitle: "What to do next",
     nextIntro:
-      "Mobile and desktop were measured together. Compare the scores, then ask ROALLA to turn the gaps into a practical plan.",
+      "Compare the phone and computer scores, then focus on the areas with the most room to improve.",
     nextStrong:
-      "Both experiences are strong on the automated checks. The useful next step is a human review of the offer, trust, and the path to an inquiry.",
-    nextGap: "{experience} {label} is {score}. This is worth a closer look before more traffic is sent to the page.",
+      "Your website performs well in these checks. The next step is to review whether your message builds trust and makes it easy for visitors to contact you.",
+    nextGap: "Your {experience} score for {label} is {score}. This area is worth improving.",
     nextMissing: "{experience} did not return a {label} score.",
-    ctaTitle: "Ask ROALLA to help with these results.",
+    ctaTitle: "Get a free 15-minute review of your results",
     ctaBody:
-      "ROALLA can interpret the mobile and desktop signals alongside a human content strategy for conversion and adoption—not AI scoring alone—plus audience, competitors, search presence, accessibility, and the path to an inquiry.",
-    cta: "Ask ROALLA to help",
-    service: "See the complete digital presence snapshot",
+      "A ROALLA specialist will explain your biggest opportunity, answer your questions, and recommend a practical next step.",
+    ctaSteps: ["We review your results", "You receive one clear priority", "You decide whether to continue"],
+    ctaProof: "30+ years of business and technology experience across 500+ engagements.",
+    ctaReassurance: "Free review. No obligation. Personal reply within one business day.",
+    cta: "Request my free results review",
+    service: "Check my complete online presence",
     genericError: "The snapshot could not be completed. Please try again.",
     noteLead: "Visibility snapshot for",
     noteAsk: "Please help interpret the next steps.",
   },
   fr: {
-    urlLabel: "Page Web publique",
+    urlLabel: "Adresse de votre site Web",
     urlPlaceholder: "https://exemple.ca",
     submit: "Lancer l’aperçu gratuit",
-    loading: "Analyse mobile et ordinateur—cela peut prendre jusqu’à une minute…",
-    scoresTitle: "Signaux techniques de visibilité",
-    labTitle: "Mesures de performance en laboratoire",
-    fieldTitle: "Signaux d’utilisateurs réels",
+    loading: "Vérification de votre site sur téléphone et ordinateur. Cela peut prendre jusqu’à une minute…",
+    scoresTitle: "Les scores de votre site",
+    labTitle: "Détails sur la vitesse de la page",
+    fieldTitle: "Expérience rapportée par de vrais visiteurs",
     fieldPage: "Données de la page",
     fieldOrigin: "Données du domaine",
-    opportunitiesTitle: "Possibilités techniques les plus importantes",
-    noOpportunities: "Aucune possibilité de performance majeure n’a été retournée pour cette analyse.",
+    opportunitiesTitle: "Façons d’améliorer la vitesse de la page",
+    noOpportunities: "Aucune amélioration importante de la vitesse n’a été trouvée pendant cette vérification.",
     scoreLabels: {
-      performance: "Performance",
+      performance: "Performance de laboratoire Lighthouse",
       accessibility: "Accessibilité",
-      bestPractices: "Bonnes pratiques",
-      seo: "SEO technique",
+      bestPractices: "Fiabilité",
+      seo: "Préparation à la recherche",
     },
     notAvailable: "Non disponible",
     cached: "Résultat récent en cache",
     measured: "Mesuré",
+    finalUrl: "Page finale vérifiée",
+    lighthouse: "Version de Lighthouse",
+    compareGoogle: "Comparer avec Google PageSpeed",
+    freshTest: "Lancer un nouveau test Google",
     source: "Source des données : Google PageSpeed Insights",
     caveat:
-      "Il s’agit d’un aperçu technique ponctuel, pas d’un audit complet de visibilité. Les scores peuvent varier. Ils ne mesurent pas la stratégie de contenu—qui n’est pas un score IA, mais demeure essentielle pour la conversion et l’adoption—ni la présence locale, la lisibilité par l’IA, la confiance ou la conversion.",
+      "Les scores de catégorie proviennent d’un test de laboratoire Lighthouse exécuté au moment indiqué. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, résument les données publiques Chrome des 28 derniers jours. Les scores peuvent changer entre les tests et n’évaluent pas la qualité du message, la confiance ou la capacité à générer des demandes.",
     mobile: "Mobile",
     desktop: "Ordinateur",
-    partialError: "Cette expérience n’a pas pu être mesurée.",
-    nextTitle: "Prochaines étapes à partir de ces résultats",
+    partialError: "Nous n’avons pas pu mesurer cette version de la page.",
+    nextTitle: "La prochaine étape",
     nextIntro:
-      "Le mobile et l’ordinateur ont été mesurés ensemble. Comparez les scores, puis demandez à ROALLA de transformer les écarts en un plan pratique.",
+      "Comparez les scores sur téléphone et ordinateur, puis concentrez-vous sur les aspects qui offrent le plus de possibilités d’amélioration.",
     nextStrong:
-      "Les deux expériences sont solides selon les vérifications automatisées. La prochaine étape utile est un examen humain de l’offre, de la confiance et du parcours vers une demande.",
-    nextGap: "{experience} — {label} : {score}. Cela mérite un regard plus attentif avant d’envoyer plus de trafic vers la page.",
+      "Votre site obtient de bons résultats. La prochaine étape consiste à vérifier si votre message inspire confiance et facilite la prise de contact.",
+    nextGap: "Votre score {experience} pour {label} est de {score}. Cet aspect mérite d’être amélioré.",
     nextMissing: "{experience} n’a pas retourné de score pour {label}.",
-    ctaTitle: "Demandez à ROALLA de vous aider avec ces résultats.",
+    ctaTitle: "Obtenez un examen gratuit de 15 minutes de vos résultats",
     ctaBody:
-      "ROALLA peut interpréter les signaux mobile et ordinateur avec une stratégie de contenu humaine pour la conversion et l’adoption—pas seulement un score IA—ainsi que votre clientèle, vos concurrents, votre présence dans la recherche, votre accessibilité et le parcours vers une demande.",
-    cta: "Demander l’aide de ROALLA",
-    service: "Voir l’aperçu complet de présence numérique",
+      "Un spécialiste de ROALLA expliquera votre principale possibilité d’amélioration, répondra à vos questions et recommandera une prochaine étape pratique.",
+    ctaSteps: ["Nous examinons vos résultats", "Vous recevez une priorité claire", "Vous décidez si vous souhaitez poursuivre"],
+    ctaProof: "Plus de 30 ans d’expérience en affaires et en technologie dans plus de 500 mandats.",
+    ctaReassurance: "Examen gratuit. Sans obligation. Réponse personnelle dans un délai d’un jour ouvrable.",
+    cta: "Demander mon examen gratuit",
+    service: "Vérifier toute ma présence en ligne",
     genericError: "L’aperçu n’a pas pu être produit. Veuillez réessayer.",
     noteLead: "Aperçu de visibilité pour",
     noteAsk: "Merci d’aider à interpréter les prochaines étapes.",
@@ -122,7 +136,7 @@ function fill(template: string, values: Record<string, string>) {
 function engagementNote(pageUrl: string, reports: Array<{ label: string; snapshot: Snapshot }>, t: Copy) {
   const detail = reports
     .map(({ label, snapshot }) => {
-      const scores = SCORE_ORDER.map((name) => `${t.scoreLabels[name]} ${snapshot.scores[name] ?? "—"}`).join(", ");
+      const scores = SCORE_ORDER.map((name) => `${t.scoreLabels[name]} ${snapshot.scores[name] ?? t.notAvailable}`).join(", ");
       return `${label}: ${scores}`;
     })
     .join(". ");
@@ -166,6 +180,11 @@ function ReportCard({
           }).format(new Date(snapshot.analyzedAt))}
         </p>
       </div>
+      <dl className="mt-4 space-y-1 text-xs text-slate-600">
+        <div><dt className="inline font-semibold text-slate-700">{t.finalUrl}: </dt><dd className="inline break-all">{snapshot.finalUrl}</dd></div>
+        {snapshot.lighthouseVersion ? <div><dt className="inline font-semibold text-slate-700">{t.lighthouse}: </dt><dd className="inline">{snapshot.lighthouseVersion}</dd></div> : null}
+      </dl>
+      <a href={`https://pagespeed.web.dev/analysis?url=${encodeURIComponent(snapshot.finalUrl)}&form_factor=${snapshot.strategy}`} target="_blank" rel="noreferrer" className="mt-3 inline-flex text-sm font-semibold text-primary-dark underline underline-offset-4">{t.compareGoogle}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></a>
 
       <h3 className="mt-7 text-xl font-serif font-bold text-slate-950">{t.scoresTitle}</h3>
       <div className="mt-4 grid grid-cols-2 gap-3">
@@ -173,7 +192,7 @@ function ReportCard({
           const score = snapshot.scores[name];
           return (
             <div key={name} className={`rounded-xl border p-4 ${scoreTone(score)}`}>
-              <p className="text-3xl font-bold">{score ?? "—"}</p>
+              <p className="text-3xl font-bold">{score ?? t.notAvailable}</p>
               <p className="mt-1 text-sm font-semibold">{t.scoreLabels[name]}</p>
               {score == null ? <p className="mt-1 text-xs">{t.notAvailable}</p> : null}
             </div>
@@ -242,20 +261,18 @@ export default function WebsiteVisibilitySnapshot({ locale, initialUrl = "" }: {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function runSnapshot(forceFresh = false, honeypot: FormDataEntryValue | null = "") {
     setLoading(true);
     setError("");
     setMobile(null);
     setDesktop(null);
     trackAnalyticsEvent("visibility_snapshot_started", { strategy: "mobile-and-desktop" });
 
-    const form = new FormData(event.currentTarget);
     try {
       const response = await fetch("/api/website-visibility-snapshot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url, website: form.get("website") }),
+        body: JSON.stringify({ url, website: honeypot, fresh: forceFresh }),
       });
       const payload = (await response.json().catch(() => ({}))) as {
         mobile?: ReportPayload;
@@ -276,6 +293,12 @@ export default function WebsiteVisibilitySnapshot({ locale, initialUrl = "" }: {
     } finally {
       setLoading(false);
     }
+  }
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    await runSnapshot(false, form.get("website"));
   }
 
   const reports: Array<{ label: string; snapshot: Snapshot }> = [];
@@ -341,6 +364,10 @@ export default function WebsiteVisibilitySnapshot({ locale, initialUrl = "" }: {
             {desktop ? <ReportCard label={t.desktop} report={desktop} t={t} language={language} /> : null}
           </div>
 
+          <div className="flex justify-center">
+            <button type="button" disabled={loading} onClick={() => runSnapshot(true)} className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-primary/30 bg-white px-5 py-2 text-sm font-semibold text-primary-dark hover:border-primary disabled:opacity-60"><RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} aria-hidden />{t.freshTest}</button>
+          </div>
+
           <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
             <h2 className="text-2xl font-serif font-bold text-slate-950">{t.nextTitle}</h2>
             <p className="mt-3 max-w-3xl text-slate-700">{t.nextIntro}</p>
@@ -360,7 +387,7 @@ export default function WebsiteVisibilitySnapshot({ locale, initialUrl = "" }: {
                       <tr key={label} className="border-b border-slate-100">
                         <th className="py-3 pr-4 font-semibold text-slate-950">{label}</th>
                         {SCORE_ORDER.map((name) => (
-                          <td key={name} className="px-3 py-3 font-bold text-slate-950">{snapshot.scores[name] ?? "—"}</td>
+                          <td key={name} className="px-3 py-3 font-bold text-slate-950">{snapshot.scores[name] ?? t.notAvailable}</td>
                         ))}
                       </tr>
                     ))}
@@ -383,12 +410,18 @@ export default function WebsiteVisibilitySnapshot({ locale, initialUrl = "" }: {
             <SearchCheck className="h-8 w-8 text-primary-light" aria-hidden />
             <h2 className="mt-4 text-2xl font-serif font-bold text-white">{t.ctaTitle}</h2>
             <p className="mt-3 max-w-3xl text-slate-300">{t.ctaBody}</p>
+            <ol className="mt-5 grid gap-3 sm:grid-cols-3">
+              {t.ctaSteps.map((step, index) => <li key={step} className="rounded-lg border border-white/15 bg-white/[0.04] p-3 text-sm text-slate-200"><span className="mr-2 font-bold text-brand-gold">{index + 1}.</span>{step}</li>)}
+            </ol>
+            <p className="mt-5 text-sm font-semibold text-white">{t.ctaProof}</p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Link
                 href={{
                   pathname: "/contact",
                   query: {
                     intent: "visibility",
+                    review: "results",
+                    website: pageUrl,
                     from_page: "/tools/website-visibility-snapshot",
                     goal: note,
                   },
@@ -402,6 +435,7 @@ export default function WebsiteVisibilitySnapshot({ locale, initialUrl = "" }: {
                 {t.service}
               </Link>
             </div>
+            <p className="mt-3 text-xs text-slate-400">{t.ctaReassurance}</p>
           </aside>
         </section>
       ) : null}

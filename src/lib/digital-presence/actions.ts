@@ -13,6 +13,8 @@ export type DigitalPresenceAction =
       score: number;
       strategies: PageSpeedStrategy[];
       severity: number;
+      impact: "high" | "medium";
+      effort: "low" | "medium";
     }
   | {
       source: "social";
@@ -20,6 +22,8 @@ export type DigitalPresenceAction =
       key: SocialPresenceSnapshot["checks"][number]["id"];
       score: number;
       severity: number;
+      impact: "high" | "medium";
+      effort: "low" | "medium";
     };
 
 export function buildDigitalPresenceActions(
@@ -52,6 +56,8 @@ export function buildDigitalPresenceActions(
         .filter(({ score }) => score < 90)
         .map(({ strategy }) => strategy),
       severity: 100 - worst,
+      impact: key === "bestPractices" ? "medium" : "high",
+      effort: key === "seo" ? "low" : "medium",
     });
   }
 
@@ -64,6 +70,11 @@ export function buildDigitalPresenceActions(
       key: check.id,
       score,
       severity: 100 - score,
+      impact:
+        check.id === "pageIdentity" || check.id === "organizationSchema"
+          ? "high"
+          : "medium",
+      effort: "low",
     });
   }
 

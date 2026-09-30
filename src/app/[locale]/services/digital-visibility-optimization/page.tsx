@@ -131,13 +131,13 @@ export default async function DigitalVisibilityOptimizationPage({
                 </p>
                 <h2 className="mt-2 text-2xl font-serif font-bold text-slate-950">
                   {locale === "fr"
-                    ? "Commencez par deux aperçus gratuits de votre présence numérique."
-                    : "Start with two free snapshots of your digital presence."}
+                    ? "Découvrez gratuitement ce qui peut freiner votre présence en ligne."
+                    : "See what may be holding back your online presence for free."}
                 </h2>
                 <p className="mt-3 text-slate-700">
                   {locale === "fr"
-                    ? "Vérifiez les signaux techniques du site, puis la découvrabilité des profils, des aperçus sociaux et de l’identité de marque—sans fournir votre courriel."
-                    : "Check the website’s technical signals, then profile discovery, social previews, and brand identity—without submitting your email."}
+                    ? "Vérifiez l’expérience de votre site, sa préparation à la recherche et son apparence sur les réseaux sociaux dans un seul rapport clair. Aucune adresse courriel requise."
+                    : "Check your website experience, search readiness, and social sharing in one clear report. No email address is required."}
                 </p>
               </div>
               <div className="mt-5 flex shrink-0 flex-col gap-3 lg:mt-0">
@@ -145,19 +145,19 @@ export default async function DigitalVisibilityOptimizationPage({
                   href="/tools/digital-presence-snapshot"
                   className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 transition-colors hover:bg-brand-gold-light"
                 >
-                  {locale === "fr" ? "Aperçu numérique complet" : "Complete digital snapshot"}
+                  {locale === "fr" ? "Vérifier ma présence en ligne" : "Check my online presence"}
                 </Link>
                 <Link
                   href="/tools/website-visibility-snapshot"
                   className="inline-flex min-h-[44px] items-center justify-center rounded-lg border border-primary/30 bg-white px-5 py-2 text-sm font-semibold text-primary-dark transition-colors hover:border-primary"
                 >
-                  {locale === "fr" ? "Visibilité du site" : "Website visibility"}
+                  {locale === "fr" ? "Voir les détails du site" : "See website details"}
                 </Link>
                 <Link
                   href="/tools/social-presence-snapshot"
                   className="inline-flex min-h-[44px] items-center justify-center rounded-lg border border-primary/30 bg-white px-5 py-2 text-sm font-semibold text-primary-dark transition-colors hover:border-primary"
                 >
-                  {locale === "fr" ? "Présence sociale" : "Social presence"}
+                  {locale === "fr" ? "Voir les détails des réseaux sociaux" : "See social media details"}
                 </Link>
               </div>
             </div>

@@ -117,8 +117,10 @@ type ConsultationRequestFormProps = {
   initialEventGoal?: EventGoal | null;
   initialWorkshopTopic?: WorkshopTopic | null;
   initialSourcePage?: string | null;
+  initialWebsiteUrl?: string | null;
   fromAssessment?: boolean;
   fromFoundingOffer?: boolean;
+  visibilityReview?: boolean;
 };
 
 const intentOptions: {
@@ -282,8 +284,10 @@ export default function ConsultationRequestForm({
   initialEventGoal = null,
   initialWorkshopTopic = null,
   initialSourcePage = null,
+  initialWebsiteUrl = null,
   fromAssessment = false,
   fromFoundingOffer = false,
+  visibilityReview = false,
 }: ConsultationRequestFormProps) {
   const t = useTranslations("consultationRequest");
   const locale = useLocale();
@@ -335,19 +339,30 @@ export default function ConsultationRequestForm({
   const [digitalLightMode, setDigitalLightMode] = useState(startInDigitalLight);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [monitoringInterest, setMonitoringInterest] = useState(false);
   const [form, setForm] = useState<FormState>({
     ...initialState,
     intent: initialIntent ?? "",
     consultingFocus: initialFocus ?? "",
-    goal: initialGoal ?? "",
+    goal: visibilityReview ? "" : initialGoal ?? "",
     websiteGoal: initialWebsiteGoal ?? "",
     platformType: initialPlatformType ?? "",
     automationGoal: initialAutomationGoal ?? "",
     aiGoal: initialAiGoal ?? "",
     eventGoal: initialEventGoal ?? "",
     workshopTopic: initialWorkshopTopic ?? "",
+    currentSiteUrl: initialWebsiteUrl ?? "",
     ...skippedStep2Defaults,
   });
+
+  const visibilityReport = visibilityReview ? initialGoal?.trim() ?? "" : "";
+
+  useEffect(() => {
+    if (!visibilityReview) return;
+    trackAnalyticsEvent("visibility_review_started", {
+      source: initialSourcePage ?? undefined,
+    });
+  }, [initialSourcePage, visibilityReview]);
 
   useEffect(() => {
     if (initialSourcePage) return;
@@ -514,12 +529,24 @@ export default function ConsultationRequestForm({
 
     setSubmitting(true);
     try {
+      const submittedGoal = visibilityReview
+        ? [
+            visibilityReport ||
+              `${t("visibilityReviewFallbackGoal")} ${form.currentSiteUrl}`.trim(),
+            form.goal.trim()
+              ? `${t("visibilityReviewUserNotePrefix")}: ${form.goal.trim()}`
+              : "",
+            monitoringInterest ? t("visibilityReviewMonitoringGoal") : "",
+          ]
+            .filter(Boolean)
+            .join("\n")
+        : form.goal;
       const res = await fetch("/api/consultation-request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           intent: submitIntent,
-          goal: form.goal,
+          goal: submittedGoal,
           timeline: useLightSubmit ? "exploring" : form.timeline,
           lightMode: useLightSubmit || undefined,
           consultingFocus: useLightSubmit
@@ -542,9 +569,10 @@ export default function ConsultationRequestForm({
           workshopTopic: useLightSubmit
             ? undefined
             : form.workshopTopic || undefined,
-          currentSiteUrl: useLightSubmit
-            ? undefined
-            : form.currentSiteUrl || undefined,
+          currentSiteUrl:
+            visibilityReview || !useLightSubmit
+              ? form.currentSiteUrl || undefined
+              : undefined,
           industry: useLightSubmit ? undefined : form.industry || undefined,
           primaryOutcome: useLightSubmit
             ? undefined
@@ -578,7 +606,14 @@ export default function ConsultationRequestForm({
       setSubmitted(true);
       trackAnalyticsEvent("consultation_request_submitted", {
         intent: submitIntent,
+        source: visibilityReview ? "visibility-review" : undefined,
+        monitoring_interest: visibilityReview ? monitoringInterest : undefined,
       });
+      if (visibilityReview) {
+        trackAnalyticsEvent("visibility_review_submitted", {
+          source: initialSourcePage ?? undefined,
+        });
+      }
       toast.success(t("successMessage"));
     } catch {
       toast.error(t("errorMessage"));
@@ -607,15 +642,15 @@ export default function ConsultationRequestForm({
           <CheckCircle className="h-7 w-7 text-primary-dark" />
         </div>
         <h2 className="text-2xl font-serif font-bold text-slate-900">
-          {t("successTitle")}
+          {visibilityReview ? t("visibilityReviewSuccessTitle") : t("successTitle")}
         </h2>
         <p className="mt-3 text-slate-600 max-w-md mx-auto">
-          {t("successMessage")}
+          {visibilityReview ? t("visibilityReviewSuccessMessage") : t("successMessage")}
         </p>
         <p className="mt-4 text-sm text-slate-500 max-w-md mx-auto">
-          {t("successNextSteps")}
+          {visibilityReview ? t("visibilityReviewSuccessNext") : t("successNextSteps")}
         </p>
-        {discoveryUrl && (
+        {discoveryUrl && !visibilityReview && (
           <p className="mt-5 text-sm text-slate-600 max-w-md mx-auto">
             <a
               href={discoveryUrl}
@@ -677,7 +712,7 @@ export default function ConsultationRequestForm({
         {digitalLightMode && (
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="text-sm font-medium text-slate-500">
-              {t("digitalLightEyebrow")}
+              {visibilityReview ? t("visibilityReviewEyebrow") : t("digitalLightEyebrow")}
             </p>
             <p className="text-xs text-slate-400">{t("digitalLightTimeHint")}</p>
           </div>
@@ -699,10 +734,23 @@ export default function ConsultationRequestForm({
         {digitalLightMode ? (
           <div key="digital-light" className="animate-fade-in space-y-5">
             <h2 className="text-xl font-serif font-bold text-slate-900">
-              {t("digitalLightTitle")}
+              {visibilityReview ? t("visibilityReviewFormTitle") : t("digitalLightTitle")}
             </h2>
-            <p className="text-sm text-slate-600">{t("digitalLightHint")}</p>
+            <p className="text-sm text-slate-600">
+              {visibilityReview ? t("visibilityReviewFormHint") : t("digitalLightHint")}
+            </p>
 
+            {visibilityReview ? (
+              <div className="rounded-xl border border-primary/20 bg-primary/[0.04] p-4">
+                <p className="flex items-center gap-2 text-sm font-semibold text-slate-900">
+                  <CheckCircle className="h-4 w-4 text-primary-dark" aria-hidden />
+                  {t("visibilityReviewAttached")}
+                </p>
+                {form.currentSiteUrl ? (
+                  <p className="mt-2 break-all text-sm text-slate-600">{form.currentSiteUrl}</p>
+                ) : null}
+              </div>
+            ) : (
             <Field label={t("serviceTypeLabel")} required fieldId="field-intent">
               <select
                 id="field-intent"
@@ -732,6 +780,7 @@ export default function ConsultationRequestForm({
                 <option value="unsure">{t("intentUnsure")}</option>
               </select>
             </Field>
+            )}
 
             <div className="grid sm:grid-cols-2 gap-5">
               <Field label={t("nameLabel")} required fieldId="field-name">
@@ -769,34 +818,54 @@ export default function ConsultationRequestForm({
               </Field>
             </div>
 
-            <Field label={t("digitalLightNoteLabel")} fieldId="field-goal">
+            <Field
+              label={visibilityReview ? t("visibilityReviewNoteLabel") : t("digitalLightNoteLabel")}
+              fieldId="field-goal"
+            >
               <textarea
                 id="field-goal"
                 value={form.goal}
                 onChange={(e) => update({ goal: e.target.value })}
                 rows={2}
-                placeholder={t("digitalLightNotePlaceholder")}
+                placeholder={visibilityReview ? t("visibilityReviewNotePlaceholder") : t("digitalLightNotePlaceholder")}
                 className={controlClass("field-goal", "resize-y min-h-[72px]")}
                 aria-invalid={fieldInvalid("field-goal") || undefined}
                 maxLength={280}
               />
               <p className="mt-1.5 text-xs text-slate-500">
-                {t("digitalLightNoteHint")}
+                {visibilityReview ? t("visibilityReviewNoteHint") : t("digitalLightNoteHint")}
               </p>
             </Field>
 
+            {visibilityReview ? (
+              <label className="flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <input
+                  type="checkbox"
+                  checked={monitoringInterest}
+                  onChange={(event) => setMonitoringInterest(event.target.checked)}
+                  className="mt-1 h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary"
+                />
+                <span>
+                  <span className="block text-sm font-semibold text-slate-900">{t("visibilityReviewMonitoringLabel")}</span>
+                  <span className="mt-1 block text-xs leading-5 text-slate-600">{t("visibilityReviewMonitoringHint")}</span>
+                </span>
+              </label>
+            ) : null}
+
             <p className="text-xs text-slate-500">{t("privacyNote")}</p>
-            <button
-              type="button"
-              onClick={() => {
-                setDigitalLightMode(false);
-                setQuickMode(false);
-                setStep(form.intent ? 2 : 1);
-              }}
-              className="text-sm text-primary font-medium hover:underline"
-            >
-              {t("digitalLightMoreDetail")}
-            </button>
+            {!visibilityReview ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setDigitalLightMode(false);
+                  setQuickMode(false);
+                  setStep(form.intent ? 2 : 1);
+                }}
+                className="text-sm text-primary font-medium hover:underline"
+              >
+                {t("digitalLightMoreDetail")}
+              </button>
+            ) : null}
           </div>
         ) : quickMode ? (
           <div key="quick" className="animate-fade-in space-y-5">
@@ -1534,7 +1603,7 @@ export default function ConsultationRequestForm({
                   {t("submitting")}
                 </>
               ) : (
-                t("submit")
+                visibilityReview ? t("visibilityReviewSubmit") : t("submit")
               )}
             </button>
           ) : step < 3 ? (

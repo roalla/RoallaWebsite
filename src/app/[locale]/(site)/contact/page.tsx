@@ -124,6 +124,11 @@ function ScheduleContent() {
   const initialWorkshopTopic = resolveInitialWorkshopTopic(needParam, searchParams.get('topic'))
   const fromAssessment = searchParams.get('from') === 'assessment'
   const initialSourcePage = searchParams.get('from_page')
+  const visibilityReview =
+    searchParams.get('review') === 'results' && initialIntent === 'visibility'
+  const websiteParam = searchParams.get('website')
+  const initialWebsiteUrl =
+    websiteParam && websiteParam.length <= 2048 ? websiteParam : null
 
   const { goal: referenceGoal, referenceId, referenceLabel, referenceImage } = useMemo(
     () => resolvePortfolioReference(referenceParam, t, tPortfolio),
@@ -133,11 +138,27 @@ function ScheduleContent() {
   const initialGoal = referenceGoal ?? packagePrefillGoal ?? searchParams.get('goal')
 
   const isDigital = isDigitalIntent(initialIntent)
-  const whatYouGetItems = isDigital
+  const whatYouGetItems = visibilityReview
+    ? [
+        t('visibilityReviewBenefit1'),
+        t('visibilityReviewBenefit2'),
+        t('visibilityReviewBenefit3'),
+        t('visibilityReviewBenefit4'),
+        t('visibilityReviewBenefit5'),
+      ]
+    : isDigital
     ? [t('whatYouGetDigital1'), t('whatYouGetDigital2'), t('whatYouGetDigital3'), t('whatYouGetDigital4')]
     : [t('whatYouGet1'), t('whatYouGet2'), t('whatYouGet3'), t('whatYouGet4')]
 
-  const subtitle = isDigital ? t('subtitleDigital') : t('subtitle')
+  const title = visibilityReview ? t('visibilityReviewPageTitle') : t('title')
+  const subtitle = visibilityReview
+    ? t('visibilityReviewPageSubtitle')
+    : isDigital
+      ? t('subtitleDigital')
+      : t('subtitle')
+  const expectation = visibilityReview
+    ? t('visibilityReviewPageExpectation')
+    : t('whatToExpect')
 
   return (
     <div className="page-shell">
@@ -146,14 +167,16 @@ function ScheduleContent() {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10 lg:mb-12">
             <h1 className="text-4xl md:text-5xl font-serif font-extrabold text-slate-900">
-              {t('title')}
+              {title}
             </h1>
             <p className="mt-4 text-lg text-slate-600">{subtitle}</p>
-            <p className="mt-3 text-sm text-slate-500">{t('whatToExpect')}</p>
+            <p className="mt-3 text-sm text-slate-500">{expectation}</p>
           </div>
 
           <div className="rounded-2xl border border-primary/20 bg-primary/[0.04] p-5 mb-8 lg:hidden">
-            <p className="text-sm font-semibold text-slate-900 mb-3">{t('whatYouGetTitle')}</p>
+            <p className="text-sm font-semibold text-slate-900 mb-3">
+              {visibilityReview ? t('visibilityReviewBenefitsTitle') : t('whatYouGetTitle')}
+            </p>
             <ul className="space-y-2">
               {whatYouGetItems.map((item) => (
                 <li key={item} className="flex items-start gap-2 text-sm text-slate-700">
@@ -179,11 +202,15 @@ function ScheduleContent() {
               initialEventGoal={initialEventGoal}
               initialWorkshopTopic={initialWorkshopTopic}
               initialSourcePage={initialSourcePage}
+              initialWebsiteUrl={initialWebsiteUrl}
               fromAssessment={fromAssessment}
               fromFoundingOffer={fromPackageOffer}
+              visibilityReview={visibilityReview}
             />
             <aside className="hidden lg:block rounded-2xl border border-slate-200 bg-slate-50 p-6 sticky top-28">
-              <p className="text-sm font-semibold text-slate-900 mb-4">{t('whatYouGetTitle')}</p>
+              <p className="text-sm font-semibold text-slate-900 mb-4">
+                {visibilityReview ? t('visibilityReviewBenefitsTitle') : t('whatYouGetTitle')}
+              </p>
               <ul className="space-y-3">
                 {whatYouGetItems.map((item) => (
                   <li key={item} className="flex items-start gap-2.5 text-sm text-slate-700 leading-snug">
@@ -195,11 +222,13 @@ function ScheduleContent() {
             </aside>
           </div>
 
-          <p className="mt-8 text-center">
-            <Link href="/assessment" className="text-primary hover:underline text-sm font-medium">
-              {t('assessmentLink')}
-            </Link>
-          </p>
+          {!visibilityReview ? (
+            <p className="mt-8 text-center">
+              <Link href="/assessment" className="text-primary hover:underline text-sm font-medium">
+                {t('assessmentLink')}
+              </Link>
+            </p>
+          ) : null}
         </div>
       </div>
     </div>

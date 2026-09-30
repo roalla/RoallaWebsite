@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  let body: { url?: unknown; strategy?: unknown; website?: unknown };
+  let body: { url?: unknown; website?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -57,23 +57,62 @@ export async function POST(request: NextRequest) {
 
   try {
     const target = normalizePublicTarget(body.url);
-    const strategy: PageSpeedStrategy =
-      body.strategy === "desktop" ? "desktop" : "mobile";
-    const cached = getCachedSnapshot(target, strategy);
-    if (cached) return response({ snapshot: cached, cached: true });
+    const strategies: PageSpeedStrategy[] = ["mobile", "desktop"];
+    const ready = strategies.map((strategy) => ({
+      strategy,
+      snapshot: getCachedSnapshot(target, strategy),
+    }));
 
-    const hostRate = checkHostRate(target.hostname);
-    if (!hostRate.allowed) {
-      return response(
-        { error: "This website was checked recently. Please try again shortly." },
-        429,
-        { "Retry-After": String(hostRate.retryAfterSeconds) },
-      );
+    if (ready.some((item) => !item.snapshot)) {
+      const hostRate = checkHostRate(target.hostname);
+      if (!hostRate.allowed) {
+        return response(
+          { error: "This website was checked recently. Please try again shortly." },
+          429,
+          { "Retry-After": String(hostRate.retryAfterSeconds) },
+        );
+      }
     }
 
-    const snapshot = await analyzePageSpeed(target, strategy);
-    setCachedSnapshot(target, strategy, snapshot);
-    return response({ snapshot, cached: false });
+    const settled = await Promise.allSettled(
+      ready.map(async (item) => {
+        if (item.snapshot) {
+          return { strategy: item.strategy, snapshot: item.snapshot, cached: true };
+        }
+        const snapshot = await analyzePageSpeed(target, item.strategy);
+        setCachedSnapshot(target, item.strategy, snapshot);
+        return { strategy: item.strategy, snapshot, cached: false };
+      }),
+    );
+
+    const reports: Record<string, { snapshot?: unknown; cached?: boolean; error?: string }> = {};
+    for (const result of settled) {
+      if (result.status === "fulfilled") {
+        reports[result.value.strategy] = {
+          snapshot: result.value.snapshot,
+          cached: result.value.cached,
+        };
+        continue;
+      }
+      const reason = result.reason;
+      const message =
+        reason instanceof PageSpeedProviderError
+          ? reason.message
+          : "The snapshot could not be completed. Please try again.";
+      const strategy = strategies[settled.indexOf(result)];
+      reports[strategy] = { error: message };
+    }
+
+    const completed = strategies.filter((strategy) => reports[strategy]?.snapshot);
+    if (!completed.length) {
+      const message =
+        reports.mobile?.error ||
+        reports.desktop?.error ||
+        "The snapshot could not be completed. Please try again.";
+      return response({ error: message, mobile: reports.mobile, desktop: reports.desktop }, 503);
+    }
+
+    return response({ mobile: reports.mobile, desktop: reports.desktop });
   } catch (error) {
     if (error instanceof PublicTargetError) {
       return response({ error: error.message }, 422);

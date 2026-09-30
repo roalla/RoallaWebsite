@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { unstable_noStore as noStore } from 'next/cache'
+import '../../site.css'
 import { getHubSession } from '@/lib/hub/auth-session'
 import HubShell from '@/components/hub/HubShell'
 import type { HubRole } from '@/lib/hub/roles'

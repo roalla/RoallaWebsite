@@ -108,26 +108,28 @@ export function recoverableSpendPercent(
 }
 
 export function communicationsValueEstimate(input: CommunicationsValueBriefInput) {
-  const annualSpend = safe(input.monthlySpend) * 12;
+  const monthlySpend = safe(input.monthlySpend);
+  const annualSpend = monthlySpend * 12;
+  const seats = safe(input.seatCount);
+  const costPerPersonMonthly = seats > 0 ? monthlySpend / seats : 0;
   const recoverablePercent = recoverableSpendPercent(input);
   const spendOpportunity = annualSpend * percent(recoverablePercent);
 
   const showMissedOpportunity =
-    input.scope !== "uc" || input.frictions.includes("missed-calls");
+    input.scope === "cc" || input.frictions.includes("missed-calls");
 
   const missedOpportunity = showMissedOpportunity
     ? safe(input.missedPerWeek) * safe(input.valuePerMissed) * 52
     : 0;
 
-  const indicativeAnnualValue = spendOpportunity + missedOpportunity;
-
   return {
     annualSpend,
+    costPerPersonMonthly,
     recoverablePercent,
     spendOpportunity,
     missedOpportunity,
-    indicativeAnnualValue,
     showMissedOpportunity,
+    indicativeAnnualValue: spendOpportunity + missedOpportunity,
   };
 }
 

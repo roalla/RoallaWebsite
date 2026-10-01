@@ -24,6 +24,10 @@ const money = (value: number, locale: string) =>
     maximumFractionDigits: 0,
   }).format(value);
 
+function fill(template: string, values: Record<string, string>) {
+  return Object.entries(values).reduce((text, [key, value]) => text.replaceAll(`{${key}}`, value), template);
+}
+
 const TOTAL_STEPS = 6;
 
 const approachCopy = {
@@ -162,7 +166,7 @@ const copy = {
       "200-plus": "200+ people",
     },
     frictionLabel: "Where does friction show up most?",
-    frictionHint: "Choose up to 2. Selected options stay highlighted.",
+    frictionHint: "Choose up to 2. A new choice replaces the oldest one.",
     frictionCount: "{count} of 2 selected",
     frictions: {
       "missed-calls": "Missed or abandoned calls",
@@ -181,19 +185,38 @@ const copy = {
       "three-months": "Within 3 months",
       urgent: "Urgent",
     },
-    numbersLabel: "What do you spend each month?",
-    monthlySpend: "Monthly communications spend (CAD)",
-    refineToggle: "Refine estimate (optional)",
-    seatCount: "Users, seats, or agents",
-    missedPerWeek: "Missed calls / interactions per week",
-    valuePerMissed: "Rough value of each missed interaction (CAD)",
+    numbersLabel: "What do you pay for phones each month?",
+    numbersHint:
+      "A rough number is fine. Include phone lines, calling apps, and tools your team uses to reach customers.",
+    monthlySpend: "Monthly cost",
+    peopleLabel: "How many people use the phones?",
+    peopleHint: "We filled this in from your earlier answer. Change it if it is off.",
+    reviewTitle: "Here is what that means",
+    yearlyLine: "You pay about {amount} a year.",
+    perPersonLine: "That is about {amount} a person each month.",
+    reviewLine: "About {amount} of that yearly bill is worth a closer look.",
+    reviewShare: "That is about {percent} dollars out of every 100 on the bill.",
+    reviewCaveat: "This is a planning guess, not money you are guaranteed to save.",
+    billReasons: {
+      "pots-legacy": "An older phone system often leaves a larger share of the bill worth checking.",
+      fragmented: "Overlapping tools often mean part of the bill is paying for the same job twice.",
+      "current-cloud-unsure": "When the tools are already online, the check is smaller: are you paying for things the team does not use?",
+      renewal: "A renewal is a good time to check a modest share of the bill before you sign again.",
+    },
+    missedTitle: "Calls that go unanswered",
+    missedHint: "Optional. Leave this at 0 if you are not sure.",
+    missedPerWeek: "Unanswered calls in a typical week",
+    valuePerMissed: "Rough value of one missed call",
+    valuePerMissedHint: "A common starting guess is $50 to $100. Change it to match your business.",
+    missedLine:
+      "That is about {amount} a year in business you may be missing. This is separate from your phone bill. It is not savings.",
     submit: "See my communications value brief",
     report: "ROALLA Communications Value Brief",
     printEyebrow: "Technology advisory · communications",
     why: "Why this approach fits",
-    valueTitle: "Indicative annual opportunity",
-    valueSpend: "From current spend assumptions",
-    valueMissed: "From missed or abandoned interactions",
+    valueTitle: "What is worth a closer look",
+    valueSpend: "Of the yearly phone bill",
+    valueMissed: "Unanswered calls, kept separate from the bill",
     priorities: "Decision priorities",
     plan: "Your 30, 60, and 90-day engagement direction",
     days: ["First 30 days", "By 60 days", "By 90 days"],
@@ -208,11 +231,9 @@ const copy = {
     save: "Save this brief in my browser",
     saved: "Brief saved",
     print: "Save branded PDF",
-    estimateNote: "Planning estimate only — not a quote or guaranteed savings.",
     disclaimer:
       "This is an initial planning guide based on your answers. ROALLA confirms scope, feasibility, dependencies, pricing, and expected measures before any engagement. ROALLA may receive compensation from some providers if you choose to purchase through us. We confirm this before any recommendation. This brief does not recommend a provider or replace security, legal, or financial review.",
-    liveHint: "Your indicative opportunity updates as you adjust spend.",
-    opportunityLabel: "Your indicative opportunity",
+    opportunityLabel: "Your yearly phone bill",
     contextLabel: "Your situation",
     printWhyHint: "Recommended engagement approach",
     printValueHint: "Based on your planning numbers",
@@ -247,7 +268,7 @@ const copy = {
       "200-plus": "200+ personnes",
     },
     frictionLabel: "Où la friction apparaît-elle le plus?",
-    frictionHint: "Choisissez jusqu’à 2. Les choix restent bien visibles.",
+    frictionHint: "Choisissez jusqu’à 2. Un nouveau choix remplace le plus ancien.",
     frictionCount: "{count} sur 2 sélectionnés",
     frictions: {
       "missed-calls": "Appels manqués ou abandonnés",
@@ -266,19 +287,39 @@ const copy = {
       "three-months": "Dans les 3 mois",
       urgent: "Urgent",
     },
-    numbersLabel: "Combien dépensez-vous chaque mois?",
-    monthlySpend: "Dépenses mensuelles de communications (CAD)",
-    refineToggle: "Affiner l’estimation (facultatif)",
-    seatCount: "Utilisateurs, sièges ou agents",
-    missedPerWeek: "Appels / interactions manqués par semaine",
-    valuePerMissed: "Valeur approximative d’une interaction manquée (CAD)",
+    numbersLabel: "Combien payez-vous pour le téléphone chaque mois?",
+    numbersHint:
+      "Un chiffre approximatif suffit. Incluez les lignes, les applications d’appels et les outils pour joindre les clients.",
+    monthlySpend: "Coût mensuel",
+    peopleLabel: "Combien de personnes utilisent le téléphone?",
+    peopleHint: "Ce nombre vient de votre réponse précédente. Changez-le s’il est inexact.",
+    reviewTitle: "Voici ce que cela veut dire",
+    yearlyLine: "Vous payez environ {amount} par année.",
+    perPersonLine: "Cela fait environ {amount} par personne chaque mois.",
+    reviewLine: "Environ {amount} de cette facture annuelle mérite un examen plus attentif.",
+    reviewShare: "C’est environ {percent} dollars sur chaque 100 dollars de la facture.",
+    reviewCaveat: "C’est une estimation pour planifier, pas de l’argent que vous êtes certain d’économiser.",
+    billReasons: {
+      "pots-legacy": "Un ancien système téléphonique laisse souvent une plus grande part de la facture à vérifier.",
+      fragmented: "Des outils qui se chevauchent font souvent payer deux fois une partie de la facture.",
+      "current-cloud-unsure":
+        "Quand les outils sont déjà en ligne, la question est plus petite : payez-vous pour des fonctions que l’équipe n’utilise pas?",
+      renewal: "Un renouvellement est le bon moment pour vérifier une petite part de la facture avant de signer de nouveau.",
+    },
+    missedTitle: "Appels sans réponse",
+    missedHint: "Facultatif. Laissez 0 si vous n’êtes pas sûr.",
+    missedPerWeek: "Appels sans réponse dans une semaine typique",
+    valuePerMissed: "Valeur approximative d’un appel manqué",
+    valuePerMissedHint: "Un point de départ courant est 50 $ à 100 $. Ajustez selon votre entreprise.",
+    missedLine:
+      "Cela représente environ {amount} par année en affaires possiblement manquées. C’est distinct de la facture de téléphone. Ce n’est pas une économie.",
     submit: "Voir ma fiche de valeur communications",
     report: "Fiche de valeur communications ROALLA",
     printEyebrow: "Conseil technologique · communications",
     why: "Pourquoi cette approche convient",
-    valueTitle: "Occasion annuelle indicative",
-    valueSpend: "À partir des hypothèses de dépenses actuelles",
-    valueMissed: "À partir des interactions manquées ou abandonnées",
+    valueTitle: "Ce qui mérite un examen",
+    valueSpend: "De la facture téléphonique annuelle",
+    valueMissed: "Appels sans réponse, séparés de la facture",
     priorities: "Priorités de décision",
     plan: "Votre direction d’engagement sur 30, 60 et 90 jours",
     days: ["Les 30 premiers jours", "D’ici 60 jours", "D’ici 90 jours"],
@@ -293,11 +334,9 @@ const copy = {
     save: "Enregistrer cette fiche dans mon navigateur",
     saved: "Fiche enregistrée",
     print: "Enregistrer le PDF de marque",
-    estimateNote: "Estimation de planification seulement — pas un devis ni des économies garanties.",
     disclaimer:
       "Il s’agit d’un guide initial fondé sur vos réponses. ROALLA confirme la portée, la faisabilité, les dépendances, le prix et les mesures avant tout mandat. ROALLA peut recevoir une rémunération de certains fournisseurs si vous choisissez d’acheter par notre intermédiaire. Nous le confirmons avant toute recommandation. Cette fiche ne recommande aucun fournisseur et ne remplace pas un examen de sécurité, juridique ou financier.",
-    liveHint: "Votre occasion indicative se met à jour lorsque vous ajustez les dépenses.",
-    opportunityLabel: "Votre occasion indicative",
+    opportunityLabel: "Votre facture téléphonique annuelle",
     contextLabel: "Votre situation",
     printWhyHint: "Parcours d’engagement recommandé",
     printValueHint: "Selon vos chiffres de planification",
@@ -310,23 +349,20 @@ const initial: CommunicationsValueBriefInput = {
   situation: "pots-legacy",
   scope: "both",
   scale: "11-50",
-  frictions: ["high-line-cost", "missed-calls"],
+  frictions: [],
   urgency: "exploring",
   monthlySpend: 1200,
   seatCount: SCALE_SEAT_DEFAULTS["11-50"],
-  missedPerWeek: 8,
-  valuePerMissed: 75,
+  missedPerWeek: 0,
+  valuePerMissed: 50,
 };
 
 const inputClass =
   "mt-2 w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 font-normal text-slate-900 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20";
 
-function choiceButton(active: boolean, disabled = false) {
+function choiceButton(active: boolean) {
   if (active) {
     return "cursor-pointer rounded-xl border-2 border-primary bg-primary px-4 py-3.5 text-sm font-semibold text-white shadow-sm transition focus-within:ring-2 focus-within:ring-primary/40 focus-within:ring-offset-2";
-  }
-  if (disabled) {
-    return "cursor-not-allowed rounded-xl border-2 border-slate-200 bg-slate-100 px-4 py-3.5 text-sm font-medium text-slate-400 opacity-70";
   }
   return "cursor-pointer rounded-xl border-2 border-slate-200 bg-white px-4 py-3.5 text-sm font-medium text-slate-700 transition hover:border-primary/50 hover:bg-slate-50 focus-within:ring-2 focus-within:ring-primary/30 focus-within:ring-offset-2";
 }
@@ -362,7 +398,6 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
   const [saved, setSaved] = useState(false);
   const [ready, setReady] = useState(false);
   const [step, setStep] = useState(1);
-  const [showRefine, setShowRefine] = useState(false);
   const [showSaveReminder, setShowSaveReminder] = useState(true);
   const trackedSteps = useRef<Set<number>>(new Set());
 
@@ -399,8 +434,6 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
   }, [step, complete]);
 
   const result = useMemo(() => buildCommunicationsValueBrief(input), [input]);
-  const showMissedFields =
-    input.scope !== "uc" || input.frictions.includes("missed-calls");
 
   function resetBrief() {
     if (typeof window !== "undefined" && !window.confirm(t.resetConfirm)) return;
@@ -409,7 +442,6 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
     setComplete(false);
     setSaved(false);
     setStep(1);
-    setShowRefine(false);
     setShowSaveReminder(false);
     trackedSteps.current = new Set();
   }
@@ -438,7 +470,9 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
       if (exists) {
         return { ...current, frictions: current.frictions.filter((item) => item !== friction) };
       }
-      if (current.frictions.length >= MAX_COMMUNICATIONS_FRICTIONS) return current;
+      if (current.frictions.length >= MAX_COMMUNICATIONS_FRICTIONS) {
+        return { ...current, frictions: [...current.frictions.slice(1), friction] };
+      }
       return { ...current, frictions: [...current.frictions, friction] };
     });
     setSaved(false);
@@ -481,9 +515,24 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
   }
 
   const frictionLabels = input.frictions.map((key) => t.frictions[key]).join("; ");
+  const yearlyAmount = money(result.annualSpend, language);
+  const reviewAmount = money(result.spendOpportunity, language);
+  const perPersonAmount = money(result.costPerPersonMonthly, language);
+  const yearlyLine = fill(t.yearlyLine, { amount: yearlyAmount });
+  const perPersonLine =
+    result.costPerPersonMonthly > 0 ? fill(t.perPersonLine, { amount: perPersonAmount }) : "";
+  const reviewLine = fill(t.reviewLine, { amount: reviewAmount });
+  const reviewShare = fill(t.reviewShare, { percent: String(result.recoverablePercent) });
+  const billReason = t.billReasons[input.situation];
+  const missedLine =
+    result.missedOpportunity > 0
+      ? fill(t.missedLine, { amount: money(result.missedOpportunity, language) })
+      : "";
   const contactGoal = [
     `${approaches.printTitles[result.approachKey]}`,
-    `Indicative opportunity: ${money(result.indicativeAnnualValue, language)} CAD/year`,
+    `Yearly phone bill: ${yearlyAmount}`,
+    `Worth a closer look: ${reviewAmount} (${result.recoverablePercent} dollars out of every 100)`,
+    missedLine ? `Unanswered calls, separate from the bill: ${money(result.missedOpportunity, language)}` : null,
     `Situation: ${t.situations[input.situation]}`,
     `Scope: ${t.scopes[input.scope]}`,
     `Scale: ${t.scales[input.scale]}`,
@@ -496,7 +545,6 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
     .slice(0, 900);
 
   const contactHref = `/${locale}/contact?intent=consulting&focus=technology&need=communications-modernization&goal=${encodeURIComponent(contactGoal)}&from_page=${encodeURIComponent("/tools/communications-value-brief")}`;
-  const frictionFull = input.frictions.length >= MAX_COMMUNICATIONS_FRICTIONS;
   const translatedPriority = (item: string) => (language === "fr" ? priorityFr[item] ?? item : item);
   const translatedPlan = (item: string) => (language === "fr" ? planFr[item] ?? item : item);
   const printTitle = approaches.printTitles[result.approachKey];
@@ -512,14 +560,7 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
     {
       label: t.valueTitle,
       hint: t.printValueHint,
-      value: [
-        money(result.indicativeAnnualValue, language),
-        `${t.valueSpend}: ${money(result.spendOpportunity, language)} (${result.recoverablePercent}%)`,
-        result.showMissedOpportunity && result.missedOpportunity > 0
-          ? `${t.valueMissed}: ${money(result.missedOpportunity, language)}`
-          : null,
-        t.estimateNote,
-      ]
+      value: [yearlyLine, perPersonLine, reviewLine, reviewShare, billReason, missedLine, t.reviewCaveat]
         .filter(Boolean)
         .join("\n"),
       accent: "gold" as const,
@@ -542,15 +583,13 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
 
   function ChoiceLabel({
     active,
-    disabled = false,
     children,
   }: {
     active: boolean;
-    disabled?: boolean;
     children: React.ReactNode;
   }) {
     return (
-      <span className={`flex h-full items-start gap-2.5 ${choiceButton(active, disabled && !active)}`}>
+      <span className={`flex h-full items-start gap-2.5 ${choiceButton(active)}`}>
         <span
           className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 ${
             active ? "border-white bg-white text-primary" : "border-slate-300 bg-transparent text-transparent"
@@ -661,19 +700,15 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
               <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 {(Object.keys(t.frictions) as CommunicationsFriction[]).map((key) => {
                   const active = input.frictions.includes(key);
-                  const disabled = frictionFull && !active;
                   return (
-                    <label key={key} className={`block ${disabled ? "pointer-events-none" : ""}`}>
+                    <label key={key} className="block">
                       <input
                         className="sr-only"
                         type="checkbox"
                         checked={active}
-                        disabled={disabled}
                         onChange={() => toggleFriction(key)}
                       />
-                      <ChoiceLabel active={active} disabled={disabled}>
-                        {t.frictions[key]}
-                      </ChoiceLabel>
+                      <ChoiceLabel active={active}>{t.frictions[key]}</ChoiceLabel>
                     </label>
                   );
                 })}
@@ -702,9 +737,9 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
           ) : null}
 
           {step === 6 ? (
-            <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
+            <div className="mt-6">
               <StepHeading step={6} label={t.numbersLabel} as="h3" />
-              <p className="mt-2 text-sm text-slate-600">{t.liveHint}</p>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{t.numbersHint}</p>
               <label className="mt-4 block text-sm font-semibold text-slate-900">
                 {t.monthlySpend}
                 <input
@@ -717,58 +752,67 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
                   required
                 />
               </label>
-              <button
-                type="button"
-                onClick={() => setShowRefine((current) => !current)}
-                className="mt-4 text-sm font-semibold text-primary-dark underline underline-offset-4"
-              >
-                {t.refineToggle}
-              </button>
-              {showRefine ? (
-                <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                  <label className="block text-sm font-semibold text-slate-900">
-                    {t.seatCount}
-                    <input
-                      type="number"
-                      min={1}
-                      step={1}
-                      value={input.seatCount}
-                      onChange={(e) => update("seatCount", Number(e.target.value))}
-                      className={inputClass}
-                    />
-                  </label>
-                  {showMissedFields ? (
-                    <>
-                      <label className="block text-sm font-semibold text-slate-900">
-                        {t.missedPerWeek}
-                        <input
-                          type="number"
-                          min={0}
-                          step={1}
-                          value={input.missedPerWeek}
-                          onChange={(e) => update("missedPerWeek", Number(e.target.value))}
-                          className={inputClass}
-                        />
-                      </label>
-                      <label className="block text-sm font-semibold text-slate-900 sm:col-span-2">
-                        {t.valuePerMissed}
-                        <input
-                          type="number"
-                          min={0}
-                          step={5}
-                          value={input.valuePerMissed}
-                          onChange={(e) => update("valuePerMissed", Number(e.target.value))}
-                          className={inputClass}
-                        />
-                      </label>
-                    </>
-                  ) : null}
+              <label className="mt-4 block text-sm font-semibold text-slate-900">
+                {t.peopleLabel}
+                <input
+                  type="number"
+                  min={1}
+                  step={1}
+                  value={input.seatCount}
+                  onChange={(e) => update("seatCount", Number(e.target.value))}
+                  className={inputClass}
+                />
+                <span className="mt-1 block text-sm font-normal text-slate-600">{t.peopleHint}</span>
+              </label>
+              {result.showMissedOpportunity ? (
+                <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                  <p className="text-sm font-semibold text-slate-900">{t.missedTitle}</p>
+                  <p className="mt-1 text-sm text-slate-600">{t.missedHint}</p>
+                  <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                    <label className="block text-sm font-semibold text-slate-900">
+                      {t.missedPerWeek}
+                      <input
+                        type="number"
+                        min={0}
+                        step={1}
+                        value={input.missedPerWeek}
+                        onChange={(e) => update("missedPerWeek", Number(e.target.value))}
+                        className={inputClass}
+                      />
+                    </label>
+                    <label className="block text-sm font-semibold text-slate-900">
+                      {t.valuePerMissed}
+                      <input
+                        type="number"
+                        min={0}
+                        step={5}
+                        value={input.valuePerMissed}
+                        onChange={(e) => update("valuePerMissed", Number(e.target.value))}
+                        className={inputClass}
+                      />
+                      <span className="mt-1 block text-sm font-normal text-slate-600">{t.valuePerMissedHint}</span>
+                    </label>
+                  </div>
                 </div>
               ) : null}
-              <div className="mt-5 rounded-xl bg-primary px-5 py-4 text-white">
-                <p className="text-xs font-bold uppercase tracking-[.14em] text-white/80">{t.opportunityLabel}</p>
-                <p className="mt-1 text-3xl font-serif font-bold">{money(result.indicativeAnnualValue, language)}</p>
-                <p className="mt-2 text-xs leading-5 text-white/80">{t.estimateNote}</p>
+              <div className="mt-6 rounded-xl border border-slate-200 bg-white p-5">
+                <p className="text-sm font-semibold text-primary-dark">{t.reviewTitle}</p>
+                <p className="mt-2 text-xs font-bold uppercase tracking-[.14em] text-slate-500">{t.opportunityLabel}</p>
+                <p className="mt-1 text-3xl font-serif font-bold text-slate-950">{yearlyAmount}</p>
+                {perPersonLine ? <p className="mt-1 text-sm text-slate-600">{perPersonLine}</p> : null}
+                <div className="mt-4 border-t border-slate-200 pt-4">
+                  <p className="text-sm font-semibold text-slate-900">{t.valueSpend}</p>
+                  <p className="mt-1 text-sm leading-6 text-slate-700">{reviewLine}</p>
+                  <p className="mt-1 text-sm leading-6 text-slate-700">{reviewShare}</p>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{billReason}</p>
+                  <p className="mt-2 text-sm leading-6 text-slate-500">{t.reviewCaveat}</p>
+                </div>
+                {missedLine ? (
+                  <div className="mt-4 border-t border-slate-200 pt-4">
+                    <p className="text-sm font-semibold text-slate-900">{t.valueMissed}</p>
+                    <p className="mt-1 text-sm leading-6 text-slate-700">{missedLine}</p>
+                  </div>
+                ) : null}
               </div>
             </div>
           ) : null}
@@ -842,20 +886,20 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
                 <p className="mt-3 leading-7 text-slate-700">{approaches.reasons[result.approachKey]}</p>
                 <div className="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-5">
                   <p className="text-xs font-bold uppercase tracking-[.14em] text-amber-900">{t.valueTitle}</p>
-                  <p className="mt-2 text-3xl font-serif font-bold text-amber-950">
-                    {money(result.indicativeAnnualValue, language)}
-                  </p>
-                  <ul className="mt-3 space-y-1 text-sm text-amber-950">
-                    <li>
-                      {t.valueSpend}: {money(result.spendOpportunity, language)} ({result.recoverablePercent}%)
-                    </li>
-                    {result.showMissedOpportunity && result.missedOpportunity > 0 ? (
-                      <li>
-                        {t.valueMissed}: {money(result.missedOpportunity, language)}
-                      </li>
-                    ) : null}
-                  </ul>
-                  <p className="mt-3 text-xs leading-5 text-amber-900">{t.estimateNote}</p>
+                  <p className="mt-3 text-xs font-bold uppercase tracking-[.14em] text-amber-800">{t.opportunityLabel}</p>
+                  <p className="mt-1 text-3xl font-serif font-bold text-amber-950">{yearlyAmount}</p>
+                  {perPersonLine ? <p className="mt-1 text-sm text-amber-950">{perPersonLine}</p> : null}
+                  <p className="mt-4 text-sm font-semibold text-amber-950">{t.valueSpend}</p>
+                  <p className="mt-1 text-sm leading-6 text-amber-950">{reviewLine}</p>
+                  <p className="mt-1 text-sm leading-6 text-amber-950">{reviewShare}</p>
+                  <p className="mt-2 text-sm leading-6 text-amber-900">{billReason}</p>
+                  {missedLine ? (
+                    <>
+                      <p className="mt-4 text-sm font-semibold text-amber-950">{t.valueMissed}</p>
+                      <p className="mt-1 text-sm leading-6 text-amber-950">{missedLine}</p>
+                    </>
+                  ) : null}
+                  <p className="mt-3 text-xs leading-5 text-amber-900">{t.reviewCaveat}</p>
                 </div>
               </div>
               <div>
@@ -970,8 +1014,8 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
           title={printTitle}
           subtitle={approaches.reasons[result.approachKey]}
           opportunityLabel={t.opportunityLabel}
-          opportunityValue={money(result.indicativeAnnualValue, language)}
-          opportunityNote={t.estimateNote}
+          opportunityValue={yearlyAmount}
+          opportunityNote={`${reviewLine} ${t.reviewCaveat}`}
           contextLabel={t.contextLabel}
           contextValue={`${t.situations[input.situation]} · ${t.scopes[input.scope]} · ${t.scales[input.scale]}`}
           fields={printFields}

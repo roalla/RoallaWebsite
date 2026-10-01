@@ -42,11 +42,12 @@ export type PresencePrintModel = {
   devices: PresencePrintDevice[];
   socialScore: number | null;
   socialChecks: PresencePrintMetric[];
+  contactUrl: string;
   contactLines: string[];
   agenticScore: number | null;
   agenticDevices: Array<{ label: string; score: number }>;
   agenticSignals: Array<PresencePrintMetric & { note: string }>;
-  domainChecks: Array<PresencePrintMetric & { status: string; result: string; why: string }>;
+  domainChecks: Array<PresencePrintMetric & { short: string; status: string; tone: "pass" | "review" | "gap"; result: string; why: string }>;
   domainName: string;
   actions: PresencePrintAction[];
   actionsEmpty: string;
@@ -497,7 +498,7 @@ export default function DigitalPresenceActionPlanPrintSheet({
                       <div className="presence-print-keep" style={{ marginTop: 8 }}>
                         <h3 style={{ margin: 0, fontSize: 13 }}>{model.labels.fieldTitle}</h3>
                         <p style={{ margin: "2px 0 0", fontSize: 11, color: "#64748b" }}>
-                          {model.labels.fieldIntro}{device.fieldScope ? ` · ${device.fieldScope}` : ""}
+                          {device.fieldScope ?? model.labels.fieldIntro}
                         </p>
                         <div style={{ marginTop: 6, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
                           {device.fieldMetrics.map((metric) => (
@@ -560,6 +561,11 @@ export default function DigitalPresenceActionPlanPrintSheet({
                   <section>
                     <SectionHeading>{model.labels.contactTitle}</SectionHeading>
                     <p style={{ margin: "4px 0 0", fontSize: 12, lineHeight: 1.45, color: "#64748b" }}>{model.labels.contactDescription}</p>
+                    {model.contactUrl ? (
+                      <p style={{ margin: "6px 0 0", fontSize: 11, lineHeight: 1.45, color: "#334155", overflowWrap: "anywhere" }}>
+                        {model.labels.finalUrl}: {model.contactUrl}
+                      </p>
+                    ) : null}
                     <ul style={{ margin: "8px 0 0", padding: 0, listStyle: "none" }}>
                       {model.contactLines.map((line) => (
                         <li key={line} className="presence-print-keep" style={{ marginTop: 6, fontSize: 12, lineHeight: 1.45, color: "#334155" }}>{line}</li>
@@ -573,6 +579,20 @@ export default function DigitalPresenceActionPlanPrintSheet({
                     <SectionHeading>{model.labels.domainTitle}</SectionHeading>
                     <p style={{ margin: "4px 0 0", fontSize: 12, lineHeight: 1.45, color: "#64748b" }}>{model.labels.domainChecked} {model.domainName}</p>
                     <p style={{ margin: "6px 0 0", fontSize: 12, lineHeight: 1.45, color: "#334155" }}>{model.labels.domainWhy}</p>
+                    <div style={{ marginTop: 8, display: "flex", flexWrap: "wrap", gap: 6 }}>
+                      {model.domainChecks.map((check) => {
+                        const tone = check.tone === "pass"
+                          ? { background: "#ecfdf5", color: "#047857", border: "1px solid #a7f3d0" }
+                          : check.tone === "review"
+                            ? { background: "#fffbeb", color: "#b45309", border: "1px solid #fde68a" }
+                            : { background: "#fff1f2", color: "#be123c", border: "1px solid #fecdd3" };
+                        return (
+                          <span key={check.short} className="presence-print-keep" style={{ ...tone, borderRadius: 999, padding: "4px 10px", fontSize: 11, fontWeight: 700 }}>
+                            {check.short} · {check.status}
+                          </span>
+                        );
+                      })}
+                    </div>
                     <div style={{ marginTop: 8, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
                       {model.domainChecks.map((check) => (
                         <div key={check.label} className="presence-print-keep" style={{ border: "1px solid #e2e8f0", background: "#f8fafc", padding: "8px 10px" }}>

@@ -159,6 +159,7 @@ const copy = {
     contactFormOnly: "This page offers a form and does not publish a mailbox in the source. That keeps scraped mail off the address.",
     contactFormAndMailbox: "This page has a form, and it also publishes a mailbox in the source. The form does not hide that address.",
     contactFormMissing: "No contact form was found on this page.",
+    contactFormMissingLink: "No contact form was found on this page. This page links to a contact page. That page was not opened.",
     contactEmailOff: "The page marks the address so it stays readable instead of being scrambled.",
     contactLimit: "This check reads the public HTML of the landing page only. It does not run scripts, open other pages, or show the address or phone number. A form that exists only on another address, such as a contact page, is not part of this result. A hidden form field can reduce junk form posts. It does not stop a bot from copying an address already in the page.",
     contactYes: "Yes",
@@ -176,6 +177,7 @@ const copy = {
       cloudflareObfuscation: "Scrambled mailbox",
       emailLeftReadable: "Address left readable on purpose",
       contactForm: "Contact form",
+      contactPageLink: "Link to a contact page",
     },
     mobile: "Mobile",
     desktop: "Desktop",
@@ -192,6 +194,8 @@ const copy = {
     fieldIntro: "Public Chrome visitor data from the previous 28 days",
     fieldPage: "This page",
     fieldOrigin: "Whole website",
+    fieldPageDetail: "These numbers are for this landing page.",
+    fieldOriginDetail: "These numbers cover the whole site address. This page does not have enough visits of its own.",
     noFieldData: "Google does not have enough public visitor data for this page yet.",
     labTitle: "Page speed details",
     opportunitiesTitle: "Ways to improve page speed",
@@ -329,6 +333,7 @@ const copy = {
     domainCheck: {
       mx: {
         title: "Mail delivery",
+        short: "Delivery",
         pass: "Mail for this domain has a destination.",
         review: "The mail destination needs a closer look.",
         gap: "This domain has no place for mail to arrive.",
@@ -337,6 +342,7 @@ const copy = {
       },
       spf: {
         title: "Who may send mail (SPF)",
+        short: "SPF",
         pass: "A list names the services allowed to send mail for this domain.",
         review: "The sender list is present, but it does not clearly reject unlisted mail.",
         gap: "There is no usable list of who may send mail for this domain.",
@@ -345,6 +351,7 @@ const copy = {
       },
       dkim: {
         title: "Signed mail (DKIM)",
+        short: "DKIM",
         pass: "A common sending service signs mail for this domain.",
         review: "A signature was found, and it still needs a closer look.",
         gap: "No signature was found on the common sending services.",
@@ -353,6 +360,7 @@ const copy = {
       },
       dmarc: {
         title: "Forged-mail policy (DMARC)",
+        short: "DMARC",
         pass: "Providers are told to quarantine or reject mail that fails the checks.",
         review: "The policy only watches. It does not yet stop forged mail.",
         gap: "There is no policy for mail that fails the sender checks.",
@@ -361,6 +369,7 @@ const copy = {
       },
       names: {
         title: "Bare name and www",
+        short: "www",
         pass: "The bare name and www reach the same place.",
         review: "The bare name and www resolve to different addresses.",
         gap: "One of the names does not resolve.",
@@ -495,6 +504,7 @@ const copy = {
     contactFormOnly: "Cette page offre un formulaire et ne publie pas d’adresse courriel dans le code. C’est ce qui garde le courriel indésirable loin de l’adresse.",
     contactFormAndMailbox: "Cette page a un formulaire, et elle publie aussi une adresse courriel dans le code. Le formulaire ne cache pas cette adresse.",
     contactFormMissing: "Aucun formulaire de contact n’a été trouvé sur cette page.",
+    contactFormMissingLink: "Aucun formulaire de contact n’a été trouvé sur cette page. Cette page contient un lien vers une page de contact. Cette page n’a pas été ouverte.",
     contactEmailOff: "La page marque l’adresse pour qu’elle reste lisible au lieu d’être brouillée.",
     contactLimit: "Cette vérification lit uniquement le HTML public de la page d’arrivée. Elle n’exécute pas les scripts, n’ouvre pas d’autres pages et n’affiche ni l’adresse ni le numéro. Un formulaire qui se trouve seulement sur une autre adresse, comme une page de contact, ne fait pas partie de ce résultat. Un champ de formulaire caché peut réduire les envois indésirables. Il n’empêche pas un robot de copier une adresse déjà dans la page.",
     contactYes: "Oui",
@@ -512,6 +522,7 @@ const copy = {
       cloudflareObfuscation: "Adresse brouillée",
       emailLeftReadable: "Adresse laissée lisible volontairement",
       contactForm: "Formulaire de contact",
+      contactPageLink: "Lien vers une page de contact",
     },
     mobile: "Mobile",
     desktop: "Ordinateur",
@@ -528,6 +539,8 @@ const copy = {
     fieldIntro: "Données publiques des visiteurs Chrome des 28 derniers jours",
     fieldPage: "Cette page",
     fieldOrigin: "Tout le site",
+    fieldPageDetail: "Ces chiffres portent sur cette page d’arrivée.",
+    fieldOriginDetail: "Ces chiffres couvrent l’adresse du site entier. Cette page n’a pas assez de visites à elle seule.",
     noFieldData: "Google ne dispose pas encore de suffisamment de données publiques sur les visiteurs de cette page.",
     labTitle: "Détails sur la vitesse de la page",
     opportunitiesTitle: "Façons d’améliorer la vitesse de la page",
@@ -665,6 +678,7 @@ const copy = {
     domainCheck: {
       mx: {
         title: "Livraison du courriel",
+        short: "Livraison",
         pass: "Le courriel de ce domaine a une destination.",
         review: "La destination du courriel mérite un examen plus attentif.",
         gap: "Ce domaine n’a pas d’endroit où le courriel peut arriver.",
@@ -673,6 +687,7 @@ const copy = {
       },
       spf: {
         title: "Qui peut envoyer (SPF)",
+        short: "SPF",
         pass: "Une liste nomme les services autorisés à envoyer pour ce domaine.",
         review: "La liste des expéditeurs existe, mais elle ne refuse pas clairement le courriel non listé.",
         gap: "Il n’y a pas de liste utilisable de qui peut envoyer pour ce domaine.",
@@ -681,6 +696,7 @@ const copy = {
       },
       dkim: {
         title: "Courriel signé (DKIM)",
+        short: "DKIM",
         pass: "Un service d’envoi courant signe le courriel de ce domaine.",
         review: "Une signature a été trouvée, et elle mérite encore un examen.",
         gap: "Aucune signature n’a été trouvée sur les services d’envoi courants.",
@@ -689,6 +705,7 @@ const copy = {
       },
       dmarc: {
         title: "Politique contre l’usurpation (DMARC)",
+        short: "DMARC",
         pass: "Les fournisseurs doivent mettre en quarantaine ou refuser le courriel qui échoue aux vérifications.",
         review: "La politique observe seulement. Elle n’arrête pas encore le courriel usurpé.",
         gap: "Il n’y a pas de politique pour le courriel qui échoue aux vérifications d’expéditeur.",
@@ -697,6 +714,7 @@ const copy = {
       },
       names: {
         title: "Nom nu et www",
+        short: "www",
         pass: "Le nom nu et www mènent au même endroit.",
         review: "Le nom nu et www pointent vers des adresses différentes.",
         gap: "L’un des noms ne se résout pas.",
@@ -853,6 +871,7 @@ function contactLines(exposure: ContactExposure | undefined, labels: {
   contactFormOnly: string;
   contactFormAndMailbox: string;
   contactFormMissing: string;
+  contactFormMissingLink: string;
   contactEmailOff: string;
 }) {
   if (!exposure) return [];
@@ -867,7 +886,9 @@ function contactLines(exposure: ContactExposure | undefined, labels: {
       ? labels.contactFormOnly
       : exposure.contactForm
         ? labels.contactFormAndMailbox
-        : labels.contactFormMissing,
+        : exposure.contactPageLink
+          ? labels.contactFormMissingLink
+          : labels.contactFormMissing,
   ];
   if (exposure.emailLeftReadable) lines.push(labels.contactEmailOff);
   return lines;
@@ -1248,9 +1269,12 @@ export default function DigitalPresenceSnapshot({
         finalUrl: snapshot.finalUrl,
         scores: snapshot.scores,
         fieldScope: snapshot.fieldMetrics.length
-          ? snapshot.fieldScope === "page" ? t.fieldPage : t.fieldOrigin
+          ? snapshot.fieldScope === "page" ? t.fieldPageDetail : t.fieldOriginDetail
           : undefined,
-        fieldMetrics: snapshot.fieldMetrics.map((metric) => ({ label: metric.label, value: metric.displayValue })),
+        fieldMetrics: snapshot.fieldMetrics.map((metric) => ({
+          label: `${metric.label} · ${snapshot.fieldScope === "page" ? t.fieldPage : t.fieldOrigin}`,
+          value: metric.displayValue,
+        })),
         labMetrics: snapshot.labMetrics.map((metric) => ({ label: metric.label, value: metric.displayValue })),
         opportunities: snapshot.opportunities.map((opportunity) => ({
           title: opportunity.title,
@@ -1263,6 +1287,7 @@ export default function DigitalPresenceSnapshot({
       label: t.actionSocial[check.id],
       value: `${check.points}/${check.maxPoints}`,
     })) ?? [],
+    contactUrl: social?.finalUrl ?? "",
     contactLines: contactLines(social?.contactExposure, t),
     agenticScore: agenticViews.length ? null : social?.agentic?.score ?? null,
     agenticDevices: agenticViews.map((view) => ({ label: view.label, score: view.agentic.score })),
@@ -1278,8 +1303,10 @@ export default function DigitalPresenceSnapshot({
       const item = t.domainCheck[check.id];
       return {
         label: item.title,
+        short: item.short,
         value: check.evidence.join(" · "),
         status: t.domainStatus[check.status],
+        tone: check.status,
         result: item[check.status],
         why: item.why,
       };
@@ -1551,14 +1578,19 @@ export default function DigitalPresenceSnapshot({
                         </dl>
                       ) : null}
                       <div className="mt-4 rounded-lg bg-slate-50 p-3">
-                        <div className="flex flex-wrap items-center justify-between gap-2">
-                          <h4 className="text-sm font-semibold text-slate-900">{t.fieldTitle}</h4>
-                          {snapshot.fieldMetrics.length ? <span className="text-[11px] font-semibold text-slate-500">{snapshot.fieldScope === "page" ? t.fieldPage : t.fieldOrigin}</span> : null}
-                        </div>
-                        <p className="mt-1 text-xs text-slate-500">{t.fieldIntro}</p>
+                        <h4 className="text-sm font-semibold text-slate-900">{t.fieldTitle}</h4>
+                        <p className="mt-1 text-xs text-slate-500">{snapshot.fieldMetrics.length ? (snapshot.fieldScope === "page" ? t.fieldPageDetail : t.fieldOriginDetail) : t.fieldIntro}</p>
                         {snapshot.fieldMetrics.length ? (
                           <dl className="mt-3 grid gap-2 sm:grid-cols-3">
-                            {snapshot.fieldMetrics.map((metric) => <div key={metric.key}><dt className="text-[11px] text-slate-500">{metric.label}</dt><dd className="font-semibold text-slate-900">{metric.displayValue}</dd></div>)}
+                            {snapshot.fieldMetrics.map((metric) => (
+                              <div key={metric.key}>
+                                <dt className="text-[11px] text-slate-500">{metric.label}</dt>
+                                <dd className="font-semibold text-slate-900">
+                                  {metric.displayValue}
+                                  <span className="mt-0.5 block text-[11px] font-semibold text-slate-500">{snapshot.fieldScope === "page" ? t.fieldPage : t.fieldOrigin}</span>
+                                </dd>
+                              </div>
+                            ))}
                           </dl>
                         ) : <p className="mt-3 text-xs text-slate-600">{t.noFieldData}</p>}
                       </div>
@@ -1636,6 +1668,12 @@ export default function DigitalPresenceSnapshot({
                 </div>
                 {social?.contactExposure ? (
                   <div className="mt-6">
+                    {social.finalUrl ? (
+                      <p className="mb-4 text-sm text-slate-700">
+                        <span className="font-semibold text-slate-900">{t.finalUrl}: </span>
+                        <span className="mt-1 block overflow-x-auto whitespace-nowrap font-mono text-[13px] text-slate-800">{social.finalUrl}</span>
+                      </p>
+                    ) : null}
                     <ul className="space-y-3">
                       {contactLines(social.contactExposure, t).map((line) => (
                         <li key={line} className="rounded-lg bg-slate-50 p-4 text-sm leading-6 text-slate-800">{line}</li>
@@ -1729,12 +1767,32 @@ export default function DigitalPresenceSnapshot({
                   <p className="text-xs font-semibold uppercase tracking-wide text-amber-800">{t.domainWhyTitle}</p>
                   <p className="mt-1 text-sm leading-6 text-amber-950">{t.domainWhy}</p>
                 </div>
+                <ul className="mt-4 flex flex-wrap gap-2" aria-label={t.domainTitle}>
+                  {domain.checks.map((check) => {
+                    const item = t.domainCheck[check.id];
+                    const pill = check.status === "pass"
+                      ? "border-emerald-200 bg-emerald-50 text-emerald-800"
+                      : check.status === "review"
+                        ? "border-amber-200 bg-amber-50 text-amber-800"
+                        : "border-rose-200 bg-rose-50 text-rose-800";
+                    const dot = check.status === "pass" ? "bg-emerald-500" : check.status === "review" ? "bg-amber-500" : "bg-rose-500";
+                    return (
+                      <li key={check.id}>
+                        <a href={`#domain-${check.id}`} className={`inline-flex min-h-[32px] items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold ${pill}`}>
+                          <span className={`h-2 w-2 shrink-0 rounded-full ${dot}`} aria-hidden />
+                          {item.short}
+                          <span className="font-medium">{t.domainStatus[check.status]}</span>
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
                 <dl className="mt-5 grid gap-3">
                   {domain.checks.map((check) => {
                     const item = t.domainCheck[check.id];
                     const tone = check.status === "pass" ? "text-emerald-700" : check.status === "review" ? "text-amber-700" : "text-rose-700";
                     return (
-                      <div key={check.id} className="rounded-lg bg-slate-50 p-4">
+                      <div id={`domain-${check.id}`} key={check.id} className="scroll-mt-28 rounded-lg bg-slate-50 p-4">
                         <dt className="text-[11px] font-semibold text-slate-500">{item.title}</dt>
                         <dd className={`mt-1 text-lg font-bold ${tone}`}>{t.domainStatus[check.status]}</dd>
                         <p className="mt-1 text-sm leading-6 text-slate-800">{item[check.status]}</p>

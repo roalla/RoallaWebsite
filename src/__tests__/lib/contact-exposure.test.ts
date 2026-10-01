@@ -92,4 +92,34 @@ describe("analyzeContactExposure", () => {
     expect(result.mailboxInSource).toBe(false);
     expect(result.phoneInSource).toBe(false);
   });
+
+  it("counts a multi-step form that asks for a message before the email field is shown", () => {
+    const html = `
+      <form>
+        <input type="text" name="website" class="hidden" />
+        <button type="button">Skip to message — just name, email, and a note</button>
+        <button type="button">Website</button>
+      </form>`;
+    const result = analyzeContactExposure(html);
+
+    expect(result.contactForm).toBe(true);
+    expect(result.signals).toContain("contactForm");
+  });
+
+  it("reports a contact-page link without opening that page", () => {
+    const html = `<a href="/en/contact">Send a message</a><a href="mailto:${MAILBOX}">Email</a>`;
+    const result = analyzeContactExposure(html);
+
+    expect(result.contactForm).toBe(false);
+    expect(result.contactPageLink).toBe(true);
+    expect(result.signals).toContain("contactPageLink");
+    expect(result.mailboxInSource).toBe(true);
+  });
+
+  it("does not treat a hash or an unrelated path as a contact page", () => {
+    const html = `<a href="#presence-contact">Contact details</a><a href="/blog/contact-lenses">Guide</a>`;
+    const result = analyzeContactExposure(html);
+
+    expect(result.contactPageLink).toBe(false);
+  });
 });

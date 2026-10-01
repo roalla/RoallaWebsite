@@ -8,6 +8,7 @@ export const CONTACT_EXPOSURE_SIGNALS = [
   "cloudflareObfuscation",
   "emailLeftReadable",
   "contactForm",
+  "contactPageLink",
 ] as const;
 
 export type ContactExposureSignal = (typeof CONTACT_EXPOSURE_SIGNALS)[number];
@@ -16,6 +17,7 @@ export type ContactExposure = {
   mailboxInSource: boolean;
   phoneInSource: boolean;
   contactForm: boolean;
+  contactPageLink: boolean;
   cloudflareObfuscated: boolean;
   emailLeftReadable: boolean;
   signals: ContactExposureSignal[];
@@ -193,16 +195,39 @@ function isSearchForm(formHtml: string) {
   return type === "search" || /^(q|s|query|search)$/.test(name.trim());
 }
 
+const REPLY_ASK = /\b(e-?mail|courriel|message|inquiry|enquiry|commentaire|what can we help|comment pouvons-nous)\b/i;
+const CONTACT_PAGE_PATH = /(?:^|\/)(?:contact|contacts|contact-us|contactez-nous|nous-joindre)\/?$/i;
+
+function isContactPageHref(href: string) {
+  const value = href.trim();
+  if (!value || /^(?:mailto:|tel:|javascript:|#)/i.test(value)) return false;
+  let path = value.split(/[?#]/)[0];
+  try {
+    path = new URL(value, "https://example.test/page").pathname;
+  } catch {
+    // Keep the path taken from the raw href.
+  }
+  return CONTACT_PAGE_PATH.test(path);
+}
+
+function hasContactPageLink(html: string) {
+  return collectMatches(html, /<a\b[^>]*>/gi).some((match) => isContactPageHref(attributes(match[0]).href ?? ""));
+}
+
 function isContactForm(formHtml: string) {
   if (isSearchForm(formHtml)) return false;
   if (/<textarea\b/i.test(formHtml)) return true;
   const inputs = collectMatches(formHtml, /<input\b[^>]*>/gi).map((match) => attributes(match[0]));
-  return inputs.some((input) => {
+  const collectsReply = inputs.some((input) => {
     const type = (input.type ?? "text").toLowerCase();
     if (["hidden", "submit", "button", "image", "reset"].includes(type)) return false;
     const name = `${input.name ?? ""} ${input.id ?? ""} ${input.placeholder ?? ""}`.toLowerCase();
-    return type === "email" || type === "tel" || /\b(e-?mail|phone|tel|mobile|message|comment)\b/.test(name);
+    return type === "email" || type === "tel" || /\b(e-?mail|courriel|phone|tel|mobile|message|comment)\b/.test(name);
   });
+  if (collectsReply) return true;
+  const asksInText = REPLY_ASK.test(stripTags(formHtml));
+  const hasButton = /<button\b/i.test(formHtml);
+  return asksInText && hasButton;
 }
 
 export function analyzeContactExposure(html: string): ContactExposure {
@@ -214,7 +239,8 @@ export function analyzeContactExposure(html: string): ContactExposure {
   const telLink = /href\s*=\s*["']\s*tel:/i.test(decoded);
   const plainEmail = hasMailbox(withoutCode) || hasMailbox(normalizeWrittenObfuscation(visible));
   const plainPhone = hasPhone(visible);
-  const contactForm = formBlocks(html).some(isContactForm);
+  const contactForm = formBlocks(withoutCode).some(isContactForm);
+  const contactPageLink = hasContactPageLink(withoutCode);
   const cloudflareObfuscated = /data-cfemail\s*=|\/cdn-cgi\/l\/email-protection|__cf_email__/i.test(html);
   const mailboxInSource = plainEmail || mailto || schema.email;
   const phoneInSource = plainPhone || telLink || schema.phone;
@@ -230,12 +256,14 @@ export function analyzeContactExposure(html: string): ContactExposure {
     cloudflareObfuscation: cloudflareObfuscated,
     emailLeftReadable,
     contactForm,
+    contactPageLink,
   };
 
   return {
     mailboxInSource,
     phoneInSource,
     contactForm,
+    contactPageLink,
     cloudflareObfuscated,
     emailLeftReadable,
     signals: CONTACT_EXPOSURE_SIGNALS.filter((signal) => present[signal]),

@@ -85,9 +85,34 @@ describe("communications value brief", () => {
       frictions: ["missed-calls"],
     });
     expect(value.annualSpend).toBe(12000);
+    expect(value.costPerPersonMonthly).toBe(40);
     expect(value.spendOpportunity).toBeGreaterThan(0);
     expect(value.missedOpportunity).toBe(5 * 50 * 52);
     expect(value.indicativeAnnualValue).toBe(value.spendOpportunity + value.missedOpportunity);
+  });
+
+  it("does not invent unanswered-call dollars unless that problem was chosen", () => {
+    const hidden = communicationsValueEstimate({
+      ...base,
+      situation: "pots-legacy",
+      scope: "both",
+      frictions: [],
+      missedPerWeek: 8,
+      valuePerMissed: 75,
+    });
+    expect(hidden.missedOpportunity).toBe(0);
+    expect(hidden.indicativeAnnualValue).toBe(hidden.spendOpportunity);
+
+    const noneEntered = communicationsValueEstimate({
+      ...base,
+      situation: "current-cloud-unsure",
+      scope: "cc",
+      frictions: [],
+      missedPerWeek: 0,
+      valuePerMissed: 75,
+    });
+    expect(noneEntered.showMissedOpportunity).toBe(true);
+    expect(noneEntered.missedOpportunity).toBe(0);
   });
 
   it("adds contact-centre priorities for CC scope", () => {

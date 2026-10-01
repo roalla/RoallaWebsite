@@ -25,7 +25,7 @@ const money = (value: number, locale: string) =>
   }).format(value);
 
 function fill(template: string, values: Record<string, string>) {
-  return Object.entries(values).reduce((text, [key, value]) => text.replaceAll(`{${key}}`, value), template);
+  return Object.entries(values).reduce((text, [key, value]) => text.split(`{${key}}`).join(value), template);
 }
 
 const TOTAL_STEPS = 6;

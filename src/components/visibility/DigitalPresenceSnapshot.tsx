@@ -46,6 +46,8 @@ type SnapshotHistory = {
   desktopPerformance: number | null;
   socialScore: number | null;
   agenticScore?: number | null;
+  agenticMobile?: number | null;
+  agenticDesktop?: number | null;
 };
 
 type CompetitorResult = {
@@ -89,7 +91,9 @@ function saveHistory(
     mobilePerformance: technical?.mobile?.snapshot?.scores.performance ?? null,
     desktopPerformance: technical?.desktop?.snapshot?.scores.performance ?? null,
     socialScore: social?.score ?? null,
-    agenticScore: social?.agentic?.score ?? null,
+    agenticMobile: technical?.mobile?.snapshot?.agentic?.score ?? null,
+    agenticDesktop: technical?.desktop?.snapshot?.agentic?.score ?? null,
+    agenticScore: technical?.mobile?.snapshot?.agentic?.score ?? technical?.desktop?.snapshot?.agentic?.score ?? social?.agentic?.score ?? null,
   };
   try {
     window.localStorage.setItem(storageKey(value), JSON.stringify(history));
@@ -291,6 +295,7 @@ const copy = {
     },
     phoneGap: "Your phone result averages {mobile} and your computer result averages {desktop}. Most visitors will feel the phone result.",
     agenticGap: "Search readiness averages {seo}. Agentic (AI) readiness is {agentic}. A page can be easy to find in search and still be hard for an assistant to quote or describe.",
+    agenticGapDevices: "Search readiness averages {seo}. Agentic (AI) readiness is {mobile} on a phone and {desktop} on a computer. A page can be easy to find in search and still be hard for an assistant to quote or describe.",
     actionAgentic: "Make the page easier for an assistant to describe",
     findingTitle: "One finding from this check",
     findingDevice: { mobile: "a phone", desktop: "a computer" },
@@ -494,6 +499,7 @@ const copy = {
     },
     phoneGap: "Le résultat sur téléphone est de {mobile} en moyenne et le résultat sur ordinateur est de {desktop}. La plupart des visiteurs ressentiront le résultat du téléphone.",
     agenticGap: "La préparation à la recherche est de {seo} en moyenne. La préparation agentique (IA) est de {agentic}. Une page peut être facile à trouver en recherche et rester difficile à citer ou à décrire pour un assistant.",
+    agenticGapDevices: "La préparation à la recherche est de {seo} en moyenne. La préparation agentique (IA) est de {mobile} sur téléphone et de {desktop} sur ordinateur. Une page peut être facile à trouver en recherche et rester difficile à citer ou à décrire pour un assistant.",
     actionAgentic: "Rendre la page plus facile à décrire pour un assistant",
     findingTitle: "Un constat de cette vérification",
     findingDevice: { mobile: "téléphone", desktop: "ordinateur" },
@@ -654,7 +660,8 @@ export default function DigitalPresenceSnapshot({
     setCompetitor(null);
     try {
       const body = JSON.stringify({ url: competitorUrl });
-      const [technicalResponse, socialResponse] = await Promise.all([
+      const ownNeedsAgentic = !technical?.mobile?.snapshot?.agentic || !technical?.desktop?.snapshot?.agentic;
+      const [technicalResponse, socialResponse, ownResponse] = await Promise.all([
         fetch("/api/website-visibility-snapshot", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -665,11 +672,24 @@ export default function DigitalPresenceSnapshot({
           headers: { "Content-Type": "application/json" },
           body,
         }),
+        ownNeedsAgentic
+          ? fetch("/api/website-visibility-snapshot", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ url }),
+            })
+          : Promise.resolve(null),
       ]);
       const technicalPayload = (await technicalResponse.json().catch(() => ({}))) as TechnicalResponse;
       const socialPayload = (await socialResponse.json().catch(() => ({}))) as {
         snapshot?: SocialPresenceSnapshot;
       };
+      if (ownResponse) {
+        const ownPayload = (await ownResponse.json().catch(() => ({}))) as TechnicalResponse;
+        if (ownPayload.mobile?.snapshot?.agentic || ownPayload.desktop?.snapshot?.agentic) {
+          setTechnical(ownPayload);
+        }
+      }
       if (!technicalPayload.mobile?.snapshot && !technicalPayload.desktop?.snapshot && !socialPayload.snapshot) {
         throw new Error(t.competitorError);
       }
@@ -714,10 +734,20 @@ export default function DigitalPresenceSnapshot({
       : { title: t.recommendationManaged, body: t.recommendationManagedBody, intent: "website" };
   const seoScores = technicalSnapshots.map((snapshot) => snapshot.scores.seo).filter((score): score is number => score != null);
   const averageSeo = seoScores.length ? Math.round(seoScores.reduce((sum, score) => sum + score, 0) / seoScores.length) : null;
-  const agenticScore = social?.agentic?.score ?? null;
-  const agenticGap = averageSeo != null && agenticScore != null && averageSeo - agenticScore >= 15
-    ? fill(t.agenticGap, { seo: String(averageSeo), agentic: String(agenticScore) })
-    : "";
+  const mobileAgentic = technical?.mobile?.snapshot?.agentic ?? null;
+  const desktopAgentic = technical?.desktop?.snapshot?.agentic ?? null;
+  const agenticViews = [
+    ...(mobileAgentic ? [{ label: t.mobile, agentic: mobileAgentic }] : []),
+    ...(desktopAgentic ? [{ label: t.desktop, agentic: desktopAgentic }] : []),
+  ];
+  const agenticScore = agenticViews.length
+    ? Math.min(...agenticViews.map((view) => view.agentic.score))
+    : social?.agentic?.score ?? null;
+  const agenticGap = averageSeo != null && mobileAgentic && desktopAgentic && mobileAgentic.score !== desktopAgentic.score && averageSeo - Math.min(mobileAgentic.score, desktopAgentic.score) >= 15
+    ? fill(t.agenticGapDevices, { seo: String(averageSeo), mobile: String(mobileAgentic.score), desktop: String(desktopAgentic.score) })
+    : averageSeo != null && agenticScore != null && averageSeo - agenticScore >= 15
+      ? fill(t.agenticGap, { seo: String(averageSeo), agentic: String(agenticScore) })
+      : "";
   const reviewGoal = `${note} ${lead} ${recommendation.title}`.slice(0, 700);
   const finding = narrative.finding;
   const findingText = finding?.kind === "opportunity"
@@ -746,9 +776,14 @@ export default function DigitalPresenceSnapshot({
       comparison: competitor?.social?.score ?? null,
     },
     {
-      label: t.agenticTitle,
-      primary: social?.agentic?.score ?? null,
-      comparison: competitor?.social?.agentic?.score ?? null,
+      label: `${t.agenticTitle} · ${t.mobile}`,
+      primary: mobileAgentic?.score ?? null,
+      comparison: competitor?.technical?.mobile?.snapshot?.agentic?.score ?? null,
+    },
+    {
+      label: `${t.agenticTitle} · ${t.desktop}`,
+      primary: desktopAgentic?.score ?? null,
+      comparison: competitor?.technical?.desktop?.snapshot?.agentic?.score ?? null,
     },
   ];
   const historyRows = previous
@@ -756,7 +791,8 @@ export default function DigitalPresenceSnapshot({
         { label: t.mobilePerformance, current: currentMobilePerformance, old: previous.mobilePerformance },
         { label: t.desktopPerformance, current: currentDesktopPerformance, old: previous.desktopPerformance },
         { label: t.socialScore, current: social?.score ?? null, old: previous.socialScore },
-        { label: t.agenticTitle, current: social?.agentic?.score ?? null, old: previous.agenticScore ?? null },
+        { label: `${t.agenticTitle} · ${t.mobile}`, current: mobileAgentic?.score ?? null, old: previous.agenticMobile ?? null },
+        { label: `${t.agenticTitle} · ${t.desktop}`, current: desktopAgentic?.score ?? null, old: previous.agenticDesktop ?? null },
       ]
     : [];
   const redirectNote = technicalSnapshots.some((item) => !isSamePublicPage(item.requestedUrl, item.finalUrl))
@@ -804,8 +840,9 @@ export default function DigitalPresenceSnapshot({
       label: t.actionSocial[check.id],
       value: `${check.points}/${check.maxPoints}`,
     })) ?? [],
-    agenticScore: social?.agentic?.score ?? null,
-    agenticSignals: social?.agentic?.signals?.map((signal) => {
+    agenticScore: agenticViews.length ? null : social?.agentic?.score ?? null,
+    agenticDevices: agenticViews.map((view) => ({ label: view.label, score: view.agentic.score })),
+    agenticSignals: (agenticViews.length ? agenticViews.reduce((weakest, view) => view.agentic.score < weakest.agentic.score ? view : weakest).agentic : social?.agentic)?.signals?.map((signal) => {
       const signalCopy = t.agenticSignal[signal.id];
       return {
         label: signalCopy.label,
@@ -1071,7 +1108,7 @@ export default function DigitalPresenceSnapshot({
               ) : socialLoading ? <p className="mt-6 text-sm text-slate-600">{loadingMessage}</p> : <p className="mt-6 text-sm text-slate-600">{t.socialError}</p>}
             </article>
 
-            {social?.agentic ? (
+            {agenticViews.length || social?.agentic ? (
               <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
                 <div className="flex items-start gap-3">
                   <Bot className="mt-1 h-7 w-7 text-primary-dark" aria-hidden />
@@ -1080,11 +1117,39 @@ export default function DigitalPresenceSnapshot({
                     <p className="mt-1 text-sm text-slate-600">{t.agenticDescription}</p>
                   </div>
                 </div>
-                <div className="mt-6 max-w-xs">
-                  <AgenticScoreTile score={social.agentic.score} language={language} />
-                </div>
+                {agenticViews.length ? (
+                  <div className={`mt-6 grid gap-6 ${agenticViews.length > 1 ? "lg:grid-cols-2" : "max-w-xl"}`}>
+                    {agenticViews.map((view) => (
+                      <div key={view.label}>
+                        <h3 className="text-sm font-semibold text-slate-950">{view.label}</h3>
+                        <div className="mt-3 max-w-xs">
+                          <AgenticScoreTile score={view.agentic.score} language={language} />
+                        </div>
+                        {view.agentic.signals?.length ? (
+                          <dl className="mt-4 grid gap-3">
+                            {view.agentic.signals.map((signal) => {
+                              const copy = t.agenticSignal[signal.id];
+                              const complete = signal.points >= signal.maxPoints;
+                              return (
+                                <div key={signal.id} className="rounded-lg bg-slate-50 p-4">
+                                  <dt className="text-[11px] font-semibold text-slate-500">{copy.label}</dt>
+                                  <dd className={`mt-1 text-lg font-bold ${complete ? "text-emerald-700" : signal.points > 0 ? "text-amber-700" : "text-rose-700"}`}>{signal.points}/{signal.maxPoints}</dd>
+                                  <p className="mt-1 text-sm leading-6 text-slate-700">{agenticSignalResult(copy.result, signal.points)}</p>
+                                </div>
+                              );
+                            })}
+                          </dl>
+                        ) : null}
+                      </div>
+                    ))}
+                  </div>
+                ) : social?.agentic ? (
+                  <div className="mt-6 max-w-xs">
+                    <AgenticScoreTile score={social.agentic.score} language={language} />
+                  </div>
+                ) : null}
                 {agenticGap ? <p className="mt-4 max-w-3xl rounded-lg bg-slate-50 p-3 text-sm leading-6 text-slate-700">{agenticGap}</p> : null}
-                {social.agentic.signals?.length ? (
+                {!agenticViews.length && social?.agentic?.signals?.length ? (
                   <dl className="mt-5 grid gap-3 sm:grid-cols-2">
                     {social.agentic.signals.map((signal) => {
                       const copy = t.agenticSignal[signal.id];

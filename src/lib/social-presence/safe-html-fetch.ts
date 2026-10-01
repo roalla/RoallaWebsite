@@ -5,6 +5,7 @@ import { normalizePublicTarget } from "@/lib/website-visibility/public-target";
 
 const MAX_HTML_BYTES = 750_000;
 const MAX_REDIRECTS = 3;
+const DEFAULT_USER_AGENT = "ROALLA-Social-Presence-Snapshot/1.0 (+https://www.roalla.com)";
 
 export class WebsiteFetchError extends Error {
   constructor(message: string) {
@@ -68,7 +69,7 @@ async function resolvePublicAddress(hostname: string) {
   return addresses.find(({ family }) => family === 4) ?? addresses[0];
 }
 
-function download(target: URL, address: string, family: number) {
+function download(target: URL, address: string, family: number, userAgent = DEFAULT_USER_AGENT) {
   return new Promise<{
     status: number;
     location?: string;
@@ -95,7 +96,7 @@ function download(target: URL, address: string, family: number) {
         headers: {
           Accept: "text/html,application/xhtml+xml",
           "Accept-Encoding": "identity",
-          "User-Agent": "ROALLA-Social-Presence-Snapshot/1.0 (+https://www.roalla.com)",
+          "User-Agent": userAgent,
         },
       },
       (response) => {
@@ -138,16 +139,17 @@ function download(target: URL, address: string, family: number) {
 export async function fetchPublicHtml(
   target: URL,
   redirects = 0,
+  userAgent = DEFAULT_USER_AGENT,
 ): Promise<{ html: string; finalUrl: URL }> {
   const resolved = await resolvePublicAddress(target.hostname);
-  const result = await download(target, resolved.address, resolved.family);
+  const result = await download(target, resolved.address, resolved.family, userAgent);
 
   if ([301, 302, 303, 307, 308].includes(result.status) && result.location) {
     if (redirects >= MAX_REDIRECTS) {
       throw new WebsiteFetchError("The website redirected too many times.");
     }
     const redirected = normalizePublicTarget(new URL(result.location, target).toString());
-    return fetchPublicHtml(redirected, redirects + 1);
+    return fetchPublicHtml(redirected, redirects + 1, userAgent);
   }
   if (result.status < 200 || result.status >= 300) {
     throw new WebsiteFetchError(`The website returned HTTP ${result.status}.`);
@@ -162,14 +164,18 @@ export async function fetchPublicHtml(
 }
 
 /** Best-effort text file such as robots.txt or llms.txt. Missing or failed fetches do not fail the snapshot. */
-export async function fetchOptionalPublicText(target: URL, redirects = 0): Promise<string | null> {
+export async function fetchOptionalPublicText(
+  target: URL,
+  redirects = 0,
+  userAgent = DEFAULT_USER_AGENT,
+): Promise<string | null> {
   try {
     const resolved = await resolvePublicAddress(target.hostname);
-    const result = await download(target, resolved.address, resolved.family);
+    const result = await download(target, resolved.address, resolved.family, userAgent);
     if ([301, 302, 303, 307, 308].includes(result.status) && result.location) {
       if (redirects >= MAX_REDIRECTS) return null;
       const redirected = normalizePublicTarget(new URL(result.location, target).toString());
-      return fetchOptionalPublicText(redirected, redirects + 1);
+      return fetchOptionalPublicText(redirected, redirects + 1, userAgent);
     }
     if (result.status < 200 || result.status >= 300) return null;
     if (result.contentEncoding && result.contentEncoding !== "identity") return null;

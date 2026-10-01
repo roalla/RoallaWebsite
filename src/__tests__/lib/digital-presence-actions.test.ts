@@ -47,6 +47,21 @@ describe("buildDigitalPresenceActions", () => {
     expect(actions[2]).toMatchObject({ source: "social", key: "openGraph", priority: "planNext" });
   });
 
+  it("uses the weaker phone or computer agentic score from the Lighthouse page", () => {
+    const social = {
+      checks: [],
+      agentic: { score: 88, signals: [] },
+    } as unknown as SocialPresenceSnapshot;
+    const mobile = technical("mobile", { performance: 95, accessibility: 95, bestPractices: 95, seo: 95 });
+    const desktop = technical("desktop", { performance: 95, accessibility: 95, bestPractices: 95, seo: 95 });
+    mobile.agentic = { score: 32, signals: [] };
+    desktop.agentic = { score: 74, signals: [] };
+
+    expect(buildDigitalPresenceActions([mobile, desktop], social)).toEqual([
+      expect.objectContaining({ source: "agentic", score: 32, priority: "fixNow" }),
+    ]);
+  });
+
   it("returns no automated actions when all checks are strong", () => {
     const social = {
       checks: [

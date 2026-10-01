@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
+import { scoreLighthousePageAgentic } from "@/lib/agentic-readiness/lighthouse-page";
 import {
   pageSpeedUserAgent,
   PageSpeedProviderError,
   scorePublicPage,
   type PageSpeedStrategy,
+  type WebsiteVisibilitySnapshot,
 } from "@/lib/website-visibility/pagespeed";
 import {
   normalizePublicTarget,
@@ -19,6 +21,12 @@ import {
 } from "@/lib/website-visibility/snapshot-guard";
 
 export const dynamic = "force-dynamic";
+
+async function withStrategyAgentic(snapshot: WebsiteVisibilitySnapshot, strategy: PageSpeedStrategy) {
+  if (snapshot.agentic) return snapshot;
+  const agentic = await scoreLighthousePageAgentic(snapshot.finalUrl, strategy);
+  return agentic ? { ...snapshot, agentic } : snapshot;
+}
 
 function response(body: object, status = 200, extraHeaders: HeadersInit = {}) {
   return NextResponse.json(body, {
@@ -94,20 +102,25 @@ export async function POST(request: NextRequest) {
       ready.map(async (item) => {
         const requestedUrl = target.toString();
         if (item.snapshot) {
+          const snapshot = await withStrategyAgentic(item.snapshot, item.strategy);
+          if (snapshot.agentic && !item.snapshot.agentic) {
+            setCachedSnapshot(item.analyzedTarget, item.strategy, snapshot);
+          }
           return {
             strategy: item.strategy,
-            snapshot: { ...item.snapshot, requestedUrl },
+            snapshot: { ...snapshot, requestedUrl },
             cached: true,
           };
         }
         const scored = await scorePublicPage(item.analyzedTarget, item.strategy);
-        setCachedSnapshot(scored.cacheUrl, item.strategy, scored.snapshot);
+        const snapshot = await withStrategyAgentic(scored.snapshot, item.strategy);
+        setCachedSnapshot(scored.cacheUrl, item.strategy, snapshot);
         if (scored.cacheUrl.toString() !== item.analyzedTarget.toString()) {
-          setCachedSnapshot(item.analyzedTarget, item.strategy, scored.snapshot);
+          setCachedSnapshot(item.analyzedTarget, item.strategy, snapshot);
         }
         return {
           strategy: item.strategy,
-          snapshot: { ...scored.snapshot, requestedUrl },
+          snapshot: { ...snapshot, requestedUrl },
           cached: false,
         };
       }),

@@ -1,3 +1,4 @@
+import type { AgenticReadiness } from "@/lib/agentic-readiness/score";
 import { isSamePublicPage } from "@/lib/website-visibility/page-url";
 import { normalizePublicTarget } from "@/lib/website-visibility/public-target";
 
@@ -36,6 +37,8 @@ export type WebsiteVisibilitySnapshot = {
     savingsMs?: number;
   }>;
   warnings: string[];
+  /** Agentic readiness of the landing page Lighthouse measured for this strategy. */
+  agentic?: AgenticReadiness;
 };
 
 type UnknownRecord = Record<string, unknown>;

@@ -1,3 +1,4 @@
+import type { AgenticReadiness } from "@/lib/agentic-readiness/score";
 import type { SocialPresenceSnapshot } from "@/lib/social-presence/analyzer";
 import type {
   PageSpeedStrategy,
@@ -34,6 +35,14 @@ export type DigitalPresenceAction =
       impact: "high";
       effort: "medium";
     };
+
+function weakestAgentic(values: Array<AgenticReadiness | undefined>) {
+  return values.reduce<AgenticReadiness | undefined>((weakest, current) => {
+    if (!current) return weakest;
+    if (!weakest || current.score < weakest.score) return current;
+    return weakest;
+  }, undefined);
+}
 
 export function buildDigitalPresenceActions(
   technical: WebsiteVisibilitySnapshot[],
@@ -87,13 +96,15 @@ export function buildDigitalPresenceActions(
     });
   }
 
-  if (social?.agentic && social.agentic.score < 90) {
+  const lighthouseAgentic = weakestAgentic(technical.map((snapshot) => snapshot.agentic));
+  const agentic = lighthouseAgentic ?? social?.agentic;
+  if (agentic && agentic.score < 90) {
     actions.push({
       source: "agentic",
-      priority: social.agentic.score < 50 ? "fixNow" : "planNext",
+      priority: agentic.score < 50 ? "fixNow" : "planNext",
       key: "agentic",
-      score: social.agentic.score,
-      severity: 100 - social.agentic.score,
+      score: agentic.score,
+      severity: 100 - agentic.score,
       impact: "high",
       effort: "medium",
     });

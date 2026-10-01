@@ -43,6 +43,7 @@ export type PresencePrintModel = {
   socialScore: number | null;
   socialChecks: PresencePrintMetric[];
   agenticScore: number | null;
+  agenticDevices: Array<{ label: string; score: number }>;
   agenticSignals: Array<PresencePrintMetric & { note: string }>;
   actions: PresencePrintAction[];
   actionsEmpty: string;
@@ -403,8 +404,8 @@ export default function DigitalPresenceActionPlanPrintSheet({
                   </section>
                 ) : null}
 
-                {(model.socialScore != null || model.agenticScore != null) ? (
-                  <div style={{ marginTop: 12, display: "grid", gridTemplateColumns: model.socialScore != null && model.agenticScore != null ? "1fr 1fr" : "1fr", gap: 12 }}>
+                {(model.socialScore != null || model.agenticScore != null || model.agenticDevices.length > 0) ? (
+                  <div style={{ marginTop: 12, display: "grid", gridTemplateColumns: model.socialScore != null && (model.agenticScore != null || model.agenticDevices.length > 0) ? "1fr 1fr" : "1fr", gap: 12 }}>
                     {model.socialScore != null ? (
                       <div className="presence-print-keep" style={{ border: "1px solid #e2e8f0", padding: "12px 14px" }}>
                         <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#007a87" }}>{model.labels.socialScore}</p>
@@ -413,12 +414,25 @@ export default function DigitalPresenceActionPlanPrintSheet({
                         </p>
                       </div>
                     ) : null}
-                    {model.agenticScore != null ? (
+                    {model.agenticDevices.length || model.agenticScore != null ? (
                       <div className="presence-print-keep" style={{ border: "1px solid #e2e8f0", padding: "12px 14px" }}>
                         <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#007a87" }}>{model.labels.agenticTitle}</p>
-                        <p style={{ margin: "6px 0 0", fontFamily: "Roalla Sora, Georgia, serif", fontSize: 28, lineHeight: 1, fontWeight: 700, color: scoreColor(model.agenticScore) }}>
-                          {model.agenticScore}<span style={{ fontSize: 14, color: "#64748b" }}>/100</span>
-                        </p>
+                        {model.agenticDevices.length ? (
+                          <div style={{ marginTop: 8, display: "grid", gridTemplateColumns: model.agenticDevices.length > 1 ? "1fr 1fr" : "1fr", gap: 8 }}>
+                            {model.agenticDevices.map((device) => (
+                              <div key={device.label}>
+                                <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#64748b" }}>{device.label}</p>
+                                <p style={{ margin: "4px 0 0", fontFamily: "Roalla Sora, Georgia, serif", fontSize: 28, lineHeight: 1, fontWeight: 700, color: scoreColor(device.score) }}>
+                                  {device.score}<span style={{ fontSize: 14, color: "#64748b" }}>/100</span>
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <p style={{ margin: "6px 0 0", fontFamily: "Roalla Sora, Georgia, serif", fontSize: 28, lineHeight: 1, fontWeight: 700, color: scoreColor(model.agenticScore ?? 0) }}>
+                            {model.agenticScore}<span style={{ fontSize: 14, color: "#64748b" }}>/100</span>
+                          </p>
+                        )}
                       </div>
                     ) : null}
                   </div>

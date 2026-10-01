@@ -1,4 +1,4 @@
-import { isPublicIpAddress } from "@/lib/social-presence/safe-html-fetch";
+import { compactPublicHtml, isPublicIpAddress } from "@/lib/social-presence/safe-html-fetch";
 
 describe("social presence network safety", () => {
   it.each([
@@ -25,4 +25,14 @@ describe("social presence network safety", () => {
       expect(isPublicIpAddress(address)).toBe(true);
     },
   );
+
+  it("keeps profile links when inline drawings and styles make the page look large", () => {
+    const html = `<title>Anchor Point</title><svg><path d="${"M1 ".repeat(200_000)}"/></svg><style>${"a{color:red}".repeat(5000)}</style><a href="https://www.linkedin.com/in/autumbailey/">LinkedIn</a>`;
+    const compact = compactPublicHtml(html);
+    expect(compact).toContain("https://www.linkedin.com/in/autumbailey/");
+    expect(compact).toContain("<title>Anchor Point</title>");
+    expect(compact).not.toContain("<svg");
+    expect(compact).not.toContain("<style");
+    expect(Buffer.byteLength(compact)).toBeLessThan(2_000);
+  });
 });

@@ -32,6 +32,9 @@ export type DigitalPresenceAction =
       priority: "fixNow" | "planNext";
       key: "agentic";
       score: number;
+      /** PageSpeed pass count, when this result is the Agentic Browsing fraction. */
+      passed?: number;
+      applicable?: number;
       severity: number;
       impact: "high";
       effort: "medium";
@@ -123,13 +126,21 @@ export function buildDigitalPresenceActions(
 
   const lighthouseAgentic = weakestAgentic(technical.map((snapshot) => snapshot.agentic));
   const agentic = lighthouseAgentic ?? social?.agentic;
-  if (agentic && agentic.score < 90) {
+  const agenticOpen = agentic?.passed != null && agentic.applicable != null
+    ? agentic.passed < agentic.applicable
+    : Boolean(agentic && agentic.score < 90);
+  if (agentic && agenticOpen) {
+    const ratio = agentic.applicable
+      ? (agentic.passed ?? 0) / agentic.applicable
+      : agentic.score / 100;
     actions.push({
       source: "agentic",
-      priority: agentic.score < 50 ? "fixNow" : "planNext",
+      priority: ratio < 0.5 ? "fixNow" : "planNext",
       key: "agentic",
       score: agentic.score,
-      severity: 100 - agentic.score,
+      passed: agentic.passed,
+      applicable: agentic.applicable,
+      severity: Math.round((1 - ratio) * 100),
       impact: "high",
       effort: "medium",
     });

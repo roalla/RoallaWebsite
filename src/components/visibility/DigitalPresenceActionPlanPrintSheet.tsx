@@ -45,8 +45,9 @@ export type PresencePrintModel = {
   contactUrl: string;
   contactChecks: Array<{ id: string; title: string; status: string; detail: string; tone: "pass" | "review" | "gap" | "neutral" }>;
   siteSetup: Array<{ id: string; title: string; value: string; note: string }>;
+  securityChecks: Array<PresencePrintMetric & { id: string; short: string; status: string; tone: "pass" | "review" | "gap"; result: string; why: string }>;
   agenticScore: number | null;
-  agenticDevices: Array<{ label: string; score: number }>;
+  agenticDevices: Array<{ label: string; score: number; passed?: number; applicable?: number }>;
   agenticSignals: Array<PresencePrintMetric & { note: string }>;
   domainChecks: Array<PresencePrintMetric & { short: string; status: string; tone: "pass" | "review" | "gap"; result: string; why: string }>;
   domainName: string;
@@ -77,6 +78,8 @@ export type PresencePrintModel = {
     contactDescription: string;
     setupTitle: string;
     setupDescription: string;
+    securityTitle: string;
+    securityNote: string;
     agenticTitle: string;
     agenticDescription: string;
     domainTitle: string;
@@ -397,6 +400,38 @@ export default function DigitalPresenceActionPlanPrintSheet({
                   </section>
                 ) : null}
 
+                {model.securityChecks.length ? (
+                  <section>
+                    <SectionHeading>{model.labels.securityTitle}</SectionHeading>
+                    <p style={{ margin: "4px 0 0", fontSize: 12, lineHeight: 1.45, color: "#64748b" }}>{model.labels.securityNote}</p>
+                    <div style={{ marginTop: 8, display: "flex", flexWrap: "wrap", gap: 6 }}>
+                      {model.securityChecks.map((check) => {
+                        const tone = check.tone === "pass"
+                          ? { background: "#ecfdf5", color: "#047857", border: "1px solid #a7f3d0" }
+                          : check.tone === "review"
+                            ? { background: "#fffbeb", color: "#b45309", border: "1px solid #fde68a" }
+                            : { background: "#fff1f2", color: "#be123c", border: "1px solid #fecdd3" };
+                        return (
+                          <span key={check.id} className="presence-print-keep" style={{ ...tone, borderRadius: 999, padding: "4px 10px", fontSize: 11, fontWeight: 700 }}>
+                            {check.short} · {check.status}
+                          </span>
+                        );
+                      })}
+                    </div>
+                    <div style={{ marginTop: 8, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                      {model.securityChecks.map((check) => (
+                        <div key={check.id} className="presence-print-keep" style={{ border: "1px solid #e2e8f0", background: "#f8fafc", padding: "8px 10px" }}>
+                          <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "#64748b" }}>{check.label}</p>
+                          <p style={{ margin: "3px 0 0", fontSize: 13, fontWeight: 700 }}>{check.status}</p>
+                          <p style={{ margin: "3px 0 0", fontSize: 11, lineHeight: 1.4, color: "#0f172a" }}>{check.result}</p>
+                          {check.value ? <p style={{ margin: "3px 0 0", fontSize: 10, lineHeight: 1.4, color: "#64748b" }}>{check.value}</p> : null}
+                          <p style={{ margin: "3px 0 0", fontSize: 11, lineHeight: 1.4, color: "#334155" }}>{check.why}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                ) : null}
+
                 {model.devices.length ? (
                   <section>
                     <SectionHeading>{model.labels.technicalTitle}</SectionHeading>
@@ -545,14 +580,17 @@ export default function DigitalPresenceActionPlanPrintSheet({
                         <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#007a87" }}>{model.labels.agenticTitle}</p>
                         {model.agenticDevices.length ? (
                           <div style={{ marginTop: 8, display: "grid", gridTemplateColumns: model.agenticDevices.length > 1 ? "1fr 1fr" : "1fr", gap: 8 }}>
-                            {model.agenticDevices.map((device) => (
+                            {model.agenticDevices.map((device) => {
+                              const fraction = device.passed != null && device.applicable != null && device.applicable > 0;
+                              return (
                               <div key={device.label}>
                                 <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#64748b" }}>{device.label}</p>
                                 <p style={{ margin: "4px 0 0", fontFamily: "Roalla Sora, Georgia, serif", fontSize: 28, lineHeight: 1, fontWeight: 700, color: scoreColor(device.score) }}>
-                                  {device.score}<span style={{ fontSize: 14, color: "#64748b" }}>/100</span>
+                                  {fraction ? device.passed : device.score}<span style={{ fontSize: 14, color: "#64748b" }}>/{fraction ? device.applicable : 100}</span>
                                 </p>
                               </div>
-                            ))}
+                              );
+                            })}
                           </div>
                         ) : (
                           <p style={{ margin: "6px 0 0", fontFamily: "Roalla Sora, Georgia, serif", fontSize: 28, lineHeight: 1, fontWeight: 700, color: scoreColor(model.agenticScore ?? 0) }}>

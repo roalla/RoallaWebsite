@@ -11,11 +11,27 @@ export type AgenticSignal = {
 };
 
 export type AgenticReadiness = {
+  /**
+   * 0–100 pass ratio for a PageSpeed fraction, or the checklist total for a page fallback.
+   * PageSpeed itself shows Agentic Browsing as passed/applicable, not this number.
+   */
   score: number;
   signals: AgenticSignal[];
   /** lighthouse: PageSpeed Agentic Browsing. page: public HTML checklist, used only when PageSpeed omits the category. */
   source?: "lighthouse" | "page";
+  /** Checks PageSpeed counted as passed. Set for the Agentic Browsing fraction. */
+  passed?: number;
+  /** Checks PageSpeed included in that fraction. */
+  applicable?: number;
 };
+
+/** The figure PageSpeed shows: 1/3 for Agentic Browsing, or the checklist total out of 100. */
+export function formatAgenticScore(result: Pick<AgenticReadiness, "score" | "passed" | "applicable">) {
+  if (result.passed != null && result.applicable != null && result.applicable > 0) {
+    return `${result.passed}/${result.applicable}`;
+  }
+  return `${result.score}/100`;
+}
 
 const ORG_TYPES = ["organization", "localbusiness", "professionalservice", "corporation", "store"];
 const OFFER_TYPES = ["faqpage", "service", "product", "offer"];

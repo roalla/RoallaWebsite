@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { scoreAgenticReadiness } from "@/lib/agentic-readiness/score";
 import { analyzeContactExposure } from "@/lib/contact-exposure/analyze";
 import { lookupPublicEdgeHints } from "@/lib/domain-health/lookup";
+import { analyzePageSecurity } from "@/lib/page-security/analyze";
 import { analyzeSiteSetup } from "@/lib/site-setup/analyze";
 import { lookupWhoisRegistration } from "@/lib/site-setup/whois";
 import { analyzeSocialPresence } from "@/lib/social-presence/analyzer";
@@ -12,7 +13,7 @@ import {
   getCachedSocialSnapshot,
   setCachedSocialSnapshot,
 } from "@/lib/social-presence/snapshot-guard";
-import { fetchOptionalPublicText, fetchPublicHtml, WebsiteFetchError } from "@/lib/social-presence/safe-html-fetch";
+import { fetchOptionalPublicText, fetchPublicHtml, probePlainHttpRedirect, WebsiteFetchError } from "@/lib/social-presence/safe-html-fetch";
 import { normalizePublicTarget, PublicTargetError } from "@/lib/website-visibility/public-target";
 
 export const dynamic = "force-dynamic";
@@ -50,10 +51,12 @@ export async function POST(request: NextRequest) {
     return response({ error: "Unable to process this request." }, 400);
   }
 
+  let target: URL | undefined;
   try {
-    const target = normalizePublicTarget(body.url);
+    target = normalizePublicTarget(body.url);
     const cached = getCachedSocialSnapshot(target);
-    if (cached?.siteSetup && "registration" in cached.siteSetup) return response({ snapshot: cached, cached: true });
+    const cachedCertificate = cached?.security?.checks.find((check) => check.id === "https")?.evidence;
+    if (cached?.siteSetup && "registration" in cached.siteSetup && cached.security && cachedCertificate) return response({ snapshot: cached, cached: true });
 
     const hostRate = checkSocialHostRate(target.hostname);
     if (!hostRate.allowed) {
@@ -64,11 +67,21 @@ export async function POST(request: NextRequest) {
 
     const page = await fetchPublicHtml(target);
     const origin = new URL(page.finalUrl);
-    const [robotsTxt, llmsTxt] = await Promise.all([
+    const [robotsTxt, llmsTxt, redirect] = await Promise.all([
       fetchOptionalPublicText(new URL("/robots.txt", origin)),
       fetchOptionalPublicText(new URL("/llms.txt", origin)),
+      probePlainHttpRedirect(page.finalUrl),
     ]);
     const snapshot = analyzeSocialPresence(page.html, target.toString(), page.finalUrl.toString());
+    snapshot.security = analyzePageSecurity({
+      https: page.finalUrl.protocol === "https:",
+      certificateExpiresOn: page.observation.certificateExpiresOn,
+      certificateDaysRemaining: page.observation.certificateDaysRemaining,
+      redirect,
+      strictTransportSecurity: page.observation.strictTransportSecurity,
+      xFrameOptions: page.observation.xFrameOptions,
+      contentSecurityPolicy: page.observation.contentSecurityPolicy,
+    });
     snapshot.agentic = scoreAgenticReadiness({ html: page.html, robotsTxt, llmsTxt });
     snapshot.contactExposure = analyzeContactExposure(page.html);
     const hints = await lookupPublicEdgeHints(origin.hostname);
@@ -83,7 +96,21 @@ export async function POST(request: NextRequest) {
     return response({ snapshot, cached: false });
   } catch (error) {
     if (error instanceof PublicTargetError) return response({ error: error.message }, 422);
-    if (error instanceof WebsiteFetchError) return response({ error: error.message }, 422);
+    if (error instanceof WebsiteFetchError) {
+      const siteSetup = target ? await setupWithoutPage(target.hostname) : undefined;
+      return response({ error: error.message, siteSetup, setupPartial: Boolean(siteSetup) }, 422);
+    }
     return response({ error: "The social presence snapshot could not be completed." }, 500);
   }
+}
+
+async function setupWithoutPage(hostname: string) {
+  const hints = await lookupPublicEdgeHints(hostname);
+  const siteSetup = analyzeSiteSetup({
+    html: "",
+    nameservers: hints.nameservers,
+    cname: hints.cname,
+  });
+  siteSetup.registration = await lookupWhoisRegistration(hostname);
+  return siteSetup;
 }

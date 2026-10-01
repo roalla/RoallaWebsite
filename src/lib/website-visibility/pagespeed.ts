@@ -168,36 +168,43 @@ export function normalizePageSpeedResponse(
   };
 }
 
-const UNCOUNTED_AUDIT_MODES = new Set(["informative", "notApplicable", "manual", "error"]);
+/** Lighthouse treats 0.9 and above as a passed audit when it builds a category fraction. */
+const LIGHTHOUSE_PASS_MIN = 0.9;
 
 /**
- * PageSpeed Agentic Browsing, on the same 0–100 scale as the other category scores.
- * Audits PageSpeed leaves out of the total (missing optional files, informational checks) are omitted.
+ * PageSpeed Agentic Browsing is a pass count, such as 1/3, not a 0–100 weighted average.
+ * A partial audit score still raises the weighted average, and PageSpeed does not count it as passed.
+ * Audits PageSpeed leaves out of the count (manual, not applicable, informational) are omitted.
  */
 function agenticFromLighthouse(categories: UnknownRecord, audits: UnknownRecord): AgenticReadiness | undefined {
   const category = record(categories["agentic-browsing"]);
-  const score = number(category.score);
-  if (score == null) return undefined;
   const refs = Array.isArray(category.auditRefs) ? category.auditRefs : [];
   const signals: AgenticReadiness["signals"] = [];
+  let passed = 0;
+  let applicable = 0;
   for (const ref of refs) {
     const item = record(ref);
-    const weight = number(item.weight) ?? 0;
     const id = text(item.id);
-    if (!id || weight <= 0) continue;
+    if (!id || text(item.group) === "hidden") continue;
     const audit = record(audits[id]);
     const mode = text(audit.scoreDisplayMode);
+    if (mode === "manual" || mode === "notApplicable" || mode === "informative") continue;
     const auditScore = number(audit.score);
-    if (auditScore == null || (mode && UNCOUNTED_AUDIT_MODES.has(mode))) continue;
+    const didPass = mode !== "error" && auditScore != null && auditScore >= LIGHTHOUSE_PASS_MIN;
+    applicable += 1;
+    if (didPass) passed += 1;
     signals.push({
       id,
       label: text(audit.title),
-      points: Math.round(auditScore * 100),
+      points: auditScore == null ? 0 : Math.round(auditScore * 100),
       maxPoints: 100,
     });
   }
+  if (applicable === 0) return undefined;
   return {
-    score: Math.round(score * 100),
+    score: Math.round((passed / applicable) * 100),
+    passed,
+    applicable,
     signals,
     source: "lighthouse",
   };

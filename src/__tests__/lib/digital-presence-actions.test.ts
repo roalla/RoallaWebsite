@@ -54,11 +54,11 @@ describe("buildDigitalPresenceActions", () => {
     } as unknown as SocialPresenceSnapshot;
     const mobile = technical("mobile", { performance: 95, accessibility: 95, bestPractices: 95, seo: 95 });
     const desktop = technical("desktop", { performance: 95, accessibility: 95, bestPractices: 95, seo: 95 });
-    mobile.agentic = { score: 32, signals: [] };
-    desktop.agentic = { score: 74, signals: [] };
+    mobile.agentic = { score: 33, passed: 1, applicable: 3, signals: [] };
+    desktop.agentic = { score: 67, passed: 2, applicable: 3, signals: [] };
 
     expect(buildDigitalPresenceActions([mobile, desktop], social)).toEqual([
-      expect.objectContaining({ source: "agentic", score: 32, priority: "fixNow" }),
+      expect.objectContaining({ source: "agentic", score: 33, passed: 1, applicable: 3, priority: "fixNow" }),
     ]);
   });
 

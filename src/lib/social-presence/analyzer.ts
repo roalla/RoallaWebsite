@@ -1,5 +1,6 @@
 import type { AgenticReadiness } from "@/lib/agentic-readiness/score";
 import type { ContactExposure } from "@/lib/contact-exposure/analyze";
+import type { PageSecurity } from "@/lib/page-security/analyze";
 import type { SiteSetup } from "@/lib/site-setup/analyze";
 
 export type SocialPlatform =
@@ -36,6 +37,7 @@ export type SocialPresenceSnapshot = {
   agentic?: AgenticReadiness;
   contactExposure?: ContactExposure;
   siteSetup?: SiteSetup;
+  security?: PageSecurity;
   profiles: Array<{
     platform: SocialPlatform;
     url: string;

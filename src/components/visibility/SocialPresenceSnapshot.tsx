@@ -1,14 +1,16 @@
 "use client";
 
-import React, { FormEvent, useEffect, useRef, useState } from "react";
+import React, { FormEvent, useEffect, useId, useRef, useState } from "react";
 import {
   ArrowRight,
   CheckCircle2,
   CircleAlert,
   CircleX,
   ExternalLink,
+  Info,
   LoaderCircle,
   Share2,
+  X,
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { trackAnalyticsEvent } from "@/lib/analytics";
@@ -67,6 +69,45 @@ const copy = {
       organizationSchema: "Add clear business name and logo information to your website.",
       pageIdentity: "Add a clear page title, description, and preferred website address.",
     },
+    checkInfo: "About this result",
+    closeInfo: "Close",
+    checkHelpLabels: {
+      looksFor: "What it looks for",
+      why: "Why it matters",
+      considerations: "Considerations",
+    },
+    checkHelp: {
+      profileLinks: {
+        looksFor: "Links on this page to profile pages on Facebook, Instagram, LinkedIn, YouTube, TikTok, X, Pinterest, Threads, and Bluesky. Two or more platforms earn the full score. One platform earns part of the score.",
+        why: "Visitors use those links to reach an official account. Search systems also use them as a sign that the profile belongs to this business.",
+        considerations: "Share buttons, individual posts, and login pages are not counted. A profile that is not linked from this page will not appear. This result does not judge whether the account is active, on brand, or the right channel for the business.",
+      },
+      structuredProfiles: {
+        looksFor: "Profile addresses written into the page’s structured business information, the list that tells search systems which accounts belong to the organization. Two or more earn the full score. One earns part of the score.",
+        why: "A visible link helps a person. This connection helps search and AI systems attach the right profiles to the business, including when a footer link is easy to miss.",
+        considerations: "A profile can be linked on the page and still miss this result. The two checks are separate. Incomplete structured information is treated as missing. This result does not confirm that the social account links back to the website.",
+      },
+      openGraph: {
+        looksFor: "The six details many networks read first when someone shares the page: title, description, image, page address, content type, and site name. Each detail that is present raises the score.",
+        why: "Facebook, LinkedIn, messaging apps, and similar places build the preview card from these details. A missing title, description, or image often produces a blank or generic card.",
+        considerations: "Networks remember old previews, so a fix on the site may not show until that memory is refreshed. This result checks that an image address exists. It does not judge size, crop, or file type. The sample card on this page is a simplified view, not a live preview from each network.",
+      },
+      socialCards: {
+        looksFor: "The extra sharing details used by X and some other tools: card type, title, description, and image. Each detail that is present raises the score.",
+        why: "These details decide the image and message on a share when the main preview is incomplete, and they control whether the card shows a large image or a short summary.",
+        considerations: "Many networks fall back to the main sharing preview when these details are missing, so a strong main preview can still look fine. This result does not judge whether the card type suits the image or whether the image meets size rules.",
+      },
+      organizationSchema: {
+        looksFor: "Structured business information that includes the organization name and a logo. Each one is worth half of this result.",
+        why: "Search and AI systems use the name and logo to identify the business in knowledge panels, rich results, and some share previews.",
+        considerations: "A logo in the page header counts only when it is also included in that business information. The image file is not opened, so quality, size, and background are not judged.",
+      },
+      pageIdentity: {
+        looksFor: "The page title, the short description, and a preferred website address. Each one is worth a third of this result.",
+        why: "The title and description are often the lines people read in search results, and they fill in when sharing details are missing. The preferred address tells search systems which link is the official one when the same page can be reached more than one way.",
+        considerations: "Length, wording, and keyword choice are not scored. A title still counts when it is vague. The preferred address is checked for presence, not for an exact match with the address you entered.",
+      },
+    },
   },
   fr: {
     urlLabel: "Adresse de votre site Web",
@@ -116,6 +157,45 @@ const copy = {
       organizationSchema: "Ajoutez le nom et le logo de votre entreprise aux renseignements du site.",
       pageIdentity: "Ajoutez un titre, une description et une adresse principale clairs pour la page.",
     },
+    checkInfo: "À propos de ce résultat",
+    closeInfo: "Fermer",
+    checkHelpLabels: {
+      looksFor: "Ce qui est vérifié",
+      why: "Pourquoi c’est important",
+      considerations: "Points à considérer",
+    },
+    checkHelp: {
+      profileLinks: {
+        looksFor: "Les liens de cette page vers des profils sur Facebook, Instagram, LinkedIn, YouTube, TikTok, X, Pinterest, Threads et Bluesky. Deux plateformes ou plus donnent le score complet. Une seule plateforme donne une partie du score.",
+        why: "Les visiteurs utilisent ces liens pour joindre un compte officiel. Les systèmes de recherche s’en servent aussi comme signe que le profil appartient à cette entreprise.",
+        considerations: "Les boutons de partage, les publications individuelles et les pages de connexion ne comptent pas. Un profil qui n’est pas lié depuis cette page n’apparaît pas. Ce résultat ne juge pas si le compte est actif, conforme à la marque ou le bon réseau pour l’entreprise.",
+      },
+      structuredProfiles: {
+        looksFor: "Les adresses de profils inscrites dans les renseignements structurés de l’entreprise, la liste qui indique aux systèmes de recherche quels comptes appartiennent à l’organisation. Deux profils ou plus donnent le score complet. Un seul donne une partie du score.",
+        why: "Un lien visible aide une personne. Ce lien aide les systèmes de recherche et d’IA à associer les bons profils à l’entreprise, même lorsqu’un lien de pied de page passe inaperçu.",
+        considerations: "Un profil peut être lié sur la page et manquer quand même ce résultat. Les deux vérifications sont distinctes. Des renseignements structurés incomplets sont traités comme absents. Ce résultat ne confirme pas que le compte social renvoie vers le site.",
+      },
+      openGraph: {
+        looksFor: "Les six renseignements que beaucoup de réseaux lisent en premier lorsqu’une personne partage la page : titre, description, image, adresse de la page, type de contenu et nom du site. Chaque renseignement présent augmente le score.",
+        why: "Facebook, LinkedIn, les applications de messagerie et des outils semblables construisent la carte d’aperçu à partir de ces renseignements. Un titre, une description ou une image manquants produisent souvent une carte vide ou générique.",
+        considerations: "Les réseaux conservent d’anciens aperçus. Une correction sur le site peut donc tarder à s’afficher. Ce résultat vérifie qu’une adresse d’image existe. Il ne juge pas la taille, le cadrage ni le type de fichier. La carte d’exemple sur cette page est une vue simplifiée, pas un aperçu en direct de chaque réseau.",
+      },
+      socialCards: {
+        looksFor: "Les renseignements de partage supplémentaires utilisés par X et certains autres outils : type de carte, titre, description et image. Chaque renseignement présent augmente le score.",
+        why: "Ces renseignements déterminent l’image et le message d’un partage lorsque l’aperçu principal est incomplet, et ils décident si la carte montre une grande image ou un court résumé.",
+        considerations: "Beaucoup de réseaux reviennent à l’aperçu principal lorsque ces renseignements manquent. Un bon aperçu principal peut donc suffire. Ce résultat ne juge pas si le type de carte convient à l’image ni si l’image respecte les règles de taille.",
+      },
+      organizationSchema: {
+        looksFor: "Des renseignements structurés sur l’entreprise qui comprennent le nom de l’organisation et un logo. Chacun vaut la moitié de ce résultat.",
+        why: "Les systèmes de recherche et d’IA utilisent le nom et le logo pour reconnaître l’entreprise dans les fiches de connaissances, les résultats enrichis et certains aperçus de partage.",
+        considerations: "Un logo dans l’en-tête de la page compte seulement s’il figure aussi dans ces renseignements. Le fichier image n’est pas ouvert : la qualité, la taille et l’arrière-plan ne sont pas jugés.",
+      },
+      pageIdentity: {
+        looksFor: "Le titre de la page, la courte description et l’adresse Web principale. Chacun vaut le tiers de ce résultat.",
+        why: "Le titre et la description sont souvent les lignes lues dans les résultats de recherche, et ils servent de repli lorsque les renseignements de partage manquent. L’adresse principale indique aux systèmes de recherche quel lien est officiel lorsque la même page est accessible de plusieurs façons.",
+        considerations: "La longueur, la formulation et le choix des mots-clés ne sont pas notés. Un titre vague compte quand même. L’adresse principale est vérifiée pour sa présence, pas pour une correspondance exacte avec l’adresse entrée.",
+      },
+    },
   },
 } as const;
 
@@ -141,6 +221,91 @@ function StatusIcon({ status }: { status: "pass" | "partial" | "fail" }) {
   if (status === "pass") return <CheckCircle2 className="h-5 w-5 text-emerald-600" aria-hidden />;
   if (status === "partial") return <CircleAlert className="h-5 w-5 text-amber-600" aria-hidden />;
   return <CircleX className="h-5 w-5 text-rose-600" aria-hidden />;
+}
+
+function CheckInfoButton({
+  title,
+  help,
+  labels,
+  openLabel,
+  closeLabel,
+}: {
+  title: string;
+  help: { looksFor: string; why: string; considerations: string };
+  labels: { looksFor: string; why: string; considerations: string };
+  openLabel: string;
+  closeLabel: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const titleId = useId();
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const wasOpen = useRef(false);
+
+  useEffect(() => {
+    if (!open) {
+      if (wasOpen.current) triggerRef.current?.focus();
+      return;
+    }
+    wasOpen.current = true;
+    closeRef.current?.focus();
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  return (
+    <>
+      <button
+        ref={triggerRef}
+        type="button"
+        aria-expanded={open}
+        aria-haspopup="dialog"
+        aria-label={`${openLabel}: ${title}`}
+        onClick={() => setOpen(true)}
+        className="relative inline-flex h-6 min-h-6 w-6 min-w-6 shrink-0 items-center justify-center rounded-full text-slate-400 before:absolute before:-inset-2.5 before:content-[''] hover:bg-slate-100 hover:text-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 print:hidden"
+      >
+        <Info className="h-3.5 w-3.5" aria-hidden />
+      </button>
+      {open ? (
+        <div
+          className="fixed inset-0 z-50 flex items-end justify-center bg-slate-950/40 p-4 sm:items-center print:hidden"
+          onClick={() => setOpen(false)}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
+            className="max-h-[85vh] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-5 shadow-xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-3">
+              <h3 id={titleId} className="text-lg font-serif font-bold text-slate-950">{title}</h3>
+              <button
+                ref={closeRef}
+                type="button"
+                onClick={() => setOpen(false)}
+                aria-label={closeLabel}
+                className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+              >
+                <X className="h-4 w-4" aria-hidden />
+              </button>
+            </div>
+            <dl className="mt-4 space-y-4">
+              {(["looksFor", "why", "considerations"] as const).map((key) => (
+                <div key={key}>
+                  <dt className="text-xs font-semibold uppercase tracking-wide text-primary-dark">{labels[key]}</dt>
+                  <dd className="mt-1 text-sm leading-6 text-slate-700">{help[key]}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
 }
 
 export default function SocialPresenceSnapshot({ locale, initialUrl = "" }: { locale: string; initialUrl?: string }) {
@@ -262,8 +427,17 @@ export default function SocialPresenceSnapshot({ locale, initialUrl = "" }: { lo
                   <div className="flex items-start gap-3">
                     <StatusIcon status={check.status} />
                     <div className="min-w-0 flex-1">
-                      <div className="flex items-start justify-between gap-3">
-                        <h4 className="font-semibold text-slate-950">{t.checkLabels[check.id]}</h4>
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex min-w-0 items-center gap-1.5">
+                          <h4 className="font-semibold text-slate-950">{t.checkLabels[check.id]}</h4>
+                          <CheckInfoButton
+                            title={t.checkLabels[check.id]}
+                            help={t.checkHelp[check.id]}
+                            labels={t.checkHelpLabels}
+                            openLabel={t.checkInfo}
+                            closeLabel={t.closeInfo}
+                          />
+                        </div>
                         <span className="shrink-0 text-sm font-bold text-slate-700">{check.points}/{check.maxPoints}</span>
                       </div>
                       {check.status !== "pass" ? <p className="mt-2 text-sm leading-6 text-slate-600">{t.recommendations[check.id]}</p> : null}

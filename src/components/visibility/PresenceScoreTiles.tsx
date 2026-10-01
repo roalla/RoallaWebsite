@@ -66,12 +66,12 @@ const guidance = {
     } satisfies Record<ScoreName, ScoreHelp>,
     agenticLabel: "Agentic (AI) readiness",
     agenticHelp: {
-      means: "The Agentic Browsing result from the same Google PageSpeed Insights test as the other scores. 100 means every check PageSpeed counted for that page passed.",
-      improve: "A higher score means the page is easier for an automated agent to read, stay oriented on, and use.",
+      means: "How many Agentic Browsing checks passed in the same Google PageSpeed Insights test. PageSpeed shows this as a count, such as 1/3. A check that only partly passes is not counted as passed.",
+      improve: "Passing more of these checks means the page is easier for an automated agent to read, stay oriented on, and use.",
       adoption: "People increasingly ask an assistant before they search. A page that agents can read is easier for those answers to draw from.",
     },
     agenticNoteLabel: "Same result as PageSpeed",
-    agenticNote: "This is the Agentic Browsing category from Google PageSpeed Insights, shown from 0 to 100. Checks PageSpeed leaves out of the total, such as an optional guide file, do not lower the score.",
+    agenticNote: "This is the same pass count Google PageSpeed Insights shows for Agentic Browsing. Checks PageSpeed leaves out of that count, such as an optional guide file, are not included.",
   },
   fr: {
     scoreLabels: {
@@ -126,12 +126,12 @@ const guidance = {
     } satisfies Record<ScoreName, ScoreHelp>,
     agenticLabel: "Préparation agentique (IA)",
     agenticHelp: {
-      means: "Le résultat de navigation agentique du même test Google PageSpeed Insights que les autres scores. 100 signifie que chaque vérification comptée par PageSpeed pour cette page est réussie.",
-      improve: "Un score plus élevé veut dire que la page est plus facile à lire, à suivre et à utiliser pour un agent automatisé.",
+      means: "Le nombre de vérifications de navigation agentique réussies dans le même test Google PageSpeed Insights. PageSpeed l’affiche comme un compte, par exemple 1/3. Une vérification seulement partielle n’est pas comptée comme réussie.",
+      improve: "Plus de vérifications réussies veut dire que la page est plus facile à lire, à suivre et à utiliser pour un agent automatisé.",
       adoption: "De plus en plus de gens demandent à un assistant avant de chercher. Une page qu’un agent peut lire est plus facile à utiliser dans ces réponses.",
     },
     agenticNoteLabel: "Le même résultat que PageSpeed",
-    agenticNote: "Il s’agit de la catégorie Navigation agentique de Google PageSpeed Insights, affichée de 0 à 100. Les vérifications que PageSpeed laisse hors du total, comme un guide facultatif, ne baissent pas le score.",
+    agenticNote: "Il s’agit du même compte que Google PageSpeed Insights affiche pour la navigation agentique. Les vérifications que PageSpeed laisse hors de ce compte, comme un guide facultatif, n’y figurent pas.",
   },
 } as const;
 
@@ -249,12 +249,17 @@ function ScoreInfoButton({
 
 export function AgenticScoreTile({
   score,
+  passed,
+  applicable,
   language,
 }: {
   score: number;
+  passed?: number;
+  applicable?: number;
   language: "en" | "fr";
 }) {
   const t = guidance[language];
+  const fraction = passed != null && applicable != null && applicable > 0;
   return (
     <div className="flex h-full flex-col rounded-lg bg-slate-50 p-4">
       <p className="flex items-start justify-between gap-1 text-[11px] font-semibold leading-4 text-slate-500">
@@ -268,7 +273,10 @@ export function AgenticScoreTile({
           compliance={{ label: t.agenticNoteLabel, body: t.agenticNote }}
         />
       </p>
-      <p className={`mt-auto pt-1 text-4xl font-bold ${scoreTone(score)}`}>{score}<span className="text-lg font-semibold text-slate-500">/100</span></p>
+      <p className={`mt-auto pt-1 text-4xl font-bold ${scoreTone(score)}`}>
+        {fraction ? passed : score}
+        <span className="text-lg font-semibold text-slate-500">/{fraction ? applicable : 100}</span>
+      </p>
     </div>
   );
 }

@@ -115,10 +115,54 @@ describe("normalizePageSpeedResponse", () => {
 
     expect(result.agentic).toEqual({
       score: 100,
+      passed: 2,
+      applicable: 2,
       source: "lighthouse",
       signals: [
         { id: "agent-accessibility-tree", label: "Accessibility tree is well formed", points: 100, maxPoints: 100 },
         { id: "cumulative-layout-shift", label: "Cumulative Layout Shift", points: 100, maxPoints: 100 },
+      ],
+    });
+  });
+
+  it("reports the PageSpeed pass count when a partial check would average to 50", () => {
+    const result = normalizePageSpeedResponse(
+      {
+        lighthouseResult: {
+          finalUrl: "https://www.roalla.com/",
+          categories: {
+            "agentic-browsing": {
+              score: 0.5,
+              categoryScoreDisplayMode: "fraction",
+              auditRefs: [
+                { id: "agent-accessibility-tree", weight: 1 },
+                { id: "cumulative-layout-shift", weight: 1 },
+                { id: "webmcp", weight: 1 },
+                { id: "llms-txt", weight: 1 },
+              ],
+            },
+          },
+          audits: {
+            "agent-accessibility-tree": { title: "Accessibility tree", score: 1, scoreDisplayMode: "binary" },
+            "cumulative-layout-shift": { title: "Cumulative Layout Shift", score: 0.5, scoreDisplayMode: "numeric" },
+            "webmcp": { title: "WebMCP", score: 0, scoreDisplayMode: "binary" },
+            "llms-txt": { title: "llms.txt", score: null, scoreDisplayMode: "notApplicable" },
+          },
+        },
+      },
+      "https://www.roalla.com/",
+      "mobile",
+    );
+
+    expect(result.agentic).toEqual({
+      score: 33,
+      passed: 1,
+      applicable: 3,
+      source: "lighthouse",
+      signals: [
+        { id: "agent-accessibility-tree", label: "Accessibility tree", points: 100, maxPoints: 100 },
+        { id: "cumulative-layout-shift", label: "Cumulative Layout Shift", points: 50, maxPoints: 100 },
+        { id: "webmcp", label: "WebMCP", points: 0, maxPoints: 100 },
       ],
     });
   });

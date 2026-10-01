@@ -15,12 +15,15 @@ import {
   RefreshCw,
   SearchCheck,
   Share2,
+  ShieldCheck,
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import DigitalPresenceActionPlanPrintSheet, {
   type PresencePrintModel,
 } from "@/components/visibility/DigitalPresenceActionPlanPrintSheet";
 import { AgenticScoreTile, PresenceScoreTiles } from "@/components/visibility/PresenceScoreTiles";
+import { formatAgenticScore } from "@/lib/agentic-readiness/score";
+import type { AgenticReadiness } from "@/lib/agentic-readiness/score";
 import { trackAnalyticsEvent } from "@/lib/analytics";
 import { buildDigitalPresenceActions, type DigitalPresenceAction } from "@/lib/digital-presence/actions";
 import type { DomainHealthSnapshot } from "@/lib/domain-health/evaluate";
@@ -55,6 +58,10 @@ type SnapshotHistory = {
   agenticScore?: number | null;
   agenticMobile?: number | null;
   agenticDesktop?: number | null;
+  agenticMobilePassed?: number | null;
+  agenticMobileApplicable?: number | null;
+  agenticDesktopPassed?: number | null;
+  agenticDesktopApplicable?: number | null;
 };
 
 type CompetitorResult = {
@@ -100,6 +107,10 @@ function saveHistory(
     socialScore: social?.score ?? null,
     agenticMobile: technical?.mobile?.snapshot?.agentic?.score ?? null,
     agenticDesktop: technical?.desktop?.snapshot?.agentic?.score ?? null,
+    agenticMobilePassed: technical?.mobile?.snapshot?.agentic?.passed ?? null,
+    agenticMobileApplicable: technical?.mobile?.snapshot?.agentic?.applicable ?? null,
+    agenticDesktopPassed: technical?.desktop?.snapshot?.agentic?.passed ?? null,
+    agenticDesktopApplicable: technical?.desktop?.snapshot?.agentic?.applicable ?? null,
     agenticScore: technical?.mobile?.snapshot?.agentic?.score ?? technical?.desktop?.snapshot?.agentic?.score ?? social?.agentic?.score ?? null,
   };
   try {
@@ -112,6 +123,30 @@ function saveHistory(
 function scoreDelta(current: number | null | undefined, previous: number | null | undefined) {
   if (current == null || previous == null) return null;
   return current - previous;
+}
+
+function agenticHistoryRow(
+  label: string,
+  current: AgenticReadiness | null,
+  previousPassed: number | null | undefined,
+  previousApplicable: number | null | undefined,
+) {
+  if (
+    !current
+    || current.passed == null
+    || current.applicable == null
+    || previousPassed == null
+    || previousApplicable == null
+    || previousApplicable <= 0
+  ) {
+    return { label, current: null as number | null, old: null as number | null };
+  }
+  return {
+    label,
+    current: current.score,
+    old: Math.round((previousPassed / previousApplicable) * 100),
+    figure: `${current.passed}/${current.applicable}`,
+  };
 }
 
 const scoreOrder: ScoreName[] = [
@@ -149,7 +184,7 @@ const copy = {
     technicalOnly: "Your social sharing results are ready. Finishing the website check…",
     socialOnly: "Your website results are ready. Finishing the social sharing and contact check…",
     resultsTitle: "Your website results",
-    resultsIntro: "This report checks the landing page a visitor reaches. It is not a check of every page on the website. PageSpeed scores that page on a phone and on a computer. Social sharing, assistant readiness, and the contact check read that same page. Domain and email health reads the public records for the domain name. Each area is shown separately so you can see what needs attention.",
+    resultsIntro: "This report checks the landing page a visitor reaches. It is not a check of every page on the website. PageSpeed scores that page on a phone and on a computer. Social sharing, assistant readiness, and the contact check read that same page. Security checks four public signals on that page. Domain and email health reads the public records for the domain name. Each area is shown separately so you can see what needs attention.",
     technicalTitle: "Website experience",
     technicalDescription: "How your website performs on phones and computers",
     socialTitle: "Social sharing setup",
@@ -236,7 +271,7 @@ const copy = {
     desktopPerformance: "Desktop lab performance",
     socialScore: "Social sharing setup",
     agenticTitle: "Agentic (AI) readiness",
-    agenticDescription: "The Agentic Browsing score from the same Google PageSpeed test, for the phone page and the computer page.",
+    agenticDescription: "How many Agentic Browsing checks passed in the same Google PageSpeed test, for the phone page and the computer page.",
     agenticSignal: {
       readable: {
         label: "Text an assistant can read",
@@ -396,8 +431,46 @@ const copy = {
         action: "Point the bare name and www at the same website so links and mail land in one place.",
       },
     },
+    securityTitle: "Security",
+    securityNote: "This is not a security review. It checks four public signals on this landing page only.",
+    securityExpires: "Expires {date}",
+    securityCheck: {
+      https: {
+        title: "Secure address",
+        short: "Address",
+        pass: "This page is encrypted, and the certificate is current.",
+        review: "This page is encrypted. The certificate expires soon.",
+        gap: "This page did not present a current certificate.",
+        why: "Encryption keeps someone on the network from reading the page while it loads.",
+      },
+      redirect: {
+        title: "Forced secure address",
+        short: "Redirect",
+        pass: "A visit to the unencrypted address is sent to HTTPS.",
+        review: "The unencrypted address could not be checked.",
+        gap: "The unencrypted address still serves this page.",
+        why: "Without this redirect, an old link can open the page without encryption.",
+      },
+      hsts: {
+        title: "Browser lock",
+        short: "Browser lock",
+        pass: "Browsers are told to keep using HTTPS.",
+        review: "Browsers are not told to stay on HTTPS.",
+        gap: "Browsers are not told to stay on HTTPS.",
+        why: "This instruction helps a browser avoid the unencrypted address on a later visit.",
+      },
+      framing: {
+        title: "Page framing",
+        short: "Framing",
+        pass: "Other sites are not allowed to frame this page.",
+        review: "This page does not say whether other sites may frame it.",
+        gap: "This page allows other sites to frame it.",
+        why: "A frame lets another site present this page as if it belonged there.",
+      },
+    },
     setupTitle: "How this site is set up",
     setupDescription: "Public clues from this landing page and the domain name. They describe what is visible from the outside. The registrar, dates, and published owner come from the public record on Whois.com.",
+    setupPageUnread: "The landing page could not be read, so the host, platform, analytics, and protection on the page are not included. The domain record is still shown when it can be read.",
     registrationTitle: "Domain registration",
     registrationNote: "A privacy service is shown when the owner is not published. Street address, phone, and email are not included.",
     registrationMissing: "The public registration record could not be read.",
@@ -458,7 +531,7 @@ const copy = {
     },
     methodology: "How we calculate the results",
     methodologyBody:
-      "This report checks one landing page. It is not a review of every page on the website. The address you enter is followed through redirects to the page a visitor lands on, and that page is what the scores measure. Website category scores come from a Lighthouse lab test of that page, run by Google PageSpeed Insights, once as a phone and once as a computer. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. When that page does not have enough visits, those visitor numbers cover the whole site address. Social sharing results come from the public HTML of that landing page. Assistant readiness uses that same page, plus the site’s robots.txt and llms.txt files. The contact check reads that page’s HTML and reports whether a mailbox, a phone number, or a form is present. It does not run scripts, open other pages, or display or store the address or number. Domain and email health reads the public mail and name records: where mail is delivered, which services may send it, whether messages are signed, and whether the bare name and www reach the same place. A separate section reads public clues for the host, the platform, analytics tags, and a protection service such as Cloudflare. These results stay separate because they measure different parts of your online presence.",
+      "This report checks one landing page. It is not a review of every page on the website. The address you enter is followed through redirects to the page a visitor lands on, and that page is what the scores measure. Website category scores come from a Lighthouse lab test of that page, run by Google PageSpeed Insights, once as a phone and once as a computer. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. When that page does not have enough visits, those visitor numbers cover the whole site address. Social sharing results come from the public HTML of that landing page. Assistant readiness uses that same page, plus the site’s robots.txt and llms.txt files. The contact check reads that page’s HTML and reports whether a mailbox, a phone number, or a form is present. It does not run scripts, open other pages, or display or store the address or number. Security checks the same landing page for a current certificate, a redirect from the unencrypted address, a browser instruction to stay on HTTPS, and whether other sites may frame the page. It is not a security review. Domain and email health reads the public mail and name records: where mail is delivered, which services may send it, whether messages are signed, and whether the bare name and www reach the same place. A separate section reads public clues for the host, the platform, analytics tags, and a protection service such as Cloudflare. These results stay separate because they measure different parts of your online presence.",
     print: "Save my branded action plan",
     reportLabel: "ROALLA Digital Presence Action Plan",
     reportPrepared: "Prepared",
@@ -514,7 +587,7 @@ const copy = {
       socialCards: "A social preview can arrive without a clear image and message. Current result: {score}%.",
       organizationSchema: "Search systems may not recognize the business name and logo. Current result: {score}%.",
       pageIdentity: "Without a clear title, description, or preferred address, the page is harder to choose. Current result: {score}%.",
-      agentic: "Search readiness does not measure this. An assistant needs text it can quote, facts it can trust, and permission to retrieve the page. Current score: {score}/100.",
+      agentic: "Search readiness does not measure this. An assistant needs text it can quote, facts it can trust, and permission to retrieve the page. Current result: {result}.",
     },
     phoneGap: "Your phone result averages {mobile} and your computer result averages {desktop}. Most visitors will feel the phone result.",
     agenticGap: "Search readiness averages {seo}. Agentic (AI) readiness is {agentic}. A page can be easy to find in search and still be hard for an assistant to quote or describe.",
@@ -569,7 +642,7 @@ const copy = {
     technicalOnly: "Les résultats du partage social sont prêts. La vérification du site se termine…",
     socialOnly: "Les résultats du site sont prêts. La vérification du partage social et des coordonnées se termine…",
     resultsTitle: "Les résultats de votre site",
-    resultsIntro: "Ce rapport vérifie la page d’arrivée qu’un visiteur atteint. Il ne vérifie pas chaque page du site. PageSpeed évalue cette page sur un téléphone et sur un ordinateur. Le partage social, la préparation pour un assistant et la vérification des coordonnées lisent cette même page. La santé du domaine et du courriel lit les enregistrements publics du nom de domaine. Chaque aspect est présenté séparément pour faciliter la lecture.",
+    resultsIntro: "Ce rapport vérifie la page d’arrivée qu’un visiteur atteint. Il ne vérifie pas chaque page du site. PageSpeed évalue cette page sur un téléphone et sur un ordinateur. Le partage social, la préparation pour un assistant et la vérification des coordonnées lisent cette même page. La sécurité vérifie quatre signaux publics sur cette page. La santé du domaine et du courriel lit les enregistrements publics du nom de domaine. Chaque aspect est présenté séparément pour faciliter la lecture.",
     technicalTitle: "Expérience du site Web",
     technicalDescription: "Le fonctionnement de votre site sur téléphone et ordinateur",
     socialTitle: "Partage sur les réseaux sociaux",
@@ -656,7 +729,7 @@ const copy = {
     desktopPerformance: "Performance ordinateur en laboratoire",
     socialScore: "Configuration du partage social",
     agenticTitle: "Préparation agentique (IA)",
-    agenticDescription: "Le score de navigation agentique du même test Google PageSpeed, pour la page téléphone et la page ordinateur.",
+    agenticDescription: "Le nombre de vérifications de navigation agentique réussies dans le même test Google PageSpeed, pour la page téléphone et la page ordinateur.",
     agenticSignal: {
       readable: {
         label: "Texte qu’un assistant peut lire",
@@ -816,8 +889,46 @@ const copy = {
         action: "Pointer le nom nu et www vers le même site pour que les liens et le courriel arrivent au même endroit.",
       },
     },
+    securityTitle: "Sécurité",
+    securityNote: "Ce n’est pas une revue de sécurité. Quatre signaux publics sont vérifiés sur cette page d’arrivée seulement.",
+    securityExpires: "Expire le {date}",
+    securityCheck: {
+      https: {
+        title: "Adresse sécurisée",
+        short: "Adresse",
+        pass: "Cette page est chiffrée, et le certificat est valide.",
+        review: "Cette page est chiffrée. Le certificat expire bientôt.",
+        gap: "Cette page n’a pas présenté de certificat valide.",
+        why: "Le chiffrement empêche quelqu’un sur le réseau de lire la page pendant son chargement.",
+      },
+      redirect: {
+        title: "Adresse forcée",
+        short: "Redirection",
+        pass: "Une visite à l’adresse non chiffrée est envoyée vers HTTPS.",
+        review: "L’adresse non chiffrée n’a pas pu être vérifiée.",
+        gap: "L’adresse non chiffrée sert encore cette page.",
+        why: "Sans cette redirection, un ancien lien peut ouvrir la page sans chiffrement.",
+      },
+      hsts: {
+        title: "Verrou du navigateur",
+        short: "Verrou",
+        pass: "Les navigateurs doivent continuer d’utiliser HTTPS.",
+        review: "Les navigateurs ne sont pas invités à rester sur HTTPS.",
+        gap: "Les navigateurs ne sont pas invités à rester sur HTTPS.",
+        why: "Cette instruction aide le navigateur à éviter l’adresse non chiffrée lors d’une prochaine visite.",
+      },
+      framing: {
+        title: "Cadre de page",
+        short: "Cadre",
+        pass: "Les autres sites ne peuvent pas afficher cette page dans un cadre.",
+        review: "Cette page ne dit pas si d’autres sites peuvent l’afficher dans un cadre.",
+        gap: "Cette page permet aux autres sites de l’afficher dans un cadre.",
+        why: "Un cadre permet à un autre site de présenter cette page comme si elle lui appartenait.",
+      },
+    },
     setupTitle: "Comment ce site est organisé",
     setupDescription: "Des indices publics tirés de cette page d’arrivée et du nom de domaine. Ils décrivent ce qui est visible de l’extérieur. Le registraire, les dates et le titulaire publié proviennent du registre public sur Whois.com.",
+    setupPageUnread: "La page d’arrivée n’a pas pu être lue, donc l’hébergement, la plateforme, les mesures d’audience et la protection vus sur la page ne sont pas inclus. Le registre du domaine est tout de même affiché lorsqu’il peut être lu.",
     registrationTitle: "Enregistrement du domaine",
     registrationNote: "Un service de confidentialité apparaît lorsque le propriétaire n’est pas publié. L’adresse, le téléphone et le courriel ne sont pas inclus.",
     registrationMissing: "Le registre public n’a pas pu être lu.",
@@ -878,7 +989,7 @@ const copy = {
     },
     methodology: "Comment les résultats sont calculés",
     methodologyBody:
-      "Ce rapport vérifie une seule page d’arrivée. Il ne passe pas en revue chaque page du site. L’adresse entrée est suivie à travers les redirections jusqu’à la page où un visiteur arrive, et c’est cette page que les scores mesurent. Les scores proviennent d’un test de laboratoire Lighthouse de cette page, exécuté par Google PageSpeed Insights, une fois comme téléphone et une fois comme ordinateur. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Lorsque cette page n’a pas assez de visites, ces chiffres de visiteurs couvrent l’adresse du site entier. Les résultats du partage social proviennent du HTML public de cette page d’arrivée. La préparation pour un assistant utilise cette même page, ainsi que les fichiers robots.txt et llms.txt du site. La vérification des coordonnées lit le HTML de cette page et indique si une adresse courriel, un numéro de téléphone ou un formulaire s’y trouve. Elle n’exécute pas les scripts, n’ouvre pas d’autres pages et n’affiche ni ne conserve l’adresse ou le numéro. La santé du domaine et du courriel lit les enregistrements publics de courriel et de nom : où le courriel est livré, quels services peuvent l’envoyer, si les messages sont signés, et si le nom nu et www mènent au même endroit. Une section distincte lit les indices publics sur l’hébergeur, la plateforme, les balises d’analytique et un service de protection comme Cloudflare. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
+      "Ce rapport vérifie une seule page d’arrivée. Il ne passe pas en revue chaque page du site. L’adresse entrée est suivie à travers les redirections jusqu’à la page où un visiteur arrive, et c’est cette page que les scores mesurent. Les scores proviennent d’un test de laboratoire Lighthouse de cette page, exécuté par Google PageSpeed Insights, une fois comme téléphone et une fois comme ordinateur. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Lorsque cette page n’a pas assez de visites, ces chiffres de visiteurs couvrent l’adresse du site entier. Les résultats du partage social proviennent du HTML public de cette page d’arrivée. La préparation pour un assistant utilise cette même page, ainsi que les fichiers robots.txt et llms.txt du site. La vérification des coordonnées lit le HTML de cette page et indique si une adresse courriel, un numéro de téléphone ou un formulaire s’y trouve. Elle n’exécute pas les scripts, n’ouvre pas d’autres pages et n’affiche ni ne conserve l’adresse ou le numéro. La sécurité vérifie la même page d’arrivée : un certificat valide, une redirection depuis l’adresse non chiffrée, une instruction au navigateur de rester sur HTTPS, et la possibilité pour d’autres sites d’afficher la page dans un cadre. Ce n’est pas une revue de sécurité. La santé du domaine et du courriel lit les enregistrements publics de courriel et de nom : où le courriel est livré, quels services peuvent l’envoyer, si les messages sont signés, et si le nom nu et www mènent au même endroit. Une section distincte lit les indices publics sur l’hébergeur, la plateforme, les balises d’analytique et un service de protection comme Cloudflare. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
     print: "Enregistrer mon plan d’action ROALLA",
     reportLabel: "Plan d’action de présence numérique ROALLA",
     reportPrepared: "Préparé le",
@@ -934,7 +1045,7 @@ const copy = {
       socialCards: "Un aperçu social peut arriver sans image ni message clairs. Résultat actuel : {score} %.",
       organizationSchema: "Les moteurs de recherche peuvent ne pas reconnaître le nom et le logo de l’entreprise. Résultat actuel : {score} %.",
       pageIdentity: "Sans titre, description ou adresse de page clairs, la page est plus difficile à choisir. Résultat actuel : {score} %.",
-      agentic: "La préparation à la recherche ne mesure pas cela. Un assistant a besoin d’un texte à citer, de faits fiables et de l’autorisation de récupérer la page. Score actuel : {score}/100.",
+      agentic: "La préparation à la recherche ne mesure pas cela. Un assistant a besoin d’un texte à citer, de faits fiables et de l’autorisation de récupérer la page. Résultat actuel : {result}.",
     },
     phoneGap: "Le résultat sur téléphone est de {mobile} en moyenne et le résultat sur ordinateur est de {desktop}. La plupart des visiteurs ressentiront le résultat du téléphone.",
     agenticGap: "La préparation à la recherche est de {seo} en moyenne. La préparation agentique (IA) est de {agentic}. Une page peut être facile à trouver en recherche et rester difficile à citer ou à décrire pour un assistant.",
@@ -985,7 +1096,7 @@ function presentAction(
   if (action.source === "agentic") {
     return {
       title: labels.actionAgentic,
-      why: fill(labels.actionCost.agentic, { score: String(action.score) }),
+      why: fill(labels.actionCost.agentic, { result: formatAgenticScore(action) }),
     };
   }
   const strategies = action.source === "technical"
@@ -1235,6 +1346,8 @@ export default function DigitalPresenceSnapshot({
   const [social, setSocial] = useState<SocialPresenceSnapshot | null>(null);
   const [technicalError, setTechnicalError] = useState("");
   const [socialError, setSocialError] = useState("");
+  const [setupFallback, setSetupFallback] = useState<SiteSetup | null>(null);
+  const [setupPartial, setSetupPartial] = useState(false);
   const [technicalLoading, setTechnicalLoading] = useState(false);
   const [socialLoading, setSocialLoading] = useState(false);
   const [domain, setDomain] = useState<DomainHealthSnapshot | null>(null);
@@ -1251,7 +1364,9 @@ export default function DigitalPresenceSnapshot({
   const [speedDetailsOpen, setSpeedDetailsOpen] = useState<Record<string, boolean>>({});
   const [agenticDetailsOpen, setAgenticDetailsOpen] = useState<Record<string, boolean>>({});
   const [contactDetailsOpen, setContactDetailsOpen] = useState(false);
+  const [securityDetailsOpen, setSecurityDetailsOpen] = useState(false);
   const domainScrollTarget = useRef<string | null>(null);
+  const securityScrollTarget = useRef<string | null>(null);
   const resultsRef = useRef<HTMLElement>(null);
   const workingRef = useRef<HTMLDivElement>(null);
 
@@ -1265,6 +1380,13 @@ export default function DigitalPresenceSnapshot({
     domainScrollTarget.current = null;
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [domainDetailsOpen]);
+
+  useEffect(() => {
+    if (!securityDetailsOpen || !securityScrollTarget.current) return;
+    const id = securityScrollTarget.current;
+    securityScrollTarget.current = null;
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [securityDetailsOpen]);
 
   const technicalSnapshots = useMemo(
     () => [technical?.mobile?.snapshot, technical?.desktop?.snapshot].filter(
@@ -1294,6 +1416,8 @@ export default function DigitalPresenceSnapshot({
     setStarted(true);
     setTechnical(null);
     setSocial(null);
+    setSetupFallback(null);
+    setSetupPartial(false);
     setDomain(null);
     setTechnicalError("");
     setSocialError("");
@@ -1330,9 +1454,16 @@ export default function DigitalPresenceSnapshot({
       .then(async (response) => {
         const payload = (await response.json().catch(() => ({}))) as {
           snapshot?: SocialPresenceSnapshot;
+          siteSetup?: SiteSetup;
+          setupPartial?: boolean;
           error?: string;
         };
+        if (payload.siteSetup) {
+          setSetupFallback(payload.siteSetup);
+          setSetupPartial(Boolean(payload.setupPartial));
+        }
         if (!response.ok || !payload.snapshot) throw new Error(payload.error || t.socialError);
+        setSetupPartial(false);
         completedSocial = payload.snapshot;
         setSocial(payload.snapshot);
       })
@@ -1461,13 +1592,15 @@ export default function DigitalPresenceSnapshot({
     ...(mobileAgentic ? [{ label: t.mobile, agentic: mobileAgentic }] : []),
     ...(desktopAgentic ? [{ label: t.desktop, agentic: desktopAgentic }] : []),
   ];
-  const agenticScore = agenticViews.length
-    ? Math.min(...agenticViews.map((view) => view.agentic.score))
-    : social?.agentic?.score ?? null;
+  const weakestAgenticView = agenticViews.reduce<(typeof agenticViews)[number] | null>((weakest, view) => {
+    if (!weakest || view.agentic.score < weakest.agentic.score) return view;
+    return weakest;
+  }, null);
+  const agenticResult = weakestAgenticView?.agentic ?? social?.agentic ?? null;
   const agenticGap = averageSeo != null && mobileAgentic && desktopAgentic && mobileAgentic.score !== desktopAgentic.score && averageSeo - Math.min(mobileAgentic.score, desktopAgentic.score) >= 15
-    ? fill(t.agenticGapDevices, { seo: String(averageSeo), mobile: String(mobileAgentic.score), desktop: String(desktopAgentic.score) })
-    : averageSeo != null && agenticScore != null && averageSeo - agenticScore >= 15
-      ? fill(t.agenticGap, { seo: String(averageSeo), agentic: String(agenticScore) })
+    ? fill(t.agenticGapDevices, { seo: String(averageSeo), mobile: formatAgenticScore(mobileAgentic), desktop: formatAgenticScore(desktopAgentic) })
+    : averageSeo != null && agenticResult && averageSeo - agenticResult.score >= 15
+      ? fill(t.agenticGap, { seo: String(averageSeo), agentic: formatAgenticScore(agenticResult) })
       : "";
   const reviewGoal = `${note} ${lead} ${recommendation.title}`.slice(0, 700);
   const finding = narrative.finding;
@@ -1498,13 +1631,17 @@ export default function DigitalPresenceSnapshot({
     },
     {
       label: `${t.agenticTitle} · ${t.mobile}`,
-      primary: mobileAgentic?.score ?? null,
-      comparison: competitor?.technical?.mobile?.snapshot?.agentic?.score ?? null,
+      primary: mobileAgentic ? formatAgenticScore(mobileAgentic) : null,
+      comparison: competitor?.technical?.mobile?.snapshot?.agentic
+        ? formatAgenticScore(competitor.technical.mobile.snapshot.agentic)
+        : null,
     },
     {
       label: `${t.agenticTitle} · ${t.desktop}`,
-      primary: desktopAgentic?.score ?? null,
-      comparison: competitor?.technical?.desktop?.snapshot?.agentic?.score ?? null,
+      primary: desktopAgentic ? formatAgenticScore(desktopAgentic) : null,
+      comparison: competitor?.technical?.desktop?.snapshot?.agentic
+        ? formatAgenticScore(competitor.technical.desktop.snapshot.agentic)
+        : null,
     },
     {
       label: t.contactCompareMailbox,
@@ -1522,8 +1659,8 @@ export default function DigitalPresenceSnapshot({
         { label: t.mobilePerformance, current: currentMobilePerformance, old: previous.mobilePerformance },
         { label: t.desktopPerformance, current: currentDesktopPerformance, old: previous.desktopPerformance },
         { label: t.socialScore, current: social?.score ?? null, old: previous.socialScore },
-        { label: `${t.agenticTitle} · ${t.mobile}`, current: mobileAgentic?.score ?? null, old: previous.agenticMobile ?? null },
-        { label: `${t.agenticTitle} · ${t.desktop}`, current: desktopAgentic?.score ?? null, old: previous.agenticDesktop ?? null },
+        agenticHistoryRow(`${t.agenticTitle} · ${t.mobile}`, mobileAgentic, previous.agenticMobilePassed, previous.agenticMobileApplicable),
+        agenticHistoryRow(`${t.agenticTitle} · ${t.desktop}`, desktopAgentic, previous.agenticDesktopPassed, previous.agenticDesktopApplicable),
       ]
     : [];
   const redirectNote = technicalSnapshots.some((item) => !isSamePublicPage(item.requestedUrl, item.finalUrl))
@@ -1534,6 +1671,8 @@ export default function DigitalPresenceSnapshot({
     ? `${t.lighthouse} ${technicalSnapshots[0].lighthouseVersion}`
     : undefined;
   const contactStatusItems = contactStatuses(social?.contactExposure, t);
+  const visibleSetup = social?.siteSetup ?? setupFallback;
+  const setupIsPartial = !social?.siteSetup && setupPartial;
   const printModel: PresencePrintModel = {
     website: resultUrl,
     lead,
@@ -1577,12 +1716,30 @@ export default function DigitalPresenceSnapshot({
     })) ?? [],
     contactUrl: social?.finalUrl ?? "",
     contactChecks: contactStatusItems,
-    siteSetup: social?.siteSetup ? [
-      ...siteSetupCards(social.siteSetup, t),
-      ...(social.siteSetup.registration ? registrationCards(social.siteSetup.registration, t, language) : []),
+    securityChecks: social?.security?.checks.map((check) => {
+      const item = t.securityCheck[check.id];
+      return {
+        id: check.id,
+        short: item.short,
+        label: item.title,
+        status: t.domainStatus[check.status],
+        tone: check.status,
+        result: item[check.status],
+        why: item.why,
+        value: check.id === "https" && check.evidence ? fill(t.securityExpires, { date: registrationDate(check.evidence, language, check.evidence) }) : "",
+      };
+    }) ?? [],
+    siteSetup: visibleSetup ? [
+      ...(setupIsPartial ? [] : siteSetupCards(visibleSetup, t)),
+      ...(visibleSetup.registration ? registrationCards(visibleSetup.registration, t, language) : []),
     ] : [],
     agenticScore: agenticViews.length ? null : social?.agentic?.score ?? null,
-    agenticDevices: agenticViews.map((view) => ({ label: view.label, score: view.agentic.score })),
+    agenticDevices: agenticViews.map((view) => ({
+      label: view.label,
+      score: view.agentic.score,
+      passed: view.agentic.passed,
+      applicable: view.agentic.applicable,
+    })),
     agenticSignals: (agenticViews.length ? agenticViews.reduce((weakest, view) => view.agentic.score < weakest.agentic.score ? view : weakest).agentic : social?.agentic)?.signals?.map((signal) => {
       const described = describeAgenticSignal(signal, t);
       return {
@@ -1621,7 +1778,10 @@ export default function DigitalPresenceSnapshot({
       const delta = scoreDelta(row.current, row.old);
       if (delta == null) return [];
       const change = delta > 0 ? t.improved : delta < 0 ? t.declined : t.unchanged;
-      return [{ label: row.label, value: `${delta > 0 ? "+" : ""}${delta} ${change}` }];
+      const value = "figure" in row && row.figure
+        ? `${row.figure} ${change}`
+        : `${delta > 0 ? "+" : ""}${delta} ${change}`;
+      return [{ label: row.label, value }];
     }),
     comparison: competitor
       ? {
@@ -1651,6 +1811,8 @@ export default function DigitalPresenceSnapshot({
       contactDescription: t.contactDescription,
       setupTitle: t.setupTitle,
       setupDescription: t.setupDescription,
+      securityTitle: t.securityTitle,
+      securityNote: t.securityNote,
       agenticTitle: t.agenticTitle,
       agenticDescription: t.agenticDescription,
       domainTitle: t.domainTitle,
@@ -1683,12 +1845,12 @@ export default function DigitalPresenceSnapshot({
           tone: toneFromScore(weakest.score),
         }
       : { id: "presence-technical", title: t.technicalTitle, detail: t.summaryMissing, tone: "attention" });
-    if (agenticScore != null) {
+    if (agenticResult) {
       summaryItems.push({
         id: "presence-agentic",
         title: t.agenticTitle,
-        detail: `${t.summaryStatus[toneFromScore(agenticScore)]} · ${agenticScore}/100`,
-        tone: toneFromScore(agenticScore),
+        detail: `${t.summaryStatus[toneFromScore(agenticResult.score)]} · ${formatAgenticScore(agenticResult)}`,
+        tone: toneFromScore(agenticResult.score),
       });
     }
     summaryItems.push(social
@@ -1720,6 +1882,17 @@ export default function DigitalPresenceSnapshot({
         title: t.contactTitle,
         detail: `${t.summaryStatus[contactTone]} · ${contactDetail}`,
         tone: contactTone,
+      });
+    }
+    if (social?.security) {
+      const worst = social.security.checks.find((check) => check.status === "gap")
+        ?? social.security.checks.find((check) => check.status === "review");
+      const securityTone: SummaryTone = worst?.status === "gap" ? "attention" : worst ? "improve" : "strong";
+      summaryItems.push({
+        id: "presence-security",
+        title: t.securityTitle,
+        detail: worst ? `${t.summaryStatus[securityTone]} · ${t.securityCheck[worst.id].title}` : t.summaryStatus.strong,
+        tone: securityTone,
       });
     }
     if (domain) {
@@ -1832,7 +2005,7 @@ export default function DigitalPresenceSnapshot({
           ) : null}
 
           <div className="space-y-6">
-            {social?.siteSetup ? (
+            {visibleSetup || socialError ? (
               <article id="presence-setup" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
                 <div className="flex items-start gap-3">
                   <Layers className="mt-1 h-7 w-7 text-primary-dark" aria-hidden />
@@ -1841,23 +2014,28 @@ export default function DigitalPresenceSnapshot({
                     <p className="mt-1 text-sm text-slate-600">{t.setupDescription}</p>
                   </div>
                 </div>
-                <dl className="mt-6 grid gap-3 sm:grid-cols-2">
-                  {siteSetupCards(social.siteSetup, t).map((item) => (
-                    <div key={item.id} className="rounded-lg bg-slate-50 p-4">
-                      <dt className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{item.title}</dt>
-                      <dd className="mt-1 text-lg font-bold text-slate-950">{item.value}</dd>
-                      <p className="mt-1 text-sm leading-6 text-slate-600">{item.note}</p>
-                    </div>
-                  ))}
-                </dl>
-                {"registration" in social.siteSetup ? (
+                {visibleSetup && !setupIsPartial ? (
+                  <dl className="mt-6 grid gap-3 sm:grid-cols-2">
+                    {siteSetupCards(visibleSetup, t).map((item) => (
+                      <div key={item.id} className="rounded-lg bg-slate-50 p-4">
+                        <dt className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{item.title}</dt>
+                        <dd className="mt-1 text-lg font-bold text-slate-950">{item.value}</dd>
+                        <p className="mt-1 text-sm leading-6 text-slate-600">{item.note}</p>
+                      </div>
+                    ))}
+                  </dl>
+                ) : null}
+                {setupIsPartial || !visibleSetup ? (
+                  <p className="mt-6 text-sm leading-6 text-slate-700">{setupIsPartial ? t.setupPageUnread : socialError}</p>
+                ) : null}
+                {visibleSetup && "registration" in visibleSetup ? (
                   <div className="mt-8">
                     <h3 className="text-lg font-semibold text-slate-950">{t.registrationTitle}</h3>
                     <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-600">{t.registrationNote}</p>
-                    {social.siteSetup.registration ? (
+                    {visibleSetup.registration ? (
                       <>
                         <dl className="mt-4 grid gap-3 sm:grid-cols-2">
-                          {registrationCards(social.siteSetup.registration, t, language).map((item) => (
+                          {registrationCards(visibleSetup.registration, t, language).map((item) => (
                             <div key={item.id} className="rounded-lg bg-slate-50 p-4">
                               <dt className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{item.title}</dt>
                               <dd className="mt-1 break-words text-lg font-bold text-slate-950">{item.value}</dd>
@@ -1865,12 +2043,84 @@ export default function DigitalPresenceSnapshot({
                           ))}
                         </dl>
                         <p className="mt-4 text-sm">
-                          <a href={`https://www.whois.com/whois/${encodeURIComponent(social.siteSetup.registration.domain)}`} className="font-semibold text-primary-dark underline underline-offset-4" target="_blank" rel="noreferrer">Whois.com</a>
+                          <a href={`https://www.whois.com/whois/${encodeURIComponent(visibleSetup.registration.domain)}`} className="font-semibold text-primary-dark underline underline-offset-4" target="_blank" rel="noreferrer">Whois.com</a>
                         </p>
                       </>
                     ) : <p className="mt-4 text-sm text-slate-600">{t.registrationMissing}</p>}
                   </div>
                 ) : null}
+              </article>
+            ) : null}
+
+            {social?.security ? (
+              <article id="presence-security" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+                <div className="flex items-start gap-3">
+                  <ShieldCheck className="mt-1 h-7 w-7 text-primary-dark" aria-hidden />
+                  <div>
+                    <h2 className="text-2xl font-serif font-bold text-slate-950">{t.securityTitle}</h2>
+                    <p className="mt-1 text-sm text-slate-600">{t.securityNote}</p>
+                  </div>
+                </div>
+                <ul className="mt-6 flex flex-wrap gap-2" aria-label={t.securityTitle}>
+                  {social.security.checks.map((check) => {
+                    const item = t.securityCheck[check.id];
+                    const pill = check.status === "pass"
+                      ? "border-emerald-200 bg-emerald-50 text-emerald-800"
+                      : check.status === "review"
+                        ? "border-amber-200 bg-amber-50 text-amber-800"
+                        : "border-rose-200 bg-rose-50 text-rose-800";
+                    const dot = check.status === "pass" ? "bg-emerald-500" : check.status === "review" ? "bg-amber-500" : "bg-rose-500";
+                    return (
+                      <li key={check.id}>
+                        <a
+                          href={`#security-${check.id}`}
+                          className={`inline-flex min-h-[32px] items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold ${pill}`}
+                          onClick={(event) => {
+                            event.preventDefault();
+                            const id = `security-${check.id}`;
+                            securityScrollTarget.current = id;
+                            setSecurityDetailsOpen(true);
+                            if (securityDetailsOpen) {
+                              securityScrollTarget.current = null;
+                              document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                            }
+                          }}
+                        >
+                          <span className={`h-2 w-2 shrink-0 rounded-full ${dot}`} aria-hidden />
+                          {item.short}
+                          <span className="font-medium">{t.domainStatus[check.status]}</span>
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+                <button
+                  type="button"
+                  className="mt-4 inline-flex min-h-[44px] items-center gap-2 text-sm font-semibold text-primary-dark print:hidden"
+                  aria-expanded={securityDetailsOpen}
+                  aria-controls="security-details"
+                  onClick={() => setSecurityDetailsOpen((open) => !open)}
+                >
+                  {securityDetailsOpen ? t.domainDetailsHide : t.domainDetails}
+                  <ChevronDown className={`h-4 w-4 transition-transform ${securityDetailsOpen ? "rotate-180" : ""}`} aria-hidden />
+                </button>
+                <div id="security-details" className={securityDetailsOpen ? "mt-4" : "mt-4 hidden print:block"}>
+                  <dl className="grid gap-3">
+                    {social.security.checks.map((check) => {
+                      const item = t.securityCheck[check.id];
+                      const tone = check.status === "pass" ? "text-emerald-700" : check.status === "review" ? "text-amber-700" : "text-rose-700";
+                      return (
+                        <div id={`security-${check.id}`} key={check.id} className="scroll-mt-28 rounded-lg bg-slate-50 p-4">
+                          <dt className="text-[11px] font-semibold text-slate-500">{item.title}</dt>
+                          <dd className={`mt-1 text-lg font-bold ${tone}`}>{t.domainStatus[check.status]}</dd>
+                          <p className="mt-1 text-sm leading-6 text-slate-800">{item[check.status]}</p>
+                          {check.id === "https" && check.evidence ? <p className="mt-1 text-xs leading-5 text-slate-500">{fill(t.securityExpires, { date: registrationDate(check.evidence, language, check.evidence) })}</p> : null}
+                          <p className="mt-2 text-sm leading-6 text-slate-600">{item.why}</p>
+                        </div>
+                      );
+                    })}
+                  </dl>
+                </div>
               </article>
             ) : null}
 
@@ -2002,7 +2252,12 @@ export default function DigitalPresenceSnapshot({
                       <div key={view.label}>
                         <h3 className="text-sm font-semibold text-slate-950">{view.label}</h3>
                         <div className="mt-3 max-w-xs">
-                          <AgenticScoreTile score={view.agentic.score} language={language} />
+                          <AgenticScoreTile
+                            score={view.agentic.score}
+                            passed={view.agentic.passed}
+                            applicable={view.agentic.applicable}
+                            language={language}
+                          />
                         </div>
                         {view.agentic.signals?.length ? (
                           <>
@@ -2038,7 +2293,12 @@ export default function DigitalPresenceSnapshot({
                   </div>
                 ) : social?.agentic ? (
                   <div className="mt-6 max-w-xs">
-                    <AgenticScoreTile score={social.agentic.score} language={language} />
+                    <AgenticScoreTile
+                      score={social.agentic.score}
+                      passed={social.agentic.passed}
+                      applicable={social.agentic.applicable}
+                      language={language}
+                    />
                   </div>
                 ) : null}
                 {agenticGap ? <p className="mt-4 max-w-3xl rounded-lg bg-slate-50 p-3 text-sm leading-6 text-slate-700">{agenticGap}</p> : null}
@@ -2257,7 +2517,8 @@ export default function DigitalPresenceSnapshot({
                   const delta = scoreDelta(row.current, row.old);
                   if (delta == null) return null;
                   const label = delta > 0 ? t.improved : delta < 0 ? t.declined : t.unchanged;
-                  return <div key={row.label} className="rounded-xl bg-white p-4"><dt className="text-xs font-semibold text-slate-600">{row.label}</dt><dd className={`mt-1 text-xl font-bold ${delta > 0 ? "text-emerald-700" : delta < 0 ? "text-rose-700" : "text-slate-700"}`}>{delta > 0 ? "+" : ""}{delta} <span className="text-xs font-semibold">{label}</span></dd></div>;
+                  const figure = "figure" in row ? row.figure : undefined;
+                  return <div key={row.label} className="rounded-xl bg-white p-4"><dt className="text-xs font-semibold text-slate-600">{row.label}</dt><dd className={`mt-1 text-xl font-bold ${delta > 0 ? "text-emerald-700" : delta < 0 ? "text-rose-700" : "text-slate-700"}`}>{figure ?? `${delta > 0 ? "+" : ""}${delta}`} <span className="text-xs font-semibold">{label}</span></dd></div>;
                 })}
               </dl>
             </article>

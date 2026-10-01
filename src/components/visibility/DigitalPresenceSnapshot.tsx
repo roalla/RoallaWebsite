@@ -23,6 +23,7 @@ import { trackAnalyticsEvent } from "@/lib/analytics";
 import { buildDigitalPresenceActions, type DigitalPresenceAction } from "@/lib/digital-presence/actions";
 import type { DomainHealthSnapshot } from "@/lib/domain-health/evaluate";
 import { buildSnapshotNarrative } from "@/lib/digital-presence/narrative";
+import type { ContactExposure } from "@/lib/contact-exposure/analyze";
 import type { SocialPresenceSnapshot } from "@/lib/social-presence/analyzer";
 import type {
   ScoreName,
@@ -121,16 +122,61 @@ const copy = {
     urlLabel: "Your website address",
     placeholder: "https://example.com",
     submit: "Check my website",
+    workingTitle: "Checking your website",
+    workingButton: "Checking…",
+    workingNote: "This usually takes a minute. Results appear when every check is finished.",
+    summaryTitle: "Where to look first",
+    summaryIntro: "Green is in good shape. Orange can improve. Red needs attention first.",
+    summaryStatus: { strong: "In good shape", improve: "Can improve", attention: "Needs attention" },
+    summaryMissing: "Could not check",
+    summaryScores: {
+      performance: "Page speed",
+      accessibility: "Accessibility",
+      bestPractices: "Reliability",
+      seo: "Search readiness",
+    },
+    summaryContactMailbox: "Mailbox in the page source",
+    summaryContactPhone: "Phone number in the page source",
+    summaryContactScrambled: "Mailbox is scrambled",
+    summaryContactClear: "No mailbox in the page source",
     starting: "Starting your website check…",
-    both: "Checking your website and social sharing setup…",
+    both: "Checking your website, social sharing, and contact details…",
     technicalOnly: "Your social sharing results are ready. Finishing the website check…",
-    socialOnly: "Your website results are ready. Finishing the social sharing check…",
+    socialOnly: "Your website results are ready. Finishing the social sharing and contact check…",
     resultsTitle: "Your website results",
-    resultsIntro: "These scores show how your website works for visitors, search engines, social sharing, and assistants that fetch the page. Each area is shown separately so you can see what needs attention.",
+    resultsIntro: "These scores show how your website works for visitors, search engines, social sharing, and assistants that fetch the page. A separate check shows whether a mailbox or phone number is in the page source. Each area is shown separately so you can see what needs attention.",
     technicalTitle: "Website experience",
     technicalDescription: "How your website performs on phones and computers",
     socialTitle: "Social sharing setup",
     socialDescription: "How well your website connects to your social profiles and creates sharing previews",
+    contactTitle: "Contact details a bot can copy",
+    contactDescription: "Whether this page’s source includes a mailbox or phone number, and whether it offers a form instead.",
+    contactMailboxExposed: "A mailbox address is in the page source. A bot can copy it without filling in a form.",
+    contactMailboxObfuscated: "A mailbox is scrambled in the page. Simple scrapers often miss it. A determined one can still recover it.",
+    contactMailboxClear: "No mailbox address was found in this page’s source.",
+    contactPhoneExposed: "A phone number is in the page source. A bot can copy it.",
+    contactPhoneClear: "No phone number was found in this page’s source.",
+    contactFormOnly: "This page offers a form and does not publish a mailbox in the source. That keeps scraped mail off the address.",
+    contactFormAndMailbox: "This page has a form, and it also publishes a mailbox in the source. The form does not hide that address.",
+    contactFormMissing: "No contact form was found on this page.",
+    contactEmailOff: "The page marks the address so it stays readable instead of being scrambled.",
+    contactLimit: "This check reads the public HTML of the page you entered. It does not run scripts, open other pages, or show the address or phone number. A hidden form field can reduce junk form posts. It does not stop a bot from copying an address already in the page.",
+    contactYes: "Yes",
+    contactNo: "No",
+    contactScrambled: "Scrambled",
+    contactCompareMailbox: "Mailbox in the page source",
+    contactCompareForm: "Contact form",
+    contactSignal: {
+      plainEmail: "Mailbox written in the page",
+      mailto: "Email link",
+      schemaEmail: "Mailbox in the page data",
+      plainPhone: "Phone number written in the page",
+      telLink: "Phone link",
+      schemaPhone: "Phone number in the page data",
+      cloudflareObfuscation: "Scrambled mailbox",
+      emailLeftReadable: "Address left readable on purpose",
+      contactForm: "Contact form",
+    },
     mobile: "Mobile",
     desktop: "Desktop",
     detailedSocial: "See profiles and the sharing preview",
@@ -324,7 +370,7 @@ const copy = {
     },
     methodology: "How we calculate the results",
     methodologyBody:
-      "Website category scores come from a Lighthouse lab test run by Google PageSpeed Insights. When the address redirects, the test uses the landing page, which is what Google PageSpeed scores. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. Social sharing results come from public information on the page you entered. Agentic (AI) readiness is the Agentic Browsing category from that same PageSpeed test, shown from 0 to 100 for the phone page and the computer page. Domain and email health reads the public mail and name records: where mail is delivered, which services may send it, whether messages are signed, and whether the bare name and www reach the same place. These results stay separate because they measure different parts of your online presence.",
+      "Website category scores come from a Lighthouse lab test run by Google PageSpeed Insights. When the address redirects, the test uses the landing page, which is what Google PageSpeed scores. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. Social sharing results come from public information on the page you entered. Agentic (AI) readiness is the Agentic Browsing category from that same PageSpeed test, shown from 0 to 100 for the phone page and the computer page. The contact check reads that same public page and reports whether a mailbox, a phone number, or a form is in the HTML. It does not display or store the address or number. Domain and email health reads the public mail and name records: where mail is delivered, which services may send it, whether messages are signed, and whether the bare name and www reach the same place. These results stay separate because they measure different parts of your online presence.",
     print: "Save my branded action plan",
     reportLabel: "ROALLA Digital Presence Action Plan",
     reportPrepared: "Prepared",
@@ -412,16 +458,61 @@ const copy = {
     urlLabel: "Adresse de votre site Web",
     placeholder: "https://exemple.ca",
     submit: "Vérifier mon site",
+    workingTitle: "Vérification de votre site",
+    workingButton: "Vérification…",
+    workingNote: "Cela prend habituellement une minute. Les résultats apparaissent lorsque chaque vérification est terminée.",
+    summaryTitle: "Où regarder en premier",
+    summaryIntro: "Le vert est en bon état. L’orange peut s’améliorer. Le rouge demande l’attention en premier.",
+    summaryStatus: { strong: "En bon état", improve: "Peut s’améliorer", attention: "Demande l’attention" },
+    summaryMissing: "Vérification impossible",
+    summaryScores: {
+      performance: "Vitesse",
+      accessibility: "Accessibilité",
+      bestPractices: "Fiabilité",
+      seo: "Recherche",
+    },
+    summaryContactMailbox: "Adresse dans le code de la page",
+    summaryContactPhone: "Numéro dans le code de la page",
+    summaryContactScrambled: "Adresse brouillée",
+    summaryContactClear: "Aucune adresse dans le code de la page",
     starting: "Démarrage de la vérification…",
-    both: "Vérification de votre site et du partage social…",
+    both: "Vérification de votre site, du partage social et des coordonnées…",
     technicalOnly: "Les résultats du partage social sont prêts. La vérification du site se termine…",
-    socialOnly: "Les résultats du site sont prêts. La vérification du partage social se termine…",
+    socialOnly: "Les résultats du site sont prêts. La vérification du partage social et des coordonnées se termine…",
     resultsTitle: "Les résultats de votre site",
-    resultsIntro: "Ces scores montrent comment votre site fonctionne pour les visiteurs, les moteurs de recherche, le partage social et les assistants qui récupèrent la page. Chaque aspect est présenté séparément pour faciliter la lecture.",
+    resultsIntro: "Ces scores montrent comment votre site fonctionne pour les visiteurs, les moteurs de recherche, le partage social et les assistants qui récupèrent la page. Une vérification distincte indique si une adresse courriel ou un numéro de téléphone se trouve dans le code de la page. Chaque aspect est présenté séparément pour faciliter la lecture.",
     technicalTitle: "Expérience du site Web",
     technicalDescription: "Le fonctionnement de votre site sur téléphone et ordinateur",
     socialTitle: "Partage sur les réseaux sociaux",
     socialDescription: "La façon dont votre site présente vos profils et crée des aperçus de partage",
+    contactTitle: "Coordonnées qu’un robot peut copier",
+    contactDescription: "Si le code de cette page contient une adresse courriel ou un numéro de téléphone, et si la page offre un formulaire à la place.",
+    contactMailboxExposed: "Une adresse courriel est dans le code de la page. Un robot peut la copier sans remplir de formulaire.",
+    contactMailboxObfuscated: "Une adresse courriel est brouillée dans la page. Les robots simples la manquent souvent. Un robot déterminé peut encore la reconstituer.",
+    contactMailboxClear: "Aucune adresse courriel n’a été trouvée dans le code de cette page.",
+    contactPhoneExposed: "Un numéro de téléphone est dans le code de la page. Un robot peut le copier.",
+    contactPhoneClear: "Aucun numéro de téléphone n’a été trouvé dans le code de cette page.",
+    contactFormOnly: "Cette page offre un formulaire et ne publie pas d’adresse courriel dans le code. C’est ce qui garde le courriel indésirable loin de l’adresse.",
+    contactFormAndMailbox: "Cette page a un formulaire, et elle publie aussi une adresse courriel dans le code. Le formulaire ne cache pas cette adresse.",
+    contactFormMissing: "Aucun formulaire de contact n’a été trouvé sur cette page.",
+    contactEmailOff: "La page marque l’adresse pour qu’elle reste lisible au lieu d’être brouillée.",
+    contactLimit: "Cette vérification lit le HTML public de la page entrée. Elle n’exécute pas les scripts, n’ouvre pas d’autres pages et n’affiche ni l’adresse ni le numéro. Un champ de formulaire caché peut réduire les envois indésirables. Il n’empêche pas un robot de copier une adresse déjà dans la page.",
+    contactYes: "Oui",
+    contactNo: "Non",
+    contactScrambled: "Brouillée",
+    contactCompareMailbox: "Adresse dans le code de la page",
+    contactCompareForm: "Formulaire de contact",
+    contactSignal: {
+      plainEmail: "Adresse écrite dans la page",
+      mailto: "Lien courriel",
+      schemaEmail: "Adresse dans les données de la page",
+      plainPhone: "Numéro écrit dans la page",
+      telLink: "Lien téléphonique",
+      schemaPhone: "Numéro dans les données de la page",
+      cloudflareObfuscation: "Adresse brouillée",
+      emailLeftReadable: "Adresse laissée lisible volontairement",
+      contactForm: "Formulaire de contact",
+    },
     mobile: "Mobile",
     desktop: "Ordinateur",
     detailedSocial: "Voir les profils et l’aperçu de partage",
@@ -615,7 +706,7 @@ const copy = {
     },
     methodology: "Comment les résultats sont calculés",
     methodologyBody:
-      "Les scores du site proviennent d’un test de laboratoire Lighthouse exécuté par Google PageSpeed Insights. Si l’adresse redirige, le test utilise la page d’arrivée, soit celle que Google PageSpeed évalue. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Les résultats du partage social proviennent des renseignements publics de la page entrée. La préparation agentique (IA) est la catégorie Navigation agentique de ce même test PageSpeed, affichée de 0 à 100 pour la page téléphone et la page ordinateur. La santé du domaine et du courriel lit les enregistrements publics de courriel et de nom : où le courriel est livré, quels services peuvent l’envoyer, si les messages sont signés, et si le nom nu et www mènent au même endroit. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
+      "Les scores du site proviennent d’un test de laboratoire Lighthouse exécuté par Google PageSpeed Insights. Si l’adresse redirige, le test utilise la page d’arrivée, soit celle que Google PageSpeed évalue. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Les résultats du partage social proviennent des renseignements publics de la page entrée. La préparation agentique (IA) est la catégorie Navigation agentique de ce même test PageSpeed, affichée de 0 à 100 pour la page téléphone et la page ordinateur. La vérification des coordonnées lit cette même page publique et indique si une adresse courriel, un numéro de téléphone ou un formulaire se trouve dans le HTML. Elle n’affiche ni ne conserve l’adresse ou le numéro. La santé du domaine et du courriel lit les enregistrements publics de courriel et de nom : où le courriel est livré, quels services peuvent l’envoyer, si les messages sont signés, et si le nom nu et www mènent au même endroit. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
     print: "Enregistrer mon plan d’action ROALLA",
     reportLabel: "Plan d’action de présence numérique ROALLA",
     reportPrepared: "Préparé le",
@@ -753,6 +844,80 @@ function describeAgenticSignal(
   return { label: signal.label ?? signal.id, note: "" };
 }
 
+function contactLines(exposure: ContactExposure | undefined, labels: {
+  contactMailboxExposed: string;
+  contactMailboxObfuscated: string;
+  contactMailboxClear: string;
+  contactPhoneExposed: string;
+  contactPhoneClear: string;
+  contactFormOnly: string;
+  contactFormAndMailbox: string;
+  contactFormMissing: string;
+  contactEmailOff: string;
+}) {
+  if (!exposure) return [];
+  const lines = [
+    exposure.mailboxInSource
+      ? labels.contactMailboxExposed
+      : exposure.cloudflareObfuscated
+        ? labels.contactMailboxObfuscated
+        : labels.contactMailboxClear,
+    exposure.phoneInSource ? labels.contactPhoneExposed : labels.contactPhoneClear,
+    exposure.contactForm && !exposure.mailboxInSource
+      ? labels.contactFormOnly
+      : exposure.contactForm
+        ? labels.contactFormAndMailbox
+        : labels.contactFormMissing,
+  ];
+  if (exposure.emailLeftReadable) lines.push(labels.contactEmailOff);
+  return lines;
+}
+
+function contactCompareValue(
+  exposure: ContactExposure | undefined,
+  labels: { contactYes: string; contactNo: string; contactScrambled: string },
+  kind: "mailbox" | "form",
+) {
+  if (!exposure) return null;
+  if (kind === "form") return exposure.contactForm ? labels.contactYes : labels.contactNo;
+  if (exposure.mailboxInSource) return labels.contactYes;
+  if (exposure.cloudflareObfuscated) return labels.contactScrambled;
+  return labels.contactNo;
+}
+
+type SummaryTone = "strong" | "improve" | "attention";
+
+type SummaryItem = {
+  id: string;
+  title: string;
+  detail: string;
+  tone: SummaryTone;
+};
+
+const summaryToneClass: Record<SummaryTone, string> = {
+  strong: "text-emerald-600",
+  improve: "text-amber-500",
+  attention: "text-rose-600",
+};
+
+function toneFromScore(score: number): SummaryTone {
+  if (score >= 90) return "strong";
+  if (score >= 50) return "improve";
+  return "attention";
+}
+
+function weakestCategory(snapshots: WebsiteVisibilitySnapshot[]) {
+  let weakest: { key: ScoreName; score: number } | null = null;
+  for (const snapshot of snapshots) {
+    for (const key of scoreOrder) {
+      const score = snapshot.scores[key];
+      if (score == null) continue;
+      if (!weakest || score < weakest.score) weakest = { key, score };
+    }
+  }
+  return weakest;
+}
+
 function scoreTone(score: number | null) {
   if (score == null) return "text-slate-500";
   if (score >= 90) return "text-emerald-700";
@@ -787,6 +952,7 @@ export default function DigitalPresenceSnapshot({
   const [competitorError, setCompetitorError] = useState("");
   const [printMounted, setPrintMounted] = useState(false);
   const resultsRef = useRef<HTMLElement>(null);
+  const workingRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setPrintMounted(true);
@@ -1032,6 +1198,16 @@ export default function DigitalPresenceSnapshot({
       primary: desktopAgentic?.score ?? null,
       comparison: competitor?.technical?.desktop?.snapshot?.agentic?.score ?? null,
     },
+    {
+      label: t.contactCompareMailbox,
+      primary: contactCompareValue(social?.contactExposure, t, "mailbox"),
+      comparison: contactCompareValue(competitor?.social?.contactExposure, t, "mailbox"),
+    },
+    {
+      label: t.contactCompareForm,
+      primary: contactCompareValue(social?.contactExposure, t, "form"),
+      comparison: contactCompareValue(competitor?.social?.contactExposure, t, "form"),
+    },
   ];
   const historyRows = previous
     ? [
@@ -1087,6 +1263,7 @@ export default function DigitalPresenceSnapshot({
       label: t.actionSocial[check.id],
       value: `${check.points}/${check.maxPoints}`,
     })) ?? [],
+    contactLines: contactLines(social?.contactExposure, t),
     agenticScore: agenticViews.length ? null : social?.agentic?.score ?? null,
     agenticDevices: agenticViews.map((view) => ({ label: view.label, score: view.agentic.score })),
     agenticSignals: (agenticViews.length ? agenticViews.reduce((weakest, view) => view.agentic.score < weakest.agentic.score ? view : weakest).agentic : social?.agentic)?.signals?.map((signal) => {
@@ -1151,6 +1328,8 @@ export default function DigitalPresenceSnapshot({
       socialTitle: t.socialTitle,
       socialDescription: t.socialDescription,
       socialScore: t.socialScore,
+      contactTitle: t.contactTitle,
+      contactDescription: t.contactDescription,
       agenticTitle: t.agenticTitle,
       agenticDescription: t.agenticDescription,
       domainTitle: t.domainTitle,
@@ -1169,8 +1348,77 @@ export default function DigitalPresenceSnapshot({
       notScored: t.notScored,
     },
   };
-  const showPrintPlan = printMounted && started && Boolean(technical || social || domain || technicalError || socialError || domainError);
   const snapshotBusy = technicalLoading || socialLoading || domainLoading;
+  const resultsReady = started && !snapshotBusy && Boolean(technical || social || domain || technicalError || socialError || domainError);
+  const showPrintPlan = printMounted && resultsReady;
+  const summaryItems: SummaryItem[] = [];
+  if (resultsReady) {
+    const weakest = weakestCategory(technicalSnapshots);
+    summaryItems.push(weakest
+      ? {
+          id: "presence-technical",
+          title: t.technicalTitle,
+          detail: `${t.summaryStatus[toneFromScore(weakest.score)]} · ${t.summaryScores[weakest.key]} ${weakest.score}/100`,
+          tone: toneFromScore(weakest.score),
+        }
+      : { id: "presence-technical", title: t.technicalTitle, detail: t.summaryMissing, tone: "attention" });
+    summaryItems.push(social
+      ? {
+          id: "presence-social",
+          title: t.socialTitle,
+          detail: `${t.summaryStatus[toneFromScore(social.score)]} · ${social.score}/100`,
+          tone: toneFromScore(social.score),
+        }
+      : { id: "presence-social", title: t.socialTitle, detail: t.summaryMissing, tone: "attention" });
+    if (social?.contactExposure) {
+      const exposure = social.contactExposure;
+      const contactTone: SummaryTone = exposure.mailboxInSource ? "attention" : exposure.phoneInSource || exposure.cloudflareObfuscated ? "improve" : "strong";
+      const contactDetail = exposure.mailboxInSource
+        ? t.summaryContactMailbox
+        : exposure.phoneInSource
+          ? t.summaryContactPhone
+          : exposure.cloudflareObfuscated
+            ? t.summaryContactScrambled
+            : t.summaryContactClear;
+      summaryItems.push({
+        id: "presence-contact",
+        title: t.contactTitle,
+        detail: `${t.summaryStatus[contactTone]} · ${contactDetail}`,
+        tone: contactTone,
+      });
+    }
+    if (agenticScore != null) {
+      summaryItems.push({
+        id: "presence-agentic",
+        title: t.agenticTitle,
+        detail: `${t.summaryStatus[toneFromScore(agenticScore)]} · ${agenticScore}/100`,
+        tone: toneFromScore(agenticScore),
+      });
+    }
+    if (domain) {
+      const worst = domain.checks.find((check) => check.status === "gap")
+        ?? domain.checks.find((check) => check.status === "review");
+      const domainTone: SummaryTone = worst?.status === "gap" ? "attention" : worst ? "improve" : "strong";
+      summaryItems.push({
+        id: "presence-domain",
+        title: t.domainTitle,
+        detail: worst ? `${t.summaryStatus[domainTone]} · ${t.domainCheck[worst.id].title}` : t.summaryStatus.strong,
+        tone: domainTone,
+      });
+    } else {
+      summaryItems.push({ id: "presence-domain", title: t.domainTitle, detail: t.summaryMissing, tone: "attention" });
+    }
+  }
+
+  useEffect(() => {
+    if (!snapshotBusy) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    workingRef.current?.focus();
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [snapshotBusy]);
 
   return (
     <div className="space-y-8">
@@ -1185,13 +1433,12 @@ export default function DigitalPresenceSnapshot({
           </div>
           <button type="submit" disabled={snapshotBusy} className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-dark disabled:cursor-wait disabled:opacity-70">
             {snapshotBusy ? <LoaderCircle className="h-5 w-5 animate-spin" aria-hidden /> : <SearchCheck className="h-5 w-5" aria-hidden />}
-            {snapshotBusy ? loadingMessage : t.submit}
+            {snapshotBusy ? t.workingButton : t.submit}
           </button>
         </div>
-        {snapshotBusy ? <p className="mt-4 text-sm text-slate-600" role="status">{loadingMessage}</p> : null}
       </form>
 
-      {started && (technical || social || domain || technicalError || socialError || domainError) ? (
+      {resultsReady ? (
         <section ref={resultsRef} tabIndex={-1} className="space-y-7 outline-none" aria-live="polite">
           <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -1210,6 +1457,24 @@ export default function DigitalPresenceSnapshot({
             </div>
             <p className="mt-4 text-xs leading-5 text-slate-500 print:hidden">{t.freshHelp}</p>
           </div>
+
+          <nav aria-label={t.summaryTitle} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+            <h2 className="text-2xl font-serif font-bold text-slate-950">{t.summaryTitle}</h2>
+            <p className="mt-2 text-sm leading-6 text-slate-600">{t.summaryIntro}</p>
+            <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+              {summaryItems.map((item) => (
+                <li key={item.id}>
+                  <a href={`#${item.id}`} className="flex items-start gap-3 rounded-xl border border-slate-200 p-4 hover:border-primary">
+                    <CheckCircle2 className={`mt-0.5 h-6 w-6 shrink-0 ${summaryToneClass[item.tone]}`} aria-hidden />
+                    <span>
+                      <span className="block font-semibold text-slate-950">{item.title}</span>
+                      <span className="mt-1 block text-sm leading-5 text-slate-600">{item.detail}</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
           <article className="rounded-2xl border border-primary/20 bg-primary/[0.04] p-6 sm:p-8">
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">{t.executiveTitle}</p>
@@ -1240,7 +1505,7 @@ export default function DigitalPresenceSnapshot({
           ) : null}
 
           <div className="space-y-6">
-            <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+            <article id="presence-technical" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
               <div className="flex items-start gap-3">
                 <Gauge className="mt-1 h-7 w-7 text-primary-dark" aria-hidden />
                 <div><h2 className="text-2xl font-serif font-bold text-slate-950">{t.technicalTitle}</h2><p className="mt-1 text-sm text-slate-600">{t.technicalDescription}</p></div>
@@ -1336,7 +1601,7 @@ export default function DigitalPresenceSnapshot({
               ) : technicalLoading ? <p className="mt-6 text-sm text-slate-600">{loadingMessage}</p> : <p className="mt-6 text-sm text-slate-600">{t.technicalError}</p>}
             </article>
 
-            <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+            <article id="presence-social" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
               <div className="flex items-start gap-3">
                 <Share2 className="mt-1 h-7 w-7 text-primary-dark" aria-hidden />
                 <div><h2 className="text-2xl font-serif font-bold text-slate-950">{t.socialTitle}</h2><p className="mt-1 text-sm text-slate-600">{t.socialDescription}</p></div>
@@ -1360,8 +1625,37 @@ export default function DigitalPresenceSnapshot({
               ) : socialLoading ? <p className="mt-6 text-sm text-slate-600">{loadingMessage}</p> : <p className="mt-6 text-sm text-slate-600">{t.socialError}</p>}
             </article>
 
+            {social?.contactExposure || socialLoading ? (
+              <article id="presence-contact" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+                <div className="flex items-start gap-3">
+                  <Mail className="mt-1 h-7 w-7 text-primary-dark" aria-hidden />
+                  <div>
+                    <h2 className="text-2xl font-serif font-bold text-slate-950">{t.contactTitle}</h2>
+                    <p className="mt-1 text-sm text-slate-600">{t.contactDescription}</p>
+                  </div>
+                </div>
+                {social?.contactExposure ? (
+                  <div className="mt-6">
+                    <ul className="space-y-3">
+                      {contactLines(social.contactExposure, t).map((line) => (
+                        <li key={line} className="rounded-lg bg-slate-50 p-4 text-sm leading-6 text-slate-800">{line}</li>
+                      ))}
+                    </ul>
+                    {social.contactExposure.signals.length ? (
+                      <ul className="mt-4 flex flex-wrap gap-2">
+                        {social.contactExposure.signals.map((signal) => (
+                          <li key={signal} className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-semibold text-slate-700">{t.contactSignal[signal]}</li>
+                        ))}
+                      </ul>
+                    ) : null}
+                    <p className="mt-4 text-xs leading-5 text-slate-500">{t.contactLimit}</p>
+                  </div>
+                ) : <p className="mt-6 text-sm text-slate-600">{loadingMessage}</p>}
+              </article>
+            ) : null}
+
             {agenticViews.length || social?.agentic ? (
-              <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              <article id="presence-agentic" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
                 <div className="flex items-start gap-3">
                   <Bot className="mt-1 h-7 w-7 text-primary-dark" aria-hidden />
                   <div>
@@ -1420,7 +1714,7 @@ export default function DigitalPresenceSnapshot({
             ) : null}
           </div>
 
-          <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <article id="presence-domain" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
             <div className="flex items-start gap-3">
               <Mail className="mt-1 h-7 w-7 text-primary-dark" aria-hidden />
               <div>
@@ -1546,6 +1840,25 @@ export default function DigitalPresenceSnapshot({
             <p className="mt-3 text-xs text-slate-400">{t.ctaReassurance}</p>
           </aside>
         </section>
+      ) : null}
+      {printMounted && snapshotBusy ? createPortal(
+        <div className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/70 p-4 print:hidden">
+          <div
+            ref={workingRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="snapshot-working-title"
+            aria-describedby="snapshot-working-status"
+            tabIndex={-1}
+            className="w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-2xl outline-none"
+          >
+            <LoaderCircle className="mx-auto h-12 w-12 animate-spin text-primary" aria-hidden />
+            <h2 id="snapshot-working-title" className="mt-5 font-serif text-2xl font-bold text-slate-950">{t.workingTitle}</h2>
+            <p id="snapshot-working-status" className="mt-3 text-sm leading-6 text-slate-700" role="status">{loadingMessage}</p>
+            <p className="mt-4 text-xs leading-5 text-slate-500">{t.workingNote}</p>
+          </div>
+        </div>,
+        document.body,
       ) : null}
       {showPrintPlan ? createPortal(
         <DigitalPresenceActionPlanPrintSheet locale={language} model={printModel} />,

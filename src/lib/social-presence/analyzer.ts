@@ -1,4 +1,5 @@
 import type { AgenticReadiness } from "@/lib/agentic-readiness/score";
+import type { ContactExposure } from "@/lib/contact-exposure/analyze";
 
 export type SocialPlatform =
   | "facebook"
@@ -32,6 +33,7 @@ export type SocialPresenceSnapshot = {
     evidence: string[];
   }>;
   agentic?: AgenticReadiness;
+  contactExposure?: ContactExposure;
   profiles: Array<{
     platform: SocialPlatform;
     url: string;

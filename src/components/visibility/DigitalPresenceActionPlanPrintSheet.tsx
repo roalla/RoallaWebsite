@@ -42,6 +42,7 @@ export type PresencePrintModel = {
   devices: PresencePrintDevice[];
   socialScore: number | null;
   socialChecks: PresencePrintMetric[];
+  contactLines: string[];
   agenticScore: number | null;
   agenticDevices: Array<{ label: string; score: number }>;
   agenticSignals: Array<PresencePrintMetric & { note: string }>;
@@ -70,6 +71,8 @@ export type PresencePrintModel = {
     socialTitle: string;
     socialDescription: string;
     socialScore: string;
+    contactTitle: string;
+    contactDescription: string;
     agenticTitle: string;
     agenticDescription: string;
     domainTitle: string;
@@ -550,6 +553,18 @@ export default function DigitalPresenceActionPlanPrintSheet({
                         </div>
                       ))}
                     </div>
+                  </section>
+                ) : null}
+
+                {model.contactLines.length ? (
+                  <section>
+                    <SectionHeading>{model.labels.contactTitle}</SectionHeading>
+                    <p style={{ margin: "4px 0 0", fontSize: 12, lineHeight: 1.45, color: "#64748b" }}>{model.labels.contactDescription}</p>
+                    <ul style={{ margin: "8px 0 0", padding: 0, listStyle: "none" }}>
+                      {model.contactLines.map((line) => (
+                        <li key={line} className="presence-print-keep" style={{ marginTop: 6, fontSize: 12, lineHeight: 1.45, color: "#334155" }}>{line}</li>
+                      ))}
+                    </ul>
                   </section>
                 ) : null}
 

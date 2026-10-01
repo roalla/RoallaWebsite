@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { scoreAgenticReadiness } from "@/lib/agentic-readiness/score";
+import { analyzeContactExposure } from "@/lib/contact-exposure/analyze";
 import { analyzeSocialPresence } from "@/lib/social-presence/analyzer";
 import {
   checkSocialClientRate,
@@ -66,6 +67,7 @@ export async function POST(request: NextRequest) {
     ]);
     const snapshot = analyzeSocialPresence(page.html, target.toString(), page.finalUrl.toString());
     snapshot.agentic = scoreAgenticReadiness({ html: page.html, robotsTxt, llmsTxt });
+    snapshot.contactExposure = analyzeContactExposure(page.html);
     setCachedSocialSnapshot(target, snapshot);
     return response({ snapshot, cached: false });
   } catch (error) {

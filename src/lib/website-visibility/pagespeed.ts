@@ -164,6 +164,42 @@ export function normalizePageSpeedResponse(
     fieldScope: pageMetrics.length ? "page" : originMetrics.length ? "origin" : undefined,
     opportunities,
     warnings,
+    agentic: agenticFromLighthouse(categories, audits),
+  };
+}
+
+const UNCOUNTED_AUDIT_MODES = new Set(["informative", "notApplicable", "manual", "error"]);
+
+/**
+ * PageSpeed Agentic Browsing, on the same 0–100 scale as the other category scores.
+ * Audits PageSpeed leaves out of the total (missing optional files, informational checks) are omitted.
+ */
+function agenticFromLighthouse(categories: UnknownRecord, audits: UnknownRecord): AgenticReadiness | undefined {
+  const category = record(categories["agentic-browsing"]);
+  const score = number(category.score);
+  if (score == null) return undefined;
+  const refs = Array.isArray(category.auditRefs) ? category.auditRefs : [];
+  const signals: AgenticReadiness["signals"] = [];
+  for (const ref of refs) {
+    const item = record(ref);
+    const weight = number(item.weight) ?? 0;
+    const id = text(item.id);
+    if (!id || weight <= 0) continue;
+    const audit = record(audits[id]);
+    const mode = text(audit.scoreDisplayMode);
+    const auditScore = number(audit.score);
+    if (auditScore == null || (mode && UNCOUNTED_AUDIT_MODES.has(mode))) continue;
+    signals.push({
+      id,
+      label: text(audit.title),
+      points: Math.round(auditScore * 100),
+      maxPoints: 100,
+    });
+  }
+  return {
+    score: Math.round(score * 100),
+    signals,
+    source: "lighthouse",
   };
 }
 
@@ -187,7 +223,7 @@ export function pageSpeedEndpoint(target: URL, strategy: PageSpeedStrategy, apiK
   );
   endpoint.searchParams.set("url", target.toString());
   endpoint.searchParams.set("strategy", strategy);
-  for (const category of ["performance", "accessibility", "best-practices", "seo"]) {
+  for (const category of ["performance", "accessibility", "best-practices", "seo", "agentic-browsing"]) {
     endpoint.searchParams.append("category", category);
   }
   const key = apiKey?.trim();

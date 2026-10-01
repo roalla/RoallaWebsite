@@ -22,10 +22,19 @@ import {
 
 export const dynamic = "force-dynamic";
 
-async function withStrategyAgentic(snapshot: WebsiteVisibilitySnapshot, strategy: PageSpeedStrategy) {
-  if (snapshot.agentic) return snapshot;
+function agenticSettled(snapshot: WebsiteVisibilitySnapshot | undefined) {
+  const source = snapshot?.agentic?.source;
+  return source === "lighthouse" || source === "page";
+}
+
+async function withStrategyAgentic(snapshot: WebsiteVisibilitySnapshot, strategy: PageSpeedStrategy): Promise<WebsiteVisibilitySnapshot> {
+  if (agenticSettled(snapshot)) return snapshot;
   const agentic = await scoreLighthousePageAgentic(snapshot.finalUrl, strategy);
-  return agentic ? { ...snapshot, agentic } : snapshot;
+  if (!agentic) return snapshot;
+  return {
+    ...snapshot,
+    agentic: { score: agentic.score, signals: agentic.signals, source: "page" },
+  };
 }
 
 function response(body: object, status = 200, extraHeaders: HeadersInit = {}) {
@@ -79,10 +88,12 @@ export async function POST(request: NextRequest) {
         } catch {
           analyzedTarget = target;
         }
+        const cached = forceFresh ? undefined : getCachedSnapshot(analyzedTarget, strategy);
         return {
           strategy,
           analyzedTarget,
-          snapshot: forceFresh ? undefined : getCachedSnapshot(analyzedTarget, strategy),
+          previous: cached,
+          snapshot: cached && agenticSettled(cached) ? cached : undefined,
         };
       }),
     );
@@ -112,7 +123,19 @@ export async function POST(request: NextRequest) {
             cached: true,
           };
         }
-        const scored = await scorePublicPage(item.analyzedTarget, item.strategy);
+        let scored;
+        try {
+          scored = await scorePublicPage(item.analyzedTarget, item.strategy);
+        } catch (error) {
+          if (item.previous) {
+            return {
+              strategy: item.strategy,
+              snapshot: { ...item.previous, requestedUrl },
+              cached: true,
+            };
+          }
+          throw error;
+        }
         const snapshot = await withStrategyAgentic(scored.snapshot, item.strategy);
         setCachedSnapshot(scored.cacheUrl, item.strategy, snapshot);
         if (scored.cacheUrl.toString() !== item.analyzedTarget.toString()) {

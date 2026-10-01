@@ -167,7 +167,7 @@ const copy = {
     desktopPerformance: "Desktop lab performance",
     socialScore: "Social sharing setup",
     agenticTitle: "Agentic (AI) readiness",
-    agenticDescription: "How ready this page is for an assistant that fetches it and answers a question about the business.",
+    agenticDescription: "The Agentic Browsing score from the same Google PageSpeed test, for the phone page and the computer page.",
     agenticSignal: {
       readable: {
         label: "Text an assistant can read",
@@ -217,6 +217,43 @@ const copy = {
         },
       },
     },
+    agenticAudit: {
+      "agent-accessibility-tree": {
+        label: "Accessibility tree",
+        pass: "The structure an agent uses to read the page is well formed.",
+        fail: "The structure an agent uses to read the page has gaps.",
+      },
+      "cumulative-layout-shift": {
+        label: "Layout stability",
+        pass: "The page stays still enough for an agent to use what it sees.",
+        fail: "The page moves while it loads, which makes it harder for an agent to use.",
+      },
+      "llms-txt": {
+        label: "Assistant guide",
+        pass: "The /llms.txt guide meets the PageSpeed check.",
+        fail: "The /llms.txt guide does not meet the PageSpeed check.",
+      },
+      "ard-schema": {
+        label: "Agent catalog",
+        pass: "The agent catalog file is valid.",
+        fail: "The agent catalog file does not match the expected format.",
+      },
+      "webmcp-schema-validity": {
+        label: "Agent tool schema",
+        pass: "The tools published for agents have a valid schema.",
+        fail: "The tools published for agents have a schema problem.",
+      },
+      "webmcp-registered-tools": {
+        label: "Agent tools",
+        pass: "The page registers tools an agent can call.",
+        fail: "The page does not register tools an agent can call.",
+      },
+      "webmcp-form-coverage": {
+        label: "Forms an agent can use",
+        pass: "The forms on the page are marked for an agent.",
+        fail: "Some forms on the page are not marked for an agent.",
+      },
+    },
     impact: "Likely impact",
     effort: "Typical effort",
     high: "High",
@@ -235,7 +272,7 @@ const copy = {
     ],
     methodology: "How we calculate the results",
     methodologyBody:
-      "Website category scores come from a Lighthouse lab test run by Google PageSpeed Insights. When the address redirects, the test uses the landing page, which is what Google PageSpeed scores. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. Social sharing results come from public information on the page you entered. Agentic (AI) readiness reads the public page text, business facts, assistant guide, and robots file. These results stay separate because they measure different parts of your online presence.",
+      "Website category scores come from a Lighthouse lab test run by Google PageSpeed Insights. When the address redirects, the test uses the landing page, which is what Google PageSpeed scores. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. Social sharing results come from public information on the page you entered. Agentic (AI) readiness is the Agentic Browsing category from that same PageSpeed test, shown from 0 to 100 for the phone page and the computer page. These results stay separate because they measure different parts of your online presence.",
     print: "Save my branded action plan",
     reportLabel: "ROALLA Digital Presence Action Plan",
     reportPrepared: "Prepared",
@@ -371,7 +408,7 @@ const copy = {
     desktopPerformance: "Performance ordinateur en laboratoire",
     socialScore: "Configuration du partage social",
     agenticTitle: "Préparation agentique (IA)",
-    agenticDescription: "La capacité d’un assistant à récupérer cette page et à répondre à une question sur l’entreprise.",
+    agenticDescription: "Le score de navigation agentique du même test Google PageSpeed, pour la page téléphone et la page ordinateur.",
     agenticSignal: {
       readable: {
         label: "Texte qu’un assistant peut lire",
@@ -421,6 +458,43 @@ const copy = {
         },
       },
     },
+    agenticAudit: {
+      "agent-accessibility-tree": {
+        label: "Arbre d’accessibilité",
+        pass: "La structure qu’un agent utilise pour lire la page est bien formée.",
+        fail: "La structure qu’un agent utilise pour lire la page comporte des lacunes.",
+      },
+      "cumulative-layout-shift": {
+        label: "Stabilité de la mise en page",
+        pass: "La page reste assez stable pour qu’un agent utilise ce qu’il voit.",
+        fail: "La page bouge pendant le chargement, ce qui la rend plus difficile à utiliser pour un agent.",
+      },
+      "llms-txt": {
+        label: "Guide pour assistants",
+        pass: "Le guide /llms.txt respecte la vérification PageSpeed.",
+        fail: "Le guide /llms.txt ne respecte pas la vérification PageSpeed.",
+      },
+      "ard-schema": {
+        label: "Catalogue pour agents",
+        pass: "Le fichier de catalogue pour agents est valide.",
+        fail: "Le fichier de catalogue pour agents ne correspond pas au format attendu.",
+      },
+      "webmcp-schema-validity": {
+        label: "Schéma des outils pour agents",
+        pass: "Les outils publiés pour les agents ont un schéma valide.",
+        fail: "Les outils publiés pour les agents ont un problème de schéma.",
+      },
+      "webmcp-registered-tools": {
+        label: "Outils pour agents",
+        pass: "La page enregistre des outils qu’un agent peut appeler.",
+        fail: "La page n’enregistre pas d’outils qu’un agent peut appeler.",
+      },
+      "webmcp-form-coverage": {
+        label: "Formulaires utilisables par un agent",
+        pass: "Les formulaires de la page sont marqués pour un agent.",
+        fail: "Certains formulaires de la page ne sont pas marqués pour un agent.",
+      },
+    },
     impact: "Impact probable",
     effort: "Effort habituel",
     high: "Élevé",
@@ -439,7 +513,7 @@ const copy = {
     ],
     methodology: "Comment les résultats sont calculés",
     methodologyBody:
-      "Les scores du site proviennent d’un test de laboratoire Lighthouse exécuté par Google PageSpeed Insights. Si l’adresse redirige, le test utilise la page d’arrivée, soit celle que Google PageSpeed évalue. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Les résultats du partage social proviennent des renseignements publics de la page entrée. La préparation agentique (IA) lit le texte public de la page, les faits d’entreprise, le guide pour assistants et le fichier robots. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
+      "Les scores du site proviennent d’un test de laboratoire Lighthouse exécuté par Google PageSpeed Insights. Si l’adresse redirige, le test utilise la page d’arrivée, soit celle que Google PageSpeed évalue. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Les résultats du partage social proviennent des renseignements publics de la page entrée. La préparation agentique (IA) est la catégorie Navigation agentique de ce même test PageSpeed, affichée de 0 à 100 pour la page téléphone et la page ordinateur. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
     print: "Enregistrer mon plan d’action ROALLA",
     reportLabel: "Plan d’action de présence numérique ROALLA",
     reportPrepared: "Préparé le",
@@ -532,6 +606,19 @@ function fill(template: string, values: Record<string, string>) {
 function agenticSignalResult(results: object, points: number) {
   const table = results as Record<number, string | undefined>;
   return table[points] ?? table[0] ?? "";
+}
+
+function describeAgenticSignal(
+  signal: { id: string; points: number; label?: string },
+  copy: { agenticAudit: object; agenticSignal: object },
+) {
+  const audits = copy.agenticAudit as Record<string, { label: string; pass: string; fail: string } | undefined>;
+  const signals = copy.agenticSignal as Record<string, { label: string; result: object } | undefined>;
+  const audit = audits[signal.id];
+  if (audit) return { label: audit.label, note: signal.points >= 90 ? audit.pass : audit.fail };
+  const signalCopy = signals[signal.id];
+  if (signalCopy) return { label: signalCopy.label, note: agenticSignalResult(signalCopy.result, signal.points) };
+  return { label: signal.label ?? signal.id, note: "" };
 }
 
 function scoreTone(score: number | null) {
@@ -660,7 +747,11 @@ export default function DigitalPresenceSnapshot({
     setCompetitor(null);
     try {
       const body = JSON.stringify({ url: competitorUrl });
-      const ownNeedsAgentic = !technical?.mobile?.snapshot?.agentic || !technical?.desktop?.snapshot?.agentic;
+      const needsAgenticRefresh = (snapshot?: { agentic?: { source?: string } }) => {
+        const source = snapshot?.agentic?.source;
+        return source !== "lighthouse" && source !== "page";
+      };
+      const ownNeedsAgentic = needsAgenticRefresh(technical?.mobile?.snapshot) || needsAgenticRefresh(technical?.desktop?.snapshot);
       const [technicalResponse, socialResponse, ownResponse] = await Promise.all([
         fetch("/api/website-visibility-snapshot", {
           method: "POST",
@@ -686,7 +777,7 @@ export default function DigitalPresenceSnapshot({
       };
       if (ownResponse) {
         const ownPayload = (await ownResponse.json().catch(() => ({}))) as TechnicalResponse;
-        if (ownPayload.mobile?.snapshot?.agentic || ownPayload.desktop?.snapshot?.agentic) {
+        if (ownPayload.mobile?.snapshot?.agentic?.source === "lighthouse" || ownPayload.desktop?.snapshot?.agentic?.source === "lighthouse") {
           setTechnical(ownPayload);
         }
       }
@@ -843,11 +934,11 @@ export default function DigitalPresenceSnapshot({
     agenticScore: agenticViews.length ? null : social?.agentic?.score ?? null,
     agenticDevices: agenticViews.map((view) => ({ label: view.label, score: view.agentic.score })),
     agenticSignals: (agenticViews.length ? agenticViews.reduce((weakest, view) => view.agentic.score < weakest.agentic.score ? view : weakest).agentic : social?.agentic)?.signals?.map((signal) => {
-      const signalCopy = t.agenticSignal[signal.id];
+      const described = describeAgenticSignal(signal, t);
       return {
-        label: signalCopy.label,
+        label: described.label,
         value: `${signal.points}/${signal.maxPoints}`,
-        note: agenticSignalResult(signalCopy.result, signal.points),
+        note: described.note,
       };
     }) ?? [],
     actions: actions.map((action) => {
@@ -1128,13 +1219,13 @@ export default function DigitalPresenceSnapshot({
                         {view.agentic.signals?.length ? (
                           <dl className="mt-4 grid gap-3">
                             {view.agentic.signals.map((signal) => {
-                              const copy = t.agenticSignal[signal.id];
+                              const described = describeAgenticSignal(signal, t);
                               const complete = signal.points >= signal.maxPoints;
                               return (
                                 <div key={signal.id} className="rounded-lg bg-slate-50 p-4">
-                                  <dt className="text-[11px] font-semibold text-slate-500">{copy.label}</dt>
+                                  <dt className="text-[11px] font-semibold text-slate-500">{described.label}</dt>
                                   <dd className={`mt-1 text-lg font-bold ${complete ? "text-emerald-700" : signal.points > 0 ? "text-amber-700" : "text-rose-700"}`}>{signal.points}/{signal.maxPoints}</dd>
-                                  <p className="mt-1 text-sm leading-6 text-slate-700">{agenticSignalResult(copy.result, signal.points)}</p>
+                                  {described.note ? <p className="mt-1 text-sm leading-6 text-slate-700">{described.note}</p> : null}
                                 </div>
                               );
                             })}
@@ -1152,13 +1243,13 @@ export default function DigitalPresenceSnapshot({
                 {!agenticViews.length && social?.agentic?.signals?.length ? (
                   <dl className="mt-5 grid gap-3 sm:grid-cols-2">
                     {social.agentic.signals.map((signal) => {
-                      const copy = t.agenticSignal[signal.id];
+                      const described = describeAgenticSignal(signal, t);
                       const complete = signal.points >= signal.maxPoints;
                       return (
                         <div key={signal.id} className="rounded-lg bg-slate-50 p-4">
-                          <dt className="text-[11px] font-semibold text-slate-500">{copy.label}</dt>
+                          <dt className="text-[11px] font-semibold text-slate-500">{described.label}</dt>
                           <dd className={`mt-1 text-lg font-bold ${complete ? "text-emerald-700" : signal.points > 0 ? "text-amber-700" : "text-rose-700"}`}>{signal.points}/{signal.maxPoints}</dd>
-                          <p className="mt-1 text-sm leading-6 text-slate-700">{agenticSignalResult(copy.result, signal.points)}</p>
+                          {described.note ? <p className="mt-1 text-sm leading-6 text-slate-700">{described.note}</p> : null}
                         </div>
                       );
                     })}

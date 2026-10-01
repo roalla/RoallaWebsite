@@ -66,12 +66,12 @@ const guidance = {
     } satisfies Record<ScoreName, ScoreHelp>,
     agenticLabel: "Agentic (AI) readiness",
     agenticHelp: {
-      means: "How ready this page is for an AI assistant that fetches it and answers a question about the business. Search readiness can be high while this score stays low.",
-      improve: "A higher score means the page has text an assistant can quote, business facts it can trust, and permission to retrieve the page.",
-      adoption: "People increasingly ask an assistant before they search. If the assistant cannot describe the offer, that inquiry never reaches you.",
+      means: "The Agentic Browsing result from the same Google PageSpeed Insights test as the other scores. 100 means every check PageSpeed counted for that page passed.",
+      improve: "A higher score means the page is easier for an automated agent to read, stay oriented on, and use.",
+      adoption: "People increasingly ask an assistant before they search. A page that agents can read is easier for those answers to draw from.",
     },
-    agenticNoteLabel: "Separate from search",
-    agenticNote: "This score reads public signals on the page. It is not a search ranking, and it does not promise that an assistant will mention the business.",
+    agenticNoteLabel: "Same result as PageSpeed",
+    agenticNote: "This is the Agentic Browsing category from Google PageSpeed Insights, shown from 0 to 100. Checks PageSpeed leaves out of the total, such as an optional guide file, do not lower the score.",
   },
   fr: {
     scoreLabels: {
@@ -126,12 +126,12 @@ const guidance = {
     } satisfies Record<ScoreName, ScoreHelp>,
     agenticLabel: "Préparation agentique (IA)",
     agenticHelp: {
-      means: "La capacité d’un assistant d’IA à récupérer cette page et à décrire l’entreprise. La préparation à la recherche peut être élevée pendant que ce score reste bas.",
-      improve: "Un score plus élevé veut dire que la page offre un texte à citer, des faits d’entreprise fiables et l’autorisation de récupérer la page.",
-      adoption: "De plus en plus de gens demandent à un assistant avant de chercher. Si l’assistant ne peut pas décrire l’offre, cette demande ne vous rejoint pas.",
+      means: "Le résultat de navigation agentique du même test Google PageSpeed Insights que les autres scores. 100 signifie que chaque vérification comptée par PageSpeed pour cette page est réussie.",
+      improve: "Un score plus élevé veut dire que la page est plus facile à lire, à suivre et à utiliser pour un agent automatisé.",
+      adoption: "De plus en plus de gens demandent à un assistant avant de chercher. Une page qu’un agent peut lire est plus facile à utiliser dans ces réponses.",
     },
-    agenticNoteLabel: "Distinct de la recherche",
-    agenticNote: "Ce score lit des signaux publics de la page. Ce n’est pas une position dans les résultats et il ne promet pas qu’un assistant mentionnera l’entreprise.",
+    agenticNoteLabel: "Le même résultat que PageSpeed",
+    agenticNote: "Il s’agit de la catégorie Navigation agentique de Google PageSpeed Insights, affichée de 0 à 100. Les vérifications que PageSpeed laisse hors du total, comme un guide facultatif, ne baissent pas le score.",
   },
 } as const;
 

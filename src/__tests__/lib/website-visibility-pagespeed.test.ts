@@ -67,6 +67,62 @@ describe("normalizePageSpeedResponse", () => {
     ]);
   });
 
+  it("uses the PageSpeed Agentic Browsing score and only the checks that counted", () => {
+    const result = normalizePageSpeedResponse(
+      {
+        lighthouseResult: {
+          finalUrl: "https://www.roalla.com/",
+          categories: {
+            performance: { score: 0.9 },
+            "agentic-browsing": {
+              score: 1,
+              auditRefs: [
+                { id: "agent-accessibility-tree", weight: 1 },
+                { id: "cumulative-layout-shift", weight: 1 },
+                { id: "llms-txt", weight: 1 },
+                { id: "webmcp-registered-tools", weight: 0 },
+              ],
+            },
+          },
+          audits: {
+            "agent-accessibility-tree": {
+              title: "Accessibility tree is well formed",
+              score: 1,
+              scoreDisplayMode: "binary",
+            },
+            "cumulative-layout-shift": {
+              title: "Cumulative Layout Shift",
+              score: 1,
+              scoreDisplayMode: "numeric",
+              displayValue: "0",
+            },
+            "llms-txt": {
+              title: "llms.txt is valid",
+              score: null,
+              scoreDisplayMode: "notApplicable",
+            },
+            "webmcp-registered-tools": {
+              title: "WebMCP tools",
+              score: 1,
+              scoreDisplayMode: "informative",
+            },
+          },
+        },
+      },
+      "https://www.roalla.com/",
+      "mobile",
+    );
+
+    expect(result.agentic).toEqual({
+      score: 100,
+      source: "lighthouse",
+      signals: [
+        { id: "agent-accessibility-tree", label: "Accessibility tree is well formed", points: 100, maxPoints: 100 },
+        { id: "cumulative-layout-shift", label: "Cumulative Layout Shift", points: 100, maxPoints: 100 },
+      ],
+    });
+  });
+
   it("rejects responses without a Lighthouse report", () => {
     expect(() => normalizePageSpeedResponse({}, "https://example.com/", "desktop")).toThrow(
       PageSpeedProviderError,
@@ -86,6 +142,7 @@ describe("pageSpeedEndpoint", () => {
       "accessibility",
       "best-practices",
       "seo",
+      "agentic-browsing",
     ]);
   });
 

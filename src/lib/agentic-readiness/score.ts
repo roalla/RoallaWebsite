@@ -3,14 +3,18 @@ export const AGENTIC_SIGNAL_IDS = ["readable", "answer", "facts", "liftable", "g
 export type AgenticSignalId = (typeof AGENTIC_SIGNAL_IDS)[number];
 
 export type AgenticSignal = {
-  id: AgenticSignalId;
+  id: string;
   points: number;
   maxPoints: number;
+  /** Audit title from PageSpeed, used when this check has no local label. */
+  label?: string;
 };
 
 export type AgenticReadiness = {
   score: number;
   signals: AgenticSignal[];
+  /** lighthouse: PageSpeed Agentic Browsing. page: public HTML checklist, used only when PageSpeed omits the category. */
+  source?: "lighthouse" | "page";
 };
 
 const ORG_TYPES = ["organization", "localbusiness", "professionalservice", "corporation", "store"];

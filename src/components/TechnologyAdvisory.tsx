@@ -2,13 +2,17 @@
 
 import React from "react";
 import Reveal from "./motion/Reveal";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import {
   ArrowRight,
   CheckCircle,
+  MessageSquare,
   Network,
+  Phone,
+  ShieldAlert,
   ShieldCheck,
+  Sparkles,
 } from "lucide-react";
 import ScheduleButton from "./ScheduleButton";
 import StickyMobileCTA from "./StickyMobileCTA";
@@ -48,13 +52,42 @@ const howWeWorkSteps = ["step1", "step2", "step3", "step4"] as const;
 const TechnologyAdvisory = () => {
   const t = useTranslations("services");
   const tCommon = useTranslations("common");
-  const locale = useLocale();
-  const french = locale === "fr";
 
   const stats = [
     { value: t("technologyStat1Value"), label: t("technologyStat1Label") },
     { value: t("technologyStat2Value"), label: t("technologyStat2Label") },
     { value: t("technologyStat3Value"), label: t("technologyStat3Label") },
+  ];
+
+  const situations = [
+    {
+      icon: Network,
+      title: t("technologySituationStackTitle"),
+      body: t("technologySituationStackBody"),
+      href: "/tools/technology-decision-brief" as const,
+      cta: t("technologySituationStackCta"),
+    },
+    {
+      icon: ShieldAlert,
+      title: t("technologySituationSecurityTitle"),
+      body: t("technologySituationSecurityBody"),
+      href: { pathname: "/contact" as const, query: { intent: "consulting", focus: "technology" } },
+      cta: t("technologySituationSecurityCta"),
+    },
+    {
+      icon: Phone,
+      title: t("technologySituationCommsTitle"),
+      body: t("technologySituationCommsBody"),
+      href: "/tools/communications-value-brief" as const,
+      cta: t("technologySituationCommsCta"),
+    },
+    {
+      icon: Sparkles,
+      title: t("technologySituationNewTitle"),
+      body: t("technologySituationNewBody"),
+      href: "/tools/technology-decision-brief" as const,
+      cta: t("technologySituationNewCta"),
+    },
   ];
 
   return (
@@ -68,6 +101,7 @@ const TechnologyAdvisory = () => {
         subtitleHighlight={t("technologyPageSubtitleHighlight")}
         journeyLine={undefined}
         stats={stats}
+        statsNote={t("technologyStatsNote")}
         visual={
           <ConsultingHeroVisual
             proofTitle={t("technologyHeroProofTitle")}
@@ -85,54 +119,147 @@ const TechnologyAdvisory = () => {
             {t("technologyCtaButton")}
           </ScheduleButton>
         }
-        ctaSubtext={tCommon("ctaSubtext")}
+        secondaryCta={
+          <Link
+            href="/tools/technology-decision-brief"
+            className="inline-flex items-center justify-center rounded-lg border border-white/30 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20"
+          >
+            {t("technologySoftCta")}
+            <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+          </Link>
+        }
+        ctaSubtext={t("technologyCallNext")}
         tertiaryLink={{ href: "/programs/business-enablement", label: t("technologyCrossLinkBusiness") }}
       />
 
       <div className="max-w-6xl mx-auto">
-        <Reveal className="mb-10 rounded-2xl border border-primary/25 bg-white p-6 shadow-sm lg:p-8">
-          <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
-            <div><p className="text-xs font-semibold uppercase tracking-wider text-primary-dark">{french ? "Point de départ sans fournisseur" : "Provider-neutral starting point"}</p><h2 className="mt-2 text-2xl font-serif font-bold text-slate-950">{french ? "Fiche de décision technologique" : "Technology Decision Brief"}</h2><p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{french ? "Clarifiez les besoins, les risques, les coûts et l’adoption avant de comparer les fournisseurs. Poursuivez ensuite avec une liste restreinte ou un soutien à la mise en œuvre, seulement si nécessaire." : "Clarify requirements, risk, cost, and adoption before comparing providers. Continue with a shortlist or implementation support only when needed."}</p></div>
-            <a href={`/${locale}/tools/technology-decision-brief`} className="inline-flex items-center justify-center rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white hover:bg-primary-dark">{french ? "Créer ma fiche" : "Build my brief"}<ArrowRight className="ml-2 h-4 w-4" /></a>
-          </div>
-        </Reveal>
-
-        <Reveal className="mb-10 rounded-2xl border border-primary/25 bg-white p-6 shadow-sm lg:p-8">
-          <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark">
-                {french ? "Appels et centre de contact" : "Calling and contact centre"}
-              </p>
-              <h2 className="mt-2 text-2xl font-serif font-bold text-slate-950">
-                {french ? "Fiche de valeur communications" : "Communications Value Brief"}
-              </h2>
-              <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">
-                {french
-                  ? "Estimez la valeur de quitter le téléphone traditionnel ou de revoir vos outils actuels. Obtenez une occasion indicative, des priorités de décision et une direction d’engagement—sans nommer de fournisseurs."
-                  : "Estimate the value of leaving legacy phone systems or relooking at your current stack. Get an indicative opportunity, decision priorities, and an engagement path—without naming providers."}
-              </p>
-            </div>
-            <a
-              href={`/${locale}/tools/communications-value-brief`}
-              className="inline-flex items-center justify-center rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white hover:bg-primary-dark"
-            >
-              {french ? "Créer ma fiche" : "Build my brief"}
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </a>
-          </div>
-        </Reveal>
-
         <ServiceAnchorNav
           label={t("jumpNavLabel")}
           items={[
+            { id: "technology-start", label: t("technologyStartNav") },
+            { id: "technology-situations", label: t("technologySituationsNav") },
             { id: "technology-capabilities", label: t("technologyCapabilitiesNav") },
             { id: "technology-partners", label: t("technologyPartnerTitle") },
-            { id: "technology-evaluation", label: t("technologyEvaluationTitle") },
             { id: "how-we-work", label: t("engagementTitle") },
           ]}
         />
 
-        <Reveal id="technology-capabilities" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6 lg:p-8">
+        <Reveal
+          id="technology-start"
+          className="scroll-mt-28 rounded-2xl border border-primary/25 bg-white p-6 shadow-sm lg:p-8"
+        >
+          <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark">
+            {t("technologyStartEyebrow")}
+          </p>
+          <h2 className="mt-2 text-2xl font-serif font-bold text-slate-950">
+            {t("technologyStartTitle")}
+          </h2>
+          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-700">
+            {t("technologyStartSubtitle")}
+          </p>
+
+          <div className="mt-8 grid gap-4 lg:grid-cols-3">
+            <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-5 flex flex-col">
+              <h3 className="text-lg font-serif font-bold text-slate-950">
+                {t("technologyPathReplaceTitle")}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-700 flex-1">
+                {t("technologyPathReplaceBody")}
+              </p>
+              <p className="mt-3 text-xs font-medium text-slate-600 leading-relaxed">
+                {t("technologyToolIfDecision")}
+              </p>
+              <Link
+                href="/tools/technology-decision-brief"
+                className="mt-4 inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-dark"
+              >
+                {t("technologyPathReplaceCta")}
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+            </div>
+
+            <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-5 flex flex-col">
+              <h3 className="text-lg font-serif font-bold text-slate-950">
+                {t("technologyPathCommsTitle")}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-700 flex-1">
+                {t("technologyPathCommsBody")}
+              </p>
+              <p className="mt-3 text-xs font-medium text-slate-600 leading-relaxed">
+                {t("technologyToolIfComms")}
+              </p>
+              <Link
+                href="/tools/communications-value-brief"
+                className="mt-4 inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-dark"
+              >
+                {t("technologyPathCommsCta")}
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+            </div>
+
+            <div className="rounded-xl border border-primary/30 bg-primary/[0.06] p-5 flex flex-col">
+              <div className="flex items-center gap-2">
+                <MessageSquare className="h-4 w-4 text-primary-dark" aria-hidden />
+                <h3 className="text-lg font-serif font-bold text-slate-950">
+                  {t("technologyPathTalkTitle")}
+                </h3>
+              </div>
+              <p className="mt-2 text-sm leading-relaxed text-slate-700 flex-1">
+                {t("technologyPathTalkBody")}
+              </p>
+              <p className="mt-3 text-xs font-medium text-slate-600 leading-relaxed">
+                {t("technologyCallNext")}
+              </p>
+              <ScheduleButton
+                variant="primary"
+                size="md"
+                icon
+                intent="consulting"
+                focus="technology"
+                className="mt-4 w-full justify-center"
+              >
+                {t("technologyPathTalkCta")}
+              </ScheduleButton>
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal id="technology-situations" className="scroll-mt-28 mt-12">
+          <ServiceSectionHeading
+            title={t("technologySituationsTitle")}
+            description={t("technologySituationsSubtitle")}
+          />
+          <div className="grid gap-4 sm:grid-cols-2">
+            {situations.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={item.title}
+                  className="rounded-xl border border-slate-200 bg-white p-5 flex flex-col"
+                >
+                  <div className="flex items-start gap-3">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                      <Icon className="h-5 w-5 text-primary-dark" aria-hidden />
+                    </span>
+                    <div className="min-w-0">
+                      <h3 className="text-base font-serif font-bold text-slate-950">{item.title}</h3>
+                      <p className="mt-1.5 text-sm leading-relaxed text-slate-700">{item.body}</p>
+                    </div>
+                  </div>
+                  <Link
+                    href={item.href}
+                    className="mt-4 inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
+                  >
+                    {item.cta}
+                    <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        </Reveal>
+
+        <Reveal id="technology-capabilities" className="scroll-mt-28 mt-12 rounded-2xl border border-slate-200 bg-white p-6 lg:p-8">
           <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark">
             {t("technologyPartnerEyebrow")}
           </p>
@@ -168,6 +295,7 @@ const TechnologyAdvisory = () => {
             ))}
           </ul>
           <div className="mt-6 pt-5 border-t border-slate-200">
+            <p className="mb-3 text-sm text-slate-600 leading-relaxed">{t("technologyCallNext")}</p>
             <Link
               href={{ pathname: "/contact", query: { intent: "consulting", focus: "technology" } }}
               className="inline-flex items-center justify-center bg-primary hover:bg-primary-dark text-white font-semibold py-2.5 px-5 rounded-lg text-sm transition-colors"
@@ -296,7 +424,7 @@ const TechnologyAdvisory = () => {
           title={t("technologyCtaTitle")}
           subtitle={t("technologyCtaSubtitle")}
           qualifier={t("technologyCtaQualifier")}
-          ctaSubtext={tCommon("ctaSubtext")}
+          ctaSubtext={t("technologyCallNext")}
           primaryCta={
             <ScheduleButton
               variant="secondary"
@@ -311,10 +439,10 @@ const TechnologyAdvisory = () => {
           }
           secondaryCta={
             <Link
-              href="/partners"
+              href="/tools/technology-decision-brief"
               className="inline-flex items-center justify-center text-sm font-medium text-slate-300 hover:text-white underline underline-offset-4 transition-colors"
             >
-              {t("technologyPartnersLink")}
+              {t("technologySoftCta")}
             </Link>
           }
           confidentiality={{

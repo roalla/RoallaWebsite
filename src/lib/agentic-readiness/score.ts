@@ -1,5 +1,16 @@
+export const AGENTIC_SIGNAL_IDS = ["readable", "answer", "facts", "liftable", "guide", "retrieval"] as const;
+
+export type AgenticSignalId = (typeof AGENTIC_SIGNAL_IDS)[number];
+
+export type AgenticSignal = {
+  id: AgenticSignalId;
+  points: number;
+  maxPoints: number;
+};
+
 export type AgenticReadiness = {
   score: number;
+  signals: AgenticSignal[];
 };
 
 const ORG_TYPES = ["organization", "localbusiness", "professionalservice", "corporation", "store"];
@@ -19,7 +30,18 @@ export function scoreAgenticReadiness(input: {
   const liftable = types.some((type) => OFFER_TYPES.includes(type)) ? 15 : 0;
   const guide = agentGuidePoints(input.html, input.llmsTxt);
   const retrieval = retrievalPoints(input.robotsTxt);
-  return { score: readable + answer + facts + liftable + guide + retrieval };
+  const signals: AgenticSignal[] = [
+    { id: "readable", points: readable, maxPoints: 20 },
+    { id: "answer", points: answer, maxPoints: 20 },
+    { id: "facts", points: facts, maxPoints: 20 },
+    { id: "liftable", points: liftable, maxPoints: 15 },
+    { id: "guide", points: guide, maxPoints: 15 },
+    { id: "retrieval", points: retrieval, maxPoints: 10 },
+  ];
+  return {
+    score: signals.reduce((sum, signal) => sum + signal.points, 0),
+    signals,
+  };
 }
 
 function visibleText(html: string) {

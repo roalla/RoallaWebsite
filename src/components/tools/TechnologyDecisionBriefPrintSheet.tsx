@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { emailSafeHtml } from "@/lib/email-markup";
 import { CONTACT } from "@/lib/site";
 
@@ -35,12 +36,19 @@ export default function TechnologyDecisionBriefPrintSheet({
 }) {
   const lang = locale === "fr" ? "fr" : "en";
   const pageUrl = `https://www.roalla.com/${lang}/tools/technology-decision-brief`;
-  const year = new Date().getFullYear();
-  const prepared =
-    lang === "fr"
-      ? `Préparé le ${new Date().toLocaleDateString("fr-CA", { year: "numeric", month: "long", day: "numeric" })}`
-      : `Prepared ${new Date().toLocaleDateString("en-CA", { year: "numeric", month: "long", day: "numeric" })}`;
   const planLabel = lang === "fr" ? "Fiche de décision technologique" : "Technology Decision Brief";
+  const [year, setYear] = useState("");
+  const [prepared, setPrepared] = useState("");
+
+  useEffect(() => {
+    const now = new Date();
+    setYear(String(now.getFullYear()));
+    setPrepared(
+      lang === "fr"
+        ? `Préparé le ${now.toLocaleDateString("fr-CA", { year: "numeric", month: "long", day: "numeric" })}`
+        : `Prepared ${now.toLocaleDateString("en-CA", { year: "numeric", month: "long", day: "numeric" })}`,
+    );
+  }, [lang]);
 
   return (
     <>
@@ -103,7 +111,9 @@ export default function TechnologyDecisionBriefPrintSheet({
           </p>
           <h1 style={{ margin: "8px 0 0", fontSize: 28, lineHeight: 1.15 }}>{title}</h1>
           <p style={{ margin: "10px 0 0", maxWidth: 680, fontSize: 14, lineHeight: 1.5, color: "#334155" }}>{subtitle}</p>
-          <p style={{ margin: "8px 0 0", fontSize: 11, color: "#64748b" }}>{prepared}</p>
+          <p style={{ margin: "8px 0 0", fontSize: 11, color: "#64748b" }} suppressHydrationWarning>
+            {prepared}
+          </p>
 
           <div
             style={{
@@ -180,7 +190,7 @@ export default function TechnologyDecisionBriefPrintSheet({
             <span>(289) 838-5868</span>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginTop: 6, fontSize: 10, color: "#64748b" }}>
-            <span>© {year} Roalla Business Enablement Group</span>
+            <span suppressHydrationWarning>© {year} Roalla Business Enablement Group</span>
             <span>{pageUrl.replace("https://", "")}</span>
           </div>
         </footer>

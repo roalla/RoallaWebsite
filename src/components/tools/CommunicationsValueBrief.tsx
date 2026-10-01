@@ -139,6 +139,8 @@ const copy = {
     back: "Back",
     next: "Continue",
     editAnswers: "Edit answers",
+    reset: "Start over",
+    resetConfirm: "Clear your answers and start again?",
     situationLabel: "What best describes your phone setup today?",
     situations: {
       "pots-legacy": "Traditional phone lines or an old on-site system",
@@ -222,6 +224,8 @@ const copy = {
     back: "Retour",
     next: "Continuer",
     editAnswers: "Modifier les réponses",
+    reset: "Recommencer",
+    resetConfirm: "Effacer vos réponses et recommencer?",
     situationLabel: "Qu’est-ce qui décrit le mieux votre téléphone aujourd’hui?",
     situations: {
       "pots-legacy": "Lignes traditionnelles ou ancien système sur site",
@@ -329,27 +333,22 @@ function choiceButton(active: boolean, disabled = false) {
 
 function StepHeading({
   step,
-  total,
   label,
-  stepWord,
   as = "legend",
 }: {
   step: number;
-  total: number;
   label: string;
-  stepWord: string;
   as?: "legend" | "h3";
 }) {
   const Tag = as;
   return (
     <Tag className="w-full">
-      <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[.14em] text-primary-dark">
-        <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary text-[11px] text-white">
+      <span className="inline-flex items-center gap-2">
+        <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary text-[11px] font-bold text-white">
           {step}
         </span>
-        {stepWord} {step}/{total}
+        <span className="text-xl font-serif font-bold text-slate-950 sm:text-2xl">{label}</span>
       </span>
-      <span className="mt-2 block text-xl font-serif font-bold text-slate-950 sm:text-2xl">{label}</span>
     </Tag>
   );
 }
@@ -373,15 +372,19 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
       if (stored && typeof stored === "object") {
         setInput((current) => ({
           ...current,
-          ...stored,
+          situation: stored.situation ?? current.situation,
+          scope: stored.scope ?? current.scope,
+          scale: stored.scale ?? current.scale,
           frictions: Array.isArray(stored.frictions)
             ? stored.frictions.slice(0, MAX_COMMUNICATIONS_FRICTIONS)
             : current.frictions,
+          urgency: stored.urgency ?? current.urgency,
+          monthlySpend: typeof stored.monthlySpend === "number" ? stored.monthlySpend : current.monthlySpend,
+          seatCount: typeof stored.seatCount === "number" ? stored.seatCount : current.seatCount,
+          missedPerWeek: typeof stored.missedPerWeek === "number" ? stored.missedPerWeek : current.missedPerWeek,
+          valuePerMissed: typeof stored.valuePerMissed === "number" ? stored.valuePerMissed : current.valuePerMissed,
         }));
-        if (stored.complete) {
-          setComplete(true);
-          setShowSaveReminder(true);
-        }
+        // Never auto-open results — user must finish the wizard again.
       }
     } catch {
       /* ignore */
@@ -398,6 +401,18 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
   const result = useMemo(() => buildCommunicationsValueBrief(input), [input]);
   const showMissedFields =
     input.scope !== "uc" || input.frictions.includes("missed-calls");
+
+  function resetBrief() {
+    if (typeof window !== "undefined" && !window.confirm(t.resetConfirm)) return;
+    window.localStorage.removeItem("roalla-communications-value-brief");
+    setInput(initial);
+    setComplete(false);
+    setSaved(false);
+    setStep(1);
+    setShowRefine(false);
+    setShowSaveReminder(false);
+    trackedSteps.current = new Set();
+  }
 
   function update<K extends keyof CommunicationsValueBriefInput>(
     key: K,
@@ -557,6 +572,13 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
             <p className="text-sm font-semibold text-primary-dark">
               {t.stepOf} {step}/{TOTAL_STEPS}
             </p>
+            <button
+              type="button"
+              onClick={resetBrief}
+              className="text-sm font-semibold text-slate-600 underline underline-offset-4 hover:text-slate-900"
+            >
+              {t.reset}
+            </button>
           </div>
           <div className="mt-4 flex gap-2" aria-hidden>
             {Array.from({ length: TOTAL_STEPS }, (_, index) => (
@@ -571,7 +593,7 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
 
           {step === 1 ? (
             <fieldset className="mt-6">
-              <StepHeading step={1} total={TOTAL_STEPS} label={t.situationLabel} stepWord={t.stepOf} />
+              <StepHeading step={1} label={t.situationLabel} />
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {(Object.keys(t.situations) as CommunicationsSituation[]).map((key) => (
                   <label key={key} className="block">
@@ -591,7 +613,7 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
 
           {step === 2 ? (
             <fieldset className="mt-6">
-              <StepHeading step={2} total={TOTAL_STEPS} label={t.scopeLabel} stepWord={t.stepOf} />
+              <StepHeading step={2} label={t.scopeLabel} />
               <div className="mt-4 grid gap-3 sm:grid-cols-3">
                 {(Object.keys(t.scopes) as CommunicationsScope[]).map((key) => (
                   <label key={key} className="block">
@@ -611,7 +633,7 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
 
           {step === 3 ? (
             <fieldset className="mt-6">
-              <StepHeading step={3} total={TOTAL_STEPS} label={t.scaleLabel} stepWord={t.stepOf} />
+              <StepHeading step={3} label={t.scaleLabel} />
               <div className="mt-4 grid gap-3 grid-cols-2 sm:grid-cols-4">
                 {(Object.keys(t.scales) as CommunicationsScale[]).map((key) => (
                   <label key={key} className="block">
@@ -631,7 +653,7 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
 
           {step === 4 ? (
             <fieldset className="mt-6">
-              <StepHeading step={4} total={TOTAL_STEPS} label={t.frictionLabel} stepWord={t.stepOf} />
+              <StepHeading step={4} label={t.frictionLabel} />
               <p className="mt-2 text-sm text-slate-600">{t.frictionHint}</p>
               <p className="mt-1 text-sm font-semibold text-primary-dark">
                 {t.frictionCount.replace("{count}", String(input.frictions.length))}
@@ -661,7 +683,7 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
 
           {step === 5 ? (
             <fieldset className="mt-6">
-              <StepHeading step={5} total={TOTAL_STEPS} label={t.urgencyLabel} stepWord={t.stepOf} />
+              <StepHeading step={5} label={t.urgencyLabel} />
               <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 {(Object.keys(t.urgencies) as CommunicationsUrgency[]).map((key) => (
                   <label key={key} className="block">
@@ -681,7 +703,7 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
 
           {step === 6 ? (
             <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
-              <StepHeading step={6} total={TOTAL_STEPS} label={t.numbersLabel} stepWord={t.stepOf} as="h3" />
+              <StepHeading step={6} label={t.numbersLabel} as="h3" />
               <p className="mt-2 text-sm text-slate-600">{t.liveHint}</p>
               <label className="mt-4 block text-sm font-semibold text-slate-900">
                 {t.monthlySpend}
@@ -924,6 +946,13 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
                 className="inline-flex min-h-[48px] items-center px-4 py-3 text-sm font-semibold text-slate-700 underline underline-offset-4"
               >
                 {t.editAnswers}
+              </button>
+              <button
+                type="button"
+                onClick={resetBrief}
+                className="inline-flex min-h-[48px] items-center px-4 py-3 text-sm font-semibold text-slate-700 underline underline-offset-4"
+              >
+                {t.reset}
               </button>
             </div>
             <p className="mt-3 flex gap-2 text-xs text-slate-500">

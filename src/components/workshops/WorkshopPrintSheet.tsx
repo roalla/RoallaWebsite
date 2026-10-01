@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
 import { emailSafeHtml } from "@/lib/email-markup";
 import { CONTACT } from "@/lib/site";
@@ -22,8 +23,12 @@ export default function WorkshopPrintSheet({
   const locale = useLocale();
   const lang = locale === "fr" ? "fr" : "en";
   const pageUrl = `https://www.roalla.com/${lang}${path}`;
-  const year = new Date().getFullYear();
+  const [year, setYear] = useState("");
   const planLabel = lang === "fr" ? "Plan d’atelier" : "Workshop plan";
+
+  useEffect(() => {
+    setYear(String(new Date().getFullYear()));
+  }, []);
 
   return (
     <>
@@ -113,7 +118,7 @@ export default function WorkshopPrintSheet({
             <span>(289) 838-5868</span>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginTop: 6, fontSize: 10, color: "#64748b" }}>
-            <span>© {year} Roalla Business Enablement Group</span>
+            <span suppressHydrationWarning>© {year} Roalla Business Enablement Group</span>
             <span>{pageUrl.replace("https://", "")}</span>
           </div>
         </footer>

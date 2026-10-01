@@ -1,8 +1,10 @@
 "use client";
 
 import React, { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import {
   ArrowRight,
+  Bot,
   CheckCircle2,
   Download,
   Gauge,
@@ -12,6 +14,9 @@ import {
   Share2,
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import DigitalPresenceActionPlanPrintSheet, {
+  type PresencePrintModel,
+} from "@/components/visibility/DigitalPresenceActionPlanPrintSheet";
 import { AgenticScoreTile, PresenceScoreTiles } from "@/components/visibility/PresenceScoreTiles";
 import { trackAnalyticsEvent } from "@/lib/analytics";
 import { buildDigitalPresenceActions } from "@/lib/digital-presence/actions";
@@ -40,6 +45,7 @@ type SnapshotHistory = {
   mobilePerformance: number | null;
   desktopPerformance: number | null;
   socialScore: number | null;
+  agenticScore?: number | null;
 };
 
 type CompetitorResult = {
@@ -83,6 +89,7 @@ function saveHistory(
     mobilePerformance: technical?.mobile?.snapshot?.scores.performance ?? null,
     desktopPerformance: technical?.desktop?.snapshot?.scores.performance ?? null,
     socialScore: social?.score ?? null,
+    agenticScore: social?.agentic?.score ?? null,
   };
   try {
     window.localStorage.setItem(storageKey(value), JSON.stringify(history));
@@ -113,7 +120,7 @@ const copy = {
     technicalOnly: "Your social sharing results are ready. Finishing the website check…",
     socialOnly: "Your website results are ready. Finishing the social sharing check…",
     resultsTitle: "Your website results",
-    resultsIntro: "These scores show how your website works for visitors, search engines, and social sharing. Each area is shown separately so you can see what needs attention.",
+    resultsIntro: "These scores show how your website works for visitors, search engines, social sharing, and assistants that fetch the page. Each area is shown separately so you can see what needs attention.",
     technicalTitle: "Website experience",
     technicalDescription: "How your website performs on phones and computers",
     socialTitle: "Social sharing setup",
@@ -155,6 +162,57 @@ const copy = {
     mobilePerformance: "Mobile lab performance",
     desktopPerformance: "Desktop lab performance",
     socialScore: "Social sharing setup",
+    agenticTitle: "Agentic readiness",
+    agenticDescription: "How ready this page is for an assistant that fetches it and answers a question about the business.",
+    agenticSignal: {
+      readable: {
+        label: "Text an assistant can read",
+        result: {
+          20: "Enough visible text is on the page for an assistant to describe it.",
+          10: "Some visible text is on the page, but not enough for a clear description.",
+          0: "Very little text is available for an assistant to read.",
+        },
+      },
+      answer: {
+        label: "A passage it can quote",
+        result: {
+          20: "A heading and a paragraph give an assistant a passage to quote.",
+          0: "The page is missing a clear heading paired with a paragraph an assistant can quote.",
+        },
+      },
+      facts: {
+        label: "Business facts it can trust",
+        result: {
+          20: "The page names the business and includes a description or an address.",
+          8: "The page marks a business, without a description or an address next to the name.",
+          0: "The page does not publish business facts an assistant can use.",
+        },
+      },
+      liftable: {
+        label: "An offer it can lift",
+        result: {
+          15: "A service, product, offer, or FAQ is available in the page data.",
+          0: "The page data does not include a service, product, offer, or FAQ.",
+        },
+      },
+      guide: {
+        label: "A guide written for assistants",
+        result: {
+          15: "An llms.txt guide is published for assistants.",
+          8: "The page links to an assistant guide. The guide file is missing or too short.",
+          0: "No assistant guide is published.",
+        },
+      },
+      retrieval: {
+        label: "Permission to retrieve the page",
+        result: {
+          10: "Common answer engines are allowed to retrieve the page.",
+          6: "No robots file was found, so retrieval permission is only partly confirmed.",
+          4: "At least one common answer engine is blocked from the site.",
+          0: "The site blocks retrieval of the page.",
+        },
+      },
+    },
     impact: "Likely impact",
     effort: "Typical effort",
     high: "High",
@@ -173,7 +231,7 @@ const copy = {
     ],
     methodology: "How we calculate the results",
     methodologyBody:
-      "Website category scores come from a Lighthouse lab test run by Google PageSpeed Insights. When the address redirects, the test uses the landing page, which is what Google PageSpeed scores. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. Social sharing results come from public information on the page you entered. These results stay separate because they measure different parts of your online presence.",
+      "Website category scores come from a Lighthouse lab test run by Google PageSpeed Insights. When the address redirects, the test uses the landing page, which is what Google PageSpeed scores. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. Social sharing results come from public information on the page you entered. Agentic readiness reads the public page text, business facts, assistant guide, and robots file. These results stay separate because they measure different parts of your online presence.",
     print: "Save my branded action plan",
     reportLabel: "ROALLA Digital Presence Action Plan",
     reportPrepared: "Prepared",
@@ -265,7 +323,7 @@ const copy = {
     technicalOnly: "Les résultats du partage social sont prêts. La vérification du site se termine…",
     socialOnly: "Les résultats du site sont prêts. La vérification du partage social se termine…",
     resultsTitle: "Les résultats de votre site",
-    resultsIntro: "Ces scores montrent comment votre site fonctionne pour les visiteurs, les moteurs de recherche et le partage social. Chaque aspect est présenté séparément pour faciliter la lecture.",
+    resultsIntro: "Ces scores montrent comment votre site fonctionne pour les visiteurs, les moteurs de recherche, le partage social et les assistants qui récupèrent la page. Chaque aspect est présenté séparément pour faciliter la lecture.",
     technicalTitle: "Expérience du site Web",
     technicalDescription: "Le fonctionnement de votre site sur téléphone et ordinateur",
     socialTitle: "Partage sur les réseaux sociaux",
@@ -307,6 +365,57 @@ const copy = {
     mobilePerformance: "Performance mobile en laboratoire",
     desktopPerformance: "Performance ordinateur en laboratoire",
     socialScore: "Configuration du partage social",
+    agenticTitle: "Préparation agentique",
+    agenticDescription: "La capacité d’un assistant à récupérer cette page et à répondre à une question sur l’entreprise.",
+    agenticSignal: {
+      readable: {
+        label: "Texte qu’un assistant peut lire",
+        result: {
+          20: "La page contient assez de texte visible pour qu’un assistant la décrive.",
+          10: "La page contient un peu de texte visible, mais pas assez pour une description claire.",
+          0: "Très peu de texte est disponible pour un assistant.",
+        },
+      },
+      answer: {
+        label: "Un passage à citer",
+        result: {
+          20: "Un titre et un paragraphe donnent à un assistant un passage à citer.",
+          0: "La page n’offre pas un titre clair accompagné d’un paragraphe qu’un assistant peut citer.",
+        },
+      },
+      facts: {
+        label: "Faits d’entreprise fiables",
+        result: {
+          20: "La page nomme l’entreprise et comprend une description ou une adresse.",
+          8: "La page indique une entreprise, sans description ni adresse à côté du nom.",
+          0: "La page ne publie pas de faits d’entreprise qu’un assistant peut utiliser.",
+        },
+      },
+      liftable: {
+        label: "Une offre à extraire",
+        result: {
+          15: "Un service, un produit, une offre ou une FAQ figure dans les données de la page.",
+          0: "Les données de la page ne comprennent pas de service, de produit, d’offre ou de FAQ.",
+        },
+      },
+      guide: {
+        label: "Un guide écrit pour les assistants",
+        result: {
+          15: "Un guide llms.txt est publié pour les assistants.",
+          8: "La page renvoie vers un guide pour assistants. Le fichier du guide est absent ou trop court.",
+          0: "Aucun guide pour assistants n’est publié.",
+        },
+      },
+      retrieval: {
+        label: "Autorisation de récupérer la page",
+        result: {
+          10: "Les moteurs de réponse courants peuvent récupérer la page.",
+          6: "Aucun fichier robots n’a été trouvé, donc l’autorisation de récupération n’est que partielle.",
+          4: "Au moins un moteur de réponse courant est bloqué.",
+          0: "Le site bloque la récupération de la page.",
+        },
+      },
+    },
     impact: "Impact probable",
     effort: "Effort habituel",
     high: "Élevé",
@@ -325,7 +434,7 @@ const copy = {
     ],
     methodology: "Comment les résultats sont calculés",
     methodologyBody:
-      "Les scores du site proviennent d’un test de laboratoire Lighthouse exécuté par Google PageSpeed Insights. Si l’adresse redirige, le test utilise la page d’arrivée, soit celle que Google PageSpeed évalue. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Les résultats du partage social proviennent des renseignements publics de la page entrée. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
+      "Les scores du site proviennent d’un test de laboratoire Lighthouse exécuté par Google PageSpeed Insights. Si l’adresse redirige, le test utilise la page d’arrivée, soit celle que Google PageSpeed évalue. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Les résultats du partage social proviennent des renseignements publics de la page entrée. La préparation agentique lit le texte public de la page, les faits d’entreprise, le guide pour assistants et le fichier robots. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
     print: "Enregistrer mon plan d’action ROALLA",
     reportLabel: "Plan d’action de présence numérique ROALLA",
     reportPrepared: "Préparé le",
@@ -414,6 +523,11 @@ function fill(template: string, values: Record<string, string>) {
   return template.replace(/\{(\w+)\}/g, (_, key: string) => values[key] ?? "");
 }
 
+function agenticSignalResult(results: object, points: number) {
+  const table = results as Record<number, string | undefined>;
+  return table[points] ?? table[0] ?? "";
+}
+
 function scoreTone(score: number | null) {
   if (score == null) return "text-slate-500";
   if (score >= 90) return "text-emerald-700";
@@ -443,7 +557,12 @@ export default function DigitalPresenceSnapshot({
   const [competitor, setCompetitor] = useState<CompetitorResult | null>(null);
   const [competitorLoading, setCompetitorLoading] = useState(false);
   const [competitorError, setCompetitorError] = useState("");
+  const [printMounted, setPrintMounted] = useState(false);
   const resultsRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    setPrintMounted(true);
+  }, []);
 
   const technicalSnapshots = useMemo(
     () => [technical?.mobile?.snapshot, technical?.desktop?.snapshot].filter(
@@ -626,14 +745,143 @@ export default function DigitalPresenceSnapshot({
       primary: social?.score ?? null,
       comparison: competitor?.social?.score ?? null,
     },
+    {
+      label: t.agenticTitle,
+      primary: social?.agentic?.score ?? null,
+      comparison: competitor?.social?.agentic?.score ?? null,
+    },
   ];
   const historyRows = previous
     ? [
         { label: t.mobilePerformance, current: currentMobilePerformance, old: previous.mobilePerformance },
         { label: t.desktopPerformance, current: currentDesktopPerformance, old: previous.desktopPerformance },
         { label: t.socialScore, current: social?.score ?? null, old: previous.socialScore },
+        { label: t.agenticTitle, current: social?.agentic?.score ?? null, old: previous.agenticScore ?? null },
       ]
     : [];
+  const redirectNote = technicalSnapshots.some((item) => !isSamePublicPage(item.requestedUrl, item.finalUrl))
+    ? fill(t.redirectNote, { requested: technicalSnapshots.find((item) => !isSamePublicPage(item.requestedUrl, item.finalUrl))?.requestedUrl ?? "" })
+    : "";
+  const sharedLighthouse = technicalSnapshots[0]?.lighthouseVersion
+    && technicalSnapshots.every((item) => item.lighthouseVersion === technicalSnapshots[0].lighthouseVersion)
+    ? `${t.lighthouse} ${technicalSnapshots[0].lighthouseVersion}`
+    : undefined;
+  const printModel: PresencePrintModel = {
+    website: resultUrl,
+    lead,
+    recommendationTitle: recommendation.title,
+    recommendationBody: recommendation.body,
+    errors: [technicalError, socialError].filter(Boolean),
+    redirectNote,
+    phoneGap: narrative.phoneGap
+      ? fill(t.phoneGap, { mobile: String(narrative.phoneGap.mobile), desktop: String(narrative.phoneGap.desktop) })
+      : "",
+    agenticGap,
+    findingTitle: t.findingTitle,
+    findingText,
+    lighthouse: sharedLighthouse,
+    devices: technicalSnapshots.map((snapshot) => {
+      const report = snapshot.strategy === "mobile" ? technical?.mobile : technical?.desktop;
+      return {
+        label: snapshot.strategy === "mobile" ? t.mobile : t.desktop,
+        freshness: report?.cached ? t.cached : t.fresh,
+        tested: dateFormatter.format(new Date(snapshot.analyzedAt)),
+        finalUrl: snapshot.finalUrl,
+        scores: snapshot.scores,
+        fieldScope: snapshot.fieldMetrics.length
+          ? snapshot.fieldScope === "page" ? t.fieldPage : t.fieldOrigin
+          : undefined,
+        fieldMetrics: snapshot.fieldMetrics.map((metric) => ({ label: metric.label, value: metric.displayValue })),
+        labMetrics: snapshot.labMetrics.map((metric) => ({ label: metric.label, value: metric.displayValue })),
+        opportunities: snapshot.opportunities.map((opportunity) => ({
+          title: opportunity.title,
+          detail: opportunity.displayValue,
+        })),
+      };
+    }),
+    socialScore: social?.score ?? null,
+    socialChecks: social?.checks.map((check) => ({
+      label: t.actionSocial[check.id],
+      value: `${check.points}/${check.maxPoints}`,
+    })) ?? [],
+    agenticScore: social?.agentic?.score ?? null,
+    agenticSignals: social?.agentic?.signals?.map((signal) => {
+      const signalCopy = t.agenticSignal[signal.id];
+      return {
+        label: signalCopy.label,
+        value: `${signal.points}/${signal.maxPoints}`,
+        note: agenticSignalResult(signalCopy.result, signal.points),
+      };
+    }) ?? [],
+    actions: actions.map((action) => {
+      const title = action.source === "technical"
+        ? t.actionTechnical[action.key]
+        : action.source === "agentic"
+          ? t.actionAgentic
+          : t.actionSocial[action.key];
+      const strategies = action.source === "technical"
+        ? action.strategies.map((strategy) => strategy === "mobile" ? t.mobile : t.desktop).join(` ${language === "fr" ? "et" : "and"} `)
+        : "";
+      const why = action.source === "agentic"
+        ? fill(t.actionCost.agentic, { score: String(action.score) })
+        : fill(t.actionCost[action.key], { score: String(action.score), strategies });
+      return {
+        priority: action.priority === "fixNow" ? t.fixNow : t.planNext,
+        tone: action.priority === "fixNow" ? "now" as const : "next" as const,
+        title,
+        why,
+        meta: `${t.impact}: ${t[action.impact]} · ${t.effort}: ${t[action.effort]}`,
+      };
+    }),
+    actionsEmpty: t.automatedStrong,
+    humanItems: [...t.human],
+    historyChecked: previous ? `${t.previousChecked}: ${dateFormatter.format(new Date(previous.checkedAt))}` : "",
+    history: historyRows.flatMap((row) => {
+      const delta = scoreDelta(row.current, row.old);
+      if (delta == null) return [];
+      const change = delta > 0 ? t.improved : delta < 0 ? t.declined : t.unchanged;
+      return [{ label: row.label, value: `${delta > 0 ? "+" : ""}${delta} ${change}` }];
+    }),
+    comparison: competitor
+      ? {
+          url: competitor.url,
+          rows: comparisonRows.map((row) => ({
+            label: row.label,
+            yours: row.primary == null ? t.notScored : String(row.primary),
+            theirs: row.comparison == null ? t.notScored : String(row.comparison),
+          })),
+        }
+      : null,
+    labels: {
+      executiveTitle: t.executiveTitle,
+      recommendedTitle: t.recommendedTitle,
+      technicalTitle: t.technicalTitle,
+      technicalDescription: t.technicalDescription,
+      fieldTitle: t.fieldTitle,
+      fieldIntro: t.fieldIntro,
+      labTitle: t.labTitle,
+      opportunitiesTitle: t.opportunitiesTitle,
+      tested: t.tested,
+      finalUrl: t.finalUrl,
+      socialTitle: t.socialTitle,
+      socialDescription: t.socialDescription,
+      socialScore: t.socialScore,
+      agenticTitle: t.agenticTitle,
+      agenticDescription: t.agenticDescription,
+      actionsTitle: t.actionsTitle,
+      actionsIntro: t.actionsIntro,
+      humanTitle: t.humanTitle,
+      previousTitle: t.previousTitle,
+      previousIntro: t.previousIntro,
+      competitorTitle: t.competitorTitle,
+      yourWebsite: t.yourWebsite,
+      comparisonWebsite: t.comparisonWebsite,
+      methodology: t.methodology,
+      methodologyBody: t.methodologyBody,
+      notScored: t.notScored,
+    },
+  };
+  const showPrintPlan = printMounted && started && Boolean(technical || social || technicalError || socialError);
 
   return (
     <div className="space-y-8">
@@ -657,11 +905,6 @@ export default function DigitalPresenceSnapshot({
       {started && (technical || social || technicalError || socialError) ? (
         <section ref={resultsRef} tabIndex={-1} className="space-y-7 outline-none" aria-live="polite">
           <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-            <div className="hidden border-b border-slate-200 pb-4 print:block">
-              <p className="text-sm font-bold uppercase tracking-wide text-primary-dark">{t.reportLabel}</p>
-              <p className="mt-1 break-all text-sm text-slate-600">{resultUrl}</p>
-              <p className="mt-1 text-xs text-slate-500">{t.reportPrepared} {dateFormatter.format(new Date())}</p>
-            </div>
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <h2 className="text-3xl font-serif font-bold text-slate-950">{t.resultsTitle}</h2>
@@ -671,7 +914,7 @@ export default function DigitalPresenceSnapshot({
                 <button type="button" disabled={technicalLoading || socialLoading} onClick={() => runSnapshot(true)} className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-primary/30 px-4 py-2 text-sm font-semibold text-primary-dark hover:border-primary disabled:opacity-60">
                   <RefreshCw className={`h-4 w-4 ${technicalLoading || socialLoading ? "animate-spin" : ""}`} aria-hidden />{t.freshTest}
                 </button>
-                <button type="button" onClick={() => window.print()} className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-primary hover:text-primary-dark">
+                <button type="button" disabled={technicalLoading || socialLoading} onClick={() => window.print()} className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-primary hover:text-primary-dark disabled:opacity-60">
                   <Download className="h-4 w-4" aria-hidden />{t.print}
                 </button>
               </div>
@@ -811,14 +1054,10 @@ export default function DigitalPresenceSnapshot({
               </div>
               {social ? (
                 <div className="mt-6">
-                  <div className={`grid gap-3 ${agenticScore != null ? "sm:grid-cols-2" : ""} sm:max-w-xl`}>
-                    <div className="flex h-full flex-col rounded-lg bg-slate-50 p-4">
-                      <p className="text-[11px] font-semibold leading-4 text-slate-500">{t.socialScore}</p>
-                      <p className={`mt-auto pt-1 text-4xl font-bold ${scoreTone(social.score)}`}>{social.score}<span className="text-lg font-semibold text-slate-500">/100</span></p>
-                    </div>
-                    {agenticScore != null ? <AgenticScoreTile score={agenticScore} language={language} /> : null}
+                  <div className="max-w-xs rounded-lg bg-slate-50 p-4">
+                    <p className="text-[11px] font-semibold leading-4 text-slate-500">{t.socialScore}</p>
+                    <p className={`mt-1 text-4xl font-bold ${scoreTone(social.score)}`}>{social.score}<span className="text-lg font-semibold text-slate-500">/100</span></p>
                   </div>
-                  {agenticGap ? <p className="mt-4 max-w-3xl rounded-lg bg-slate-50 p-3 text-sm leading-6 text-slate-700">{agenticGap}</p> : null}
                   <dl className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3">
                     {social.checks.map((check) => (
                       <div key={check.id} className="rounded-lg bg-slate-50 p-3">
@@ -831,6 +1070,37 @@ export default function DigitalPresenceSnapshot({
                 </div>
               ) : socialLoading ? <p className="mt-6 text-sm text-slate-600">{loadingMessage}</p> : <p className="mt-6 text-sm text-slate-600">{t.socialError}</p>}
             </article>
+
+            {social?.agentic ? (
+              <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+                <div className="flex items-start gap-3">
+                  <Bot className="mt-1 h-7 w-7 text-primary-dark" aria-hidden />
+                  <div>
+                    <h2 className="text-2xl font-serif font-bold text-slate-950">{t.agenticTitle}</h2>
+                    <p className="mt-1 text-sm text-slate-600">{t.agenticDescription}</p>
+                  </div>
+                </div>
+                <div className="mt-6 max-w-xs">
+                  <AgenticScoreTile score={social.agentic.score} language={language} />
+                </div>
+                {agenticGap ? <p className="mt-4 max-w-3xl rounded-lg bg-slate-50 p-3 text-sm leading-6 text-slate-700">{agenticGap}</p> : null}
+                {social.agentic.signals?.length ? (
+                  <dl className="mt-5 grid gap-3 sm:grid-cols-2">
+                    {social.agentic.signals.map((signal) => {
+                      const copy = t.agenticSignal[signal.id];
+                      const complete = signal.points >= signal.maxPoints;
+                      return (
+                        <div key={signal.id} className="rounded-lg bg-slate-50 p-4">
+                          <dt className="text-[11px] font-semibold text-slate-500">{copy.label}</dt>
+                          <dd className={`mt-1 text-lg font-bold ${complete ? "text-emerald-700" : signal.points > 0 ? "text-amber-700" : "text-rose-700"}`}>{signal.points}/{signal.maxPoints}</dd>
+                          <p className="mt-1 text-sm leading-6 text-slate-700">{agenticSignalResult(copy.result, signal.points)}</p>
+                        </div>
+                      );
+                    })}
+                  </dl>
+                ) : null}
+              </article>
+            ) : null}
           </div>
 
           {historyRows.some((row) => row.current != null && row.old != null) ? (
@@ -933,6 +1203,10 @@ export default function DigitalPresenceSnapshot({
             <p className="mt-3 text-xs text-slate-400">{t.ctaReassurance}</p>
           </aside>
         </section>
+      ) : null}
+      {showPrintPlan ? createPortal(
+        <DigitalPresenceActionPlanPrintSheet locale={language} model={printModel} />,
+        document.body,
       ) : null}
     </div>
   );

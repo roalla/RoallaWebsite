@@ -11,7 +11,17 @@ describe("scoreAgenticReadiness", () => {
         <link rel="canonical" href="https://example.com/">
       </head><body><img src="/hero.jpg" alt=""></body></html>`;
 
-    expect(scoreAgenticReadiness({ html, robotsTxt: null, llmsTxt: null }).score).toBe(6);
+    const result = scoreAgenticReadiness({ html, robotsTxt: null, llmsTxt: null });
+
+    expect(result.score).toBe(6);
+    expect(result.signals).toEqual([
+      { id: "readable", points: 0, maxPoints: 20 },
+      { id: "answer", points: 0, maxPoints: 20 },
+      { id: "facts", points: 0, maxPoints: 20 },
+      { id: "liftable", points: 0, maxPoints: 15 },
+      { id: "guide", points: 0, maxPoints: 15 },
+      { id: "retrieval", points: 6, maxPoints: 10 },
+    ]);
   });
 
   it("scores a page an assistant can fetch, quote, and describe", () => {
@@ -32,7 +42,10 @@ describe("scoreAgenticReadiness", () => {
     const robotsTxt = "User-agent: *\nAllow: /\n";
     const llmsTxt = "# Example Co\n\nMonthly bookkeeping for owner-led firms. Contact the studio for a scoped review.";
 
-    expect(scoreAgenticReadiness({ html, robotsTxt, llmsTxt }).score).toBe(100);
+    const result = scoreAgenticReadiness({ html, robotsTxt, llmsTxt });
+
+    expect(result.score).toBe(100);
+    expect(result.signals.every((signal) => signal.points === signal.maxPoints)).toBe(true);
   });
 
   it("drops when the site blocks retrieval even if the page text is strong", () => {

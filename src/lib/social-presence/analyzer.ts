@@ -1,3 +1,5 @@
+import type { AgenticReadiness } from "@/lib/agentic-readiness/score";
+
 export type SocialPlatform =
   | "facebook"
   | "instagram"
@@ -29,9 +31,7 @@ export type SocialPresenceSnapshot = {
     maxPoints: number;
     evidence: string[];
   }>;
-  agentic?: {
-    score: number;
-  };
+  agentic?: AgenticReadiness;
   profiles: Array<{
     platform: SocialPlatform;
     url: string;

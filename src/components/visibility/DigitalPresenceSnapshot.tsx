@@ -1,19 +1,22 @@
 "use client";
 
-import React, { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import React, { FormEvent, useEffect, useId, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
   CheckCircle2,
   Download,
   Gauge,
+  Info,
   LoaderCircle,
   RefreshCw,
   SearchCheck,
   Share2,
+  X,
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { trackAnalyticsEvent } from "@/lib/analytics";
 import { buildDigitalPresenceActions } from "@/lib/digital-presence/actions";
+import { buildSnapshotNarrative } from "@/lib/digital-presence/narrative";
 import type { SocialPresenceSnapshot } from "@/lib/social-presence/analyzer";
 import type {
   ScoreName,
@@ -94,6 +97,117 @@ function scoreDelta(current: number | null | undefined, previous: number | null 
   return current - previous;
 }
 
+type ScoreHelp = {
+  means: string;
+  improve: string;
+  adoption: string;
+};
+
+function wcagReading(score: number | null): "strong" | "gaps" | "barriers" | null {
+  if (score == null) return null;
+  if (score >= 90) return "strong";
+  if (score >= 50) return "gaps";
+  return "barriers";
+}
+
+function ScoreInfoButton({
+  title,
+  help,
+  labels,
+  openLabel,
+  closeLabel,
+  compliance,
+}: {
+  title: string;
+  help: ScoreHelp;
+  labels: { means: string; improve: string; adoption: string };
+  openLabel: string;
+  closeLabel: string;
+  compliance?: { label: string; body: string; reading?: string };
+}) {
+  const [open, setOpen] = useState(false);
+  const titleId = useId();
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const wasOpen = useRef(false);
+
+  useEffect(() => {
+    if (!open) {
+      if (wasOpen.current) triggerRef.current?.focus();
+      return;
+    }
+    wasOpen.current = true;
+    closeRef.current?.focus();
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  return (
+    <>
+      <button
+        ref={triggerRef}
+        type="button"
+        aria-expanded={open}
+        aria-haspopup="dialog"
+        aria-label={`${openLabel}: ${title}`}
+        onClick={() => setOpen(true)}
+        className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-slate-400 hover:bg-white hover:text-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 print:hidden"
+      >
+        <Info className="h-3.5 w-3.5" aria-hidden />
+      </button>
+      {open ? (
+        <div
+          className="fixed inset-0 z-50 flex items-end justify-center bg-slate-950/40 p-4 sm:items-center print:hidden"
+          onClick={() => setOpen(false)}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
+            className="w-full max-w-md rounded-2xl bg-white p-5 shadow-xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-3">
+              <h3 id={titleId} className="text-lg font-serif font-bold text-slate-950">{title}</h3>
+              <button
+                ref={closeRef}
+                type="button"
+                onClick={() => setOpen(false)}
+                aria-label={closeLabel}
+                className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+              >
+                <X className="h-4 w-4" aria-hidden />
+              </button>
+            </div>
+            <dl className="mt-4 space-y-4">
+              {([
+                ["means", help.means],
+                ["improve", help.improve],
+                ["adoption", help.adoption],
+              ] as const).map(([key, body]) => (
+                <div key={key}>
+                  <dt className="text-xs font-semibold uppercase tracking-wide text-primary-dark">{labels[key]}</dt>
+                  <dd className="mt-1 text-sm leading-6 text-slate-700">{body}</dd>
+                </div>
+              ))}
+              {compliance ? (
+                <div>
+                  <dt className="text-xs font-semibold uppercase tracking-wide text-primary-dark">{compliance.label}</dt>
+                  {compliance.reading ? <dd className="mt-1 text-sm font-semibold leading-6 text-slate-900">{compliance.reading}</dd> : null}
+                  <dd className="mt-1 text-sm leading-6 text-slate-700">{compliance.body}</dd>
+                </div>
+              ) : null}
+            </dl>
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
+}
+
 const scoreOrder: ScoreName[] = [
   "performance",
   "accessibility",
@@ -123,6 +237,48 @@ const copy = {
       accessibility: "Accessibility",
       bestPractices: "Reliability",
       seo: "Search readiness",
+    },
+    scoreInfo: "About this score",
+    closeInfo: "Close",
+    wcagBand: {
+      strong: "Strong WCAG checks. These details support conversion.",
+      gaps: "WCAG gaps. Missed details can cost conversions.",
+      barriers: "WCAG barriers. These details block conversion.",
+    },
+    aodaLabel: "AODA and WCAG",
+    aodaBody:
+      "The same details support both the standard and the visit. These automated checks follow WCAG criteria Lighthouse can test. Ontario’s AODA uses WCAG 2.0 Level AA as the public-website standard for designated public-sector organizations and for businesses or non-profits with 50 or more employees. This score is a lab signal. It is not an AODA or WCAG conformance certificate, and it does not decide whether the AODA applies.",
+    aodaBand: {
+      strong: "No major WCAG barriers showed up. That care in the details helps more visitors inquire and convert, and it lines up with WCAG Level AA, the level Ontario’s website standard names.",
+      gaps: "Gaps showed up that can affect WCAG Level AA, the level Ontario’s website standard names. Those missed details are also where inquiries and conversions slip.",
+      barriers: "Serious barriers showed up. They often map to WCAG failures when the AODA website standard applies, and they stop people from using the page and converting.",
+    },
+    scoreHelpLabels: {
+      means: "What this score means",
+      improve: "Why a higher score helps",
+      adoption: "Impact on adoption",
+    },
+    scoreHelp: {
+      performance: {
+        means: "A lab test of how fast this page loads and becomes usable on a simulated connection. 90 or above is strong. 50 to 89 has room to improve. Below 50 feels slow.",
+        improve: "Raising it shortens the wait before text, images, and buttons are ready. That is the difference between someone seeing your offer and leaving.",
+        adoption: "People on phones abandon slow pages before they read or contact you. A faster page keeps more of the visitors you already earned.",
+      },
+      accessibility: {
+        means: "How carefully the page handles the details people rely on: labels, contrast, text size, and controls that work with a keyboard or a screen reader. A high score means fewer of those details get in the way.",
+        improve: "A higher score is attention to those details. Clearer labels, contrast, and controls help more people read the offer, trust the page, and finish an inquiry.",
+        adoption: "Clients adopt and convert when the page is easy to finish. Missed details turn ready visitors away before they inquire. Fixing them keeps more of those visits moving toward a conversation.",
+      },
+      bestPractices: {
+        means: "Whether the page follows current, safe practices, such as a secure connection and features that work in modern browsers.",
+        improve: "A higher score reduces errors, warnings, and trust gaps that interrupt a visit.",
+        adoption: "People hesitate or leave when a site feels broken or unsafe. Reliability keeps the visit moving toward a conversation.",
+      },
+      seo: {
+        means: "How clearly the page describes itself to search engines through its title, description, and structure. This score is not a ranking guarantee.",
+        improve: "Clearer search signals make the right page easier to understand and more likely to appear for searches your customers already make.",
+        adoption: "People cannot choose a business they never find. Search readiness turns an existing search into a visit.",
+      },
     },
     detailedTechnical: "See the full website report",
     detailedSocial: "See the full social sharing report",
@@ -164,7 +320,7 @@ const copy = {
     medium: "Medium",
     low: "Low",
     actionsTitle: "What to improve first",
-    actionsIntro: "Start with these three areas. They are likely to make the greatest difference based on this check.",
+    actionsIntro: "Start with these areas. They are likely to make the greatest difference based on this check.",
     fixNow: "Fix now",
     planNext: "Plan next",
     automatedStrong: "Your results are strong. The next step is to make sure the message, content, and customer journey are helping visitors take action.",
@@ -221,8 +377,38 @@ const copy = {
       organizationSchema: "Help search engines recognize your business name and logo",
       pageIdentity: "Add a clear page title, description, and preferred address",
     },
-    actionWhyTechnical: "Current score: {score}/100 on {strategies}.",
-    actionWhySocial: "Current score for this area: {score}%.",
+    actionCost: {
+      performance: "On {strategies}, people leave a slow page before they see the offer. Current score: {score}/100.",
+      accessibility: "On {strategies}, missed labels, contrast, or controls can stop a ready visitor from sending an inquiry. Current score: {score}/100.",
+      bestPractices: "On {strategies}, errors and trust gaps interrupt the visit before it becomes a conversation. Current score: {score}/100.",
+      seo: "On {strategies}, an unclear page is harder for the right customers to find. Current score: {score}/100.",
+      profileLinks: "People cannot easily reach your main social profiles from this page. Current result: {score}%.",
+      structuredProfiles: "Search systems cannot reliably connect this website to your social profiles. Current result: {score}%.",
+      openGraph: "A shared link can arrive without a clear title, description, or image. Current result: {score}%.",
+      socialCards: "A social preview can arrive without a clear image and message. Current result: {score}%.",
+      organizationSchema: "Search systems may not recognize the business name and logo. Current result: {score}%.",
+      pageIdentity: "Without a clear title, description, or preferred address, the page is harder to choose. Current result: {score}%.",
+    },
+    phoneGap: "Your phone result averages {mobile} and your computer result averages {desktop}. Most visitors will feel the phone result.",
+    findingTitle: "One finding from this check",
+    findingDevice: { mobile: "a phone", desktop: "a computer" },
+    findingOpportunity: "On {strategy}, the largest measured slowdown is “{title}”.{detail}",
+    findingDelay: "That delay is what people feel before they see the offer.",
+    findingSocial: {
+      profileLinks: "The clearest sharing gap is the path to your social profiles. People cannot easily reach them from this page.",
+      structuredProfiles: "The clearest sharing gap is the connection between this website and your social profiles.",
+      openGraph: "The clearest sharing gap is the link preview. A shared link can arrive without a clear title, description, or image.",
+      socialCards: "The clearest sharing gap is the social card. A preview can arrive without a clear image and message.",
+      organizationSchema: "The clearest sharing gap is business identity. Search systems may not recognize the name and logo.",
+      pageIdentity: "The clearest sharing gap is the page identity. Without a clear title, description, or preferred address, the page is harder to choose.",
+    },
+    lead: {
+      seo: "Search readiness averages {score}. The useful starting point is making this page easier for the right customers to find.",
+      social: "Social sharing setup is {score} out of 100. A shared link is not yet carrying a clear message.",
+      performance: "Lab performance averages {score}. Visitors are waiting before they can see the offer.",
+      accessibility: "Accessibility averages {score}. Missed details on this page are where inquiries slip.",
+      strong: "The measured scores are in a strong range. The useful next step is protecting that foundation and improving the next detail that can still grow inquiries.",
+    },
     genericError: "The snapshot could not be completed. Please try again.",
     note: "Digital presence snapshot",
   },
@@ -247,6 +433,48 @@ const copy = {
       accessibility: "Accessibilité",
       bestPractices: "Fiabilité",
       seo: "Préparation à la recherche",
+    },
+    scoreInfo: "À propos de ce score",
+    closeInfo: "Fermer",
+    wcagBand: {
+      strong: "Vérifications WCAG solides. Ces détails favorisent la conversion.",
+      gaps: "Écarts WCAG. Ces détails manqués peuvent coûter des conversions.",
+      barriers: "Obstacles WCAG. Ces détails bloquent la conversion.",
+    },
+    aodaLabel: "LAPHO et WCAG",
+    aodaBody:
+      "Les mêmes détails servent à la fois la norme et la visite. Ces vérifications automatisées suivent des critères WCAG que Lighthouse peut tester. En Ontario, la LAPHO (AODA) utilise les WCAG 2.0 niveau AA comme norme pour les sites publics des organismes désignés du secteur public et des entreprises ou organismes sans but lucratif de 50 employés ou plus. Ce score est un signal de laboratoire. Ce n’est pas un certificat de conformité à la LAPHO ou aux WCAG, et il ne détermine pas si la loi s’applique.",
+    aodaBand: {
+      strong: "Aucun obstacle WCAG important n’est apparu. Ce soin du détail aide plus de visiteurs à demander et à convertir, et il rejoint le niveau AA des WCAG, celui que vise la norme ontarienne pour les sites Web.",
+      gaps: "Des écarts sont apparus qui peuvent toucher le niveau AA des WCAG, celui que vise la norme ontarienne. Ces détails manqués sont aussi là où les demandes et les conversions se perdent.",
+      barriers: "Des obstacles importants sont apparus. Ils correspondent souvent à des échecs WCAG lorsque la norme de la LAPHO s’applique, et ils empêchent d’utiliser la page et de convertir.",
+    },
+    scoreHelpLabels: {
+      means: "Ce que ce score signifie",
+      improve: "Pourquoi l’améliorer",
+      adoption: "Effet sur l’adoption",
+    },
+    scoreHelp: {
+      performance: {
+        means: "Un test de laboratoire mesure la vitesse de chargement et le moment où la page devient utilisable, sur une connexion simulée. 90 ou plus est solide. De 50 à 89, il reste du travail. Sous 50, la page paraît lente.",
+        improve: "Un score plus élevé réduit l’attente avant que le texte, les images et les boutons soient prêts. C’est ce qui sépare une visite où l’offre est vue d’une visite abandonnée.",
+        adoption: "Sur téléphone, les gens quittent une page lente avant de lire ou d’écrire. Une page plus rapide garde davantage de visiteurs que vous avez déjà attirés.",
+      },
+      accessibility: {
+        means: "Le soin apporté aux détails dont les gens dépendent : libellés, contraste, taille du texte et commandes utilisables au clavier ou avec un lecteur d’écran. Un score élevé veut dire que moins de ces détails gênent la visite.",
+        improve: "Un score plus élevé, c’est de l’attention à ces détails. Des libellés, un contraste et des commandes plus clairs aident plus de gens à lire l’offre, à faire confiance à la page et à terminer une demande.",
+        adoption: "Les clients adoptent et convertissent quand la page est facile à terminer. Des détails manqués font partir des visiteurs prêts à agir avant qu’ils écrivent. Les corriger garde plus de ces visites en route vers une conversation.",
+      },
+      bestPractices: {
+        means: "La page suit des pratiques actuelles et sûres, comme une connexion sécurisée et des fonctions qui marchent dans les navigateurs récents.",
+        improve: "Un score plus élevé réduit les erreurs, les avertissements et les doutes qui interrompent une visite.",
+        adoption: "Les gens hésitent ou partent quand un site semble brisé ou peu sûr. La fiabilité laisse la visite avancer vers une conversation.",
+      },
+      seo: {
+        means: "La clarté avec laquelle la page se décrit aux moteurs de recherche : titre, description et structure. Ce score ne garantit pas une position dans les résultats.",
+        improve: "Des signaux plus clairs aident la bonne page à être comprise et proposée pour les recherches que vos clients font déjà.",
+        adoption: "On ne choisit pas une entreprise qu’on ne trouve pas. La préparation à la recherche transforme une recherche existante en visite.",
+      },
     },
     detailedTechnical: "Voir le rapport complet du site",
     detailedSocial: "Voir le rapport complet du partage social",
@@ -288,7 +516,7 @@ const copy = {
     medium: "Moyen",
     low: "Faible",
     actionsTitle: "Les améliorations à faire en premier",
-    actionsIntro: "Commencez par ces trois aspects. Selon cette vérification, ce sont ceux qui pourraient faire la plus grande différence.",
+    actionsIntro: "Commencez par ces aspects. Selon cette vérification, ce sont ceux qui pourraient faire la plus grande différence.",
     fixNow: "Corriger maintenant",
     planNext: "Planifier ensuite",
     automatedStrong: "Vos résultats sont solides. La prochaine étape consiste à vérifier si le message, le contenu et le parcours client encouragent les visiteurs à agir.",
@@ -345,8 +573,38 @@ const copy = {
       organizationSchema: "Aider les moteurs de recherche à reconnaître votre entreprise et son logo",
       pageIdentity: "Ajouter un titre, une description et une adresse de page clairs",
     },
-    actionWhyTechnical: "Score actuel : {score}/100 sur {strategies}.",
-    actionWhySocial: "Score actuel pour cet aspect : {score} %.",
+    actionCost: {
+      performance: "Sur {strategies}, les gens quittent une page lente avant de voir l’offre. Score actuel : {score}/100.",
+      accessibility: "Sur {strategies}, des libellés, un contraste ou des commandes manqués peuvent empêcher un visiteur prêt d’envoyer une demande. Score actuel : {score}/100.",
+      bestPractices: "Sur {strategies}, des erreurs et des doutes interrompent la visite avant qu’elle devienne une conversation. Score actuel : {score}/100.",
+      seo: "Sur {strategies}, une page peu claire est plus difficile à trouver pour les bons clients. Score actuel : {score}/100.",
+      profileLinks: "Les gens ne peuvent pas facilement atteindre vos principaux profils sociaux depuis cette page. Résultat actuel : {score} %.",
+      structuredProfiles: "Les moteurs de recherche ne peuvent pas relier de façon fiable ce site à vos profils sociaux. Résultat actuel : {score} %.",
+      openGraph: "Un lien partagé peut arriver sans titre, description ou image clairs. Résultat actuel : {score} %.",
+      socialCards: "Un aperçu social peut arriver sans image ni message clairs. Résultat actuel : {score} %.",
+      organizationSchema: "Les moteurs de recherche peuvent ne pas reconnaître le nom et le logo de l’entreprise. Résultat actuel : {score} %.",
+      pageIdentity: "Sans titre, description ou adresse de page clairs, la page est plus difficile à choisir. Résultat actuel : {score} %.",
+    },
+    phoneGap: "Le résultat sur téléphone est de {mobile} en moyenne et le résultat sur ordinateur est de {desktop}. La plupart des visiteurs ressentiront le résultat du téléphone.",
+    findingTitle: "Un constat de cette vérification",
+    findingDevice: { mobile: "téléphone", desktop: "ordinateur" },
+    findingOpportunity: "Sur {strategy}, le plus grand ralentissement mesuré est « {title} ».{detail}",
+    findingDelay: "C’est ce délai que les gens ressentent avant de voir l’offre.",
+    findingSocial: {
+      profileLinks: "L’écart de partage le plus clair est le chemin vers vos profils sociaux. Les gens ne peuvent pas les atteindre facilement depuis cette page.",
+      structuredProfiles: "L’écart de partage le plus clair est le lien entre ce site et vos profils sociaux.",
+      openGraph: "L’écart de partage le plus clair est l’aperçu du lien. Un lien partagé peut arriver sans titre, description ou image clairs.",
+      socialCards: "L’écart de partage le plus clair est la carte sociale. Un aperçu peut arriver sans image ni message clairs.",
+      organizationSchema: "L’écart de partage le plus clair est l’identité de l’entreprise. Les moteurs de recherche peuvent ne pas reconnaître le nom et le logo.",
+      pageIdentity: "L’écart de partage le plus clair est l’identité de la page. Sans titre, description ou adresse clairs, la page est plus difficile à choisir.",
+    },
+    lead: {
+      seo: "La préparation à la recherche est de {score} en moyenne. Le point de départ utile est de rendre cette page plus facile à trouver pour les bons clients.",
+      social: "Le partage social est à {score} sur 100. Un lien partagé ne porte pas encore un message clair.",
+      performance: "La performance de laboratoire est de {score} en moyenne. Les visiteurs attendent avant de voir l’offre.",
+      accessibility: "L’accessibilité est de {score} en moyenne. Les détails manqués sur cette page sont là où les demandes se perdent.",
+      strong: "Les scores mesurés sont dans une bonne zone. La prochaine étape utile est de protéger cette base et d’améliorer le prochain détail qui peut encore faire croître les demandes.",
+    },
     genericError: "L’aperçu n’a pas pu être produit. Veuillez réessayer.",
     note: "Aperçu de présence numérique",
   },
@@ -395,6 +653,10 @@ export default function DigitalPresenceSnapshot({
   );
   const actions = useMemo(
     () => buildDigitalPresenceActions(technicalSnapshots, social ?? undefined),
+    [technicalSnapshots, social],
+  );
+  const narrative = useMemo(
+    () => buildSnapshotNarrative(technicalSnapshots, social ?? undefined),
     [technicalSnapshots, social],
   );
 
@@ -523,16 +785,25 @@ export default function DigitalPresenceSnapshot({
   });
   const currentMobilePerformance = technical?.mobile?.snapshot?.scores.performance ?? null;
   const currentDesktopPerformance = technical?.desktop?.snapshot?.scores.performance ?? null;
-  const scored = (name: ScoreName) => technicalSnapshots.map((snapshot) => snapshot.scores[name]).filter((value): value is number => value != null);
-  const average = (values: number[]) => values.length ? Math.round(values.reduce((sum, value) => sum + value, 0) / values.length) : null;
-  const averagePerformance = average(scored("performance"));
-  const averageAccessibility = average(scored("accessibility"));
-  const averageSeo = average(scored("seo"));
-  const recommendation = averageSeo != null && averageSeo < 70 || social && social.score < 70
-    ? { title: t.recommendationVisibility, body: t.recommendationVisibilityBody, path: "/services/digital-visibility-optimization", intent: "visibility" }
-    : averagePerformance != null && averagePerformance < 60 || averageAccessibility != null && averageAccessibility < 70
-      ? { title: t.recommendationConversion, body: t.recommendationConversionBody, path: "/website-design", intent: "website" }
-      : { title: t.recommendationManaged, body: t.recommendationManagedBody, path: "/services/managed-optimization", intent: "website" };
+  const lead = narrative.offer.kind === "strong"
+    ? t.lead.strong
+    : fill(t.lead[narrative.offer.kind], { score: String(narrative.offer.score) });
+  const recommendation = narrative.offer.kind === "seo" || narrative.offer.kind === "social"
+    ? { title: t.recommendationVisibility, body: t.recommendationVisibilityBody, intent: "visibility" }
+    : narrative.offer.kind === "performance" || narrative.offer.kind === "accessibility"
+      ? { title: t.recommendationConversion, body: t.recommendationConversionBody, intent: "website" }
+      : { title: t.recommendationManaged, body: t.recommendationManagedBody, intent: "website" };
+  const reviewGoal = `${note} ${lead} ${recommendation.title}`.slice(0, 700);
+  const finding = narrative.finding;
+  const findingText = finding?.kind === "opportunity"
+    ? `${fill(t.findingOpportunity, {
+        strategy: t.findingDevice[finding.strategy],
+        title: finding.title,
+        detail: finding.detail ? ` ${finding.detail}${/[.!?]$/.test(finding.detail) ? "" : "."}` : "",
+      })} ${t.findingDelay}`
+    : finding?.kind === "social"
+      ? t.findingSocial[finding.key]
+      : "";
   const comparisonRows = [
     {
       label: t.mobilePerformance,
@@ -607,10 +878,11 @@ export default function DigitalPresenceSnapshot({
             <div className="mt-3 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
                 <h2 className="text-2xl font-serif font-bold text-slate-950">{t.recommendedTitle}</h2>
+                <p className="mt-3 max-w-3xl text-sm font-semibold leading-6 text-slate-950">{lead}</p>
                 <h3 className="mt-3 text-lg font-bold text-primary-dark">{recommendation.title}</h3>
                 <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-700">{recommendation.body}</p>
               </div>
-              <Link href={{ pathname: "/contact", query: { intent: recommendation.intent, website: resultUrl, from_page: "/tools/digital-presence-snapshot", goal: `${note} ${recommendation.title}` } }} className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-5 py-3 font-semibold text-white hover:bg-primary-dark print:hidden">
+              <Link href={{ pathname: "/contact", query: { intent: recommendation.intent, website: resultUrl, from_page: "/tools/digital-presence-snapshot", goal: reviewGoal } }} className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-5 py-3 font-semibold text-white hover:bg-primary-dark print:hidden">
                 {t.cta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
             </div>
@@ -649,12 +921,30 @@ export default function DigitalPresenceSnapshot({
                         </span>
                       </div>
                       <dl className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
-                        {scoreOrder.map((name) => (
+                        {scoreOrder.map((name) => {
+                          const reading = name === "accessibility" ? wcagReading(snapshot.scores[name]) : null;
+                          return (
                           <div key={name} className="rounded-lg bg-slate-50 p-3">
-                            <dt className="text-[11px] font-semibold text-slate-500">{t.scoreLabels[name]}</dt>
+                            <dt className="flex items-start justify-between gap-1 text-[11px] font-semibold text-slate-500">
+                              <span>{t.scoreLabels[name]}</span>
+                              <ScoreInfoButton
+                                title={t.scoreLabels[name]}
+                                help={t.scoreHelp[name]}
+                                labels={t.scoreHelpLabels}
+                                openLabel={t.scoreInfo}
+                                closeLabel={t.closeInfo}
+                                compliance={name === "accessibility" ? {
+                                  label: t.aodaLabel,
+                                  body: t.aodaBody,
+                                  reading: reading ? t.aodaBand[reading] : undefined,
+                                } : undefined}
+                              />
+                            </dt>
                             <dd className={`mt-1 text-2xl font-bold ${scoreTone(snapshot.scores[name])}`}>{snapshot.scores[name] ?? t.notScored}</dd>
+                            {reading ? <p className="mt-1 text-[10px] font-semibold leading-snug text-slate-600">{t.wcagBand[reading]}</p> : null}
                           </div>
-                        ))}
+                          );
+                        })}
                       </dl>
                       <dl className="mt-4 grid gap-2 text-xs text-slate-600">
                         <div><dt className="inline font-semibold text-slate-700">{t.tested}: </dt><dd className="inline">{dateFormatter.format(new Date(snapshot.analyzedAt))}</dd></div>
@@ -678,6 +968,7 @@ export default function DigitalPresenceSnapshot({
                     </div>
                     );
                   })}
+                  {narrative.phoneGap ? <p className="rounded-lg bg-amber-50 p-3 text-sm leading-6 text-amber-950">{fill(t.phoneGap, { mobile: String(narrative.phoneGap.mobile), desktop: String(narrative.phoneGap.desktop) })}</p> : null}
                   <Link href={{ pathname: "/tools/website-visibility-snapshot", query: detailQuery }} className="inline-flex font-semibold text-primary-dark underline underline-offset-4 print:hidden">{t.detailedTechnical}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></Link>
                 </div>
               ) : technicalLoading ? <p className="mt-6 text-sm text-slate-600">{loadingMessage}</p> : <p className="mt-6 text-sm text-slate-600">{t.technicalError}</p>}
@@ -744,13 +1035,15 @@ export default function DigitalPresenceSnapshot({
             <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
               <h2 className="text-2xl font-serif font-bold text-slate-950">{t.actionsTitle}</h2>
               <p className="mt-2 text-sm text-slate-600">{t.actionsIntro}</p>
+              {findingText ? <p className="mt-4 rounded-lg bg-slate-50 p-4 text-sm leading-6 text-slate-700"><span className="font-semibold text-slate-950">{t.findingTitle}. </span>{findingText}</p> : null}
               {actions.length ? (
                 <ol className="mt-5 space-y-3">
                   {actions.map((action, index) => {
                     const title = action.source === "technical" ? t.actionTechnical[action.key] : t.actionSocial[action.key];
-                    const why = action.source === "technical"
-                      ? fill(t.actionWhyTechnical, { score: String(action.score), strategies: action.strategies.map((strategy) => strategy === "mobile" ? t.mobile : t.desktop).join(` ${language === "fr" ? "et" : "and"} `) })
-                      : fill(t.actionWhySocial, { score: String(action.score) });
+                    const strategies = action.source === "technical"
+                      ? action.strategies.map((strategy) => strategy === "mobile" ? t.mobile : t.desktop).join(` ${language === "fr" ? "et" : "and"} `)
+                      : "";
+                    const why = fill(t.actionCost[action.key], { score: String(action.score), strategies });
                     return (
                       <li key={`${action.source}-${action.key}`} className="flex gap-4 rounded-xl border border-slate-200 p-4">
                         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary-dark">{index + 1}</span>
@@ -793,7 +1086,7 @@ export default function DigitalPresenceSnapshot({
               {t.ctaSteps.map((step, index) => <li key={step} className="rounded-lg border border-white/15 bg-white/[0.04] p-3 text-sm text-slate-200"><span className="mr-2 font-bold text-brand-gold">{index + 1}.</span>{step}</li>)}
             </ol>
             <p className="mt-5 text-sm font-semibold text-white">{t.ctaProof}</p>
-            <Link href={{ pathname: "/contact", query: { intent: "visibility", review: "results", website: resultUrl, from_page: "/tools/digital-presence-snapshot", goal: note } }} onClick={() => trackAnalyticsEvent("digital_snapshot_cta")} className="mt-6 inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 hover:bg-brand-gold-light">{t.cta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></Link>
+            <Link href={{ pathname: "/contact", query: { intent: "visibility", review: "results", website: resultUrl, from_page: "/tools/digital-presence-snapshot", goal: reviewGoal } }} onClick={() => trackAnalyticsEvent("digital_snapshot_cta")} className="mt-6 inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 hover:bg-brand-gold-light">{t.cta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></Link>
             <p className="mt-3 text-xs text-slate-400">{t.ctaReassurance}</p>
           </aside>
         </section>

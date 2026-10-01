@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   CheckCircle2,
@@ -151,19 +151,18 @@ export default function SocialPresenceSnapshot({ locale, initialUrl = "" }: { lo
   const [cached, setCached] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const startedFromQuery = useRef(false);
 
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function runSnapshot(honeypot: FormDataEntryValue | null) {
     setLoading(true);
     setError("");
     setSnapshot(null);
     trackAnalyticsEvent("social_snapshot_started");
-    const form = new FormData(event.currentTarget);
     try {
       const response = await fetch("/api/social-presence-snapshot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url, website: form.get("website") }),
+        body: JSON.stringify({ url, website: honeypot }),
       });
       const payload = (await response.json().catch(() => ({}))) as {
         snapshot?: Snapshot;
@@ -183,6 +182,20 @@ export default function SocialPresenceSnapshot({ locale, initialUrl = "" }: { lo
       setLoading(false);
     }
   }
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    await runSnapshot(form.get("website"));
+  }
+
+  useEffect(() => {
+    if (!initialUrl.trim() || startedFromQuery.current) return;
+    startedFromQuery.current = true;
+    void runSnapshot("");
+    // The address comes from the page query. Run it once so the full social report opens immediately.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialUrl]);
 
   const rating = snapshot
     ? snapshot.score >= 80

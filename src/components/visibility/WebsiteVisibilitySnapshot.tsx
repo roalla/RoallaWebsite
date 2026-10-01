@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { ArrowRight, Gauge, LoaderCircle, RefreshCw, SearchCheck } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { trackAnalyticsEvent } from "@/lib/analytics";
@@ -264,6 +264,7 @@ export default function WebsiteVisibilitySnapshot({ locale, initialUrl = "" }: {
   const [desktop, setDesktop] = useState<ReportPayload | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const startedFromQuery = useRef(false);
 
   async function runSnapshot(forceFresh = false, honeypot: FormDataEntryValue | null = "") {
     setLoading(true);
@@ -304,6 +305,14 @@ export default function WebsiteVisibilitySnapshot({ locale, initialUrl = "" }: {
     const form = new FormData(event.currentTarget);
     await runSnapshot(false, form.get("website"));
   }
+
+  useEffect(() => {
+    if (!initialUrl.trim() || startedFromQuery.current) return;
+    startedFromQuery.current = true;
+    void runSnapshot(false, "");
+    // The address comes from the page query. Run it once so "See the full website report" opens the report.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialUrl]);
 
   const reports: Array<{ label: string; snapshot: Snapshot }> = [];
   if (mobile?.snapshot) reports.push({ label: t.mobile, snapshot: mobile.snapshot });

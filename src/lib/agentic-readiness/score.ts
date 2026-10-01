@@ -43,7 +43,7 @@ function decode(value: string) {
 }
 
 function elementText(html: string, tag: string) {
-  return [...html.matchAll(new RegExp(`<${tag}\\b[^>]*>([\\s\\S]*?)</${tag}>`, "gi"))].map((match) =>
+  return Array.from(html.matchAll(new RegExp(`<${tag}\\b[^>]*>([\\s\\S]*?)</${tag}>`, "gi"))).map((match) =>
     visibleText(match[1] ?? ""),
   );
 }
@@ -56,7 +56,9 @@ function hasDirectAnswer(html: string) {
 
 function schemaTypes(html: string) {
   const types: string[] = [];
-  for (const match of html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
+  for (const match of Array.from(
+    html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi),
+  )) {
     collectTypes(parseJson(match[1] ?? ""), types);
   }
   return types;
@@ -87,7 +89,9 @@ function collectTypes(value: unknown, types: string[]) {
 
 function hasBusinessFacts(html: string, types: string[]) {
   if (!types.some((type) => ORG_TYPES.includes(type))) return false;
-  for (const match of html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
+  for (const match of Array.from(
+    html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi),
+  )) {
     if (recordHasFacts(parseJson(match[1] ?? ""))) return true;
   }
   return false;

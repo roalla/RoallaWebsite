@@ -17,6 +17,7 @@ export default function HomeHeroSlideshow() {
   const slideCount = HERO_SLIDES.length
   const cycleDurationMs = slideCount * HERO_SLIDE_INTERVAL_MS
   const mobileMedia = `(max-width: ${HERO_MOBILE_MAX_WIDTH_PX}px)`
+  const desktopMedia = `(min-width: ${HERO_MOBILE_MAX_WIDTH_PX + 1}px)`
   const slides = HERO_SLIDES.slice(0, visibleCount)
 
   useEffect(() => {
@@ -70,11 +71,12 @@ export default function HomeHeroSlideshow() {
               sizes="100vw"
               type="image/webp"
             />
+            <source media={desktopMedia} srcSet={slide.desktopAvif} type="image/avif" />
             <img
               src={slide.desktop}
               alt=""
               decoding="async"
-              fetchPriority="low"
+              fetchPriority={index === 0 ? 'high' : 'low'}
               loading={index === 0 ? 'eager' : 'lazy'}
               className="hero-slide-img"
             />

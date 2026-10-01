@@ -2,12 +2,11 @@
 
 import React from 'react'
 import Image from 'next/image'
-import { Phone, Linkedin, Youtube, ArrowUpRight } from 'lucide-react'
+import { Mail, Phone, Linkedin, Youtube, ArrowUpRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import ScheduleButton from './ScheduleButton'
-import { protectedMailtoLink } from '@/lib/email-markup'
-import { CLIENT_PORTAL_URL, CONTACT } from '@/lib/site'
+import { CLIENT_PORTAL_URL } from '@/lib/site'
 
 const companyLinks = [
   { nameKey: 'about' as const, href: '/about' as const },
@@ -102,14 +101,17 @@ const Footer = () => {
               {t('contactLabel')}
             </p>
             <ul className="space-y-3 mb-6">
-              <li
-                dangerouslySetInnerHTML={{
-                  __html: protectedMailtoLink(
-                    CONTACT.email,
-                    'inline-flex items-center gap-2.5 text-sm text-slate-300 hover:text-white transition-colors group',
-                  ),
-                }}
-              />
+              <li>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2.5 text-sm text-slate-300 hover:text-white transition-colors group"
+                >
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 border border-white/10 group-hover:border-primary/30 group-hover:bg-primary/10 transition-colors">
+                    <Mail className="w-4 h-4 text-primary" aria-hidden />
+                  </span>
+                  {t('sendMessage')}
+                </Link>
+              </li>
               <li>
                 <a
                   href="tel:289-838-5868"

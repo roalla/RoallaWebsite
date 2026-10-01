@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { inspectDomain } from "@/lib/domain-health/lookup";
+import { DomainLookupError, inspectDomain } from "@/lib/domain-health/lookup";
 import { mailDomain, type DomainHealthSnapshot } from "@/lib/domain-health/evaluate";
 import { checkClientRate, getClientId } from "@/lib/website-visibility/snapshot-guard";
 import { normalizePublicTarget, PublicTargetError } from "@/lib/website-visibility/public-target";
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  let body: { url?: unknown; website?: unknown };
+  let body: { url?: unknown; website?: unknown; fresh?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
   try {
     const target = normalizePublicTarget(body.url);
     const domain = mailDomain(target.hostname);
-    const cached = cachedSnapshot(domain);
+    const cached = body.fresh === true ? undefined : cachedSnapshot(domain);
     if (cached) return response({ snapshot: cached, cached: true });
 
     const snapshot = await inspectDomain(domain);
@@ -66,6 +66,7 @@ export async function POST(request: NextRequest) {
     return response({ snapshot, cached: false });
   } catch (error) {
     if (error instanceof PublicTargetError) return response({ error: error.message }, 422);
+    if (error instanceof DomainLookupError) return response({ error: error.message }, 503);
     return response({ error: "The domain health check could not be completed." }, 500);
   }
 }

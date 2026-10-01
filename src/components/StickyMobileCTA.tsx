@@ -45,10 +45,28 @@ export default function StickyMobileCTA({
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 480)
+    let frame: number | null = null
+    let current = false
+
+    const readScroll = () => {
+      frame = null
+      const next = window.scrollY > 480
+      if (next === current) return
+      current = next
+      setVisible(next)
+    }
+
+    const onScroll = () => {
+      if (frame !== null) return
+      frame = window.requestAnimationFrame(readScroll)
+    }
+
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (frame !== null) window.cancelAnimationFrame(frame)
+    }
   }, [])
 
   if (!visible) return null

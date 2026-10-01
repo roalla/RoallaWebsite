@@ -40,12 +40,12 @@ export default function middleware(request: NextRequest) {
   const csp = buildContentSecurityPolicy(nonce, {
     development: process.env.NODE_ENV === 'development',
   })
+  const { pathname, searchParams } = request.nextUrl
   const requestHeaders = new Headers(request.headers)
   requestHeaders.set('x-nonce', nonce)
+  requestHeaders.set('x-pathname', pathname)
   requestHeaders.set('Content-Security-Policy', csp)
   const secureRequest = new NextRequest(request, { headers: requestHeaders })
-
-  const { pathname, searchParams } = secureRequest.nextUrl
 
   // Normalize /auth/callback → /en/auth/callback (preserve query — OAuth code)
   if (pathname === '/auth/callback') {

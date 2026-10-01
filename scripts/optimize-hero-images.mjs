@@ -23,6 +23,7 @@ const MOBILE_VARIANTS = [
   { width: 736, quality: 58, avifQuality: 45 },
 ]
 const DESKTOP_QUALITY = 72
+const DESKTOP_AVIF_QUALITY = 50
 const SOURCE_EXT = new Set(['.png', '.jpg', '.jpeg'])
 
 function slugifyBase(name) {
@@ -55,6 +56,7 @@ function syncManifest(slides) {
         .join(', ')
       return `  {
     desktop: '/images/Hero/${slide.desktop}',
+    desktopAvif: '/images/Hero/${slide.desktopAvif}',
     mobile: '/images/Hero/${largest.file}',
     mobileSrcSet:
       '${mobileSrcSet}',
@@ -74,6 +76,11 @@ export const HERO_SLIDESHOW_IMAGES = HERO_SLIDES.map((s) => s.desktop)
 
 export const HERO_SLIDE_INTERVAL_MS = 6000
 export const HERO_SLIDE_FADE_MS = 1200
+
+/** Second slide starts fading in just before 5s; fetch it early enough to arrive. */
+export const HERO_NEXT_SLIDE_AT_MS = 3500
+/** Third slide is not visible until about 11s. */
+export const HERO_LAST_SLIDE_AT_MS = 8000
 
 /** Tailwind md — phones use mobile art; tablets & up use desktop */
 export const HERO_MOBILE_MAX_WIDTH_PX = 767
@@ -142,15 +149,28 @@ async function optimizeHeroImages() {
     }
 
     const desktopSlug = `${slugifyBase(slot.desktop)}.webp`
+    const desktopAvifSlug = `${slugifyBase(slot.desktop)}.avif`
     const mobileBase = slugifyBase(slot.mobile)
     const desktopOut = path.join(heroDir, desktopSlug)
+    const desktopAvifOut = path.join(heroDir, desktopAvifSlug)
 
     const desk = await convertSource(path.join(heroDir, slot.desktop), desktopOut, DESKTOP_MAX_WIDTH, DESKTOP_QUALITY, 'webp')
+    const deskAvif = await convertSource(
+      path.join(heroDir, slot.desktop),
+      desktopAvifOut,
+      DESKTOP_MAX_WIDTH,
+      DESKTOP_AVIF_QUALITY,
+      'avif'
+    )
     totalBefore += desk.before
-    totalAfter += desk.after
+    totalAfter += desk.after + deskAvif.after
     producedWebp.add(desktopSlug)
+    producedWebp.add(desktopAvifSlug)
     console.log(
       `Pair ${index}: ${slot.desktop} → ${desktopSlug}  ${(desk.before / 1024).toFixed(0)} KB → ${(desk.after / 1024).toFixed(0)} KB`
+    )
+    console.log(
+      `Pair ${index}: ${slot.desktop} → ${desktopAvifSlug}  ${(deskAvif.before / 1024).toFixed(0)} KB → ${(deskAvif.after / 1024).toFixed(0)} KB`
     )
 
     const mobileSources = []
@@ -188,7 +208,12 @@ async function optimizeHeroImages() {
       )
     }
 
-    slides.push({ desktop: desktopSlug, mobileSources, mobileAvifSources })
+    slides.push({
+      desktop: desktopSlug,
+      desktopAvif: desktopAvifSlug,
+      mobileSources,
+      mobileAvifSources,
+    })
   }
 
   if (slides.length === 0) {

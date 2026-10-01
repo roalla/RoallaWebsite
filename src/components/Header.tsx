@@ -109,15 +109,50 @@ function getFocusables(container: HTMLElement | null): HTMLElement[] {
 /** Viewport band used to decide whether the fixed header sits over dark content */
 const HEADER_TONE_BAND_PX = 88;
 
-function getHeaderOverDark(): boolean {
-  if (typeof document === "undefined") return false;
-  const targets = document.querySelectorAll('[data-header-tone="dark"]');
-  if (targets.length === 0) return false;
-  for (let i = 0; i < targets.length; i++) {
-    const rect = targets[i].getBoundingClientRect();
-    if (rect.top < HEADER_TONE_BAND_PX && rect.bottom > 0) return true;
-  }
-  return false;
+function observeHeaderTone(
+  onChange: (overDark: boolean) => void,
+): () => void {
+  let observer: IntersectionObserver | null = null;
+  let frame: number | null = null;
+  const intersecting = new Set<Element>();
+
+  const connect = () => {
+    observer?.disconnect();
+    intersecting.clear();
+    const targets = document.querySelectorAll('[data-header-tone="dark"]');
+    if (targets.length === 0) {
+      onChange(false);
+      return;
+    }
+    const bottomInset = Math.max(window.innerHeight - HEADER_TONE_BAND_PX, 0);
+    observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) intersecting.add(entry.target);
+          else intersecting.delete(entry.target);
+        }
+        onChange(intersecting.size > 0);
+      },
+      { rootMargin: `0px 0px -${bottomInset}px 0px`, threshold: 0 },
+    );
+    targets.forEach((node) => observer?.observe(node));
+  };
+
+  const schedule = () => {
+    if (frame !== null) return;
+    frame = window.requestAnimationFrame(() => {
+      frame = null;
+      connect();
+    });
+  };
+
+  schedule();
+  window.addEventListener("resize", schedule);
+  return () => {
+    window.removeEventListener("resize", schedule);
+    if (frame !== null) window.cancelAnimationFrame(frame);
+    observer?.disconnect();
+  };
 }
 
 const Header = ({
@@ -169,29 +204,30 @@ const Header = ({
 
   useEffect(() => {
     let frame: number | null = null;
+    let scrolled = false;
 
-    const syncChrome = () => {
-      setIsScrolled(window.scrollY > 10);
-      setOverDark(getHeaderOverDark());
+    const readScroll = () => {
+      frame = null;
+      const next = window.scrollY > 10;
+      if (next === scrolled) return;
+      scrolled = next;
+      setIsScrolled(next);
     };
 
-    const onScrollOrResize = () => {
+    const onScroll = () => {
       if (frame !== null) return;
-      frame = window.requestAnimationFrame(() => {
-        frame = null;
-        syncChrome();
-      });
+      frame = window.requestAnimationFrame(readScroll);
     };
 
-    syncChrome();
-    window.addEventListener("scroll", onScrollOrResize, { passive: true });
-    window.addEventListener("resize", onScrollOrResize);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
-      window.removeEventListener("scroll", onScrollOrResize);
-      window.removeEventListener("resize", onScrollOrResize);
+      window.removeEventListener("scroll", onScroll);
       if (frame !== null) window.cancelAnimationFrame(frame);
     };
   }, [pathname]);
+
+  useEffect(() => observeHeaderTone(setOverDark), [pathname]);
 
   useEffect(() => {
     if (!isMenuOpen) return;

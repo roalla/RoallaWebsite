@@ -2,6 +2,7 @@
 export const HERO_SLIDES = [
   {
     desktop: '/images/Hero/roalla-hero-homepage-desktop-1.webp',
+    desktopAvif: '/images/Hero/roalla-hero-homepage-desktop-1.avif',
     mobile: '/images/Hero/roalla-hero-homepage-mobile-1-736.webp',
     mobileSrcSet:
       '/images/Hero/roalla-hero-homepage-mobile-1-480.webp 480w, /images/Hero/roalla-hero-homepage-mobile-1-736.webp 736w',
@@ -10,6 +11,7 @@ export const HERO_SLIDES = [
   },
   {
     desktop: '/images/Hero/roalla-hero-homepage-desktop-2.webp',
+    desktopAvif: '/images/Hero/roalla-hero-homepage-desktop-2.avif',
     mobile: '/images/Hero/roalla-hero-homepage-mobile-2-736.webp',
     mobileSrcSet:
       '/images/Hero/roalla-hero-homepage-mobile-2-480.webp 480w, /images/Hero/roalla-hero-homepage-mobile-2-736.webp 736w',
@@ -18,6 +20,7 @@ export const HERO_SLIDES = [
   },
   {
     desktop: '/images/Hero/roalla-hero-homepage-desktop-3.webp',
+    desktopAvif: '/images/Hero/roalla-hero-homepage-desktop-3.avif',
     mobile: '/images/Hero/roalla-hero-homepage-mobile-3-736.webp',
     mobileSrcSet:
       '/images/Hero/roalla-hero-homepage-mobile-3-480.webp 480w, /images/Hero/roalla-hero-homepage-mobile-3-736.webp 736w',

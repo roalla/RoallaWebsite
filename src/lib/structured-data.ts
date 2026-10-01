@@ -63,7 +63,6 @@ export const organizationJsonLd = {
     "@type": "ContactPoint",
     telephone: CONTACT.phone,
     contactType: "sales",
-    email: CONTACT.email,
     areaServed: "Global",
     availableLanguage: ["English", "French"],
   },

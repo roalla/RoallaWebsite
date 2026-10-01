@@ -1,5 +1,7 @@
 import { isIP } from "node:net";
 
+export { isSamePublicPage } from "@/lib/website-visibility/page-url";
+
 const BLOCKED_HOST_SUFFIXES = [
   ".localhost",
   ".local",
@@ -70,4 +72,57 @@ export function normalizePublicTarget(input: unknown): URL {
   target.hash = "";
 
   return target;
+}
+
+const REDIRECT_STATUSES = new Set([301, 302, 303, 307, 308]);
+
+/**
+ * Follow public HTTP redirects to the page a visitor lands on.
+ * Stops at the first hop that is not a public HTTPS page.
+ */
+export async function resolvePublicFinalUrl(
+  target: URL,
+  options?: { userAgent?: string; fetcher?: typeof fetch },
+): Promise<URL> {
+  const fetcher = options?.fetcher ?? fetch;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 8_000);
+  const seen = new Set<string>([target.toString()]);
+  let current = target;
+
+  try {
+    for (let hop = 0; hop < 8; hop += 1) {
+      let response: Response;
+      try {
+        response = await fetcher(current, {
+          method: "GET",
+          redirect: "manual",
+          signal: controller.signal,
+          headers: {
+            Accept: "text/html,application/xhtml+xml",
+            ...(options?.userAgent ? { "User-Agent": options.userAgent } : {}),
+          },
+        });
+      } catch {
+        return current;
+      }
+
+      const location = response.headers.get("location");
+      await response.body?.cancel().catch(() => undefined);
+      if (!REDIRECT_STATUSES.has(response.status) || !location) return current;
+
+      let next: URL;
+      try {
+        next = normalizePublicTarget(new URL(location, current).toString());
+      } catch {
+        return current;
+      }
+      if (seen.has(next.toString())) return current;
+      seen.add(next.toString());
+      current = next;
+    }
+    return current;
+  } finally {
+    clearTimeout(timer);
+  }
 }

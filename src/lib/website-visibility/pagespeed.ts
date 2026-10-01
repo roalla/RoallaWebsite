@@ -1,3 +1,6 @@
+import { isSamePublicPage } from "@/lib/website-visibility/page-url";
+import { normalizePublicTarget } from "@/lib/website-visibility/public-target";
+
 export type PageSpeedStrategy = "mobile" | "desktop";
 export type ScoreName =
   | "performance"
@@ -161,6 +164,20 @@ export function normalizePageSpeedResponse(
   };
 }
 
+export function pageSpeedUserAgent(strategy: PageSpeedStrategy) {
+  return strategy === "mobile"
+    ? "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36"
+    : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36";
+}
+
+function publicPage(value: string) {
+  try {
+    return normalizePublicTarget(value);
+  } catch {
+    return undefined;
+  }
+}
+
 export function pageSpeedEndpoint(target: URL, strategy: PageSpeedStrategy, apiKey?: string) {
   const endpoint = new URL(
     "https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed",
@@ -212,4 +229,25 @@ export async function analyzePageSpeed(
   }
 
   return normalizePageSpeedResponse(await response.json(), target.toString(), strategy);
+}
+
+/**
+ * Score the landing page when the submitted address redirects.
+ * PageSpeed Insights reports that landing page, so scoring the original
+ * address includes redirect time and will not match its performance result.
+ */
+export async function scorePublicPage(
+  analyzed: URL,
+  strategy: PageSpeedStrategy,
+  fetcher: typeof fetch = fetch,
+  apiKey = process.env.PAGESPEED_API_KEY,
+): Promise<{ snapshot: WebsiteVisibilitySnapshot; cacheUrl: URL }> {
+  let cacheUrl = analyzed;
+  let snapshot = await analyzePageSpeed(analyzed, strategy, fetcher, apiKey);
+  const landed = publicPage(snapshot.finalUrl);
+  if (landed && !isSamePublicPage(landed.toString(), analyzed.toString())) {
+    cacheUrl = landed;
+    snapshot = await analyzePageSpeed(landed, strategy, fetcher, apiKey);
+  }
+  return { snapshot, cacheUrl };
 }

@@ -105,12 +105,12 @@ export default async function WebsiteVisibilitySnapshotPage({ params, searchPara
           <WebsiteVisibilitySnapshot locale={locale} initialUrl={initialUrl} />
         </section>
 
-        <aside className="mx-auto mt-12 max-w-6xl rounded-2xl border border-brand-gold/40 bg-brand-gold/10 p-6 sm:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-700">
+        <aside className="mx-auto mt-12 max-w-6xl rounded-2xl border border-white/10 bg-slate-950 p-6 sm:p-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-white">
             {locale === "fr" ? "Le score ne dit pas tout" : "The score is only part of the story"}
           </p>
-          <h2 className="mt-3 text-2xl font-serif font-bold text-slate-950">{page.contentTitle}</h2>
-          <p className="mt-4 max-w-4xl text-base leading-relaxed text-slate-800">{page.contentBody}</p>
+          <h2 className="mt-3 text-2xl font-serif font-bold text-white">{page.contentTitle}</h2>
+          <p className="mt-4 max-w-4xl text-base leading-relaxed text-slate-200">{page.contentBody}</p>
         </aside>
 
         <section className="mx-auto mt-10 grid max-w-6xl gap-6 lg:grid-cols-2">

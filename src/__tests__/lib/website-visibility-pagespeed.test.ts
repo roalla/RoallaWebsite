@@ -3,6 +3,7 @@ import {
   analyzePageSpeed,
   normalizePageSpeedResponse,
   pageSpeedEndpoint,
+  scorePublicPage,
 } from "@/lib/website-visibility/pagespeed";
 
 describe("normalizePageSpeedResponse", () => {
@@ -107,5 +108,62 @@ describe("pageSpeedEndpoint", () => {
     expect(endpoint.searchParams.get("key")).toBe("test-key");
     expect(endpoint.searchParams.get("strategy")).toBe("desktop");
     expect(endpoint.searchParams.get("url")).toBe("https://www.roalla.com/");
+  });
+});
+
+describe("scorePublicPage", () => {
+  function psiResponse(finalUrl: string, score: number) {
+    return {
+      ok: true,
+      status: 200,
+      json: async () => ({
+        lighthouseResult: {
+          finalUrl,
+          categories: { performance: { score } },
+        },
+      }),
+    } as Response;
+  }
+
+  it("scores the landing page when the first run followed a redirect", async () => {
+    const calls: string[] = [];
+    const fetcher = async (input: RequestInfo | URL) => {
+      const requested = new URL(String(input)).searchParams.get("url") ?? "";
+      calls.push(requested);
+      if (requested === "https://www.roalla.com/") {
+        return psiResponse("https://www.roalla.com/en", 0.92);
+      }
+      return psiResponse("https://www.roalla.com/en", 0.98);
+    };
+
+    const result = await scorePublicPage(
+      new URL("https://www.roalla.com/"),
+      "mobile",
+      fetcher as typeof fetch,
+      "test-key",
+    );
+
+    expect(calls).toEqual(["https://www.roalla.com/", "https://www.roalla.com/en"]);
+    expect(result.snapshot.scores.performance).toBe(98);
+    expect(result.cacheUrl.toString()).toBe("https://www.roalla.com/en");
+  });
+
+  it("keeps a single run when the landing page only adds a trailing slash", async () => {
+    const calls: string[] = [];
+    const fetcher = async (input: RequestInfo | URL) => {
+      calls.push(new URL(String(input)).searchParams.get("url") ?? "");
+      return psiResponse("https://www.roalla.com/en/", 0.98);
+    };
+
+    const result = await scorePublicPage(
+      new URL("https://www.roalla.com/en"),
+      "desktop",
+      fetcher as typeof fetch,
+      "test-key",
+    );
+
+    expect(calls).toEqual(["https://www.roalla.com/en"]);
+    expect(result.snapshot.scores.performance).toBe(98);
+    expect(result.cacheUrl.toString()).toBe("https://www.roalla.com/en");
   });
 });

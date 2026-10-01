@@ -8,6 +8,7 @@ import type {
   ScoreName,
   WebsiteVisibilitySnapshot as Snapshot,
 } from "@/lib/website-visibility/pagespeed";
+import { isSamePublicPage } from "@/lib/website-visibility/page-url";
 
 const SCORE_ORDER: ScoreName[] = ["performance", "accessibility", "bestPractices", "seo"];
 
@@ -34,12 +35,13 @@ const copy = {
     cached: "Recently cached result",
     measured: "Measured",
     finalUrl: "Final page tested",
+    redirectNote: "You entered {requested}. That address redirects, so these scores are for the landing page, matching the page Google PageSpeed reports.",
     lighthouse: "Lighthouse version",
     compareGoogle: "Compare with Google PageSpeed",
     freshTest: "Run a fresh Google test",
     source: "Data source: Google PageSpeed Insights",
     caveat:
-      "The category scores come from a Lighthouse lab test run at the time shown. Real visitor information, when available, summarizes public Chrome data from the previous 28 days. Scores can change between runs and do not measure message quality, trust, or the ability to generate inquiries.",
+      "The category scores come from a Lighthouse lab test run at the time shown. When the address redirects, the test uses the landing page, which is what Google PageSpeed scores. Real visitor information, when available, summarizes public Chrome data from the previous 28 days. Scores can change between runs and do not measure message quality, trust, or the ability to generate inquiries.",
     mobile: "Mobile",
     desktop: "Desktop",
     partialError: "We could not measure this version of the page.",
@@ -84,12 +86,13 @@ const copy = {
     cached: "Résultat récent en cache",
     measured: "Mesuré",
     finalUrl: "Page finale vérifiée",
+    redirectNote: "Vous avez entré {requested}. Cette adresse redirige les visiteurs, donc ces scores portent sur la page d’arrivée, la même page que Google PageSpeed évalue.",
     lighthouse: "Version de Lighthouse",
     compareGoogle: "Comparer avec Google PageSpeed",
     freshTest: "Lancer un nouveau test Google",
     source: "Source des données : Google PageSpeed Insights",
     caveat:
-      "Les scores de catégorie proviennent d’un test de laboratoire Lighthouse exécuté au moment indiqué. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, résument les données publiques Chrome des 28 derniers jours. Les scores peuvent changer entre les tests et n’évaluent pas la qualité du message, la confiance ou la capacité à générer des demandes.",
+      "Les scores de catégorie proviennent d’un test de laboratoire Lighthouse exécuté au moment indiqué. Si l’adresse redirige, le test utilise la page d’arrivée, soit celle que Google PageSpeed évalue. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, résument les données publiques Chrome des 28 derniers jours. Les scores peuvent changer entre les tests et n’évaluent pas la qualité du message, la confiance ou la capacité à générer des demandes.",
     mobile: "Mobile",
     desktop: "Ordinateur",
     partialError: "Nous n’avons pas pu mesurer cette version de la page.",
@@ -184,6 +187,7 @@ function ReportCard({
         <div><dt className="inline font-semibold text-slate-700">{t.finalUrl}: </dt><dd className="inline break-all">{snapshot.finalUrl}</dd></div>
         {snapshot.lighthouseVersion ? <div><dt className="inline font-semibold text-slate-700">{t.lighthouse}: </dt><dd className="inline">{snapshot.lighthouseVersion}</dd></div> : null}
       </dl>
+      {!isSamePublicPage(snapshot.requestedUrl, snapshot.finalUrl) ? <p className="mt-3 text-xs leading-5 text-slate-600">{fill(t.redirectNote, { requested: snapshot.requestedUrl })}</p> : null}
       <a href={`https://pagespeed.web.dev/analysis?url=${encodeURIComponent(snapshot.finalUrl)}&form_factor=${snapshot.strategy}`} target="_blank" rel="noreferrer" className="mt-3 inline-flex text-sm font-semibold text-primary-dark underline underline-offset-4">{t.compareGoogle}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></a>
 
       <h3 className="mt-7 text-xl font-serif font-bold text-slate-950">{t.scoresTitle}</h3>

@@ -19,6 +19,7 @@ import type {
   ScoreName,
   WebsiteVisibilitySnapshot,
 } from "@/lib/website-visibility/pagespeed";
+import { isSamePublicPage } from "@/lib/website-visibility/page-url";
 
 type TechnicalReport = {
   snapshot?: WebsiteVisibilitySnapshot;
@@ -130,6 +131,7 @@ const copy = {
     cached: "Result cached for up to 15 minutes",
     tested: "Tested",
     finalUrl: "Final page tested",
+    redirectNote: "You entered {requested}. That address redirects, so these scores are for the landing page, matching the page Google PageSpeed reports.",
     lighthouse: "Lighthouse version",
     compareGoogle: "Compare this run with Google PageSpeed",
     fieldTitle: "Real visitor experience",
@@ -174,7 +176,7 @@ const copy = {
     ],
     methodology: "How we calculate the results",
     methodologyBody:
-      "Website category scores come from a Lighthouse lab test run by Google PageSpeed Insights. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. Social sharing results come from public information on the page you entered. These results stay separate because they measure different parts of your online presence.",
+      "Website category scores come from a Lighthouse lab test run by Google PageSpeed Insights. When the address redirects, the test uses the landing page, which is what Google PageSpeed scores. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. Social sharing results come from public information on the page you entered. These results stay separate because they measure different parts of your online presence.",
     print: "Save my branded action plan",
     reportLabel: "ROALLA Digital Presence Action Plan",
     reportPrepared: "Prepared",
@@ -253,6 +255,7 @@ const copy = {
     cached: "Résultat conservé pendant un maximum de 15 minutes",
     tested: "Vérifié",
     finalUrl: "Page finale vérifiée",
+    redirectNote: "Vous avez entré {requested}. Cette adresse redirige les visiteurs, donc ces scores portent sur la page d’arrivée, la même page que Google PageSpeed évalue.",
     lighthouse: "Version de Lighthouse",
     compareGoogle: "Comparer ce test dans Google PageSpeed",
     fieldTitle: "Expérience des visiteurs réels",
@@ -297,7 +300,7 @@ const copy = {
     ],
     methodology: "Comment les résultats sont calculés",
     methodologyBody:
-      "Les scores du site proviennent d’un test de laboratoire Lighthouse exécuté par Google PageSpeed Insights. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Les résultats du partage social proviennent des renseignements publics de la page entrée. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
+      "Les scores du site proviennent d’un test de laboratoire Lighthouse exécuté par Google PageSpeed Insights. Si l’adresse redirige, le test utilise la page d’arrivée, soit celle que Google PageSpeed évalue. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Les résultats du partage social proviennent des renseignements publics de la page entrée. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
     print: "Enregistrer mon plan d’action ROALLA",
     reportLabel: "Plan d’action de présence numérique ROALLA",
     reportPrepared: "Préparé le",
@@ -658,6 +661,7 @@ export default function DigitalPresenceSnapshot({
                         <div><dt className="inline font-semibold text-slate-700">{t.finalUrl}: </dt><dd className="inline break-all">{snapshot.finalUrl}</dd></div>
                         {snapshot.lighthouseVersion ? <div><dt className="inline font-semibold text-slate-700">{t.lighthouse}: </dt><dd className="inline">{snapshot.lighthouseVersion}</dd></div> : null}
                       </dl>
+                      {!isSamePublicPage(snapshot.requestedUrl, snapshot.finalUrl) ? <p className="mt-3 text-xs leading-5 text-slate-600">{fill(t.redirectNote, { requested: snapshot.requestedUrl })}</p> : null}
                       <div className="mt-4 rounded-lg bg-slate-50 p-3">
                         <div className="flex flex-wrap items-center justify-between gap-2">
                           <h4 className="text-sm font-semibold text-slate-900">{t.fieldTitle}</h4>

@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  analyzePageSpeed,
+  pageSpeedUserAgent,
   PageSpeedProviderError,
+  scorePublicPage,
   type PageSpeedStrategy,
 } from "@/lib/website-visibility/pagespeed";
 import {
   normalizePublicTarget,
   PublicTargetError,
+  resolvePublicFinalUrl,
 } from "@/lib/website-visibility/public-target";
 import {
   checkClientRate,
@@ -59,10 +61,23 @@ export async function POST(request: NextRequest) {
     const target = normalizePublicTarget(body.url);
     const forceFresh = body.fresh === true;
     const strategies: PageSpeedStrategy[] = ["mobile", "desktop"];
-    const ready = strategies.map((strategy) => ({
-      strategy,
-      snapshot: forceFresh ? undefined : getCachedSnapshot(target, strategy),
-    }));
+    const ready = await Promise.all(
+      strategies.map(async (strategy) => {
+        let analyzedTarget = target;
+        try {
+          analyzedTarget = await resolvePublicFinalUrl(target, {
+            userAgent: pageSpeedUserAgent(strategy),
+          });
+        } catch {
+          analyzedTarget = target;
+        }
+        return {
+          strategy,
+          analyzedTarget,
+          snapshot: forceFresh ? undefined : getCachedSnapshot(analyzedTarget, strategy),
+        };
+      }),
+    );
 
     if (ready.some((item) => !item.snapshot)) {
       const hostRate = checkHostRate(target.hostname);
@@ -77,12 +92,24 @@ export async function POST(request: NextRequest) {
 
     const settled = await Promise.allSettled(
       ready.map(async (item) => {
+        const requestedUrl = target.toString();
         if (item.snapshot) {
-          return { strategy: item.strategy, snapshot: item.snapshot, cached: true };
+          return {
+            strategy: item.strategy,
+            snapshot: { ...item.snapshot, requestedUrl },
+            cached: true,
+          };
         }
-        const snapshot = await analyzePageSpeed(target, item.strategy);
-        setCachedSnapshot(target, item.strategy, snapshot);
-        return { strategy: item.strategy, snapshot, cached: false };
+        const scored = await scorePublicPage(item.analyzedTarget, item.strategy);
+        setCachedSnapshot(scored.cacheUrl, item.strategy, scored.snapshot);
+        if (scored.cacheUrl.toString() !== item.analyzedTarget.toString()) {
+          setCachedSnapshot(item.analyzedTarget, item.strategy, scored.snapshot);
+        }
+        return {
+          strategy: item.strategy,
+          snapshot: { ...scored.snapshot, requestedUrl },
+          cached: false,
+        };
       }),
     );
 

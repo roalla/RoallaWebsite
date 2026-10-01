@@ -214,6 +214,8 @@ export default function DigitalPresenceActionPlanPrintSheet({
       <style>{`
         .presence-print-root {
           position: absolute;
+          top: 0;
+          left: 0;
           width: 1px;
           height: 1px;
           overflow: hidden;
@@ -304,12 +306,12 @@ export default function DigitalPresenceActionPlanPrintSheet({
             <footer style={{ padding: "8px 0 0", background: "#fff" }}>
                 <div style={{ height: 3, background: "#07111f" }} />
                 <div style={{ height: 3, width: 72, background: "#f5c518" }} />
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginTop: 8, fontSize: 11, letterSpacing: "0.04em", color: "#334155" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginTop: 8, fontSize: 11, letterSpacing: "0.04em", color: "#334155", whiteSpace: "nowrap" }}>
                   <span>www.roalla.com</span>
                   <span dangerouslySetInnerHTML={{ __html: emailSafeHtml(CONTACT.email) }} />
                   <span>(289) 838-5868</span>
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginTop: 6, fontSize: 10, color: "#64748b" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginTop: 6, fontSize: 10, color: "#64748b", whiteSpace: "nowrap" }}>
                   <span suppressHydrationWarning>© {year} Roalla Business Enablement Group</span>
                   <span>{pageUrl.replace("https://", "")}</span>
                 </div>
@@ -499,8 +501,8 @@ export default function DigitalPresenceActionPlanPrintSheet({
                       </div>
                     ) : null}
                     {device.opportunities.length ? (
-                      <div style={{ marginTop: 8 }}>
-                        <h3 style={{ margin: 0, fontSize: 13 }}>{model.labels.opportunitiesTitle}</h3>
+                      <div className="presence-print-keep" style={{ marginTop: 8 }}>
+                        <h3 style={{ margin: 0, fontSize: 13 }}>{device.label}: {model.labels.opportunitiesTitle}</h3>
                         <ol style={{ margin: "6px 0 0", padding: 0, listStyle: "none" }}>
                           {device.opportunities.map((opportunity, index) => (
                             <li key={`${opportunity.title}-${index}`} className="presence-print-keep" style={{ display: "grid", gridTemplateColumns: "22px 1fr", gap: 8, marginTop: 6, fontSize: 12, lineHeight: 1.4 }}>

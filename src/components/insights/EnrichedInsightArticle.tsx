@@ -140,11 +140,17 @@ export default function EnrichedInsightArticle({ slug, locale, title, summary, r
         <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-slate-600">
           <EmailSafeText text={copy.ctaText} />
         </p>
-        <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+        <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap">
           <Link href={{ pathname: '/contact', query: { from_page: `insight-${slug}` } }} className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark">
             {french ? 'Parler de votre situation' : 'Talk through your situation'}
             <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
           </Link>
+          {slug === 'analog-to-ip-business-telephony' ? (
+            <Link href="/tools/communications-value-brief" className="inline-flex min-h-[48px] items-center justify-center rounded-lg border-2 border-primary bg-white px-6 py-3 text-sm font-semibold text-primary-dark transition-colors hover:bg-primary/5">
+              {french ? 'Estimer la valeur des communications' : 'Estimate communications value'}
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Link>
+          ) : null}
           <Link href={serviceHref} className="inline-flex min-h-[48px] items-center justify-center rounded-lg border-2 border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 transition-colors hover:border-primary hover:text-primary-dark">
             {serviceLabel}
           </Link>

@@ -1,4 +1,11 @@
-import { annualMeetingCost, annualWorkflowFriction, decisionDelayExposure, technologyDecisionPriorities } from "@/lib/business-advisory-tools";
+import {
+  annualMeetingCost,
+  annualWorkflowFriction,
+  decisionDelayExposure,
+  technologyDecisionPriorities,
+  technologyDecisionPrintTitle,
+  technologyDecisionProcess,
+} from "@/lib/business-advisory-tools";
 
 describe("business advisory planning tools", () => {
   it("calculates conservative capacity scenarios", () => {
@@ -8,9 +15,21 @@ describe("business advisory planning tools", () => {
   });
 
   it("adds risk priorities from the technology context", () => {
-    const priorities = technologyDecisionPriorities({ objective: "replace", urgency: "urgent", dataSensitivity: "regulated", integrations: "complex", adoption: "organization" });
+    const priorities = technologyDecisionPriorities({
+      objective: "replace",
+      urgency: "urgent",
+      dataSensitivity: "regulated",
+      integrations: "complex",
+      adoption: "organization",
+    });
     expect(priorities).toHaveLength(6);
     expect(priorities.join(" ")).toContain("Security");
     expect(priorities.join(" ")).toContain("Adoption");
+  });
+
+  it("returns objective-specific process and print titles", () => {
+    expect(technologyDecisionPrintTitle("renew")).toContain("Renewal");
+    expect(technologyDecisionProcess("replace")).toContain("shortlist");
+    expect(technologyDecisionProcess("consolidate")).toContain("overlapping");
   });
 });

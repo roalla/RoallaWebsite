@@ -20,14 +20,15 @@ const guidance = {
       bestPractices: "Reliability",
       seo: "Search readiness",
     },
+    tileLabels: {
+      performance: "Page speed",
+      accessibility: "Accessibility",
+      bestPractices: "Reliability",
+      seo: "Search readiness",
+    },
     notScored: "Not scored",
     scoreInfo: "About this score",
     closeInfo: "Close",
-    wcagBand: {
-      strong: "Strong WCAG checks. These details support conversion.",
-      gaps: "WCAG gaps. Missed details can cost conversions.",
-      barriers: "WCAG barriers. These details block conversion.",
-    },
     aodaLabel: "AODA and WCAG",
     aodaBody:
       "The same details support both the standard and the visit. These automated checks follow WCAG criteria Lighthouse can test. Ontario’s AODA uses WCAG 2.0 Level AA as the public-website standard for designated public-sector organizations and for businesses or non-profits with 50 or more employees. This score is a lab signal. It is not an AODA or WCAG conformance certificate, and it does not decide whether the AODA applies.",
@@ -63,6 +64,14 @@ const guidance = {
         adoption: "People cannot choose a business they never find. Search readiness turns an existing search into a visit.",
       },
     } satisfies Record<ScoreName, ScoreHelp>,
+    agenticLabel: "Agentic readiness",
+    agenticHelp: {
+      means: "How ready this page is for an AI assistant that fetches it and answers a question about the business. Search readiness can be high while this score stays low.",
+      improve: "A higher score means the page has text an assistant can quote, business facts it can trust, and permission to retrieve the page.",
+      adoption: "People increasingly ask an assistant before they search. If the assistant cannot describe the offer, that inquiry never reaches you.",
+    },
+    agenticNoteLabel: "Separate from search",
+    agenticNote: "This score reads public signals on the page. It is not a search ranking, and it does not promise that an assistant will mention the business.",
   },
   fr: {
     scoreLabels: {
@@ -71,14 +80,15 @@ const guidance = {
       bestPractices: "Fiabilité",
       seo: "Préparation à la recherche",
     },
+    tileLabels: {
+      performance: "Vitesse",
+      accessibility: "Accessibilité",
+      bestPractices: "Fiabilité",
+      seo: "Recherche",
+    },
     notScored: "Non évalué",
     scoreInfo: "À propos de ce score",
     closeInfo: "Fermer",
-    wcagBand: {
-      strong: "Vérifications WCAG solides. Ces détails favorisent la conversion.",
-      gaps: "Écarts WCAG. Ces détails manqués peuvent coûter des conversions.",
-      barriers: "Obstacles WCAG. Ces détails bloquent la conversion.",
-    },
     aodaLabel: "LAPHO et WCAG",
     aodaBody:
       "Les mêmes détails servent à la fois la norme et la visite. Ces vérifications automatisées suivent des critères WCAG que Lighthouse peut tester. En Ontario, la LAPHO (AODA) utilise les WCAG 2.0 niveau AA comme norme pour les sites publics des organismes désignés du secteur public et des entreprises ou organismes sans but lucratif de 50 employés ou plus. Ce score est un signal de laboratoire. Ce n’est pas un certificat de conformité à la LAPHO ou aux WCAG, et il ne détermine pas si la loi s’applique.",
@@ -114,6 +124,14 @@ const guidance = {
         adoption: "On ne choisit pas une entreprise qu’on ne trouve pas. La préparation à la recherche transforme une recherche existante en visite.",
       },
     } satisfies Record<ScoreName, ScoreHelp>,
+    agenticLabel: "Préparation agentique",
+    agenticHelp: {
+      means: "La capacité d’un assistant d’IA à récupérer cette page et à décrire l’entreprise. La préparation à la recherche peut être élevée pendant que ce score reste bas.",
+      improve: "Un score plus élevé veut dire que la page offre un texte à citer, des faits d’entreprise fiables et l’autorisation de récupérer la page.",
+      adoption: "De plus en plus de gens demandent à un assistant avant de chercher. Si l’assistant ne peut pas décrire l’offre, cette demande ne vous rejoint pas.",
+    },
+    agenticNoteLabel: "Distinct de la recherche",
+    agenticNote: "Ce score lit des signaux publics de la page. Ce n’est pas une position dans les résultats et il ne promet pas qu’un assistant mentionnera l’entreprise.",
   },
 } as const;
 
@@ -229,6 +247,32 @@ function ScoreInfoButton({
   );
 }
 
+export function AgenticScoreTile({
+  score,
+  language,
+}: {
+  score: number;
+  language: "en" | "fr";
+}) {
+  const t = guidance[language];
+  return (
+    <div className="flex h-full flex-col rounded-lg bg-slate-50 p-4">
+      <p className="flex items-start justify-between gap-1 text-[11px] font-semibold leading-4 text-slate-500">
+        <span>{t.agenticLabel}</span>
+        <ScoreInfoButton
+          title={t.agenticLabel}
+          help={t.agenticHelp}
+          labels={t.scoreHelpLabels}
+          openLabel={t.scoreInfo}
+          closeLabel={t.closeInfo}
+          compliance={{ label: t.agenticNoteLabel, body: t.agenticNote }}
+        />
+      </p>
+      <p className={`mt-auto pt-1 text-4xl font-bold ${scoreTone(score)}`}>{score}<span className="text-lg font-semibold text-slate-500">/100</span></p>
+    </div>
+  );
+}
+
 export function PresenceScoreTiles({
   scores,
   language,
@@ -238,13 +282,13 @@ export function PresenceScoreTiles({
 }) {
   const t = guidance[language];
   return (
-    <dl className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
+    <dl className="mt-4 grid grid-cols-2 items-stretch gap-2">
       {SCORE_ORDER.map((name) => {
         const reading = name === "accessibility" ? wcagReading(scores[name]) : null;
         return (
-          <div key={name} className="rounded-lg bg-slate-50 p-3">
-            <dt className="flex items-start justify-between gap-1 text-[11px] font-semibold text-slate-500">
-              <span>{t.scoreLabels[name]}</span>
+          <div key={name} className="flex h-full flex-col rounded-lg bg-slate-50 p-3">
+            <dt className="flex min-h-8 items-start justify-between gap-1 text-[11px] font-semibold leading-4 text-slate-500">
+              <span>{t.tileLabels[name]}</span>
               <ScoreInfoButton
                 title={t.scoreLabels[name]}
                 help={t.scoreHelp[name]}
@@ -258,8 +302,7 @@ export function PresenceScoreTiles({
                 } : undefined}
               />
             </dt>
-            <dd className={`mt-1 text-2xl font-bold ${scoreTone(scores[name])}`}>{scores[name] ?? t.notScored}</dd>
-            {reading ? <p className="mt-1 text-[10px] font-semibold leading-snug text-slate-600">{t.wcagBand[reading]}</p> : null}
+            <dd className={`mt-auto pt-1 text-2xl font-bold ${scoreTone(scores[name])}`}>{scores[name] ?? t.notScored}</dd>
           </div>
         );
       })}

@@ -495,6 +495,10 @@
     "visibilityReviewFormTitle": "Où devons-nous envoyer votre examen?",
     "visibilityReviewFormHint": "Votre site et vos résultats sont joints. Ajoutez vos coordonnées et, si vous le souhaitez, une question pour notre équipe.",
     "visibilityReviewAttached": "Les résultats de votre site sont joints",
+    "commsBriefAttached": "Votre fiche de valeur communications est jointe",
+    "commsBriefAttachedHint": "Modifiez le résumé ci-dessous si vous voulez ajouter du contexte avant notre suivi.",
+    "techBriefAttached": "Votre fiche de décision technologique est jointe",
+    "techBriefAttachedHint": "Modifiez le résumé ci-dessous si vous voulez ajouter du contexte avant notre suivi.",
     "visibilityReviewNoteLabel": "Quel aspect souhaitez-vous approfondir? (optionnel)",
     "visibilityReviewNotePlaceholder": "Par exemple, je veux obtenir plus de demandes grâce à mon site.",
     "visibilityReviewNoteHint": "Laissez ce champ vide si vous souhaitez que nous commencions par la principale possibilité d’amélioration.",
@@ -3255,6 +3259,8 @@
     "ctaText": "Vous ne savez pas quelle ligne vous correspond? Décrivez votre situation—nous vous indiquerons le bon point de départ.",
     "ctaSchedule": "Démarrer une demande de service",
     "rowCta": "Démarrer une demande pour ceci",
+    "commsValueBriefCta": "Estimer d’abord la valeur des communications",
+    "techDecisionBriefCta": "Créer d’abord une fiche de décision technologique",
     "ctaPortfolio": "Voir des exemples en ligne dans notre portfolio"
   },
   "hub": {
@@ -3502,7 +3508,13 @@
     "termsLink": "Lire la divulgation sur les partenaires et la rémunération dans nos Conditions",
     "ctaTitle": "Discutez de vos besoins technologiques",
     "ctaBody": "Dites-nous ce que vous devez remplacer, consolider ou introduire. Nous vous aiderons à clarifier les exigences et à définir une démarche de recherche pratique.",
-    "ctaButton": "Discuter de vos besoins technologiques"
+    "ctaButton": "Discuter de vos besoins technologiques",
+    "commsToolTitle": "Décision d’appels ou de centre de contact à venir?",
+    "commsToolBody": "Estimez la valeur de quitter le téléphone traditionnel ou de revoir votre pile actuelle—sans pitch fournisseur.",
+    "commsToolCta": "Ouvrir la fiche de valeur communications",
+    "techToolTitle": "Choisir, remplacer ou renouveler une plateforme?",
+    "techToolBody": "Clarifiez les exigences, risques, coûts et priorités d’adoption avant de parler aux fournisseurs.",
+    "techToolCta": "Ouvrir la fiche de décision technologique"
   },
   "legal": {
     "eyebrow": "Mentions légales",

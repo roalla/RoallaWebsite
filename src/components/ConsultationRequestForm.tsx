@@ -356,6 +356,23 @@ export default function ConsultationRequestForm({
   });
 
   const visibilityReport = visibilityReview ? initialGoal?.trim() ?? "" : "";
+  const fromCommsBrief =
+    (sourcePage || initialSourcePage || "").includes("communications-value-brief") &&
+    Boolean(form.goal.trim());
+  const fromTechBrief =
+    (sourcePage || initialSourcePage || "").includes("technology-decision-brief") &&
+    Boolean(form.goal.trim());
+  const fromAttachedBrief = fromCommsBrief || fromTechBrief;
+  const attachedBriefTitle = fromCommsBrief
+    ? t("commsBriefAttached")
+    : fromTechBrief
+      ? t("techBriefAttached")
+      : "";
+  const attachedBriefHint = fromCommsBrief
+    ? t("commsBriefAttachedHint")
+    : fromTechBrief
+      ? t("techBriefAttachedHint")
+      : "";
 
   useEffect(() => {
     if (!visibilityReview) return;
@@ -730,6 +747,17 @@ export default function ConsultationRequestForm({
           className="hidden"
           aria-hidden
         />
+
+        {fromAttachedBrief ? (
+          <div className="mb-5 rounded-xl border border-primary/20 bg-primary/[0.04] p-4">
+            <p className="flex items-center gap-2 text-sm font-semibold text-slate-900">
+              <CheckCircle className="h-4 w-4 text-primary-dark" aria-hidden />
+              {attachedBriefTitle}
+            </p>
+            <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-600">{form.goal}</p>
+            <p className="mt-2 text-xs text-slate-500">{attachedBriefHint}</p>
+          </div>
+        ) : null}
 
         {digitalLightMode ? (
           <div key="digital-light" className="animate-fade-in space-y-5">
@@ -1458,7 +1486,7 @@ export default function ConsultationRequestForm({
                     id="field-goal"
                     value={form.goal}
                     onChange={(e) => update({ goal: e.target.value })}
-                    rows={4}
+                    rows={fromAttachedBrief ? 8 : 4}
                     placeholder={t(goalPlaceholderKey(form.intent))}
                     className={controlClass("field-goal", "resize-y min-h-[112px]")}
                     aria-invalid={fieldInvalid("field-goal") || undefined}
@@ -1466,7 +1494,7 @@ export default function ConsultationRequestForm({
                     minLength={5}
                   />
                   <p className="mt-1.5 text-xs text-slate-500">
-                    {t(goalExampleKey(form.intent))}
+                    {fromAttachedBrief ? attachedBriefHint : t(goalExampleKey(form.intent))}
                   </p>
                   <p className="mt-0.5 text-xs text-slate-400">
                     {t("goalMinHint")}

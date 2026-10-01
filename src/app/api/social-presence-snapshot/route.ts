@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { scoreAgenticReadiness } from "@/lib/agentic-readiness/score";
 import { analyzeSocialPresence } from "@/lib/social-presence/analyzer";
 import {
   checkSocialClientRate,
@@ -7,7 +8,7 @@ import {
   getCachedSocialSnapshot,
   setCachedSocialSnapshot,
 } from "@/lib/social-presence/snapshot-guard";
-import { fetchPublicHtml, WebsiteFetchError } from "@/lib/social-presence/safe-html-fetch";
+import { fetchOptionalPublicText, fetchPublicHtml, WebsiteFetchError } from "@/lib/social-presence/safe-html-fetch";
 import { normalizePublicTarget, PublicTargetError } from "@/lib/website-visibility/public-target";
 
 export const dynamic = "force-dynamic";
@@ -58,7 +59,13 @@ export async function POST(request: NextRequest) {
     }
 
     const page = await fetchPublicHtml(target);
+    const origin = new URL(page.finalUrl);
+    const [robotsTxt, llmsTxt] = await Promise.all([
+      fetchOptionalPublicText(new URL("/robots.txt", origin)),
+      fetchOptionalPublicText(new URL("/llms.txt", origin)),
+    ]);
     const snapshot = analyzeSocialPresence(page.html, target.toString(), page.finalUrl.toString());
+    snapshot.agentic = scoreAgenticReadiness({ html: page.html, robotsTxt, llmsTxt });
     setCachedSocialSnapshot(target, snapshot);
     return response({ snapshot, cached: false });
   } catch (error) {

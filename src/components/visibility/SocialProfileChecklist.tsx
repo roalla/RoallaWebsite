@@ -31,8 +31,8 @@ const copy = {
     noteBody:
       "These checks improve discoverability and accessibility. They do not replace a clear offer, message, and proof that help visitors convert and adopt what you sell. This is human work—not an AI score.",
     pairTitle: "Pair with your website destination",
-    pairBody: "Social profiles should send people to a page you can measure. Run the visibility snapshot on that page, then use this checklist on the profiles that create demand.",
-    websiteCta: "Website visibility snapshot",
+    pairBody: "Social profiles should send people to a page you can measure. Run the digital presence snapshot on that page, then use this checklist on the profiles that create demand.",
+    websiteCta: "Digital presence snapshot",
     socialCta: "Social setup check (from your website)",
     contactCta: "Ask ROALLA to review my profiles",
     contactBody: "A specialist can prioritize keywords, captions, accessibility, and CTAs for the channels you actually use.",
@@ -102,8 +102,8 @@ const copy = {
     noteBody:
       "Ces vérifications améliorent la découvrabilité et l’accessibilité. Elles ne remplacent pas une offre, un message et des preuves clairs qui aident les visiteurs à convertir et à adopter ce que vous vendez. C’est un travail humain—pas un score IA.",
     pairTitle: "Associez-le à la destination de votre site",
-    pairBody: "Les profils sociaux devraient diriger les gens vers une page que vous pouvez mesurer. Lancez l’aperçu de visibilité sur cette page, puis utilisez cette liste sur les profils qui créent la demande.",
-    websiteCta: "Aperçu de visibilité Web",
+    pairBody: "Les profils sociaux devraient diriger les gens vers une page que vous pouvez mesurer. Lancez l’aperçu de présence numérique sur cette page, puis utilisez cette liste sur les profils qui créent la demande.",
+    websiteCta: "Aperçu de présence numérique",
     socialCta: "Vérification sociale (depuis votre site)",
     contactCta: "Demander à ROALLA de revoir mes profils",
     contactBody: "Un spécialiste peut prioriser les mots-clés, les sous-titres, l’accessibilité et les appels à l’action pour les canaux que vous utilisez vraiment.",
@@ -264,7 +264,7 @@ export default function SocialProfileChecklist({ locale }: { locale: string }) {
         <p className="mt-4 max-w-3xl text-sm text-slate-400">{t.contactBody}</p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <Link
-            href="/tools/website-visibility-snapshot"
+            href="/tools/digital-presence-snapshot"
             className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-white/30 px-6 py-3 font-semibold text-white hover:bg-white/10"
           >
             {t.websiteCta}

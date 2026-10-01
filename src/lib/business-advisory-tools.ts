@@ -31,3 +31,30 @@ export function technologyDecisionPriorities(input: TechnologyBriefInput) {
   if (input.urgency === "urgent" || input.urgency === "three-months") priorities.push("Transition risk, interim controls, and realistic decision milestones");
   return priorities;
 }
+
+export function technologyDecisionProcess(objective: TechnologyBriefInput["objective"]): string {
+  switch (objective) {
+    case "replace":
+      return "Confirm the outcome the current tool fails to deliver, compare a private shortlist, verify migration risk and total cost, then plan cutover and adoption.";
+    case "consolidate":
+      return "Inventory overlapping tools and owners, name the single outcome the stack must serve, compare consolidation options, then retire redundant licences on a schedule.";
+    case "introduce":
+      return "Define the business outcome and success measures, validate the smallest useful capability, check integration and adoption load, then pilot before a broader rollout.";
+    case "renew":
+      return "Baseline what you pay and use today, challenge renewal assumptions with a needs-led shortlist, compare exit or renegotiate options, then decide renew, renegotiate, or replace.";
+  }
+}
+
+export function technologyDecisionPrintTitle(objective: TechnologyBriefInput["objective"]): string {
+  switch (objective) {
+    case "replace":
+      return "Replacement decision brief";
+    case "consolidate":
+      return "Consolidation decision brief";
+    case "introduce":
+      return "New capability decision brief";
+    case "renew":
+      return "Renewal decision brief";
+  }
+}
+

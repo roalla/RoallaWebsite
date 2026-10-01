@@ -237,6 +237,16 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: "/tools/website-visibility-snapshot",
+        destination: "/en/tools/digital-presence-snapshot",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|fr)/tools/website-visibility-snapshot",
+        destination: "/:locale/tools/digital-presence-snapshot",
+        permanent: true,
+      },
+      {
         source: "/founding-client",
         destination: "/en/website-package",
         permanent: true,

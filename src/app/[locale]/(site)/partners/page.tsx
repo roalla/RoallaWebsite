@@ -92,6 +92,33 @@ export default async function PartnersPage({ params }: Props) {
               )
             })}
           </div>
+
+          <div className="mt-6 grid gap-4 lg:grid-cols-2">
+            <div className="rounded-xl border border-primary/25 bg-white p-5 lg:p-6">
+              <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark">{t('category4')} · {t('category5')}</p>
+              <h3 className="mt-2 text-xl font-serif font-bold text-slate-950">{t('commsToolTitle')}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-700">{t('commsToolBody')}</p>
+              <Link
+                href="/tools/communications-value-brief"
+                className="mt-4 inline-flex items-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-dark"
+              >
+                {t('commsToolCta')}
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+            </div>
+            <div className="rounded-xl border border-primary/25 bg-white p-5 lg:p-6">
+              <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark">{t('eyebrow')}</p>
+              <h3 className="mt-2 text-xl font-serif font-bold text-slate-950">{t('techToolTitle')}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-slate-700">{t('techToolBody')}</p>
+              <Link
+                href="/tools/technology-decision-brief"
+                className="mt-4 inline-flex items-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white hover:bg-primary-dark"
+              >
+                {t('techToolCta')}
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+            </div>
+          </div>
         </section>
 
         <div className="mt-10 grid gap-8 lg:grid-cols-2">

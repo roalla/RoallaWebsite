@@ -495,6 +495,10 @@
     "visibilityReviewFormTitle": "Where should we send your review?",
     "visibilityReviewFormHint": "Your website and results are attached. Add your contact details and an optional question for our team.",
     "visibilityReviewAttached": "Your website results are attached",
+    "commsBriefAttached": "Your Communications Value Brief is attached",
+    "commsBriefAttachedHint": "Edit the summary below if you want to add context before we follow up.",
+    "techBriefAttached": "Your Technology Decision Brief is attached",
+    "techBriefAttachedHint": "Edit the summary below if you want to add context before we follow up.",
     "visibilityReviewNoteLabel": "What would you like us to focus on? (optional)",
     "visibilityReviewNotePlaceholder": "For example, I want to generate more inquiries from my website.",
     "visibilityReviewNoteHint": "Leave this blank if you would like us to begin with the biggest opportunity we find.",
@@ -3255,6 +3259,8 @@
     "ctaText": "Not sure which row fits? Tell us your situation—we'll point you to the right starting point.",
     "ctaSchedule": "Start a service inquiry",
     "rowCta": "Start an inquiry for this",
+    "commsValueBriefCta": "Estimate communications value first",
+    "techDecisionBriefCta": "Build a technology decision brief first",
     "ctaPortfolio": "See live examples in our portfolio"
   },
   "hub": {
@@ -3502,7 +3508,13 @@
     "termsLink": "Read the Partner and Compensation Disclosure in our Terms",
     "ctaTitle": "Discuss your technology needs",
     "ctaBody": "Tell us what you need to replace, consolidate, or introduce. We’ll help clarify requirements and identify a practical sourcing path.",
-    "ctaButton": "Discuss Your Technology Needs"
+    "ctaButton": "Discuss Your Technology Needs",
+    "commsToolTitle": "Calling or contact centre decision coming up?",
+    "commsToolBody": "Estimate the value of leaving legacy phone systems or relooking at your current stack—without a vendor pitch.",
+    "commsToolCta": "Open Communications Value Brief",
+    "techToolTitle": "Choosing, replacing, or renewing a platform?",
+    "techToolBody": "Clarify requirements, risk, cost, and adoption priorities before you speak with providers.",
+    "techToolCta": "Open Technology Decision Brief"
   },
   "legal": {
     "eyebrow": "Legal",

@@ -12,7 +12,7 @@ import {
   Share2,
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
-import { PresenceScoreTiles } from "@/components/visibility/PresenceScoreTiles";
+import { AgenticScoreTile, PresenceScoreTiles } from "@/components/visibility/PresenceScoreTiles";
 import { trackAnalyticsEvent } from "@/lib/analytics";
 import { buildDigitalPresenceActions } from "@/lib/digital-presence/actions";
 import { buildSnapshotNarrative } from "@/lib/digital-presence/narrative";
@@ -120,8 +120,7 @@ const copy = {
     socialDescription: "How well your website connects to your social profiles and creates sharing previews",
     mobile: "Mobile",
     desktop: "Desktop",
-    detailedTechnical: "See the full website report",
-    detailedSocial: "See the full social sharing report",
+    detailedSocial: "See profiles and the sharing preview",
     notScored: "Not scored",
     fresh: "Fresh Google test",
     cached: "Result cached for up to 15 minutes",
@@ -135,6 +134,8 @@ const copy = {
     fieldPage: "This page",
     fieldOrigin: "Whole website",
     noFieldData: "Google does not have enough public visitor data for this page yet.",
+    labTitle: "Page speed details",
+    opportunitiesTitle: "Ways to improve page speed",
     freshTest: "Run a fresh Google test",
     freshHelp: "Performance can change between tests because traffic, hosting, and page content change. A fresh test bypasses ROALLA’s 15-minute cache.",
     previousTitle: "Change since your previous check",
@@ -228,8 +229,11 @@ const copy = {
       socialCards: "A social preview can arrive without a clear image and message. Current result: {score}%.",
       organizationSchema: "Search systems may not recognize the business name and logo. Current result: {score}%.",
       pageIdentity: "Without a clear title, description, or preferred address, the page is harder to choose. Current result: {score}%.",
+      agentic: "Search readiness does not measure this. An assistant needs text it can quote, facts it can trust, and permission to retrieve the page. Current score: {score}/100.",
     },
     phoneGap: "Your phone result averages {mobile} and your computer result averages {desktop}. Most visitors will feel the phone result.",
+    agenticGap: "Search readiness averages {seo}. Agentic readiness is {agentic}. A page can be easy to find in search and still be hard for an assistant to quote or describe.",
+    actionAgentic: "Make the page easier for an assistant to describe",
     findingTitle: "One finding from this check",
     findingDevice: { mobile: "a phone", desktop: "a computer" },
     findingOpportunity: "On {strategy}, the largest measured slowdown is “{title}”.{detail}",
@@ -268,8 +272,7 @@ const copy = {
     socialDescription: "La façon dont votre site présente vos profils et crée des aperçus de partage",
     mobile: "Mobile",
     desktop: "Ordinateur",
-    detailedTechnical: "Voir le rapport complet du site",
-    detailedSocial: "Voir le rapport complet du partage social",
+    detailedSocial: "Voir les profils et l’aperçu de partage",
     notScored: "Non évalué",
     fresh: "Nouveau test Google",
     cached: "Résultat conservé pendant un maximum de 15 minutes",
@@ -283,6 +286,8 @@ const copy = {
     fieldPage: "Cette page",
     fieldOrigin: "Tout le site",
     noFieldData: "Google ne dispose pas encore de suffisamment de données publiques sur les visiteurs de cette page.",
+    labTitle: "Détails sur la vitesse de la page",
+    opportunitiesTitle: "Façons d’améliorer la vitesse de la page",
     freshTest: "Lancer un nouveau test Google",
     freshHelp: "La performance peut changer entre les tests selon le trafic, l’hébergement et le contenu. Un nouveau test contourne la mise en cache de 15 minutes de ROALLA.",
     previousTitle: "Changement depuis votre vérification précédente",
@@ -376,8 +381,11 @@ const copy = {
       socialCards: "Un aperçu social peut arriver sans image ni message clairs. Résultat actuel : {score} %.",
       organizationSchema: "Les moteurs de recherche peuvent ne pas reconnaître le nom et le logo de l’entreprise. Résultat actuel : {score} %.",
       pageIdentity: "Sans titre, description ou adresse de page clairs, la page est plus difficile à choisir. Résultat actuel : {score} %.",
+      agentic: "La préparation à la recherche ne mesure pas cela. Un assistant a besoin d’un texte à citer, de faits fiables et de l’autorisation de récupérer la page. Score actuel : {score}/100.",
     },
     phoneGap: "Le résultat sur téléphone est de {mobile} en moyenne et le résultat sur ordinateur est de {desktop}. La plupart des visiteurs ressentiront le résultat du téléphone.",
+    agenticGap: "La préparation à la recherche est de {seo} en moyenne. La préparation agentique est de {agentic}. Une page peut être facile à trouver en recherche et rester difficile à citer ou à décrire pour un assistant.",
+    actionAgentic: "Rendre la page plus facile à décrire pour un assistant",
     findingTitle: "Un constat de cette vérification",
     findingDevice: { mobile: "téléphone", desktop: "ordinateur" },
     findingOpportunity: "Sur {strategy}, le plus grand ralentissement mesuré est « {title} ».{detail}",
@@ -585,6 +593,12 @@ export default function DigitalPresenceSnapshot({
     : narrative.offer.kind === "performance" || narrative.offer.kind === "accessibility"
       ? { title: t.recommendationConversion, body: t.recommendationConversionBody, intent: "website" }
       : { title: t.recommendationManaged, body: t.recommendationManagedBody, intent: "website" };
+  const seoScores = technicalSnapshots.map((snapshot) => snapshot.scores.seo).filter((score): score is number => score != null);
+  const averageSeo = seoScores.length ? Math.round(seoScores.reduce((sum, score) => sum + score, 0) / seoScores.length) : null;
+  const agenticScore = social?.agentic?.score ?? null;
+  const agenticGap = averageSeo != null && agenticScore != null && averageSeo - agenticScore >= 15
+    ? fill(t.agenticGap, { seo: String(averageSeo), agentic: String(agenticScore) })
+    : "";
   const reviewGoal = `${note} ${lead} ${recommendation.title}`.slice(0, 700);
   const finding = narrative.finding;
   const findingText = finding?.kind === "opportunity"
@@ -693,7 +707,7 @@ export default function DigitalPresenceSnapshot({
             </div>
           ) : null}
 
-          <div className="grid gap-6 xl:grid-cols-2">
+          <div className="space-y-6">
             <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
               <div className="flex items-start gap-3">
                 <Gauge className="mt-1 h-7 w-7 text-primary-dark" aria-hidden />
@@ -701,9 +715,29 @@ export default function DigitalPresenceSnapshot({
               </div>
               {technicalSnapshots.length ? (
                 <div className="mt-6 space-y-5">
+                  {technicalSnapshots.every((item) => item.finalUrl === technicalSnapshots[0].finalUrl) ? (
+                    <p className="text-sm text-slate-700">
+                      <span className="font-semibold text-slate-900">{t.finalUrl}: </span>
+                      <span className="mt-1 block overflow-x-auto whitespace-nowrap font-mono text-[13px] text-slate-800">{technicalSnapshots[0].finalUrl}</span>
+                    </p>
+                  ) : null}
+                  <div className="space-y-1">
+                  {technicalSnapshots.every((item) => item.analyzedAt === technicalSnapshots[0].analyzedAt) ? (
+                    <p className="text-xs text-slate-600"><span className="font-semibold text-slate-700">{t.tested}: </span>{dateFormatter.format(new Date(technicalSnapshots[0].analyzedAt))}</p>
+                  ) : null}
+                  {technicalSnapshots[0].lighthouseVersion && technicalSnapshots.every((item) => item.lighthouseVersion === technicalSnapshots[0].lighthouseVersion) ? (
+                    <p className="text-xs text-slate-600"><span className="font-semibold text-slate-700">{t.lighthouse}: </span>{technicalSnapshots[0].lighthouseVersion}</p>
+                  ) : null}
+                  </div>
+                  {technicalSnapshots.some((item) => !isSamePublicPage(item.requestedUrl, item.finalUrl)) ? (
+                    <p className="text-xs leading-5 text-slate-600">{fill(t.redirectNote, { requested: technicalSnapshots.find((item) => !isSamePublicPage(item.requestedUrl, item.finalUrl))?.requestedUrl ?? "" })}</p>
+                  ) : null}
+                  <div className="grid gap-4 lg:grid-cols-2">
                   {technicalSnapshots.map((snapshot) => {
                     const report = snapshot.strategy === "mobile" ? technical?.mobile : technical?.desktop;
                     const googleUrl = `https://pagespeed.web.dev/analysis?url=${encodeURIComponent(snapshot.finalUrl)}&form_factor=${snapshot.strategy}`;
+                    const urlShared = technicalSnapshots.every((item) => item.finalUrl === snapshot.finalUrl);
+                    const testedShared = technicalSnapshots.every((item) => item.analyzedAt === snapshot.analyzedAt);
                     return (
                     <div key={snapshot.strategy} className="rounded-xl border border-slate-200 p-4">
                       <div className="flex flex-wrap items-start justify-between gap-2">
@@ -713,12 +747,12 @@ export default function DigitalPresenceSnapshot({
                         </span>
                       </div>
                       <PresenceScoreTiles scores={snapshot.scores} language={language} />
-                      <dl className="mt-4 grid gap-2 text-xs text-slate-600">
-                        <div><dt className="inline font-semibold text-slate-700">{t.tested}: </dt><dd className="inline">{dateFormatter.format(new Date(snapshot.analyzedAt))}</dd></div>
-                        <div><dt className="inline font-semibold text-slate-700">{t.finalUrl}: </dt><dd className="inline break-all">{snapshot.finalUrl}</dd></div>
-                        {snapshot.lighthouseVersion ? <div><dt className="inline font-semibold text-slate-700">{t.lighthouse}: </dt><dd className="inline">{snapshot.lighthouseVersion}</dd></div> : null}
-                      </dl>
-                      {!isSamePublicPage(snapshot.requestedUrl, snapshot.finalUrl) ? <p className="mt-3 text-xs leading-5 text-slate-600">{fill(t.redirectNote, { requested: snapshot.requestedUrl })}</p> : null}
+                      {!urlShared || !testedShared ? (
+                        <dl className="mt-4 grid gap-2 text-xs text-slate-600">
+                          {!testedShared ? <div><dt className="inline font-semibold text-slate-700">{t.tested}: </dt><dd className="inline">{dateFormatter.format(new Date(snapshot.analyzedAt))}</dd></div> : null}
+                          {!urlShared ? <div><dt className="inline font-semibold text-slate-700">{t.finalUrl}: </dt><dd className="mt-1 block overflow-x-auto whitespace-nowrap font-mono text-[13px] text-slate-800">{snapshot.finalUrl}</dd></div> : null}
+                        </dl>
+                      ) : null}
                       <div className="mt-4 rounded-lg bg-slate-50 p-3">
                         <div className="flex flex-wrap items-center justify-between gap-2">
                           <h4 className="text-sm font-semibold text-slate-900">{t.fieldTitle}</h4>
@@ -731,12 +765,41 @@ export default function DigitalPresenceSnapshot({
                           </dl>
                         ) : <p className="mt-3 text-xs text-slate-600">{t.noFieldData}</p>}
                       </div>
+                      {snapshot.labMetrics.length ? (
+                        <div className="mt-4">
+                          <h4 className="text-sm font-semibold text-slate-900">{t.labTitle}</h4>
+                          <dl className="mt-2 grid gap-2 sm:grid-cols-2">
+                            {snapshot.labMetrics.map((metric) => (
+                              <div key={metric.key} className="rounded-lg bg-slate-50 p-3">
+                                <dt className="text-[11px] text-slate-500">{metric.label}</dt>
+                                <dd className="font-semibold text-slate-900">{metric.displayValue}</dd>
+                              </div>
+                            ))}
+                          </dl>
+                        </div>
+                      ) : null}
+                      {snapshot.opportunities.length ? (
+                        <div className="mt-4">
+                          <h4 className="text-sm font-semibold text-slate-900">{t.opportunitiesTitle}</h4>
+                          <ol className="mt-2 space-y-2">
+                            {snapshot.opportunities.map((opportunity, index) => (
+                              <li key={opportunity.id} className="flex gap-3 text-sm text-slate-700">
+                                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary-dark">{index + 1}</span>
+                                <span>
+                                  <span className="block font-semibold text-slate-900">{opportunity.title}</span>
+                                  {opportunity.displayValue ? <span className="mt-0.5 block text-slate-600">{opportunity.displayValue}</span> : null}
+                                </span>
+                              </li>
+                            ))}
+                          </ol>
+                        </div>
+                      ) : null}
                       <a href={googleUrl} target="_blank" rel="noreferrer" className="mt-4 inline-flex text-sm font-semibold text-primary-dark underline underline-offset-4 print:hidden">{t.compareGoogle}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></a>
                     </div>
                     );
                   })}
+                  </div>
                   {narrative.phoneGap ? <p className="rounded-lg bg-amber-50 p-3 text-sm leading-6 text-amber-950">{fill(t.phoneGap, { mobile: String(narrative.phoneGap.mobile), desktop: String(narrative.phoneGap.desktop) })}</p> : null}
-                  <Link href={{ pathname: "/tools/website-visibility-snapshot", query: detailQuery }} className="inline-flex font-semibold text-primary-dark underline underline-offset-4 print:hidden">{t.detailedTechnical}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></Link>
                 </div>
               ) : technicalLoading ? <p className="mt-6 text-sm text-slate-600">{loadingMessage}</p> : <p className="mt-6 text-sm text-slate-600">{t.technicalError}</p>}
             </article>
@@ -748,7 +811,14 @@ export default function DigitalPresenceSnapshot({
               </div>
               {social ? (
                 <div className="mt-6">
-                  <p className={`text-5xl font-bold ${scoreTone(social.score)}`}>{social.score}<span className="text-lg text-slate-500">/100</span></p>
+                  <div className={`grid gap-3 ${agenticScore != null ? "sm:grid-cols-2" : ""} sm:max-w-xl`}>
+                    <div className="flex h-full flex-col rounded-lg bg-slate-50 p-4">
+                      <p className="text-[11px] font-semibold leading-4 text-slate-500">{t.socialScore}</p>
+                      <p className={`mt-auto pt-1 text-4xl font-bold ${scoreTone(social.score)}`}>{social.score}<span className="text-lg font-semibold text-slate-500">/100</span></p>
+                    </div>
+                    {agenticScore != null ? <AgenticScoreTile score={agenticScore} language={language} /> : null}
+                  </div>
+                  {agenticGap ? <p className="mt-4 max-w-3xl rounded-lg bg-slate-50 p-3 text-sm leading-6 text-slate-700">{agenticGap}</p> : null}
                   <dl className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3">
                     {social.checks.map((check) => (
                       <div key={check.id} className="rounded-lg bg-slate-50 p-3">
@@ -806,11 +876,17 @@ export default function DigitalPresenceSnapshot({
               {actions.length ? (
                 <ol className="mt-5 space-y-3">
                   {actions.map((action, index) => {
-                    const title = action.source === "technical" ? t.actionTechnical[action.key] : t.actionSocial[action.key];
+                    const title = action.source === "technical"
+                      ? t.actionTechnical[action.key]
+                      : action.source === "agentic"
+                        ? t.actionAgentic
+                        : t.actionSocial[action.key];
                     const strategies = action.source === "technical"
                       ? action.strategies.map((strategy) => strategy === "mobile" ? t.mobile : t.desktop).join(` ${language === "fr" ? "et" : "and"} `)
                       : "";
-                    const why = fill(t.actionCost[action.key], { score: String(action.score), strategies });
+                    const why = action.source === "agentic"
+                      ? fill(t.actionCost.agentic, { score: String(action.score) })
+                      : fill(t.actionCost[action.key], { score: String(action.score), strategies });
                     return (
                       <li key={`${action.source}-${action.key}`} className="flex gap-4 rounded-xl border border-slate-200 p-4">
                         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary-dark">{index + 1}</span>

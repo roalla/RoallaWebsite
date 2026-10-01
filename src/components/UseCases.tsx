@@ -87,15 +87,38 @@ function PortfolioExamples({ slugs }: { slugs: readonly CaseStudySlug[] }) {
 function UseCaseInquiryLink({ id }: { id: UseCaseId }) {
   const t = useTranslations('useCases')
   const query = scheduleQueryForUseCase(id)
+  const toolHref =
+    id === 'communications-modernization'
+      ? '/tools/communications-value-brief'
+      : id === 'platform-selection' || id === 'provider-comparison' || id === 'technology-stack-review'
+        ? '/tools/technology-decision-brief'
+        : null
+  const toolLabel =
+    id === 'communications-modernization'
+      ? t('commsValueBriefCta')
+      : toolHref
+        ? t('techDecisionBriefCta')
+        : null
 
   return (
-    <Link
-      href={{ pathname: '/contact', query }}
-      className="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-primary hover:text-primary-dark transition-colors"
-    >
-      {t('rowCta')}
-      <ArrowUpRight className="w-3 h-3" aria-hidden />
-    </Link>
+    <div className="mt-3 flex flex-col gap-2">
+      {toolHref && toolLabel ? (
+        <Link
+          href={toolHref}
+          className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary-dark transition-colors"
+        >
+          {toolLabel}
+          <ArrowUpRight className="w-3 h-3" aria-hidden />
+        </Link>
+      ) : null}
+      <Link
+        href={{ pathname: '/contact', query }}
+        className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary-dark transition-colors"
+      >
+        {t('rowCta')}
+        <ArrowUpRight className="w-3 h-3" aria-hidden />
+      </Link>
+    </div>
   )
 }
 

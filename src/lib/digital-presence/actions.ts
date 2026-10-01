@@ -24,6 +24,15 @@ export type DigitalPresenceAction =
       severity: number;
       impact: "high" | "medium";
       effort: "low" | "medium";
+    }
+  | {
+      source: "agentic";
+      priority: "fixNow" | "planNext";
+      key: "agentic";
+      score: number;
+      severity: number;
+      impact: "high";
+      effort: "medium";
     };
 
 export function buildDigitalPresenceActions(
@@ -75,6 +84,18 @@ export function buildDigitalPresenceActions(
           ? "high"
           : "medium",
       effort: "low",
+    });
+  }
+
+  if (social?.agentic && social.agentic.score < 90) {
+    actions.push({
+      source: "agentic",
+      priority: social.agentic.score < 50 ? "fixNow" : "planNext",
+      key: "agentic",
+      score: social.agentic.score,
+      severity: 100 - social.agentic.score,
+      impact: "high",
+      effort: "medium",
     });
   }
 

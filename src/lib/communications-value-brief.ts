@@ -6,6 +6,8 @@ function percent(value: number) {
   return Math.min(100, safe(value)) / 100;
 }
 
+export const MAX_COMMUNICATIONS_FRICTIONS = 2;
+
 export type CommunicationsSituation =
   | "pots-legacy"
   | "current-cloud-unsure"

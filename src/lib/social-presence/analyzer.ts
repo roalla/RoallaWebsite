@@ -29,6 +29,9 @@ export type SocialPresenceSnapshot = {
     maxPoints: number;
     evidence: string[];
   }>;
+  agentic?: {
+    score: number;
+  };
   profiles: Array<{
     platform: SocialPlatform;
     url: string;

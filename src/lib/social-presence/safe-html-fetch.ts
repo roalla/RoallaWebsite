@@ -160,3 +160,23 @@ export async function fetchPublicHtml(
   }
   return { html: result.html, finalUrl: target };
 }
+
+/** Best-effort text file such as robots.txt or llms.txt. Missing or failed fetches do not fail the snapshot. */
+export async function fetchOptionalPublicText(target: URL, redirects = 0): Promise<string | null> {
+  try {
+    const resolved = await resolvePublicAddress(target.hostname);
+    const result = await download(target, resolved.address, resolved.family);
+    if ([301, 302, 303, 307, 308].includes(result.status) && result.location) {
+      if (redirects >= MAX_REDIRECTS) return null;
+      const redirected = normalizePublicTarget(new URL(result.location, target).toString());
+      return fetchOptionalPublicText(redirected, redirects + 1);
+    }
+    if (result.status < 200 || result.status >= 300) return null;
+    if (result.contentEncoding && result.contentEncoding !== "identity") return null;
+    const body = result.html.trim();
+    if (!body || /<html[\s>]/i.test(body)) return null;
+    return body;
+  } catch {
+    return null;
+  }
+}

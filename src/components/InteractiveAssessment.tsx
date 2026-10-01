@@ -345,6 +345,15 @@ function AssessmentResultsView({
         <p className="mt-2 text-sm leading-6 text-slate-700">{starter.body}</p>
         <p className="mt-3 text-sm font-semibold text-slate-800">{starter.timeline}</p>
         <p className="mt-1 text-xs text-slate-600">{french ? 'La portée et le prix sont confirmés après une revue gratuite. Aucun résultat n’est garanti.' : 'Scope and pricing are confirmed after a free fit review. Results are not guaranteed.'}</p>
+        {result.lane === 'technology' ? (
+          <Link
+            href="/tools/technology-decision-brief"
+            className="mt-4 inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
+          >
+            {french ? 'Créer ma fiche de décision technologique' : 'Build my Technology Decision Brief'}
+            <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
+          </Link>
+        ) : null}
       </section>
 
       <section className="mb-8 rounded-2xl border border-slate-200 bg-white p-6 text-left">

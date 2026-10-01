@@ -37,8 +37,8 @@ export default async function Page({ params }: Props) {
           </h1>
           <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-slate-700">
             {fr
-              ? "Répondez à quelques questions sur votre téléphone traditionnel, votre centre de contact ou vos outils actuels. Vous obtiendrez une occasion indicative en dollars, des priorités de décision et une direction pour engager ROALLA—sans nommer de fournisseurs."
-              : "Answer a few questions about legacy phone, contact centre, or your current tools. You will get an indicative dollar opportunity, decision priorities, and a path to engage ROALLA—without naming providers."}
+              ? "Six étapes guidées. Vous obtiendrez une occasion indicative en dollars, des priorités de décision et un PDF de marque—sans nommer de fournisseurs."
+              : "Six guided steps. You will get an indicative dollar opportunity, decision priorities, and a branded PDF—without naming providers."}
           </p>
         </header>
         <main className="mx-auto mt-10 max-w-6xl">

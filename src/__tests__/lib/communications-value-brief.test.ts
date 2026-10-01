@@ -1,4 +1,5 @@
 import {
+  MAX_COMMUNICATIONS_FRICTIONS,
   buildCommunicationsValueBrief,
   communicationsDecisionPriorities,
   communicationsValueEstimate,
@@ -99,6 +100,10 @@ describe("communications value brief", () => {
     expect(priorities.join(" ")).toContain("Queue design");
     expect(priorities.join(" ")).toContain("Recording");
     expect(priorities.join(" ")).toContain("Transition risk");
+  });
+
+  it("caps friction selections at two", () => {
+    expect(MAX_COMMUNICATIONS_FRICTIONS).toBe(2);
   });
 
   it("builds a full brief without vendor brand strings", () => {

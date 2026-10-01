@@ -1,8 +1,9 @@
 "use client";
 
-import React, { FormEvent, useEffect, useMemo, useState } from "react";
-import { ArrowRight, Download, LockKeyhole, Sparkles } from "lucide-react";
+import React, { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { ArrowLeft, ArrowRight, Check, Download, LockKeyhole, Sparkles, X } from "lucide-react";
 import {
+  MAX_COMMUNICATIONS_FRICTIONS,
   SCALE_SEAT_DEFAULTS,
   buildCommunicationsValueBrief,
   type CommunicationsApproachKey,
@@ -14,6 +15,7 @@ import {
   type CommunicationsValueBriefInput,
 } from "@/lib/communications-value-brief";
 import { trackAnalyticsEvent } from "@/lib/analytics";
+import CommunicationsValueBriefPrintSheet from "@/components/tools/CommunicationsValueBriefPrintSheet";
 
 const money = (value: number, locale: string) =>
   new Intl.NumberFormat(locale === "fr" ? "fr-CA" : "en-CA", {
@@ -22,7 +24,7 @@ const money = (value: number, locale: string) =>
     maximumFractionDigits: 0,
   }).format(value);
 
-const MAX_FRICTIONS = 3;
+const TOTAL_STEPS = 6;
 
 const approachCopy = {
   en: {
@@ -31,6 +33,18 @@ const approachCopy = {
       "provider-value-review": "Current provider value review",
       "contact-centre-readiness": "Contact centre readiness path",
       "unified-stack-rationalization": "Communications stack rationalization",
+    } as Record<CommunicationsApproachKey, string>,
+    printTitles: {
+      "pots-modernization": "Modernization brief for legacy phone",
+      "provider-value-review": "Renewal value review",
+      "contact-centre-readiness": "Contact centre readiness brief",
+      "unified-stack-rationalization": "Communications stack rationalization brief",
+    } as Record<CommunicationsApproachKey, string>,
+    ctas: {
+      "pots-modernization": "Plan a modernization review",
+      "provider-value-review": "Challenge my renewal before I sign",
+      "contact-centre-readiness": "Review my contact centre options",
+      "unified-stack-rationalization": "Simplify my communications stack",
     } as Record<CommunicationsApproachKey, string>,
     reasons: {
       "pots-modernization":
@@ -49,6 +63,18 @@ const approachCopy = {
       "provider-value-review": "Revue de valeur des fournisseurs actuels",
       "contact-centre-readiness": "Parcours de préparation du centre de contact",
       "unified-stack-rationalization": "Rationalisation de la pile de communications",
+    } as Record<CommunicationsApproachKey, string>,
+    printTitles: {
+      "pots-modernization": "Fiche de modernisation pour téléphone traditionnel",
+      "provider-value-review": "Revue de valeur avant renouvellement",
+      "contact-centre-readiness": "Fiche de préparation du centre de contact",
+      "unified-stack-rationalization": "Fiche de rationalisation des communications",
+    } as Record<CommunicationsApproachKey, string>,
+    ctas: {
+      "pots-modernization": "Planifier une revue de modernisation",
+      "provider-value-review": "Remettre en question mon renouvellement",
+      "contact-centre-readiness": "Examiner mes options de centre de contact",
+      "unified-stack-rationalization": "Simplifier ma pile de communications",
     } as Record<CommunicationsApproachKey, string>,
     reasons: {
       "pots-modernization":
@@ -80,53 +106,88 @@ const priorityFr: Record<string, string> = {
     "Risques de transition, contrôles temporaires et étapes réalistes",
 };
 
+const planFr: Record<string, string> = {
+  "Confirm line counts, call patterns, must-keep numbers, and the business outcome that replaces the legacy phone system.":
+    "Confirmer le nombre de lignes, les modèles d’appels, les numéros à conserver et le résultat d’affaires qui remplace le système téléphonique héritage.",
+  "Compare a short private shortlist against those requirements, total cost, and migration risk—without committing to a vendor prematurely.":
+    "Comparer une courte liste privée à ces exigences, au coût total et au risque de migration—sans s’engager trop tôt envers un fournisseur.",
+  "Decide on the path, sequence number porting and cutover, and set adoption measures for the first 90 days.":
+    "Choisir le parcours, séquencer la portabilité et la bascule, et fixer les mesures d’adoption pour les 90 premiers jours.",
+  "Baseline what you pay today, which features are used, and where contracts, seats, or add-ons no longer match the work.":
+    "Établir ce que vous payez aujourd’hui, quelles fonctions sont utilisées, et où contrats, sièges ou options ne correspondent plus au travail.",
+  "Challenge renewal assumptions with a needs-led shortlist and clear exit or consolidate options.":
+    "Remettre en question les hypothèses de renouvellement avec une liste restreinte fondée sur les besoins et des options claires de sortie ou de consolidation.",
+  "Choose renew, renegotiate, or replace—and document the measures that prove the change was worth it.":
+    "Choisir renouveler, renégocier ou remplacer—et documenter les mesures qui prouvent que le changement en valait la peine.",
+  "Map inbound journeys, queue pain, CRM gaps, recording needs, and what “good” looks like for agents and customers.":
+    "Cartographier les parcours entrants, la douleur des files, les lacunes CRM, les besoins d’enregistrement et ce qu’est un « bon » résultat pour agents et clients.",
+  "Pressure-test contact-centre options against those requirements, integrations, and total cost of ownership.":
+    "Mettre à l’épreuve les options de centre de contact face à ces exigences, intégrations et coût total de possession.",
+  "Pilot the smallest useful improvement path, measure abandon and handle metrics, then decide whether to expand.":
+    "Piloter le plus petit parcours d’amélioration utile, mesurer abandons et traitements, puis décider d’élargir ou non.",
+  "Inventory overlapping calling, meeting, and contact tools and name the single outcome the stack must serve.":
+    "Inventorier les outils d’appels, de réunions et de contact qui se chevauchent et nommer le résultat unique que la pile doit servir.",
+  "Collapse the shortlist to options that cover the real workload, then compare cost, risk, and adoption load.":
+    "Réduire la liste aux options qui couvrent la charge réelle, puis comparer coût, risque et charge d’adoption.",
+  "Pick one decision path, retire redundant tools on a schedule, and assign ownership for the resulting stack.":
+    "Choisir un parcours décisionnel, retirer les outils redondants selon un calendrier et assigner la responsabilité de la pile résultante.",
+};
+
 const copy = {
   en: {
-    situationLabel: "What describes your communications setup today?",
+    stepOf: "Step",
+    back: "Back",
+    next: "Continue",
+    editAnswers: "Edit answers",
+    situationLabel: "What best describes your phone setup today?",
     situations: {
-      "pots-legacy": "Plain old telephone, copper lines, or a legacy on-prem phone system",
-      "current-cloud-unsure": "We have cloud calling or contact tools, but value is unclear",
-      fragmented: "Several overlapping calling, meeting, and contact tools",
+      "pots-legacy": "Traditional phone lines or an old on-site system",
+      "current-cloud-unsure": "We already have cloud tools, but value is unclear",
+      fragmented: "Several overlapping calling and contact tools",
       renewal: "A renewal or contract decision is coming up",
     },
     scopeLabel: "What do you need to cover?",
     scopes: {
-      uc: "Internal calling and collaboration",
+      uc: "Internal calling & collaboration",
       cc: "Customer queues, IVR, or agents",
-      both: "Both internal calling and customer contact",
+      both: "Both internal + customer contact",
     },
-    scaleLabel: "Roughly how many people are involved?",
+    scaleLabel: "About how many people are involved?",
     scales: {
-      "1-10": "1–10",
-      "11-50": "11–50",
-      "51-200": "51–200",
-      "200-plus": "200+",
+      "1-10": "1–10 people",
+      "11-50": "11–50 people",
+      "51-200": "51–200 people",
+      "200-plus": "200+ people",
     },
-    frictionLabel: "Where does friction show up most? (choose up to 3)",
+    frictionLabel: "Where does friction show up most?",
+    frictionHint: "Choose up to 2. Selected options stay highlighted.",
+    frictionCount: "{count} of 2 selected",
     frictions: {
       "missed-calls": "Missed or abandoned calls",
       "high-line-cost": "High line or seat cost",
-      "no-mobility": "No reliable mobile or remote calling",
-      "no-crm": "No useful CRM or ticket handoff",
-      "recording-compliance": "Recording, retention, or compliance gaps",
+      "no-mobility": "Weak mobile / remote calling",
+      "no-crm": "No useful CRM handoff",
+      "recording-compliance": "Recording or compliance gaps",
       "fragmented-tools": "Too many overlapping tools",
-      "poor-reporting": "Weak reporting or visibility",
-      "contract-lock-in": "Contract lock-in or unclear exit",
+      "poor-reporting": "Weak reporting",
+      "contract-lock-in": "Contract lock-in",
     },
     urgencyLabel: "When do you need a decision?",
     urgencies: {
-      exploring: "Exploring / no fixed date",
-      "six-months": "Within six months",
-      "three-months": "Within three months",
+      exploring: "Just exploring",
+      "six-months": "Within 6 months",
+      "three-months": "Within 3 months",
       urgent: "Urgent",
     },
-    numbersLabel: "Planning numbers (editable)",
+    numbersLabel: "What do you spend each month?",
     monthlySpend: "Monthly communications spend (CAD)",
+    refineToggle: "Refine estimate (optional)",
     seatCount: "Users, seats, or agents",
-    missedPerWeek: "Missed or abandoned interactions per week",
-    valuePerMissed: "Approximate value per missed interaction (CAD)",
-    submit: "Create my communications value brief",
+    missedPerWeek: "Missed calls / interactions per week",
+    valuePerMissed: "Rough value of each missed interaction (CAD)",
+    submit: "See my communications value brief",
     report: "ROALLA Communications Value Brief",
+    printEyebrow: "Technology advisory · communications",
     why: "Why this approach fits",
     valueTitle: "Indicative annual opportunity",
     valueSpend: "From current spend assumptions",
@@ -134,63 +195,82 @@ const copy = {
     priorities: "Decision priorities",
     plan: "Your 30, 60, and 90-day engagement direction",
     days: ["First 30 days", "By 60 days", "By 90 days"],
+    nextStepsTitle: "What happens next",
+    nextSteps: [
+      "A short needs review (about 20–30 minutes)",
+      "A private shortlist based on your requirements—not a vendor pitch first",
+      "A clear renew, renegotiate, or replace recommendation",
+    ],
+    saveReminder: "Save or print this brief before you leave—easy to share internally.",
     private: "This brief stays in your browser unless you choose to send it to ROALLA.",
     save: "Save this brief in my browser",
     saved: "Brief saved",
-    print: "Print or save as PDF",
-    review: "Request a free communications review",
-    estimateNote:
-      "These are planning estimates based only on your assumptions. They are not guaranteed savings, a quote, or financial advice.",
+    print: "Save branded PDF",
+    estimateNote: "Planning estimate only — not a quote or guaranteed savings.",
     disclaimer:
       "This is an initial planning guide based on your answers. ROALLA confirms scope, feasibility, dependencies, pricing, and expected measures before any engagement. ROALLA may receive compensation from some providers if you choose to purchase through us. We confirm this before any recommendation. This brief does not recommend a provider or replace security, legal, or financial review.",
-    liveHint: "Indicative opportunity updates as you adjust the numbers.",
+    liveHint: "Your indicative opportunity updates as you adjust spend.",
+    opportunityLabel: "Your indicative opportunity",
+    contextLabel: "Your situation",
+    printWhyHint: "Recommended engagement approach",
+    printValueHint: "Based on your planning numbers",
+    printPrioritiesHint: "What to verify before choosing a path",
+    printPlanHint: "How ROALLA can help you move forward",
   },
   fr: {
-    situationLabel: "Qu’est-ce qui décrit votre configuration de communications aujourd’hui?",
+    stepOf: "Étape",
+    back: "Retour",
+    next: "Continuer",
+    editAnswers: "Modifier les réponses",
+    situationLabel: "Qu’est-ce qui décrit le mieux votre téléphone aujourd’hui?",
     situations: {
-      "pots-legacy": "Téléphone traditionnel, lignes cuivre ou système téléphonique sur site héritage",
-      "current-cloud-unsure": "Nous avons des outils d’appels ou de contact infonuagiques, mais la valeur est floue",
-      fragmented: "Plusieurs outils d’appels, de réunions et de contact qui se chevauchent",
+      "pots-legacy": "Lignes traditionnelles ou ancien système sur site",
+      "current-cloud-unsure": "Nous avons déjà des outils infonuagiques, mais la valeur est floue",
+      fragmented: "Plusieurs outils d’appels et de contact qui se chevauchent",
       renewal: "Un renouvellement ou une décision contractuelle approche",
     },
     scopeLabel: "Que devez-vous couvrir?",
     scopes: {
       uc: "Appels internes et collaboration",
       cc: "Files clients, SVI ou agents",
-      both: "Appels internes et contact client",
+      both: "Appels internes + contact client",
     },
     scaleLabel: "Environ combien de personnes sont concernées?",
     scales: {
-      "1-10": "1–10",
-      "11-50": "11–50",
-      "51-200": "51–200",
-      "200-plus": "200+",
+      "1-10": "1–10 personnes",
+      "11-50": "11–50 personnes",
+      "51-200": "51–200 personnes",
+      "200-plus": "200+ personnes",
     },
-    frictionLabel: "Où la friction apparaît-elle le plus? (jusqu’à 3)",
+    frictionLabel: "Où la friction apparaît-elle le plus?",
+    frictionHint: "Choisissez jusqu’à 2. Les choix restent bien visibles.",
+    frictionCount: "{count} sur 2 sélectionnés",
     frictions: {
       "missed-calls": "Appels manqués ou abandonnés",
       "high-line-cost": "Coût élevé des lignes ou sièges",
-      "no-mobility": "Pas d’appels mobiles ou à distance fiables",
-      "no-crm": "Pas de transfert CRM ou ticket utile",
-      "recording-compliance": "Lacunes d’enregistrement, conservation ou conformité",
+      "no-mobility": "Appels mobiles / à distance faibles",
+      "no-crm": "Pas de transfert CRM utile",
+      "recording-compliance": "Lacunes d’enregistrement ou conformité",
       "fragmented-tools": "Trop d’outils qui se chevauchent",
-      "poor-reporting": "Rapports ou visibilité faibles",
-      "contract-lock-in": "Verrouillage contractuel ou sortie floue",
+      "poor-reporting": "Rapports faibles",
+      "contract-lock-in": "Verrouillage contractuel",
     },
     urgencyLabel: "Quand faut-il une décision?",
     urgencies: {
-      exploring: "Exploration / pas de date fixe",
-      "six-months": "Dans les six mois",
-      "three-months": "Dans les trois mois",
+      exploring: "Simple exploration",
+      "six-months": "Dans les 6 mois",
+      "three-months": "Dans les 3 mois",
       urgent: "Urgent",
     },
-    numbersLabel: "Chiffres de planification (modifiables)",
+    numbersLabel: "Combien dépensez-vous chaque mois?",
     monthlySpend: "Dépenses mensuelles de communications (CAD)",
+    refineToggle: "Affiner l’estimation (facultatif)",
     seatCount: "Utilisateurs, sièges ou agents",
-    missedPerWeek: "Interactions manquées ou abandonnées par semaine",
-    valuePerMissed: "Valeur approximative par interaction manquée (CAD)",
-    submit: "Créer ma fiche de valeur communications",
+    missedPerWeek: "Appels / interactions manqués par semaine",
+    valuePerMissed: "Valeur approximative d’une interaction manquée (CAD)",
+    submit: "Voir ma fiche de valeur communications",
     report: "Fiche de valeur communications ROALLA",
+    printEyebrow: "Conseil technologique · communications",
     why: "Pourquoi cette approche convient",
     valueTitle: "Occasion annuelle indicative",
     valueSpend: "À partir des hypothèses de dépenses actuelles",
@@ -198,16 +278,27 @@ const copy = {
     priorities: "Priorités de décision",
     plan: "Votre direction d’engagement sur 30, 60 et 90 jours",
     days: ["Les 30 premiers jours", "D’ici 60 jours", "D’ici 90 jours"],
+    nextStepsTitle: "Ce qui se passe ensuite",
+    nextSteps: [
+      "Une courte revue des besoins (environ 20 à 30 minutes)",
+      "Une liste restreinte privée selon vos exigences—pas un pitch fournisseur d’abord",
+      "Une recommandation claire : renouveler, renégocier ou remplacer",
+    ],
+    saveReminder: "Enregistrez ou imprimez cette fiche avant de partir—facile à partager en interne.",
     private: "Cette fiche reste dans votre navigateur, sauf si vous choisissez de l’envoyer à ROALLA.",
     save: "Enregistrer cette fiche dans mon navigateur",
     saved: "Fiche enregistrée",
-    print: "Imprimer ou enregistrer en PDF",
-    review: "Demander une revue communications gratuite",
-    estimateNote:
-      "Il s’agit d’estimations de planification fondées uniquement sur vos hypothèses. Elles ne représentent pas des économies garanties, un devis ou un conseil financier.",
+    print: "Enregistrer le PDF de marque",
+    estimateNote: "Estimation de planification seulement — pas un devis ni des économies garanties.",
     disclaimer:
       "Il s’agit d’un guide initial fondé sur vos réponses. ROALLA confirme la portée, la faisabilité, les dépendances, le prix et les mesures avant tout mandat. ROALLA peut recevoir une rémunération de certains fournisseurs si vous choisissez d’acheter par notre intermédiaire. Nous le confirmons avant toute recommandation. Cette fiche ne recommande aucun fournisseur et ne remplace pas un examen de sécurité, juridique ou financier.",
-    liveHint: "L’occasion indicative se met à jour lorsque vous ajustez les chiffres.",
+    liveHint: "Votre occasion indicative se met à jour lorsque vous ajustez les dépenses.",
+    opportunityLabel: "Votre occasion indicative",
+    contextLabel: "Votre situation",
+    printWhyHint: "Parcours d’engagement recommandé",
+    printValueHint: "Selon vos chiffres de planification",
+    printPrioritiesHint: "Ce qu’il faut vérifier avant de choisir",
+    printPlanHint: "Comment ROALLA peut vous aider à avancer",
   },
 } as const;
 
@@ -225,12 +316,43 @@ const initial: CommunicationsValueBriefInput = {
 
 const inputClass =
   "mt-2 w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 font-normal text-slate-900 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20";
-const radioCard = (active: boolean) =>
-  `cursor-pointer rounded-xl border p-4 text-sm font-medium transition ${
-    active
-      ? "border-primary bg-primary/[0.06] text-primary-dark"
-      : "border-slate-200 text-slate-700 hover:border-primary/50"
-  }`;
+
+function choiceButton(active: boolean, disabled = false) {
+  if (active) {
+    return "cursor-pointer rounded-xl border-2 border-primary bg-primary px-4 py-3.5 text-sm font-semibold text-white shadow-sm transition focus-within:ring-2 focus-within:ring-primary/40 focus-within:ring-offset-2";
+  }
+  if (disabled) {
+    return "cursor-not-allowed rounded-xl border-2 border-slate-200 bg-slate-100 px-4 py-3.5 text-sm font-medium text-slate-400 opacity-70";
+  }
+  return "cursor-pointer rounded-xl border-2 border-slate-200 bg-white px-4 py-3.5 text-sm font-medium text-slate-700 transition hover:border-primary/50 hover:bg-slate-50 focus-within:ring-2 focus-within:ring-primary/30 focus-within:ring-offset-2";
+}
+
+function StepHeading({
+  step,
+  total,
+  label,
+  stepWord,
+  as = "legend",
+}: {
+  step: number;
+  total: number;
+  label: string;
+  stepWord: string;
+  as?: "legend" | "h3";
+}) {
+  const Tag = as;
+  return (
+    <Tag className="w-full">
+      <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[.14em] text-primary-dark">
+        <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary text-[11px] text-white">
+          {step}
+        </span>
+        {stepWord} {step}/{total}
+      </span>
+      <span className="mt-2 block text-xl font-serif font-bold text-slate-950 sm:text-2xl">{label}</span>
+    </Tag>
+  );
+}
 
 export default function CommunicationsValueBrief({ locale }: { locale: string }) {
   const language = locale === "fr" ? "fr" : "en";
@@ -240,6 +362,10 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
   const [complete, setComplete] = useState(false);
   const [saved, setSaved] = useState(false);
   const [ready, setReady] = useState(false);
+  const [step, setStep] = useState(1);
+  const [showRefine, setShowRefine] = useState(false);
+  const [showSaveReminder, setShowSaveReminder] = useState(true);
+  const trackedSteps = useRef<Set<number>>(new Set());
 
   useEffect(() => {
     try {
@@ -249,16 +375,25 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
           ...current,
           ...stored,
           frictions: Array.isArray(stored.frictions)
-            ? stored.frictions.slice(0, MAX_FRICTIONS)
+            ? stored.frictions.slice(0, MAX_COMMUNICATIONS_FRICTIONS)
             : current.frictions,
         }));
-        if (stored.complete) setComplete(true);
+        if (stored.complete) {
+          setComplete(true);
+          setShowSaveReminder(true);
+        }
       }
     } catch {
       /* ignore */
     }
     setReady(true);
   }, []);
+
+  useEffect(() => {
+    if (complete || trackedSteps.current.has(step)) return;
+    trackedSteps.current.add(step);
+    trackAnalyticsEvent("communications_value_brief_step", { step, total: TOTAL_STEPS });
+  }, [step, complete]);
 
   const result = useMemo(() => buildCommunicationsValueBrief(input), [input]);
   const showMissedFields =
@@ -267,6 +402,7 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
   function update<K extends keyof CommunicationsValueBriefInput>(
     key: K,
     value: CommunicationsValueBriefInput[K],
+    advance = false,
   ) {
     setInput((current) => {
       const next = { ...current, [key]: value };
@@ -276,6 +412,9 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
       return next;
     });
     setSaved(false);
+    if (advance && step < TOTAL_STEPS) {
+      window.setTimeout(() => setStep((current) => Math.min(TOTAL_STEPS, current + 1)), 180);
+    }
   }
 
   function toggleFriction(friction: CommunicationsFriction) {
@@ -284,212 +423,392 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
       if (exists) {
         return { ...current, frictions: current.frictions.filter((item) => item !== friction) };
       }
-      if (current.frictions.length >= MAX_FRICTIONS) return current;
+      if (current.frictions.length >= MAX_COMMUNICATIONS_FRICTIONS) return current;
       return { ...current, frictions: [...current.frictions, friction] };
     });
     setSaved(false);
   }
 
-  function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  function finishBrief() {
     setComplete(true);
     setSaved(false);
+    setShowSaveReminder(true);
     trackAnalyticsEvent("communications_value_brief_completed", {
       situation: input.situation,
       scope: input.scope,
       approach: result.approachKey,
+      step_reached: step,
     });
     window.setTimeout(() => document.getElementById("communications-value-result")?.focus(), 0);
+  }
+
+  function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (step < TOTAL_STEPS) {
+      setStep((current) => current + 1);
+      return;
+    }
+    finishBrief();
   }
 
   function save() {
     window.localStorage.setItem(
       "roalla-communications-value-brief",
-      JSON.stringify({ ...input, complete: true, approachKey: result.approachKey, savedAt: new Date().toISOString() }),
+      JSON.stringify({
+        ...input,
+        complete: true,
+        approachKey: result.approachKey,
+        savedAt: new Date().toISOString(),
+      }),
     );
     setSaved(true);
+    setShowSaveReminder(false);
   }
 
-  const contactGoal = `${t.report}: ${approaches.names[result.approachKey]}. ${money(result.indicativeAnnualValue, language)} indicative.`.slice(0, 500);
+  const frictionLabels = input.frictions.map((key) => t.frictions[key]).join("; ");
+  const contactGoal = [
+    `${approaches.printTitles[result.approachKey]}`,
+    `Indicative opportunity: ${money(result.indicativeAnnualValue, language)} CAD/year`,
+    `Situation: ${t.situations[input.situation]}`,
+    `Scope: ${t.scopes[input.scope]}`,
+    `Scale: ${t.scales[input.scale]}`,
+    frictionLabels ? `Top friction: ${frictionLabels}` : null,
+    `Urgency: ${t.urgencies[input.urgency]}`,
+    "Source: Communications Value Brief",
+  ]
+    .filter(Boolean)
+    .join("\n")
+    .slice(0, 900);
+
   const contactHref = `/${locale}/contact?intent=consulting&focus=technology&need=communications-modernization&goal=${encodeURIComponent(contactGoal)}&from_page=${encodeURIComponent("/tools/communications-value-brief")}`;
+  const frictionFull = input.frictions.length >= MAX_COMMUNICATIONS_FRICTIONS;
+  const translatedPriority = (item: string) => (language === "fr" ? priorityFr[item] ?? item : item);
+  const translatedPlan = (item: string) => (language === "fr" ? planFr[item] ?? item : item);
+  const printTitle = approaches.printTitles[result.approachKey];
+  const ctaLabel = approaches.ctas[result.approachKey];
+
+  const printFields = [
+    {
+      label: t.why,
+      hint: t.printWhyHint,
+      value: approaches.reasons[result.approachKey],
+      accent: "teal" as const,
+    },
+    {
+      label: t.valueTitle,
+      hint: t.printValueHint,
+      value: [
+        money(result.indicativeAnnualValue, language),
+        `${t.valueSpend}: ${money(result.spendOpportunity, language)} (${result.recoverablePercent}%)`,
+        result.showMissedOpportunity && result.missedOpportunity > 0
+          ? `${t.valueMissed}: ${money(result.missedOpportunity, language)}`
+          : null,
+        t.estimateNote,
+      ]
+        .filter(Boolean)
+        .join("\n"),
+      accent: "gold" as const,
+    },
+    {
+      label: t.priorities,
+      hint: t.printPrioritiesHint,
+      value: result.priorities.map((item, index) => `${index + 1}. ${translatedPriority(item)}`).join("\n"),
+      accent: "teal" as const,
+    },
+    {
+      label: t.plan,
+      hint: t.printPlanHint,
+      value: result.plan30_60_90
+        .map((action, index) => `${t.days[index]}\n${translatedPlan(action)}`)
+        .join("\n\n"),
+      accent: "gold" as const,
+    },
+  ];
+
+  function ChoiceLabel({
+    active,
+    disabled = false,
+    children,
+  }: {
+    active: boolean;
+    disabled?: boolean;
+    children: React.ReactNode;
+  }) {
+    return (
+      <span className={`flex h-full items-start gap-2.5 ${choiceButton(active, disabled && !active)}`}>
+        <span
+          className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 ${
+            active ? "border-white bg-white text-primary" : "border-slate-300 bg-transparent text-transparent"
+          }`}
+          aria-hidden
+        >
+          <Check className="h-3.5 w-3.5" strokeWidth={3} />
+        </span>
+        <span className="text-left leading-snug">{children}</span>
+      </span>
+    );
+  }
 
   return (
     <div className="space-y-8">
-      <form onSubmit={submit} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 print:hidden">
-        <fieldset>
-          <legend className="text-xl font-serif font-bold text-slate-950">{t.situationLabel}</legend>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            {(Object.keys(t.situations) as CommunicationsSituation[]).map((key) => (
-              <label key={key} className={radioCard(input.situation === key)}>
-                <input
-                  className="sr-only"
-                  type="radio"
-                  name="situation"
-                  checked={input.situation === key}
-                  onChange={() => update("situation", key)}
-                />
-                {t.situations[key]}
-              </label>
-            ))}
+      {!complete ? (
+        <form onSubmit={submit} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 print:hidden">
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-sm font-semibold text-primary-dark">
+              {t.stepOf} {step}/{TOTAL_STEPS}
+            </p>
           </div>
-        </fieldset>
-
-        <fieldset className="mt-7">
-          <legend className="text-xl font-serif font-bold text-slate-950">{t.scopeLabel}</legend>
-          <div className="mt-4 grid gap-3 sm:grid-cols-3">
-            {(Object.keys(t.scopes) as CommunicationsScope[]).map((key) => (
-              <label key={key} className={radioCard(input.scope === key)}>
-                <input
-                  className="sr-only"
-                  type="radio"
-                  name="scope"
-                  checked={input.scope === key}
-                  onChange={() => update("scope", key)}
-                />
-                {t.scopes[key]}
-              </label>
-            ))}
-          </div>
-        </fieldset>
-
-        <fieldset className="mt-7">
-          <legend className="text-xl font-serif font-bold text-slate-950">{t.scaleLabel}</legend>
-          <div className="mt-4 grid gap-3 grid-cols-2 sm:grid-cols-4">
-            {(Object.keys(t.scales) as CommunicationsScale[]).map((key) => (
-              <label key={key} className={radioCard(input.scale === key)}>
-                <input
-                  className="sr-only"
-                  type="radio"
-                  name="scale"
-                  checked={input.scale === key}
-                  onChange={() => update("scale", key)}
-                />
-                {t.scales[key]}
-              </label>
-            ))}
-          </div>
-        </fieldset>
-
-        <fieldset className="mt-7">
-          <legend className="text-xl font-serif font-bold text-slate-950">{t.frictionLabel}</legend>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {(Object.keys(t.frictions) as CommunicationsFriction[]).map((key) => {
-              const active = input.frictions.includes(key);
-              return (
-                <label key={key} className={radioCard(active)}>
-                  <input
-                    className="sr-only"
-                    type="checkbox"
-                    checked={active}
-                    onChange={() => toggleFriction(key)}
-                  />
-                  {t.frictions[key]}
-                </label>
-              );
-            })}
-          </div>
-        </fieldset>
-
-        <fieldset className="mt-7">
-          <legend className="text-xl font-serif font-bold text-slate-950">{t.urgencyLabel}</legend>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {(Object.keys(t.urgencies) as CommunicationsUrgency[]).map((key) => (
-              <label key={key} className={radioCard(input.urgency === key)}>
-                <input
-                  className="sr-only"
-                  type="radio"
-                  name="urgency"
-                  checked={input.urgency === key}
-                  onChange={() => update("urgency", key)}
-                />
-                {t.urgencies[key]}
-              </label>
-            ))}
-          </div>
-        </fieldset>
-
-        <div className="mt-7 rounded-xl border border-slate-200 bg-slate-50 p-5">
-          <h3 className="text-lg font-serif font-bold text-slate-950">{t.numbersLabel}</h3>
-          <p className="mt-1 text-sm text-slate-600">{t.liveHint}</p>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            <label className="block text-sm font-semibold text-slate-900">
-              {t.monthlySpend}
-              <input
-                type="number"
-                min={0}
-                step={50}
-                value={input.monthlySpend}
-                onChange={(e) => update("monthlySpend", Number(e.target.value))}
-                className={inputClass}
+          <div className="mt-4 flex gap-2" aria-hidden>
+            {Array.from({ length: TOTAL_STEPS }, (_, index) => (
+              <div
+                key={index}
+                className={`h-1.5 flex-1 rounded-full transition-colors ${
+                  index + 1 <= step ? "bg-primary" : "bg-slate-200"
+                }`}
               />
-            </label>
-            <label className="block text-sm font-semibold text-slate-900">
-              {t.seatCount}
-              <input
-                type="number"
-                min={1}
-                step={1}
-                value={input.seatCount}
-                onChange={(e) => update("seatCount", Number(e.target.value))}
-                className={inputClass}
-              />
-            </label>
-            {showMissedFields ? (
-              <>
-                <label className="block text-sm font-semibold text-slate-900">
-                  {t.missedPerWeek}
-                  <input
-                    type="number"
-                    min={0}
-                    step={1}
-                    value={input.missedPerWeek}
-                    onChange={(e) => update("missedPerWeek", Number(e.target.value))}
-                    className={inputClass}
-                  />
-                </label>
-                <label className="block text-sm font-semibold text-slate-900">
-                  {t.valuePerMissed}
-                  <input
-                    type="number"
-                    min={0}
-                    step={5}
-                    value={input.valuePerMissed}
-                    onChange={(e) => update("valuePerMissed", Number(e.target.value))}
-                    className={inputClass}
-                  />
-                </label>
-              </>
-            ) : null}
+            ))}
           </div>
-          <p className="mt-4 text-2xl font-serif font-bold text-primary-dark">
-            {money(result.indicativeAnnualValue, language)}
-          </p>
-          <p className="mt-1 text-xs text-slate-500">{t.estimateNote}</p>
-        </div>
 
-        <button
-          type="submit"
-          disabled={!ready}
-          className="mt-6 inline-flex min-h-[48px] items-center rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-dark disabled:opacity-60"
-        >
-          <Sparkles className="mr-2 h-5 w-5" aria-hidden />
-          {t.submit}
-        </button>
-      </form>
+          {step === 1 ? (
+            <fieldset className="mt-6">
+              <StepHeading step={1} total={TOTAL_STEPS} label={t.situationLabel} stepWord={t.stepOf} />
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                {(Object.keys(t.situations) as CommunicationsSituation[]).map((key) => (
+                  <label key={key} className="block">
+                    <input
+                      className="sr-only"
+                      type="radio"
+                      name="situation"
+                      checked={input.situation === key}
+                      onChange={() => update("situation", key, true)}
+                    />
+                    <ChoiceLabel active={input.situation === key}>{t.situations[key]}</ChoiceLabel>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          ) : null}
+
+          {step === 2 ? (
+            <fieldset className="mt-6">
+              <StepHeading step={2} total={TOTAL_STEPS} label={t.scopeLabel} stepWord={t.stepOf} />
+              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                {(Object.keys(t.scopes) as CommunicationsScope[]).map((key) => (
+                  <label key={key} className="block">
+                    <input
+                      className="sr-only"
+                      type="radio"
+                      name="scope"
+                      checked={input.scope === key}
+                      onChange={() => update("scope", key, true)}
+                    />
+                    <ChoiceLabel active={input.scope === key}>{t.scopes[key]}</ChoiceLabel>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          ) : null}
+
+          {step === 3 ? (
+            <fieldset className="mt-6">
+              <StepHeading step={3} total={TOTAL_STEPS} label={t.scaleLabel} stepWord={t.stepOf} />
+              <div className="mt-4 grid gap-3 grid-cols-2 sm:grid-cols-4">
+                {(Object.keys(t.scales) as CommunicationsScale[]).map((key) => (
+                  <label key={key} className="block">
+                    <input
+                      className="sr-only"
+                      type="radio"
+                      name="scale"
+                      checked={input.scale === key}
+                      onChange={() => update("scale", key, true)}
+                    />
+                    <ChoiceLabel active={input.scale === key}>{t.scales[key]}</ChoiceLabel>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          ) : null}
+
+          {step === 4 ? (
+            <fieldset className="mt-6">
+              <StepHeading step={4} total={TOTAL_STEPS} label={t.frictionLabel} stepWord={t.stepOf} />
+              <p className="mt-2 text-sm text-slate-600">{t.frictionHint}</p>
+              <p className="mt-1 text-sm font-semibold text-primary-dark">
+                {t.frictionCount.replace("{count}", String(input.frictions.length))}
+              </p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {(Object.keys(t.frictions) as CommunicationsFriction[]).map((key) => {
+                  const active = input.frictions.includes(key);
+                  const disabled = frictionFull && !active;
+                  return (
+                    <label key={key} className={`block ${disabled ? "pointer-events-none" : ""}`}>
+                      <input
+                        className="sr-only"
+                        type="checkbox"
+                        checked={active}
+                        disabled={disabled}
+                        onChange={() => toggleFriction(key)}
+                      />
+                      <ChoiceLabel active={active} disabled={disabled}>
+                        {t.frictions[key]}
+                      </ChoiceLabel>
+                    </label>
+                  );
+                })}
+              </div>
+            </fieldset>
+          ) : null}
+
+          {step === 5 ? (
+            <fieldset className="mt-6">
+              <StepHeading step={5} total={TOTAL_STEPS} label={t.urgencyLabel} stepWord={t.stepOf} />
+              <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {(Object.keys(t.urgencies) as CommunicationsUrgency[]).map((key) => (
+                  <label key={key} className="block">
+                    <input
+                      className="sr-only"
+                      type="radio"
+                      name="urgency"
+                      checked={input.urgency === key}
+                      onChange={() => update("urgency", key, true)}
+                    />
+                    <ChoiceLabel active={input.urgency === key}>{t.urgencies[key]}</ChoiceLabel>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          ) : null}
+
+          {step === 6 ? (
+            <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
+              <StepHeading step={6} total={TOTAL_STEPS} label={t.numbersLabel} stepWord={t.stepOf} as="h3" />
+              <p className="mt-2 text-sm text-slate-600">{t.liveHint}</p>
+              <label className="mt-4 block text-sm font-semibold text-slate-900">
+                {t.monthlySpend}
+                <input
+                  type="number"
+                  min={0}
+                  step={50}
+                  value={input.monthlySpend}
+                  onChange={(e) => update("monthlySpend", Number(e.target.value))}
+                  className={inputClass}
+                  required
+                />
+              </label>
+              <button
+                type="button"
+                onClick={() => setShowRefine((current) => !current)}
+                className="mt-4 text-sm font-semibold text-primary-dark underline underline-offset-4"
+              >
+                {t.refineToggle}
+              </button>
+              {showRefine ? (
+                <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                  <label className="block text-sm font-semibold text-slate-900">
+                    {t.seatCount}
+                    <input
+                      type="number"
+                      min={1}
+                      step={1}
+                      value={input.seatCount}
+                      onChange={(e) => update("seatCount", Number(e.target.value))}
+                      className={inputClass}
+                    />
+                  </label>
+                  {showMissedFields ? (
+                    <>
+                      <label className="block text-sm font-semibold text-slate-900">
+                        {t.missedPerWeek}
+                        <input
+                          type="number"
+                          min={0}
+                          step={1}
+                          value={input.missedPerWeek}
+                          onChange={(e) => update("missedPerWeek", Number(e.target.value))}
+                          className={inputClass}
+                        />
+                      </label>
+                      <label className="block text-sm font-semibold text-slate-900 sm:col-span-2">
+                        {t.valuePerMissed}
+                        <input
+                          type="number"
+                          min={0}
+                          step={5}
+                          value={input.valuePerMissed}
+                          onChange={(e) => update("valuePerMissed", Number(e.target.value))}
+                          className={inputClass}
+                        />
+                      </label>
+                    </>
+                  ) : null}
+                </div>
+              ) : null}
+              <div className="mt-5 rounded-xl bg-primary px-5 py-4 text-white">
+                <p className="text-xs font-bold uppercase tracking-[.14em] text-white/80">{t.opportunityLabel}</p>
+                <p className="mt-1 text-3xl font-serif font-bold">{money(result.indicativeAnnualValue, language)}</p>
+                <p className="mt-2 text-xs leading-5 text-white/80">{t.estimateNote}</p>
+              </div>
+            </div>
+          ) : null}
+
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-5">
+            <button
+              type="button"
+              disabled={step <= 1}
+              onClick={() => setStep((current) => Math.max(1, current - 1))}
+              className="inline-flex min-h-[48px] items-center rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:border-primary disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" aria-hidden />
+              {t.back}
+            </button>
+            {step < TOTAL_STEPS ? (
+              <button
+                type="button"
+                onClick={() => setStep((current) => Math.min(TOTAL_STEPS, current + 1))}
+                className="inline-flex min-h-[48px] items-center rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-dark"
+              >
+                {t.next}
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </button>
+            ) : (
+              <button
+                type="submit"
+                disabled={!ready}
+                className="inline-flex min-h-[48px] items-center rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-dark disabled:opacity-60"
+              >
+                <Sparkles className="mr-2 h-4 w-4" aria-hidden />
+                {t.submit}
+              </button>
+            )}
+          </div>
+        </form>
+      ) : null}
 
       {complete ? (
         <section
           id="communications-value-result"
           tabIndex={-1}
-          className="space-y-6 outline-none"
+          className="space-y-6 outline-none print:hidden"
           aria-live="polite"
         >
+          {showSaveReminder ? (
+            <div className="flex items-start justify-between gap-3 rounded-xl border border-brand-gold/40 bg-brand-gold/15 px-4 py-3 text-sm text-slate-900">
+              <p className="font-medium">{t.saveReminder}</p>
+              <button
+                type="button"
+                onClick={() => setShowSaveReminder(false)}
+                className="rounded-md p-1 text-slate-600 hover:bg-white/70"
+                aria-label="Dismiss"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          ) : null}
+
           <article className="rounded-2xl border border-primary/20 bg-white p-6 shadow-lg sm:p-9">
             <div className="border-b border-slate-200 pb-5">
               <p className="text-xs font-bold uppercase tracking-[.16em] text-primary-dark">{t.report}</p>
-              <h2 className="mt-2 text-3xl font-serif font-bold text-slate-950">
-                {approaches.names[result.approachKey]}
-              </h2>
+              <h2 className="mt-2 text-3xl font-serif font-bold text-slate-950">{printTitle}</h2>
               <p className="mt-2 text-sm text-slate-600">
                 {t.situations[input.situation]} · {t.scopes[input.scope]}
               </p>
@@ -499,7 +818,6 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
               <div>
                 <h3 className="text-xl font-serif font-bold text-slate-950">{t.why}</h3>
                 <p className="mt-3 leading-7 text-slate-700">{approaches.reasons[result.approachKey]}</p>
-
                 <div className="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-5">
                   <p className="text-xs font-bold uppercase tracking-[.14em] text-amber-900">{t.valueTitle}</p>
                   <p className="mt-2 text-3xl font-serif font-bold text-amber-950">
@@ -518,14 +836,13 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
                   <p className="mt-3 text-xs leading-5 text-amber-900">{t.estimateNote}</p>
                 </div>
               </div>
-
               <div>
                 <h3 className="text-xl font-serif font-bold text-slate-950">{t.priorities}</h3>
                 <ol className="mt-4 space-y-3">
                   {result.priorities.map((item, index) => (
                     <li key={item} className="flex gap-3 rounded-lg bg-slate-50 p-3 text-sm text-slate-700">
                       <span className="font-bold text-primary-dark">{index + 1}</span>
-                      {language === "fr" ? priorityFr[item] ?? item : item}
+                      {translatedPriority(item)}
                     </li>
                   ))}
                 </ol>
@@ -542,52 +859,38 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
                     </span>
                     <div>
                       <p className="text-sm font-bold text-slate-900">{t.days[index]}</p>
-                      <p className="mt-1 text-sm leading-6 text-slate-600">
-                        {language === "fr"
-                          ? (
-                              {
-                                "Confirm line counts, call patterns, must-keep numbers, and the business outcome that replaces the legacy phone system.":
-                                  "Confirmer le nombre de lignes, les modèles d’appels, les numéros à conserver et le résultat d’affaires qui remplace le système téléphonique héritage.",
-                                "Compare a short private shortlist against those requirements, total cost, and migration risk—without committing to a vendor prematurely.":
-                                  "Comparer une courte liste privée à ces exigences, au coût total et au risque de migration—sans s’engager trop tôt envers un fournisseur.",
-                                "Decide on the path, sequence number porting and cutover, and set adoption measures for the first 90 days.":
-                                  "Choisir le parcours, séquencer la portabilité et la bascule, et fixer les mesures d’adoption pour les 90 premiers jours.",
-                                "Baseline what you pay today, which features are used, and where contracts, seats, or add-ons no longer match the work.":
-                                  "Établir ce que vous payez aujourd’hui, quelles fonctions sont utilisées, et où contrats, sièges ou options ne correspondent plus au travail.",
-                                "Challenge renewal assumptions with a needs-led shortlist and clear exit or consolidate options.":
-                                  "Remettre en question les hypothèses de renouvellement avec une liste restreinte fondée sur les besoins et des options claires de sortie ou de consolidation.",
-                                "Choose renew, renegotiate, or replace—and document the measures that prove the change was worth it.":
-                                  "Choisir renouveler, renégocier ou remplacer—et documenter les mesures qui prouvent que le changement en valait la peine.",
-                                "Map inbound journeys, queue pain, CRM gaps, recording needs, and what “good” looks like for agents and customers.":
-                                  "Cartographier les parcours entrants, la douleur des files, les lacunes CRM, les besoins d’enregistrement et ce qu’est un « bon » résultat pour agents et clients.",
-                                "Pressure-test contact-centre options against those requirements, integrations, and total cost of ownership.":
-                                  "Mettre à l’épreuve les options de centre de contact face à ces exigences, intégrations et coût total de possession.",
-                                "Pilot the smallest useful improvement path, measure abandon and handle metrics, then decide whether to expand.":
-                                  "Piloter le plus petit parcours d’amélioration utile, mesurer abandons et traitements, puis décider d’élargir ou non.",
-                                "Inventory overlapping calling, meeting, and contact tools and name the single outcome the stack must serve.":
-                                  "Inventorier les outils d’appels, de réunions et de contact qui se chevauchent et nommer le résultat unique que la pile doit servir.",
-                                "Collapse the shortlist to options that cover the real workload, then compare cost, risk, and adoption load.":
-                                  "Réduire la liste aux options qui couvrent la charge réelle, puis comparer coût, risque et charge d’adoption.",
-                                "Pick one decision path, retire redundant tools on a schedule, and assign ownership for the resulting stack.":
-                                  "Choisir un parcours décisionnel, retirer les outils redondants selon un calendrier et assigner la responsabilité de la pile résultante.",
-                              } as Record<string, string>
-                            )[action] ?? action
-                          : action}
-                      </p>
+                      <p className="mt-1 text-sm leading-6 text-slate-600">{translatedPlan(action)}</p>
                     </div>
                   </li>
                 ))}
               </ol>
             </div>
 
+            <div className="mt-8 rounded-xl border border-slate-200 bg-slate-50 p-5">
+              <h3 className="text-lg font-serif font-bold text-slate-950">{t.nextStepsTitle}</h3>
+              <ol className="mt-3 space-y-2">
+                {t.nextSteps.map((item, index) => (
+                  <li key={item} className="flex gap-3 text-sm leading-6 text-slate-700">
+                    <span className="font-bold text-primary-dark">{index + 1}.</span>
+                    {item}
+                  </li>
+                ))}
+              </ol>
+            </div>
+
             <p className="mt-7 text-xs leading-5 text-slate-500">{t.disclaimer}</p>
-            <div className="mt-6 flex flex-wrap gap-3 print:hidden">
+            <div className="mt-6 flex flex-wrap gap-3">
               <a
                 href={contactHref}
-                onClick={save}
+                onClick={() => {
+                  save();
+                  trackAnalyticsEvent("communications_value_brief_contact", {
+                    approach: result.approachKey,
+                  });
+                }}
                 className="inline-flex min-h-[48px] items-center rounded-lg bg-brand-gold px-5 py-3 font-semibold text-slate-950 hover:bg-brand-gold-light"
               >
-                {t.review}
+                {ctaLabel}
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </a>
               <button
@@ -602,20 +905,49 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
                 type="button"
                 onClick={() => {
                   save();
+                  trackAnalyticsEvent("communications_value_brief_pdf", {
+                    approach: result.approachKey,
+                  });
                   window.print();
                 }}
-                className="inline-flex min-h-[48px] items-center px-4 py-3 text-sm font-semibold text-slate-700 underline underline-offset-4"
+                className="inline-flex min-h-[48px] items-center rounded-lg border border-primary px-4 py-3 text-sm font-semibold text-primary-dark hover:bg-primary/5"
               >
                 <Download className="mr-2 h-4 w-4" aria-hidden />
                 {t.print}
               </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setComplete(false);
+                  setStep(1);
+                }}
+                className="inline-flex min-h-[48px] items-center px-4 py-3 text-sm font-semibold text-slate-700 underline underline-offset-4"
+              >
+                {t.editAnswers}
+              </button>
             </div>
-            <p className="mt-3 flex gap-2 text-xs text-slate-500 print:hidden">
+            <p className="mt-3 flex gap-2 text-xs text-slate-500">
               <LockKeyhole className="h-4 w-4 shrink-0" aria-hidden />
               {t.private}
             </p>
           </article>
         </section>
+      ) : null}
+
+      {complete ? (
+        <CommunicationsValueBriefPrintSheet
+          locale={locale}
+          eyebrow={t.printEyebrow}
+          title={printTitle}
+          subtitle={approaches.reasons[result.approachKey]}
+          opportunityLabel={t.opportunityLabel}
+          opportunityValue={money(result.indicativeAnnualValue, language)}
+          opportunityNote={t.estimateNote}
+          contextLabel={t.contextLabel}
+          contextValue={`${t.situations[input.situation]} · ${t.scopes[input.scope]} · ${t.scales[input.scale]}`}
+          fields={printFields}
+          disclaimer={t.disclaimer}
+        />
       ) : null}
     </div>
   );

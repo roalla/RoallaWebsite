@@ -32,11 +32,11 @@ export const routing = defineRouting({
     "/programs/workshops/first-offer": "/programs/workshops/first-offer",
     "/website-design": "/website-design",
     "/website-package": "/website-package",
-    "/tools/website-visibility-snapshot":
-      "/tools/website-visibility-snapshot",
     "/tools/social-presence-snapshot": "/tools/social-presence-snapshot",
     "/tools/social-profile-checklist": "/tools/social-profile-checklist",
     "/tools/digital-presence-snapshot": "/tools/digital-presence-snapshot",
+    "/tools/communications-value-brief": "/tools/communications-value-brief",
+    "/tools/technology-decision-brief": "/tools/technology-decision-brief",
     "/about": "/about",
     "/partners": "/partners",
     "/assessment": "/assessment",

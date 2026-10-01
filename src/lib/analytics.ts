@@ -21,6 +21,7 @@ export type AnalyticsEventName =
   | "business_blueprint_saved"
   | "advisory_value_calculated"
   | "technology_brief_completed"
+  | "communications_value_brief_completed"
   | "workshop_finder_completed"
   | "workshop_impact_saved"
   | "visibility_review_started"

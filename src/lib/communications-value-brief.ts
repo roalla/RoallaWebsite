@@ -111,9 +111,7 @@ export function communicationsValueEstimate(input: CommunicationsValueBriefInput
   const spendOpportunity = annualSpend * percent(recoverablePercent);
 
   const showMissedOpportunity =
-    input.scope !== "uc" ||
-    input.frictions.includes("missed-calls") ||
-    input.scope === "both";
+    input.scope !== "uc" || input.frictions.includes("missed-calls");
 
   const missedOpportunity = showMissedOpportunity
     ? safe(input.missedPerWeek) * safe(input.valuePerMissed) * 52

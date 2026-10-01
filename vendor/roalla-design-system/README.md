@@ -2,6 +2,8 @@
 
 Canonical, versioned Roalla visual tokens and logo. React apps import `@roalla/design-system/base.css` (or `tokens.css`); static surfaces sync `tokens.css` and `logo.svg` into their public folder and load them before product stylesheets. Product CSS may define layout, but must map colours, typography, radii, shadows, and focus treatment to these tokens.
 
+**Brand rules** (fonts, gold, logo lockup, naming): see [BRAND.md](./BRAND.md).
+
 ## Corporate standards
 
 | Token | Value |

@@ -70,9 +70,9 @@ describe('Header', () => {
   it('renders the five featured insights under digital enablement, advisory, and other', () => {
     render(<Header />)
     fireEvent.click(screen.getByRole('button', { name: 'resources' }))
-    expect(screen.getByRole('menuitem', { name: /is-your-website-builder-limiting-growth\.title/ })).toHaveAttribute(
+    expect(screen.getByRole('menuitem', { name: /networking-roi-solopreneurs-small-business\.title/ })).toHaveAttribute(
       'href',
-      '/insights/is-your-website-builder-limiting-growth',
+      '/insights/networking-roi-solopreneurs-small-business',
     )
     expect(screen.getByRole('menuitem', { name: /professional-email-avoid-spam-phishing\.title/ })).toHaveAttribute(
       'href',

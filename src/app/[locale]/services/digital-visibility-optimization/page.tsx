@@ -159,6 +159,12 @@ export default async function DigitalVisibilityOptimizationPage({
                 >
                   {locale === "fr" ? "Voir les détails des réseaux sociaux" : "See social media details"}
                 </Link>
+                <Link
+                  href="/tools/social-profile-checklist"
+                  className="inline-flex min-h-[44px] items-center justify-center rounded-lg border border-primary/30 bg-white px-5 py-2 text-sm font-semibold text-primary-dark transition-colors hover:border-primary"
+                >
+                  {locale === "fr" ? "Liste de profils sociaux" : "Social profile checklist"}
+                </Link>
               </div>
             </div>
           </section>

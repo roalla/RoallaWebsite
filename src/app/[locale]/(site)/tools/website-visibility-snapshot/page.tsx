@@ -141,9 +141,14 @@ export default async function WebsiteVisibilitySnapshotPage({ params, searchPara
               ? "Vérifiez si vos profils, vos aperçus de partage et vos signaux de marque sont faciles à découvrir depuis votre site."
               : "Check whether your profiles, sharing previews, and brand signals are easy to discover from your website."}
           </p>
-          <Link href="/tools/social-presence-snapshot" className="mt-5 inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-dark">
-            {locale === "fr" ? "Vérifier la présence sociale" : "Check social presence"}
-          </Link>
+          <div className="mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link href="/tools/social-presence-snapshot" className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-dark">
+              {locale === "fr" ? "Vérifier la présence sociale" : "Check social presence"}
+            </Link>
+            <Link href="/tools/social-profile-checklist" className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-primary/30 bg-white px-6 py-3 font-semibold text-primary-dark hover:bg-primary/[0.06]">
+              {locale === "fr" ? "Liste de profils sociaux" : "Social profile checklist"}
+            </Link>
+          </div>
         </aside>
       </main>
     </div>

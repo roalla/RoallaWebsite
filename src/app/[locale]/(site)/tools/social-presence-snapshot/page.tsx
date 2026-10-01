@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { CheckCircle2, Share2 } from "lucide-react";
 import JsonLd from "@/components/JsonLd";
 import SocialPresenceSnapshot from "@/components/visibility/SocialPresenceSnapshot";
+import { Link } from "@/i18n/navigation";
 import { buildPageMetadata } from "@/lib/page-metadata";
 import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
@@ -102,6 +103,22 @@ export default async function SocialPresenceSnapshotPage({ params, searchParams 
           ))}
         </section>
         <p className="mx-auto mt-8 max-w-4xl text-center text-xs leading-5 text-slate-500">{page.privacy}</p>
+        <aside className="mx-auto mt-10 max-w-4xl rounded-2xl border border-primary/20 bg-primary/[0.04] p-6 text-center sm:p-8">
+          <h2 className="text-2xl font-serif font-bold text-slate-950">
+            {locale === "fr" ? "Passez ensuite aux profils YouTube, LinkedIn et Instagram." : "Next, review YouTube, LinkedIn, and Instagram profiles."}
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-700">
+            {locale === "fr"
+              ? "Utilisez la liste de vérification pour les mots-clés, sous-titres, accessibilité et appels à l’action—sans connexion de compte."
+              : "Use the checklist for keywords, captions, accessibility, and CTAs—no account login required."}
+          </p>
+          <Link
+            href="/tools/social-profile-checklist"
+            className="mt-5 inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-dark"
+          >
+            {locale === "fr" ? "Ouvrir la liste de profils sociaux" : "Open social profile checklist"}
+          </Link>
+        </aside>
       </main>
     </div>
   );

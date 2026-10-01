@@ -35,6 +35,7 @@ export const routing = defineRouting({
     "/tools/website-visibility-snapshot":
       "/tools/website-visibility-snapshot",
     "/tools/social-presence-snapshot": "/tools/social-presence-snapshot",
+    "/tools/social-profile-checklist": "/tools/social-profile-checklist",
     "/tools/digital-presence-snapshot": "/tools/digital-presence-snapshot",
     "/about": "/about",
     "/partners": "/partners",

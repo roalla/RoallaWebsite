@@ -2,7 +2,7 @@
   "name": "@roalla/design-system",
   "version": "1.0.0",
   "description": "Canonical Roalla product-experience tokens and base styles.",
-  "files": ["base.css", "tokens.css", "tokens.json", "logo.svg", "checksums.json", "README.md"],
+  "files": ["base.css", "tokens.css", "tokens.json", "logo.svg", "checksums.json", "README.md", "BRAND.md"],
   "publishConfig": { "registry": "https://npm.pkg.github.com", "access": "restricted" },
   "sideEffects": ["*.css"],
   "exports": {

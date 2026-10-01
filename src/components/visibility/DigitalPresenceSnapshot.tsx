@@ -162,7 +162,7 @@ const copy = {
     mobilePerformance: "Mobile lab performance",
     desktopPerformance: "Desktop lab performance",
     socialScore: "Social sharing setup",
-    agenticTitle: "Agentic readiness",
+    agenticTitle: "Agentic (AI) readiness",
     agenticDescription: "How ready this page is for an assistant that fetches it and answers a question about the business.",
     agenticSignal: {
       readable: {
@@ -231,7 +231,7 @@ const copy = {
     ],
     methodology: "How we calculate the results",
     methodologyBody:
-      "Website category scores come from a Lighthouse lab test run by Google PageSpeed Insights. When the address redirects, the test uses the landing page, which is what Google PageSpeed scores. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. Social sharing results come from public information on the page you entered. Agentic readiness reads the public page text, business facts, assistant guide, and robots file. These results stay separate because they measure different parts of your online presence.",
+      "Website category scores come from a Lighthouse lab test run by Google PageSpeed Insights. When the address redirects, the test uses the landing page, which is what Google PageSpeed scores. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. Social sharing results come from public information on the page you entered. Agentic (AI) readiness reads the public page text, business facts, assistant guide, and robots file. These results stay separate because they measure different parts of your online presence.",
     print: "Save my branded action plan",
     reportLabel: "ROALLA Digital Presence Action Plan",
     reportPrepared: "Prepared",
@@ -290,7 +290,7 @@ const copy = {
       agentic: "Search readiness does not measure this. An assistant needs text it can quote, facts it can trust, and permission to retrieve the page. Current score: {score}/100.",
     },
     phoneGap: "Your phone result averages {mobile} and your computer result averages {desktop}. Most visitors will feel the phone result.",
-    agenticGap: "Search readiness averages {seo}. Agentic readiness is {agentic}. A page can be easy to find in search and still be hard for an assistant to quote or describe.",
+    agenticGap: "Search readiness averages {seo}. Agentic (AI) readiness is {agentic}. A page can be easy to find in search and still be hard for an assistant to quote or describe.",
     actionAgentic: "Make the page easier for an assistant to describe",
     findingTitle: "One finding from this check",
     findingDevice: { mobile: "a phone", desktop: "a computer" },
@@ -365,7 +365,7 @@ const copy = {
     mobilePerformance: "Performance mobile en laboratoire",
     desktopPerformance: "Performance ordinateur en laboratoire",
     socialScore: "Configuration du partage social",
-    agenticTitle: "Préparation agentique",
+    agenticTitle: "Préparation agentique (IA)",
     agenticDescription: "La capacité d’un assistant à récupérer cette page et à répondre à une question sur l’entreprise.",
     agenticSignal: {
       readable: {
@@ -434,7 +434,7 @@ const copy = {
     ],
     methodology: "Comment les résultats sont calculés",
     methodologyBody:
-      "Les scores du site proviennent d’un test de laboratoire Lighthouse exécuté par Google PageSpeed Insights. Si l’adresse redirige, le test utilise la page d’arrivée, soit celle que Google PageSpeed évalue. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Les résultats du partage social proviennent des renseignements publics de la page entrée. La préparation agentique lit le texte public de la page, les faits d’entreprise, le guide pour assistants et le fichier robots. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
+      "Les scores du site proviennent d’un test de laboratoire Lighthouse exécuté par Google PageSpeed Insights. Si l’adresse redirige, le test utilise la page d’arrivée, soit celle que Google PageSpeed évalue. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Les résultats du partage social proviennent des renseignements publics de la page entrée. La préparation agentique (IA) lit le texte public de la page, les faits d’entreprise, le guide pour assistants et le fichier robots. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
     print: "Enregistrer mon plan d’action ROALLA",
     reportLabel: "Plan d’action de présence numérique ROALLA",
     reportPrepared: "Préparé le",
@@ -493,7 +493,7 @@ const copy = {
       agentic: "La préparation à la recherche ne mesure pas cela. Un assistant a besoin d’un texte à citer, de faits fiables et de l’autorisation de récupérer la page. Score actuel : {score}/100.",
     },
     phoneGap: "Le résultat sur téléphone est de {mobile} en moyenne et le résultat sur ordinateur est de {desktop}. La plupart des visiteurs ressentiront le résultat du téléphone.",
-    agenticGap: "La préparation à la recherche est de {seo} en moyenne. La préparation agentique est de {agentic}. Une page peut être facile à trouver en recherche et rester difficile à citer ou à décrire pour un assistant.",
+    agenticGap: "La préparation à la recherche est de {seo} en moyenne. La préparation agentique (IA) est de {agentic}. Une page peut être facile à trouver en recherche et rester difficile à citer ou à décrire pour un assistant.",
     actionAgentic: "Rendre la page plus facile à décrire pour un assistant",
     findingTitle: "Un constat de cette vérification",
     findingDevice: { mobile: "téléphone", desktop: "ordinateur" },

@@ -64,7 +64,7 @@ const guidance = {
         adoption: "People cannot choose a business they never find. Search readiness turns an existing search into a visit.",
       },
     } satisfies Record<ScoreName, ScoreHelp>,
-    agenticLabel: "Agentic readiness",
+    agenticLabel: "Agentic (AI) readiness",
     agenticHelp: {
       means: "How ready this page is for an AI assistant that fetches it and answers a question about the business. Search readiness can be high while this score stays low.",
       improve: "A higher score means the page has text an assistant can quote, business facts it can trust, and permission to retrieve the page.",
@@ -124,7 +124,7 @@ const guidance = {
         adoption: "On ne choisit pas une entreprise qu’on ne trouve pas. La préparation à la recherche transforme une recherche existante en visite.",
       },
     } satisfies Record<ScoreName, ScoreHelp>,
-    agenticLabel: "Préparation agentique",
+    agenticLabel: "Préparation agentique (IA)",
     agenticHelp: {
       means: "La capacité d’un assistant d’IA à récupérer cette page et à décrire l’entreprise. La préparation à la recherche peut être élevée pendant que ce score reste bas.",
       improve: "Un score plus élevé veut dire que la page offre un texte à citer, des faits d’entreprise fiables et l’autorisation de récupérer la page.",

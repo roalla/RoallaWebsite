@@ -167,20 +167,30 @@ export default function HomeFeaturedInsight() {
         </div>
 
         {canRotate && (
-          <div className="mt-8 flex justify-center gap-2" role="tablist" aria-label={t('carouselDots')}>
-            {INSIGHT_SLUGS.map((slug, index) => (
-              <button
-                key={slug}
-                type="button"
-                role="tab"
-                aria-selected={index === activeIndex}
-                aria-label={t('carouselDot', { n: index + 1 })}
-                onClick={() => setActiveIndex(index)}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  index === activeIndex ? 'w-6 bg-primary-dark' : 'w-2 bg-slate-300 hover:bg-slate-400'
-                }`}
-              />
-            ))}
+          <div className="mt-8 flex flex-wrap justify-center gap-1" role="tablist" aria-label={t('carouselDots')}>
+            {INSIGHT_SLUGS.map((slug, index) => {
+              const selected = index === activeIndex
+              return (
+                <button
+                  key={slug}
+                  type="button"
+                  role="tab"
+                  aria-selected={selected}
+                  aria-label={t('carouselDot', { n: index + 1 })}
+                  onClick={() => setActiveIndex(index)}
+                  className={`group inline-flex h-6 shrink-0 items-center justify-center rounded-full ${
+                    selected ? 'w-8' : 'w-6'
+                  }`}
+                >
+                  <span
+                    aria-hidden
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      selected ? 'w-6 bg-primary-dark' : 'w-2 bg-slate-300 group-hover:bg-slate-400'
+                    }`}
+                  />
+                </button>
+              )
+            })}
           </div>
         )}
 

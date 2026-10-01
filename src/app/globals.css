@@ -1,5 +1,16 @@
 @import "@roalla/design-system/tokens.css";
 
+/*
+ * Token mid teal (#0099a8) is 3.43:1 on white, so body text, links, and
+ * white-on-teal buttons fail WCAG AA. Deep teal (#007a87) is 5.08:1 on white
+ * and 4.86:1 on slate-50. Hover steps darker so the states stay distinct.
+ * Vendor tokens.css stays checksum-locked; this override wins at runtime.
+ */
+:root {
+  --roalla-color-brand-mid: #007a87;
+  --roalla-color-brand-deep: #005f6c;
+}
+
 /* Self-hosted so the font faces live in the inlined stylesheet.
    Figtree is optional: a slow first view paints the fallback instead of waiting.
    Sora is not preloaded; headings pick it up after the body text has painted. */

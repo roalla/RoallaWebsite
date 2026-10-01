@@ -305,7 +305,7 @@ export default async function DigitalVisibilityOptimizationPage({
           </section>
 
           <aside className="rounded-2xl bg-slate-900 px-7 py-10 lg:px-12 lg:py-14 text-white">
-            <h2 className="text-3xl font-serif font-bold">
+            <h2 className="text-3xl font-serif font-bold text-white">
               {content.finalTitle}
             </h2>
             <p className="mt-3 text-slate-300 max-w-2xl">{content.finalBody}</p>

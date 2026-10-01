@@ -381,6 +381,22 @@ export default function DigitalPresenceActionPlanPrintSheet({
                   <p key={note} style={{ margin: "10px 0 0", fontSize: 12, lineHeight: 1.45, color: "#334155" }}>{note}</p>
                 ))}
 
+                {model.siteSetup.length ? (
+                  <section>
+                    <SectionHeading>{model.labels.setupTitle}</SectionHeading>
+                    <p style={{ margin: "4px 0 0", fontSize: 12, lineHeight: 1.45, color: "#64748b" }}>{model.labels.setupDescription}</p>
+                    <div style={{ marginTop: 8, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                      {model.siteSetup.map((item) => (
+                        <div key={item.id} className="presence-print-keep" style={{ border: "1px solid #e2e8f0", background: "#f8fafc", padding: "8px 10px" }}>
+                          <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "#64748b" }}>{item.title}</p>
+                          <p style={{ margin: "3px 0 0", fontSize: 13, fontWeight: 700 }}>{item.value}</p>
+                          {item.note ? <p style={{ margin: "3px 0 0", fontSize: 11, lineHeight: 1.4, color: "#334155" }}>{item.note}</p> : null}
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                ) : null}
+
                 {model.devices.length ? (
                   <section>
                     <SectionHeading>{model.labels.technicalTitle}</SectionHeading>
@@ -416,35 +432,14 @@ export default function DigitalPresenceActionPlanPrintSheet({
                   </section>
                 ) : null}
 
-                {(model.socialScore != null || model.agenticScore != null || model.agenticDevices.length > 0) ? (
-                  <div style={{ marginTop: 12, display: "grid", gridTemplateColumns: model.socialScore != null && (model.agenticScore != null || model.agenticDevices.length > 0) ? "1fr 1fr" : "1fr", gap: 12 }}>
+                {model.socialScore != null ? (
+                  <div style={{ marginTop: 12, display: "grid", gridTemplateColumns: "1fr", gap: 12 }}>
                     {model.socialScore != null ? (
                       <div className="presence-print-keep" style={{ border: "1px solid #e2e8f0", padding: "12px 14px" }}>
                         <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#007a87" }}>{model.labels.socialScore}</p>
                         <p style={{ margin: "6px 0 0", fontFamily: "Roalla Sora, Georgia, serif", fontSize: 28, lineHeight: 1, fontWeight: 700, color: scoreColor(model.socialScore) }}>
                           {model.socialScore}<span style={{ fontSize: 14, color: "#64748b" }}>/100</span>
                         </p>
-                      </div>
-                    ) : null}
-                    {model.agenticDevices.length || model.agenticScore != null ? (
-                      <div className="presence-print-keep" style={{ border: "1px solid #e2e8f0", padding: "12px 14px" }}>
-                        <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#007a87" }}>{model.labels.agenticTitle}</p>
-                        {model.agenticDevices.length ? (
-                          <div style={{ marginTop: 8, display: "grid", gridTemplateColumns: model.agenticDevices.length > 1 ? "1fr 1fr" : "1fr", gap: 8 }}>
-                            {model.agenticDevices.map((device) => (
-                              <div key={device.label}>
-                                <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#64748b" }}>{device.label}</p>
-                                <p style={{ margin: "4px 0 0", fontFamily: "Roalla Sora, Georgia, serif", fontSize: 28, lineHeight: 1, fontWeight: 700, color: scoreColor(device.score) }}>
-                                  {device.score}<span style={{ fontSize: 14, color: "#64748b" }}>/100</span>
-                                </p>
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <p style={{ margin: "6px 0 0", fontFamily: "Roalla Sora, Georgia, serif", fontSize: 28, lineHeight: 1, fontWeight: 700, color: scoreColor(model.agenticScore ?? 0) }}>
-                            {model.agenticScore}<span style={{ fontSize: 14, color: "#64748b" }}>/100</span>
-                          </p>
-                        )}
                       </div>
                     ) : null}
                   </div>
@@ -545,6 +540,44 @@ export default function DigitalPresenceActionPlanPrintSheet({
                   </section>
                 ))}
 
+                    {model.agenticDevices.length || model.agenticScore != null ? (
+                      <div className="presence-print-keep" style={{ border: "1px solid #e2e8f0", padding: "12px 14px" }}>
+                        <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#007a87" }}>{model.labels.agenticTitle}</p>
+                        {model.agenticDevices.length ? (
+                          <div style={{ marginTop: 8, display: "grid", gridTemplateColumns: model.agenticDevices.length > 1 ? "1fr 1fr" : "1fr", gap: 8 }}>
+                            {model.agenticDevices.map((device) => (
+                              <div key={device.label}>
+                                <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#64748b" }}>{device.label}</p>
+                                <p style={{ margin: "4px 0 0", fontFamily: "Roalla Sora, Georgia, serif", fontSize: 28, lineHeight: 1, fontWeight: 700, color: scoreColor(device.score) }}>
+                                  {device.score}<span style={{ fontSize: 14, color: "#64748b" }}>/100</span>
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <p style={{ margin: "6px 0 0", fontFamily: "Roalla Sora, Georgia, serif", fontSize: 28, lineHeight: 1, fontWeight: 700, color: scoreColor(model.agenticScore ?? 0) }}>
+                            {model.agenticScore}<span style={{ fontSize: 14, color: "#64748b" }}>/100</span>
+                          </p>
+                        )}
+                      </div>
+                    ) : null}
+
+                {model.agenticSignals.length ? (
+                  <section>
+                    <SectionHeading>{model.labels.agenticTitle}</SectionHeading>
+                    <p style={{ margin: "4px 0 0", fontSize: 12, lineHeight: 1.45, color: "#64748b" }}>{model.labels.agenticDescription}</p>
+                    <div style={{ marginTop: 8, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                      {model.agenticSignals.map((signal) => (
+                        <div key={signal.label} className="presence-print-keep" style={{ border: "1px solid #e2e8f0", background: "#f8fafc", padding: "8px 10px" }}>
+                          <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "#64748b" }}>{signal.label}</p>
+                          <p style={{ margin: "3px 0 0", fontSize: 13, fontWeight: 700 }}>{signal.value}</p>
+                          <p style={{ margin: "3px 0 0", fontSize: 11, lineHeight: 1.4, color: "#334155" }}>{signal.note}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                ) : null}
+
                 {model.socialChecks.length ? (
                   <section>
                     <SectionHeading>{model.labels.socialTitle}</SectionHeading>
@@ -577,21 +610,6 @@ export default function DigitalPresenceActionPlanPrintSheet({
                   </section>
                 ) : null}
 
-                {model.siteSetup.length ? (
-                  <section>
-                    <SectionHeading>{model.labels.setupTitle}</SectionHeading>
-                    <p style={{ margin: "4px 0 0", fontSize: 12, lineHeight: 1.45, color: "#64748b" }}>{model.labels.setupDescription}</p>
-                    <div style={{ marginTop: 8, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-                      {model.siteSetup.map((item) => (
-                        <div key={item.id} className="presence-print-keep" style={{ border: "1px solid #e2e8f0", background: "#f8fafc", padding: "8px 10px" }}>
-                          <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "#64748b" }}>{item.title}</p>
-                          <p style={{ margin: "3px 0 0", fontSize: 13, fontWeight: 700 }}>{item.value}</p>
-                          <p style={{ margin: "3px 0 0", fontSize: 11, lineHeight: 1.4, color: "#334155" }}>{item.note}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </section>
-                ) : null}
 
                 {model.domainChecks.length ? (
                   <section>
@@ -626,21 +644,6 @@ export default function DigitalPresenceActionPlanPrintSheet({
                   </section>
                 ) : null}
 
-                {model.agenticSignals.length ? (
-                  <section>
-                    <SectionHeading>{model.labels.agenticTitle}</SectionHeading>
-                    <p style={{ margin: "4px 0 0", fontSize: 12, lineHeight: 1.45, color: "#64748b" }}>{model.labels.agenticDescription}</p>
-                    <div style={{ marginTop: 8, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-                      {model.agenticSignals.map((signal) => (
-                        <div key={signal.label} className="presence-print-keep" style={{ border: "1px solid #e2e8f0", background: "#f8fafc", padding: "8px 10px" }}>
-                          <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "#64748b" }}>{signal.label}</p>
-                          <p style={{ margin: "3px 0 0", fontSize: 13, fontWeight: 700 }}>{signal.value}</p>
-                          <p style={{ margin: "3px 0 0", fontSize: 11, lineHeight: 1.4, color: "#334155" }}>{signal.note}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </section>
-                ) : null}
 
                 <section className="presence-print-keep">
                   <SectionHeading>{model.labels.humanTitle}</SectionHeading>

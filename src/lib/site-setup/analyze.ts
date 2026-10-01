@@ -1,4 +1,5 @@
 import type { PublicPageHeaders } from "@/lib/social-presence/safe-html-fetch";
+import type { DomainRegistration } from "@/lib/site-setup/whois";
 
 export const SITE_SETUP_IDS = [
   "cloudflare",
@@ -41,6 +42,7 @@ export type SiteSetup = {
   analytics: SiteSetupId[];
   protection: SiteSetupId[];
   protectionDnsOnly: SiteSetupId[];
+  registration?: DomainRegistration | null;
 };
 
 const HOSTS: Array<{ id: SiteSetupId; test: RegExp }> = [

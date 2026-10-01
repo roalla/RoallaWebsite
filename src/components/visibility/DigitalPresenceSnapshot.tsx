@@ -6,6 +6,7 @@ import {
   ArrowRight,
   Bot,
   CheckCircle2,
+  ChevronDown,
   Download,
   Gauge,
   Layers,
@@ -26,6 +27,7 @@ import type { DomainHealthSnapshot } from "@/lib/domain-health/evaluate";
 import { buildSnapshotNarrative } from "@/lib/digital-presence/narrative";
 import type { ContactExposure } from "@/lib/contact-exposure/analyze";
 import type { SiteSetup, SiteSetupId } from "@/lib/site-setup/analyze";
+import type { DomainRegistration } from "@/lib/site-setup/whois";
 import type { SocialPresenceSnapshot } from "@/lib/social-presence/analyzer";
 import type {
   ScoreName,
@@ -329,6 +331,8 @@ const copy = {
     domainWhyTitle: "Why this matters",
     domainWhy: "When these records are missing or loose, mail you send is more likely to be filed as junk or flagged as phishing. Someone else can also more easily send a message that looks like it came from you.",
     domainChecked: "Checked on",
+    domainDetails: "See the details",
+    domainDetailsHide: "Hide the details",
     domainStatus: { pass: "In place", review: "Needs a review", gap: "Missing" },
     domainError: "We could not read the domain records.",
     domainLoading: "Reading the domain records…",
@@ -380,7 +384,20 @@ const copy = {
       },
     },
     setupTitle: "How this site is set up",
-    setupDescription: "Public clues from this landing page and the domain name. They describe what is visible from the outside.",
+    setupDescription: "Public clues from this landing page and the domain name. They describe what is visible from the outside. The registrar, dates, and published owner come from the public record on Whois.com.",
+    registrationTitle: "Domain registration",
+    registrationNote: "A privacy service is shown when the owner is not published. Street address, phone, and email are not included.",
+    registrationMissing: "The public registration record could not be read.",
+    registrationNotPublished: "Not published",
+    registrationField: {
+      registrar: "Registrar",
+      nameservers: "Name servers",
+      registeredOn: "Registered",
+      expiresOn: "Expires",
+      updatedOn: "Updated",
+      registrantName: "Registrant",
+      registrantOrganization: "Organization",
+    },
     setupEdge: "Public address",
     setupPlatform: "Built with",
     setupAnalytics: "Analytics",
@@ -721,6 +738,8 @@ const copy = {
     domainWhyTitle: "Pourquoi c’est important",
     domainWhy: "Quand ces enregistrements manquent ou restent trop ouverts, le courriel que vous envoyez a plus de chances d’être classé comme indésirable ou signalé comme hameçonnage. Quelqu’un d’autre peut aussi plus facilement envoyer un message qui semble venir de vous.",
     domainChecked: "Vérifié sur",
+    domainDetails: "Voir les détails",
+    domainDetailsHide: "Masquer les détails",
     domainStatus: { pass: "En place", review: "À revoir", gap: "Manquant" },
     domainError: "Nous n’avons pas pu lire les enregistrements du domaine.",
     domainLoading: "Lecture des enregistrements du domaine…",
@@ -772,7 +791,20 @@ const copy = {
       },
     },
     setupTitle: "Comment ce site est organisé",
-    setupDescription: "Des indices publics tirés de cette page d’arrivée et du nom de domaine. Ils décrivent ce qui est visible de l’extérieur.",
+    setupDescription: "Des indices publics tirés de cette page d’arrivée et du nom de domaine. Ils décrivent ce qui est visible de l’extérieur. Le registraire, les dates et le titulaire publié proviennent du registre public sur Whois.com.",
+    registrationTitle: "Enregistrement du domaine",
+    registrationNote: "Un service de confidentialité apparaît lorsque le propriétaire n’est pas publié. L’adresse, le téléphone et le courriel ne sont pas inclus.",
+    registrationMissing: "Le registre public n’a pas pu être lu.",
+    registrationNotPublished: "Non publié",
+    registrationField: {
+      registrar: "Registraire",
+      nameservers: "Serveurs de noms",
+      registeredOn: "Enregistré",
+      expiresOn: "Expiration",
+      updatedOn: "Mis à jour",
+      registrantName: "Titulaire",
+      registrantOrganization: "Organisation",
+    },
     setupEdge: "Adresse publique",
     setupPlatform: "Construit avec",
     setupAnalytics: "Analytique",
@@ -1042,6 +1074,39 @@ function siteSetupCards(setup: SiteSetup, labels: {
   ];
 }
 
+function registrationDate(value: string | null, language: "en" | "fr", missing: string) {
+  if (!value) return missing;
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (!match) return value;
+  const date = new Date(Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3])));
+  return new Intl.DateTimeFormat(language === "fr" ? "fr-CA" : "en-CA", { dateStyle: "medium", timeZone: "UTC" }).format(date);
+}
+
+function registrationCards(registration: DomainRegistration, labels: {
+  registrationNotPublished: string;
+  registrationField: {
+    registrar: string;
+    nameservers: string;
+    registeredOn: string;
+    expiresOn: string;
+    updatedOn: string;
+    registrantName: string;
+    registrantOrganization: string;
+  };
+}, language: "en" | "fr") {
+  const text = (value: string | null) => value || labels.registrationNotPublished;
+  const date = (value: string | null) => registrationDate(value, language, labels.registrationNotPublished);
+  return [
+    { id: "registrar", title: labels.registrationField.registrar, value: text(registration.registrar), note: "" },
+    { id: "nameservers", title: labels.registrationField.nameservers, value: registration.nameservers.length ? registration.nameservers.join(", ") : labels.registrationNotPublished, note: "" },
+    { id: "registeredOn", title: labels.registrationField.registeredOn, value: date(registration.registeredOn), note: "" },
+    { id: "expiresOn", title: labels.registrationField.expiresOn, value: date(registration.expiresOn), note: "" },
+    { id: "updatedOn", title: labels.registrationField.updatedOn, value: date(registration.updatedOn), note: "" },
+    { id: "registrantName", title: labels.registrationField.registrantName, value: text(registration.registrantName), note: "" },
+    { id: "registrantOrganization", title: labels.registrationField.registrantOrganization, value: text(registration.registrantOrganization), note: "" },
+  ];
+}
+
 function contactCompareValue(
   exposure: ContactExposure | undefined,
   labels: { contactYes: string; contactNo: string; contactScrambled: string },
@@ -1120,12 +1185,22 @@ export default function DigitalPresenceSnapshot({
   const [competitorLoading, setCompetitorLoading] = useState(false);
   const [competitorError, setCompetitorError] = useState("");
   const [printMounted, setPrintMounted] = useState(false);
+  const [domainDetailsOpen, setDomainDetailsOpen] = useState(false);
+  const [speedDetailsOpen, setSpeedDetailsOpen] = useState<Record<string, boolean>>({});
+  const domainScrollTarget = useRef<string | null>(null);
   const resultsRef = useRef<HTMLElement>(null);
   const workingRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setPrintMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (!domainDetailsOpen || !domainScrollTarget.current) return;
+    const id = domainScrollTarget.current;
+    domainScrollTarget.current = null;
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [domainDetailsOpen]);
 
   const technicalSnapshots = useMemo(
     () => [technical?.mobile?.snapshot, technical?.desktop?.snapshot].filter(
@@ -1437,7 +1512,10 @@ export default function DigitalPresenceSnapshot({
     })) ?? [],
     contactUrl: social?.finalUrl ?? "",
     contactLines: contactLines(social?.contactExposure, t),
-    siteSetup: social?.siteSetup ? siteSetupCards(social.siteSetup, t) : [],
+    siteSetup: social?.siteSetup ? [
+      ...siteSetupCards(social.siteSetup, t),
+      ...(social.siteSetup.registration ? registrationCards(social.siteSetup.registration, t, language) : []),
+    ] : [],
     agenticScore: agenticViews.length ? null : social?.agentic?.score ?? null,
     agenticDevices: agenticViews.map((view) => ({ label: view.label, score: view.agentic.score })),
     agenticSignals: (agenticViews.length ? agenticViews.reduce((weakest, view) => view.agentic.score < weakest.agentic.score ? view : weakest).agentic : social?.agentic)?.signals?.map((signal) => {
@@ -1540,6 +1618,14 @@ export default function DigitalPresenceSnapshot({
           tone: toneFromScore(weakest.score),
         }
       : { id: "presence-technical", title: t.technicalTitle, detail: t.summaryMissing, tone: "attention" });
+    if (agenticScore != null) {
+      summaryItems.push({
+        id: "presence-agentic",
+        title: t.agenticTitle,
+        detail: `${t.summaryStatus[toneFromScore(agenticScore)]} · ${agenticScore}/100`,
+        tone: toneFromScore(agenticScore),
+      });
+    }
     summaryItems.push(social
       ? {
           id: "presence-social",
@@ -1563,14 +1649,6 @@ export default function DigitalPresenceSnapshot({
         title: t.contactTitle,
         detail: `${t.summaryStatus[contactTone]} · ${contactDetail}`,
         tone: contactTone,
-      });
-    }
-    if (agenticScore != null) {
-      summaryItems.push({
-        id: "presence-agentic",
-        title: t.agenticTitle,
-        detail: `${t.summaryStatus[toneFromScore(agenticScore)]} · ${agenticScore}/100`,
-        tone: toneFromScore(agenticScore),
       });
     }
     if (domain) {
@@ -1683,6 +1761,48 @@ export default function DigitalPresenceSnapshot({
           ) : null}
 
           <div className="space-y-6">
+            {social?.siteSetup ? (
+              <article id="presence-setup" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+                <div className="flex items-start gap-3">
+                  <Layers className="mt-1 h-7 w-7 text-primary-dark" aria-hidden />
+                  <div>
+                    <h2 className="text-2xl font-serif font-bold text-slate-950">{t.setupTitle}</h2>
+                    <p className="mt-1 text-sm text-slate-600">{t.setupDescription}</p>
+                  </div>
+                </div>
+                <dl className="mt-6 grid gap-3 sm:grid-cols-2">
+                  {siteSetupCards(social.siteSetup, t).map((item) => (
+                    <div key={item.id} className="rounded-lg bg-slate-50 p-4">
+                      <dt className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{item.title}</dt>
+                      <dd className="mt-1 text-lg font-bold text-slate-950">{item.value}</dd>
+                      <p className="mt-1 text-sm leading-6 text-slate-600">{item.note}</p>
+                    </div>
+                  ))}
+                </dl>
+                {"registration" in social.siteSetup ? (
+                  <div className="mt-8">
+                    <h3 className="text-lg font-semibold text-slate-950">{t.registrationTitle}</h3>
+                    <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-600">{t.registrationNote}</p>
+                    {social.siteSetup.registration ? (
+                      <>
+                        <dl className="mt-4 grid gap-3 sm:grid-cols-2">
+                          {registrationCards(social.siteSetup.registration, t, language).map((item) => (
+                            <div key={item.id} className="rounded-lg bg-slate-50 p-4">
+                              <dt className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{item.title}</dt>
+                              <dd className="mt-1 break-words text-lg font-bold text-slate-950">{item.value}</dd>
+                            </div>
+                          ))}
+                        </dl>
+                        <p className="mt-4 text-sm">
+                          <a href={`https://www.whois.com/whois/${encodeURIComponent(social.siteSetup.registration.domain)}`} className="font-semibold text-primary-dark underline underline-offset-4" target="_blank" rel="noreferrer">Whois.com</a>
+                        </p>
+                      </>
+                    ) : <p className="mt-4 text-sm text-slate-600">{t.registrationMissing}</p>}
+                  </div>
+                ) : null}
+              </article>
+            ) : null}
+
             <article id="presence-technical" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
               <div className="flex items-start gap-3">
                 <Gauge className="mt-1 h-7 w-7 text-primary-dark" aria-hidden />
@@ -1728,7 +1848,18 @@ export default function DigitalPresenceSnapshot({
                           {!urlShared ? <div><dt className="inline font-semibold text-slate-700">{t.finalUrl}: </dt><dd className="mt-1 block overflow-x-auto whitespace-nowrap font-mono text-[13px] text-slate-800">{snapshot.finalUrl}</dd></div> : null}
                         </dl>
                       ) : null}
-                      <div className="mt-4 rounded-lg bg-slate-50 p-3">
+                      <button
+                        type="button"
+                        className="mt-4 inline-flex min-h-[44px] items-center gap-2 text-sm font-semibold text-primary-dark print:hidden"
+                        aria-expanded={speedDetailsOpen[snapshot.strategy] === true}
+                        aria-controls={`speed-details-${snapshot.strategy}`}
+                        onClick={() => setSpeedDetailsOpen((open) => ({ ...open, [snapshot.strategy]: !open[snapshot.strategy] }))}
+                      >
+                        {speedDetailsOpen[snapshot.strategy] ? t.domainDetailsHide : t.domainDetails}
+                        <ChevronDown className={`h-4 w-4 transition-transform ${speedDetailsOpen[snapshot.strategy] ? "rotate-180" : ""}`} aria-hidden />
+                      </button>
+                      <div id={`speed-details-${snapshot.strategy}`} className={speedDetailsOpen[snapshot.strategy] ? "mt-4 space-y-4" : "mt-4 hidden space-y-4 print:block"}>
+                      <div className="rounded-lg bg-slate-50 p-3">
                         <h4 className="text-sm font-semibold text-slate-900">{t.fieldTitle}</h4>
                         <p className="mt-1 text-xs text-slate-500">{snapshot.fieldMetrics.length ? (snapshot.fieldScope === "page" ? t.fieldPageDetail : t.fieldOriginDetail) : t.fieldIntro}</p>
                         {snapshot.fieldMetrics.length ? (
@@ -1746,7 +1877,7 @@ export default function DigitalPresenceSnapshot({
                         ) : <p className="mt-3 text-xs text-slate-600">{t.noFieldData}</p>}
                       </div>
                       {snapshot.labMetrics.length ? (
-                        <div className="mt-4">
+                        <div>
                           <h4 className="text-sm font-semibold text-slate-900">{t.labTitle}</h4>
                           <dl className="mt-2 grid gap-2 sm:grid-cols-2">
                             {snapshot.labMetrics.map((metric) => (
@@ -1759,7 +1890,7 @@ export default function DigitalPresenceSnapshot({
                         </div>
                       ) : null}
                       {snapshot.opportunities.length ? (
-                        <div className="mt-4">
+                        <div>
                           <h4 className="text-sm font-semibold text-slate-900">{t.opportunitiesTitle}</h4>
                           <ol className="mt-2 space-y-2">
                             {snapshot.opportunities.map((opportunity, index) => (
@@ -1774,7 +1905,8 @@ export default function DigitalPresenceSnapshot({
                           </ol>
                         </div>
                       ) : null}
-                      <a href={googleUrl} target="_blank" rel="noreferrer" className="mt-4 inline-flex text-sm font-semibold text-primary-dark underline underline-offset-4 print:hidden">{t.compareGoogle}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></a>
+                      <a href={googleUrl} target="_blank" rel="noreferrer" className="inline-flex text-sm font-semibold text-primary-dark underline underline-offset-4 print:hidden">{t.compareGoogle}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></a>
+                      </div>
                     </div>
                     );
                   })}
@@ -1783,6 +1915,65 @@ export default function DigitalPresenceSnapshot({
                 </div>
               ) : technicalLoading ? <p className="mt-6 text-sm text-slate-600">{loadingMessage}</p> : <p className="mt-6 text-sm text-slate-600">{t.technicalError}</p>}
             </article>
+
+            {agenticViews.length || social?.agentic ? (
+              <article id="presence-agentic" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+                <div className="flex items-start gap-3">
+                  <Bot className="mt-1 h-7 w-7 text-primary-dark" aria-hidden />
+                  <div>
+                    <h2 className="text-2xl font-serif font-bold text-slate-950">{t.agenticTitle}</h2>
+                    <p className="mt-1 text-sm text-slate-600">{t.agenticDescription}</p>
+                  </div>
+                </div>
+                {agenticViews.length ? (
+                  <div className={`mt-6 grid gap-6 ${agenticViews.length > 1 ? "lg:grid-cols-2" : "max-w-xl"}`}>
+                    {agenticViews.map((view) => (
+                      <div key={view.label}>
+                        <h3 className="text-sm font-semibold text-slate-950">{view.label}</h3>
+                        <div className="mt-3 max-w-xs">
+                          <AgenticScoreTile score={view.agentic.score} language={language} />
+                        </div>
+                        {view.agentic.signals?.length ? (
+                          <dl className="mt-4 grid gap-3">
+                            {view.agentic.signals.map((signal) => {
+                              const described = describeAgenticSignal(signal, t);
+                              const complete = signal.points >= signal.maxPoints;
+                              return (
+                                <div key={signal.id} className="rounded-lg bg-slate-50 p-4">
+                                  <dt className="text-[11px] font-semibold text-slate-500">{described.label}</dt>
+                                  <dd className={`mt-1 text-lg font-bold ${complete ? "text-emerald-700" : signal.points > 0 ? "text-amber-700" : "text-rose-700"}`}>{signal.points}/{signal.maxPoints}</dd>
+                                  {described.note ? <p className="mt-1 text-sm leading-6 text-slate-700">{described.note}</p> : null}
+                                </div>
+                              );
+                            })}
+                          </dl>
+                        ) : null}
+                      </div>
+                    ))}
+                  </div>
+                ) : social?.agentic ? (
+                  <div className="mt-6 max-w-xs">
+                    <AgenticScoreTile score={social.agentic.score} language={language} />
+                  </div>
+                ) : null}
+                {agenticGap ? <p className="mt-4 max-w-3xl rounded-lg bg-slate-50 p-3 text-sm leading-6 text-slate-700">{agenticGap}</p> : null}
+                {!agenticViews.length && social?.agentic?.signals?.length ? (
+                  <dl className="mt-5 grid gap-3 sm:grid-cols-2">
+                    {social.agentic.signals.map((signal) => {
+                      const described = describeAgenticSignal(signal, t);
+                      const complete = signal.points >= signal.maxPoints;
+                      return (
+                        <div key={signal.id} className="rounded-lg bg-slate-50 p-4">
+                          <dt className="text-[11px] font-semibold text-slate-500">{described.label}</dt>
+                          <dd className={`mt-1 text-lg font-bold ${complete ? "text-emerald-700" : signal.points > 0 ? "text-amber-700" : "text-rose-700"}`}>{signal.points}/{signal.maxPoints}</dd>
+                          {described.note ? <p className="mt-1 text-sm leading-6 text-slate-700">{described.note}</p> : null}
+                        </div>
+                      );
+                    })}
+                  </dl>
+                ) : null}
+              </article>
+            ) : null}
 
             <article id="presence-social" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
               <div className="flex items-start gap-3">
@@ -1843,86 +2034,8 @@ export default function DigitalPresenceSnapshot({
               </article>
             ) : null}
 
-            {agenticViews.length || social?.agentic ? (
-              <article id="presence-agentic" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-                <div className="flex items-start gap-3">
-                  <Bot className="mt-1 h-7 w-7 text-primary-dark" aria-hidden />
-                  <div>
-                    <h2 className="text-2xl font-serif font-bold text-slate-950">{t.agenticTitle}</h2>
-                    <p className="mt-1 text-sm text-slate-600">{t.agenticDescription}</p>
-                  </div>
-                </div>
-                {agenticViews.length ? (
-                  <div className={`mt-6 grid gap-6 ${agenticViews.length > 1 ? "lg:grid-cols-2" : "max-w-xl"}`}>
-                    {agenticViews.map((view) => (
-                      <div key={view.label}>
-                        <h3 className="text-sm font-semibold text-slate-950">{view.label}</h3>
-                        <div className="mt-3 max-w-xs">
-                          <AgenticScoreTile score={view.agentic.score} language={language} />
-                        </div>
-                        {view.agentic.signals?.length ? (
-                          <dl className="mt-4 grid gap-3">
-                            {view.agentic.signals.map((signal) => {
-                              const described = describeAgenticSignal(signal, t);
-                              const complete = signal.points >= signal.maxPoints;
-                              return (
-                                <div key={signal.id} className="rounded-lg bg-slate-50 p-4">
-                                  <dt className="text-[11px] font-semibold text-slate-500">{described.label}</dt>
-                                  <dd className={`mt-1 text-lg font-bold ${complete ? "text-emerald-700" : signal.points > 0 ? "text-amber-700" : "text-rose-700"}`}>{signal.points}/{signal.maxPoints}</dd>
-                                  {described.note ? <p className="mt-1 text-sm leading-6 text-slate-700">{described.note}</p> : null}
-                                </div>
-                              );
-                            })}
-                          </dl>
-                        ) : null}
-                      </div>
-                    ))}
-                  </div>
-                ) : social?.agentic ? (
-                  <div className="mt-6 max-w-xs">
-                    <AgenticScoreTile score={social.agentic.score} language={language} />
-                  </div>
-                ) : null}
-                {agenticGap ? <p className="mt-4 max-w-3xl rounded-lg bg-slate-50 p-3 text-sm leading-6 text-slate-700">{agenticGap}</p> : null}
-                {!agenticViews.length && social?.agentic?.signals?.length ? (
-                  <dl className="mt-5 grid gap-3 sm:grid-cols-2">
-                    {social.agentic.signals.map((signal) => {
-                      const described = describeAgenticSignal(signal, t);
-                      const complete = signal.points >= signal.maxPoints;
-                      return (
-                        <div key={signal.id} className="rounded-lg bg-slate-50 p-4">
-                          <dt className="text-[11px] font-semibold text-slate-500">{described.label}</dt>
-                          <dd className={`mt-1 text-lg font-bold ${complete ? "text-emerald-700" : signal.points > 0 ? "text-amber-700" : "text-rose-700"}`}>{signal.points}/{signal.maxPoints}</dd>
-                          {described.note ? <p className="mt-1 text-sm leading-6 text-slate-700">{described.note}</p> : null}
-                        </div>
-                      );
-                    })}
-                  </dl>
-                ) : null}
-              </article>
-            ) : null}
           </div>
 
-          {social?.siteSetup ? (
-            <article id="presence-setup" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-              <div className="flex items-start gap-3">
-                <Layers className="mt-1 h-7 w-7 text-primary-dark" aria-hidden />
-                <div>
-                  <h2 className="text-2xl font-serif font-bold text-slate-950">{t.setupTitle}</h2>
-                  <p className="mt-1 text-sm text-slate-600">{t.setupDescription}</p>
-                </div>
-              </div>
-              <dl className="mt-6 grid gap-3 sm:grid-cols-2">
-                {siteSetupCards(social.siteSetup, t).map((item) => (
-                  <div key={item.id} className="rounded-lg bg-slate-50 p-4">
-                    <dt className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{item.title}</dt>
-                    <dd className="mt-1 text-lg font-bold text-slate-950">{item.value}</dd>
-                    <p className="mt-1 text-sm leading-6 text-slate-600">{item.note}</p>
-                  </div>
-                ))}
-              </dl>
-            </article>
-          ) : null}
 
           <article id="presence-domain" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
             <div className="flex items-start gap-3">
@@ -1950,7 +2063,20 @@ export default function DigitalPresenceSnapshot({
                     const dot = check.status === "pass" ? "bg-emerald-500" : check.status === "review" ? "bg-amber-500" : "bg-rose-500";
                     return (
                       <li key={check.id}>
-                        <a href={`#domain-${check.id}`} className={`inline-flex min-h-[32px] items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold ${pill}`}>
+                        <a
+                          href={`#domain-${check.id}`}
+                          className={`inline-flex min-h-[32px] items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold ${pill}`}
+                          onClick={(event) => {
+                            event.preventDefault();
+                            const id = `domain-${check.id}`;
+                            domainScrollTarget.current = id;
+                            setDomainDetailsOpen(true);
+                            if (domainDetailsOpen) {
+                              domainScrollTarget.current = null;
+                              document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                            }
+                          }}
+                        >
                           <span className={`h-2 w-2 shrink-0 rounded-full ${dot}`} aria-hidden />
                           {item.short}
                           <span className="font-medium">{t.domainStatus[check.status]}</span>
@@ -1959,7 +2085,18 @@ export default function DigitalPresenceSnapshot({
                     );
                   })}
                 </ul>
-                <dl className="mt-5 grid gap-3">
+                <button
+                  type="button"
+                  className="mt-4 inline-flex min-h-[44px] items-center gap-2 text-sm font-semibold text-primary-dark print:hidden"
+                  aria-expanded={domainDetailsOpen}
+                  aria-controls="domain-details"
+                  onClick={() => setDomainDetailsOpen((open) => !open)}
+                >
+                  {domainDetailsOpen ? t.domainDetailsHide : t.domainDetails}
+                  <ChevronDown className={`h-4 w-4 transition-transform ${domainDetailsOpen ? "rotate-180" : ""}`} aria-hidden />
+                </button>
+                <div id="domain-details" className={domainDetailsOpen ? "mt-4" : "mt-4 hidden print:block"}>
+                <dl className="grid gap-3">
                   {domain.checks.map((check) => {
                     const item = t.domainCheck[check.id];
                     const tone = check.status === "pass" ? "text-emerald-700" : check.status === "review" ? "text-amber-700" : "text-rose-700";
@@ -1974,6 +2111,7 @@ export default function DigitalPresenceSnapshot({
                     );
                   })}
                 </dl>
+                </div>
               </div>
             ) : domainLoading ? <p className="mt-6 text-sm text-slate-600">{t.domainLoading}</p> : <p className="mt-6 text-sm text-slate-600">{domainError || t.domainError}</p>}
           </article>

@@ -3,6 +3,7 @@ import { scoreAgenticReadiness } from "@/lib/agentic-readiness/score";
 import { analyzeContactExposure } from "@/lib/contact-exposure/analyze";
 import { lookupPublicEdgeHints } from "@/lib/domain-health/lookup";
 import { analyzeSiteSetup } from "@/lib/site-setup/analyze";
+import { lookupWhoisRegistration } from "@/lib/site-setup/whois";
 import { analyzeSocialPresence } from "@/lib/social-presence/analyzer";
 import {
   checkSocialClientRate,
@@ -52,7 +53,7 @@ export async function POST(request: NextRequest) {
   try {
     const target = normalizePublicTarget(body.url);
     const cached = getCachedSocialSnapshot(target);
-    if (cached?.siteSetup) return response({ snapshot: cached, cached: true });
+    if (cached?.siteSetup && "registration" in cached.siteSetup) return response({ snapshot: cached, cached: true });
 
     const hostRate = checkSocialHostRate(target.hostname);
     if (!hostRate.allowed) {
@@ -77,6 +78,7 @@ export async function POST(request: NextRequest) {
       nameservers: hints.nameservers,
       cname: hints.cname,
     });
+    snapshot.siteSetup.registration = await lookupWhoisRegistration(origin.hostname);
     setCachedSocialSnapshot(target, snapshot);
     return response({ snapshot, cached: false });
   } catch (error) {

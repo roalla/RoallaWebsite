@@ -143,6 +143,7 @@ const copy = {
     summaryContactPhone: "Phone number in the page source",
     summaryContactScrambled: "Mailbox is scrambled",
     summaryContactClear: "No mailbox in the page source",
+    summaryContactLinked: "Contact page was not opened",
     starting: "Starting your website check…",
     both: "Checking your website, social sharing, and contact details…",
     technicalOnly: "Your social sharing results are ready. Finishing the website check…",
@@ -155,17 +156,29 @@ const copy = {
     socialDescription: "How well your website connects to your social profiles and creates sharing previews",
     contactTitle: "Contact details a bot can copy",
     contactDescription: "Whether this page’s source includes a mailbox or phone number, and whether it offers a form instead.",
-    contactMailboxExposed: "A mailbox address is in the page source. A bot can copy it without filling in a form.",
-    contactMailboxObfuscated: "A mailbox is scrambled in the page. Simple scrapers often miss it. A determined one can still recover it.",
-    contactMailboxClear: "No mailbox address was found in this page’s source.",
-    contactPhoneExposed: "A phone number is in the page source. A bot can copy it.",
-    contactPhoneClear: "No phone number was found in this page’s source.",
-    contactFormOnly: "This page offers a form and does not publish a mailbox in the source. That keeps scraped mail off the address.",
-    contactFormAndMailbox: "This page has a form, and it also publishes a mailbox in the source. The form does not hide that address.",
-    contactFormMissing: "No contact form was found on this page.",
-    contactFormMissingLink: "No contact form was found on this page. This page links to a contact page. That page was not opened.",
-    contactEmailOff: "The page marks the address so it stays readable instead of being scrambled.",
     contactLimit: "This check reads the public HTML of the landing page only. It does not run scripts, open other pages, or show the address or phone number. A form that exists only on another address, such as a contact page, is not part of this result. A hidden form field can reduce junk form posts. It does not stop a bot from copying an address already in the page.",
+    contactCheck: { mailbox: "Mailbox", phone: "Phone", form: "Form" },
+    contactPill: {
+      mailboxExposed: "Easy to copy",
+      mailboxScrambled: "Partly hidden",
+      mailboxClear: "Not in this page",
+      phoneExposed: "Visible",
+      phoneClear: "Not in this page",
+      formPresent: "On this page",
+      formLinked: "On another page",
+      formMissing: "Not on this page",
+    },
+    contactDetail: {
+      mailboxExposed: "A bot can copy it without using a form.",
+      mailboxScrambled: "Simple bots often miss it.",
+      mailboxClear: "No mailbox was found in this page.",
+      mailboxReadable: "The address is marked to stay readable, so a bot can still copy it.",
+      phoneExposed: "A public phone is a choice, not the same problem as a mailbox.",
+      phoneClear: "No phone number was found in this page.",
+      formPresent: "Visitors can send a message from this page.",
+      formLinked: "This page links to a contact page. That page was not opened.",
+      formMissing: "No contact form was found on this page.",
+    },
     contactYes: "Yes",
     contactNo: "No",
     contactScrambled: "Scrambled",
@@ -550,6 +563,7 @@ const copy = {
     summaryContactPhone: "Numéro dans le code de la page",
     summaryContactScrambled: "Adresse brouillée",
     summaryContactClear: "Aucune adresse dans le code de la page",
+    summaryContactLinked: "Page de contact non ouverte",
     starting: "Démarrage de la vérification…",
     both: "Vérification de votre site, du partage social et des coordonnées…",
     technicalOnly: "Les résultats du partage social sont prêts. La vérification du site se termine…",
@@ -562,17 +576,29 @@ const copy = {
     socialDescription: "La façon dont votre site présente vos profils et crée des aperçus de partage",
     contactTitle: "Coordonnées qu’un robot peut copier",
     contactDescription: "Si le code de cette page contient une adresse courriel ou un numéro de téléphone, et si la page offre un formulaire à la place.",
-    contactMailboxExposed: "Une adresse courriel est dans le code de la page. Un robot peut la copier sans remplir de formulaire.",
-    contactMailboxObfuscated: "Une adresse courriel est brouillée dans la page. Les robots simples la manquent souvent. Un robot déterminé peut encore la reconstituer.",
-    contactMailboxClear: "Aucune adresse courriel n’a été trouvée dans le code de cette page.",
-    contactPhoneExposed: "Un numéro de téléphone est dans le code de la page. Un robot peut le copier.",
-    contactPhoneClear: "Aucun numéro de téléphone n’a été trouvé dans le code de cette page.",
-    contactFormOnly: "Cette page offre un formulaire et ne publie pas d’adresse courriel dans le code. C’est ce qui garde le courriel indésirable loin de l’adresse.",
-    contactFormAndMailbox: "Cette page a un formulaire, et elle publie aussi une adresse courriel dans le code. Le formulaire ne cache pas cette adresse.",
-    contactFormMissing: "Aucun formulaire de contact n’a été trouvé sur cette page.",
-    contactFormMissingLink: "Aucun formulaire de contact n’a été trouvé sur cette page. Cette page contient un lien vers une page de contact. Cette page n’a pas été ouverte.",
-    contactEmailOff: "La page marque l’adresse pour qu’elle reste lisible au lieu d’être brouillée.",
     contactLimit: "Cette vérification lit uniquement le HTML public de la page d’arrivée. Elle n’exécute pas les scripts, n’ouvre pas d’autres pages et n’affiche ni l’adresse ni le numéro. Un formulaire qui se trouve seulement sur une autre adresse, comme une page de contact, ne fait pas partie de ce résultat. Un champ de formulaire caché peut réduire les envois indésirables. Il n’empêche pas un robot de copier une adresse déjà dans la page.",
+    contactCheck: { mailbox: "Courriel", phone: "Téléphone", form: "Formulaire" },
+    contactPill: {
+      mailboxExposed: "Facile à copier",
+      mailboxScrambled: "Partiellement cachée",
+      mailboxClear: "Absente de cette page",
+      phoneExposed: "Visible",
+      phoneClear: "Absent de cette page",
+      formPresent: "Sur cette page",
+      formLinked: "Sur une autre page",
+      formMissing: "Absent de cette page",
+    },
+    contactDetail: {
+      mailboxExposed: "Un robot peut la copier sans utiliser de formulaire.",
+      mailboxScrambled: "Les robots simples la manquent souvent.",
+      mailboxClear: "Aucune adresse courriel n’a été trouvée sur cette page.",
+      mailboxReadable: "L’adresse est marquée pour rester lisible, donc un robot peut encore la copier.",
+      phoneExposed: "Un téléphone public est un choix, pas le même problème qu’une adresse courriel.",
+      phoneClear: "Aucun numéro de téléphone n’a été trouvé sur cette page.",
+      formPresent: "Les visiteurs peuvent envoyer un message depuis cette page.",
+      formLinked: "Cette page contient un lien vers une page de contact. Cette page n’a pas été ouverte.",
+      formMissing: "Aucun formulaire de contact n’a été trouvé sur cette page.",
+    },
     contactYes: "Oui",
     contactNo: "Non",
     contactScrambled: "Brouillée",
@@ -990,36 +1016,72 @@ function describeAgenticSignal(
   return { label: signal.label ?? signal.id, note: "" };
 }
 
-function contactLines(exposure: ContactExposure | undefined, labels: {
-  contactMailboxExposed: string;
-  contactMailboxObfuscated: string;
-  contactMailboxClear: string;
-  contactPhoneExposed: string;
-  contactPhoneClear: string;
-  contactFormOnly: string;
-  contactFormAndMailbox: string;
-  contactFormMissing: string;
-  contactFormMissingLink: string;
-  contactEmailOff: string;
+type ContactStatusTone = "pass" | "review" | "gap" | "neutral";
+
+function contactStatuses(exposure: ContactExposure | undefined, labels: {
+  contactCheck: { mailbox: string; phone: string; form: string };
+  contactPill: {
+    mailboxExposed: string;
+    mailboxScrambled: string;
+    mailboxClear: string;
+    phoneExposed: string;
+    phoneClear: string;
+    formPresent: string;
+    formLinked: string;
+    formMissing: string;
+  };
+  contactDetail: {
+    mailboxExposed: string;
+    mailboxScrambled: string;
+    mailboxClear: string;
+    mailboxReadable: string;
+    phoneExposed: string;
+    phoneClear: string;
+    formPresent: string;
+    formLinked: string;
+    formMissing: string;
+  };
 }) {
   if (!exposure) return [];
-  const lines = [
-    exposure.mailboxInSource
-      ? labels.contactMailboxExposed
-      : exposure.cloudflareObfuscated
-        ? labels.contactMailboxObfuscated
-        : labels.contactMailboxClear,
-    exposure.phoneInSource ? labels.contactPhoneExposed : labels.contactPhoneClear,
-    exposure.contactForm && !exposure.mailboxInSource
-      ? labels.contactFormOnly
-      : exposure.contactForm
-        ? labels.contactFormAndMailbox
-        : exposure.contactPageLink
-          ? labels.contactFormMissingLink
-          : labels.contactFormMissing,
+  const mailboxTone: ContactStatusTone = exposure.mailboxInSource ? "gap" : exposure.cloudflareObfuscated ? "review" : "pass";
+  const formTone: ContactStatusTone = exposure.contactForm ? "pass" : exposure.contactPageLink ? "review" : "neutral";
+  return [
+    {
+      id: "mailbox",
+      title: labels.contactCheck.mailbox,
+      status: exposure.mailboxInSource ? labels.contactPill.mailboxExposed : exposure.cloudflareObfuscated ? labels.contactPill.mailboxScrambled : labels.contactPill.mailboxClear,
+      detail: exposure.emailLeftReadable ? labels.contactDetail.mailboxReadable : exposure.mailboxInSource ? labels.contactDetail.mailboxExposed : exposure.cloudflareObfuscated ? labels.contactDetail.mailboxScrambled : labels.contactDetail.mailboxClear,
+      tone: mailboxTone,
+    },
+    {
+      id: "phone",
+      title: labels.contactCheck.phone,
+      status: exposure.phoneInSource ? labels.contactPill.phoneExposed : labels.contactPill.phoneClear,
+      detail: exposure.phoneInSource ? labels.contactDetail.phoneExposed : labels.contactDetail.phoneClear,
+      tone: (exposure.phoneInSource ? "review" : "pass") as ContactStatusTone,
+    },
+    {
+      id: "form",
+      title: labels.contactCheck.form,
+      status: exposure.contactForm ? labels.contactPill.formPresent : exposure.contactPageLink ? labels.contactPill.formLinked : labels.contactPill.formMissing,
+      detail: exposure.contactForm ? labels.contactDetail.formPresent : exposure.contactPageLink ? labels.contactDetail.formLinked : labels.contactDetail.formMissing,
+      tone: formTone,
+    },
   ];
-  if (exposure.emailLeftReadable) lines.push(labels.contactEmailOff);
-  return lines;
+}
+
+function contactSignalTone(signal: ContactExposure["signals"][number]): ContactStatusTone {
+  if (signal === "plainEmail" || signal === "mailto" || signal === "schemaEmail" || signal === "emailLeftReadable") return "gap";
+  if (signal === "plainPhone" || signal === "telLink" || signal === "schemaPhone" || signal === "cloudflareObfuscation") return "review";
+  if (signal === "contactForm") return "pass";
+  return "neutral";
+}
+
+function contactToneClass(tone: ContactStatusTone) {
+  if (tone === "pass") return { pill: "border-emerald-200 bg-emerald-50 text-emerald-800", dot: "bg-emerald-500" };
+  if (tone === "review") return { pill: "border-amber-200 bg-amber-50 text-amber-800", dot: "bg-amber-500" };
+  if (tone === "gap") return { pill: "border-rose-200 bg-rose-50 text-rose-800", dot: "bg-rose-500" };
+  return { pill: "border-slate-200 bg-slate-50 text-slate-700", dot: "bg-slate-400" };
 }
 
 function siteSetupCards(setup: SiteSetup, labels: {
@@ -1187,6 +1249,8 @@ export default function DigitalPresenceSnapshot({
   const [printMounted, setPrintMounted] = useState(false);
   const [domainDetailsOpen, setDomainDetailsOpen] = useState(false);
   const [speedDetailsOpen, setSpeedDetailsOpen] = useState<Record<string, boolean>>({});
+  const [agenticDetailsOpen, setAgenticDetailsOpen] = useState<Record<string, boolean>>({});
+  const [contactDetailsOpen, setContactDetailsOpen] = useState(false);
   const domainScrollTarget = useRef<string | null>(null);
   const resultsRef = useRef<HTMLElement>(null);
   const workingRef = useRef<HTMLDivElement>(null);
@@ -1469,6 +1533,7 @@ export default function DigitalPresenceSnapshot({
     && technicalSnapshots.every((item) => item.lighthouseVersion === technicalSnapshots[0].lighthouseVersion)
     ? `${t.lighthouse} ${technicalSnapshots[0].lighthouseVersion}`
     : undefined;
+  const contactStatusItems = contactStatuses(social?.contactExposure, t);
   const printModel: PresencePrintModel = {
     website: resultUrl,
     lead,
@@ -1511,7 +1576,7 @@ export default function DigitalPresenceSnapshot({
       value: `${check.points}/${check.maxPoints}`,
     })) ?? [],
     contactUrl: social?.finalUrl ?? "",
-    contactLines: contactLines(social?.contactExposure, t),
+    contactChecks: contactStatusItems,
     siteSetup: social?.siteSetup ? [
       ...siteSetupCards(social.siteSetup, t),
       ...(social.siteSetup.registration ? registrationCards(social.siteSetup.registration, t, language) : []),
@@ -1636,14 +1701,20 @@ export default function DigitalPresenceSnapshot({
       : { id: "presence-social", title: t.socialTitle, detail: t.summaryMissing, tone: "attention" });
     if (social?.contactExposure) {
       const exposure = social.contactExposure;
-      const contactTone: SummaryTone = exposure.mailboxInSource ? "attention" : exposure.phoneInSource || exposure.cloudflareObfuscated ? "improve" : "strong";
+      const contactTone: SummaryTone = exposure.mailboxInSource
+        ? "attention"
+        : exposure.phoneInSource || exposure.cloudflareObfuscated || (exposure.contactPageLink && !exposure.contactForm)
+          ? "improve"
+          : "strong";
       const contactDetail = exposure.mailboxInSource
         ? t.summaryContactMailbox
         : exposure.phoneInSource
           ? t.summaryContactPhone
           : exposure.cloudflareObfuscated
             ? t.summaryContactScrambled
-            : t.summaryContactClear;
+            : exposure.contactPageLink && !exposure.contactForm
+              ? t.summaryContactLinked
+              : t.summaryContactClear;
       summaryItems.push({
         id: "presence-contact",
         title: t.contactTitle,
@@ -1934,19 +2005,33 @@ export default function DigitalPresenceSnapshot({
                           <AgenticScoreTile score={view.agentic.score} language={language} />
                         </div>
                         {view.agentic.signals?.length ? (
-                          <dl className="mt-4 grid gap-3">
-                            {view.agentic.signals.map((signal) => {
-                              const described = describeAgenticSignal(signal, t);
-                              const complete = signal.points >= signal.maxPoints;
-                              return (
-                                <div key={signal.id} className="rounded-lg bg-slate-50 p-4">
-                                  <dt className="text-[11px] font-semibold text-slate-500">{described.label}</dt>
-                                  <dd className={`mt-1 text-lg font-bold ${complete ? "text-emerald-700" : signal.points > 0 ? "text-amber-700" : "text-rose-700"}`}>{signal.points}/{signal.maxPoints}</dd>
-                                  {described.note ? <p className="mt-1 text-sm leading-6 text-slate-700">{described.note}</p> : null}
-                                </div>
-                              );
-                            })}
-                          </dl>
+                          <>
+                            <button
+                              type="button"
+                              className="mt-4 inline-flex min-h-[44px] items-center gap-2 text-sm font-semibold text-primary-dark print:hidden"
+                              aria-expanded={agenticDetailsOpen[view.label] === true}
+                              aria-controls={`agentic-details-${view.label}`}
+                              onClick={() => setAgenticDetailsOpen((open) => ({ ...open, [view.label]: !open[view.label] }))}
+                            >
+                              {agenticDetailsOpen[view.label] ? t.domainDetailsHide : t.domainDetails}
+                              <ChevronDown className={`h-4 w-4 transition-transform ${agenticDetailsOpen[view.label] ? "rotate-180" : ""}`} aria-hidden />
+                            </button>
+                            <div id={`agentic-details-${view.label}`} className={agenticDetailsOpen[view.label] ? "mt-4" : "mt-4 hidden print:block"}>
+                              <dl className="grid gap-3">
+                                {view.agentic.signals.map((signal) => {
+                                  const described = describeAgenticSignal(signal, t);
+                                  const complete = signal.points >= signal.maxPoints;
+                                  return (
+                                    <div key={signal.id} className="rounded-lg bg-slate-50 p-4">
+                                      <dt className="text-[11px] font-semibold text-slate-500">{described.label}</dt>
+                                      <dd className={`mt-1 text-lg font-bold ${complete ? "text-emerald-700" : signal.points > 0 ? "text-amber-700" : "text-rose-700"}`}>{signal.points}/{signal.maxPoints}</dd>
+                                      {described.note ? <p className="mt-1 text-sm leading-6 text-slate-700">{described.note}</p> : null}
+                                    </div>
+                                  );
+                                })}
+                              </dl>
+                            </div>
+                          </>
                         ) : null}
                       </div>
                     ))}
@@ -1958,19 +2043,33 @@ export default function DigitalPresenceSnapshot({
                 ) : null}
                 {agenticGap ? <p className="mt-4 max-w-3xl rounded-lg bg-slate-50 p-3 text-sm leading-6 text-slate-700">{agenticGap}</p> : null}
                 {!agenticViews.length && social?.agentic?.signals?.length ? (
-                  <dl className="mt-5 grid gap-3 sm:grid-cols-2">
-                    {social.agentic.signals.map((signal) => {
-                      const described = describeAgenticSignal(signal, t);
-                      const complete = signal.points >= signal.maxPoints;
-                      return (
-                        <div key={signal.id} className="rounded-lg bg-slate-50 p-4">
-                          <dt className="text-[11px] font-semibold text-slate-500">{described.label}</dt>
-                          <dd className={`mt-1 text-lg font-bold ${complete ? "text-emerald-700" : signal.points > 0 ? "text-amber-700" : "text-rose-700"}`}>{signal.points}/{signal.maxPoints}</dd>
-                          {described.note ? <p className="mt-1 text-sm leading-6 text-slate-700">{described.note}</p> : null}
-                        </div>
-                      );
-                    })}
-                  </dl>
+                  <>
+                    <button
+                      type="button"
+                      className="mt-4 inline-flex min-h-[44px] items-center gap-2 text-sm font-semibold text-primary-dark print:hidden"
+                      aria-expanded={agenticDetailsOpen.summary === true}
+                      aria-controls="agentic-details-summary"
+                      onClick={() => setAgenticDetailsOpen((open) => ({ ...open, summary: !open.summary }))}
+                    >
+                      {agenticDetailsOpen.summary ? t.domainDetailsHide : t.domainDetails}
+                      <ChevronDown className={`h-4 w-4 transition-transform ${agenticDetailsOpen.summary ? "rotate-180" : ""}`} aria-hidden />
+                    </button>
+                    <div id="agentic-details-summary" className={agenticDetailsOpen.summary ? "mt-4" : "mt-4 hidden print:block"}>
+                      <dl className="grid gap-3 sm:grid-cols-2">
+                        {social.agentic.signals.map((signal) => {
+                          const described = describeAgenticSignal(signal, t);
+                          const complete = signal.points >= signal.maxPoints;
+                          return (
+                            <div key={signal.id} className="rounded-lg bg-slate-50 p-4">
+                              <dt className="text-[11px] font-semibold text-slate-500">{described.label}</dt>
+                              <dd className={`mt-1 text-lg font-bold ${complete ? "text-emerald-700" : signal.points > 0 ? "text-amber-700" : "text-rose-700"}`}>{signal.points}/{signal.maxPoints}</dd>
+                              {described.note ? <p className="mt-1 text-sm leading-6 text-slate-700">{described.note}</p> : null}
+                            </div>
+                          );
+                        })}
+                      </dl>
+                    </div>
+                  </>
                 ) : null}
               </article>
             ) : null}
@@ -2016,19 +2115,51 @@ export default function DigitalPresenceSnapshot({
                         <span className="mt-1 block overflow-x-auto whitespace-nowrap font-mono text-[13px] text-slate-800">{social.finalUrl}</span>
                       </p>
                     ) : null}
-                    <ul className="space-y-3">
-                      {contactLines(social.contactExposure, t).map((line) => (
-                        <li key={line} className="rounded-lg bg-slate-50 p-4 text-sm leading-6 text-slate-800">{line}</li>
+                    <ul className="flex flex-wrap gap-2" aria-label={t.contactTitle}>
+                      {contactStatusItems.map((item) => {
+                        const tone = contactToneClass(item.tone);
+                        return (
+                          <li key={item.id}>
+                            <span className={`inline-flex min-h-[32px] items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold ${tone.pill}`}>
+                              <span className={`h-2 w-2 shrink-0 rounded-full ${tone.dot}`} aria-hidden />
+                              {item.title}
+                              <span className="font-medium">{item.status}</span>
+                            </span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                    <ul className="mt-4 space-y-2">
+                      {contactStatusItems.map((item) => (
+                        <li key={item.id} className="text-sm leading-6 text-slate-800">
+                          <span className="font-semibold text-slate-950">{item.title}. </span>
+                          {item.detail}
+                        </li>
                       ))}
                     </ul>
-                    {social.contactExposure.signals.length ? (
-                      <ul className="mt-4 flex flex-wrap gap-2">
-                        {social.contactExposure.signals.map((signal) => (
-                          <li key={signal} className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-semibold text-slate-700">{t.contactSignal[signal]}</li>
-                        ))}
-                      </ul>
-                    ) : null}
-                    <p className="mt-4 text-xs leading-5 text-slate-500">{t.contactLimit}</p>
+                    <button
+                      type="button"
+                      className="mt-4 inline-flex min-h-[44px] items-center gap-2 text-sm font-semibold text-primary-dark print:hidden"
+                      aria-expanded={contactDetailsOpen}
+                      aria-controls="contact-details"
+                      onClick={() => setContactDetailsOpen((open) => !open)}
+                    >
+                      {contactDetailsOpen ? t.domainDetailsHide : t.domainDetails}
+                      <ChevronDown className={`h-4 w-4 transition-transform ${contactDetailsOpen ? "rotate-180" : ""}`} aria-hidden />
+                    </button>
+                    <div id="contact-details" className={contactDetailsOpen ? "mt-4" : "mt-4 hidden print:block"}>
+                      {social.contactExposure.signals.length ? (
+                        <ul className="flex flex-wrap gap-2">
+                          {social.contactExposure.signals.map((signal) => {
+                            const tone = contactToneClass(contactSignalTone(signal));
+                            return (
+                              <li key={signal} className={`rounded-full border px-2.5 py-1 text-[11px] font-semibold ${tone.pill}`}>{t.contactSignal[signal]}</li>
+                            );
+                          })}
+                        </ul>
+                      ) : null}
+                      <p className="mt-4 text-xs leading-5 text-slate-500">{t.contactLimit}</p>
+                    </div>
                   </div>
                 ) : <p className="mt-6 text-sm text-slate-600">{loadingMessage}</p>}
               </article>

@@ -43,7 +43,7 @@ export type PresencePrintModel = {
   socialScore: number | null;
   socialChecks: PresencePrintMetric[];
   contactUrl: string;
-  contactLines: string[];
+  contactChecks: Array<{ id: string; title: string; status: string; detail: string; tone: "pass" | "review" | "gap" | "neutral" }>;
   siteSetup: Array<{ id: string; title: string; value: string; note: string }>;
   agenticScore: number | null;
   agenticDevices: Array<{ label: string; score: number }>;
@@ -593,7 +593,7 @@ export default function DigitalPresenceActionPlanPrintSheet({
                   </section>
                 ) : null}
 
-                {model.contactLines.length ? (
+                {model.contactChecks.length ? (
                   <section>
                     <SectionHeading>{model.labels.contactTitle}</SectionHeading>
                     <p style={{ margin: "4px 0 0", fontSize: 12, lineHeight: 1.45, color: "#64748b" }}>{model.labels.contactDescription}</p>
@@ -602,9 +602,27 @@ export default function DigitalPresenceActionPlanPrintSheet({
                         {model.labels.finalUrl}: {model.contactUrl}
                       </p>
                     ) : null}
+                    <div style={{ marginTop: 8, display: "flex", flexWrap: "wrap", gap: 6 }}>
+                      {model.contactChecks.map((check) => {
+                        const tone = check.tone === "pass"
+                          ? { background: "#ecfdf5", color: "#047857", border: "1px solid #a7f3d0" }
+                          : check.tone === "review"
+                            ? { background: "#fffbeb", color: "#b45309", border: "1px solid #fde68a" }
+                            : check.tone === "gap"
+                              ? { background: "#fff1f2", color: "#be123c", border: "1px solid #fecdd3" }
+                              : { background: "#f8fafc", color: "#334155", border: "1px solid #e2e8f0" };
+                        return (
+                          <span key={check.id} className="presence-print-keep" style={{ ...tone, borderRadius: 999, padding: "4px 10px", fontSize: 11, fontWeight: 700 }}>
+                            {check.title} · {check.status}
+                          </span>
+                        );
+                      })}
+                    </div>
                     <ul style={{ margin: "8px 0 0", padding: 0, listStyle: "none" }}>
-                      {model.contactLines.map((line) => (
-                        <li key={line} className="presence-print-keep" style={{ marginTop: 6, fontSize: 12, lineHeight: 1.45, color: "#334155" }}>{line}</li>
+                      {model.contactChecks.map((check) => (
+                        <li key={check.id} className="presence-print-keep" style={{ marginTop: 6, fontSize: 12, lineHeight: 1.45, color: "#334155" }}>
+                          <strong>{check.title}. </strong>{check.detail}
+                        </li>
                       ))}
                     </ul>
                   </section>

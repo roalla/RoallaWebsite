@@ -1,4 +1,5 @@
 import type { AgenticReadiness } from "@/lib/agentic-readiness/score";
+import type { DomainCheckId, DomainHealthSnapshot } from "@/lib/domain-health/evaluate";
 import type { SocialPresenceSnapshot } from "@/lib/social-presence/analyzer";
 import type {
   PageSpeedStrategy,
@@ -34,6 +35,15 @@ export type DigitalPresenceAction =
       severity: number;
       impact: "high";
       effort: "medium";
+    }
+  | {
+      source: "domain";
+      priority: "fixNow" | "planNext";
+      key: DomainCheckId;
+      score: number;
+      severity: number;
+      impact: "high" | "medium";
+      effort: "medium";
     };
 
 function weakestAgentic(values: Array<AgenticReadiness | undefined>) {
@@ -47,6 +57,7 @@ function weakestAgentic(values: Array<AgenticReadiness | undefined>) {
 export function buildDigitalPresenceActions(
   technical: WebsiteVisibilitySnapshot[],
   social?: SocialPresenceSnapshot,
+  domain?: DomainHealthSnapshot,
   limit = 3,
 ): DigitalPresenceAction[] {
   const actions: DigitalPresenceAction[] = [];
@@ -93,6 +104,20 @@ export function buildDigitalPresenceActions(
           ? "high"
           : "medium",
       effort: "low",
+    });
+  }
+
+  for (const check of domain?.checks ?? []) {
+    if (check.status === "pass") continue;
+    const mailCheck = check.id !== "names";
+    actions.push({
+      source: "domain",
+      priority: check.status === "gap" ? "fixNow" : "planNext",
+      key: check.id,
+      score: check.status === "gap" ? 20 : 60,
+      severity: check.status === "gap" ? (mailCheck ? 85 : 55) : 35,
+      impact: mailCheck ? "high" : "medium",
+      effort: "medium",
     });
   }
 

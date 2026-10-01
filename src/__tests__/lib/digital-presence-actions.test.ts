@@ -62,6 +62,26 @@ describe("buildDigitalPresenceActions", () => {
     ]);
   });
 
+  it("puts a missing mail policy ahead of a milder website gap", () => {
+    const actions = buildDigitalPresenceActions(
+      [technical("mobile", { performance: 80, accessibility: 95, bestPractices: 95, seo: 95 })],
+      undefined,
+      {
+        domain: "example.com",
+        checkedAt: "2026-10-01T12:00:00.000Z",
+        checks: [
+          { id: "mx", status: "pass", evidence: [] },
+          { id: "spf", status: "pass", evidence: [] },
+          { id: "dkim", status: "pass", evidence: [] },
+          { id: "dmarc", status: "gap", evidence: [] },
+          { id: "names", status: "pass", evidence: [] },
+        ],
+      },
+    );
+
+    expect(actions[0]).toMatchObject({ source: "domain", key: "dmarc", priority: "fixNow", impact: "high" });
+  });
+
   it("returns no automated actions when all checks are strong", () => {
     const social = {
       checks: [

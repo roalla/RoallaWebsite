@@ -9,6 +9,7 @@ import {
   Download,
   Gauge,
   LoaderCircle,
+  Mail,
   RefreshCw,
   SearchCheck,
   Share2,
@@ -19,7 +20,8 @@ import DigitalPresenceActionPlanPrintSheet, {
 } from "@/components/visibility/DigitalPresenceActionPlanPrintSheet";
 import { AgenticScoreTile, PresenceScoreTiles } from "@/components/visibility/PresenceScoreTiles";
 import { trackAnalyticsEvent } from "@/lib/analytics";
-import { buildDigitalPresenceActions } from "@/lib/digital-presence/actions";
+import { buildDigitalPresenceActions, type DigitalPresenceAction } from "@/lib/digital-presence/actions";
+import type { DomainHealthSnapshot } from "@/lib/domain-health/evaluate";
 import { buildSnapshotNarrative } from "@/lib/digital-presence/narrative";
 import type { SocialPresenceSnapshot } from "@/lib/social-presence/analyzer";
 import type {
@@ -270,9 +272,59 @@ const copy = {
       "Which social channels are right for your customers",
       "Whether your content builds trust and encourages inquiries",
     ],
+    domainTitle: "Domain and email health",
+    domainDescription: "Public records for this domain. They tell other mail systems whether a message really comes from this business.",
+    domainWhyTitle: "Why this matters",
+    domainWhy: "When these records are missing or loose, mail you send is more likely to be filed as junk or flagged as phishing. Someone else can also more easily send a message that looks like it came from you.",
+    domainChecked: "Checked on",
+    domainStatus: { pass: "In place", review: "Needs a review", gap: "Missing" },
+    domainError: "We could not read the domain records.",
+    domainLoading: "Reading the domain records…",
+    domainCheck: {
+      mx: {
+        title: "Mail delivery",
+        pass: "Mail for this domain has a destination.",
+        review: "The mail destination needs a closer look.",
+        gap: "This domain has no place for mail to arrive.",
+        why: "Customers who reply need a destination. Without one, their message never arrives, and mail you send is easier for providers to treat as junk.",
+        action: "Give this domain a mail destination so replies arrive, and so messages you send are less likely to be treated as junk.",
+      },
+      spf: {
+        title: "Who may send mail (SPF)",
+        pass: "A list names the services allowed to send mail for this domain.",
+        review: "The sender list is present, but it does not clearly reject unlisted mail.",
+        gap: "There is no usable list of who may send mail for this domain.",
+        why: "Mailbox providers use this list to decide whether a quote, invoice, or reply really came from you. A missing list, or a list that allows anyone, makes that mail more likely to land in junk or to be flagged as phishing.",
+        action: "Publish one sender list that names every service allowed to send for this domain, and reject mail from everyone else.",
+      },
+      dkim: {
+        title: "Signed mail (DKIM)",
+        pass: "A common sending service signs mail for this domain.",
+        review: "A signature was found, and it still needs a closer look.",
+        gap: "No signature was found on the common sending services.",
+        why: "A signature shows the message was not changed on the way. Without one, providers have less reason to trust the message and are more likely to file it as junk or phishing. A custom selector can still exist even when the common ones are absent.",
+        action: "Turn on signing for each service that sends mail for this domain.",
+      },
+      dmarc: {
+        title: "Forged-mail policy (DMARC)",
+        pass: "Providers are told to quarantine or reject mail that fails the checks.",
+        review: "The policy only watches. It does not yet stop forged mail.",
+        gap: "There is no policy for mail that fails the sender checks.",
+        why: "This policy tells providers what to do when a message fails the sender checks, including mail that only pretends to be from you. Without it, phishing that uses your name is easier, and your own mail is easier to discard.",
+        action: "Publish a policy that tells providers to quarantine or reject mail that fails the sender checks, after confirming legitimate mail still passes.",
+      },
+      names: {
+        title: "Bare name and www",
+        pass: "The bare name and www reach the same place.",
+        review: "The bare name and www resolve to different addresses.",
+        gap: "One of the names does not resolve.",
+        why: "People type either name, and links in email use one of them. If they do not reach the same website, a customer can miss the page, and mail that names one address can fail checks that expect the other.",
+        action: "Point the bare name and www at the same website so links and mail land in one place.",
+      },
+    },
     methodology: "How we calculate the results",
     methodologyBody:
-      "Website category scores come from a Lighthouse lab test run by Google PageSpeed Insights. When the address redirects, the test uses the landing page, which is what Google PageSpeed scores. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. Social sharing results come from public information on the page you entered. Agentic (AI) readiness is the Agentic Browsing category from that same PageSpeed test, shown from 0 to 100 for the phone page and the computer page. These results stay separate because they measure different parts of your online presence.",
+      "Website category scores come from a Lighthouse lab test run by Google PageSpeed Insights. When the address redirects, the test uses the landing page, which is what Google PageSpeed scores. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. Social sharing results come from public information on the page you entered. Agentic (AI) readiness is the Agentic Browsing category from that same PageSpeed test, shown from 0 to 100 for the phone page and the computer page. Domain and email health reads the public mail and name records: where mail is delivered, which services may send it, whether messages are signed, and whether the bare name and www reach the same place. These results stay separate because they measure different parts of your online presence.",
     print: "Save my branded action plan",
     reportLabel: "ROALLA Digital Presence Action Plan",
     reportPrepared: "Prepared",
@@ -511,9 +563,59 @@ const copy = {
       "Les réseaux sociaux les plus pertinents pour votre clientèle",
       "La capacité du contenu à inspirer confiance et à générer des demandes",
     ],
+    domainTitle: "Santé du domaine et du courriel",
+    domainDescription: "Les enregistrements publics de ce domaine. Ils indiquent aux autres systèmes de messagerie si un message vient vraiment de cette entreprise.",
+    domainWhyTitle: "Pourquoi c’est important",
+    domainWhy: "Quand ces enregistrements manquent ou restent trop ouverts, le courriel que vous envoyez a plus de chances d’être classé comme indésirable ou signalé comme hameçonnage. Quelqu’un d’autre peut aussi plus facilement envoyer un message qui semble venir de vous.",
+    domainChecked: "Vérifié sur",
+    domainStatus: { pass: "En place", review: "À revoir", gap: "Manquant" },
+    domainError: "Nous n’avons pas pu lire les enregistrements du domaine.",
+    domainLoading: "Lecture des enregistrements du domaine…",
+    domainCheck: {
+      mx: {
+        title: "Livraison du courriel",
+        pass: "Le courriel de ce domaine a une destination.",
+        review: "La destination du courriel mérite un examen plus attentif.",
+        gap: "Ce domaine n’a pas d’endroit où le courriel peut arriver.",
+        why: "Les clients qui répondent ont besoin d’une destination. Sans elle, leur message n’arrive pas, et le courriel que vous envoyez est plus facile à traiter comme indésirable.",
+        action: "Donner à ce domaine une destination de courriel pour que les réponses arrivent, et pour que vos messages soient moins traités comme indésirables.",
+      },
+      spf: {
+        title: "Qui peut envoyer (SPF)",
+        pass: "Une liste nomme les services autorisés à envoyer pour ce domaine.",
+        review: "La liste des expéditeurs existe, mais elle ne refuse pas clairement le courriel non listé.",
+        gap: "Il n’y a pas de liste utilisable de qui peut envoyer pour ce domaine.",
+        why: "Les fournisseurs de messagerie utilisent cette liste pour décider si une soumission, une facture ou une réponse vient vraiment de vous. Une liste absente, ou une liste qui autorise tout le monde, rend ce courriel plus susceptible d’arriver dans les indésirables ou d’être signalé comme hameçonnage.",
+        action: "Publier une seule liste qui nomme chaque service autorisé à envoyer pour ce domaine, et refuser le courriel de tous les autres.",
+      },
+      dkim: {
+        title: "Courriel signé (DKIM)",
+        pass: "Un service d’envoi courant signe le courriel de ce domaine.",
+        review: "Une signature a été trouvée, et elle mérite encore un examen.",
+        gap: "Aucune signature n’a été trouvée sur les services d’envoi courants.",
+        why: "Une signature montre que le message n’a pas été modifié en route. Sans elle, les fournisseurs ont moins de raisons de faire confiance au message et sont plus susceptibles de le classer comme indésirable ou comme hameçonnage. Un sélecteur personnalisé peut encore exister même si les sélecteurs courants sont absents.",
+        action: "Activer la signature pour chaque service qui envoie du courriel pour ce domaine.",
+      },
+      dmarc: {
+        title: "Politique contre l’usurpation (DMARC)",
+        pass: "Les fournisseurs doivent mettre en quarantaine ou refuser le courriel qui échoue aux vérifications.",
+        review: "La politique observe seulement. Elle n’arrête pas encore le courriel usurpé.",
+        gap: "Il n’y a pas de politique pour le courriel qui échoue aux vérifications d’expéditeur.",
+        why: "Cette politique dit aux fournisseurs quoi faire quand un message échoue aux vérifications, y compris un message qui prétend seulement venir de vous. Sans elle, l’hameçonnage qui utilise votre nom est plus facile, et votre propre courriel est plus facile à écarter.",
+        action: "Publier une politique qui demande aux fournisseurs de mettre en quarantaine ou de refuser le courriel qui échoue aux vérifications, après avoir confirmé que le courriel légitime passe encore.",
+      },
+      names: {
+        title: "Nom nu et www",
+        pass: "Le nom nu et www mènent au même endroit.",
+        review: "Le nom nu et www pointent vers des adresses différentes.",
+        gap: "L’un des noms ne se résout pas.",
+        why: "Les gens saisissent l’un ou l’autre, et les liens dans le courriel en utilisent un. S’ils n’ouvrent pas le même site, un client peut manquer la page, et un courriel qui nomme une adresse peut échouer à des vérifications qui attendent l’autre.",
+        action: "Pointer le nom nu et www vers le même site pour que les liens et le courriel arrivent au même endroit.",
+      },
+    },
     methodology: "Comment les résultats sont calculés",
     methodologyBody:
-      "Les scores du site proviennent d’un test de laboratoire Lighthouse exécuté par Google PageSpeed Insights. Si l’adresse redirige, le test utilise la page d’arrivée, soit celle que Google PageSpeed évalue. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Les résultats du partage social proviennent des renseignements publics de la page entrée. La préparation agentique (IA) est la catégorie Navigation agentique de ce même test PageSpeed, affichée de 0 à 100 pour la page téléphone et la page ordinateur. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
+      "Les scores du site proviennent d’un test de laboratoire Lighthouse exécuté par Google PageSpeed Insights. Si l’adresse redirige, le test utilise la page d’arrivée, soit celle que Google PageSpeed évalue. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Les résultats du partage social proviennent des renseignements publics de la page entrée. La préparation agentique (IA) est la catégorie Navigation agentique de ce même test PageSpeed, affichée de 0 à 100 pour la page téléphone et la page ordinateur. La santé du domaine et du courriel lit les enregistrements publics de courriel et de nom : où le courriel est livré, quels services peuvent l’envoyer, si les messages sont signés, et si le nom nu et www mènent au même endroit. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
     print: "Enregistrer mon plan d’action ROALLA",
     reportLabel: "Plan d’action de présence numérique ROALLA",
     reportPrepared: "Préparé le",
@@ -608,6 +710,36 @@ function agenticSignalResult(results: object, points: number) {
   return table[points] ?? table[0] ?? "";
 }
 
+function presentAction(
+  action: DigitalPresenceAction,
+  labels: (typeof copy)["en"] | (typeof copy)["fr"],
+  language: "en" | "fr",
+) {
+  if (action.source === "domain") {
+    const check = labels.domainCheck[action.key];
+    return { title: check.title, why: check.action };
+  }
+  if (action.source === "agentic") {
+    return {
+      title: labels.actionAgentic,
+      why: fill(labels.actionCost.agentic, { score: String(action.score) }),
+    };
+  }
+  const strategies = action.source === "technical"
+    ? action.strategies.map((strategy) => strategy === "mobile" ? labels.mobile : labels.desktop).join(` ${language === "fr" ? "et" : "and"} `)
+    : "";
+  if (action.source === "technical") {
+    return {
+      title: labels.actionTechnical[action.key],
+      why: fill(labels.actionCost[action.key], { score: String(action.score), strategies }),
+    };
+  }
+  return {
+    title: labels.actionSocial[action.key],
+    why: fill(labels.actionCost[action.key], { score: String(action.score), strategies }),
+  };
+}
+
 function describeAgenticSignal(
   signal: { id: string; points: number; label?: string },
   copy: { agenticAudit: object; agenticSignal: object },
@@ -644,6 +776,9 @@ export default function DigitalPresenceSnapshot({
   const [socialError, setSocialError] = useState("");
   const [technicalLoading, setTechnicalLoading] = useState(false);
   const [socialLoading, setSocialLoading] = useState(false);
+  const [domain, setDomain] = useState<DomainHealthSnapshot | null>(null);
+  const [domainError, setDomainError] = useState("");
+  const [domainLoading, setDomainLoading] = useState(false);
   const [started, setStarted] = useState(false);
   const [previous, setPrevious] = useState<SnapshotHistory | null>(null);
   const [competitorUrl, setCompetitorUrl] = useState("");
@@ -664,8 +799,8 @@ export default function DigitalPresenceSnapshot({
     [technical],
   );
   const actions = useMemo(
-    () => buildDigitalPresenceActions(technicalSnapshots, social ?? undefined),
-    [technicalSnapshots, social],
+    () => buildDigitalPresenceActions(technicalSnapshots, social ?? undefined, domain ?? undefined),
+    [technicalSnapshots, social, domain],
   );
   const narrative = useMemo(
     () => buildSnapshotNarrative(technicalSnapshots, social ?? undefined),
@@ -673,10 +808,10 @@ export default function DigitalPresenceSnapshot({
   );
 
   useEffect(() => {
-    if (started && !technicalLoading && !socialLoading && (technical || social)) {
+    if (started && !technicalLoading && !socialLoading && !domainLoading && (technical || social || domain)) {
       resultsRef.current?.focus();
     }
-  }, [started, technicalLoading, socialLoading, technical, social]);
+  }, [started, technicalLoading, socialLoading, domainLoading, technical, social, domain]);
 
   async function runSnapshot(forceFresh = false, honeypot: FormDataEntryValue | null = "") {
     const body = JSON.stringify({ url, website: honeypot, fresh: forceFresh });
@@ -685,10 +820,13 @@ export default function DigitalPresenceSnapshot({
     setStarted(true);
     setTechnical(null);
     setSocial(null);
+    setDomain(null);
     setTechnicalError("");
     setSocialError("");
+    setDomainError("");
     setTechnicalLoading(true);
     setSocialLoading(true);
+    setDomainLoading(true);
     trackAnalyticsEvent(forceFresh ? "digital_snapshot_fresh" : "digital_snapshot_started");
 
     let completedTechnical: TechnicalResponse | null = null;
@@ -727,7 +865,23 @@ export default function DigitalPresenceSnapshot({
       .catch((error) => setSocialError(error instanceof Error ? error.message : t.socialError))
       .finally(() => setSocialLoading(false));
 
-    await Promise.allSettled([technicalRequest, socialRequest]);
+    const domainRequest = fetch("/api/domain-health", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body,
+    })
+      .then(async (response) => {
+        const payload = (await response.json().catch(() => ({}))) as {
+          snapshot?: DomainHealthSnapshot;
+          error?: string;
+        };
+        if (!response.ok || !payload.snapshot) throw new Error(payload.error || t.domainError);
+        setDomain(payload.snapshot);
+      })
+      .catch((error) => setDomainError(error instanceof Error ? error.message : t.domainError))
+      .finally(() => setDomainLoading(false));
+
+    await Promise.allSettled([technicalRequest, socialRequest, domainRequest]);
     if (completedTechnical || completedSocial) {
       saveHistory(url, completedTechnical, completedSocial);
     }
@@ -803,7 +957,9 @@ export default function DigitalPresenceSnapshot({
       ? t.technicalOnly
       : socialLoading
         ? t.socialOnly
-        : t.starting;
+        : domainLoading
+          ? t.domainLoading
+          : t.starting;
   const resultUrl = social?.finalUrl || technicalSnapshots[0]?.finalUrl || url;
   const detailQuery = { url: resultUrl };
   const note = `${t.note}: ${resultUrl}. ${technicalSnapshots
@@ -898,7 +1054,7 @@ export default function DigitalPresenceSnapshot({
     lead,
     recommendationTitle: recommendation.title,
     recommendationBody: recommendation.body,
-    errors: [technicalError, socialError].filter(Boolean),
+    errors: [technicalError, socialError, domainError].filter(Boolean),
     redirectNote,
     phoneGap: narrative.phoneGap
       ? fill(t.phoneGap, { mobile: String(narrative.phoneGap.mobile), desktop: String(narrative.phoneGap.desktop) })
@@ -941,23 +1097,24 @@ export default function DigitalPresenceSnapshot({
         note: described.note,
       };
     }) ?? [],
+    domainChecks: domain?.checks.map((check) => {
+      const item = t.domainCheck[check.id];
+      return {
+        label: item.title,
+        value: check.evidence.join(" · "),
+        status: t.domainStatus[check.status],
+        result: item[check.status],
+        why: item.why,
+      };
+    }) ?? [],
+    domainName: domain?.domain ?? "",
     actions: actions.map((action) => {
-      const title = action.source === "technical"
-        ? t.actionTechnical[action.key]
-        : action.source === "agentic"
-          ? t.actionAgentic
-          : t.actionSocial[action.key];
-      const strategies = action.source === "technical"
-        ? action.strategies.map((strategy) => strategy === "mobile" ? t.mobile : t.desktop).join(` ${language === "fr" ? "et" : "and"} `)
-        : "";
-      const why = action.source === "agentic"
-        ? fill(t.actionCost.agentic, { score: String(action.score) })
-        : fill(t.actionCost[action.key], { score: String(action.score), strategies });
+      const presented = presentAction(action, t, language);
       return {
         priority: action.priority === "fixNow" ? t.fixNow : t.planNext,
         tone: action.priority === "fixNow" ? "now" as const : "next" as const,
-        title,
-        why,
+        title: presented.title,
+        why: presented.why,
         meta: `${t.impact}: ${t[action.impact]} · ${t.effort}: ${t[action.effort]}`,
       };
     }),
@@ -996,6 +1153,9 @@ export default function DigitalPresenceSnapshot({
       socialScore: t.socialScore,
       agenticTitle: t.agenticTitle,
       agenticDescription: t.agenticDescription,
+      domainTitle: t.domainTitle,
+      domainWhy: t.domainWhy,
+      domainChecked: t.domainChecked,
       actionsTitle: t.actionsTitle,
       actionsIntro: t.actionsIntro,
       humanTitle: t.humanTitle,
@@ -1009,7 +1169,8 @@ export default function DigitalPresenceSnapshot({
       notScored: t.notScored,
     },
   };
-  const showPrintPlan = printMounted && started && Boolean(technical || social || technicalError || socialError);
+  const showPrintPlan = printMounted && started && Boolean(technical || social || domain || technicalError || socialError || domainError);
+  const snapshotBusy = technicalLoading || socialLoading || domainLoading;
 
   return (
     <div className="space-y-8">
@@ -1022,15 +1183,15 @@ export default function DigitalPresenceSnapshot({
           <div className="absolute left-[-10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
             <label>Website<input name="website" type="text" tabIndex={-1} autoComplete="off" /></label>
           </div>
-          <button type="submit" disabled={technicalLoading || socialLoading} className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-dark disabled:cursor-wait disabled:opacity-70">
-            {technicalLoading || socialLoading ? <LoaderCircle className="h-5 w-5 animate-spin" aria-hidden /> : <SearchCheck className="h-5 w-5" aria-hidden />}
-            {technicalLoading || socialLoading ? loadingMessage : t.submit}
+          <button type="submit" disabled={snapshotBusy} className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-dark disabled:cursor-wait disabled:opacity-70">
+            {snapshotBusy ? <LoaderCircle className="h-5 w-5 animate-spin" aria-hidden /> : <SearchCheck className="h-5 w-5" aria-hidden />}
+            {snapshotBusy ? loadingMessage : t.submit}
           </button>
         </div>
-        {technicalLoading || socialLoading ? <p className="mt-4 text-sm text-slate-600" role="status">{loadingMessage}</p> : null}
+        {snapshotBusy ? <p className="mt-4 text-sm text-slate-600" role="status">{loadingMessage}</p> : null}
       </form>
 
-      {started && (technical || social || technicalError || socialError) ? (
+      {started && (technical || social || domain || technicalError || socialError || domainError) ? (
         <section ref={resultsRef} tabIndex={-1} className="space-y-7 outline-none" aria-live="polite">
           <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -1039,10 +1200,10 @@ export default function DigitalPresenceSnapshot({
                 <p className="mt-2 max-w-3xl text-slate-700">{t.resultsIntro}</p>
               </div>
               <div className="flex shrink-0 flex-col gap-2 print:hidden">
-                <button type="button" disabled={technicalLoading || socialLoading} onClick={() => runSnapshot(true)} className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-primary/30 px-4 py-2 text-sm font-semibold text-primary-dark hover:border-primary disabled:opacity-60">
-                  <RefreshCw className={`h-4 w-4 ${technicalLoading || socialLoading ? "animate-spin" : ""}`} aria-hidden />{t.freshTest}
+                <button type="button" disabled={snapshotBusy} onClick={() => runSnapshot(true)} className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-primary/30 px-4 py-2 text-sm font-semibold text-primary-dark hover:border-primary disabled:opacity-60">
+                  <RefreshCw className={`h-4 w-4 ${snapshotBusy ? "animate-spin" : ""}`} aria-hidden />{t.freshTest}
                 </button>
-                <button type="button" disabled={technicalLoading || socialLoading} onClick={() => window.print()} className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-primary hover:text-primary-dark disabled:opacity-60">
+                <button type="button" disabled={snapshotBusy} onClick={() => window.print()} className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-primary hover:text-primary-dark disabled:opacity-60">
                   <Download className="h-4 w-4" aria-hidden />{t.print}
                 </button>
               </div>
@@ -1259,6 +1420,40 @@ export default function DigitalPresenceSnapshot({
             ) : null}
           </div>
 
+          <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+            <div className="flex items-start gap-3">
+              <Mail className="mt-1 h-7 w-7 text-primary-dark" aria-hidden />
+              <div>
+                <h2 className="text-2xl font-serif font-bold text-slate-950">{t.domainTitle}</h2>
+                <p className="mt-1 text-sm text-slate-600">{t.domainDescription}</p>
+              </div>
+            </div>
+            {domain ? (
+              <div className="mt-6">
+                <p className="text-sm text-slate-500">{t.domainChecked} {domain.domain}</p>
+                <div className="mt-4 rounded-lg bg-amber-50 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-amber-800">{t.domainWhyTitle}</p>
+                  <p className="mt-1 text-sm leading-6 text-amber-950">{t.domainWhy}</p>
+                </div>
+                <dl className="mt-5 grid gap-3">
+                  {domain.checks.map((check) => {
+                    const item = t.domainCheck[check.id];
+                    const tone = check.status === "pass" ? "text-emerald-700" : check.status === "review" ? "text-amber-700" : "text-rose-700";
+                    return (
+                      <div key={check.id} className="rounded-lg bg-slate-50 p-4">
+                        <dt className="text-[11px] font-semibold text-slate-500">{item.title}</dt>
+                        <dd className={`mt-1 text-lg font-bold ${tone}`}>{t.domainStatus[check.status]}</dd>
+                        <p className="mt-1 text-sm leading-6 text-slate-800">{item[check.status]}</p>
+                        {check.evidence.length ? <p className="mt-1 break-all text-xs leading-5 text-slate-500">{check.evidence.join(" · ")}</p> : null}
+                        <p className="mt-2 text-sm leading-6 text-slate-600">{item.why}</p>
+                      </div>
+                    );
+                  })}
+                </dl>
+              </div>
+            ) : domainLoading ? <p className="mt-6 text-sm text-slate-600">{t.domainLoading}</p> : <p className="mt-6 text-sm text-slate-600">{domainError || t.domainError}</p>}
+          </article>
+
           {historyRows.some((row) => row.current != null && row.old != null) ? (
             <article className="rounded-2xl border border-primary/20 bg-primary/[0.04] p-6 sm:p-8">
               <h2 className="text-2xl font-serif font-bold text-slate-950">{t.previousTitle}</h2>
@@ -1302,17 +1497,9 @@ export default function DigitalPresenceSnapshot({
               {actions.length ? (
                 <ol className="mt-5 space-y-3">
                   {actions.map((action, index) => {
-                    const title = action.source === "technical"
-                      ? t.actionTechnical[action.key]
-                      : action.source === "agentic"
-                        ? t.actionAgentic
-                        : t.actionSocial[action.key];
-                    const strategies = action.source === "technical"
-                      ? action.strategies.map((strategy) => strategy === "mobile" ? t.mobile : t.desktop).join(` ${language === "fr" ? "et" : "and"} `)
-                      : "";
-                    const why = action.source === "agentic"
-                      ? fill(t.actionCost.agentic, { score: String(action.score) })
-                      : fill(t.actionCost[action.key], { score: String(action.score), strategies });
+                    const presented = presentAction(action, t, language);
+                    const title = presented.title;
+                    const why = presented.why;
                     return (
                       <li key={`${action.source}-${action.key}`} className="flex gap-4 rounded-xl border border-slate-200 p-4">
                         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary-dark">{index + 1}</span>

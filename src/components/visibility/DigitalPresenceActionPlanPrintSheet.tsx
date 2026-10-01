@@ -45,6 +45,8 @@ export type PresencePrintModel = {
   agenticScore: number | null;
   agenticDevices: Array<{ label: string; score: number }>;
   agenticSignals: Array<PresencePrintMetric & { note: string }>;
+  domainChecks: Array<PresencePrintMetric & { status: string; result: string; why: string }>;
+  domainName: string;
   actions: PresencePrintAction[];
   actionsEmpty: string;
   humanItems: string[];
@@ -70,6 +72,9 @@ export type PresencePrintModel = {
     socialScore: string;
     agenticTitle: string;
     agenticDescription: string;
+    domainTitle: string;
+    domainWhy: string;
+    domainChecked: string;
     actionsTitle: string;
     actionsIntro: string;
     humanTitle: string;
@@ -542,6 +547,25 @@ export default function DigitalPresenceActionPlanPrintSheet({
                         <div key={check.label} className="presence-print-keep" style={{ border: "1px solid #e2e8f0", padding: "8px 10px" }}>
                           <p style={{ margin: 0, fontSize: 11, lineHeight: 1.35, color: "#334155" }}>{check.label}</p>
                           <p style={{ margin: "3px 0 0", fontSize: 13, fontWeight: 700 }}>{check.value}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                ) : null}
+
+                {model.domainChecks.length ? (
+                  <section>
+                    <SectionHeading>{model.labels.domainTitle}</SectionHeading>
+                    <p style={{ margin: "4px 0 0", fontSize: 12, lineHeight: 1.45, color: "#64748b" }}>{model.labels.domainChecked} {model.domainName}</p>
+                    <p style={{ margin: "6px 0 0", fontSize: 12, lineHeight: 1.45, color: "#334155" }}>{model.labels.domainWhy}</p>
+                    <div style={{ marginTop: 8, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                      {model.domainChecks.map((check) => (
+                        <div key={check.label} className="presence-print-keep" style={{ border: "1px solid #e2e8f0", background: "#f8fafc", padding: "8px 10px" }}>
+                          <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "#64748b" }}>{check.label}</p>
+                          <p style={{ margin: "3px 0 0", fontSize: 13, fontWeight: 700 }}>{check.status}</p>
+                          <p style={{ margin: "3px 0 0", fontSize: 11, lineHeight: 1.4, color: "#0f172a" }}>{check.result}</p>
+                          {check.value ? <p style={{ margin: "3px 0 0", fontSize: 10, lineHeight: 1.4, color: "#64748b" }}>{check.value}</p> : null}
+                          <p style={{ margin: "3px 0 0", fontSize: 11, lineHeight: 1.4, color: "#334155" }}>{check.why}</p>
                         </div>
                       ))}
                     </div>

@@ -3,7 +3,10 @@
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { ArrowRight, Gauge, LoaderCircle, RefreshCw, SearchCheck } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { PresenceReportDetails } from "@/components/visibility/PresenceReportDetails";
+import { PresenceScoreTiles } from "@/components/visibility/PresenceScoreTiles";
 import { trackAnalyticsEvent } from "@/lib/analytics";
+import type { SocialPresenceSnapshot } from "@/lib/social-presence/analyzer";
 import type {
   ScoreName,
   WebsiteVisibilitySnapshot as Snapshot,
@@ -125,13 +128,6 @@ type ReportPayload = {
   error?: string;
 };
 
-function scoreTone(score: number | null) {
-  if (score == null) return "border-slate-300 bg-slate-50 text-slate-600";
-  if (score >= 90) return "border-emerald-300 bg-emerald-50 text-emerald-800";
-  if (score >= 50) return "border-amber-300 bg-amber-50 text-amber-800";
-  return "border-rose-300 bg-rose-50 text-rose-800";
-}
-
 function fill(template: string, values: Record<string, string>) {
   return template.replace(/\{(\w+)\}/g, (_, key: string) => values[key] ?? "");
 }
@@ -144,6 +140,15 @@ function engagementNote(pageUrl: string, reports: Array<{ label: string; snapsho
     })
     .join(". ");
   return `${t.noteLead} ${pageUrl}. ${detail}. ${t.noteAsk}`.slice(0, 280);
+}
+
+function PageAddress({ label, url }: { label: string; url: string }) {
+  return (
+    <div className="mt-4 min-w-0">
+      <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{label}</p>
+      <p className="mt-1 overflow-x-auto whitespace-nowrap rounded-lg bg-slate-50 px-3 py-2 font-mono text-sm text-slate-800">{url}</p>
+    </div>
+  );
 }
 
 function ReportCard({
@@ -170,10 +175,7 @@ function ReportCard({
   return (
     <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.15em] text-primary-dark">{label}</p>
-          <h2 className="mt-2 break-all text-2xl font-serif font-bold text-slate-950">{new URL(snapshot.finalUrl).hostname}</h2>
-        </div>
+        <h2 className="text-xl font-serif font-bold text-slate-950">{label}</h2>
         <p className="text-xs text-slate-500">
           {report.cached ? `${t.cached} · ` : ""}
           {t.measured}{" "}
@@ -183,26 +185,13 @@ function ReportCard({
           }).format(new Date(snapshot.analyzedAt))}
         </p>
       </div>
-      <dl className="mt-4 space-y-1 text-xs text-slate-600">
-        <div><dt className="inline font-semibold text-slate-700">{t.finalUrl}: </dt><dd className="inline break-all">{snapshot.finalUrl}</dd></div>
-        {snapshot.lighthouseVersion ? <div><dt className="inline font-semibold text-slate-700">{t.lighthouse}: </dt><dd className="inline">{snapshot.lighthouseVersion}</dd></div> : null}
-      </dl>
+      <PageAddress label={t.finalUrl} url={snapshot.finalUrl} />
+      {snapshot.lighthouseVersion ? <p className="mt-3 text-xs text-slate-600"><span className="font-semibold text-slate-700">{t.lighthouse}: </span>{snapshot.lighthouseVersion}</p> : null}
       {!isSamePublicPage(snapshot.requestedUrl, snapshot.finalUrl) ? <p className="mt-3 text-xs leading-5 text-slate-600">{fill(t.redirectNote, { requested: snapshot.requestedUrl })}</p> : null}
       <a href={`https://pagespeed.web.dev/analysis?url=${encodeURIComponent(snapshot.finalUrl)}&form_factor=${snapshot.strategy}`} target="_blank" rel="noreferrer" className="mt-3 inline-flex text-sm font-semibold text-primary-dark underline underline-offset-4">{t.compareGoogle}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></a>
 
       <h3 className="mt-7 text-xl font-serif font-bold text-slate-950">{t.scoresTitle}</h3>
-      <div className="mt-4 grid grid-cols-2 gap-3">
-        {SCORE_ORDER.map((name) => {
-          const score = snapshot.scores[name];
-          return (
-            <div key={name} className={`rounded-xl border p-4 ${scoreTone(score)}`}>
-              <p className="text-3xl font-bold">{score ?? t.notAvailable}</p>
-              <p className="mt-1 text-sm font-semibold">{t.scoreLabels[name]}</p>
-              {score == null ? <p className="mt-1 text-xs">{t.notAvailable}</p> : null}
-            </div>
-          );
-        })}
-      </div>
+      <PresenceScoreTiles scores={snapshot.scores} language={language} />
 
       {snapshot.labMetrics.length ? (
         <div className="mt-8">
@@ -262,42 +251,65 @@ export default function WebsiteVisibilitySnapshot({ locale, initialUrl = "" }: {
   const [url, setUrl] = useState(initialUrl);
   const [mobile, setMobile] = useState<ReportPayload | null>(null);
   const [desktop, setDesktop] = useState<ReportPayload | null>(null);
+  const [social, setSocial] = useState<SocialPresenceSnapshot | null>(null);
+  const [socialError, setSocialError] = useState("");
+  const [socialLoading, setSocialLoading] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const startedFromQuery = useRef(false);
 
   async function runSnapshot(forceFresh = false, honeypot: FormDataEntryValue | null = "") {
     setLoading(true);
+    setSocialLoading(true);
     setError("");
+    setSocialError("");
     setMobile(null);
     setDesktop(null);
+    setSocial(null);
     trackAnalyticsEvent("visibility_snapshot_started", { strategy: "mobile-and-desktop" });
 
-    try {
-      const response = await fetch("/api/website-visibility-snapshot", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url, website: honeypot, fresh: forceFresh }),
-      });
-      const payload = (await response.json().catch(() => ({}))) as {
-        mobile?: ReportPayload;
-        desktop?: ReportPayload;
-        error?: string;
-      };
-      if (!payload.mobile?.snapshot && !payload.desktop?.snapshot) {
-        throw new Error(payload.error || t.genericError);
-      }
-      setMobile(payload.mobile ?? { error: t.partialError });
-      setDesktop(payload.desktop ?? { error: t.partialError });
-      trackAnalyticsEvent("visibility_snapshot_completed", {
-        strategy: "mobile-and-desktop",
-        cached: Boolean(payload.mobile?.cached && payload.desktop?.cached),
-      });
-    } catch (caught) {
-      setError(caught instanceof Error ? caught.message : t.genericError);
-    } finally {
-      setLoading(false);
-    }
+    const body = JSON.stringify({ url, website: honeypot, fresh: forceFresh });
+    const websiteRequest = fetch("/api/website-visibility-snapshot", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body,
+    })
+      .then(async (response) => {
+        const payload = (await response.json().catch(() => ({}))) as {
+          mobile?: ReportPayload;
+          desktop?: ReportPayload;
+          error?: string;
+        };
+        if (!payload.mobile?.snapshot && !payload.desktop?.snapshot) {
+          throw new Error(payload.error || t.genericError);
+        }
+        setMobile(payload.mobile ?? { error: t.partialError });
+        setDesktop(payload.desktop ?? { error: t.partialError });
+        trackAnalyticsEvent("visibility_snapshot_completed", {
+          strategy: "mobile-and-desktop",
+          cached: Boolean(payload.mobile?.cached && payload.desktop?.cached),
+        });
+      })
+      .catch((caught) => setError(caught instanceof Error ? caught.message : t.genericError))
+      .finally(() => setLoading(false));
+
+    const socialRequest = fetch("/api/social-presence-snapshot", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body,
+    })
+      .then(async (response) => {
+        const payload = (await response.json().catch(() => ({}))) as {
+          snapshot?: SocialPresenceSnapshot;
+          error?: string;
+        };
+        if (!response.ok || !payload.snapshot) throw new Error(payload.error || t.partialError);
+        setSocial(payload.snapshot);
+      })
+      .catch((caught) => setSocialError(caught instanceof Error ? caught.message : t.partialError))
+      .finally(() => setSocialLoading(false));
+
+    await Promise.allSettled([websiteRequest, socialRequest]);
   }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -317,15 +329,6 @@ export default function WebsiteVisibilitySnapshot({ locale, initialUrl = "" }: {
   const reports: Array<{ label: string; snapshot: Snapshot }> = [];
   if (mobile?.snapshot) reports.push({ label: t.mobile, snapshot: mobile.snapshot });
   if (desktop?.snapshot) reports.push({ label: t.desktop, snapshot: desktop.snapshot });
-
-  const attention = reports.flatMap(({ label, snapshot }) =>
-    SCORE_ORDER.flatMap((name) => {
-      const score = snapshot.scores[name];
-      if (score != null && score >= 90) return [];
-      const template = score == null ? t.nextMissing : t.nextGap;
-      return [fill(template, { experience: label, label: t.scoreLabels[name], score: String(score ?? "") })];
-    }),
-  );
 
   const pageUrl = reports[0]?.snapshot.requestedUrl || url;
   const note = reports.length ? engagementNote(pageUrl, reports, t) : "";
@@ -359,7 +362,7 @@ export default function WebsiteVisibilitySnapshot({ locale, initialUrl = "" }: {
           </div>
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || socialLoading}
             className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-dark disabled:cursor-wait disabled:opacity-70"
           >
             {loading ? <LoaderCircle className="h-5 w-5 animate-spin" aria-hidden /> : <Gauge className="h-5 w-5" aria-hidden />}
@@ -376,6 +379,14 @@ export default function WebsiteVisibilitySnapshot({ locale, initialUrl = "" }: {
             {mobile ? <ReportCard label={t.mobile} report={mobile} t={t} language={language} /> : null}
             {desktop ? <ReportCard label={t.desktop} report={desktop} t={t} language={language} /> : null}
           </div>
+
+          <PresenceReportDetails
+            locale={locale}
+            technical={reports.map((report) => report.snapshot)}
+            social={social}
+            socialError={socialError}
+            socialLoading={socialLoading}
+          />
 
           <div className="flex justify-center">
             <button type="button" disabled={loading} onClick={() => runSnapshot(true)} className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-primary/30 bg-white px-5 py-2 text-sm font-semibold text-primary-dark hover:border-primary disabled:opacity-60"><RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} aria-hidden />{t.freshTest}</button>
@@ -408,11 +419,6 @@ export default function WebsiteVisibilitySnapshot({ locale, initialUrl = "" }: {
                 </table>
               </div>
             ) : null}
-            <ul className="mt-5 space-y-2">
-              {(attention.length ? attention : [t.nextStrong]).map((item) => (
-                <li key={item} className="text-sm leading-6 text-slate-700">{item}</li>
-              ))}
-            </ul>
             <p className="mt-5 border-l-4 border-brand-gold bg-slate-50 p-4 text-sm text-slate-700">
               {t.caveat}{" "}
               <a href="https://pagespeed.web.dev/" target="_blank" rel="noreferrer" className="font-semibold text-primary-dark underline underline-offset-2">{t.source}</a>

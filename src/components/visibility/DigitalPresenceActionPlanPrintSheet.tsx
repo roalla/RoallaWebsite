@@ -44,6 +44,7 @@ export type PresencePrintModel = {
   socialChecks: PresencePrintMetric[];
   contactUrl: string;
   contactLines: string[];
+  siteSetup: Array<{ id: string; title: string; value: string; note: string }>;
   agenticScore: number | null;
   agenticDevices: Array<{ label: string; score: number }>;
   agenticSignals: Array<PresencePrintMetric & { note: string }>;
@@ -74,6 +75,8 @@ export type PresencePrintModel = {
     socialScore: string;
     contactTitle: string;
     contactDescription: string;
+    setupTitle: string;
+    setupDescription: string;
     agenticTitle: string;
     agenticDescription: string;
     domainTitle: string;
@@ -571,6 +574,22 @@ export default function DigitalPresenceActionPlanPrintSheet({
                         <li key={line} className="presence-print-keep" style={{ marginTop: 6, fontSize: 12, lineHeight: 1.45, color: "#334155" }}>{line}</li>
                       ))}
                     </ul>
+                  </section>
+                ) : null}
+
+                {model.siteSetup.length ? (
+                  <section>
+                    <SectionHeading>{model.labels.setupTitle}</SectionHeading>
+                    <p style={{ margin: "4px 0 0", fontSize: 12, lineHeight: 1.45, color: "#64748b" }}>{model.labels.setupDescription}</p>
+                    <div style={{ marginTop: 8, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                      {model.siteSetup.map((item) => (
+                        <div key={item.id} className="presence-print-keep" style={{ border: "1px solid #e2e8f0", background: "#f8fafc", padding: "8px 10px" }}>
+                          <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "#64748b" }}>{item.title}</p>
+                          <p style={{ margin: "3px 0 0", fontSize: 13, fontWeight: 700 }}>{item.value}</p>
+                          <p style={{ margin: "3px 0 0", fontSize: 11, lineHeight: 1.4, color: "#334155" }}>{item.note}</p>
+                        </div>
+                      ))}
+                    </div>
                   </section>
                 ) : null}
 

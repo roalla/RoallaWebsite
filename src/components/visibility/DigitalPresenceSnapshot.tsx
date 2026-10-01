@@ -8,6 +8,7 @@ import {
   CheckCircle2,
   Download,
   Gauge,
+  Layers,
   LoaderCircle,
   Mail,
   RefreshCw,
@@ -24,6 +25,7 @@ import { buildDigitalPresenceActions, type DigitalPresenceAction } from "@/lib/d
 import type { DomainHealthSnapshot } from "@/lib/domain-health/evaluate";
 import { buildSnapshotNarrative } from "@/lib/digital-presence/narrative";
 import type { ContactExposure } from "@/lib/contact-exposure/analyze";
+import type { SiteSetup, SiteSetupId } from "@/lib/site-setup/analyze";
 import type { SocialPresenceSnapshot } from "@/lib/social-presence/analyzer";
 import type {
   ScoreName,
@@ -377,9 +379,56 @@ const copy = {
         action: "Point the bare name and www at the same website so links and mail land in one place.",
       },
     },
+    setupTitle: "How this site is set up",
+    setupDescription: "Public clues from this landing page and the domain name. They describe what is visible from the outside.",
+    setupEdge: "Public address",
+    setupPlatform: "Built with",
+    setupAnalytics: "Analytics",
+    setupProtection: "Protection",
+    setupNotIdentified: "Not identified",
+    setupNone: "None found on this page",
+    setupEdgeNamed: "This is the service the public internet reaches.",
+    setupEdgeHidden: "This service is in front of the site. The server behind it is not visible.",
+    setupEdgeUnknown: "The public address did not match a common host.",
+    setupPlatformNote: "Taken from marks in this page. A site can leave those marks out.",
+    setupAnalyticsNote: "A tag that loads only after someone accepts cookies may not appear here.",
+    setupProtectionProxy: "This service sits in front of the site.",
+    setupProtectionDns: "This service handles the domain name. Visits may not pass through it.",
+    setupProtectionNone: "None of the common protection services were found.",
+    setupName: {
+      cloudflare: "Cloudflare",
+      vercel: "Vercel",
+      netlify: "Netlify",
+      shopify: "Shopify",
+      wordpress: "WordPress",
+      webflow: "Webflow",
+      wix: "Wix",
+      squarespace: "Squarespace",
+      next: "Next.js",
+      "github-pages": "GitHub Pages",
+      amazon: "Amazon CloudFront",
+      fastly: "Fastly",
+      akamai: "Akamai",
+      sucuri: "Sucuri",
+      "wp-engine": "WP Engine",
+      framer: "Framer",
+      ghost: "Ghost",
+      drupal: "Drupal",
+      nuxt: "Nuxt",
+      gatsby: "Gatsby",
+      "google-analytics": "Google Analytics",
+      "google-tag-manager": "Google Tag Manager",
+      plausible: "Plausible",
+      fathom: "Fathom",
+      matomo: "Matomo",
+      "meta-pixel": "Meta pixel",
+      hotjar: "Hotjar",
+      clarity: "Microsoft Clarity",
+      hubspot: "HubSpot",
+    },
     methodology: "How we calculate the results",
     methodologyBody:
-      "This report checks one landing page. It is not a review of every page on the website. The address you enter is followed through redirects to the page a visitor lands on, and that page is what the scores measure. Website category scores come from a Lighthouse lab test of that page, run by Google PageSpeed Insights, once as a phone and once as a computer. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. When that page does not have enough visits, those visitor numbers cover the whole site address. Social sharing results come from the public HTML of that landing page. Assistant readiness uses that same page, plus the site’s robots.txt and llms.txt files. The contact check reads that page’s HTML and reports whether a mailbox, a phone number, or a form is present. It does not run scripts, open other pages, or display or store the address or number. Domain and email health reads the public mail and name records: where mail is delivered, which services may send it, whether messages are signed, and whether the bare name and www reach the same place. These results stay separate because they measure different parts of your online presence.",
+      "This report checks one landing page. It is not a review of every page on the website. The address you enter is followed through redirects to the page a visitor lands on, and that page is what the scores measure. Website category scores come from a Lighthouse lab test of that page, run by Google PageSpeed Insights, once as a phone and once as a computer. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. When that page does not have enough visits, those visitor numbers cover the whole site address. Social sharing results come from the public HTML of that landing page. Assistant readiness uses that same page, plus the site’s robots.txt and llms.txt files. The contact check reads that page’s HTML and reports whether a mailbox, a phone number, or a form is present. It does not run scripts, open other pages, or display or store the address or number. Domain and email health reads the public mail and name records: where mail is delivered, which services may send it, whether messages are signed, and whether the bare name and www reach the same place. A separate section reads public clues for the host, the platform, analytics tags, and a protection service such as Cloudflare. These results stay separate because they measure different parts of your online presence.",
     print: "Save my branded action plan",
     reportLabel: "ROALLA Digital Presence Action Plan",
     reportPrepared: "Prepared",
@@ -722,9 +771,56 @@ const copy = {
         action: "Pointer le nom nu et www vers le même site pour que les liens et le courriel arrivent au même endroit.",
       },
     },
+    setupTitle: "Comment ce site est organisé",
+    setupDescription: "Des indices publics tirés de cette page d’arrivée et du nom de domaine. Ils décrivent ce qui est visible de l’extérieur.",
+    setupEdge: "Adresse publique",
+    setupPlatform: "Construit avec",
+    setupAnalytics: "Analytique",
+    setupProtection: "Protection",
+    setupNotIdentified: "Non identifié",
+    setupNone: "Aucun trouvé sur cette page",
+    setupEdgeNamed: "C’est le service que l’internet public atteint.",
+    setupEdgeHidden: "Ce service est devant le site. Le serveur derrière n’est pas visible.",
+    setupEdgeUnknown: "L’adresse publique ne correspond pas à un hébergeur courant.",
+    setupPlatformNote: "Repéré à partir de marques dans cette page. Un site peut omettre ces marques.",
+    setupAnalyticsNote: "Une balise qui se charge seulement après l’acceptation des témoins peut ne pas apparaître ici.",
+    setupProtectionProxy: "Ce service se place devant le site.",
+    setupProtectionDns: "Ce service gère le nom de domaine. Les visites peuvent ne pas passer par lui.",
+    setupProtectionNone: "Aucun des services de protection courants n’a été trouvé.",
+    setupName: {
+      cloudflare: "Cloudflare",
+      vercel: "Vercel",
+      netlify: "Netlify",
+      shopify: "Shopify",
+      wordpress: "WordPress",
+      webflow: "Webflow",
+      wix: "Wix",
+      squarespace: "Squarespace",
+      next: "Next.js",
+      "github-pages": "GitHub Pages",
+      amazon: "Amazon CloudFront",
+      fastly: "Fastly",
+      akamai: "Akamai",
+      sucuri: "Sucuri",
+      "wp-engine": "WP Engine",
+      framer: "Framer",
+      ghost: "Ghost",
+      drupal: "Drupal",
+      nuxt: "Nuxt",
+      gatsby: "Gatsby",
+      "google-analytics": "Google Analytics",
+      "google-tag-manager": "Google Tag Manager",
+      plausible: "Plausible",
+      fathom: "Fathom",
+      matomo: "Matomo",
+      "meta-pixel": "Pixel Meta",
+      hotjar: "Hotjar",
+      clarity: "Microsoft Clarity",
+      hubspot: "HubSpot",
+    },
     methodology: "Comment les résultats sont calculés",
     methodologyBody:
-      "Ce rapport vérifie une seule page d’arrivée. Il ne passe pas en revue chaque page du site. L’adresse entrée est suivie à travers les redirections jusqu’à la page où un visiteur arrive, et c’est cette page que les scores mesurent. Les scores proviennent d’un test de laboratoire Lighthouse de cette page, exécuté par Google PageSpeed Insights, une fois comme téléphone et une fois comme ordinateur. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Lorsque cette page n’a pas assez de visites, ces chiffres de visiteurs couvrent l’adresse du site entier. Les résultats du partage social proviennent du HTML public de cette page d’arrivée. La préparation pour un assistant utilise cette même page, ainsi que les fichiers robots.txt et llms.txt du site. La vérification des coordonnées lit le HTML de cette page et indique si une adresse courriel, un numéro de téléphone ou un formulaire s’y trouve. Elle n’exécute pas les scripts, n’ouvre pas d’autres pages et n’affiche ni ne conserve l’adresse ou le numéro. La santé du domaine et du courriel lit les enregistrements publics de courriel et de nom : où le courriel est livré, quels services peuvent l’envoyer, si les messages sont signés, et si le nom nu et www mènent au même endroit. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
+      "Ce rapport vérifie une seule page d’arrivée. Il ne passe pas en revue chaque page du site. L’adresse entrée est suivie à travers les redirections jusqu’à la page où un visiteur arrive, et c’est cette page que les scores mesurent. Les scores proviennent d’un test de laboratoire Lighthouse de cette page, exécuté par Google PageSpeed Insights, une fois comme téléphone et une fois comme ordinateur. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Lorsque cette page n’a pas assez de visites, ces chiffres de visiteurs couvrent l’adresse du site entier. Les résultats du partage social proviennent du HTML public de cette page d’arrivée. La préparation pour un assistant utilise cette même page, ainsi que les fichiers robots.txt et llms.txt du site. La vérification des coordonnées lit le HTML de cette page et indique si une adresse courriel, un numéro de téléphone ou un formulaire s’y trouve. Elle n’exécute pas les scripts, n’ouvre pas d’autres pages et n’affiche ni ne conserve l’adresse ou le numéro. La santé du domaine et du courriel lit les enregistrements publics de courriel et de nom : où le courriel est livré, quels services peuvent l’envoyer, si les messages sont signés, et si le nom nu et www mènent au même endroit. Une section distincte lit les indices publics sur l’hébergeur, la plateforme, les balises d’analytique et un service de protection comme Cloudflare. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
     print: "Enregistrer mon plan d’action ROALLA",
     reportLabel: "Plan d’action de présence numérique ROALLA",
     reportPrepared: "Préparé le",
@@ -892,6 +988,58 @@ function contactLines(exposure: ContactExposure | undefined, labels: {
   ];
   if (exposure.emailLeftReadable) lines.push(labels.contactEmailOff);
   return lines;
+}
+
+function siteSetupCards(setup: SiteSetup, labels: {
+  setupEdge: string;
+  setupPlatform: string;
+  setupAnalytics: string;
+  setupProtection: string;
+  setupNotIdentified: string;
+  setupNone: string;
+  setupEdgeNamed: string;
+  setupEdgeHidden: string;
+  setupEdgeUnknown: string;
+  setupPlatformNote: string;
+  setupAnalyticsNote: string;
+  setupProtectionProxy: string;
+  setupProtectionDns: string;
+  setupProtectionNone: string;
+  setupName: Record<SiteSetupId, string>;
+}) {
+  const names = (ids: SiteSetupId[]) => ids.map((id) => labels.setupName[id]).join(", ");
+  const protectionIds = [...setup.protection, ...setup.protectionDnsOnly];
+  const protectionNote = setup.protection.length
+    ? labels.setupProtectionProxy
+    : setup.protectionDnsOnly.length
+      ? labels.setupProtectionDns
+      : labels.setupProtectionNone;
+  return [
+    {
+      id: "edge",
+      title: labels.setupEdge,
+      value: setup.edge.length ? names(setup.edge) : labels.setupNotIdentified,
+      note: setup.edgeHidden ? labels.setupEdgeHidden : setup.edge.length ? labels.setupEdgeNamed : labels.setupEdgeUnknown,
+    },
+    {
+      id: "platform",
+      title: labels.setupPlatform,
+      value: setup.platform.length ? names(setup.platform) : labels.setupNotIdentified,
+      note: labels.setupPlatformNote,
+    },
+    {
+      id: "analytics",
+      title: labels.setupAnalytics,
+      value: setup.analytics.length ? names(setup.analytics) : labels.setupNone,
+      note: labels.setupAnalyticsNote,
+    },
+    {
+      id: "protection",
+      title: labels.setupProtection,
+      value: protectionIds.length ? names(protectionIds) : labels.setupNone,
+      note: protectionNote,
+    },
+  ];
 }
 
 function contactCompareValue(
@@ -1289,6 +1437,7 @@ export default function DigitalPresenceSnapshot({
     })) ?? [],
     contactUrl: social?.finalUrl ?? "",
     contactLines: contactLines(social?.contactExposure, t),
+    siteSetup: social?.siteSetup ? siteSetupCards(social.siteSetup, t) : [],
     agenticScore: agenticViews.length ? null : social?.agentic?.score ?? null,
     agenticDevices: agenticViews.map((view) => ({ label: view.label, score: view.agentic.score })),
     agenticSignals: (agenticViews.length ? agenticViews.reduce((weakest, view) => view.agentic.score < weakest.agentic.score ? view : weakest).agentic : social?.agentic)?.signals?.map((signal) => {
@@ -1357,6 +1506,8 @@ export default function DigitalPresenceSnapshot({
       socialScore: t.socialScore,
       contactTitle: t.contactTitle,
       contactDescription: t.contactDescription,
+      setupTitle: t.setupTitle,
+      setupDescription: t.setupDescription,
       agenticTitle: t.agenticTitle,
       agenticDescription: t.agenticDescription,
       domainTitle: t.domainTitle,
@@ -1751,6 +1902,27 @@ export default function DigitalPresenceSnapshot({
               </article>
             ) : null}
           </div>
+
+          {social?.siteSetup ? (
+            <article id="presence-setup" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              <div className="flex items-start gap-3">
+                <Layers className="mt-1 h-7 w-7 text-primary-dark" aria-hidden />
+                <div>
+                  <h2 className="text-2xl font-serif font-bold text-slate-950">{t.setupTitle}</h2>
+                  <p className="mt-1 text-sm text-slate-600">{t.setupDescription}</p>
+                </div>
+              </div>
+              <dl className="mt-6 grid gap-3 sm:grid-cols-2">
+                {siteSetupCards(social.siteSetup, t).map((item) => (
+                  <div key={item.id} className="rounded-lg bg-slate-50 p-4">
+                    <dt className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{item.title}</dt>
+                    <dd className="mt-1 text-lg font-bold text-slate-950">{item.value}</dd>
+                    <p className="mt-1 text-sm leading-6 text-slate-600">{item.note}</p>
+                  </div>
+                ))}
+              </dl>
+            </article>
+          ) : null}
 
           <article id="presence-domain" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
             <div className="flex items-start gap-3">

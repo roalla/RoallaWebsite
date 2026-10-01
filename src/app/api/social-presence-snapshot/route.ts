@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { scoreAgenticReadiness } from "@/lib/agentic-readiness/score";
 import { analyzeContactExposure } from "@/lib/contact-exposure/analyze";
+import { lookupPublicEdgeHints } from "@/lib/domain-health/lookup";
+import { analyzeSiteSetup } from "@/lib/site-setup/analyze";
 import { analyzeSocialPresence } from "@/lib/social-presence/analyzer";
 import {
   checkSocialClientRate,
@@ -50,7 +52,7 @@ export async function POST(request: NextRequest) {
   try {
     const target = normalizePublicTarget(body.url);
     const cached = getCachedSocialSnapshot(target);
-    if (cached) return response({ snapshot: cached, cached: true });
+    if (cached?.siteSetup) return response({ snapshot: cached, cached: true });
 
     const hostRate = checkSocialHostRate(target.hostname);
     if (!hostRate.allowed) {
@@ -68,6 +70,13 @@ export async function POST(request: NextRequest) {
     const snapshot = analyzeSocialPresence(page.html, target.toString(), page.finalUrl.toString());
     snapshot.agentic = scoreAgenticReadiness({ html: page.html, robotsTxt, llmsTxt });
     snapshot.contactExposure = analyzeContactExposure(page.html);
+    const hints = await lookupPublicEdgeHints(origin.hostname);
+    snapshot.siteSetup = analyzeSiteSetup({
+      html: page.html,
+      headers: page.headers,
+      nameservers: hints.nameservers,
+      cname: hints.cname,
+    });
     setCachedSocialSnapshot(target, snapshot);
     return response({ snapshot, cached: false });
   } catch (error) {

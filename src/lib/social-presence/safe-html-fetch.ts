@@ -1,4 +1,5 @@
 import { lookup } from "node:dns/promises";
+import type { IncomingHttpHeaders } from "node:http";
 import { request } from "node:https";
 import { isIP, type LookupFunction } from "node:net";
 import { normalizePublicTarget } from "@/lib/website-visibility/public-target";
@@ -69,12 +70,44 @@ async function resolvePublicAddress(hostname: string) {
   return addresses.find(({ family }) => family === 4) ?? addresses[0];
 }
 
+const PUBLIC_HEADER_NAMES = [
+  "server",
+  "x-powered-by",
+  "via",
+  "cf-ray",
+  "cf-cache-status",
+  "x-vercel-id",
+  "x-vercel-cache",
+  "x-nf-request-id",
+  "x-shopid",
+  "x-amz-cf-id",
+  "x-fastly-request-id",
+  "x-served-by",
+  "x-akamai-transformed",
+  "x-sucuri-id",
+  "x-github-request-id",
+] as const;
+
+export type PublicPageHeaderName = (typeof PUBLIC_HEADER_NAMES)[number];
+export type PublicPageHeaders = Partial<Record<PublicPageHeaderName, string>>;
+
+function publicHeaders(headers: IncomingHttpHeaders): PublicPageHeaders {
+  const result: PublicPageHeaders = {};
+  for (const name of PUBLIC_HEADER_NAMES) {
+    const raw = headers[name];
+    const value = Array.isArray(raw) ? raw.join(", ") : raw;
+    if (typeof value === "string" && value.trim()) result[name] = value.trim().slice(0, 180);
+  }
+  return result;
+}
+
 function download(target: URL, address: string, family: number, userAgent = DEFAULT_USER_AGENT) {
   return new Promise<{
     status: number;
     location?: string;
     contentType?: string;
     contentEncoding?: string;
+    headers: PublicPageHeaders;
     html: string;
   }>((resolve, reject) => {
     const pinnedLookup = ((_hostname, options, callback) => {
@@ -116,6 +149,7 @@ function download(target: URL, address: string, family: number, userAgent = DEFA
             location: response.headers.location,
             contentType: response.headers["content-type"],
             contentEncoding: response.headers["content-encoding"],
+            headers: publicHeaders(response.headers),
             html: Buffer.concat(chunks).toString("utf8"),
           });
         });
@@ -140,7 +174,7 @@ export async function fetchPublicHtml(
   target: URL,
   redirects = 0,
   userAgent = DEFAULT_USER_AGENT,
-): Promise<{ html: string; finalUrl: URL }> {
+): Promise<{ html: string; finalUrl: URL; headers: PublicPageHeaders }> {
   const resolved = await resolvePublicAddress(target.hostname);
   const result = await download(target, resolved.address, resolved.family, userAgent);
 
@@ -160,7 +194,7 @@ export async function fetchPublicHtml(
   if (result.contentType && !/text\/html|application\/xhtml\+xml/i.test(result.contentType)) {
     throw new WebsiteFetchError("The submitted URL did not return an HTML page.");
   }
-  return { html: result.html, finalUrl: target };
+  return { html: result.html, finalUrl: target, headers: result.headers };
 }
 
 /** Best-effort text file such as robots.txt or llms.txt. Missing or failed fetches do not fail the snapshot. */

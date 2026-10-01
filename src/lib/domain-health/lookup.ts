@@ -6,6 +6,7 @@ const DNS_PROVIDERS = ["https://cloudflare-dns.com/dns-query", "https://dns.goog
 
 const DNS_TYPE = {
   A: 1,
+  NS: 2,
   CNAME: 5,
   MX: 15,
   TXT: 16,
@@ -30,6 +31,7 @@ type DnsClient = {
   resolve4(hostname: string): Promise<string[]>;
   resolve6(hostname: string): Promise<string[]>;
   resolveCname(hostname: string): Promise<string[]>;
+  resolveNs(hostname: string): Promise<string[]>;
 };
 
 export class DomainLookupError extends Error {
@@ -96,7 +98,27 @@ export function createDnsJsonClient(fetchImpl: typeof fetch = fetch): DnsClient 
       const rows = await queryDns(fetchImpl, hostname, DNS_TYPE.CNAME);
       return rows.map((data) => data.replace(/\.$/, ""));
     },
+    async resolveNs(hostname) {
+      const rows = await queryDns(fetchImpl, hostname, DNS_TYPE.NS);
+      return rows.map((data) => data.replace(/\.$/, "").toLowerCase()).filter(Boolean);
+    },
   };
+}
+
+/** Name servers and the public alias for a domain. A failed lookup returns empty clues. */
+export async function lookupPublicEdgeHints(hostname: string): Promise<{ nameservers: string[]; cname: string | null }> {
+  try {
+    const client = publicResolver();
+    const domain = hostname.trim().toLowerCase().replace(/\.$/, "").replace(/^www\./, "");
+    const [nameservers, apexCname, wwwCname] = await Promise.all([
+      client.resolveNs(domain),
+      cname(client, domain).catch(() => null),
+      cname(client, `www.${domain}`).catch(() => null),
+    ]);
+    return { nameservers, cname: wwwCname || apexCname };
+  } catch {
+    return { nameservers: [], cname: null };
+  }
 }
 
 export function decodeTxtRdata(data: string) {

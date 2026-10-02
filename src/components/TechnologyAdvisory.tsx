@@ -137,7 +137,7 @@ const TechnologyAdvisory = () => {
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-950/90 to-primary-dark/75" aria-hidden />
             <div className="relative flex h-full flex-col">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-light">{t("technologyHeroProofTitle")}</p>
-              <h2 className="mt-2 max-w-md font-serif text-2xl font-bold leading-tight sm:text-3xl">{t("technologyHeroProofSubtitle")}</h2>
+              <h2 className="mt-2 max-w-md font-serif text-2xl font-bold leading-tight text-white sm:text-3xl">{t("technologyHeroProofSubtitle")}</h2>
 
               <ol className="mt-7 space-y-3">
                 {[t("technologyHeroOutcome1"), t("technologyHeroOutcome2"), t("technologyHeroOutcome3")].map((outcome, index) => (

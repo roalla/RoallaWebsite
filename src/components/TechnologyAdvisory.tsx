@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import {
@@ -20,10 +21,8 @@ import TechnologyDecisionFramework from "./TechnologyDecisionFramework";
 import ServiceMiniFAQ from "./services/ServiceMiniFAQ";
 import { TECHNOLOGY_PAGE_FAQ_KEYS } from "@/lib/service-faq-jsonld";
 import {
-  ConsultingHeroVisual,
   ServiceAnchorNav,
   ServicePageCTA,
-  ServicePageHero,
   ServiceSectionHeading,
 } from "./services/ServicePageSections";
 
@@ -54,6 +53,7 @@ const technologyStepKeys = ["technologyStep1", "technologyStep2", "technologySte
 const TechnologyAdvisory = () => {
   const t = useTranslations("services");
   const tCommon = useTranslations("common");
+  const tFramework = useTranslations("technologyFramework");
   const reviewHref = {
     pathname: "/contact" as const,
     query: { intent: "consulting", focus: "technology" },
@@ -72,40 +72,117 @@ const TechnologyAdvisory = () => {
     { icon: PlugZap, title: t("technologySituationNewTitle"), body: t("technologySituationNewBody") },
   ];
 
+  const decisionPaths = [
+    tFramework("buyTitle"),
+    tFramework("buildTitle"),
+    tFramework("connectTitle"),
+    tFramework("improveTitle"),
+  ];
+
   return (
     <section id="technology-advisory" className="section-padding relative bg-slate-50/60">
-      <ServicePageHero
-        variant="consulting"
-        backgroundImage="/images/programs/technology-advisory-hero.webp"
-        eyebrow={t("technologyHeroEyebrow")}
-        title={t("technologyPageTitle")}
-        subtitle={t("technologyPageSubtitle")}
-        subtitleHighlight={t("technologyPageSubtitleHighlight")}
-        journeyLine={undefined}
-        stats={stats}
-        statsNote={t("technologyStatsNote")}
-        visual={
-          <ConsultingHeroVisual
-            proofTitle={t("technologyHeroProofTitle")}
-            proofSubtitle={t("technologyHeroProofSubtitle")}
-            outcomes={[t("technologyHeroOutcome1"), t("technologyHeroOutcome2"), t("technologyHeroOutcome3")]}
-            caseLines={[t("technologyHeroCase1"), t("technologyHeroCase2")]}
-          />
-        }
-        primaryCta={
-          <ScheduleButton variant="primary" size="lg" icon intent="consulting" focus="technology">
-            {t("technologyCtaButton")}
-          </ScheduleButton>
-        }
-        secondaryCta={
-          <Link href="/tools/technology-decision-brief" className="inline-flex items-center justify-center rounded-lg border border-white/30 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20">
-            {t("technologySoftCta")}
-            <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-          </Link>
-        }
-        ctaSubtext={t("technologyCallNext")}
-        tertiaryLink={{ href: "/programs/business-enablement", label: t("technologyCrossLinkBusiness") }}
-      />
+      <header className="relative mb-8 overflow-hidden rounded-[1.75rem] border border-primary/20 bg-white shadow-[0_24px_70px_rgba(15,23,42,0.12)]">
+        <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-primary via-primary-dark to-slate-900" aria-hidden />
+        <div className="pointer-events-none absolute -left-32 top-10 h-72 w-72 rounded-full bg-primary/10 blur-3xl" aria-hidden />
+
+        <div className="relative grid gap-8 px-6 pb-8 pt-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-stretch lg:px-10 lg:pb-10 lg:pt-12 xl:gap-12 xl:px-12">
+          <div className="flex flex-col justify-center">
+            <Reveal when="mount" delayMs={0}>
+              <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">
+                <span className="h-2 w-2 rounded-full bg-primary" aria-hidden />
+                {t("technologyHeroEyebrow")}
+              </p>
+            </Reveal>
+            <Reveal when="mount" delayMs={50}>
+              <h1 className="mt-5 max-w-3xl font-serif text-4xl font-bold leading-[1.03] tracking-tight text-slate-950 sm:text-5xl lg:text-[3.55rem]">
+                {t("technologyPageTitle")}
+              </h1>
+            </Reveal>
+            <Reveal when="mount" delayMs={100}>
+              <p className="mt-5 max-w-2xl text-lg leading-relaxed text-slate-700 md:text-xl">
+                {t("technologyPageSubtitle")}
+              </p>
+            </Reveal>
+
+            <Reveal when="mount" delayMs={160} className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <ScheduleButton variant="primary" size="lg" icon intent="consulting" focus="technology">
+                {t("technologyCtaButton")}
+              </ScheduleButton>
+              <Link
+                href="/tools/technology-decision-brief"
+                className="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-900 shadow-sm transition-all hover:border-primary hover:text-primary-dark hover:shadow-md"
+              >
+                {t("technologySoftCta")}
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+            </Reveal>
+            <Reveal when="mount" delayMs={210}>
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-slate-600">{t("technologyCallNext")}</p>
+              <Link href="/programs/business-enablement" className="mt-3 inline-flex text-sm font-semibold text-primary-dark underline decoration-primary/40 underline-offset-4 hover:decoration-primary">
+                {t("technologyCrossLinkBusiness")}
+              </Link>
+            </Reveal>
+          </div>
+
+          <Reveal when="mount" delayMs={130} className="relative min-h-[430px] overflow-hidden rounded-2xl bg-slate-950 p-6 text-white shadow-xl sm:p-7">
+            <Image
+              src="/images/programs/technology-advisory-hero.webp"
+              alt=""
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 520px"
+              className="pointer-events-none object-cover object-center opacity-20"
+              aria-hidden
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-950/90 to-primary-dark/75" aria-hidden />
+            <div className="relative flex h-full flex-col">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-light">{t("technologyHeroProofTitle")}</p>
+              <h2 className="mt-2 max-w-md font-serif text-2xl font-bold leading-tight sm:text-3xl">{t("technologyHeroProofSubtitle")}</h2>
+
+              <ol className="mt-7 space-y-3">
+                {[t("technologyHeroOutcome1"), t("technologyHeroOutcome2"), t("technologyHeroOutcome3")].map((outcome, index) => (
+                  <li key={outcome} className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.07] px-4 py-3 backdrop-blur-sm">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">
+                      {index + 1}
+                    </span>
+                    <span className="text-sm font-medium leading-snug text-slate-100">{outcome}</span>
+                  </li>
+                ))}
+              </ol>
+
+              <div className="mt-auto pt-7">
+                <div className="h-px bg-gradient-to-r from-primary via-white/20 to-transparent" aria-hidden />
+                <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-slate-300">{tFramework("eyebrow")}</p>
+                <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+                  {decisionPaths.map((path, index) => (
+                    <div key={path} className="rounded-lg border border-white/15 bg-slate-950/45 px-3 py-3">
+                      <span className="block text-[10px] font-bold text-primary-light">0{index + 1}</span>
+                      <span className="mt-1 block text-sm font-bold text-white">{path}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+
+        <dl className="relative grid border-t border-slate-200 bg-slate-50/90 sm:grid-cols-3">
+          {stats.map((stat, index) => (
+            <Reveal
+              key={stat.label}
+              when="mount"
+              delayMs={280 + index * 60}
+              className="flex items-center gap-3 border-b border-slate-200 px-6 py-4 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0 lg:px-10"
+            >
+              <dt className="font-serif text-lg font-bold text-slate-950">{stat.value}</dt>
+              <dd className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">{stat.label}</dd>
+            </Reveal>
+          ))}
+        </dl>
+        <p className="relative border-t border-slate-200 bg-white px-6 py-3 text-center text-xs font-medium text-slate-600 lg:px-10">
+          {t("technologyStatsNote")}
+        </p>
+      </header>
 
       <div className="max-w-6xl mx-auto">
         <Reveal id="technology-deliverables" className="scroll-mt-28 rounded-2xl border border-primary/25 bg-white p-6 shadow-sm lg:p-8">

@@ -7,6 +7,7 @@ import {
   Bot,
   CheckCircle2,
   ChevronDown,
+  CircleAlert,
   Download,
   Gauge,
   Layers,
@@ -164,6 +165,18 @@ const copy = {
     workingTitle: "Checking your website",
     workingButton: "Checking…",
     workingNote: "This usually takes a minute. Results appear when every check is finished.",
+    progressLabel: "Check progress",
+    progressCount: "{done} of {total} complete",
+    progressStatus: { checking: "In progress", done: "Done", failed: "Could not finish" },
+    progress: {
+      experience: "Website experience",
+      agentic: "Assistant readiness",
+      social: "Social sharing",
+      contact: "Contact details",
+      setup: "Site setup",
+      security: "Security",
+      domain: "Domain and email",
+    },
     summaryTitle: "Where to look first",
     summaryIntro: "Green is in good shape. Orange can improve. Red needs attention first.",
     summaryStatus: { strong: "In good shape", improve: "Can improve", attention: "Needs attention" },
@@ -622,6 +635,18 @@ const copy = {
     workingTitle: "Vérification de votre site",
     workingButton: "Vérification…",
     workingNote: "Cela prend habituellement une minute. Les résultats apparaissent lorsque chaque vérification est terminée.",
+    progressLabel: "Progression des vérifications",
+    progressCount: "{done} sur {total} terminées",
+    progressStatus: { checking: "En cours", done: "Terminé", failed: "Non terminé" },
+    progress: {
+      experience: "Expérience du site",
+      agentic: "Préparation pour les assistants",
+      social: "Partage social",
+      contact: "Coordonnées",
+      setup: "Organisation du site",
+      security: "Sécurité",
+      domain: "Domaine et courriel",
+    },
     summaryTitle: "Où regarder en premier",
     summaryIntro: "Le vert est en bon état. L’orange peut s’améliorer. Le rouge demande l’attention en premier.",
     summaryStatus: { strong: "En bon état", improve: "Peut s’améliorer", attention: "Demande l’attention" },
@@ -1565,6 +1590,18 @@ export default function DigitalPresenceSnapshot({
         : domainLoading
           ? t.domainLoading
           : t.starting;
+  const progressState = (loading: boolean, ready: boolean) =>
+    loading ? "checking" : ready ? "done" : "failed";
+  const progressSteps = [
+    { id: "experience", label: t.progress.experience, state: progressState(technicalLoading, Boolean(technical)) },
+    { id: "agentic", label: t.progress.agentic, state: progressState(technicalLoading, Boolean(technical)) },
+    { id: "social", label: t.progress.social, state: progressState(socialLoading, Boolean(social)) },
+    { id: "contact", label: t.progress.contact, state: progressState(socialLoading, Boolean(social)) },
+    { id: "setup", label: t.progress.setup, state: progressState(socialLoading, Boolean(social || setupFallback)) },
+    { id: "security", label: t.progress.security, state: progressState(socialLoading, Boolean(social)) },
+    { id: "domain", label: t.progress.domain, state: progressState(domainLoading, Boolean(domain)) },
+  ] as const;
+  const progressFinished = progressSteps.filter((step) => step.state !== "checking").length;
   const resultUrl = social?.finalUrl || technicalSnapshots[0]?.finalUrl || url;
   const detailQuery = { url: resultUrl };
   const note = `${t.note}: ${resultUrl}. ${technicalSnapshots
@@ -2610,12 +2647,43 @@ export default function DigitalPresenceSnapshot({
             aria-labelledby="snapshot-working-title"
             aria-describedby="snapshot-working-status"
             tabIndex={-1}
-            className="w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-2xl outline-none"
+            className="max-h-[min(90vh,40rem)] w-full max-w-lg overflow-y-auto rounded-2xl bg-white p-8 shadow-2xl outline-none"
           >
-            <LoaderCircle className="mx-auto h-12 w-12 animate-spin text-primary" aria-hidden />
-            <h2 id="snapshot-working-title" className="mt-5 font-serif text-2xl font-bold text-slate-950">{t.workingTitle}</h2>
-            <p id="snapshot-working-status" className="mt-3 text-sm leading-6 text-slate-700" role="status">{loadingMessage}</p>
-            <p className="mt-4 text-xs leading-5 text-slate-500">{t.workingNote}</p>
+            <div className="text-center">
+              <LoaderCircle className="mx-auto h-12 w-12 animate-spin text-primary" aria-hidden />
+              <h2 id="snapshot-working-title" className="mt-5 font-serif text-2xl font-bold text-slate-950">{t.workingTitle}</h2>
+              <p id="snapshot-working-status" className="mt-3 text-sm leading-6 text-slate-700" role="status">
+                {loadingMessage}
+                <span className="mt-1 block font-semibold text-slate-950">
+                  {fill(t.progressCount, { done: String(progressFinished), total: String(progressSteps.length) })}
+                </span>
+              </p>
+            </div>
+            <ul className="mt-6 space-y-2" aria-label={t.progressLabel}>
+              {progressSteps.map((step) => (
+                <li
+                  key={step.id}
+                  className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm ${
+                    step.state === "done"
+                      ? "bg-emerald-50 text-emerald-950"
+                      : step.state === "failed"
+                        ? "bg-amber-50 text-amber-950"
+                        : "bg-slate-50 text-slate-800"
+                  }`}
+                >
+                  {step.state === "done" ? (
+                    <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-700" aria-hidden />
+                  ) : step.state === "failed" ? (
+                    <CircleAlert className="h-5 w-5 shrink-0 text-amber-700" aria-hidden />
+                  ) : (
+                    <LoaderCircle className="h-5 w-5 shrink-0 animate-spin text-primary" aria-hidden />
+                  )}
+                  <span className="font-medium">{step.label}</span>
+                  <span className="ml-auto text-xs font-semibold">{t.progressStatus[step.state]}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 text-center text-xs leading-5 text-slate-500">{t.workingNote}</p>
           </div>
         </div>,
         document.body,

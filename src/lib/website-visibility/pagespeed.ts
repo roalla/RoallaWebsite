@@ -210,6 +210,15 @@ function agenticFromLighthouse(categories: UnknownRecord, audits: UnknownRecord)
   };
 }
 
+/**
+ * Lab runs on heavy pages can take longer than a minute. Largest Contentful Paint
+ * on those pages is often past 45s, and Lighthouse does not return until the trace ends.
+ * Stay under the ~100s edge-proxy limit, including the redirect lookup that runs first.
+ */
+export const PAGE_SPEED_TIMEOUT_MS = 90_000;
+
+const LANDING_RESCORE_MIN_MS = 15_000;
+
 export function pageSpeedUserAgent(strategy: PageSpeedStrategy) {
   return strategy === "mobile"
     ? "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Mobile Safari/537.36"
@@ -243,11 +252,12 @@ export async function analyzePageSpeed(
   strategy: PageSpeedStrategy,
   fetcher: typeof fetch = fetch,
   apiKey = process.env.PAGESPEED_API_KEY,
+  timeoutMs = PAGE_SPEED_TIMEOUT_MS,
 ): Promise<WebsiteVisibilitySnapshot> {
   const endpoint = pageSpeedEndpoint(target, strategy, apiKey);
 
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 45_000);
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
   let response: Response;
   try {
     response = await fetcher(endpoint, {
@@ -288,12 +298,23 @@ export async function scorePublicPage(
   fetcher: typeof fetch = fetch,
   apiKey = process.env.PAGESPEED_API_KEY,
 ): Promise<{ snapshot: WebsiteVisibilitySnapshot; cacheUrl: URL }> {
+  const started = Date.now();
   let cacheUrl = analyzed;
   let snapshot = await analyzePageSpeed(analyzed, strategy, fetcher, apiKey);
   const landed = publicPage(snapshot.finalUrl);
-  if (landed && !isSamePublicPage(landed.toString(), analyzed.toString())) {
-    cacheUrl = landed;
-    snapshot = await analyzePageSpeed(landed, strategy, fetcher, apiKey);
+  const remaining = PAGE_SPEED_TIMEOUT_MS - (Date.now() - started);
+  if (
+    landed &&
+    !isSamePublicPage(landed.toString(), analyzed.toString()) &&
+    remaining >= LANDING_RESCORE_MIN_MS
+  ) {
+    try {
+      snapshot = await analyzePageSpeed(landed, strategy, fetcher, apiKey, remaining);
+      cacheUrl = landed;
+    } catch {
+      // The first run already produced a report. A second lab pass is only
+      // there to drop redirect time from the performance score.
+    }
   }
   return { snapshot, cacheUrl };
 }

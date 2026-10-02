@@ -1,4 +1,5 @@
 import {
+  PAGE_SPEED_TIMEOUT_MS,
   PageSpeedProviderError,
   analyzePageSpeed,
   normalizePageSpeedResponse,
@@ -210,6 +211,32 @@ describe("pageSpeedEndpoint", () => {
     expect(endpoint.searchParams.get("strategy")).toBe("desktop");
     expect(endpoint.searchParams.get("url")).toBe("https://www.roalla.com/");
   });
+
+  it("keeps a slow lab run open past the old 45 second cutoff", async () => {
+    jest.useFakeTimers();
+    let aborted = false;
+    const fetcher = ((_input: RequestInfo | URL, init?: RequestInit) =>
+      new Promise<Response>((_resolve, reject) => {
+        init?.signal?.addEventListener("abort", () => {
+          aborted = true;
+          reject(new Error("aborted"));
+        });
+      })) as typeof fetch;
+
+    const pending = analyzePageSpeed(target, "mobile", fetcher, "test-key");
+    const settled = pending.then(
+      () => "resolved",
+      (error: unknown) => error,
+    );
+
+    await jest.advanceTimersByTimeAsync(45_000);
+    expect(aborted).toBe(false);
+
+    await jest.advanceTimersByTimeAsync(PAGE_SPEED_TIMEOUT_MS - 45_000);
+    await expect(settled).resolves.toBeInstanceOf(PageSpeedProviderError);
+    expect(aborted).toBe(true);
+    jest.useRealTimers();
+  });
 });
 
 describe("scorePublicPage", () => {
@@ -266,5 +293,25 @@ describe("scorePublicPage", () => {
     expect(calls).toEqual(["https://www.roalla.com/en"]);
     expect(result.snapshot.scores.performance).toBe(98);
     expect(result.cacheUrl.toString()).toBe("https://www.roalla.com/en");
+  });
+
+  it("keeps the first report when the landing-page rerun fails", async () => {
+    let calls = 0;
+    const fetcher = async () => {
+      calls += 1;
+      if (calls === 1) return psiResponse("https://www.roalla.com/en", 0.8);
+      throw new Error("landing run failed");
+    };
+
+    const result = await scorePublicPage(
+      new URL("https://www.roalla.com/"),
+      "mobile",
+      fetcher as typeof fetch,
+      "test-key",
+    );
+
+    expect(calls).toBe(2);
+    expect(result.snapshot.scores.performance).toBe(80);
+    expect(result.cacheUrl.toString()).toBe("https://www.roalla.com/");
   });
 });

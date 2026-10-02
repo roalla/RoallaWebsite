@@ -21,7 +21,7 @@ test.describe("Service pages", () => {
     await page.goto("/en/programs/technology-advisory");
     await expect(
       page.getByRole("heading", {
-        name: "Choose technology with clearer requirements and stronger options.",
+        name: "Choose the right technology—and carry it through implementation.",
         level: 1,
       }),
     ).toBeVisible();
@@ -31,6 +31,12 @@ test.describe("Service pages", () => {
         level: 2,
       }),
     ).toBeVisible();
+    await expect(page.getByRole("heading", { name: "What you leave with", level: 2 })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Three practical ways to engage", level: 2 })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Request a Technology Review" }).first()).toHaveAttribute(
+      "href",
+      /intent=consulting.*focus=technology|focus=technology.*intent=consulting/,
+    );
     await expect(page.locator("#strategy-roadmaps")).toHaveCount(0);
   });
 

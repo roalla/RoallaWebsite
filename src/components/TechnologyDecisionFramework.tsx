@@ -15,27 +15,29 @@ const paths = [
 
 export default function TechnologyDecisionFramework({
   className = '',
+  compact = false,
 }: {
   className?: string
+  compact?: boolean
 }) {
   const t = useTranslations('technologyFramework')
 
   return (
-    <Reveal className={`rounded-2xl border border-primary/20 bg-primary/[0.04] p-6 lg:p-8 ${className}`}>
+    <Reveal className={`rounded-2xl border border-primary/20 bg-primary/[0.04] ${compact ? 'p-5 lg:p-6' : 'p-6 lg:p-8'} ${className}`}>
       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-dark">
         {t('eyebrow')}
       </p>
       <h2 className="mt-2 text-2xl md:text-3xl font-serif font-bold text-slate-900">
         {t('title')}
       </h2>
-      <p className="mt-3 max-w-3xl text-slate-700">{t('description')}</p>
+      <p className={`${compact ? 'mt-2 text-sm' : 'mt-3'} max-w-3xl text-slate-700`}>{t('description')}</p>
 
-      <ol className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <ol className={`${compact ? 'mt-5' : 'mt-7'} grid gap-3 sm:grid-cols-2 lg:grid-cols-4`}>
         {paths.map(({ key, icon: Icon, href }, index) => (
           <li key={key}>
             <Link
               href={href}
-              className="group block h-full rounded-xl border border-slate-200 bg-white p-5 transition-all hover:border-primary hover:shadow-sm"
+              className={`group block h-full rounded-xl border border-slate-200 bg-white transition-all hover:border-primary hover:shadow-sm ${compact ? 'p-4' : 'p-5'}`}
             >
               <div className="flex items-center justify-between gap-3">
                 <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-primary/10 bg-primary/10">
@@ -48,10 +50,12 @@ export default function TechnologyDecisionFramework({
               <h3 className="mt-4 font-serif text-lg font-bold text-slate-900 group-hover:text-primary-dark">
                 {t(`${key}Title`)}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                {t(`${key}Description`)}
-              </p>
-              <span className="mt-4 inline-flex text-xs font-bold text-primary-dark">
+              {!compact && (
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                  {t(`${key}Description`)}
+                </p>
+              )}
+              <span className={`${compact ? 'mt-2' : 'mt-4'} inline-flex text-xs font-bold text-primary-dark`}>
                 {t(`${key}Link`)}
               </span>
             </Link>

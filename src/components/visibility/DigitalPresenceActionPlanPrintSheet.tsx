@@ -183,12 +183,11 @@ export default function DigitalPresenceActionPlanPrintSheet({
   const tiles = tileLabels[lang];
   const pageUrl = `https://www.roalla.com/${lang}/tools/digital-presence-snapshot`;
   const websiteLabel = hostnameOf(model.website);
-  const [year, setYear] = useState("");
+  const year = new Date().getFullYear();
   const [prepared, setPrepared] = useState("");
 
   useEffect(() => {
     const now = new Date();
-    setYear(String(now.getFullYear()));
     setPrepared(
       now.toLocaleDateString(lang === "fr" ? "fr-CA" : "en-CA", {
         year: "numeric",
@@ -227,7 +226,7 @@ export default function DigitalPresenceActionPlanPrintSheet({
 
   return (
     <article className="presence-print-root" aria-hidden="true">
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .presence-print-root {
           position: absolute;
           top: 0;
@@ -293,7 +292,7 @@ export default function DigitalPresenceActionPlanPrintSheet({
             widows: 3;
           }
         }
-      `}</style>
+      ` }} />
                 <table className="presence-print-doc">
         <thead>
           <tr>
@@ -346,9 +345,11 @@ export default function DigitalPresenceActionPlanPrintSheet({
                   {model.website}
                 </p>
                 <p style={{ margin: "6px 0 0", fontSize: 11, color: "#64748b" }} suppressHydrationWarning>
-                  {chrome.prepared} {prepared}
-                  {sharedTested ? ` · ${model.labels.tested} ${sharedTested}` : ""}
-                  {model.lighthouse ? ` · ${model.lighthouse}` : ""}
+                  {[
+                    prepared ? `${chrome.prepared} ${prepared}` : chrome.prepared,
+                    sharedTested ? `${model.labels.tested} ${sharedTested}` : null,
+                    model.lighthouse || null,
+                  ].filter(Boolean).join(" · ")}
                 </p>
                 {sharedUrl && sharedUrl !== model.website ? (
                   <p style={{ margin: "4px 0 0", fontSize: 11, lineHeight: 1.45, color: "#64748b", overflowWrap: "anywhere" }}>

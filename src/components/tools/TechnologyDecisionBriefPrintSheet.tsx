@@ -37,12 +37,11 @@ export default function TechnologyDecisionBriefPrintSheet({
   const lang = locale === "fr" ? "fr" : "en";
   const pageUrl = `https://www.roalla.com/${lang}/tools/technology-decision-brief`;
   const planLabel = lang === "fr" ? "Fiche de décision technologique" : "Technology Decision Brief";
-  const [year, setYear] = useState("");
+  const year = new Date().getFullYear();
   const [prepared, setPrepared] = useState("");
 
   useEffect(() => {
     const now = new Date();
-    setYear(String(now.getFullYear()));
     setPrepared(
       lang === "fr"
         ? `Préparé le ${now.toLocaleDateString("fr-CA", { year: "numeric", month: "long", day: "numeric" })}`
@@ -52,7 +51,7 @@ export default function TechnologyDecisionBriefPrintSheet({
 
   return (
     <>
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .tech-decision-print-sheet {
           position: absolute;
           width: 1px;
@@ -87,7 +86,7 @@ export default function TechnologyDecisionBriefPrintSheet({
             font-family: Sora, Georgia, serif;
           }
         }
-      `}</style>
+      ` }} />
       <article className="tech-decision-print-sheet" aria-hidden="true">
         <header style={{ background: "#07111f", color: "#fff", padding: "18px 28px 16px" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
@@ -112,7 +111,7 @@ export default function TechnologyDecisionBriefPrintSheet({
           <h1 style={{ margin: "8px 0 0", fontSize: 28, lineHeight: 1.15 }}>{title}</h1>
           <p style={{ margin: "10px 0 0", maxWidth: 680, fontSize: 14, lineHeight: 1.5, color: "#334155" }}>{subtitle}</p>
           <p style={{ margin: "8px 0 0", fontSize: 11, color: "#64748b" }} suppressHydrationWarning>
-            {prepared}
+            {prepared || "\u00a0"}
           </p>
 
           <div

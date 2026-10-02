@@ -157,11 +157,15 @@ describe('Header', () => {
   })
 
   it.each(['/', '/services/automation', '/programs/workshops'])(
-    'hides digital portfolio on %s',
+    'keeps digital portfolio available on %s',
     (path) => {
       mockPathname.mockReturnValue(path)
       render(<Header />)
-      expect(screen.queryByRole('link', { name: 'digitalPortfolio' })).not.toBeInTheDocument()
+      const portfolioLinks = screen.getAllByRole('link', { name: 'digitalPortfolio' })
+      expect(portfolioLinks.length).toBeGreaterThan(0)
+      portfolioLinks.forEach((link) => {
+        expect(link).toHaveAttribute('href', '/services/portfolio')
+      })
     },
   )
 

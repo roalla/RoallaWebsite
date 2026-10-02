@@ -33,9 +33,9 @@ test.describe("Header", () => {
     ).toHaveAttribute("role", "menuitem");
   });
 
-  test("digital portfolio link is in the header", async ({ page }) => {
+  test("digital portfolio is a persistent primary destination", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 });
-    await page.goto("/en/services/digital");
+    await page.goto("/en");
 
     await expect(
       page
@@ -71,7 +71,7 @@ test.describe("Header", () => {
     await page.goto("/en/programs/technology-advisory");
     await expect(
       page.getByRole("heading", {
-        name: "Choose technology with clearer requirements and stronger options.",
+        name: "Choose the right technology—and carry it through implementation.",
         level: 1,
       }),
     ).toBeVisible();

@@ -559,13 +559,6 @@ const Header = ({
     pathname === "/partners" ||
     pathname === "/services/portfolio";
 
-  const showDigitalPortfolio =
-    pathname === "/services/digital" ||
-    pathname === "/website-design" ||
-    pathname === "/services/digital-products" ||
-    pathname === "/services/portfolio" ||
-    pathname.startsWith("/services/portfolio/");
-
   const isAdvisoryActive = pathname === "/programs/business-enablement";
   const isWorkshopsActive =
     pathname === "/programs/workshops" ||
@@ -814,7 +807,6 @@ const Header = ({
                 </div>
               </div>
 
-              {showDigitalPortfolio && (
               <div className="relative group/portfolio">
                 <Link
                   href="/services/portfolio"
@@ -845,7 +837,6 @@ const Header = ({
                   {t("digitalPortfolio")}
                 </span>
               </div>
-              )}
 
               <div className="relative" ref={workshopsDropdownDesktopRef}>
                 <button
@@ -1261,7 +1252,6 @@ const Header = ({
                 </div>
               </div>
 
-              {showDigitalPortfolio && (
               <div>
                 <Link
                   href="/services/portfolio"
@@ -1281,7 +1271,6 @@ const Header = ({
                   {t("digitalPortfolio")}
                 </Link>
               </div>
-              )}
 
               <div className="border-t border-white/10 pt-1">
                 <button

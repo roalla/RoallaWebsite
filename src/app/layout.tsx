@@ -137,7 +137,7 @@ export default async function RootLayout({
           crossOrigin="anonymous"
         />
         <style dangerouslySetInnerHTML={{ __html: globalCss }} />
-        <script nonce={nonce} dangerouslySetInnerHTML={{ __html: trustedTypesBootstrap }} />
+        <script nonce={nonce} suppressHydrationWarning dangerouslySetInnerHTML={{ __html: trustedTypesBootstrap }} />
         <JsonLd data={[organizationJsonLd, websiteJsonLd]} />
         <link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml" />
         <link rel="icon" href="/favicon.ico?v=3" sizes="any" />

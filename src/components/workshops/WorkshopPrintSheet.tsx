@@ -1,11 +1,47 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
 import { emailSafeHtml } from "@/lib/email-markup";
 import { CONTACT } from "@/lib/site";
 
 type Field = { label: string; hint?: string; value: string };
+
+const printCss = `
+.workshop-print-sheet {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+@media print {
+  @page { margin: 0; }
+  body * { visibility: hidden !important; }
+  .fixed { visibility: hidden !important; display: none !important; }
+  .workshop-print-sheet,
+  .workshop-print-sheet * { visibility: visible !important; }
+  .workshop-print-sheet {
+    position: fixed;
+    inset: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    color: #07111f;
+    font-family: Figtree, "Segoe UI", sans-serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .workshop-print-sheet h1,
+  .workshop-print-sheet h2 {
+    color: #07111f;
+    font-family: Sora, Georgia, serif;
+  }
+}
+`;
 
 export default function WorkshopPrintSheet({
   title,
@@ -23,51 +59,12 @@ export default function WorkshopPrintSheet({
   const locale = useLocale();
   const lang = locale === "fr" ? "fr" : "en";
   const pageUrl = `https://www.roalla.com/${lang}${path}`;
-  const [year, setYear] = useState("");
+  const year = new Date().getFullYear();
   const planLabel = lang === "fr" ? "Plan d’atelier" : "Workshop plan";
-
-  useEffect(() => {
-    setYear(String(new Date().getFullYear()));
-  }, []);
 
   return (
     <>
-      <style>{`
-        .workshop-print-sheet {
-          position: absolute;
-          width: 1px;
-          height: 1px;
-          overflow: hidden;
-          clip: rect(0, 0, 0, 0);
-        }
-        @media print {
-          @page { margin: 0; }
-          body * { visibility: hidden !important; }
-          .fixed { visibility: hidden !important; display: none !important; }
-          .workshop-print-sheet,
-          .workshop-print-sheet * { visibility: visible !important; }
-          .workshop-print-sheet {
-            position: fixed;
-            inset: 0;
-            width: auto;
-            height: auto;
-            overflow: visible;
-            clip: auto;
-            display: flex;
-            flex-direction: column;
-            background: #fff;
-            color: #07111f;
-            font-family: Figtree, "Segoe UI", sans-serif;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
-          }
-          .workshop-print-sheet h1,
-          .workshop-print-sheet h2 {
-            color: #07111f;
-            font-family: Sora, Georgia, serif;
-          }
-        }
-      `}</style>
+      <style dangerouslySetInnerHTML={{ __html: printCss }} />
       <article className="workshop-print-sheet" aria-hidden="true">
         <header style={{ background: "#07111f", color: "#fff", padding: "18px 28px 16px" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>

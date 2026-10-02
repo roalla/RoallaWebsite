@@ -104,6 +104,19 @@ test.describe("Services brand journey", () => {
     ).toBeVisible();
     await expect(page.locator("#websites")).toBeVisible();
     await expect(page.locator("#ai-support")).toBeVisible();
+    const outcomes = page.locator("#digital-outcomes");
+    await expect(
+      outcomes.getByRole("heading", {
+        name: "Launch digital work that creates value—and keeps improving.",
+        level: 2,
+      }),
+    ).toBeVisible();
+    await expect(outcomes.locator("img")).toHaveCount(3);
+    await expect(
+      outcomes.getByRole("link", {
+        name: "Explore automation and integrations",
+      }),
+    ).toHaveAttribute("href", "#automation");
     await expect(
       page
         .locator("#digital-builds")

@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import Reveal from "./motion/Reveal";
 import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -286,6 +287,36 @@ const DigitalBuilds = () => {
     },
   ];
 
+  const digitalOutcomes = [
+    {
+      image: "/images/services/digital-outcome-launch.webp",
+      alt: t("outcomesLaunchAlt"),
+      kicker: t("outcomesLaunchKicker"),
+      title: t("outcomesLaunchTitle"),
+      description: t("outcomesLaunchDescription"),
+      link: t("outcomesLaunchLink"),
+      href: "#websites",
+    },
+    {
+      image: "/images/services/digital-outcome-operations.webp",
+      alt: t("outcomesOperationsAlt"),
+      kicker: t("outcomesOperationsKicker"),
+      title: t("outcomesOperationsTitle"),
+      description: t("outcomesOperationsDescription"),
+      link: t("outcomesOperationsLink"),
+      href: "#automation",
+    },
+    {
+      image: "/images/services/digital-outcome-growth.webp",
+      alt: t("outcomesGrowthAlt"),
+      kicker: t("outcomesGrowthKicker"),
+      title: t("outcomesGrowthTitle"),
+      description: t("outcomesGrowthDescription"),
+      link: t("outcomesGrowthLink"),
+      href: "#platforms",
+    },
+  ] as const;
+
   return (
     <section id="digital-builds" className="section-padding relative">
       <ServicePageHero
@@ -334,6 +365,86 @@ const DigitalBuilds = () => {
         </Reveal>
 
         <TechnologyDecisionFramework className="mb-12" />
+
+        <Reveal
+          id="digital-outcomes"
+          className="mb-12 overflow-hidden rounded-3xl bg-slate-950 text-white shadow-xl shadow-slate-950/10"
+        >
+          <div className="relative px-6 py-9 sm:px-8 lg:px-10 lg:py-12">
+            <div
+              className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-cyan-300 to-brand-gold"
+              aria-hidden
+            />
+            <div className="grid gap-5 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-cyan-300">
+                  {t("outcomesEyebrow")}
+                </p>
+                <h2 className="mt-3 max-w-2xl text-3xl font-serif font-bold leading-tight text-white sm:text-4xl">
+                  {t("outcomesTitle")}
+                </h2>
+              </div>
+              <p className="max-w-2xl text-base leading-7 text-slate-300 lg:justify-self-end">
+                {t("outcomesDescription")}
+              </p>
+            </div>
+
+            <div className="mt-8 grid gap-5 lg:grid-cols-3">
+              {digitalOutcomes.map((outcome, index) => (
+                <article
+                  key={outcome.href}
+                  className="group overflow-hidden rounded-2xl border border-white/10 bg-white text-slate-950 shadow-lg"
+                >
+                  <div className="relative aspect-[3/2] overflow-hidden bg-slate-200">
+                    <Image
+                      src={outcome.image}
+                      alt={outcome.alt}
+                      fill
+                      sizes="(min-width: 1024px) 33vw, 100vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+                    />
+                    <span className="absolute left-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/60 bg-slate-950/80 text-xs font-bold text-white backdrop-blur-sm">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+                  <div className="p-6">
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">
+                      {outcome.kicker}
+                    </p>
+                    <h3 className="mt-2 text-xl font-serif font-bold leading-snug text-slate-950">
+                      {outcome.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">
+                      {outcome.description}
+                    </p>
+                    <a
+                      href={outcome.href}
+                      className="mt-5 inline-flex items-center text-sm font-bold text-primary-dark hover:underline"
+                    >
+                      {outcome.link}
+                      <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <div className="mt-6 grid gap-5 rounded-2xl border border-white/10 bg-white/[0.07] p-6 md:grid-cols-[1fr_auto] md:items-center lg:p-7">
+              <div>
+                <h3 className="text-xl font-serif font-bold text-white">
+                  {t("outcomesInsightTitle")}
+                </h3>
+                <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-300">
+                  {t("outcomesInsightDescription")}
+                </p>
+              </div>
+              <ScheduleButton variant="primary" size="lg" icon intent="website">
+                {t("outcomesCta")}
+              </ScheduleButton>
+            </div>
+          </div>
+        </Reveal>
+
         <Reveal className="mb-12 rounded-2xl border border-primary/20 bg-primary/[0.04] p-6 lg:p-8">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-dark">
             {t("lifecycleEyebrow")}

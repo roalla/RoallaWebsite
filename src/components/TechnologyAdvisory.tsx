@@ -240,18 +240,21 @@ const TechnologyAdvisory = () => {
           ]}
         />
 
-        <Reveal id="technology-outcomes" className="scroll-mt-28 overflow-hidden rounded-[1.75rem] bg-slate-950 px-5 py-8 shadow-xl sm:px-7 lg:px-9 lg:py-10">
-          <div className="grid gap-6 lg:grid-cols-[1fr_0.7fr] lg:items-end">
+        <Reveal id="technology-outcomes" className="relative mb-12 scroll-mt-28 overflow-hidden rounded-[1.75rem] bg-slate-950 px-5 py-8 shadow-xl shadow-slate-950/10 sm:px-7 lg:px-9 lg:py-10">
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-cyan-300 to-brand-gold" aria-hidden />
+          <div className="pointer-events-none absolute -right-28 -top-28 h-72 w-72 rounded-full bg-primary/10 blur-3xl" aria-hidden />
+
+          <div className="relative grid gap-6 lg:grid-cols-[1fr_0.7fr] lg:items-end">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-light">{t("technologyOutcomesEyebrow")}</p>
               <h2 className="mt-3 max-w-3xl font-serif text-3xl font-bold leading-tight text-white md:text-4xl">{t("technologyOutcomesTitle")}</h2>
             </div>
-            <p className="max-w-2xl text-sm leading-relaxed text-slate-300 lg:pb-1">{t("technologyOutcomesDescription")}</p>
+            <p className="max-w-2xl text-base leading-7 text-slate-300 lg:pb-1">{t("technologyOutcomesDescription")}</p>
           </div>
 
-          <div className="mt-8 grid gap-5 lg:grid-cols-3">
+          <div className="relative mt-8 grid gap-5 lg:grid-cols-3">
             {engagementOutcomes.map((outcome, index) => (
-              <article key={outcome.title} className="group overflow-hidden rounded-2xl border border-white/10 bg-white shadow-[0_16px_40px_rgba(0,0,0,0.25)]">
+              <article key={outcome.title} className="group overflow-hidden rounded-2xl border border-white/10 bg-white shadow-[0_16px_40px_rgba(0,0,0,0.25)] transition-transform duration-300 hover:-translate-y-1">
                 <div className="relative aspect-[3/2] overflow-hidden bg-slate-800">
                   <Image
                     src={outcome.image}
@@ -278,7 +281,7 @@ const TechnologyAdvisory = () => {
             ))}
           </div>
 
-          <div className="mt-7 grid gap-5 rounded-2xl border border-white/10 bg-white/[0.06] p-5 sm:p-6 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div className="relative mt-7 grid gap-5 rounded-2xl border border-white/10 bg-white/[0.06] p-5 sm:p-6 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
               <p className="font-serif text-xl font-bold text-white">{t("technologyOutcomesInsightTitle")}</p>
               <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-300">{t("technologyOutcomesInsightBody")}</p>

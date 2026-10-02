@@ -32,6 +32,17 @@ test.describe("Service pages", () => {
       }),
     ).toBeVisible();
     await expect(page.getByRole("heading", { name: "What you leave with", level: 2 })).toBeVisible();
+    await expect(
+      page.getByRole("heading", {
+        name: "Move from uncertainty to a decision your team can act on.",
+        level: 2,
+      }),
+    ).toBeVisible();
+    await expect(page.locator("#technology-outcomes img")).toHaveCount(3);
+    await expect(page.getByRole("link", { name: "See the evaluation criteria" })).toHaveAttribute(
+      "href",
+      "#technology-evaluation",
+    );
     await expect(page.getByRole("heading", { name: "Three practical ways to engage", level: 2 })).toBeVisible();
     await expect(page.getByRole("link", { name: "Request a Technology Review" }).first()).toHaveAttribute(
       "href",

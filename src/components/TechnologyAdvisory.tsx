@@ -79,6 +79,36 @@ const TechnologyAdvisory = () => {
     tFramework("improveTitle"),
   ];
 
+  const engagementOutcomes = [
+    {
+      image: "/images/programs/technology-outcome-requirements.webp",
+      alt: t("technologyOutcome1Alt"),
+      kicker: t("technologyOutcome1Kicker"),
+      title: t("technologyOutcome1Title"),
+      body: t("technologyOutcome1Body"),
+      href: "#how-we-work",
+      link: t("technologyOutcome1Link"),
+    },
+    {
+      image: "/images/programs/technology-outcome-comparison.webp",
+      alt: t("technologyOutcome2Alt"),
+      kicker: t("technologyOutcome2Kicker"),
+      title: t("technologyOutcome2Title"),
+      body: t("technologyOutcome2Body"),
+      href: "#technology-evaluation",
+      link: t("technologyOutcome2Link"),
+    },
+    {
+      image: "/images/programs/technology-outcome-implementation.webp",
+      alt: t("technologyOutcome3Alt"),
+      kicker: t("technologyOutcome3Kicker"),
+      title: t("technologyOutcome3Title"),
+      body: t("technologyOutcome3Body"),
+      href: "#technology-implementation",
+      link: t("technologyOutcome3Link"),
+    },
+  ];
+
   return (
     <section id="technology-advisory" className="section-padding relative bg-slate-50/60">
       <header className="relative mb-8 overflow-hidden rounded-[1.75rem] border border-primary/20 bg-white shadow-[0_24px_70px_rgba(15,23,42,0.12)]">
@@ -200,6 +230,7 @@ const TechnologyAdvisory = () => {
         <ServiceAnchorNav
           label={t("jumpNavLabel")}
           items={[
+            { id: "technology-outcomes", label: t("technologyOutcomesNav") },
             { id: "technology-situations", label: t("technologySituationsNav") },
             { id: "technology-engagements", label: t("technologyEngagementNav") },
             { id: "how-we-work", label: t("engagementTitle") },
@@ -208,6 +239,56 @@ const TechnologyAdvisory = () => {
             { id: "technology-partners", label: t("technologyPartnerNav") },
           ]}
         />
+
+        <Reveal id="technology-outcomes" className="scroll-mt-28 overflow-hidden rounded-[1.75rem] bg-slate-950 px-5 py-8 shadow-xl sm:px-7 lg:px-9 lg:py-10">
+          <div className="grid gap-6 lg:grid-cols-[1fr_0.7fr] lg:items-end">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-light">{t("technologyOutcomesEyebrow")}</p>
+              <h2 className="mt-3 max-w-3xl font-serif text-3xl font-bold leading-tight text-white md:text-4xl">{t("technologyOutcomesTitle")}</h2>
+            </div>
+            <p className="max-w-2xl text-sm leading-relaxed text-slate-300 lg:pb-1">{t("technologyOutcomesDescription")}</p>
+          </div>
+
+          <div className="mt-8 grid gap-5 lg:grid-cols-3">
+            {engagementOutcomes.map((outcome, index) => (
+              <article key={outcome.title} className="group overflow-hidden rounded-2xl border border-white/10 bg-white shadow-[0_16px_40px_rgba(0,0,0,0.25)]">
+                <div className="relative aspect-[3/2] overflow-hidden bg-slate-800">
+                  <Image
+                    src={outcome.image}
+                    alt={outcome.alt}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 370px"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/55 via-transparent to-transparent" aria-hidden />
+                  <span className="absolute bottom-4 left-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-slate-950/75 text-xs font-bold text-white backdrop-blur-sm">
+                    0{index + 1}
+                  </span>
+                </div>
+                <div className="flex min-h-[250px] flex-col p-5 sm:p-6">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-dark">{outcome.kicker}</p>
+                  <h3 className="mt-2 font-serif text-xl font-bold leading-tight text-slate-950">{outcome.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-700">{outcome.body}</p>
+                  <a href={outcome.href} className="mt-auto inline-flex items-center pt-5 text-sm font-bold text-primary-dark hover:underline">
+                    {outcome.link}
+                    <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-7 grid gap-5 rounded-2xl border border-white/10 bg-white/[0.06] p-5 sm:p-6 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div>
+              <p className="font-serif text-xl font-bold text-white">{t("technologyOutcomesInsightTitle")}</p>
+              <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-300">{t("technologyOutcomesInsightBody")}</p>
+            </div>
+            <Link href={reviewHref} className="inline-flex items-center justify-center rounded-lg bg-primary px-5 py-3 text-sm font-bold text-white shadow-lg transition-colors hover:bg-primary-dark">
+              {t("technologyOutcomesCta")}
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+        </Reveal>
 
         <Reveal id="technology-situations" className="scroll-mt-28">
           <ServiceSectionHeading eyebrow={t("technologySituationsEyebrow")} title={t("technologySituationsTitle")} description={t("technologySituationsSubtitle")} />

@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import ScheduleButton from "./ScheduleButton";
 import StickyMobileCTA from "./StickyMobileCTA";
+import TechnologyDecisionFramework from "./TechnologyDecisionFramework";
 import ServiceMiniFAQ from "./services/ServiceMiniFAQ";
 import ServiceTestimonialBand from "./services/ServiceTestimonialBand";
 import BrowserFrame from "./digital/BrowserFrame";
@@ -320,6 +321,19 @@ const DigitalBuilds = () => {
       />
 
       <div className="max-w-6xl mx-auto">
+        <Reveal className="mb-8 rounded-2xl border border-slate-200 bg-white p-6 lg:flex lg:items-center lg:justify-between lg:gap-8 lg:p-8">
+          <div className="max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-dark">{t("advisoryBridgeEyebrow")}</p>
+            <h2 className="mt-2 text-2xl font-serif font-bold text-slate-900">{t("advisoryBridgeTitle")}</h2>
+            <p className="mt-3 text-sm leading-relaxed text-slate-700">{t("advisoryBridgeDescription")}</p>
+          </div>
+          <Link href="/programs/technology-advisory" className="mt-5 inline-flex shrink-0 items-center text-sm font-semibold text-primary-dark hover:underline lg:mt-0">
+            {t("advisoryBridgeLink")}
+            <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
+          </Link>
+        </Reveal>
+
+        <TechnologyDecisionFramework className="mb-12" />
         <Reveal className="mb-12 rounded-2xl border border-primary/20 bg-primary/[0.04] p-6 lg:p-8">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-dark">
             {t("lifecycleEyebrow")}
@@ -483,7 +497,7 @@ const DigitalBuilds = () => {
               {t("fitConsultingNote")}
             </p>
             <Link
-              href="/programs/business-enablement"
+              href="/programs/technology-advisory"
               className="inline-flex items-center text-primary font-medium text-sm hover:underline"
             >
               {t("compareConsultingLink")}
@@ -530,8 +544,8 @@ const DigitalBuilds = () => {
           }
           links={[
             {
-              href: "/programs/business-enablement",
-              label: t("crossLinkConsulting"),
+              href: "/programs/technology-advisory",
+              label: t("advisoryBridgeLink"),
             },
             { href: "/programs/workshops", label: t("crossLinkWorkshops") },
           ]}

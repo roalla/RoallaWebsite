@@ -175,17 +175,14 @@ const Header = ({
   const localeDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const localeDropdownMobileRef = useRef<HTMLDivElement>(null);
   const digitalDropdownDesktopRef = useRef<HTMLDivElement>(null);
-  const advisoryDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const workshopsDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const resourcesDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const previousMenuOpen = useRef(false);
   const [localeDropdownOpen, setLocaleDropdownOpen] = useState(false);
   const [digitalDropdownOpen, setDigitalDropdownOpen] = useState(false);
-  const [advisoryDropdownOpen, setAdvisoryDropdownOpen] = useState(false);
   const [workshopsDropdownOpen, setWorkshopsDropdownOpen] = useState(false);
   const [resourcesDropdownOpen, setResourcesDropdownOpen] = useState(false);
   const [digitalMobileExpanded, setDigitalMobileExpanded] = useState(false);
-  const [advisoryMobileExpanded, setAdvisoryMobileExpanded] = useState(false);
   const [workshopsMobileExpanded, setWorkshopsMobileExpanded] = useState(false);
   const [resourcesMobileExpanded, setResourcesMobileExpanded] = useState(false);
 
@@ -283,25 +280,6 @@ const Header = ({
   }, [digitalDropdownOpen]);
 
   useEffect(() => {
-    if (!advisoryDropdownOpen) return;
-    const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as Node;
-      if (!advisoryDropdownDesktopRef.current?.contains(target)) {
-        setAdvisoryDropdownOpen(false);
-      }
-    };
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setAdvisoryDropdownOpen(false);
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEscape);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscape);
-    };
-  }, [advisoryDropdownOpen]);
-
-  useEffect(() => {
     if (!workshopsDropdownOpen) return;
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
@@ -340,9 +318,8 @@ const Header = ({
   }, [resourcesDropdownOpen]);
 
   const closeOtherDesktopDropdowns = useCallback(
-    (keep: "digital" | "advisory" | "workshops" | "resources" | "locale") => {
+    (keep: "digital" | "workshops" | "resources" | "locale") => {
       if (keep !== "digital") setDigitalDropdownOpen(false);
-      if (keep !== "advisory") setAdvisoryDropdownOpen(false);
       if (keep !== "workshops") setWorkshopsDropdownOpen(false);
       if (keep !== "resources") setResourcesDropdownOpen(false);
       if (keep !== "locale") setLocaleDropdownOpen(false);
@@ -357,7 +334,6 @@ const Header = ({
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
     setDigitalMobileExpanded(false);
-    setAdvisoryMobileExpanded(false);
     setWorkshopsMobileExpanded(false);
     setResourcesMobileExpanded(false);
   }, []);
@@ -459,18 +435,9 @@ const Header = ({
 
   type DigitalNavHref =
     | "/services/digital"
-    | "/website-design"
-    | "/website-package"
-    | "/services/digital-events"
+    | "/programs/technology-advisory"
     | "/services/digital-visibility-optimization"
-    | "/services/digital-products"
-    | "/services/automation"
-    | "/services/managed-optimization"
-    | { pathname: "/services/digital"; hash: "ai-support" };
-
-  type AdvisoryNavHref =
-    | "/programs/business-enablement"
-    | "/programs/technology-advisory";
+    | "/partners";
 
   type WorkshopNavHref =
     | "/programs/workshops"
@@ -485,43 +452,27 @@ const Header = ({
   const digitalLinks: {
     nameKey:
       | "digitalOverview"
-      | "digitalWebsites"
-      | "digitalWebsitePackage"
-      | "digitalPlatforms"
-      | "digitalAutomation"
-      | "digitalAiSupport"
+      | "technologyAdvisory"
       | "digitalVisibility"
-      | "digitalManagedOptimization"
-      | "digitalEvents";
+      | "technologyPartners";
     descKey:
       | "digitalOverviewDesc"
-      | "digitalWebsitesDesc"
-      | "digitalWebsitePackageDesc"
-      | "digitalPlatformsDesc"
-      | "digitalAutomationDesc"
-      | "digitalAiSupportDesc"
+      | "technologyAdvisoryDesc"
       | "digitalVisibilityDesc"
-      | "digitalManagedOptimizationDesc"
-      | "digitalEventsDesc";
+      | "technologyPartnersDesc";
     href: DigitalNavHref;
     icon: typeof Globe;
   }[] = [
     {
+      nameKey: "technologyAdvisory",
+      descKey: "technologyAdvisoryDesc",
+      href: "/programs/technology-advisory",
+      icon: Network,
+    },
+    {
       nameKey: "digitalOverview",
       descKey: "digitalOverviewDesc",
       href: "/services/digital",
-      icon: Globe,
-    },
-    {
-      nameKey: "digitalWebsites",
-      descKey: "digitalWebsitesDesc",
-      href: "/website-design",
-      icon: Globe,
-    },
-    {
-      nameKey: "digitalPlatforms",
-      descKey: "digitalPlatformsDesc",
-      href: "/services/digital-products",
       icon: Layers,
     },
     {
@@ -531,36 +482,10 @@ const Header = ({
       icon: SearchCheck,
     },
     {
-      nameKey: "digitalAutomation",
-      descKey: "digitalAutomationDesc",
-      href: "/services/automation",
-      icon: Workflow,
-    },
-    {
-      nameKey: "digitalManagedOptimization",
-      descKey: "digitalManagedOptimizationDesc",
-      href: "/services/managed-optimization",
-      icon: RefreshCw,
-    },
-  ];
-
-  const advisoryLinks: {
-    nameKey: "businessEnablement" | "technologyAdvisory";
-    descKey: "businessEnablementDesc" | "technologyAdvisoryDesc";
-    href: AdvisoryNavHref;
-    icon: typeof Briefcase;
-  }[] = [
-    {
-      nameKey: "businessEnablement",
-      descKey: "businessEnablementDesc",
-      href: "/programs/business-enablement",
+      nameKey: "technologyPartners",
+      descKey: "technologyPartnersDesc",
+      href: "/partners",
       icon: Briefcase,
-    },
-    {
-      nameKey: "technologyAdvisory",
-      descKey: "technologyAdvisoryDesc",
-      href: "/programs/technology-advisory",
-      icon: Network,
     },
   ];
 
@@ -629,9 +554,9 @@ const Header = ({
 
   const isDigitalActive =
     pathname === "/services/digital" ||
-    pathname === "/website-design" ||
+    pathname === "/programs/technology-advisory" ||
     pathname === "/services/digital-visibility-optimization" ||
-    pathname === "/services/digital-events" ||
+    pathname === "/partners" ||
     pathname === "/services/portfolio";
 
   const showDigitalPortfolio =
@@ -641,9 +566,7 @@ const Header = ({
     pathname === "/services/portfolio" ||
     pathname.startsWith("/services/portfolio/");
 
-  const isAdvisoryActive =
-    pathname === "/programs/business-enablement" ||
-    pathname === "/programs/technology-advisory";
+  const isAdvisoryActive = pathname === "/programs/business-enablement";
   const isWorkshopsActive =
     pathname === "/programs/workshops" ||
     pathname === "/programs/workshops/focus-circle" ||
@@ -685,9 +608,6 @@ const Header = ({
     if (!isMenuOpen) return;
     if (digitalLinks.some((item) => isCurrentHref(item.href))) {
       setDigitalMobileExpanded(true);
-    }
-    if (advisoryLinks.some((item) => isCurrentHref(item.href))) {
-      setAdvisoryMobileExpanded(true);
     }
     if (workshopLinks.some((item) => isCurrentHref(item.href))) {
       setWorkshopsMobileExpanded(true);
@@ -853,10 +773,7 @@ const Header = ({
                   <div className="p-1.5">
                     {digitalLinks.map((item) => {
                       const Icon = item.icon;
-                      const linkKey =
-                        typeof item.href === "string"
-                          ? item.href
-                          : `${item.href.pathname}#${item.href.hash}`;
+                      const linkKey = item.href;
                       const current = isCurrentHref(item.href);
                       return (
                         <Link
@@ -927,81 +844,21 @@ const Header = ({
               </div>
               )}
 
-              <div className="relative" ref={advisoryDropdownDesktopRef}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    closeOtherDesktopDropdowns("advisory");
-                    setAdvisoryDropdownOpen((o) => !o);
-                  }}
-                  aria-expanded={advisoryDropdownOpen}
-                  aria-haspopup="menu"
-                  id="advisory-dropdown-desktop"
-                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
-                    isAdvisoryActive || advisoryDropdownOpen
-                      ? "text-primary"
-                      : navIdleClass
-                  } ${advisoryDropdownOpen ? navOpenBgClass : ""}`}
-                >
-                  {t("advisory")}
-                  <ChevronDown
-                    className={`w-4 h-4 transition-transform ${advisoryDropdownOpen ? "rotate-180" : ""}`}
-                  />
-                  <span
-                    className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
-                      isAdvisoryActive ? "w-full" : "w-0 group-hover:w-full"
-                    }`}
-                  />
-                </button>
-                <div
-                  role="menu"
-                  aria-labelledby="advisory-dropdown-desktop"
-                  className={`absolute right-0 top-full mt-2 w-[min(100vw-2rem,320px)] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50 ${dropdownPanelClass(advisoryDropdownOpen)}`}
-                >
-                  <div className="px-4 py-2.5 border-b border-white/10 bg-white/[0.03]">
-                    <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                      {t("advisoryMenuLabel")}
-                    </p>
-                  </div>
-                  <div className="p-1.5">
-                    {advisoryLinks.map((item) => {
-                      const Icon = item.icon;
-                      const current = isCurrentHref(item.href);
-                      return (
-                        <Link
-                          key={item.nameKey}
-                          href={item.href}
-                          role="menuitem"
-                          aria-current={current ? "page" : undefined}
-                          onClick={() => {
-                            setAdvisoryDropdownOpen(false);
-                            closeMenu();
-                          }}
-                          className={`${advisoryDropdownItemClass} ${current ? "bg-primary/10" : ""}`}
-                        >
-                          <div className={advisoryDropdownIconClass}>
-                            <Icon className="h-4 w-4" aria-hidden />
-                          </div>
-                          <div className="min-w-0 text-left">
-                            <p
-                              className={`text-sm font-semibold leading-snug transition-colors ${
-                                current
-                                  ? "text-primary"
-                                  : "text-gray-200 group-hover:text-primary"
-                              }`}
-                            >
-                              {t(item.nameKey)}
-                            </p>
-                            <p className="mt-0.5 text-xs leading-snug text-slate-500 group-hover:text-slate-400">
-                              {t(item.descKey)}
-                            </p>
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
+              <Link
+                href="/programs/business-enablement"
+                aria-current={isAdvisoryActive ? "page" : undefined}
+                onClick={closeMenu}
+                className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap py-2 ${
+                  isAdvisoryActive ? "text-primary" : navIdleClass
+                }`}
+              >
+                {t("businessEnablement")}
+                <span
+                  className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                    isAdvisoryActive ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                />
+              </Link>
 
               <div className="relative" ref={workshopsDropdownDesktopRef}>
                 <button
@@ -1364,14 +1221,8 @@ const Header = ({
                   <div className="overflow-hidden min-h-0">
                     {digitalLinks.map((item) => {
                       const Icon = item.icon;
-                      const linkKey =
-                        typeof item.href === "string"
-                          ? item.href
-                          : `${item.href.pathname}#${item.href.hash}`;
-                      const mobilePath =
-                        typeof item.href === "string"
-                          ? item.href
-                          : item.href.pathname;
+                      const linkKey = item.href;
+                      const mobilePath = item.href;
                       const current = isCurrentHref(item.href);
                       return (
                         <Link
@@ -1423,53 +1274,19 @@ const Header = ({
               )}
 
               <div className="border-t border-white/10 pt-1">
-                <button
-                  type="button"
-                  onClick={() => setAdvisoryMobileExpanded((o) => !o)}
-                  aria-expanded={advisoryMobileExpanded}
-                  className={`w-full flex items-center justify-between px-3 py-3 min-h-[44px] rounded-md text-base font-medium transition-colors duration-200 ${
+                <Link
+                  href="/programs/business-enablement"
+                  aria-current={isAdvisoryActive ? "page" : undefined}
+                  className={`flex min-h-[44px] items-center gap-3 rounded-md px-3 py-3 text-base font-medium transition-colors duration-200 ${
                     isAdvisoryActive
-                      ? "text-gray-200 bg-white/5"
-                      : "text-slate-400 hover:text-gray-200 hover:bg-white/5"
+                      ? "text-primary bg-primary/10"
+                      : "text-gray-300 hover:text-primary hover:bg-white/5"
                   }`}
+                  onClick={(e) => handleMobileNavClick(e, "/programs/business-enablement")}
                 >
-                  {t("advisory")}
-                  <ChevronDown
-                    className={`w-5 h-5 transition-transform ${advisoryMobileExpanded ? "rotate-180" : ""}`}
-                  />
-                </button>
-                <div
-                  className={`collapse-grid ${advisoryMobileExpanded ? "collapse-grid-open" : "collapse-grid-closed"}`}
-                >
-                  <div className="overflow-hidden min-h-0">
-                    {advisoryLinks.map((item) => {
-                      const Icon = item.icon;
-                      const current = isCurrentHref(item.href);
-                      return (
-                        <Link
-                          key={item.nameKey}
-                          href={item.href}
-                          aria-current={current ? "page" : undefined}
-                          className={`${mobileDropdownItemClass} ${current ? "text-primary bg-primary/10" : ""}`}
-                          onClick={(e) => handleMobileNavClick(e, item.href)}
-                        >
-                          <Icon
-                            className="h-4 w-4 shrink-0 mt-0.5 opacity-70"
-                            aria-hidden
-                          />
-                          <span>
-                            <span className="block text-base font-medium">
-                              {t(item.nameKey)}
-                            </span>
-                            <span className="block text-xs text-slate-500 mt-0.5">
-                              {t(item.descKey)}
-                            </span>
-                          </span>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
+                  <Briefcase className="h-4 w-4 shrink-0 opacity-70" aria-hidden />
+                  {t("businessEnablement")}
+                </Link>
               </div>
 
               <div>

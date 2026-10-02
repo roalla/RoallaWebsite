@@ -10,7 +10,7 @@ test.describe("Header", () => {
     await expect(page.locator("#main-content")).toBeVisible();
   });
 
-  test("digital enablement dropdown lists destinations when open", async ({
+  test("technology solutions dropdown lists connected destinations when open", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 720 });
@@ -18,18 +18,24 @@ test.describe("Header", () => {
 
     await page.locator("#digital-dropdown-desktop").click();
     const menu = page.locator('[aria-labelledby="digital-dropdown-desktop"]');
-    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(6);
+    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(4);
+    await expect(
+      menu.locator('a[href="/en/programs/technology-advisory"]'),
+    ).toHaveAttribute("role", "menuitem");
+    await expect(
+      menu.locator('a[href="/en/services/digital"]'),
+    ).toHaveAttribute("role", "menuitem");
     await expect(
       menu.locator('a[href="/en/services/digital-visibility-optimization"]'),
     ).toHaveAttribute("role", "menuitem");
     await expect(
-      menu.locator('a[href="/en/services/managed-optimization"]'),
+      menu.locator('a[href="/en/partners"]'),
     ).toHaveAttribute("role", "menuitem");
   });
 
   test("digital portfolio link is in the header", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 });
-    await page.goto("/en");
+    await page.goto("/en/services/digital");
 
     await expect(
       page
@@ -38,15 +44,19 @@ test.describe("Header", () => {
     ).toHaveAttribute("href", "/en/services/portfolio");
   });
 
-  test("programs dropdown lists program destinations when open", async ({
+  test("business advisory is direct and workshops remain grouped", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.goto("/en");
 
-    await page.locator("#programs-dropdown-desktop").click();
-    const menu = page.locator('[aria-labelledby="programs-dropdown-desktop"]');
-    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(2);
+    await expect(page.getByLabel("Main navigation").getByRole("link", { name: "Business Advisory" })).toHaveAttribute(
+      "href",
+      "/en/programs/business-enablement",
+    );
+    await page.locator("#workshops-dropdown-desktop").click();
+    const menu = page.locator('[aria-labelledby="workshops-dropdown-desktop"]');
+    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(8);
   });
 
   test("primary service routes are reachable", async ({ page }) => {

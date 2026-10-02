@@ -117,13 +117,15 @@ describe('Header', () => {
     expect(screen.getByRole('menuitem', { name: /resourcesUseCases/ })).toBeInTheDocument()
   })
 
-  it('renders digital enablement dropdown with digital service links', () => {
+  it('renders technology solutions dropdown with sourcing and implementation links', () => {
     render(<Header />)
     const digitalButton = screen.getByRole('button', { name: 'digitalEnablement' })
     expect(digitalButton).toBeInTheDocument()
     fireEvent.click(digitalButton)
+    expect(screen.getByRole('menuitem', { name: /technologyAdvisory/i })).toHaveAttribute('href', '/programs/technology-advisory')
     expect(screen.getByRole('menuitem', { name: /digitalOverview/i })).toHaveAttribute('href', '/services/digital')
-    expect(screen.getByRole('menuitem', { name: /digitalWebsites/i })).toHaveAttribute('href', '/website-design')
+    expect(screen.getByRole('menuitem', { name: /digitalVisibility/i })).toHaveAttribute('href', '/services/digital-visibility-optimization')
+    expect(screen.getByRole('menuitem', { name: /technologyPartners/i })).toHaveAttribute('href', '/partners')
   })
 
   it('marks only the matching dropdown item for the current page', () => {
@@ -163,16 +165,11 @@ describe('Header', () => {
     },
   )
 
-  it('renders advisory dropdown with business advisory link', () => {
+  it('renders business advisory as a primary navigation link', () => {
     render(<Header />)
-    fireEvent.click(screen.getByRole('button', { name: 'advisory' }))
-    expect(screen.getByRole('menuitem', { name: /businessEnablement/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'businessEnablement' })).toHaveAttribute(
       'href',
       '/programs/business-enablement',
-    )
-    expect(screen.getByRole('menuitem', { name: /technologyAdvisory/i })).toHaveAttribute(
-      'href',
-      '/programs/technology-advisory',
     )
   })
 

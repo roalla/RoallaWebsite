@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Homepage brand journey", () => {
-  test("site shows business outcomes and what we build section", async ({
+  test("site shows business outcomes and connected technology practices", async ({
     page,
   }) => {
     await page.goto("/en");
@@ -12,8 +12,10 @@ test.describe("Homepage brand journey", () => {
       }),
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "What we build" }),
+      page.getByRole("heading", { name: "What we source, build, and improve" }),
     ).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Technology Advisory & Solution Sourcing" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Digital Enablement & Implementation" })).toBeVisible();
     await expect(page.locator("#services")).toBeVisible();
   });
 

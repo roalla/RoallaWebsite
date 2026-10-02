@@ -1,12 +1,12 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Homepage funnel', () => {
-  test('hero shows journey headline and primary CTAs', async ({ page }) => {
+  test('hero shows unified technology positioning and primary CTAs', async ({ page }) => {
     await page.goto('/en')
-    await expect(page.getByRole('heading', { level: 1 })).toContainText(/Prepare\. Transform\. Emerge\./i)
-    await expect(page.getByRole('heading', { level: 1 })).toContainText(/Soar\./i)
-    await expect(page.getByRole('link', { name: /Scope your project/i }).first()).toBeVisible()
-    await expect(page.getByRole('link', { name: /View our work/i }).first()).toBeVisible()
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(/Technology decisions carried through to/i)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(/implementation\./i)
+    await expect(page.getByRole('link', { name: /Discuss Your Technology Needs/i }).first()).toBeVisible()
+    await expect(page.getByRole('link', { name: /View Solutions/i }).first()).toBeVisible()
   })
 
   test('what we do appears before our work section', async ({ page }) => {
@@ -32,7 +32,7 @@ test.describe('Homepage funnel', () => {
     await expect(
       page.getByRole('heading', { name: 'Become easier to find, understand, and trust' }),
     ).toBeVisible()
-    await expect(page.getByText('5 websites · 9 digital products · 14 verified examples')).toBeVisible()
+    await expect(page.getByText('6 websites · 9 digital products · 15 verified examples')).toBeVisible()
   })
 
   test('new homepage positioning has French parity', async ({ page }) => {
@@ -50,6 +50,9 @@ test.describe('Homepage funnel', () => {
       page.getByRole('heading', {
         name: 'Devenez plus facile à trouver, à comprendre et à reconnaître',
       }),
+    ).toBeVisible()
+    await expect(
+      page.getByRole('heading', { name: 'Acheter, construire, connecter ou améliorer?' }),
     ).toBeVisible()
   })
 })

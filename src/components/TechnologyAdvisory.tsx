@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import ScheduleButton from "./ScheduleButton";
 import StickyMobileCTA from "./StickyMobileCTA";
+import TechnologyDecisionFramework from "./TechnologyDecisionFramework";
 import ServiceMiniFAQ from "./services/ServiceMiniFAQ";
 import { TECHNOLOGY_PAGE_FAQ_KEYS } from "@/lib/service-faq-jsonld";
 import {
@@ -133,6 +134,7 @@ const TechnologyAdvisory = () => {
       />
 
       <div className="max-w-6xl mx-auto">
+        <TechnologyDecisionFramework className="mb-12" />
         <ServiceAnchorNav
           label={t("jumpNavLabel")}
           items={[
@@ -140,6 +142,7 @@ const TechnologyAdvisory = () => {
             { id: "technology-situations", label: t("technologySituationsNav") },
             { id: "technology-capabilities", label: t("technologyCapabilitiesNav") },
             { id: "technology-partners", label: t("technologyPartnerTitle") },
+            { id: "technology-implementation", label: t("technologyImplementationNav") },
             { id: "how-we-work", label: t("engagementTitle") },
           ]}
         />
@@ -351,6 +354,39 @@ const TechnologyAdvisory = () => {
               </ul>
             </div>
           </div>
+        </Reveal>
+
+        <Reveal
+          id="technology-implementation"
+          className="scroll-mt-28 mt-12 rounded-2xl border border-slate-200 bg-white p-6 lg:p-8"
+        >
+          <ServiceSectionHeading
+            eyebrow={t("technologyImplementationEyebrow")}
+            title={t("technologyImplementationTitle")}
+            description={t("technologyImplementationDescription")}
+          />
+          <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+            {([
+              "technologyImplementation1",
+              "technologyImplementation2",
+              "technologyImplementation3",
+              "technologyImplementation4",
+              "technologyImplementation5",
+              "technologyImplementation6",
+            ] as const).map((key) => (
+              <li key={key} className="flex items-start gap-2 text-sm text-slate-700">
+                <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-primary-dark" aria-hidden />
+                {t(key)}
+              </li>
+            ))}
+          </ul>
+          <Link
+            href="/services/digital"
+            className="mt-6 inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
+          >
+            {t("technologyImplementationLink")}
+            <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
+          </Link>
         </Reveal>
 
         <Reveal id="how-we-work" className="scroll-mt-28 mt-16 pt-12 border-t-2 border-slate-200">

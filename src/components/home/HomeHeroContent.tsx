@@ -7,7 +7,6 @@ import { Link } from '@/i18n/navigation'
 
 export default function HomeHeroContent() {
   const t = useTranslations('home.hero')
-  const tCommon = useTranslations('common')
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pb-16 lg:pb-24">
@@ -28,14 +27,14 @@ export default function HomeHeroContent() {
             href="/contact"
             className="inline-flex items-center justify-center gap-2 w-full sm:w-auto min-h-[48px] px-6 sm:px-8 py-3.5 rounded-lg bg-brand-gold hover:bg-brand-gold-light text-slate-950 font-semibold text-sm sm:text-base transition-all duration-300 hover:scale-[1.02] shadow-md shadow-black/25"
           >
-            {tCommon('scheduleConsultationDigital')}
+            {t('primaryCta')}
             <ArrowRight className="w-4 h-4 shrink-0" aria-hidden />
           </Link>
           <Link
-            href="/services/portfolio"
+            href="/services/digital"
             className="inline-flex items-center justify-center gap-2 w-full sm:w-auto min-h-[48px] px-6 sm:px-8 py-3.5 rounded-lg border-2 border-white/80 hover:border-white hover:bg-white/10 text-white font-semibold text-sm sm:text-base transition-all duration-300"
           >
-            {t('exploreDigitalLink')}
+            {t('secondaryCta')}
             <ArrowRight className="w-4 h-4 shrink-0" aria-hidden />
           </Link>
         </div>

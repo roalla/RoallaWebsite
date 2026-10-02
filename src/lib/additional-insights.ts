@@ -99,7 +99,7 @@ export const ADDITIONAL_INSIGHTS: Record<AdditionalInsightSlug, InsightEntry> = 
   'build-buy-or-integrate-technology': {
     image: '/images/insights/library/build-buy-or-integrate-technology.webp',
     en: {
-      category: 'Technology Advisory', imageAlt: 'A leader and independent advisor compare technology solution options and integration plans.',
+      category: 'Technology Advisory', imageAlt: 'A leader and requirements-based advisor compare technology solution options and integration plans.',
       plainAnswer: 'Buy when a proven product fits the need, configure when differences are modest, integrate when useful systems must cooperate, and build only where the requirement creates distinct value.',
       intro: ['Technology decisions become expensive when teams begin with a favourite product or a requested feature. The useful starting point is a clear set of business, user, security, integration and cost requirements.', 'No option is free of tradeoffs. Buying can speed delivery but introduce licence limits. Building provides control but creates long-term ownership. Integration preserves useful tools but adds dependencies that must be monitored.'],
       exampleTitle: 'The cheapest licence may not be the lowest cost', example: 'A growing company chooses an inexpensive platform, then discovers that approvals, reporting and customer records require manual work. A requirements review might reveal that a better configured product plus one integration costs less than years of workarounds.',

@@ -86,6 +86,31 @@ export default function HomeWhatWeDo() {
           <p className="mt-3 text-lg text-slate-600">{t('description')}</p>
         </Reveal>
 
+        <div className="grid gap-5 lg:grid-cols-2 mb-8">
+          <Reveal className="home-tile rounded-2xl border border-primary/20 bg-white p-6 lg:p-8">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-primary/10 bg-primary/10">
+              <Network className="h-5 w-5 text-primary-dark" aria-hidden />
+            </div>
+            <h3 className="mt-4 text-xl font-serif font-bold text-slate-900">{t('technologyPracticeTitle')}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-slate-600">{t('technologyPracticeDesc')}</p>
+            <Link href="/programs/technology-advisory" className="mt-5 inline-flex items-center text-sm font-semibold text-primary-dark hover:underline">
+              {t('technologyPracticeLink')}
+              <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
+            </Link>
+          </Reveal>
+          <Reveal delayMs={40} className="home-tile rounded-2xl border border-primary/20 bg-white p-6 lg:p-8">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-primary/10 bg-primary/10">
+              <Layers className="h-5 w-5 text-primary-dark" aria-hidden />
+            </div>
+            <h3 className="mt-4 text-xl font-serif font-bold text-slate-900">{t('digitalPracticeTitle')}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-slate-600">{t('digitalPracticeDesc')}</p>
+            <Link href="/services/digital" className="mt-5 inline-flex items-center text-sm font-semibold text-primary-dark hover:underline">
+              {t('digitalPracticeLink')}
+              <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
+            </Link>
+          </Reveal>
+        </div>
+
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5 mb-8">
           {capabilityCards.map((card, index) => {
             const Icon = card.icon
@@ -176,14 +201,6 @@ export default function HomeWhatWeDo() {
             >
               <GraduationCap className="w-4 h-4 mr-1.5 shrink-0" aria-hidden />
               {t('programsWorkshops')}
-              <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
-            </Link>
-            <Link
-              href="/programs/technology-advisory"
-              className="inline-flex items-center text-sm font-semibold text-slate-700 hover:text-primary hover:underline"
-            >
-              <Network className="w-4 h-4 mr-1.5 shrink-0" aria-hidden />
-              {t('programsTechnologyAdvisory')}
               <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
             </Link>
           </div>

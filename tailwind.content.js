@@ -13,6 +13,7 @@ const homeContent = [
   './src/components/Header.tsx',
   './src/components/ScheduleButton.tsx',
   './src/components/StickyMobileCTA.tsx',
+  './src/components/TechnologyDecisionFramework.tsx',
   './src/components/digital/BrowserFrame.tsx',
   './src/components/home/**/*.{js,ts,jsx,tsx}',
   './src/components/motion/**/*.{js,ts,jsx,tsx}',

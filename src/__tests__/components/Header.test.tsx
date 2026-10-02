@@ -165,17 +165,13 @@ describe('Header', () => {
     },
   )
 
-  it('renders business advisory as a primary navigation link', () => {
+  it('groups business advisory and team workshops in one category', () => {
     render(<Header />)
-    expect(screen.getByRole('link', { name: 'businessEnablement' })).toHaveAttribute(
+    fireEvent.click(screen.getByRole('button', { name: 'businessAdvisoryWorkshops' }))
+    expect(screen.getByRole('menuitem', { name: /businessEnablement/i })).toHaveAttribute(
       'href',
       '/programs/business-enablement',
     )
-  })
-
-  it('renders team workshops as a submenu of workshops', () => {
-    render(<Header />)
-    fireEvent.click(screen.getByRole('button', { name: 'workshops' }))
     expect(screen.getByRole('menuitem', { name: /teamWorkshops/i })).toHaveAttribute(
       'href',
       '/programs/workshops',
@@ -204,16 +200,16 @@ describe('Header', () => {
       'href',
       '/programs/workshops/first-offer',
     )
-    const menu = screen.getByRole('menu', { name: 'workshops' })
+    const menu = screen.getByRole('menu', { name: 'businessAdvisoryWorkshops' })
     const items = within(menu).getAllByRole('menuitem')
     expect(items[items.length - 1]).toHaveAttribute('href', '/programs/workshops')
-    expect(within(menu).getByRole('separator')).toBeInTheDocument()
+    expect(within(menu).getAllByRole('separator')).toHaveLength(2)
   })
 
   it('marks team workshops when that page is selected', () => {
     mockPathname.mockReturnValue('/programs/workshops')
     render(<Header />)
-    fireEvent.click(screen.getByRole('button', { name: 'workshops' }))
+    fireEvent.click(screen.getByRole('button', { name: 'businessAdvisoryWorkshops' }))
     expect(screen.getByRole('menuitem', { name: /teamWorkshops/i })).toHaveAttribute(
       'aria-current',
       'page',

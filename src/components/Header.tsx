@@ -609,7 +609,10 @@ const Header = ({
     if (digitalLinks.some((item) => isCurrentHref(item.href))) {
       setDigitalMobileExpanded(true);
     }
-    if (workshopLinks.some((item) => isCurrentHref(item.href))) {
+    if (
+      pathname === "/programs/business-enablement" ||
+      workshopLinks.some((item) => isCurrentHref(item.href))
+    ) {
       setWorkshopsMobileExpanded(true);
     }
     if (isResourcesActive) {
@@ -844,22 +847,6 @@ const Header = ({
               </div>
               )}
 
-              <Link
-                href="/programs/business-enablement"
-                aria-current={isAdvisoryActive ? "page" : undefined}
-                onClick={closeMenu}
-                className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap py-2 ${
-                  isAdvisoryActive ? "text-primary" : navIdleClass
-                }`}
-              >
-                {t("businessEnablement")}
-                <span
-                  className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
-                    isAdvisoryActive ? "w-full" : "w-0 group-hover:w-full"
-                  }`}
-                />
-              </Link>
-
               <div className="relative" ref={workshopsDropdownDesktopRef}>
                 <button
                   type="button"
@@ -871,18 +858,18 @@ const Header = ({
                   aria-haspopup="menu"
                   id="workshops-dropdown-desktop"
                   className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
-                    isWorkshopsActive || workshopsDropdownOpen
+                    isAdvisoryActive || isWorkshopsActive || workshopsDropdownOpen
                       ? "text-primary"
                       : navIdleClass
                   } ${workshopsDropdownOpen ? navOpenBgClass : ""}`}
                 >
-                  {t("workshops")}
+                  {t("businessAdvisoryWorkshops")}
                   <ChevronDown
                     className={`w-4 h-4 transition-transform ${workshopsDropdownOpen ? "rotate-180" : ""}`}
                   />
                   <span
                     className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
-                      isWorkshopsActive ? "w-full" : "w-0 group-hover:w-full"
+                      isAdvisoryActive || isWorkshopsActive ? "w-full" : "w-0 group-hover:w-full"
                     }`}
                   />
                 </button>
@@ -893,10 +880,33 @@ const Header = ({
                 >
                   <div className="px-4 py-2.5 border-b border-white/10 bg-white/[0.03]">
                     <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                      {t("workshopsMenuLabel")}
+                      {t("businessAdvisoryWorkshopsMenuLabel")}
                     </p>
                   </div>
                   <div className="p-1.5">
+                    <Link
+                      href="/programs/business-enablement"
+                      role="menuitem"
+                      aria-current={isAdvisoryActive ? "page" : undefined}
+                      onClick={() => {
+                        setWorkshopsDropdownOpen(false);
+                        closeMenu();
+                      }}
+                      className={`${advisoryDropdownItemClass} ${isAdvisoryActive ? "bg-primary/10" : ""}`}
+                    >
+                      <div className={advisoryDropdownIconClass}>
+                        <Briefcase className="h-4 w-4" aria-hidden />
+                      </div>
+                      <div className="min-w-0 text-left">
+                        <p className={`text-sm font-semibold leading-snug transition-colors ${isAdvisoryActive ? "text-primary" : "text-gray-200 group-hover:text-primary"}`}>
+                          {t("businessEnablement")}
+                        </p>
+                        <p className="mt-0.5 text-xs leading-snug text-slate-500 group-hover:text-slate-400">
+                          {t("businessEnablementDesc")}
+                        </p>
+                      </div>
+                    </Link>
+                    <div role="separator" className="mx-3 my-1.5 border-t border-white/10" />
                     {workshopLinks.map((item) => {
                       const Icon = item.icon;
                       const current = isCurrentHref(item.href);
@@ -1274,33 +1284,17 @@ const Header = ({
               )}
 
               <div className="border-t border-white/10 pt-1">
-                <Link
-                  href="/programs/business-enablement"
-                  aria-current={isAdvisoryActive ? "page" : undefined}
-                  className={`flex min-h-[44px] items-center gap-3 rounded-md px-3 py-3 text-base font-medium transition-colors duration-200 ${
-                    isAdvisoryActive
-                      ? "text-primary bg-primary/10"
-                      : "text-gray-300 hover:text-primary hover:bg-white/5"
-                  }`}
-                  onClick={(e) => handleMobileNavClick(e, "/programs/business-enablement")}
-                >
-                  <Briefcase className="h-4 w-4 shrink-0 opacity-70" aria-hidden />
-                  {t("businessEnablement")}
-                </Link>
-              </div>
-
-              <div>
                 <button
                   type="button"
                   onClick={() => setWorkshopsMobileExpanded((o) => !o)}
                   aria-expanded={workshopsMobileExpanded}
                   className={`w-full flex items-center justify-between px-3 py-3 min-h-[44px] rounded-md text-base font-medium transition-colors duration-200 ${
-                    isWorkshopsActive
+                    isAdvisoryActive || isWorkshopsActive
                       ? "text-primary bg-primary/10"
                       : "text-gray-300 hover:text-primary hover:bg-white/5"
                   }`}
                 >
-                  {t("workshops")}
+                  {t("businessAdvisoryWorkshops")}
                   <ChevronDown
                     className={`w-5 h-5 transition-transform ${workshopsMobileExpanded ? "rotate-180" : ""}`}
                   />
@@ -1309,6 +1303,19 @@ const Header = ({
                   className={`collapse-grid ${workshopsMobileExpanded ? "collapse-grid-open" : "collapse-grid-closed"}`}
                 >
                   <div className="overflow-hidden min-h-0">
+                    <Link
+                      href="/programs/business-enablement"
+                      aria-current={isAdvisoryActive ? "page" : undefined}
+                      className={`${mobileDropdownItemClass} ${isAdvisoryActive ? "text-primary bg-primary/10" : ""}`}
+                      onClick={(e) => handleMobileNavClick(e, "/programs/business-enablement")}
+                    >
+                      <Briefcase className="h-4 w-4 shrink-0 mt-0.5 opacity-70" aria-hidden />
+                      <span>
+                        <span className="block text-base font-medium">{t("businessEnablement")}</span>
+                        <span className="block text-xs text-slate-500 mt-0.5">{t("businessEnablementDesc")}</span>
+                      </span>
+                    </Link>
+                    <div role="separator" className="mx-3 my-1.5 border-t border-white/10" />
                     {workshopLinks.map((item) => {
                       const Icon = item.icon;
                       const current = isCurrentHref(item.href);

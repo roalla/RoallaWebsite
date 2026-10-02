@@ -44,19 +44,19 @@ test.describe("Header", () => {
     ).toHaveAttribute("href", "/en/services/portfolio");
   });
 
-  test("business advisory is direct and workshops remain grouped", async ({
+  test("business advisory and workshops share one navigation category", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.goto("/en");
 
-    await expect(page.getByLabel("Main navigation").getByRole("link", { name: "Business Advisory" })).toHaveAttribute(
+    await page.getByLabel("Main navigation").getByRole("button", { name: "Business Advisory & Workshops" }).click();
+    const menu = page.locator('[aria-labelledby="workshops-dropdown-desktop"]');
+    await expect(menu.getByRole("menuitem", { name: /Business Advisory/ })).toHaveAttribute(
       "href",
       "/en/programs/business-enablement",
     );
-    await page.locator("#workshops-dropdown-desktop").click();
-    const menu = page.locator('[aria-labelledby="workshops-dropdown-desktop"]');
-    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(8);
+    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(9);
   });
 
   test("primary service routes are reachable", async ({ page }) => {

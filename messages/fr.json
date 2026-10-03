@@ -385,6 +385,7 @@
       "liveProjectsEyebrow": "Ouvrez un site en direct — chaque projet ci-dessous est en production.",
       "liveBadge": "En ligne",
       "openLive": "Ouvrir le site",
+      "openLiveNamed": "Ouvrir le site {name}",
       "viewCaseStudy": "Voir l'étude de cas",
       "clientWork": "Projet client",
       "roallaProduct": "Produit ROALLA",

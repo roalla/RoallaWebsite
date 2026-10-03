@@ -705,7 +705,7 @@ const Header = ({
               href="/"
               className="flex items-center space-x-2 sm:space-x-3 group min-w-0"
               onClick={closeMenu}
-              aria-label="Go to homepage"
+              aria-label="ROALLA — Go to homepage"
             >
               <div className="flex-shrink-0">
                 <Image

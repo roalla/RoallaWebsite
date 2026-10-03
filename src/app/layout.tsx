@@ -120,14 +120,24 @@ export default async function RootLayout({
     <html lang={locale} className="font-sans">
       <head>
         {preloadDesktopHero ? (
-          <link
-            rel="preload"
-            as="image"
-            href={HERO_SLIDES[0].desktopAvif}
-            type="image/avif"
-            fetchPriority="high"
-            media={`(min-width: ${HERO_MOBILE_MAX_WIDTH_PX + 1}px)`}
-          />
+          <>
+            <link
+              rel="preload"
+              as="image"
+              href={HERO_SLIDES[0].mobileAvifSrcSet}
+              type="image/avif"
+              fetchPriority="high"
+              media={`(max-width: ${HERO_MOBILE_MAX_WIDTH_PX}px)`}
+            />
+            <link
+              rel="preload"
+              as="image"
+              href={HERO_SLIDES[0].desktopAvif}
+              type="image/avif"
+              fetchPriority="high"
+              media={`(min-width: ${HERO_MOBILE_MAX_WIDTH_PX + 1}px)`}
+            />
+          </>
         ) : null}
         <link
           rel="preload"

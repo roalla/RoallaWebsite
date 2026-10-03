@@ -78,6 +78,7 @@ export default function HomeOurWork() {
           {liveProjects.map((item, index) => {
             const id = item.id as (typeof homeProofItemIds)[number]
             const name = tPortfolio(portfolioNameKey[id] as 't10Name')
+            const liveLabel = t('openLiveNamed', { name })
             return (
               <Reveal key={item.id} delayMs={index * 50} className="home-tile group flex flex-col rounded-2xl bg-slate-50/80 p-3 sm:p-4">
                 <div className="mb-3 flex items-center gap-2 px-1">
@@ -121,7 +122,7 @@ export default function HomeOurWork() {
                       rel="noopener noreferrer"
                       className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
                     >
-                      {t('openLive')}
+                      {liveLabel}
                       <ExternalLink className="ml-1.5 w-3.5 h-3.5" aria-hidden />
                     </a>
                   </div>

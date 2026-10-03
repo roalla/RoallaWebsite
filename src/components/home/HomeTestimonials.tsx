@@ -1,12 +1,12 @@
 'use client'
 
 import React from 'react'
-import { Quote } from 'lucide-react'
+import { ArrowRight, CheckCircle2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import Reveal from '../motion/Reveal'
 
-const testimonialKeys = ['t3', 't1', 't2'] as const
+const outcomeKeys = ['t3', 't1', 't2'] as const
 
 export default function HomeTestimonials() {
   const t = useTranslations('home.testimonials')
@@ -22,17 +22,15 @@ export default function HomeTestimonials() {
         </Reveal>
 
         <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {testimonialKeys.map((key) => (
+          {outcomeKeys.map((key) => (
             <div
               key={key}
               className="home-tile flex flex-col rounded-2xl bg-gradient-to-br from-slate-50 to-white p-6 lg:p-8"
             >
-              <Quote className="w-8 h-8 text-primary/30 mb-4 shrink-0" aria-hidden />
-              <blockquote className="flex-1 text-slate-700 leading-relaxed text-sm">
-                &ldquo;{t(`${key}Quote`)}&rdquo;
-              </blockquote>
+              <CheckCircle2 className="mb-4 h-8 w-8 shrink-0 text-primary/60" aria-hidden />
+              <p className="flex-1 text-sm leading-relaxed text-slate-700">{t(`${key}Quote`)}</p>
               <footer className="mt-6 pt-5 border-t border-slate-200">
-                <p className="text-sm font-semibold text-slate-900">{t(`${key}Role`)}</p>
+                <p className="text-xs font-bold uppercase tracking-wider text-slate-500">{t(`${key}Role`)}</p>
                 <p className="mt-0.5 text-xs text-primary-dark font-medium">{t(`${key}Project`)}</p>
               </footer>
             </div>
@@ -42,6 +40,7 @@ export default function HomeTestimonials() {
         <Reveal className="text-center mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-6">
           <Link href="/services/portfolio" className="inline-flex items-center link-action hover:underline text-sm font-semibold">
             {t('viewPortfolio')}
+            <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
           </Link>
           <Link href="/contact" className="inline-flex items-center text-sm font-semibold text-slate-600 hover:text-primary-dark hover:underline">
             {t('scheduleLink')}

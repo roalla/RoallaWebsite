@@ -6,7 +6,7 @@ export default function HomeHero() {
   return (
     <section
       data-header-tone="dark"
-      className="relative isolate min-h-[min(100svh,56rem)] flex items-start overflow-hidden pt-28 sm:pt-32 lg:pt-36 bg-slate-950"
+      className="relative isolate min-h-[42rem] sm:min-h-[44rem] lg:min-h-[46rem] flex items-start overflow-hidden pt-24 sm:pt-28 lg:pt-32 bg-slate-950"
     >
       <HomeHeroSlideshow />
 

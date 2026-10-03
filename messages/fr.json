@@ -4,11 +4,11 @@
     "scheduleConsultation": "Soumettre une demande de service",
     "scheduleConsultationConsulting": "Planifiez votre prochaine étape",
     "scheduleConsultationWorkshops": "Réserver un atelier d'équipe",
-    "scheduleConsultationDigital": "Cadrer votre projet",
+    "scheduleConsultationDigital": "Discuter de vos besoins",
     "scheduleConsultationDigitalEvents": "Planifier votre kit événementiel",
     "ctaSubtext": "~3 min · Sans obligation · Réponse en 1 jour ouvrable",
     "ctaWhatHappensNext": "Vous répondez à 3 courtes questions → nous vous indiquons le bon point de départ et les prochaines étapes.",
-    "ctaNextSteps": "Cadrer votre projet",
+    "ctaNextSteps": "Discuter de vos besoins",
     "ctaNextStepsSubtext": "Nous vous suggérerons le bon point de départ",
     "continueExploring": "Explorer aussi",
     "companyName": "ROALLA",
@@ -157,15 +157,17 @@
     "improveLink": "Explorer l’optimisation gérée"
   },
   "home": {
-    "metadataTitle": "ROALLA | Des décisions technologiques jusqu’à la mise en œuvre",
-    "metadataDescription": "ROALLA aide les organisations à choisir, rechercher, construire, intégrer et améliorer leurs technologies—de l’infonuagique, la cybersécurité et les communications aux sites, applications, automatisations et à l’IA.",
+    "metadataTitle": "ROALLA | Choisir la technologie et la mettre en œuvre",
+    "metadataDescription": "Conseil technologique axé sur les besoins et livraison pour les organisations en croissance—des exigences et comparaisons aux sites, applications, automatisations, à l’IA et à la mise en œuvre.",
     "hero": {
       "title": "Solutions technologiques",
-      "titleLine": "Des décisions technologiques menées jusqu’à la",
-      "titleHighlight": "mise en œuvre.",
-      "subtitle": "ROALLA aide les organisations à choisir, rechercher, construire, intégrer et améliorer leurs technologies—de l’infonuagique, la cybersécurité et les communications aux sites, applications, automatisations et à l’IA.",
-      "primaryCta": "Discuter de vos besoins technologiques",
-      "secondaryCta": "Voir les solutions",
+      "eyebrow": "Conseil technologique axé sur les besoins et livraison",
+      "titleLine": "Choisissez la bonne technologie.",
+      "titleHighlight": "Faites-la mettre en œuvre.",
+      "subtitle": "ROALLA aide les organisations en croissance à clarifier leurs besoins, comparer les options et mener la bonne solution jusqu’à sa mise en œuvre—de l’infonuagique et la cybersécurité aux sites Web, applications, automatisations et à l’IA.",
+      "primaryCta": "Trouver le bon point de départ",
+      "secondaryCta": "Voir 15 exemples en ligne",
+      "trustLine": "Dirigé par le fondateur · Axé sur vos besoins · Aucun argumentaire fournisseur au premier appel · Réponse en 1 jour ouvrable",
       "ctaAssessment": "Démarrer votre évaluation d'affaires",
       "pathChooserLabel": "Que voulez-vous construire?",
       "pathWebsiteTitle": "Site Web ou refonte",
@@ -213,9 +215,22 @@
       "journeyLine": "Préparer → Transformer → Émerger → S'élever — notre modèle pour chaque mandat numérique."
     },
     "businessOutcomes": {
-      "eyebrow": "Résultats d'affaires",
-      "title": "Les actifs numériques doivent créer de la valeur d'affaires.",
-      "description": "ROALLA aide les organisations à utiliser les sites Web, les applications, l'automatisation et l'IA pour atteindre des résultats concrets.",
+      "eyebrow": "Commencez par votre situation",
+      "title": "Que cherchez-vous à faire avancer?",
+      "description": "Choisissez la situation qui ressemble le plus à la vôtre. Chaque parcours explique l'approche probable, le résultat attendu et la prochaine étape la plus pratique.",
+      "chooseTitle": "Je dois choisir ou remplacer une technologie",
+      "chooseDescription": "Clarifier les exigences, comparer des fournisseurs qualifiés et prendre une décision défendable avant d'engager le budget.",
+      "chooseCta": "Explorer le conseil technologique",
+      "buildTitle": "J'ai besoin d'un site Web ou d'un produit numérique",
+      "buildDescription": "Créer une présence Web crédible, une expérience client, un portail, une application ou un nouveau service numérique.",
+      "buildCta": "Explorer la livraison numérique",
+      "connectTitle": "Je dois connecter des systèmes ou automatiser le travail",
+      "connectDescription": "Éliminer la double saisie, améliorer les transferts et ajouter de l'automatisation ou de l'IA là où elle crée de la valeur.",
+      "connectCta": "Explorer l'automatisation",
+      "clarifyTitle": "J'ai besoin de priorités claires et d'un plan d'exécution",
+      "clarifyDescription": "Transformer les priorités concurrentes en décisions, responsables, jalons et plan pratique de 90 jours.",
+      "clarifyCta": "Explorer le conseil d'affaires",
+      "allSituationsCta": "Voir les situations courantes, les résultats et les prochaines étapes",
       "foundTitle": "Être trouvé",
       "foundDescription": "Améliorer la visibilité dans la recherche et l'IA, la présence locale et la clarté du contenu.",
       "customersTitle": "Gagner plus de clients",
@@ -226,6 +241,21 @@
       "operationsDescription": "Connecter les systèmes, automatiser les flux et remplacer les processus manuels inefficaces.",
       "growthTitle": "Évoluer continuellement",
       "growthDescription": "Mesurer les résultats, repérer les possibilités et améliorer les actifs numériques au fil du temps."
+    },
+    "trustBand": {
+      "experienceValue": "30+",
+      "experienceLabel": "ans en affaires et en technologie",
+      "projectsValue": "500+",
+      "projectsLabel": "mandats et projets livrés",
+      "examplesValue": "15",
+      "examplesLabel": "exemples numériques en ligne à examiner",
+      "accountabilityValue": "1",
+      "accountabilityLabel": "responsable principal tout au long du mandat",
+      "title": "Une attention experte de la découverte à la mise en œuvre",
+      "description": "Travaillez directement avec Steven Robin, fondateur et conseiller principal de ROALLA, fort d'une expérience de direction en entreprise et d'une livraison technologique pratique.",
+      "commitment": "Aucun transfert à une équipe de livraison junior",
+      "cta": "Rencontrer le fondateur",
+      "photoAlt": "Steven Robin, fondateur et conseiller principal de ROALLA"
     },
     "visibility": {
       "eyebrow": "Optimisation de la visibilité numérique",
@@ -254,8 +284,25 @@
       "pill3": "Construit pour livrer des résultats"
     },
     "whatWeDo": {
-      "title": "Ce que nous recherchons, construisons et améliorons",
-      "description": "Un partenaire technologique responsable peut déterminer s’il faut rechercher une solution existante, construire ce qui manque, connecter les systèmes ou améliorer ce que vous avez déjà.",
+      "eyebrow": "Pourquoi ROALLA",
+      "title": "Le conseil et la livraison restent connectés",
+      "description": "La personne qui aide à cadrer la décision demeure responsable de la transformer en résultat fonctionnel.",
+      "needsLedTitle": "Axé sur les besoins",
+      "needsLedDescription": "Les exigences et les résultats d'affaires passent avant toute plateforme, fournisseur ou solution prédéterminée.",
+      "founderLedTitle": "Dirigé par le fondateur",
+      "founderLedDescription": "Travaillez directement avec un décideur expérimenté, de la découverte à la mise en œuvre.",
+      "accountableTitle": "Responsable de la mise en œuvre",
+      "accountableDescription": "Les recommandations comprennent des responsables, des jalons et du soutien pendant la livraison et l'adoption.",
+      "transparentTitle": "Commercialement transparent",
+      "transparentDescription": "Les relations avec les partenaires et toute rémunération pertinente sont divulguées avant votre engagement.",
+      "businessEyebrow": "Besoin aussi d'une direction d'affaires?",
+      "businessTitle": "Transformez les priorités en plan d'exécution pratique",
+      "businessDescription": "Le conseil d'affaires relie stratégie, opérations, leadership et mise en œuvre—pas seulement des recommandations.",
+      "businessCta": "Explorer le conseil d'affaires",
+      "visibilityEyebrow": "Besoin d'être plus facile à trouver?",
+      "visibilityTitle": "Améliorez la recherche et la lisibilité par l'IA",
+      "visibilityDescription": "Renforcez le référencement technique, les données structurées, la clarté du contenu, la présence locale, l'accessibilité et la conversion.",
+      "visibilityCta": "Explorer l'optimisation de la visibilité",
       "technologyPracticeTitle": "Conseil technologique et recherche de solutions",
       "technologyPracticeDesc": "Clarifier les exigences, comparer des fournisseurs qualifiés, rechercher les bonnes solutions et soutenir l’achat et la mise en œuvre.",
       "technologyPracticeLink": "Explorer le conseil technologique",
@@ -338,6 +385,18 @@
       "liveProjectsEyebrow": "Ouvrez un site en direct — chaque projet ci-dessous est en production.",
       "liveBadge": "En ligne",
       "openLive": "Ouvrir le site",
+      "viewCaseStudy": "Voir l'étude de cas",
+      "clientWork": "Projet client",
+      "roallaProduct": "Produit ROALLA",
+      "challengeLabel": "Besoin :",
+      "deliveryLabel": "Livré :",
+      "outcomeLabel": "Résultat :",
+      "challengePitch": "Une façon reproductible de pratiquer les présentations à fort enjeu.",
+      "deliveryPitch": "Une plateforme de répétition et de notation assistée par l'IA.",
+      "challengeKaylan": "Une marque de photographie avait besoin d'un parcours plus clair du portfolio à la réservation.",
+      "deliveryKaylan": "Un site axé sur la conversion avec des parcours de services et de réservation.",
+      "challengeGoalie": "Les joueurs et les parents avaient du mal à trouver les programmes et les options de réservation.",
+      "deliveryGoalie": "Un site sportif structuré avec accès direct aux programmes et à la réservation.",
       "outcomePitch": "Plateforme de répétition de pitchs avec IA — notation, métriques et feedback utiles.",
       "outcomeKaylan": "Site de marque photo avec parcours de réservation et portfolio qui convertit.",
       "outcomeGoalie": "Site sportif où programmes et réservation sont faciles à trouver."
@@ -367,17 +426,17 @@
       "soarPill": "Mise à l'échelle"
     },
     "testimonials": {
-      "eyebrow": "Témoignages clients",
-      "title": "Ce que c'est de travailler avec Roalla",
-      "description": "Retours représentatifs de mandats d'accompagnement d'affaires et de projets numériques que nous avons livrés.",
-      "t1Quote": "Roalla a livré un site qui rend enfin la réservation et les programmes faciles à trouver. Nous avons arrêté de perdre des demandes parce que les gens ne trouvaient pas la bonne page.",
-      "t1Role": "Site de marque et sports",
+      "eyebrow": "Résultats livrés",
+      "title": "Ce qui a changé après le travail",
+      "description": "Des résultats précis et des améliorations observables issus du conseil et de la livraison numérique.",
+      "t1Quote": "Les programmes et les options de réservation sont devenus plus faciles à trouver, réduisant le risque de perdre des demandes à cause d'une navigation confuse.",
+      "t1Role": "Résultat d'un site client",
       "t1Project": "Ryan Munce Goaltending",
-      "t2Quote": "Nous sommes passés de priorités dispersées à un plan clair de 90 jours—et une plateforme en ligne que l'équipe utilise chaque semaine. D'abord la clarté, puis le lancement, puis une vraie croissance.",
-      "t2Role": "Équipe en croissance",
+      "t2Quote": "Des priorités dispersées sont devenues un plan clair de 90 jours avec responsables, jalons et mesures prêtes pour la direction.",
+      "t2Role": "Résultat de conseil d'affaires",
       "t2Project": "Stratégie jusqu'au lancement de plateforme",
-      "t3Quote": "L'automatisation construite par Roalla a réduit nos rapports hebdomadaires de heures à minutes—et les intégrations font circuler les données sans copier-coller.",
-      "t3Role": "Équipe opérationnelle",
+      "t3Quote": "Un flux de rapports connecté a réduit la préparation récurrente de plusieurs heures à quelques minutes et éliminé les copier-coller répétés.",
+      "t3Role": "Résultat d'automatisation",
       "t3Project": "Automatisation des flux",
       "viewPortfolio": "Voir le portfolio numérique",
       "discussProject": "Discuter d'un projet comme celui-ci",
@@ -390,14 +449,14 @@
       "preview": "6 questions · 5 minutes · Service et cas d'usage adaptés"
     },
     "cta": {
-      "title": "Prêt à avancer?",
-      "subtitle": "Que vous ayez besoin de stratégie et d'exécution, d'un nouveau site Web ou d'une plateforme sur mesure—nous vous indiquerons le bon point de départ et les prochaines étapes.",
-      "schedule": "Soumettre une demande de service",
+      "title": "Trouvez la bonne prochaine étape",
+      "subtitle": "Que vous choisissiez une technologie, clarifiiez vos priorités, construisiez quelque chose de nouveau, connectiez vos systèmes ou amélioriez l'existant, ROALLA vous aidera à déterminer le point de départ le plus pratique.",
+      "schedule": "Discuter de vos besoins",
       "discussNeeds": "Discuter de vos besoins",
       "discussBuild": "Discuter de votre réalisation numérique",
       "responseTime": "~3 min · Sans obligation · Réponse en 1 jour ouvrable",
       "whatHappensNext": "Vous répondez à 3 courtes questions → nous vous indiquons le bon point de départ et les prochaines étapes.",
-      "orAssessmentShort": "Pas prêt? Faites l'évaluation de 5 minutes"
+      "orAssessmentShort": "Vous préférez commencer seul? Faites l'évaluation de 5 minutes"
     },
     "closing": {
       "questions": "Des questions?",
@@ -441,9 +500,11 @@
       "cred4Desc": "Le contexte sensible reste protégé—discutez de vos besoins avant de partager les détails."
     },
     "featuredInsight": {
-      "title": "Articles à la une",
+      "title": "Des prochaines étapes utiles pour des décisions courantes",
+      "description": "Trois guides pratiques pour choisir une technologie, améliorer un site Web ou décider quoi automatiser en premier.",
       "readMore": "En savoir plus",
-      "badge": "À la une",
+      "badge": "Guides pratiques",
+      "allInsights": "Explorer les {count}+ articles",
       "engagementChip": "Issu d'un mandat récent",
       "carouselPrevious": "Article précédent",
       "carouselNext": "Article suivant",
@@ -2855,7 +2916,7 @@
   },
   "about": {
     "metadataTitle": "À propos de Steven Robin, fondateur et conseiller principal | ROALLA",
-    "metadataDescription": "Découvrez Steven Robin, fondateur et conseiller principal de ROALLA, qui cumule plus de 25 ans d'expérience en transformation, stratégie numérique et livraison technologique.",
+    "metadataDescription": "Découvrez Steven Robin, fondateur et conseiller principal de ROALLA, qui cumule plus de 30 ans d'expérience en transformation, stratégie numérique et livraison technologique.",
     "title": "À propos de Roalla Business Enablement Group",
     "subtitle": "Une transformation d'entreprise, une stratégie numérique et une livraison technologique pratique dirigées par le fondateur.",
     "heroBadge": "Dirigé par le fondateur. Éprouvé en entreprise.",
@@ -2863,7 +2924,7 @@
     "founderRole": "Fondateur et conseiller principal",
     "founderTagline": "Transformation d'entreprise, stratégie numérique et livraison technologique pratique",
     "founderPhotoAlt": "Portrait de Steven Robin, fondateur et conseiller principal de Roalla Business Enablement Group.",
-    "founderBio1": "Steven Robin est le fondateur et conseiller principal de Roalla Business Enablement Group. Il cumule plus de 25 ans d'expérience en transformation d'entreprise, stratégie technologique, développement de produits, opérations, gestion des services et expérience client.",
+    "founderBio1": "Steven Robin est le fondateur et conseiller principal de Roalla Business Enablement Group. Il cumule plus de 30 ans d'expérience en transformation d'entreprise, stratégie technologique, développement de produits, opérations, gestion des services et expérience client.",
     "founderBio2": "Avant de fonder Roalla, Steven a passé plus de deux décennies chez Bell Canada dans des postes de direction de responsabilité croissante. Il a dirigé des équipes nationales, bilingues et interfonctionnelles de plus de 100 professionnels et soutenu plus de 300 mandats B2B stratégiques actifs au sein d'un portefeuille évalué à environ 3,5 milliards de dollars.",
     "founderBio3": "Son travail a porté sur la transformation d'entreprise, la conception de solutions, l'amélioration des processus, les programmes d'accessibilité, les propositions complexes et la livraison technologique. Parmi ses résultats documentés figurent une contribution à l'augmentation de l'adoption de Salesforce d'environ 46 % à 97 %, l'amélioration de l'utilisation des ressources, le renforcement des contrôles d'audit et la contribution à d'importants gains de contrats dans les secteurs privé et public.",
     "founderBio4": "À titre de conseiller bilingue, Steven réunit leadership exécutif, stratégie numérique, amélioration opérationnelle, conception de l'expérience client et livraison technologique pratique. Comme développeur principal de Roalla, il participe directement à la découverte, à la stratégie, à l'architecture de solutions et au développement de sites Web, d'applications, d'automatisations et de solutions technologiques connectées.",
@@ -2871,7 +2932,7 @@
     "storyTitle": "Le parcours derrière le travail",
     "proofEyebrow": "Expérience et qualifications",
     "proofTitle": "Perspective d'entreprise. Livraison pratique.",
-    "proof1Value": "25 ans et +",
+    "proof1Value": "30 ans et +",
     "proof1Label": "en transformation d'entreprise et en technologie",
     "proof2Value": "100 et +",
     "proof2Label": "professionnels dirigés au sein d'équipes nationales",
@@ -3244,27 +3305,37 @@
     "redirecting": "Redirection..."
   },
   "useCases": {
-    "metadataTitle": "Cas d'usage d'affaires, technologiques et numériques | ROALLA",
-    "metadataDescription": "Guide en langage clair des besoins courants en conseil d'affaires, recherche de solutions technologiques et livraison numérique. Voyez quoi considérer et comment Roalla aide.",
-    "title": "Cas d'usage d'affaires, technologiques et numériques",
-    "subtitle": "Commencez par le problème que vous reconnaissez. Voyez ce que le conseil, la sélection, la recherche de solutions et la livraison peuvent exiger—et comment nous aidons, avec honnêteté sur la maturité de chaque capacité.",
+    "metadataTitle": "Problèmes d'affaires et technologiques résolus | ROALLA",
+    "metadataDescription": "Explorez des situations d'affaires et technologiques courantes, les résultats à viser, les enjeux à considérer et l'aide que ROALLA peut offrir.",
+    "title": "Commencez par le résultat recherché",
+    "subtitle": "Explorez des situations d'affaires et technologiques courantes—des priorités floues et du choix d'un fournisseur aux sites Web, à l'automatisation et à l'IA pratique.",
     "howToReadTitle": "Comment lire cette page",
-    "howToRead1": "Besoin courant — rédigé en langage quotidien, sans jargon technique.",
-    "howToRead2": "Points à considérer — complexité cachée, risques de décision, dépendances et angles morts courants.",
-    "howToRead3": "Comment ROALLA livre — la solution recommandée, l’approche de livraison et des exemples concrets lorsqu’ils sont disponibles.",
-    "maturityLegendTitle": "Approche de livraison",
+    "howToRead1": "Choisissez une catégorie de résultats, puis la situation qui vous semble familière.",
+    "howToRead2": "Chaque scénario précise le résultat visé, les risques de décision, les livrables et le meilleur contexte d'utilisation.",
+    "howToRead3": "Suivez le service, la preuve ou le lien de demande lorsqu'un scénario correspond à votre situation.",
     "filterLabel": "Montrez-moi",
     "filterAll": "Tous les cas d'usage",
-    "portfolioExamples": "Exemples en ligne",
+    "portfolioExamples": "Preuves pertinentes",
     "portfolio": {
       "grcstatus": "GRC Status",
       "boothlio": "Boothlio",
       "pitch-hotshots": "Pitch Hotshots",
       "unjargonit": "UnJargon It"
     },
-    "columnNeed": "Besoin courant",
-    "columnConsider": "Points à considérer",
-    "columnDeliver": "Comment Roalla livre",
+    "scenarioLabel": "Scénario client",
+    "recognizeLabel": "Vous pourriez reconnaître",
+    "considerLabel": "Points à considérer",
+    "deliverLabel": "Ce que ROALLA fournit",
+    "fitLabel": "Contexte idéal",
+    "services": {
+      "business-advisory": "Explorer le conseil d'affaires",
+      "technology-advisory": "Explorer le conseil technologique",
+      "website-design": "Explorer la conception de sites Web",
+      "digital-products": "Explorer les produits numériques",
+      "automation": "Explorer l'automatisation et l'intégration",
+      "digital-events": "Explorer les événements numériques",
+      "digital-enablement": "Explorer l'habilitation numérique"
+    },
     "maturity": {
       "proven": {
         "label": "Portfolio à l’appui",
@@ -3280,170 +3351,244 @@
       }
     },
     "categories": {
-      "business": {
-        "title": "Conseil d'affaires et exécution",
-        "desc": "Quand les priorités, les responsabilités, la discipline opérationnelle ou les décisions de croissance doivent devenir un plan exécutable."
+      "decisions": {
+        "title": "Prendre de meilleures décisions",
+        "desc": "Établir les priorités, comparer les options et s'engager avec des faits plutôt qu'avec des suppositions."
       },
-      "technology": {
-        "title": "Conseil et recherche de solutions technologiques",
-        "desc": "Quand il vous faut des exigences claires, des fournisseurs qualifiés et du soutien jusqu'à la mise en œuvre."
+      "execution": {
+        "title": "Améliorer l'exécution et la capacité",
+        "desc": "Éliminer les goulots, clarifier les responsabilités et transformer la croissance en travail soutenable."
       },
-      "websites": {
-        "title": "Sites Web et présence de marque",
-        "desc": "Quand les visiteurs doivent vous faire confiance et passer à l'action."
+      "resilience": {
+        "title": "Réduire les coûts et les risques opérationnels",
+        "desc": "Protéger la continuité, la marge, la sécurité et les technologies essentielles tout en simplifiant ce qui ne sert plus l'entreprise."
       },
-      "apps": {
-        "title": "Applis et outils sur mesure",
-        "desc": "Quand les feuilles de calcul et les logiciels génériques ne conviennent plus."
+      "demand": {
+        "title": "Générer de la demande et de l'action client",
+        "desc": "Aider le bon public à vous trouver, à vous faire confiance et à passer à une prochaine étape mesurable."
+      },
+      "experiences": {
+        "title": "Créer de meilleures expériences numériques",
+        "desc": "Offrir aux clients, partenaires et équipes des outils adaptés au travail qu'ils doivent réellement accomplir."
       },
       "automation": {
-        "title": "Connecter et automatiser",
-        "desc": "Quand les mêmes données sont saisies deux fois ou que les outils ne communiquent pas."
-      },
-      "events": {
-        "title": "Événements numériques",
-        "desc": "Salons, lancements, kiosques investisseurs et événements d'affaires dédiés."
-      },
-      "ai": {
-        "title": "IA pratique",
-        "desc": "Intelligence utile—pas du battage—là où notation, guidage ou automatisation font gagner du temps."
+        "title": "Connecter, automatiser et appliquer l'IA",
+        "desc": "Réduire le travail répétitif et intégrer une automatisation fiable ou une IA encadrée aux flux réels."
       }
     },
     "cases": {
       "strategic-priorities": {
+        "title": "Transformer des priorités concurrentes en plan d'exécution de 90 jours",
+        "outcome": "Une courte liste de priorités assumées, des compromis explicites et un rythme de leadership qui soutient l'exécution.",
         "need": "Nous avons trop de priorités et rien n'avance de façon décisive.",
         "consider": "Une stratégie crédible exige des choix. Ajouter des initiatives sans arrêter, ordonner ou doter le travail existant crée des retards silencieux et apprend à l'équipe que chaque priorité est facultative.",
-        "deliver": "Une évaluation ciblée de l'entreprise et du marché, des décisions explicites sur les priorités et les activités à arrêter, puis un plan réaliste de 90 jours avec responsables, jalons, mesures et rythme de revue."
+        "deliver": "Une évaluation ciblée de l'entreprise et du marché, des décisions explicites sur les priorités et les activités à arrêter, puis un plan réaliste de 90 jours avec responsables, jalons, mesures et rythme de revue.",
+        "fit": "Équipes de direction qui doivent concentrer temps, budget et capacité sur les quelques initiatives les plus importantes."
       },
       "process-bottlenecks": {
+        "title": "Éliminer les goulots qui ralentissent le travail entre équipes et systèmes",
+        "outcome": "Des transferts plus rapides et fiables, avec une responsabilité claire pour le travail courant et les exceptions.",
         "need": "Le travail bloque constamment entre les personnes, les services ou les systèmes.",
         "consider": "Le délai visible peut venir d'une responsabilité floue, d'information manquante, de files d'approbation, de reprises ou d'exceptions sans responsable. Un nouveau logiciel ne peut réparer seul un processus mal défini.",
-        "deliver": "Un diagnostic des flux et transferts, une analyse des goulots et exceptions, des responsabilités clarifiées, une référence du temps de cycle et un plan d'amélioration priorisé avec suivi de mise en œuvre."
+        "deliver": "Un diagnostic des flux et transferts, une analyse des goulots et exceptions, des responsabilités clarifiées, une référence du temps de cycle et un plan d'amélioration priorisé avec suivi de mise en œuvre.",
+        "fit": "Équipes confrontées à des retards, reprises, files d'approbation ou responsabilités floues dans un processus partagé."
       },
       "founder-bottleneck": {
+        "title": "Réduire la dépendance de l'entreprise envers sa personne propriétaire",
+        "outcome": "Le travail et les décisions importantes avancent sans que chaque exception soit renvoyée à une seule personne.",
         "need": "Chaque décision importante revient encore à la personne propriétaire.",
         "consider": "La dépendance se cache souvent dans les approbations, relations clients, mots de passe, connaissances fournisseurs et exceptions. Elle limite la croissance et crée un risque de continuité lorsque la direction est absente.",
-        "deliver": "Une évaluation de la dépendance, des pouvoirs et limites de décision délégués, des remplaçants nommés, des accès critiques et règles d'escalade documentés, puis une feuille de route de continuité."
+        "deliver": "Une évaluation de la dépendance, des pouvoirs et limites de décision délégués, des remplaçants nommés, des accès critiques et règles d'escalade documentés, puis une feuille de route de continuité.",
+        "fit": "Entreprises dirigées par leur fondateur qui veulent croître, déléguer, s'absenter ou réduire le risque de continuité."
       },
       "leadership-decision-rights": {
+        "title": "Clarifier qui recommande, décide, exécute et escalade",
+        "outcome": "Des décisions plus rapides et une responsabilité claire sans centraliser chaque choix.",
         "need": "Notre équipe est compétente, mais les rôles, l'autorité et la responsabilité sont flous.",
         "consider": "Les titres expliquent rarement qui recommande, décide, contribue, exécute ou gère une exception. L'ambiguïté produit travail en double, décisions tardives, escalades inutiles et frustration entre équipes.",
-        "deliver": "Des rôles de leadership clairs, une carte pratique des droits de décision et escalades, un meilleur rythme de gestion et des engagements explicites qui améliorent l'exécution sans tout centraliser."
+        "deliver": "Des rôles de leadership clairs, une carte pratique des droits de décision et escalades, un meilleur rythme de gestion et des engagements explicites qui améliorent l'exécution sans tout centraliser.",
+        "fit": "Équipes de direction aux rôles qui se chevauchent, aux escalades répétées ou aux décisions transversales souvent bloquées."
       },
       "management-dashboard": {
+        "title": "Transformer des données dispersées en vue de gestion",
+        "outcome": "Une vue concise de la santé de l'entreprise qui relie chaque mesure à une personne responsable, un seuil et une décision.",
         "need": "Nous avons beaucoup de données, mais ne voyons pas assez clairement la santé de l'entreprise pour agir.",
         "consider": "Soldes bancaires, rapports comptables, CRM et feuilles de livraison racontent des histoires séparées. Plus de mesures ajoutent du bruit si chacune n'a pas une source, un responsable, un seuil et une décision associés.",
-        "deliver": "Un tableau de gestion concis reliant trésorerie, marge, pipeline, capacité, livraison et risque—avec responsables, seuils, actions et revue opérationnelle mensuelle."
+        "deliver": "Un tableau de gestion concis reliant trésorerie, marge, pipeline, capacité, livraison et risque—avec responsables, seuils, actions et revue opérationnelle mensuelle.",
+        "fit": "Organisations dont les données comptables, commerciales, opérationnelles et de capacité vivent dans des rapports séparés."
       },
       "profitability-capacity": {
+        "title": "Protéger la marge, la trésorerie et la capacité pendant la croissance",
+        "outcome": "Des choix fondés sur les faits concernant le travail à protéger, repricer, redessiner, déléguer ou arrêter.",
         "need": "Les revenus augmentent, mais la trésorerie, la marge ou la capacité de livraison ne s'améliorent pas.",
         "consider": "Les revenus peuvent cacher coûts directs, temps non facturé de la direction, reprises, paiements lents, concentration client et engagements de service qui consomment plus de capacité que prévu.",
-        "deliver": "Une vue pratique de la rentabilité par client et service, une évaluation de la capacité et de la pression sur la trésorerie, puis des actions fondées sur les faits pour protéger, ajuster, redessiner, déléguer ou quitter le travail."
+        "deliver": "Une vue pratique de la rentabilité par client et service, une évaluation de la capacité et de la pression sur la trésorerie, puis des actions fondées sur les faits pour protéger, ajuster, redessiner, déléguer ou quitter le travail.",
+        "fit": "Entreprises de services en croissance où les ventes n'améliorent pas la trésorerie, la marge ou la charge de travail."
       },
       "repeatable-delivery": {
+        "title": "Rendre la livraison reproductible avant d'ajouter des ressources",
+        "outcome": "Un modèle de livraison évolutif qui préserve la qualité tout en réduisant le travail sur mesure et la dépendance envers la direction.",
         "need": "Chaque nouvelle vente crée plus de travail sur mesure et plus de pression sur la personne propriétaire.",
         "consider": "Embaucher dans un flux mal défini peut multiplier coûts et coordination. La croissance devient plus durable lorsque les offres, méthodes, transferts, attentes de qualité et le travail réellement personnel sont d'abord explicités.",
-        "deliver": "Une revue de l'offre et du modèle opérationnel, des possibilités de standardisation, des méthodes réutilisables, une conception de la délégation et un plan graduel d'embauche ou de partenariat lié à la capacité réelle."
+        "deliver": "Une revue de l'offre et du modèle opérationnel, des possibilités de standardisation, des méthodes réutilisables, une conception de la délégation et un plan graduel d'embauche ou de partenariat lié à la capacité réelle.",
+        "fit": "Organisations de services où chaque nouveau client ajoute coordination, exceptions ou livraison dépendante de la direction."
       },
       "digital-change-readiness": {
+        "title": "Vérifier si une initiative numérique est prête à être financée",
+        "outcome": "Un pilote et une feuille de route d'adoption défendables, fondés sur la valeur, les dépendances, les risques et les responsabilités.",
         "need": "Nous voulons entreprendre une initiative de données, d'automatisation, d'IA ou autre sans gaspiller le budget.",
         "consider": "Une idée prometteuse peut dépendre de données plus propres, de processus stables, de contrôles de sécurité, de responsables clairs, d'intégrations et d'une équipe prête à changer sa façon de travailler.",
-        "deliver": "Une évaluation de l'occasion et de la préparation, une hypothèse de valeur, une carte des dépendances et risques, le plus petit pilote utile, des mesures de succès, des responsables et une feuille de route d'adoption."
+        "deliver": "Une évaluation de l'occasion et de la préparation, une hypothèse de valeur, une carte des dépendances et risques, le plus petit pilote utile, des mesures de succès, des responsables et une feuille de route d'adoption.",
+        "fit": "Organisations qui envisagent un investissement technologique important avant que processus, données, sécurité ou adoption soient établis."
       },
       "customer-concentration": {
+        "title": "Réduire la dépendance envers un client ou une source de demande",
+        "outcome": "Un plan de résilience pratique avec actions prioritaires, scénarios de remplacement et indicateurs avancés.",
         "need": "Une trop grande part de nos revenus ou de notre pipeline dépend d'un client, d'une relation ou d'une source de demande.",
         "consider": "Le risque de concentration ne se règle pas en ajoutant des noms à une liste. Il faut des étapes de pipeline qualifiées, des preuves réalistes de conversion, des actions de rétention et un plan délibéré pour remplacer les revenus exposés.",
-        "deliver": "Une évaluation de la concentration des clients et du pipeline, une analyse de scénarios, des actions prioritaires par compte, des choix de diversification de la demande et des indicateurs avancés de résilience."
+        "deliver": "Une évaluation de la concentration des clients et du pipeline, une analyse de scénarios, des actions prioritaires par compte, des choix de diversification de la demande et des indicateurs avancés de résilience.",
+        "fit": "Entreprises où la perte d'un client, partenaire de référence ou canal d'acquisition important toucherait matériellement les opérations."
       },
       "partnership-readiness": {
+        "title": "Décider si un partenariat d'affaires est la bonne structure",
+        "outcome": "Un choix plus clair entre la propriété partagée et des façons moins risquées de collaborer.",
         "need": "Nous envisageons un partenariat d'affaires, mais devons savoir si la propriété partagée est la bonne structure.",
         "consider": "La chimie et les forces complémentaires ne règlent pas l'autorité, la rémunération, l'effort, la propriété intellectuelle, les clients, les conflits ou la sortie. Une recommandation, sous-traitance ou collaboration limitée peut éprouver la relation avec moins de risque.",
-        "deliver": "Une évaluation facilitée de la préparation au partenariat, la comparaison de modèles de collaboration moins risqués, des attentes commerciales et opérationnelles clarifiées et une note de décision à soumettre à des conseillers juridiques et financiers qualifiés."
+        "deliver": "Une évaluation facilitée de la préparation au partenariat, la comparaison de modèles de collaboration moins risqués, des attentes commerciales et opérationnelles clarifiées et une note de décision à soumettre à des conseillers juridiques et financiers qualifiés.",
+        "fit": "Propriétaires qui envisagent une participation, une coentreprise ou un partenariat opérationnel avant de prendre des engagements juridiques."
       },
       "technology-stack-review": {
+        "title": "Décider quelles technologies conserver, regrouper ou retirer",
+        "outcome": "Une feuille de route technologique plus sûre, fondée sur les faits, qui réduit les chevauchements sans perturber le travail essentiel.",
         "need": "Nous payons trop d'outils et ne savons pas lesquels conserver, regrouper ou retirer.",
         "consider": "Les licences inutilisées ne représentent qu'une partie du coût. Les données en double, fonctions qui se chevauchent, responsabilités floues, intégrations fragiles, dates de renouvellement et restrictions de sortie rendent un nettoyage précipité plus risqué qu'il n'y paraît.",
-        "deliver": "Une revue de la pile technologique fondée sur les besoins qui cartographie systèmes, responsables, contrats, données, intégrations et valeur d'affaires—puis priorise les décisions sûres de consolidation, renouvellement ou remplacement."
+        "deliver": "Une revue de la pile technologique fondée sur les besoins qui cartographie systèmes, responsables, contrats, données, intégrations et valeur d'affaires—puis priorise les décisions sûres de consolidation, renouvellement ou remplacement.",
+        "fit": "Organisations confrontées à des outils redondants, des renouvellements prochains, des responsabilités floues ou une pression sur les coûts technologiques."
       },
       "platform-selection": {
+        "title": "Choisir, remplacer ou regrouper une plateforme d'affaires",
+        "outcome": "Une décision traçable de construire, acheter ou intégrer, liée aux exigences, au coût total, au risque et à l'adoption.",
         "need": "Nous devons choisir, remplacer ou consolider une plateforme d'affaires.",
         "consider": "Une démonstration soignée ne prouve pas l'adéquation. Construire, acheter et intégrer diffèrent sur le coût total, la sécurité, la propriété des données, les flux, l'évolutivité, l'effort de mise en œuvre et les conditions de sortie.",
-        "deliver": "Un cahier d'exigences clair, une évaluation construire-acheter-intégrer, une courte liste de solutions qualifiées et une recommandation traçable liée aux besoins d'affaires, techniques, de sécurité, d'intégration et d'adoption."
+        "deliver": "Un cahier d'exigences clair, une évaluation construire-acheter-intégrer, une courte liste de solutions qualifiées et une recommandation traçable liée aux besoins d'affaires, techniques, de sécurité, d'intégration et d'adoption.",
+        "fit": "Équipes qui choisissent un CRM, ERP, outil de communication, flux, portail client ou autre plateforme importante."
       },
       "provider-comparison": {
+        "title": "Comparer des propositions technologiques sur une base équitable",
+        "outcome": "Une décision fournisseur défendable fondée sur une portée normalisée, le coût total, le risque de mise en œuvre et les conditions de sortie.",
         "need": "Nous avons plusieurs propositions technologiques, mais elles sont difficiles à comparer équitablement.",
         "consider": "Les fournisseurs présentent différemment la portée, les hypothèses, l'intégration, le soutien, les niveaux de service, les limites d'usage, les renouvellements et les conditions de sortie. Le plus petit prix mensuel peut cacher migration, options ou longs engagements.",
-        "deliver": "Une comparaison commerciale et technique normalisée de la portée, du coût total, des engagements, niveaux de service, mise en œuvre, risques et conditions de sortie—avec divulgation des relations partenaires avant votre engagement."
+        "deliver": "Une comparaison commerciale et technique normalisée de la portée, du coût total, des engagements, niveaux de service, mise en œuvre, risques et conditions de sortie—avec divulgation des relations partenaires avant votre engagement.",
+        "fit": "Organisations qui comparent plusieurs propositions importantes sans exigences communes ni cadre d'évaluation."
       },
       "continuity-recovery": {
+        "title": "Préparer l'entreprise à poursuivre ses activités pendant une panne technologique",
+        "outcome": "Des priorités de reprise connues, des responsables, des solutions de rechange praticables et une feuille de route d'essais.",
         "need": "Nous ne sommes pas certains de pouvoir poursuivre nos activités si le courriel, Internet, le nuage ou un fournisseur essentiel tombe en panne.",
         "consider": "La synchronisation n'est pas une sauvegarde, une sauvegarde n'est pas un plan de reprise testé et la promesse d'un fournisseur ne définit pas votre solution de rechange interne. Les services critiques exigent délais tolérables, responsables, alternatives et essais.",
-        "deliver": "Une évaluation pratique de continuité et reprise qui identifie services essentiels, dépendances, temps d'arrêt acceptable, lacunes de sauvegarde et relève, responsabilités des fournisseurs et feuille de route d'essais priorisée."
+        "deliver": "Une évaluation pratique de continuité et reprise qui identifie services essentiels, dépendances, temps d'arrêt acceptable, lacunes de sauvegarde et relève, responsabilités des fournisseurs et feuille de route d'essais priorisée.",
+        "fit": "Organisations dépendantes du nuage, de la connectivité, des communications ou de fournisseurs clés sans plan de continuité éprouvé."
       },
       "cybersecurity-sourcing": {
+        "title": "Prioriser les contrôles et fournisseurs de cybersécurité",
+        "outcome": "Un point de départ fondé sur le risque et des options qualifiées alignées sur les systèmes et données les plus importants.",
         "need": "Nous devons renforcer la cybersécurité, mais ne savons pas quels contrôles ou fournisseurs prioriser.",
         "consider": "Acheter plus de produits avant d'identifier données, identités, appareils, fournisseurs et menaces prioritaires peut augmenter les coûts sans réduire les risques les plus importants. Les exigences de conformité peuvent aussi modifier la courte liste.",
-        "deliver": "Un point de départ fondé sur les risques et les exigences, suivi d'options qualifiées en cybersécurité ou continuité et d'un plan de mise en œuvre tenant compte de la vie privée, conformité, intégration, soutien et adoption."
+        "deliver": "Un point de départ fondé sur les risques et les exigences, suivi d'options qualifiées en cybersécurité ou continuité et d'un plan de mise en œuvre tenant compte de la vie privée, conformité, intégration, soutien et adoption.",
+        "fit": "Organisations soumises à des attentes de clients, assureurs, confidentialité ou conformité sans feuille de route de sécurité claire."
       },
       "communications-modernization": {
+        "title": "Moderniser la téléphonie d'affaires et les communications clients",
+        "outcome": "Une transition graduelle qui améliore le routage client et la mobilité tout en protégeant les appels essentiels.",
         "need": "Notre téléphonie ou centre de contact est dépassé, fragmenté ou coûteux.",
         "consider": "Remplacer la tonalité n'est qu'une partie de la décision. Transfert des numéros, parcours d'appel, CRM, enregistrement, appels d'urgence, réseau, lignes spécialisées, relève, formation et soutien influencent tous le résultat.",
-        "deliver": "Inventaire actuel, exigences de communication, options qualifiées de communications unifiées ou centre de contact, comparaison du coût total et migration graduelle protégeant les appels critiques et le service client."
+        "deliver": "Inventaire actuel, exigences de communication, options qualifiées de communications unifiées ou centre de contact, comparaison du coût total et migration graduelle protégeant les appels critiques et le service client.",
+        "fit": "Équipes multisites, mobiles ou orientées client qui remplacent une téléphonie vieillissante ou des outils de centre de contact fragmentés."
       },
       "cloud-connectivity": {
+        "title": "Faire fonctionner ensemble sites, équipes distantes, nuage et réseaux",
+        "outcome": "Un parcours de connectivité et de nuage conçu pour la performance, la résilience, la sécurité, le soutien et la croissance.",
         "need": "Nos sites, employés à distance, services infonuagiques et réseaux ne fonctionnent plus ensemble de façon fiable.",
         "consider": "La bande passante seule ne règle pas la performance ni la résilience. Couverture, routage, sécurité, identité, relève, soutien, contrats et plans de croissance doivent être évalués ensemble.",
-        "deliver": "Des exigences et options qualifiées pour le nuage, les réseaux, la connectivité, la mobilité et services connexes—avec comparaison commerciale et parcours de mise en œuvre axé sur la performance, la résilience, la sécurité et l'échelle."
+        "deliver": "Des exigences et options qualifiées pour le nuage, les réseaux, la connectivité, la mobilité et services connexes—avec comparaison commerciale et parcours de mise en œuvre axé sur la performance, la résilience, la sécurité et l'échelle.",
+        "fit": "Organisations distribuées confrontées à une performance instable, des fournisseurs incohérents, une relève faible ou une responsabilité réseau floue."
       },
       "technology-implementation": {
+        "title": "Faire passer une solution choisie du contrat à l'adoption réussie",
+        "outcome": "Une migration et un déploiement contrôlés avec critères d'acceptation, responsabilités, formation et stabilisation.",
         "need": "Nous avons choisi une solution, mais avons besoin d'aide pour la migration, le déploiement et l'adoption.",
         "consider": "Un contrat signé ne crée pas un changement réussi. Migration des données, intégrations, configuration, sécurité, essais, responsabilités, formation, bascule, soutien et adoption mesurable exigent des décisions avant le lancement.",
-        "deliver": "Un plan de mise en œuvre pratique avec responsables, jalons, dépendances, critères d'acceptation, mesures d'adoption, coordination des fournisseurs et ajustements réguliers de la découverte à la stabilisation."
+        "deliver": "Un plan de mise en œuvre pratique avec responsables, jalons, dépendances, critères d'acceptation, mesures d'adoption, coordination des fournisseurs et ajustements réguliers de la découverte à la stabilisation.",
+        "fit": "Équipes qui ont choisi une plateforme ou un fournisseur mais ont besoin d'une coordination indépendante entre responsables internes et externes."
       },
       "website-refresh": {
+        "title": "Créer un site Web qui inspire confiance et guide la prochaine étape",
+        "outcome": "Un site crédible et accessible, avec un positionnement clair, un contenu utile et des parcours de conversion efficaces sur tous les appareils.",
         "need": "Notre site paraît dépassé, ou nous n'en avons pas encore.",
-        "consider": "Les constructeurs DIY (Wix, Squarespace, thèmes WordPress) démarrent vite, mais domaines, mise en page mobile, SEO et formulaires demandent souvent des extensions. De petits changements peuvent casser la mise en page sans quelqu'un qui sait ce qui a changé—et vous gardez la charge des mises à jour de contenu.",
-        "deliver": "Sites orientés conversion avec une prochaine étape claire—réserver, contacter ou demander un devis. Cadrés selon votre échéancier, une équipe responsable du brief au lancement. Voir Kaylan Kaptures et Ryan Munce Goaltending pour des exemples de sites de marque en ligne."
+        "consider": "Un site réussi exige plus qu'un rafraîchissement visuel. Positionnement, architecture de l'information, accessibilité, visibilité de recherche, performance, contenu, analytique, formulaires et entretien influencent le résultat.",
+        "deliver": "Un site axé sur la conversion avec une prochaine étape claire—réserver, contacter ou demander un devis—et une livraison responsable de la découverte et de la structure du contenu jusqu'au lancement.",
+        "fit": "Organisations qui lancent leur premier site professionnel ou remplacent un site qui ne reflète plus l'entreprise, son public ou son offre."
       },
       "lead-capture": {
+        "title": "Transformer l'intérêt Web en prospects, réservations ou devis qualifiés",
+        "outcome": "Un parcours de conversion court et mesurable qui recueille le bon contexte et dirige chaque réponse vers la bonne personne.",
         "need": "Nous avons besoin de plus de prospects, réservations ou demandes de devis.",
-        "consider": "Un formulaire de contact seul convertit rarement. Les configurations DIY oublient souvent le routage des suivis, la protection anti-spam, le transfert CRM et les parcours mobiles. Les prospects restent dans une boîte courriel au lieu d'atteindre la bonne personne.",
-        "deliver": "Formulaires courts et mobiles reliés à votre CRM, boîte courriel ou feuille de calcul—avec confirmations instantanées et la bonne personne avisée. GRC Status illustre ce modèle avec des CTA d'évaluation et d'aperçu sur un site axé conformité."
+        "consider": "Un formulaire seul n'est pas un système de conversion. Clarté du message, qualification, mobilité, protection anti-pourriel, consentement, routage, transfert CRM et mesure déterminent si l'intérêt devient une action.",
+        "deliver": "Des formulaires courts et mobiles reliés à votre CRM, courriel ou feuille de calcul, avec qualification utile, confirmations immédiates, routage fiable et événements de conversion mesurables.",
+        "fit": "Organisations de services et B2B qui ont un trafic pertinent mais un flux de demandes faible, irrégulier ou non mesuré."
       },
       "custom-app": {
-        "need": "Nous avons besoin d'un outil adapté à notre flux—not une applis générique.",
-        "consider": "Feuilles de calcul et outils no-code fonctionnent jusqu'à ce que permissions, approbations ou intégrations se complexifient. Le DIY crée souvent de l'IT parallèle : une configuration ingénieuse qu'une seule personne peut maintenir.",
-        "deliver": "Produits numériques et outils internes conçus autour de la valeur à créer—revenus, libre-service client ou capacité opérationnelle. Explorez 8 exemples de produits numériques vérifiés dans notre portfolio actuel."
+        "title": "Créer un outil numérique pour un flux que les logiciels génériques ne peuvent pas gérer",
+        "outcome": "Un produit ou outil interne maintenable, conçu selon la valeur, les permissions, les données et les décisions propres au travail.",
+        "need": "Nous avons besoin d'un outil adapté à notre flux—pas d'une application générique.",
+        "consider": "Les feuilles de calcul et outils sans code peuvent convenir jusqu'à ce que permissions, approbations, intégrité des données, échelle, intégrations ou maintenance deviennent importantes. Le flux et la justification doivent être clairs avant le développement.",
+        "deliver": "Un produit numérique ou outil interne cadré autour de la valeur à créer—revenus, libre-service client ou capacité opérationnelle—avec un parcours responsable de la découverte à la mise en service.",
+        "fit": "Organisations ayant un manque de flux démontré, une personne responsable du produit et une valeur difficile à atteindre avec un outil standard."
       },
       "client-portal": {
+        "title": "Offrir aux clients ou partenaires un espace sécurisé pour collaborer",
+        "outcome": "Un portail à votre image avec permissions pour statuts, fichiers, demandes ou étapes guidées, sans confusion de courriels et de lecteurs partagés.",
         "need": "Clients ou partenaires ont besoin d'un espace sécurisé pour voir statut, fichiers ou mises à jour.",
-        "consider": "Partager par courriel et lecteurs partagés devient vite le chaos—mauvaises versions, pas de piste d'audit, connexions éparpillées. Les portails DIY des places de marché correspondent rarement à votre marque ou vos règles de données.",
-        "deliver": "Portails à votre image avec les règles d'accès nécessaires—tableaux de bord, échange de documents ou étapes guidées. Selon vos préférences de sécurité et d'hébergement."
+        "consider": "Identité, règles d'accès, classification des données, historique, notifications, audit, soutien et hébergement doivent être définis avant de concevoir l'interface.",
+        "deliver": "Un portail à votre image avec les règles d'accès nécessaires—tableaux de bord, échange de documents, demandes structurées ou étapes guidées—selon vos préférences de sécurité et d'hébergement.",
+        "fit": "Organisations qui échangent régulièrement fichiers sensibles, statuts, approbations ou renseignements structurés avec des parties externes."
       },
       "integrations": {
+        "title": "Connecter les systèmes pour que l'information circule de façon fiable",
+        "outcome": "Des mouvements de données documentés et surveillés, avec une gestion claire des doublons, échecs, incompatibilités et responsabilités.",
         "need": "Notre CRM, courriel, formulaires et autres outils ne partagent pas les données proprement.",
-        "consider": "Zapier et connecteurs natifs aident pour les cas simples, mais les cas limites—doublons, webhooks échoués, champs incompatibles—s'accumulent sans surveillance. Les intégrations DIY deviennent fragiles quand un outil se met à jour.",
-        "deliver": "Connexions fiables entre les outils que vous payez déjà—CRM, courriel, formulaires, feuilles et systèmes internes—avec gestion d'erreurs et un responsable clair quand quelque chose change."
+        "consider": "Les connecteurs natifs règlent les cas simples, mais propriété des données, correspondance, reprise, authentification, surveillance, limites et changements fournisseurs déterminent la fiabilité durable.",
+        "deliver": "Des connexions fiables entre vos outils—CRM, courriel, formulaires, feuilles et systèmes internes—avec mappages documentés, gestion d'erreurs, surveillance et responsabilité claire.",
+        "fit": "Équipes qui ressaisissent les mêmes informations ou dépendent d'intégrations fragiles connues d'une seule personne."
       },
       "workflow-automation": {
+        "title": "Automatiser les transferts répétitifs sans perdre le contrôle des exceptions",
+        "outcome": "Moins de coordination manuelle, avec un flux lisible et un chemin de reprise clair lorsqu'un cas inhabituel survient.",
         "need": "Mon équipe perd du temps en copier-coller et transferts manuels répétitifs.",
-        "consider": "Macros et automatisation DIY économisent des minutes jusqu'à ce qu'une exception casse la chaîne. Sans documentation, une seule personne sait comment ça marche—et elle est en vacances quand ça échoue.",
-        "deliver": "Automatisations documentées pour les transferts qui vous ralentissent vraiment—intégration, rapports, approbations, notifications—avec une carte lisible de ce qui s'exécute et quand."
+        "consider": "L'automatisation est plus sûre lorsque le flux, les responsabilités, les entrées, exceptions, approbations et reprises sont compris. Une automatisation rapide qui échoue en silence peut accroître le risque.",
+        "deliver": "Des automatisations documentées pour les transferts qui ralentissent l'équipe—accueil, rapports, approbations et notifications—avec une carte lisible de l'exécution et du traitement des exceptions.",
+        "fit": "Équipes avec un travail stable et répété où copie, relance, notifications ou approbations consomment un temps important."
       },
       "event-kit": {
+        "title": "Transformer un salon ou lancement en parcours numérique mesurable",
+        "outcome": "Un parcours prêt pour le terrain, du QR ou NFC au suivi qualifié, avec une attribution qui survit à l'événement.",
         "need": "Nous exposons à un salon ou organisons un lancement.",
-        "consider": "Imprimer des codes QR est facile; savoir quel moment du kiosque a généré l'intérêt, non. Les pages événement DIY manquent souvent de capture adaptée au salon, de plans hors ligne et de routage post-événement.",
-        "deliver": "Pages événement, entrées QR/NFC au kiosque, capture de prospects optimisée et exports post-salon—prêts à l'ouverture. Basés sur notre playbook Événements numériques; Boothlio est un exemple produit en ligne."
+        "consider": "L'expérience doit fonctionner sous pression, sur mobile et avec une connectivité incertaine. Entrées, attribution, consentement, qualification, flux du personnel, plans hors ligne et responsabilité du suivi comptent.",
+        "deliver": "Des pages événement, entrées QR ou NFC, capture optimisée, attribution et exports après le salon—testés et prêts à l'ouverture.",
+        "fit": "Exposants et équipes de lancement qui veulent plus que des scans ou fiches papier et souhaitent savoir ce qui a généré un intérêt réel."
       },
       "ai-workflows": {
+        "title": "Intégrer une IA encadrée dans un flux déjà utilisé",
+        "outcome": "Une capacité IA délimitée avec données représentatives, mesures de qualité, garde-fous et révision humaine proportionnelle au risque.",
         "need": "Nous voulons que l'IA aide—pas un autre chatbot inutilisé.",
-        "consider": "Les extensions IA génériques ajoutent de la nouveauté sans résultats mesurables. Les prompts DIY dérivent, manquent de garde-fous et se connectent rarement au CRM ou aux documents. Les équipes hésitent sans étapes de révision humaine claires.",
-        "deliver": "IA cadrée dans de vrais flux—notation, briefs guidés, aide documentaire et routage intelligent—avec garde-fous et révision humaine. En ligne aujourd'hui dans Pitch Hotshots."
+        "consider": "Une IA utile exige une tâche définie, des renseignements représentatifs, une norme de qualité, une gestion sûre des données, des règles d'exception et une personne capable de vérifier le résultat.",
+        "deliver": "Une IA cadrée dans de vrais flux—notation, briefs guidés, aide documentaire et routage intelligent—avec qualité mesurable, garde-fous, traçabilité et révision humaine.",
+        "fit": "Équipes ayant une tâche informationnelle répétitive, assez d'exemples représentatifs et une personne responsable pouvant définir un résultat acceptable."
       }
     },
     "ctaText": "Vous ne savez pas quelle ligne vous correspond? Décrivez votre situation—nous vous indiquerons le bon point de départ.",
     "ctaSchedule": "Démarrer une demande de service",
-    "rowCta": "Démarrer une demande pour ceci",
+    "rowCta": "Discuter : {outcome}",
     "commsValueBriefCta": "Estimer d’abord la valeur des communications",
     "techDecisionBriefCta": "Créer d’abord une fiche de décision technologique",
     "ctaPortfolio": "Voir des exemples en ligne dans notre portfolio"

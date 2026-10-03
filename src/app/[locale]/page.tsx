@@ -2,15 +2,14 @@ import React from 'react'
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import HomeHero from '@/components/home/HomeHero'
-import { HomeServicesMarquee } from '@/components/home/HomeMarquees'
 import HomeWhatWeDo from '@/components/home/HomeWhatWeDo'
 import HomeBusinessOutcomes from '@/components/home/HomeBusinessOutcomes'
-import HomeVisibilityOptimization from '@/components/home/HomeVisibilityOptimization'
 import HomeOurWork from '@/components/home/HomeOurWork'
 import HomeTestimonials from '@/components/home/HomeTestimonials'
 import HomeFeaturedInsight from '@/components/home/HomeFeaturedInsight'
 import HomeCTA from '@/components/home/HomeCTA'
 import HomeClosing from '@/components/home/HomeClosing'
+import HomeTrustBand from '@/components/home/HomeTrustBand'
 import TechnologyDecisionFramework from '@/components/TechnologyDecisionFramework'
 import { buildPageMetadata } from '@/lib/page-metadata'
 import JsonLd from '@/components/JsonLd'
@@ -45,14 +44,13 @@ export default async function Home({ params }: Props) {
         ]}
       />
       <HomeHero />
-      <HomeServicesMarquee />
+      <HomeTrustBand />
       <HomeBusinessOutcomes />
+      <HomeOurWork />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8">
         <TechnologyDecisionFramework />
       </div>
       <HomeWhatWeDo />
-      <HomeVisibilityOptimization />
-      <HomeOurWork />
       <HomeTestimonials />
       <HomeFeaturedInsight />
       <HomeCTA />

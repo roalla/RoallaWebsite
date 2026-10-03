@@ -5,7 +5,8 @@ import Breadcrumb from '@/components/Breadcrumb'
 import UseCases from '@/components/UseCases'
 import JsonLd from '@/components/JsonLd'
 import { buildPageMetadata } from '@/lib/page-metadata'
-import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/structured-data'
+import { breadcrumbJsonLd, useCaseItemListJsonLd, webPageJsonLd } from '@/lib/structured-data'
+import { USE_CASES } from '@/lib/use-cases'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -37,6 +38,15 @@ export default async function UseCasesPage({ params }: Props) {
             { name: t('useCases') },
           ]),
           webPageJsonLd(locale, '/use-cases', tPage('metadataTitle'), tPage('metadataDescription')),
+          useCaseItemListJsonLd(
+            locale,
+            tPage('title'),
+            USE_CASES.map((item) => ({
+              id: item.id,
+              name: tPage(`cases.${item.id}.title`),
+              description: tPage(`cases.${item.id}.outcome`),
+            })),
+          ),
         ]}
       />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-8">

@@ -13,6 +13,7 @@ import {
   portfolioMetrics,
   type PortfolioItemId,
 } from '@/lib/digitalPortfolio'
+import { isCaseStudySlug } from '@/lib/portfolio-case-studies'
 
 const consultingOutcomeKeys = ['consultingOutcome1', 'consultingOutcome2', 'consultingOutcome3'] as const
 
@@ -26,6 +27,18 @@ const outcomeKeyById: Record<(typeof homeProofItemIds)[number], 'outcomePitch' |
   'pitch-hotshots': 'outcomePitch',
   'kaylan-kaptures': 'outcomeKaylan',
   'goalie-stop': 'outcomeGoalie',
+}
+
+const challengeKeyById: Record<(typeof homeProofItemIds)[number], 'challengePitch' | 'challengeKaylan' | 'challengeGoalie'> = {
+  'pitch-hotshots': 'challengePitch',
+  'kaylan-kaptures': 'challengeKaylan',
+  'goalie-stop': 'challengeGoalie',
+}
+
+const deliveryKeyById: Record<(typeof homeProofItemIds)[number], 'deliveryPitch' | 'deliveryKaylan' | 'deliveryGoalie'> = {
+  'pitch-hotshots': 'deliveryPitch',
+  'kaylan-kaptures': 'deliveryKaylan',
+  'goalie-stop': 'deliveryGoalie',
 }
 
 export default function HomeOurWork() {
@@ -83,17 +96,35 @@ export default function HomeOurWork() {
                   sizes="(max-width: 640px) 92vw, (max-width: 1024px) 45vw, 400px"
                 />
                 <div className="mt-4 px-1 flex-1 flex flex-col">
+                  <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-primary-dark">
+                    {item.projectType === 'client' ? t('clientWork') : t('roallaProduct')}
+                  </p>
                   <h4 className="text-base font-serif font-bold text-slate-900">{name}</h4>
-                  <p className="mt-1.5 text-sm text-slate-600 leading-snug flex-1">{t(outcomeKeyById[id])}</p>
-                  <a
-                    href={item.tryUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
-                  >
-                    {t('openLive')}
-                    <ExternalLink className="ml-1.5 w-3.5 h-3.5" aria-hidden />
-                  </a>
+                  <dl className="mt-3 space-y-2 text-sm leading-snug text-slate-600 flex-1">
+                    <div><dt className="inline font-semibold text-slate-800">{t('challengeLabel')} </dt><dd className="inline">{t(challengeKeyById[id])}</dd></div>
+                    <div><dt className="inline font-semibold text-slate-800">{t('deliveryLabel')} </dt><dd className="inline">{t(deliveryKeyById[id])}</dd></div>
+                    <div><dt className="inline font-semibold text-slate-800">{t('outcomeLabel')} </dt><dd className="inline">{t(outcomeKeyById[id])}</dd></div>
+                  </dl>
+                  <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+                    {isCaseStudySlug(item.id) ? (
+                      <Link
+                        href={{ pathname: '/services/portfolio/[slug]', params: { slug: item.id } }}
+                        className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
+                      >
+                        {t('viewCaseStudy')}
+                        <ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden />
+                      </Link>
+                    ) : null}
+                    <a
+                      href={item.tryUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
+                    >
+                      {t('openLive')}
+                      <ExternalLink className="ml-1.5 w-3.5 h-3.5" aria-hidden />
+                    </a>
+                  </div>
                 </div>
               </Reveal>
             )

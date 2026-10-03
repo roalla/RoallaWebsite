@@ -4,11 +4,11 @@
     "scheduleConsultation": "Start a service inquiry",
     "scheduleConsultationConsulting": "Plan your next move",
     "scheduleConsultationWorkshops": "Book a team workshop",
-    "scheduleConsultationDigital": "Scope your project",
+    "scheduleConsultationDigital": "Discuss your needs",
     "scheduleConsultationDigitalEvents": "Plan your event kit",
     "ctaSubtext": "~3 min · No obligation · Reply in 1 business day",
     "ctaWhatHappensNext": "You answer 3 short questions → we reply with the right entry point and next steps.",
-    "ctaNextSteps": "Scope your project",
+    "ctaNextSteps": "Discuss your needs",
     "ctaNextStepsSubtext": "We'll suggest the right entry point",
     "continueExploring": "Continue exploring",
     "companyName": "ROALLA",
@@ -157,15 +157,17 @@
     "improveLink": "Explore managed optimization"
   },
   "home": {
-    "metadataTitle": "ROALLA | Technology Decisions Through Implementation",
-    "metadataDescription": "ROALLA helps organizations choose, source, build, integrate, and improve technology—from cloud, cybersecurity, and communications to websites, applications, automation, and AI.",
+    "metadataTitle": "ROALLA | Choose Technology and Get It Implemented",
+    "metadataDescription": "Needs-led technology advisory and delivery for growing organizations—from requirements and provider comparison through websites, applications, automation, AI, and implementation.",
     "hero": {
       "title": "Technology Solutions",
-      "titleLine": "Technology decisions carried through to",
-      "titleHighlight": "implementation.",
-      "subtitle": "ROALLA helps organizations choose, source, build, integrate, and improve technology—from cloud, cybersecurity, and communications to websites, applications, automation, and AI.",
-      "primaryCta": "Discuss Your Technology Needs",
-      "secondaryCta": "View Solutions",
+      "eyebrow": "Needs-led technology advisory and delivery",
+      "titleLine": "Choose the right technology.",
+      "titleHighlight": "Get it implemented.",
+      "subtitle": "ROALLA helps growing organizations clarify requirements, compare options, and carry the right solution through implementation—from cloud and cybersecurity to websites, applications, automation, and AI.",
+      "primaryCta": "Find the right starting point",
+      "secondaryCta": "See 15 live examples",
+      "trustLine": "Founder-led · Needs-led, not vendor-led · No vendor pitch on call one · Reply in 1 business day",
       "ctaAssessment": "Start your business assessment",
       "pathChooserLabel": "What do you need built?",
       "pathWebsiteTitle": "Website or redesign",
@@ -213,9 +215,22 @@
       "journeyLine": "Prepare → Transform → Emerge → Soar — our model for every digital engagement."
     },
     "businessOutcomes": {
-      "eyebrow": "Business outcomes",
-      "title": "Digital assets should create business value.",
-      "description": "ROALLA helps organizations use websites, applications, automation, and AI to achieve practical outcomes.",
+      "eyebrow": "Start with your situation",
+      "title": "What are you trying to move forward?",
+      "description": "Choose the situation that sounds most like yours. Each path explains the likely approach, expected outcome, and most practical next step.",
+      "chooseTitle": "I need to choose or replace technology",
+      "chooseDescription": "Clarify requirements, compare qualified providers, and make a defensible decision before committing budget.",
+      "chooseCta": "Explore technology advisory",
+      "buildTitle": "I need a website or digital product",
+      "buildDescription": "Create a credible web presence, customer experience, portal, application, or new digital service.",
+      "buildCta": "Explore digital delivery",
+      "connectTitle": "I need to connect systems or automate work",
+      "connectDescription": "Remove duplicate entry, improve handoffs, and add practical automation or AI where it creates value.",
+      "connectCta": "Explore automation",
+      "clarifyTitle": "I need clearer priorities and an execution plan",
+      "clarifyDescription": "Turn competing priorities into decisions, owners, milestones, and a practical 90-day plan.",
+      "clarifyCta": "Explore business advisory",
+      "allSituationsCta": "See common situations, outcomes, and next steps",
       "foundTitle": "Get Found",
       "foundDescription": "Improve search visibility, AI discoverability, local presence, and content clarity.",
       "customersTitle": "Win More Customers",
@@ -226,6 +241,21 @@
       "operationsDescription": "Connect systems, automate workflows, and replace inefficient manual processes.",
       "growthTitle": "Grow Continuously",
       "growthDescription": "Measure results, identify opportunities, and improve digital assets over time."
+    },
+    "trustBand": {
+      "experienceValue": "30+",
+      "experienceLabel": "years across business and technology",
+      "projectsValue": "500+",
+      "projectsLabel": "engagements and projects delivered",
+      "examplesValue": "15",
+      "examplesLabel": "live digital examples you can inspect",
+      "accountabilityValue": "1",
+      "accountabilityLabel": "senior accountable lead throughout",
+      "title": "Senior attention from discovery through implementation",
+      "description": "Work directly with Steven Robin, ROALLA's founder and principal consultant, backed by enterprise leadership experience and hands-on technology delivery.",
+      "commitment": "No handoff to a junior delivery team",
+      "cta": "Meet the founder",
+      "photoAlt": "Steven Robin, Founder and Principal Consultant of ROALLA"
     },
     "visibility": {
       "eyebrow": "Digital Visibility Optimization",
@@ -254,8 +284,25 @@
       "pill3": "Built to deliver outcomes"
     },
     "whatWeDo": {
-      "title": "What we source, build, and improve",
-      "description": "One accountable technology partner can help determine whether to source an established solution, build what is missing, connect the systems, or improve what you already have.",
+      "eyebrow": "Why ROALLA",
+      "title": "Advice and delivery stay connected",
+      "description": "The person helping frame the decision remains accountable for turning it into a working result.",
+      "needsLedTitle": "Needs-led",
+      "needsLedDescription": "Requirements and business outcomes come before any platform, provider, or predetermined solution.",
+      "founderLedTitle": "Founder-led",
+      "founderLedDescription": "Work directly with an experienced decision-maker from discovery through implementation.",
+      "accountableTitle": "Implementation-accountable",
+      "accountableDescription": "Recommendations include practical ownership, milestones, and support through delivery and adoption.",
+      "transparentTitle": "Commercially transparent",
+      "transparentDescription": "Relevant partner relationships and compensation are disclosed before you commit.",
+      "businessEyebrow": "Need business direction too?",
+      "businessTitle": "Turn priorities into a practical execution plan",
+      "businessDescription": "Business advisory connects strategy, operations, leadership, and implementation—not recommendations alone.",
+      "businessCta": "Explore Business Advisory",
+      "visibilityEyebrow": "Need to become easier to find?",
+      "visibilityTitle": "Improve search and AI readability",
+      "visibilityDescription": "Strengthen technical SEO, structured data, content clarity, local presence, accessibility, and conversion signals.",
+      "visibilityCta": "Explore Visibility Optimization",
       "technologyPracticeTitle": "Technology Advisory & Solution Sourcing",
       "technologyPracticeDesc": "Clarify requirements, compare qualified providers, source suitable solutions, and support procurement and implementation.",
       "technologyPracticeLink": "Explore Technology Advisory",
@@ -338,6 +385,18 @@
       "liveProjectsEyebrow": "Open a live site — every project below is in production.",
       "liveBadge": "Live",
       "openLive": "Open live site",
+      "viewCaseStudy": "View case study",
+      "clientWork": "Client work",
+      "roallaProduct": "ROALLA product",
+      "challengeLabel": "Need:",
+      "deliveryLabel": "Delivered:",
+      "outcomeLabel": "Outcome:",
+      "challengePitch": "A repeatable way to practise high-stakes presentations.",
+      "deliveryPitch": "An AI-assisted rehearsal and scoring platform.",
+      "challengeKaylan": "A photography brand needed a clearer path from portfolio to booking.",
+      "deliveryKaylan": "A conversion-focused website with service and booking journeys.",
+      "challengeGoalie": "Players and parents struggled to find programs and booking options.",
+      "deliveryGoalie": "A structured sports website with direct program and booking paths.",
       "outcomePitch": "AI pitch rehearsal platform — scoring, delivery metrics, and feedback founders actually use.",
       "outcomeKaylan": "Photography brand site with booking paths and a portfolio that converts inquiries.",
       "outcomeGoalie": "Sports coaching site that makes programs and booking easy to find."
@@ -367,17 +426,17 @@
       "soarPill": "Scale"
     },
     "testimonials": {
-      "eyebrow": "Client feedback",
-      "title": "What it's like to work with Roalla",
-      "description": "Representative feedback from digital projects we've delivered.",
-      "t1Quote": "Roalla delivered a site that finally makes booking and programs easy to find. We stopped losing inquiries because people couldn't find the right page.",
-      "t1Role": "Brand & sports website",
+      "eyebrow": "Delivered outcomes",
+      "title": "What changed after the work",
+      "description": "Specific results and observable improvements from advisory and digital delivery.",
+      "t1Quote": "Programs and booking options became easier to find, reducing the risk of losing inquiries to confusing navigation.",
+      "t1Role": "Client website outcome",
       "t1Project": "Ryan Munce Goaltending",
-      "t2Quote": "We went from scattered priorities to a clear 90-day plan—and a live platform our team uses every week. Clarity first, then launch, then real growth.",
-      "t2Role": "Growth-stage team",
+      "t2Quote": "Scattered priorities became a clear 90-day plan with owners, milestones, and board-ready measures.",
+      "t2Role": "Business advisory outcome",
       "t2Project": "Strategy to platform launch",
-      "t3Quote": "The automation Roalla built cut our weekly reporting from hours to minutes—and the integrations just keep data flowing without copy-paste.",
-      "t3Role": "Operations team",
+      "t3Quote": "A connected reporting workflow reduced recurring preparation from hours to minutes and removed repeated copy-and-paste work.",
+      "t3Role": "Workflow outcome",
       "t3Project": "Workflow automation",
       "viewPortfolio": "View Digital Portfolio",
       "discussProject": "Discuss a project like this",
@@ -390,14 +449,14 @@
       "preview": "6 questions · 5 minutes · Service & use-case match"
     },
     "cta": {
-      "title": "Ready to move forward?",
-      "subtitle": "Whether you need a new website, custom app, integrations, or workflow automation—we'll reply with the right entry point and next steps.",
-      "schedule": "Start a service inquiry",
+      "title": "Find the right next step",
+      "subtitle": "Whether you are choosing technology, clarifying priorities, building something new, connecting systems, or improving what already exists, ROALLA will help identify the most practical entry point.",
+      "schedule": "Discuss your needs",
       "discussNeeds": "Discuss your needs",
       "discussBuild": "Discuss your project",
       "responseTime": "~3 min · No obligation · Reply in 1 business day",
       "whatHappensNext": "You answer 3 short questions → we reply with the right entry point and next steps.",
-      "orAssessmentShort": "Not ready? Take the 5-min assessment"
+      "orAssessmentShort": "Prefer to start on your own? Take the 5-minute assessment"
     },
     "closing": {
       "questions": "Questions?",
@@ -441,9 +500,11 @@
       "cred4Desc": "Sensitive context stays protected—discuss your needs before sharing details."
     },
     "featuredInsight": {
-      "title": "Featured insights",
+      "title": "Useful next steps for common decisions",
+      "description": "Three practical guides selected for visitors choosing technology, improving a website, or deciding what to automate first.",
       "readMore": "Learn more",
-      "badge": "Featured",
+      "badge": "Practical guides",
+      "allInsights": "Explore all {count}+ insights",
       "engagementChip": "From a recent engagement",
       "carouselPrevious": "Previous insight",
       "carouselNext": "Next insight",
@@ -2855,7 +2916,7 @@
   },
   "about": {
     "metadataTitle": "About Steven Robin, Founder & Principal Consultant | ROALLA",
-    "metadataDescription": "Meet Steven Robin, ROALLA's founder and principal consultant, with 25+ years in business transformation, digital strategy, and technology delivery.",
+    "metadataDescription": "Meet Steven Robin, ROALLA's founder and principal consultant, with 30+ years across business transformation, digital strategy, and technology delivery.",
     "title": "About Roalla Business Enablement Group",
     "subtitle": "Founder-led business transformation, digital strategy, and hands-on technology delivery.",
     "heroBadge": "Founder-led. Enterprise-tested.",
@@ -2863,7 +2924,7 @@
     "founderRole": "Founder & Principal Consultant",
     "founderTagline": "Business Transformation, Digital Strategy and Hands-On Technology Delivery",
     "founderPhotoAlt": "Portrait of Steven Robin, Founder and Principal Consultant of Roalla Business Enablement Group.",
-    "founderBio1": "Steven Robin is the Founder and Principal Consultant of Roalla Business Enablement Group. He brings more than 25 years of experience spanning business transformation, technology strategy, product development, operations, service management and customer experience.",
+    "founderBio1": "Steven Robin is the Founder and Principal Consultant of Roalla Business Enablement Group. He brings more than 30 years of experience spanning business transformation, technology strategy, product development, operations, service management and customer experience.",
     "founderBio2": "Before founding Roalla, Steven spent more than two decades with Bell Canada in progressively senior leadership roles. He led national, bilingual and cross-functional teams of more than 100 professionals and supported over 300 active strategic B2B engagements within a portfolio valued at approximately $3.5 billion.",
     "founderBio3": "His work included enterprise transformation, solution design, process improvement, accessibility programs, complex proposals and technology delivery. Documented results include helping increase Salesforce adoption from approximately 46% to 97%, improving resource utilization, strengthening audit controls and contributing to major private- and public-sector contract wins.",
     "founderBio4": "As a bilingual consultant, Steven brings together executive leadership, digital strategy, operational improvement, customer-experience design and hands-on technology delivery. As Roalla's lead developer, he remains directly involved in client discovery, strategy, solution architecture and the development of websites, applications, automation and connected technology solutions.",
@@ -2871,7 +2932,7 @@
     "storyTitle": "The background behind the work",
     "proofEyebrow": "Experience and qualifications",
     "proofTitle": "Enterprise perspective. Practical delivery.",
-    "proof1Value": "25+ years",
+    "proof1Value": "30+ years",
     "proof1Label": "in business transformation and technology",
     "proof2Value": "100+",
     "proof2Label": "professionals led across national teams",
@@ -3244,27 +3305,37 @@
     "redirecting": "Redirecting..."
   },
   "useCases": {
-    "metadataTitle": "Business, Technology & Digital Use Cases | ROALLA",
-    "metadataDescription": "Plain-language guide to common business advisory, technology sourcing, and digital delivery needs. Compare what to consider and how Roalla helps.",
-    "title": "Business, Technology & Digital Use Cases",
-    "subtitle": "Start with the problem you recognize. See what advisory, selection, sourcing, and delivery can involve—and how we help, with honesty about how mature each capability is.",
+    "metadataTitle": "Business & Technology Problems We Solve | ROALLA",
+    "metadataDescription": "Explore common business and technology situations, the outcomes to pursue, what to consider, and how ROALLA can help.",
+    "title": "Start with the outcome you need",
+    "subtitle": "Explore common business and technology situations—from unclear priorities and provider selection to websites, workflow automation, and practical AI.",
     "howToReadTitle": "How to read this page",
-    "howToRead1": "Common need — written in everyday language, not tech jargon.",
-    "howToRead2": "Things to consider — hidden complexity, decision risks, dependencies, and common blind spots.",
-    "howToRead3": "How ROALLA delivers — the recommended solution, delivery approach, and relevant live examples where available.",
-    "maturityLegendTitle": "Delivery approach",
+    "howToRead1": "Start with an outcome category, then choose the situation that sounds familiar.",
+    "howToRead2": "Each scenario explains the desired outcome, decision risks, concrete deliverables, and best fit.",
+    "howToRead3": "Follow the related service, evidence, or inquiry link when you find a close match.",
     "filterLabel": "Show me",
     "filterAll": "All use cases",
-    "portfolioExamples": "Live examples",
+    "portfolioExamples": "Relevant evidence",
     "portfolio": {
       "grcstatus": "GRC Status",
       "boothlio": "Boothlio",
       "pitch-hotshots": "Pitch Hotshots",
       "unjargonit": "UnJargon It"
     },
-    "columnNeed": "Common need",
-    "columnConsider": "Things to consider",
-    "columnDeliver": "How Roalla delivers",
+    "scenarioLabel": "Buyer scenario",
+    "recognizeLabel": "You may recognize",
+    "considerLabel": "What to consider",
+    "deliverLabel": "What ROALLA provides",
+    "fitLabel": "Best fit",
+    "services": {
+      "business-advisory": "Explore business advisory",
+      "technology-advisory": "Explore technology advisory",
+      "website-design": "Explore website design",
+      "digital-products": "Explore digital products",
+      "automation": "Explore automation and integration",
+      "digital-events": "Explore digital events",
+      "digital-enablement": "Explore digital enablement"
+    },
     "maturity": {
       "proven": {
         "label": "Portfolio-backed",
@@ -3280,170 +3351,244 @@
       }
     },
     "categories": {
-      "business": {
-        "title": "Business advisory & execution",
-        "desc": "When priorities, ownership, operating discipline, or growth decisions need to become an executable plan."
+      "decisions": {
+        "title": "Make clearer decisions",
+        "desc": "Set priorities, compare options, and commit with evidence instead of momentum or guesswork."
       },
-      "technology": {
-        "title": "Technology advisory & sourcing",
-        "desc": "When you need clearer requirements, qualified provider options, and support through implementation."
+      "execution": {
+        "title": "Improve execution and capacity",
+        "desc": "Remove bottlenecks, clarify ownership, and turn growth into work the organization can sustain."
       },
-      "websites": {
-        "title": "Websites & brand presence",
-        "desc": "When visitors need to trust you and take a clear next step."
+      "resilience": {
+        "title": "Reduce cost and operational risk",
+        "desc": "Protect continuity, margin, security, and critical technology while simplifying what no longer serves the business."
       },
-      "apps": {
-        "title": "Custom apps & tools",
-        "desc": "When spreadsheets and off-the-shelf software stop fitting how you work."
+      "demand": {
+        "title": "Generate demand and customer action",
+        "desc": "Help the right audience find you, trust you, and take a measurable next step."
+      },
+      "experiences": {
+        "title": "Create better digital experiences",
+        "desc": "Give customers, partners, and teams digital tools that fit the work they actually need to complete."
       },
       "automation": {
-        "title": "Connect & automate",
-        "desc": "When the same data gets typed twice or tools don't talk to each other."
-      },
-      "events": {
-        "title": "Digital events",
-        "desc": "Trade shows, launches, investor booths, and dedicated business events."
-      },
-      "ai": {
-        "title": "Practical AI",
-        "desc": "Useful intelligence—not hype—where scoring, guidance, or automation saves real time."
+        "title": "Connect, automate, and apply AI",
+        "desc": "Reduce repetitive work and place reliable automation or governed AI inside real workflows."
       }
     },
     "cases": {
       "strategic-priorities": {
+        "title": "Turn competing priorities into a 90-day execution plan",
+        "outcome": "A short list of committed priorities, explicit tradeoffs, and a leadership rhythm that keeps execution moving.",
         "need": "We have too many priorities, and nothing is moving decisively.",
         "consider": "A credible strategy requires tradeoffs. Adding initiatives without stopping, sequencing, or resourcing existing work creates silent delays and teaches the team that every priority is optional.",
-        "deliver": "A focused business and market assessment, explicit priority and stop-doing decisions, and a realistic 90-day plan with owners, milestones, measures, and a leadership review rhythm."
+        "deliver": "A focused business and market assessment, explicit priority and stop-doing decisions, and a realistic 90-day plan with owners, milestones, measures, and a leadership review rhythm.",
+        "fit": "Leadership teams that need to align limited time, money, and capacity around the few initiatives that matter most."
       },
       "process-bottlenecks": {
+        "title": "Remove the bottlenecks slowing work between teams and systems",
+        "outcome": "Faster, more reliable handoffs with clear ownership for routine work and exceptions.",
         "need": "Work keeps stalling between people, departments, or systems.",
         "consider": "The visible delay may be caused by unclear ownership, missing information, approval queues, repeated rework, or exceptions nobody owns. New software cannot repair an undefined process by itself.",
-        "deliver": "A workflow and handoff diagnostic, bottleneck and exception analysis, clarified ownership, a cycle-time baseline, and a prioritized improvement plan with implementation follow-through."
+        "deliver": "A workflow and handoff diagnostic, bottleneck and exception analysis, clarified ownership, a cycle-time baseline, and a prioritized improvement plan with implementation follow-through.",
+        "fit": "Teams experiencing recurring delays, rework, approval queues, or unclear responsibility across a shared process."
       },
       "founder-bottleneck": {
+        "title": "Reduce the business's dependence on its owner",
+        "outcome": "Important work and decisions continue without routing every exception through one person.",
         "need": "Every important decision still comes back to the owner.",
         "consider": "Founder dependence often hides in approvals, customer relationships, passwords, supplier knowledge, and exceptions. It limits growth while creating continuity risk whenever the owner is unavailable.",
-        "deliver": "An owner-dependency assessment, delegated authority and decision limits, named deputies, documented critical access and escalation rules, and a practical continuity roadmap."
+        "deliver": "An owner-dependency assessment, delegated authority and decision limits, named deputies, documented critical access and escalation rules, and a practical continuity roadmap.",
+        "fit": "Founder-led organizations preparing to grow, delegate, take time away, or reduce continuity risk."
       },
       "leadership-decision-rights": {
+        "title": "Clarify who recommends, decides, executes, and escalates",
+        "outcome": "Faster decisions and clearer accountability without centralizing every choice.",
         "need": "Our people are capable, but roles, authority, and accountability are unclear.",
         "consider": "Job titles rarely explain who recommends, decides, contributes, executes, or handles an exception. Ambiguity produces duplicate work, delayed choices, avoidable escalation, and cross-team frustration.",
-        "deliver": "Clear leadership roles, a practical decision-rights and escalation map, stronger operating cadence, and explicit commitments that improve cross-team execution without centralizing every choice."
+        "deliver": "Clear leadership roles, a practical decision-rights and escalation map, stronger operating cadence, and explicit commitments that improve cross-team execution without centralizing every choice.",
+        "fit": "Leadership teams with overlapping roles, recurring escalation, or cross-functional decisions that repeatedly stall."
       },
       "management-dashboard": {
+        "title": "Turn scattered business data into a management view",
+        "outcome": "A concise view of business health that connects each measure to an owner, threshold, and decision.",
         "need": "We have plenty of data, but cannot see business health clearly enough to act.",
         "consider": "Bank balances, accounting reports, CRM records, and delivery spreadsheets tell separate stories. More metrics add noise unless each measure has a source, owner, threshold, and decision attached to it.",
-        "deliver": "A concise management dashboard connecting cash, margin, pipeline, capacity, delivery, and risk—with defined owners, thresholds, actions, and a monthly operating review."
+        "deliver": "A concise management dashboard connecting cash, margin, pipeline, capacity, delivery, and risk—with defined owners, thresholds, actions, and a monthly operating review.",
+        "fit": "Organizations whose accounting, sales, delivery, and capacity data live in separate reports or systems."
       },
       "profitability-capacity": {
+        "title": "Protect margin, cash, and delivery capacity as revenue grows",
+        "outcome": "Evidence-based choices about which work to protect, reprice, redesign, delegate, or stop.",
         "need": "Revenue is growing, but cash, margin, or delivery capacity is not improving.",
         "consider": "Revenue can hide direct costs, unpriced owner time, rework, slow payment, customer concentration, and service commitments that consume more capacity than expected.",
-        "deliver": "A practical customer and service profitability view, capacity and cash-pressure assessment, and evidence-based actions to protect, reprice, redesign, delegate, or exit work."
+        "deliver": "A practical customer and service profitability view, capacity and cash-pressure assessment, and evidence-based actions to protect, reprice, redesign, delegate, or exit work.",
+        "fit": "Growing service businesses where higher sales are not translating into stronger cash, margin, or manageable workloads."
       },
       "repeatable-delivery": {
+        "title": "Make delivery repeatable before adding more people",
+        "outcome": "A scalable delivery model that preserves quality while reducing custom work and owner involvement.",
         "need": "Every new sale creates more custom work and more pressure on the owner.",
         "consider": "Hiring into a poorly defined workflow can multiply cost and coordination. Growth becomes more sustainable when offers, delivery methods, handoffs, quality expectations, and genuinely personal work are made explicit first.",
-        "deliver": "An offer and operating-model review, standardization opportunities, reusable delivery methods, delegation design, and a staged hiring or partner plan tied to real capacity needs."
+        "deliver": "An offer and operating-model review, standardization opportunities, reusable delivery methods, delegation design, and a staged hiring or partner plan tied to real capacity needs.",
+        "fit": "Service organizations where each new client adds coordination, exceptions, or founder-dependent delivery."
       },
       "digital-change-readiness": {
+        "title": "Test whether a digital initiative is ready to fund",
+        "outcome": "A defensible pilot and adoption roadmap grounded in value, dependencies, risk, and accountable ownership.",
         "need": "We want to pursue data, automation, AI, or another digital initiative without wasting budget.",
         "consider": "A promising idea may still depend on cleaner data, stable processes, security controls, accountable owners, integration work, and a team prepared to change how the work is done.",
-        "deliver": "An opportunity and readiness assessment, value hypothesis, dependency and risk map, smallest useful pilot, success measures, accountable owners, and an adoption roadmap."
+        "deliver": "An opportunity and readiness assessment, value hypothesis, dependency and risk map, smallest useful pilot, success measures, accountable owners, and an adoption roadmap.",
+        "fit": "Organizations considering a meaningful technology investment before the process, data, security, or adoption plan is settled."
       },
       "customer-concentration": {
+        "title": "Reduce dependence on one customer or source of demand",
+        "outcome": "A practical resilience plan with priority account actions, replacement scenarios, and leading indicators.",
         "need": "Too much of our revenue or pipeline depends on one customer, relationship, or source of demand.",
         "consider": "Concentration risk is not solved by adding names to a contact list. The business needs qualified pipeline stages, realistic conversion evidence, account-retention actions, and a deliberate plan for replacing exposed revenue.",
-        "deliver": "A customer and pipeline concentration assessment, scenario analysis, priority account actions, demand-diversification choices, and leading indicators that show whether resilience is improving."
+        "deliver": "A customer and pipeline concentration assessment, scenario analysis, priority account actions, demand-diversification choices, and leading indicators that show whether resilience is improving.",
+        "fit": "Businesses where losing a major customer, referral partner, or acquisition channel would materially affect operations."
       },
       "partnership-readiness": {
+        "title": "Decide whether a business partnership is the right structure",
+        "outcome": "A clearer choice between shared ownership and lower-risk ways to collaborate.",
         "need": "We are considering a business partnership, but need to know whether shared ownership is the right structure.",
         "consider": "Chemistry and complementary skills do not resolve authority, compensation, effort, intellectual property, client ownership, conflict, or exit decisions. A referral, subcontract, or time-bound collaboration may prove the relationship with less risk.",
-        "deliver": "A facilitated partnership-readiness assessment, comparison of lower-risk collaboration models, clarified commercial and operating expectations, and a decision brief to take to qualified legal and financial advisors."
+        "deliver": "A facilitated partnership-readiness assessment, comparison of lower-risk collaboration models, clarified commercial and operating expectations, and a decision brief to take to qualified legal and financial advisors.",
+        "fit": "Owners considering equity, a joint venture, or a long-term operating partnership before legal commitments are made."
       },
       "technology-stack-review": {
+        "title": "Decide which technology to keep, consolidate, or retire",
+        "outcome": "A safer, evidence-led technology roadmap that reduces overlap without disrupting critical work.",
         "need": "We are paying for too many tools and are not sure what to keep, consolidate, or retire.",
         "consider": "Unused licences are only part of the cost. Duplicate data, overlapping features, unclear ownership, weak integrations, renewal dates, and exit restrictions can make a rushed cleanup more risky than it appears.",
-        "deliver": "A requirements-led technology-stack review that maps systems, owners, contracts, data, integrations, and business value—then prioritizes safe consolidation, renewal, or replacement decisions."
+        "deliver": "A requirements-led technology-stack review that maps systems, owners, contracts, data, integrations, and business value—then prioritizes safe consolidation, renewal, or replacement decisions.",
+        "fit": "Organizations facing overlapping tools, upcoming renewals, unclear ownership, or pressure to reduce technology spend."
       },
       "platform-selection": {
+        "title": "Choose, replace, or consolidate a business platform",
+        "outcome": "A traceable build, buy, or integrate decision tied to requirements, total cost, risk, and adoption.",
         "need": "We need to choose, replace, or consolidate a business platform.",
         "consider": "A polished demo does not prove fit. Build, buy, and integrate options differ in total cost, security, data ownership, workflow fit, scalability, implementation effort, and what happens if you need to leave.",
-        "deliver": "A clear requirements brief, build-buy-integrate assessment, qualified solution shortlist, and traceable recommendation tied to your business, technical, security, integration, and adoption needs."
+        "deliver": "A clear requirements brief, build-buy-integrate assessment, qualified solution shortlist, and traceable recommendation tied to your business, technical, security, integration, and adoption needs.",
+        "fit": "Teams selecting a CRM, ERP, communications, workflow, customer, or other material business platform."
       },
       "provider-comparison": {
+        "title": "Compare technology proposals on equal terms",
+        "outcome": "A defensible provider decision based on normalized scope, total cost, implementation risk, and exit conditions.",
         "need": "We have several technology proposals, but they are difficult to compare fairly.",
         "consider": "Providers package scope, assumptions, onboarding, support, service levels, usage limits, renewals, and exit terms differently. The lowest monthly fee can hide migration work, add-ons, or long commitments.",
-        "deliver": "A normalized commercial and technical comparison covering scope, total cost, contract commitments, service levels, implementation, risk, and exit considerations—plus disclosed partner relationships before you commit."
+        "deliver": "A normalized commercial and technical comparison covering scope, total cost, contract commitments, service levels, implementation, risk, and exit considerations—plus disclosed partner relationships before you commit.",
+        "fit": "Organizations comparing two or more consequential proposals without a common requirements or evaluation framework."
       },
       "continuity-recovery": {
+        "title": "Prepare the business to continue through a technology outage",
+        "outcome": "Known recovery priorities, accountable owners, workable alternatives, and a testing roadmap for critical services.",
         "need": "We are not confident the business could keep operating if email, internet, cloud, or a key provider failed.",
         "consider": "Sync is not backup, a backup is not a tested recovery plan, and a supplier promise does not define your internal workaround. Critical services need downtime limits, accountable owners, alternatives, and recovery tests.",
-        "deliver": "A practical continuity and recovery assessment that identifies essential services, dependencies, acceptable downtime, backup and failover gaps, provider responsibilities, and a prioritized testing roadmap."
+        "deliver": "A practical continuity and recovery assessment that identifies essential services, dependencies, acceptable downtime, backup and failover gaps, provider responsibilities, and a prioritized testing roadmap.",
+        "fit": "Organizations that rely on cloud, connectivity, communications, or key providers but have not tested how work continues when they fail."
       },
       "cybersecurity-sourcing": {
+        "title": "Prioritize cybersecurity controls and providers",
+        "outcome": "A risk-led security starting point and qualified options aligned with the systems and data that matter most.",
         "need": "We need stronger cybersecurity but do not know which controls or providers to prioritize.",
         "consider": "Buying more security products before identifying critical data, identities, devices, vendors, and likely threats can add cost without reducing the most important risks. Compliance requirements may also change the shortlist.",
-        "deliver": "A risk- and requirements-led starting point, followed by qualified cybersecurity or business-continuity options and an implementation plan that accounts for privacy, compliance, integration, support, and adoption."
+        "deliver": "A risk- and requirements-led starting point, followed by qualified cybersecurity or business-continuity options and an implementation plan that accounts for privacy, compliance, integration, support, and adoption.",
+        "fit": "Organizations facing customer, insurer, privacy, or compliance expectations without a clear security roadmap or sourcing brief."
       },
       "communications-modernization": {
+        "title": "Modernize business calling and customer communications",
+        "outcome": "A staged communications transition that improves customer routing and staff mobility while protecting critical calling.",
         "need": "Our phone system or contact-centre setup is outdated, fragmented, or expensive.",
         "consider": "Replacing dial tone is only one part of the decision. Number porting, call flows, CRM integration, recording, emergency calling, network readiness, specialty lines, failover, training, and support all affect the outcome.",
-        "deliver": "Current-state inventory, communications requirements, qualified unified-communications or contact-centre options, total-cost comparison, and a staged migration plan that protects critical calling and customer service."
+        "deliver": "Current-state inventory, communications requirements, qualified unified-communications or contact-centre options, total-cost comparison, and a staged migration plan that protects critical calling and customer service.",
+        "fit": "Multi-location, mobile, or customer-facing teams replacing legacy phone systems or fragmented contact-centre tools."
       },
       "cloud-connectivity": {
+        "title": "Make locations, remote teams, cloud services, and networks work together",
+        "outcome": "A connectivity and cloud path designed around performance, resilience, security, support, and growth.",
         "need": "Our locations, remote staff, cloud services, and networks are no longer working together reliably.",
         "consider": "Bandwidth alone does not solve poor application performance or resilience. Provider coverage, routing, security, identity, failover, support, contract terms, and growth plans need to be evaluated together.",
-        "deliver": "Requirements and qualified options across cloud, networking, connectivity, mobility, and related services—with commercial comparison and an implementation path designed around performance, resilience, security, and scale."
+        "deliver": "Requirements and qualified options across cloud, networking, connectivity, mobility, and related services—with commercial comparison and an implementation path designed around performance, resilience, security, and scale.",
+        "fit": "Distributed organizations experiencing unreliable performance, inconsistent providers, weak failover, or unclear network ownership."
       },
       "technology-implementation": {
+        "title": "Move a chosen solution from contract to successful adoption",
+        "outcome": "A controlled migration and rollout with clear acceptance criteria, ownership, training, and stabilization.",
         "need": "We chose a solution, but need help with migration, rollout, and adoption.",
         "consider": "A signed contract does not create a successful change. Data migration, integrations, configuration, security, testing, ownership, training, cutover, support, and measurable adoption all need decisions before launch.",
-        "deliver": "A practical implementation plan with owners, milestones, dependencies, acceptance criteria, adoption measures, provider coordination, and regular course correction from discovery through stabilization."
+        "deliver": "A practical implementation plan with owners, milestones, dependencies, acceptance criteria, adoption measures, provider coordination, and regular course correction from discovery through stabilization.",
+        "fit": "Teams that have selected a platform or provider but need independent coordination across internal owners and vendors."
       },
       "website-refresh": {
+        "title": "Build a website that earns trust and guides the next step",
+        "outcome": "A credible, accessible website with clear positioning, useful content, and conversion paths that work across devices.",
         "need": "Our website looks outdated, or we don't have one yet.",
-        "consider": "DIY builders (Wix, Squarespace, WordPress themes) are quick to start, but custom domains, mobile layouts, SEO, and forms often need extra plugins. Small changes can break layouts without someone who knows what changed—and you still own the content updates.",
-        "deliver": "Conversion-focused sites with a clear next step—book, contact, or request a quote. Scoped to your timeline with one accountable team from brief through launch. See Kaylan Kaptures and Ryan Munce Goaltending for live brand-site examples."
+        "consider": "A successful site needs more than a visual refresh. Positioning, information architecture, accessibility, search visibility, performance, content ownership, analytics, forms, and post-launch maintenance all affect the result.",
+        "deliver": "A conversion-focused website with a clear next step—book, contact, or request a quote—plus accountable delivery from discovery and content structure through launch.",
+        "fit": "Organizations launching a first professional site or replacing one that no longer reflects the business, audience, or offer."
       },
       "lead-capture": {
+        "title": "Turn website interest into qualified leads, bookings, or quotes",
+        "outcome": "A short, measurable conversion path that captures the right context and routes each response to the right owner.",
         "need": "We need more leads, bookings, or quote requests from our site.",
-        "consider": "A contact form alone rarely converts. DIY setups often miss follow-up routing, spam protection, CRM handoff, and mobile-friendly flows. Leads sit in an inbox instead of reaching the right person.",
-        "deliver": "Short, mobile-first forms tied to your CRM, inbox, or spreadsheet—with instant confirmations and the right person notified. GRC Status shows this pattern with assessment and preview CTAs on a compliance-focused site."
+        "consider": "A form alone is not a conversion system. Message clarity, qualification, mobile usability, spam protection, consent, follow-up routing, CRM handoff, and measurement determine whether interest becomes action.",
+        "deliver": "Short, mobile-first forms connected to your CRM, inbox, or spreadsheet, with useful qualification, instant confirmations, reliable routing, and measurable completion events.",
+        "fit": "Service and B2B organizations with meaningful site traffic but weak, inconsistent, or unmeasured inquiry flow."
       },
       "custom-app": {
+        "title": "Build a digital tool around a workflow generic software cannot fit",
+        "outcome": "A maintainable product or internal tool shaped around the value, permissions, data, and decisions unique to the work.",
         "need": "We need a tool that fits our workflow—not a generic app.",
-        "consider": "Spreadsheets and no-code tools work until permissions, approvals, or integrations get complex. DIY often creates shadow IT: one person's clever setup that nobody else can maintain.",
-        "deliver": "Digital products and internal tools built around the value your business needs to create—revenue, customer self-service, or operational capability. Explore 8 verified digital product examples in our current portfolio."
+        "consider": "Spreadsheets and no-code tools can work well until permissions, approvals, data integrity, scale, integrations, or maintainability become material. The workflow and business case should be clear before custom development begins.",
+        "deliver": "A scoped digital product or internal tool built around the value the business needs to create—revenue, customer self-service, or operational capability—with an accountable path from discovery through release.",
+        "fit": "Organizations with a proven workflow gap, accountable product owner, and value that cannot be reached efficiently with an off-the-shelf tool."
       },
       "client-portal": {
+        "title": "Give clients or partners a secure place to work with you",
+        "outcome": "A branded, permission-aware portal for status, files, requests, or guided steps without email and shared-drive confusion.",
         "need": "Clients or partners need a secure place to see status, files, or updates.",
-        "consider": "Sharing by email and shared drives gets messy fast—wrong versions, no audit trail, and login sprawl across tools. DIY portals from template marketplaces rarely match your branding or data rules.",
-        "deliver": "Branded portals with the access rules you need—status dashboards, document exchange, or guided steps. Built to your security and hosting preferences."
+        "consider": "Identity, access rules, data classification, version history, notifications, audit needs, support, and hosting choices should be defined before the interface is designed.",
+        "deliver": "A branded portal with the access rules you need—status dashboards, document exchange, structured requests, or guided steps—built around your security and hosting preferences.",
+        "fit": "Organizations that repeatedly exchange sensitive files, status updates, approvals, or structured information with external parties."
       },
       "integrations": {
+        "title": "Connect systems so information moves reliably between them",
+        "outcome": "Documented, monitored data movement with clear handling for duplicates, failures, field mismatches, and ownership.",
         "need": "Our CRM, email, forms, and other tools don't share data cleanly.",
-        "consider": "Zapier and native connectors help for simple paths, but edge cases—duplicate records, failed webhooks, field mismatches—pile up without monitoring. DIY integrations become fragile when any tool updates.",
-        "deliver": "Reliable connections between the tools you already pay for—CRM, email, forms, sheets, and internal systems—with error handling and a clear owner when something changes."
+        "consider": "Native connectors can solve simple paths, but data ownership, record matching, error recovery, authentication, monitoring, rate limits, and vendor changes determine whether an integration remains reliable.",
+        "deliver": "Reliable connections between the tools you already use—CRM, email, forms, sheets, and internal systems—with documented mappings, error handling, monitoring, and a clear owner when something changes.",
+        "fit": "Teams re-entering the same information across systems or relying on fragile one-person integrations for important work."
       },
       "workflow-automation": {
+        "title": "Automate repetitive handoffs without losing control of exceptions",
+        "outcome": "Less manual coordination, with a human-readable workflow and clear recovery path when something unusual happens.",
         "need": "My team wastes time on repetitive copy-paste and manual handoffs.",
-        "consider": "Macros and DIY automation save minutes until an exception breaks the chain. Without documentation, only one person knows how it works—and they're on vacation when it fails.",
-        "deliver": "Documented automations for the handoffs that actually slow you down—onboarding, reporting, approvals, notifications—with a human-readable map of what runs when."
+        "consider": "Automation is safest after the workflow, ownership, inputs, exceptions, approvals, and recovery path are understood. A fast automation that silently fails can create more risk than the manual process it replaced.",
+        "deliver": "Documented automation for the handoffs that actually slow the team down—onboarding, reporting, approvals, and notifications—with a human-readable map of what runs when and how exceptions are handled.",
+        "fit": "Teams with stable, repeated work where manual copying, chasing, notifications, or approvals consume meaningful time."
       },
       "event-kit": {
+        "title": "Turn a trade show or launch into a measurable digital journey",
+        "outcome": "A floor-ready path from QR or NFC engagement to qualified follow-up, with attribution that survives the event.",
         "need": "We're exhibiting at a trade show or running a launch event.",
-        "consider": "Printing QR codes on flyers is easy; tracking which booth moment drove interest is not. DIY event pages often lack floor-friendly lead capture, offline contingencies, and post-show follow-up routing.",
-        "deliver": "Event pages, booth QR/NFC entry paths, floor-optimized lead capture, and post-show exports—ready when the floor opens. Built from our Digital Events playbook; Boothlio is a live product example."
+        "consider": "The experience must work under time pressure, on mobile devices, with uncertain connectivity. Entry points, attribution, consent, lead qualification, staff workflow, offline contingencies, and follow-up ownership all matter.",
+        "deliver": "Event pages, booth QR or NFC entry paths, floor-optimized lead capture, attribution, and post-show exports—tested and ready when the floor opens.",
+        "fit": "Exhibitors and launch teams that need more than scans or paper leads and want to know what generated meaningful interest."
       },
       "ai-workflows": {
+        "title": "Place governed AI inside a workflow people already use",
+        "outcome": "A bounded AI capability with representative inputs, quality measures, guardrails, and human review proportional to risk.",
         "need": "We want AI to help—not another chatbot nobody uses.",
-        "consider": "Generic AI plugins add novelty without measurable outcomes. DIY prompts drift, lack guardrails, and rarely connect to your CRM or documents. Teams hesitate without clear human review steps.",
-        "deliver": "Scoped AI inside real workflows—scoring, guided briefs, document assistance, and intelligent routing—with guardrails and human review. Live today in Pitch Hotshots."
+        "consider": "Useful AI depends on a defined task, representative information, a quality standard, safe data handling, exception rules, and a person who can verify the result. Novelty alone is not a business case.",
+        "deliver": "Scoped AI inside real workflows—scoring, guided briefs, document assistance, and intelligent routing—with measurable quality, guardrails, auditability, and human review.",
+        "fit": "Teams with a repetitive information task, enough representative examples, and an accountable reviewer who can define acceptable output."
       }
     },
     "ctaText": "Not sure which row fits? Tell us your situation—we'll point you to the right starting point.",
     "ctaSchedule": "Start a service inquiry",
-    "rowCta": "Start an inquiry for this",
+    "rowCta": "Discuss: {outcome}",
     "commsValueBriefCta": "Estimate communications value first",
     "techDecisionBriefCta": "Build a technology decision brief first",
     "ctaPortfolio": "See live examples in our portfolio"

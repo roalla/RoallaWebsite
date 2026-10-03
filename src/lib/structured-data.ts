@@ -17,6 +17,28 @@ export function breadcrumbJsonLd(
   };
 }
 
+export function useCaseItemListJsonLd(
+  locale: string,
+  name: string,
+  items: readonly { id: string; name: string; description: string }[],
+) {
+  const page = pageUrl(locale, "/use-cases");
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name,
+    numberOfItems: items.length,
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: `${page}#${item.id}`,
+      name: item.name,
+      description: item.description,
+    })),
+  };
+}
+
 export const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",

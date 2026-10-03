@@ -12,9 +12,10 @@
 }
 
 /* Self-hosted so the font faces live in the inlined stylesheet.
-   Both faces are optional. A cold load paints the metric-adjusted fallback
-   instead of chaining sora-latin.woff2 onto LCP; a cached visit uses the
-   real files immediately, with no late swap and no extra reflow. */
+   Latin Sora is preloaded from the document head so the heading face
+   starts with the HTML instead of after this sheet is parsed.
+   Both faces stay optional: a slow cold load paints the metric-adjusted
+   fallback, and a cached visit uses the real files with no late swap. */
 @font-face {
   font-family: "Roalla Figtree";
   font-style: normal;

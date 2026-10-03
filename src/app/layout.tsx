@@ -142,6 +142,22 @@ export default async function RootLayout({
         <link
           rel="preload"
           as="font"
+          href="/fonts/sora-latin.woff2"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        {locale === 'fr' ? (
+          <link
+            rel="preload"
+            as="font"
+            href="/fonts/sora-latin-ext.woff2"
+            type="font/woff2"
+            crossOrigin="anonymous"
+          />
+        ) : null}
+        <link
+          rel="preload"
+          as="font"
           href="/fonts/figtree-latin.woff2"
           type="font/woff2"
           crossOrigin="anonymous"

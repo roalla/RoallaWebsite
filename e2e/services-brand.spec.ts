@@ -23,6 +23,17 @@ test.describe("Services brand journey", () => {
     await expect(
       page.getByRole("heading", { name: "Strategy & Roadmaps", level: 3 }),
     ).toBeVisible();
+    const outcomes = page.locator("#business-outcomes");
+    await expect(
+      outcomes.getByRole("heading", {
+        name: "Turn competing priorities into focused, measurable execution.",
+        level: 2,
+      }),
+    ).toBeVisible();
+    await expect(outcomes.locator("img")).toHaveCount(3);
+    await expect(
+      outcomes.getByRole("link", { name: "Explore operations improvement" }),
+    ).toHaveAttribute("href", "#operations");
     await expect(
       page.getByRole("heading", {
         name: "Operations & Process Improvement",
@@ -65,6 +76,18 @@ test.describe("Services brand journey", () => {
     await page.goto("/en/partners");
 
     await expect(page.getByRole("heading", { name: "Partners & Platforms", level: 1 })).toBeVisible();
+    const outcomes = page.locator("#partner-outcomes");
+    await expect(
+      outcomes.getByRole("heading", {
+        name: "More options, evaluated against your requirements.",
+        level: 2,
+      }),
+    ).toBeVisible();
+    await expect(outcomes.locator("img")).toHaveCount(3);
+    await expect(outcomes.getByRole("link", { name: "Review the evaluation standard" })).toHaveAttribute(
+      "href",
+      "#evaluation-standard",
+    );
     await expect(page.getByRole("heading", { name: "Telarus Technology Advisor", level: 2 })).toBeVisible();
     await expect(page.getByRole("heading", { name: "How ROALLA is compensated", level: 2 })).toBeVisible();
     await expect(page.getByRole("link", { name: "Discuss Your Technology Needs" })).toHaveAttribute(

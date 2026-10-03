@@ -1,5 +1,6 @@
 import React from 'react'
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import {
   ArrowRight,
@@ -25,6 +26,11 @@ type Props = {
 const categoryIcons = [CloudCog, ShieldCheck, Bot, PhoneCall, Network, Radio] as const
 const categoryKeys = ['category1', 'category2', 'category3', 'category4', 'category5', 'category6'] as const
 const standardKeys = ['standard1', 'standard2', 'standard3', 'standard4', 'standard5', 'standard6', 'standard7', 'standard8'] as const
+const partnerOutcomes = [
+  { key: 'outcome1', image: '/images/partners/partner-outcome-access.webp', href: '#verified-access' },
+  { key: 'outcome2', image: '/images/partners/partner-outcome-evaluate.webp', href: '#evaluation-standard' },
+  { key: 'outcome3', image: '/images/partners/partner-outcome-disclose.webp', href: '#compensation' },
+] as const
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
@@ -55,13 +61,83 @@ export default async function PartnersPage({ params }: Props) {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16 lg:pb-24">
         <Breadcrumb items={[{ label: tBreadcrumb('home'), href: '/' }, { label: t('title') }]} />
 
-        <header className="max-w-4xl py-10 lg:py-14">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-dark">{t('eyebrow')}</p>
-          <h1 className="mt-3 text-4xl md:text-5xl font-serif font-extrabold text-slate-900">{t('title')}</h1>
-          <p className="mt-5 max-w-3xl text-lg leading-relaxed text-slate-600">{t('subtitle')}</p>
+        <header className="py-10 lg:py-14">
+          <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm lg:grid lg:grid-cols-[1.05fr_.95fr]">
+            <div className="flex flex-col justify-center p-7 sm:p-9 lg:p-12">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-dark">{t('eyebrow')}</p>
+              <h1 className="mt-3 text-4xl md:text-5xl font-serif font-extrabold text-slate-900">{t('title')}</h1>
+              <p className="mt-5 max-w-3xl text-lg leading-relaxed text-slate-600">{t('subtitle')}</p>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <Link href="/programs/technology-advisory" className="inline-flex items-center justify-center rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark">
+                  {t('heroPrimaryCta')}
+                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                </Link>
+                <a href="#evaluation-standard" className="inline-flex items-center justify-center rounded-lg border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-800 transition-colors hover:border-primary/50 hover:text-primary-dark">
+                  {t('heroSecondaryCta')}
+                </a>
+              </div>
+            </div>
+            <div className="relative min-h-72 lg:min-h-full">
+              <Image
+                src="/images/partners/partner-outcome-access.webp"
+                alt={t('outcome1Alt')}
+                fill
+                priority
+                sizes="(min-width: 1024px) 45vw, 100vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/35 via-transparent to-transparent" aria-hidden />
+              <div className="absolute bottom-5 left-5 right-5 rounded-xl border border-white/20 bg-slate-950/80 p-4 text-sm font-medium leading-6 text-white backdrop-blur-sm">
+                {t('outcomesInsightTitle')} <span className="font-normal text-slate-200">{t('outcomesInsightBody')}</span>
+              </div>
+            </div>
+          </div>
         </header>
 
-        <section className="rounded-2xl border border-primary/25 bg-white p-6 lg:p-9" aria-labelledby="telarus-heading">
+        <section id="partner-outcomes" className="mb-10 scroll-mt-28 overflow-hidden rounded-3xl bg-slate-950 px-5 py-8 text-white shadow-xl sm:px-7 lg:px-9 lg:py-10" aria-labelledby="partner-outcomes-heading">
+          <div className="max-w-3xl">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-gold">{t('outcomesEyebrow')}</p>
+            <h2 id="partner-outcomes-heading" className="mt-3 text-3xl font-serif font-bold text-white lg:text-4xl">{t('outcomesTitle')}</h2>
+            <p className="mt-4 text-base leading-7 text-slate-300">{t('outcomesDescription')}</p>
+          </div>
+          <div className="mt-8 grid gap-5 lg:grid-cols-3">
+            {partnerOutcomes.map((outcome) => (
+              <article key={outcome.key} className="group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06]">
+                <div className="relative aspect-[3/2] overflow-hidden">
+                  <Image
+                    src={outcome.image}
+                    alt={t(`${outcome.key}Alt`)}
+                    fill
+                    sizes="(min-width: 1024px) 360px, (min-width: 768px) 50vw, 100vw"
+                    className="object-cover transition duration-500 group-hover:scale-[1.03]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/45 to-transparent" aria-hidden />
+                </div>
+                <div className="p-5">
+                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-brand-gold">{t(`${outcome.key}Label`)}</p>
+                  <h3 className="mt-2 text-xl font-serif font-bold text-white">{t(`${outcome.key}Title`)}</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-300">{t(`${outcome.key}Body`)}</p>
+                  <a href={outcome.href} className="mt-5 inline-flex items-center text-sm font-semibold text-white hover:text-brand-gold">
+                    {t(`${outcome.key}Link`)}
+                    <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+          <div className="mt-7 flex flex-col gap-5 rounded-2xl border border-white/10 bg-white/[0.05] p-5 sm:flex-row sm:items-center sm:justify-between lg:p-6">
+            <div className="max-w-3xl">
+              <h3 className="text-xl font-serif font-bold text-white">{t('outcomesInsightTitle')}</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-300">{t('outcomesInsightBody')}</p>
+            </div>
+            <Link href={{ pathname: '/contact', query: { intent: 'consulting', focus: 'technology' } }} className="inline-flex shrink-0 items-center justify-center rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark">
+              {t('outcomesCta')}
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+        </section>
+
+        <section id="verified-access" className="scroll-mt-28 rounded-2xl border border-primary/25 bg-white p-6 lg:p-9" aria-labelledby="telarus-heading">
           <div className="flex flex-col gap-7 lg:flex-row lg:items-start lg:justify-between">
             <div className="max-w-3xl">
               <div className="flex items-center gap-3">
@@ -122,7 +198,7 @@ export default async function PartnersPage({ params }: Props) {
         </section>
 
         <div className="mt-10 grid gap-8 lg:grid-cols-2">
-          <section className="rounded-2xl border border-slate-200 bg-slate-50 p-6 lg:p-8">
+          <section id="evaluation-standard" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-slate-50 p-6 lg:p-8">
             <h2 className="text-2xl font-serif font-bold text-slate-900">{t('standardTitle')}</h2>
             <p className="mt-3 text-sm leading-relaxed text-slate-600">{t('standardIntro')}</p>
             <ul className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -135,7 +211,7 @@ export default async function PartnersPage({ params }: Props) {
             </ul>
           </section>
 
-          <section className="rounded-2xl border border-amber-200 bg-amber-50 p-6 lg:p-8">
+          <section id="compensation" className="scroll-mt-28 rounded-2xl border border-amber-200 bg-amber-50 p-6 lg:p-8">
             <h2 className="text-2xl font-serif font-bold text-amber-950">{t('compensationTitle')}</h2>
             <p className="mt-4 leading-relaxed text-amber-950/85">{t('compensationBody')}</p>
             <p className="mt-4 text-sm leading-relaxed text-amber-950/80">{t('compensationCommitment')}</p>

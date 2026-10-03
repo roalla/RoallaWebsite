@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
+import Image from "next/image";
 import Reveal from "./motion/Reveal";
 import { useLocale, useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -214,6 +215,36 @@ const Services = () => {
     { value: t("stat3Value"), label: t("stat3Label"), icon: Users },
   ];
 
+  const outcomes = [
+    {
+      label: t("outcome1Label"),
+      title: t("outcome1Title"),
+      body: t("outcome1Body"),
+      link: t("outcome1Link"),
+      alt: t("outcome1Alt"),
+      href: "#strategy-roadmaps",
+      image: "/images/programs/business-outcome-focus.webp",
+    },
+    {
+      label: t("outcome2Label"),
+      title: t("outcome2Title"),
+      body: t("outcome2Body"),
+      link: t("outcome2Link"),
+      alt: t("outcome2Alt"),
+      href: "#operations",
+      image: "/images/programs/business-outcome-improve.webp",
+    },
+    {
+      label: t("outcome3Label"),
+      title: t("outcome3Title"),
+      body: t("outcome3Body"),
+      link: t("outcome3Link"),
+      alt: t("outcome3Alt"),
+      href: "#leadership",
+      image: "/images/programs/business-outcome-lead.webp",
+    },
+  ];
+
   return (
     <section id="services" className="section-padding relative bg-slate-50/60">
       <ServicePageHero
@@ -250,9 +281,70 @@ const Services = () => {
           ].map((tool) => <a key={tool.href} href={`/${locale}${tool.href}`} className="group rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-primary/40"><p className="font-serif text-lg font-bold text-slate-950">{tool.title}</p><p className="mt-2 text-sm leading-6 text-slate-600">{tool.body}</p><span className="mt-4 inline-flex items-center text-sm font-semibold text-primary-dark">{french ? "Ouvrir l’outil" : "Open the tool"}<ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" /></span></a>)}
         </Reveal>
 
+        <Reveal
+          as="section"
+          id="business-outcomes"
+          className="mb-10 scroll-mt-28 overflow-hidden rounded-3xl bg-slate-950 px-5 py-8 text-white shadow-xl sm:px-7 lg:px-9 lg:py-10"
+        >
+          <div className="max-w-3xl">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-gold">
+              {t("outcomesEyebrow")}
+            </p>
+            <h2 className="mt-3 text-3xl font-serif font-bold text-white lg:text-4xl">
+              {t("outcomesTitle")}
+            </h2>
+            <p className="mt-4 text-base leading-7 text-slate-300">
+              {t("outcomesDescription")}
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-5 lg:grid-cols-3">
+            {outcomes.map((outcome) => (
+              <article key={outcome.href} className="group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06]">
+                <div className="relative aspect-[3/2] overflow-hidden">
+                  <Image
+                    src={outcome.image}
+                    alt={outcome.alt}
+                    fill
+                    sizes="(min-width: 1024px) 360px, (min-width: 768px) 50vw, 100vw"
+                    className="object-cover transition duration-500 group-hover:scale-[1.03]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/45 to-transparent" aria-hidden />
+                </div>
+                <div className="p-5">
+                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-brand-gold">{outcome.label}</p>
+                  <h3 className="mt-2 text-xl font-serif font-bold text-white">{outcome.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-300">{outcome.body}</p>
+                  <a href={outcome.href} className="mt-5 inline-flex items-center text-sm font-semibold text-white hover:text-brand-gold">
+                    {outcome.link}
+                    <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-7 flex flex-col gap-5 rounded-2xl border border-white/10 bg-white/[0.05] p-5 sm:flex-row sm:items-center sm:justify-between lg:p-6">
+            <div className="max-w-3xl">
+              <h3 className="text-xl font-serif font-bold text-white">{t("outcomesInsightTitle")}</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-300">{t("outcomesInsightBody")}</p>
+            </div>
+            <Link
+              href={{ pathname: "/contact", query: { intent: "consulting", focus: "strategy" } }}
+              className="inline-flex shrink-0 items-center justify-center rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
+            >
+              {t("outcomesCta")}
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+        </Reveal>
+
         <ServiceAnchorNav
           label={t("jumpNavLabel")}
-          items={services.map((s) => ({ id: s.anchor, label: s.title }))}
+          items={[
+            { id: "business-outcomes", label: t("outcomesEyebrow") },
+            ...services.map((s) => ({ id: s.anchor, label: s.title })),
+          ]}
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">

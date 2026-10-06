@@ -18,6 +18,7 @@ const companyLinks = [
 
 const exploreLinks = [
   { nameKey: 'technologyAdvisory' as const, href: '/programs/technology-advisory' as const },
+  { nameKey: 'agentic' as const, href: '/services/agentic' as const },
   { nameKey: 'digitalEnablement' as const, href: '/services/digital' as const },
   { nameKey: 'digitalVisibility' as const, href: '/services/digital-visibility-optimization' as const },
   { nameKey: 'partners' as const, href: '/partners' as const },

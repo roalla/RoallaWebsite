@@ -37,13 +37,21 @@ export default function HomeWhatWeDo() {
           ))}
         </div>
 
-        <Reveal className="mt-8 grid gap-4 md:grid-cols-2">
+        <Reveal className="mt-8 grid gap-4 md:grid-cols-3">
           <Link href="/programs/business-enablement" className="group rounded-2xl border border-slate-200 bg-white p-5 transition-all hover:border-primary/50 hover:shadow-sm lg:p-6">
             <p className="text-xs font-bold uppercase tracking-wider text-primary-dark">{t('businessEyebrow')}</p>
             <h3 className="mt-2 font-serif text-xl font-bold text-slate-900">{t('businessTitle')}</h3>
             <p className="mt-2 text-sm leading-relaxed text-slate-600">{t('businessDescription')}</p>
             <span className="mt-4 inline-flex items-center text-sm font-semibold text-primary-dark">
               {t('businessCta')}<ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+            </span>
+          </Link>
+          <Link href="/services/agentic" className="group rounded-2xl border border-primary/25 bg-slate-950 p-5 text-white transition-all hover:border-primary/60 hover:shadow-sm lg:p-6">
+            <p className="text-xs font-bold uppercase tracking-wider text-cyan-300">{t('agenticEyebrow')}</p>
+            <h3 className="mt-2 font-serif text-xl font-bold text-white">{t('agenticTitle')}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-slate-300">{t('agenticDescription')}</p>
+            <span className="mt-4 inline-flex items-center text-sm font-semibold text-cyan-300">
+              {t('agenticCta')}<ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
             </span>
           </Link>
           <Link href="/services/digital-visibility-optimization" className="group rounded-2xl border border-slate-200 bg-white p-5 transition-all hover:border-primary/50 hover:shadow-sm lg:p-6">

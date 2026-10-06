@@ -435,6 +435,7 @@ const Header = ({
 
   type DigitalNavHref =
     | "/services/digital"
+    | "/services/agentic"
     | "/programs/technology-advisory"
     | "/services/digital-visibility-optimization"
     | "/partners";
@@ -452,11 +453,13 @@ const Header = ({
   const digitalLinks: {
     nameKey:
       | "digitalOverview"
+      | "agentic"
       | "technologyAdvisory"
       | "digitalVisibility"
       | "technologyPartners";
     descKey:
       | "digitalOverviewDesc"
+      | "agenticDesc"
       | "technologyAdvisoryDesc"
       | "digitalVisibilityDesc"
       | "technologyPartnersDesc";
@@ -468,6 +471,12 @@ const Header = ({
       descKey: "technologyAdvisoryDesc",
       href: "/programs/technology-advisory",
       icon: Network,
+    },
+    {
+      nameKey: "agentic",
+      descKey: "agenticDesc",
+      href: "/services/agentic",
+      icon: Workflow,
     },
     {
       nameKey: "digitalOverview",
@@ -554,6 +563,7 @@ const Header = ({
 
   const isDigitalActive =
     pathname === "/services/digital" ||
+    pathname === "/services/agentic" ||
     pathname === "/programs/technology-advisory" ||
     pathname === "/services/digital-visibility-optimization" ||
     pathname === "/partners" ||

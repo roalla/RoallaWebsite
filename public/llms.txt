@@ -32,6 +32,7 @@ ROALLA assesses, builds, optimizes, and evolves digital assets and facilitates h
 - [Digital visibility optimization](https://www.roalla.com/en/services/digital-visibility-optimization): Search and answer visibility
 - [Applications and digital products](https://www.roalla.com/en/services/digital-products): Apps and digital products
 - [Workflow automation and integration](https://www.roalla.com/en/services/automation): Workflow automation and integration
+- [ROALLA Agentic](https://www.roalla.com/en/services/agentic): Agentic AI consulting, AI agent development, orchestration, integrations, governance, and human approvals for business workflows
 - [Managed digital optimization](https://www.roalla.com/en/services/managed-optimization): Ongoing optimization
 - [Business website design](https://www.roalla.com/en/website-design): Business website design
 - [Website packages](https://www.roalla.com/en/website-package): Launch from $999, Canada
@@ -92,5 +93,6 @@ ROALLA assesses, builds, optimizes, and evolves digital assets and facilitates h
 
 - [Home (français)](https://www.roalla.com/fr): French homepage
 - [Contact (français)](https://www.roalla.com/fr/contact): French contact page
+- [ROALLA Agentic (français)](https://www.roalla.com/fr/services/agentic): Conseil en IA agentique et développement d’agents IA
 - [Ateliers (français)](https://www.roalla.com/fr/programs/workshops): French workshops index
 - [Focus Circle (français)](https://www.roalla.com/fr/programs/workshops/focus-circle): Example French workshop path

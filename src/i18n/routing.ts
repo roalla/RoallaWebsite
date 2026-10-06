@@ -8,6 +8,7 @@ export const routing = defineRouting({
     "/": "/",
     "/services": "/services",
     "/services/digital": "/services/digital",
+    "/services/agentic": "/services/agentic",
     "/services/digital-visibility-optimization":
       "/services/digital-visibility-optimization",
     "/services/digital-products": "/services/digital-products",

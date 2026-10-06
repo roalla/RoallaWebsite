@@ -58,6 +58,11 @@ export const organizationJsonLd = {
     "workflow automation",
     "system integration",
     "AI workflow support",
+    "agentic AI consulting",
+    "AI agents for business",
+    "AI agent development",
+    "AI orchestration",
+    "human-in-the-loop AI",
     "digital events",
     "business workshops",
     "Focus Circle workshop",
@@ -123,6 +128,10 @@ export function homeServiceCatalogJsonLd(locale: string) {
           "Des flux connectés qui réduisent le travail manuel et améliorent les opérations.",
         ],
         [
+          "ROALLA Agentic",
+          "Des agents IA gouvernés, des flux agentiques, l’orchestration, les intégrations et les approbations humaines pour des résultats d’affaires concrets.",
+        ],
+        [
           "Optimisation de la visibilité numérique",
           "Des améliorations techniques, de contenu et de confiance qui soutiennent la découvrabilité.",
         ],
@@ -143,6 +152,10 @@ export function homeServiceCatalogJsonLd(locale: string) {
         [
           "Automation and Integration",
           "Connected workflows that reduce manual work and improve operations.",
+        ],
+        [
+          "ROALLA Agentic",
+          "Governed AI agents, agentic workflows, orchestration, integrations, and human approvals for practical business outcomes.",
         ],
         [
           "Digital Visibility Optimization",

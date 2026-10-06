@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import {
   ArrowRight,
@@ -51,6 +51,7 @@ const fitKeys = ["technologyFit1", "technologyFit2", "technologyFit3"] as const;
 const technologyStepKeys = ["technologyStep1", "technologyStep2", "technologyStep3", "technologyStep4"] as const;
 
 const TechnologyAdvisory = () => {
+  const locale = useLocale();
   const t = useTranslations("services");
   const tCommon = useTranslations("common");
   const tFramework = useTranslations("technologyFramework");
@@ -215,6 +216,21 @@ const TechnologyAdvisory = () => {
       </header>
 
       <div className="max-w-6xl mx-auto">
+        <Reveal className="mb-8 rounded-2xl border border-primary/25 bg-slate-950 p-6 text-white shadow-sm lg:flex lg:items-center lg:justify-between lg:gap-8 lg:p-8">
+          <div className="max-w-3xl">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-cyan-300">ROALLA Agentic</p>
+            <h2 className="mt-2 text-2xl font-serif font-bold text-white">
+              {locale === "fr" ? "Lorsque la bonne solution doit aussi agir" : "When the right solution also needs to act"}
+            </h2>
+            <p className="mt-3 text-sm leading-6 text-slate-300">
+              {locale === "fr" ? "Après avoir clarifié et recherché la technologie, ROALLA Agentic définit comment des agents IA peuvent coordonner les systèmes, exécuter des flux autorisés et solliciter une personne au bon moment." : "After the technology is clarified and sourced, ROALLA Agentic defines how AI agents can coordinate systems, execute approved workflows, and involve a person at the right moment."}
+            </p>
+          </div>
+          <Link href="/services/agentic" className="mt-5 inline-flex shrink-0 items-center text-sm font-semibold text-cyan-300 hover:text-white hover:underline lg:mt-0">
+            {locale === "fr" ? "Explorer ROALLA Agentic" : "Explore ROALLA Agentic"}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+          </Link>
+        </Reveal>
+
         <Reveal id="technology-deliverables" className="scroll-mt-28 rounded-2xl border border-primary/25 bg-white p-6 shadow-sm lg:p-8">
           <ServiceSectionHeading eyebrow={t("technologyDeliverablesEyebrow")} title={t("technologyDeliverablesTitle")} description={t("technologyDeliverablesDescription")} />
           <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">

@@ -256,34 +256,34 @@ const DigitalBuilds = () => {
 
   const lifecycle = [
     {
-      key: "assess",
-      href: "/assessment" as const,
-      titleKey: "lifecycleAssessTitle" as const,
-      descKey: "lifecycleAssessDesc" as const,
+      key: "advise",
+      href: "/programs/technology-advisory" as const,
+      title: locale === "fr" ? "Conseiller" : "Advise",
+      description: locale === "fr" ? "Clarifier le résultat et les exigences." : "Clarify the outcome and requirements.",
     },
     {
-      key: "build",
+      key: "source",
+      href: "/programs/technology-advisory" as const,
+      title: locale === "fr" ? "Rechercher" : "Source",
+      description: locale === "fr" ? "Comparer les plateformes et fournisseurs." : "Compare platforms and providers.",
+    },
+    {
+      key: "agentic",
+      href: "/services/agentic" as const,
+      title: locale === "fr" ? "Agentique" : "Agentic",
+      description: locale === "fr" ? "Concevoir des agents qui agissent sous contrôle." : "Design agents that act under control.",
+    },
+    {
+      key: "build-connect",
       href: "/services/digital-products" as const,
-      titleKey: "lifecycleBuildTitle" as const,
-      descKey: "lifecycleBuildDesc" as const,
+      title: locale === "fr" ? "Construire / Relier" : "Build / Connect",
+      description: locale === "fr" ? "Mettre en œuvre produits et intégrations." : "Implement products and integrations.",
     },
     {
-      key: "optimize",
-      href: "/services/digital-visibility-optimization" as const,
-      titleKey: "lifecycleOptimizeTitle" as const,
-      descKey: "lifecycleOptimizeDesc" as const,
-    },
-    {
-      key: "automate",
-      href: "/services/automation" as const,
-      titleKey: "lifecycleAutomateTitle" as const,
-      descKey: "lifecycleAutomateDesc" as const,
-    },
-    {
-      key: "evolve",
+      key: "improve",
       href: "/services/managed-optimization" as const,
-      titleKey: "lifecycleEvolveTitle" as const,
-      descKey: "lifecycleEvolveDesc" as const,
+      title: locale === "fr" ? "Améliorer" : "Improve",
+      description: locale === "fr" ? "Mesurer, gouverner et faire évoluer." : "Measure, govern, and evolve.",
     },
   ];
 
@@ -361,6 +361,17 @@ const DigitalBuilds = () => {
           <Link href="/programs/technology-advisory" className="mt-5 inline-flex shrink-0 items-center text-sm font-semibold text-primary-dark hover:underline lg:mt-0">
             {t("advisoryBridgeLink")}
             <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
+          </Link>
+        </Reveal>
+
+        <Reveal className="mb-8 rounded-2xl border border-primary/25 bg-slate-950 p-6 text-white lg:flex lg:items-center lg:justify-between lg:gap-8 lg:p-8">
+          <div className="max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan-300">ROALLA Agentic</p>
+            <h2 className="mt-2 text-2xl font-serif font-bold text-white">{locale === "fr" ? "Entre le choix technologique et la mise en œuvre" : "The bridge between technology decisions and implementation"}</h2>
+            <p className="mt-3 text-sm leading-relaxed text-slate-300">{locale === "fr" ? "Concevez des agents IA qui comprennent le contexte, coordonnent vos outils et agissent dans des limites approuvées—avec les bonnes personnes aux points de décision." : "Design AI agents that understand context, coordinate your tools, and act within approved boundaries—with the right people at the decision points."}</p>
+          </div>
+          <Link href="/services/agentic" className="mt-5 inline-flex shrink-0 items-center text-sm font-semibold text-cyan-300 hover:text-white hover:underline lg:mt-0">
+            {locale === "fr" ? "Explorer ROALLA Agentic" : "Explore ROALLA Agentic"}<ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
           </Link>
         </Reveal>
 
@@ -471,10 +482,10 @@ const DigitalBuilds = () => {
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <h3 className="mt-2 font-serif font-bold text-slate-900 group-hover:text-primary-dark">
-                    {t(stage.titleKey)}
+                    {stage.title}
                   </h3>
                   <p className="mt-1 text-xs text-slate-600">
-                    {t(stage.descKey)}
+                    {stage.description}
                   </p>
                 </Link>
               </li>

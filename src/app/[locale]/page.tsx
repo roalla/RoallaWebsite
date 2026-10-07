@@ -6,6 +6,7 @@ import HomeWhatWeDo from '@/components/home/HomeWhatWeDo'
 import HomeBusinessOutcomes from '@/components/home/HomeBusinessOutcomes'
 import HomeOurWork from '@/components/home/HomeOurWork'
 import HomeTestimonials from '@/components/home/HomeTestimonials'
+import HomeExecutiveInsights from '@/components/home/HomeExecutiveInsights'
 import HomeFeaturedInsight from '@/components/home/HomeFeaturedInsight'
 import HomeCTA from '@/components/home/HomeCTA'
 import HomeClosing from '@/components/home/HomeClosing'
@@ -52,6 +53,7 @@ export default async function Home({ params }: Props) {
       </div>
       <HomeWhatWeDo />
       <HomeTestimonials />
+      <HomeExecutiveInsights />
       <HomeFeaturedInsight />
       <HomeCTA />
       <HomeClosing />

@@ -37,7 +37,9 @@ export type AnalyticsEventName =
   | "executive_guide_cta_click"
   | "executive_guide_request"
   | "executive_guide_download"
-  | "executive_conversation_click";
+  | "executive_conversation_click"
+  | "executive_insights_nav_click"
+  | "executive_insights_home_click";
 
 export function trackAnalyticsEvent(
   eventName: AnalyticsEventName,

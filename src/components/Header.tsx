@@ -30,6 +30,7 @@ import { Link, usePathname } from "@/i18n/navigation";
 import ScheduleButton from "./ScheduleButton";
 import { CLIENT_PORTAL_URL } from "@/lib/site";
 import { HEADER_INSIGHT_SLUGS, headerInsightsForGroup, type InsightSlug } from "@/lib/insights";
+import { trackAnalyticsEvent } from "@/lib/analytics";
 
 /** Canadian flag: red bands, white centre, red maple leaf (simplified) */
 function CanadianFlagIcon({ className }: { className?: string }) {
@@ -581,15 +582,10 @@ const Header = ({
     pathname === "/programs/workshops/first-offer";
 
   const otherResourceLinks: {
-    nameKey: "resourcesExecutiveGuides" | "resourcesUseCases" | "resourcesFaq" | "resourcesAssessment";
-    descKey: "resourcesExecutiveGuidesDesc" | "resourcesUseCasesDesc" | "resourcesFaqDesc" | "resourcesAssessmentDesc";
-    href: "/executive-insights" | "/use-cases" | "/faq" | "/assessment";
+    nameKey: "resourcesUseCases" | "resourcesFaq" | "resourcesAssessment";
+    descKey: "resourcesUseCasesDesc" | "resourcesFaqDesc" | "resourcesAssessmentDesc";
+    href: "/use-cases" | "/faq" | "/assessment";
   }[] = [
-    {
-      nameKey: "resourcesExecutiveGuides",
-      descKey: "resourcesExecutiveGuidesDesc",
-      href: "/executive-insights",
-    },
     {
       nameKey: "resourcesUseCases",
       descKey: "resourcesUseCasesDesc",
@@ -993,6 +989,37 @@ const Header = ({
                       {t("resourcesMenuLabel")}
                     </p>
                   </div>
+                  <Link
+                    href="/executive-insights"
+                    role="menuitem"
+                    aria-current={pathname === "/executive-insights" ? "page" : undefined}
+                    onClick={() => {
+                      trackAnalyticsEvent("executive_insights_nav_click", { location: "desktop_header" });
+                      setResourcesDropdownOpen(false);
+                      closeMenu();
+                    }}
+                    className={`group mx-2 mt-2 grid gap-4 rounded-xl border p-5 transition-colors md:grid-cols-[1fr_auto] md:items-center ${
+                      pathname === "/executive-insights"
+                        ? "border-primary/50 bg-primary/15"
+                        : "border-primary/25 bg-gradient-to-r from-primary/15 via-white/[0.04] to-white/[0.02] hover:border-primary/50 hover:bg-primary/20"
+                    }`}
+                  >
+                    <span className="min-w-0">
+                      <span className="block text-[10px] font-bold uppercase tracking-[.2em] text-primary">
+                        {t("resourcesExecutiveInsightsEyebrow")}
+                      </span>
+                      <span className="mt-1.5 block text-lg font-semibold text-white">
+                        {t("resourcesExecutiveGuides")}
+                      </span>
+                      <span className="mt-1 block max-w-2xl text-xs leading-5 text-slate-300">
+                        {t("resourcesExecutiveGuidesDesc")}
+                      </span>
+                    </span>
+                    <span className="inline-flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-primary">
+                      {t("resourcesExecutiveGuidesCta")}
+                      <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
+                    </span>
+                  </Link>
                   <div className="grid gap-1 p-2 md:grid-cols-3">
                     {(
                       [
@@ -1004,7 +1031,7 @@ const Header = ({
                         <p className="px-2.5 pt-2 pb-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
                           {t(labelKey)}
                         </p>
-                        {headerInsightsForGroup(group, featuredInsights).map((slug) => (
+                        {headerInsightsForGroup(group, featuredInsights).slice(0, 2).map((slug) => (
                           <ResourceArticleLink
                             key={slug}
                             slug={slug}
@@ -1378,6 +1405,32 @@ const Header = ({
                     <p className="px-5 pt-2 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
                       {t("resourcesMenuLabel")}
                     </p>
+                    <Link
+                      href="/executive-insights"
+                      aria-current={pathname === "/executive-insights" ? "page" : undefined}
+                      className={`mx-3 mt-3 block rounded-xl border p-4 ${
+                        pathname === "/executive-insights"
+                          ? "border-primary/50 bg-primary/15"
+                          : "border-primary/25 bg-gradient-to-br from-primary/15 to-white/[0.03]"
+                      }`}
+                      onClick={(e) => {
+                        trackAnalyticsEvent("executive_insights_nav_click", { location: "mobile_header" });
+                        handleMobileNavClick(e, "/executive-insights");
+                      }}
+                    >
+                      <span className="block text-[10px] font-bold uppercase tracking-[.18em] text-primary">
+                        {t("resourcesExecutiveInsightsEyebrow")}
+                      </span>
+                      <span className="mt-1.5 block text-lg font-semibold text-white">
+                        {t("resourcesExecutiveGuides")}
+                      </span>
+                      <span className="mt-1 block text-xs leading-5 text-slate-400">
+                        {t("resourcesExecutiveGuidesDesc")}
+                      </span>
+                      <span className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-primary">
+                        {t("resourcesExecutiveGuidesCta")} <span aria-hidden>→</span>
+                      </span>
+                    </Link>
                     {(
                       [
                         ["digital", "resourcesDigital"],
@@ -1388,7 +1441,7 @@ const Header = ({
                         <p className="px-5 pt-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
                           {t(labelKey)}
                         </p>
-                        {headerInsightsForGroup(group, featuredInsights).map((slug) => (
+                        {headerInsightsForGroup(group, featuredInsights).slice(0, 2).map((slug) => (
                           <Link
                             key={slug}
                             href={{ pathname: "/insights/[slug]", params: { slug } }}
@@ -1404,13 +1457,8 @@ const Header = ({
                               handleMobileNavClick(e, `/insights/${slug}`)
                             }
                           >
-                            <span>
-                              <span className="block text-base font-medium">
-                                {tInsights(`${slug}.title`)}
-                              </span>
-                              <span className="block text-xs text-slate-500 mt-0.5 line-clamp-2">
-                                {tInsights(`${slug}.summary`)}
-                              </span>
+                            <span className="block text-sm font-medium leading-snug">
+                              {tInsights(`${slug}.title`)}
                             </span>
                           </Link>
                         ))}

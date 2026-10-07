@@ -129,7 +129,7 @@ export default async function InsightsIndexPage({ params }: Props) {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-light">
               {locale === 'fr' ? 'Perspectives pour dirigeants' : 'ROALLA Executive Insights'}
             </p>
-            <h2 id="executive-guides-title" className="mt-4 max-w-3xl font-serif text-3xl font-normal leading-tight">
+            <h2 id="executive-guides-title" className="mt-4 max-w-3xl font-serif text-3xl font-normal leading-tight text-white">
               {locale === 'fr' ? 'Des guides décisionnels pour les enjeux qui façonnent la suite.' : 'Decision guides for the issues that shape what comes next.'}
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">

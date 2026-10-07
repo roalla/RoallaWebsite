@@ -47,7 +47,9 @@ const content = {
     consent: "Send me occasional ROALLA executive insights. I can unsubscribe at any time.",
     privacy: "ROALLA will use your information to provide the requested guide and respond to your inquiry. Marketing updates are optional.",
     submit: "Get the guide", sending: "Preparing your guide…", success: "Your guide is ready.",
-    successBody: "Use the secure link below to download it. The link expires in 48 hours.", download: "Download the guide", close: "Return to insights",
+    successBody: "Use the secure link below to download it. The link expires in 48 hours.",
+    emailUnavailable: "The confirmation email could not be sent. Use the download button on this page.",
+    download: "Download the guide", close: "Return to insights",
     error: "We could not prepare the guide right now. Please try again or contact sales@roalla.com.",
     englishNote: "The complete PDF guide is currently available in English.",
   },
@@ -69,7 +71,9 @@ const content = {
     formTitle: "Obtenir le guide.", formIntro: "Recevez le guide sélectionné et son cadre de préparation pour dirigeants.", firstName: "Prénom", lastName: "Nom", email: "Courriel professionnel", company: "Entreprise", role: "Rôle",
     priority: "Sur quelle décision ou priorité travaillez-vous?", consent: "Envoyez-moi occasionnellement les perspectives de ROALLA. Je peux me désabonner en tout temps.",
     privacy: "ROALLA utilisera vos renseignements pour fournir le guide demandé et répondre à votre demande. Les communications marketing sont facultatives.", submit: "Obtenir le guide", sending: "Préparation du guide…", success: "Votre guide est prêt.",
-    successBody: "Utilisez le lien sécurisé ci-dessous. Il expire dans 48 heures.", download: "Télécharger le guide", close: "Retourner aux perspectives", error: "Nous ne pouvons pas préparer le guide maintenant. Réessayez ou écrivez à sales@roalla.com.", englishNote: "Le guide PDF complet est actuellement offert en anglais.",
+    successBody: "Utilisez le lien sécurisé ci-dessous. Il expire dans 48 heures.",
+    emailUnavailable: "Le courriel de confirmation n’a pas pu être envoyé. Utilisez le bouton de téléchargement sur cette page.",
+    download: "Télécharger le guide", close: "Retourner aux perspectives", error: "Nous ne pouvons pas préparer le guide maintenant. Réessayez ou écrivez à sales@roalla.com.", englishNote: "Le guide PDF complet est actuellement offert en anglais.",
   },
 } as const;
 
@@ -80,11 +84,12 @@ export default function ExecutiveInsightsLibrary({ locale, guides }: Props) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [downloadUrl, setDownloadUrl] = useState("");
+  const [emailSent, setEmailSent] = useState(true);
   const featured = guides.find((guide) => guide.featured) ?? guides[0];
   const visible = useMemo(() => filter === "all" ? guides : guides.filter((guide) => guide.category === filter), [filter, guides]);
 
   function openGuide(guide: ExecutiveGuide) {
-    setSelected(guide); setError(""); setDownloadUrl("");
+    setSelected(guide); setError(""); setDownloadUrl(""); setEmailSent(true);
     trackAnalyticsEvent("executive_guide_cta_click", { guide: guide.slug });
   }
 
@@ -96,9 +101,10 @@ export default function ExecutiveInsightsLibrary({ locale, guides }: Props) {
     const payload = Object.fromEntries(new FormData(form).entries());
     try {
       const response = await fetch("/api/executive-guides/request", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...payload, guide: selected.slug, locale, updates: new FormData(form).get("updates") === "on", sourcePage: window.location.href }) });
-      const result = await response.json() as { downloadUrl?: string; error?: string };
+      const result = await response.json() as { downloadUrl?: string; emailSent?: boolean; error?: string };
       if (!response.ok || !result.downloadUrl) throw new Error(result.error || c.error);
       setDownloadUrl(result.downloadUrl);
+      setEmailSent(result.emailSent !== false);
       trackAnalyticsEvent("executive_guide_request", { guide: selected.slug, locale });
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : c.error);
@@ -140,7 +146,7 @@ export default function ExecutiveInsightsLibrary({ locale, guides }: Props) {
       <div className="fixed inset-0 bg-black/75 backdrop-blur-sm" aria-hidden="true" />
       <div className="fixed inset-0 overflow-y-auto p-4 sm:p-8"><div className="flex min-h-full items-center justify-center"><DialogPanel className="relative w-full max-w-2xl bg-[#f4f3ef] p-6 shadow-2xl sm:p-10"><button type="button" onClick={() => setSelected(null)} className="absolute right-4 top-4 grid h-10 w-10 place-items-center text-slate-700" aria-label="Close"><X className="h-5 w-5" /></button><div className="mb-7 grid h-14 w-14 place-items-center bg-slate-950"><Image src="/logo.svg" alt="" width={36} height={36} /></div>
         {!downloadUrl ? <><p className="text-xs font-bold uppercase tracking-[.2em] text-primary-dark">{c.eyebrow}</p><DialogTitle className="mt-5 font-serif text-4xl font-normal tracking-[-.03em] text-slate-950">{c.formTitle}</DialogTitle><p className="mt-4 leading-7 text-slate-600">{c.formIntro} <strong>{selected?.[locale].title}</strong>.</p>{locale === "fr" ? <p className="mt-2 text-sm font-medium text-slate-500">{c.englishNote}</p> : null}
-          <form onSubmit={submit} className="mt-8 grid gap-4"><input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" /><div className="grid gap-4 sm:grid-cols-2"><Field name="firstName" label={c.firstName} required /><Field name="lastName" label={c.lastName} required /></div><Field name="email" label={c.email} type="email" required /><div className="grid gap-4 sm:grid-cols-2"><Field name="company" label={c.company} required /><Field name="role" label={c.role} required /></div><label className="grid gap-2 text-xs font-bold text-slate-700">{c.priority}<textarea name="priority" rows={3} maxLength={1000} className="border border-slate-300 bg-white px-3 py-3 text-base font-normal text-slate-950 outline-none focus:border-primary" /></label><label className="flex items-start gap-3 text-xs leading-5 text-slate-600"><input type="checkbox" name="updates" className="mt-1 h-4 w-4 accent-primary" />{c.consent}</label>{error ? <p role="alert" className="text-sm font-semibold text-red-700">{error}</p> : null}<button type="submit" disabled={submitting} className="mt-1 inline-flex min-h-12 items-center justify-center gap-6 bg-slate-950 px-6 text-sm font-bold text-white disabled:opacity-60">{submitting ? c.sending : c.submit}<ArrowRight className="h-4 w-4" /></button><p className="text-[11px] leading-5 text-slate-500">{c.privacy}</p></form></> : <div className="py-8 text-center"><span className="mx-auto grid h-16 w-16 place-items-center bg-primary text-slate-950"><Check className="h-7 w-7" /></span><DialogTitle className="mt-6 font-serif text-4xl font-normal text-slate-950">{c.success}</DialogTitle><p className="mx-auto mt-4 max-w-md leading-7 text-slate-600">{c.successBody}</p><a href={downloadUrl} onClick={() => trackAnalyticsEvent("executive_guide_download", { guide: selected?.slug })} className="mt-8 inline-flex min-h-12 items-center gap-6 bg-slate-950 px-6 text-sm font-bold text-white">{c.download}<ArrowDownRight className="h-4 w-4" /></a><button type="button" onClick={() => setSelected(null)} className="mx-auto mt-5 block text-sm font-semibold text-primary-dark hover:underline">{c.close}</button></div>}
+          <form onSubmit={submit} className="mt-8 grid gap-4"><input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" /><div className="grid gap-4 sm:grid-cols-2"><Field name="firstName" label={c.firstName} required /><Field name="lastName" label={c.lastName} required /></div><Field name="email" label={c.email} type="email" required /><div className="grid gap-4 sm:grid-cols-2"><Field name="company" label={c.company} required /><Field name="role" label={c.role} required /></div><label className="grid gap-2 text-xs font-bold text-slate-700">{c.priority}<textarea name="priority" rows={3} maxLength={1000} className="border border-slate-300 bg-white px-3 py-3 text-base font-normal text-slate-950 outline-none focus:border-primary" /></label><label className="flex items-start gap-3 text-xs leading-5 text-slate-600"><input type="checkbox" name="updates" className="mt-1 h-4 w-4 accent-primary" />{c.consent}</label>{error ? <p role="alert" className="text-sm font-semibold text-red-700">{error}</p> : null}<button type="submit" disabled={submitting} className="mt-1 inline-flex min-h-12 items-center justify-center gap-6 bg-slate-950 px-6 text-sm font-bold text-white disabled:opacity-60">{submitting ? c.sending : c.submit}<ArrowRight className="h-4 w-4" /></button><p className="text-[11px] leading-5 text-slate-500">{c.privacy}</p></form></> : <div className="py-8 text-center"><span className="mx-auto grid h-16 w-16 place-items-center bg-primary text-slate-950"><Check className="h-7 w-7" /></span><DialogTitle className="mt-6 font-serif text-4xl font-normal text-slate-950">{c.success}</DialogTitle><p className="mx-auto mt-4 max-w-md leading-7 text-slate-600">{c.successBody}</p>{emailSent ? null : <p className="mx-auto mt-3 max-w-md text-sm font-semibold leading-6 text-amber-800">{c.emailUnavailable}</p>}<a href={downloadUrl} onClick={() => trackAnalyticsEvent("executive_guide_download", { guide: selected?.slug })} className="mt-8 inline-flex min-h-12 items-center gap-6 bg-slate-950 px-6 text-sm font-bold text-white">{c.download}<ArrowDownRight className="h-4 w-4" /></a><button type="button" onClick={() => setSelected(null)} className="mx-auto mt-5 block text-sm font-semibold text-primary-dark hover:underline">{c.close}</button></div>}
       </DialogPanel></div></div>
     </Dialog>
   </>;

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createExecutiveGuideDownload } from "@/lib/executive-guide-files.server";
 import { findExecutiveGuide } from "@/lib/executive-guides";
+import { publicSiteOrigin } from "@/lib/public-origin";
 import { inquiryEmailButton, inquiryEmailParagraph, inquiryEmailPlainFooter, renderInquiryEmail, INQUIRY_EMAIL_CUSTOMER_NOTE, INQUIRY_EMAIL_INTERNAL_NOTE } from "@/lib/inquiry-email";
 import { hubMailConfigured, sendHubMail } from "@/lib/roalla-auth/hub-mail";
 import { CONTACT } from "@/lib/site";
@@ -36,13 +37,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: locale === "fr" ? "Veuillez remplir tous les champs obligatoires." : "Please complete all required fields." }, { status: 400 });
     }
 
-    const origin = request.nextUrl.origin;
+    const origin = publicSiteOrigin({
+      forwardedHost: request.headers.get("x-forwarded-host"),
+      forwardedProto: request.headers.get("x-forwarded-proto"),
+      host: request.headers.get("host"),
+      origin: request.nextUrl.origin,
+    });
     const downloadUrl = createExecutiveGuideDownload(guide.slug, origin);
     const title = guide[locale].title;
     const fullName = `${firstName} ${lastName}`;
     const reference = `EG-${Date.now()}`;
     const submittedAt = new Date().toLocaleString("en-CA", { timeZone: "America/Toronto", dateStyle: "medium", timeStyle: "short" });
 
+    let emailSent = false;
     if (hubMailConfigured()) {
       const internalText = [
         "New ROALLA Executive Guide request", "", `Guide: ${guide.en.title}`, `Name: ${fullName}`, `Email: ${email}`,
@@ -62,25 +69,30 @@ export async function POST(request: NextRequest) {
           </table>`,
         footerNote: INQUIRY_EMAIL_INTERNAL_NOTE,
       });
-      const internalResult = await sendHubMail({ to: CONTACT.email, replyTo: email, subject: `Executive guide request — ${guide.en.title}`, text: internalText, html: internalHtml });
-      if (!internalResult.ok) throw new Error(internalResult.error);
+      try {
+        const internalResult = await sendHubMail({ to: CONTACT.email, replyTo: email, subject: `Executive guide request — ${guide.en.title}`, text: internalText, html: internalHtml });
+        if (!internalResult.ok) throw new Error(internalResult.error);
 
-      const french = locale === "fr";
-      const userBody = french
-        ? `${inquiryEmailParagraph(`Bonjour ${escape(firstName)},`)}${inquiryEmailParagraph(`Merci de votre intérêt pour <strong>${escape(title)}</strong>. Le guide PDF complet est actuellement offert en anglais.`)}${inquiryEmailButton(downloadUrl, "Télécharger le guide")}${inquiryEmailParagraph("Ce lien sécurisé expire dans 48 heures. Répondez à ce courriel si vous souhaitez discuter de votre contexte avec ROALLA.")}`
-        : `${inquiryEmailParagraph(`Dear ${escape(firstName)},`)}${inquiryEmailParagraph(`Thank you for your interest in <strong>${escape(title)}</strong>.`)}${inquiryEmailButton(downloadUrl, "Download the executive guide")}${inquiryEmailParagraph("This secure link expires in 48 hours. Reply to this email if you would like to discuss your organization’s context with ROALLA.")}`;
-      const userResult = await sendHubMail({
-        to: email, replyTo: CONTACT.email,
-        subject: french ? `Votre guide ROALLA : ${title}` : `Your ROALLA executive guide: ${title}`,
-        text: french ? `Bonjour ${firstName},\n\nTéléchargez votre guide : ${downloadUrl}\n\nCe lien expire dans 48 heures.${inquiryEmailPlainFooter(INQUIRY_EMAIL_CUSTOMER_NOTE)}` : `Dear ${firstName},\n\nDownload your guide: ${downloadUrl}\n\nThis link expires in 48 hours.${inquiryEmailPlainFooter(INQUIRY_EMAIL_CUSTOMER_NOTE)}`,
-        html: renderInquiryEmail({ title, preheader: french ? "Votre guide ROALLA est prêt." : "Your ROALLA executive guide is ready.", eyebrow: "ROALLA Executive Insights", headline: french ? "Votre guide est prêt" : "Your guide is ready", bodyHtml: userBody, footerNote: INQUIRY_EMAIL_CUSTOMER_NOTE }),
-      });
-      if (!userResult.ok) throw new Error(userResult.error);
+        const french = locale === "fr";
+        const userBody = french
+          ? `${inquiryEmailParagraph(`Bonjour ${escape(firstName)},`)}${inquiryEmailParagraph(`Merci de votre intérêt pour <strong>${escape(title)}</strong>. Le guide PDF complet est actuellement offert en anglais.`)}${inquiryEmailButton(downloadUrl, "Télécharger le guide")}${inquiryEmailParagraph("Ce lien sécurisé expire dans 48 heures. Répondez à ce courriel si vous souhaitez discuter de votre contexte avec ROALLA.")}`
+          : `${inquiryEmailParagraph(`Dear ${escape(firstName)},`)}${inquiryEmailParagraph(`Thank you for your interest in <strong>${escape(title)}</strong>.`)}${inquiryEmailButton(downloadUrl, "Download the executive guide")}${inquiryEmailParagraph("This secure link expires in 48 hours. Reply to this email if you would like to discuss your organization’s context with ROALLA.")}`;
+        const userResult = await sendHubMail({
+          to: email, replyTo: CONTACT.email,
+          subject: french ? `Votre guide ROALLA : ${title}` : `Your ROALLA executive guide: ${title}`,
+          text: french ? `Bonjour ${firstName},\n\nTéléchargez votre guide : ${downloadUrl}\n\nCe lien expire dans 48 heures.${inquiryEmailPlainFooter(INQUIRY_EMAIL_CUSTOMER_NOTE)}` : `Dear ${firstName},\n\nDownload your guide: ${downloadUrl}\n\nThis link expires in 48 hours.${inquiryEmailPlainFooter(INQUIRY_EMAIL_CUSTOMER_NOTE)}`,
+          html: renderInquiryEmail({ title, preheader: french ? "Votre guide ROALLA est prêt." : "Your ROALLA executive guide is ready.", eyebrow: "ROALLA Executive Insights", headline: french ? "Votre guide est prêt" : "Your guide is ready", bodyHtml: userBody, footerNote: INQUIRY_EMAIL_CUSTOMER_NOTE }),
+        });
+        if (!userResult.ok) throw new Error(userResult.error);
+        emailSent = true;
+      } catch (mailError) {
+        console.error("Executive guide email failed", mailError);
+      }
     } else {
       console.info("Executive guide request received with mail disabled", { guide: guide.slug, company, role, updates, reference });
     }
 
-    return NextResponse.json({ success: true, downloadUrl, reference });
+    return NextResponse.json({ success: true, downloadUrl, reference, emailSent });
   } catch (error) {
     console.error("Executive guide request failed", error);
     return NextResponse.json({ error: "Unable to prepare the guide right now. Please email sales@roalla.com." }, { status: 503 });

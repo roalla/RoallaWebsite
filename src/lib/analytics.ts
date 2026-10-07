@@ -33,7 +33,11 @@ export type AnalyticsEventName =
   | "visibility_review_started"
   | "visibility_review_submitted"
   | "service_framework_click"
-  | "consultation_request_submitted";
+  | "consultation_request_submitted"
+  | "executive_guide_cta_click"
+  | "executive_guide_request"
+  | "executive_guide_download"
+  | "executive_conversation_click";
 
 export function trackAnalyticsEvent(
   eventName: AnalyticsEventName,

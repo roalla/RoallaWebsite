@@ -49,6 +49,7 @@ export const routing = defineRouting({
     "/ai-policy": "/ai-policy",
     "/insights": "/insights",
     "/insights/[slug]": "/insights/[slug]",
+    "/executive-insights": "/executive-insights",
     "/private/digital-events-playbook": "/private/digital-events-playbook",
     "/hub": "/hub",
     "/hub/login": "/hub/login",

@@ -581,10 +581,15 @@ const Header = ({
     pathname === "/programs/workshops/first-offer";
 
   const otherResourceLinks: {
-    nameKey: "resourcesUseCases" | "resourcesFaq" | "resourcesAssessment";
-    descKey: "resourcesUseCasesDesc" | "resourcesFaqDesc" | "resourcesAssessmentDesc";
-    href: "/use-cases" | "/faq" | "/assessment";
+    nameKey: "resourcesExecutiveGuides" | "resourcesUseCases" | "resourcesFaq" | "resourcesAssessment";
+    descKey: "resourcesExecutiveGuidesDesc" | "resourcesUseCasesDesc" | "resourcesFaqDesc" | "resourcesAssessmentDesc";
+    href: "/executive-insights" | "/use-cases" | "/faq" | "/assessment";
   }[] = [
+    {
+      nameKey: "resourcesExecutiveGuides",
+      descKey: "resourcesExecutiveGuidesDesc",
+      href: "/executive-insights",
+    },
     {
       nameKey: "resourcesUseCases",
       descKey: "resourcesUseCasesDesc",
@@ -605,6 +610,7 @@ const Header = ({
   const isResourcesActive =
     pathname === "/insights" ||
     pathname.startsWith("/insights/") ||
+    pathname === "/executive-insights" ||
     otherResourceLinks.some((item) => pathname === item.href);
 
   useEffect(() => {

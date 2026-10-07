@@ -412,6 +412,9 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ["lucide-react"],
     instrumentationHook: true,
+    outputFileTracingIncludes: {
+      "/api/executive-guides/download": ["./private/executive-guides/**/*"],
+    },
   },
 };
 

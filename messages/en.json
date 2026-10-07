@@ -94,6 +94,8 @@
     "clientPortalAria": "Sign in to the Roalla Client Portal",
     "resources": "Insights",
     "resourcesMenuLabel": "Guides you can read or send",
+    "resourcesExecutiveGuides": "Executive guides",
+    "resourcesExecutiveGuidesDesc": "Decision frameworks for growth, transformation, resilience, and value",
     "resourcesDigital": "Digital Enablement",
     "resourcesAdvisory": "Advisory",
     "resourcesOther": "Other",

@@ -9,6 +9,7 @@ import { INSIGHT_GROUPS, insightBrowserArea, type InsightBrowserArea, type Insig
 import { formatInsightReadTime } from '@/lib/insight-read-time'
 import { buildPageMetadata } from '@/lib/page-metadata'
 import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/structured-data'
+import { Link } from '@/i18n/navigation'
 import {
   CONTRAST_TEXT_SIZE_INSIGHT_SLUG,
   FREE_WEBSITE_BUILDER_TRADEOFFS_SLUG,
@@ -123,6 +124,22 @@ export default async function InsightsIndexPage({ params }: Props) {
             </a>
           </p>
         </header>
+        <section className="mb-12 grid gap-6 overflow-hidden bg-slate-950 p-7 text-white shadow-card sm:p-9 lg:grid-cols-[1fr_auto] lg:items-end" aria-labelledby="executive-guides-title">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary-light">
+              {locale === 'fr' ? 'Perspectives pour dirigeants' : 'ROALLA Executive Insights'}
+            </p>
+            <h2 id="executive-guides-title" className="mt-4 max-w-3xl font-serif text-3xl font-normal leading-tight">
+              {locale === 'fr' ? 'Des guides décisionnels pour les enjeux qui façonnent la suite.' : 'Decision guides for the issues that shape what comes next.'}
+            </h2>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
+              {locale === 'fr' ? 'Explorez des cadres pratiques sur l’IA, la croissance, la technologie, le risque, les opérations et la valeur d’entreprise.' : 'Explore practical frameworks for AI, growth, technology, risk, operations, and enterprise value.'}
+            </p>
+          </div>
+          <Link href="/executive-insights" className="inline-flex min-h-12 items-center justify-center bg-primary px-5 text-sm font-bold text-slate-950">
+            {locale === 'fr' ? 'Explorer les guides' : 'Explore executive guides'}
+          </Link>
+        </section>
         <Suspense fallback={<div className="h-44 max-w-6xl animate-pulse rounded-2xl bg-slate-100" />}>
           <InsightsBrowser
             articles={articles}

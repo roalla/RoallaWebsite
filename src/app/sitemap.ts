@@ -49,6 +49,7 @@ const paths = [
   "/privacy",
   "/ai-policy",
   "/insights",
+  "/executive-insights",
   ...INSIGHT_SLUGS.map((slug) => `/insights/${slug}`),
   ...CASE_STUDY_SLUGS.map((slug) => `/services/portfolio/${slug}`),
 ] as const;
@@ -95,6 +96,7 @@ const priorities: Record<string, number> = {
   "/privacy": 0.4,
   "/ai-policy": 0.4,
   "/insights": 0.75,
+  "/executive-insights": 0.88,
 };
 
 const changeFrequency = (
@@ -102,7 +104,7 @@ const changeFrequency = (
 ): MetadataRoute.Sitemap[number]["changeFrequency"] => {
   if (path === "") return "weekly";
   if (path.startsWith("/programs/workshops")) return "weekly";
-  if (path.startsWith("/insights")) return "monthly";
+  if (path.startsWith("/insights") || path.startsWith("/executive-insights")) return "monthly";
   return "monthly";
 };
 

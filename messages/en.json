@@ -97,7 +97,7 @@
     "resourcesExecutiveInsightsEyebrow": "Executive decision library",
     "resourcesExecutiveGuides": "Executive Insights",
     "resourcesExecutiveGuidesDesc": "Decision frameworks for leaders navigating growth, AI, technology, risk, operations, and enterprise value.",
-    "resourcesExecutiveGuidesCta": "Explore 13 guides",
+    "resourcesExecutiveGuidesCta": "Explore 27 guides",
     "resourcesDigital": "Digital Enablement",
     "resourcesAdvisory": "Advisory",
     "resourcesOther": "Start here",
@@ -521,7 +521,7 @@
       "topicRisk": "Risk and resilience",
       "topicValue": "Enterprise value",
       "cta": "Explore Executive Insights",
-      "guideCount": "13 executive decision guides",
+      "guideCount": "27 executive decision guides",
       "imageEyebrow": "From insight to action",
       "imageStatement": "Frame the decision. Test readiness. Sequence action."
     },

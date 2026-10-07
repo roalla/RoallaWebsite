@@ -17,6 +17,20 @@ const FILES: Record<string, string> = {
   "canadian-innovation-funding-qualification": "canadian-innovation-funding-qualification.pdf",
   "revenue-operations-forecast-confidence": "revenue-operations-forecast-confidence.pdf",
   "supply-chain-visibility-resilience": "supply-chain-visibility-resilience.pdf",
+  "ai-use-case-prioritization": "ai-use-case-prioritization.pdf",
+  "technology-transformation-readiness": "technology-transformation-readiness.pdf",
+  "contact-centre-ai-transformation": "contact-centre-ai-transformation.pdf",
+  "warehouse-automation-robotics-investment": "warehouse-automation-robotics-investment.pdf",
+  "operational-technology-cybersecurity-resilience": "operational-technology-cybersecurity-resilience.pdf",
+  "erp-mes-wms-integration-readiness": "erp-mes-wms-integration-readiness.pdf",
+  "industrial-technology-vendor-selection": "industrial-technology-vendor-selection.pdf",
+  "energy-productivity-facility-modernization": "energy-productivity-facility-modernization.pdf",
+  "go-to-market-strategy-readiness": "go-to-market-strategy-readiness.pdf",
+  "customer-success-revenue-retention": "customer-success-revenue-retention.pdf",
+  "pricing-packaging-optimization": "pricing-packaging-optimization.pdf",
+  "marketing-revenue-alignment": "marketing-revenue-alignment.pdf",
+  "enterprise-sales-transformation": "enterprise-sales-transformation.pdf",
+  "canadian-staff-augmentation-outlook-2027": "canadian-staff-augmentation-outlook-2027.pdf",
 };
 
 function secret() {

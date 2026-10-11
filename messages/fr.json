@@ -264,6 +264,78 @@
       "cta": "Rencontrer le fondateur",
       "photoAlt": "Steven Robin, fondateur et conseiller principal de ROALLA"
     },
+    "technologyEcosystem": {
+      "eyebrow": "Écosystème technologique",
+      "title": "Chaque relation, expliquée clairement.",
+      "description": "Explorez les relations, titres, plateformes et technologies qui appuient le conseil et la livraison de ROALLA. Arrêtez-vous sur un nom pour voir exactement ce que la relation signifie.",
+      "listLabel": "Écosystème technologique de ROALLA",
+      "openLabel": "Ouvrir les détails de {name}, classé comme {relationship}",
+      "valueLabel": "Comment ROALLA crée de la valeur",
+      "disclosure": "Les libellés de relation sont intentionnels. Seul Telarus est présenté ici comme une relation commerciale de conseiller vérifiée. Les titres, l'utilisation d'une plateforme et l'expérience de mise en œuvre n'impliquent ni approbation, ni statut de revendeur, ni partenariat officiel.",
+      "telarus": {
+        "name": "Telarus",
+        "wordmark": "TELARUS",
+        "relationship": "Relation de conseiller vérifiée",
+        "description": "ROALLA est conseiller technologique Telarus dans le cadre d'une relation non exclusive donnant accès à des fournisseurs, spécialistes, ingénieurs commerciaux et services de mise en œuvre.",
+        "value": "ROALLA part des exigences du client, compare les options pertinentes, divulgue la rémunération applicable et demeure responsable pendant la mise en œuvre.",
+        "cta": "Voir la divulgation partenaire"
+      },
+      "microsoftAzure": {
+        "name": "Microsoft Azure",
+        "wordmark": "Microsoft Azure",
+        "relationship": "Formation et expérience plateforme",
+        "description": "ROALLA possède une formation Microsoft Azure et une expérience pratique de l'évaluation des besoins d'infonuagique, d'identité, d'intégration et d'applications.",
+        "value": "Traduire les capacités infonuagiques en architecture, migration et modèle d'exploitation adaptés, plutôt que de partir d'un pitch produit.",
+        "cta": "Explorer le conseil technologique"
+      },
+      "aws": {
+        "name": "Amazon Web Services",
+        "wordmark": "AWS",
+        "relationship": "Formation technique",
+        "description": "ROALLA possède une formation AWS qui éclaire l'évaluation des options infonuagiques et la planification de la mise en œuvre. Aucun statut de revendeur ou de partenaire officiel n'est revendiqué.",
+        "value": "Comparer l'hébergement, la sécurité, la résilience, les coûts et le soutien avant de choisir ou changer de plateforme infonuagique.",
+        "cta": "Explorer le conseil technologique"
+      },
+      "google": {
+        "name": "Google",
+        "wordmark": "Google",
+        "relationship": "Titres professionnels",
+        "description": "Le fondateur de ROALLA détient des certificats professionnels Google en IA et en cybersécurité. Il s'agit de titres individuels, et non d'un partenariat commercial.",
+        "value": "Appliquer des connaissances actuelles en IA et en sécurité aux exigences, aux décisions de risque et à la planification de l'adoption."
+      },
+      "openai": {
+        "name": "OpenAI",
+        "wordmark": "OpenAI",
+        "relationship": "Utilisateur de plateforme",
+        "description": "ROALLA utilise les services OpenAI dans certaines solutions d'IA par une passerelle gérée qui centralise l'accès, les limites et le suivi de l'utilisation.",
+        "value": "Concevoir des flux d'IA autour de la valeur d'affaires, de la confidentialité, de la révision, des défaillances et de résultats mesurables.",
+        "cta": "Explorer les solutions agentiques"
+      },
+      "railway": {
+        "name": "Railway",
+        "wordmark": "Railway",
+        "relationship": "Utilisateur de plateforme d'hébergement",
+        "description": "ROALLA utilise Railway pour déployer certaines applications et certains services Web. Il s'agit d'une relation client-plateforme.",
+        "value": "Choisir une approche de déploiement qui garde le lancement, l'entretien, l'observabilité et l'évolution pratiques pour le client.",
+        "cta": "Explorer la livraison numérique"
+      },
+      "nextjs": {
+        "name": "Next.js",
+        "wordmark": "NEXT.JS",
+        "relationship": "Technologie utilisée",
+        "description": "ROALLA utilise Next.js pour certains sites, portails et applications en production. C'est une technologie de mise en œuvre, pas un partenariat commercial.",
+        "value": "Créer des expériences numériques rapides, accessibles et maintenables, avec un parcours clair de la découverte à la production.",
+        "cta": "Explorer la livraison numérique"
+      },
+      "postgresql": {
+        "name": "PostgreSQL",
+        "wordmark": "PostgreSQL",
+        "relationship": "Technologie utilisée",
+        "description": "ROALLA utilise PostgreSQL pour certaines applications fondées sur les données. PostgreSQL est une technologie libre, pas une relation partenaire.",
+        "value": "Créer des fondations de données fiables avec une propriété claire, un accès sécurisé et la capacité d'évoluer avec les flux de travail.",
+        "cta": "Explorer la livraison numérique"
+      }
+    },
     "visibility": {
       "eyebrow": "Optimisation de la visibilité numérique",
       "title": "Devenez plus facile à trouver, à comprendre et à reconnaître",

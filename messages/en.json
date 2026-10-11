@@ -264,6 +264,78 @@
       "cta": "Meet the founder",
       "photoAlt": "Steven Robin, Founder and Principal Consultant of ROALLA"
     },
+    "technologyEcosystem": {
+      "eyebrow": "Technology ecosystem",
+      "title": "The right relationship, clearly explained.",
+      "description": "Explore the relationships, credentials, platforms, and technologies that support ROALLA's advisory and delivery work. Pause on any name to see exactly what the relationship means.",
+      "listLabel": "ROALLA technology ecosystem",
+      "openLabel": "Open details for {name}, categorized as {relationship}",
+      "valueLabel": "How ROALLA adds value",
+      "disclosure": "Relationship labels are intentional. Only Telarus is presented here as a verified commercial advisor relationship. Credentials, platform use, and implementation experience do not imply endorsement, reseller status, or an official partnership.",
+      "telarus": {
+        "name": "Telarus",
+        "wordmark": "TELARUS",
+        "relationship": "Verified advisor relationship",
+        "description": "ROALLA is a Telarus Technology Advisor through a non-exclusive relationship that provides access to suppliers, solution specialists, sales engineering, and implementation support.",
+        "value": "ROALLA starts with client requirements, compares suitable options, discloses relevant compensation, and remains accountable through implementation.",
+        "cta": "View partner disclosure"
+      },
+      "microsoftAzure": {
+        "name": "Microsoft Azure",
+        "wordmark": "Microsoft Azure",
+        "relationship": "Training & platform experience",
+        "description": "ROALLA has Microsoft Azure training and practical experience evaluating cloud, identity, integration, and application requirements.",
+        "value": "Translate cloud capabilities into a right-sized architecture, migration path, and operating model instead of starting with a product pitch.",
+        "cta": "Explore technology advisory"
+      },
+      "aws": {
+        "name": "Amazon Web Services",
+        "wordmark": "AWS",
+        "relationship": "Technical training",
+        "description": "ROALLA has AWS training that informs cloud option evaluation and implementation planning. This is not presented as reseller or official partner status.",
+        "value": "Compare hosting, security, resilience, cost, and support requirements before selecting or changing a cloud platform.",
+        "cta": "Explore technology advisory"
+      },
+      "google": {
+        "name": "Google",
+        "wordmark": "Google",
+        "relationship": "Professional credentials",
+        "description": "ROALLA's founder holds Google professional certificates in AI and cybersecurity. These are individual credentials, not a commercial partnership.",
+        "value": "Apply current AI and security learning to practical requirements, risk decisions, and adoption planning."
+      },
+      "openai": {
+        "name": "OpenAI",
+        "wordmark": "OpenAI",
+        "relationship": "Platform user",
+        "description": "ROALLA uses OpenAI services in selected AI solutions through a managed gateway with centralized access, limits, and usage controls.",
+        "value": "Design AI workflows around business value, privacy, review, failure handling, and measurable operating outcomes.",
+        "cta": "Explore agentic solutions"
+      },
+      "railway": {
+        "name": "Railway",
+        "wordmark": "Railway",
+        "relationship": "Hosting platform user",
+        "description": "ROALLA uses Railway as a deployment platform for selected web applications and services. This is a customer/platform-use relationship.",
+        "value": "Choose a deployment approach that keeps launch, maintenance, observability, and future change practical for the client.",
+        "cta": "Explore digital delivery"
+      },
+      "nextjs": {
+        "name": "Next.js",
+        "wordmark": "NEXT.JS",
+        "relationship": "Technology in use",
+        "description": "ROALLA uses Next.js to build selected production websites, portals, and applications. It is an implementation technology, not a commercial partnership.",
+        "value": "Build fast, accessible, maintainable digital experiences with a clear path from discovery to production.",
+        "cta": "Explore digital delivery"
+      },
+      "postgresql": {
+        "name": "PostgreSQL",
+        "wordmark": "PostgreSQL",
+        "relationship": "Technology in use",
+        "description": "ROALLA uses PostgreSQL for selected data-backed applications. PostgreSQL is open-source technology, not a partner relationship.",
+        "value": "Create dependable data foundations with clear ownership, secure access, and room to evolve as workflows mature.",
+        "cta": "Explore digital delivery"
+      }
+    },
     "visibility": {
       "eyebrow": "Digital Visibility Optimization",
       "title": "Become easier to find, understand, and trust",

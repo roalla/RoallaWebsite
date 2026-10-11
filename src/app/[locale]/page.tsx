@@ -11,6 +11,7 @@ import HomeFeaturedInsight from '@/components/home/HomeFeaturedInsight'
 import HomeCTA from '@/components/home/HomeCTA'
 import HomeClosing from '@/components/home/HomeClosing'
 import HomeTrustBand from '@/components/home/HomeTrustBand'
+import HomeTechnologyEcosystem from '@/components/home/HomeTechnologyEcosystem'
 import TechnologyDecisionFramework from '@/components/TechnologyDecisionFramework'
 import { buildPageMetadata } from '@/lib/page-metadata'
 import JsonLd from '@/components/JsonLd'
@@ -46,6 +47,7 @@ export default async function Home({ params }: Props) {
       />
       <HomeHero />
       <HomeTrustBand />
+      <HomeTechnologyEcosystem />
       <HomeBusinessOutcomes />
       <HomeOurWork />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8">

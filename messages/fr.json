@@ -269,6 +269,7 @@
       "listLabel": "Écosystème technologique de ROALLA",
       "openLabel": "Ouvrir les détails de {name}, classé comme {relationship}",
       "valueLabel": "Comment ROALLA crée de la valeur",
+      "closeLabel": "Fermer les détails",
       "viewAllCta": "Voir tous les fournisseurs",
       "telarus": {
         "name": "Telarus",

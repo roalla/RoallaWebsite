@@ -33,9 +33,9 @@ export const ecosystemLogos: Partial<Record<EcosystemKey, EcosystemLogo>> = {
   },
   lunavi: {
     src: '/images/partners/lunavi-logo.png',
-    width: 200,
-    height: 80,
-    className: 'h-8 w-auto object-contain md:h-9',
+    width: 640,
+    height: 187,
+    className: 'h-8 w-auto max-w-full object-contain md:h-9',
   },
   equinix: {
     src: '/images/partners/equinix-logo.png',
@@ -57,9 +57,9 @@ export const ecosystemLogos: Partial<Record<EcosystemKey, EcosystemLogo>> = {
   },
   speechLogix: {
     src: '/images/partners/speechlogix-logo.png',
-    width: 220,
-    height: 80,
-    className: 'h-8 w-auto object-contain md:h-9',
+    width: 640,
+    height: 116,
+    className: 'h-8 w-auto max-w-full object-contain md:h-9',
   },
 }
 

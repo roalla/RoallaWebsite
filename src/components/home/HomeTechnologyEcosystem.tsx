@@ -3,7 +3,7 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import Image from 'next/image'
-import { ArrowRight, Info } from 'lucide-react'
+import { ArrowRight, X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
@@ -36,9 +36,24 @@ function getPopoverPosition(element: HTMLElement): PopoverPosition {
   }
 }
 
+function useHoverPopover() {
+  const [hoverCapable, setHoverCapable] = useState(false)
+
+  useEffect(() => {
+    const media = window.matchMedia('(hover: hover) and (pointer: fine)')
+    const sync = () => setHoverCapable(media.matches)
+    sync()
+    media.addEventListener('change', sync)
+    return () => media.removeEventListener('change', sync)
+  }, [])
+
+  return hoverCapable
+}
+
 export default function HomeTechnologyEcosystem() {
   const t = useTranslations('home.technologyEcosystem')
   const reduceMotion = usePrefersReducedMotion()
+  const hoverCapable = useHoverPopover()
   const popoverId = useId()
   const [activeKey, setActiveKey] = useState<EcosystemKey | null>(null)
   const [position, setPosition] = useState<PopoverPosition | null>(null)
@@ -47,11 +62,15 @@ export default function HomeTechnologyEcosystem() {
   const popoverRef = useRef<HTMLDivElement | null>(null)
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const suppressNextFocusRef = useRef(false)
+  const hoverCapableRef = useRef(hoverCapable)
 
   const useMarquee = !reduceMotion && ecosystemKeys.length > 3
   const sequence = useMarquee ? [...ecosystemKeys, ...ecosystemKeys] : ecosystemKeys
 
   useEffect(() => setMounted(true), [])
+  useEffect(() => {
+    hoverCapableRef.current = hoverCapable
+  }, [hoverCapable])
 
   useEffect(() => {
     if (!activeKey || !triggerRef.current) return
@@ -98,8 +117,9 @@ export default function HomeTechnologyEcosystem() {
   }
 
   const scheduleClose = () => {
+    if (!hoverCapableRef.current) return
     cancelScheduledClose()
-    closeTimerRef.current = setTimeout(() => setActiveKey(null), 140)
+    closeTimerRef.current = setTimeout(() => setActiveKey(null), 220)
   }
 
   const closePopover = (restoreFocus = false) => {
@@ -127,6 +147,7 @@ export default function HomeTechnologyEcosystem() {
       onPointerLeave={scheduleClose}
       onFocusCapture={cancelScheduledClose}
       onBlurCapture={(event) => {
+        if (!hoverCapableRef.current) return
         if (!event.currentTarget.contains(event.relatedTarget as Node | null)) scheduleClose()
       }}
       onKeyDown={(event) => {
@@ -138,9 +159,14 @@ export default function HomeTechnologyEcosystem() {
           <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary-dark">{t(`${activeKey}.relationship`)}</p>
           <h3 className="mt-1 text-xl font-serif font-bold text-slate-950">{t(`${activeKey}.name`)}</h3>
         </div>
-        <span className="rounded-full bg-primary/10 p-2 text-primary-dark" aria-hidden>
-          <Info className="h-4 w-4" />
-        </span>
+        <button
+          type="button"
+          className="rounded-full bg-slate-100 p-2 text-slate-600 hover:bg-slate-200 hover:text-slate-900"
+          aria-label={t('closeLabel')}
+          onClick={() => closePopover(true)}
+        >
+          <X className="h-4 w-4" aria-hidden />
+        </button>
       </div>
       <p className="mt-3 text-sm leading-6 text-slate-600">{t(`${activeKey}.description`)}</p>
       <div className="mt-4 rounded-xl bg-slate-50 px-4 py-3">
@@ -208,14 +234,16 @@ export default function HomeTechnologyEcosystem() {
                     aria-controls={isActive ? popoverId : undefined}
                     aria-haspopup="dialog"
                     aria-label={t('openLabel', { name: t(`${key}.name`), relationship: t(`${key}.relationship`) })}
-                    onPointerEnter={(event) => openPopover(key, event.currentTarget)}
+                    onPointerEnter={(event) => {
+                      if (hoverCapableRef.current) openPopover(key, event.currentTarget)
+                    }}
                     onPointerLeave={scheduleClose}
                     onFocus={(event) => {
                       if (suppressNextFocusRef.current) {
                         suppressNextFocusRef.current = false
                         return
                       }
-                      openPopover(key, event.currentTarget)
+                      if (hoverCapableRef.current) openPopover(key, event.currentTarget)
                     }}
                     onClick={(event) => {
                       if (isActive) closePopover()

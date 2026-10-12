@@ -31,6 +31,7 @@ const FILES: Record<string, string> = {
   "marketing-revenue-alignment": "marketing-revenue-alignment.pdf",
   "enterprise-sales-transformation": "enterprise-sales-transformation.pdf",
   "canadian-staff-augmentation-outlook-2027": "canadian-staff-augmentation-outlook-2027.pdf",
+  "ai-agent-cost-governance-2027": "ai-agent-cost-governance-2027.pdf",
 };
 
 function secret() {

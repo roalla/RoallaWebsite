@@ -238,6 +238,14 @@ export const EXECUTIVE_GUIDES: readonly ExecutiveGuide[] = [
     en: { title: "Canadian Staff Augmentation Outlook 2027", summary: "Use a parallel path to protect delivery capacity while controlling cost, applying technology and building stronger internal capability through trade uncertainty.", categoryLabel: "Workforce & productivity" },
     fr: { title: "Perspectives canadiennes 2027 sur l’augmentation des effectifs", summary: "Adoptez une approche parallèle pour protéger la capacité de livraison, maîtriser les coûts, appliquer la technologie et renforcer les capacités internes malgré l’incertitude commerciale.", categoryLabel: "Main-d’œuvre et productivité" },
   },
+  {
+    slug: "ai-agent-cost-governance-2027",
+    number: "EI—28",
+    category: "ai",
+    image: "/images/executive-insights/ai-agent-cost-governance-2027.png",
+    en: { title: "Enterprise AI Agent and Cost Governance 2027", summary: "Control agent proliferation, quantify avoidable AI spend and establish the policies, engineering controls and lifecycle decisions needed for responsible scale.", categoryLabel: "AI & governance" },
+    fr: { title: "Gouvernance des agents et des coûts d’IA en entreprise 2027", summary: "Maîtrisez la prolifération des agents, quantifiez les dépenses d’IA évitables et établissez les politiques, contrôles techniques et décisions de cycle de vie nécessaires à une croissance responsable.", categoryLabel: "IA et gouvernance" },
+  },
 ] as const;
 
 export function findExecutiveGuide(slug: string) {

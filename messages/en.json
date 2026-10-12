@@ -97,7 +97,7 @@
     "resourcesExecutiveInsightsEyebrow": "Executive decision library",
     "resourcesExecutiveGuides": "Executive Insights",
     "resourcesExecutiveGuidesDesc": "Decision frameworks for leaders navigating growth, AI, technology, risk, operations, and enterprise value.",
-    "resourcesExecutiveGuidesCta": "Explore 27 guides",
+    "resourcesExecutiveGuidesCta": "Explore 28 guides",
     "resourcesDigital": "Digital Enablement",
     "resourcesAdvisory": "Advisory",
     "resourcesOther": "Start here",
@@ -254,6 +254,8 @@
       "experienceLabel": "years across business and technology",
       "projectsValue": "500+",
       "projectsLabel": "engagements and projects delivered",
+      "examplesValue": "15",
+      "examplesLabel": "live digital examples you can inspect",
       "accountabilityValue": "1",
       "accountabilityLabel": "senior accountable lead throughout",
       "title": "Senior attention from discovery through implementation",
@@ -261,80 +263,6 @@
       "commitment": "No handoff to a junior delivery team",
       "cta": "Meet the founder",
       "photoAlt": "Steven Robin, Founder and Principal Consultant of ROALLA"
-    },
-    "technologyEcosystem": {
-      "eyebrow": "Technology ecosystem",
-      "title": "The right relationship, clearly explained.",
-      "description": "Explore partner, advisor, and vendor relationships that support ROALLA's technology advisory and delivery work. Pause on any name to see exactly what the relationship means.",
-      "listLabel": "ROALLA technology ecosystem",
-      "openLabel": "Open details for {name}, categorized as {relationship}",
-      "valueLabel": "How ROALLA adds value",
-      "closeLabel": "Close details",
-      "viewAllCta": "View all providers",
-      "telarus": {
-        "name": "Telarus",
-        "wordmark": "TELARUS",
-        "relationship": "Verified advisor relationship",
-        "description": "ROALLA is a Telarus Technology Advisor through a non-exclusive relationship that provides access to suppliers, solution specialists, sales engineering, and implementation support.",
-        "value": "ROALLA starts with client requirements and expected outcomes, compares suitable options, discloses relevant compensation, and remains accountable through implementation.",
-        "cta": "View partner disclosure"
-      },
-      "fieldEffect": {
-        "name": "Field Effect",
-        "wordmark": "Field Effect",
-        "relationship": "Cybersecurity partner",
-        "description": "ROALLA partners with Field Effect to help organizations evaluate and source managed detection and response—intelligence-grade cybersecurity engineered for the AI era.",
-        "value": "Clarify cybersecurity requirements and expected outcomes, then compare suitable MDR and related controls before committing to a stack.",
-        "cta": "Visit Field Effect"
-      },
-      "zoom": {
-        "name": "Zoom",
-        "wordmark": "zoom",
-        "relationship": "Verified supplier",
-        "description": "ROALLA can source and support Zoom communications solutions—meetings, phone, contact centre, and collaboration—through verified supplier access when they fit client requirements.",
-        "value": "Define calling, meeting, and collaboration needs first, then compare Zoom and other qualified options on fit, cost, adoption, and support.",
-        "cta": "Visit Zoom"
-      },
-      "lunavi": {
-        "name": "Lunavi",
-        "wordmark": "LUNAVI",
-        "relationship": "Service-focused partner",
-        "description": "ROALLA works with Lunavi for service-led delivery—cloud, Microsoft, managed services, AI and data analytics, and application development—when clients need hands-on implementation and ongoing IT support.",
-        "value": "Define transformation and operations outcomes first, then engage Lunavi where specialized delivery capacity improves speed, quality, and accountability.",
-        "cta": "Visit Lunavi"
-      },
-      "equinix": {
-        "name": "Equinix",
-        "wordmark": "Equinix",
-        "relationship": "Provider",
-        "description": "ROALLA can source Equinix digital infrastructure—colocation, interconnection, and related data centre services—when clients need secure, globally connected facilities for hybrid and multi-cloud workloads.",
-        "value": "Clarify location, interconnection, latency, and resilience requirements first, then compare Equinix and other qualified infrastructure options on fit, cost, and operational control.",
-        "cta": "Visit Equinix"
-      },
-      "terago": {
-        "name": "TERAGO",
-        "wordmark": "TERA",
-        "relationship": "Connectivity provider",
-        "description": "ROALLA can source TERAGO Canadian connectivity—business internet, managed SD-WAN, business continuity, and private 5G—when clients need resilient, fully managed wireless and networking infrastructure.",
-        "value": "Define uptime, diversity, coverage, and managed-service requirements first, then compare TERAGO and other qualified connectivity options on fit, deployment speed, and accountability.",
-        "cta": "Visit TERAGO"
-      },
-      "thrive": {
-        "name": "Thrive",
-        "wordmark": "THRIVE",
-        "relationship": "Service-focused partner",
-        "description": "ROALLA works with Thrive for NextGen managed services—cybersecurity, cloud, managed IT infrastructure, Microsoft 365, and compliance—when clients need outsourced operations with clear accountability.",
-        "value": "Define risk, operations, and compliance outcomes first, then engage Thrive where managed delivery capacity improves resilience, response, and day-to-day IT performance.",
-        "cta": "Visit Thrive"
-      },
-      "speechLogix": {
-        "name": "SpeechLogix",
-        "wordmark": "SpeechLogix",
-        "relationship": "Non-exclusive independent reseller and business development intermediary",
-        "description": "ROALLA acts as a non-exclusive independent reseller and business development intermediary for SpeechLogix unified communications and collaboration solutions—including the XLogix platform and related cloud telephony offerings—when they fit client requirements.",
-        "value": "Clarify UC, contact centre, and collaboration needs first, then introduce SpeechLogix where the platform fit, white-label flexibility, and delivery model support the intended outcomes.",
-        "cta": "Visit SpeechLogix"
-      }
     },
     "visibility": {
       "eyebrow": "Digital Visibility Optimization",
@@ -593,7 +521,7 @@
       "topicRisk": "Risk and resilience",
       "topicValue": "Enterprise value",
       "cta": "Explore Executive Insights",
-      "guideCount": "27 executive decision guides",
+      "guideCount": "28 executive decision guides",
       "imageEyebrow": "From insight to action",
       "imageStatement": "Frame the decision. Test readiness. Sequence action."
     },
@@ -1413,7 +1341,7 @@
     "s1Outcome": "A digital product built around the business value you need to create.",
     "s1NotFor": "A brochure or marketing site is sufficient.",
     "s1Cta": "Explore Digital Product Builds",
-    "s1Proof": "See My360Vision & Boothlio in Digital Portfolio",
+    "s1Proof": "See My360Vision & Soaring Puck in Digital Portfolio",
     "automationTimeline": "Typical automation scope: 2–6 weeks",
     "s2Title": "Workflow Automation & Integrations",
     "s2Desc": "Connect the tools you already use and automate handoffs between teams—when integrating systems and removing manual steps matters more than building a full product from scratch.",
@@ -3902,16 +3830,6 @@
     "backToPartners": "Back to partners",
     "confirmDeletePartner": "Delete this partner permanently?",
     "contactHubAdmin": "Contact hub admin"
-  },
-  "providersPage": {
-    "metadataTitle": "Technology Providers | ROALLA",
-    "metadataDescription": "Browse ROALLA's technology ecosystem—advisors, partners, suppliers, and providers—with a clear label for each relationship.",
-    "eyebrow": "Technology ecosystem",
-    "title": "Providers",
-    "subtitle": "Each listing names the relationship clearly so you can understand how ROALLA works with that organization—and what that does and does not mean for your decision.",
-    "listLabel": "ROALLA technology providers",
-    "note": "A listed relationship does not mean every available supplier has been evaluated or endorsed. ROALLA starts with your requirements and expected outcomes.",
-    "advisoryCta": "Explore Technology Advisory"
   },
   "partnersPlatforms": {
     "metadataTitle": "Technology Partners & Platforms | ROALLA",

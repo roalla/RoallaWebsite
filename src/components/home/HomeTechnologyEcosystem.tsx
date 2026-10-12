@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import Image from 'next/image'
 import { ArrowRight, Info } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
@@ -9,16 +10,61 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 
 const ecosystemKeys = [
   'telarus',
-  'microsoftAzure',
-  'aws',
-  'google',
-  'openai',
-  'railway',
-  'nextjs',
-  'postgresql',
+  'fieldEffect',
+  'zoom',
+  'lunavi',
+  'equinix',
+  'terago',
+  'thrive',
+  'speechLogix',
 ] as const
 
 type EcosystemKey = (typeof ecosystemKeys)[number]
+
+const ecosystemLogos: Partial<Record<EcosystemKey, { src: string; width: number; height: number; className: string }>> = {
+  telarus: {
+    src: '/images/partners/telarus-logo.png',
+    width: 160,
+    height: 80,
+    className: 'h-10 w-auto object-contain md:h-11',
+  },
+  zoom: {
+    src: '/images/partners/zoom-logo.png',
+    width: 160,
+    height: 80,
+    className: 'h-8 w-auto object-contain md:h-9',
+  },
+  lunavi: {
+    src: '/images/partners/lunavi-logo.png',
+    width: 200,
+    height: 80,
+    className: 'h-8 w-auto object-contain md:h-9',
+  },
+  equinix: {
+    src: '/images/partners/equinix-logo.png',
+    width: 160,
+    height: 80,
+    className: 'h-8 w-auto object-contain md:h-9',
+  },
+  terago: {
+    src: '/images/partners/terago-logo.png',
+    width: 200,
+    height: 80,
+    className: 'h-8 w-auto object-contain md:h-9',
+  },
+  thrive: {
+    src: '/images/partners/thrive-logo.png',
+    width: 160,
+    height: 120,
+    className: 'h-10 w-auto object-contain md:h-11',
+  },
+  speechLogix: {
+    src: '/images/partners/speechlogix-logo.png',
+    width: 220,
+    height: 80,
+    className: 'h-8 w-auto object-contain md:h-9',
+  },
+}
 
 type PopoverPosition = {
   left: number
@@ -26,14 +72,19 @@ type PopoverPosition = {
   placement: 'top' | 'bottom' | 'viewport'
 }
 
-const ctaHrefs: Partial<Record<EcosystemKey, '/partners' | '/programs/technology-advisory' | '/services/agentic' | '/services/digital'>> = {
-  telarus: '/partners',
-  microsoftAzure: '/programs/technology-advisory',
-  aws: '/programs/technology-advisory',
-  openai: '/services/agentic',
-  railway: '/services/digital',
-  nextjs: '/services/digital',
-  postgresql: '/services/digital',
+type EcosystemCta =
+  | { type: 'internal'; href: '/partners' }
+  | { type: 'external'; href: string }
+
+const ecosystemCtas: Partial<Record<EcosystemKey, EcosystemCta>> = {
+  telarus: { type: 'internal', href: '/partners' },
+  fieldEffect: { type: 'external', href: 'https://fieldeffect.com/' },
+  zoom: { type: 'external', href: 'https://www.zoom.com/' },
+  lunavi: { type: 'external', href: 'https://www.lunavi.com/' },
+  equinix: { type: 'external', href: 'https://www.equinix.com/' },
+  terago: { type: 'external', href: 'https://terago.ca/' },
+  thrive: { type: 'external', href: 'https://thrivenextgen.com/' },
+  speechLogix: { type: 'external', href: 'https://speechlogix.com/' },
 }
 
 function getPopoverPosition(element: HTMLElement): PopoverPosition {
@@ -64,7 +115,8 @@ export default function HomeTechnologyEcosystem() {
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const suppressNextFocusRef = useRef(false)
 
-  const sequence = reduceMotion ? ecosystemKeys : [...ecosystemKeys, ...ecosystemKeys]
+  const useMarquee = !reduceMotion && ecosystemKeys.length > 3
+  const sequence = useMarquee ? [...ecosystemKeys, ...ecosystemKeys] : ecosystemKeys
 
   useEffect(() => setMounted(true), [])
 
@@ -162,14 +214,26 @@ export default function HomeTechnologyEcosystem() {
         <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">{t('valueLabel')}</p>
         <p className="mt-1 text-sm leading-6 text-slate-800">{t(`${activeKey}.value`)}</p>
       </div>
-      {ctaHrefs[activeKey] ? (
-        <Link
-          href={ctaHrefs[activeKey]!}
-          className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-primary-dark hover:text-primary-darker hover:underline"
-        >
-          {t(`${activeKey}.cta`)}
-          <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-        </Link>
+      {ecosystemCtas[activeKey] ? (
+        ecosystemCtas[activeKey]!.type === 'external' ? (
+          <a
+            href={ecosystemCtas[activeKey]!.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-primary-dark hover:text-primary-darker hover:underline"
+          >
+            {t(`${activeKey}.cta`)}
+            <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+          </a>
+        ) : (
+          <Link
+            href={ecosystemCtas[activeKey]!.href}
+            className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-primary-dark hover:text-primary-darker hover:underline"
+          >
+            {t(`${activeKey}.cta`)}
+            <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+          </Link>
+        )
       ) : null}
     </div>
   ) : null
@@ -193,12 +257,12 @@ export default function HomeTechnologyEcosystem() {
         >
           <div className="marquee-mask overflow-hidden py-3">
             <div
-              className={reduceMotion ? 'flex flex-wrap justify-center gap-3' : 'technology-ecosystem-track flex w-max items-stretch gap-3'}
+              className={useMarquee ? 'technology-ecosystem-track flex w-max items-stretch gap-3' : 'flex flex-wrap justify-center gap-3'}
               data-paused={activeKey ? 'true' : undefined}
               aria-label={t('listLabel')}
             >
               {sequence.map((key, index) => {
-                const isDuplicate = !reduceMotion && index >= ecosystemKeys.length
+                const isDuplicate = useMarquee && index >= ecosystemKeys.length
                 const isActive = activeKey === key && triggerRef.current?.dataset.ecosystemIndex === String(index)
 
                 return (
@@ -226,7 +290,7 @@ export default function HomeTechnologyEcosystem() {
                     }}
                     onKeyDown={(event) => {
                       if (event.key === 'Escape') closePopover()
-                      if ((event.key === 'Enter' || event.key === ' ') && isActive && ctaHrefs[key]) {
+                      if ((event.key === 'Enter' || event.key === ' ') && isActive && ecosystemCtas[key]) {
                         event.preventDefault()
                         popoverRef.current?.querySelector<HTMLAnchorElement>('a')?.focus()
                       }
@@ -234,9 +298,21 @@ export default function HomeTechnologyEcosystem() {
                     tabIndex={isDuplicate ? -1 : 0}
                     aria-hidden={isDuplicate || undefined}
                   >
-                    <span className="text-lg font-extrabold tracking-tight text-slate-900 group-hover/item:text-primary-dark md:text-xl">
-                      {t(`${key}.wordmark`)}
-                    </span>
+                    {ecosystemLogos[key] ? (
+                      <span className="flex h-12 w-full items-center justify-center overflow-hidden rounded-lg bg-black px-2">
+                        <Image
+                          src={ecosystemLogos[key]!.src}
+                          alt=""
+                          width={ecosystemLogos[key]!.width}
+                          height={ecosystemLogos[key]!.height}
+                          className={ecosystemLogos[key]!.className}
+                        />
+                      </span>
+                    ) : (
+                      <span className="text-lg font-extrabold tracking-tight text-slate-900 group-hover/item:text-primary-dark md:text-xl">
+                        {t(`${key}.wordmark`)}
+                      </span>
+                    )}
                     <span className="mt-2 text-[0.68rem] font-bold uppercase tracking-[0.12em] text-slate-500">
                       {t(`${key}.relationship`)}
                     </span>

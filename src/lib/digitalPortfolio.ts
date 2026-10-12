@@ -70,14 +70,10 @@ export type PortfolioIndustryCategoryConfig = {
 
 /** Hero / proof grids: platforms first, then websites */
 export const portfolioHeroItemOrder: readonly PortfolioItemId[] = [
-  'outset',
-  'grcstatus',
   '4theblueprint',
-  'unjargonit',
   'boothlio',
   'valentir-green-tech',
   'my360vision',
-  'soaring-puck',
   'hockey-gaze',
   'pitch-hotshots',
   'kaylan-kaptures',
@@ -115,11 +111,11 @@ export const portfolioCuratedPaths = [
   },
   {
     id: 'custom-platform',
-    itemIds: ['grcstatus', 'boothlio'] as const satisfies readonly PortfolioItemId[],
+    itemIds: ['boothlio'] as const satisfies readonly PortfolioItemId[],
   },
   {
     id: 'education',
-    itemIds: ['outset', '4theblueprint', 'unjargonit'] as const satisfies readonly PortfolioItemId[],
+    itemIds: ['4theblueprint'] as const satisfies readonly PortfolioItemId[],
   },
 ] as const
 
@@ -143,7 +139,7 @@ export const portfolioIndustryCategories: PortfolioIndustryCategoryConfig[] = [
   },
   {
     id: 'sports-recreation',
-    itemIds: ['soaring-puck', 'hockey-gaze', 'goalie-stop'],
+    itemIds: ['hockey-gaze', 'goalie-stop'],
     contactService: 'websites-brand',
     i18nPrefix: 'industrySports',
   },
@@ -155,13 +151,13 @@ export const portfolioIndustryCategories: PortfolioIndustryCategoryConfig[] = [
   },
   {
     id: 'education-training',
-    itemIds: ['outset', '4theblueprint', 'unjargonit'],
+    itemIds: ['4theblueprint'],
     contactService: 'custom-platforms',
     i18nPrefix: 'industryEducation',
   },
   {
     id: 'professional-services',
-    itemIds: ['grcstatus', 'kaylan-kaptures', 'wj-wellness', 'careqlo'],
+    itemIds: ['kaylan-kaptures', 'wj-wellness', 'careqlo'],
     contactService: 'websites-brand',
     i18nPrefix: 'industryProfessional',
   },
@@ -358,11 +354,15 @@ export const portfolioItems: PortfolioItemConfig[] = [
   },
 ]
 
-/** Verifiable counts derived from the published portfolio records in this repository. */
+/** Counts for examples shown on the Digital Portfolio page. */
+const publishedPortfolioItems = portfolioHeroItemOrder
+  .map((id) => portfolioItems.find((item) => item.id === id))
+  .filter((item): item is PortfolioItemConfig => item != null)
+
 export const portfolioMetrics = {
-  total: portfolioItems.length,
-  websites: portfolioItems.filter((item) => item.category === 'website').length,
-  digitalProducts: portfolioItems.filter((item) => item.category === 'platform').length,
+  total: publishedPortfolioItems.length,
+  websites: publishedPortfolioItems.filter((item) => item.category === 'website').length,
+  digitalProducts: publishedPortfolioItems.filter((item) => item.category === 'platform').length,
 } as const
 
 export const portfolioImageAlts: Record<PortfolioItemId, string> = {

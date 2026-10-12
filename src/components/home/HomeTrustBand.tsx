@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import Reveal from '../motion/Reveal'
 
-const statKeys = ['experience', 'projects', 'examples', 'accountability'] as const
+const statKeys = ['experience', 'projects', 'accountability'] as const
 const FOUNDER_PORTRAIT_SRC = '/images/team/steven-robin.webp'
 
 export default function HomeTrustBand() {
@@ -15,7 +15,7 @@ export default function HomeTrustBand() {
   return (
     <section aria-labelledby="home-trust-title" className="relative bg-slate-950 py-10 text-white lg:py-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-5 border-b border-white/10 pb-9 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-5 border-b border-white/10 pb-9 sm:grid-cols-3">
           {statKeys.map((key, index) => (
             <Reveal key={key} delayMs={index * 35} className="text-center lg:text-left">
               <p className="text-2xl font-extrabold text-brand-gold sm:text-3xl">{t(`${key}Value`)}</p>

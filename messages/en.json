@@ -254,8 +254,6 @@
       "experienceLabel": "years across business and technology",
       "projectsValue": "500+",
       "projectsLabel": "engagements and projects delivered",
-      "examplesValue": "15",
-      "examplesLabel": "live digital examples you can inspect",
       "accountabilityValue": "1",
       "accountabilityLabel": "senior accountable lead throughout",
       "title": "Senior attention from discovery through implementation",
@@ -267,73 +265,74 @@
     "technologyEcosystem": {
       "eyebrow": "Technology ecosystem",
       "title": "The right relationship, clearly explained.",
-      "description": "Explore the relationships, credentials, platforms, and technologies that support ROALLA's advisory and delivery work. Pause on any name to see exactly what the relationship means.",
+      "description": "Explore partner, advisor, and vendor relationships that support ROALLA's technology advisory and delivery work. Pause on any name to see exactly what the relationship means.",
       "listLabel": "ROALLA technology ecosystem",
       "openLabel": "Open details for {name}, categorized as {relationship}",
       "valueLabel": "How ROALLA adds value",
-      "disclosure": "Relationship labels are intentional. Only Telarus is presented here as a verified commercial advisor relationship. Credentials, platform use, and implementation experience do not imply endorsement, reseller status, or an official partnership.",
+      "disclosure": "Relationship labels are intentional. Telarus is a verified commercial advisor relationship. Field Effect is a cybersecurity partner. Zoom is a verified supplier. Lunavi and Thrive are service-focused partners. Equinix is a provider. TERAGO is a connectivity provider. SpeechLogix is a non-exclusive independent reseller and business development intermediary relationship. A listed relationship does not mean every available supplier has been evaluated or endorsed.",
       "telarus": {
         "name": "Telarus",
         "wordmark": "TELARUS",
         "relationship": "Verified advisor relationship",
         "description": "ROALLA is a Telarus Technology Advisor through a non-exclusive relationship that provides access to suppliers, solution specialists, sales engineering, and implementation support.",
-        "value": "ROALLA starts with client requirements, compares suitable options, discloses relevant compensation, and remains accountable through implementation.",
+        "value": "ROALLA starts with client requirements and expected outcomes, compares suitable options, discloses relevant compensation, and remains accountable through implementation.",
         "cta": "View partner disclosure"
       },
-      "microsoftAzure": {
-        "name": "Microsoft Azure",
-        "wordmark": "Microsoft Azure",
-        "relationship": "Training & platform experience",
-        "description": "ROALLA has Microsoft Azure training and practical experience evaluating cloud, identity, integration, and application requirements.",
-        "value": "Translate cloud capabilities into a right-sized architecture, migration path, and operating model instead of starting with a product pitch.",
-        "cta": "Explore technology advisory"
+      "fieldEffect": {
+        "name": "Field Effect",
+        "wordmark": "Field Effect",
+        "relationship": "Cybersecurity partner",
+        "description": "ROALLA partners with Field Effect to help organizations evaluate and source managed detection and response—intelligence-grade cybersecurity engineered for the AI era.",
+        "value": "Clarify cybersecurity requirements and expected outcomes, then compare suitable MDR and related controls before committing to a stack.",
+        "cta": "Visit Field Effect"
       },
-      "aws": {
-        "name": "Amazon Web Services",
-        "wordmark": "AWS",
-        "relationship": "Technical training",
-        "description": "ROALLA has AWS training that informs cloud option evaluation and implementation planning. This is not presented as reseller or official partner status.",
-        "value": "Compare hosting, security, resilience, cost, and support requirements before selecting or changing a cloud platform.",
-        "cta": "Explore technology advisory"
+      "zoom": {
+        "name": "Zoom",
+        "wordmark": "zoom",
+        "relationship": "Verified supplier",
+        "description": "ROALLA can source and support Zoom communications solutions—meetings, phone, contact centre, and collaboration—through verified supplier access when they fit client requirements.",
+        "value": "Define calling, meeting, and collaboration needs first, then compare Zoom and other qualified options on fit, cost, adoption, and support.",
+        "cta": "Visit Zoom"
       },
-      "google": {
-        "name": "Google",
-        "wordmark": "Google",
-        "relationship": "Professional credentials",
-        "description": "ROALLA's founder holds Google professional certificates in AI and cybersecurity. These are individual credentials, not a commercial partnership.",
-        "value": "Apply current AI and security learning to practical requirements, risk decisions, and adoption planning."
+      "lunavi": {
+        "name": "Lunavi",
+        "wordmark": "LUNAVI",
+        "relationship": "Service-focused partner",
+        "description": "ROALLA works with Lunavi for service-led delivery—cloud, Microsoft, managed services, AI and data analytics, and application development—when clients need hands-on implementation and ongoing IT support.",
+        "value": "Define transformation and operations outcomes first, then engage Lunavi where specialized delivery capacity improves speed, quality, and accountability.",
+        "cta": "Visit Lunavi"
       },
-      "openai": {
-        "name": "OpenAI",
-        "wordmark": "OpenAI",
-        "relationship": "Platform user",
-        "description": "ROALLA uses OpenAI services in selected AI solutions through a managed gateway with centralized access, limits, and usage controls.",
-        "value": "Design AI workflows around business value, privacy, review, failure handling, and measurable operating outcomes.",
-        "cta": "Explore agentic solutions"
+      "equinix": {
+        "name": "Equinix",
+        "wordmark": "Equinix",
+        "relationship": "Provider",
+        "description": "ROALLA can source Equinix digital infrastructure—colocation, interconnection, and related data centre services—when clients need secure, globally connected facilities for hybrid and multi-cloud workloads.",
+        "value": "Clarify location, interconnection, latency, and resilience requirements first, then compare Equinix and other qualified infrastructure options on fit, cost, and operational control.",
+        "cta": "Visit Equinix"
       },
-      "railway": {
-        "name": "Railway",
-        "wordmark": "Railway",
-        "relationship": "Hosting platform user",
-        "description": "ROALLA uses Railway as a deployment platform for selected web applications and services. This is a customer/platform-use relationship.",
-        "value": "Choose a deployment approach that keeps launch, maintenance, observability, and future change practical for the client.",
-        "cta": "Explore digital delivery"
+      "terago": {
+        "name": "TERAGO",
+        "wordmark": "TERA",
+        "relationship": "Connectivity provider",
+        "description": "ROALLA can source TERAGO Canadian connectivity—business internet, managed SD-WAN, business continuity, and private 5G—when clients need resilient, fully managed wireless and networking infrastructure.",
+        "value": "Define uptime, diversity, coverage, and managed-service requirements first, then compare TERAGO and other qualified connectivity options on fit, deployment speed, and accountability.",
+        "cta": "Visit TERAGO"
       },
-      "nextjs": {
-        "name": "Next.js",
-        "wordmark": "NEXT.JS",
-        "relationship": "Technology in use",
-        "description": "ROALLA uses Next.js to build selected production websites, portals, and applications. It is an implementation technology, not a commercial partnership.",
-        "value": "Build fast, accessible, maintainable digital experiences with a clear path from discovery to production.",
-        "cta": "Explore digital delivery"
+      "thrive": {
+        "name": "Thrive",
+        "wordmark": "THRIVE",
+        "relationship": "Service-focused partner",
+        "description": "ROALLA works with Thrive for NextGen managed services—cybersecurity, cloud, managed IT infrastructure, Microsoft 365, and compliance—when clients need outsourced operations with clear accountability.",
+        "value": "Define risk, operations, and compliance outcomes first, then engage Thrive where managed delivery capacity improves resilience, response, and day-to-day IT performance.",
+        "cta": "Visit Thrive"
       },
-      "postgresql": {
-        "name": "PostgreSQL",
-        "wordmark": "PostgreSQL",
-        "relationship": "Technology in use",
-        "description": "ROALLA uses PostgreSQL for selected data-backed applications. PostgreSQL is open-source technology, not a partner relationship.",
-        "value": "Create dependable data foundations with clear ownership, secure access, and room to evolve as workflows mature.",
-        "cta": "Explore digital delivery"
+      "speechLogix": {
+        "name": "SpeechLogix",
+        "wordmark": "SpeechLogix",
+        "relationship": "Non-exclusive independent reseller and business development intermediary",
+        "description": "ROALLA acts as a non-exclusive independent reseller and business development intermediary for SpeechLogix unified communications and collaboration solutions—including the XLogix platform and related cloud telephony offerings—when they fit client requirements.",
+        "value": "Clarify UC, contact centre, and collaboration needs first, then introduce SpeechLogix where the platform fit, white-label flexibility, and delivery model support the intended outcomes.",
+        "cta": "Visit SpeechLogix"
       }
     },
     "visibility": {
@@ -1413,7 +1412,7 @@
     "s1Outcome": "A digital product built around the business value you need to create.",
     "s1NotFor": "A brochure or marketing site is sufficient.",
     "s1Cta": "Explore Digital Product Builds",
-    "s1Proof": "See My360Vision & Soaring Puck in Digital Portfolio",
+    "s1Proof": "See My360Vision & Boothlio in Digital Portfolio",
     "automationTimeline": "Typical automation scope: 2–6 weeks",
     "s2Title": "Workflow Automation & Integrations",
     "s2Desc": "Connect the tools you already use and automate handoffs between teams—when integrating systems and removing manual steps matters more than building a full product from scratch.",

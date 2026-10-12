@@ -18,12 +18,17 @@ test.describe("Header", () => {
 
     await page.locator("#digital-dropdown-desktop").click();
     const menu = page.locator('[aria-labelledby="digital-dropdown-desktop"]');
-    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(4);
+    await expect(menu.getByText("By Business Need", { exact: true })).toBeVisible();
+    await expect(menu.getByText("By Technology & Capability", { exact: true })).toBeVisible();
+    await expect(menu.locator('[role="group"][aria-labelledby="capability-heading"] a[role="menuitem"]')).toHaveCount(5);
     await expect(
       menu.locator('a[href="/en/programs/technology-advisory"]'),
     ).toHaveAttribute("role", "menuitem");
     await expect(
       menu.locator('a[href="/en/services/digital"]'),
+    ).toHaveAttribute("role", "menuitem");
+    await expect(
+      menu.locator('a[href="/en/services/agentic"]'),
     ).toHaveAttribute("role", "menuitem");
     await expect(
       menu.locator('a[href="/en/services/digital-visibility-optimization"]'),

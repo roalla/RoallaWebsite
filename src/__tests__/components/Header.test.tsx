@@ -128,12 +128,14 @@ describe('Header', () => {
     expect(screen.getByRole('menuitem', { name: /technologyPartners/i })).toHaveAttribute('href', '/partners')
   })
 
-  it('renders the solutions-by-need mega menu with eight outcome pathways', () => {
+  it('groups business needs and technology capabilities in Technology Solutions', () => {
     render(<Header />)
-    const solutionsButtons = screen.getAllByRole('button', { name: 'Solutions by Need' })
-    fireEvent.click(solutionsButtons[0])
+    expect(screen.queryByRole('button', { name: 'Solutions by Need' })).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'digitalEnablement' }))
 
-    const menu = screen.getByRole('menu', { name: 'Solutions by Need' })
+    const menu = screen.getByRole('menu', { name: 'digitalEnablement' })
+    expect(within(menu).getByText('By Business Need')).toBeInTheDocument()
+    expect(within(menu).getByText('By Technology & Capability')).toBeInTheDocument()
     expect(within(menu).getByRole('menuitem', { name: /Set direction and priorities/i })).toHaveAttribute(
       'href',
       '/solutions#strategy',
@@ -142,7 +144,11 @@ describe('Header', () => {
       'href',
       '/solutions#optimization',
     )
-    expect(within(menu).getAllByRole('menuitem')).toHaveLength(10)
+    expect(within(menu).getByRole('menuitem', { name: /Find Your Starting Point/i })).toHaveAttribute(
+      'href',
+      '/assessment',
+    )
+    expect(within(menu).getAllByRole('menuitem')).toHaveLength(15)
   })
 
   it('marks only the matching dropdown item for the current page', () => {

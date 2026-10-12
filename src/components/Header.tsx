@@ -22,6 +22,7 @@ import {
   FileText,
   Lightbulb,
   BookOpen,
+  ArrowRight,
 } from "lucide-react";
 import Image from "next/image";
 import { usePathname as useNextPathname } from "next/navigation";
@@ -31,10 +32,7 @@ import ScheduleButton from "./ScheduleButton";
 import { CLIENT_PORTAL_URL } from "@/lib/site";
 import { HEADER_INSIGHT_SLUGS, headerInsightsForGroup, type InsightSlug } from "@/lib/insights";
 import { trackAnalyticsEvent } from "@/lib/analytics";
-import {
-  SolutionsByNeedDesktopMenu,
-  SolutionsByNeedMobileMenu,
-} from "@/components/solutions/SolutionsByNeedMenu";
+import { solutionsByNeedContent } from "@/lib/solutions-by-need";
 
 /** Canadian flag: red bands, white centre, red maple leaf (simplified) */
 function CanadianFlagIcon({ className }: { className?: string }) {
@@ -350,6 +348,10 @@ const Header = ({
   const tInsights = useTranslations("insights");
   const tCommon = useTranslations("common");
   const locale = useLocale();
+  const solutionsContent = solutionsByNeedContent[locale === "fr" ? "fr" : "en"];
+  const businessNeedHeading = locale === "fr" ? "Par besoin d’affaires" : "By Business Need";
+  const capabilityHeading = locale === "fr" ? "Par technologie et capacité" : "By Technology & Capability";
+  const startingPointLabel = locale === "fr" ? "Trouver votre point de départ" : "Find Your Starting Point";
 
   const isConsultingPage =
     pathname === "/programs/business-enablement" ||
@@ -567,6 +569,7 @@ const Header = ({
   };
 
   const isDigitalActive =
+    pathname === "/solutions" ||
     pathname === "/services/digital" ||
     pathname === "/services/agentic" ||
     pathname === "/programs/technology-advisory" ||
@@ -615,7 +618,7 @@ const Header = ({
 
   useEffect(() => {
     if (!isMenuOpen) return;
-    if (digitalLinks.some((item) => isCurrentHref(item.href))) {
+    if (pathname === "/solutions" || digitalLinks.some((item) => isCurrentHref(item.href))) {
       setDigitalMobileExpanded(true);
     }
     if (
@@ -746,18 +749,20 @@ const Header = ({
           {/* Desktop Navigation */}
           <div className="hidden xl:flex items-center justify-center min-w-0 flex-1">
             <div className="flex items-center justify-center gap-3 2xl:gap-5">
-              <SolutionsByNeedDesktopMenu
-                navIdleClass={navIdleClass}
-                navOpenBgClass={navOpenBgClass}
-                onNavigate={closeMenu}
-              />
-
               <div className="relative" ref={digitalDropdownDesktopRef}>
                 <button
                   type="button"
                   onClick={() => {
                     closeOtherDesktopDropdowns("digital");
-                    setDigitalDropdownOpen((o) => !o);
+                    setDigitalDropdownOpen((open) => {
+                      if (!open) {
+                        trackAnalyticsEvent("solutions_menu_open", {
+                          location: "desktop_header",
+                          menu: "technology_solutions",
+                        });
+                      }
+                      return !open;
+                    });
                   }}
                   aria-expanded={digitalDropdownOpen}
                   aria-haspopup="menu"
@@ -781,51 +786,118 @@ const Header = ({
                 <div
                   role="menu"
                   aria-labelledby="digital-dropdown-desktop"
-                  className={`absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[min(100vw-2rem,360px)] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50 ${dropdownPanelClass(digitalDropdownOpen)}`}
+                  className={`fixed left-1/2 top-[4.75rem] z-50 w-[min(64rem,calc(100vw-2rem))] -translate-x-1/2 overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 ${dropdownPanelClass(digitalDropdownOpen)}`}
                 >
-                  <div className="px-4 py-2.5 border-b border-white/10 bg-white/[0.03]">
+                  <div className="px-5 py-3 border-b border-white/10 bg-white/[0.03]">
                     <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
                       {t("digitalEnablementMenuLabel")}
                     </p>
                   </div>
-                  <div className="p-1.5">
-                    {digitalLinks.map((item) => {
-                      const Icon = item.icon;
-                      const linkKey = item.href;
-                      const current = isCurrentHref(item.href);
-                      return (
+                  <div className="grid grid-cols-[1.25fr_0.9fr] divide-x divide-white/10">
+                    <section role="group" aria-labelledby="business-need-heading" className="p-3">
+                      <div className="flex items-center justify-between gap-4 px-2 pb-2">
+                        <p id="business-need-heading" className="text-xs font-bold uppercase tracking-[0.15em] text-primary">
+                          {businessNeedHeading}
+                        </p>
                         <Link
-                          key={linkKey}
-                          href={item.href}
+                          href="/solutions"
                           role="menuitem"
-                          aria-current={current ? "page" : undefined}
+                          aria-current={pathname === "/solutions" ? "page" : undefined}
                           onClick={() => {
+                            trackAnalyticsEvent("solutions_pathway_click", {
+                              location: "desktop_header",
+                              pathway: "all",
+                            });
                             setDigitalDropdownOpen(false);
                             closeMenu();
                           }}
-                          className={`${digitalDropdownItemClass} ${current ? "bg-primary/10" : ""}`}
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-white focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                         >
-                          <div className={digitalDropdownIconClass}>
-                            <Icon className="h-4 w-4" aria-hidden />
-                          </div>
-                          <div className="min-w-0 text-left">
-                            <p
-                              className={`text-sm font-semibold leading-snug transition-colors ${
-                                current
-                                  ? "text-primary"
-                                  : "text-white group-hover:text-primary"
-                              }`}
-                            >
-                              {t(item.nameKey)}
-                            </p>
-                            <p className="mt-0.5 text-xs leading-snug text-slate-400 group-hover:text-slate-300">
-                              {t(item.descKey)}
-                            </p>
-                          </div>
+                          {solutionsContent.viewAll}
+                          <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                         </Link>
-                      );
-                    })}
+                      </div>
+                      <div className="grid grid-cols-2 gap-1">
+                        {solutionsContent.pathways.map((pathway) => (
+                          <Link
+                            key={pathway.id}
+                            href={{ pathname: "/solutions", hash: pathway.id }}
+                            role="menuitem"
+                            onClick={() => {
+                              trackAnalyticsEvent("solutions_pathway_click", {
+                                location: "desktop_header",
+                                pathway: pathway.id,
+                              });
+                              setDigitalDropdownOpen(false);
+                              closeMenu();
+                            }}
+                            className="group rounded-lg px-3 py-2.5 transition-colors hover:bg-white/5 focus-visible:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
+                          >
+                            <span className="block text-sm font-semibold leading-snug text-white transition-colors group-hover:text-primary">
+                              {pathway.shortTitle}
+                            </span>
+                            <span className="mt-0.5 block text-xs leading-snug text-slate-500">
+                              {pathway.serviceLabel}
+                            </span>
+                          </Link>
+                        ))}
+                      </div>
+                    </section>
+
+                    <section role="group" aria-labelledby="capability-heading" className="p-3">
+                      <p id="capability-heading" className="px-2 pb-2 text-xs font-bold uppercase tracking-[0.15em] text-primary">
+                        {capabilityHeading}
+                      </p>
+                      {digitalLinks.map((item) => {
+                        const Icon = item.icon;
+                        const current = isCurrentHref(item.href);
+                        return (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            role="menuitem"
+                            aria-current={current ? "page" : undefined}
+                            onClick={() => {
+                              setDigitalDropdownOpen(false);
+                              closeMenu();
+                            }}
+                            className={`${digitalDropdownItemClass} ${current ? "bg-primary/10" : ""}`}
+                          >
+                            <div className={digitalDropdownIconClass}>
+                              <Icon className="h-4 w-4" aria-hidden />
+                            </div>
+                            <div className="min-w-0 text-left">
+                              <p className={`text-sm font-semibold leading-snug transition-colors ${current ? "text-primary" : "text-white group-hover:text-primary"}`}>
+                                {t(item.nameKey)}
+                              </p>
+                              <p className="mt-0.5 text-xs leading-snug text-slate-400 group-hover:text-slate-300">
+                                {t(item.descKey)}
+                              </p>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                    </section>
                   </div>
+                  <Link
+                    href="/assessment"
+                    role="menuitem"
+                    onClick={() => {
+                      trackAnalyticsEvent("solutions_assessment_click", {
+                        location: "desktop_header",
+                        menu: "technology_solutions",
+                      });
+                      setDigitalDropdownOpen(false);
+                      closeMenu();
+                    }}
+                    className="flex items-center justify-between gap-4 border-t border-white/10 bg-primary/[0.08] px-5 py-3 text-sm transition hover:bg-primary/[0.14] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
+                  >
+                    <span>
+                      <span className="font-semibold text-white">{startingPointLabel}</span>{" "}
+                      <span className="text-slate-400">{solutionsContent.assessmentDescription}</span>
+                    </span>
+                    <ArrowRight className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+                  </Link>
                 </div>
               </div>
 
@@ -1253,13 +1325,22 @@ const Header = ({
                 </Link>
               )}
 
-              <SolutionsByNeedMobileMenu onNavigate={closeMenu} />
-
-              <div className="border-t border-white/10 pt-1">
+              <div>
                 <button
                   type="button"
-                  onClick={() => setDigitalMobileExpanded((o) => !o)}
+                  onClick={() => {
+                    setDigitalMobileExpanded((expanded) => {
+                      if (!expanded) {
+                        trackAnalyticsEvent("solutions_menu_open", {
+                          location: "mobile_header",
+                          menu: "technology_solutions",
+                        });
+                      }
+                      return !expanded;
+                    });
+                  }}
                   aria-expanded={digitalMobileExpanded}
+                  aria-controls="technology-solutions-mobile-panel"
                   className={`w-full flex items-center justify-between px-3 py-3 min-h-[44px] rounded-md text-base font-medium transition-colors duration-200 ${
                     isDigitalActive
                       ? "text-primary bg-primary/10"
@@ -1272,9 +1353,52 @@ const Header = ({
                   />
                 </button>
                 <div
+                  id="technology-solutions-mobile-panel"
                   className={`collapse-grid ${digitalMobileExpanded ? "collapse-grid-open" : "collapse-grid-closed"}`}
                 >
-                  <div className="overflow-hidden min-h-0">
+                  <div className="overflow-hidden min-h-0 pb-2">
+                    <p className="px-5 pb-1 pt-2 text-[11px] font-bold uppercase tracking-[0.15em] text-primary">
+                      {businessNeedHeading}
+                    </p>
+                    {solutionsContent.pathways.map((pathway) => (
+                      <Link
+                        key={pathway.id}
+                        href={{ pathname: "/solutions", hash: pathway.id }}
+                        className="flex min-h-[44px] items-center justify-between gap-3 rounded-md py-2.5 pl-5 pr-3 text-gray-300 transition-colors hover:bg-white/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
+                        onClick={(event) => {
+                          trackAnalyticsEvent("solutions_pathway_click", {
+                            location: "mobile_header",
+                            pathway: pathway.id,
+                          });
+                          handleMobileNavClick(event, `/solutions#${pathway.id}`);
+                        }}
+                      >
+                        <span>
+                          <span className="block text-sm font-medium">{pathway.shortTitle}</span>
+                          <span className="mt-0.5 block text-xs text-slate-500">{pathway.serviceLabel}</span>
+                        </span>
+                        <ArrowRight className="h-4 w-4 shrink-0 opacity-60" aria-hidden />
+                      </Link>
+                    ))}
+                    <Link
+                      href="/solutions"
+                      aria-current={pathname === "/solutions" ? "page" : undefined}
+                      className="mx-3 my-2 flex min-h-[44px] items-center justify-between rounded-lg border border-primary/30 bg-primary/10 px-3 py-2.5 text-sm font-semibold text-primary"
+                      onClick={(event) => {
+                        trackAnalyticsEvent("solutions_pathway_click", {
+                          location: "mobile_header",
+                          pathway: "all",
+                        });
+                        handleMobileNavClick(event, "/solutions");
+                      }}
+                    >
+                      {solutionsContent.viewAll}
+                      <ArrowRight className="h-4 w-4" aria-hidden />
+                    </Link>
+                    <div role="separator" className="mx-3 my-2 border-t border-white/10" />
+                    <p className="px-5 pb-1 pt-1 text-[11px] font-bold uppercase tracking-[0.15em] text-primary">
+                      {capabilityHeading}
+                    </p>
                     {digitalLinks.map((item) => {
                       const Icon = item.icon;
                       const linkKey = item.href;
@@ -1303,6 +1427,23 @@ const Header = ({
                         </Link>
                       );
                     })}
+                    <Link
+                      href="/assessment"
+                      className="mx-3 mt-2 flex min-h-[44px] items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/5 px-3 py-3 text-sm text-slate-300"
+                      onClick={(event) => {
+                        trackAnalyticsEvent("solutions_assessment_click", {
+                          location: "mobile_header",
+                          menu: "technology_solutions",
+                        });
+                        handleMobileNavClick(event, "/assessment");
+                      }}
+                    >
+                      <span>
+                        <span className="block font-semibold text-white">{startingPointLabel}</span>
+                        <span className="mt-1 block text-xs text-slate-500">{solutionsContent.assessmentDescription}</span>
+                      </span>
+                      <ArrowRight className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+                    </Link>
                   </div>
                 </div>
               </div>

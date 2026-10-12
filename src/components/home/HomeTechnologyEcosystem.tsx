@@ -299,7 +299,7 @@ export default function HomeTechnologyEcosystem() {
                     aria-hidden={isDuplicate || undefined}
                   >
                     {ecosystemLogos[key] ? (
-                      <span className="flex h-12 w-full items-center justify-center overflow-hidden rounded-lg bg-black px-2">
+                      <span className="flex h-12 w-full items-center justify-center overflow-hidden rounded-lg bg-white px-2 ring-1 ring-slate-200">
                         <Image
                           src={ecosystemLogos[key]!.src}
                           alt=""

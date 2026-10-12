@@ -269,7 +269,7 @@
       "listLabel": "Écosystème technologique de ROALLA",
       "openLabel": "Ouvrir les détails de {name}, classé comme {relationship}",
       "valueLabel": "Comment ROALLA crée de la valeur",
-      "disclosure": "Les libellés de relation sont intentionnels. Telarus est une relation commerciale de conseiller vérifiée. Field Effect est un partenaire en cybersécurité. Zoom est un fournisseur vérifié. Lunavi et Thrive sont des partenaires axés sur les services. Equinix est un fournisseur d'infrastructure. TERAGO est un fournisseur de connectivité. SpeechLogix est une relation de revendeur indépendant non exclusif et d'intermédiaire en développement des affaires. Une relation listée ne signifie pas que chaque fournisseur disponible a été évalué ou endossé.",
+      "viewAllCta": "Voir tous les fournisseurs",
       "telarus": {
         "name": "Telarus",
         "wordmark": "TELARUS",
@@ -3901,6 +3901,16 @@
     "backToPartners": "Retour aux partenaires",
     "confirmDeletePartner": "Supprimer ce partenaire définitivement?",
     "contactHubAdmin": "Contacter l'admin du hub"
+  },
+  "providersPage": {
+    "metadataTitle": "Fournisseurs technologiques | ROALLA",
+    "metadataDescription": "Parcourez l'écosystème technologique de ROALLA—conseillers, partenaires, fournisseurs et prestataires—avec un libellé clair pour chaque relation.",
+    "eyebrow": "Écosystème technologique",
+    "title": "Fournisseurs",
+    "subtitle": "Chaque fiche nomme clairement la relation pour que vous compreniez comment ROALLA collabore avec cette organisation—et ce que cela signifie, ou non, pour votre décision.",
+    "listLabel": "Fournisseurs technologiques de ROALLA",
+    "note": "Une relation listée ne signifie pas que chaque fournisseur disponible a été évalué ou endossé. ROALLA part de vos exigences et des résultats attendus.",
+    "advisoryCta": "Explorer le conseil technologique"
   },
   "partnersPlatforms": {
     "metadataTitle": "Partenaires technologiques et plateformes | ROALLA",

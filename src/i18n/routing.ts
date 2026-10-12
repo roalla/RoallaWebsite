@@ -40,6 +40,7 @@ export const routing = defineRouting({
     "/tools/technology-decision-brief": "/tools/technology-decision-brief",
     "/about": "/about",
     "/partners": "/partners",
+    "/providers": "/providers",
     "/assessment": "/assessment",
     "/faq": "/faq",
     "/use-cases": "/use-cases",

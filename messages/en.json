@@ -269,7 +269,7 @@
       "listLabel": "ROALLA technology ecosystem",
       "openLabel": "Open details for {name}, categorized as {relationship}",
       "valueLabel": "How ROALLA adds value",
-      "disclosure": "Relationship labels are intentional. Telarus is a verified commercial advisor relationship. Field Effect is a cybersecurity partner. Zoom is a verified supplier. Lunavi and Thrive are service-focused partners. Equinix is a provider. TERAGO is a connectivity provider. SpeechLogix is a non-exclusive independent reseller and business development intermediary relationship. A listed relationship does not mean every available supplier has been evaluated or endorsed.",
+      "viewAllCta": "View all providers",
       "telarus": {
         "name": "Telarus",
         "wordmark": "TELARUS",
@@ -3901,6 +3901,16 @@
     "backToPartners": "Back to partners",
     "confirmDeletePartner": "Delete this partner permanently?",
     "contactHubAdmin": "Contact hub admin"
+  },
+  "providersPage": {
+    "metadataTitle": "Technology Providers | ROALLA",
+    "metadataDescription": "Browse ROALLA's technology ecosystem—advisors, partners, suppliers, and providers—with a clear label for each relationship.",
+    "eyebrow": "Technology ecosystem",
+    "title": "Providers",
+    "subtitle": "Each listing names the relationship clearly so you can understand how ROALLA works with that organization—and what that does and does not mean for your decision.",
+    "listLabel": "ROALLA technology providers",
+    "note": "A listed relationship does not mean every available supplier has been evaluated or endorsed. ROALLA starts with your requirements and expected outcomes.",
+    "advisoryCta": "Explore Technology Advisory"
   },
   "partnersPlatforms": {
     "metadataTitle": "Technology Partners & Platforms | ROALLA",

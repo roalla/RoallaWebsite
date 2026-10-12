@@ -7,84 +7,17 @@ import { ArrowRight, Info } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
-
-const ecosystemKeys = [
-  'telarus',
-  'fieldEffect',
-  'zoom',
-  'lunavi',
-  'equinix',
-  'terago',
-  'thrive',
-  'speechLogix',
-] as const
-
-type EcosystemKey = (typeof ecosystemKeys)[number]
-
-const ecosystemLogos: Partial<Record<EcosystemKey, { src: string; width: number; height: number; className: string }>> = {
-  telarus: {
-    src: '/images/partners/telarus-logo.png',
-    width: 160,
-    height: 80,
-    className: 'h-10 w-auto object-contain md:h-11',
-  },
-  zoom: {
-    src: '/images/partners/zoom-logo.png',
-    width: 160,
-    height: 80,
-    className: 'h-8 w-auto object-contain md:h-9',
-  },
-  lunavi: {
-    src: '/images/partners/lunavi-logo.png',
-    width: 200,
-    height: 80,
-    className: 'h-8 w-auto object-contain md:h-9',
-  },
-  equinix: {
-    src: '/images/partners/equinix-logo.png',
-    width: 160,
-    height: 80,
-    className: 'h-8 w-auto object-contain md:h-9',
-  },
-  terago: {
-    src: '/images/partners/terago-logo.png',
-    width: 200,
-    height: 80,
-    className: 'h-8 w-auto object-contain md:h-9',
-  },
-  thrive: {
-    src: '/images/partners/thrive-logo.png',
-    width: 160,
-    height: 120,
-    className: 'h-10 w-auto object-contain md:h-11',
-  },
-  speechLogix: {
-    src: '/images/partners/speechlogix-logo.png',
-    width: 220,
-    height: 80,
-    className: 'h-8 w-auto object-contain md:h-9',
-  },
-}
+import {
+  ecosystemCtas,
+  ecosystemKeys,
+  ecosystemLogos,
+  type EcosystemKey,
+} from '@/lib/technologyEcosystem'
 
 type PopoverPosition = {
   left: number
   top: number
   placement: 'top' | 'bottom' | 'viewport'
-}
-
-type EcosystemCta =
-  | { type: 'internal'; href: '/partners' }
-  | { type: 'external'; href: string }
-
-const ecosystemCtas: Partial<Record<EcosystemKey, EcosystemCta>> = {
-  telarus: { type: 'internal', href: '/partners' },
-  fieldEffect: { type: 'external', href: 'https://fieldeffect.com/' },
-  zoom: { type: 'external', href: 'https://www.zoom.com/' },
-  lunavi: { type: 'external', href: 'https://www.lunavi.com/' },
-  equinix: { type: 'external', href: 'https://www.equinix.com/' },
-  terago: { type: 'external', href: 'https://terago.ca/' },
-  thrive: { type: 'external', href: 'https://thrivenextgen.com/' },
-  speechLogix: { type: 'external', href: 'https://speechlogix.com/' },
 }
 
 function getPopoverPosition(element: HTMLElement): PopoverPosition {
@@ -323,7 +256,15 @@ export default function HomeTechnologyEcosystem() {
           </div>
         </div>
 
-        <p className="mx-auto mt-7 max-w-4xl text-center text-xs leading-5 text-slate-500">{t('disclosure')}</p>
+        <div className="mt-8 flex justify-center">
+          <Link
+            href="/providers"
+            className="inline-flex min-h-12 items-center justify-center rounded-lg bg-primary px-6 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
+          >
+            {t('viewAllCta')}
+            <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+          </Link>
+        </div>
       </div>
       {mounted && popover ? createPortal(popover, document.body) : null}
     </section>

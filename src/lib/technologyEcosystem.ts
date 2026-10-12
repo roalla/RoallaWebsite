@@ -25,6 +25,12 @@ export const ecosystemLogos: Partial<Record<EcosystemKey, EcosystemLogo>> = {
     height: 80,
     className: 'h-10 w-auto object-contain md:h-11',
   },
+  fieldEffect: {
+    src: '/images/partners/fieldeffect-logo.png',
+    width: 250,
+    height: 56,
+    className: 'h-8 w-auto max-w-full object-contain md:h-9',
+  },
   zoom: {
     src: '/images/partners/zoom-logo.png',
     width: 160,

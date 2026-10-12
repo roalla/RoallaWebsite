@@ -76,6 +76,7 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 100px;
+    overflow-x: clip;
     --font-portal-body: "Roalla Figtree", "Roalla Figtree Fallback", "Segoe UI", system-ui, sans-serif;
     --font-portal-display: "Roalla Sora", "Roalla Sora Fallback", var(--font-portal-body);
   }
@@ -84,6 +85,7 @@
     @apply bg-white text-slate-800 font-sans transition-colors duration-300 antialiased;
     line-height: 1.6;
     font-family: var(--roalla-font-body);
+    overflow-x: clip;
   }
   
   h1, h2, h3, h4, h5, h6 {

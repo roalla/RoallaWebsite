@@ -264,6 +264,80 @@
       "cta": "Rencontrer le fondateur",
       "photoAlt": "Steven Robin, fondateur et conseiller principal de ROALLA"
     },
+    "technologyEcosystem": {
+      "eyebrow": "Écosystème technologique",
+      "title": "Chaque relation, expliquée clairement.",
+      "description": "Explorez les relations de partenaire, de conseiller et de fournisseur qui appuient le conseil et la livraison technologiques de ROALLA. Arrêtez-vous sur un nom pour voir exactement ce que la relation signifie.",
+      "listLabel": "Écosystème technologique de ROALLA",
+      "openLabel": "Ouvrir les détails de {name}, classé comme {relationship}",
+      "valueLabel": "Comment ROALLA crée de la valeur",
+      "closeLabel": "Fermer les détails",
+      "viewAllCta": "Voir tous les fournisseurs",
+      "telarus": {
+        "name": "Telarus",
+        "wordmark": "TELARUS",
+        "relationship": "Relation de conseiller vérifiée",
+        "description": "ROALLA est conseiller technologique Telarus dans le cadre d'une relation non exclusive donnant accès à des fournisseurs, spécialistes, ingénieurs commerciaux et services de mise en œuvre.",
+        "value": "ROALLA part des exigences du client et des résultats attendus, compare les options pertinentes, divulgue la rémunération applicable et demeure responsable pendant la mise en œuvre.",
+        "cta": "Voir la divulgation partenaire"
+      },
+      "fieldEffect": {
+        "name": "Field Effect",
+        "wordmark": "Field Effect",
+        "relationship": "Partenaire en cybersécurité",
+        "description": "ROALLA s'associe à Field Effect pour aider les organisations à évaluer et sourcer la détection et la réponse gérées—une cybersécurité de niveau renseignement conçue pour l'ère de l'IA.",
+        "value": "Clarifier les exigences et les résultats attendus en cybersécurité, puis comparer une MDR et des contrôles connexes adaptés avant de s'engager dans une pile.",
+        "cta": "Visiter Field Effect"
+      },
+      "zoom": {
+        "name": "Zoom",
+        "wordmark": "zoom",
+        "relationship": "Fournisseur vérifié",
+        "description": "ROALLA peut sourcer et soutenir les solutions de communications Zoom—réunions, téléphonie, centre de contact et collaboration—par un accès fournisseur vérifié lorsqu'elles conviennent aux exigences du client.",
+        "value": "Définir d'abord les besoins d'appels, de réunions et de collaboration, puis comparer Zoom et d'autres options qualifiées selon l'adéquation, le coût, l'adoption et le soutien.",
+        "cta": "Visiter Zoom"
+      },
+      "lunavi": {
+        "name": "Lunavi",
+        "wordmark": "LUNAVI",
+        "relationship": "Partenaire axé sur les services",
+        "description": "ROALLA collabore avec Lunavi pour une livraison axée sur les services—nuage, Microsoft, services gérés, IA et analytique de données, et développement d'applications—lorsque les clients ont besoin de mise en œuvre pratique et de soutien TI continu.",
+        "value": "Définir d'abord les résultats de transformation et d'exploitation, puis faire appel à Lunavi lorsque la capacité de livraison spécialisée améliore la vitesse, la qualité et la responsabilisation.",
+        "cta": "Visiter Lunavi"
+      },
+      "equinix": {
+        "name": "Equinix",
+        "wordmark": "Equinix",
+        "relationship": "Fournisseur",
+        "description": "ROALLA peut sourcer l'infrastructure numérique Equinix—colocation, interconnexion et services de centres de données connexes—lorsque les clients ont besoin d'installations sécurisées et connectées mondialement pour des charges hybrides et multi-nuages.",
+        "value": "Clarifier d'abord les exigences de localisation, d'interconnexion, de latence et de résilience, puis comparer Equinix et d'autres options d'infrastructure qualifiées selon l'adéquation, le coût et le contrôle opérationnel.",
+        "cta": "Visiter Equinix"
+      },
+      "terago": {
+        "name": "TERAGO",
+        "wordmark": "TERA",
+        "relationship": "Fournisseur de connectivité",
+        "description": "ROALLA peut sourcer la connectivité canadienne TERAGO—Internet d'affaires, SD-WAN géré, continuité des activités et 5G privée—lorsque les clients ont besoin d'une infrastructure sans fil et réseau résiliente et entièrement gérée.",
+        "value": "Définir d'abord les exigences de disponibilité, de diversité, de couverture et de services gérés, puis comparer TERAGO et d'autres options de connectivité qualifiées selon l'adéquation, la vitesse de déploiement et la responsabilisation.",
+        "cta": "Visiter TERAGO"
+      },
+      "thrive": {
+        "name": "Thrive",
+        "wordmark": "THRIVE",
+        "relationship": "Partenaire axé sur les services",
+        "description": "ROALLA collabore avec Thrive pour des services gérés NextGen—cybersécurité, nuage, infrastructure TI gérée, Microsoft 365 et conformité—lorsque les clients ont besoin d'opérations externalisées avec une responsabilisation claire.",
+        "value": "Définir d'abord les résultats en matière de risque, d'exploitation et de conformité, puis faire appel à Thrive lorsque la capacité de livraison gérée améliore la résilience, la réponse et la performance TI quotidienne.",
+        "cta": "Visiter Thrive"
+      },
+      "speechLogix": {
+        "name": "SpeechLogix",
+        "wordmark": "SpeechLogix",
+        "relationship": "Revendeur indépendant / intermédiaire AD",
+        "description": "ROALLA agit comme revendeur indépendant non exclusif et intermédiaire en développement des affaires pour les solutions de communications unifiées et de collaboration SpeechLogix—y compris la plateforme XLogix et les offres de téléphonie infonuagique connexes—lorsqu'elles conviennent aux exigences du client.",
+        "value": "Clarifier d'abord les besoins en UC, centre de contact et collaboration, puis présenter SpeechLogix lorsque l'adéquation de la plateforme, la flexibilité en marque blanche et le modèle de livraison appuient les résultats visés.",
+        "cta": "Visiter SpeechLogix"
+      }
+    },
     "visibility": {
       "eyebrow": "Optimisation de la visibilité numérique",
       "title": "Devenez plus facile à trouver, à comprendre et à reconnaître",
@@ -3830,6 +3904,16 @@
     "backToPartners": "Retour aux partenaires",
     "confirmDeletePartner": "Supprimer ce partenaire définitivement?",
     "contactHubAdmin": "Contacter l'admin du hub"
+  },
+  "providersPage": {
+    "metadataTitle": "Fournisseurs technologiques | ROALLA",
+    "metadataDescription": "Parcourez l'écosystème technologique de ROALLA—conseillers, partenaires, fournisseurs et prestataires—avec un libellé clair pour chaque relation.",
+    "eyebrow": "Écosystème technologique",
+    "title": "Fournisseurs",
+    "subtitle": "Chaque fiche nomme clairement la relation pour que vous compreniez comment ROALLA collabore avec cette organisation—et ce que cela signifie, ou non, pour votre décision.",
+    "listLabel": "Fournisseurs technologiques de ROALLA",
+    "note": "Une relation listée ne signifie pas que chaque fournisseur disponible a été évalué ou endossé. ROALLA part de vos exigences et des résultats attendus.",
+    "advisoryCta": "Explorer le conseil technologique"
   },
   "partnersPlatforms": {
     "metadataTitle": "Partenaires technologiques et plateformes | ROALLA",

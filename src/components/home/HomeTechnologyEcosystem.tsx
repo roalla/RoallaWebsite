@@ -198,9 +198,9 @@ export default function HomeTechnologyEcosystem() {
   ) : null
 
   return (
-    <section aria-labelledby="technology-ecosystem-title" className="relative bg-slate-50 py-16 lg:py-20">
+    <section aria-labelledby="technology-ecosystem-title" className="relative overflow-x-clip bg-slate-50 py-16 lg:py-20">
       <div className="section-divider" />
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto max-w-full px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{t('eyebrow')}</p>
           <h2 id="technology-ecosystem-title" className="mt-3 text-3xl font-serif font-bold text-slate-950 md:text-4xl">
@@ -210,13 +210,13 @@ export default function HomeTechnologyEcosystem() {
         </div>
 
         <div
-          className="technology-ecosystem group/marquee relative mt-10"
+          className="technology-ecosystem group/marquee relative mt-10 min-w-0"
           onPointerLeave={scheduleClose}
           onFocusCapture={cancelScheduledClose}
         >
-          <div className="marquee-mask overflow-hidden py-3">
+          <div className="marquee-mask max-w-full overflow-hidden py-3">
             <div
-              className={useMarquee ? 'technology-ecosystem-track flex w-max items-stretch gap-3' : 'flex flex-wrap justify-center gap-3'}
+              className={useMarquee ? 'technology-ecosystem-track flex w-max max-w-none items-stretch gap-3' : 'flex flex-wrap justify-center gap-3'}
               data-paused={activeKey ? 'true' : undefined}
               aria-label={t('listLabel')}
             >
@@ -229,7 +229,7 @@ export default function HomeTechnologyEcosystem() {
                     key={`${key}-${index}`}
                     type="button"
                     data-ecosystem-index={index}
-                    className="group/item flex min-h-24 w-48 shrink-0 flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-4 text-center shadow-sm transition hover:-translate-y-0.5 hover:border-primary/45 hover:shadow-md focus-visible:border-primary md:w-56"
+                    className="group/item flex min-h-24 w-44 min-w-0 shrink-0 flex-col items-center justify-center overflow-hidden rounded-2xl border border-slate-200 bg-white px-3 py-4 text-center shadow-sm transition hover:-translate-y-0.5 hover:border-primary/45 hover:shadow-md focus-visible:border-primary sm:w-48 md:w-56 md:px-5"
                     aria-expanded={isActive}
                     aria-controls={isActive ? popoverId : undefined}
                     aria-haspopup="dialog"
@@ -260,7 +260,7 @@ export default function HomeTechnologyEcosystem() {
                     aria-hidden={isDuplicate || undefined}
                   >
                     {ecosystemLogos[key] ? (
-                      <span className="flex h-12 w-full items-center justify-center overflow-hidden rounded-lg bg-white px-2 ring-1 ring-slate-200">
+                      <span className="flex h-12 w-full min-w-0 items-center justify-center overflow-hidden rounded-lg bg-white px-2 ring-1 ring-slate-200">
                         <Image
                           src={ecosystemLogos[key]!.src}
                           alt=""
@@ -274,7 +274,7 @@ export default function HomeTechnologyEcosystem() {
                         {t(`${key}.wordmark`)}
                       </span>
                     )}
-                    <span className="mt-2 text-[0.68rem] font-bold uppercase tracking-[0.12em] text-slate-500">
+                    <span className="mt-2 w-full min-w-0 text-[0.65rem] font-bold uppercase leading-snug tracking-[0.08em] text-slate-500 break-words hyphens-auto">
                       {t(`${key}.relationship`)}
                     </span>
                   </button>

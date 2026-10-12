@@ -23,7 +23,7 @@ export default function ConditionalLayout({
   return (
     <>
       <Header featuredInsightSlugs={featuredInsightSlugs} />
-      <main id="main-content" tabIndex={-1} className="bg-white">{children}</main>
+      <main id="main-content" tabIndex={-1} className="min-w-0 overflow-x-clip bg-white">{children}</main>
       <Footer />
     </>
   )

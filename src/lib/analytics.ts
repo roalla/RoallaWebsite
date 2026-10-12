@@ -39,7 +39,10 @@ export type AnalyticsEventName =
   | "executive_guide_download"
   | "executive_conversation_click"
   | "executive_insights_nav_click"
-  | "executive_insights_home_click";
+  | "executive_insights_home_click"
+  | "solutions_menu_open"
+  | "solutions_pathway_click"
+  | "solutions_assessment_click";
 
 export function trackAnalyticsEvent(
   eventName: AnalyticsEventName,

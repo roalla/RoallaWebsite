@@ -7,6 +7,7 @@ const locales = ["en", "fr"] as const;
 
 const paths = [
   "",
+  "/solutions",
   "/services/digital",
   "/services/agentic",
   "/services/digital-visibility-optimization",
@@ -57,6 +58,7 @@ const paths = [
 
 const priorities: Record<string, number> = {
   "": 1,
+  "/solutions": 0.97,
   "/services/digital": 0.95,
   "/services/agentic": 0.96,
   "/services/digital-visibility-optimization": 0.94,

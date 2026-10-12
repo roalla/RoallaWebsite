@@ -31,6 +31,10 @@ import ScheduleButton from "./ScheduleButton";
 import { CLIENT_PORTAL_URL } from "@/lib/site";
 import { HEADER_INSIGHT_SLUGS, headerInsightsForGroup, type InsightSlug } from "@/lib/insights";
 import { trackAnalyticsEvent } from "@/lib/analytics";
+import {
+  SolutionsByNeedDesktopMenu,
+  SolutionsByNeedMobileMenu,
+} from "@/components/solutions/SolutionsByNeedMenu";
 
 /** Canadian flag: red bands, white centre, red maple leaf (simplified) */
 function CanadianFlagIcon({ className }: { className?: string }) {
@@ -741,7 +745,13 @@ const Header = ({
 
           {/* Desktop Navigation */}
           <div className="hidden xl:flex items-center justify-center min-w-0 flex-1">
-            <div className="flex items-center justify-center gap-4 xl:gap-5 2xl:gap-6">
+            <div className="flex items-center justify-center gap-3 2xl:gap-5">
+              <SolutionsByNeedDesktopMenu
+                navIdleClass={navIdleClass}
+                navOpenBgClass={navOpenBgClass}
+                onNavigate={closeMenu}
+              />
+
               <div className="relative" ref={digitalDropdownDesktopRef}>
                 <button
                   type="button"
@@ -1243,7 +1253,9 @@ const Header = ({
                 </Link>
               )}
 
-              <div>
+              <SolutionsByNeedMobileMenu onNavigate={closeMenu} />
+
+              <div className="border-t border-white/10 pt-1">
                 <button
                   type="button"
                   onClick={() => setDigitalMobileExpanded((o) => !o)}

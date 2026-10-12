@@ -128,6 +128,23 @@ describe('Header', () => {
     expect(screen.getByRole('menuitem', { name: /technologyPartners/i })).toHaveAttribute('href', '/partners')
   })
 
+  it('renders the solutions-by-need mega menu with eight outcome pathways', () => {
+    render(<Header />)
+    const solutionsButtons = screen.getAllByRole('button', { name: 'Solutions by Need' })
+    fireEvent.click(solutionsButtons[0])
+
+    const menu = screen.getByRole('menu', { name: 'Solutions by Need' })
+    expect(within(menu).getByRole('menuitem', { name: /Set direction and priorities/i })).toHaveAttribute(
+      'href',
+      '/solutions#strategy',
+    )
+    expect(within(menu).getByRole('menuitem', { name: /Keep improving what you have/i })).toHaveAttribute(
+      'href',
+      '/solutions#optimization',
+    )
+    expect(within(menu).getAllByRole('menuitem')).toHaveLength(10)
+  })
+
   it('marks only the matching dropdown item for the current page', () => {
     mockPathname.mockReturnValue('/services/digital')
     render(<Header />)

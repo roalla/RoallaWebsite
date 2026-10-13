@@ -6,6 +6,7 @@ import { buildPageMetadata } from "@/lib/page-metadata";
 import {
   outcomeEvidence,
   outcomePageCopy,
+  outcomeVisuals,
   relatedOutcomeIds,
   isSolutionPathId,
   supplierContextOutcomeIds,
@@ -55,6 +56,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     path: `/solutions/${slug}`,
     title: `${page.pathway.shortTitle} | ROALLA`,
     description: page.pathway.result,
+    ogImage: outcomeVisuals[page.pathway.id].src,
+    ogImageAlt: outcomeVisuals[page.pathway.id].alt[page.language],
   });
 }
 
@@ -101,6 +104,7 @@ export default async function SolutionOutcomePage({ params }: Props) {
         pathway={pathway}
         related={related}
         evidence={outcomeEvidence[pathway.id] ?? []}
+        visual={outcomeVisuals[pathway.id]}
         showSupplierContext={supplierContextOutcomeIds.has(pathway.id)}
         copy={copy}
       />

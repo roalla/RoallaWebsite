@@ -122,6 +122,7 @@ type ConsultationRequestFormProps = {
   fromAssessment?: boolean;
   fromFoundingOffer?: boolean;
   visibilityReview?: boolean;
+  initialQuickMode?: boolean;
 };
 
 const intentOptions: {
@@ -290,6 +291,7 @@ export default function ConsultationRequestForm({
   fromAssessment = false,
   fromFoundingOffer = false,
   visibilityReview = false,
+  initialQuickMode = false,
 }: ConsultationRequestFormProps) {
   const t = useTranslations("consultationRequest");
   const locale = useLocale();
@@ -310,6 +312,7 @@ export default function ConsultationRequestForm({
   };
 
   const startInDigitalLight =
+    !initialQuickMode &&
     shouldUseDigitalDiscoveryFunnel(initialIntent) &&
     !fromAssessment &&
     !fromFoundingOffer &&
@@ -337,7 +340,7 @@ export default function ConsultationRequestForm({
       : {};
 
   const [step, setStep] = useState(() => initialStep);
-  const [quickMode, setQuickMode] = useState(false);
+  const [quickMode, setQuickMode] = useState(initialQuickMode);
   const [digitalLightMode, setDigitalLightMode] = useState(startInDigitalLight);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -736,6 +739,12 @@ export default function ConsultationRequestForm({
             <p className="text-sm font-medium text-slate-500">
               {visibilityReview ? t("visibilityReviewEyebrow") : t("digitalLightEyebrow")}
             </p>
+            <p className="text-xs text-slate-400">{t("digitalLightTimeHint")}</p>
+          </div>
+        )}
+        {quickMode && (
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-sm font-medium text-slate-600">{t("quickInquiryToggle")}</p>
             <p className="text-xs text-slate-400">{t("digitalLightTimeHint")}</p>
           </div>
         )}

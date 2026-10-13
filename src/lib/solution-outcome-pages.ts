@@ -5,6 +5,87 @@ import {
 
 export type OutcomeGroupId = "decide" | "operate" | "build";
 
+export type OutcomeVisual = {
+  src: string;
+  alt: Record<"en" | "fr", string>;
+  focus: Record<"en" | "fr", string>;
+};
+
+export const outcomeVisuals: Record<SolutionPathId, OutcomeVisual> = {
+  strategy: {
+    src: "/images/insights/library/strategic-planning.webp",
+    alt: {
+      en: "Leadership team aligning business priorities on a shared strategic plan",
+      fr: "Équipe de direction alignant les priorités d’affaires dans un plan stratégique commun",
+    },
+    focus: { en: "Direction and ownership", fr: "Orientation et responsabilités" },
+  },
+  "cloud-infrastructure": {
+    src: "/images/insights/library/cloud-backup-sync-recovery-differences.webp",
+    alt: {
+      en: "Connected cloud infrastructure supporting secure business continuity",
+      fr: "Infrastructure infonuagique connectée soutenant la continuité sécurisée des activités",
+    },
+    focus: { en: "Resilience and scale", fr: "Résilience et évolutivité" },
+  },
+  communications: {
+    src: "/images/insights/library/analog-to-ip-business-telephony.webp",
+    alt: {
+      en: "Modern business calling and collaboration across a connected team",
+      fr: "Téléphonie et collaboration d’affaires modernes pour une équipe connectée",
+    },
+    focus: { en: "Clearer conversations", fr: "Conversations plus claires" },
+  },
+  security: {
+    src: "/images/insights/library/consolidate-systems-before-soc-2-readiness.webp",
+    alt: {
+      en: "Business systems organized for stronger security and compliance readiness",
+      fr: "Systèmes d’affaires organisés pour renforcer la sécurité et la préparation à la conformité",
+    },
+    focus: { en: "Risk and readiness", fr: "Risque et préparation" },
+  },
+  iot: {
+    src: "/images/insights/library/smb-digital-efficiency.webp",
+    alt: {
+      en: "Connected operational data helping a team monitor work in real time",
+      fr: "Données opérationnelles connectées aidant une équipe à suivre le travail en temps réel",
+    },
+    focus: { en: "Connected operations", fr: "Opérations connectées" },
+  },
+  network: {
+    src: "/images/insights/library/technology-renewal-checklist.webp",
+    alt: {
+      en: "Business leader reviewing network reliability and technology renewal priorities",
+      fr: "Dirigeant examinant la fiabilité du réseau et les priorités de renouvellement technologique",
+    },
+    focus: { en: "Reliable connectivity", fr: "Connectivité fiable" },
+  },
+  "digital-experience": {
+    src: "/images/insights/library/website-portal-or-custom-app.webp",
+    alt: {
+      en: "Customer using a clear digital portal designed around a practical task",
+      fr: "Client utilisant un portail numérique clair conçu autour d’une tâche concrète",
+    },
+    focus: { en: "Useful digital journeys", fr: "Parcours numériques utiles" },
+  },
+  "automation-ai": {
+    src: "/images/insights/library/what-to-automate-first.webp",
+    alt: {
+      en: "Team mapping a responsible automation workflow with human review points",
+      fr: "Équipe cartographiant un flux d’automatisation responsable avec des points de révision humaine",
+    },
+    focus: { en: "Controlled automation", fr: "Automatisation contrôlée" },
+  },
+  visibility: {
+    src: "/images/insights/library/search-and-ai-visibility.webp",
+    alt: {
+      en: "Business content becoming easier to find in search and AI-assisted discovery",
+      fr: "Contenu d’affaires devenant plus facile à trouver dans la recherche et la découverte assistée par l’IA",
+    },
+    focus: { en: "Findability and trust", fr: "Visibilité et confiance" },
+  },
+};
+
 export const outcomeGroups: Record<
   "en" | "fr",
   readonly {
@@ -61,9 +142,11 @@ export const outcomePageCopy = {
     breadcrumb: "Business outcomes",
     eyebrow: "Business outcome pathway",
     plainAnswer: "The short answer",
-    fitTitle: "This path is likely relevant when",
-    includesTitle: "What the work can include",
-    resultTitle: "The outcome to work toward",
+    journeyEyebrow: "Problem → solution → benefit",
+    journeyTitle: "A clear route from friction to progress",
+    fitTitle: "What may be getting in the way",
+    includesTitle: "What we can change together",
+    resultTitle: "What better looks like",
     processEyebrow: "A practical path",
     processTitle: "Move from pressure to a decision your team can use",
     processDescription: "The exact scope changes with the situation. The sequence stays grounded in the outcome, the evidence, and the people responsible for implementation.",
@@ -94,14 +177,21 @@ export const outcomePageCopy = {
     ctaDescription: "ROALLA will confirm the desired outcome, the facts that matter, and the smallest practical next step before recommending a scope.",
     ctaPrimary: "Talk through this outcome",
     ctaSecondary: "Compare all outcome paths",
+    formTitle: "Tell us what is getting in the way",
+    formDescription: "Three fields. No finished brief required. We’ll reply with a practical next step.",
+    formPrefill: "I would like help with this outcome:",
+    formAlternative: "Prefer the full consultation form?",
+    formAlternativeCta: "Add more project detail",
   },
   fr: {
     breadcrumb: "Résultats d’affaires",
     eyebrow: "Parcours par résultat d’affaires",
     plainAnswer: "La réponse courte",
-    fitTitle: "Ce parcours est probablement pertinent lorsque",
-    includesTitle: "Ce que le travail peut comprendre",
-    resultTitle: "Le résultat à viser",
+    journeyEyebrow: "Problème → solution → bénéfice",
+    journeyTitle: "Un parcours clair de la friction au progrès",
+    fitTitle: "Ce qui peut freiner le progrès",
+    includesTitle: "Ce que nous pouvons changer ensemble",
+    resultTitle: "À quoi ressemble une meilleure situation",
     processEyebrow: "Un parcours pratique",
     processTitle: "Passer de la pression à une décision que l’équipe peut appliquer",
     processDescription: "La portée exacte varie selon la situation. La séquence demeure ancrée dans le résultat, les faits et les personnes responsables de la mise en œuvre.",
@@ -132,6 +222,11 @@ export const outcomePageCopy = {
     ctaDescription: "ROALLA confirmera le résultat visé, les faits importants et la plus petite prochaine étape pratique avant de recommander une portée.",
     ctaPrimary: "Discuter de ce résultat",
     ctaSecondary: "Comparer tous les parcours",
+    formTitle: "Dites-nous ce qui freine le progrès",
+    formDescription: "Trois champs. Aucun cahier des charges finalisé requis. Nous répondrons avec une prochaine étape pratique.",
+    formPrefill: "J’aimerais obtenir de l’aide pour ce résultat :",
+    formAlternative: "Vous préférez le formulaire de consultation complet?",
+    formAlternativeCta: "Ajouter plus de détails au projet",
   },
 } as const;
 

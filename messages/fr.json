@@ -40,7 +40,7 @@
     "advisory": "Conseil",
     "advisoryMenuLabel": "Services de conseil",
     "businessEnablement": "Conseil d’affaires",
-    "businessEnablementDesc": "Stratégie, opérations, leadership et préparation avec soutien à la mise en œuvre",
+    "businessEnablementDesc": "Stratégie, opérations et leadership avec soutien à la mise en œuvre",
     "businessAdvisoryWorkshops": "Conseil d’affaires et ateliers",
     "businessAdvisoryWorkshopsMenuLabel": "Conseil d’affaires et ateliers appliqués",
     "technologyAdvisory": "Conseil technologique et recherche de solutions",
@@ -52,9 +52,9 @@
     "workshops": "Ateliers",
     "workshopsMenuLabel": "Ateliers",
     "teamWorkshops": "Ateliers d’équipe",
-    "workshopsDesc": "Sessions appliquées sur la marque, les ventes, la productivité et l’idéation",
+    "workshopsDesc": "Trouvez une session selon le besoin—rythme d’équipe, offres et compétences appliquées",
     "focusCircle": "Cercle de concentration",
-    "focusCircleDesc": "L’attention, les priorités et les personnes qui aident à les tenir",
+    "focusCircleDesc": "Notre session phare pour l’attention, les priorités et la responsabilité",
     "workloadConversation": "La conversation sur la charge de travail",
     "workloadConversationDesc": "Capacité, compromis et engagements honnêtes avant la surcharge",
     "digitalCalm": "Calme numérique",
@@ -1915,9 +1915,21 @@
     "heroCtaConsulting": "Explorer le conseil d’affaires",
     "intro": "Les ateliers Roalla sont conçus pour les dirigeants et les équipes qui apprennent en faisant. Chaque session combine enseignement, exercices animés et prochaines étapes concrètes—sans attendre un long mandat de consultation.",
     "jumpNavLabel": "Aller à un atelier",
-    "featuredEyebrow": "Ateliers nommés",
-    "featuredTitle": "Ateliers à ouvrir",
-    "featuredDesc": "Chaque atelier a sa présentation, son récit, ses outils et ses documents à emporter. Il n’y a pas de billets publics. Les hôtes envoient une demande pour réserver une session.",
+    "featuredEyebrow": "Pour commencer",
+    "featuredTitle": "Sessions les plus demandées",
+    "featuredDesc": "Trois ateliers que les hôtes demandent en premier. Chacun a sa présentation, ses outils et ses documents à emporter—demandez pour réserver; il n’y a pas de billets publics.",
+    "group": {
+      "teamRhythm": {
+        "eyebrow": "Par besoin",
+        "title": "Rythme d’équipe et concentration",
+        "desc": "Protégez l’attention, rééquilibrez la charge et quittez les réunions avec un responsable et une date."
+      },
+      "offersIdeas": {
+        "eyebrow": "Par besoin",
+        "title": "Offres et idées",
+        "desc": "Affinez l’offre, sélectionnez ce qu’il faut essayer ensuite, ou préparez un premier discours avec une preuve."
+      }
+    },
     "openWorkshop": "Ouvrir cet atelier",
     "hostThisWorkshop": "Demander à l’accueillir",
     "openFocusCircle": "Ouvrir le Cercle de concentration",

@@ -21,7 +21,12 @@ import StickyMobileCTA from "./StickyMobileCTA";
 import ServiceMiniFAQ from "./services/ServiceMiniFAQ";
 import { focusCircleCopy } from "@/lib/workshops/focus-circle-content";
 import { companionWorkshopCopy } from "@/lib/workshops/companion-workshops-content";
-import { featuredHostedWorkshops } from "@/lib/workshops/hosted-workshops";
+import {
+  featuredHostedWorkshops,
+  hostedWorkshopsByGroup,
+  workshopNeedGroups,
+  type HostedWorkshop,
+} from "@/lib/workshops/hosted-workshops";
 import WorkshopFinder from "@/components/workshops/WorkshopFinder";
 import {
   ServicePageHero,
@@ -57,6 +62,55 @@ type WorkshopTopic = {
   icon: (typeof workshopIcons)[number];
   anchor: (typeof workshopAnchors)[number];
 };
+
+function HostedWorkshopCard({
+  workshop,
+  locale,
+  t,
+}: {
+  workshop: HostedWorkshop;
+  locale: string;
+  t: ReturnType<typeof useTranslations<"workshops">>;
+}) {
+  const workshopCopy =
+    workshop.id === "focus-circle"
+      ? focusCircleCopy(locale)
+      : companionWorkshopCopy(workshop.id, locale);
+
+  return (
+    <Reveal as="article" className="h-full">
+      <div className={`${serviceCardClass} workshop-tile`}>
+        <div className="p-6 lg:p-7 flex flex-col h-full">
+          <h3 className="text-xl font-serif font-bold text-slate-900">
+            {workshopCopy.title}
+          </h3>
+          <p className="mt-3 text-sm text-slate-600 leading-relaxed flex-1">
+            {workshopCopy.listingLede}
+          </p>
+          <p className="mt-4 text-sm text-slate-700 border-l-2 border-primary/30 pl-3">
+            {workshopCopy.audienceLine}
+          </p>
+          <div className="mt-6 flex flex-col gap-3">
+            <Link href={workshop.path} className={servicePrimaryLinkClass}>
+              {t("openWorkshop")}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
+            <Link
+              href={{
+                pathname: "/contact",
+                query: { intent: "workshop", need: workshop.id },
+              }}
+              className="inline-flex items-center justify-center text-sm font-medium text-primary hover:underline"
+            >
+              {t("hostThisWorkshop")}
+              <ArrowRight className="ml-1.5 w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
 
 function WorkshopTopicCard({
   topic,
@@ -150,7 +204,6 @@ const Workshops = () => {
   const t = useTranslations("workshops");
   const tCommon = useTranslations("common");
   const locale = useLocale();
-  const focus = focusCircleCopy(locale);
   const featured = featuredHostedWorkshops();
 
   const stats = [
@@ -222,44 +275,45 @@ const Workshops = () => {
               description={t("featuredDesc")}
               className="mb-8"
             />
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-3 gap-6">
               {featured.map((workshop) => (
-                <Reveal as="article" key={workshop.id} className="h-full">
-                  <div className={`${serviceCardClass} workshop-tile`}>
-                    <div className="p-6 lg:p-7 flex flex-col h-full">
-                      {(() => {
-                        const workshopCopy = workshop.id === "focus-circle" ? focus : companionWorkshopCopy(workshop.id, locale);
-                        return <>
-                      <h3 className="text-xl font-serif font-bold text-slate-900">{workshopCopy.title}</h3>
-                      <p className="mt-3 text-sm text-slate-600 leading-relaxed flex-1">{workshopCopy.listingLede}</p>
-                      <p className="mt-4 text-sm text-slate-700 border-l-2 border-primary/30 pl-3">
-                        {workshopCopy.audienceLine}
-                      </p>
-                      <div className="mt-6 flex flex-col gap-3">
-                        <Link href={workshop.path} className={servicePrimaryLinkClass}>
-                          {t("openWorkshop")}
-                          <ArrowRight className="ml-2 w-4 h-4" />
-                        </Link>
-                        <Link
-                          href={{
-                            pathname: "/contact",
-                            query: { intent: "workshop", need: workshop.id },
-                          }}
-                          className="inline-flex items-center justify-center text-sm font-medium text-primary hover:underline"
-                        >
-                          {t("hostThisWorkshop")}
-                          <ArrowRight className="ml-1.5 w-4 h-4" />
-                        </Link>
-                      </div>
-                        </>;
-                      })()}
-                    </div>
-                  </div>
-                </Reveal>
+                <HostedWorkshopCard
+                  key={workshop.id}
+                  workshop={workshop}
+                  locale={locale}
+                  t={t}
+                />
               ))}
             </div>
           </section>
         ) : null}
+
+        {workshopNeedGroups.map((group) => {
+          const groupWorkshops = hostedWorkshopsByGroup(group).filter(
+            (workshop) => !workshop.featured,
+          );
+          if (groupWorkshops.length === 0) return null;
+          return (
+            <section key={group} className="mb-14">
+              <ServiceSectionHeading
+                eyebrow={t(`group.${group}.eyebrow` as "group.teamRhythm.eyebrow")}
+                title={t(`group.${group}.title` as "group.teamRhythm.title")}
+                description={t(`group.${group}.desc` as "group.teamRhythm.desc")}
+                className="mb-8"
+              />
+              <div className="grid md:grid-cols-2 gap-6">
+                {groupWorkshops.map((workshop) => (
+                  <HostedWorkshopCard
+                    key={workshop.id}
+                    workshop={workshop}
+                    locale={locale}
+                    t={t}
+                  />
+                ))}
+              </div>
+            </section>
+          );
+        })}
 
         <Reveal className="mb-12 rounded-xl border border-slate-200 bg-slate-50 p-6 lg:p-8">
           <ServiceSectionHeading

@@ -204,34 +204,22 @@ describe('Header', () => {
       'href',
       '/programs/workshops',
     )
-    expect(screen.getByRole('menuitem', { name: /workloadConversation/i })).toHaveAttribute(
+    expect(screen.getByRole('menuitem', { name: /focusCircle/i })).toHaveAttribute(
       'href',
-      '/programs/workshops/workload-conversation',
+      '/programs/workshops/focus-circle',
     )
-    expect(screen.getByRole('menuitem', { name: /digitalCalm/i })).toHaveAttribute(
-      'href',
-      '/programs/workshops/digital-calm',
-    )
-    expect(screen.getByRole('menuitem', { name: /decisionHour/i })).toHaveAttribute(
-      'href',
-      '/programs/workshops/decision-hour',
-    )
-    expect(screen.getByRole('menuitem', { name: /offerPage/i })).toHaveAttribute(
-      'href',
-      '/programs/workshops/offer-page',
-    )
-    expect(screen.getByRole('menuitem', { name: /theShortlist/i })).toHaveAttribute(
-      'href',
-      '/programs/workshops/ideation',
-    )
-    expect(screen.getByRole('menuitem', { name: /firstOffer/i })).toHaveAttribute(
-      'href',
-      '/programs/workshops/first-offer',
-    )
+    expect(screen.queryByRole('menuitem', { name: /workloadConversation/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole('menuitem', { name: /digitalCalm/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole('menuitem', { name: /decisionHour/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole('menuitem', { name: /offerPage/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole('menuitem', { name: /theShortlist/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole('menuitem', { name: /firstOffer/i })).not.toBeInTheDocument()
     const menu = screen.getByRole('menu', { name: 'businessAdvisoryWorkshops' })
     const items = within(menu).getAllByRole('menuitem')
-    expect(items[items.length - 1]).toHaveAttribute('href', '/programs/workshops')
-    expect(within(menu).getAllByRole('separator')).toHaveLength(2)
+    expect(items).toHaveLength(3)
+    expect(items[1]).toHaveAttribute('href', '/programs/workshops')
+    expect(items[2]).toHaveAttribute('href', '/programs/workshops/focus-circle')
+    expect(within(menu).getAllByRole('separator')).toHaveLength(1)
   })
 
   it('marks team workshops when that page is selected', () => {

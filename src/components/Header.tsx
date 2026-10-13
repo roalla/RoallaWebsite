@@ -16,11 +16,6 @@ import {
   SearchCheck,
   RefreshCw,
   Network,
-  MessageCircle,
-  BellOff,
-  Timer,
-  FileText,
-  Lightbulb,
   BookOpen,
   ArrowRight,
 } from "lucide-react";
@@ -452,13 +447,7 @@ const Header = ({
 
   type WorkshopNavHref =
     | "/programs/workshops"
-    | "/programs/workshops/focus-circle"
-    | "/programs/workshops/workload-conversation"
-    | "/programs/workshops/digital-calm"
-    | "/programs/workshops/decision-hour"
-    | "/programs/workshops/offer-page"
-    | "/programs/workshops/ideation"
-    | "/programs/workshops/first-offer";
+    | "/programs/workshops/focus-circle";
 
   const digitalLinks: {
     nameKey:
@@ -509,58 +498,22 @@ const Header = ({
   ];
 
   const workshopLinks: {
-    nameKey: "focusCircle" | "workloadConversation" | "digitalCalm" | "decisionHour" | "offerPage" | "theShortlist" | "firstOffer" | "teamWorkshops";
-    descKey: "focusCircleDesc" | "workloadConversationDesc" | "digitalCalmDesc" | "decisionHourDesc" | "offerPageDesc" | "theShortlistDesc" | "firstOfferDesc" | "workshopsDesc";
+    nameKey: "teamWorkshops" | "focusCircle";
+    descKey: "workshopsDesc" | "focusCircleDesc";
     href: WorkshopNavHref;
     icon: typeof GraduationCap;
   }[] = [
-    {
-      nameKey: "focusCircle",
-      descKey: "focusCircleDesc",
-      href: "/programs/workshops/focus-circle",
-      icon: Target,
-    },
-    {
-      nameKey: "workloadConversation",
-      descKey: "workloadConversationDesc",
-      href: "/programs/workshops/workload-conversation",
-      icon: MessageCircle,
-    },
-    {
-      nameKey: "digitalCalm",
-      descKey: "digitalCalmDesc",
-      href: "/programs/workshops/digital-calm",
-      icon: BellOff,
-    },
-    {
-      nameKey: "decisionHour",
-      descKey: "decisionHourDesc",
-      href: "/programs/workshops/decision-hour",
-      icon: Timer,
-    },
-    {
-      nameKey: "offerPage",
-      descKey: "offerPageDesc",
-      href: "/programs/workshops/offer-page",
-      icon: FileText,
-    },
-    {
-      nameKey: "theShortlist",
-      descKey: "theShortlistDesc",
-      href: "/programs/workshops/ideation",
-      icon: Lightbulb,
-    },
-    {
-      nameKey: "firstOffer",
-      descKey: "firstOfferDesc",
-      href: "/programs/workshops/first-offer",
-      icon: GraduationCap,
-    },
     {
       nameKey: "teamWorkshops",
       descKey: "workshopsDesc",
       href: "/programs/workshops",
       icon: GraduationCap,
+    },
+    {
+      nameKey: "focusCircle",
+      descKey: "focusCircleDesc",
+      href: "/programs/workshops/focus-circle",
+      icon: Target,
     },
   ];
 
@@ -1018,11 +971,8 @@ const Header = ({
                       const Icon = item.icon;
                       const current = isCurrentHref(item.href);
                       return (
-                        <React.Fragment key={item.nameKey}>
-                        {item.nameKey === "teamWorkshops" ? (
-                          <div role="separator" className="mx-3 my-1.5 border-t border-white/10" />
-                        ) : null}
                         <Link
+                          key={item.nameKey}
                           href={item.href}
                           role="menuitem"
                           aria-current={current ? "page" : undefined}
@@ -1050,7 +1000,6 @@ const Header = ({
                             </p>
                           </div>
                         </Link>
-                        </React.Fragment>
                       );
                     })}
                   </div>
@@ -1538,11 +1487,8 @@ const Header = ({
                       const Icon = item.icon;
                       const current = isCurrentHref(item.href);
                       return (
-                        <React.Fragment key={item.nameKey}>
-                        {item.nameKey === "teamWorkshops" ? (
-                          <div role="separator" className="mx-3 my-1.5 border-t border-white/10" />
-                        ) : null}
                         <Link
+                          key={item.nameKey}
                           href={item.href}
                           aria-current={current ? "page" : undefined}
                           className={`${mobileDropdownItemClass} ${current ? "text-primary bg-primary/10" : ""}`}
@@ -1561,7 +1507,6 @@ const Header = ({
                             </span>
                           </span>
                         </Link>
-                        </React.Fragment>
                       );
                     })}
                   </div>

@@ -40,7 +40,7 @@
     "advisory": "Advisory",
     "advisoryMenuLabel": "Advisory services",
     "businessEnablement": "Business Advisory",
-    "businessEnablementDesc": "Strategy, operations, leadership, and readiness with implementation support",
+    "businessEnablementDesc": "Strategy, operations, and leadership with implementation support",
     "businessAdvisoryWorkshops": "Business Advisory & Workshops",
     "businessAdvisoryWorkshopsMenuLabel": "Business advisory and applied workshops",
     "technologyAdvisory": "Technology Advisory & Solution Sourcing",
@@ -52,9 +52,9 @@
     "workshops": "Workshops",
     "workshopsMenuLabel": "Workshops",
     "teamWorkshops": "Team Workshops",
-    "workshopsDesc": "Applied sessions for branding, sales, productivity, and ideation",
+    "workshopsDesc": "Find a session by need—team rhythm, offers, and applied skills",
     "focusCircle": "Focus Circle",
-    "focusCircleDesc": "Attention, priorities, and the people who help you hold them",
+    "focusCircleDesc": "Our flagship session for attention, priorities, and accountability",
     "workloadConversation": "The Workload Conversation",
     "workloadConversationDesc": "Capacity, trade-offs, and honest commitments before overload",
     "digitalCalm": "Digital Calm",
@@ -1916,9 +1916,21 @@
     "heroCtaConsulting": "Explore Business Advisory",
     "intro": "Roalla workshops are designed for leaders and teams who learn by doing. Each session blends teaching, facilitated exercises, and concrete next steps you can apply without waiting for a long consulting engagement.",
     "jumpNavLabel": "Jump to a workshop",
-    "featuredEyebrow": "Named workshops",
-    "featuredTitle": "Workshops you can open",
-    "featuredDesc": "Each workshop has its own presentation, story, tools, and take-home downloads. There are no public tickets. Hosts inquire to book a session.",
+    "featuredEyebrow": "Start here",
+    "featuredTitle": "Most-requested sessions",
+    "featuredDesc": "Three workshops hosts ask for first. Each has its own presentation, tools, and take-homes—inquire to book; there are no public tickets.",
+    "group": {
+      "teamRhythm": {
+        "eyebrow": "By need",
+        "title": "Team rhythm and focus",
+        "desc": "Protect attention, reset capacity, and leave meetings with a clear owner and date."
+      },
+      "offersIdeas": {
+        "eyebrow": "By need",
+        "title": "Offers and ideas",
+        "desc": "Tighten the offer, shortlist what to try next, or prepare a first pitch with proof."
+      }
+    },
     "openWorkshop": "Open this workshop",
     "hostThisWorkshop": "Ask about hosting",
     "openFocusCircle": "Open Focus Circle",

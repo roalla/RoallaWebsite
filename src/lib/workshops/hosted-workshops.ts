@@ -16,6 +16,8 @@ export const focusCirclePdfFiles = [
 
 export type FocusCirclePdfId = (typeof focusCirclePdfFiles)[number]["id"];
 
+export type WorkshopNeedGroup = "teamRhythm" | "offersIdeas";
+
 export function focusCirclePdfHref(file: string, locale: string) {
   const lang = locale === "fr" ? "fr" : "en";
   return `/workshops/focus-circle/${file}-${lang}.pdf`;
@@ -36,41 +38,54 @@ export const hostedWorkshops = [
     id: "focus-circle",
     path: focusCirclePath,
     featured: true,
+    group: "teamRhythm" as const,
   },
   {
     id: "workload-conversation",
     path: workloadConversationPath,
     featured: true,
+    group: "teamRhythm" as const,
   },
   {
     id: "digital-calm",
     path: digitalCalmPath,
-    featured: true,
+    featured: false,
+    group: "teamRhythm" as const,
   },
   {
     id: "decision-hour",
     path: decisionHourPath,
     featured: true,
+    group: "teamRhythm" as const,
   },
   {
     id: "offer-page",
     path: offerPagePath,
-    featured: true,
+    featured: false,
+    group: "offersIdeas" as const,
   },
   {
     id: "ideation",
     path: ideationPath,
-    featured: true,
+    featured: false,
+    group: "offersIdeas" as const,
   },
   {
     id: "first-offer",
     path: firstOfferPath,
-    featured: true,
+    featured: false,
+    group: "offersIdeas" as const,
   },
 ] as const;
 
 export type HostedWorkshop = (typeof hostedWorkshops)[number];
 
+export const workshopNeedGroups: WorkshopNeedGroup[] = ["teamRhythm", "offersIdeas"];
+
 export function featuredHostedWorkshops() {
   return hostedWorkshops.filter((workshop) => workshop.featured);
+}
+
+export function hostedWorkshopsByGroup(group: WorkshopNeedGroup) {
+  return hostedWorkshops.filter((workshop) => workshop.group === group);
 }

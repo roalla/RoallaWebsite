@@ -61,7 +61,15 @@ test.describe("Header", () => {
       "href",
       "/en/programs/business-enablement",
     );
-    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(9);
+    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(3);
+    await expect(menu.getByRole("menuitem", { name: /Team Workshops/ })).toHaveAttribute(
+      "href",
+      "/en/programs/workshops",
+    );
+    await expect(menu.getByRole("menuitem", { name: /Focus Circle/ })).toHaveAttribute(
+      "href",
+      "/en/programs/workshops/focus-circle",
+    );
   });
 
   test("primary service routes are reachable", async ({ page }) => {

@@ -49,6 +49,11 @@ const implementationKeys = [
 
 const fitKeys = ["technologyFit1", "technologyFit2", "technologyFit3"] as const;
 const technologyStepKeys = ["technologyStep1", "technologyStep2", "technologyStep3", "technologyStep4"] as const;
+const technologyPartnerProofKeys = [
+  ["technologyPartnerProof1Title", "technologyPartnerProof1Body"],
+  ["technologyPartnerProof2Title", "technologyPartnerProof2Body"],
+  ["technologyPartnerProof3Title", "technologyPartnerProof3Body"],
+] as const;
 
 const TechnologyAdvisory = () => {
   const locale = useLocale();
@@ -424,12 +429,22 @@ const TechnologyAdvisory = () => {
           </div>
         </Reveal>
 
-        <Reveal id="technology-partners" className="scroll-mt-28 mt-12 rounded-2xl border border-slate-200 bg-white p-6 lg:p-8">
-          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+        <Reveal id="technology-partners" className="relative scroll-mt-28 mt-12 overflow-hidden rounded-2xl border border-primary/25 bg-white p-6 shadow-sm lg:p-8">
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-primary-dark to-slate-900" aria-hidden />
+          <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-primary-dark">{t("technologyPartnerEyebrow")}</p>
-              <h2 className="mt-2 text-2xl font-serif font-bold text-slate-900">{t("technologyPartnerTitle")}</h2>
-              <p className="mt-3 text-sm leading-relaxed text-slate-700">{t("technologyPartnerBody")}</p>
+              <h2 className="mt-2 max-w-xl text-2xl font-serif font-bold leading-tight text-slate-900 sm:text-3xl">{t("technologyPartnerTitle")}</h2>
+              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-700">{t("technologyPartnerBody")}</p>
+              <div className="mt-6 grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+                {technologyPartnerProofKeys.map(([titleKey, bodyKey]) => (
+                  <div key={titleKey} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                    <p className="text-sm font-bold leading-snug text-slate-950">{t(titleKey)}</p>
+                    <p className="mt-2 text-xs leading-relaxed text-slate-600">{t(bodyKey)}</p>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-4 text-xs leading-relaxed text-slate-600">{t("technologyPricingNote")}</p>
               <p className="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-relaxed text-amber-950">{t("technologyCompensation")}</p>
               <Link href="/partners" className="mt-4 inline-flex items-center text-sm font-semibold text-primary-dark hover:underline">
                 {t("technologyPartnersLink")}

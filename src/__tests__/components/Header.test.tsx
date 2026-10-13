@@ -129,14 +129,14 @@ describe('Header', () => {
     expect(screen.getByRole('menuitem', { name: /technologyPartners/i })).toHaveAttribute('href', '/partners')
   })
 
-  it('groups business needs and technology capabilities in Technology Solutions', () => {
+  it('groups outcome-first and technology-first paths in Solutions', () => {
     render(<Header />)
     expect(screen.queryByRole('button', { name: 'Solutions by Need' })).not.toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'digitalEnablement' }))
 
     const menu = screen.getByRole('menu', { name: 'digitalEnablement' })
-    expect(within(menu).getByText('By Business Outcome')).toBeInTheDocument()
-    expect(within(menu).getByText('How We Help')).toBeInTheDocument()
+    expect(within(menu).getByText('What You Want to Achieve')).toBeInTheDocument()
+    expect(within(menu).getByText('Explore Technologies')).toBeInTheDocument()
     expect(within(menu).getByRole('menuitem', { name: /Set direction and priorities/i })).toHaveAttribute(
       'href',
       '/solutions/strategy',
@@ -145,7 +145,7 @@ describe('Header', () => {
       'href',
       '/solutions/security',
     )
-    expect(within(menu).getByRole('menuitem', { name: /Find Your Starting Point/i })).toHaveAttribute(
+    expect(within(menu).getByRole('menuitem', { name: /Explore Your Options/i })).toHaveAttribute(
       'href',
       '/assessment',
     )

@@ -82,7 +82,6 @@ export default async function SolutionOutcomePage({ params }: Props) {
 
   return (
     <>
-      <link rel="preload" as="image" href={visual.src} type="image/webp" fetchPriority="high" />
       <JsonLd
         data={[
           webPageJsonLd(language, path, pathway.title, pathway.result),

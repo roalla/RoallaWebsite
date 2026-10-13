@@ -11,6 +11,11 @@ export type OutcomeVisual = {
   focus: Record<"en" | "fr", string>;
 };
 
+export type OutcomeDeliveryModel = {
+  title: string;
+  description: string;
+};
+
 export const outcomeVisuals: Record<SolutionPathId, OutcomeVisual> = {
   strategy: {
     src: "/images/insights/library/strategic-planning.webp",
@@ -86,6 +91,70 @@ export const outcomeVisuals: Record<SolutionPathId, OutcomeVisual> = {
   },
 };
 
+const advisoryDeliveryModel: Record<"en" | "fr", OutcomeDeliveryModel> = {
+  en: {
+    title: "Business advisory with implementation support",
+    description: "ROALLA leads the advisory work directly and stays involved as priorities become owned actions, operating rhythms, and measurable follow-through.",
+  },
+  fr: {
+    title: "Conseil d’affaires avec soutien à la mise en œuvre",
+    description: "ROALLA dirige directement le travail de conseil et demeure impliquée pendant que les priorités deviennent des actions assumées, des rythmes opérationnels et un suivi mesurable.",
+  },
+};
+
+const supplierSourcingDeliveryModel: Record<"en" | "fr", OutcomeDeliveryModel> = {
+  en: {
+    title: "Advisory and qualified supplier sourcing",
+    description: "ROALLA defines requirements, compares viable options, and supports the decision and transition. Selected platforms or managed services may be licensed, delivered, and supported by third-party providers; material commercial relationships are disclosed before commitment.",
+  },
+  fr: {
+    title: "Conseil et recherche de fournisseurs qualifiés",
+    description: "ROALLA définit les exigences, compare les options viables et soutient la décision et la transition. Les plateformes ou services gérés retenus peuvent être fournis, exploités et soutenus par des tiers; toute relation commerciale importante est divulguée avant l’engagement.",
+  },
+};
+
+export const outcomeDeliveryModels: Record<
+  SolutionPathId,
+  Record<"en" | "fr", OutcomeDeliveryModel>
+> = {
+  strategy: advisoryDeliveryModel,
+  "cloud-infrastructure": supplierSourcingDeliveryModel,
+  communications: supplierSourcingDeliveryModel,
+  security: supplierSourcingDeliveryModel,
+  iot: supplierSourcingDeliveryModel,
+  network: supplierSourcingDeliveryModel,
+  "digital-experience": {
+    en: {
+      title: "Custom design, build, and implementation",
+      description: "ROALLA designs and builds the experience around the required journey and outcome. The implementation may integrate established third-party platforms, hosting, or services when they are the practical fit, with those dependencies made clear in scope.",
+    },
+    fr: {
+      title: "Conception, réalisation et mise en œuvre sur mesure",
+      description: "ROALLA conçoit et réalise l’expérience autour du parcours et du résultat recherchés. La mise en œuvre peut intégrer des plateformes, de l’hébergement ou des services tiers établis lorsqu’ils constituent le choix pratique; ces dépendances sont précisées dans la portée.",
+    },
+  },
+  "automation-ai": {
+    en: {
+      title: "Custom integration and governed enablement",
+      description: "ROALLA designs and implements the workflow, controls, and integrations. Approved third-party platforms, models, and APIs may provide underlying capabilities, while ownership, escalation, and operating responsibilities remain explicit.",
+    },
+    fr: {
+      title: "Intégration sur mesure et mise en service gouvernée",
+      description: "ROALLA conçoit et met en œuvre le flux, les contrôles et les intégrations. Des plateformes, modèles et API tiers approuvés peuvent fournir les capacités sous-jacentes, tandis que la responsabilité, l’escalade et l’exploitation demeurent explicites.",
+    },
+  },
+  visibility: {
+    en: {
+      title: "Advisory and managed optimization",
+      description: "ROALLA assesses the current experience, prioritizes the work, and can implement and manage improvements. Specialist or third-party services are introduced only when they fit the need and are identified in the recommended scope.",
+    },
+    fr: {
+      title: "Conseil et optimisation gérée",
+      description: "ROALLA évalue l’expérience actuelle, priorise le travail et peut mettre en œuvre et gérer les améliorations. Des spécialistes ou services tiers sont intégrés seulement lorsqu’ils répondent au besoin et sont identifiés dans la portée recommandée.",
+    },
+  },
+};
+
 export const outcomeGroups: Record<
   "en" | "fr",
   readonly {
@@ -142,6 +211,12 @@ export const outcomePageCopy = {
     breadcrumb: "Business outcomes",
     eyebrow: "Business outcome pathway",
     plainAnswer: "The short answer",
+    credibilityLabel: "Why leaders can start here",
+    credibilityPoints: [
+      "30+ years of business and technology experience",
+      "500+ engagements delivered",
+      "Needs-led recommendations with accountable implementation",
+    ],
     journeyEyebrow: "Problem → solution → benefit",
     journeyTitle: "A clear route from friction to progress",
     fitTitle: "What may be getting in the way",
@@ -150,6 +225,7 @@ export const outcomePageCopy = {
     processEyebrow: "A practical path",
     processTitle: "Move from pressure to a decision your team can use",
     processDescription: "The exact scope changes with the situation. The sequence stays grounded in the outcome, the evidence, and the people responsible for implementation.",
+    deliveryModelLabel: "How this work is delivered",
     steps: [
       { title: "Clarify", description: "Confirm the current state, the result that matters, the constraints, and how success will be measured." },
       { title: "Evaluate", description: "Compare the viable approaches against the same business, technical, risk, cost, and adoption criteria." },
@@ -187,6 +263,12 @@ export const outcomePageCopy = {
     breadcrumb: "Résultats d’affaires",
     eyebrow: "Parcours par résultat d’affaires",
     plainAnswer: "La réponse courte",
+    credibilityLabel: "Pourquoi les dirigeants peuvent commencer ici",
+    credibilityPoints: [
+      "Plus de 30 ans d’expérience en affaires et en technologie",
+      "Plus de 500 mandats réalisés",
+      "Recommandations axées sur les besoins et mise en œuvre responsable",
+    ],
     journeyEyebrow: "Problème → solution → bénéfice",
     journeyTitle: "Un parcours clair de la friction au progrès",
     fitTitle: "Ce qui peut freiner le progrès",
@@ -195,6 +277,7 @@ export const outcomePageCopy = {
     processEyebrow: "Un parcours pratique",
     processTitle: "Passer de la pression à une décision que l’équipe peut appliquer",
     processDescription: "La portée exacte varie selon la situation. La séquence demeure ancrée dans le résultat, les faits et les personnes responsables de la mise en œuvre.",
+    deliveryModelLabel: "Comment ce travail est réalisé",
     steps: [
       { title: "Clarifier", description: "Confirmer l’état actuel, le résultat important, les contraintes et la façon de mesurer le succès." },
       { title: "Évaluer", description: "Comparer les approches viables selon les mêmes critères d’affaires, techniques, de risque, de coût et d’adoption." },

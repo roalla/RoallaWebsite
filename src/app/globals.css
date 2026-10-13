@@ -258,6 +258,10 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
     .outcome-card,
     .outcome-card:hover,
     .outcome-card:focus-within {

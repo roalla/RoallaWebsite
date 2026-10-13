@@ -14,6 +14,7 @@ import OutcomePageAnalytics from "@/components/solutions/OutcomePageAnalytics";
 import type { ConsultationIntent, ConsultingFocus } from "@/lib/consultation-request";
 import type { SolutionPathId, SolutionPathway } from "@/lib/solutions-by-need";
 import {
+  outcomeDeliveryModels,
   outcomeVisuals,
   type OutcomeEvidence,
   type OutcomePageCopy,
@@ -50,6 +51,7 @@ export default function OutcomeLandingPage({
   copy,
 }: Props) {
   const contact = contactQuery(pathway.id);
+  const deliveryModel = outcomeDeliveryModels[pathway.id][locale];
   const sourcePage = `/solutions/${pathway.id}`;
   const fullFormQuery = {
     intent: contact.intent,
@@ -100,7 +102,6 @@ export default function OutcomeLandingPage({
                 fill
                 priority
                 fetchPriority="high"
-                unoptimized
                 sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) calc(100vw - 3rem), 528px"
                 className="object-cover transition-transform duration-700 motion-safe:group-hover:scale-[1.025]"
               />
@@ -110,6 +111,17 @@ export default function OutcomeLandingPage({
           </figure>
         </div>
       </section>
+
+      <aside className="border-b border-slate-200 bg-slate-50 px-4 py-6 sm:px-6 lg:px-8" aria-label={copy.credibilityLabel}>
+        <div className="mx-auto grid max-w-6xl gap-5 sm:grid-cols-3">
+          {copy.credibilityPoints.map((point) => (
+            <div key={point} className="flex items-center gap-3 text-sm font-semibold text-slate-700">
+              <Check className="h-5 w-5 shrink-0 text-primary-dark" aria-hidden />
+              <span>{point}</span>
+            </div>
+          ))}
+        </div>
+      </aside>
 
       <main>
         <section className="px-4 py-14 sm:px-6 lg:px-8 lg:py-20" aria-labelledby="outcome-journey-title">
@@ -154,6 +166,11 @@ export default function OutcomeLandingPage({
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{copy.processEyebrow}</p>
               <h2 className="mt-3 font-serif text-3xl font-bold text-slate-950 sm:text-4xl">{copy.processTitle}</h2>
               <p className="mt-4 text-lg leading-8 text-slate-600">{copy.processDescription}</p>
+              <div className="mt-7 max-w-4xl rounded-2xl border border-slate-200 bg-white p-6">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">{copy.deliveryModelLabel}</p>
+                <h3 className="mt-2 font-serif text-2xl font-bold text-slate-950">{deliveryModel.title}</h3>
+                <p className="mt-3 leading-7 text-slate-600">{deliveryModel.description}</p>
+              </div>
             </div>
             <ol className="mt-10 grid gap-5 md:grid-cols-3">
               {copy.steps.map((step, index) => (
@@ -255,7 +272,6 @@ export default function OutcomeLandingPage({
                         fill
                         loading="lazy"
                         fetchPriority="low"
-                        unoptimized
                         sizes="(max-width: 639px) calc(100vw - 2rem), 160px"
                         className="object-cover transition-transform duration-500 motion-safe:group-hover:scale-105"
                       />

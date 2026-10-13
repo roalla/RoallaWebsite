@@ -1,5 +1,5 @@
 import { SOLUTION_PATH_IDS, solutionsByNeedContent } from '@/lib/solutions-by-need'
-import { outcomeEvidence, outcomeGroups, outcomeVisuals, relatedOutcomeIds } from '@/lib/solution-outcome-pages'
+import { outcomeDeliveryModels, outcomeEvidence, outcomeGroups, outcomeVisuals, relatedOutcomeIds } from '@/lib/solution-outcome-pages'
 
 describe('solutions by need content', () => {
   it.each(['en', 'fr'] as const)('defines nine complete, ordered outcome pathways for %s', (locale) => {
@@ -29,6 +29,10 @@ describe('solutions by need content', () => {
       expect(outcomeVisuals[id].src).toMatch(/^\/images\/.+\.webp$/)
       expect(outcomeVisuals[id].alt.en).toBeTruthy()
       expect(outcomeVisuals[id].alt.fr).toBeTruthy()
+      expect(outcomeDeliveryModels[id].en.title).toBeTruthy()
+      expect(outcomeDeliveryModels[id].en.description).toBeTruthy()
+      expect(outcomeDeliveryModels[id].fr.title).toBeTruthy()
+      expect(outcomeDeliveryModels[id].fr.description).toBeTruthy()
       expect(relatedOutcomeIds[id]).toHaveLength(2)
       relatedOutcomeIds[id].forEach((relatedId) => {
         expect(SOLUTION_PATH_IDS).toContain(relatedId)

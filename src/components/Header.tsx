@@ -346,9 +346,9 @@ const Header = ({
   const tCommon = useTranslations("common");
   const locale = useLocale();
   const solutionsContent = solutionsByNeedContent[locale === "fr" ? "fr" : "en"];
-  const businessNeedHeading = locale === "fr" ? "Par résultat d’affaires" : "By Business Outcome";
-  const capabilityHeading = locale === "fr" ? "Comment nous aidons" : "How We Help";
-  const startingPointLabel = locale === "fr" ? "Trouver votre point de départ" : "Find Your Starting Point";
+  const businessNeedHeading = locale === "fr" ? "Ce que vous voulez accomplir" : "What You Want to Achieve";
+  const capabilityHeading = locale === "fr" ? "Explorer les technologies" : "Explore Technologies";
+  const startingPointLabel = locale === "fr" ? "Explorer vos options" : "Explore Your Options";
 
   const isConsultingPage =
     pathname === "/programs/business-enablement" ||
@@ -394,11 +394,14 @@ const Header = ({
       if (pathname === "/" && href === "/") {
         e.preventDefault();
         requestAnimationFrame(() =>
-          window.scrollTo({ top: 0, behavior: "smooth" }),
+          window.scrollTo({
+            top: 0,
+            behavior: prefersReducedMotion ? "auto" : "smooth",
+          }),
         );
       }
     },
-    [closeMenu, pathname],
+    [closeMenu, pathname, prefersReducedMotion],
   );
 
   const handleMenuKeyDown = (e: React.KeyboardEvent) => {

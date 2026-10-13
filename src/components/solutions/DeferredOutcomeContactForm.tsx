@@ -9,7 +9,7 @@ const ConsultationRequestForm = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="min-h-[28rem] animate-pulse rounded-2xl border border-white/10 bg-white/[0.04] p-6" aria-hidden>
+      <div className="min-h-[28rem] animate-pulse rounded-2xl border border-white/10 bg-white/[0.04] p-6 motion-reduce:animate-none" aria-hidden>
         <div className="h-5 w-40 rounded bg-white/10" />
         <div className="mt-7 h-28 rounded-xl bg-white/10" />
         <div className="mt-5 grid gap-5 sm:grid-cols-2">

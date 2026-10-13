@@ -1,19 +1,33 @@
 "use client";
 
-import { ArrowDown, ArrowRight, Bot, CalendarRange, Check, Compass, Gauge, MonitorSmartphone, SearchCheck, Sparkles, UsersRound } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowRight,
+  Bot,
+  Check,
+  Compass,
+  MessagesSquare,
+  MonitorSmartphone,
+  Network,
+  RadioTower,
+  SearchCheck,
+  ServerCog,
+  ShieldCheck,
+} from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { trackAnalyticsEvent } from "@/lib/analytics";
 import type { SolutionsByNeedContent, SolutionPathId } from "@/lib/solutions-by-need";
 
 const PATHWAY_ICONS = {
   strategy: Compass,
-  technology: Gauge,
+  "cloud-infrastructure": ServerCog,
+  communications: MessagesSquare,
+  security: ShieldCheck,
+  iot: RadioTower,
+  network: Network,
   "digital-experience": MonitorSmartphone,
   "automation-ai": Bot,
   visibility: SearchCheck,
-  "team-execution": UsersRound,
-  events: CalendarRange,
-  optimization: Sparkles,
 } satisfies Record<SolutionPathId, typeof Compass>;
 
 export default function SolutionsByNeedPage({ content }: { content: SolutionsByNeedContent }) {
@@ -69,9 +83,28 @@ export default function SolutionsByNeedPage({ content }: { content: SolutionsByN
                       ))}
                     </ul>
                   </div>
+                  <div className="mt-4 grid gap-4 sm:grid-cols-[0.9fr_1.1fr]">
+                    <div className="rounded-xl border border-slate-200 bg-white p-4">
+                      <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">{content.examplesLabel}</p>
+                      <ul className="mt-3 space-y-2">
+                        {pathway.examples.map((example) => (
+                          <li key={example} className="flex gap-2 text-sm leading-6 text-slate-700"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden /><span>{example}</span></li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="rounded-xl border border-primary/20 bg-primary/[0.05] p-4">
+                      <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary-dark">{content.resultLabel}</p>
+                      <p className="mt-3 text-sm font-medium leading-6 text-slate-800">{pathway.result}</p>
+                    </div>
+                  </div>
                   <Link href={pathway.href} onClick={() => trackAnalyticsEvent("solutions_pathway_click", { location: "solutions_page", pathway: pathway.id })} className="mt-6 inline-flex min-h-[44px] items-center font-semibold text-primary-dark underline-offset-4 hover:underline focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
                     {content.serviceCta}: {pathway.serviceLabel}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                   </Link>
+                  {pathway.relatedLinks?.map((related) => (
+                    <Link key={related.href} href={related.href} className="ml-0 inline-flex min-h-[40px] items-center text-sm font-semibold text-slate-600 underline-offset-4 hover:text-primary-dark hover:underline sm:ml-5">
+                      {related.label}<ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden />
+                    </Link>
+                  ))}
                 </article>
               );
             })}

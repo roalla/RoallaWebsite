@@ -125,6 +125,7 @@ describe('Header', () => {
     expect(screen.getByRole('menuitem', { name: /technologyAdvisory/i })).toHaveAttribute('href', '/programs/technology-advisory')
     expect(screen.getByRole('menuitem', { name: /digitalOverview/i })).toHaveAttribute('href', '/services/digital')
     expect(screen.getByRole('menuitem', { name: /digitalVisibility/i })).toHaveAttribute('href', '/services/digital-visibility-optimization')
+    expect(screen.getByRole('menuitem', { name: /digitalManagedOptimization/i })).toHaveAttribute('href', '/services/managed-optimization')
     expect(screen.getByRole('menuitem', { name: /technologyPartners/i })).toHaveAttribute('href', '/partners')
   })
 
@@ -134,21 +135,21 @@ describe('Header', () => {
     fireEvent.click(screen.getByRole('button', { name: 'digitalEnablement' }))
 
     const menu = screen.getByRole('menu', { name: 'digitalEnablement' })
-    expect(within(menu).getByText('By Business Need')).toBeInTheDocument()
-    expect(within(menu).getByText('By Technology & Capability')).toBeInTheDocument()
+    expect(within(menu).getByText('By Business Outcome')).toBeInTheDocument()
+    expect(within(menu).getByText('How We Help')).toBeInTheDocument()
     expect(within(menu).getByRole('menuitem', { name: /Set direction and priorities/i })).toHaveAttribute(
       'href',
       '/solutions#strategy',
     )
-    expect(within(menu).getByRole('menuitem', { name: /Keep improving what you have/i })).toHaveAttribute(
+    expect(within(menu).getByRole('menuitem', { name: /Reduce security and compliance risk/i })).toHaveAttribute(
       'href',
-      '/solutions#optimization',
+      '/solutions#security',
     )
     expect(within(menu).getByRole('menuitem', { name: /Find Your Starting Point/i })).toHaveAttribute(
       'href',
       '/assessment',
     )
-    expect(within(menu).getAllByRole('menuitem')).toHaveLength(15)
+    expect(within(menu).getAllByRole('menuitem')).toHaveLength(17)
   })
 
   it('marks only the matching dropdown item for the current page', () => {

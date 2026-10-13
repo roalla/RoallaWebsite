@@ -349,8 +349,8 @@ const Header = ({
   const tCommon = useTranslations("common");
   const locale = useLocale();
   const solutionsContent = solutionsByNeedContent[locale === "fr" ? "fr" : "en"];
-  const businessNeedHeading = locale === "fr" ? "Par besoin d’affaires" : "By Business Need";
-  const capabilityHeading = locale === "fr" ? "Par technologie et capacité" : "By Technology & Capability";
+  const businessNeedHeading = locale === "fr" ? "Par résultat d’affaires" : "By Business Outcome";
+  const capabilityHeading = locale === "fr" ? "Comment nous aidons" : "How We Help";
   const startingPointLabel = locale === "fr" ? "Trouver votre point de départ" : "Find Your Starting Point";
 
   const isConsultingPage =
@@ -445,6 +445,7 @@ const Header = ({
     | "/services/agentic"
     | "/programs/technology-advisory"
     | "/services/digital-visibility-optimization"
+    | "/services/managed-optimization"
     | "/partners";
 
   type WorkshopNavHref =
@@ -463,13 +464,13 @@ const Header = ({
       | "agentic"
       | "technologyAdvisory"
       | "digitalVisibility"
-      | "technologyPartners";
+      | "digitalManagedOptimization";
     descKey:
       | "digitalOverviewDesc"
       | "agenticDesc"
       | "technologyAdvisoryDesc"
       | "digitalVisibilityDesc"
-      | "technologyPartnersDesc";
+      | "digitalManagedOptimizationDesc";
     href: DigitalNavHref;
     icon: typeof Globe;
   }[] = [
@@ -498,9 +499,9 @@ const Header = ({
       icon: SearchCheck,
     },
     {
-      nameKey: "technologyPartners",
-      descKey: "technologyPartnersDesc",
-      href: "/partners",
+      nameKey: "digitalManagedOptimization",
+      descKey: "digitalManagedOptimizationDesc",
+      href: "/services/managed-optimization",
       icon: Briefcase,
     },
   ];
@@ -574,6 +575,8 @@ const Header = ({
     pathname === "/services/agentic" ||
     pathname === "/programs/technology-advisory" ||
     pathname === "/services/digital-visibility-optimization" ||
+    pathname === "/services/managed-optimization" ||
+    pathname === "/services/digital-events" ||
     pathname === "/partners" ||
     pathname === "/services/portfolio";
 
@@ -837,7 +840,7 @@ const Header = ({
                               {pathway.shortTitle}
                             </span>
                             <span className="mt-0.5 block text-xs leading-snug text-slate-500">
-                              {pathway.serviceLabel}
+                              {pathway.navDescription}
                             </span>
                           </Link>
                         ))}
@@ -877,6 +880,23 @@ const Header = ({
                           </Link>
                         );
                       })}
+                      <div className="mx-2 mt-2 border-t border-white/10 pt-2">
+                        <Link
+                          href="/partners"
+                          role="menuitem"
+                          onClick={() => {
+                            setDigitalDropdownOpen(false);
+                            closeMenu();
+                          }}
+                          className="group flex items-start gap-3 rounded-lg px-2 py-2 text-left transition-colors hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
+                        >
+                          <Briefcase className="mt-0.5 h-4 w-4 shrink-0 text-slate-500 group-hover:text-primary" aria-hidden />
+                          <span>
+                            <span className="block text-xs font-semibold text-slate-300 group-hover:text-primary">{t("technologyPartners")}</span>
+                            <span className="mt-0.5 block text-[11px] leading-snug text-slate-500">{t("technologyPartnersDesc")}</span>
+                          </span>
+                        </Link>
+                      </div>
                     </section>
                   </div>
                   <Link
@@ -1375,7 +1395,7 @@ const Header = ({
                       >
                         <span>
                           <span className="block text-sm font-medium">{pathway.shortTitle}</span>
-                          <span className="mt-0.5 block text-xs text-slate-500">{pathway.serviceLabel}</span>
+                          <span className="mt-0.5 block text-xs text-slate-500">{pathway.navDescription}</span>
                         </span>
                         <ArrowRight className="h-4 w-4 shrink-0 opacity-60" aria-hidden />
                       </Link>
@@ -1427,6 +1447,17 @@ const Header = ({
                         </Link>
                       );
                     })}
+                    <Link
+                      href="/partners"
+                      className="mx-3 mt-1 flex min-h-[44px] items-start gap-3 rounded-md border-t border-white/10 px-2 py-3 text-slate-400 transition-colors hover:bg-white/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
+                      onClick={(event) => handleMobileNavClick(event, "/partners")}
+                    >
+                      <Briefcase className="mt-0.5 h-4 w-4 shrink-0 opacity-70" aria-hidden />
+                      <span>
+                        <span className="block text-sm font-medium">{t("technologyPartners")}</span>
+                        <span className="mt-0.5 block text-xs text-slate-500">{t("technologyPartnersDesc")}</span>
+                      </span>
+                    </Link>
                     <Link
                       href="/assessment"
                       className="mx-3 mt-2 flex min-h-[44px] items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/5 px-3 py-3 text-sm text-slate-300"

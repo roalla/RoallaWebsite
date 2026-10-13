@@ -571,6 +571,7 @@ const Header = ({
 
   const isDigitalActive =
     pathname === "/solutions" ||
+    pathname.startsWith("/solutions/") ||
     pathname === "/services/digital" ||
     pathname === "/services/agentic" ||
     pathname === "/programs/technology-advisory" ||
@@ -674,11 +675,11 @@ const Header = ({
 
   const headerShellClass = overDark
     ? isScrolled
-      ? "bg-black/80 backdrop-blur-md shadow-lg shadow-black/40 border-white/15"
-      : "bg-black/65 backdrop-blur-lg shadow-md shadow-black/20 border-white/15"
+      ? "bg-black/70 backdrop-blur-md shadow-lg shadow-black/40 border-white/15"
+      : "bg-black/55 backdrop-blur-lg shadow-md shadow-black/20 border-white/15"
     : isScrolled
-      ? "bg-white/80 backdrop-blur-md shadow-md shadow-slate-900/8 border-slate-200/80"
-      : "bg-white/55 backdrop-blur-xl shadow-sm shadow-slate-900/5 border-slate-200/50";
+      ? "bg-white/70 backdrop-blur-md shadow-md shadow-slate-900/8 border-slate-200/80"
+      : "bg-white/45 backdrop-blur-xl shadow-sm shadow-slate-900/5 border-slate-200/50";
 
   const brandTextClass = overDark
     ? "text-white group-hover:text-primary"
@@ -824,7 +825,7 @@ const Header = ({
                         {solutionsContent.pathways.map((pathway) => (
                           <Link
                             key={pathway.id}
-                            href={{ pathname: "/solutions", hash: pathway.id }}
+                            href={{ pathname: "/solutions/[slug]", params: { slug: pathway.id } }}
                             role="menuitem"
                             onClick={() => {
                               trackAnalyticsEvent("solutions_pathway_click", {
@@ -1383,14 +1384,14 @@ const Header = ({
                     {solutionsContent.pathways.map((pathway) => (
                       <Link
                         key={pathway.id}
-                        href={{ pathname: "/solutions", hash: pathway.id }}
+                        href={{ pathname: "/solutions/[slug]", params: { slug: pathway.id } }}
                         className="flex min-h-[44px] items-center justify-between gap-3 rounded-md py-2.5 pl-5 pr-3 text-gray-300 transition-colors hover:bg-white/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
                         onClick={(event) => {
                           trackAnalyticsEvent("solutions_pathway_click", {
                             location: "mobile_header",
                             pathway: pathway.id,
                           });
-                          handleMobileNavClick(event, `/solutions#${pathway.id}`);
+                          handleMobileNavClick(event, `/solutions/${pathway.id}`);
                         }}
                       >
                         <span>

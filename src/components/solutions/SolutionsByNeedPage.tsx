@@ -5,6 +5,7 @@ import {
   ArrowRight,
   Bot,
   Check,
+  ChevronDown,
   Compass,
   MessagesSquare,
   MonitorSmartphone,
@@ -16,6 +17,7 @@ import {
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { trackAnalyticsEvent } from "@/lib/analytics";
+import { outcomeGroups } from "@/lib/solution-outcome-pages";
 import type { SolutionsByNeedContent, SolutionPathId } from "@/lib/solutions-by-need";
 
 const PATHWAY_ICONS = {
@@ -30,89 +32,98 @@ const PATHWAY_ICONS = {
   visibility: SearchCheck,
 } satisfies Record<SolutionPathId, typeof Compass>;
 
-export default function SolutionsByNeedPage({ content }: { content: SolutionsByNeedContent }) {
+export default function SolutionsByNeedPage({
+  content,
+  locale,
+}: {
+  content: SolutionsByNeedContent;
+  locale: "en" | "fr";
+}) {
+  const groups = outcomeGroups[locale];
+  const stepOne = locale === "fr" ? "Étape 1 · Choisissez le type de changement" : "Step 1 · Choose the kind of change";
+  const stepTwo = locale === "fr" ? "Étape 2 · Choisissez le résultat le plus proche" : "Step 2 · Choose the closest outcome";
+  const openLabel = locale === "fr" ? "Voir les trois parcours" : "See the three paths";
+
   return (
     <div className="page-shell bg-white">
       <section data-header-tone="dark" className="relative overflow-hidden bg-slate-950 px-4 pb-20 pt-32 text-white sm:px-6 lg:px-8 lg:pb-24 lg:pt-36">
         <div className="absolute inset-0" aria-hidden>
           <div className="absolute -right-24 top-10 h-80 w-80 rounded-full bg-primary/20 blur-3xl" />
           <div className="absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-cyan-400/10 blur-3xl" />
-          <div className="absolute inset-0 opacity-[0.07] [background-image:linear-gradient(rgba(255,255,255,.35)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.35)_1px,transparent_1px)] [background-size:42px_42px]" />
         </div>
         <div className="relative mx-auto max-w-6xl">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">{content.eyebrow}</p>
           <h1 className="mt-5 max-w-4xl font-serif text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">{content.title}</h1>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300 sm:text-xl">{content.intro}</p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <Link href="/assessment" onClick={() => trackAnalyticsEvent("solutions_assessment_click", { location: "solutions_hero" })} className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white transition hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
-              {content.heroPrimary}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-            </Link>
-            <a href="#pathways" className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-white/20 bg-white/5 px-6 py-3 font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+            <a href="#outcome-finder" className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white transition hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
               {content.heroSecondary}<ArrowDown className="ml-2 h-4 w-4" aria-hidden />
             </a>
+            <Link href="/assessment" onClick={() => trackAnalyticsEvent("solutions_assessment_click", { location: "solutions_hero" })} className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-white/20 bg-white/5 px-6 py-3 font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+              {content.heroPrimary}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Link>
           </div>
         </div>
       </section>
 
-      <section id="pathways" aria-labelledby="pathways-title" className="scroll-mt-24 px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
-        <div className="mx-auto max-w-6xl">
-          <div className="max-w-3xl">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{content.pathwaysEyebrow}</p>
-            <h2 id="pathways-title" className="mt-3 font-serif text-3xl font-bold text-slate-950 sm:text-4xl">{content.pathwaysTitle}</h2>
-            <p className="mt-4 text-lg leading-8 text-slate-600">{content.pathwaysDescription}</p>
-          </div>
+      <section id="outcome-finder" aria-labelledby="finder-title" className="scroll-mt-24 px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+        <div className="mx-auto max-w-5xl">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{stepOne}</p>
+          <h2 id="finder-title" className="mt-3 font-serif text-3xl font-bold text-slate-950 sm:text-4xl">{content.pathwaysTitle}</h2>
+          <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600">{content.pathwaysDescription}</p>
 
-          <div className="mt-10 grid gap-6 lg:grid-cols-2">
-            {content.pathways.map((pathway, index) => {
-              const Icon = PATHWAY_ICONS[pathway.id];
+          <div className="mt-10 space-y-4">
+            {groups.map((group, groupIndex) => {
+              const pathways = group.pathwayIds
+                .map((id) => content.pathways.find((pathway) => pathway.id === id))
+                .filter((pathway): pathway is NonNullable<typeof pathway> => Boolean(pathway));
+
               return (
-                <article key={pathway.id} id={pathway.id} className="scroll-mt-28 rounded-2xl border border-slate-200 bg-slate-50/70 p-6 shadow-sm transition hover:border-primary/30 hover:shadow-md sm:p-7">
-                  <div className="flex items-start gap-4">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary-dark"><Icon className="h-6 w-6" aria-hidden /></span>
-                    <div>
-                      <p className="text-xs font-bold uppercase tracking-[0.15em] text-slate-500">{String(index + 1).padStart(2, "0")} · {pathway.shortTitle}</p>
-                      <h3 className="mt-2 font-serif text-2xl font-bold leading-tight text-slate-950">{pathway.title}</h3>
+                <details key={group.id} open={groupIndex === 0} className="group rounded-2xl border border-slate-200 bg-slate-50 shadow-sm open:border-primary/30 open:bg-white">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-5 rounded-2xl p-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:p-7">
+                    <span>
+                      <span className="block font-serif text-2xl font-bold text-slate-950">{group.title}</span>
+                      <span className="mt-2 block max-w-3xl leading-7 text-slate-600">{group.description}</span>
+                      <span className="mt-3 block text-sm font-semibold text-primary-dark">{openLabel}</span>
+                    </span>
+                    <ChevronDown className="h-6 w-6 shrink-0 text-primary-dark transition group-open:rotate-180" aria-hidden />
+                  </summary>
+                  <div className="border-t border-slate-200 px-6 pb-7 pt-6 sm:px-7">
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">{stepTwo}</p>
+                    <div className="mt-5 grid gap-4 lg:grid-cols-3">
+                      {pathways.map((pathway) => {
+                        const Icon = PATHWAY_ICONS[pathway.id];
+                        return (
+                          <Link
+                            key={pathway.id}
+                            id={pathway.id}
+                            href={{ pathname: "/solutions/[slug]", params: { slug: pathway.id } }}
+                            onClick={() => {
+                              trackAnalyticsEvent("solutions_pathway_click", { location: "guided_discovery", pathway: pathway.id });
+                              trackAnalyticsEvent("outcome_selection", { location: "guided_discovery", outcome: pathway.id, group: group.id });
+                            }}
+                            className="group/card flex min-h-full flex-col rounded-xl border border-slate-200 bg-white p-5 transition hover:border-primary/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                          >
+                            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary-dark"><Icon className="h-5 w-5" aria-hidden /></span>
+                            <h3 className="mt-4 font-serif text-xl font-bold leading-tight text-slate-950 group-hover/card:text-primary-dark">{pathway.shortTitle}</h3>
+                            <p className="mt-3 text-sm leading-6 text-slate-600">{pathway.navDescription}</p>
+                            <span className="mt-auto inline-flex items-center pt-5 text-sm font-semibold text-primary-dark">{content.serviceCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></span>
+                          </Link>
+                        );
+                      })}
                     </div>
                   </div>
-                  <p className="mt-5 leading-7 text-slate-600">{pathway.description}</p>
-                  <div className="mt-5 rounded-xl border border-slate-200 bg-white p-4">
-                    <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">{content.signsLabel}</p>
-                    <ul className="mt-3 space-y-2">
-                      {pathway.signals.map((signal) => (
-                        <li key={signal} className="flex gap-2 text-sm leading-6 text-slate-700"><Check className="mt-1 h-4 w-4 shrink-0 text-primary-dark" aria-hidden /><span>{signal}</span></li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="mt-4 grid gap-4 sm:grid-cols-[0.9fr_1.1fr]">
-                    <div className="rounded-xl border border-slate-200 bg-white p-4">
-                      <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">{content.examplesLabel}</p>
-                      <ul className="mt-3 space-y-2">
-                        {pathway.examples.map((example) => (
-                          <li key={example} className="flex gap-2 text-sm leading-6 text-slate-700"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden /><span>{example}</span></li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="rounded-xl border border-primary/20 bg-primary/[0.05] p-4">
-                      <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary-dark">{content.resultLabel}</p>
-                      <p className="mt-3 text-sm font-medium leading-6 text-slate-800">{pathway.result}</p>
-                    </div>
-                  </div>
-                  <Link href={pathway.href} onClick={() => trackAnalyticsEvent("solutions_pathway_click", { location: "solutions_page", pathway: pathway.id })} className="mt-6 inline-flex min-h-[44px] items-center font-semibold text-primary-dark underline-offset-4 hover:underline focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
-                    {content.serviceCta}: {pathway.serviceLabel}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-                  </Link>
-                  {pathway.relatedLinks?.map((related) => (
-                    <Link key={related.href} href={related.href} className="ml-0 inline-flex min-h-[40px] items-center text-sm font-semibold text-slate-600 underline-offset-4 hover:text-primary-dark hover:underline sm:ml-5">
-                      {related.label}<ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden />
-                    </Link>
-                  ))}
-                </article>
+                </details>
               );
             })}
           </div>
 
           <div className="mt-10 flex flex-col gap-4 rounded-2xl border border-primary/25 bg-primary/[0.05] p-6 sm:flex-row sm:items-center sm:justify-between">
-            <p className="max-w-3xl font-medium leading-7 text-slate-800">{content.assessmentPrompt}</p>
-            <Link href="/assessment" onClick={() => trackAnalyticsEvent("solutions_assessment_click", { location: "solutions_pathways" })} className="inline-flex min-h-[44px] shrink-0 items-center justify-center rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white transition hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+            <div className="flex gap-3">
+              <Check className="mt-1 h-5 w-5 shrink-0 text-primary-dark" aria-hidden />
+              <p className="max-w-3xl font-medium leading-7 text-slate-800">{content.assessmentPrompt}</p>
+            </div>
+            <Link href="/assessment" onClick={() => trackAnalyticsEvent("solutions_assessment_click", { location: "guided_discovery" })} className="inline-flex min-h-[44px] shrink-0 items-center justify-center rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white transition hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
               {content.heroPrimary}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Link>
           </div>

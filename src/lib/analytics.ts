@@ -42,7 +42,10 @@ export type AnalyticsEventName =
   | "executive_insights_home_click"
   | "solutions_menu_open"
   | "solutions_pathway_click"
-  | "solutions_assessment_click";
+  | "solutions_assessment_click"
+  | "outcome_page_view"
+  | "outcome_selection"
+  | "outcome_cta_click";
 
 export function trackAnalyticsEvent(
   eventName: AnalyticsEventName,

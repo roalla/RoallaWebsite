@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { INSIGHT_SLUGS } from "@/lib/insights";
 import { CASE_STUDY_SLUGS } from "@/lib/portfolio-case-studies";
+import { SOLUTION_PATH_IDS } from "@/lib/solutions-by-need";
 
 const baseUrl = "https://www.roalla.com";
 const locales = ["en", "fr"] as const;
@@ -8,6 +9,7 @@ const locales = ["en", "fr"] as const;
 const paths = [
   "",
   "/solutions",
+  ...SOLUTION_PATH_IDS.map((slug) => `/solutions/${slug}`),
   "/services/digital",
   "/services/agentic",
   "/services/digital-visibility-optimization",
@@ -113,6 +115,7 @@ const changeFrequency = (
 };
 
 const priority = (path: string): number => {
+  if (path.startsWith("/solutions/")) return 0.9;
   if (path.startsWith("/insights/")) return 0.72;
   if (path.startsWith("/services/portfolio/")) return 0.82;
   return priorities[path] ?? 0.7;

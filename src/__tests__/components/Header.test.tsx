@@ -139,11 +139,11 @@ describe('Header', () => {
     expect(within(menu).getByText('How We Help')).toBeInTheDocument()
     expect(within(menu).getByRole('menuitem', { name: /Set direction and priorities/i })).toHaveAttribute(
       'href',
-      '/solutions#strategy',
+      '/solutions/strategy',
     )
     expect(within(menu).getByRole('menuitem', { name: /Reduce security and compliance risk/i })).toHaveAttribute(
       'href',
-      '/solutions#security',
+      '/solutions/security',
     )
     expect(within(menu).getByRole('menuitem', { name: /Find Your Starting Point/i })).toHaveAttribute(
       'href',

@@ -1,0 +1,268 @@
+"use client";
+
+import { useEffect } from "react";
+import {
+  ArrowRight,
+  Check,
+  ExternalLink,
+  FileCheck2,
+  SearchCheck,
+} from "lucide-react";
+import { Link } from "@/i18n/navigation";
+import { trackAnalyticsEvent } from "@/lib/analytics";
+import type { SolutionPathId, SolutionPathway } from "@/lib/solutions-by-need";
+import type { OutcomeEvidence, OutcomePageCopy } from "@/lib/solution-outcome-pages";
+
+type Props = {
+  locale: "en" | "fr";
+  pathway: SolutionPathway;
+  related: readonly SolutionPathway[];
+  evidence: readonly OutcomeEvidence[];
+  showSupplierContext: boolean;
+  copy: OutcomePageCopy;
+};
+
+function contactQuery(pathwayId: SolutionPathId) {
+  if (pathwayId === "strategy") return { intent: "consulting" };
+  if (pathwayId === "visibility") return { intent: "visibility" };
+  if (pathwayId === "automation-ai") return { intent: "ai-support" };
+  if (pathwayId === "digital-experience") return { intent: "platform" };
+  return { intent: "consulting", focus: "technology" };
+}
+
+export default function OutcomeLandingPage({
+  locale,
+  pathway,
+  related,
+  evidence,
+  showSupplierContext,
+  copy,
+}: Props) {
+  useEffect(() => {
+    trackAnalyticsEvent("outcome_page_view", { outcome: pathway.id });
+  }, [pathway.id]);
+
+  const trackCta = (location: string, destination: string) =>
+    trackAnalyticsEvent("outcome_cta_click", {
+      outcome: pathway.id,
+      location,
+      destination,
+    });
+
+  return (
+    <div className="page-shell bg-white">
+      <section
+        data-header-tone="dark"
+        className="relative overflow-hidden bg-slate-950 px-4 pb-20 pt-32 text-white sm:px-6 lg:px-8 lg:pb-24 lg:pt-36"
+      >
+        <div className="absolute inset-0" aria-hidden>
+          <div className="absolute -right-20 top-12 h-80 w-80 rounded-full bg-primary/20 blur-3xl" />
+          <div className="absolute -left-24 bottom-0 h-64 w-64 rounded-full bg-cyan-400/10 blur-3xl" />
+        </div>
+        <div className="relative mx-auto max-w-6xl">
+          <Link
+            href="/solutions"
+            onClick={() => trackCta("hero_breadcrumb", "solutions")}
+            className="inline-flex items-center text-sm font-semibold text-slate-300 underline-offset-4 hover:text-white hover:underline"
+          >
+            {copy.breadcrumb}
+          </Link>
+          <p className="mt-8 text-xs font-bold uppercase tracking-[0.2em] text-primary">
+            {copy.eyebrow}
+          </p>
+          <h1 className="mt-5 max-w-4xl font-serif text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">
+            {pathway.title}
+          </h1>
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300 sm:text-xl">
+            {pathway.description}
+          </p>
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <Link
+              href={{ pathname: "/contact", query: { ...contactQuery(pathway.id), outcome: pathway.id, from_page: `/solutions/${pathway.id}` } }}
+              onClick={() => trackCta("hero", "contact")}
+              className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white transition hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            >
+              {copy.ctaPrimary}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Link>
+            <Link
+              href={pathway.href}
+              onClick={() => trackCta("hero", pathway.href)}
+              className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-white/20 bg-white/5 px-6 py-3 font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            >
+              {copy.serviceCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <main>
+        <section className="px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+          <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+            <article className="rounded-2xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{copy.plainAnswer}</p>
+              <h2 className="mt-3 font-serif text-3xl font-bold text-slate-950">{pathway.shortTitle}</h2>
+              <p className="mt-4 text-lg leading-8 text-slate-700">{pathway.description}</p>
+              <div className="mt-7 rounded-xl border border-primary/25 bg-white p-5">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">{copy.resultTitle}</p>
+                <p className="mt-3 font-medium leading-7 text-slate-900">{pathway.result}</p>
+              </div>
+            </article>
+            <div className="grid gap-6">
+              <section className="rounded-2xl border border-slate-200 bg-white p-6">
+                <h2 className="font-serif text-xl font-bold text-slate-950">{copy.fitTitle}</h2>
+                <ul className="mt-4 space-y-3">
+                  {pathway.signals.map((signal) => (
+                    <li key={signal} className="flex gap-3 leading-7 text-slate-700">
+                      <Check className="mt-1 h-5 w-5 shrink-0 text-primary-dark" aria-hidden />
+                      <span>{signal}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+              <section className="rounded-2xl border border-slate-200 bg-white p-6">
+                <h2 className="font-serif text-xl font-bold text-slate-950">{copy.includesTitle}</h2>
+                <ul className="mt-4 space-y-3">
+                  {pathway.examples.map((example) => (
+                    <li key={example} className="flex gap-3 leading-7 text-slate-700">
+                      <span className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
+                      <span>{example}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-slate-50 px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+          <div className="mx-auto max-w-6xl">
+            <div className="max-w-3xl">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{copy.processEyebrow}</p>
+              <h2 className="mt-3 font-serif text-3xl font-bold text-slate-950 sm:text-4xl">{copy.processTitle}</h2>
+              <p className="mt-4 text-lg leading-8 text-slate-600">{copy.processDescription}</p>
+            </div>
+            <ol className="mt-10 grid gap-5 md:grid-cols-3">
+              {copy.steps.map((step, index) => (
+                <li key={step.title} className="rounded-2xl border border-slate-200 bg-white p-6">
+                  <span className="text-sm font-bold text-primary-dark">{String(index + 1).padStart(2, "0")}</span>
+                  <h3 className="mt-3 font-serif text-2xl font-bold text-slate-950">{step.title}</h3>
+                  <p className="mt-3 leading-7 text-slate-600">{step.description}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {evidence.length > 0 ? (
+          <section className="px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+            <div className="mx-auto max-w-6xl">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{copy.proofEyebrow}</p>
+              <h2 className="mt-3 font-serif text-3xl font-bold text-slate-950">{copy.proofTitle}</h2>
+              <p className="mt-4 max-w-3xl leading-7 text-slate-600">{copy.proofDescription}</p>
+              <div className="mt-8 grid gap-5 md:grid-cols-2">
+                {evidence.map((item) => (
+                  <article key={item.slug} className="rounded-2xl border border-slate-200 bg-slate-50 p-6">
+                    <FileCheck2 className="h-6 w-6 text-primary-dark" aria-hidden />
+                    <h3 className="mt-4 font-serif text-2xl font-bold text-slate-950">{item.title[locale]}</h3>
+                    <p className="mt-3 leading-7 text-slate-600">{item.description[locale]}</p>
+                    <Link
+                      href={{ pathname: "/services/portfolio/[slug]", params: { slug: item.slug } }}
+                      onClick={() => trackCta("published_evidence", `case-study:${item.slug}`)}
+                      className="mt-5 inline-flex min-h-[44px] items-center font-semibold text-primary-dark underline-offset-4 hover:underline"
+                    >
+                      {copy.proofCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                    </Link>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        {showSupplierContext ? (
+          <section className="px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
+            <div className="mx-auto max-w-6xl rounded-2xl border border-primary/25 bg-primary/[0.05] p-6 sm:p-8">
+              <SearchCheck className="h-7 w-7 text-primary-dark" aria-hidden />
+              <p className="mt-4 text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{copy.supplierEyebrow}</p>
+              <h2 className="mt-3 max-w-3xl font-serif text-3xl font-bold text-slate-950">{copy.supplierTitle}</h2>
+              <p className="mt-4 max-w-4xl leading-7 text-slate-700">{copy.supplierDescription}</p>
+              <Link
+                href="/providers"
+                onClick={() => trackCta("supplier_context", "providers")}
+                className="mt-5 inline-flex min-h-[44px] items-center font-semibold text-primary-dark underline-offset-4 hover:underline"
+              >
+                {copy.supplierCta}<ExternalLink className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+            </div>
+          </section>
+        ) : null}
+
+        <section className="bg-slate-50 px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+          <div className="mx-auto max-w-6xl">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{copy.faqEyebrow}</p>
+            <h2 className="mt-3 font-serif text-3xl font-bold text-slate-950">{copy.faqTitle}</h2>
+            <div className="mt-8 grid gap-5 lg:grid-cols-3">
+              {[
+                [copy.faqOutcomeQuestion, pathway.result],
+                [copy.faqFitQuestion, pathway.signals.join("; ")],
+                [copy.faqScopeQuestion, pathway.examples.join("; ")],
+              ].map(([question, answer]) => (
+                <article key={question} className="rounded-2xl border border-slate-200 bg-white p-6">
+                  <h3 className="font-serif text-xl font-bold text-slate-950">{question}</h3>
+                  <p className="mt-3 leading-7 text-slate-600">{answer}.</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+          <div className="mx-auto max-w-6xl">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{copy.relatedEyebrow}</p>
+            <h2 className="mt-3 font-serif text-3xl font-bold text-slate-950">{copy.relatedTitle}</h2>
+            <div className="mt-8 grid gap-5 md:grid-cols-2">
+              {related.map((item) => (
+                <Link
+                  key={item.id}
+                  href={{ pathname: "/solutions/[slug]", params: { slug: item.id } }}
+                  onClick={() => trackAnalyticsEvent("outcome_selection", { outcome: item.id, source_outcome: pathway.id, location: "related_outcomes" })}
+                  className="group rounded-2xl border border-slate-200 bg-white p-6 transition hover:border-primary/40 hover:shadow-md"
+                >
+                  <h3 className="font-serif text-2xl font-bold text-slate-950 group-hover:text-primary-dark">{item.shortTitle}</h3>
+                  <p className="mt-3 leading-7 text-slate-600">{item.navDescription}</p>
+                  <span className="mt-5 inline-flex items-center font-semibold text-primary-dark">{copy.relatedCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <section className="bg-slate-950 px-4 py-16 text-white sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-6xl flex-col gap-7 lg:flex-row lg:items-center lg:justify-between">
+          <div className="max-w-3xl">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">{copy.ctaEyebrow}</p>
+            <h2 className="mt-3 font-serif text-3xl font-bold text-white">{copy.ctaTitle}</h2>
+            <p className="mt-4 leading-7 text-slate-300">{copy.ctaDescription}</p>
+          </div>
+          <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
+            <Link
+              href={{ pathname: "/contact", query: { ...contactQuery(pathway.id), outcome: pathway.id, from_page: `/solutions/${pathway.id}` } }}
+              onClick={() => trackCta("closing", "contact")}
+              className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-white px-6 py-3 font-semibold text-slate-950 transition hover:bg-slate-100"
+            >
+              {copy.ctaPrimary}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Link>
+            <Link
+              href="/solutions"
+              onClick={() => trackCta("closing", "solutions")}
+              className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-white/20 px-6 py-3 font-semibold text-white transition hover:bg-white/10"
+            >
+              {copy.ctaSecondary}
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}

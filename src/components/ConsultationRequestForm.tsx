@@ -117,6 +117,7 @@ type ConsultationRequestFormProps = {
   initialEventGoal?: EventGoal | null;
   initialWorkshopTopic?: WorkshopTopic | null;
   initialSourcePage?: string | null;
+  initialOutcome?: string | null;
   initialWebsiteUrl?: string | null;
   fromAssessment?: boolean;
   fromFoundingOffer?: boolean;
@@ -284,6 +285,7 @@ export default function ConsultationRequestForm({
   initialEventGoal = null,
   initialWorkshopTopic = null,
   initialSourcePage = null,
+  initialOutcome = null,
   initialWebsiteUrl = null,
   fromAssessment = false,
   fromFoundingOffer = false,
@@ -623,7 +625,10 @@ export default function ConsultationRequestForm({
       setSubmitted(true);
       trackAnalyticsEvent("consultation_request_submitted", {
         intent: submitIntent,
-        source: visibilityReview ? "visibility-review" : undefined,
+        source: visibilityReview
+          ? "visibility-review"
+          : sourcePage || initialSourcePage || undefined,
+        outcome: initialOutcome ?? undefined,
         monitoring_interest: visibilityReview ? monitoringInterest : undefined,
       });
       if (visibilityReview) {

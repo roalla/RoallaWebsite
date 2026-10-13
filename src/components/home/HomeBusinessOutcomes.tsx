@@ -7,10 +7,10 @@ import { Link } from '@/i18n/navigation'
 import Reveal from '../motion/Reveal'
 
 const situations = [
-  { key: 'choose', icon: Network, href: '/programs/technology-advisory' as const },
-  { key: 'build', icon: Layers, href: '/services/digital' as const },
-  { key: 'connect', icon: Workflow, href: '/services/automation' as const },
-  { key: 'clarify', icon: BriefcaseBusiness, href: '/programs/business-enablement' as const },
+  { key: 'choose', icon: Network, slug: 'cloud-infrastructure' },
+  { key: 'build', icon: Layers, slug: 'digital-experience' },
+  { key: 'connect', icon: Workflow, slug: 'automation-ai' },
+  { key: 'clarify', icon: BriefcaseBusiness, slug: 'strategy' },
 ] as const
 
 export default function HomeBusinessOutcomes() {
@@ -29,13 +29,13 @@ export default function HomeBusinessOutcomes() {
         </Reveal>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
-          {situations.map(({ key, icon: Icon, href }, index) => (
+          {situations.map(({ key, icon: Icon, slug }, index) => (
             <Reveal
               key={key}
               delayMs={index * 40}
               className="h-full"
             >
-              <Link href={href} className="home-tile group flex h-full flex-col rounded-2xl bg-slate-50 p-5 lg:p-6">
+              <Link href={{ pathname: '/solutions/[slug]', params: { slug } }} className="home-tile group flex h-full flex-col rounded-2xl bg-slate-50 p-5 lg:p-6">
                 <div className="w-11 h-11 rounded-xl bg-primary/10 border border-primary/15 flex items-center justify-center mb-4">
                   <Icon className="w-5 h-5 text-primary-dark" aria-hidden />
                 </div>
@@ -50,7 +50,7 @@ export default function HomeBusinessOutcomes() {
           ))}
         </div>
         <Reveal className="mt-7 text-center">
-          <Link href="/use-cases" className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline">
+          <Link href="/solutions" className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline">
             {t('allSituationsCta')}
             <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
           </Link>

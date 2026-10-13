@@ -17,6 +17,7 @@ import ConsultationRequestForm, {
 } from '@/components/ConsultationRequestForm'
 import { isDigitalIntent } from '@/lib/consultation-request'
 import { getPortfolioItem, getPortfolioIndustryCategory, isValidPortfolioReference } from '@/lib/digitalPortfolio'
+import { isSolutionPathId } from '@/lib/solution-outcome-pages'
 import type { PortfolioIndustryCategoryId, PortfolioItemId } from '@/lib/digitalPortfolio'
 
 const PORTFOLIO_NAME_KEYS = {
@@ -124,6 +125,8 @@ function ScheduleContent() {
   const initialWorkshopTopic = resolveInitialWorkshopTopic(needParam, searchParams.get('topic'))
   const fromAssessment = searchParams.get('from') === 'assessment'
   const initialSourcePage = searchParams.get('from_page')
+  const outcomeParam = searchParams.get('outcome')
+  const initialOutcome = outcomeParam && isSolutionPathId(outcomeParam) ? outcomeParam : null
   const visibilityReview =
     searchParams.get('review') === 'results' && initialIntent === 'visibility'
   const websiteParam = searchParams.get('website')
@@ -202,6 +205,7 @@ function ScheduleContent() {
               initialEventGoal={initialEventGoal}
               initialWorkshopTopic={initialWorkshopTopic}
               initialSourcePage={initialSourcePage}
+              initialOutcome={initialOutcome}
               initialWebsiteUrl={initialWebsiteUrl}
               fromAssessment={fromAssessment}
               fromFoundingOffer={fromPackageOffer}

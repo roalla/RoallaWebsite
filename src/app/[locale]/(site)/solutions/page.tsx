@@ -28,7 +28,7 @@ export default async function SolutionsPage({ params }: Props) {
       position: index + 1,
       name: pathway.shortTitle,
       description: pathway.description,
-      url: `${pageUrl(language, path)}#${pathway.id}`,
+      url: pageUrl(language, `${path}/${pathway.id}`),
     })),
   };
 
@@ -42,7 +42,7 @@ export default async function SolutionsPage({ params }: Props) {
         ]),
         itemList,
       ]} />
-      <SolutionsByNeedPage content={content} />
+      <SolutionsByNeedPage content={content} locale={language} />
     </>
   );
 }

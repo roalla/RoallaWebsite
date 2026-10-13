@@ -1,12 +1,12 @@
 'use client'
 
 import React from 'react'
-import { ArrowRight, CheckCircle2 } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import Reveal from '../motion/Reveal'
 
-const outcomeKeys = ['t3', 't1', 't2'] as const
+const outcomeKeys = ['t1', 't2', 't3'] as const
 
 export default function HomeTestimonials() {
   const t = useTranslations('home.testimonials')
@@ -23,17 +23,22 @@ export default function HomeTestimonials() {
 
         <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {outcomeKeys.map((key) => (
-            <div
+            <blockquote
               key={key}
               className="home-tile flex flex-col rounded-2xl bg-gradient-to-br from-slate-50 to-white p-6 lg:p-8"
             >
-              <CheckCircle2 className="mb-4 h-8 w-8 shrink-0 text-primary/60" aria-hidden />
-              <p className="flex-1 text-sm leading-relaxed text-slate-700">{t(`${key}Quote`)}</p>
+              <p className="flex-1 text-sm leading-relaxed text-slate-700">
+                <span className="text-primary text-lg font-serif leading-none mr-1" aria-hidden>
+                  “
+                </span>
+                {t(`${key}Quote`)}
+              </p>
               <footer className="mt-6 pt-5 border-t border-slate-200">
-                <p className="text-xs font-bold uppercase tracking-wider text-slate-500">{t(`${key}Role`)}</p>
-                <p className="mt-0.5 text-xs text-primary-dark font-medium">{t(`${key}Project`)}</p>
+                <p className="text-sm font-semibold text-slate-900">{t(`${key}Name`)}</p>
+                <p className="mt-0.5 text-xs text-slate-600">{t(`${key}Role`)}</p>
+                <p className="mt-1 text-xs text-primary-dark font-medium">{t(`${key}Project`)}</p>
               </footer>
-            </div>
+            </blockquote>
           ))}
         </div>
 

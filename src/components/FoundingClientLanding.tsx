@@ -20,6 +20,7 @@ import {
 } from 'lucide-react'
 import EmailSafeText from './EmailSafeText'
 import ScheduleButton from './ScheduleButton'
+import InquiryNextSteps from './conversion/InquiryNextSteps'
 import StickyMobileCTA from './StickyMobileCTA'
 import ServiceMiniFAQ from './services/ServiceMiniFAQ'
 import BrowserFrame from './digital/BrowserFrame'
@@ -141,10 +142,19 @@ export default function FoundingClientLanding() {
             {t('heroCtaPrimary')}
           </ScheduleButton>
         }
+        secondaryCta={
+          <a
+            href="#packages"
+            className="inline-flex items-center justify-center rounded-lg border border-white/30 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
+          >
+            {t('packagesNav')}
+          </a>
+        }
         ctaSubtext={t('heroCtaSubtext')}
       />
 
       <div className="max-w-6xl mx-auto">
+        <InquiryNextSteps className="mb-10" />
         <ServiceAnchorNav
           label={t('jumpNavLabel')}
           items={[

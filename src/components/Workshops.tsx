@@ -28,6 +28,7 @@ import {
   type HostedWorkshop,
 } from "@/lib/workshops/hosted-workshops";
 import WorkshopFinder from "@/components/workshops/WorkshopFinder";
+import InquiryNextSteps from "@/components/conversion/InquiryNextSteps";
 import {
   ServicePageHero,
   ConsultingHeroVisual,
@@ -245,22 +246,27 @@ const Workshops = () => {
         }
         primaryCta={
           <ScheduleButton variant="primary" size="lg" icon intent="workshop">
-            {t("ctaButton")}
+            {t("heroHostCta")}
           </ScheduleButton>
         }
         secondaryCta={
-          <Link
-            href="/programs/business-enablement"
+          <a
+            href="#workshop-finder"
             className="inline-flex items-center justify-center rounded-md border border-white/30 px-6 py-3 text-sm font-medium text-white hover:bg-white/10 transition-colors"
           >
-            {t("heroCtaConsulting")}
+            {t("heroFinderCta")}
             <ArrowRight className="ml-2 w-4 h-4" />
-          </Link>
+          </a>
         }
+        tertiaryLink={{
+          href: "/programs/business-enablement",
+          label: t("heroCtaConsulting"),
+        }}
         ctaSubtext={tCommon("ctaSubtext")}
       />
 
       <div className="max-w-6xl mx-auto">
+        <InquiryNextSteps className="mb-10" />
         <Reveal className="mb-10 max-w-3xl">
           <p className="text-slate-600 leading-relaxed">{t("intro")}</p>
         </Reveal>

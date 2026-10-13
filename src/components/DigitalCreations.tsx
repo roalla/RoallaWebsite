@@ -25,6 +25,10 @@ import {
   type PortfolioProjectType,
 } from "@/lib/digitalPortfolio";
 import { isCaseStudySlug } from "@/lib/portfolio-case-studies";
+import InquiryNextSteps from "@/components/conversion/InquiryNextSteps";
+import PackageLadder from "@/components/conversion/PackageLadder";
+import PortfolioOutcomeStrip from "@/components/conversion/PortfolioOutcomeStrip";
+import PortfolioWalkthrough from "@/components/conversion/PortfolioWalkthrough";
 
 type CategoryFilter = "all" | PortfolioCategory;
 type OriginFilter = "all" | "client" | "roalla";
@@ -324,6 +328,7 @@ function FeaturedCaseStudy({
 }) {
   const copy = getItemCopy(t, item.i18nPrefix);
   const liveCta = liveCtaLabel(t, item);
+  const scheduleQuery = buildPortfolioScheduleQuery(item);
 
   return (
     <Reveal
@@ -344,16 +349,44 @@ function FeaturedCaseStudy({
             {copy.caseStudy}
           </p>
           <div className="space-y-4">
-            <a
-              href={item.tryUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={primaryBtnClass}
+            <ScheduleButton
+              variant="primary"
+              size="lg"
+              icon
+              service={scheduleQuery.service}
+              reference={String(scheduleQuery.reference)}
+              intent={
+                scheduleQuery.intent ??
+                (item.category === "website" ? "website" : "platform")
+              }
+              need={scheduleQuery.need}
+              className="w-full sm:w-auto"
             >
-              {liveCta}
-              <ExternalLink className="w-4 h-4 ml-2" />
-            </a>
-            <SecondaryLinks item={item} t={t} />
+              {t("discussBuildLike")}
+            </ScheduleButton>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+              <a
+                href={item.tryUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center text-sm font-semibold text-primary-dark hover:underline"
+              >
+                {liveCta}
+                <ExternalLink className="w-4 h-4 ml-2" />
+              </a>
+              {isCaseStudySlug(item.id) ? (
+                <Link
+                  href={{
+                    pathname: "/services/portfolio/[slug]",
+                    params: { slug: item.id },
+                  }}
+                  className={textLinkClass}
+                >
+                  {t("viewCaseStudy")}
+                  <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                </Link>
+              ) : null}
+            </div>
           </div>
         </div>
         <div className="p-6 lg:p-8 bg-white order-1 lg:order-2 border-b lg:border-b-0 lg:border-l border-slate-200/80">
@@ -484,6 +517,7 @@ const DigitalCreations = ({
 }) => {
   const t = useTranslations("digitalCreations");
   const tCommon = useTranslations("common");
+  const tPackages = useTranslations("common.packageLadder");
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -639,21 +673,32 @@ const DigitalCreations = ({
         stats={[]}
         visual={<LiveDomainChips t={t} />}
         primaryCta={
-          <a href="#featured-case" className={primaryBtnClass}>
-            {t("browseLiveExamples")}
+          <ScheduleButton
+            variant="primary"
+            size="lg"
+            icon
+            intent="website"
+            className="!bg-primary !border-primary"
+          >
+            {t("heroPrimaryCta")}
+          </ScheduleButton>
+        }
+        secondaryCta={
+          <a
+            href="#featured-case"
+            className="inline-flex items-center justify-center rounded-lg border border-white/30 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10 transition-colors"
+          >
+            {t("heroSecondaryCta")}
             <ArrowDown className="ml-2 w-4 h-4" />
           </a>
         }
-        secondaryCta={
-          <ScheduleButton
-            variant="secondary"
-            size="lg"
-            className="border-white/30 text-white hover:bg-white/10"
-          >
-            {tCommon("scheduleConsultation")}
-          </ScheduleButton>
-        }
+        tertiaryLink={{ href: "/assessment", label: t("heroAssessmentCta") }}
+        ctaSubtext={tCommon("ctaSubtext")}
       />
+
+      <InquiryNextSteps className="mb-10" />
+      <PortfolioOutcomeStrip />
+      <PortfolioWalkthrough />
 
       <div id="featured-case" className="scroll-mt-28 mb-10">
         {featuredItems.length > 0 ? (
@@ -777,32 +822,35 @@ const DigitalCreations = ({
             <ScheduleButton
               variant="secondary"
               size="lg"
+              intent="website"
               className="bg-white text-primary-dark hover:bg-white/90 hover:scale-[1.03] transition-transform shadow-2xl"
             >
-              {tCommon("scheduleConsultation")}
+              {t("ctaPrimary")}
             </ScheduleButton>
             <Link
-              href="/services/digital"
+              href="/website-package"
               className="inline-flex items-center text-white font-semibold py-3 px-6 rounded-lg border border-white/40 hover:bg-white/10 transition-colors"
             >
-              {t("howWeDeliver")}
+              {tPackages("title")}
               <ArrowRight className="w-4 h-4 ml-2" />
             </Link>
           </div>
+          <InquiryNextSteps tone="onPrimary" className="mt-8 text-left max-w-3xl mx-auto" />
+          <PackageLadder tone="onPrimary" compact className="mt-8 text-left max-w-4xl mx-auto" />
         </div>
       </Reveal>
 
       {stickyInquire ? (
         <StickyMobileCTA
-          label={tCommon("scheduleConsultation")}
+          label={t("ctaPrimary")}
           sublabel={tCommon("ctaSubtext")}
           intent="website"
         />
       ) : (
         <StickyMobileCTA
-          anchorHref="#featured-case"
-          label={t("stickyBrowseLabel")}
-          sublabel={t("openLiveSiteHint")}
+          label={t("ctaPrimary")}
+          sublabel={tCommon("ctaSubtext")}
+          intent="website"
         />
       )}
     </section>

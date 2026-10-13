@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import ScheduleButton from '../ScheduleButton'
 import Reveal from '../motion/Reveal'
+import InquiryNextSteps from '../conversion/InquiryNextSteps'
 
 export default function HomeCTA() {
   const t = useTranslations('home.cta')
@@ -27,7 +28,8 @@ export default function HomeCTA() {
             >
               {t('schedule')}
             </ScheduleButton>
-            <p className="text-sm text-white max-w-md">{t('whatHappensNext')}</p>
+            <InquiryNextSteps tone="onPrimary" className="w-full text-left mt-2" />
+            <p className="text-sm text-white/90 max-w-md">{t('riskLine')}</p>
             <Link
               href="/assessment"
               className="text-white text-sm font-medium underline underline-offset-4"

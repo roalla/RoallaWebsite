@@ -25,16 +25,25 @@ export default function HomeHeroContent() {
           {t('subtitle')}
         </p>
 
-        <div className="mt-7 sm:mt-8">
+        <div className="mt-7 sm:mt-8 flex flex-col sm:flex-row sm:flex-wrap gap-3">
           <Link
-            href="/use-cases"
+            href="/contact"
             className="inline-flex items-center justify-center gap-2 w-full sm:w-auto min-h-[48px] px-6 sm:px-8 py-3.5 rounded-lg bg-brand-gold hover:bg-brand-gold-light text-slate-950 font-semibold text-sm sm:text-base transition-all duration-300 hover:scale-[1.02] shadow-md shadow-black/25"
           >
             {t('primaryCta')}
             <ArrowRight className="w-4 h-4 shrink-0" aria-hidden />
           </Link>
+          <Link
+            href="/assessment"
+            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto min-h-[48px] px-6 sm:px-8 py-3.5 rounded-lg border border-white/35 text-white font-semibold text-sm sm:text-base hover:bg-white/10 transition-colors"
+          >
+            {t('secondaryCta')}
+          </Link>
         </div>
-        <p className="mt-5 text-xs sm:text-sm font-medium text-white/75">
+        <p className="mt-4 text-xs sm:text-sm text-white/70 max-w-xl leading-relaxed">
+          {t('heroNextStepsHint')}
+        </p>
+        <p className="mt-3 text-xs sm:text-sm font-medium text-white/75">
           {t('trustLine')}
         </p>
       </div>

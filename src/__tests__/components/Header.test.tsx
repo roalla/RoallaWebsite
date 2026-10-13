@@ -193,9 +193,20 @@ describe('Header', () => {
     },
   )
 
-  it('groups business advisory and team workshops in one category', () => {
+  it('offers outcome-first business paths and engagement options in one category', () => {
     render(<Header />)
     fireEvent.click(screen.getByRole('button', { name: 'businessAdvisoryWorkshops' }))
+    const menu = screen.getByRole('menu', { name: 'businessAdvisoryWorkshops' })
+    expect(within(menu).getByText('businessOutcomesHeading')).toBeInTheDocument()
+    expect(within(menu).getByText('businessOptionsHeading')).toBeInTheDocument()
+    expect(within(menu).getByRole('menuitem', { name: /businessOutcomeDirection/i })).toHaveAttribute(
+      'href',
+      '/programs/business-enablement',
+    )
+    expect(within(menu).getByRole('menuitem', { name: /businessOutcomeIdeas/i })).toHaveAttribute(
+      'href',
+      '/programs/workshops/ideation',
+    )
     expect(screen.getByRole('menuitem', { name: /businessEnablement/i })).toHaveAttribute(
       'href',
       '/programs/business-enablement',
@@ -214,11 +225,10 @@ describe('Header', () => {
     expect(screen.queryByRole('menuitem', { name: /offerPage/i })).not.toBeInTheDocument()
     expect(screen.queryByRole('menuitem', { name: /theShortlist/i })).not.toBeInTheDocument()
     expect(screen.queryByRole('menuitem', { name: /firstOffer/i })).not.toBeInTheDocument()
-    const menu = screen.getByRole('menu', { name: 'businessAdvisoryWorkshops' })
     const items = within(menu).getAllByRole('menuitem')
-    expect(items).toHaveLength(3)
-    expect(items[1]).toHaveAttribute('href', '/programs/workshops')
-    expect(items[2]).toHaveAttribute('href', '/programs/workshops/focus-circle')
+    expect(items).toHaveLength(7)
+    expect(items[5]).toHaveAttribute('href', '/programs/workshops')
+    expect(items[6]).toHaveAttribute('href', '/programs/workshops/focus-circle')
     expect(within(menu).getAllByRole('separator')).toHaveLength(1)
   })
 

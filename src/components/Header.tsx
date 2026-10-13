@@ -520,6 +520,49 @@ const Header = ({
     },
   ];
 
+  const businessOutcomeLinks: {
+    nameKey:
+      | "businessOutcomeDirection"
+      | "businessOutcomeOperations"
+      | "businessOutcomeLeadership"
+      | "businessOutcomeIdeas";
+    descKey:
+      | "businessOutcomeDirectionDesc"
+      | "businessOutcomeOperationsDesc"
+      | "businessOutcomeLeadershipDesc"
+      | "businessOutcomeIdeasDesc";
+    href:
+      | "/programs/business-enablement"
+      | "/programs/workshops"
+      | "/programs/workshops/ideation";
+    icon: typeof Target;
+  }[] = [
+    {
+      nameKey: "businessOutcomeDirection",
+      descKey: "businessOutcomeDirectionDesc",
+      href: "/programs/business-enablement",
+      icon: Target,
+    },
+    {
+      nameKey: "businessOutcomeOperations",
+      descKey: "businessOutcomeOperationsDesc",
+      href: "/programs/business-enablement",
+      icon: Workflow,
+    },
+    {
+      nameKey: "businessOutcomeLeadership",
+      descKey: "businessOutcomeLeadershipDesc",
+      href: "/programs/workshops",
+      icon: GraduationCap,
+    },
+    {
+      nameKey: "businessOutcomeIdeas",
+      descKey: "businessOutcomeIdeasDesc",
+      href: "/programs/workshops/ideation",
+      icon: BookOpen,
+    },
+  ];
+
   const isCurrentHref = (
     href: string | { pathname: string; hash?: string },
   ) => {
@@ -939,72 +982,103 @@ const Header = ({
                 <div
                   role="menu"
                   aria-labelledby="workshops-dropdown-desktop"
-                  className={`absolute right-0 top-full mt-2 w-[min(100vw-2rem,320px)] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50 ${dropdownPanelClass(workshopsDropdownOpen)}`}
+                  className={`absolute right-0 top-full mt-2 w-[min(44rem,calc(100vw-2rem))] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50 ${dropdownPanelClass(workshopsDropdownOpen)}`}
                 >
                   <div className="px-4 py-2.5 border-b border-white/10 bg-white/[0.03]">
                     <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
                       {t("businessAdvisoryWorkshopsMenuLabel")}
                     </p>
                   </div>
-                  <div className="p-1.5">
-                    <Link
-                      href="/programs/business-enablement"
-                      role="menuitem"
-                      aria-current={isAdvisoryActive ? "page" : undefined}
-                      onClick={() => {
-                        setWorkshopsDropdownOpen(false);
-                        closeMenu();
-                      }}
-                      className={`${advisoryDropdownItemClass} ${isAdvisoryActive ? "bg-primary/10" : ""}`}
-                    >
-                      <div className={advisoryDropdownIconClass}>
-                        <Briefcase className="h-4 w-4" aria-hidden />
-                      </div>
-                      <div className="min-w-0 text-left">
-                        <p className={`text-sm font-semibold leading-snug transition-colors ${isAdvisoryActive ? "text-primary" : "text-gray-200 group-hover:text-primary"}`}>
-                          {t("businessEnablement")}
-                        </p>
-                        <p className="mt-0.5 text-xs leading-snug text-slate-500 group-hover:text-slate-400">
-                          {t("businessEnablementDesc")}
-                        </p>
-                      </div>
-                    </Link>
-                    <div role="separator" className="mx-3 my-1.5 border-t border-white/10" />
-                    {workshopLinks.map((item) => {
-                      const Icon = item.icon;
-                      const current = isCurrentHref(item.href);
-                      return (
-                        <Link
-                          key={item.nameKey}
-                          href={item.href}
-                          role="menuitem"
-                          aria-current={current ? "page" : undefined}
-                          onClick={() => {
-                            setWorkshopsDropdownOpen(false);
-                            closeMenu();
-                          }}
-                          className={`${advisoryDropdownItemClass} ${current ? "bg-primary/10" : ""}`}
-                        >
-                          <div className={advisoryDropdownIconClass}>
-                            <Icon className="h-4 w-4" aria-hidden />
-                          </div>
-                          <div className="min-w-0 text-left">
-                            <p
-                              className={`text-sm font-semibold leading-snug transition-colors ${
-                                current
-                                  ? "text-primary"
-                                  : "text-gray-200 group-hover:text-primary"
-                              }`}
-                            >
-                              {t(item.nameKey)}
-                            </p>
-                            <p className="mt-0.5 text-xs leading-snug text-slate-500 group-hover:text-slate-400">
-                              {t(item.descKey)}
-                            </p>
-                          </div>
-                        </Link>
-                      );
-                    })}
+                  <div className="grid grid-cols-[1.1fr_0.9fr] divide-x divide-white/10">
+                    <section role="group" aria-labelledby="business-outcomes-heading" className="p-2">
+                      <p id="business-outcomes-heading" className="px-3 pb-1.5 pt-1 text-[11px] font-bold uppercase tracking-[0.15em] text-primary">
+                        {t("businessOutcomesHeading")}
+                      </p>
+                      {businessOutcomeLinks.map((item) => {
+                        const Icon = item.icon;
+                        return (
+                          <Link
+                            key={item.nameKey}
+                            href={item.href}
+                            role="menuitem"
+                            onClick={() => {
+                              setWorkshopsDropdownOpen(false);
+                              closeMenu();
+                            }}
+                            className={advisoryDropdownItemClass}
+                          >
+                            <div className={advisoryDropdownIconClass}>
+                              <Icon className="h-4 w-4" aria-hidden />
+                            </div>
+                            <div className="min-w-0 text-left">
+                              <p className="text-sm font-semibold leading-snug text-gray-200 transition-colors group-hover:text-primary">
+                                {t(item.nameKey)}
+                              </p>
+                              <p className="mt-0.5 text-xs leading-snug text-slate-500 group-hover:text-slate-400">
+                                {t(item.descKey)}
+                              </p>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                    </section>
+                    <section role="group" aria-labelledby="business-options-heading" className="p-2">
+                      <p id="business-options-heading" className="px-3 pb-1.5 pt-1 text-[11px] font-bold uppercase tracking-[0.15em] text-primary">
+                        {t("businessOptionsHeading")}
+                      </p>
+                      <Link
+                        href="/programs/business-enablement"
+                        role="menuitem"
+                        aria-current={isAdvisoryActive ? "page" : undefined}
+                        onClick={() => {
+                          setWorkshopsDropdownOpen(false);
+                          closeMenu();
+                        }}
+                        className={`${advisoryDropdownItemClass} ${isAdvisoryActive ? "bg-primary/10" : ""}`}
+                      >
+                        <div className={advisoryDropdownIconClass}>
+                          <Briefcase className="h-4 w-4" aria-hidden />
+                        </div>
+                        <div className="min-w-0 text-left">
+                          <p className={`text-sm font-semibold leading-snug transition-colors ${isAdvisoryActive ? "text-primary" : "text-gray-200 group-hover:text-primary"}`}>
+                            {t("businessEnablement")}
+                          </p>
+                          <p className="mt-0.5 text-xs leading-snug text-slate-500 group-hover:text-slate-400">
+                            {t("businessEnablementDesc")}
+                          </p>
+                        </div>
+                      </Link>
+                      <div role="separator" className="mx-3 my-1.5 border-t border-white/10" />
+                      {workshopLinks.map((item) => {
+                        const Icon = item.icon;
+                        const current = isCurrentHref(item.href);
+                        return (
+                          <Link
+                            key={item.nameKey}
+                            href={item.href}
+                            role="menuitem"
+                            aria-current={current ? "page" : undefined}
+                            onClick={() => {
+                              setWorkshopsDropdownOpen(false);
+                              closeMenu();
+                            }}
+                            className={`${advisoryDropdownItemClass} ${current ? "bg-primary/10" : ""}`}
+                          >
+                            <div className={advisoryDropdownIconClass}>
+                              <Icon className="h-4 w-4" aria-hidden />
+                            </div>
+                            <div className="min-w-0 text-left">
+                              <p className={`text-sm font-semibold leading-snug transition-colors ${current ? "text-primary" : "text-gray-200 group-hover:text-primary"}`}>
+                                {t(item.nameKey)}
+                              </p>
+                              <p className="mt-0.5 text-xs leading-snug text-slate-500 group-hover:text-slate-400">
+                                {t(item.descKey)}
+                              </p>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                    </section>
                   </div>
                 </div>
               </div>
@@ -1458,6 +1532,7 @@ const Header = ({
                   type="button"
                   onClick={() => setWorkshopsMobileExpanded((o) => !o)}
                   aria-expanded={workshopsMobileExpanded}
+                  aria-controls="business-outcomes-mobile-panel"
                   className={`w-full flex items-center justify-between px-3 py-3 min-h-[44px] rounded-md text-base font-medium transition-colors duration-200 ${
                     isAdvisoryActive || isWorkshopsActive
                       ? "text-primary bg-primary/10"
@@ -1470,9 +1545,34 @@ const Header = ({
                   />
                 </button>
                 <div
+                  id="business-outcomes-mobile-panel"
                   className={`collapse-grid ${workshopsMobileExpanded ? "collapse-grid-open" : "collapse-grid-closed"}`}
                 >
                   <div className="overflow-hidden min-h-0">
+                    <p className="px-5 pb-1 pt-2 text-[11px] font-bold uppercase tracking-[0.15em] text-primary">
+                      {t("businessOutcomesHeading")}
+                    </p>
+                    {businessOutcomeLinks.map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <Link
+                          key={item.nameKey}
+                          href={item.href}
+                          className={mobileDropdownItemClass}
+                          onClick={(e) => handleMobileNavClick(e, item.href)}
+                        >
+                          <Icon className="h-4 w-4 shrink-0 mt-0.5 opacity-70" aria-hidden />
+                          <span>
+                            <span className="block text-base font-medium">{t(item.nameKey)}</span>
+                            <span className="block text-xs text-slate-500 mt-0.5">{t(item.descKey)}</span>
+                          </span>
+                        </Link>
+                      );
+                    })}
+                    <div role="separator" className="mx-3 my-1.5 border-t border-white/10" />
+                    <p className="px-5 pb-1 pt-2 text-[11px] font-bold uppercase tracking-[0.15em] text-primary">
+                      {t("businessOptionsHeading")}
+                    </p>
                     <Link
                       href="/programs/business-enablement"
                       aria-current={isAdvisoryActive ? "page" : undefined}

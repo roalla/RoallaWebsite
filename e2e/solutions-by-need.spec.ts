@@ -1,6 +1,20 @@
 import { expect, test } from '@playwright/test'
 
 test.describe('Solutions by Need', () => {
+  test('Business Outcomes begins with goals and retains engagement options', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto('/en')
+
+    await page.getByLabel('Main navigation').getByRole('button', { name: 'Business Outcomes' }).click()
+    const menu = page.getByRole('menu', { name: 'Business Outcomes' })
+    await expect(menu.getByText('What You Want to Achieve', { exact: true })).toBeVisible()
+    await expect(menu.getByText('Explore Your Options', { exact: true })).toBeVisible()
+    await expect(menu.getByRole('menuitem', { name: /Set direction and priorities/ })).toHaveAttribute('href', '/en/programs/business-enablement')
+    await expect(menu.getByRole('menuitem', { name: /Turn an idea into an actionable plan/ })).toHaveAttribute('href', '/en/programs/workshops/ideation')
+    await expect(menu.getByRole('menuitem', { name: /Business Advisory/ })).toHaveAttribute('href', '/en/programs/business-enablement')
+    await expect(menu.getByRole('menuitem', { name: /Team Workshops/ })).toHaveAttribute('href', '/en/programs/workshops')
+  })
+
   test('Solutions preserves outcome-first and technology-first discovery', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto('/en')

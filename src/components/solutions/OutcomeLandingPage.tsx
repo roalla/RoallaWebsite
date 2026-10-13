@@ -86,16 +86,16 @@ export default function OutcomeLandingPage({
             <Link href="/solutions" onClick={() => trackCta("hero_breadcrumb", "solutions")} className="inline-flex min-h-[44px] items-center text-sm font-semibold text-slate-300 underline-offset-4 hover:text-white hover:underline">
               {copy.breadcrumb}
             </Link>
-            <p className="mt-5 text-xs font-bold uppercase tracking-[0.2em] text-primary">
+            <p className="mt-5 text-xs font-bold uppercase tracking-[0.2em] text-primary-light">
               {copy.eyebrow} · {visual.focus[locale]}
             </p>
             <h1 className="mt-4 max-w-4xl font-serif text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">{pathway.title}</h1>
-            <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-300 sm:text-xl">{pathway.description}</p>
+            <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-200 sm:text-xl">{pathway.description}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href="#outcome-contact" onClick={() => trackCta("hero", "embedded-contact")} className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white transition hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+              <a href="#outcome-contact" onClick={() => trackCta("hero", "embedded-contact")} className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 transition hover:bg-brand-gold-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
                 {copy.ctaPrimary}<ArrowDown className="ml-2 h-4 w-4" aria-hidden />
               </a>
-              <Link href={pathway.href} onClick={() => trackCta("hero", pathway.href)} className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-white/25 bg-white/5 px-6 py-3 font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+              <Link href={pathway.href} onClick={() => trackCta("hero", pathway.href)} className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-white/40 bg-white/10 px-6 py-3 font-semibold text-white transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
                 {copy.serviceCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
             </div>
@@ -256,9 +256,9 @@ export default function OutcomeLandingPage({
       <section id="outcome-contact" className="scroll-mt-24 bg-slate-950 px-4 py-14 text-white sm:px-6 lg:px-8 lg:py-20" aria-labelledby="outcome-contact-title">
         <div className="mx-auto grid max-w-6xl items-start gap-9 lg:grid-cols-[0.8fr_1.2fr] lg:gap-14">
           <div className="lg:sticky lg:top-28">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">{copy.ctaEyebrow}</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-light">{copy.ctaEyebrow}</p>
             <h2 id="outcome-contact-title" className="mt-3 font-serif text-3xl font-bold text-white sm:text-4xl">{copy.formTitle}</h2>
-            <p className="mt-4 text-lg leading-8 text-slate-300">{copy.formDescription}</p>
+            <p className="mt-4 text-lg leading-8 text-slate-200">{copy.formDescription}</p>
             <p className="mt-6 text-sm text-slate-400">
               {copy.formAlternative}{" "}
               <Link href={{ pathname: "/contact", query: fullFormQuery }} onClick={() => trackCta("embedded_form_alternative", "contact")} className="font-semibold text-white underline underline-offset-4 hover:text-primary">

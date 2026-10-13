@@ -52,14 +52,14 @@ export default function SolutionsByNeedPage({
           <div className="absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-cyan-400/10 blur-3xl" />
         </div>
         <div className="relative mx-auto max-w-6xl">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">{content.eyebrow}</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary-light">{content.eyebrow}</p>
           <h1 className="mt-5 max-w-4xl font-serif text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">{content.title}</h1>
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300 sm:text-xl">{content.intro}</p>
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-200 sm:text-xl">{content.intro}</p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <a href="#outcome-finder" className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white transition hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+            <a href="#outcome-finder" className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 transition hover:bg-brand-gold-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
               {content.heroSecondary}<ArrowDown className="ml-2 h-4 w-4" aria-hidden />
             </a>
-            <Link href="/assessment" onClick={() => trackAnalyticsEvent("solutions_assessment_click", { location: "solutions_hero" })} className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-white/20 bg-white/5 px-6 py-3 font-semibold text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+            <Link href="/assessment" onClick={() => trackAnalyticsEvent("solutions_assessment_click", { location: "solutions_hero" })} className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-white/40 bg-white/10 px-6 py-3 font-semibold text-white transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
               {content.heroPrimary}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Link>
           </div>
@@ -123,7 +123,7 @@ export default function SolutionsByNeedPage({
               <Check className="mt-1 h-5 w-5 shrink-0 text-primary-dark" aria-hidden />
               <p className="max-w-3xl font-medium leading-7 text-slate-800">{content.assessmentPrompt}</p>
             </div>
-            <Link href="/assessment" onClick={() => trackAnalyticsEvent("solutions_assessment_click", { location: "guided_discovery" })} className="inline-flex min-h-[44px] shrink-0 items-center justify-center rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white transition hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+            <Link href="/assessment" onClick={() => trackAnalyticsEvent("solutions_assessment_click", { location: "guided_discovery" })} className="inline-flex min-h-[44px] shrink-0 items-center justify-center rounded-lg bg-primary-dark px-5 py-3 text-sm font-semibold text-white transition hover:bg-primary-darker focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
               {content.heroPrimary}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Link>
           </div>
@@ -133,9 +133,9 @@ export default function SolutionsByNeedPage({
       <section className="bg-slate-950 px-4 py-16 text-white sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-6xl flex-col gap-7 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-3xl">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">{content.closingEyebrow}</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-light">{content.closingEyebrow}</p>
             <h2 className="mt-3 font-serif text-3xl font-bold text-white">{content.closingTitle}</h2>
-            <p className="mt-4 leading-7 text-slate-300">{content.closingDescription}</p>
+            <p className="mt-4 leading-7 text-slate-200">{content.closingDescription}</p>
           </div>
           <Link href="/assessment" onClick={() => trackAnalyticsEvent("solutions_assessment_click", { location: "solutions_closing" })} className="inline-flex min-h-[48px] shrink-0 items-center justify-center rounded-lg bg-white px-6 py-3 font-semibold text-slate-950 transition hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
             {content.heroPrimary}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />

@@ -635,6 +635,7 @@ const DigitalCreations = ({
         title={t("portfolioTitle")}
         subtitle={t("portfolioSubtitle")}
         subtitleHighlight={t("portfolioSubtitleHighlight")}
+        backgroundImage="/images/PortfolioPics/portfolio-hero.jpg"
         stats={[]}
         visual={<LiveDomainChips t={t} />}
         primaryCta={

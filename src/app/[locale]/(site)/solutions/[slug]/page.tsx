@@ -78,8 +78,11 @@ export default async function SolutionOutcomePage({ params }: Props) {
   ];
   const path = `/solutions/${pathway.id}`;
 
+  const visual = outcomeVisuals[pathway.id];
+
   return (
     <>
+      <link rel="preload" as="image" href={visual.src} type="image/webp" fetchPriority="high" />
       <JsonLd
         data={[
           webPageJsonLd(language, path, pathway.title, pathway.result),
@@ -104,7 +107,7 @@ export default async function SolutionOutcomePage({ params }: Props) {
         pathway={pathway}
         related={related}
         evidence={outcomeEvidence[pathway.id] ?? []}
-        visual={outcomeVisuals[pathway.id]}
+        visual={visual}
         showSupplierContext={supplierContextOutcomeIds.has(pathway.id)}
         copy={copy}
       />

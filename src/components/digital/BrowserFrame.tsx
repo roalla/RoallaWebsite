@@ -57,8 +57,9 @@ export default function BrowserFrame({
               fill
               className="object-cover object-top motion-safe:transition-transform motion-safe:duration-500 group-hover/frame:scale-[1.02]"
               sizes={sizes}
-              quality={70}
               priority={priority}
+              // Snapshots are already compressed in /public — skip on-demand /_next/image re-encoding.
+              unoptimized
             />
             {href && openLabel ? (
               <span className="absolute bottom-3 left-3 right-3 flex items-center justify-center gap-1.5 rounded-lg bg-slate-900/75 text-white text-xs font-semibold py-2 px-3 backdrop-blur-sm">

@@ -95,6 +95,7 @@ export default function HomeOurWork() {
                   href={item.tryUrl}
                   openLabel={t('openLive')}
                   sizes="(max-width: 640px) 92vw, (max-width: 1024px) 45vw, 400px"
+                  priority={index < 3}
                 />
                 <div className="mt-4 px-1 flex-1 flex flex-col">
                   <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-primary-dark">

@@ -26,7 +26,7 @@ export default function HomeTrustBand() {
 
         <Reveal className="mt-9 grid items-center gap-6 md:grid-cols-[auto_1fr_auto]">
           <div className="relative h-20 w-20 overflow-hidden rounded-full border-2 border-primary/50 bg-slate-800 shadow-lg">
-            <Image src={FOUNDER_PORTRAIT_SRC} alt={t('photoAlt')} fill sizes="80px" className="object-cover object-top" />
+            <Image src={FOUNDER_PORTRAIT_SRC} alt={t('photoAlt')} fill sizes="80px" className="object-cover object-top" unoptimized />
           </div>
           <div>
             <p id="home-trust-title" className="font-serif text-xl font-bold">{t('title')}</p>

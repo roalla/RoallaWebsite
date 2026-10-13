@@ -267,6 +267,7 @@ export default function HomeTechnologyEcosystem() {
                           width={ecosystemLogos[key]!.width}
                           height={ecosystemLogos[key]!.height}
                           className={ecosystemLogos[key]!.className}
+                          unoptimized
                         />
                       </span>
                     ) : (

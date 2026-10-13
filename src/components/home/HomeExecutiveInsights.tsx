@@ -55,6 +55,7 @@ export default function HomeExecutiveInsights() {
                 fill
                 sizes="(min-width: 1024px) 42vw, 100vw"
                 className="object-cover object-center opacity-80"
+                unoptimized
               />
               <div className="absolute inset-0 bg-gradient-to-r from-[#090b0e] via-[#090b0e]/35 to-transparent lg:block" aria-hidden />
               <div className="absolute inset-0 bg-gradient-to-t from-[#090b0e]/75 via-transparent to-transparent" aria-hidden />

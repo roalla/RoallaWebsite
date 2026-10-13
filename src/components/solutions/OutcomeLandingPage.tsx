@@ -94,7 +94,16 @@ export default function OutcomeLandingPage({
           </div>
           <figure className="group relative overflow-hidden rounded-3xl border border-white/15 bg-slate-900 shadow-2xl">
             <div className="relative aspect-[4/3]">
-              <Image src={visual.src} alt={visual.alt[locale]} fill priority fetchPriority="high" quality={72} sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) calc(100vw - 3rem), 528px" className="object-cover transition-transform duration-700 motion-safe:group-hover:scale-[1.025]" />
+              <Image
+                src={visual.src}
+                alt={visual.alt[locale]}
+                fill
+                priority
+                fetchPriority="high"
+                unoptimized
+                sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) calc(100vw - 3rem), 528px"
+                className="object-cover transition-transform duration-700 motion-safe:group-hover:scale-[1.025]"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" aria-hidden />
             </div>
             <figcaption className="absolute bottom-0 left-0 right-0 p-5 text-sm font-semibold text-white sm:p-6">{visual.focus[locale]}</figcaption>
@@ -239,7 +248,18 @@ export default function OutcomeLandingPage({
                     data-outcome-selection={item.id}
                     className="group grid overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:border-primary/40 hover:shadow-md sm:grid-cols-[160px_1fr]"
                   >
-                    <div className="relative min-h-40 overflow-hidden"><Image src={relatedVisual.src} alt="" fill loading="lazy" fetchPriority="low" quality={65} sizes="(max-width: 639px) calc(100vw - 2rem), 160px" className="object-cover transition-transform duration-500 motion-safe:group-hover:scale-105" /></div>
+                    <div className="relative min-h-40 overflow-hidden">
+                      <Image
+                        src={relatedVisual.src}
+                        alt=""
+                        fill
+                        loading="lazy"
+                        fetchPriority="low"
+                        unoptimized
+                        sizes="(max-width: 639px) calc(100vw - 2rem), 160px"
+                        className="object-cover transition-transform duration-500 motion-safe:group-hover:scale-105"
+                      />
+                    </div>
                     <div className="p-6">
                       <h3 className="font-serif text-2xl font-bold text-slate-950 group-hover:text-primary-dark">{item.shortTitle}</h3>
                       <p className="mt-2 leading-7 text-slate-600">{item.navDescription}</p>

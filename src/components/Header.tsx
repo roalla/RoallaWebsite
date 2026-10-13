@@ -730,12 +730,11 @@ const Header = ({
               href="/"
               className="flex items-center space-x-2 sm:space-x-3 group min-w-0"
               onClick={closeMenu}
-              aria-label="ROALLA — Go to homepage"
             >
               <div className="flex-shrink-0">
                 <Image
                   src="/logo.svg"
-                  alt="Roalla Business Enablement Group Logo"
+                  alt=""
                   width={40}
                   height={40}
                   className={`w-9 h-9 sm:w-10 sm:h-10 transition-transform duration-200 ${!prefersReducedMotion ? "group-hover:scale-110" : ""}`}

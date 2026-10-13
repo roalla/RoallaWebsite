@@ -210,6 +210,26 @@
     @apply bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md hover:border-primary-soft transition-all duration-300;
   }
 
+  .outcome-card {
+    transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  }
+
+  .outcome-card:hover,
+  .outcome-card:focus-within {
+    transform: translateY(-0.2rem);
+    border-color: rgb(0 122 135 / 0.35);
+    box-shadow: 0 16px 36px -26px rgb(15 23 42 / 0.5);
+  }
+
+  .outcome-card summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .outcome-defer {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 720px;
+  }
+
   /* Homepage tile hover — stronger lift + primary glow */
   .home-tile {
     @apply shadow-card border border-slate-200 transition-all duration-300 ease-out;
@@ -238,6 +258,13 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .outcome-card,
+    .outcome-card:hover,
+    .outcome-card:focus-within {
+      transition: none;
+      transform: none;
+    }
+
     .home-tile:hover,
     .home-tile:focus-within {
       transform: none;

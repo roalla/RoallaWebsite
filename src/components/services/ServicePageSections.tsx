@@ -41,6 +41,9 @@ type ServicePageHeroProps = {
   variant?: 'consulting' | 'digital'
   visual?: React.ReactNode
   backgroundImage?: string
+  /** Stronger left/bottom scrims when the photo has bright zones behind text or tiles */
+  backgroundScrim?: 'default' | 'strong'
+  backgroundObjectClass?: string
   className?: string
 }
 
@@ -53,15 +56,23 @@ export function ConsultingHeroVisual({
   outcomes,
   caseLines,
   icon: Icon = Briefcase,
+  contrast = 'default',
 }: {
   proofTitle: string
   proofSubtitle: string
   outcomes: string[]
   caseLines?: string[]
   icon?: LucideIcon
+  /** Use solid when the hero photo is bright behind the proof tile */
+  contrast?: 'default' | 'solid'
 }) {
+  const panelClass =
+    contrast === 'solid'
+      ? 'rounded-2xl border border-white/20 bg-slate-950/85 backdrop-blur-xl p-5 sm:p-6 shadow-[0_12px_48px_rgba(0,0,0,0.55)] ring-1 ring-black/40'
+      : 'rounded-2xl border border-white/15 bg-white/[0.08] backdrop-blur-md p-5 sm:p-6 shadow-[0_8px_40px_rgba(0,0,0,0.25)]'
+
   return (
-    <div className="rounded-2xl border border-white/15 bg-white/[0.08] backdrop-blur-md p-5 sm:p-6 shadow-[0_8px_40px_rgba(0,0,0,0.25)]">
+    <div className={panelClass}>
       <Reveal when="mount" delayMs={160} className="flex items-start gap-3 mb-5">
         <div className="w-10 h-10 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center shrink-0">
           <Icon className="w-5 h-5 text-primary-light" aria-hidden />
@@ -119,6 +130,8 @@ export function ServicePageHero({
   variant = 'consulting',
   visual,
   backgroundImage,
+  backgroundScrim = 'default',
+  backgroundObjectClass = 'object-[62%_center]',
   className = '',
 }: ServicePageHeroProps) {
   const subtitleParts = subtitleHighlight ? subtitle.split(subtitleHighlight) : [subtitle]
@@ -128,6 +141,7 @@ export function ServicePageHero({
     variant === 'digital'
       ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950'
       : 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900'
+  const strongScrim = backgroundScrim === 'strong'
 
   const statsBaseDelay = 300
 
@@ -143,17 +157,33 @@ export function ServicePageHero({
             fill
             priority
             sizes="(max-width: 1280px) 100vw, 1152px"
-            className="pointer-events-none object-cover object-[62%_center] opacity-80"
+            className={`pointer-events-none object-cover ${backgroundObjectClass} ${
+              strongScrim ? 'opacity-70' : 'opacity-80'
+            }`}
             aria-hidden
           />
           <div
-            className="pointer-events-none absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-900/75 to-slate-900/45"
+            className={`pointer-events-none absolute inset-0 ${
+              strongScrim
+                ? 'bg-gradient-to-r from-slate-950 via-slate-950/92 to-slate-950/55'
+                : 'bg-gradient-to-r from-slate-950/95 via-slate-900/75 to-slate-900/45'
+            }`}
             aria-hidden
           />
           <div
-            className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/10 via-transparent to-slate-950/55"
+            className={`pointer-events-none absolute inset-0 ${
+              strongScrim
+                ? 'bg-gradient-to-b from-slate-950/35 via-transparent to-slate-950/70'
+                : 'bg-gradient-to-b from-slate-950/10 via-transparent to-slate-950/55'
+            }`}
             aria-hidden
           />
+          {strongScrim ? (
+            <div
+              className="pointer-events-none absolute inset-y-0 right-0 w-[55%] bg-gradient-to-l from-slate-950/50 via-slate-950/20 to-transparent"
+              aria-hidden
+            />
+          ) : null}
         </>
       )}
       <div className="pointer-events-none absolute -top-24 -right-20 h-72 w-72 rounded-full bg-primary/15 blur-3xl" aria-hidden />

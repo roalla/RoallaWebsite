@@ -249,6 +249,9 @@ const Services = () => {
     <section id="services" className="section-padding relative bg-slate-50/60">
       <ServicePageHero
         variant="consulting"
+        backgroundImage="/images/services/business-advisory-hero.webp"
+        backgroundScrim="strong"
+        backgroundObjectClass="object-[68%_42%]"
         eyebrow={t("heroEyebrow")}
         title={t("title")}
         subtitle={t("subtitle")}
@@ -257,6 +260,7 @@ const Services = () => {
         stats={stats}
         visual={
           <ConsultingHeroVisual
+            contrast="solid"
             proofTitle={t("heroProofTitle")}
             proofSubtitle={t("heroProofSubtitle")}
             outcomes={[t("heroOutcome1"), t("heroOutcome2"), t("heroOutcome3")]}

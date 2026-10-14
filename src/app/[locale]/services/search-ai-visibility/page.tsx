@@ -1,5 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import { CheckCircle2, SearchCheck } from "lucide-react";
 import JsonLd from "@/components/JsonLd";
 import VisibilityCtas from "@/components/visibility/VisibilityCtas";
@@ -70,6 +71,23 @@ export default async function SearchAiVisibilityPage({
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
         <header className="relative overflow-hidden rounded-2xl border border-slate-700 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-6 py-10 lg:px-12 lg:py-14 shadow-xl">
+          <Image
+            src="/images/services/search-ai-visibility-hero.webp"
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 1280px) 100vw, 1152px"
+            className="pointer-events-none object-cover object-center opacity-75"
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-900/80 to-slate-900/45"
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/10 via-transparent to-slate-950/60"
+            aria-hidden
+          />
           <div
             className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-primary/15 blur-3xl"
             aria-hidden

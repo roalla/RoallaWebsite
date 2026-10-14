@@ -15,6 +15,7 @@ const homeContent = [
   './src/components/StickyMobileCTA.tsx',
   './src/components/TechnologyDecisionFramework.tsx',
   './src/components/digital/BrowserFrame.tsx',
+  './src/components/conversion/**/*.{js,ts,jsx,tsx}',
   './src/components/home/**/*.{js,ts,jsx,tsx}',
   './src/components/motion/**/*.{js,ts,jsx,tsx}',
 ]

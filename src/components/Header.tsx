@@ -269,7 +269,10 @@ const Header = ({
       }
     };
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setDigitalDropdownOpen(false);
+      if (e.key === "Escape") {
+        setDigitalDropdownOpen(false);
+        document.getElementById("digital-dropdown-desktop")?.focus();
+      }
     };
     document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("keydown", handleEscape);
@@ -346,8 +349,6 @@ const Header = ({
   const tCommon = useTranslations("common");
   const locale = useLocale();
   const solutionsContent = solutionsByNeedContent[locale === "fr" ? "fr" : "en"];
-  const businessNeedHeading = locale === "fr" ? "Ce que vous voulez accomplir" : "What You Want to Achieve";
-  const capabilityHeading = locale === "fr" ? "Explorer les technologies" : "Explore Technologies";
   const startingPointLabel = locale === "fr" ? "Explorer vos options" : "Explore Your Options";
 
   const isConsultingPage =
@@ -440,64 +441,87 @@ const Header = ({
     [pathname],
   );
 
-  type DigitalNavHref =
-    | "/services/digital"
-    | "/services/agentic"
+  type HelpNavHref =
     | "/programs/technology-advisory"
+    | "/website-design"
+    | "/services/automation"
+    | "/services/agentic"
     | "/services/digital-visibility-optimization"
-    | "/services/managed-optimization"
-    | "/partners";
+    | "/programs/business-enablement"
+    | "/programs/workshops";
 
   type WorkshopNavHref =
     | "/programs/workshops"
     | "/programs/workshops/focus-circle";
 
-  const digitalLinks: {
+  const helpLinks: {
     nameKey:
-      | "digitalOverview"
-      | "agentic"
-      | "technologyAdvisory"
-      | "digitalVisibility"
-      | "digitalManagedOptimization";
+      | "helpChooseTechnology"
+      | "helpBuildDigital"
+      | "helpConnectAutomate"
+      | "helpUseAi"
+      | "helpGetFound"
+      | "helpPlanExecution"
+      | "helpDevelopTeam";
     descKey:
-      | "digitalOverviewDesc"
-      | "agenticDesc"
-      | "technologyAdvisoryDesc"
-      | "digitalVisibilityDesc"
-      | "digitalManagedOptimizationDesc";
-    href: DigitalNavHref;
+      | "helpChooseTechnologyDesc"
+      | "helpBuildDigitalDesc"
+      | "helpConnectAutomateDesc"
+      | "helpUseAiDesc"
+      | "helpGetFoundDesc"
+      | "helpPlanExecutionDesc"
+      | "helpDevelopTeamDesc";
+    href: HelpNavHref;
     icon: typeof Globe;
   }[] = [
     {
-      nameKey: "technologyAdvisory",
-      descKey: "technologyAdvisoryDesc",
+      nameKey: "helpChooseTechnology",
+      descKey: "helpChooseTechnologyDesc",
       href: "/programs/technology-advisory",
       icon: Network,
     },
     {
-      nameKey: "agentic",
-      descKey: "agenticDesc",
+      nameKey: "helpBuildDigital",
+      descKey: "helpBuildDigitalDesc",
+      href: "/website-design",
+      icon: Globe,
+    },
+    {
+      nameKey: "helpConnectAutomate",
+      descKey: "helpConnectAutomateDesc",
+      href: "/services/automation",
+      icon: Layers,
+    },
+    {
+      nameKey: "helpUseAi",
+      descKey: "helpUseAiDesc",
       href: "/services/agentic",
       icon: Workflow,
     },
     {
-      nameKey: "digitalOverview",
-      descKey: "digitalOverviewDesc",
-      href: "/services/digital",
-      icon: Layers,
-    },
-    {
-      nameKey: "digitalVisibility",
-      descKey: "digitalVisibilityDesc",
+      nameKey: "helpGetFound",
+      descKey: "helpGetFoundDesc",
       href: "/services/digital-visibility-optimization",
       icon: SearchCheck,
     },
     {
-      nameKey: "digitalManagedOptimization",
-      descKey: "digitalManagedOptimizationDesc",
-      href: "/services/managed-optimization",
+      nameKey: "helpPlanExecution",
+      descKey: "helpPlanExecutionDesc",
+      href: "/programs/business-enablement",
       icon: Briefcase,
     },
+    {
+      nameKey: "helpDevelopTeam",
+      descKey: "helpDevelopTeamDesc",
+      href: "/programs/workshops",
+      icon: GraduationCap,
+    },
+  ];
+
+  const moreHelpLinks = [
+    { nameKey: "helpDigitalProducts" as const, href: "/services/digital-products" as const },
+    { nameKey: "helpManagedOptimization" as const, href: "/services/managed-optimization" as const },
+    { nameKey: "technologyPartners" as const, href: "/partners" as const },
   ];
 
   const workshopLinks: {
@@ -574,6 +598,9 @@ const Header = ({
     pathname === "/solutions" ||
     pathname.startsWith("/solutions/") ||
     pathname === "/services/digital" ||
+    pathname === "/website-design" ||
+    pathname === "/services/digital-products" ||
+    pathname === "/services/automation" ||
     pathname === "/services/agentic" ||
     pathname === "/programs/technology-advisory" ||
     pathname === "/services/digital-visibility-optimization" ||
@@ -623,7 +650,7 @@ const Header = ({
 
   useEffect(() => {
     if (!isMenuOpen) return;
-    if (pathname === "/solutions" || digitalLinks.some((item) => isCurrentHref(item.href))) {
+    if (pathname === "/solutions" || helpLinks.some((item) => isCurrentHref(item.href))) {
       setDigitalMobileExpanded(true);
     }
     if (
@@ -762,7 +789,7 @@ const Header = ({
                       if (!open) {
                         trackAnalyticsEvent("solutions_menu_open", {
                           location: "desktop_header",
-                          menu: "technology_solutions",
+                          menu: "how_we_help",
                         });
                       }
                       return !open;
@@ -797,106 +824,94 @@ const Header = ({
                       {t("digitalEnablementMenuLabel")}
                     </p>
                   </div>
-                  <div className="grid grid-cols-[1.25fr_0.9fr] divide-x divide-white/10">
-                    <section role="group" aria-labelledby="business-need-heading" className="p-3">
-                      <div className="flex items-center justify-between gap-4 px-2 pb-2">
-                        <p id="business-need-heading" className="text-xs font-bold uppercase tracking-[0.15em] text-primary">
-                          {businessNeedHeading}
-                        </p>
-                        <Link
-                          href="/solutions"
-                          role="menuitem"
-                          aria-current={pathname === "/solutions" ? "page" : undefined}
-                          onClick={() => {
-                            trackAnalyticsEvent("solutions_pathway_click", {
-                              location: "desktop_header",
-                              pathway: "all",
-                            });
-                            setDigitalDropdownOpen(false);
-                            closeMenu();
-                          }}
-                          className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-white focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                        >
-                          {solutionsContent.viewAll}
-                          <ArrowRight className="h-3.5 w-3.5" aria-hidden />
-                        </Link>
-                      </div>
+                  <div className="grid grid-cols-[1.45fr_0.75fr] divide-x divide-white/10">
+                    <section role="group" aria-labelledby="help-needs-heading" className="p-3">
+                      <p id="help-needs-heading" className="px-2 pb-2 text-xs font-bold uppercase tracking-[0.15em] text-primary">
+                        {t("helpNeedsHeading")}
+                      </p>
                       <div className="grid grid-cols-2 gap-1">
-                        {solutionsContent.pathways.map((pathway) => (
-                          <Link
-                            key={pathway.id}
-                            href={{ pathname: "/solutions/[slug]", params: { slug: pathway.id } }}
-                            role="menuitem"
-                            onClick={() => {
-                              trackAnalyticsEvent("solutions_pathway_click", {
-                                location: "desktop_header",
-                                pathway: pathway.id,
-                              });
-                              setDigitalDropdownOpen(false);
-                              closeMenu();
-                            }}
-                            className="group rounded-lg px-3 py-2.5 transition-colors hover:bg-white/5 focus-visible:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
-                          >
-                            <span className="block text-sm font-semibold leading-snug text-white transition-colors group-hover:text-primary">
-                              {pathway.shortTitle}
-                            </span>
-                            <span className="mt-0.5 block text-xs leading-snug text-slate-500">
-                              {pathway.navDescription}
-                            </span>
-                          </Link>
-                        ))}
+                        {helpLinks.map((item) => {
+                          const Icon = item.icon;
+                          const current = isCurrentHref(item.href);
+                          return (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              role="menuitem"
+                              aria-current={current ? "page" : undefined}
+                              onClick={() => {
+                                trackAnalyticsEvent("solutions_pathway_click", {
+                                  location: "desktop_header",
+                                  pathway: item.nameKey,
+                                });
+                                setDigitalDropdownOpen(false);
+                                closeMenu();
+                              }}
+                              className={`${digitalDropdownItemClass} ${current ? "bg-primary/10" : ""}`}
+                            >
+                              <div className={digitalDropdownIconClass}>
+                                <Icon className="h-4 w-4" aria-hidden />
+                              </div>
+                              <div className="min-w-0 text-left">
+                                <p className={`text-sm font-semibold leading-snug transition-colors ${current ? "text-primary" : "text-white group-hover:text-primary"}`}>
+                                  {t(item.nameKey)}
+                                </p>
+                                <p className="mt-0.5 text-xs leading-snug text-slate-400 group-hover:text-slate-300">
+                                  {t(item.descKey)}
+                                </p>
+                              </div>
+                            </Link>
+                          );
+                        })}
                       </div>
                     </section>
 
-                    <section role="group" aria-labelledby="capability-heading" className="p-3">
-                      <p id="capability-heading" className="px-2 pb-2 text-xs font-bold uppercase tracking-[0.15em] text-primary">
-                        {capabilityHeading}
+                    <section role="group" aria-label={t("browseOutcomes")} className="p-4">
+                      <p className="text-xs font-bold uppercase tracking-[0.15em] text-primary">
+                        {t("browseOutcomes")}
                       </p>
-                      {digitalLinks.map((item) => {
-                        const Icon = item.icon;
-                        const current = isCurrentHref(item.href);
-                        return (
-                          <Link
-                            key={item.href}
-                            href={item.href}
-                            role="menuitem"
-                            aria-current={current ? "page" : undefined}
-                            onClick={() => {
-                              setDigitalDropdownOpen(false);
-                              closeMenu();
-                            }}
-                            className={`${digitalDropdownItemClass} ${current ? "bg-primary/10" : ""}`}
-                          >
-                            <div className={digitalDropdownIconClass}>
-                              <Icon className="h-4 w-4" aria-hidden />
-                            </div>
-                            <div className="min-w-0 text-left">
-                              <p className={`text-sm font-semibold leading-snug transition-colors ${current ? "text-primary" : "text-white group-hover:text-primary"}`}>
-                                {t(item.nameKey)}
-                              </p>
-                              <p className="mt-0.5 text-xs leading-snug text-slate-400 group-hover:text-slate-300">
-                                {t(item.descKey)}
-                              </p>
-                            </div>
-                          </Link>
-                        );
-                      })}
-                      <div className="mx-2 mt-2 border-t border-white/10 pt-2">
-                        <Link
-                          href="/partners"
-                          role="menuitem"
-                          onClick={() => {
-                            setDigitalDropdownOpen(false);
-                            closeMenu();
-                          }}
-                          className="group flex items-start gap-3 rounded-lg px-2 py-2 text-left transition-colors hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
-                        >
-                          <Briefcase className="mt-0.5 h-4 w-4 shrink-0 text-slate-500 group-hover:text-primary" aria-hidden />
-                          <span>
-                            <span className="block text-xs font-semibold text-slate-300 group-hover:text-primary">{t("technologyPartners")}</span>
-                            <span className="mt-0.5 block text-[11px] leading-snug text-slate-500">{t("technologyPartnersDesc")}</span>
-                          </span>
-                        </Link>
+                      <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                        {t("browseOutcomesDesc")}
+                      </p>
+                      <Link
+                        href="/solutions"
+                        role="menuitem"
+                        aria-current={pathname === "/solutions" ? "page" : undefined}
+                        onClick={() => {
+                          trackAnalyticsEvent("solutions_pathway_click", {
+                            location: "desktop_header",
+                            pathway: "all",
+                          });
+                          setDigitalDropdownOpen(false);
+                          closeMenu();
+                        }}
+                        className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-black transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                      >
+                        {t("browseOutcomesCta")}
+                        <ArrowRight className="h-4 w-4" aria-hidden />
+                      </Link>
+                      <div className="mt-5 border-t border-white/10 pt-4">
+                        <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500">
+                          {t("helpMorePathsHeading")}
+                        </p>
+                        <div className="mt-2 space-y-1">
+                          {moreHelpLinks.map((item) => (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              role="menuitem"
+                              aria-current={isCurrentHref(item.href) ? "page" : undefined}
+                              onClick={() => {
+                                setDigitalDropdownOpen(false);
+                                closeMenu();
+                              }}
+                              className="group flex items-center justify-between gap-2 rounded-md px-2 py-2 text-xs font-semibold text-slate-300 transition-colors hover:bg-white/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                            >
+                              {t(item.nameKey)}
+                              <ArrowRight className="h-3.5 w-3.5 shrink-0 opacity-60" aria-hidden />
+                            </Link>
+                          ))}
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -906,7 +921,7 @@ const Header = ({
                     onClick={() => {
                       trackAnalyticsEvent("solutions_assessment_click", {
                         location: "desktop_header",
-                        menu: "technology_solutions",
+                        menu: "how_we_help",
                       });
                       setDigitalDropdownOpen(false);
                       closeMenu();
@@ -1161,7 +1176,7 @@ const Header = ({
                         <p className="px-2.5 pt-2 pb-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
                           {t(labelKey)}
                         </p>
-                        {headerInsightsForGroup(group, featuredInsights).slice(0, 2).map((slug) => (
+                        {headerInsightsForGroup(group, featuredInsights).map((slug) => (
                           <ResourceArticleLink
                             key={slug}
                             slug={slug}
@@ -1381,14 +1396,14 @@ const Header = ({
                       if (!expanded) {
                         trackAnalyticsEvent("solutions_menu_open", {
                           location: "mobile_header",
-                          menu: "technology_solutions",
+                          menu: "how_we_help",
                         });
                       }
                       return !expanded;
                     });
                   }}
                   aria-expanded={digitalMobileExpanded}
-                  aria-controls="technology-solutions-mobile-panel"
+                  aria-controls="how-we-help-mobile-panel"
                   className={`w-full flex items-center justify-between px-3 py-3 min-h-[44px] rounded-md text-base font-medium transition-colors duration-200 ${
                     isDigitalActive
                       ? "text-primary bg-primary/10"
@@ -1401,64 +1416,29 @@ const Header = ({
                   />
                 </button>
                 <div
-                  id="technology-solutions-mobile-panel"
+                  id="how-we-help-mobile-panel"
                   className={`collapse-grid ${digitalMobileExpanded ? "collapse-grid-open" : "collapse-grid-closed"}`}
                 >
                   <div className="overflow-hidden min-h-0 pb-2">
                     <p className="px-5 pb-1 pt-2 text-[11px] font-bold uppercase tracking-[0.15em] text-primary">
-                      {businessNeedHeading}
+                      {t("helpNeedsHeading")}
                     </p>
-                    {solutionsContent.pathways.map((pathway) => (
-                      <Link
-                        key={pathway.id}
-                        href={{ pathname: "/solutions/[slug]", params: { slug: pathway.id } }}
-                        className="flex min-h-[44px] items-center justify-between gap-3 rounded-md py-2.5 pl-5 pr-3 text-gray-300 transition-colors hover:bg-white/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
-                        onClick={(event) => {
-                          trackAnalyticsEvent("solutions_pathway_click", {
-                            location: "mobile_header",
-                            pathway: pathway.id,
-                          });
-                          handleMobileNavClick(event, `/solutions/${pathway.id}`);
-                        }}
-                      >
-                        <span>
-                          <span className="block text-sm font-medium">{pathway.shortTitle}</span>
-                          <span className="mt-0.5 block text-xs text-slate-500">{pathway.navDescription}</span>
-                        </span>
-                        <ArrowRight className="h-4 w-4 shrink-0 opacity-60" aria-hidden />
-                      </Link>
-                    ))}
-                    <Link
-                      href="/solutions"
-                      aria-current={pathname === "/solutions" ? "page" : undefined}
-                      className="mx-3 my-2 flex min-h-[44px] items-center justify-between rounded-lg border border-primary/30 bg-primary/10 px-3 py-2.5 text-sm font-semibold text-primary"
-                      onClick={(event) => {
-                        trackAnalyticsEvent("solutions_pathway_click", {
-                          location: "mobile_header",
-                          pathway: "all",
-                        });
-                        handleMobileNavClick(event, "/solutions");
-                      }}
-                    >
-                      {solutionsContent.viewAll}
-                      <ArrowRight className="h-4 w-4" aria-hidden />
-                    </Link>
-                    <div role="separator" className="mx-3 my-2 border-t border-white/10" />
-                    <p className="px-5 pb-1 pt-1 text-[11px] font-bold uppercase tracking-[0.15em] text-primary">
-                      {capabilityHeading}
-                    </p>
-                    {digitalLinks.map((item) => {
+                    {helpLinks.map((item) => {
                       const Icon = item.icon;
-                      const linkKey = item.href;
-                      const mobilePath = item.href;
                       const current = isCurrentHref(item.href);
                       return (
                         <Link
-                          key={linkKey}
+                          key={item.href}
                           href={item.href}
                           aria-current={current ? "page" : undefined}
                           className={`${mobileDropdownItemClass} ${current ? "text-primary bg-primary/10" : ""}`}
-                          onClick={(e) => handleMobileNavClick(e, mobilePath)}
+                          onClick={(event) => {
+                            trackAnalyticsEvent("solutions_pathway_click", {
+                              location: "mobile_header",
+                              pathway: item.nameKey,
+                            });
+                            handleMobileNavClick(event, item.href);
+                          }}
                         >
                           <Icon
                             className="h-4 w-4 shrink-0 mt-0.5 opacity-70"
@@ -1475,24 +1455,49 @@ const Header = ({
                         </Link>
                       );
                     })}
+                    <div role="separator" className="mx-3 my-2 border-t border-white/10" />
                     <Link
-                      href="/partners"
-                      className="mx-3 mt-1 flex min-h-[44px] items-start gap-3 rounded-md border-t border-white/10 px-2 py-3 text-slate-400 transition-colors hover:bg-white/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
-                      onClick={(event) => handleMobileNavClick(event, "/partners")}
+                      href="/solutions"
+                      aria-current={pathname === "/solutions" ? "page" : undefined}
+                      className="mx-3 my-2 block rounded-lg border border-primary/30 bg-primary/10 px-3 py-3 text-primary transition-colors hover:bg-primary/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                      onClick={(event) => {
+                        trackAnalyticsEvent("solutions_pathway_click", {
+                          location: "mobile_header",
+                          pathway: "all",
+                        });
+                        handleMobileNavClick(event, "/solutions");
+                      }}
                     >
-                      <Briefcase className="mt-0.5 h-4 w-4 shrink-0 opacity-70" aria-hidden />
-                      <span>
-                        <span className="block text-sm font-medium">{t("technologyPartners")}</span>
-                        <span className="mt-0.5 block text-xs text-slate-500">{t("technologyPartnersDesc")}</span>
+                      <span className="flex items-center justify-between gap-3 text-sm font-semibold">
+                        {t("browseOutcomes")}
+                        <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />
+                      </span>
+                      <span className="mt-1 block text-xs leading-snug text-slate-400">
+                        {t("browseOutcomesDesc")}
                       </span>
                     </Link>
+                    <p className="px-5 pb-1 pt-2 text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500">
+                      {t("helpMorePathsHeading")}
+                    </p>
+                    {moreHelpLinks.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        aria-current={isCurrentHref(item.href) ? "page" : undefined}
+                        className="flex min-h-[44px] items-center justify-between gap-3 rounded-md py-2.5 pl-5 pr-3 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
+                        onClick={(event) => handleMobileNavClick(event, item.href)}
+                      >
+                        {t(item.nameKey)}
+                        <ArrowRight className="h-4 w-4 shrink-0 opacity-60" aria-hidden />
+                      </Link>
+                    ))}
                     <Link
                       href="/assessment"
                       className="mx-3 mt-2 flex min-h-[44px] items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/5 px-3 py-3 text-sm text-slate-300"
                       onClick={(event) => {
                         trackAnalyticsEvent("solutions_assessment_click", {
                           location: "mobile_header",
-                          menu: "technology_solutions",
+                          menu: "how_we_help",
                         });
                         handleMobileNavClick(event, "/assessment");
                       }}
@@ -1675,7 +1680,7 @@ const Header = ({
                         <p className="px-5 pt-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
                           {t(labelKey)}
                         </p>
-                        {headerInsightsForGroup(group, featuredInsights).slice(0, 2).map((slug) => (
+                        {headerInsightsForGroup(group, featuredInsights).map((slug) => (
                           <Link
                             key={slug}
                             href={{ pathname: "/insights/[slug]", params: { slug } }}

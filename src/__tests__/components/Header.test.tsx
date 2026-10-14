@@ -117,43 +117,62 @@ describe('Header', () => {
     expect(screen.getByRole('menuitem', { name: /resourcesUseCases/ })).toBeInTheDocument()
   })
 
-  it('renders technology solutions dropdown with sourcing and implementation links', () => {
+  it('renders How We Help with direct routes for the seven customer needs', () => {
     render(<Header />)
     const digitalButton = screen.getByRole('button', { name: 'digitalEnablement' })
     expect(digitalButton).toBeInTheDocument()
     fireEvent.click(digitalButton)
-    expect(screen.getByRole('menuitem', { name: /technologyAdvisory/i })).toHaveAttribute('href', '/programs/technology-advisory')
-    expect(screen.getByRole('menuitem', { name: /digitalOverview/i })).toHaveAttribute('href', '/services/digital')
-    expect(screen.getByRole('menuitem', { name: /digitalVisibility/i })).toHaveAttribute('href', '/services/digital-visibility-optimization')
-    expect(screen.getByRole('menuitem', { name: /digitalManagedOptimization/i })).toHaveAttribute('href', '/services/managed-optimization')
+    expect(screen.getByRole('menuitem', { name: /helpChooseTechnology/i })).toHaveAttribute('href', '/programs/technology-advisory')
+    expect(screen.getByRole('menuitem', { name: /helpBuildDigital/i })).toHaveAttribute('href', '/website-design')
+    expect(screen.getByRole('menuitem', { name: /helpConnectAutomate/i })).toHaveAttribute('href', '/services/automation')
+    expect(screen.getByRole('menuitem', { name: /helpUseAi/i })).toHaveAttribute('href', '/services/agentic')
+    expect(screen.getByRole('menuitem', { name: /helpGetFound/i })).toHaveAttribute('href', '/services/digital-visibility-optimization')
+    expect(screen.getByRole('menuitem', { name: /helpPlanExecution/i })).toHaveAttribute('href', '/programs/business-enablement')
+    expect(screen.getByRole('menuitem', { name: /helpDevelopTeam/i })).toHaveAttribute('href', '/programs/workshops')
     expect(screen.getByRole('menuitem', { name: /technologyPartners/i })).toHaveAttribute('href', '/partners')
   })
 
-  it('groups outcome-first and technology-first paths in Solutions', () => {
+  it('keeps business outcomes and supporting service paths clearly exposed', () => {
     render(<Header />)
     expect(screen.queryByRole('button', { name: 'Solutions by Need' })).not.toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'digitalEnablement' }))
 
     const menu = screen.getByRole('menu', { name: 'digitalEnablement' })
-    expect(within(menu).getByText('What You Want to Achieve')).toBeInTheDocument()
-    expect(within(menu).getByText('Explore Technologies')).toBeInTheDocument()
-    expect(within(menu).getByRole('menuitem', { name: /Set direction and priorities/i })).toHaveAttribute(
+    expect(within(menu).getByText('helpNeedsHeading')).toBeInTheDocument()
+    expect(within(menu).getByText('browseOutcomes')).toBeInTheDocument()
+    expect(within(menu).getByRole('menuitem', { name: /browseOutcomesCta/i })).toHaveAttribute(
       'href',
-      '/solutions/strategy',
+      '/solutions',
     )
-    expect(within(menu).getByRole('menuitem', { name: /Reduce security and compliance risk/i })).toHaveAttribute(
+    expect(within(menu).getByRole('menuitem', { name: /helpDigitalProducts/i })).toHaveAttribute(
       'href',
-      '/solutions/security',
+      '/services/digital-products',
     )
     expect(within(menu).getByRole('menuitem', { name: /Explore Your Options/i })).toHaveAttribute(
       'href',
       '/assessment',
     )
-    expect(within(menu).getAllByRole('menuitem')).toHaveLength(17)
+    expect(within(menu).getAllByRole('menuitem')).toHaveLength(12)
+  })
+
+  it('exposes the same customer needs and outcomes in the mobile navigation', () => {
+    render(<Header />)
+    fireEvent.click(screen.getByRole('button', { name: 'openMenu' }))
+    const mobileToggle = screen
+      .getAllByRole('button', { name: 'digitalEnablement' })
+      .find((button) => button.getAttribute('aria-controls') === 'how-we-help-mobile-panel')
+    expect(mobileToggle).toBeDefined()
+    fireEvent.click(mobileToggle!)
+
+    const panel = document.getElementById('how-we-help-mobile-panel')
+    expect(panel).toBeInTheDocument()
+    expect(within(panel!).getByRole('link', { name: /helpBuildDigital/i })).toHaveAttribute('href', '/website-design')
+    expect(within(panel!).getByRole('link', { name: /helpConnectAutomate/i })).toHaveAttribute('href', '/services/automation')
+    expect(within(panel!).getByRole('link', { name: /browseOutcomes/i })).toHaveAttribute('href', '/solutions')
   })
 
   it('marks only the matching dropdown item for the current page', () => {
-    mockPathname.mockReturnValue('/services/digital')
+    mockPathname.mockReturnValue('/website-design')
     render(<Header />)
     fireEvent.click(screen.getByRole('button', { name: 'digitalEnablement' }))
 
@@ -161,7 +180,7 @@ describe('Header', () => {
       (item) => item.getAttribute('aria-current') === 'page',
     )
     expect(current).toHaveLength(1)
-    expect(current[0]).toHaveAttribute('href', '/services/digital')
+    expect(current[0]).toHaveAttribute('href', '/website-design')
   })
 
   it.each([

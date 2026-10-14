@@ -160,24 +160,25 @@ const TechnologyAdvisory = () => {
             </Reveal>
           </div>
 
-          <Reveal when="mount" delayMs={130} className="relative min-h-[430px] overflow-hidden rounded-2xl bg-slate-950 p-6 text-white shadow-xl sm:p-7">
+          <Reveal when="mount" delayMs={130} className="relative min-h-[430px] overflow-hidden rounded-2xl border border-white/10 bg-slate-950 p-6 text-white shadow-xl sm:p-7">
             <Image
               src="/images/services/technology-advisory-hero.webp"
               alt=""
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 520px"
-              className="pointer-events-none object-cover object-center opacity-20"
+              className="pointer-events-none object-cover object-[68%_40%] opacity-70"
               aria-hidden
             />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-950/90 to-primary-dark/75" aria-hidden />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/75 to-slate-950/45" aria-hidden />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/35 to-transparent" aria-hidden />
             <div className="relative flex h-full flex-col">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-light">{t("technologyHeroProofTitle")}</p>
-              <h2 className="mt-2 max-w-md font-serif text-2xl font-bold leading-tight text-white sm:text-3xl">{t("technologyHeroProofSubtitle")}</h2>
+              <h2 className="mt-2 max-w-md font-serif text-2xl font-bold leading-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)] sm:text-3xl">{t("technologyHeroProofSubtitle")}</h2>
 
               <ol className="mt-7 space-y-3">
                 {[t("technologyHeroOutcome1"), t("technologyHeroOutcome2"), t("technologyHeroOutcome3")].map((outcome, index) => (
-                  <li key={outcome} className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.07] px-4 py-3 backdrop-blur-sm">
+                  <li key={outcome} className="flex items-center gap-3 rounded-xl border border-white/20 bg-slate-950/80 px-4 py-3 backdrop-blur-md shadow-lg shadow-black/30">
                     <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">
                       {index + 1}
                     </span>
@@ -188,10 +189,10 @@ const TechnologyAdvisory = () => {
 
               <div className="mt-auto pt-7">
                 <div className="h-px bg-gradient-to-r from-primary via-white/20 to-transparent" aria-hidden />
-                <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-slate-300">{tFramework("eyebrow")}</p>
+                <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em] text-slate-200">{tFramework("eyebrow")}</p>
                 <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
                   {decisionPaths.map((path, index) => (
-                    <div key={path} className="rounded-lg border border-white/15 bg-slate-950/45 px-3 py-3">
+                    <div key={path} className="rounded-lg border border-white/20 bg-slate-950/80 px-3 py-3 backdrop-blur-md">
                       <span className="block text-[10px] font-bold text-primary-light">0{index + 1}</span>
                       <span className="mt-1 block text-sm font-bold text-white">{path}</span>
                     </div>

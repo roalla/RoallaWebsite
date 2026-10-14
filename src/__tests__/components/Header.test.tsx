@@ -183,14 +183,8 @@ describe('Header', () => {
     expect(current[0]).toHaveAttribute('href', '/website-design')
   })
 
-  it.each([
-    '/services/digital',
-    '/website-design',
-    '/services/digital-products',
-    '/services/portfolio',
-    '/services/portfolio/websites',
-  ])('renders digital portfolio on %s', (path) => {
-    mockPathname.mockReturnValue(path)
+  it('renders digital portfolio only on website-design', () => {
+    mockPathname.mockReturnValue('/website-design')
     render(<Header />)
     const portfolioLinks = screen.getAllByRole('link', { name: 'digitalPortfolio' })
     expect(portfolioLinks.length).toBeGreaterThan(0)
@@ -199,18 +193,18 @@ describe('Header', () => {
     })
   })
 
-  it.each(['/', '/services/automation', '/programs/workshops'])(
-    'keeps digital portfolio available on %s',
-    (path) => {
-      mockPathname.mockReturnValue(path)
-      render(<Header />)
-      const portfolioLinks = screen.getAllByRole('link', { name: 'digitalPortfolio' })
-      expect(portfolioLinks.length).toBeGreaterThan(0)
-      portfolioLinks.forEach((link) => {
-        expect(link).toHaveAttribute('href', '/services/portfolio')
-      })
-    },
-  )
+  it.each([
+    '/',
+    '/services/digital',
+    '/services/digital-products',
+    '/services/portfolio',
+    '/services/automation',
+    '/programs/workshops',
+  ])('hides digital portfolio on %s', (path) => {
+    mockPathname.mockReturnValue(path)
+    render(<Header />)
+    expect(screen.queryByRole('link', { name: 'digitalPortfolio' })).not.toBeInTheDocument()
+  })
 
   it('offers advisory outcomes and engagement options in one category', () => {
     render(<Header />)

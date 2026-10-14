@@ -80,6 +80,8 @@ export default function WebsiteDesignLanding() {
       <ServicePageHero
         variant="digital"
         backgroundImage="/images/services/website-design-hero.webp"
+        backgroundScrim="strong"
+        backgroundObjectClass="object-[72%_center]"
         eyebrow={t('heroEyebrow')}
         title={t('heroTitle')}
         subtitle={t('heroSubtitle')}
@@ -88,6 +90,7 @@ export default function WebsiteDesignLanding() {
         statsNote={t('heroStatsNote')}
         visual={
           <ConsultingHeroVisual
+            contrast="solid"
             icon={Globe}
             proofTitle={t('heroProofTitle')}
             proofSubtitle={t('heroProofSubtitle')}

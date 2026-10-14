@@ -70,26 +70,26 @@ export default async function SearchAiVisibilityPage({
       />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
-        <header className="relative overflow-hidden rounded-2xl border border-slate-700 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-6 py-10 lg:px-12 lg:py-14 shadow-xl">
+        <header className="relative overflow-hidden rounded-2xl border border-slate-700/80 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-6 py-10 lg:px-12 lg:py-14 shadow-xl">
           <Image
-            src="/images/services/search-ai-visibility-hero.webp"
+            src="/images/services/ai-agents-hero.webp"
             alt=""
             fill
             priority
             sizes="(max-width: 1280px) 100vw, 1152px"
-            className="pointer-events-none object-cover object-center opacity-75"
+            className="pointer-events-none object-cover object-[72%_center] opacity-70"
             aria-hidden
           />
           <div
-            className="pointer-events-none absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-900/80 to-slate-900/45"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/92 to-slate-950/50"
             aria-hidden
           />
           <div
-            className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/10 via-transparent to-slate-950/60"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/30 via-transparent to-slate-950/65"
             aria-hidden
           />
           <div
-            className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-primary/15 blur-3xl"
+            className="pointer-events-none absolute inset-y-0 right-0 w-[55%] bg-gradient-to-l from-slate-950/45 via-slate-950/15 to-transparent"
             aria-hidden
           />
           <div className="relative grid lg:grid-cols-[1.05fr_.95fr] gap-10 items-center">
@@ -97,10 +97,10 @@ export default async function SearchAiVisibilityPage({
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-light mb-4">
                 {content.eyebrow}
               </p>
-              <h1 className="text-4xl md:text-5xl font-serif font-bold text-white leading-tight">
+              <h1 className="text-4xl md:text-5xl font-serif font-bold text-white leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.55)]">
                 {content.title}
               </h1>
-              <p className="mt-5 text-lg text-slate-300 leading-relaxed">
+              <p className="mt-5 text-lg text-slate-200 leading-relaxed">
                 {content.subtitle}
               </p>
               <div className="mt-8">
@@ -111,7 +111,7 @@ export default async function SearchAiVisibilityPage({
                 />
               </div>
             </div>
-            <div className="rounded-2xl border border-white/15 bg-white/[0.08] p-6 backdrop-blur-md">
+            <div className="rounded-2xl border border-white/20 bg-slate-950/85 p-6 backdrop-blur-xl shadow-[0_12px_48px_rgba(0,0,0,0.55)] ring-1 ring-black/40">
               <SearchCheck
                 className="w-9 h-9 text-primary-light mb-4"
                 aria-hidden

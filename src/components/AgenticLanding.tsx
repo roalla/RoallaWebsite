@@ -12,6 +12,7 @@ import {
   UserCheck,
   Workflow,
 } from "lucide-react";
+import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import type { AgenticServiceCopy } from "@/lib/agentic-service-content";
 
@@ -28,21 +29,41 @@ export default function AgenticLanding({
   return (
     <div className="container mx-auto px-4 pb-16 pt-24 sm:px-6 lg:px-8 lg:pt-28">
       <header
-        className="relative overflow-hidden rounded-3xl bg-slate-950 px-7 py-12 text-white shadow-xl lg:px-12 lg:py-16"
+        className="relative overflow-hidden rounded-3xl border border-slate-700/80 bg-slate-950 px-7 py-12 text-white shadow-xl lg:px-12 lg:py-16"
         data-header-tone="dark"
       >
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(0,169,184,.2),transparent_34%),radial-gradient(circle_at_10%_90%,rgba(218,165,32,.12),transparent_34%)]" aria-hidden />
+        <Image
+          src="/images/services/ai-agents-hero.webp"
+          alt=""
+          fill
+          priority
+          sizes="(max-width: 1280px) 100vw, 1152px"
+          className="pointer-events-none object-cover object-[72%_center] opacity-70"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/92 to-slate-950/50"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/30 via-transparent to-slate-950/65"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute inset-y-0 right-0 w-[55%] bg-gradient-to-l from-slate-950/45 via-slate-950/15 to-transparent"
+          aria-hidden
+        />
         <div className="relative max-w-4xl">
           <p className="text-xs font-bold uppercase tracking-[.2em] text-cyan-300">{content.eyebrow}</p>
-          <h1 className="mt-4 text-4xl font-serif font-bold leading-tight text-white md:text-6xl">{content.title}</h1>
-          <p className="mt-6 max-w-3xl text-xl font-medium leading-8 text-white">{content.lead}</p>
-          <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300">{content.description}</p>
-          <p className="mt-5 max-w-3xl border-l-2 border-brand-gold pl-4 text-sm font-semibold leading-6 text-brand-gold">{content.outcome}</p>
+          <h1 className="mt-4 text-4xl font-serif font-bold leading-tight text-white md:text-6xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.55)]">{content.title}</h1>
+          <p className="mt-6 max-w-3xl text-xl font-medium leading-8 text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.45)]">{content.lead}</p>
+          <p className="mt-4 max-w-3xl text-base leading-7 text-slate-200">{content.description}</p>
+          <p className="mt-5 max-w-3xl rounded-r-md border-l-2 border-brand-gold bg-slate-950/55 py-2 pl-4 pr-3 text-sm font-semibold leading-6 text-brand-gold backdrop-blur-sm">{content.outcome}</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href={{ pathname: "/contact", query: { goal: "ROALLA Agentic" } }} className="inline-flex min-h-12 items-center rounded-lg bg-primary px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-dark">
+            <Link href={{ pathname: "/contact", query: { goal: "ROALLA Agentic" } }} className="inline-flex min-h-12 items-center rounded-lg bg-primary px-6 py-3 font-semibold text-white shadow-lg shadow-black/30 transition-colors hover:bg-primary-dark">
               {content.cta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Link>
-            <Link href="/services/automation" className="inline-flex min-h-12 items-center rounded-lg border border-white/25 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/10">
+            <Link href="/services/automation" className="inline-flex min-h-12 items-center rounded-lg border border-white/35 bg-slate-950/45 px-6 py-3 font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/10">
               {content.secondaryCta}
             </Link>
           </div>

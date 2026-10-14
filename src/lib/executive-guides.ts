@@ -246,6 +246,14 @@ export const EXECUTIVE_GUIDES: readonly ExecutiveGuide[] = [
     en: { title: "Enterprise AI Agent and Cost Governance 2027", summary: "Control agent proliferation, quantify avoidable AI spend and establish the policies, engineering controls and lifecycle decisions needed for responsible scale.", categoryLabel: "AI & governance" },
     fr: { title: "Gouvernance des agents et des coûts d’IA en entreprise 2027", summary: "Maîtrisez la prolifération des agents, quantifiez les dépenses d’IA évitables et établissez les politiques, contrôles techniques et décisions de cycle de vie nécessaires à une croissance responsable.", categoryLabel: "IA et gouvernance" },
   },
+  {
+    slug: "enterprise-user-adoption-self-service-enablement",
+    number: "EI—29",
+    category: "operations",
+    image: "/images/executive-insights/user-adoption-self-service.png",
+    en: { title: "Enterprise User Adoption and Self Service Enablement", summary: "Build branded, accessible and maintained learning journeys that improve adoption, reveal user friction and reduce avoidable support and operating effort.", categoryLabel: "Adoption & enablement" },
+    fr: { title: "Adoption des utilisateurs et libre-service en entreprise", summary: "Créez des parcours d’apprentissage de marque, accessibles et maintenus qui améliorent l’adoption, révèlent les frictions et réduisent le soutien évitable.", categoryLabel: "Adoption et habilitation" },
+  },
 ] as const;
 
 export function findExecutiveGuide(slug: string) {

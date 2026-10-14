@@ -212,7 +212,7 @@ describe('Header', () => {
     },
   )
 
-  it('offers outcome-first business paths and engagement options in one category', () => {
+  it('offers advisory outcomes and engagement options in one category', () => {
     render(<Header />)
     fireEvent.click(screen.getByRole('button', { name: 'businessAdvisoryWorkshops' }))
     const menu = screen.getByRole('menu', { name: 'businessAdvisoryWorkshops' })
@@ -259,6 +259,41 @@ describe('Header', () => {
       'aria-current',
       'page',
     )
+  })
+
+  it.each(['/services/business-advisory', '/programs/workshops'])(
+    'opens only Advisory & Workshops on mobile for %s',
+    (path) => {
+      mockPathname.mockReturnValue(path)
+      render(<Header />)
+      fireEvent.click(screen.getByRole('button', { name: 'openMenu' }))
+
+      const howWeHelpToggle = screen
+        .getAllByRole('button', { name: 'digitalEnablement' })
+        .find((button) => button.getAttribute('aria-controls') === 'how-we-help-mobile-panel')
+      const advisoryToggle = screen
+        .getAllByRole('button', { name: 'businessAdvisoryWorkshops' })
+        .find((button) => button.getAttribute('aria-controls') === 'business-outcomes-mobile-panel')
+
+      expect(howWeHelpToggle).toHaveAttribute('aria-expanded', 'false')
+      expect(advisoryToggle).toHaveAttribute('aria-expanded', 'true')
+    },
+  )
+
+  it('opens only How We Help on mobile for a general service need', () => {
+    mockPathname.mockReturnValue('/services/ai-agents')
+    render(<Header />)
+    fireEvent.click(screen.getByRole('button', { name: 'openMenu' }))
+
+    const howWeHelpToggle = screen
+      .getAllByRole('button', { name: 'digitalEnablement' })
+      .find((button) => button.getAttribute('aria-controls') === 'how-we-help-mobile-panel')
+    const advisoryToggle = screen
+      .getAllByRole('button', { name: 'businessAdvisoryWorkshops' })
+      .find((button) => button.getAttribute('aria-controls') === 'business-outcomes-mobile-panel')
+
+    expect(howWeHelpToggle).toHaveAttribute('aria-expanded', 'true')
+    expect(advisoryToggle).toHaveAttribute('aria-expanded', 'false')
   })
 
   it('hides founding client promo on the homepage', () => {

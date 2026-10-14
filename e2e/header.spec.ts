@@ -10,22 +10,20 @@ test.describe("Header", () => {
     await expect(page.locator("#main-content")).toBeVisible();
   });
 
-  test("technology solutions dropdown lists connected destinations when open", async ({
+  test("How We Help exposes needs and the comprehensive outcome browser", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.goto("/en");
 
-    await page.locator("#digital-dropdown-desktop").click();
+    await page.getByLabel("Main navigation").getByRole("button", { name: "How We Help" }).click();
     const menu = page.locator('[aria-labelledby="digital-dropdown-desktop"]');
-    await expect(menu.getByText("By Business Need", { exact: true })).toBeVisible();
-    await expect(menu.getByText("By Technology & Capability", { exact: true })).toBeVisible();
-    await expect(menu.locator('[role="group"][aria-labelledby="capability-heading"] a[role="menuitem"]')).toHaveCount(5);
+    await expect(menu.getByText("What do you need to move forward?", { exact: true })).toBeVisible();
     await expect(
       menu.locator('a[href="/en/services/technology-advisory"]'),
     ).toHaveAttribute("role", "menuitem");
     await expect(
-      menu.locator('a[href="/en/services/digital"]'),
+      menu.locator('a[href="/en/website-design"]'),
     ).toHaveAttribute("role", "menuitem");
     await expect(
       menu.locator('a[href="/en/services/ai-agents"]'),
@@ -34,8 +32,12 @@ test.describe("Header", () => {
       menu.locator('a[href="/en/services/search-ai-visibility"]'),
     ).toHaveAttribute("role", "menuitem");
     await expect(
+      menu.getByRole("menuitem", { name: /View all outcome pathways/i }),
+    ).toHaveAttribute("href", "/en/solutions");
+    await expect(
       menu.locator('a[href="/en/partners"]'),
     ).toHaveAttribute("role", "menuitem");
+    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(12);
   });
 
   test("digital portfolio is a persistent primary destination", async ({ page }) => {
@@ -55,13 +57,15 @@ test.describe("Header", () => {
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.goto("/en");
 
-    await page.getByLabel("Main navigation").getByRole("button", { name: "Business Advisory & Workshops" }).click();
+    await page.getByLabel("Main navigation").getByRole("button", { name: "Advisory & Workshops" }).click();
     const menu = page.locator('[aria-labelledby="workshops-dropdown-desktop"]');
+    await expect(menu.getByText("Advisory Outcomes", { exact: true })).toBeVisible();
+    await expect(menu.getByText("Ways to Work With Us", { exact: true })).toBeVisible();
     await expect(menu.getByRole("menuitem", { name: /Business Advisory/ })).toHaveAttribute(
       "href",
       "/en/services/business-advisory",
     );
-    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(3);
+    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(7);
     await expect(menu.getByRole("menuitem", { name: /Team Workshops/ })).toHaveAttribute(
       "href",
       "/en/programs/workshops",

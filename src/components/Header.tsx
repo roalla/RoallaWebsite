@@ -650,19 +650,25 @@ const Header = ({
 
   useEffect(() => {
     if (!isMenuOpen) return;
-    if (pathname === "/solutions" || helpLinks.some((item) => isCurrentHref(item.href))) {
+    if (isDigitalActive) {
       setDigitalMobileExpanded(true);
+    } else {
+      setDigitalMobileExpanded(false);
     }
     if (
       pathname === "/services/business-advisory" ||
       workshopLinks.some((item) => isCurrentHref(item.href))
     ) {
       setWorkshopsMobileExpanded(true);
+    } else {
+      setWorkshopsMobileExpanded(false);
     }
     if (isResourcesActive) {
       setResourcesMobileExpanded(true);
+    } else {
+      setResourcesMobileExpanded(false);
     }
-  }, [isMenuOpen, pathname, isResourcesActive]);
+  }, [isMenuOpen, pathname, isDigitalActive, isResourcesActive]);
 
   const showFoundingPromo =
     pathname === "/services/digital" ||

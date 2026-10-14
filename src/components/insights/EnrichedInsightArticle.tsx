@@ -21,7 +21,7 @@ export default function EnrichedInsightArticle({ slug, locale, title, summary, r
   const { image, copy } = getEnrichedInsight(slug, locale)
   const advisory = ['fractional-coo', 'strategic-planning', 'process-optimization'].includes(slug)
   const technology = slug === 'professional-email-avoid-spam-phishing'
-  const serviceHref = copy.serviceHref ?? (technology ? '/programs/technology-advisory' : advisory ? '/programs/business-enablement' : '/services/digital')
+  const serviceHref = copy.serviceHref ?? (technology ? '/services/technology-advisory' : advisory ? '/services/business-advisory' : '/services/digital')
   const serviceLabel = copy.serviceLabel ?? (technology
     ? (french ? 'Explorer le conseil technologique' : 'Explore Technology Advisory')
     : advisory

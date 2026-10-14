@@ -17,13 +17,13 @@ const companyLinks = [
 ]
 
 const exploreLinks = [
-  { nameKey: 'technologyAdvisory' as const, href: '/programs/technology-advisory' as const },
-  { nameKey: 'agentic' as const, href: '/services/agentic' as const },
+  { nameKey: 'technologyAdvisory' as const, href: '/services/technology-advisory' as const },
+  { nameKey: 'agentic' as const, href: '/services/ai-agents' as const },
   { nameKey: 'digitalEnablement' as const, href: '/services/digital' as const },
-  { nameKey: 'digitalVisibility' as const, href: '/services/digital-visibility-optimization' as const },
+  { nameKey: 'digitalVisibility' as const, href: '/services/search-ai-visibility' as const },
   { nameKey: 'partners' as const, href: '/partners' as const },
   { nameKey: 'ourWork' as const, href: '/services/portfolio' as const },
-  { nameKey: 'programs' as const, href: '/programs/business-enablement' as const },
+  { nameKey: 'programs' as const, href: '/services/business-advisory' as const },
   { nameKey: 'workshops' as const, href: '/programs/workshops' as const },
 ]
 

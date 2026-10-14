@@ -259,19 +259,19 @@ const DigitalBuilds = () => {
   const lifecycle = [
     {
       key: "advise",
-      href: "/programs/technology-advisory" as const,
+      href: "/services/technology-advisory" as const,
       title: locale === "fr" ? "Conseiller" : "Advise",
       description: locale === "fr" ? "Clarifier le résultat et les exigences." : "Clarify the outcome and requirements.",
     },
     {
       key: "source",
-      href: "/programs/technology-advisory" as const,
+      href: "/services/technology-advisory" as const,
       title: locale === "fr" ? "Rechercher" : "Source",
       description: locale === "fr" ? "Comparer les plateformes et fournisseurs." : "Compare platforms and providers.",
     },
     {
       key: "agentic",
-      href: "/services/agentic" as const,
+      href: "/services/ai-agents" as const,
       title: locale === "fr" ? "Agentique" : "Agentic",
       description: locale === "fr" ? "Concevoir des agents qui agissent sous contrôle." : "Design agents that act under control.",
     },
@@ -366,7 +366,7 @@ const DigitalBuilds = () => {
             <h2 className="mt-2 text-2xl font-serif font-bold text-slate-900">{t("advisoryBridgeTitle")}</h2>
             <p className="mt-3 text-sm leading-relaxed text-slate-700">{t("advisoryBridgeDescription")}</p>
           </div>
-          <Link href="/programs/technology-advisory" className="mt-5 inline-flex shrink-0 items-center text-sm font-semibold text-primary-dark hover:underline lg:mt-0">
+          <Link href="/services/technology-advisory" className="mt-5 inline-flex shrink-0 items-center text-sm font-semibold text-primary-dark hover:underline lg:mt-0">
             {t("advisoryBridgeLink")}
             <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
           </Link>
@@ -378,7 +378,7 @@ const DigitalBuilds = () => {
             <h2 className="mt-2 text-2xl font-serif font-bold text-white">{locale === "fr" ? "Entre le choix technologique et la mise en œuvre" : "The bridge between technology decisions and implementation"}</h2>
             <p className="mt-3 text-sm leading-relaxed text-slate-300">{locale === "fr" ? "Concevez des agents IA qui comprennent le contexte, coordonnent vos outils et agissent dans des limites approuvées—avec les bonnes personnes aux points de décision." : "Design AI agents that understand context, coordinate your tools, and act within approved boundaries—with the right people at the decision points."}</p>
           </div>
-          <Link href="/services/agentic" className="mt-5 inline-flex shrink-0 items-center text-sm font-semibold text-cyan-300 hover:text-white hover:underline lg:mt-0">
+          <Link href="/services/ai-agents" className="mt-5 inline-flex shrink-0 items-center text-sm font-semibold text-cyan-300 hover:text-white hover:underline lg:mt-0">
             {locale === "fr" ? "Explorer ROALLA Agentic" : "Explore ROALLA Agentic"}<ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
           </Link>
         </Reveal>
@@ -627,7 +627,7 @@ const DigitalBuilds = () => {
               {t("fitConsultingNote")}
             </p>
             <Link
-              href="/programs/technology-advisory"
+              href="/services/technology-advisory"
               className="inline-flex items-center text-primary font-medium text-sm hover:underline"
             >
               {t("compareConsultingLink")}
@@ -674,7 +674,7 @@ const DigitalBuilds = () => {
           }
           links={[
             {
-              href: "/programs/technology-advisory",
+              href: "/services/technology-advisory",
               label: t("advisoryBridgeLink"),
             },
             { href: "/programs/workshops", label: t("crossLinkWorkshops") },

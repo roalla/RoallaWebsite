@@ -185,7 +185,7 @@ export default function ContrastTextSizeConversionArticle({ locale, title, summa
             <Link href={{ pathname: '/contact', query: { service: 'visibility', need: 'accessibility-review', from_page: 'contrast-text-size-insight' } }} className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark">
               {french ? 'Demander un examen de l’expérience' : 'Request an Experience Review'}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Link>
-            <Link href="/services/digital-visibility-optimization" className="inline-flex min-h-[48px] items-center justify-center rounded-lg border-2 border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 transition-colors hover:border-primary hover:text-primary-dark">
+            <Link href="/services/search-ai-visibility" className="inline-flex min-h-[48px] items-center justify-center rounded-lg border-2 border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 transition-colors hover:border-primary hover:text-primary-dark">
               {french ? 'Explorer la visibilité numérique' : 'Explore Digital Visibility Optimization'}
             </Link>
           </div>

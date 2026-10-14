@@ -22,16 +22,16 @@ test.describe("Header", () => {
     await expect(menu.getByText("By Technology & Capability", { exact: true })).toBeVisible();
     await expect(menu.locator('[role="group"][aria-labelledby="capability-heading"] a[role="menuitem"]')).toHaveCount(5);
     await expect(
-      menu.locator('a[href="/en/programs/technology-advisory"]'),
+      menu.locator('a[href="/en/services/technology-advisory"]'),
     ).toHaveAttribute("role", "menuitem");
     await expect(
       menu.locator('a[href="/en/services/digital"]'),
     ).toHaveAttribute("role", "menuitem");
     await expect(
-      menu.locator('a[href="/en/services/agentic"]'),
+      menu.locator('a[href="/en/services/ai-agents"]'),
     ).toHaveAttribute("role", "menuitem");
     await expect(
-      menu.locator('a[href="/en/services/digital-visibility-optimization"]'),
+      menu.locator('a[href="/en/services/search-ai-visibility"]'),
     ).toHaveAttribute("role", "menuitem");
     await expect(
       menu.locator('a[href="/en/partners"]'),
@@ -59,7 +59,7 @@ test.describe("Header", () => {
     const menu = page.locator('[aria-labelledby="workshops-dropdown-desktop"]');
     await expect(menu.getByRole("menuitem", { name: /Business Advisory/ })).toHaveAttribute(
       "href",
-      "/en/programs/business-enablement",
+      "/en/services/business-advisory",
     );
     await expect(menu.locator('a[role="menuitem"]')).toHaveCount(3);
     await expect(menu.getByRole("menuitem", { name: /Team Workshops/ })).toHaveAttribute(
@@ -73,7 +73,7 @@ test.describe("Header", () => {
   });
 
   test("primary service routes are reachable", async ({ page }) => {
-    await page.goto("/en/programs/business-enablement");
+    await page.goto("/en/services/business-advisory");
     await expect(
       page.getByRole("heading", {
         name: "Business guidance that turns priorities into execution.",
@@ -81,7 +81,7 @@ test.describe("Header", () => {
       }),
     ).toBeVisible();
 
-    await page.goto("/en/programs/technology-advisory");
+    await page.goto("/en/services/technology-advisory");
     await expect(
       page.getByRole("heading", {
         name: "Choose the right technology—and carry it through implementation.",

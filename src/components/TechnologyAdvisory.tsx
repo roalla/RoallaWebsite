@@ -154,7 +154,7 @@ const TechnologyAdvisory = () => {
             </Reveal>
             <Reveal when="mount" delayMs={210}>
               <p className="mt-3 max-w-xl text-sm leading-relaxed text-slate-600">{t("technologyCallNext")}</p>
-              <Link href="/programs/business-enablement" className="mt-3 inline-flex text-sm font-semibold text-primary-dark underline decoration-primary/40 underline-offset-4 hover:decoration-primary">
+              <Link href="/services/business-advisory" className="mt-3 inline-flex text-sm font-semibold text-primary-dark underline decoration-primary/40 underline-offset-4 hover:decoration-primary">
                 {t("technologyCrossLinkBusiness")}
               </Link>
             </Reveal>
@@ -162,7 +162,7 @@ const TechnologyAdvisory = () => {
 
           <Reveal when="mount" delayMs={130} className="relative min-h-[430px] overflow-hidden rounded-2xl bg-slate-950 p-6 text-white shadow-xl sm:p-7">
             <Image
-              src="/images/programs/technology-advisory-hero.webp"
+              src="/images/services/technology-advisory-hero.webp"
               alt=""
               fill
               priority
@@ -231,7 +231,7 @@ const TechnologyAdvisory = () => {
               {locale === "fr" ? "Après avoir clarifié et recherché la technologie, ROALLA Agentic définit comment des agents IA peuvent coordonner les systèmes, exécuter des flux autorisés et solliciter une personne au bon moment." : "After the technology is clarified and sourced, ROALLA Agentic defines how AI agents can coordinate systems, execute approved workflows, and involve a person at the right moment."}
             </p>
           </div>
-          <Link href="/services/agentic" className="mt-5 inline-flex shrink-0 items-center text-sm font-semibold text-cyan-300 hover:text-white hover:underline lg:mt-0">
+          <Link href="/services/ai-agents" className="mt-5 inline-flex shrink-0 items-center text-sm font-semibold text-cyan-300 hover:text-white hover:underline lg:mt-0">
             {locale === "fr" ? "Explorer ROALLA Agentic" : "Explore ROALLA Agentic"}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
           </Link>
         </Reveal>
@@ -485,7 +485,7 @@ const TechnologyAdvisory = () => {
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white border border-slate-200"><Network className="h-5 w-5 text-primary-dark" aria-hidden /></span>
               <p className="text-slate-800 leading-relaxed text-sm font-medium">{t("technologyFitBusinessNote")}</p>
             </div>
-            <Link href="/programs/business-enablement" className="inline-flex items-center text-primary-dark font-semibold text-sm hover:underline">
+            <Link href="/services/business-advisory" className="inline-flex items-center text-primary-dark font-semibold text-sm hover:underline">
               {t("technologyCrossLinkBusiness")}
               <ArrowRight className="ml-1.5 w-4 h-4" aria-hidden />
             </Link>
@@ -515,7 +515,7 @@ const TechnologyAdvisory = () => {
           }
           confidentiality={{ href: "/contact", label: t("confidentialityLink"), title: t("ctaConfidentialTitle"), hint: t("ctaConfidentialHint") }}
           links={[
-            { href: "/programs/business-enablement", label: t("technologyCrossLinkBusiness"), title: t("ctaPathBusinessTitle"), hint: t("ctaPathBusinessHint") },
+            { href: "/services/business-advisory", label: t("technologyCrossLinkBusiness"), title: t("ctaPathBusinessTitle"), hint: t("ctaPathBusinessHint") },
             { href: "/programs/workshops", label: t("crossLinkWorkshops"), title: t("ctaPathWorkshopsTitle"), hint: t("ctaPathWorkshopsHint") },
             { href: "/services/digital", label: t("crossLinkDigital"), title: t("ctaPathDigitalTitle"), hint: t("ctaPathDigitalHint") },
             { href: "/services/portfolio", label: t("crossLinkOurWork"), title: t("ctaPathPortfolioTitle"), hint: t("ctaPathPortfolioHint") },

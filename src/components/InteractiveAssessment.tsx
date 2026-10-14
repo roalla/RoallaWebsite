@@ -386,7 +386,7 @@ function AssessmentResultsView({
           )}
           {result.serviceHref && (
             <Link
-              href={result.serviceHref as '/programs/business-enablement'}
+              href={result.serviceHref as '/services/business-advisory'}
               className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
             >
               {t('exploreService', { service: primaryServiceName ?? '' })}
@@ -394,7 +394,7 @@ function AssessmentResultsView({
             </Link>
           )}
           <Link
-            href={result.laneHref as '/programs/business-enablement' | '/programs/technology-advisory' | '/programs/workshops' | '/services/digital' | '/services/digital-events'}
+            href={result.laneHref as '/services/business-advisory' | '/services/technology-advisory' | '/programs/workshops' | '/services/digital' | '/services/digital-events'}
             className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
           >
             {laneExploreLabel(result.lane, t)}

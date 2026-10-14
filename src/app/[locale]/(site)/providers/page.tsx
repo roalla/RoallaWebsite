@@ -121,7 +121,7 @@ export default async function ProvidersPage({ params }: Props) {
         <p className="mx-auto mt-10 max-w-3xl text-center text-sm leading-6 text-slate-500">{t('note')}</p>
         <div className="mt-8 flex justify-center">
           <Link
-            href="/programs/technology-advisory"
+            href="/services/technology-advisory"
             className="inline-flex min-h-12 items-center justify-center rounded-lg bg-primary px-6 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
           >
             {t('advisoryCta')}

@@ -162,7 +162,7 @@ export default function HomeOurWork() {
             ))}
           </ul>
           <Link
-            href="/programs/business-enablement"
+            href="/services/business-advisory"
             className="mt-6 inline-flex items-center link-action hover:underline text-sm font-semibold"
           >
             {t('consultingCta')}

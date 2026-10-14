@@ -53,10 +53,10 @@ export default function AgenticLanding({
         <nav aria-label={content.journeyLabel} className="relative z-10 -mt-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-lg sm:p-5">
           <ol className="grid gap-2 md:grid-cols-5">
             {content.journey.map((stage, index) => {
-              const current = stage.href === "/services/agentic";
+              const current = stage.href === "/services/ai-agents";
               return (
                 <li key={`${stage.label}-${index}`} className="relative">
-                  <Link href={stage.href as "/services/agentic"} aria-current={current ? "page" : undefined} className={`block h-full rounded-xl border p-3 transition-colors ${current ? "border-primary bg-primary/10" : "border-transparent hover:border-primary/30 hover:bg-slate-50"}`}>
+                  <Link href={stage.href as "/services/ai-agents"} aria-current={current ? "page" : undefined} className={`block h-full rounded-xl border p-3 transition-colors ${current ? "border-primary bg-primary/10" : "border-transparent hover:border-primary/30 hover:bg-slate-50"}`}>
                     <span className="text-[10px] font-bold tracking-widest text-primary-dark">{String(index + 1).padStart(2, "0")}</span>
                     <span className="mt-1 block font-serif font-bold text-slate-950">{stage.label}</span>
                     <span className="mt-1 block text-xs leading-5 text-slate-600">{stage.description}</span>

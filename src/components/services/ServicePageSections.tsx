@@ -35,7 +35,7 @@ type ServicePageHeroProps = {
   primaryCta: React.ReactNode
   secondaryCta?: React.ReactNode
   ctaSubtext?: string
-  tertiaryLink?: { href: '/assessment' | '/services/portfolio' | '/programs/business-enablement' | '/programs/technology-advisory' | '/services/digital'; label: string }
+  tertiaryLink?: { href: '/assessment' | '/services/portfolio' | '/services/business-advisory' | '/services/technology-advisory' | '/services/digital'; label: string }
   stats: ServiceStat[]
   statsNote?: string
   variant?: 'consulting' | 'digital'
@@ -370,8 +370,8 @@ export function ServiceSectionHeading({
 }
 
 type ServiceCtaHref =
-  | '/programs/business-enablement'
-  | '/programs/technology-advisory'
+  | '/services/business-advisory'
+  | '/services/technology-advisory'
   | '/programs/workshops'
   | '/services/digital'
   | '/services/digital-events'
@@ -389,8 +389,8 @@ type ServiceCtaLink = {
 }
 
 const pathIcons: Partial<Record<ServiceCtaHref, LucideIcon>> = {
-  '/programs/business-enablement': Compass,
-  '/programs/technology-advisory': Cpu,
+  '/services/business-advisory': Compass,
+  '/services/technology-advisory': Cpu,
   '/programs/workshops': Users,
   '/services/digital': MonitorSmartphone,
   '/services/digital-events': CalendarDays,

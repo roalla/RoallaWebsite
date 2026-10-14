@@ -352,8 +352,8 @@ const Header = ({
   const startingPointLabel = locale === "fr" ? "Explorer vos options" : "Explore Your Options";
 
   const isConsultingPage =
-    pathname === "/programs/business-enablement" ||
-    pathname === "/programs/technology-advisory";
+    pathname === "/services/business-advisory" ||
+    pathname === "/services/technology-advisory";
   const headerCtaLabel =
     pathname === "/programs/workshops" ||
     pathname === "/programs/workshops/focus-circle" ||
@@ -372,7 +372,7 @@ const Header = ({
   const headerCtaSubtext = tCommon("ctaSubtext");
   const headerCtaIntent = isConsultingPage ? ("consulting" as const) : undefined;
   const headerCtaFocus =
-    pathname === "/programs/technology-advisory" ? ("technology" as const) : undefined;
+    pathname === "/services/technology-advisory" ? ("technology" as const) : undefined;
 
   const handleLocaleSelect = useCallback(
     (newLocale: "en" | "fr") => {
@@ -442,12 +442,12 @@ const Header = ({
   );
 
   type HelpNavHref =
-    | "/programs/technology-advisory"
+    | "/services/technology-advisory"
     | "/website-design"
     | "/services/automation"
-    | "/services/agentic"
-    | "/services/digital-visibility-optimization"
-    | "/programs/business-enablement"
+    | "/services/ai-agents"
+    | "/services/search-ai-visibility"
+    | "/services/business-advisory"
     | "/programs/workshops";
 
   type WorkshopNavHref =
@@ -477,7 +477,7 @@ const Header = ({
     {
       nameKey: "helpChooseTechnology",
       descKey: "helpChooseTechnologyDesc",
-      href: "/programs/technology-advisory",
+      href: "/services/technology-advisory",
       icon: Network,
     },
     {
@@ -495,19 +495,19 @@ const Header = ({
     {
       nameKey: "helpUseAi",
       descKey: "helpUseAiDesc",
-      href: "/services/agentic",
+      href: "/services/ai-agents",
       icon: Workflow,
     },
     {
       nameKey: "helpGetFound",
       descKey: "helpGetFoundDesc",
-      href: "/services/digital-visibility-optimization",
+      href: "/services/search-ai-visibility",
       icon: SearchCheck,
     },
     {
       nameKey: "helpPlanExecution",
       descKey: "helpPlanExecutionDesc",
-      href: "/programs/business-enablement",
+      href: "/services/business-advisory",
       icon: Briefcase,
     },
     {
@@ -556,7 +556,7 @@ const Header = ({
       | "businessOutcomeLeadershipDesc"
       | "businessOutcomeIdeasDesc";
     href:
-      | "/programs/business-enablement"
+      | "/services/business-advisory"
       | "/programs/workshops"
       | "/programs/workshops/ideation";
     icon: typeof Target;
@@ -564,13 +564,13 @@ const Header = ({
     {
       nameKey: "businessOutcomeDirection",
       descKey: "businessOutcomeDirectionDesc",
-      href: "/programs/business-enablement",
+      href: "/services/business-advisory",
       icon: Target,
     },
     {
       nameKey: "businessOutcomeOperations",
       descKey: "businessOutcomeOperationsDesc",
-      href: "/programs/business-enablement",
+      href: "/services/business-advisory",
       icon: Workflow,
     },
     {
@@ -601,15 +601,15 @@ const Header = ({
     pathname === "/website-design" ||
     pathname === "/services/digital-products" ||
     pathname === "/services/automation" ||
-    pathname === "/services/agentic" ||
-    pathname === "/programs/technology-advisory" ||
-    pathname === "/services/digital-visibility-optimization" ||
+    pathname === "/services/ai-agents" ||
+    pathname === "/services/technology-advisory" ||
+    pathname === "/services/search-ai-visibility" ||
     pathname === "/services/managed-optimization" ||
     pathname === "/services/digital-events" ||
     pathname === "/partners" ||
     pathname === "/services/portfolio";
 
-  const isAdvisoryActive = pathname === "/programs/business-enablement";
+  const isAdvisoryActive = pathname === "/services/business-advisory";
   const isWorkshopsActive =
     pathname === "/programs/workshops" ||
     pathname === "/programs/workshops/focus-circle" ||
@@ -654,7 +654,7 @@ const Header = ({
       setDigitalMobileExpanded(true);
     }
     if (
-      pathname === "/programs/business-enablement" ||
+      pathname === "/services/business-advisory" ||
       workshopLinks.some((item) => isCurrentHref(item.href))
     ) {
       setWorkshopsMobileExpanded(true);
@@ -1042,7 +1042,7 @@ const Header = ({
                         {t("businessOptionsHeading")}
                       </p>
                       <Link
-                        href="/programs/business-enablement"
+                        href="/services/business-advisory"
                         role="menuitem"
                         aria-current={isAdvisoryActive ? "page" : undefined}
                         onClick={() => {
@@ -1579,10 +1579,10 @@ const Header = ({
                       {t("businessOptionsHeading")}
                     </p>
                     <Link
-                      href="/programs/business-enablement"
+                      href="/services/business-advisory"
                       aria-current={isAdvisoryActive ? "page" : undefined}
                       className={`${mobileDropdownItemClass} ${isAdvisoryActive ? "text-primary bg-primary/10" : ""}`}
-                      onClick={(e) => handleMobileNavClick(e, "/programs/business-enablement")}
+                      onClick={(e) => handleMobileNavClick(e, "/services/business-advisory")}
                     >
                       <Briefcase className="h-4 w-4 shrink-0 mt-0.5 opacity-70" aria-hidden />
                       <span>

@@ -259,7 +259,7 @@ const Workshops = () => {
           </a>
         }
         tertiaryLink={{
-          href: "/programs/business-enablement",
+          href: "/services/business-advisory",
           label: t("heroCtaConsulting"),
         }}
         ctaSubtext={tCommon("ctaSubtext")}
@@ -400,7 +400,7 @@ const Workshops = () => {
               {t("fitConsultingNote")}
             </p>
             <Link
-              href="/programs/business-enablement"
+              href="/services/business-advisory"
               className="inline-flex items-center text-primary font-medium text-sm hover:underline"
             >
               {t("crossLinkConsulting")}
@@ -443,7 +443,7 @@ const Workshops = () => {
           }
           links={[
             {
-              href: "/programs/business-enablement",
+              href: "/services/business-advisory",
               label: t("crossLinkConsulting"),
             },
             { href: "/services/digital", label: t("crossLinkDigital") },

@@ -36,7 +36,7 @@ export type EnrichedInsightCopy = {
   serviceLabel?: string
 }
 
-export type InsightServiceHref = '/services/digital' | '/services/digital-products' | '/services/automation' | '/services/managed-optimization' | '/services/digital-events' | '/services/digital-visibility-optimization' | '/website-design' | '/programs/business-enablement' | '/programs/technology-advisory' | '/programs/workshops'
+export type InsightServiceHref = '/services/digital' | '/services/digital-products' | '/services/automation' | '/services/managed-optimization' | '/services/digital-events' | '/services/search-ai-visibility' | '/website-design' | '/services/business-advisory' | '/services/technology-advisory' | '/programs/workshops'
 
 export type InsightEntry = {
   image: string

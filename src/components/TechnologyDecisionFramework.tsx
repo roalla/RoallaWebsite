@@ -7,7 +7,7 @@ import { Link } from '@/i18n/navigation'
 import Reveal from './motion/Reveal'
 
 const paths = [
-  { key: 'buy', icon: Network, href: '/programs/technology-advisory' as const },
+  { key: 'buy', icon: Network, href: '/services/technology-advisory' as const },
   { key: 'build', icon: Layers, href: '/services/digital-products' as const },
   { key: 'connect', icon: Workflow, href: '/services/automation' as const },
   { key: 'improve', icon: RefreshCw, href: '/services/managed-optimization' as const },

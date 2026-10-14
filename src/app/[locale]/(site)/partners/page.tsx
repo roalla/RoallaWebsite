@@ -68,7 +68,7 @@ export default async function PartnersPage({ params }: Props) {
               <h1 className="mt-3 text-4xl md:text-5xl font-serif font-extrabold text-slate-900">{t('title')}</h1>
               <p className="mt-5 max-w-3xl text-lg leading-relaxed text-slate-600">{t('subtitle')}</p>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <Link href="/programs/technology-advisory" className="inline-flex items-center justify-center rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark">
+                <Link href="/services/technology-advisory" className="inline-flex items-center justify-center rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark">
                   {t('heroPrimaryCta')}
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                 </Link>

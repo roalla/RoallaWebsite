@@ -112,16 +112,16 @@ export default function WebsiteBuilderLimitationsArticle({ locale, title, summar
 
   const services = french
     ? [
-        ['/services/digital-visibility-optimization', 'Optimisation de la visibilité numérique', SearchCheck],
+        ['/services/search-ai-visibility', 'Optimisation de la visibilité numérique', SearchCheck],
         ['/website-design', 'Conception de sites Web et présence de marque', Network],
         ['/services/automation', 'Intégrations et automatisation des flux', Workflow],
-        ['/programs/technology-advisory', 'Conseil en technologie et préparation numérique', Network],
+        ['/services/technology-advisory', 'Conseil en technologie et préparation numérique', Network],
       ] as const
     : [
-        ['/services/digital-visibility-optimization', 'Digital Visibility Optimization', SearchCheck],
+        ['/services/search-ai-visibility', 'Digital Visibility Optimization', SearchCheck],
         ['/website-design', 'Website Design & Brand Presence', Network],
         ['/services/automation', 'Integrations & Workflow Automation', Workflow],
-        ['/programs/technology-advisory', 'Technology Advisory & Digital Readiness', Network],
+        ['/services/technology-advisory', 'Technology Advisory & Digital Readiness', Network],
       ] as const
 
   const related = french
@@ -295,7 +295,7 @@ export default function WebsiteBuilderLimitationsArticle({ locale, title, summar
               {french ? 'Demander une évaluation de l’intelligence du site Web' : 'Request a Website Intelligence Assessment'}
               <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Link>
-            <Link href="/services/digital-visibility-optimization" className="inline-flex min-h-[48px] items-center justify-center rounded-lg border-2 border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 transition-colors hover:border-primary hover:text-primary-dark">
+            <Link href="/services/search-ai-visibility" className="inline-flex min-h-[48px] items-center justify-center rounded-lg border-2 border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 transition-colors hover:border-primary hover:text-primary-dark">
               {french ? 'Explorer l’optimisation de la visibilité numérique' : 'Explore Digital Visibility Optimization'}
             </Link>
           </div>

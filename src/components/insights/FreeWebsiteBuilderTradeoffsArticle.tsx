@@ -230,7 +230,7 @@ export default function FreeWebsiteBuilderTradeoffsArticle({ locale, title, summ
             <Link href="/services/digital" className="inline-flex min-h-[48px] items-center justify-center rounded-lg border-2 border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 transition-colors hover:border-primary hover:text-primary-dark">
               {french ? 'Explorer l’activation numérique' : 'Explore Digital Enablement'}
             </Link>
-            <Link href="/programs/technology-advisory" className="inline-flex min-h-[48px] items-center justify-center rounded-lg border-2 border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 transition-colors hover:border-primary hover:text-primary-dark">
+            <Link href="/services/technology-advisory" className="inline-flex min-h-[48px] items-center justify-center rounded-lg border-2 border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 transition-colors hover:border-primary hover:text-primary-dark">
               {french ? 'Discuter de vos besoins technologiques' : 'Discuss Your Technology Requirements'}
             </Link>
           </div>

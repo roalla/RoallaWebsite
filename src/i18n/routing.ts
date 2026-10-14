@@ -10,9 +10,9 @@ export const routing = defineRouting({
     "/solutions/[slug]": "/solutions/[slug]",
     "/services": "/services",
     "/services/digital": "/services/digital",
-    "/services/agentic": "/services/agentic",
-    "/services/digital-visibility-optimization":
-      "/services/digital-visibility-optimization",
+    "/services/ai-agents": "/services/ai-agents",
+    "/services/search-ai-visibility":
+      "/services/search-ai-visibility",
     "/services/digital-products": "/services/digital-products",
     "/services/automation": "/services/automation",
     "/services/managed-optimization": "/services/managed-optimization",
@@ -23,8 +23,8 @@ export const routing = defineRouting({
     "/services/portfolio/websites": "/services/portfolio/websites",
     "/services/portfolio/digital-products":
       "/services/portfolio/digital-products",
-    "/programs/business-enablement": "/programs/business-enablement",
-    "/programs/technology-advisory": "/programs/technology-advisory",
+    "/services/business-advisory": "/services/business-advisory",
+    "/services/technology-advisory": "/services/technology-advisory",
     "/programs/workshops": "/programs/workshops",
     "/programs/workshops/focus-circle": "/programs/workshops/focus-circle",
     "/programs/workshops/workload-conversation": "/programs/workshops/workload-conversation",

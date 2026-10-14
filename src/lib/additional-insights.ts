@@ -107,7 +107,7 @@ export const ADDITIONAL_INSIGHTS: Record<AdditionalInsightSlug, InsightEntry> = 
       stepsTitle: 'Make the choice in the right order', steps: [{ title: 'Define requirements', body: 'Separate essential outcomes from preferences and vendor terminology.' }, { title: 'Compare real options', body: 'Score qualified choices against the same operational, technical and commercial criteria.' }, { title: 'Plan adoption', body: 'Include migration, training, ownership, support and measures before signing.' }],
       takeaway: 'A technology recommendation is useful only when it can be traced back to your requirements and understood beyond the sales presentation.',
       ctaTitle: 'Need an impartial way to compare your options?', ctaText: 'ROALLA can define requirements, compare qualified solutions and prepare a practical implementation plan with commercial relationships disclosed.',
-      serviceHref: '/programs/technology-advisory', serviceLabel: 'Explore Technology Advisory',
+      serviceHref: '/services/technology-advisory', serviceLabel: 'Explore Technology Advisory',
     },
     fr: {
       category: 'Conseil technologique', imageAlt: 'Un dirigeant et une conseillère indépendante comparent des solutions technologiques et leurs intégrations.',
@@ -118,7 +118,7 @@ export const ADDITIONAL_INSIGHTS: Record<AdditionalInsightSlug, InsightEntry> = 
       stepsTitle: 'Choisir dans le bon ordre', steps: [{ title: 'Définir les exigences', body: 'Séparez résultats essentiels, préférences et vocabulaire des fournisseurs.' }, { title: 'Comparer les options', body: 'Évaluez les choix selon les mêmes critères opérationnels, techniques et commerciaux.' }, { title: 'Planifier l’adoption', body: 'Incluez migration, formation, responsabilités, soutien et mesures avant de signer.' }],
       takeaway: 'Une recommandation technologique est utile lorsqu’elle remonte clairement à vos exigences et reste compréhensible au-delà de la présentation commerciale.',
       ctaTitle: 'Besoin d’une comparaison impartiale?', ctaText: 'ROALLA peut définir les exigences, comparer des solutions qualifiées et préparer un plan de mise en œuvre avec divulgation des relations commerciales.',
-      serviceHref: '/programs/technology-advisory', serviceLabel: 'Explorer le conseil technologique',
+      serviceHref: '/services/technology-advisory', serviceLabel: 'Explorer le conseil technologique',
     },
   },
   'website-after-launch': {

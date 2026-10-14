@@ -22,18 +22,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const content = contentFor(locale);
   return buildPageMetadata({
     locale,
-    path: "/services/digital-visibility-optimization",
+    path: "/services/search-ai-visibility",
     title: content.metadataTitle,
     description: content.metadataDescription,
   });
 }
 
-export default async function DigitalVisibilityOptimizationPage({
+export default async function SearchAiVisibilityPage({
   params,
 }: Props) {
   const { locale } = await params;
   const content = contentFor(locale);
-  const path = "/services/digital-visibility-optimization";
+  const path = "/services/search-ai-visibility";
 
   return (
     <div className="page-shell">

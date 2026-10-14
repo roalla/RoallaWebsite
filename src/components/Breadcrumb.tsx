@@ -6,8 +6,8 @@ import { ChevronRight } from 'lucide-react'
 
 type BreadcrumbHref =
   | '/'
-  | '/programs/business-enablement'
-  | '/programs/technology-advisory'
+  | '/services/business-advisory'
+  | '/services/technology-advisory'
   | '/programs/workshops'
   | '/programs/workshops/focus-circle'
   | '/services/digital'

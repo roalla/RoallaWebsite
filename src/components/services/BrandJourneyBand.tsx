@@ -44,7 +44,7 @@ function PillarCard({ index, label, description, hash, useLink }: PillarCardProp
 
   if (useLink && hash) {
     return (
-      <Link href={{ pathname: '/programs/business-enablement', hash }} className={className}>
+      <Link href={{ pathname: '/services/business-advisory', hash }} className={className}>
         {content}
       </Link>
     )

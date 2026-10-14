@@ -614,7 +614,7 @@ Public product positioning, use cases, documentation, schema, landing pages and 
 
 Suggested route:
 
-`/en/services/digital-visibility-optimization`
+`/en/services/search-ai-visibility`
 
 Suggested French equivalent:
 

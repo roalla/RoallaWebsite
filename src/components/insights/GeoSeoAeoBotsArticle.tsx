@@ -222,7 +222,7 @@ export default function GeoSeoAeoBotsArticle({ locale, title, summary, readTime,
               {french ? 'Demander une évaluation de visibilité' : 'Request a Visibility Assessment'}
               <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Link>
-            <Link href="/services/digital-visibility-optimization" className="inline-flex min-h-[48px] items-center justify-center rounded-lg border-2 border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 transition-colors hover:border-primary hover:text-primary-dark">
+            <Link href="/services/search-ai-visibility" className="inline-flex min-h-[48px] items-center justify-center rounded-lg border-2 border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 transition-colors hover:border-primary hover:text-primary-dark">
               {french ? 'Voir l’optimisation de la visibilité' : 'See visibility optimization'}
             </Link>
           </div>

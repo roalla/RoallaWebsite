@@ -9,9 +9,9 @@ test.describe('Solutions by Need', () => {
     const menu = page.getByRole('menu', { name: 'Business Outcomes' })
     await expect(menu.getByText('What You Want to Achieve', { exact: true })).toBeVisible()
     await expect(menu.getByText('Explore Your Options', { exact: true })).toBeVisible()
-    await expect(menu.getByRole('menuitem', { name: /Set direction and priorities/ })).toHaveAttribute('href', '/en/programs/business-enablement')
+    await expect(menu.getByRole('menuitem', { name: /Set direction and priorities/ })).toHaveAttribute('href', '/en/services/business-advisory')
     await expect(menu.getByRole('menuitem', { name: /Turn an idea into an actionable plan/ })).toHaveAttribute('href', '/en/programs/workshops/ideation')
-    await expect(menu.getByRole('menuitem', { name: /Business Advisory/ })).toHaveAttribute('href', '/en/programs/business-enablement')
+    await expect(menu.getByRole('menuitem', { name: /Business Advisory/ })).toHaveAttribute('href', '/en/services/business-advisory')
     await expect(menu.getByRole('menuitem', { name: /Team Workshops/ })).toHaveAttribute('href', '/en/programs/workshops')
   })
 

@@ -4,7 +4,7 @@ test.describe("Services brand journey", () => {
   test("consulting page shows plain services and how we work", async ({
     page,
   }) => {
-    await page.goto("/en/programs/business-enablement");
+    await page.goto("/en/services/business-advisory");
 
     await expect(
       page.getByRole("heading", {
@@ -60,7 +60,7 @@ test.describe("Services brand journey", () => {
     ).toBeVisible();
     await expect(
       page.getByRole("link", { name: "Explore Technology Advisory" }),
-    ).toHaveAttribute("href", "/en/programs/technology-advisory");
+    ).toHaveAttribute("href", "/en/services/technology-advisory");
 
     await expect(
       page.getByRole("heading", { name: "How we work with you", level: 2 }),
@@ -149,7 +149,7 @@ test.describe("Services brand journey", () => {
   });
 
   test("service jump nav scrolls to section", async ({ page }) => {
-    await page.goto("/en/programs/business-enablement");
+    await page.goto("/en/services/business-advisory");
     await page
       .getByRole("link", { name: "Leadership & Team Enablement", exact: true })
       .click();

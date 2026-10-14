@@ -4,7 +4,7 @@ test.describe("Service pages", () => {
   test("business enablement page loads with service sections", async ({
     page,
   }) => {
-    await page.goto("/en/programs/business-enablement");
+    await page.goto("/en/services/business-advisory");
     await expect(
       page.getByRole("heading", {
         name: "Business guidance that turns priorities into execution.",
@@ -18,7 +18,7 @@ test.describe("Service pages", () => {
   test("technology advisory page is separate from business advisory", async ({
     page,
   }) => {
-    await page.goto("/en/programs/technology-advisory");
+    await page.goto("/en/services/technology-advisory");
     await expect(
       page.getByRole("heading", {
         name: "Choose the right technology—and carry it through implementation.",
@@ -99,7 +99,7 @@ test.describe("Service pages", () => {
   }) => {
     for (const route of [
       "digital-products",
-      "digital-visibility-optimization",
+      "search-ai-visibility",
       "automation",
       "managed-optimization",
     ]) {

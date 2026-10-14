@@ -29,8 +29,8 @@ export const USE_CASE_SERVICE_KEYS = [
 export type UseCaseServiceKey = (typeof USE_CASE_SERVICE_KEYS)[number]
 
 export const USE_CASE_SERVICE_HREFS = {
-  'business-advisory': '/programs/business-enablement',
-  'technology-advisory': '/programs/technology-advisory',
+  'business-advisory': '/services/business-advisory',
+  'technology-advisory': '/services/technology-advisory',
   'website-design': '/website-design',
   'digital-products': '/services/digital-products',
   automation: '/services/automation',

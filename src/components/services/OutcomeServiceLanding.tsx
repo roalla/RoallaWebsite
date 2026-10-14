@@ -21,7 +21,7 @@ export default function OutcomeServiceLanding({
     },
     {
       label: locale === "fr" ? "Optimiser" : "Optimize",
-      href: "/services/digital-visibility-optimization" as const,
+      href: "/services/search-ai-visibility" as const,
     },
     {
       label: locale === "fr" ? "Automatiser" : "Automate",

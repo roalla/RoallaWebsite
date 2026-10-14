@@ -192,13 +192,13 @@ function laneHref(lane: AssessmentLane): string {
     case 'ai':
       return '/services/digital'
     case 'technology':
-      return '/programs/technology-advisory'
+      return '/services/technology-advisory'
     case 'workshop':
       return '/programs/workshops'
     case 'event':
       return '/services/digital-events'
     case 'consulting':
-      return '/programs/business-enablement'
+      return '/services/business-advisory'
     default:
       return '/services/digital'
   }
@@ -296,8 +296,8 @@ export function computeAssessmentResult(answers: AssessmentAnswers): AssessmentR
     scheduleIntent: 'consulting',
     scheduleFocus: meta.focus,
     scheduleGoal: '',
-    serviceHref: `/programs/business-enablement#${meta.anchor}`,
-    laneHref: '/programs/business-enablement',
+    serviceHref: `/services/business-advisory#${meta.anchor}`,
+    laneHref: '/services/business-advisory',
     useCaseHref: null,
   }
 

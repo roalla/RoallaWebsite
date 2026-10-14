@@ -28,7 +28,7 @@ export function recommendDigitalService(goal: DigitalGoal, stage: DigitalStage):
     return { key: "managed", path: "/services/managed-optimization", contactIntent: "website" };
   }
   if (goal === "visibility") {
-    return { key: "visibility", path: "/services/digital-visibility-optimization", contactIntent: "visibility" };
+    return { key: "visibility", path: "/services/search-ai-visibility", contactIntent: "visibility" };
   }
   return { key: "conversion", path: "/website-design", contactIntent: "website" };
 }

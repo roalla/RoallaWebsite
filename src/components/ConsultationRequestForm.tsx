@@ -653,7 +653,7 @@ export default function ConsultationRequestForm({
         ? "/programs/workshops"
         : isDigitalIntent(submittedIntent) || submittedIntent === "unsure"
           ? "/services/digital"
-          : "/programs/business-enablement";
+          : "/services/business-advisory";
     const exploreLabel =
       submittedIntent === "workshop"
         ? t("successExploreWorkshops")

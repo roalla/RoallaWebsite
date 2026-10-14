@@ -122,12 +122,12 @@ describe('Header', () => {
     const digitalButton = screen.getByRole('button', { name: 'digitalEnablement' })
     expect(digitalButton).toBeInTheDocument()
     fireEvent.click(digitalButton)
-    expect(screen.getByRole('menuitem', { name: /helpChooseTechnology/i })).toHaveAttribute('href', '/programs/technology-advisory')
+    expect(screen.getByRole('menuitem', { name: /helpChooseTechnology/i })).toHaveAttribute('href', '/services/technology-advisory')
     expect(screen.getByRole('menuitem', { name: /helpBuildDigital/i })).toHaveAttribute('href', '/website-design')
     expect(screen.getByRole('menuitem', { name: /helpConnectAutomate/i })).toHaveAttribute('href', '/services/automation')
-    expect(screen.getByRole('menuitem', { name: /helpUseAi/i })).toHaveAttribute('href', '/services/agentic')
-    expect(screen.getByRole('menuitem', { name: /helpGetFound/i })).toHaveAttribute('href', '/services/digital-visibility-optimization')
-    expect(screen.getByRole('menuitem', { name: /helpPlanExecution/i })).toHaveAttribute('href', '/programs/business-enablement')
+    expect(screen.getByRole('menuitem', { name: /helpUseAi/i })).toHaveAttribute('href', '/services/ai-agents')
+    expect(screen.getByRole('menuitem', { name: /helpGetFound/i })).toHaveAttribute('href', '/services/search-ai-visibility')
+    expect(screen.getByRole('menuitem', { name: /helpPlanExecution/i })).toHaveAttribute('href', '/services/business-advisory')
     expect(screen.getByRole('menuitem', { name: /helpDevelopTeam/i })).toHaveAttribute('href', '/programs/workshops')
     expect(screen.getByRole('menuitem', { name: /technologyPartners/i })).toHaveAttribute('href', '/partners')
   })
@@ -220,7 +220,7 @@ describe('Header', () => {
     expect(within(menu).getByText('businessOptionsHeading')).toBeInTheDocument()
     expect(within(menu).getByRole('menuitem', { name: /businessOutcomeDirection/i })).toHaveAttribute(
       'href',
-      '/programs/business-enablement',
+      '/services/business-advisory',
     )
     expect(within(menu).getByRole('menuitem', { name: /businessOutcomeIdeas/i })).toHaveAttribute(
       'href',
@@ -228,7 +228,7 @@ describe('Header', () => {
     )
     expect(screen.getByRole('menuitem', { name: /businessEnablement/i })).toHaveAttribute(
       'href',
-      '/programs/business-enablement',
+      '/services/business-advisory',
     )
     expect(screen.getByRole('menuitem', { name: /teamWorkshops/i })).toHaveAttribute(
       'href',

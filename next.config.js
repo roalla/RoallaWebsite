@@ -75,17 +75,17 @@ const nextConfig = {
       },
       {
         source: "/resources/portal",
-        destination: "/en/programs/business-enablement",
+        destination: "/en/services/business-advisory",
         permanent: true,
       },
       {
         source: "/resources",
-        destination: "/en/programs/business-enablement",
+        destination: "/en/services/business-advisory",
         permanent: true,
       },
       {
         source: "/resources/:path*",
-        destination: "/en/programs/business-enablement",
+        destination: "/en/services/business-advisory",
         permanent: true,
       },
       // Trust centre
@@ -105,17 +105,17 @@ const nextConfig = {
       },
       {
         source: "/:locale(en|fr)/resources/portal",
-        destination: "/:locale/programs/business-enablement",
+        destination: "/:locale/services/business-advisory",
         permanent: true,
       },
       {
         source: "/:locale(en|fr)/resources/:path*",
-        destination: "/:locale/programs/business-enablement",
+        destination: "/:locale/services/business-advisory",
         permanent: true,
       },
       {
         source: "/:locale(en|fr)/resources",
-        destination: "/:locale/programs/business-enablement",
+        destination: "/:locale/services/business-advisory",
         permanent: true,
       },
       // Legacy inquiry slug
@@ -132,7 +132,7 @@ const nextConfig = {
       // Programs URL migration
       {
         source: "/services",
-        destination: "/en/programs/business-enablement",
+        destination: "/en/services/business-advisory",
         permanent: true,
       },
       {
@@ -142,7 +142,7 @@ const nextConfig = {
       },
       {
         source: "/:locale(en|fr)/services",
-        destination: "/:locale/programs/business-enablement",
+        destination: "/:locale/services/business-advisory",
         permanent: true,
       },
       {
@@ -168,7 +168,7 @@ const nextConfig = {
       },
       {
         source: "/services/seo",
-        destination: "/en/services/digital-visibility-optimization",
+        destination: "/en/services/search-ai-visibility",
         permanent: true,
       },
       {
@@ -193,7 +193,7 @@ const nextConfig = {
       },
       {
         source: "/:locale(en|fr)/services/seo",
-        destination: "/:locale/services/digital-visibility-optimization",
+        destination: "/:locale/services/search-ai-visibility",
         permanent: true,
       },
       {
@@ -254,6 +254,47 @@ const nextConfig = {
       {
         source: "/:locale(en|fr)/founding-client",
         destination: "/:locale/website-package",
+        permanent: true,
+      },
+      // Canonical service URL migrations
+      {
+        source: "/programs/technology-advisory",
+        destination: "/en/services/technology-advisory",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|fr)/programs/technology-advisory",
+        destination: "/:locale/services/technology-advisory",
+        permanent: true,
+      },
+      {
+        source: "/services/agentic",
+        destination: "/en/services/ai-agents",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|fr)/services/agentic",
+        destination: "/:locale/services/ai-agents",
+        permanent: true,
+      },
+      {
+        source: "/services/digital-visibility-optimization",
+        destination: "/en/services/search-ai-visibility",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|fr)/services/digital-visibility-optimization",
+        destination: "/:locale/services/search-ai-visibility",
+        permanent: true,
+      },
+      {
+        source: "/programs/business-enablement",
+        destination: "/en/services/business-advisory",
+        permanent: true,
+      },
+      {
+        source: "/:locale(en|fr)/programs/business-enablement",
+        destination: "/:locale/services/business-advisory",
         permanent: true,
       },
       {

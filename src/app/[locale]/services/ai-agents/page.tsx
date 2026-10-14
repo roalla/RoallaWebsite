@@ -6,7 +6,7 @@ import { buildPageMetadata } from "@/lib/page-metadata";
 import { breadcrumbJsonLd, servicePageJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 type Props = { params: Promise<{ locale: string }> };
-const path = "/services/agentic";
+const path = "/services/ai-agents";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return buildPageMetadata({ locale, path, title: content.metadataTitle, description: content.metadataDescription });
 }
 
-export default async function AgenticPage({ params }: Props) {
+export default async function AiAgentsPage({ params }: Props) {
   const { locale } = await params;
   const content = agenticServiceContent[locale === "fr" ? "fr" : "en"];
   return (
@@ -32,7 +32,7 @@ export default async function AgenticPage({ params }: Props) {
         }),
         breadcrumbJsonLd(locale, [
           { name: locale === "fr" ? "Accueil" : "Home", path: "" },
-          { name: locale === "fr" ? "Solutions technologiques" : "Technology Solutions", path: "/services/digital" },
+          { name: locale === "fr" ? "Comment nous aidons" : "How We Help", path: "/solutions" },
           { name: "ROALLA Agentic" },
         ]),
       ]} />

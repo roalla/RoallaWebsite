@@ -150,7 +150,7 @@ const Services = () => {
 
   useEffect(() => {
     if (window.location.hash === "#technology-advisory") {
-      router.replace("/programs/technology-advisory");
+      router.replace("/services/technology-advisory");
     }
   }, [router]);
 
@@ -377,7 +377,7 @@ const Services = () => {
               </div>
             </div>
             <Link
-              href="/programs/technology-advisory"
+              href="/services/technology-advisory"
               className={servicePrimaryLinkClass}
             >
               {t("technologyPageTeaserCta")}
@@ -487,7 +487,7 @@ const Services = () => {
           }}
           links={[
             {
-              href: "/programs/technology-advisory",
+              href: "/services/technology-advisory",
               label: t("technologyPageTeaserCta"),
               title: t("ctaPathTechnologyTitle"),
               hint: t("ctaPathTechnologyHint"),

@@ -16,16 +16,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return buildPageMetadata({
     locale,
-    path: '/programs/business-enablement',
+    path: '/services/business-advisory',
     title: t('metadataServicesTitle'),
     description: t('metadataServicesDescription'),
   })
 }
 
-export default async function ProgramsBusinessEnablementPage() {
+export default async function BusinessAdvisoryPage() {
   const tServices = await getTranslations('services')
   const locale = await getLocale()
-  const pageUrl = `https://www.roalla.com/${locale}/programs/business-enablement`
+  const pageUrl = `https://www.roalla.com/${locale}/services/business-advisory`
 
   const servicesJsonLd = {
     '@context': 'https://schema.org',
@@ -61,12 +61,12 @@ export default async function ProgramsBusinessEnablementPage() {
   return (
     <div className="page-shell">
       <Script
-        id="programs-business-enablement-jsonld"
+        id="services-business-advisory-jsonld"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesJsonLd) }}
       />
       <Script
-        id="programs-business-enablement-faq-jsonld"
+        id="services-business-advisory-faq-jsonld"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />

@@ -1,6 +1,7 @@
 import { OG_IMAGE } from '@/lib/site'
 
 export const INSIGHT_SLUGS = [
+  "unified-communications-contact-centre-outlook-2027",
   "web-development-digital-experience-outlook-2027",
   "fractional-coo",
   "strategic-planning",
@@ -138,6 +139,7 @@ export const INSIGHT_GROUPS: Record<InsightGroup, readonly InsightSlug[]> = {
 
 /** Advisory articles whose subject is technology, security, data, or solution sourcing. */
 export const ADVISORY_TECHNOLOGY_SLUGS = [
+  "unified-communications-contact-centre-outlook-2027",
   "five-rules-before-team-uses-ai",
   "data-ownership-leaving-software-platform",
   "software-subscription-stack-audit",
@@ -193,6 +195,7 @@ export function isInsightSlug(value: string): value is InsightSlug {
 
 /** Optional per-article social preview images (defaults to site OG image). */
 export const INSIGHT_OG_IMAGES: Partial<Record<InsightSlug, string>> = {
+  "unified-communications-contact-centre-outlook-2027": "/images/insights/ucaas-ccaas-outlook-2027/og.webp",
   "web-development-digital-experience-outlook-2027": "/images/insights/web-development-outlook-2027/og.webp",
   "fractional-coo": "/images/insights/library/fractional-coo.webp",
   "strategic-planning": "/images/insights/library/strategic-planning.webp",
@@ -293,6 +296,9 @@ export const INSIGHT_ENGAGEMENT_SLUGS: readonly InsightSlug[] = [
 export function insightCoverImage(slug: InsightSlug): string {
   const full = INSIGHT_OG_IMAGES[slug]
   if (!full) return OG_IMAGE
+  if (slug === 'unified-communications-contact-centre-outlook-2027') {
+    return '/images/insights/ucaas-ccaas-outlook-2027/card.webp'
+  }
   if (slug === 'web-development-digital-experience-outlook-2027') {
     return '/images/insights/web-development-outlook-2027/card.webp'
   }
@@ -304,6 +310,7 @@ export function insightFromEngagement(slug: InsightSlug): boolean {
 }
 
 export const INSIGHT_PUBLISHED_DATES: Record<InsightSlug, string> = {
+  "unified-communications-contact-centre-outlook-2027": "2026-10-15",
   "web-development-digital-experience-outlook-2027": "2026-10-15",
   "fractional-coo": "2025-11-01",
   "strategic-planning": "2025-12-01",

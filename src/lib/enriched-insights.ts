@@ -15,6 +15,7 @@ export type EnrichedInsightSlug = Exclude<
   | 'networking-roi-solopreneurs-small-business'
   | 'geo-seo-aeo-and-bots'
   | 'web-development-digital-experience-outlook-2027'
+  | 'unified-communications-contact-centre-outlook-2027'
 >
 
 export type InsightStep = { title: string; body: string }

@@ -30,6 +30,7 @@ function insightCategory(
     || slug === NETWORKING_ROI_INSIGHT_SLUG
     || slug === GEO_SEO_AEO_BOTS_SLUG
     || slug === 'web-development-digital-experience-outlook-2027'
+    || slug === 'unified-communications-contact-centre-outlook-2027'
   ) {
     return t(`${slug}.category`)
   }
@@ -65,6 +66,7 @@ export default async function InsightsIndexPage({ params }: Props) {
   ]
 
   const orderedSlugs: { slug: InsightSlug; group: InsightBrowserArea }[] = [
+    { slug: 'unified-communications-contact-centre-outlook-2027', group: 'technology' },
     ...INSIGHT_GROUPS.digital.map((slug) => ({ slug, group: 'digital' as const })),
     ...INSIGHT_GROUPS.advisory.map((slug) => ({ slug, group: insightBrowserArea(slug) })),
   ]

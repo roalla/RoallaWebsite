@@ -29,6 +29,9 @@ type InsightTranslator = {
 }
 
 export function formatInsightReadTime(t: InsightTranslator, slug: InsightSlug): string {
+  if (slug === 'unified-communications-contact-centre-outlook-2027') {
+    return t('minRead', { count: 15 })
+  }
   if (slug === 'web-development-digital-experience-outlook-2027') {
     return t('minRead', { count: 14 })
   }

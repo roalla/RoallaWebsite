@@ -22,6 +22,14 @@ export type ExecutiveGuide = {
 
 export const EXECUTIVE_GUIDES: readonly ExecutiveGuide[] = [
   {
+    slug: "unified-communications-contact-centre-outlook-2027",
+    number: "EI—37",
+    category: "technology",
+    image: "/images/executive-insights/ucaas-ccaas-outlook-2027.webp",
+    en: { title: "2027 UCaaS & CCaaS Industry Outlook", summary: "Explore seven shifts shaping intelligent interactions, assess readiness and turn the outlook into a controlled 90-day roadmap.", categoryLabel: "Communications & CX" },
+    fr: { title: "Prévisions 2027 : UCaaS et CCaaS", summary: "Explorez sept changements qui façonnent les interactions intelligentes, évaluez la préparation et créez une feuille de route contrôlée de 90 jours.", categoryLabel: "Communications et CX" },
+  },
+  {
     slug: "web-development-digital-experience-outlook-2027",
     number: "EI—36",
     category: "technology",

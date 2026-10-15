@@ -47,29 +47,30 @@ export default function OutcomeServiceLanding({
               fill
               priority
               sizes="(max-width: 1280px) 100vw, 1152px"
-              className="pointer-events-none object-cover object-[68%_center] opacity-80"
+              className="pointer-events-none object-cover object-[72%_center] opacity-70"
               aria-hidden
             />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/88 to-slate-950/40" aria-hidden />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/10 via-transparent to-slate-950/65" aria-hidden />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/92 to-slate-950/50" aria-hidden />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/30 via-transparent to-slate-950/65" aria-hidden />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-[55%] bg-gradient-to-l from-slate-950/45 via-slate-950/15 to-transparent" aria-hidden />
           </>
         ) : null}
-        <div className="relative">
+        <div className="relative max-w-3xl">
           <p className="text-xs font-semibold uppercase tracking-[.18em] text-primary-light">
             {content.eyebrow}
           </p>
-          <h1 className="mt-4 max-w-4xl text-4xl md:text-5xl font-serif font-bold leading-tight text-white">
+          <h1 className="mt-4 text-4xl md:text-5xl font-serif font-bold leading-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.55)]">
             {content.title}
           </h1>
-          <p className="mt-5 max-w-3xl text-lg text-slate-300 leading-relaxed">
+          <p className="mt-5 text-lg text-slate-200 leading-relaxed">
             {content.description}
           </p>
-          <p className="mt-4 max-w-3xl text-sm font-medium text-primary-light">
+          <p className="mt-4 rounded-r-md border-l-2 border-primary-light bg-slate-950/55 py-2 pl-4 pr-3 text-sm font-medium text-primary-light backdrop-blur-sm">
             {content.outcome}
           </p>
           <Link
             href="/contact"
-            className="mt-8 inline-flex min-h-[48px] items-center rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-dark transition-colors"
+            className="mt-8 inline-flex min-h-[48px] items-center rounded-lg bg-primary px-6 py-3 font-semibold text-white shadow-lg shadow-black/30 hover:bg-primary-dark transition-colors"
           >
             {content.cta}
             <ArrowRight className="ml-2 w-4 h-4" aria-hidden />

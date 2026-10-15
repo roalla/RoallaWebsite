@@ -235,22 +235,23 @@ export default function UseCases() {
   return (
     <section id="use-cases" className="section-padding bg-white py-20 lg:py-28">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <header className="relative mb-10 overflow-hidden rounded-2xl bg-slate-950 px-7 py-14 text-left text-white shadow-xl lg:px-12 lg:py-20">
+        <header className="relative mb-10 overflow-hidden rounded-2xl border border-slate-700/80 bg-slate-950 px-7 py-14 text-left text-white shadow-xl lg:px-12 lg:py-20">
           <Image
             src="/images/services/use-cases-hero.webp"
             alt=""
             fill
             priority
             sizes="(max-width: 1280px) 100vw, 1152px"
-            className="pointer-events-none object-cover object-[68%_center] opacity-80"
+            className="pointer-events-none object-cover object-[72%_center] opacity-70"
             aria-hidden
           />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/88 to-slate-950/40" aria-hidden />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/10 via-transparent to-slate-950/65" aria-hidden />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/92 to-slate-950/50" aria-hidden />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/30 via-transparent to-slate-950/65" aria-hidden />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-[55%] bg-gradient-to-l from-slate-950/45 via-slate-950/15 to-transparent" aria-hidden />
           <div className="relative max-w-3xl">
             <div className="mb-4 flex items-center">
-              <Table2 className="mr-3 h-11 w-11 text-primary-light" aria-hidden />
-              <h1 className="text-4xl font-serif font-extrabold text-white md:text-5xl">{t('title')}</h1>
+              <Table2 className="mr-3 h-11 w-11 shrink-0 text-primary-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" aria-hidden />
+              <h1 className="text-4xl font-serif font-extrabold text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.55)] md:text-5xl">{t('title')}</h1>
             </div>
             <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-200 md:text-xl">{t('subtitle')}</p>
           </div>

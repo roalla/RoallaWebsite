@@ -3,10 +3,11 @@ import { request as httpRequest, type IncomingHttpHeaders } from "node:http";
 import { request } from "node:https";
 import { isIP, type LookupFunction } from "node:net";
 import { connect as tlsConnect, type TLSSocket } from "node:tls";
-import { normalizePublicTarget } from "@/lib/website-visibility/public-target";
+import { clipRedirectUrl, type RedirectHop } from "@/lib/page-security/redirect-path";
+import { normalizePublicTarget, PublicTargetError } from "@/lib/website-visibility/public-target";
 
 const MAX_HTML_BYTES = 4_000_000;
-const MAX_REDIRECTS = 3;
+const MAX_REDIRECTS = 5;
 const DEFAULT_USER_AGENT = "ROALLA-Social-Presence-Snapshot/1.0 (+https://www.roalla.com)";
 
 export class WebsiteFetchError extends Error {
@@ -62,6 +63,8 @@ export type HttpsPageObservation = {
   strictTransportSecurity: string | null;
   xFrameOptions: string | null;
   contentSecurityPolicy: string | null;
+  xContentTypeOptions: string | null;
+  referrerPolicy: string | null;
 };
 
 function headerLine(headers: IncomingHttpHeaders, name: string, max = 300) {
@@ -99,6 +102,8 @@ function observeHttpsPage(response: { socket: TLSSocket | null; headers: Incomin
     strictTransportSecurity: headerLine(response.headers, "strict-transport-security"),
     xFrameOptions: headerLine(response.headers, "x-frame-options", 120),
     contentSecurityPolicy: headerLine(response.headers, "content-security-policy", 8_000),
+    xContentTypeOptions: headerLine(response.headers, "x-content-type-options", 80),
+    referrerPolicy: headerLine(response.headers, "referrer-policy", 120),
   };
 }
 
@@ -241,37 +246,79 @@ function download(target: URL, address: string, family: number, userAgent = DEFA
   });
 }
 
+export type FetchPublicHtmlResult = {
+  html: string;
+  finalUrl: URL;
+  headers: PublicPageHeaders;
+  observation: HttpsPageObservation;
+  redirectHops: RedirectHop[];
+  redirectLoop: boolean;
+};
+
 /** Download public HTML with DNS pinning so redirects and DNS cannot reach private networks. */
 export async function fetchPublicHtml(
   target: URL,
   redirects = 0,
   userAgent = DEFAULT_USER_AGENT,
-): Promise<{ html: string; finalUrl: URL; headers: PublicPageHeaders; observation: HttpsPageObservation }> {
-  const resolved = await resolvePublicAddress(target.hostname);
-  const result = await download(target, resolved.address, resolved.family, userAgent);
+): Promise<FetchPublicHtmlResult> {
+  const hops: RedirectHop[] = [];
+  const seen = new Set<string>([target.toString()]);
+  let current = target;
+  let redirectCount = redirects;
 
-  if ([301, 302, 303, 307, 308].includes(result.status) && result.location) {
-    if (redirects >= MAX_REDIRECTS) {
-      throw new WebsiteFetchError("The website redirected too many times.");
+  while (true) {
+    const resolved = await resolvePublicAddress(current.hostname);
+    const result = await download(current, resolved.address, resolved.family, userAgent);
+
+    if ([301, 302, 303, 307, 308].includes(result.status) && result.location) {
+      hops.push({ status: result.status, url: clipRedirectUrl(current.toString()) });
+      if (redirectCount >= MAX_REDIRECTS) {
+        throw new WebsiteFetchError("The website redirected too many times.");
+      }
+      const nextRaw = new URL(result.location, current);
+      if (nextRaw.protocol === "http:") {
+        hops.push({ status: result.status, url: clipRedirectUrl(nextRaw.toString()) });
+        throw new WebsiteFetchError("The website redirected to an unencrypted address.");
+      }
+      let redirected: URL;
+      try {
+        redirected = normalizePublicTarget(nextRaw.toString());
+      } catch (error) {
+        throw error instanceof PublicTargetError ? new WebsiteFetchError(error.message) : error;
+      }
+      if (seen.has(redirected.toString())) {
+        throw new WebsiteFetchError("The website redirected in a loop.");
+      }
+      seen.add(redirected.toString());
+      current = redirected;
+      redirectCount += 1;
+      continue;
     }
-    const redirected = normalizePublicTarget(new URL(result.location, target).toString());
-    return fetchPublicHtml(redirected, redirects + 1, userAgent);
+
+    if (result.status < 200 || result.status >= 300) {
+      throw new WebsiteFetchError(`The website returned HTTP ${result.status}.`);
+    }
+    if (result.contentEncoding && result.contentEncoding !== "identity") {
+      throw new WebsiteFetchError("The website returned an unsupported compressed response.");
+    }
+    if (result.contentType && !/text\/html|application\/xhtml\+xml/i.test(result.contentType)) {
+      throw new WebsiteFetchError("The submitted URL did not return an HTML page.");
+    }
+    hops.push({ status: result.status, url: clipRedirectUrl(current.toString()) });
+    let observation = result.observation;
+    if (!observation.certificateExpiresOn) {
+      const certificate = await readCertificateOverTls(current.hostname, resolved.address, resolved.family);
+      observation = { ...observation, ...certificate };
+    }
+    return {
+      html: compactPublicHtml(result.html),
+      finalUrl: current,
+      headers: result.headers,
+      observation,
+      redirectHops: hops,
+      redirectLoop: false,
+    };
   }
-  if (result.status < 200 || result.status >= 300) {
-    throw new WebsiteFetchError(`The website returned HTTP ${result.status}.`);
-  }
-  if (result.contentEncoding && result.contentEncoding !== "identity") {
-    throw new WebsiteFetchError("The website returned an unsupported compressed response.");
-  }
-  if (result.contentType && !/text\/html|application\/xhtml\+xml/i.test(result.contentType)) {
-    throw new WebsiteFetchError("The submitted URL did not return an HTML page.");
-  }
-  let observation = result.observation;
-  if (!observation.certificateExpiresOn) {
-    const certificate = await readCertificateOverTls(target.hostname, resolved.address, resolved.family);
-    observation = { ...observation, ...certificate };
-  }
-  return { html: compactPublicHtml(result.html), finalUrl: target, headers: result.headers, observation };
 }
 
 function readCertificateOverTls(hostname: string, address: string, family: number) {

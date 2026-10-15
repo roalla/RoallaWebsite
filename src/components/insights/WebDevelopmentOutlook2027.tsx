@@ -214,7 +214,7 @@ export default function WebDevelopmentOutlook2027({ locale, title, summary, read
 
       <section id="readiness" className="scroll-mt-20 bg-[#07111f] px-4 py-20 text-white sm:px-6 lg:px-8" aria-labelledby="readiness-title">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-6 lg:grid-cols-[1fr_.7fr] lg:items-end"><div><p className="text-xs font-bold uppercase tracking-[.2em] text-[#67e8f9]">Interactive decision tool</p><h2 id="readiness-title" className="mt-4 font-serif text-4xl font-normal tracking-[-.035em] sm:text-5xl">{c.assessmentTitle}</h2><p className="mt-5 max-w-3xl text-lg leading-8 text-slate-300">{c.assessmentIntro}</p></div><Gauge className="hidden h-24 w-24 justify-self-end text-[#00b4c5] lg:block" aria-hidden="true" /></div>
+          <div className="grid gap-6 lg:grid-cols-[1fr_.7fr] lg:items-end"><div><p className="text-xs font-bold uppercase tracking-[.2em] text-[#67e8f9]">Interactive decision tool</p><h2 id="readiness-title" className="mt-4 font-serif text-4xl font-normal tracking-[-.035em] text-white sm:text-5xl">{c.assessmentTitle}</h2><p className="mt-5 max-w-3xl text-lg leading-8 text-slate-300">{c.assessmentIntro}</p></div><Gauge className="hidden h-24 w-24 justify-self-end text-[#00b4c5] lg:block" aria-hidden="true" /></div>
           <div className="mt-12 grid gap-8 lg:grid-cols-[1.45fr_.55fr]">
             <div className="space-y-4">
               {c.assessmentFactors.map((factor, index) => (

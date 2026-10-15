@@ -56,7 +56,14 @@ export async function POST(request: NextRequest) {
     target = normalizePublicTarget(body.url);
     const cached = getCachedSocialSnapshot(target);
     const cachedCertificate = cached?.security?.checks.find((check) => check.id === "https")?.evidence;
-    if (cached?.siteSetup && "registration" in cached.siteSetup && cached.security && cachedCertificate) return response({ snapshot: cached, cached: true });
+    const cachedSecurityReady =
+      cached?.security?.checks.some((check) => check.id === "mixedContent") &&
+      cached?.security?.checks.some((check) => check.id === "redirectPath") &&
+      cached?.security?.checks.some((check) => check.id === "contentType") &&
+      cached?.security?.checks.some((check) => check.id === "referrerPolicy");
+    if (cached?.siteSetup && "registration" in cached.siteSetup && cached.security && cachedCertificate && cachedSecurityReady) {
+      return response({ snapshot: cached, cached: true });
+    }
 
     const hostRate = checkSocialHostRate(target.hostname);
     if (!hostRate.allowed) {
@@ -81,6 +88,11 @@ export async function POST(request: NextRequest) {
       strictTransportSecurity: page.observation.strictTransportSecurity,
       xFrameOptions: page.observation.xFrameOptions,
       contentSecurityPolicy: page.observation.contentSecurityPolicy,
+      xContentTypeOptions: page.observation.xContentTypeOptions,
+      referrerPolicy: page.observation.referrerPolicy,
+      html: page.html,
+      redirectHops: page.redirectHops,
+      redirectLoop: page.redirectLoop,
     });
     snapshot.agentic = scoreAgenticReadiness({ html: page.html, robotsTxt, llmsTxt });
     snapshot.contactExposure = analyzeContactExposure(page.html);

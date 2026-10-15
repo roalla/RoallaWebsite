@@ -197,7 +197,7 @@ const copy = {
     technicalOnly: "Your social sharing results are ready. Finishing the website check…",
     socialOnly: "Your website results are ready. Finishing the social sharing and contact check…",
     resultsTitle: "Your website results",
-    resultsIntro: "This report checks the landing page a visitor reaches. It is not a check of every page on the website. PageSpeed scores that page on a phone and on a computer. Social sharing, assistant readiness, and the contact check read that same page. Security checks four public signals on that page. Domain and email health reads the public records for the domain name. Each area is shown separately so you can see what needs attention.",
+    resultsIntro: "This report checks the landing page a visitor reaches. It is not a check of every page on the website. PageSpeed scores that page on a phone and on a computer. Social sharing, assistant readiness, and the contact check read that same page. Security checks eight public signals on that page. Domain and email health reads the public records for the domain name. Each area is shown separately so you can see what needs attention.",
     technicalTitle: "Website experience",
     technicalDescription: "How your website performs on phones and computers",
     socialTitle: "Social sharing setup",
@@ -445,8 +445,9 @@ const copy = {
       },
     },
     securityTitle: "Security",
-    securityNote: "This is not a security review. It checks four public signals on this landing page only.",
+    securityNote: "This is not a security review. It checks eight public signals on this landing page only.",
     securityExpires: "Expires {date}",
+    securityHopLabel: "Address path",
     securityCheck: {
       https: {
         title: "Secure address",
@@ -464,6 +465,14 @@ const copy = {
         gap: "The unencrypted address still serves this page.",
         why: "Without this redirect, an old link can open the page without encryption.",
       },
+      redirectPath: {
+        title: "Address path",
+        short: "Path",
+        pass: "The address reaches the landing page without a long or temporary redirect chain.",
+        review: "The address uses a long chain or a temporary redirect before the landing page.",
+        gap: "The address path loops or ends on an unencrypted page.",
+        why: "Extra hops slow the first visit and can send people to the wrong page.",
+      },
       hsts: {
         title: "Browser lock",
         short: "Browser lock",
@@ -479,6 +488,30 @@ const copy = {
         review: "This page does not say whether other sites may frame it.",
         gap: "This page allows other sites to frame it.",
         why: "A frame lets another site present this page as if it belonged there.",
+      },
+      mixedContent: {
+        title: "Secure page content",
+        short: "Content",
+        pass: "This secure page does not load insecure (HTTP) images or scripts.",
+        review: "This page’s content could not be fully checked for insecure files.",
+        gap: "This secure page still loads some insecure (HTTP) files, which can break the padlock.",
+        why: "Browsers warn when an encrypted page pulls in unencrypted pieces.",
+      },
+      contentType: {
+        title: "File type lock",
+        short: "File type",
+        pass: "Browsers are told not to guess the type of downloaded files.",
+        review: "Browsers are not told to avoid guessing file types.",
+        gap: "Browsers are not told to avoid guessing file types.",
+        why: "This instruction reduces the chance a browser treats a file as something unsafe.",
+      },
+      referrerPolicy: {
+        title: "Link privacy",
+        short: "Link privacy",
+        pass: "This page limits how much of its address is sent when someone follows a link away.",
+        review: "This page does not say how much of its address should be sent with outbound links.",
+        gap: "This page allows the full address to be sent with outbound links.",
+        why: "A clear policy keeps private path details from leaking to other sites.",
       },
     },
     setupTitle: "How this site is set up",
@@ -544,7 +577,7 @@ const copy = {
     },
     methodology: "How we calculate the results",
     methodologyBody:
-      "This report checks one landing page. It is not a review of every page on the website. The address you enter is followed through redirects to the page a visitor lands on, and that page is what the scores measure. Website category scores come from a Lighthouse lab test of that page, run by Google PageSpeed Insights, once as a phone and once as a computer. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. When that page does not have enough visits, those visitor numbers cover the whole site address. Social sharing results come from the public HTML of that landing page. Assistant readiness uses that same page, plus the site’s robots.txt and llms.txt files. The contact check reads that page’s HTML and reports whether a mailbox, a phone number, or a form is present. It does not run scripts, open other pages, or display or store the address or number. Security checks the same landing page for a current certificate, a redirect from the unencrypted address, a browser instruction to stay on HTTPS, and whether other sites may frame the page. It is not a security review. Domain and email health reads the public mail and name records: where mail is delivered, which services may send it, whether messages are signed, and whether the bare name and www reach the same place. A separate section reads public clues for the host, the platform, analytics tags, and a protection service such as Cloudflare. These results stay separate because they measure different parts of your online presence.",
+      "This report checks one landing page. It is not a review of every page on the website. The address you enter is followed through redirects to the page a visitor lands on, and that page is what the scores measure. Website category scores come from a Lighthouse lab test of that page, run by Google PageSpeed Insights, once as a phone and once as a computer. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. When that page does not have enough visits, those visitor numbers cover the whole site address. Social sharing results come from the public HTML of that landing page. Assistant readiness uses that same page, plus the site’s robots.txt and llms.txt files. The contact check reads that page’s HTML and reports whether a mailbox, a phone number, or a form is present. It does not run scripts, open other pages, or display or store the address or number. Security checks the same landing page for a current certificate, a redirect from the unencrypted address, the redirect path to the landing page, a browser instruction to stay on HTTPS, whether other sites may frame the page, whether that secure page still loads insecure (HTTP) files, a file-type instruction, and a link-privacy policy. It is not a security review. Domain and email health reads the public mail and name records: where mail is delivered, which services may send it, whether messages are signed, and whether the bare name and www reach the same place. A separate section reads public clues for the host, the platform, analytics tags, and a protection service such as Cloudflare. These results stay separate because they measure different parts of your online presence.",
     print: "Save my branded action plan",
     reportLabel: "ROALLA Digital Presence Action Plan",
     reportPrepared: "Prepared",
@@ -667,7 +700,7 @@ const copy = {
     technicalOnly: "Les résultats du partage social sont prêts. La vérification du site se termine…",
     socialOnly: "Les résultats du site sont prêts. La vérification du partage social et des coordonnées se termine…",
     resultsTitle: "Les résultats de votre site",
-    resultsIntro: "Ce rapport vérifie la page d’arrivée qu’un visiteur atteint. Il ne vérifie pas chaque page du site. PageSpeed évalue cette page sur un téléphone et sur un ordinateur. Le partage social, la préparation pour un assistant et la vérification des coordonnées lisent cette même page. La sécurité vérifie quatre signaux publics sur cette page. La santé du domaine et du courriel lit les enregistrements publics du nom de domaine. Chaque aspect est présenté séparément pour faciliter la lecture.",
+    resultsIntro: "Ce rapport vérifie la page d’arrivée qu’un visiteur atteint. Il ne vérifie pas chaque page du site. PageSpeed évalue cette page sur un téléphone et sur un ordinateur. Le partage social, la préparation pour un assistant et la vérification des coordonnées lisent cette même page. La sécurité vérifie huit signaux publics sur cette page. La santé du domaine et du courriel lit les enregistrements publics du nom de domaine. Chaque aspect est présenté séparément pour faciliter la lecture.",
     technicalTitle: "Expérience du site Web",
     technicalDescription: "Le fonctionnement de votre site sur téléphone et ordinateur",
     socialTitle: "Partage sur les réseaux sociaux",
@@ -915,8 +948,9 @@ const copy = {
       },
     },
     securityTitle: "Sécurité",
-    securityNote: "Ce n’est pas une revue de sécurité. Quatre signaux publics sont vérifiés sur cette page d’arrivée seulement.",
+    securityNote: "Ce n’est pas une revue de sécurité. Huit signaux publics sont vérifiés sur cette page d’arrivée seulement.",
     securityExpires: "Expire le {date}",
+    securityHopLabel: "Chemin d’adresse",
     securityCheck: {
       https: {
         title: "Adresse sécurisée",
@@ -934,6 +968,14 @@ const copy = {
         gap: "L’adresse non chiffrée sert encore cette page.",
         why: "Sans cette redirection, un ancien lien peut ouvrir la page sans chiffrement.",
       },
+      redirectPath: {
+        title: "Chemin d’adresse",
+        short: "Chemin",
+        pass: "L’adresse atteint la page d’arrivée sans longue chaîne ni redirection temporaire.",
+        review: "L’adresse utilise une longue chaîne ou une redirection temporaire avant la page d’arrivée.",
+        gap: "Le chemin d’adresse boucle ou se termine sur une page non chiffrée.",
+        why: "Des sauts supplémentaires ralentissent la première visite et peuvent envoyer les gens à la mauvaise page.",
+      },
       hsts: {
         title: "Verrou du navigateur",
         short: "Verrou",
@@ -949,6 +991,30 @@ const copy = {
         review: "Cette page ne dit pas si d’autres sites peuvent l’afficher dans un cadre.",
         gap: "Cette page permet aux autres sites de l’afficher dans un cadre.",
         why: "Un cadre permet à un autre site de présenter cette page comme si elle lui appartenait.",
+      },
+      mixedContent: {
+        title: "Contenu sécurisé de la page",
+        short: "Contenu",
+        pass: "Cette page sécurisée ne charge pas d’images ou de scripts non sécurisés (HTTP).",
+        review: "Le contenu de cette page n’a pas pu être entièrement vérifié pour des fichiers non sécurisés.",
+        gap: "Cette page sécurisée charge encore des fichiers non sécurisés (HTTP), ce qui peut faire disparaître le cadenas.",
+        why: "Les navigateurs avertissent lorsqu’une page chiffrée charge des éléments non chiffrés.",
+      },
+      contentType: {
+        title: "Verrou de type de fichier",
+        short: "Type",
+        pass: "Les navigateurs ne doivent pas deviner le type des fichiers téléchargés.",
+        review: "Les navigateurs ne sont pas invités à éviter de deviner les types de fichiers.",
+        gap: "Les navigateurs ne sont pas invités à éviter de deviner les types de fichiers.",
+        why: "Cette instruction réduit le risque qu’un navigateur traite un fichier comme quelque chose de dangereux.",
+      },
+      referrerPolicy: {
+        title: "Confidentialité des liens",
+        short: "Liens",
+        pass: "Cette page limite la part de son adresse envoyée lorsqu’on suit un lien vers ailleurs.",
+        review: "Cette page ne dit pas quelle part de son adresse doit être envoyée avec les liens sortants.",
+        gap: "Cette page permet d’envoyer l’adresse complète avec les liens sortants.",
+        why: "Une politique claire évite que des détails de chemin privés fuient vers d’autres sites.",
       },
     },
     setupTitle: "Comment ce site est organisé",
@@ -1014,7 +1080,7 @@ const copy = {
     },
     methodology: "Comment les résultats sont calculés",
     methodologyBody:
-      "Ce rapport vérifie une seule page d’arrivée. Il ne passe pas en revue chaque page du site. L’adresse entrée est suivie à travers les redirections jusqu’à la page où un visiteur arrive, et c’est cette page que les scores mesurent. Les scores proviennent d’un test de laboratoire Lighthouse de cette page, exécuté par Google PageSpeed Insights, une fois comme téléphone et une fois comme ordinateur. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Lorsque cette page n’a pas assez de visites, ces chiffres de visiteurs couvrent l’adresse du site entier. Les résultats du partage social proviennent du HTML public de cette page d’arrivée. La préparation pour un assistant utilise cette même page, ainsi que les fichiers robots.txt et llms.txt du site. La vérification des coordonnées lit le HTML de cette page et indique si une adresse courriel, un numéro de téléphone ou un formulaire s’y trouve. Elle n’exécute pas les scripts, n’ouvre pas d’autres pages et n’affiche ni ne conserve l’adresse ou le numéro. La sécurité vérifie la même page d’arrivée : un certificat valide, une redirection depuis l’adresse non chiffrée, une instruction au navigateur de rester sur HTTPS, et la possibilité pour d’autres sites d’afficher la page dans un cadre. Ce n’est pas une revue de sécurité. La santé du domaine et du courriel lit les enregistrements publics de courriel et de nom : où le courriel est livré, quels services peuvent l’envoyer, si les messages sont signés, et si le nom nu et www mènent au même endroit. Une section distincte lit les indices publics sur l’hébergeur, la plateforme, les balises d’analytique et un service de protection comme Cloudflare. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
+      "Ce rapport vérifie une seule page d’arrivée. Il ne passe pas en revue chaque page du site. L’adresse entrée est suivie à travers les redirections jusqu’à la page où un visiteur arrive, et c’est cette page que les scores mesurent. Les scores proviennent d’un test de laboratoire Lighthouse de cette page, exécuté par Google PageSpeed Insights, une fois comme téléphone et une fois comme ordinateur. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Lorsque cette page n’a pas assez de visites, ces chiffres de visiteurs couvrent l’adresse du site entier. Les résultats du partage social proviennent du HTML public de cette page d’arrivée. La préparation pour un assistant utilise cette même page, ainsi que les fichiers robots.txt et llms.txt du site. La vérification des coordonnées lit le HTML de cette page et indique si une adresse courriel, un numéro de téléphone ou un formulaire s’y trouve. Elle n’exécute pas les scripts, n’ouvre pas d’autres pages et n’affiche ni ne conserve l’adresse ou le numéro. La sécurité vérifie la même page d’arrivée : un certificat valide, une redirection depuis l’adresse non chiffrée, le chemin de redirection vers la page d’arrivée, une instruction au navigateur de rester sur HTTPS, la possibilité pour d’autres sites d’afficher la page dans un cadre, si cette page sécurisée charge encore des fichiers non sécurisés (HTTP), une instruction sur le type de fichier, et une politique de confidentialité des liens. Ce n’est pas une revue de sécurité. La santé du domaine et du courriel lit les enregistrements publics de courriel et de nom : où le courriel est livré, quels services peuvent l’envoyer, si les messages sont signés, et si le nom nu et www mènent au même endroit. Une section distincte lit les indices publics sur l’hébergeur, la plateforme, les balises d’analytique et un service de protection comme Cloudflare. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
     print: "Enregistrer mon plan d’action ROALLA",
     reportLabel: "Plan d’action de présence numérique ROALLA",
     reportPrepared: "Préparé le",
@@ -1755,6 +1821,12 @@ export default function DigitalPresenceSnapshot({
     contactChecks: contactStatusItems,
     securityChecks: social?.security?.checks.map((check) => {
       const item = t.securityCheck[check.id];
+      const hopSummary =
+        check.id === "redirectPath" && social.security?.redirectPath?.hops.length
+          ? social.security.redirectPath.hops.map((hop) => `${hop.status} ${hop.url}`).join(" → ")
+          : check.id === "redirectPath" && check.evidence
+            ? check.evidence
+            : "";
       return {
         id: check.id,
         short: item.short,
@@ -1763,7 +1835,10 @@ export default function DigitalPresenceSnapshot({
         tone: check.status,
         result: item[check.status],
         why: item.why,
-        value: check.id === "https" && check.evidence ? fill(t.securityExpires, { date: registrationDate(check.evidence, language, check.evidence) }) : "",
+        value:
+          check.id === "https" && check.evidence
+            ? fill(t.securityExpires, { date: registrationDate(check.evidence, language, check.evidence) })
+            : hopSummary,
       };
     }) ?? [],
     siteSetup: visibleSetup ? [
@@ -2152,6 +2227,22 @@ export default function DigitalPresenceSnapshot({
                           <dd className={`mt-1 text-lg font-bold ${tone}`}>{t.domainStatus[check.status]}</dd>
                           <p className="mt-1 text-sm leading-6 text-slate-800">{item[check.status]}</p>
                           {check.id === "https" && check.evidence ? <p className="mt-1 text-xs leading-5 text-slate-500">{fill(t.securityExpires, { date: registrationDate(check.evidence, language, check.evidence) })}</p> : null}
+                          {check.id === "redirectPath" && social.security?.redirectPath?.hops.length ? (
+                            <div className="mt-2">
+                              <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{t.securityHopLabel}</p>
+                              <ol className="mt-1 list-decimal space-y-1 pl-4 text-xs leading-5 text-slate-500">
+                                {social.security.redirectPath.hops.map((hop, index) => (
+                                  <li key={`${hop.status}-${hop.url}-${index}`} className="break-all">
+                                    <span className="font-semibold text-slate-600">{hop.status}</span>
+                                    {" "}
+                                    {hop.url}
+                                  </li>
+                                ))}
+                              </ol>
+                            </div>
+                          ) : check.id === "redirectPath" && check.evidence ? (
+                            <p className="mt-1 text-xs leading-5 text-slate-500">{check.evidence}</p>
+                          ) : null}
                           <p className="mt-2 text-sm leading-6 text-slate-600">{item.why}</p>
                         </div>
                       );

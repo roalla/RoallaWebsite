@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState } from 'react'
 import Reveal from './motion/Reveal'
+import AssessmentPrintSheet from './AssessmentPrintSheet'
 import {
   AlertCircle,
   ArrowRight,
@@ -263,7 +264,21 @@ function AssessmentResultsView({
   }
 
   return (
-    <div className="animate-fade-in text-center">
+    <>
+      <AssessmentPrintSheet
+        locale={locale}
+        score={result.overallScore}
+        lane={t(`lanes.${result.lane}`)}
+        action={t(`actionStages.${result.actionStage}`)}
+        readiness={primaryServiceName}
+        secondary={secondaryServiceName}
+        starter={starter}
+        recommendations={recommendations}
+        nextSteps={nextSteps}
+        direction={direction}
+        directionLabels={directionLabels}
+      />
+      <div className="animate-fade-in text-center">
       <div className="mb-8">
         <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary-dark rounded-full mx-auto mb-4 flex items-center justify-center">
           <BarChart3 className="w-10 h-10 text-white" />
@@ -423,12 +438,13 @@ function AssessmentResultsView({
             <LockKeyhole className="mr-2 h-4 w-4" aria-hidden />{saved ? (french ? 'Plan enregistré' : 'Blueprint saved') : (french ? 'Enregistrer dans ce navigateur' : 'Save in this browser')}
           </button>
           <button type="button" onClick={() => window.print()} className="inline-flex min-h-11 items-center px-4 py-2 text-sm font-semibold text-slate-700 underline underline-offset-4">
-            <Download className="mr-2 h-4 w-4" aria-hidden />{french ? 'Imprimer ou enregistrer en PDF' : 'Print or save as PDF'}
+            <Download className="mr-2 h-4 w-4" aria-hidden />{french ? 'Imprimer ou enregistrer le PDF de marque' : 'Print or save branded PDF'}
           </button>
         </div>
         <p className="mx-auto max-w-2xl pt-2 text-xs leading-5 text-slate-500">{french ? 'Votre plan reste dans ce navigateur, sauf si vous choisissez de l’inclure dans une demande de service.' : 'Your blueprint stays in this browser unless you choose to include it in a service inquiry.'}</p>
       </div>
-    </div>
+      </div>
+    </>
   )
 }
 

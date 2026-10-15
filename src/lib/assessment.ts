@@ -5,13 +5,31 @@ import { useCaseHrefForAssessment, type UseCasePageHref } from '@/lib/use-cases'
 export type AssessmentLane =
   | 'consulting'
   | 'technology'
+  | 'digital'
   | 'website'
   | 'platform'
   | 'automation'
   | 'ai'
+  | 'agentic'
+  | 'visibility'
   | 'workshop'
   | 'event'
   | 'unsure'
+
+export type AssessmentActionStage =
+  | 'advise'
+  | 'source'
+  | 'agentic'
+  | 'build'
+  | 'connect'
+  | 'improve'
+
+export type AssessmentDirection =
+  | 'advise'
+  | 'source'
+  | 'build'
+  | 'agentic'
+  | 'improve'
 
 export type AssessmentServiceKey =
   | 'strategy'
@@ -22,6 +40,7 @@ export type AssessmentServiceKey =
 
 export type AssessmentQuestionId =
   | 'lane'
+  | 'direction'
   | 'strategy'
   | 'operations'
   | 'team'
@@ -39,6 +58,14 @@ export const ASSESSMENT_QUESTION_IDS: AssessmentQuestionId[] = [
   'innovation',
 ]
 
+export const DIRECTION_VALUES: AssessmentDirection[] = [
+  'advise',
+  'source',
+  'build',
+  'agentic',
+  'improve',
+]
+
 export const LANE_VALUES: AssessmentLane[] = [
   'consulting',
   'technology',
@@ -46,6 +73,8 @@ export const LANE_VALUES: AssessmentLane[] = [
   'platform',
   'automation',
   'ai',
+  'agentic',
+  'visibility',
   'event',
   'workshop',
   'unsure',
@@ -100,6 +129,7 @@ export type AssessmentResult = {
   lane: AssessmentLane
   overallScore: number
   pillar: BrandPillar
+  actionStage: AssessmentActionStage
   primaryService: AssessmentServiceKey | null
   secondaryService: AssessmentServiceKey | null
   scheduleIntent: ConsultationIntent
@@ -108,6 +138,28 @@ export type AssessmentResult = {
   serviceHref: string | null
   laneHref: string
   useCaseHref: UseCasePageHref | null
+}
+
+function parseDirection(value: string | undefined): AssessmentDirection | null {
+  if (value && DIRECTION_VALUES.includes(value as AssessmentDirection)) {
+    return value as AssessmentDirection
+  }
+  return null
+}
+
+function laneForDirection(direction: AssessmentDirection): AssessmentLane {
+  switch (direction) {
+    case 'advise':
+      return 'consulting'
+    case 'source':
+      return 'technology'
+    case 'build':
+      return 'digital'
+    case 'agentic':
+      return 'agentic'
+    case 'improve':
+      return 'visibility'
+  }
 }
 
 function parseLane(value: string | undefined): AssessmentLane {
@@ -187,10 +239,17 @@ function overallScorePercent(scores: Record<AssessmentServiceKey, number>): numb
 function laneHref(lane: AssessmentLane): string {
   switch (lane) {
     case 'website':
-    case 'platform':
-    case 'automation':
     case 'ai':
+    case 'digital':
       return '/services/digital'
+    case 'platform':
+      return '/services/digital-products'
+    case 'automation':
+      return '/services/automation'
+    case 'agentic':
+      return '/services/ai-agents'
+    case 'visibility':
+      return '/services/search-ai-visibility'
     case 'technology':
       return '/services/technology-advisory'
     case 'workshop':
@@ -204,11 +263,31 @@ function laneHref(lane: AssessmentLane): string {
   }
 }
 
+function actionStageForLane(lane: AssessmentLane): AssessmentActionStage {
+  switch (lane) {
+    case 'consulting':
+    case 'workshop':
+      return 'advise'
+    case 'technology':
+      return 'source'
+    case 'agentic':
+      return 'agentic'
+    case 'automation':
+      return 'connect'
+    case 'visibility':
+      return 'improve'
+    default:
+      return 'build'
+  }
+}
+
 function scheduleIntentForLane(lane: AssessmentLane): ConsultationIntent {
   if (lane === 'website') return 'website'
   if (lane === 'platform') return 'platform'
   if (lane === 'automation') return 'automation'
   if (lane === 'ai') return 'ai-support'
+  if (lane === 'agentic') return 'ai-support'
+  if (lane === 'visibility') return 'visibility'
   if (lane === 'technology') return 'consulting'
   if (lane === 'consulting') return 'consulting'
   if (lane === 'event') return 'digital-events'
@@ -220,9 +299,10 @@ export function buildScheduleGoalSummary(result: AssessmentResult): string {
   const parts = [
     `Assessment: ${result.overallScore}% overall.`,
     `Lane: ${result.lane}.`,
+    `Recommended action: ${result.actionStage}.`,
   ]
   if (result.primaryService) {
-    parts.push(`Recommended phase: ${result.pillar}.`)
+    parts.push(`Readiness emphasis: ${result.pillar}.`)
     parts.push(`Primary service: ${result.primaryService}.`)
   }
   if (result.secondaryService) {
@@ -250,33 +330,40 @@ export function buildScheduleQuery(result: AssessmentResult): Record<string, str
 
 export function computeAssessmentResult(answers: AssessmentAnswers): AssessmentResult | null {
   const selectedLane = parseLane(answers.lane)
+  const direction = parseDirection(answers.direction)
+  if (selectedLane === 'unsure' && !direction) return null
+  const resolvedLane = selectedLane === 'unsure' ? laneForDirection(direction!) : selectedLane
   const dimensionScores = dimensionScoresFromAnswers(answers)
   if (!dimensionScores) return null
 
   const overallScore = overallScorePercent(dimensionScores)
   const isDirectLane =
-    selectedLane === 'website' ||
-    selectedLane === 'platform' ||
-    selectedLane === 'automation' ||
-    selectedLane === 'ai' ||
-    selectedLane === 'technology' ||
-    selectedLane === 'workshop' ||
-    selectedLane === 'event'
+    resolvedLane === 'digital' ||
+    resolvedLane === 'website' ||
+    resolvedLane === 'platform' ||
+    resolvedLane === 'automation' ||
+    resolvedLane === 'ai' ||
+    resolvedLane === 'agentic' ||
+    resolvedLane === 'visibility' ||
+    resolvedLane === 'technology' ||
+    resolvedLane === 'workshop' ||
+    resolvedLane === 'event'
 
   if (isDirectLane) {
-    const pillar: BrandPillar =
-      selectedLane === 'technology' || selectedLane === 'workshop' ? 'prepare' : 'emerge'
+    const { primary, secondary } = pickPrimaryService(dimensionScores)
+    const readinessMeta = SERVICE_META[primary]
     const partial: AssessmentResult = {
-      lane: selectedLane,
+      lane: resolvedLane,
       overallScore,
-      pillar,
-      primaryService: null,
-      secondaryService: null,
-      scheduleIntent: scheduleIntentForLane(selectedLane),
-      scheduleFocus: selectedLane === 'technology' ? 'technology' : null,
+      pillar: readinessMeta.pillar,
+      actionStage: actionStageForLane(resolvedLane),
+      primaryService: primary,
+      secondaryService: secondary,
+      scheduleIntent: scheduleIntentForLane(resolvedLane),
+      scheduleFocus: resolvedLane === 'technology' ? 'technology' : null,
       scheduleGoal: '',
       serviceHref: null,
-      laneHref: laneHref(selectedLane),
+      laneHref: laneHref(resolvedLane),
       useCaseHref: null,
     }
     partial.scheduleGoal = buildScheduleGoalSummary(partial)
@@ -291,6 +378,7 @@ export function computeAssessmentResult(answers: AssessmentAnswers): AssessmentR
     lane: 'consulting',
     overallScore,
     pillar: meta.pillar,
+    actionStage: 'advise',
     primaryService: primary,
     secondaryService: secondary,
     scheduleIntent: 'consulting',

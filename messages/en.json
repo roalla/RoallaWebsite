@@ -146,8 +146,8 @@
     "resourcesExecutiveGuides": "Executive Insights",
     "resourcesExecutiveGuidesDesc": "Decision frameworks for leaders navigating growth, AI, technology, risk, operations, and enterprise value.",
     "resourcesExecutiveGuidesCta": "Explore 35 guides",
-    "resourcesDigital": "Digital Enablement",
-    "resourcesAdvisory": "Advisory",
+    "resourcesDigital": "Build, Automate & Grow",
+    "resourcesAdvisory": "Strategy, Technology & Risk",
     "resourcesOther": "Start here",
     "resourcesAll": "All insights",
     "resourcesUseCases": "Use cases",
@@ -2396,9 +2396,9 @@
     "metadataDescription": "Practical guides on SMB digitization, fractional leadership, strategic planning, process optimization, and digital enablement from Roalla.",
     "indexTitle": "Insights",
     "indexSubtitle": "Practical thinking on digitization, operations, strategy, and digital delivery, written for SMB leaders who want clarity before they commit.",
-    "groupDigital": "Digital Enablement",
+    "groupDigital": "Build, Automate & Grow",
     "groupDigitalIntro": "Why a website, platform, automation, or visibility work pays off.",
-    "groupAdvisory": "Advisory",
+    "groupAdvisory": "Strategy, Technology & Risk",
     "groupAdvisoryIntro": "Why operational leadership, planning, and process work change how the business runs.",
     "groupBusiness": "Business Advisory",
     "groupBusinessIntro": "Strategy, operations, leadership, and the choices that change how the business runs.",
@@ -3172,16 +3172,16 @@
   },
   "assessmentPage": {
     "metadataTitle": "Find Your Starting Point | ROALLA",
-    "metadataDescription": "Six quick questions to identify a practical starting point across business advisory, technology sourcing, workshops, websites, apps, automation, AI, and digital events.",
+    "metadataDescription": "Six quick questions—plus one clarifier if needed—to identify a practical starting point across advisory, technology sourcing, digital enablement, agentic AI, visibility, and workshops.",
     "title": "Find your starting point",
-    "preview": "6 questions · 5 minutes · Service and use-case match",
-    "description": "Answer six short questions and we'll suggest a practical starting point across business advisory, technology sourcing, workshops, and digital delivery.",
+    "preview": "6–7 questions · 5 minutes · Service and use-case match",
+    "description": "Answer six short questions and we'll suggest a practical starting point across business advisory, technology sourcing, digital enablement, agentic AI, visibility, and workshops. If you are unsure, one extra question clarifies the best service family.",
     "whatHappensNext": "~3 min service inquiry · No obligation · Reply in 1 business day",
     "faqTitle": "How this connects to our services",
     "faq1Q": "How does the assessment choose a starting point?",
-    "faq1A": "Your first answer identifies the service path you already recognize. Five readiness questions then tailor the result around strategy, operations, leadership, data, and change. If you are unsure, the lowest-scoring area becomes the recommended advisory starting point.",
+    "faq1A": "Your first answer identifies the service path you already recognize. If you are unsure, one outcome question identifies the most likely service family. Five readiness questions then tailor the result around strategy, operations, leadership, data, and change.",
     "faq2Q": "How does it distinguish technology advice from a digital build?",
-    "faq2A": "Choose Technology Advisory when you need requirements, provider comparison, solution sourcing, or migration support. Choose a website, custom app, automation, AI, or digital-event path when you primarily need something designed, built, connected, or improved.",
+    "faq2A": "Choose Technology Advisory when you need requirements, provider comparison, solution sourcing, cybersecurity, continuity, or migration support. Choose Digital Enablement when you need something designed, built, or connected; Agentic when AI must act across approved systems; and Visibility when discoverability, accessibility, performance, or conversion is the priority.",
     "faq3Q": "Is this a replacement for a discovery call?",
     "faq3A": "No—it helps you self-qualify before a conversation. We still review every inquiry personally and recommend the right entry point within one business day.",
     "faq4Q": "What happens after I submit a service inquiry?",
@@ -3192,7 +3192,9 @@
     "analyzing": "Analyzing your results…",
     "scoreTitle": "Your readiness snapshot: {score}%",
     "primaryPhase": "Readiness emphasis",
+    "primaryAction": "Recommended action",
     "recommendedService": "Best-fit service",
+    "readinessConsideration": "Readiness consideration",
     "recommendedLane": "Suggested path",
     "alsoConsider": "Also consider",
     "keyRecommendations": "Key Recommendations",
@@ -3206,6 +3208,8 @@
     "viewDigitalCreations": "Explore Digital Enablement",
     "viewWorkshops": "Explore Workshops",
     "viewDigitalEvents": "Explore Digital Events",
+    "viewAgentic": "Explore ROALLA Agentic",
+    "viewVisibility": "Explore Digital Visibility Optimization",
     "viewUseCase": "See matching use case",
     "pillars": {
       "prepare": "Prepare — align priorities and readiness",
@@ -3219,13 +3223,32 @@
       "emerge": "Start in Emerge",
       "soar": "Start in Soar"
     },
+    "actionStages": {
+      "advise": "Advise — clarify outcomes, constraints, and priorities",
+      "source": "Source — compare options and choose responsibly",
+      "agentic": "Agentic — deploy governed AI agents",
+      "build": "Build — create the right digital foundation",
+      "connect": "Connect — integrate systems and automate handoffs",
+      "improve": "Improve — strengthen visibility, conversion, and performance"
+    },
+    "actionStageCategory": {
+      "advise": "Recommended action: Advise",
+      "source": "Recommended action: Source",
+      "agentic": "Recommended action: Agentic",
+      "build": "Recommended action: Build",
+      "connect": "Recommended action: Connect",
+      "improve": "Recommended action: Improve"
+    },
     "lanes": {
       "consulting": "Business Advisory",
       "technology": "Technology Advisory & Solution Sourcing",
-      "website": "Website and digital visibility",
+      "digital": "Digital Enablement",
+      "website": "Website and conversion",
       "platform": "Custom app, portal, or business tool",
       "automation": "Integration and workflow automation",
-      "ai": "Practical AI",
+      "ai": "AI-assisted workflow",
+      "agentic": "ROALLA Agentic",
+      "visibility": "Digital Visibility Optimization",
       "workshop": "Team workshop",
       "event": "Digital events",
       "unsure": "Not sure yet — we'll help you choose"
@@ -3244,13 +3267,26 @@
         "options": {
           "consulting": "Business advisory for strategy, operations, leadership, or readiness",
           "technology": "Help selecting, comparing, or implementing business technology",
-          "website": "A new website, redesign, visibility, or lead-generation improvement",
+          "website": "A new website, redesign, or conversion improvement",
           "platform": "A custom app, portal, or business tool",
           "automation": "Connected systems, workflow automation, or less repetitive work",
-          "ai": "A practical AI use case, workflow, or solution",
+          "ai": "AI-assisted scoring, document processing, copilots, or guided workflows",
+          "agentic": "An AI agent that can act across approved systems and workflows",
+          "visibility": "Better search visibility, AI readability, accessibility, or performance",
           "event": "Event pages, booth digital, or event apps",
           "workshop": "A facilitated team workshop",
           "unsure": "Not sure yet — help me choose"
+        }
+      },
+      "direction": {
+        "text": "Which outcome feels closest to what you need?",
+        "hint": "Choose the result you want; the remaining questions will tailor the recommendation.",
+        "options": {
+          "advise": "Clarify priorities, operations, leadership, risk, or a path forward",
+          "source": "Choose, compare, replace, or govern technology and providers",
+          "build": "Build or connect a website, product, portal, workflow, or event experience",
+          "agentic": "Use an AI agent to take approved actions across systems",
+          "improve": "Improve search visibility, AI readability, accessibility, performance, or conversion"
         }
       },
       "strategy": {
@@ -3367,6 +3403,15 @@
         }
       },
       "lane": {
+        "digital": {
+          "rec1": "Start with the business outcome and user journey before choosing the build",
+          "rec2": "Define the smallest useful release, integrations, owners, and measures",
+          "rec3": "Treat adoption, analytics, accessibility, and maintenance as part of delivery",
+          "rec4": "Use a focused discovery sprint to choose the right digital path",
+          "next1": "Explore Digital Enablement across websites, products, automation, and events",
+          "next2": "Submit an inquiry with the users, workflow, and desired outcome",
+          "next3": "Discuss whether to build, connect, improve, or validate first"
+        },
         "technology": {
           "rec1": "Define business, technical, security, integration, and adoption requirements first",
           "rec2": "Compare qualified providers on total cost, support, commitments, and exit options",
@@ -3377,9 +3422,9 @@
           "next3": "Discuss what you need to replace, consolidate, add, or compare"
         },
         "website": {
-          "rec1": "Clarify whether the priority is trust, visibility, conversion, or launch timing",
+          "rec1": "Clarify whether the priority is trust, conversion, booking, or launch timing",
           "rec2": "Review whether focused optimization or a new foundation is justified",
-          "rec3": "Connect content, search visibility, forms, and follow-up to a measurable customer action",
+          "rec3": "Connect content, calls to action, forms, and follow-up to a measurable customer action",
           "rec4": "See live examples in our Digital Portfolio",
           "next1": "Explore Digital Enablement for websites and brand sites",
           "next2": "Submit a service inquiry with your assessment context",
@@ -3408,9 +3453,27 @@
           "rec2": "Confirm data quality, privacy, security, and human review requirements",
           "rec3": "Pilot with representative work and explicit success criteria",
           "rec4": "Decide whether you need a built workflow or sourced AI platform",
-          "next1": "Explore practical AI through Digital Enablement",
+          "next1": "Explore AI-assisted workflows through Digital Enablement",
           "next2": "Submit an inquiry with the task, users, and information involved",
           "next3": "Discuss guardrails, integrations, review, and adoption"
+        },
+        "agentic": {
+          "rec1": "Define the outcome, approved actions, decision boundaries, and accountable owner",
+          "rec2": "Map every system, permission, data source, and human checkpoint the agent needs",
+          "rec3": "Start with a narrow workflow and test normal, exceptional, and failure conditions",
+          "rec4": "Instrument approvals, logs, monitoring, escalation, and safe shutdown from the start",
+          "next1": "Explore ROALLA Agentic for governed agents and multi-agent workflows",
+          "next2": "Submit an inquiry with the workflow, systems, users, and risk constraints",
+          "next3": "Discuss whether an agentic pilot is safe, useful, and ready to measure"
+        },
+        "visibility": {
+          "rec1": "Assess search discoverability, AI readability, accessibility, speed, and conversion together",
+          "rec2": "Fix technical blockers and unclear content structure before adding more content",
+          "rec3": "Prioritize improvements tied to qualified visibility and measurable customer action",
+          "rec4": "Use a baseline and monitoring plan so gains can be verified over time",
+          "next1": "Explore Digital Visibility Optimization",
+          "next2": "Submit an inquiry with your site, audience, and priority outcome",
+          "next3": "Discuss the smallest evidence-based improvement plan"
         },
         "workshop": {
           "rec1": "Pick a workshop topic—branding, sales, productivity, or ideation",

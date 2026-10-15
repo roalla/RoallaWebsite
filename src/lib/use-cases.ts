@@ -237,6 +237,8 @@ const ASSESSMENT_LANE_USE_CASES: Partial<Record<AssessmentLane, UseCaseId>> = {
   platform: 'custom-app',
   automation: 'integrations',
   ai: 'ai-workflows',
+  agentic: 'ai-workflows',
+  visibility: 'website-refresh',
   event: 'event-kit',
 }
 

@@ -17,6 +17,7 @@ import { trackAnalyticsEvent } from '@/lib/analytics'
 import { Link } from '@/i18n/navigation'
 import {
   ASSESSMENT_QUESTION_IDS,
+  DIRECTION_VALUES,
   LANE_VALUES,
   SCORE_OPTION_VALUES,
   buildScheduleQuery,
@@ -35,10 +36,13 @@ type ResultMessages = Record<(typeof REC_KEYS)[number] | (typeof NEXT_KEYS)[numb
 function isDigitalOrEventLane(lane: AssessmentLane): boolean {
   return (
     lane === 'technology' ||
+    lane === 'digital' ||
     lane === 'website' ||
     lane === 'platform' ||
     lane === 'automation' ||
     lane === 'ai' ||
+    lane === 'agentic' ||
+    lane === 'visibility' ||
     lane === 'workshop' ||
     lane === 'event'
   )
@@ -77,12 +81,21 @@ const InteractiveAssessment = () => {
   const [result, setResult] = useState<AssessmentResult | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  const questions = ASSESSMENT_QUESTION_IDS
+  const questions = useMemo(
+    () =>
+      answers.lane === 'unsure'
+        ? [ASSESSMENT_QUESTION_IDS[0], 'direction' as const, ...ASSESSMENT_QUESTION_IDS.slice(1)]
+        : ASSESSMENT_QUESTION_IDS,
+    [answers.lane],
+  )
   const activeQuestionId = questions[currentQuestion]
 
   const options = useMemo(() => {
     if (activeQuestionId === 'lane') {
       return LANE_VALUES.map((value) => ({ value, score: null as number | null }))
+    }
+    if (activeQuestionId === 'direction') {
+      return DIRECTION_VALUES.map((value) => ({ value, score: null as number | null }))
     }
     return SCORE_OPTION_VALUES.map((value) => ({
       value,
@@ -259,7 +272,7 @@ function AssessmentResultsView({
           {t('scoreTitle', { score: result.overallScore })}
         </h2>
         <p className="text-lg text-primary font-semibold">
-          {t(`pillarCategory.${result.pillar}`)}
+          {t(`actionStageCategory.${result.actionStage}`)}
         </p>
       </div>
 
@@ -274,7 +287,7 @@ function AssessmentResultsView({
         {primaryServiceName && (
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
-              {t('recommendedService')}
+              {t(result.lane === 'consulting' ? 'recommendedService' : 'readinessConsideration')}
             </p>
             <p className="text-sm font-semibold text-slate-900">{primaryServiceName}</p>
             {secondaryServiceName && (
@@ -287,9 +300,9 @@ function AssessmentResultsView({
 
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">
-            {t('primaryPhase')}
+            {t('primaryAction')}
           </p>
-          <p className="text-sm font-semibold text-slate-900">{t(`pillars.${result.pillar}`)}</p>
+          <p className="text-sm font-semibold text-slate-900">{t(`actionStages.${result.actionStage}`)}</p>
         </div>
       </div>
 
@@ -394,7 +407,7 @@ function AssessmentResultsView({
             </Link>
           )}
           <Link
-            href={result.laneHref as '/services/business-advisory' | '/services/technology-advisory' | '/programs/workshops' | '/services/digital' | '/services/digital-events'}
+            href={result.laneHref as '/services/business-advisory' | '/services/technology-advisory' | '/programs/workshops' | '/services/digital' | '/services/digital-products' | '/services/automation' | '/services/ai-agents' | '/services/search-ai-visibility' | '/services/digital-events'}
             className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
           >
             {laneExploreLabel(result.lane, t)}
@@ -421,12 +434,15 @@ function AssessmentResultsView({
 
 function starterOffer(result: AssessmentResult, french: boolean) {
   const byLane = {
+    digital: ['digital', french ? 'Sprint de cadrage numérique' : 'Digital Enablement Discovery Sprint', french ? 'Définir le résultat, les utilisateurs et la plus petite solution numérique utile avant la construction.' : 'Define the outcome, users, and smallest useful digital solution before building.'],
     technology: ['technology', french ? 'Dossier de décision technologique' : 'Technology Decision Brief', french ? 'Clarifier les exigences, les risques, les coûts et les critères de comparaison avant de choisir un fournisseur.' : 'Clarify requirements, risks, costs, and comparison criteria before choosing a provider.'],
     workshop: ['workshop', french ? 'Atelier ciblé avec suivi de 30 jours' : 'Focused Workshop with 30-Day Follow-through', french ? 'Choisir une capacité précise, pratiquer en équipe et mesurer l’engagement après la séance.' : 'Choose one practical capability, practise as a team, and measure follow-through after the session.'],
     website: ['website', french ? 'Rafraîchissement de conversion du site' : 'Website Conversion Refresh', french ? 'Corriger le parcours client prioritaire avant de décider si une reconstruction complète est nécessaire.' : 'Improve the highest-priority customer journey before deciding whether a complete rebuild is necessary.'],
     platform: ['platform', french ? 'Sprint de validation de produit numérique' : 'Digital Product Validation Sprint', french ? 'Valider les utilisateurs, le parcours et la plus petite version utile.' : 'Validate the users, journey, and smallest useful release.'],
     automation: ['automation', french ? 'Sprint d’occasion d’automatisation' : 'Automation Opportunity Sprint', french ? 'Cartographier un flux récurrent, ses exceptions et sa valeur possible.' : 'Map one recurring workflow, its exceptions, and its potential value.'],
     ai: ['ai', french ? 'Pilote pratique d’IA' : 'Practical AI Pilot', french ? 'Tester un flux mesurable avec des garde-fous et une révision humaine.' : 'Test one measurable workflow with guardrails and human review.'],
+    agentic: ['agentic', french ? 'Sprint de préparation agentique' : 'Agentic Readiness Sprint', french ? 'Cadrer un agent gouverné, ses actions autorisées, ses systèmes et ses points de contrôle humain.' : 'Scope one governed agent, its approved actions, connected systems, and human checkpoints.'],
+    visibility: ['visibility', french ? 'Évaluation de visibilité numérique' : 'Digital Visibility Assessment', french ? 'Évaluer la découvrabilité, la lisibilité pour l’IA, l’accessibilité, la performance et la conversion.' : 'Assess discoverability, AI readability, accessibility, performance, and conversion.'],
     event: ['event', french ? 'Sprint de préparation numérique à l’événement' : 'Event Digital Readiness Sprint', french ? 'Planifier le parcours, la collecte d’intérêt et le suivi avant l’événement.' : 'Plan the journey, lead capture, and follow-up before the event.'],
     consulting: ['advisory', french ? 'Sprint de clarté et d’exécution' : 'Clarity and Execution Sprint', french ? 'Transformer la priorité la plus importante en plan de 90 jours avec propriétaires et mesures.' : 'Turn the highest-priority issue into a 90-day plan with owners and measures.'],
     unsure: ['advisory', french ? 'Revue de point de départ' : 'Starting Point Review', french ? 'Clarifier le résultat d’affaires avant de choisir un service.' : 'Clarify the business outcome before choosing a service.'],
@@ -440,7 +456,9 @@ function laneExploreLabel(
   t: ReturnType<typeof useTranslations<'assessmentTool'>>,
 ): string {
   if (lane === 'technology') return t('viewTechnologyAdvisory')
-  if (lane === 'website' || lane === 'platform' || lane === 'automation' || lane === 'ai') {
+  if (lane === 'agentic') return t('viewAgentic')
+  if (lane === 'visibility') return t('viewVisibility')
+  if (lane === 'digital' || lane === 'website' || lane === 'platform' || lane === 'automation' || lane === 'ai') {
     return t('viewDigitalCreations')
   }
   if (lane === 'workshop') return t('viewWorkshops')

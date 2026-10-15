@@ -146,8 +146,8 @@
     "resourcesExecutiveGuides": "Perspectives pour dirigeants",
     "resourcesExecutiveGuidesDesc": "Des cadres décisionnels pour les dirigeants qui abordent la croissance, l’IA, la technologie, le risque, les opérations et la valeur d’entreprise.",
     "resourcesExecutiveGuidesCta": "Explorer 35 guides",
-    "resourcesDigital": "Accompagnement numérique",
-    "resourcesAdvisory": "Conseil",
+    "resourcesDigital": "Construire, automatiser et croître",
+    "resourcesAdvisory": "Stratégie, technologie et risques",
     "resourcesOther": "Commencer ici",
     "resourcesAll": "Tous les articles",
     "resourcesUseCases": "Cas d'usage",
@@ -2394,9 +2394,9 @@
   "insights": {
     "metadataTitle": "Perspectives | ROALLA",
     "metadataDescription": "Guides pratiques sur la numérisation des PME, le leadership fractionnel, la planification stratégique, l'optimisation des processus et l'accompagnement numérique par Roalla.",
-    "groupDigital": "Accompagnement numérique",
+    "groupDigital": "Construire, automatiser et croître",
     "groupDigitalIntro": "Pourquoi un site, une plateforme, l'automatisation ou la visibilité rapportent.",
-    "groupAdvisory": "Conseil",
+    "groupAdvisory": "Stratégie, technologie et risques",
     "groupAdvisoryIntro": "Pourquoi le leadership opérationnel, la planification et les processus changent l'exécution.",
     "groupBusiness": "Conseil d’affaires",
     "groupBusinessIntro": "Stratégie, opérations, leadership et choix qui changent la façon dont l’entreprise fonctionne.",
@@ -3172,16 +3172,16 @@
   },
   "assessmentPage": {
     "metadataTitle": "Trouvez votre point de départ | ROALLA",
-    "metadataDescription": "Six questions rapides pour trouver un point de départ parmi le conseil d'affaires, la recherche technologique, les ateliers, sites, applis, automatisation, IA et événements numériques.",
+    "metadataDescription": "Six questions rapides—plus une précision au besoin—pour trouver un point de départ parmi le conseil, la recherche technologique, l’accompagnement numérique, l’IA agentique, la visibilité et les ateliers.",
     "title": "Trouvez votre point de départ",
-    "preview": "6 questions · 5 minutes · Service et cas d'usage adaptés",
-    "description": "Répondez à six courtes questions et nous suggérerons un point de départ pratique parmi le conseil d'affaires, la recherche technologique, les ateliers et la livraison numérique.",
+    "preview": "6 à 7 questions · 5 minutes · Service et cas d'usage adaptés",
+    "description": "Répondez à six courtes questions et nous suggérerons un point de départ pratique parmi le conseil d'affaires, la recherche technologique, l’accompagnement numérique, l’IA agentique, la visibilité et les ateliers. Si vous hésitez, une question supplémentaire précisera la meilleure famille de services.",
     "whatHappensNext": "~3 min pour la demande · Sans obligation · Réponse en 1 jour ouvrable",
     "faqTitle": "Lien avec nos services",
     "faq1Q": "Comment l'évaluation choisit-elle un point de départ?",
-    "faq1A": "Votre première réponse indique la voie de service que vous reconnaissez déjà. Cinq questions de préparation adaptent ensuite le résultat selon la stratégie, les opérations, le leadership, les données et le changement. Si vous hésitez, la note la plus faible devient le point de départ conseillé.",
+    "faq1A": "Votre première réponse indique la voie de service que vous reconnaissez déjà. Si vous hésitez, une question sur le résultat recherché détermine la famille de services la plus probable. Cinq questions de préparation adaptent ensuite le résultat selon la stratégie, les opérations, le leadership, les données et le changement.",
     "faq2Q": "Comment distingue-t-elle le conseil technologique d'une construction numérique?",
-    "faq2A": "Choisissez Conseil technologique si vous avez besoin d'exigences, de comparer des fournisseurs, de trouver une solution ou de planifier une migration. Choisissez site, appli, automatisation, IA ou événement si vous avez surtout besoin de concevoir, construire, connecter ou améliorer quelque chose.",
+    "faq2A": "Choisissez Conseil technologique si vous avez besoin d'exigences, de comparer des fournisseurs, de rechercher une solution, de cybersécurité, de continuité ou de planifier une migration. Choisissez l’accompagnement numérique pour concevoir, construire ou connecter; Agentique lorsque l’IA doit agir dans des systèmes approuvés; et Visibilité lorsque la découvrabilité, l’accessibilité, la performance ou la conversion sont prioritaires.",
     "faq3Q": "Est-ce un substitut à un appel de découverte?",
     "faq3A": "Non—cela vous aide à vous qualifier avant une conversation. Nous examinons chaque demande personnellement et recommandons le bon point d'entrée en un jour ouvrable.",
     "faq4Q": "Que se passe-t-il après l'envoi d'une demande?",
@@ -3192,7 +3192,9 @@
     "analyzing": "Analyse de vos résultats…",
     "scoreTitle": "Votre aperçu de préparation : {score} %",
     "primaryPhase": "Accent de préparation",
+    "primaryAction": "Action recommandée",
     "recommendedService": "Service le mieux adapté",
+    "readinessConsideration": "Point de préparation à considérer",
     "recommendedLane": "Voie suggérée",
     "alsoConsider": "À considérer aussi",
     "keyRecommendations": "Recommandations clés",
@@ -3206,6 +3208,8 @@
     "viewDigitalCreations": "Explorer les créations numériques",
     "viewWorkshops": "Explorer les ateliers",
     "viewDigitalEvents": "Explorer les événements numériques",
+    "viewAgentic": "Explorer ROALLA Agentique",
+    "viewVisibility": "Explorer l’optimisation de la visibilité numérique",
     "viewUseCase": "Voir le cas d'usage correspondant",
     "pillars": {
       "prepare": "Préparer — aligner priorités et préparation",
@@ -3219,13 +3223,32 @@
       "emerge": "Commencer par Émerger",
       "soar": "Commencer par S'envoler"
     },
+    "actionStages": {
+      "advise": "Conseiller — clarifier les résultats, contraintes et priorités",
+      "source": "Rechercher — comparer les options et choisir de façon responsable",
+      "agentic": "Agentique — déployer des agents d’IA gouvernés",
+      "build": "Construire — créer la bonne fondation numérique",
+      "connect": "Connecter — intégrer les systèmes et automatiser les transferts",
+      "improve": "Améliorer — renforcer visibilité, conversion et performance"
+    },
+    "actionStageCategory": {
+      "advise": "Action recommandée : Conseiller",
+      "source": "Action recommandée : Rechercher",
+      "agentic": "Action recommandée : Agentique",
+      "build": "Action recommandée : Construire",
+      "connect": "Action recommandée : Connecter",
+      "improve": "Action recommandée : Améliorer"
+    },
     "lanes": {
       "consulting": "Conseil d'affaires",
       "technology": "Conseil technologique et recherche de solutions",
-      "website": "Site Web et visibilité numérique",
+      "digital": "Accompagnement numérique",
+      "website": "Site Web et conversion",
       "platform": "Appli, portail ou outil d'affaires sur mesure",
       "automation": "Intégration et automatisation des flux",
-      "ai": "IA pratique",
+      "ai": "Flux assisté par l’IA",
+      "agentic": "ROALLA Agentique",
+      "visibility": "Optimisation de la visibilité numérique",
       "workshop": "Atelier d'équipe",
       "event": "Événements numériques",
       "unsure": "Pas encore sûr — nous vous guiderons"
@@ -3244,13 +3267,26 @@
         "options": {
           "consulting": "Conseil d'affaires en stratégie, opérations, leadership ou préparation",
           "technology": "Aide pour choisir, comparer ou mettre en œuvre une technologie d'affaires",
-          "website": "Un nouveau site, une refonte, plus de visibilité ou de meilleurs prospects",
+          "website": "Un nouveau site, une refonte ou une amélioration de la conversion",
           "platform": "Une appli, un portail ou un outil d'affaires sur mesure",
           "automation": "Des systèmes connectés, des flux automatisés ou moins de travail répétitif",
-          "ai": "Un cas d'usage, un flux ou une solution d'IA pratique",
+          "ai": "Notation assistée par l’IA, traitement de documents, copilotes ou flux guidés",
+          "agentic": "Un agent d’IA qui peut agir dans des systèmes et flux approuvés",
+          "visibility": "Meilleure visibilité de recherche, lisibilité pour l’IA, accessibilité ou performance",
           "workshop": "Un atelier facilité pour l'équipe",
           "event": "Pages événement, kits de kiosque ou applis événementielles",
           "unsure": "Pas encore sûr — aidez-moi à choisir"
+        }
+      },
+      "direction": {
+        "text": "Quel résultat se rapproche le plus de votre besoin?",
+        "hint": "Choisissez le résultat recherché; les autres questions adapteront la recommandation.",
+        "options": {
+          "advise": "Clarifier les priorités, opérations, leadership, risques ou la voie à suivre",
+          "source": "Choisir, comparer, remplacer ou gouverner une technologie et ses fournisseurs",
+          "build": "Construire ou connecter un site, produit, portail, flux ou expérience événementielle",
+          "agentic": "Utiliser un agent d’IA pour agir de façon approuvée dans plusieurs systèmes",
+          "improve": "Améliorer visibilité, lisibilité pour l’IA, accessibilité, performance ou conversion"
         }
       },
       "strategy": {
@@ -3367,6 +3403,15 @@
         }
       },
       "lane": {
+        "digital": {
+          "rec1": "Commencer par le résultat d’affaires et le parcours utilisateur avant de choisir la construction",
+          "rec2": "Définir la plus petite version utile, les intégrations, les responsables et les mesures",
+          "rec3": "Traiter l’adoption, l’analytique, l’accessibilité et la maintenance comme parties de la livraison",
+          "rec4": "Utiliser un sprint de découverte ciblé pour choisir la bonne voie numérique",
+          "next1": "Explorer l’accompagnement numérique pour sites, produits, automatisation et événements",
+          "next2": "Soumettre une demande avec les utilisateurs, le flux et le résultat souhaité",
+          "next3": "Discuter s’il faut d’abord construire, connecter, améliorer ou valider"
+        },
         "technology": {
           "rec1": "Définir d'abord les exigences d'affaires, techniques, de sécurité, d'intégration et d'adoption",
           "rec2": "Comparer les fournisseurs qualifiés selon le coût total, le soutien, les engagements et la sortie",
@@ -3377,9 +3422,9 @@
           "next3": "Discuter de ce qu'il faut remplacer, consolider, ajouter ou comparer"
         },
         "website": {
-          "rec1": "Clarifier si la priorité est la confiance, la visibilité, la conversion ou l'échéance",
+          "rec1": "Clarifier si la priorité est la confiance, la conversion, la réservation ou l'échéance",
           "rec2": "Évaluer si une optimisation ciblée ou une nouvelle fondation est justifiée",
-          "rec3": "Relier contenu, visibilité, formulaires et suivi à une action client mesurable",
+          "rec3": "Relier contenu, appels à l’action, formulaires et suivi à une action client mesurable",
           "rec4": "Voir des exemples dans notre portfolio numérique",
           "next1": "Explorer les créations numériques pour sites et marque",
           "next2": "Soumettre une demande avec votre contexte d'évaluation",
@@ -3408,9 +3453,27 @@
           "rec2": "Confirmer qualité des données, vie privée, sécurité et révision humaine",
           "rec3": "Tester avec du travail représentatif et des critères de succès explicites",
           "rec4": "Décider s'il faut construire un flux ou trouver une plateforme d'IA",
-          "next1": "Explorer l'IA pratique par l'accompagnement numérique",
+          "next1": "Explorer les flux assistés par l’IA grâce à l’accompagnement numérique",
           "next2": "Soumettre une demande avec la tâche, les utilisateurs et l'information concernés",
           "next3": "Discuter garde-fous, intégrations, révision et adoption"
+        },
+        "agentic": {
+          "rec1": "Définir le résultat, les actions approuvées, les limites décisionnelles et le responsable",
+          "rec2": "Cartographier chaque système, permission, source de données et point de contrôle humain",
+          "rec3": "Commencer par un flux étroit et tester les conditions normales, exceptionnelles et d’échec",
+          "rec4": "Prévoir approbations, journaux, surveillance, escalade et arrêt sécuritaire dès le départ",
+          "next1": "Explorer ROALLA Agentique pour les agents gouvernés et les flux multiagents",
+          "next2": "Soumettre une demande avec le flux, les systèmes, les utilisateurs et les contraintes de risque",
+          "next3": "Discuter si un pilote agentique est sécuritaire, utile et prêt à être mesuré"
+        },
+        "visibility": {
+          "rec1": "Évaluer ensemble découvrabilité, lisibilité pour l’IA, accessibilité, vitesse et conversion",
+          "rec2": "Corriger les obstacles techniques et la structure de contenu avant d’ajouter du contenu",
+          "rec3": "Prioriser les améliorations liées à une visibilité qualifiée et à une action client mesurable",
+          "rec4": "Établir une référence et un suivi pour vérifier les progrès dans le temps",
+          "next1": "Explorer l’optimisation de la visibilité numérique",
+          "next2": "Soumettre une demande avec votre site, votre public et le résultat prioritaire",
+          "next3": "Discuter du plus petit plan d’amélioration fondé sur des preuves"
         },
         "workshop": {
           "rec1": "Choisir un sujet—marque, ventes, productivité ou idéation",

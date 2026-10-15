@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { ArrowRight, BarChart3, CheckCircle2, Clock3, ShieldCheck } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import type { ServiceLandingCopy } from "@/lib/service-landing-types";
@@ -6,9 +7,11 @@ import type { ServiceLandingCopy } from "@/lib/service-landing-types";
 export default function OutcomeServiceLanding({
   locale,
   content,
+  heroImage,
 }: {
   locale: string;
   content: ServiceLandingCopy;
+  heroImage?: string;
 }) {
   const journey = [
     {
@@ -35,26 +38,43 @@ export default function OutcomeServiceLanding({
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
-      <header className="rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-7 py-12 lg:px-12 lg:py-16 text-white">
-        <p className="text-xs font-semibold uppercase tracking-[.18em] text-primary-light">
-          {content.eyebrow}
-        </p>
-        <h1 className="mt-4 max-w-4xl text-4xl md:text-5xl font-serif font-bold leading-tight text-white">
-          {content.title}
-        </h1>
-        <p className="mt-5 max-w-3xl text-lg text-slate-300 leading-relaxed">
-          {content.description}
-        </p>
-        <p className="mt-4 max-w-3xl text-sm font-medium text-primary-light">
-          {content.outcome}
-        </p>
-        <Link
-          href="/contact"
-          className="mt-8 inline-flex min-h-[48px] items-center rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-dark transition-colors"
-        >
-          {content.cta}
-          <ArrowRight className="ml-2 w-4 h-4" aria-hidden />
-        </Link>
+      <header className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-7 py-12 lg:px-12 lg:py-16 text-white">
+        {heroImage ? (
+          <>
+            <Image
+              src={heroImage}
+              alt=""
+              fill
+              priority
+              sizes="(max-width: 1280px) 100vw, 1152px"
+              className="pointer-events-none object-cover object-[68%_center] opacity-80"
+              aria-hidden
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/88 to-slate-950/40" aria-hidden />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/10 via-transparent to-slate-950/65" aria-hidden />
+          </>
+        ) : null}
+        <div className="relative">
+          <p className="text-xs font-semibold uppercase tracking-[.18em] text-primary-light">
+            {content.eyebrow}
+          </p>
+          <h1 className="mt-4 max-w-4xl text-4xl md:text-5xl font-serif font-bold leading-tight text-white">
+            {content.title}
+          </h1>
+          <p className="mt-5 max-w-3xl text-lg text-slate-300 leading-relaxed">
+            {content.description}
+          </p>
+          <p className="mt-4 max-w-3xl text-sm font-medium text-primary-light">
+            {content.outcome}
+          </p>
+          <Link
+            href="/contact"
+            className="mt-8 inline-flex min-h-[48px] items-center rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-dark transition-colors"
+          >
+            {content.cta}
+            <ArrowRight className="ml-2 w-4 h-4" aria-hidden />
+          </Link>
+        </div>
       </header>
       <main className="max-w-6xl mx-auto">
         <nav

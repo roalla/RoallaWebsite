@@ -33,6 +33,12 @@ const FILES: Record<string, string> = {
   "canadian-staff-augmentation-outlook-2027": "canadian-staff-augmentation-outlook-2027.pdf",
   "ai-agent-cost-governance-2027": "ai-agent-cost-governance-2027.pdf",
   "enterprise-user-adoption-self-service-enablement": "enterprise-user-adoption-self-service-enablement.pdf",
+  "technology-spend-optimization-vendor-governance": "technology-spend-optimization-vendor-governance.pdf",
+  "post-merger-technology-integration": "post-merger-technology-integration.pdf",
+  "business-continuity-operational-resilience": "business-continuity-operational-resilience.pdf",
+  "responsible-automation-workforce-transition": "responsible-automation-workforce-transition.pdf",
+  "digital-workplace-collaboration-optimization": "digital-workplace-collaboration-optimization.pdf",
+  "application-portfolio-rationalization": "application-portfolio-rationalization.pdf",
 };
 
 function secret() {

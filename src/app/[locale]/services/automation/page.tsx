@@ -39,7 +39,11 @@ export default async function Page({ params }: Props) {
           ]),
         ]}
       />
-      <OutcomeServiceLanding locale={locale} content={c} />
+      <OutcomeServiceLanding
+        locale={locale}
+        content={c}
+        heroImage="/images/services/automation-hero.webp"
+      />
     </div>
   );
 }

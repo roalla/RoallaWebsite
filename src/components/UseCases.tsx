@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useCallback, useEffect, useState } from 'react'
+import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import {
   ArrowUpRight,
@@ -234,12 +235,25 @@ export default function UseCases() {
   return (
     <section id="use-cases" className="section-padding bg-white py-20 lg:py-28">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <header className="mb-10 text-center">
-          <div className="mb-4 flex items-center justify-center">
-            <Table2 className="mr-3 h-11 w-11 text-primary-dark" aria-hidden />
-            <h1 className="text-4xl font-serif font-extrabold text-slate-950 md:text-5xl">{t('title')}</h1>
+        <header className="relative mb-10 overflow-hidden rounded-2xl bg-slate-950 px-7 py-14 text-left text-white shadow-xl lg:px-12 lg:py-20">
+          <Image
+            src="/images/services/use-cases-hero.webp"
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 1280px) 100vw, 1152px"
+            className="pointer-events-none object-cover object-[68%_center] opacity-80"
+            aria-hidden
+          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/88 to-slate-950/40" aria-hidden />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/10 via-transparent to-slate-950/65" aria-hidden />
+          <div className="relative max-w-3xl">
+            <div className="mb-4 flex items-center">
+              <Table2 className="mr-3 h-11 w-11 text-primary-light" aria-hidden />
+              <h1 className="text-4xl font-serif font-extrabold text-white md:text-5xl">{t('title')}</h1>
+            </div>
+            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-200 md:text-xl">{t('subtitle')}</p>
           </div>
-          <p className="mx-auto mt-4 max-w-3xl text-xl leading-relaxed text-slate-600">{t('subtitle')}</p>
         </header>
 
         <aside className="mx-auto mb-8 max-w-4xl rounded-xl border border-primary/20 bg-gradient-to-br from-white via-slate-50 to-primary/5 p-6 lg:p-8">

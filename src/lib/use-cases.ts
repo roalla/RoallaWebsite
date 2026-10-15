@@ -7,15 +7,17 @@ export type UseCaseMaturity = (typeof USE_CASE_MATURITY_LEVELS)[number]
 
 export const USE_CASE_CATEGORIES = [
   'decisions',
-  'execution',
-  'resilience',
-  'demand',
-  'experiences',
-  'automation',
+  'operations',
+  'growth',
+  'risk',
 ] as const
 export type UseCaseCategory = (typeof USE_CASE_CATEGORIES)[number]
 
-export type UseCaseFilter = UseCaseCategory | 'all'
+export const USE_CASE_FAMILIES = ['build-grow', 'strategy-risk'] as const
+export type UseCaseFamily = (typeof USE_CASE_FAMILIES)[number]
+
+export type UseCaseFilter = UseCaseCategory | 'featured'
+export type UseCaseFamilyFilter = UseCaseFamily | 'all'
 
 export const USE_CASE_SERVICE_KEYS = [
   'business-advisory',
@@ -25,6 +27,10 @@ export const USE_CASE_SERVICE_KEYS = [
   'automation',
   'digital-events',
   'digital-enablement',
+  'ai-agents',
+  'search-ai-visibility',
+  'workshops',
+  'managed-optimization',
 ] as const
 export type UseCaseServiceKey = (typeof USE_CASE_SERVICE_KEYS)[number]
 
@@ -36,6 +42,10 @@ export const USE_CASE_SERVICE_HREFS = {
   automation: '/services/automation',
   'digital-events': '/services/digital-events',
   'digital-enablement': '/services/digital',
+  'ai-agents': '/services/ai-agents',
+  'search-ai-visibility': '/services/search-ai-visibility',
+  workshops: '/programs/workshops',
+  'managed-optimization': '/services/managed-optimization',
 } as const satisfies Record<UseCaseServiceKey, string>
 
 export const USE_CASES = [
@@ -48,42 +58,42 @@ export const USE_CASES = [
   },
   {
     id: 'process-bottlenecks',
-    category: 'execution',
+    category: 'operations',
     service: 'business-advisory',
     maturity: 'established',
     portfolio: [] as const satisfies readonly CaseStudySlug[],
   },
   {
     id: 'founder-bottleneck',
-    category: 'execution',
+    category: 'operations',
     service: 'business-advisory',
     maturity: 'established',
     portfolio: [] as const satisfies readonly CaseStudySlug[],
   },
   {
     id: 'leadership-decision-rights',
-    category: 'execution',
+    category: 'operations',
     service: 'business-advisory',
     maturity: 'established',
     portfolio: [] as const satisfies readonly CaseStudySlug[],
   },
   {
     id: 'management-dashboard',
-    category: 'execution',
+    category: 'operations',
     service: 'business-advisory',
     maturity: 'established',
     portfolio: [] as const satisfies readonly CaseStudySlug[],
   },
   {
     id: 'profitability-capacity',
-    category: 'execution',
+    category: 'operations',
     service: 'business-advisory',
     maturity: 'ready',
     portfolio: [] as const satisfies readonly CaseStudySlug[],
   },
   {
     id: 'repeatable-delivery',
-    category: 'execution',
+    category: 'operations',
     service: 'business-advisory',
     maturity: 'ready',
     portfolio: [] as const satisfies readonly CaseStudySlug[],
@@ -97,7 +107,7 @@ export const USE_CASES = [
   },
   {
     id: 'customer-concentration',
-    category: 'resilience',
+    category: 'risk',
     service: 'business-advisory',
     maturity: 'ready',
     portfolio: [] as const satisfies readonly CaseStudySlug[],
@@ -111,7 +121,7 @@ export const USE_CASES = [
   },
   {
     id: 'technology-stack-review',
-    category: 'resilience',
+    category: 'risk',
     service: 'technology-advisory',
     maturity: 'established',
     portfolio: [] as const satisfies readonly CaseStudySlug[],
@@ -132,98 +142,164 @@ export const USE_CASES = [
   },
   {
     id: 'continuity-recovery',
-    category: 'resilience',
+    category: 'risk',
     service: 'technology-advisory',
     maturity: 'ready',
     portfolio: [] as const satisfies readonly CaseStudySlug[],
   },
   {
     id: 'cybersecurity-sourcing',
-    category: 'resilience',
+    category: 'risk',
     service: 'technology-advisory',
     maturity: 'ready',
     portfolio: [] as const satisfies readonly CaseStudySlug[],
   },
   {
     id: 'communications-modernization',
-    category: 'resilience',
+    category: 'risk',
     service: 'technology-advisory',
     maturity: 'ready',
     portfolio: [] as const satisfies readonly CaseStudySlug[],
   },
   {
     id: 'cloud-connectivity',
-    category: 'resilience',
+    category: 'risk',
     service: 'technology-advisory',
     maturity: 'ready',
     portfolio: [] as const satisfies readonly CaseStudySlug[],
   },
   {
     id: 'technology-implementation',
-    category: 'execution',
+    category: 'operations',
     service: 'technology-advisory',
     maturity: 'established',
     portfolio: [] as const satisfies readonly CaseStudySlug[],
   },
   {
     id: 'website-refresh',
-    category: 'demand',
+    category: 'growth',
     service: 'website-design',
     maturity: 'proven',
     portfolio: [] as const satisfies readonly CaseStudySlug[],
   },
   {
     id: 'lead-capture',
-    category: 'demand',
+    category: 'growth',
     service: 'website-design',
     maturity: 'proven',
     portfolio: ['grcstatus'] as const satisfies readonly CaseStudySlug[],
   },
   {
     id: 'custom-app',
-    category: 'experiences',
+    category: 'growth',
     service: 'digital-products',
     maturity: 'established',
     portfolio: [] as const satisfies readonly CaseStudySlug[],
   },
   {
     id: 'client-portal',
-    category: 'experiences',
+    category: 'growth',
     service: 'digital-products',
     maturity: 'established',
     portfolio: [] as const satisfies readonly CaseStudySlug[],
   },
   {
     id: 'integrations',
-    category: 'automation',
+    category: 'operations',
     service: 'automation',
     maturity: 'established',
     portfolio: [] as const satisfies readonly CaseStudySlug[],
   },
   {
     id: 'workflow-automation',
-    category: 'automation',
+    category: 'operations',
     service: 'automation',
     maturity: 'established',
     portfolio: [] as const satisfies readonly CaseStudySlug[],
   },
   {
     id: 'event-kit',
-    category: 'demand',
+    category: 'growth',
     service: 'digital-events',
     maturity: 'proven',
     portfolio: ['boothlio'] as const satisfies readonly CaseStudySlug[],
   },
   {
     id: 'ai-workflows',
-    category: 'automation',
-    service: 'digital-enablement',
+    category: 'operations',
+    service: 'ai-agents',
     maturity: 'proven',
     portfolio: ['pitch-hotshots'] as const satisfies readonly CaseStudySlug[],
+  },
+  {
+    id: 'human-agent-operating-model',
+    category: 'operations',
+    service: 'business-advisory',
+    maturity: 'ready',
+    portfolio: [] as const satisfies readonly CaseStudySlug[],
+  },
+  {
+    id: 'search-ai-visibility',
+    category: 'growth',
+    service: 'search-ai-visibility',
+    maturity: 'established',
+    portfolio: [] as const satisfies readonly CaseStudySlug[],
+  },
+  {
+    id: 'data-ai-readiness',
+    category: 'decisions',
+    service: 'technology-advisory',
+    maturity: 'ready',
+    portfolio: [] as const satisfies readonly CaseStudySlug[],
+  },
+  {
+    id: 'shadow-ai-risk',
+    category: 'risk',
+    service: 'technology-advisory',
+    maturity: 'ready',
+    portfolio: [] as const satisfies readonly CaseStudySlug[],
+  },
+  {
+    id: 'managed-optimization',
+    category: 'growth',
+    service: 'managed-optimization',
+    maturity: 'established',
+    portfolio: [] as const satisfies readonly CaseStudySlug[],
+  },
+  {
+    id: 'technology-adoption',
+    category: 'operations',
+    service: 'workshops',
+    maturity: 'ready',
+    portfolio: [] as const satisfies readonly CaseStudySlug[],
   },
 ] as const
 
 export type UseCaseId = (typeof USE_CASES)[number]['id']
+
+export const FEATURED_USE_CASE_IDS = [
+  'strategic-priorities',
+  'process-bottlenecks',
+  'website-refresh',
+  'ai-workflows',
+  'search-ai-visibility',
+  'cybersecurity-sourcing',
+] as const satisfies readonly UseCaseId[]
+
+const BUILD_GROW_SERVICES = new Set<UseCaseServiceKey>([
+  'website-design',
+  'digital-products',
+  'automation',
+  'digital-events',
+  'digital-enablement',
+  'ai-agents',
+  'search-ai-visibility',
+  'managed-optimization',
+])
+
+export function familyForService(service: UseCaseServiceKey): UseCaseFamily {
+  return BUILD_GROW_SERVICES.has(service) ? 'build-grow' : 'strategy-risk'
+}
 
 export const HERO_PATH_USE_CASES = {
   website: 'website-refresh',
@@ -238,8 +314,9 @@ const ASSESSMENT_LANE_USE_CASES: Partial<Record<AssessmentLane, UseCaseId>> = {
   automation: 'integrations',
   ai: 'ai-workflows',
   agentic: 'ai-workflows',
-  visibility: 'website-refresh',
+  visibility: 'search-ai-visibility',
   event: 'event-kit',
+  workshop: 'technology-adoption',
 }
 
 export type UseCasePageHref =
@@ -251,8 +328,6 @@ export function useCasePageHref(id: UseCaseId | 'all' = 'all'): UseCasePageHref 
 }
 
 export function useCaseForAssessmentResult(result: AssessmentResult): UseCaseId | 'all' | null {
-  if (result.lane === 'workshop') return null
-
   if (result.lane === 'consulting') {
     if (result.primaryService === 'strategy') return 'strategic-priorities'
     if (result.primaryService === 'operations') return 'process-bottlenecks'
@@ -315,6 +390,12 @@ export const USE_CASE_SCHEDULE_QUERIES: Record<UseCaseId, UseCaseScheduleQuery> 
   'workflow-automation': { intent: 'automation', need: 'workflow' },
   'event-kit': { intent: 'digital-events', need: 'booth' },
   'ai-workflows': { intent: 'ai-support', need: 'exploring' },
+  'human-agent-operating-model': { intent: 'consulting', focus: 'operations', need: 'human-agent-operating-model' },
+  'search-ai-visibility': { intent: 'visibility', need: 'search-ai-visibility' },
+  'data-ai-readiness': { intent: 'ai-support', need: 'data-ai-readiness' },
+  'shadow-ai-risk': { intent: 'consulting', focus: 'technology', need: 'shadow-ai-risk' },
+  'managed-optimization': { intent: 'visibility', need: 'managed-optimization' },
+  'technology-adoption': { intent: 'workshop', need: 'technology-adoption' },
 }
 
 export function scheduleQueryForUseCase(id: UseCaseId): UseCaseScheduleQuery {

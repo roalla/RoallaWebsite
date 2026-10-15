@@ -5,8 +5,6 @@ import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import {
   ArrowUpRight,
-  Bot,
-  BriefcaseBusiness,
   Compass,
   Gauge,
   Rocket,
@@ -30,13 +28,11 @@ import {
 } from '@/lib/use-cases'
 import type { CaseStudySlug } from '@/lib/portfolio-case-studies'
 
-const categoryIcons: Record<UseCaseCategory, LucideIcon> = {
+const categoryIcons: Record<string, LucideIcon> = {
   decisions: Compass,
-  execution: Gauge,
-  resilience: ShieldCheck,
-  demand: Rocket,
-  experiences: BriefcaseBusiness,
-  automation: Bot,
+  operations: Gauge,
+  growth: Rocket,
+  risk: ShieldCheck,
 }
 
 function PortfolioExamples({ slugs }: { slugs: readonly CaseStudySlug[] }) {
@@ -162,7 +158,7 @@ function UseCaseCard({ id, service, portfolio }: {
   )
 }
 
-function CategoryBlock({ category, filter }: { category: UseCaseCategory; filter: UseCaseFilter }) {
+function CategoryBlock({ category, filter }: { category: UseCaseCategory; filter: UseCaseFilter | 'all' }) {
   const t = useTranslations('useCases')
   const Icon = categoryIcons[category]
   const cases = USE_CASES.filter((item) => item.category === category)
@@ -194,7 +190,7 @@ function CategoryBlock({ category, filter }: { category: UseCaseCategory; filter
 
 export default function UseCases() {
   const t = useTranslations('useCases')
-  const [filter, setFilter] = useState<UseCaseFilter>('all')
+  const [filter, setFilter] = useState<UseCaseFilter | 'all'>('all')
 
   const scrollToHash = useCallback((hash: string) => {
     document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -225,7 +221,7 @@ export default function UseCases() {
     return () => window.removeEventListener('hashchange', applyHash)
   }, [scrollToHash])
 
-  const setFilterAndHash = (next: UseCaseFilter) => {
+  const setFilterAndHash = (next: UseCaseFilter | 'all') => {
     setFilter(next)
     const hash = next === 'all' ? '' : `category-${next}`
     window.history.replaceState(null, '', hash ? `${window.location.pathname}#${hash}` : window.location.pathname)

@@ -3557,10 +3557,35 @@
     "redirecting": "Redirection..."
   },
   "useCases": {
-    "metadataTitle": "Problèmes d'affaires et technologiques résolus | ROALLA",
-    "metadataDescription": "Explorez des situations d'affaires et technologiques courantes, les résultats à viser, les enjeux à considérer et l'aide que ROALLA peut offrir.",
-    "title": "Commencez par le résultat recherché",
-    "subtitle": "Explorez des situations d'affaires et technologiques courantes—des priorités floues et du choix d'un fournisseur aux sites Web, à l'automatisation et à l'IA pratique.",
+    "metadataTitle": "Cas d’usage d’affaires et technologiques | ROALLA",
+    "metadataDescription": "Choisissez le résultat d’affaires recherché, explorez des scénarios concrets et reliez le bon service ROALLA à votre prochaine étape.",
+    "eyebrow": "Des parcours concrets pour le changement",
+    "title": "Trouvez le bon point de départ pour ce qui doit changer",
+    "subtitle": "Choisissez la pression que votre organisation ressent maintenant. Nous la relierons à des scénarios ciblés, à une première étape concrète et au bon parcours de service.",
+    "heroAssessmentCta": "Obtenir un point de départ personnalisé",
+    "heroSolutionsCta": "Explorer les solutions générales",
+    "outcomesEyebrow": "Partez de la pression",
+    "outcomesTitle": "Qu’est-ce qui doit changer maintenant?",
+    "outcomesBody": "Choisissez le résultat le plus proche. Vous n’avez pas à diagnostiquer la solution ni à connaître le nom du service avant de commencer.",
+    "scenarioCount": "{count, plural, one {# scénario} other {# scénarios}}",
+    "familyFilterLabel": "Préciser par capacité",
+    "familyAll": "Toute l’expertise",
+    "resultsCount": "{count, plural, one {# scénario recommandé} other {# scénarios recommandés}}",
+    "clearFilters": "Réinitialiser",
+    "featuredEyebrow": "Un premier aperçu ciblé",
+    "featuredTitle": "Points de départ courants",
+    "featuredBody": "Six situations représentatives liées à la croissance, aux opérations, aux décisions et au risque. Choisissez un résultat ci-dessus pour voir l’ensemble correspondant.",
+    "selectedEyebrow": "Votre résultat sélectionné",
+    "seeApproach": "Voir l’approche",
+    "hideApproach": "Masquer l’approche",
+    "firstStepTitle": "Un départ concret sur 30 à 90 jours",
+    "firstStepBody": "Confirmez l’état actuel, la personne responsable, les faits et le risque principal, puis définissez la plus petite étape utile pouvant être mesurée avant de passer à l’échelle.",
+    "discussCta": "Discuter de ce scénario",
+    "assessmentEyebrow": "Vous préférez une recommandation?",
+    "assessmentTitle": "Transformez vos priorités en point de départ concret",
+    "assessmentBody": "L’évaluation de cinq minutes recommande un parcours, une première action à faible risque et une direction sur 30, 60 et 90 jours.",
+    "assessmentCta": "Faire l’évaluation",
+    "noMatches": "Aucun scénario ne correspond encore aux deux sélections.",
     "howToReadTitle": "Comment lire cette page",
     "howToRead1": "Choisissez une catégorie de résultats, puis la situation qui vous semble familière.",
     "howToRead2": "Chaque scénario précise le résultat visé, les risques de décision, les livrables et le meilleur contexte d'utilisation.",
@@ -3586,7 +3611,11 @@
       "digital-products": "Explorer les produits numériques",
       "automation": "Explorer l'automatisation et l'intégration",
       "digital-events": "Explorer les événements numériques",
-      "digital-enablement": "Explorer l'habilitation numérique"
+      "digital-enablement": "Explorer l’habilitation numérique",
+      "ai-agents": "Explorer ROALLA Agentic",
+      "search-ai-visibility": "Explorer la visibilité dans la recherche et l’IA",
+      "workshops": "Explorer les ateliers d’équipe",
+      "managed-optimization": "Explorer l’optimisation gérée"
     },
     "maturity": {
       "proven": {
@@ -3604,28 +3633,28 @@
     },
     "categories": {
       "decisions": {
-        "title": "Prendre de meilleures décisions",
-        "desc": "Établir les priorités, comparer les options et s'engager avec des faits plutôt qu'avec des suppositions."
+        "title": "Prendre une décision avec confiance",
+        "desc": "Fixer la direction, comparer les options et financer la prochaine étape avec des faits."
       },
-      "execution": {
-        "title": "Améliorer l'exécution et la capacité",
-        "desc": "Éliminer les goulots, clarifier les responsabilités et transformer la croissance en travail soutenable."
+      "operations": {
+        "title": "Améliorer la façon de travailler",
+        "desc": "Éliminer les frictions, clarifier les responsabilités et faire travailler ensemble les personnes, les systèmes, l’automatisation et l’IA."
       },
-      "resilience": {
-        "title": "Réduire les coûts et les risques opérationnels",
-        "desc": "Protéger la continuité, la marge, la sécurité et les technologies essentielles tout en simplifiant ce qui ne sert plus l'entreprise."
+      "growth": {
+        "title": "Accroître la visibilité et l’action client",
+        "desc": "Créer des expériences numériques utiles qui aident les bonnes personnes à vous trouver, vous faire confiance et vous choisir."
       },
-      "demand": {
-        "title": "Générer de la demande et de l'action client",
-        "desc": "Aider le bon public à vous trouver, à vous faire confiance et à passer à une prochaine étape mesurable."
+      "risk": {
+        "title": "Réduire les risques technologiques et opérationnels",
+        "desc": "Protéger la continuité, la sécurité, la marge et les technologies essentielles tout en simplifiant ce qui ne sert plus l’entreprise."
+      }
+    },
+    "families": {
+      "build-grow": {
+        "title": "Créer, automatiser et croître"
       },
-      "experiences": {
-        "title": "Créer de meilleures expériences numériques",
-        "desc": "Offrir aux clients, partenaires et équipes des outils adaptés au travail qu'ils doivent réellement accomplir."
-      },
-      "automation": {
-        "title": "Connecter, automatiser et appliquer l'IA",
-        "desc": "Réduire le travail répétitif et intégrer une automatisation fiable ou une IA encadrée aux flux réels."
+      "strategy-risk": {
+        "title": "Stratégie, technologie et risque"
       }
     },
     "cases": {
@@ -3830,12 +3859,60 @@
         "fit": "Exposants et équipes de lancement qui veulent plus que des scans ou fiches papier et souhaitent savoir ce qui a généré un intérêt réel."
       },
       "ai-workflows": {
-        "title": "Intégrer une IA encadrée dans un flux déjà utilisé",
-        "outcome": "Une capacité IA délimitée avec données représentatives, mesures de qualité, garde-fous et révision humaine proportionnelle au risque.",
-        "need": "Nous voulons que l'IA aide—pas un autre chatbot inutilisé.",
-        "consider": "Une IA utile exige une tâche définie, des renseignements représentatifs, une norme de qualité, une gestion sûre des données, des règles d'exception et une personne capable de vérifier le résultat.",
-        "deliver": "Une IA cadrée dans de vrais flux—notation, briefs guidés, aide documentaire et routage intelligent—avec qualité mesurable, garde-fous, traçabilité et révision humaine.",
-        "fit": "Équipes ayant une tâche informationnelle répétitive, assez d'exemples représentatifs et une personne responsable pouvant définir un résultat acceptable."
+        "title": "Déployer un agent IA gouverné dans un flux délimité",
+        "outcome": "Un agent fiable avec actions approuvées, qualité mesurable, limites opérationnelles, traçabilité et contrôle humain proportionnel au risque.",
+        "need": "Nous voulons qu’un agent IA accomplisse un travail utile, pas un autre chatbot ni une expérience sans contrôle.",
+        "consider": "L’autonomie ne devrait jamais dépasser la fiabilité. Les permissions, actions approuvées, cas d’évaluation, coûts, exceptions, escalades, journaux et conditions d’arrêt doivent être définis avant un déploiement à grande échelle.",
+        "deliver": "Un flux agentique cadré avec tests représentatifs, limites de permission, mesures de qualité et de valeur, surveillance, points de contrôle humains, règles d’escalade et parcours contrôlé du pilote à la production.",
+        "fit": "Équipes ayant une tâche répétable en plusieurs étapes, des sources accessibles, une personne responsable et des réviseurs capables de juger la qualité du résultat."
+      },
+      "human-agent-operating-model": {
+        "title": "Repenser le travail pour des équipes humaines et agentiques efficaces",
+        "outcome": "Des responsabilités, transferts, normes de qualité et routines clairs pour les personnes qui travaillent avec des agents IA.",
+        "need": "Des personnes utilisent déjà l’IA, mais l’organisation n’a pas repensé le travail ni la responsabilité autour de son usage.",
+        "consider": "L’accès à l’IA ne crée pas un modèle opérationnel fiable. Il faut décider ce que les personnes dirigent, ce que les agents exécutent, qui révise, comment les apprentissages circulent et comment les exceptions sont traitées.",
+        "deliver": "Une carte des flux humains-agents, un modèle de responsabilité et de révision, des normes de qualité, des priorités de formation, un rythme opérationnel et un plan d’adoption par étapes lié à une valeur mesurable.",
+        "fit": "Organisations qui passent d’expériences individuelles avec l’IA à un usage reproductible à l’échelle d’une équipe ou d’une fonction."
+      },
+      "search-ai-visibility": {
+        "title": "Aider les acheteurs, les moteurs et les systèmes IA à comprendre votre valeur",
+        "outcome": "Une présence numérique plus claire et crédible, facile à découvrir, interpréter et utiliser dans les parcours de recherche assistés par l’IA.",
+        "need": "Les bons acheteurs ne nous trouvent pas, ou les moteurs et systèmes IA comprennent mal notre pertinence.",
+        "consider": "La visibilité dépend de la santé technique, d’une structure accessible, d’une expertise originale et précise, de preuves solides, de médias utiles, d’entités claires et de parcours de conversion, pas d’un volume de contenu générique.",
+        "deliver": "Une base de visibilité pour la recherche et l’IA, des priorités de contenu et techniques, des signaux de confiance structurés, des mesures et des améliorations ciblées liées à la découverte qualifiée et à la conversion.",
+        "fit": "Organisations ayant une offre crédible dont le contenu, la fondation technique, les signaux d’autorité ou le parcours de conversion communiquent encore mal la valeur."
+      },
+      "data-ai-readiness": {
+        "title": "Préparer les données et les connaissances pour l’automatisation ou l’IA",
+        "outcome": "Des sources fiables et respectueuses des permissions pour soutenir un pilote d’automatisation ou d’IA contrôlé.",
+        "need": "Nous avons une idée d’IA ou d’automatisation, mais nos informations sont dispersées, incohérentes, sensibles ou sans responsable clair.",
+        "consider": "Un modèle ne peut corriger des sources floues, des permissions faibles, l’absence de responsabilité, des dossiers incohérents ou l’absence de définition d’une réponse acceptable. La conservation, la vie privée et les données d’évaluation comptent avant l’outil.",
+        "deliver": "Un inventaire des sources et responsables, les écarts de qualité et de permissions, un jeu de tests représentatif, des limites d’usage acceptable et une feuille de route de préparation pour le plus petit pilote utile.",
+        "fit": "Équipes qui préparent une automatisation, un assistant, une recherche de connaissances ou un agent important sans fondation informationnelle fiable."
+      },
+      "shadow-ai-risk": {
+        "title": "Maîtriser l’IA parallèle et le risque des fournisseurs technologiques",
+        "outcome": "Des règles et contrôles pratiques pour l’usage approuvé de l’IA, les données sensibles, les identités, les fournisseurs et les exceptions responsables.",
+        "need": "Les gens utilisent déjà des outils IA, mais nous ignorons quelles informations sont partagées et de quels fournisseurs l’entreprise dépend.",
+        "consider": "Tout bloquer pousse le travail dans l’ombre, tandis qu’un usage sans limites crée des risques de vie privée, de sécurité, de propriété intellectuelle, de conservation et de fournisseur. Il faut des limites utilisables et des options approuvées.",
+        "deliver": "Un inventaire des usages IA et fournisseurs, une évaluation des risques de données et d’identité, une norme d’usage approuvé, des exigences fournisseurs, un processus d’exception, des priorités de formation et une feuille de route de correction.",
+        "fit": "Organisations soumises à des attentes de clients, d’assureurs, de confidentialité, de contrats ou de gouvernance pendant que l’adoption de l’IA est déjà en cours."
+      },
+      "managed-optimization": {
+        "title": "Améliorer continuellement une expérience numérique après son lancement",
+        "outcome": "Un rythme d’amélioration mesuré pour la performance, l’accessibilité, le contenu, la conversion, la fiabilité et les changements de recherche ou de plateforme.",
+        "need": "Nous avons lancé le site ou le produit, mais les améliorations sont réactives et personne ne possède les faits ni le carnet de priorités.",
+        "consider": "Le lancement marque le début de la responsabilité opérationnelle. La performance, l’accessibilité, la recherche, les intégrations, les dépendances de sécurité, l’exactitude du contenu et la friction client évoluent.",
+        "deliver": "Une base fiable, un carnet d’amélioration priorisé, un rythme de revue récurrent, des expériences ciblées, un soutien aux versions et des rapports liés aux résultats clients et d’affaires.",
+        "fit": "Organisations ayant un site, portail, application ou parcours numérique en production qui mérite d’être entretenu et amélioré délibérément."
+      },
+      "technology-adoption": {
+        "title": "Aider les gens à adopter un nouveau système ou une nouvelle façon de travailler",
+        "outcome": "Un parcours d’adoption concret avec attentes claires, apprentissage pratique, soutien, rétroaction et usage mesurable.",
+        "need": "La technologie est disponible, mais les gens la contournent, l’utilisent de façon incohérente ou recréent l’ancien processus dans le nouvel outil.",
+        "consider": "La formation seule ne résout pas un objectif flou, un mauvais ajustement au flux, l’absence de responsable, un faible renforcement des gestionnaires ou des exceptions non traitées. L’adoption exige des capacités et une routine opérationnelle.",
+        "deliver": "Une évaluation des risques d’adoption, des guides de flux par rôle, de la pratique facilitée, un plan de renforcement des gestionnaires, des voies de soutien et de rétroaction, et des mesures d’adoption utile.",
+        "fit": "Équipes qui introduisent une plateforme, une automatisation, une capacité IA ou un changement opérationnel qui exige une nouvelle façon de travailler."
       }
     },
     "ctaText": "Vous ne savez pas quelle ligne vous correspond? Décrivez votre situation—nous vous indiquerons le bon point de départ.",

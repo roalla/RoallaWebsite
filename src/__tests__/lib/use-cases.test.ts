@@ -12,7 +12,7 @@ describe('outcome-led use cases', () => {
     const ids = USE_CASES.map((item) => item.id)
 
     expect(new Set(ids).size).toBe(ids.length)
-    expect(USE_CASES).toHaveLength(26)
+    expect(USE_CASES).toHaveLength(32)
 
     for (const category of USE_CASE_CATEGORIES) {
       expect(USE_CASES.some((item) => item.category === category)).toBe(true)
@@ -37,7 +37,7 @@ describe('outcome-led use cases', () => {
     )
 
     expect(schema['@type']).toBe('ItemList')
-    expect(schema.numberOfItems).toBe(26)
+    expect(schema.numberOfItems).toBe(32)
     expect(schema.itemListElement[0]).toMatchObject({
       '@type': 'ListItem',
       position: 1,

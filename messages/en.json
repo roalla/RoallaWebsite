@@ -3557,10 +3557,35 @@
     "redirecting": "Redirecting..."
   },
   "useCases": {
-    "metadataTitle": "Business & Technology Problems We Solve | ROALLA",
-    "metadataDescription": "Explore common business and technology situations, the outcomes to pursue, what to consider, and how ROALLA can help.",
-    "title": "Start with the outcome you need",
-    "subtitle": "Explore common business and technology situations—from unclear priorities and provider selection to websites, workflow automation, and practical AI.",
+    "metadataTitle": "Business & Technology Use Cases | Find Your Starting Point | ROALLA",
+    "metadataDescription": "Choose the business outcome you need, explore practical scenarios, and connect the right ROALLA service to your next step.",
+    "eyebrow": "Practical paths through change",
+    "title": "Find the right starting point for what needs to change",
+    "subtitle": "Choose the pressure your organization feels now. We’ll connect it to focused scenarios, a practical first step, and the right service path.",
+    "heroAssessmentCta": "Get a personalized starting point",
+    "heroSolutionsCta": "Explore high-level solutions",
+    "outcomesEyebrow": "Start with the pressure",
+    "outcomesTitle": "What needs to change next?",
+    "outcomesBody": "Choose the closest outcome. You do not need to diagnose the solution or know the service name before you begin.",
+    "scenarioCount": "{count, plural, one {# scenario} other {# scenarios}}",
+    "familyFilterLabel": "Narrow by capability",
+    "familyAll": "All expertise",
+    "resultsCount": "{count, plural, one {# recommended scenario} other {# recommended scenarios}}",
+    "clearFilters": "Reset view",
+    "featuredEyebrow": "A focused first scan",
+    "featuredTitle": "Common starting points",
+    "featuredBody": "Six representative situations across growth, operations, decision-making, and risk. Choose an outcome above to see the complete matching set.",
+    "selectedEyebrow": "Your selected outcome",
+    "seeApproach": "See the approach",
+    "hideApproach": "Hide the approach",
+    "firstStepTitle": "A practical 30–90 day start",
+    "firstStepBody": "Confirm the current state, accountable owner, evidence, and most important risk—then define the smallest useful step that can be measured before scaling.",
+    "discussCta": "Discuss this scenario",
+    "assessmentEyebrow": "Prefer a recommendation?",
+    "assessmentTitle": "Turn your priorities into a practical starting point",
+    "assessmentBody": "The five-minute assessment recommends a path, a low-risk first move, and a 30, 60, and 90-day direction.",
+    "assessmentCta": "Take the assessment",
+    "noMatches": "No scenarios match both selections yet.",
     "howToReadTitle": "How to read this page",
     "howToRead1": "Start with an outcome category, then choose the situation that sounds familiar.",
     "howToRead2": "Each scenario explains the desired outcome, decision risks, concrete deliverables, and best fit.",
@@ -3586,7 +3611,11 @@
       "digital-products": "Explore digital products",
       "automation": "Explore automation and integration",
       "digital-events": "Explore digital events",
-      "digital-enablement": "Explore digital enablement"
+      "digital-enablement": "Explore digital enablement",
+      "ai-agents": "Explore ROALLA Agentic",
+      "search-ai-visibility": "Explore search and AI visibility",
+      "workshops": "Explore team workshops",
+      "managed-optimization": "Explore managed optimization"
     },
     "maturity": {
       "proven": {
@@ -3604,28 +3633,28 @@
     },
     "categories": {
       "decisions": {
-        "title": "Make clearer decisions",
-        "desc": "Set priorities, compare options, and commit with evidence instead of momentum or guesswork."
+        "title": "Make a confident decision",
+        "desc": "Set direction, compare options, and fund the next move with evidence."
       },
-      "execution": {
-        "title": "Improve execution and capacity",
-        "desc": "Remove bottlenecks, clarify ownership, and turn growth into work the organization can sustain."
+      "operations": {
+        "title": "Improve how work gets done",
+        "desc": "Remove friction, clarify ownership, and make people, systems, automation, and AI work together."
       },
-      "resilience": {
-        "title": "Reduce cost and operational risk",
-        "desc": "Protect continuity, margin, security, and critical technology while simplifying what no longer serves the business."
+      "growth": {
+        "title": "Build visibility and customer action",
+        "desc": "Create useful digital experiences that help the right people find, trust, and choose you."
       },
-      "demand": {
-        "title": "Generate demand and customer action",
-        "desc": "Help the right audience find you, trust you, and take a measurable next step."
+      "risk": {
+        "title": "Reduce technology and operating risk",
+        "desc": "Protect continuity, security, margin, and critical technology while simplifying what no longer serves the business."
+      }
+    },
+    "families": {
+      "build-grow": {
+        "title": "Build, Automate & Grow"
       },
-      "experiences": {
-        "title": "Create better digital experiences",
-        "desc": "Give customers, partners, and teams digital tools that fit the work they actually need to complete."
-      },
-      "automation": {
-        "title": "Connect, automate, and apply AI",
-        "desc": "Reduce repetitive work and place reliable automation or governed AI inside real workflows."
+      "strategy-risk": {
+        "title": "Strategy, Technology & Risk"
       }
     },
     "cases": {
@@ -3830,12 +3859,60 @@
         "fit": "Exhibitors and launch teams that need more than scans or paper leads and want to know what generated meaningful interest."
       },
       "ai-workflows": {
-        "title": "Place governed AI inside a workflow people already use",
-        "outcome": "A bounded AI capability with representative inputs, quality measures, guardrails, and human review proportional to risk.",
-        "need": "We want AI to help—not another chatbot nobody uses.",
-        "consider": "Useful AI depends on a defined task, representative information, a quality standard, safe data handling, exception rules, and a person who can verify the result. Novelty alone is not a business case.",
-        "deliver": "Scoped AI inside real workflows—scoring, guided briefs, document assistance, and intelligent routing—with measurable quality, guardrails, auditability, and human review.",
-        "fit": "Teams with a repetitive information task, enough representative examples, and an accountable reviewer who can define acceptable output."
+        "title": "Deploy a governed AI agent for a bounded workflow",
+        "outcome": "A reliable agent with approved actions, measurable quality, operating limits, auditability, and human control proportional to risk.",
+        "need": "We want an AI agent to complete useful work—not another chatbot or an uncontrolled experiment.",
+        "consider": "Autonomy should never exceed reliability. Data permissions, approved actions, evaluation cases, operating cost, exceptions, escalation, logs, and safe shutdown conditions must be defined before an agent is trusted at scale.",
+        "deliver": "A scoped agentic workflow with representative tests, permission boundaries, quality and value measures, monitoring, human checkpoints, escalation rules, and a controlled pilot-to-production path.",
+        "fit": "Teams with a repeatable multi-step task, accessible source information, an accountable owner, and people who can judge whether the result is acceptable."
+      },
+      "human-agent-operating-model": {
+        "title": "Redesign work for effective human-agent teams",
+        "outcome": "Clear responsibilities, handoffs, quality standards, and operating routines for people working with AI agents.",
+        "need": "Individuals are using AI, but the organization has not redesigned the work or accountability around it.",
+        "consider": "Access to AI does not create a reliable operating model. Teams need to decide what people direct, what agents execute, who reviews results, how learning is shared, and how exceptions or failures are handled.",
+        "deliver": "A human-agent workflow map, accountability and review model, quality standards, training priorities, operating cadence, and a staged adoption plan tied to measurable value.",
+        "fit": "Organizations moving from individual AI experimentation toward repeatable team or function-level use."
+      },
+      "search-ai-visibility": {
+        "title": "Help buyers, search engines, and AI systems understand your value",
+        "outcome": "A clearer, more trustworthy digital presence that can be discovered, interpreted, and acted on across search and AI-assisted journeys.",
+        "need": "Qualified buyers are not finding us, or search and AI systems do not clearly understand what makes us relevant.",
+        "consider": "Visibility now depends on technical health, accessible structure, specific first-party expertise, strong evidence, useful media, entity clarity, and conversion paths—not generic content volume or a separate set of GEO tricks.",
+        "deliver": "A search and AI visibility baseline, content and technical priorities, structured trust signals, measurement, and focused improvements tied to qualified discovery and conversion.",
+        "fit": "Organizations with a credible offer whose website content, technical foundation, authority signals, or conversion path does not yet communicate that value clearly."
+      },
+      "data-ai-readiness": {
+        "title": "Prepare data and knowledge for automation or AI",
+        "outcome": "Trusted, permission-aware source information that can support a controlled automation or AI pilot.",
+        "need": "We have an AI or automation idea, but our information is scattered, inconsistent, sensitive, or poorly owned.",
+        "consider": "A model cannot compensate for unclear sources, weak permissions, missing ownership, inconsistent records, or no definition of an acceptable answer. Retention, privacy, representative examples, and evaluation data matter before tooling.",
+        "deliver": "A source and ownership inventory, data-quality and permission gaps, representative test set, acceptable-use boundaries, and a prioritized readiness roadmap for the smallest useful pilot.",
+        "fit": "Teams preparing a consequential automation, assistant, knowledge search, or agent initiative without a dependable information foundation."
+      },
+      "shadow-ai-risk": {
+        "title": "Control shadow AI and third-party technology risk",
+        "outcome": "Practical rules and controls for approved AI use, sensitive data, identities, providers, and accountable exceptions.",
+        "need": "People are already using AI tools, but we cannot see what information is shared or which providers the business depends on.",
+        "consider": "Blocking every tool drives work underground, while unrestricted use creates privacy, security, intellectual-property, retention, and supplier risks. The organization needs usable boundaries and approved alternatives.",
+        "deliver": "An AI and supplier-use inventory, data and identity risk assessment, approved-use standard, provider requirements, exception process, training priorities, and a remediation roadmap.",
+        "fit": "Organizations facing customer, insurer, privacy, contractual, or internal-governance expectations while AI adoption is already occurring."
+      },
+      "managed-optimization": {
+        "title": "Keep improving a digital experience after launch",
+        "outcome": "A measured improvement rhythm for performance, accessibility, content, conversion, reliability, and changing search or platform conditions.",
+        "need": "We launched the site or product, but improvements happen reactively and nobody owns the evidence or backlog.",
+        "consider": "Launch is the start of operational ownership. Performance, accessibility, search behaviour, integrations, security dependencies, content accuracy, and customer friction change over time.",
+        "deliver": "A trustworthy baseline, prioritized improvement backlog, recurring review rhythm, focused experiments, release support, and reporting tied to customer and business outcomes.",
+        "fit": "Organizations with a live website, portal, application, or digital journey that matters enough to maintain and improve deliberately."
+      },
+      "technology-adoption": {
+        "title": "Help people adopt a new system or way of working",
+        "outcome": "A practical adoption path with clear expectations, hands-on learning, support, feedback, and measurable use.",
+        "need": "The technology is available, but people are working around it, using it inconsistently, or recreating the old process inside the new tool.",
+        "consider": "Training alone does not resolve unclear purpose, poor workflow fit, missing ownership, weak manager reinforcement, or unhandled exceptions. Adoption needs both capability and an operating routine.",
+        "deliver": "An adoption-risk assessment, role-based workflow guidance, facilitated practice, manager reinforcement plan, support and feedback routes, and measures for useful—not merely logged-in—adoption.",
+        "fit": "Teams introducing a platform, automation, AI capability, or operating change that requires people to work differently."
       }
     },
     "ctaText": "Not sure which row fits? Tell us your situation—we'll point you to the right starting point.",

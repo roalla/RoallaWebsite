@@ -29,6 +29,7 @@ function insightCategory(
     || slug === CONTRAST_TEXT_SIZE_INSIGHT_SLUG
     || slug === NETWORKING_ROI_INSIGHT_SLUG
     || slug === GEO_SEO_AEO_BOTS_SLUG
+    || slug === 'web-development-digital-experience-outlook-2027'
   ) {
     return t(`${slug}.category`)
   }

@@ -22,6 +22,14 @@ export type ExecutiveGuide = {
 
 export const EXECUTIVE_GUIDES: readonly ExecutiveGuide[] = [
   {
+    slug: "web-development-digital-experience-outlook-2027",
+    number: "EI—36",
+    category: "technology",
+    image: "/images/executive-insights/web-development-outlook-2027.webp",
+    en: { title: "2027 Web Development & Digital Experience Outlook", summary: "Examine seven strategic shifts, assess readiness across seven factors and translate the outlook into a practical 90-day roadmap.", categoryLabel: "Digital experience" },
+    fr: { title: "Prévisions 2027 : développement Web et expérience numérique", summary: "Examinez sept changements stratégiques, évaluez sept facteurs de préparation et transformez les prévisions en feuille de route de 90 jours.", categoryLabel: "Expérience numérique" },
+  },
+  {
     slug: "ai-readiness-governance",
     number: "EI—01",
     category: "ai",

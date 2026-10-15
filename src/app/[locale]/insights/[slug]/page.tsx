@@ -9,6 +9,7 @@ import FreeWebsiteBuilderTradeoffsArticle from '@/components/insights/FreeWebsit
 import GeoSeoAeoBotsArticle from '@/components/insights/GeoSeoAeoBotsArticle'
 import NetworkingRoiArticle from '@/components/insights/NetworkingRoiArticle'
 import WebsiteBuilderLimitationsArticle from '@/components/insights/WebsiteBuilderLimitationsArticle'
+import WebDevelopmentOutlook2027 from '@/components/insights/WebDevelopmentOutlook2027'
 import JsonLd from '@/components/JsonLd'
 import type { EnrichedInsightSlug } from '@/lib/enriched-insights'
 import { INSIGHT_OG_IMAGES, INSIGHT_SLUGS, isInsightSlug } from '@/lib/insights'
@@ -46,7 +47,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const isContrastTextSizeArticle = slug === CONTRAST_TEXT_SIZE_INSIGHT_SLUG
   const isNetworkingRoiArticle = slug === NETWORKING_ROI_INSIGHT_SLUG
   const isGeoSeoAeoBotsArticle = slug === GEO_SEO_AEO_BOTS_SLUG
-  const hasSocialCopy = isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle || isNetworkingRoiArticle || isGeoSeoAeoBotsArticle
+  const isWebDevelopmentOutlook2027 = slug === 'web-development-digital-experience-outlook-2027'
+  const hasSocialCopy = isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle || isNetworkingRoiArticle || isGeoSeoAeoBotsArticle || isWebDevelopmentOutlook2027
 
   return buildArticlePageMetadata({
     locale,
@@ -54,7 +56,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: t(`${slug}.metadataTitle`),
     description: t(`${slug}.metadataDescription`),
     datePublished: t(`${slug}.datePublished`),
-    dateModified: isWebsiteBuilderArticle ? t(`${slug}.dateModified`) : undefined,
+    dateModified: isWebsiteBuilderArticle || isWebDevelopmentOutlook2027 ? t(`${slug}.dateModified`) : undefined,
     ogImage,
     ogImageAlt: OG_IMAGE_ALT,
     ogTitle: hasSocialCopy ? t(`${slug}.socialTitle`) : undefined,
@@ -77,7 +79,8 @@ export default async function InsightArticlePage({ params }: Props) {
   const isContrastTextSizeArticle = slug === CONTRAST_TEXT_SIZE_INSIGHT_SLUG
   const isNetworkingRoiArticle = slug === NETWORKING_ROI_INSIGHT_SLUG
   const isGeoSeoAeoBotsArticle = slug === GEO_SEO_AEO_BOTS_SLUG
-  const isLongFormArticle = isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle || isNetworkingRoiArticle || isGeoSeoAeoBotsArticle
+  const isWebDevelopmentOutlook2027 = slug === 'web-development-digital-experience-outlook-2027'
+  const isLongFormArticle = isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle || isNetworkingRoiArticle || isGeoSeoAeoBotsArticle || isWebDevelopmentOutlook2027
 
   return (
     <div className="page-shell">
@@ -94,7 +97,7 @@ export default async function InsightArticlePage({ params }: Props) {
             title,
             description,
             datePublished: t(`${slug}.datePublished`),
-            dateModified: isWebsiteBuilderArticle ? t(`${slug}.dateModified`) : undefined,
+            dateModified: isWebsiteBuilderArticle || isWebDevelopmentOutlook2027 ? t(`${slug}.dateModified`) : undefined,
             image: ogImage,
           }),
         ]}
@@ -110,7 +113,15 @@ export default async function InsightArticlePage({ params }: Props) {
               ]}
             />
           </div>
-          {isWebsiteBuilderArticle ? (
+          {isWebDevelopmentOutlook2027 ? (
+            <WebDevelopmentOutlook2027
+              locale={locale}
+              title={title}
+              summary={t(`${slug}.summary`)}
+              readTime={readTime}
+              category={t(`${slug}.category`)}
+            />
+          ) : isWebsiteBuilderArticle ? (
             <WebsiteBuilderLimitationsArticle
               locale={locale}
               title={title}

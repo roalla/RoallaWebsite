@@ -14,6 +14,7 @@ export type EnrichedInsightSlug = Exclude<
   | 'contrast-text-size-accessibility-conversion'
   | 'networking-roi-solopreneurs-small-business'
   | 'geo-seo-aeo-and-bots'
+  | 'web-development-digital-experience-outlook-2027'
 >
 
 export type InsightStep = { title: string; body: string }

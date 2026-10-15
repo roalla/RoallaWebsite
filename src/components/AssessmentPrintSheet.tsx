@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { CONTACT } from '@/lib/site'
 
 type StarterOffer = {
@@ -38,6 +39,7 @@ export default function AssessmentPrintSheet({
   const lang = french ? 'fr' : 'en'
   const year = new Date().getFullYear()
   const [prepared, setPrepared] = useState('')
+  const [mounted, setMounted] = useState(false)
 
   const copy = french
     ? {
@@ -78,6 +80,7 @@ export default function AssessmentPrintSheet({
       }
 
   useEffect(() => {
+    setMounted(true)
     const now = new Date()
     setPrepared(
       `${copy.prepared} ${now.toLocaleDateString(french ? 'fr-CA' : 'en-CA', {
@@ -104,7 +107,9 @@ export default function AssessmentPrintSheet({
     }
   }, [copy.prepared, french])
 
-  return (
+  if (!mounted) return null
+
+  return createPortal(
     <article className="assessment-print-root" aria-hidden="true">
       <style dangerouslySetInnerHTML={{ __html: `
         .assessment-print-root {
@@ -123,12 +128,9 @@ export default function AssessmentPrintSheet({
             height: auto !important;
             background: #fff !important;
           }
-          body * { visibility: hidden !important; }
-          .assessment-print-root,
-          .assessment-print-root * { visibility: visible !important; }
+          body > *:not(.assessment-print-root) { display: none !important; }
           .assessment-print-root {
-            position: absolute !important;
-            inset: 0 auto auto 0 !important;
+            position: static !important;
             display: block !important;
             width: 100% !important;
             height: auto !important;
@@ -270,7 +272,8 @@ export default function AssessmentPrintSheet({
           </tr>
         </tfoot>
       </table>
-    </article>
+    </article>,
+    document.body,
   )
 }
 

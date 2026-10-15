@@ -46,6 +46,9 @@ pids
 # Coverage directory used by tools like istanbul
 coverage/
 
+# Local PDF render checks
+tmp/pdfs/
+
 # nyc test coverage
 .nyc_output
 

@@ -49,6 +49,12 @@ export type PageSecurity = {
   redirectPath?: RedirectPathAnalysis;
 };
 
+export type RedirectFailureSignals = {
+  redirectHops: RedirectHop[];
+  redirectLoop?: boolean;
+  redirectEndsOnHttp?: boolean;
+};
+
 const EXPIRING_WITHIN_DAYS = 30;
 
 export function analyzePageSecurity(signals: PageSecuritySignals): PageSecurity {
@@ -67,6 +73,27 @@ export function analyzePageSecurity(signals: PageSecuritySignals): PageSecurity 
       contentTypeCheck(signals),
       referrerPolicyCheck(signals),
     ],
+    redirectPath,
+  };
+}
+
+/** Preserve the redirect finding when the landing page itself cannot be downloaded. */
+export function analyzeRedirectFailure(
+  signals: RedirectFailureSignals,
+): PageSecurity | undefined {
+  if (
+    signals.redirectHops.length === 0
+    && !signals.redirectLoop
+    && !signals.redirectEndsOnHttp
+  ) {
+    return undefined;
+  }
+  const redirectPath = analyzeRedirectPath(signals.redirectHops, {
+    loop: signals.redirectLoop,
+    endsOnHttp: signals.redirectEndsOnHttp,
+  });
+  return {
+    checks: [redirectPathCheck(redirectPath)],
     redirectPath,
   };
 }

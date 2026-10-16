@@ -29,12 +29,14 @@ export function clipRedirectUrl(value: string, max = CLIP) {
  */
 export function analyzeRedirectPath(
   hops: RedirectHop[],
-  options?: { loop?: boolean },
+  options?: { loop?: boolean; endsOnHttp?: boolean },
 ): RedirectPathAnalysis {
   const loop = Boolean(options?.loop);
   const redirectHops = hops.filter((hop) => hop.status >= 300 && hop.status < 400);
   const finalHop = hops[hops.length - 1];
-  const endsOnHttp = Boolean(finalHop && /^http:\/\//i.test(finalHop.url));
+  const endsOnHttp = Boolean(
+    options?.endsOnHttp || (finalHop && /^http:\/\//i.test(finalHop.url)),
+  );
   const temporaryRedirect = redirectHops.some((hop) => TEMPORARY.has(hop.status));
   const longChain = redirectHops.length > LONG_CHAIN_REDIRECTS;
 

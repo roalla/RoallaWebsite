@@ -11,9 +11,23 @@ const MAX_REDIRECTS = 5;
 const DEFAULT_USER_AGENT = "ROALLA-Social-Presence-Snapshot/1.0 (+https://www.roalla.com)";
 
 export class WebsiteFetchError extends Error {
-  constructor(message: string) {
+  readonly redirectHops: RedirectHop[];
+  readonly redirectLoop: boolean;
+  readonly redirectEndsOnHttp: boolean;
+
+  constructor(
+    message: string,
+    details: {
+      redirectHops?: RedirectHop[];
+      redirectLoop?: boolean;
+      redirectEndsOnHttp?: boolean;
+    } = {},
+  ) {
     super(message);
     this.name = "WebsiteFetchError";
+    this.redirectHops = details.redirectHops ?? [];
+    this.redirectLoop = Boolean(details.redirectLoop);
+    this.redirectEndsOnHttp = Boolean(details.redirectEndsOnHttp);
   }
 }
 
@@ -273,12 +287,16 @@ export async function fetchPublicHtml(
     if ([301, 302, 303, 307, 308].includes(result.status) && result.location) {
       hops.push({ status: result.status, url: clipRedirectUrl(current.toString()) });
       if (redirectCount >= MAX_REDIRECTS) {
-        throw new WebsiteFetchError("The website redirected too many times.");
+        throw new WebsiteFetchError("The website redirected too many times.", {
+          redirectHops: hops,
+        });
       }
       const nextRaw = new URL(result.location, current);
       if (nextRaw.protocol === "http:") {
-        hops.push({ status: result.status, url: clipRedirectUrl(nextRaw.toString()) });
-        throw new WebsiteFetchError("The website redirected to an unencrypted address.");
+        throw new WebsiteFetchError("The website redirected to an unencrypted address.", {
+          redirectHops: hops,
+          redirectEndsOnHttp: true,
+        });
       }
       let redirected: URL;
       try {
@@ -287,7 +305,10 @@ export async function fetchPublicHtml(
         throw error instanceof PublicTargetError ? new WebsiteFetchError(error.message) : error;
       }
       if (seen.has(redirected.toString())) {
-        throw new WebsiteFetchError("The website redirected in a loop.");
+        throw new WebsiteFetchError("The website redirected in a loop.", {
+          redirectHops: hops,
+          redirectLoop: true,
+        });
       }
       seen.add(redirected.toString());
       current = redirected;

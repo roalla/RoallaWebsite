@@ -133,8 +133,6 @@ const EMAIL_LABELS: Record<string, string> = {
   discoveryHeading: "Suggested discovery link",
   discoverySalesHint:
     "Share this Digital Enablement brief with the prospect (not Digital Discovery — that is a technical access questionnaire for engaged website work).",
-  reminderSalesHint:
-    "Soft reminder: if they have not started the brief in ~2 days, nudge them with this same link. Automated T+2 reminders run when DATABASE_URL + CRON_SECRET (or AUTH_MAIL_SECRET) are configured via POST /api/cron/consultation-reminders.",
   userSubject: "We received your service inquiry",
   userPreheader:
     "Your inquiry is with the Roalla team. We reply within one business day.",

@@ -223,7 +223,6 @@ describe('consultation-request', () => {
       discoveryUrl: 'Suggested discovery URL',
       discoveryHeading: 'Suggested discovery link',
       discoverySalesHint: 'Share enablement',
-      reminderSalesHint: 'Nudge at T+2',
       userHtmlHeading: 'Request Received',
       userGreeting: 'Thanks',
       userBody: 'We got it.',
@@ -266,6 +265,8 @@ describe('consultation-request', () => {
     expect(salesHtml).toContain('Roalla Business Enablement Group')
     expect(salesHtml).toContain('Burlington, Ontario, Canada')
     expect(salesHtml).toContain('https://www.roalla.com/email/roalla-mark.png')
+    expect(salesHtml).not.toContain('Soft reminder')
+    expect(salesHtml).not.toContain('Nudge at T+2')
     expect(userHtml).toContain('Start your digital brief')
     expect(userHtml).toContain('goal=website')
     expect(userHtml).not.toContain('/digitaldiscovery')

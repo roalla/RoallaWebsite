@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { scoreAgenticReadiness } from "@/lib/agentic-readiness/score";
 import { analyzeContactExposure } from "@/lib/contact-exposure/analyze";
 import { lookupPublicEdgeHints } from "@/lib/domain-health/lookup";
-import { analyzePageSecurity } from "@/lib/page-security/analyze";
+import { analyzePageSecurity, analyzeRedirectFailure } from "@/lib/page-security/analyze";
 import { analyzeSiteSetup } from "@/lib/site-setup/analyze";
 import { lookupWhoisRegistration } from "@/lib/site-setup/whois";
 import { analyzeSocialPresence } from "@/lib/social-presence/analyzer";
@@ -110,7 +110,13 @@ export async function POST(request: NextRequest) {
     if (error instanceof PublicTargetError) return response({ error: error.message }, 422);
     if (error instanceof WebsiteFetchError) {
       const siteSetup = target ? await setupWithoutPage(target.hostname) : undefined;
-      return response({ error: error.message, siteSetup, setupPartial: Boolean(siteSetup) }, 422);
+      const security = analyzeRedirectFailure(error);
+      return response({
+        error: error.message,
+        siteSetup,
+        setupPartial: Boolean(siteSetup),
+        security,
+      }, 422);
     }
     return response({ error: "The social presence snapshot could not be completed." }, 500);
   }

@@ -1,5 +1,6 @@
 import {
   analyzePageSecurity,
+  analyzeRedirectFailure,
   analyzeRedirectPath,
   clipRedirectUrl,
   detectMixedContent,
@@ -160,6 +161,31 @@ describe("redirect path analysis", () => {
         ]),
       ),
     ).toBe("gap");
+  });
+
+  it("keeps redirect evidence when a loop prevents the landing page scan", () => {
+    const security = analyzeRedirectFailure({
+      redirectHops: [
+        { status: 301, url: "https://example.test/a" },
+        { status: 302, url: "https://example.test/b" },
+      ],
+      redirectLoop: true,
+    });
+
+    expect(security?.checks).toEqual([
+      { id: "redirectPath", status: "gap", evidence: "301 → 302" },
+    ]);
+    expect(security?.redirectPath?.loop).toBe(true);
+  });
+
+  it("keeps the HTTP destination flag when the landing page scan is stopped", () => {
+    const security = analyzeRedirectFailure({
+      redirectHops: [{ status: 301, url: "https://example.test/" }],
+      redirectEndsOnHttp: true,
+    });
+
+    expect(security?.checks[0]?.status).toBe("gap");
+    expect(security?.redirectPath?.endsOnHttp).toBe(true);
   });
 });
 

@@ -30,6 +30,7 @@ import { buildDigitalPresenceActions, type DigitalPresenceAction } from "@/lib/d
 import type { DomainHealthSnapshot } from "@/lib/domain-health/evaluate";
 import { buildSnapshotNarrative } from "@/lib/digital-presence/narrative";
 import type { ContactExposure } from "@/lib/contact-exposure/analyze";
+import type { PageSecurity } from "@/lib/page-security/analyze";
 import type { SiteSetup, SiteSetupId } from "@/lib/site-setup/analyze";
 import type { DomainRegistration } from "@/lib/site-setup/whois";
 import type { SocialPresenceSnapshot } from "@/lib/social-presence/analyzer";
@@ -1437,6 +1438,7 @@ export default function DigitalPresenceSnapshot({
   const [social, setSocial] = useState<SocialPresenceSnapshot | null>(null);
   const [technicalError, setTechnicalError] = useState("");
   const [socialError, setSocialError] = useState("");
+  const [securityFallback, setSecurityFallback] = useState<PageSecurity | null>(null);
   const [setupFallback, setSetupFallback] = useState<SiteSetup | null>(null);
   const [setupPartial, setSetupPartial] = useState(false);
   const [technicalLoading, setTechnicalLoading] = useState(false);
@@ -1507,6 +1509,7 @@ export default function DigitalPresenceSnapshot({
     setStarted(true);
     setTechnical(null);
     setSocial(null);
+    setSecurityFallback(null);
     setSetupFallback(null);
     setSetupPartial(false);
     setDomain(null);
@@ -1547,12 +1550,14 @@ export default function DigitalPresenceSnapshot({
           snapshot?: SocialPresenceSnapshot;
           siteSetup?: SiteSetup;
           setupPartial?: boolean;
+          security?: PageSecurity;
           error?: string;
         };
         if (payload.siteSetup) {
           setSetupFallback(payload.siteSetup);
           setSetupPartial(Boolean(payload.setupPartial));
         }
+        if (payload.security) setSecurityFallback(payload.security);
         if (!response.ok || !payload.snapshot) throw new Error(payload.error || t.socialError);
         setSetupPartial(false);
         completedSocial = payload.snapshot;
@@ -1776,6 +1781,7 @@ export default function DigitalPresenceSnapshot({
   const contactStatusItems = contactStatuses(social?.contactExposure, t);
   const visibleSetup = social?.siteSetup ?? setupFallback;
   const setupIsPartial = !social?.siteSetup && setupPartial;
+  const visibleSecurity = social?.security ?? securityFallback;
   const printModel: PresencePrintModel = {
     website: resultUrl,
     lead,
@@ -1819,11 +1825,11 @@ export default function DigitalPresenceSnapshot({
     })) ?? [],
     contactUrl: social?.finalUrl ?? "",
     contactChecks: contactStatusItems,
-    securityChecks: social?.security?.checks.map((check) => {
+    securityChecks: visibleSecurity?.checks.map((check) => {
       const item = t.securityCheck[check.id];
       const hopSummary =
-        check.id === "redirectPath" && social.security?.redirectPath?.hops.length
-          ? social.security.redirectPath.hops.map((hop) => `${hop.status} ${hop.url}`).join(" → ")
+        check.id === "redirectPath" && visibleSecurity.redirectPath?.hops.length
+          ? visibleSecurity.redirectPath.hops.map((hop) => `${hop.status} ${hop.url}`).join(" → ")
           : check.id === "redirectPath" && check.evidence
             ? check.evidence
             : "";
@@ -1996,9 +2002,9 @@ export default function DigitalPresenceSnapshot({
         tone: contactTone,
       });
     }
-    if (social?.security) {
-      const worst = social.security.checks.find((check) => check.status === "gap")
-        ?? social.security.checks.find((check) => check.status === "review");
+    if (visibleSecurity) {
+      const worst = visibleSecurity.checks.find((check) => check.status === "gap")
+        ?? visibleSecurity.checks.find((check) => check.status === "review");
       const securityTone: SummaryTone = worst?.status === "gap" ? "attention" : worst ? "improve" : "strong";
       summaryItems.push({
         id: "presence-security",
@@ -2164,7 +2170,7 @@ export default function DigitalPresenceSnapshot({
               </article>
             ) : null}
 
-            {social?.security ? (
+            {visibleSecurity ? (
               <article id="presence-security" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
                 <div className="flex items-start gap-3">
                   <ShieldCheck className="mt-1 h-7 w-7 text-primary-dark" aria-hidden />
@@ -2174,7 +2180,7 @@ export default function DigitalPresenceSnapshot({
                   </div>
                 </div>
                 <ul className="mt-6 flex flex-wrap gap-2" aria-label={t.securityTitle}>
-                  {social.security.checks.map((check) => {
+                  {visibleSecurity.checks.map((check) => {
                     const item = t.securityCheck[check.id];
                     const pill = check.status === "pass"
                       ? "border-emerald-200 bg-emerald-50 text-emerald-800"
@@ -2218,7 +2224,7 @@ export default function DigitalPresenceSnapshot({
                 </button>
                 <div id="security-details" className={securityDetailsOpen ? "mt-4" : "mt-4 hidden print:block"}>
                   <dl className="grid gap-3">
-                    {social.security.checks.map((check) => {
+                    {visibleSecurity.checks.map((check) => {
                       const item = t.securityCheck[check.id];
                       const tone = check.status === "pass" ? "text-emerald-700" : check.status === "review" ? "text-amber-700" : "text-rose-700";
                       return (
@@ -2227,11 +2233,11 @@ export default function DigitalPresenceSnapshot({
                           <dd className={`mt-1 text-lg font-bold ${tone}`}>{t.domainStatus[check.status]}</dd>
                           <p className="mt-1 text-sm leading-6 text-slate-800">{item[check.status]}</p>
                           {check.id === "https" && check.evidence ? <p className="mt-1 text-xs leading-5 text-slate-500">{fill(t.securityExpires, { date: registrationDate(check.evidence, language, check.evidence) })}</p> : null}
-                          {check.id === "redirectPath" && social.security?.redirectPath?.hops.length ? (
+                          {check.id === "redirectPath" && visibleSecurity.redirectPath?.hops.length ? (
                             <div className="mt-2">
                               <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{t.securityHopLabel}</p>
                               <ol className="mt-1 list-decimal space-y-1 pl-4 text-xs leading-5 text-slate-500">
-                                {social.security.redirectPath.hops.map((hop, index) => (
+                                {visibleSecurity.redirectPath.hops.map((hop, index) => (
                                   <li key={`${hop.status}-${hop.url}-${index}`} className="break-all">
                                     <span className="font-semibold text-slate-600">{hop.status}</span>
                                     {" "}

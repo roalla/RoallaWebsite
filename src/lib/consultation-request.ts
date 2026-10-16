@@ -630,7 +630,6 @@ export function buildConsultationSalesEmailHtml(
               <p style="margin:0 0 12px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.55;color:#334155;">${escapeHtml(labels.discoverySalesHint)}</p>
               <p style="margin:0 0 14px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.5;word-break:break-all;"><a href="${escapeHtml(options.discoveryUrl)}" style="color:#007a87;text-decoration:none;">${escapeHtml(options.discoveryUrl)}</a></p>
               ${inquiryEmailButton(options.discoveryUrl, labels.discoveryCta || "Open the brief", "left")}
-              <p style="margin:14px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.55;color:#5b6b7c;">${escapeHtml(labels.reminderSalesHint)}</p>
             </td>
           </tr>
         </table>`
@@ -700,8 +699,6 @@ export function buildConsultationSalesEmailText(
       labels.discoveryHeading,
       labels.discoverySalesHint,
       options.discoveryUrl,
-      "",
-      labels.reminderSalesHint,
     );
   }
 

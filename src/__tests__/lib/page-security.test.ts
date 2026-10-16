@@ -1,6 +1,7 @@
 import {
   analyzePageSecurity,
   analyzeRedirectPath,
+  clipRedirectUrl,
   detectMixedContent,
   redirectPathStatus,
 } from "@/lib/page-security/analyze";
@@ -20,6 +21,10 @@ const clear = {
 };
 
 describe("page security", () => {
+  it("re-exports the redirect URL clipping helper", () => {
+    expect(clipRedirectUrl(`https://example.test/${"a".repeat(120)}`)).toHaveLength(96);
+  });
+
   it("passes a current certificate, redirects, headers, framing, and clean content", () => {
     const result = analyzePageSecurity(clear);
     expect(result.checks.map((check) => [check.id, check.status])).toEqual([

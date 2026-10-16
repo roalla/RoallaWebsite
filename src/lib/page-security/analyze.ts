@@ -1,6 +1,7 @@
 import { detectMixedContent, type MixedContentSignal } from "@/lib/page-security/mixed-content";
 import {
   analyzeRedirectPath,
+  clipRedirectUrl,
   redirectPathStatus,
   type RedirectHop,
   type RedirectPathAnalysis,

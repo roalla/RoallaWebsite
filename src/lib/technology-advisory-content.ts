@@ -1,206 +1,190 @@
-export type AdvisorNeedId = "replace" | "compare" | "risk" | "unsure";
-export type AdvisorPriorityId = "requirements" | "options" | "delivery";
+export type AdvisorNeedId = "growth" | "cost" | "risk" | "experience";
 
 type AdvisorNeed = {
   id: AdvisorNeedId;
   label: string;
-  priorities: Array<{ id: AdvisorPriorityId; label: string }>;
-  recommendation: Record<AdvisorPriorityId, { title: string; body: string }>;
+  title: string;
+  body: string;
+  questions: string[];
+  output: string;
 };
 
 type TechnologyCategory = {
   id: string;
   label: string;
-  description: string;
+  outcome: string;
+  questions: string[];
   compare: string[];
+  output: string;
 };
 
 export type TechnologyAdvisoryCopy = {
-  hero: {
-    eyebrow: string;
-    title: string;
-    body: string;
-    proof: string;
-  };
+  hero: { eyebrow: string; title: string; body: string; proof: string; lensTitle: string; questions: string[] };
   journeys: {
-    eyebrow: string;
-    title: string;
-    body: string;
-    advisorTitle: string;
-    advisorBody: string;
-    advisorPrompt: string;
-    priorityPrompt: string;
-    back: string;
-    restart: string;
-    reviewCta: string;
-    briefCta: string;
-    readyTitle: string;
-    readyBody: string;
-    categoryPrompt: string;
-    compareLabel: string;
-    compareCta: string;
-    inquiryCta: string;
-    advisorNeeds: AdvisorNeed[];
-    categories: TechnologyCategory[];
+    eyebrow: string; title: string; body: string;
+    advisorTitle: string; advisorBody: string; advisorPrompt: string;
+    leadershipQuestions: string; decisionOutput: string; restart: string;
+    reviewCta: string; briefCta: string;
+    readyTitle: string; readyBody: string; categoryPrompt: string;
+    compareLabel: string; compareCta: string; inquiryCta: string;
+    advisorNeeds: AdvisorNeed[]; categories: TechnologyCategory[];
   };
-  credibility: {
-    eyebrow: string;
-    title: string;
-    body: string;
-    principles: Array<{ title: string; body: string }>;
-  };
-  process: {
-    eyebrow: string;
-    title: string;
-    body: string;
-    steps: Array<{ title: string; body: string }>;
-  };
-  details: {
-    eyebrow: string;
-    title: string;
-    body: string;
-    deliverables: string;
-    capabilities: string;
-    evaluation: string;
-    implementation: string;
-    disclosure: string;
-  };
-  finalCta: {
-    eyebrow: string;
-    title: string;
-    body: string;
-    primary: string;
-    secondary: string;
-  };
+  leadership: { eyebrow: string; title: string; body: string; items: Array<{ title: string; body: string }> };
+  credibility: { eyebrow: string; title: string; body: string; principles: Array<{ title: string; body: string }> };
+  process: { eyebrow: string; title: string; body: string; steps: Array<{ title: string; body: string }> };
+  details: { eyebrow: string; title: string; body: string; scope: string; delivery: string; disclosure: string };
+  finalCta: { eyebrow: string; title: string; body: string; primary: string; secondary: string };
 };
 
 const en: TechnologyAdvisoryCopy = {
   hero: {
     eyebrow: "Technology advisory & solution sourcing",
-    title: "Choose or replace technology with a clear path forward.",
-    body: "Start with the help you need: clarify the decision with an independent advisor, or go directly to the technology category you already have in mind.",
-    proof: "Requirements first · Non-exclusive sourcing · Support through implementation",
+    title: "Make the technology decision the business can support—and the team can implement.",
+    body: "ROALLA helps leaders build the business case, compare credible options, negotiate from evidence, and carry the decision through implementation—without starting from a vendor pitch.",
+    proof: "Business case · Comparable options · Accountable implementation",
+    lensTitle: "A sound decision answers",
+    questions: ["Why change now?", "Which option creates the strongest value?", "What will implementation and adoption require?"],
   },
   journeys: {
-    eyebrow: "Choose your starting point",
-    title: "Two ways to move forward",
-    body: "You do not need a product shortlist before you begin.",
-    advisorTitle: "Help me decide",
-    advisorBody: "Answer two quick questions. We will point you to the smallest useful next step.",
-    advisorPrompt: "What best describes the decision?",
-    priorityPrompt: "Where would an advisor add the most value?",
-    back: "Back",
-    restart: "Start again",
-    reviewCta: "Request this review",
+    eyebrow: "Start with the decision",
+    title: "Choose the level where you already have clarity",
+    body: "Begin with the business pressure, or go directly to the technology domain. Both paths lead to a decision you can explain and defend.",
+    advisorTitle: "Help me frame the decision",
+    advisorBody: "Choose the pressure behind the decision. We will show the leadership questions and the right starting engagement.",
+    advisorPrompt: "What is driving the decision?",
+    leadershipQuestions: "Leadership questions to resolve",
+    decisionOutput: "What ROALLA prepares",
+    restart: "Choose a different priority",
+    reviewCta: "Discuss this decision",
     briefCta: "Build a free decision brief",
-    readyTitle: "I know what I need",
-    readyBody: "Choose a category to see what ROALLA can help you compare before you commit.",
-    categoryPrompt: "Select a technology category",
-    compareLabel: "Compare on",
+    readyTitle: "I know the technology area",
+    readyBody: "Select a domain to see the business issues, technical criteria, delivery risks, and commercial terms we help evaluate.",
+    categoryPrompt: "Select a technology domain",
+    compareLabel: "We compare",
     compareCta: "Build a comparison brief",
-    inquiryCta: "Ask about",
+    inquiryCta: "Discuss",
     advisorNeeds: [
       {
-        id: "replace",
-        label: "Replace, renew, or consolidate",
-        priorities: [
-          { id: "requirements", label: "Clarify what the replacement must do" },
-          { id: "options", label: "Compare providers and commercial terms" },
-          { id: "delivery", label: "Plan a safe migration and adoption" },
-        ],
-        recommendation: {
-          requirements: { title: "Start with a requirements review", body: "Document the work, constraints, dependencies, and decision criteria before providers shape the shortlist." },
-          options: { title: "Start with a provider comparison", body: "Normalize scope, total cost, terms, support, risk, and exit considerations across qualified options." },
-          delivery: { title: "Start with a transition review", body: "Map migration, integrations, ownership, training, continuity, and adoption before selecting the path." },
-        },
+        id: "growth",
+        label: "Growth is outpacing our current tools",
+        title: "Align the technology investment with the next stage of growth",
+        body: "Start with the capability, capacity, and timing the organization needs—then determine whether to buy, build, connect, consolidate, or improve.",
+        questions: ["Which constraint is limiting growth today?", "What must scale without adding equal cost or complexity?", "What measurable result would justify the investment?"],
+        output: "An executive decision brief, target capabilities, investment criteria, and a practical path to shortlist or implementation.",
       },
       {
-        id: "compare",
-        label: "Add a new capability",
-        priorities: [
-          { id: "requirements", label: "Turn the business need into requirements" },
-          { id: "options", label: "Find and compare suitable solutions" },
-          { id: "delivery", label: "Understand implementation effort" },
-        ],
-        recommendation: {
-          requirements: { title: "Start with a decision brief", body: "Translate the outcome you need into practical business, technical, security, and operating requirements." },
-          options: { title: "Start with a solution sourcing review", body: "Create a qualified shortlist and compare fit, cost, terms, support, implementation, and risk on the same facts." },
-          delivery: { title: "Start with an implementation-readiness review", body: "Confirm integrations, migration, internal ownership, user change, and supplier responsibilities before you commit." },
-        },
+        id: "cost",
+        label: "Costs, contracts, or systems are multiplying",
+        title: "Turn fragmented spend into a deliberate operating model",
+        body: "Separate avoidable cost from necessary capability, expose contract and integration dependencies, and compare consolidation or replacement on total business value.",
+        questions: ["Where are licences, suppliers, or capabilities duplicated?", "Which costs are contractual, operational, or hidden in manual work?", "What can change without creating unacceptable transition risk?"],
+        output: "A current-state cost and dependency view, consolidation scenarios, normalized commercial comparison, and transition priorities.",
       },
       {
         id: "risk",
-        label: "Reduce risk or improve resilience",
-        priorities: [
-          { id: "requirements", label: "Identify the gaps that matter most" },
-          { id: "options", label: "Compare security or continuity options" },
-          { id: "delivery", label: "Prioritize a practical roadmap" },
-        ],
-        recommendation: {
-          requirements: { title: "Start with a risk-focused requirements review", body: "Identify critical systems, information, access, recovery needs, and the controls your team can realistically operate." },
-          options: { title: "Start with a security and continuity comparison", body: "Compare qualified options on coverage, operations, response, recovery, support, cost, and implementation fit." },
-          delivery: { title: "Start with a prioritized resilience roadmap", body: "Sequence the highest-consequence gaps first, with clear ownership, dependencies, and measures of readiness." },
-        },
+        label: "Risk, resilience, or compliance needs attention",
+        title: "Prioritize the exposures that matter to the business",
+        body: "Connect technology controls to business consequence, recovery expectations, regulatory obligations, and the operating capacity your team can realistically sustain.",
+        questions: ["Which services and data cannot tolerate disruption?", "Who owns detection, response, recovery, and evidence?", "Which gaps create the greatest business consequence now?"],
+        output: "A risk-focused requirements brief, priority controls, qualified options, ownership model, and sequenced resilience roadmap.",
       },
       {
-        id: "unsure",
-        label: "I am not sure where to start",
-        priorities: [
-          { id: "requirements", label: "Make the problem and priorities clear" },
-          { id: "options", label: "Understand the available paths" },
-          { id: "delivery", label: "Choose a realistic first move" },
-        ],
-        recommendation: {
-          requirements: { title: "Start with a technology decision review", body: "Clarify the current situation, desired outcome, constraints, stakeholders, and evidence needed for a sound decision." },
-          options: { title: "Start with a path comparison", body: "Compare whether to buy, build, connect, improve, or defer before investing time in specific products." },
-          delivery: { title: "Start with the smallest practical next step", body: "Turn uncertainty into a bounded action that reduces risk and creates useful evidence for the larger decision." },
-        },
+        id: "experience",
+        label: "Customer or employee experience is suffering",
+        title: "Fix the workflow, not just the interface",
+        body: "Trace friction across people, process, data, integrations, and service ownership before adding another platform to the environment.",
+        questions: ["Where do customers or employees lose time, context, or confidence?", "Which handoffs and systems create the friction?", "How will adoption and service performance be measured?"],
+        output: "A journey and workflow view, target experience, capability gaps, integration requirements, and adoption measures.",
       },
     ],
     categories: [
-      { id: "cloud-infrastructure", label: "Cloud & infrastructure", description: "Hosting, compute, storage, backup, identity, and the operating foundation behind your systems.", compare: ["workload fit", "resilience", "security", "support", "total cost", "exit options"] },
-      { id: "cybersecurity-continuity", label: "Cybersecurity & continuity", description: "Protection, monitoring, response, backup, recovery, and practical readiness for disruption.", compare: ["risk coverage", "operating ownership", "response", "recovery", "compliance fit", "cost"] },
-      { id: "communications-contact-centre", label: "Communications & contact centre", description: "Business calling, unified communications, customer routing, contact centre, and conversation workflows.", compare: ["call flows", "user experience", "integrations", "analytics", "reliability", "commercial terms"] },
-      { id: "workplace-collaboration", label: "Workplace & collaboration", description: "Email, productivity, file sharing, meetings, collaboration, and the systems people use every day.", compare: ["user needs", "administration", "security", "interoperability", "adoption", "licensing"] },
-      { id: "network-connectivity", label: "Networking & connectivity", description: "Internet, SD-WAN, Wi-Fi, branch connectivity, performance, failover, and supplier support.", compare: ["coverage", "performance", "resilience", "service levels", "support", "total cost"] },
-      { id: "mobility-iot", label: "Mobility & IoT", description: "Mobile services, connected devices, field operations, fleet visibility, and managed connectivity.", compare: ["coverage", "device fit", "management", "security", "data use", "scalability"] },
+      {
+        id: "cloud-infrastructure", label: "Cloud & infrastructure",
+        outcome: "Choose the right operating foundation for each workload—not simply more cloud. We assess placement, architecture, managed services, resilience, governance, and exit flexibility together.",
+        questions: ["Which workloads benefit from cloud, colocation, on-premises, or a hybrid model?", "Who will operate, secure, optimize, and recover the environment after migration?"],
+        compare: ["workload placement", "architecture", "resilience & DR", "security & identity", "FinOps / total cost", "support & exit"],
+        output: "A workload and dependency view, target architecture, migration waves, provider comparison, operating model, and cost baseline.",
+      },
+      {
+        id: "cybersecurity-continuity", label: "Cybersecurity & continuity",
+        outcome: "Build a defensible security and continuity program around material risk, not a disconnected tool list. We connect prevention, detection, response, recovery, and evidence.",
+        questions: ["Which threats and business services drive the control priorities?", "What must be owned internally, co-managed, or delivered as a managed service?"],
+        compare: ["control coverage", "SOC / MDR operations", "identity & access", "incident response", "backup & recovery", "compliance evidence"],
+        output: "A risk and control brief, coverage gaps, service model, qualified solution comparison, response ownership, and recovery roadmap.",
+      },
+      {
+        id: "communications-contact-centre", label: "Communications & contact centre",
+        outcome: "Connect voice, messaging, routing, workforce, and customer context into a reliable service experience. We evaluate the operating workflow as closely as the platform.",
+        questions: ["How should conversations move across channels, queues, teams, and systems?", "Which integrations, reporting, recording, and resilience requirements are non-negotiable?"],
+        compare: ["UCaaS / CCaaS fit", "call & channel flows", "CRM integrations", "AI & automation", "quality & analytics", "carrier terms"],
+        output: "A channel and call-flow design, integration requirements, platform shortlist, carrier and licensing comparison, and migration plan.",
+      },
+      {
+        id: "workplace-collaboration", label: "Workplace & collaboration",
+        outcome: "Create a secure, governable workplace that people can actually adopt. We align productivity, information access, endpoint experience, identity, administration, and change.",
+        questions: ["Which work patterns and information flows need to improve?", "How will access, retention, device management, support, and adoption be governed?"],
+        compare: ["Microsoft 365 / Google fit", "identity & endpoints", "information governance", "interoperability", "licensing", "adoption & support"],
+        output: "A workplace requirements brief, licence and platform assessment, governance model, migration approach, and adoption roadmap.",
+      },
+      {
+        id: "network-connectivity", label: "Networking & connectivity",
+        outcome: "Design connectivity around application performance, site criticality, security, and recovery—not bandwidth alone. We compare architecture and carriers on service accountability.",
+        questions: ["Which sites, applications, and users require what level of performance and failover?", "How will internet, SD-WAN, LAN/Wi-Fi, SASE, and carrier support work together?"],
+        compare: ["carrier coverage", "SD-WAN / SASE", "LAN & Wi-Fi", "performance", "failover", "SLAs & support"],
+        output: "A site and application requirements map, target network design, carrier comparison, resilience model, and rollout plan.",
+      },
+      {
+        id: "mobility-iot", label: "Mobility & IoT",
+        outcome: "Connect people, vehicles, assets, and devices with the coverage, control, security, and economics required for field operations at scale.",
+        questions: ["What must be visible, controlled, or automated in the field?", "How will devices, connectivity, data, security, and lifecycle support be managed?"],
+        compare: ["coverage & carriers", "device lifecycle", "MDM / management", "IoT connectivity", "security", "usage economics"],
+        output: "A use-case and coverage brief, device and connectivity requirements, supplier comparison, security model, and deployment plan.",
+      },
+    ],
+  },
+  leadership: {
+    eyebrow: "An executive-ready decision package",
+    title: "Enough detail to decide. Enough structure to deliver.",
+    body: "The work is designed to move from leadership intent to accountable implementation without losing the reasoning in between.",
+    items: [
+      { title: "Decision brief", body: "Business outcome, current constraints, stakeholders, requirements, risks, decision criteria, and measures of value." },
+      { title: "Comparable options", body: "A qualified shortlist with normalized scope, economics, commercial terms, support, tradeoffs, and implementation effort." },
+      { title: "Implementation roadmap", body: "Ownership, sequence, dependencies, migration, integration, change, adoption, and measures of realized value." },
     ],
   },
   credibility: {
     eyebrow: "Independent advice · Broader supplier access",
     title: "Your requirements lead. Supplier relationships stay visible.",
-    body: "ROALLA is a Telarus Technology Advisor through a non-exclusive relationship, expanding access to a network of more than 400 suppliers, sales engineers, and domain specialists. That access supports the search; it does not replace a needs-led evaluation.",
+    body: "ROALLA is a Telarus Technology Advisor through a non-exclusive relationship, expanding access to more than 400 suppliers, sales engineers, and domain specialists. That network strengthens market coverage; it does not replace a needs-led evaluation.",
     principles: [
-      { title: "Needs-led", body: "The work, constraints, risks, and desired outcome define the shortlist." },
-      { title: "Comparable", body: "Qualified options are assessed on the same fit, cost, terms, support, and implementation criteria." },
+      { title: "Needs-led", body: "The business outcome, constraints, risks, and operating reality define the shortlist." },
+      { title: "Evidence-based", body: "Options are assessed on the same fit, cost, terms, support, risk, and delivery criteria." },
       { title: "Disclosed", body: "Any material commercial relationship affecting a recommendation is disclosed before you commit." },
     ],
   },
   process: {
-    eyebrow: "A simple, accountable process",
-    title: "From decision to everyday use in three steps",
-    body: "The depth changes with the decision. The structure stays clear.",
+    eyebrow: "A decision process built for executive oversight",
+    title: "From business case to realized value in three steps",
+    body: "The depth changes with the decision. The governance stays clear.",
     steps: [
-      { title: "Clarify", body: "Define the outcome, requirements, constraints, risks, stakeholders, and decision criteria." },
-      { title: "Compare", body: "Qualify options and make tradeoffs visible across fit, cost, terms, support, and implementation." },
-      { title: "Carry through", body: "Support selection, migration, integration, adoption, measurement, and ongoing improvement." },
+      { title: "Frame the decision", body: "Confirm the outcome, economics, stakeholders, constraints, risks, requirements, and approval criteria." },
+      { title: "Compare the evidence", body: "Qualify the market and expose tradeoffs across fit, architecture, cost, terms, support, and delivery." },
+      { title: "Own the outcome", body: "Carry the decision through negotiation, migration, integration, adoption, measurement, and improvement." },
     ],
   },
   details: {
-    eyebrow: "Explore the detail when you need it",
-    title: "The evidence behind the recommendation",
-    body: "These sections keep the practical detail available without making it your starting point.",
-    deliverables: "What you leave with",
-    capabilities: "Technology we can source and support",
-    evaluation: "How solutions are evaluated",
-    implementation: "What happens after selection",
-    disclosure: "Supplier access and compensation disclosure",
+    eyebrow: "Go deeper without starting in the weeds",
+    title: "The practical evidence behind the recommendation",
+    body: "Detailed scope, capabilities, evaluation methods, delivery support, and supplier disclosures remain available when your team needs them.",
+    scope: "Scope, technology capabilities, and decision deliverables",
+    delivery: "Evaluation, implementation, and adoption",
+    disclosure: "Supplier access, independence, and compensation",
   },
   finalCta: {
     eyebrow: "Technology advisory",
-    title: "Bring us the decision—not a product shortlist.",
-    body: "Tell us what you need to replace, add, compare, connect, or improve. We will recommend the smallest practical next step.",
-    primary: "Request a Technology Review",
+    title: "Bring the business decision. We will structure the technology choice.",
+    body: "In one focused conversation, we will clarify the decision, identify what evidence is missing, and recommend the smallest useful next step.",
+    primary: "Book an executive technology review",
     secondary: "Build a free decision brief",
   },
 };
@@ -209,132 +193,80 @@ const fr: TechnologyAdvisoryCopy = {
   ...en,
   hero: {
     eyebrow: "Conseil technologique et recherche de solutions",
-    title: "Choisissez ou remplacez une technologie avec un chemin clair.",
-    body: "Commencez par l’aide qu’il vous faut : clarifiez la décision avec un conseiller indépendant ou allez directement à la catégorie technologique que vous avez déjà en tête.",
-    proof: "Exigences d’abord · Recherche non exclusive · Soutien jusqu’à la mise en œuvre",
+    title: "Prenez une décision technologique que l’entreprise peut soutenir—et que l’équipe peut mettre en œuvre.",
+    body: "ROALLA aide les dirigeants à bâtir l’analyse de rentabilité, comparer des options crédibles, négocier à partir de faits et mener la décision jusqu’à la mise en œuvre—sans commencer par l’argumentaire d’un fournisseur.",
+    proof: "Analyse de rentabilité · Options comparables · Mise en œuvre responsable",
+    lensTitle: "Une décision solide répond à",
+    questions: ["Pourquoi changer maintenant?", "Quelle option crée le plus de valeur?", "Que faudra-t-il pour la mise en œuvre et l’adoption?"],
   },
   journeys: {
     ...en.journeys,
-    eyebrow: "Choisissez votre point de départ",
-    title: "Deux façons d’avancer",
-    body: "Vous n’avez pas besoin d’une liste de produits avant de commencer.",
-    advisorTitle: "Aidez-moi à décider",
-    advisorBody: "Répondez à deux questions rapides. Nous vous orienterons vers la plus petite prochaine étape utile.",
-    advisorPrompt: "Qu’est-ce qui décrit le mieux la décision?",
-    priorityPrompt: "Où un conseiller ajouterait-il le plus de valeur?",
-    back: "Retour",
-    restart: "Recommencer",
-    reviewCta: "Demander cette revue",
+    eyebrow: "Commencez par la décision",
+    title: "Choisissez le niveau où vous avez déjà de la clarté",
+    body: "Partez de la pression d’affaires ou allez directement au domaine technologique. Les deux chemins mènent à une décision explicable et défendable.",
+    advisorTitle: "Aidez-moi à cadrer la décision",
+    advisorBody: "Choisissez la pression à l’origine de la décision. Nous montrerons les questions de direction et le bon point de départ.",
+    advisorPrompt: "Qu’est-ce qui motive la décision?",
+    leadershipQuestions: "Questions de direction à résoudre",
+    decisionOutput: "Ce que ROALLA prépare",
+    restart: "Choisir une autre priorité",
+    reviewCta: "Discuter de cette décision",
     briefCta: "Créer une fiche de décision gratuite",
-    readyTitle: "Je sais ce qu’il me faut",
-    readyBody: "Choisissez une catégorie pour voir ce que ROALLA peut vous aider à comparer avant de vous engager.",
-    categoryPrompt: "Sélectionnez une catégorie technologique",
-    compareLabel: "Comparer selon",
+    readyTitle: "Je connais le domaine technologique",
+    readyBody: "Sélectionnez un domaine pour voir les enjeux d’affaires, critères techniques, risques de livraison et conditions commerciales que nous évaluons.",
+    categoryPrompt: "Sélectionnez un domaine technologique",
+    compareLabel: "Nous comparons",
     compareCta: "Créer une fiche de comparaison",
-    inquiryCta: "Poser une question sur",
+    inquiryCta: "Discuter de",
     advisorNeeds: [
-      {
-        id: "replace",
-        label: "Remplacer, renouveler ou regrouper",
-        priorities: [
-          { id: "requirements", label: "Clarifier ce que la solution doit accomplir" },
-          { id: "options", label: "Comparer les fournisseurs et les conditions" },
-          { id: "delivery", label: "Planifier une migration et une adoption sûres" },
-        ],
-        recommendation: {
-          requirements: { title: "Commencez par une revue des exigences", body: "Documentez le travail, les contraintes, les dépendances et les critères avant que les fournisseurs orientent la liste." },
-          options: { title: "Commencez par une comparaison de fournisseurs", body: "Normalisez la portée, le coût total, les conditions, le soutien, les risques et les options de sortie." },
-          delivery: { title: "Commencez par une revue de transition", body: "Cartographiez la migration, les intégrations, la responsabilité, la formation, la continuité et l’adoption." },
-        },
-      },
-      {
-        id: "compare",
-        label: "Ajouter une nouvelle capacité",
-        priorities: [
-          { id: "requirements", label: "Transformer le besoin d’affaires en exigences" },
-          { id: "options", label: "Trouver et comparer les solutions appropriées" },
-          { id: "delivery", label: "Comprendre l’effort de mise en œuvre" },
-        ],
-        recommendation: {
-          requirements: { title: "Commencez par une fiche de décision", body: "Traduisez le résultat recherché en exigences d’affaires, techniques, de sécurité et d’exploitation." },
-          options: { title: "Commencez par une revue de recherche de solutions", body: "Créez une liste qualifiée et comparez l’adéquation, le coût, les conditions, le soutien, la mise en œuvre et le risque." },
-          delivery: { title: "Commencez par une revue de préparation", body: "Confirmez les intégrations, la migration, la responsabilité interne, le changement utilisateur et les rôles des fournisseurs." },
-        },
-      },
-      {
-        id: "risk",
-        label: "Réduire le risque ou améliorer la résilience",
-        priorities: [
-          { id: "requirements", label: "Repérer les écarts les plus importants" },
-          { id: "options", label: "Comparer les options de sécurité ou de continuité" },
-          { id: "delivery", label: "Prioriser une feuille de route pratique" },
-        ],
-        recommendation: {
-          requirements: { title: "Commencez par une revue des exigences axée sur le risque", body: "Repérez les systèmes, l’information, les accès, la reprise et les contrôles que votre équipe peut réellement exploiter." },
-          options: { title: "Commencez par une comparaison sécurité et continuité", body: "Comparez la couverture, l’exploitation, l’intervention, la reprise, le soutien, le coût et l’adéquation." },
-          delivery: { title: "Commencez par une feuille de route de résilience", body: "Traitez d’abord les écarts aux conséquences les plus fortes, avec responsabilités, dépendances et mesures claires." },
-        },
-      },
-      {
-        id: "unsure",
-        label: "Je ne sais pas par où commencer",
-        priorities: [
-          { id: "requirements", label: "Clarifier le problème et les priorités" },
-          { id: "options", label: "Comprendre les chemins possibles" },
-          { id: "delivery", label: "Choisir un premier geste réaliste" },
-        ],
-        recommendation: {
-          requirements: { title: "Commencez par une revue de décision technologique", body: "Clarifiez la situation actuelle, le résultat, les contraintes, les parties prenantes et les preuves nécessaires." },
-          options: { title: "Commencez par une comparaison des chemins", body: "Comparez acheter, bâtir, connecter, améliorer ou reporter avant d’investir dans des produits précis." },
-          delivery: { title: "Commencez par la plus petite prochaine étape pratique", body: "Transformez l’incertitude en une action limitée qui réduit le risque et crée des preuves utiles." },
-        },
-      },
+      { id: "growth", label: "La croissance dépasse nos outils actuels", title: "Aligner l’investissement technologique sur la prochaine étape de croissance", body: "Commencez par la capacité et le calendrier requis, puis déterminez s’il faut acheter, bâtir, connecter, regrouper ou améliorer.", questions: ["Quelle contrainte limite la croissance aujourd’hui?", "Qu’est-ce qui doit évoluer sans ajouter autant de coûts ou de complexité?", "Quel résultat mesurable justifierait l’investissement?"], output: "Une fiche de décision, les capacités cibles, les critères d’investissement et un chemin pratique vers la sélection ou la mise en œuvre." },
+      { id: "cost", label: "Les coûts, contrats ou systèmes se multiplient", title: "Transformer des dépenses fragmentées en modèle d’exploitation délibéré", body: "Distinguez le coût évitable de la capacité nécessaire, exposez les dépendances et comparez le regroupement ou le remplacement selon la valeur totale.", questions: ["Où les licences, fournisseurs ou capacités se chevauchent-ils?", "Quels coûts sont contractuels, opérationnels ou cachés dans le travail manuel?", "Que peut-on changer sans risque de transition inacceptable?"], output: "Une vue des coûts et dépendances, des scénarios de regroupement, une comparaison commerciale normalisée et les priorités de transition." },
+      { id: "risk", label: "Le risque, la résilience ou la conformité exigent une attention", title: "Prioriser les expositions importantes pour l’entreprise", body: "Reliez les contrôles aux conséquences d’affaires, aux attentes de reprise, aux obligations et à la capacité réelle de l’équipe.", questions: ["Quels services et quelles données ne peuvent tolérer une interruption?", "Qui possède la détection, l’intervention, la reprise et les preuves?", "Quels écarts créent les plus grandes conséquences maintenant?"], output: "Une fiche d’exigences axée sur le risque, des contrôles prioritaires, des options qualifiées, un modèle de responsabilité et une feuille de route." },
+      { id: "experience", label: "L’expérience client ou employé se détériore", title: "Corriger le flux de travail, pas seulement l’interface", body: "Suivez la friction entre personnes, processus, données, intégrations et responsabilité du service avant d’ajouter une autre plateforme.", questions: ["Où les clients ou employés perdent-ils temps, contexte ou confiance?", "Quels transferts et systèmes créent la friction?", "Comment mesurerons-nous l’adoption et la performance?"], output: "Une vue du parcours, l’expérience cible, les écarts de capacité, les exigences d’intégration et les mesures d’adoption." },
     ],
     categories: [
-      { id: "cloud-infrastructure", label: "Infonuagique et infrastructure", description: "Hébergement, calcul, stockage, sauvegarde, identité et fondation d’exploitation de vos systèmes.", compare: ["adéquation des charges", "résilience", "sécurité", "soutien", "coût total", "options de sortie"] },
-      { id: "cybersecurity-continuity", label: "Cybersécurité et continuité", description: "Protection, surveillance, intervention, sauvegarde, reprise et préparation pratique aux perturbations.", compare: ["couverture du risque", "responsabilité", "intervention", "reprise", "conformité", "coût"] },
-      { id: "communications-contact-centre", label: "Communications et centre de contact", description: "Téléphonie, communications unifiées, routage client, centre de contact et flux de conversations.", compare: ["flux d’appels", "expérience utilisateur", "intégrations", "analytique", "fiabilité", "conditions"] },
-      { id: "workplace-collaboration", label: "Milieu de travail et collaboration", description: "Courriel, productivité, partage de fichiers, réunions, collaboration et outils du quotidien.", compare: ["besoins utilisateurs", "administration", "sécurité", "interopérabilité", "adoption", "licences"] },
-      { id: "network-connectivity", label: "Réseau et connectivité", description: "Internet, SD-WAN, Wi-Fi, succursales, performance, relève et soutien fournisseur.", compare: ["couverture", "performance", "résilience", "niveaux de service", "soutien", "coût total"] },
-      { id: "mobility-iot", label: "Mobilité et IdO", description: "Services mobiles, appareils connectés, opérations terrain, visibilité de flotte et connectivité gérée.", compare: ["couverture", "adéquation des appareils", "gestion", "sécurité", "données", "évolutivité"] },
+      { id: "cloud-infrastructure", label: "Infonuagique et infrastructure", outcome: "Choisissez la bonne fondation pour chaque charge—pas simplement plus de nuage. Nous évaluons placement, architecture, services gérés, résilience, gouvernance et sortie ensemble.", questions: ["Quelles charges conviennent au nuage, à la colocation, au site ou à un modèle hybride?", "Qui exploitera, sécurisera, optimisera et rétablira l’environnement après la migration?"], compare: ["placement des charges", "architecture", "résilience et relève", "sécurité et identité", "FinOps / coût total", "soutien et sortie"], output: "Une vue des charges et dépendances, l’architecture cible, les vagues de migration, la comparaison des fournisseurs et le coût de référence." },
+      { id: "cybersecurity-continuity", label: "Cybersécurité et continuité", outcome: "Bâtissez un programme défendable autour du risque matériel, et non une liste d’outils. Nous relions prévention, détection, intervention, reprise et preuves.", questions: ["Quelles menaces et quels services guident les priorités de contrôle?", "Qu’est-ce qui doit être interne, cogéré ou livré comme service géré?"], compare: ["couverture des contrôles", "SOC / MDR", "identité et accès", "intervention", "sauvegarde et reprise", "preuves de conformité"], output: "Une fiche risques-contrôles, les écarts, le modèle de service, la comparaison des solutions, la responsabilité et la feuille de route." },
+      { id: "communications-contact-centre", label: "Communications et centre de contact", outcome: "Reliez voix, messagerie, routage, effectifs et contexte client dans une expérience fiable. Nous évaluons le flux d’exploitation autant que la plateforme.", questions: ["Comment les conversations doivent-elles circuler entre canaux, files, équipes et systèmes?", "Quelles intégrations, analyses, fonctions d’enregistrement et de résilience sont non négociables?"], compare: ["UCaaS / CCaaS", "flux d’appels et canaux", "intégrations CRM", "IA et automatisation", "qualité et analytique", "conditions opérateur"], output: "Une conception des canaux et flux, les exigences d’intégration, une liste de plateformes, une comparaison des licences et un plan de migration." },
+      { id: "workplace-collaboration", label: "Milieu de travail et collaboration", outcome: "Créez un milieu sécurisé, gouvernable et réellement adopté. Nous alignons productivité, accès à l’information, appareils, identité, administration et changement.", questions: ["Quels modes de travail et flux d’information doivent s’améliorer?", "Comment gouverner l’accès, la conservation, les appareils, le soutien et l’adoption?"], compare: ["Microsoft 365 / Google", "identité et appareils", "gouvernance de l’information", "interopérabilité", "licences", "adoption et soutien"], output: "Une fiche d’exigences, une évaluation des licences et plateformes, un modèle de gouvernance, une approche de migration et une feuille d’adoption." },
+      { id: "network-connectivity", label: "Réseau et connectivité", outcome: "Concevez la connectivité selon les applications, la criticité des sites, la sécurité et la reprise—pas seulement la bande passante.", questions: ["Quels sites, applications et utilisateurs exigent quel rendement et quelle relève?", "Comment Internet, SD-WAN, LAN/Wi-Fi, SASE et soutien opérateur fonctionneront-ils ensemble?"], compare: ["couverture opérateur", "SD-WAN / SASE", "LAN et Wi-Fi", "performance", "relève", "SLA et soutien"], output: "Une carte des exigences sites-applications, la conception cible, une comparaison des opérateurs, le modèle de résilience et le déploiement." },
+      { id: "mobility-iot", label: "Mobilité et IdO", outcome: "Connectez personnes, véhicules, actifs et appareils avec la couverture, le contrôle, la sécurité et l’économie nécessaires aux opérations terrain.", questions: ["Qu’est-ce qui doit être visible, contrôlé ou automatisé sur le terrain?", "Comment gérer appareils, connectivité, données, sécurité et cycle de vie?"], compare: ["couverture et opérateurs", "cycle de vie des appareils", "MDM / gestion", "connectivité IdO", "sécurité", "économie d’usage"], output: "Une fiche de cas d’usage et couverture, les exigences, une comparaison des fournisseurs, le modèle de sécurité et le plan de déploiement." },
+    ],
+  },
+  leadership: {
+    eyebrow: "Un dossier de décision prêt pour la direction", title: "Assez de détails pour décider. Assez de structure pour livrer.",
+    body: "Le travail passe de l’intention de la direction à une mise en œuvre responsable sans perdre le raisonnement en chemin.",
+    items: [
+      { title: "Fiche de décision", body: "Résultat d’affaires, contraintes, parties prenantes, exigences, risques, critères et mesures de valeur." },
+      { title: "Options comparables", body: "Une liste qualifiée avec portée, économie, conditions, soutien, compromis et effort de mise en œuvre normalisés." },
+      { title: "Feuille de route", body: "Responsabilité, séquence, dépendances, migration, intégration, changement, adoption et valeur réalisée." },
     ],
   },
   credibility: {
-    eyebrow: "Conseil indépendant · Accès élargi aux fournisseurs",
-    title: "Vos exigences guident le choix. Les relations fournisseurs restent visibles.",
-    body: "ROALLA est conseiller technologique Telarus dans le cadre d’une relation non exclusive, donnant accès à un réseau de plus de 400 fournisseurs, ingénieurs des ventes et spécialistes. Cet accès soutient la recherche; il ne remplace pas une évaluation fondée sur les besoins.",
+    eyebrow: "Conseil indépendant · Accès élargi aux fournisseurs", title: "Vos exigences guident le choix. Les relations fournisseurs restent visibles.",
+    body: "ROALLA est conseiller technologique Telarus dans le cadre d’une relation non exclusive, donnant accès à plus de 400 fournisseurs, ingénieurs des ventes et spécialistes. Ce réseau renforce la couverture du marché; il ne remplace pas une évaluation fondée sur les besoins.",
     principles: [
-      { title: "Besoins d’abord", body: "Le travail, les contraintes, les risques et le résultat recherché définissent la liste." },
-      { title: "Comparable", body: "Les options qualifiées sont évaluées selon les mêmes critères d’adéquation, de coût, de conditions, de soutien et de mise en œuvre." },
-      { title: "Divulgué", body: "Toute relation commerciale importante influant sur une recommandation est divulguée avant votre engagement." },
+      { title: "Besoins d’abord", body: "Le résultat, les contraintes, les risques et la réalité d’exploitation définissent la liste." },
+      { title: "Fondé sur les faits", body: "Les options suivent les mêmes critères d’adéquation, coût, conditions, soutien, risque et livraison." },
+      { title: "Divulgué", body: "Toute relation commerciale importante influant sur une recommandation est divulguée avant l’engagement." },
     ],
   },
   process: {
-    eyebrow: "Un processus simple et responsable",
-    title: "De la décision à l’usage quotidien en trois étapes",
-    body: "La profondeur change selon la décision. La structure reste claire.",
+    eyebrow: "Un processus conçu pour la supervision de la direction", title: "De l’analyse de rentabilité à la valeur réalisée en trois étapes", body: "La profondeur change selon la décision. La gouvernance reste claire.",
     steps: [
-      { title: "Clarifier", body: "Définir le résultat, les exigences, les contraintes, les risques, les parties prenantes et les critères." },
-      { title: "Comparer", body: "Qualifier les options et rendre visibles les compromis d’adéquation, de coût, de conditions, de soutien et de mise en œuvre." },
-      { title: "Mener à terme", body: "Soutenir la sélection, la migration, l’intégration, l’adoption, la mesure et l’amélioration continue." },
+      { title: "Cadrer la décision", body: "Confirmer le résultat, l’économie, les parties prenantes, les contraintes, les risques, les exigences et l’approbation." },
+      { title: "Comparer les preuves", body: "Qualifier le marché et exposer les compromis d’adéquation, architecture, coût, conditions, soutien et livraison." },
+      { title: "Assumer le résultat", body: "Mener la décision à travers négociation, migration, intégration, adoption, mesure et amélioration." },
     ],
   },
   details: {
-    eyebrow: "Explorez les détails au besoin",
-    title: "Les preuves derrière la recommandation",
-    body: "Ces sections gardent les détails pratiques accessibles sans en faire votre point de départ.",
-    deliverables: "Ce avec quoi vous repartez",
-    capabilities: "Technologies que nous pouvons rechercher et soutenir",
-    evaluation: "Comment les solutions sont évaluées",
-    implementation: "Ce qui se passe après la sélection",
-    disclosure: "Accès aux fournisseurs et divulgation de la rémunération",
+    eyebrow: "Approfondissez sans commencer dans les détails", title: "Les preuves pratiques derrière la recommandation", body: "La portée, les capacités, l’évaluation, le soutien à la livraison et les divulgations restent accessibles au besoin.",
+    scope: "Portée, capacités technologiques et livrables de décision", delivery: "Évaluation, mise en œuvre et adoption", disclosure: "Accès aux fournisseurs, indépendance et rémunération",
   },
   finalCta: {
-    eyebrow: "Conseil technologique",
-    title: "Apportez-nous la décision—pas une liste de produits.",
-    body: "Dites-nous ce que vous devez remplacer, ajouter, comparer, connecter ou améliorer. Nous recommanderons la plus petite prochaine étape pratique.",
-    primary: "Demander une revue technologique",
-    secondary: "Créer une fiche de décision gratuite",
+    eyebrow: "Conseil technologique", title: "Apportez la décision d’affaires. Nous structurerons le choix technologique.",
+    body: "En une conversation ciblée, nous clarifierons la décision, repérerons les preuves manquantes et recommanderons la plus petite prochaine étape utile.",
+    primary: "Réserver une revue technologique de direction", secondary: "Créer une fiche de décision gratuite",
   },
 };
 

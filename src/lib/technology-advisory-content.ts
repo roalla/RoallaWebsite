@@ -19,7 +19,7 @@ type TechnologyCategory = {
 };
 
 export type TechnologyAdvisoryCopy = {
-  hero: { eyebrow: string; title: string; body: string; proof: string; lensTitle: string; questions: string[] };
+  hero: { eyebrow: string; title: string; body: string; proof: string; lensTitle: string; questions: string[]; primary: string };
   journeys: {
     eyebrow: string; title: string; body: string;
     advisorTitle: string; advisorBody: string; advisorPrompt: string;
@@ -39,26 +39,27 @@ export type TechnologyAdvisoryCopy = {
 const en: TechnologyAdvisoryCopy = {
   hero: {
     eyebrow: "Technology advisory & solution sourcing",
-    title: "Make the technology decision the business can support—and the team can implement.",
-    body: "ROALLA helps leaders build the business case, compare credible options, negotiate from evidence, and carry the decision through implementation—without starting from a vendor pitch.",
-    proof: "Business case · Comparable options · Accountable implementation",
-    lensTitle: "A sound decision answers",
-    questions: ["Why change now?", "Which option creates the strongest value?", "What will implementation and adoption require?"],
+    title: "Turn a technology decision into a business advantage.",
+    body: "ROALLA helps leaders cut through vendor noise, expose the real tradeoffs, and move from business case to implementation with confidence.",
+    proof: "Needs-led advice · 400+ supplier network · Delivery support",
+    lensTitle: "Before you buy, know",
+    questions: ["What creates value", "What introduces risk", "What it takes to deliver"],
+    primary: "Find my smartest next move",
   },
   journeys: {
-    eyebrow: "Start with the decision",
-    title: "Choose the level where you already have clarity",
-    body: "Begin with the business pressure, or go directly to the technology domain. Both paths lead to a decision you can explain and defend.",
-    advisorTitle: "Help me frame the decision",
-    advisorBody: "Choose the pressure behind the decision. We will show the leadership questions and the right starting engagement.",
+    eyebrow: "Your fastest path to clarity",
+    title: "One choice. A smarter next move.",
+    body: "Start with the business pressure or jump directly to the technology domain.",
+    advisorTitle: "I need direction",
+    advisorBody: "Choose what is creating pressure. We will show you where to focus first.",
     advisorPrompt: "What is driving the decision?",
     leadershipQuestions: "Leadership questions to resolve",
     decisionOutput: "What ROALLA prepares",
     restart: "Choose a different priority",
-    reviewCta: "Discuss this decision",
+    reviewCta: "Talk it through with ROALLA",
     briefCta: "Build a free decision brief",
-    readyTitle: "I know the technology area",
-    readyBody: "Select a domain to see the business issues, technical criteria, delivery risks, and commercial terms we help evaluate.",
+    readyTitle: "I know the domain",
+    readyBody: "See the technical, operational, and commercial factors we evaluate before you commit.",
     categoryPrompt: "Select a technology domain",
     compareLabel: "We compare",
     compareCta: "Build a comparison brief",
@@ -66,7 +67,7 @@ const en: TechnologyAdvisoryCopy = {
     advisorNeeds: [
       {
         id: "growth",
-        label: "Growth is outpacing our current tools",
+        label: "Scale for growth",
         title: "Align the technology investment with the next stage of growth",
         body: "Start with the capability, capacity, and timing the organization needs—then determine whether to buy, build, connect, consolidate, or improve.",
         questions: ["Which constraint is limiting growth today?", "What must scale without adding equal cost or complexity?", "What measurable result would justify the investment?"],
@@ -74,7 +75,7 @@ const en: TechnologyAdvisoryCopy = {
       },
       {
         id: "cost",
-        label: "Costs, contracts, or systems are multiplying",
+        label: "Reduce cost and sprawl",
         title: "Turn fragmented spend into a deliberate operating model",
         body: "Separate avoidable cost from necessary capability, expose contract and integration dependencies, and compare consolidation or replacement on total business value.",
         questions: ["Where are licences, suppliers, or capabilities duplicated?", "Which costs are contractual, operational, or hidden in manual work?", "What can change without creating unacceptable transition risk?"],
@@ -82,7 +83,7 @@ const en: TechnologyAdvisoryCopy = {
       },
       {
         id: "risk",
-        label: "Risk, resilience, or compliance needs attention",
+        label: "Strengthen risk and resilience",
         title: "Prioritize the exposures that matter to the business",
         body: "Connect technology controls to business consequence, recovery expectations, regulatory obligations, and the operating capacity your team can realistically sustain.",
         questions: ["Which services and data cannot tolerate disruption?", "Who owns detection, response, recovery, and evidence?", "Which gaps create the greatest business consequence now?"],
@@ -90,7 +91,7 @@ const en: TechnologyAdvisoryCopy = {
       },
       {
         id: "experience",
-        label: "Customer or employee experience is suffering",
+        label: "Improve customer or employee experience",
         title: "Fix the workflow, not just the interface",
         body: "Trace friction across people, process, data, integrations, and service ownership before adding another platform to the environment.",
         questions: ["Where do customers or employees lose time, context, or confidence?", "Which handoffs and systems create the friction?", "How will adoption and service performance be measured?"],
@@ -154,7 +155,7 @@ const en: TechnologyAdvisoryCopy = {
   },
   credibility: {
     eyebrow: "Independent advice · Broader supplier access",
-    title: "Your requirements lead. Supplier relationships stay visible.",
+    title: "A decision partner—not another product pitch.",
     body: "ROALLA is a Telarus Technology Advisor through a non-exclusive relationship, expanding access to more than 400 suppliers, sales engineers, and domain specialists. That network strengthens market coverage; it does not replace a needs-led evaluation.",
     principles: [
       { title: "Needs-led", body: "The business outcome, constraints, risks, and operating reality define the shortlist." },
@@ -163,13 +164,13 @@ const en: TechnologyAdvisoryCopy = {
     ],
   },
   process: {
-    eyebrow: "A decision process built for executive oversight",
-    title: "From business case to realized value in three steps",
-    body: "The depth changes with the decision. The governance stays clear.",
+    eyebrow: "How ROALLA moves the decision forward",
+    title: "Clarity, market reach, and follow-through.",
+    body: "One accountable path from the first question to realized value.",
     steps: [
-      { title: "Frame the decision", body: "Confirm the outcome, economics, stakeholders, constraints, risks, requirements, and approval criteria." },
-      { title: "Compare the evidence", body: "Qualify the market and expose tradeoffs across fit, architecture, cost, terms, support, and delivery." },
-      { title: "Own the outcome", body: "Carry the decision through negotiation, migration, integration, adoption, measurement, and improvement." },
+      { title: "Frame", body: "Turn the business pressure into outcomes, requirements, risks, economics, and decision criteria." },
+      { title: "Source", body: "Reach the market, qualify providers, and make technical and commercial tradeoffs comparable." },
+      { title: "Deliver", body: "Carry the choice through negotiation, migration, integration, adoption, and measurable value." },
     ],
   },
   details: {
@@ -182,8 +183,8 @@ const en: TechnologyAdvisoryCopy = {
   },
   finalCta: {
     eyebrow: "Technology advisory",
-    title: "Bring the business decision. We will structure the technology choice.",
-    body: "In one focused conversation, we will clarify the decision, identify what evidence is missing, and recommend the smallest useful next step.",
+    title: "Make the next technology move with confidence.",
+    body: "Bring the pressure, the opportunity, or the shortlist. In one focused conversation, we will identify the smartest next step.",
     primary: "Book an executive technology review",
     secondary: "Build a free decision brief",
   },
@@ -193,36 +194,37 @@ const fr: TechnologyAdvisoryCopy = {
   ...en,
   hero: {
     eyebrow: "Conseil technologique et recherche de solutions",
-    title: "Prenez une décision technologique que l’entreprise peut soutenir—et que l’équipe peut mettre en œuvre.",
-    body: "ROALLA aide les dirigeants à bâtir l’analyse de rentabilité, comparer des options crédibles, négocier à partir de faits et mener la décision jusqu’à la mise en œuvre—sans commencer par l’argumentaire d’un fournisseur.",
-    proof: "Analyse de rentabilité · Options comparables · Mise en œuvre responsable",
-    lensTitle: "Une décision solide répond à",
-    questions: ["Pourquoi changer maintenant?", "Quelle option crée le plus de valeur?", "Que faudra-t-il pour la mise en œuvre et l’adoption?"],
+    title: "Transformez une décision technologique en avantage d’affaires.",
+    body: "ROALLA aide les dirigeants à dépasser le bruit des fournisseurs, voir les vrais compromis et passer de l’analyse de rentabilité à la mise en œuvre avec confiance.",
+    proof: "Conseil fondé sur les besoins · Réseau de 400+ fournisseurs · Soutien à la livraison",
+    lensTitle: "Avant d’acheter, sachez",
+    questions: ["Ce qui crée la valeur", "Ce qui introduit le risque", "Ce qu’exige la livraison"],
+    primary: "Trouver ma meilleure prochaine étape",
   },
   journeys: {
     ...en.journeys,
-    eyebrow: "Commencez par la décision",
-    title: "Choisissez le niveau où vous avez déjà de la clarté",
-    body: "Partez de la pression d’affaires ou allez directement au domaine technologique. Les deux chemins mènent à une décision explicable et défendable.",
-    advisorTitle: "Aidez-moi à cadrer la décision",
-    advisorBody: "Choisissez la pression à l’origine de la décision. Nous montrerons les questions de direction et le bon point de départ.",
+    eyebrow: "Votre chemin le plus rapide vers la clarté",
+    title: "Un choix. Une prochaine étape plus intelligente.",
+    body: "Partez de la pression d’affaires ou allez directement au domaine technologique.",
+    advisorTitle: "J’ai besoin d’orientation",
+    advisorBody: "Choisissez ce qui crée la pression. Nous vous montrerons où concentrer l’effort d’abord.",
     advisorPrompt: "Qu’est-ce qui motive la décision?",
     leadershipQuestions: "Questions de direction à résoudre",
     decisionOutput: "Ce que ROALLA prépare",
     restart: "Choisir une autre priorité",
-    reviewCta: "Discuter de cette décision",
+    reviewCta: "En parler avec ROALLA",
     briefCta: "Créer une fiche de décision gratuite",
-    readyTitle: "Je connais le domaine technologique",
-    readyBody: "Sélectionnez un domaine pour voir les enjeux d’affaires, critères techniques, risques de livraison et conditions commerciales que nous évaluons.",
+    readyTitle: "Je connais le domaine",
+    readyBody: "Voyez les facteurs techniques, opérationnels et commerciaux que nous évaluons avant l’engagement.",
     categoryPrompt: "Sélectionnez un domaine technologique",
     compareLabel: "Nous comparons",
     compareCta: "Créer une fiche de comparaison",
     inquiryCta: "Discuter de",
     advisorNeeds: [
-      { id: "growth", label: "La croissance dépasse nos outils actuels", title: "Aligner l’investissement technologique sur la prochaine étape de croissance", body: "Commencez par la capacité et le calendrier requis, puis déterminez s’il faut acheter, bâtir, connecter, regrouper ou améliorer.", questions: ["Quelle contrainte limite la croissance aujourd’hui?", "Qu’est-ce qui doit évoluer sans ajouter autant de coûts ou de complexité?", "Quel résultat mesurable justifierait l’investissement?"], output: "Une fiche de décision, les capacités cibles, les critères d’investissement et un chemin pratique vers la sélection ou la mise en œuvre." },
-      { id: "cost", label: "Les coûts, contrats ou systèmes se multiplient", title: "Transformer des dépenses fragmentées en modèle d’exploitation délibéré", body: "Distinguez le coût évitable de la capacité nécessaire, exposez les dépendances et comparez le regroupement ou le remplacement selon la valeur totale.", questions: ["Où les licences, fournisseurs ou capacités se chevauchent-ils?", "Quels coûts sont contractuels, opérationnels ou cachés dans le travail manuel?", "Que peut-on changer sans risque de transition inacceptable?"], output: "Une vue des coûts et dépendances, des scénarios de regroupement, une comparaison commerciale normalisée et les priorités de transition." },
-      { id: "risk", label: "Le risque, la résilience ou la conformité exigent une attention", title: "Prioriser les expositions importantes pour l’entreprise", body: "Reliez les contrôles aux conséquences d’affaires, aux attentes de reprise, aux obligations et à la capacité réelle de l’équipe.", questions: ["Quels services et quelles données ne peuvent tolérer une interruption?", "Qui possède la détection, l’intervention, la reprise et les preuves?", "Quels écarts créent les plus grandes conséquences maintenant?"], output: "Une fiche d’exigences axée sur le risque, des contrôles prioritaires, des options qualifiées, un modèle de responsabilité et une feuille de route." },
-      { id: "experience", label: "L’expérience client ou employé se détériore", title: "Corriger le flux de travail, pas seulement l’interface", body: "Suivez la friction entre personnes, processus, données, intégrations et responsabilité du service avant d’ajouter une autre plateforme.", questions: ["Où les clients ou employés perdent-ils temps, contexte ou confiance?", "Quels transferts et systèmes créent la friction?", "Comment mesurerons-nous l’adoption et la performance?"], output: "Une vue du parcours, l’expérience cible, les écarts de capacité, les exigences d’intégration et les mesures d’adoption." },
+      { id: "growth", label: "Évoluer pour la croissance", title: "Aligner l’investissement technologique sur la prochaine étape de croissance", body: "Commencez par la capacité et le calendrier requis, puis déterminez s’il faut acheter, bâtir, connecter, regrouper ou améliorer.", questions: ["Quelle contrainte limite la croissance aujourd’hui?", "Qu’est-ce qui doit évoluer sans ajouter autant de coûts ou de complexité?", "Quel résultat mesurable justifierait l’investissement?"], output: "Une fiche de décision, les capacités cibles, les critères d’investissement et un chemin pratique vers la sélection ou la mise en œuvre." },
+      { id: "cost", label: "Réduire les coûts et la dispersion", title: "Transformer des dépenses fragmentées en modèle d’exploitation délibéré", body: "Distinguez le coût évitable de la capacité nécessaire, exposez les dépendances et comparez le regroupement ou le remplacement selon la valeur totale.", questions: ["Où les licences, fournisseurs ou capacités se chevauchent-ils?", "Quels coûts sont contractuels, opérationnels ou cachés dans le travail manuel?", "Que peut-on changer sans risque de transition inacceptable?"], output: "Une vue des coûts et dépendances, des scénarios de regroupement, une comparaison commerciale normalisée et les priorités de transition." },
+      { id: "risk", label: "Renforcer le risque et la résilience", title: "Prioriser les expositions importantes pour l’entreprise", body: "Reliez les contrôles aux conséquences d’affaires, aux attentes de reprise, aux obligations et à la capacité réelle de l’équipe.", questions: ["Quels services et quelles données ne peuvent tolérer une interruption?", "Qui possède la détection, l’intervention, la reprise et les preuves?", "Quels écarts créent les plus grandes conséquences maintenant?"], output: "Une fiche d’exigences axée sur le risque, des contrôles prioritaires, des options qualifiées, un modèle de responsabilité et une feuille de route." },
+      { id: "experience", label: "Améliorer l’expérience client ou employé", title: "Corriger le flux de travail, pas seulement l’interface", body: "Suivez la friction entre personnes, processus, données, intégrations et responsabilité du service avant d’ajouter une autre plateforme.", questions: ["Où les clients ou employés perdent-ils temps, contexte ou confiance?", "Quels transferts et systèmes créent la friction?", "Comment mesurerons-nous l’adoption et la performance?"], output: "Une vue du parcours, l’expérience cible, les écarts de capacité, les exigences d’intégration et les mesures d’adoption." },
     ],
     categories: [
       { id: "cloud-infrastructure", label: "Infonuagique et infrastructure", outcome: "Choisissez la bonne fondation pour chaque charge—pas simplement plus de nuage. Nous évaluons placement, architecture, services gérés, résilience, gouvernance et sortie ensemble.", questions: ["Quelles charges conviennent au nuage, à la colocation, au site ou à un modèle hybride?", "Qui exploitera, sécurisera, optimisera et rétablira l’environnement après la migration?"], compare: ["placement des charges", "architecture", "résilience et relève", "sécurité et identité", "FinOps / coût total", "soutien et sortie"], output: "Une vue des charges et dépendances, l’architecture cible, les vagues de migration, la comparaison des fournisseurs et le coût de référence." },
@@ -252,11 +254,11 @@ const fr: TechnologyAdvisoryCopy = {
     ],
   },
   process: {
-    eyebrow: "Un processus conçu pour la supervision de la direction", title: "De l’analyse de rentabilité à la valeur réalisée en trois étapes", body: "La profondeur change selon la décision. La gouvernance reste claire.",
+    eyebrow: "Comment ROALLA fait avancer la décision", title: "Clarté, portée du marché et suivi.", body: "Un chemin responsable de la première question à la valeur réalisée.",
     steps: [
-      { title: "Cadrer la décision", body: "Confirmer le résultat, l’économie, les parties prenantes, les contraintes, les risques, les exigences et l’approbation." },
-      { title: "Comparer les preuves", body: "Qualifier le marché et exposer les compromis d’adéquation, architecture, coût, conditions, soutien et livraison." },
-      { title: "Assumer le résultat", body: "Mener la décision à travers négociation, migration, intégration, adoption, mesure et amélioration." },
+      { title: "Cadrer", body: "Transformer la pression d’affaires en résultats, exigences, risques, économie et critères de décision." },
+      { title: "Rechercher", body: "Atteindre le marché, qualifier les fournisseurs et comparer les compromis techniques et commerciaux." },
+      { title: "Livrer", body: "Mener le choix à travers négociation, migration, intégration, adoption et valeur mesurable." },
     ],
   },
   details: {
@@ -264,8 +266,8 @@ const fr: TechnologyAdvisoryCopy = {
     scope: "Portée, capacités technologiques et livrables de décision", delivery: "Évaluation, mise en œuvre et adoption", disclosure: "Accès aux fournisseurs, indépendance et rémunération",
   },
   finalCta: {
-    eyebrow: "Conseil technologique", title: "Apportez la décision d’affaires. Nous structurerons le choix technologique.",
-    body: "En une conversation ciblée, nous clarifierons la décision, repérerons les preuves manquantes et recommanderons la plus petite prochaine étape utile.",
+    eyebrow: "Conseil technologique", title: "Faites le prochain choix technologique avec confiance.",
+    body: "Apportez la pression, l’occasion ou la liste. En une conversation ciblée, nous trouverons la prochaine étape la plus intelligente.",
     primary: "Réserver une revue technologique de direction", secondary: "Créer une fiche de décision gratuite",
   },
 };

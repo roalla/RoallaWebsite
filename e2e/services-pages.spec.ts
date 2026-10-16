@@ -21,21 +21,22 @@ test.describe("Service pages", () => {
     await page.goto("/en/services/technology-advisory");
     await expect(
       page.getByRole("heading", {
-        name: "Make the technology decision the business can support—and the team can implement.",
+        name: "Turn a technology decision into a business advantage.",
         level: 1,
       }),
     ).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Help me frame the decision", level: 3 })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "I know the technology area", level: 3 })).toBeVisible();
+    await expect(page.getByRole("tab", { name: "I need direction" })).toBeVisible();
+    await expect(page.getByRole("tab", { name: "I know the domain" })).toBeVisible();
 
-    await page.getByRole("button", { name: "Growth is outpacing our current tools" }).click();
-    await expect(page.getByRole("heading", { name: "Align the technology investment with the next stage of growth", level: 4 })).toBeVisible();
-    await expect(page.getByText("Which constraint is limiting growth today?")).toBeVisible();
-    await expect(page.getByRole("link", { name: "Discuss this decision" })).toHaveAttribute(
+    await page.getByRole("button", { name: "Scale for growth" }).click();
+    await expect(page.getByRole("heading", { name: "Align the technology investment with the next stage of growth", level: 3 })).toBeVisible();
+    await expect(page.getByText(/An executive decision brief/)).toBeVisible();
+    await expect(page.getByRole("link", { name: "Talk it through with ROALLA" })).toHaveAttribute(
       "href",
       /intent=consulting.*focus=technology|focus=technology.*intent=consulting/,
     );
 
+    await page.getByRole("tab", { name: "I know the domain" }).click();
     await page.getByRole("button", { name: "Cybersecurity & continuity" }).click();
     await expect(page.getByText("SOC / MDR operations")).toBeVisible();
     await expect(page.getByText(/Build a defensible security and continuity program/)).toBeVisible();
@@ -44,9 +45,8 @@ test.describe("Service pages", () => {
       /need=cybersecurity-continuity/,
     );
 
-    await expect(page.getByRole("heading", { name: "Enough detail to decide. Enough structure to deliver.", level: 2 })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Your requirements lead. Supplier relationships stay visible.", level: 2 })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "From business case to realized value in three steps", level: 2 })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "A decision partner—not another product pitch.", level: 2 })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Clarity, market reach, and follow-through.", level: 3 })).toBeVisible();
     await expect(page.getByText("Supplier access, independence, and compensation")).toBeVisible();
     await expect(page.locator("#strategy-roadmaps")).toHaveCount(0);
   });

@@ -3219,6 +3219,7 @@
   },
   "assessmentTool": {
     "questionLabel": "Question {current} of {total}",
+    "back": "Back",
     "analyzing": "Analyzing your results…",
     "scoreTitle": "Your readiness snapshot: {score}%",
     "primaryPhase": "Readiness emphasis",

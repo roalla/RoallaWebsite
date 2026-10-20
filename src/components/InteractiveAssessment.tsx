@@ -1,10 +1,11 @@
 'use client'
 
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import Reveal from './motion/Reveal'
 import AssessmentPrintSheet from './AssessmentPrintSheet'
 import {
   AlertCircle,
+  ArrowLeft,
   ArrowRight,
   BarChart3,
   CheckCircle,
@@ -74,6 +75,9 @@ function loadResultMessages(
   }
 }
 
+const SELECT_ADVANCE_MS = 450
+const RESULT_DELAY_MS = 1500
+
 const InteractiveAssessment = () => {
   const t = useTranslations('assessmentTool')
   const [currentQuestion, setCurrentQuestion] = useState(0)
@@ -81,6 +85,8 @@ const InteractiveAssessment = () => {
   const [isComplete, setIsComplete] = useState(false)
   const [result, setResult] = useState<AssessmentResult | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [pendingValue, setPendingValue] = useState<string | null>(null)
+  const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const questions = useMemo(
     () =>
@@ -90,6 +96,7 @@ const InteractiveAssessment = () => {
     [answers.lane],
   )
   const activeQuestionId = questions[currentQuestion]
+  const selectedValue = pendingValue ?? answers[activeQuestionId] ?? null
 
   const options = useMemo(() => {
     if (activeQuestionId === 'lane') {
@@ -104,113 +111,178 @@ const InteractiveAssessment = () => {
     }))
   }, [activeQuestionId])
 
-  const handleAnswer = (questionId: AssessmentQuestionId, value: string, score: number | null) => {
+  useEffect(() => {
+    setPendingValue(null)
+  }, [currentQuestion])
+
+  useEffect(() => {
+    return () => {
+      if (advanceTimer.current) clearTimeout(advanceTimer.current)
+    }
+  }, [])
+
+  const handleAnswer = (questionId: AssessmentQuestionId, value: string) => {
+    if (pendingValue || isLoading) return
+
     const nextAnswers = { ...answers, [questionId]: value }
     setAnswers(nextAnswers)
+    setPendingValue(value)
+
+    if (advanceTimer.current) clearTimeout(advanceTimer.current)
 
     if (currentQuestion < questions.length - 1) {
-      setTimeout(() => setCurrentQuestion((prev) => prev + 1), 300)
+      advanceTimer.current = setTimeout(() => {
+        setCurrentQuestion((prev) => prev + 1)
+      }, SELECT_ADVANCE_MS)
       return
     }
 
     setIsLoading(true)
-    setTimeout(() => {
+    advanceTimer.current = setTimeout(() => {
       const assessmentResult = computeAssessmentResult(nextAnswers)
       if (assessmentResult) {
         setResult(assessmentResult)
         setIsComplete(true)
       }
+      setPendingValue(null)
       setIsLoading(false)
-    }, 1500)
+    }, RESULT_DELAY_MS)
+  }
+
+  const goBack = () => {
+    if (currentQuestion === 0 || pendingValue || isLoading) return
+    if (advanceTimer.current) clearTimeout(advanceTimer.current)
+    setPendingValue(null)
+    setCurrentQuestion((prev) => prev - 1)
   }
 
   const resetAssessment = () => {
+    if (advanceTimer.current) clearTimeout(advanceTimer.current)
     setCurrentQuestion(0)
     setAnswers({})
     setIsComplete(false)
     setResult(null)
+    setPendingValue(null)
+    setIsLoading(false)
   }
 
   return (
-    <section id="assessment" className="section-padding bg-white py-12 lg:py-16">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-card border border-slate-200 overflow-hidden">
-            <div className="bg-slate-100 h-2">
-              <div
-                className="bg-gradient-to-r from-primary to-primary-dark h-full transition-[width] duration-500 ease-out"
-                style={{
-                  width: `${((isComplete ? questions.length : currentQuestion + 1) / questions.length) * 100}%`,
-                }}
-              />
-            </div>
+    <section id="assessment" className="bg-white py-4 sm:py-6">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white rounded-2xl shadow-card border border-slate-200 overflow-hidden">
+          <div className="bg-slate-100 h-2" aria-hidden>
+            <div
+              className="bg-gradient-to-r from-primary to-primary-dark h-full transition-[width] duration-500 ease-out"
+              style={{
+                width: `${((isComplete ? questions.length : currentQuestion + 1) / questions.length) * 100}%`,
+              }}
+            />
+          </div>
 
-            <div className="p-8">
-              {!isComplete ? (
-                <div key={currentQuestion} className="animate-fade-in text-center">
-                  {isLoading ? (
-                    <div className="py-12">
-                      <div
-                        className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4 animate-spin"
-                        role="status"
-                        aria-label={t('analyzing')}
-                      />
-                      <p className="text-slate-500">{t('analyzing')}</p>
+          <div className="p-4 sm:p-6 lg:p-8">
+            {!isComplete ? (
+              <div key={currentQuestion} className="animate-fade-in text-left">
+                {isLoading ? (
+                  <div className="py-12 text-center">
+                    <div
+                      className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4 animate-spin"
+                      role="status"
+                      aria-label={t('analyzing')}
+                    />
+                    <p className="text-slate-500">{t('analyzing')}</p>
+                  </div>
+                ) : (
+                  <>
+                    <div className="mb-6 sm:mb-8">
+                      <span className="text-sm font-semibold text-primary-dark">
+                        {t('questionLabel', {
+                          current: currentQuestion + 1,
+                          total: questions.length,
+                        })}
+                      </span>
+                      <h2 className="text-lg sm:text-xl font-bold text-slate-900 mt-2 leading-snug">
+                        {t(`questions.${activeQuestionId}.text`)}
+                      </h2>
+                      {activeQuestionId !== 'lane' && (
+                        <p className="mt-2 text-sm leading-6 text-slate-500">
+                          {t(`questions.${activeQuestionId}.hint`)}
+                        </p>
+                      )}
                     </div>
-                  ) : (
-                    <>
-                      <div className="mb-8">
-                        <span className="text-sm text-slate-500">
-                          {t('questionLabel', {
-                            current: currentQuestion + 1,
-                            total: questions.length,
-                          })}
-                        </span>
-                        <h2 className="text-xl font-bold text-slate-900 mt-2">
-                          {t(`questions.${activeQuestionId}.text`)}
-                        </h2>
-                        {activeQuestionId !== 'lane' && (
-                          <p className="mt-2 text-sm text-slate-500">
-                            {t(`questions.${activeQuestionId}.hint`)}
-                          </p>
-                        )}
-                      </div>
 
-                      <div className="space-y-3">
-                        {options.map((option) => (
+                    <div
+                      className="space-y-3"
+                      role="radiogroup"
+                      aria-label={t(`questions.${activeQuestionId}.text`)}
+                    >
+                      {options.map((option) => {
+                        const isSelected = selectedValue === option.value
+                        return (
                           <button
                             key={option.value}
                             type="button"
-                            onClick={() =>
-                              handleAnswer(activeQuestionId, option.value, option.score)
-                            }
-                            className="w-full p-4 text-left bg-slate-50 hover:bg-primary/5 rounded-lg border border-slate-200 transition-all duration-200 hover:border-primary group hover:scale-[1.02] active:scale-[0.98]"
+                            role="radio"
+                            aria-checked={isSelected}
+                            aria-pressed={isSelected}
+                            disabled={Boolean(pendingValue)}
+                            onClick={() => handleAnswer(activeQuestionId, option.value)}
+                            className={`w-full min-h-12 p-3.5 sm:p-4 text-left rounded-lg border transition-colors duration-150 active:bg-primary/10 disabled:cursor-wait ${
+                              isSelected
+                                ? 'border-primary bg-primary/10 shadow-sm ring-1 ring-primary/30'
+                                : 'border-slate-200 bg-slate-50 hover:border-primary/60 hover:bg-primary/5'
+                            }`}
                           >
-                            <div className="flex items-center justify-between">
-                              <span className="text-slate-800 font-medium">
-                                {t(
-                                  `questions.${activeQuestionId}.options.${option.value}`,
-                                )}
+                            <div className="flex items-start justify-between gap-3">
+                              <span
+                                className={`text-sm sm:text-base font-medium leading-6 ${
+                                  isSelected ? 'text-slate-950' : 'text-slate-800'
+                                }`}
+                              >
+                                {t(`questions.${activeQuestionId}.options.${option.value}`)}
                               </span>
-                              <div className="w-6 h-6 border-2 border-slate-300 rounded-full group-hover:border-primary group-hover:scale-110 transition-transform" />
+                              {isSelected ? (
+                                <CheckCircle
+                                  className="mt-0.5 h-6 w-6 shrink-0 text-primary"
+                                  aria-hidden
+                                />
+                              ) : (
+                                <span
+                                  className="mt-0.5 h-6 w-6 shrink-0 rounded-full border-2 border-slate-300"
+                                  aria-hidden
+                                />
+                              )}
                             </div>
                           </button>
-                        ))}
+                        )
+                      })}
+                    </div>
+
+                    {currentQuestion > 0 ? (
+                      <div className="mt-6">
+                        <button
+                          type="button"
+                          onClick={goBack}
+                          disabled={Boolean(pendingValue)}
+                          className="inline-flex min-h-11 items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-primary-dark transition hover:bg-slate-100 disabled:opacity-50"
+                        >
+                          <ArrowLeft className="h-4 w-4" aria-hidden />
+                          {t('back')}
+                        </button>
                       </div>
-                    </>
-                  )}
-                </div>
-              ) : result ? (
-                <AssessmentResultsView result={result} onReset={resetAssessment} t={t} />
-              ) : (
-                <div className="py-12 text-center">
-                  <p className="text-slate-600">{t('analyzing')}</p>
-                  <button type="button" onClick={resetAssessment} className="btn-secondary mt-4">
-                    {t('takeAgain')}
-                  </button>
-                </div>
-              )}
-            </div>
+                    ) : null}
+                  </>
+                )}
+              </div>
+            ) : result ? (
+              <AssessmentResultsView result={result} onReset={resetAssessment} t={t} />
+            ) : (
+              <div className="py-12 text-center">
+                <p className="text-slate-600">{t('analyzing')}</p>
+                <button type="button" onClick={resetAssessment} className="btn-secondary mt-4">
+                  {t('takeAgain')}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

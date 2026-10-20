@@ -3219,6 +3219,7 @@
   },
   "assessmentTool": {
     "questionLabel": "Question {current} sur {total}",
+    "back": "Retour",
     "analyzing": "Analyse de vos résultats…",
     "scoreTitle": "Votre aperçu de préparation : {score} %",
     "primaryPhase": "Accent de préparation",

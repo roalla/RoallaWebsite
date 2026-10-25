@@ -1,5 +1,7 @@
 import type { AgenticReadiness } from "@/lib/agentic-readiness/score";
 import type { ContactExposure } from "@/lib/contact-exposure/analyze";
+import type { VisibilityVocabulary } from "@/lib/digital-presence/vocabulary";
+import { extractVisibilityVocabulary } from "@/lib/digital-presence/vocabulary";
 import type { PageSecurity } from "@/lib/page-security/analyze";
 import type { SiteSetup } from "@/lib/site-setup/analyze";
 
@@ -38,6 +40,7 @@ export type SocialPresenceSnapshot = {
   contactExposure?: ContactExposure;
   siteSetup?: SiteSetup;
   security?: PageSecurity;
+  vocabulary?: VisibilityVocabulary;
   profiles: Array<{
     platform: SocialPlatform;
     url: string;
@@ -310,6 +313,7 @@ export function analyzeSocialPresence(
     analyzedAt: new Date().toISOString(),
     score: checks.reduce((total, check) => total + check.points, 0),
     checks,
+    vocabulary: extractVisibilityVocabulary(html),
     profiles,
     preview: {
       title: og.title || cards.title || title || undefined,

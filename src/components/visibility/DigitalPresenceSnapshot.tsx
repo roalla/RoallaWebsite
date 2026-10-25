@@ -10,6 +10,7 @@ import {
   CircleAlert,
   Download,
   Gauge,
+  Languages,
   Layers,
   LoaderCircle,
   Mail,
@@ -29,6 +30,12 @@ import { trackAnalyticsEvent } from "@/lib/analytics";
 import { buildDigitalPresenceActions, type DigitalPresenceAction } from "@/lib/digital-presence/actions";
 import type { DomainHealthSnapshot } from "@/lib/domain-health/evaluate";
 import { buildSnapshotNarrative } from "@/lib/digital-presence/narrative";
+import type {
+  AgenticEntityKind,
+  VocabularyGapId,
+  VocabularyOpportunityId,
+  VocabularyPhraseSource,
+} from "@/lib/digital-presence/vocabulary";
 import type { ContactExposure } from "@/lib/contact-exposure/analyze";
 import type { PageSecurity } from "@/lib/page-security/analyze";
 import type { SiteSetup, SiteSetupId } from "@/lib/site-setup/analyze";
@@ -198,7 +205,7 @@ const copy = {
     technicalOnly: "Your social sharing results are ready. Finishing the website check…",
     socialOnly: "Your website results are ready. Finishing the social sharing and contact check…",
     resultsTitle: "Your website results",
-    resultsIntro: "This report checks the landing page a visitor reaches. It is not a check of every page on the website. PageSpeed scores that page on a phone and on a computer. Social sharing, assistant readiness, and the contact check read that same page. Security checks eight public signals on that page. Domain and email health reads the public records for the domain name. Each area is shown separately so you can see what needs attention.",
+    resultsIntro: "This report checks the landing page a visitor reaches. It is not a check of every page on the website. PageSpeed scores that page on a phone and on a computer. Social sharing, assistant readiness, visibility vocabulary, and the contact check read that same page. Security checks eight public signals on that page. Domain and email health reads the public records for the domain name. Each area is shown separately so you can see what needs attention.",
     technicalTitle: "Website experience",
     technicalDescription: "How your website performs on phones and computers",
     socialTitle: "Social sharing setup",
@@ -286,6 +293,61 @@ const copy = {
     socialScore: "Social sharing setup",
     agenticTitle: "Agentic (AI) readiness",
     agenticDescription: "How many Agentic Browsing checks passed in the same Google PageSpeed test, for the phone page and the computer page.",
+    vocabularyTitle: "Visibility vocabulary",
+    vocabularyDescription: "The language on this landing page that search and AI systems can latch onto. This is on-page extraction only — not rank, volume, or competitor SERP data.",
+    vocabularySiteTitle: "Site vocabulary",
+    vocabularySiteIntro: "Phrases signaled by the title, headings, meta, Open Graph, structured data, navigation, and FAQ questions.",
+    vocabularySearchTitle: "Search / SEO lens",
+    vocabularySearchIntro: "Primary topics come from the title and H1. Supporting topics come from headings, navigation, FAQ, and structured phrases.",
+    vocabularyPrimary: "Primary topics",
+    vocabularySupporting: "Supporting topics",
+    vocabularyAgenticTitle: "Agentic / AI lens",
+    vocabularyAgenticIntro: "Entities and phrases an assistant would use to cite the business, plus gaps when identity or services are vague.",
+    vocabularyEntities: "Entities an assistant can cite",
+    vocabularyGaps: "Gaps for assistants",
+    vocabularyOpportunitiesTitle: "Language opportunities",
+    vocabularyOpportunitiesIntro: "Thin or missing language that weakens how search and assistants understand the business.",
+    vocabularyEmpty: "Very little on-page vocabulary was found on this landing page.",
+    vocabularyCta: "Improve search and AI visibility",
+    vocabularyCtaBody: "Clarify the language people and assistants use to find and describe the business.",
+    vocabularySource: {
+      title: "Title",
+      h1: "H1",
+      h2: "H2",
+      h3: "H3",
+      metaDescription: "Meta description",
+      metaKeywords: "Meta keywords",
+      ogTitle: "Open Graph title",
+      ogDescription: "Open Graph description",
+      jsonLd: "Structured data",
+      nav: "Navigation",
+      faq: "FAQ",
+    } satisfies Record<VocabularyPhraseSource, string>,
+    vocabularyEntity: {
+      organization: "Organization",
+      service: "Service",
+      location: "Location",
+      differentiator: "Differentiator",
+    } satisfies Record<AgenticEntityKind, string>,
+    vocabularyGap: {
+      missingOrganization: "The business name is not clearly published for an assistant to cite.",
+      vagueServices: "Services or offers are missing or too generic for an assistant to describe.",
+      missingLocation: "No location or area served is published for local citation.",
+      thinIdentity: "Title and description do not form a clear business identity.",
+      missingDescription: "The page description is missing or too short to quote.",
+    } satisfies Record<VocabularyGapId, string>,
+    vocabularyOpportunity: {
+      clarifyOrganization: "Publish a clear organization name in the title, H1, or structured data.",
+      nameServices: "Name the real services or offers in headings and navigation.",
+      addLocation: "Add a location or area served so local search and assistants can place the business.",
+      strengthenTitleH1: "Strengthen the title and H1 so the primary topic is unmistakable.",
+      expandMetaDescription: "Write a fuller meta description that states what the business does.",
+      addFaqLanguage: "Add FAQ questions that use the words customers and assistants ask.",
+      publishNavTopics: "Use navigation labels that name topics, not only generic links.",
+      addJsonLdIdentity: "Publish Organization or Service structured data with name and description.",
+      surfaceDifferentiators: "Surface what makes the offer distinct in the description and lead heading.",
+      alignPrimaryTopics: "Align the title and H1 so they reinforce the same primary topic.",
+    } satisfies Record<VocabularyOpportunityId, string>,
     agenticSignal: {
       readable: {
         label: "Text an assistant can read",
@@ -578,7 +640,7 @@ const copy = {
     },
     methodology: "How we calculate the results",
     methodologyBody:
-      "This report checks one landing page. It is not a review of every page on the website. The address you enter is followed through redirects to the page a visitor lands on, and that page is what the scores measure. Website category scores come from a Lighthouse lab test of that page, run by Google PageSpeed Insights, once as a phone and once as a computer. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. When that page does not have enough visits, those visitor numbers cover the whole site address. Social sharing results come from the public HTML of that landing page. Assistant readiness uses that same page, plus the site’s robots.txt and llms.txt files. The contact check reads that page’s HTML and reports whether a mailbox, a phone number, or a form is present. It does not run scripts, open other pages, or display or store the address or number. Security checks the same landing page for a current certificate, a redirect from the unencrypted address, the redirect path to the landing page, a browser instruction to stay on HTTPS, whether other sites may frame the page, whether that secure page still loads insecure (HTTP) files, a file-type instruction, and a link-privacy policy. It is not a security review. Domain and email health reads the public mail and name records: where mail is delivered, which services may send it, whether messages are signed, and whether the bare name and www reach the same place. A separate section reads public clues for the host, the platform, analytics tags, and a protection service such as Cloudflare. These results stay separate because they measure different parts of your online presence.",
+      "This report checks one landing page. It is not a review of every page on the website. The address you enter is followed through redirects to the page a visitor lands on, and that page is what the scores measure. Website category scores come from a Lighthouse lab test of that page, run by Google PageSpeed Insights, once as a phone and once as a computer. Real visitor information, when available, comes from aggregated Chrome data over the previous 28 days. When that page does not have enough visits, those visitor numbers cover the whole site address. Social sharing results come from the public HTML of that landing page. Visibility vocabulary extracts on-page phrases from the title, headings, meta, Open Graph, structured data, navigation, and FAQ language — without rank, volume, or competitor SERP APIs. Assistant readiness uses that same page, plus the site’s robots.txt and llms.txt files. The contact check reads that page’s HTML and reports whether a mailbox, a phone number, or a form is present. It does not run scripts, open other pages, or display or store the address or number. Security checks the same landing page for a current certificate, a redirect from the unencrypted address, the redirect path to the landing page, a browser instruction to stay on HTTPS, whether other sites may frame the page, whether that secure page still loads insecure (HTTP) files, a file-type instruction, and a link-privacy policy. It is not a security review. Domain and email health reads the public mail and name records: where mail is delivered, which services may send it, whether messages are signed, and whether the bare name and www reach the same place. A separate section reads public clues for the host, the platform, analytics tags, and a protection service such as Cloudflare. These results stay separate because they measure different parts of your online presence.",
     print: "Save my branded action plan",
     reportLabel: "ROALLA Digital Presence Action Plan",
     reportPrepared: "Prepared",
@@ -701,7 +763,7 @@ const copy = {
     technicalOnly: "Les résultats du partage social sont prêts. La vérification du site se termine…",
     socialOnly: "Les résultats du site sont prêts. La vérification du partage social et des coordonnées se termine…",
     resultsTitle: "Les résultats de votre site",
-    resultsIntro: "Ce rapport vérifie la page d’arrivée qu’un visiteur atteint. Il ne vérifie pas chaque page du site. PageSpeed évalue cette page sur un téléphone et sur un ordinateur. Le partage social, la préparation pour un assistant et la vérification des coordonnées lisent cette même page. La sécurité vérifie huit signaux publics sur cette page. La santé du domaine et du courriel lit les enregistrements publics du nom de domaine. Chaque aspect est présenté séparément pour faciliter la lecture.",
+    resultsIntro: "Ce rapport vérifie la page d’arrivée qu’un visiteur atteint. Il ne vérifie pas chaque page du site. PageSpeed évalue cette page sur un téléphone et sur un ordinateur. Le partage social, la préparation pour un assistant, le vocabulaire de visibilité et la vérification des coordonnées lisent cette même page. La sécurité vérifie huit signaux publics sur cette page. La santé du domaine et du courriel lit les enregistrements publics du nom de domaine. Chaque aspect est présenté séparément pour faciliter la lecture.",
     technicalTitle: "Expérience du site Web",
     technicalDescription: "Le fonctionnement de votre site sur téléphone et ordinateur",
     socialTitle: "Partage sur les réseaux sociaux",
@@ -789,6 +851,61 @@ const copy = {
     socialScore: "Configuration du partage social",
     agenticTitle: "Préparation agentique (IA)",
     agenticDescription: "Le nombre de vérifications de navigation agentique réussies dans le même test Google PageSpeed, pour la page téléphone et la page ordinateur.",
+    vocabularyTitle: "Vocabulaire de visibilité",
+    vocabularyDescription: "Le langage de cette page d’arrivée auquel la recherche et les systèmes d’IA peuvent s’accrocher. Extraction on-page seulement — pas de rang, de volume ni de données SERP concurrentielles.",
+    vocabularySiteTitle: "Vocabulaire du site",
+    vocabularySiteIntro: "Expressions signalées par le titre, les titres de section, les balises meta, Open Graph, les données structurées, la navigation et les questions FAQ.",
+    vocabularySearchTitle: "Lentille recherche / SEO",
+    vocabularySearchIntro: "Les sujets principaux viennent du titre et du H1. Les sujets de soutien viennent des titres, de la navigation, des FAQ et des expressions structurées.",
+    vocabularyPrimary: "Sujets principaux",
+    vocabularySupporting: "Sujets de soutien",
+    vocabularyAgenticTitle: "Lentille agentique / IA",
+    vocabularyAgenticIntro: "Entités et expressions qu’un assistant utiliserait pour citer l’entreprise, plus les lacunes lorsque l’identité ou les services sont vagues.",
+    vocabularyEntities: "Entités qu’un assistant peut citer",
+    vocabularyGaps: "Lacunes pour les assistants",
+    vocabularyOpportunitiesTitle: "Occasions de langage",
+    vocabularyOpportunitiesIntro: "Langage mince ou manquant qui affaiblit la façon dont la recherche et les assistants comprennent l’entreprise.",
+    vocabularyEmpty: "Très peu de vocabulaire on-page a été trouvé sur cette page d’arrivée.",
+    vocabularyCta: "Améliorer la visibilité recherche et IA",
+    vocabularyCtaBody: "Clarifiez le langage que les personnes et les assistants utilisent pour trouver et décrire l’entreprise.",
+    vocabularySource: {
+      title: "Titre",
+      h1: "H1",
+      h2: "H2",
+      h3: "H3",
+      metaDescription: "Meta description",
+      metaKeywords: "Meta keywords",
+      ogTitle: "Titre Open Graph",
+      ogDescription: "Description Open Graph",
+      jsonLd: "Données structurées",
+      nav: "Navigation",
+      faq: "FAQ",
+    } satisfies Record<VocabularyPhraseSource, string>,
+    vocabularyEntity: {
+      organization: "Organisation",
+      service: "Service",
+      location: "Lieu",
+      differentiator: "Différenciateur",
+    } satisfies Record<AgenticEntityKind, string>,
+    vocabularyGap: {
+      missingOrganization: "Le nom de l’entreprise n’est pas clairement publié pour qu’un assistant puisse le citer.",
+      vagueServices: "Les services ou offres sont absents ou trop génériques pour qu’un assistant les décrive.",
+      missingLocation: "Aucun lieu ni territoire desservi n’est publié pour une citation locale.",
+      thinIdentity: "Le titre et la description ne forment pas une identité d’entreprise claire.",
+      missingDescription: "La description de la page est absente ou trop courte pour être citée.",
+    } satisfies Record<VocabularyGapId, string>,
+    vocabularyOpportunity: {
+      clarifyOrganization: "Publiez un nom d’organisation clair dans le titre, le H1 ou les données structurées.",
+      nameServices: "Nommez les vrais services ou offres dans les titres et la navigation.",
+      addLocation: "Ajoutez un lieu ou un territoire desservi pour que la recherche locale et les assistants puissent situer l’entreprise.",
+      strengthenTitleH1: "Renforcez le titre et le H1 pour que le sujet principal soit évident.",
+      expandMetaDescription: "Rédigez une meta description plus complète qui dit ce que fait l’entreprise.",
+      addFaqLanguage: "Ajoutez des questions FAQ qui utilisent les mots des clients et des assistants.",
+      publishNavTopics: "Utilisez des libellés de navigation qui nomment des sujets, pas seulement des liens génériques.",
+      addJsonLdIdentity: "Publiez des données structurées Organization ou Service avec nom et description.",
+      surfaceDifferentiators: "Mettez en avant ce qui rend l’offre distincte dans la description et le titre principal.",
+      alignPrimaryTopics: "Alignez le titre et le H1 pour qu’ils renforcent le même sujet principal.",
+    } satisfies Record<VocabularyOpportunityId, string>,
     agenticSignal: {
       readable: {
         label: "Texte qu’un assistant peut lire",
@@ -1081,7 +1198,7 @@ const copy = {
     },
     methodology: "Comment les résultats sont calculés",
     methodologyBody:
-      "Ce rapport vérifie une seule page d’arrivée. Il ne passe pas en revue chaque page du site. L’adresse entrée est suivie à travers les redirections jusqu’à la page où un visiteur arrive, et c’est cette page que les scores mesurent. Les scores proviennent d’un test de laboratoire Lighthouse de cette page, exécuté par Google PageSpeed Insights, une fois comme téléphone et une fois comme ordinateur. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Lorsque cette page n’a pas assez de visites, ces chiffres de visiteurs couvrent l’adresse du site entier. Les résultats du partage social proviennent du HTML public de cette page d’arrivée. La préparation pour un assistant utilise cette même page, ainsi que les fichiers robots.txt et llms.txt du site. La vérification des coordonnées lit le HTML de cette page et indique si une adresse courriel, un numéro de téléphone ou un formulaire s’y trouve. Elle n’exécute pas les scripts, n’ouvre pas d’autres pages et n’affiche ni ne conserve l’adresse ou le numéro. La sécurité vérifie la même page d’arrivée : un certificat valide, une redirection depuis l’adresse non chiffrée, le chemin de redirection vers la page d’arrivée, une instruction au navigateur de rester sur HTTPS, la possibilité pour d’autres sites d’afficher la page dans un cadre, si cette page sécurisée charge encore des fichiers non sécurisés (HTTP), une instruction sur le type de fichier, et une politique de confidentialité des liens. Ce n’est pas une revue de sécurité. La santé du domaine et du courriel lit les enregistrements publics de courriel et de nom : où le courriel est livré, quels services peuvent l’envoyer, si les messages sont signés, et si le nom nu et www mènent au même endroit. Une section distincte lit les indices publics sur l’hébergeur, la plateforme, les balises d’analytique et un service de protection comme Cloudflare. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
+      "Ce rapport vérifie une seule page d’arrivée. Il ne passe pas en revue chaque page du site. L’adresse entrée est suivie à travers les redirections jusqu’à la page où un visiteur arrive, et c’est cette page que les scores mesurent. Les scores proviennent d’un test de laboratoire Lighthouse de cette page, exécuté par Google PageSpeed Insights, une fois comme téléphone et une fois comme ordinateur. Les renseignements sur les visiteurs réels, lorsqu’ils sont disponibles, proviennent de données Chrome regroupées sur les 28 derniers jours. Lorsque cette page n’a pas assez de visites, ces chiffres de visiteurs couvrent l’adresse du site entier. Les résultats du partage social proviennent du HTML public de cette page d’arrivée. Le vocabulaire de visibilité extrait les expressions on-page du titre, des titres de section, des balises meta, d’Open Graph, des données structurées, de la navigation et des FAQ — sans rang, volume ni API SERP concurrentielles. La préparation pour un assistant utilise cette même page, ainsi que les fichiers robots.txt et llms.txt du site. La vérification des coordonnées lit le HTML de cette page et indique si une adresse courriel, un numéro de téléphone ou un formulaire s’y trouve. Elle n’exécute pas les scripts, n’ouvre pas d’autres pages et n’affiche ni ne conserve l’adresse ou le numéro. La sécurité vérifie la même page d’arrivée : un certificat valide, une redirection depuis l’adresse non chiffrée, le chemin de redirection vers la page d’arrivée, une instruction au navigateur de rester sur HTTPS, la possibilité pour d’autres sites d’afficher la page dans un cadre, si cette page sécurisée charge encore des fichiers non sécurisés (HTTP), une instruction sur le type de fichier, et une politique de confidentialité des liens. Ce n’est pas une revue de sécurité. La santé du domaine et du courriel lit les enregistrements publics de courriel et de nom : où le courriel est livré, quels services peuvent l’envoyer, si les messages sont signés, et si le nom nu et www mènent au même endroit. Une section distincte lit les indices publics sur l’hébergeur, la plateforme, les balises d’analytique et un service de protection comme Cloudflare. Ces résultats restent séparés puisqu’ils évaluent différentes parties de votre présence en ligne.",
     print: "Enregistrer mon plan d’action ROALLA",
     reportLabel: "Plan d’action de présence numérique ROALLA",
     reportPrepared: "Préparé le",
@@ -1973,6 +2090,19 @@ export default function DigitalPresenceSnapshot({
         tone: toneFromScore(agenticResult.score),
       });
     }
+    if (social?.vocabulary) {
+      const vocabularyTone: SummaryTone = social.vocabulary.opportunities.some((item) => item.severity === "high")
+        ? "attention"
+        : social.vocabulary.opportunities.length
+          ? "improve"
+          : "strong";
+      summaryItems.push({
+        id: "presence-vocabulary",
+        title: t.vocabularyTitle,
+        detail: `${t.summaryStatus[vocabularyTone]} · ${social.vocabulary.search.primary[0] || t.vocabularyEmpty}`,
+        tone: vocabularyTone,
+      });
+    }
     summaryItems.push(social
       ? {
           id: "presence-social",
@@ -2467,6 +2597,149 @@ export default function DigitalPresenceSnapshot({
                     </div>
                   </>
                 ) : null}
+              </article>
+            ) : null}
+
+            {social?.vocabulary || socialLoading ? (
+              <article id="presence-vocabulary" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+                <div className="flex items-start gap-3">
+                  <Languages className="mt-1 h-7 w-7 text-primary-dark" aria-hidden />
+                  <div>
+                    <h2 className="text-2xl font-serif font-bold text-slate-950">{t.vocabularyTitle}</h2>
+                    <p className="mt-1 text-sm text-slate-600">{t.vocabularyDescription}</p>
+                  </div>
+                </div>
+                {social?.vocabulary ? (
+                  <div className="mt-6 space-y-8">
+                    <section>
+                      <h3 className="text-lg font-semibold text-slate-950">{t.vocabularySiteTitle}</h3>
+                      <p className="mt-1 text-sm text-slate-600">{t.vocabularySiteIntro}</p>
+                      {social.vocabulary.phrases.length ? (
+                        <ul className="mt-4 flex flex-wrap gap-2" aria-label={t.vocabularySiteTitle}>
+                          {social.vocabulary.phrases.slice(0, 24).map((phrase) => (
+                            <li key={`${phrase.text}:${phrase.sources.join(",")}`}>
+                              <span className="inline-flex max-w-full flex-col gap-1 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
+                                <span className="text-sm font-semibold text-slate-900">{phrase.text}</span>
+                                <span className="text-[11px] font-medium text-slate-500">
+                                  {phrase.sources.map((source) => t.vocabularySource[source]).join(" · ")}
+                                </span>
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className="mt-4 text-sm text-slate-600">{t.vocabularyEmpty}</p>
+                      )}
+                    </section>
+
+                    <section className="grid gap-6 lg:grid-cols-2">
+                      <div>
+                        <h3 className="text-lg font-semibold text-slate-950">{t.vocabularySearchTitle}</h3>
+                        <p className="mt-1 text-sm text-slate-600">{t.vocabularySearchIntro}</p>
+                        <div className="mt-4 space-y-4">
+                          <div>
+                            <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{t.vocabularyPrimary}</p>
+                            <ul className="mt-2 flex flex-wrap gap-2">
+                              {(social.vocabulary.search.primary.length ? social.vocabulary.search.primary : [t.vocabularyEmpty]).map((topic) => (
+                                <li key={`primary:${topic}`} className="rounded-full border border-primary/25 bg-primary/[0.06] px-3 py-1 text-sm font-semibold text-primary-dark">
+                                  {topic}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div>
+                            <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{t.vocabularySupporting}</p>
+                            <ul className="mt-2 flex flex-wrap gap-2">
+                              {(social.vocabulary.search.supporting.length ? social.vocabulary.search.supporting : [t.vocabularyEmpty]).map((topic) => (
+                                <li key={`supporting:${topic}`} className="rounded-full border border-slate-200 bg-white px-3 py-1 text-sm font-medium text-slate-700">
+                                  {topic}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div>
+                        <h3 className="text-lg font-semibold text-slate-950">{t.vocabularyAgenticTitle}</h3>
+                        <p className="mt-1 text-sm text-slate-600">{t.vocabularyAgenticIntro}</p>
+                        <div className="mt-4 space-y-4">
+                          <div>
+                            <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{t.vocabularyEntities}</p>
+                            {social.vocabulary.agentic.entities.length ? (
+                              <ul className="mt-2 space-y-2">
+                                {social.vocabulary.agentic.entities.map((entity) => (
+                                  <li key={`${entity.kind}:${entity.text}`} className="rounded-lg bg-slate-50 px-3 py-2 text-sm text-slate-800">
+                                    <span className="font-semibold text-slate-950">{t.vocabularyEntity[entity.kind]}: </span>
+                                    {entity.text}
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : (
+                              <p className="mt-2 text-sm text-slate-600">{t.vocabularyEmpty}</p>
+                            )}
+                          </div>
+                          {social.vocabulary.agentic.gaps.length ? (
+                            <div>
+                              <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{t.vocabularyGaps}</p>
+                              <ul className="mt-2 space-y-2">
+                                {social.vocabulary.agentic.gaps.map((gap) => (
+                                  <li key={gap.id} className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm leading-6 text-amber-950">
+                                    {t.vocabularyGap[gap.id]}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ) : null}
+                        </div>
+                      </div>
+                    </section>
+
+                    {social.vocabulary.opportunities.length ? (
+                      <section>
+                        <h3 className="text-lg font-semibold text-slate-950">{t.vocabularyOpportunitiesTitle}</h3>
+                        <p className="mt-1 text-sm text-slate-600">{t.vocabularyOpportunitiesIntro}</p>
+                        <ul className="mt-4 flex flex-wrap gap-2" aria-label={t.vocabularyOpportunitiesTitle}>
+                          {social.vocabulary.opportunities.map((opportunity) => (
+                            <li key={opportunity.id}>
+                              <span
+                                className={`inline-flex max-w-xl items-start gap-2 rounded-full border px-3 py-1.5 text-left text-xs font-semibold leading-5 ${
+                                  opportunity.severity === "high"
+                                    ? "border-rose-200 bg-rose-50 text-rose-900"
+                                    : opportunity.severity === "medium"
+                                      ? "border-amber-200 bg-amber-50 text-amber-950"
+                                      : "border-slate-200 bg-slate-50 text-slate-700"
+                                }`}
+                              >
+                                {t.vocabularyOpportunity[opportunity.id]}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="mt-5 flex flex-col gap-3 rounded-xl border border-primary/20 bg-primary/[0.04] p-4 sm:flex-row sm:items-center sm:justify-between">
+                          <p className="text-sm leading-6 text-slate-700">{t.vocabularyCtaBody}</p>
+                          <div className="flex flex-wrap gap-3 print:hidden">
+                            <Link
+                              href="/services/search-ai-visibility"
+                              className="inline-flex min-h-[44px] items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary-dark"
+                            >
+                              {t.vocabularyCta}
+                              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                            </Link>
+                            <Link
+                              href={{ pathname: "/contact", query: { intent: "visibility", website: resultUrl, from_page: sourcePage, goal: t.vocabularyTitle } }}
+                              className="inline-flex min-h-[44px] items-center justify-center rounded-lg border border-primary/30 px-4 py-2 text-sm font-semibold text-primary-dark hover:border-primary"
+                            >
+                              {t.cta}
+                            </Link>
+                          </div>
+                        </div>
+                      </section>
+                    ) : null}
+                  </div>
+                ) : (
+                  <p className="mt-6 text-sm text-slate-600">{loadingMessage}</p>
+                )}
               </article>
             ) : null}
 

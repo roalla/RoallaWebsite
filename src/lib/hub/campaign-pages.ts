@@ -6,6 +6,42 @@ export const hubCampaignPages = [
     descKey: 'campaignVisibilityReviewDesc',
   },
   {
+    id: 'technology-decision-review',
+    path: '/technology-decision-review',
+    titleKey: 'campaignTechnologyDecisionReview',
+    descKey: 'campaignTechnologyDecisionReviewDesc',
+  },
+  {
+    id: 'ai-agent-readiness-review',
+    path: '/ai-agent-readiness-review',
+    titleKey: 'campaignAiAgentReadinessReview',
+    descKey: 'campaignAiAgentReadinessReviewDesc',
+  },
+  {
+    id: 'automation-opportunity-review',
+    path: '/automation-opportunity-review',
+    titleKey: 'campaignAutomationOpportunityReview',
+    descKey: 'campaignAutomationOpportunityReviewDesc',
+  },
+  {
+    id: 'digital-product-discovery',
+    path: '/digital-product-discovery',
+    titleKey: 'campaignDigitalProductDiscovery',
+    descKey: 'campaignDigitalProductDiscoveryDesc',
+  },
+  {
+    id: 'digital-event-readiness-review',
+    path: '/digital-event-readiness-review',
+    titleKey: 'campaignDigitalEventReadinessReview',
+    descKey: 'campaignDigitalEventReadinessReviewDesc',
+  },
+  {
+    id: 'digital-asset-health-review',
+    path: '/digital-asset-health-review',
+    titleKey: 'campaignDigitalAssetHealthReview',
+    descKey: 'campaignDigitalAssetHealthReviewDesc',
+  },
+  {
     id: 'digital-visibility-optimization',
     path: '/services/search-ai-visibility',
     titleKey: 'campaignVisibilityService',

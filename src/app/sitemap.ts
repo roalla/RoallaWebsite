@@ -2,6 +2,7 @@ import { MetadataRoute } from "next";
 import { INSIGHT_SLUGS } from "@/lib/insights";
 import { CASE_STUDY_SLUGS } from "@/lib/portfolio-case-studies";
 import { SOLUTION_PATH_IDS } from "@/lib/solutions-by-need";
+import { campaignReviewIds } from "@/lib/campaign-review-content";
 
 const baseUrl = "https://www.roalla.com";
 const locales = ["en", "fr"] as const;
@@ -33,6 +34,7 @@ const paths = [
   "/website-design",
   "/website-package",
   "/website-ai-visibility-review",
+  ...campaignReviewIds.map((slug) => `/${slug}`),
   "/tools/social-presence-snapshot",
   "/tools/social-profile-checklist",
   "/tools/digital-presence-snapshot",
@@ -120,6 +122,7 @@ const priority = (path: string): number => {
   if (path.startsWith("/solutions/")) return 0.9;
   if (path.startsWith("/insights/")) return 0.72;
   if (path.startsWith("/services/portfolio/")) return 0.82;
+  if (campaignReviewIds.some((slug) => path === `/${slug}`)) return 0.88;
   return priorities[path] ?? 0.7;
 };
 

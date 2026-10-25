@@ -37,6 +37,7 @@ export type AnalyticsEventName =
   | "visibility_review_started"
   | "visibility_review_submitted"
   | "visibility_campaign_started"
+  | "campaign_review_cta"
   | "service_framework_click"
   | "consultation_request_submitted"
   | "executive_guide_cta_click"

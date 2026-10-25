@@ -4,6 +4,12 @@ describe('hub campaign page shortcuts', () => {
   it('provides unique owner shortcuts for the primary customer landing pages', () => {
     expect(hubCampaignPages.map((page) => page.id)).toEqual([
       'website-ai-visibility-review',
+      'technology-decision-review',
+      'ai-agent-readiness-review',
+      'automation-opportunity-review',
+      'digital-product-discovery',
+      'digital-event-readiness-review',
+      'digital-asset-health-review',
       'digital-visibility-optimization',
       'digital-presence-snapshot',
       'website-packages',

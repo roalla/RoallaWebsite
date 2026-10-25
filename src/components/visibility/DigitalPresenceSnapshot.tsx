@@ -1427,9 +1427,11 @@ function scoreTone(score: number | null) {
 export default function DigitalPresenceSnapshot({
   locale,
   initialUrl = "",
+  sourcePage = "/tools/digital-presence-snapshot",
 }: {
   locale: string;
   initialUrl?: string;
+  sourcePage?: string;
 }) {
   const language = locale === "fr" ? "fr" : "en";
   const t = copy[language];
@@ -1519,7 +1521,7 @@ export default function DigitalPresenceSnapshot({
     setTechnicalLoading(true);
     setSocialLoading(true);
     setDomainLoading(true);
-    trackAnalyticsEvent(forceFresh ? "digital_snapshot_fresh" : "digital_snapshot_started");
+    trackAnalyticsEvent(forceFresh ? "digital_snapshot_fresh" : "digital_snapshot_started", { source_page: sourcePage });
 
     let completedTechnical: TechnicalResponse | null = null;
     let completedSocial: SocialPresenceSnapshot | null = null;
@@ -1586,7 +1588,7 @@ export default function DigitalPresenceSnapshot({
     if (completedTechnical || completedSocial) {
       saveHistory(url, completedTechnical, completedSocial);
     }
-    trackAnalyticsEvent("digital_snapshot_completed");
+    trackAnalyticsEvent("digital_snapshot_completed", { source_page: sourcePage });
   }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -1644,7 +1646,7 @@ export default function DigitalPresenceSnapshot({
         technical: technicalPayload,
         social: socialPayload.snapshot ?? null,
       });
-      trackAnalyticsEvent("digital_snapshot_compared");
+      trackAnalyticsEvent("digital_snapshot_compared", { source_page: sourcePage });
     } catch {
       setCompetitorError(t.competitorError);
     } finally {
@@ -2103,7 +2105,7 @@ export default function DigitalPresenceSnapshot({
                 <h3 className="mt-3 text-lg font-bold text-primary-dark">{recommendation.title}</h3>
                 <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-700">{recommendation.body}</p>
               </div>
-              <Link href={{ pathname: "/contact", query: { intent: recommendation.intent, website: resultUrl, from_page: "/tools/digital-presence-snapshot", goal: reviewGoal } }} className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-5 py-3 font-semibold text-white hover:bg-primary-dark print:hidden">
+              <Link href={{ pathname: "/contact", query: { intent: recommendation.intent, website: resultUrl, from_page: sourcePage, goal: reviewGoal } }} className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-5 py-3 font-semibold text-white hover:bg-primary-dark print:hidden">
                 {t.cta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
             </div>
@@ -2719,7 +2721,7 @@ export default function DigitalPresenceSnapshot({
             <p className="mt-3 max-w-3xl text-slate-700">{t.sprintBody}</p>
             <ul className="mt-5 grid gap-3 sm:grid-cols-3">{t.sprintItems.map((item) => <li key={item} className="flex gap-2 rounded-lg bg-white/70 p-3 text-sm text-slate-800"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />{item}</li>)}</ul>
             <p className="mt-4 text-sm text-slate-600">{t.sprintPrice}</p>
-            <Link href={{ pathname: "/contact", query: { intent: "visibility", review: "results", website: resultUrl, from_page: "/tools/digital-presence-snapshot", goal: `${note} ${t.sprintTitle}` } }} className="mt-5 inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-dark">{t.sprintCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></Link>
+            <Link href={{ pathname: "/contact", query: { intent: "visibility", review: "results", website: resultUrl, from_page: sourcePage, goal: `${note} ${t.sprintTitle}` } }} className="mt-5 inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-dark">{t.sprintCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></Link>
           </aside>
 
           <aside className="rounded-2xl bg-slate-950 p-7 text-white sm:p-9 print:hidden">
@@ -2730,7 +2732,7 @@ export default function DigitalPresenceSnapshot({
               {t.ctaSteps.map((step, index) => <li key={step} className="rounded-lg border border-white/15 bg-white/[0.04] p-3 text-sm text-slate-200"><span className="mr-2 font-bold text-brand-gold">{index + 1}.</span>{step}</li>)}
             </ol>
             <p className="mt-5 text-sm font-semibold text-white">{t.ctaProof}</p>
-            <Link href={{ pathname: "/contact", query: { intent: "visibility", review: "results", website: resultUrl, from_page: "/tools/digital-presence-snapshot", goal: reviewGoal } }} onClick={() => trackAnalyticsEvent("digital_snapshot_cta")} className="mt-6 inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 hover:bg-brand-gold-light">{t.cta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></Link>
+            <Link href={{ pathname: "/contact", query: { intent: "visibility", review: "results", website: resultUrl, from_page: sourcePage, goal: reviewGoal } }} onClick={() => trackAnalyticsEvent("digital_snapshot_cta", { source_page: sourcePage })} className="mt-6 inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 hover:bg-brand-gold-light">{t.cta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></Link>
             <p className="mt-3 text-xs text-slate-400">{t.ctaReassurance}</p>
           </aside>
         </section>

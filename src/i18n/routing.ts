@@ -35,6 +35,7 @@ export const routing = defineRouting({
     "/programs/workshops/first-offer": "/programs/workshops/first-offer",
     "/website-design": "/website-design",
     "/website-package": "/website-package",
+    "/website-ai-visibility-review": "/website-ai-visibility-review",
     "/tools/social-presence-snapshot": "/tools/social-presence-snapshot",
     "/tools/social-profile-checklist": "/tools/social-profile-checklist",
     "/tools/digital-presence-snapshot": "/tools/digital-presence-snapshot",

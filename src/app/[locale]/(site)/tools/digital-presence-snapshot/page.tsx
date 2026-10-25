@@ -8,7 +8,7 @@ import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 type Props = {
   params: Promise<{ locale: string }>;
-  searchParams?: Promise<{ url?: string | string[] }>;
+  searchParams?: Promise<{ url?: string | string[]; campaign?: string | string[] }>;
 };
 
 const content = {
@@ -58,6 +58,10 @@ export default async function DigitalPresenceSnapshotPage({ params, searchParams
   const query = searchParams ? await searchParams : undefined;
   const rawUrl = typeof query?.url === "string" ? query.url : "";
   const initialUrl = rawUrl.length <= 2048 ? rawUrl : "";
+  const campaign = typeof query?.campaign === "string" ? query.campaign : "";
+  const sourcePage = campaign === "website-ai-visibility-review"
+    ? "/campaign/website-ai-visibility-review"
+    : "/tools/digital-presence-snapshot";
   const page = contentFor(locale);
   const path = "/tools/digital-presence-snapshot";
 
@@ -81,7 +85,7 @@ export default async function DigitalPresenceSnapshotPage({ params, searchParams
         </header>
 
         <section className="relative z-10 mx-auto -mt-5 max-w-6xl px-2 sm:px-5 print:mt-8">
-          <DigitalPresenceSnapshot locale={locale} initialUrl={initialUrl} />
+          <DigitalPresenceSnapshot locale={locale} initialUrl={initialUrl} sourcePage={sourcePage} />
         </section>
 
         <section className="mx-auto mt-16 grid max-w-6xl gap-6 lg:grid-cols-2 print:hidden">

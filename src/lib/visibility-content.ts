@@ -10,7 +10,7 @@ export const visibilityContent = {
     subtitle:
       "Improve search visibility, AI readability, technical health, content clarity, accessibility, and conversion through one coordinated optimization service.",
     primaryCta: "Request a Visibility Assessment",
-    assessmentCta: "Find your starting point",
+    assessmentCta: "Run the free website & AI review",
     proofTitle: "A practical visibility foundation",
     proofSubtitle:
       "Built around clarity, access, trust, and measurable improvement.",
@@ -84,6 +84,18 @@ export const visibilityContent = {
         ],
       },
     ],
+    productEyebrow: "Visibility for digital products",
+    productTitle: "Make an application or SaaS product understandable before asking people to adopt it",
+    productBody:
+      "A useful product can remain invisible when its public story, use cases, documentation, and trust signals are thin. ROALLA creates the discoverable layer around the product without exposing private application content.",
+    productItems: [
+      "Clear public positioning, audiences, use cases, and business outcomes",
+      "Product and feature landing pages with accessible, crawlable information",
+      "Public documentation, release context, FAQs, and structured data",
+      "Measurement for qualified discovery, product interest, and conversion",
+    ],
+    productPortfolioCta: "Explore digital products",
+    productInquiryCta: "Discuss product visibility",
     processTitle: "Assessment through continuous improvement",
     process: [
       [
@@ -183,7 +195,7 @@ export const visibilityContent = {
     subtitle:
       "Améliorez la visibilité dans la recherche, la lisibilité par l’IA, la santé technique, la clarté du contenu, l’accessibilité et la conversion dans un service coordonné.",
     primaryCta: "Demander une évaluation de visibilité",
-    assessmentCta: "Trouver votre point de départ",
+    assessmentCta: "Lancer l’évaluation Web et IA gratuite",
     proofTitle: "Une fondation de visibilité pratique",
     proofSubtitle:
       "Axée sur la clarté, l’accès, la confiance et l’amélioration mesurable.",
@@ -258,6 +270,18 @@ export const visibilityContent = {
         ],
       },
     ],
+    productEyebrow: "Visibilité des produits numériques",
+    productTitle: "Rendez une application ou un produit SaaS compréhensible avant de demander son adoption",
+    productBody:
+      "Un produit utile peut rester invisible lorsque son récit public, ses cas d’usage, sa documentation et ses signaux de confiance sont insuffisants. ROALLA crée la couche découvrable autour du produit sans exposer le contenu privé de l’application.",
+    productItems: [
+      "Positionnement public, publics, cas d’usage et résultats d’affaires clairs",
+      "Pages de produit et de fonctions avec information accessible et explorable",
+      "Documentation publique, contexte des versions, FAQ et données structurées",
+      "Mesure de la découverte qualifiée, de l’intérêt produit et de la conversion",
+    ],
+    productPortfolioCta: "Explorer les produits numériques",
+    productInquiryCta: "Discuter de la visibilité du produit",
     processTitle: "De l’évaluation à l’amélioration continue",
     process: [
       [

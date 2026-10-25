@@ -4,6 +4,7 @@ import React from 'react'
 import { ArrowRight, CheckCircle2, SearchCheck } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
+import { trackAnalyticsEvent } from '@/lib/analytics'
 import Reveal from '../motion/Reveal'
 
 const capabilityKeys = [
@@ -38,14 +39,28 @@ export default function HomeVisibilityOptimization() {
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link
-                href="/tools/digital-presence-snapshot"
+                href="/website-ai-visibility-review"
+                onClick={() =>
+                  trackAnalyticsEvent('visibility_assessment_click', {
+                    placement: 'home',
+                    assessment: 'website-ai-visibility-review',
+                  })
+                }
                 className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 transition-all hover:bg-brand-gold-light hover:scale-[1.02]"
               >
                 {t('snapshotCta')}
                 <ArrowRight className="w-4 h-4" aria-hidden />
               </Link>
               <Link
-                href="/contact"
+                href={{
+                  pathname: '/contact',
+                  query: { intent: 'visibility', source: 'visibility-home' },
+                }}
+                onClick={() =>
+                  trackAnalyticsEvent('visibility_service_inquiry', {
+                    placement: 'home',
+                  })
+                }
                 className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-white/30 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/10"
               >
                 {t('cta')}

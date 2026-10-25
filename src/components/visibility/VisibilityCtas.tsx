@@ -32,10 +32,11 @@ export default function VisibilityCtas({
         <ArrowRight className="ml-2 w-4 h-4" aria-hidden />
       </Link>
       <Link
-        href="/assessment"
+        href="/website-ai-visibility-review"
         onClick={() =>
           trackAnalyticsEvent("visibility_assessment_click", {
             placement: source,
+            assessment: "website-ai-visibility-review",
           })
         }
         className="inline-flex min-h-[48px] items-center justify-center rounded-lg border-2 border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 hover:border-primary hover:text-primary-dark transition-colors"

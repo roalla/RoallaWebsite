@@ -160,7 +160,7 @@ export default async function SearchAiVisibilityPage({
               </div>
               <div className="mt-5 shrink-0 lg:mt-0">
                 <Link
-                  href="/tools/digital-presence-snapshot"
+                  href="/website-ai-visibility-review"
                   className="inline-flex min-h-[48px] w-full items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 transition-colors hover:bg-brand-gold-light lg:w-auto"
                 >
                   {locale === "fr" ? "Vérifier ma présence en ligne" : "Check my online presence"}
@@ -210,6 +210,45 @@ export default async function SearchAiVisibilityPage({
                   </ul>
                 </article>
               ))}
+            </div>
+          </section>
+
+          <section className="pb-16" aria-labelledby="digital-product-visibility-title">
+            <div className="rounded-2xl border border-slate-200 bg-slate-950 p-7 text-white sm:p-9 lg:grid lg:grid-cols-[1.05fr_.95fr] lg:gap-10">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-light">
+                  {content.productEyebrow}
+                </p>
+                <h2 id="digital-product-visibility-title" className="mt-3 text-3xl font-serif font-bold text-white">
+                  {content.productTitle}
+                </h2>
+                <p className="mt-4 leading-relaxed text-slate-300">{content.productBody}</p>
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                  <Link
+                    href="/services/portfolio/digital-products"
+                    className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-brand-gold-light"
+                  >
+                    {content.productPortfolioCta}
+                  </Link>
+                  <Link
+                    href={{
+                      pathname: "/contact",
+                      query: { intent: "visibility", source: "visibility-product" },
+                    }}
+                    className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+                  >
+                    {content.productInquiryCta}
+                  </Link>
+                </div>
+              </div>
+              <ul className="mt-7 space-y-3 lg:mt-0">
+                {content.productItems.map((item) => (
+                  <li key={item} className="flex gap-3 rounded-lg border border-white/10 bg-white/[0.05] p-4 text-sm leading-6 text-slate-200">
+                    <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-primary-light" aria-hidden />
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
           </section>
 

@@ -39,6 +39,18 @@ const FILES: Record<string, string> = {
   "responsible-automation-workforce-transition": "responsible-automation-workforce-transition.pdf",
   "digital-workplace-collaboration-optimization": "digital-workplace-collaboration-optimization.pdf",
   "application-portfolio-rationalization": "application-portfolio-rationalization.pdf",
+  "executive-leadership-architecture-growth": "executive-leadership-architecture-growth.pdf",
+  "designing-cto-role": "designing-cto-role.pdf",
+  "combined-executive-accountabilities": "combined-executive-accountabilities.pdf",
+  "coo-readiness-operating-leadership": "coo-readiness-operating-leadership.pdf",
+  "product-technology-commercial-alignment": "product-technology-commercial-alignment.pdf",
+  "player-coach-leadership": "player-coach-leadership.pdf",
+  "fractional-interim-full-time-executive": "fractional-interim-full-time-executive.pdf",
+  "founder-led-leadership-led-evolution": "founder-led-leadership-led-evolution.pdf",
+  "executive-decision-rights-accountability": "executive-decision-rights-accountability.pdf",
+  "executive-hiring-first-100-days": "executive-hiring-first-100-days.pdf",
+  "leadership-team-evolution-growth-stage": "leadership-team-evolution-growth-stage.pdf",
+  "executive-performance-scorecards": "executive-performance-scorecards.pdf",
 };
 
 function secret() {

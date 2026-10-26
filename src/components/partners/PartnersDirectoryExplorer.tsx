@@ -14,6 +14,7 @@ type Props = {
   organizationsNote: string
   filterAllLabel: string
   emptyLabel: string
+  curatorLabel: string
   items: PartnersDirectoryItem[]
 }
 
@@ -25,6 +26,7 @@ export default function PartnersDirectoryExplorer({
   organizationsNote,
   filterAllLabel,
   emptyLabel,
+  curatorLabel,
   items,
 }: Props) {
   const [activeTag, setActiveTag] = useState<string | null>(null)
@@ -122,8 +124,17 @@ export default function PartnersDirectoryExplorer({
                   )}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary-dark">{item.relationship}</p>
-                  <h3 className="mt-1 font-serif text-xl font-bold text-slate-950">{item.name}</h3>
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                    <span className="inline-flex items-center gap-1.5 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-slate-500">
+                      <Image src="/logo.svg" alt="" width={14} height={14} className="h-3.5 w-3.5 opacity-80" />
+                      {curatorLabel}
+                    </span>
+                    <span className="text-slate-300" aria-hidden>
+                      ·
+                    </span>
+                    <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary-dark">{item.relationship}</p>
+                  </div>
+                  <h3 className="mt-1.5 font-serif text-xl font-bold text-slate-950">{item.name}</h3>
                   <p className="mt-3 text-sm leading-6 text-slate-600">{item.description}</p>
                   <p className="mt-3 text-sm leading-6 text-slate-500">
                     <span className="font-semibold text-slate-700">{businessNeedLabel}:</span> {item.need}

@@ -97,6 +97,7 @@ export default async function CompensationPage({ params }: Props) {
         sublabel={tCommon('ctaSubtext')}
         intent="consulting"
         focus="technology"
+        brandMark
       />
     </main>
   )

@@ -7,6 +7,7 @@ import Breadcrumb from '@/components/Breadcrumb'
 import JsonLd from '@/components/JsonLd'
 import Reveal from '@/components/motion/Reveal'
 import StickyMobileCTA from '@/components/StickyMobileCTA'
+import PartnersBrandLockup from '@/components/partners/PartnersBrandLockup'
 import PartnersClosingCta from '@/components/partners/PartnersClosingCta'
 import PartnersHashRedirect from '@/components/partners/PartnersHashRedirect'
 import PartnersLogoStrip from '@/components/partners/PartnersLogoStrip'
@@ -90,8 +91,14 @@ export default async function PartnersPage({ params }: Props) {
 
         <div className="mx-auto max-w-7xl">
           <Reveal when="mount" className="max-w-3xl">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-primary-light">{t('eyebrow')}</p>
-            <h1 className="mt-5 font-serif text-4xl font-extrabold leading-[1.05] tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
+            <PartnersBrandLockup
+              companyName={tCommon('companyName')}
+              label={t('brandAdvisorLabel')}
+              size="lg"
+              tone="dark"
+            />
+            <p className="mt-6 text-xs font-bold uppercase tracking-[0.22em] text-primary-light">{t('eyebrow')}</p>
+            <h1 className="mt-4 font-serif text-4xl font-extrabold leading-[1.05] tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
               {t('title')}
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-200">{t('subtitle')}</p>
@@ -187,6 +194,7 @@ export default async function PartnersPage({ params }: Props) {
         label={t('heroPrimaryCta')}
         sublabel={tCommon('ctaSubtext')}
         href="/services/technology-advisory"
+        brandMark
       />
     </main>
   )

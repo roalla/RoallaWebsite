@@ -27,6 +27,7 @@ function hrefFor(key: EcosystemKey) {
 export default function PartnersLogoStrip() {
   const t = useTranslations('home.technologyEcosystem')
   const tPage = useTranslations('partnersPlatforms')
+  const tCommon = useTranslations('common')
   const reduceMotion = usePrefersReducedMotion()
   const useMarquee = !reduceMotion && ecosystemKeys.length > 3
   const sequence = useMarquee ? [...ecosystemKeys, ...ecosystemKeys] : ecosystemKeys
@@ -44,8 +45,23 @@ export default function PartnersLogoStrip() {
           {tPage('logoStripEyebrow')}
         </p>
 
-        <div className="technology-ecosystem group/marquee relative mt-6 min-w-0">
-          <div className="marquee-mask max-w-full overflow-hidden py-2">
+        <div className="technology-ecosystem group/marquee relative mt-6 flex min-w-0 items-stretch gap-3">
+          <Link
+            href="/partners"
+            className="group/item z-[1] flex min-h-20 w-36 shrink-0 flex-col items-center justify-center rounded-2xl border border-slate-900 bg-slate-950 px-3 py-3 text-center shadow-sm transition hover:-translate-y-0.5 hover:border-primary hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:w-40 md:w-44"
+          >
+            <span className="flex h-10 w-full items-center justify-center">
+              <Image src="/logo.svg" alt="" width={36} height={36} className="h-9 w-9" />
+            </span>
+            <span className="mt-1.5 text-[0.65rem] font-bold uppercase tracking-[0.08em] text-white">
+              {tCommon('companyName')}
+            </span>
+            <span className="mt-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.12em] text-primary-light">
+              {tPage('brandAdvisorLabel')}
+            </span>
+          </Link>
+
+          <div className="marquee-mask min-w-0 flex-1 overflow-hidden py-2">
             <div
               className={
                 useMarquee

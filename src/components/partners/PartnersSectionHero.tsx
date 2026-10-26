@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 import Reveal from '@/components/motion/Reveal'
+import PartnersBrandLockup from '@/components/partners/PartnersBrandLockup'
 import { Link } from '@/i18n/navigation'
 
 export type PartnersHeroCta =
@@ -33,7 +35,7 @@ type Props = {
   secondaryCta?: PartnersHeroCta
 }
 
-export default function PartnersSectionHero({
+export default async function PartnersSectionHero({
   eyebrow,
   title,
   description,
@@ -43,6 +45,8 @@ export default function PartnersSectionHero({
   primaryCta,
   secondaryCta,
 }: Props) {
+  const tCommon = await getTranslations('common')
+  const t = await getTranslations('partnersPlatforms')
   const isSlate = tone === 'slate'
 
   return (
@@ -74,8 +78,14 @@ export default function PartnersSectionHero({
 
       <div className="mx-auto max-w-7xl">
         <Reveal when="mount" className="max-w-3xl">
-          <p className="text-xs font-bold uppercase tracking-[0.22em] text-primary-light">{eyebrow}</p>
-          <h1 className="mt-5 font-serif text-4xl font-extrabold leading-[1.05] tracking-[-0.03em] text-white sm:text-5xl">
+          <PartnersBrandLockup
+            companyName={tCommon('companyName')}
+            label={t('brandAdvisorLabel')}
+            size="lg"
+            tone="dark"
+          />
+          <p className="mt-6 text-xs font-bold uppercase tracking-[0.22em] text-primary-light">{eyebrow}</p>
+          <h1 className="mt-4 font-serif text-4xl font-extrabold leading-[1.05] tracking-[-0.03em] text-white sm:text-5xl">
             {title}
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-200">{description}</p>

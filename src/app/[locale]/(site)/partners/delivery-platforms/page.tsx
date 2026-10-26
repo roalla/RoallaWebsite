@@ -96,6 +96,7 @@ export default async function DeliveryPlatformsPage({ params }: Props) {
         label={t('deliveryPrimaryCta')}
         sublabel={tCommon('ctaSubtext')}
         href="/services/digital"
+        brandMark
       />
     </main>
   )

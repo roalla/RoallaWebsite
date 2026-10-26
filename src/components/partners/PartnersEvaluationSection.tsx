@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server'
+import PartnersBrandLockup from '@/components/partners/PartnersBrandLockup'
 import PartnersEvaluationChecklist from '@/components/partners/PartnersEvaluationChecklist'
 
 const standardKeys = [
@@ -14,12 +15,21 @@ const standardKeys = [
 
 export default async function PartnersEvaluationSection() {
   const t = await getTranslations('partnersPlatforms')
+  const tCommon = await getTranslations('common')
 
   return (
     <>
       <h2 id="evaluation-standard-heading" className="sr-only">
         {t('standardTitle')}
       </h2>
+      <div className="mb-8">
+        <PartnersBrandLockup
+          companyName={tCommon('companyName')}
+          label={t('brandStandardLabel')}
+          size="md"
+          tone="light"
+        />
+      </div>
       <PartnersEvaluationChecklist
         intro={t('standardIntro')}
         progressLabel={t('evaluationProgress')}

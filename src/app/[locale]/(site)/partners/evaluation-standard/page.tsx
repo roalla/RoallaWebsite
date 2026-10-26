@@ -95,6 +95,7 @@ export default async function EvaluationStandardPage({ params }: Props) {
         label={t('evaluationPrimaryCta')}
         sublabel={tCommon('ctaSubtext')}
         href="/tools/technology-decision-brief"
+        brandMark
       />
     </main>
   )

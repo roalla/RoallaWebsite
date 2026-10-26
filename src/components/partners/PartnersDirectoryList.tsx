@@ -27,6 +27,7 @@ export default async function PartnersDirectoryList({ groupId, showHeading = tru
       organizationsNote={t('organizationsNote')}
       filterAllLabel={t('directoryFilterAll')}
       emptyLabel={t('directoryFilterEmpty')}
+      curatorLabel={t('brandCuratorLabel')}
       items={items}
     />
   )

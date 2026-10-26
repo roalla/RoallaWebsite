@@ -1,16 +1,26 @@
 import { ArrowRight } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import Reveal from '@/components/motion/Reveal'
+import PartnersBrandLockup from '@/components/partners/PartnersBrandLockup'
 import { Link } from '@/i18n/navigation'
 
 export default async function PartnersCompensationSection() {
   const t = await getTranslations('partnersPlatforms')
+  const tCommon = await getTranslations('common')
 
   return (
     <section aria-labelledby="compensation-heading">
       <h2 id="compensation-heading" className="sr-only">
         {t('compensationTitle')}
       </h2>
+      <div className="mb-10">
+        <PartnersBrandLockup
+          companyName={tCommon('companyName')}
+          label={t('brandTransparencyLabel')}
+          size="md"
+          tone="light"
+        />
+      </div>
       <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
         <Reveal className="border-t border-slate-200 pt-6">
           <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">

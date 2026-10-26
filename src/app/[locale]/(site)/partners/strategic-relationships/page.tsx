@@ -96,6 +96,7 @@ export default async function StrategicRelationshipsPage({ params }: Props) {
         sublabel={tCommon('ctaSubtext')}
         intent="consulting"
         focus="technology"
+        brandMark
       />
     </main>
   )

@@ -2,6 +2,7 @@ import { ArrowRight } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import type { PartnersHeroCta } from '@/components/partners/PartnersSectionHero'
+import PartnersBrandLockup from '@/components/partners/PartnersBrandLockup'
 
 type Props = {
   title?: string
@@ -12,6 +13,7 @@ type Props = {
 
 export default async function PartnersClosingCta({ title, body, primaryCta, secondaryCta }: Props) {
   const t = await getTranslations('partnersPlatforms')
+  const tCommon = await getTranslations('common')
 
   const resolvedPrimary: PartnersHeroCta = primaryCta ?? {
     label: t('ctaButton'),
@@ -28,6 +30,14 @@ export default async function PartnersClosingCta({ title, body, primaryCta, seco
       className="bg-slate-950 px-4 py-14 text-center text-white sm:px-6 lg:px-8 lg:py-16"
     >
       <div className="mx-auto max-w-3xl">
+        <div className="mb-6 flex justify-center">
+          <PartnersBrandLockup
+            companyName={tCommon('companyName')}
+            label={t('brandAdvisorLabel')}
+            size="md"
+            tone="dark"
+          />
+        </div>
         <h2 className="font-serif text-3xl font-bold text-white">{title ?? t('ctaTitle')}</h2>
         <p className="mx-auto mt-3 max-w-2xl text-slate-300">{body ?? t('ctaBody')}</p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">

@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import type { ConsultationIntent, ConsultingFocus } from '@/lib/consultation-request'
 
@@ -23,6 +24,7 @@ type StickyMobileCTAProps = {
   reference?: string
   offer?: string
   sublabel?: string
+  brandMark?: boolean
 }
 
 export default function StickyMobileCTA({
@@ -36,6 +38,7 @@ export default function StickyMobileCTA({
   reference,
   offer,
   sublabel,
+  brandMark = false,
 }: StickyMobileCTAProps) {
   const linkHref = (() => {
     const query: Record<string, string> = {}
@@ -82,6 +85,16 @@ export default function StickyMobileCTA({
   const buttonClass =
     'flex w-full flex-col items-center justify-center rounded-lg bg-primary-dark hover:bg-primary-darker text-white font-semibold py-3 px-6 text-sm shadow-md transition-colors'
 
+  const labelBlock = (
+    <>
+      <span className="inline-flex items-center gap-2">
+        {brandMark ? <Image src="/logo.svg" alt="" width={18} height={18} className="h-[18px] w-[18px]" /> : null}
+        {label}
+      </span>
+      {sublabel ? <span className="mt-0.5 text-[11px] font-normal text-white">{sublabel}</span> : null}
+    </>
+  )
+
   return (
     <div
       className="fixed bottom-0 inset-x-0 z-30 xl:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_30px_rgba(15,23,42,0.12)]"
@@ -90,13 +103,11 @@ export default function StickyMobileCTA({
     >
       {anchorHref ? (
         <a href={anchorHref} className={buttonClass}>
-          <span>{label}</span>
-          {sublabel && <span className="mt-0.5 text-[11px] font-normal text-white">{sublabel}</span>}
+          {labelBlock}
         </a>
       ) : (
         <Link href={linkHref} className={buttonClass}>
-          <span>{label}</span>
-          {sublabel && <span className="mt-0.5 text-[11px] font-normal text-white">{sublabel}</span>}
+          {labelBlock}
         </Link>
       )}
     </div>

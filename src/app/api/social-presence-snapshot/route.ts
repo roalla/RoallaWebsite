@@ -61,7 +61,14 @@ export async function POST(request: NextRequest) {
       cached?.security?.checks.some((check) => check.id === "redirectPath") &&
       cached?.security?.checks.some((check) => check.id === "contentType") &&
       cached?.security?.checks.some((check) => check.id === "referrerPolicy");
-    if (cached?.siteSetup && "registration" in cached.siteSetup && cached.security && cachedCertificate && cachedSecurityReady) {
+    if (
+      cached?.siteSetup
+      && "registration" in cached.siteSetup
+      && cached.security
+      && cachedCertificate
+      && cachedSecurityReady
+      && cached.vocabulary
+    ) {
       return response({ snapshot: cached, cached: true });
     }
 

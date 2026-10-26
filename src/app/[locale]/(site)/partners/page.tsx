@@ -6,6 +6,7 @@ import { ArrowRight } from 'lucide-react'
 import Breadcrumb from '@/components/Breadcrumb'
 import JsonLd from '@/components/JsonLd'
 import Reveal from '@/components/motion/Reveal'
+import StickyMobileCTA from '@/components/StickyMobileCTA'
 import PartnersClosingCta from '@/components/partners/PartnersClosingCta'
 import PartnersHashRedirect from '@/components/partners/PartnersHashRedirect'
 import PartnersLogoStrip from '@/components/partners/PartnersLogoStrip'
@@ -43,6 +44,7 @@ export default async function PartnersPage({ params }: Props) {
   const t = await getTranslations({ locale, namespace: 'partnersPlatforms' })
   const tEco = await getTranslations({ locale, namespace: 'home.technologyEcosystem' })
   const tBreadcrumb = await getTranslations('breadcrumb')
+  const tCommon = await getTranslations('common')
 
   return (
     <main className="page-shell">
@@ -180,6 +182,12 @@ export default async function PartnersPage({ params }: Props) {
       </div>
 
       <PartnersClosingCta />
+
+      <StickyMobileCTA
+        label={t('heroPrimaryCta')}
+        sublabel={tCommon('ctaSubtext')}
+        href="/services/technology-advisory"
+      />
     </main>
   )
 }

@@ -1,26 +1,37 @@
 import { ArrowRight } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
+import Reveal from '@/components/motion/Reveal'
 import { Link } from '@/i18n/navigation'
 
-type Props = {
-  asPageHeading?: boolean
-}
-
-export default async function PartnersCompensationSection({ asPageHeading = false }: Props) {
+export default async function PartnersCompensationSection() {
   const t = await getTranslations('partnersPlatforms')
-  const Heading = asPageHeading ? 'h1' : 'h2'
 
   return (
-    <section aria-labelledby="compensation-heading" className="max-w-3xl">
-      <Heading id="compensation-heading" className="font-serif text-3xl font-bold text-slate-900 sm:text-4xl">
+    <section aria-labelledby="compensation-heading">
+      <h2 id="compensation-heading" className="sr-only">
         {t('compensationTitle')}
-      </Heading>
-      <p className="mt-5 leading-relaxed text-slate-700">{t('compensationBody')}</p>
-      <p className="mt-4 text-base leading-relaxed text-slate-600">{t('compensationCommitment')}</p>
-      <Link href="/terms" className="mt-6 inline-flex items-center text-sm font-semibold text-primary-dark hover:underline">
-        {t('termsLink')}
-        <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
-      </Link>
+      </h2>
+      <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
+        <Reveal className="border-t border-slate-200 pt-6">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">
+            {t('compensationEarnLabel')}
+          </p>
+          <p className="mt-4 leading-relaxed text-slate-700">{t('compensationBody')}</p>
+        </Reveal>
+        <Reveal delayMs={80} className="border-t border-slate-200 pt-6">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">
+            {t('compensationDutyLabel')}
+          </p>
+          <p className="mt-4 leading-relaxed text-slate-700">{t('compensationCommitment')}</p>
+          <Link
+            href="/terms"
+            className="mt-6 inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
+          >
+            {t('termsLink')}
+            <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
+          </Link>
+        </Reveal>
+      </div>
     </section>
   )
 }

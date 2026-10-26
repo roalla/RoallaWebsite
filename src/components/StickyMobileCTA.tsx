@@ -6,7 +6,15 @@ import type { ConsultationIntent, ConsultingFocus } from '@/lib/consultation-req
 
 type StickyMobileCTAProps = {
   label: string
-  href?: '/contact' | '/services/business-advisory' | '/programs/workshops' | '/services/digital' | '/services/portfolio' | '/assessment'
+  href?:
+    | '/contact'
+    | '/services/business-advisory'
+    | '/services/technology-advisory'
+    | '/programs/workshops'
+    | '/services/digital'
+    | '/services/portfolio'
+    | '/assessment'
+    | '/tools/technology-decision-brief'
   anchorHref?: string
   intent?: ConsultationIntent
   focus?: ConsultingFocus

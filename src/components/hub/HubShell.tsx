@@ -8,7 +8,6 @@ import {
   BookOpen,
   ClipboardList,
   ExternalLink,
-  LayoutDashboard,
   LogOut,
   Menu,
   Users,
@@ -20,16 +19,15 @@ import {
 import type { HubRole } from '@/lib/hub/roles'
 import { canAccessModule } from '@/lib/hub/permissions'
 import { clientSignOut } from '@/lib/roalla-auth/client-sign-out'
+import { SSO_HOME_URL } from '@/lib/site'
 import HubSearchDialog, { HubSearchButton } from '@/components/hub/HubSearch'
 
 type NavHref =
-  | '/hub'
   | '/hub/customers'
   | '/hub/playbooks'
   | '/hub/partners'
   | '/hub/lessons'
   | '/hub/recommendations'
-  | '/hub/tools'
   | '/hub/insights'
 
 type NavItem = {
@@ -45,10 +43,6 @@ type NavGroup = {
 }
 
 const NAV_GROUPS: NavGroup[] = [
-  {
-    labelKey: 'navGroupOverview',
-    items: [{ href: '/hub', labelKey: 'navDashboard', icon: LayoutDashboard, module: 'dashboard' }],
-  },
   {
     labelKey: 'navGroupDelivery',
     items: [
@@ -67,10 +61,6 @@ const NAV_GROUPS: NavGroup[] = [
   {
     labelKey: 'navGroupNetwork',
     items: [{ href: '/hub/partners', labelKey: 'navPartners', icon: Handshake, module: 'partners' }],
-  },
-  {
-    labelKey: 'navGroupApps',
-    items: [{ href: '/hub/tools', labelKey: 'navTools', icon: ExternalLink, module: 'tools' }],
   },
 ]
 
@@ -105,7 +95,7 @@ function NavLinks({
             </p>
             <div className="space-y-0.5">
               {items.map(({ href, labelKey, icon: Icon }) => {
-                const active = pathname === href || (href !== '/hub' && pathname?.startsWith(href))
+                const active = pathname === href || pathname?.startsWith(href)
                 return (
                   <Link
                     key={href}
@@ -130,7 +120,29 @@ function NavLinks({
   )
 }
 
-export default function HubShell({ children, userName, userEmail, role, locale }: Props) {
+function SsoHomeBanner() {
+  const t = useTranslations('hub')
+  return (
+    <div
+      role="status"
+      className="mb-6 flex flex-col gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <div className="min-w-0">
+        <p className="text-sm font-semibold text-amber-950">{t('legacyBannerTitle')}</p>
+        <p className="mt-0.5 text-sm text-amber-900/80">{t('legacyBannerBody')}</p>
+      </div>
+      <a
+        href={SSO_HOME_URL}
+        className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 rounded-lg bg-amber-800 px-4 py-2 text-sm font-semibold text-white transition hover:bg-amber-900"
+      >
+        {t('legacyBannerCta')}
+        <ExternalLink className="h-3.5 w-3.5" aria-hidden />
+      </a>
+    </div>
+  )
+}
+
+export default function HubShell({ children, userName, userEmail, role, locale: _locale }: Props) {
   const t = useTranslations('hub')
   const pathname = usePathname()
   const [signingOut, setSigningOut] = useState(false)
@@ -159,7 +171,7 @@ export default function HubShell({ children, userName, userEmail, role, locale }
     try {
       await clientSignOut()
     } finally {
-      window.location.href = `/${locale}/hub/login`
+      window.location.href = SSO_HOME_URL
     }
   }
 
@@ -243,7 +255,10 @@ export default function HubShell({ children, userName, userEmail, role, locale }
             </div>
           )}
 
-          <main className="flex-1 p-4 md:p-8 max-w-6xl w-full mx-auto">{children}</main>
+          <main className="flex-1 p-4 md:p-8 max-w-6xl w-full mx-auto">
+            <SsoHomeBanner />
+            {children}
+          </main>
         </div>
       </div>
     </>

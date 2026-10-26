@@ -4,9 +4,10 @@ import { getHubSession } from '@/lib/hub/auth-session'
 import { dbConfigured, dbQuery } from '@/lib/db'
 import { canAccessModule, canManageLessons } from '@/lib/hub/permissions'
 import LessonDetail from '@/components/hub/LessonDetail'
+import { SSO_HOME_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
-  title: 'Lesson | Roalla Internal Hub',
+  title: 'Lesson | Website CMS (legacy)',
   robots: { index: false, follow: false },
 }
 
@@ -17,7 +18,7 @@ type Props = { params: Promise<{ locale: string; id: string }> }
 export default async function HubLessonDetailPage({ params }: Props) {
   const { locale, id } = await params
   const session = await getHubSession()
-  if (!session.signedIn || !session.user) redirect(`/${locale}/hub/login`)
+  if (!session.signedIn || !session.user) redirect(SSO_HOME_URL)
   if (!canAccessModule(session.user.role, 'lessons')) redirect(`/${locale}/hub`)
 
   if (!dbConfigured()) notFound()

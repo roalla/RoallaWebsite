@@ -6,7 +6,7 @@ import { Mail, Phone, Linkedin, Youtube, ArrowUpRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import ScheduleButton from './ScheduleButton'
-import { CLIENT_PORTAL_URL } from '@/lib/site'
+import { CLIENT_PORTAL_URL, SSO_HOME_URL } from '@/lib/site'
 
 const companyLinks = [
   { nameKey: 'about' as const, href: '/about' as const },
@@ -187,12 +187,13 @@ const Footer = () => {
               {t('clientPortal')}
               <ArrowUpRight className="w-3.5 h-3.5" aria-hidden />
             </a>
-            <Link
-              href="/hub/login"
+            <a
+              href={SSO_HOME_URL}
               className="inline-flex items-center gap-1 text-xs font-medium text-slate-400 hover:text-primary transition-colors w-fit"
             >
               {t('teamSignIn')}
-            </Link>
+              <ArrowUpRight className="w-3.5 h-3.5" aria-hidden />
+            </a>
             <Link
               href="/contact"
               className="inline-flex items-center gap-1 text-xs font-medium text-slate-400 hover:text-primary transition-colors w-fit"

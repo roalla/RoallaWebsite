@@ -4,9 +4,10 @@ import { getHubSession } from '@/lib/hub/auth-session'
 import { dbConfigured, dbQuery } from '@/lib/db'
 import { canAccessModule, canManagePartners } from '@/lib/hub/permissions'
 import PartnersList from '@/components/hub/PartnersList'
+import { SSO_HOME_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
-  title: 'Partners | Roalla Internal Hub',
+  title: 'Partners | Website CMS (legacy)',
   robots: { index: false, follow: false },
 }
 
@@ -17,7 +18,7 @@ type Props = { params: Promise<{ locale: string }> }
 export default async function HubPartnersPage({ params }: Props) {
   const { locale } = await params
   const session = await getHubSession()
-  if (!session.signedIn || !session.user) redirect(`/${locale}/hub/login`)
+  if (!session.signedIn || !session.user) redirect(SSO_HOME_URL)
   if (!canAccessModule(session.user.role, 'partners')) redirect(`/${locale}/hub`)
 
   let partners: Parameters<typeof PartnersList>[0]['initialPartners'] = []

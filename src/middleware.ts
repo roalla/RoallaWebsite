@@ -1,6 +1,7 @@
 import createIntlMiddleware from 'next-intl/middleware'
 import { NextRequest, NextResponse } from 'next/server'
 import { routing } from '@/i18n/routing'
+import { SSO_HOME_URL } from '@/lib/site'
 import {
   buildContentSecurityPolicy,
   createNonce,
@@ -19,8 +20,16 @@ function hasAuthSession(request: NextRequest): boolean {
   )
 }
 
+/** Operator entry points — SSO Home is the only internal home (not www /hub). */
+function isSsoHomeRedirectPath(pathname: string): boolean {
+  return /^\/((en|fr)\/)?hub(\/(tools|login))?\/?$/.test(pathname)
+}
+
 function isHubProtectedPath(pathname: string): boolean {
-  return /^\/(en|fr)\/hub(\/|$)/.test(pathname) && !pathname.includes('/hub/login')
+  return (
+    /^\/(en|fr)\/hub(\/|$)/.test(pathname) &&
+    !isSsoHomeRedirectPath(pathname)
+  )
 }
 
 function isAuthCallbackPath(pathname: string): boolean {
@@ -47,6 +56,11 @@ export default function middleware(request: NextRequest) {
   requestHeaders.set('Content-Security-Policy', csp)
   const secureRequest = new NextRequest(request, { headers: requestHeaders })
 
+  // /hub, /hub/tools, /hub/login (all locales) → SSO Home
+  if (isSsoHomeRedirectPath(pathname)) {
+    return withSecurityHeaders(NextResponse.redirect(SSO_HOME_URL), csp)
+  }
+
   // Normalize /auth/callback → /en/auth/callback (preserve query — OAuth code)
   if (pathname === '/auth/callback') {
     const url = secureRequest.nextUrl.clone()
@@ -61,18 +75,14 @@ export default function middleware(request: NextRequest) {
     const callback = new URL(`/${locale}/auth/callback`, request.url)
     searchParams.forEach((value, key) => callback.searchParams.set(key, value))
     if (!callback.searchParams.has('return')) {
-      callback.searchParams.set('return', `/${locale}/hub`)
+      callback.searchParams.set('return', SSO_HOME_URL)
     }
     return withSecurityHeaders(NextResponse.redirect(callback), csp)
   }
 
-  // Protect hub routes
+  // Protect remaining CMS hub routes — unsigned users go to SSO Home
   if (isHubProtectedPath(pathname) && !hasAuthSession(secureRequest)) {
-    const localeMatch = pathname.match(/^\/(en|fr)/)
-    const locale = localeMatch?.[1] || routing.defaultLocale
-    const login = new URL(`/${locale}/hub/login`, secureRequest.url)
-    login.searchParams.set('return', pathname)
-    return withSecurityHeaders(NextResponse.redirect(login), csp)
+    return withSecurityHeaders(NextResponse.redirect(SSO_HOME_URL), csp)
   }
 
   const response = intlMiddleware(secureRequest)

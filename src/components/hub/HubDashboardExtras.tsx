@@ -5,7 +5,6 @@ import { Link } from '@/i18n/navigation'
 import {
   BookOpen,
   ClipboardList,
-  ExternalLink,
   Lightbulb,
   PanelTop,
   Plus,
@@ -33,7 +32,6 @@ export default function HubDashboardExtras({ role, stats, isEmpty }: Props) {
     { href: '/hub/playbooks' as const, labelKey: 'navPlaybooks', descKey: 'playbooksSubtitle', icon: BookOpen, module: 'playbooks' as const },
     { href: '/hub/recommendations' as const, labelKey: 'navRecommendations', descKey: 'navRecommendationsSubtitle', icon: ClipboardList, module: 'recommendations' as const },
     { href: '/hub/lessons' as const, labelKey: 'navLessons', descKey: 'navLessonsSubtitle', icon: Lightbulb, module: 'lessons' as const },
-    { href: '/hub/tools' as const, labelKey: 'navTools', descKey: 'toolsSubtitle', icon: ExternalLink, module: 'tools' as const },
     { href: '/hub/insights' as const, labelKey: 'navHeaderInsights', descKey: 'headerInsightsSubtitle', icon: PanelTop, module: 'headerInsights' as const },
   ].filter((l) => canAccessModule(role, l.module))
 

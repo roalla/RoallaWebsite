@@ -4,9 +4,10 @@ import DigitalEventsPlaybook from '@/components/private/DigitalEventsPlaybook'
 import { getHubSession } from '@/lib/hub/auth-session'
 import { canAccessModule } from '@/lib/hub/permissions'
 import { Link } from '@/i18n/navigation'
+import { SSO_HOME_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
-  title: 'Digital Events Playbook | Roalla Internal Hub',
+  title: 'Digital Events Playbook | Website CMS (legacy)',
   robots: { index: false, follow: false },
 }
 
@@ -17,7 +18,7 @@ type Props = { params: Promise<{ locale: string }> }
 export default async function DigitalEventsPlaybookHubPage({ params }: Props) {
   const { locale } = await params
   const session = await getHubSession()
-  if (!session.signedIn) redirect(`/${locale}/hub/login`)
+  if (!session.signedIn) redirect(SSO_HOME_URL)
   if (!session.user || !canAccessModule(session.user.role, 'playbooks')) {
     redirect(`/${locale}/hub`)
   }

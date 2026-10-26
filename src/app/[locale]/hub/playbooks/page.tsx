@@ -7,9 +7,10 @@ import { getHubDatabaseState } from '@/lib/hub/database-state'
 import { canAccessModule, canWritePlaybooks } from '@/lib/hub/permissions'
 import PlaybooksHub from '@/components/hub/PlaybooksHub'
 import type { ChecklistItem } from '@/lib/db/schema'
+import { SSO_HOME_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
-  title: 'Playbooks | Roalla Internal Hub',
+  title: 'Playbooks | Website CMS (legacy)',
   robots: { index: false, follow: false },
 }
 
@@ -21,7 +22,7 @@ export default async function HubPlaybooksPage({ params }: Props) {
   noStore()
   const { locale } = await params
   const session = await getHubSession()
-  if (!session.signedIn || !session.user) redirect(`/${locale}/hub/login`)
+  if (!session.signedIn || !session.user) redirect(SSO_HOME_URL)
   if (!canAccessModule(session.user.role, 'playbooks')) redirect(`/${locale}/hub`)
 
   let runs: { id: string; template_id: string; title: string; checklist: ChecklistItem[]; updated_at: string }[] = []

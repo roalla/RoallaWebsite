@@ -188,7 +188,7 @@
     "useCases": "Use Cases",
     "clientPortal": "Client Portal",
     "clientPortalAria": "Sign in to the Roalla Client Portal",
-    "teamSignIn": "Employee sign in",
+    "teamSignIn": "SSO Home",
     "terms": "Terms & Conditions",
     "privacy": "Privacy Policy",
     "aiPolicy": "AI Policy",
@@ -3198,7 +3198,7 @@
     "ctaSubtitle": "Tell us about your goals—we'll help you find the right starting point.",
     "ctaButton": "Discuss Your Needs",
     "employeeHubLine": "Roalla employees:",
-    "employeeHubLink": "Sign in to the internal hub"
+    "employeeHubLink": "Open SSO Home"
   },
   "assessmentPage": {
     "metadataTitle": "Find Your Starting Point | ROALLA",
@@ -3954,7 +3954,10 @@
     "ctaPortfolio": "See live examples in our portfolio"
   },
   "hub": {
-    "title": "Internal Hub",
+    "title": "Website CMS (legacy)",
+    "legacyBannerTitle": "Operator home is SSO Home",
+    "legacyBannerBody": "This website CMS is temporary. Use SSO Home for apps, tools, and day-to-day operator work.",
+    "legacyBannerCta": "Open SSO Home",
     "navDashboard": "Dashboard",
     "navCustomers": "Customers",
     "navPlaybooks": "Playbooks",
@@ -3999,7 +4002,7 @@
     "lessonSectionRecommendations": "Recommendations",
     "lessonSectionMeta": "Classification",
     "loginTitle": "Employee sign in",
-    "loginSubtitle": "Roalla Internal Hub — for employees and invited partners only.",
+    "loginSubtitle": "Roalla Website CMS (legacy) — for employees and invited partners only.",
     "loginSso": "Continue with Roalla SSO",
     "loginPreparing": "Preparing sign-in…",
     "loginPartnerHint": "Partners: sign in with the email you were invited with.",

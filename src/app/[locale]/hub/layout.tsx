@@ -9,7 +9,7 @@ import type { HubRole } from '@/lib/hub/roles'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Internal Hub | ROALLA',
+  title: 'Website CMS (legacy) | ROALLA',
   robots: { index: false, follow: false },
 }
 

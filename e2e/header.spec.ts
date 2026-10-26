@@ -46,11 +46,11 @@ test.describe("Header", () => {
     const menu = page.locator('[aria-labelledby="ecosystem-dropdown-desktop"]');
     await expect(menu.locator('a[role="menuitem"]')).toHaveCount(6);
     await expect(menu.getByRole("menuitem", { name: "Ecosystem Overview" })).toHaveAttribute("href", "/en/partners");
-    await expect(menu.getByRole("menuitem", { name: "Technology Providers" })).toHaveAttribute("href", "/en/partners#technology-providers");
-    await expect(menu.getByRole("menuitem", { name: "Delivery Platforms" })).toHaveAttribute("href", "/en/partners#delivery-platforms");
-    await expect(menu.getByRole("menuitem", { name: "Strategic Relationships" })).toHaveAttribute("href", "/en/partners#strategic-relationships");
-    await expect(menu.getByRole("menuitem", { name: "How We Evaluate Solutions" })).toHaveAttribute("href", "/en/partners#evaluation-standard");
-    await expect(menu.getByRole("menuitem", { name: "Commercial Transparency" })).toHaveAttribute("href", "/en/partners#compensation");
+    await expect(menu.getByRole("menuitem", { name: "Technology Providers" })).toHaveAttribute("href", "/en/partners/technology-providers");
+    await expect(menu.getByRole("menuitem", { name: "Delivery Platforms" })).toHaveAttribute("href", "/en/partners/delivery-platforms");
+    await expect(menu.getByRole("menuitem", { name: "Strategic Relationships" })).toHaveAttribute("href", "/en/partners/strategic-relationships");
+    await expect(menu.getByRole("menuitem", { name: "How We Evaluate Solutions" })).toHaveAttribute("href", "/en/partners/evaluation-standard");
+    await expect(menu.getByRole("menuitem", { name: "Commercial Transparency" })).toHaveAttribute("href", "/en/partners/compensation");
     await expect(navigation.getByRole("button", { name: "Ecosystem", exact: true })).toHaveCount(1);
   });
 

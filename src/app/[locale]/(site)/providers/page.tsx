@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProvidersPage({ params }: Props) {
   const { locale } = await params
-  permanentRedirect(`/${locale}/partners#technology-providers`)
+  permanentRedirect(`/${locale}/partners/technology-providers`)
   const t = await getTranslations({ locale, namespace: 'providersPage' })
   const tEco = await getTranslations({ locale, namespace: 'home.technologyEcosystem' })
   const tBreadcrumb = await getTranslations('breadcrumb')

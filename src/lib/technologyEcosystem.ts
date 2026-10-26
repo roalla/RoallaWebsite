@@ -90,11 +90,11 @@ export const ecosystemLogos: Partial<Record<EcosystemKey, EcosystemLogo>> = {
 }
 
 export type EcosystemCta =
-  | { type: 'internal'; href: '/partners' }
+  | { type: 'internal'; href: '/partners/strategic-relationships' }
   | { type: 'external'; href: string }
 
 export const ecosystemCtas: Partial<Record<EcosystemKey, EcosystemCta>> = {
-  telarus: { type: 'internal', href: '/partners' },
+  telarus: { type: 'internal', href: '/partners/strategic-relationships' },
   fieldEffect: { type: 'external', href: 'https://fieldeffect.com/' },
   zoom: { type: 'external', href: 'https://www.zoom.com/' },
   lunavi: { type: 'external', href: 'https://www.lunavi.com/' },

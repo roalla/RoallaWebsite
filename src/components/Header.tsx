@@ -171,7 +171,8 @@ const Header = ({
       pathname.startsWith("/solutions/") ||
       pathname === "/executive-insights" ||
       pathname === "/about" ||
-      pathname === "/partners",
+      pathname === "/partners" ||
+      pathname.startsWith("/partners/"),
   );
   const [mounted, setMounted] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
@@ -557,11 +558,11 @@ const Header = ({
 
   const ecosystemLinks = [
     { nameKey: "ecosystemOverview" as const, href: "/partners" as const },
-    { nameKey: "ecosystemTechnologyProviders" as const, href: { pathname: "/partners" as const, hash: "technology-providers" } },
-    { nameKey: "ecosystemDeliveryPlatforms" as const, href: { pathname: "/partners" as const, hash: "delivery-platforms" } },
-    { nameKey: "ecosystemStrategicRelationships" as const, href: { pathname: "/partners" as const, hash: "strategic-relationships" } },
-    { nameKey: "ecosystemEvaluation" as const, href: { pathname: "/partners" as const, hash: "evaluation-standard" } },
-    { nameKey: "ecosystemTransparency" as const, href: { pathname: "/partners" as const, hash: "compensation" } },
+    { nameKey: "ecosystemTechnologyProviders" as const, href: "/partners/technology-providers" as const },
+    { nameKey: "ecosystemDeliveryPlatforms" as const, href: "/partners/delivery-platforms" as const },
+    { nameKey: "ecosystemStrategicRelationships" as const, href: "/partners/strategic-relationships" as const },
+    { nameKey: "ecosystemEvaluation" as const, href: "/partners/evaluation-standard" as const },
+    { nameKey: "ecosystemTransparency" as const, href: "/partners/compensation" as const },
   ];
 
   const workshopLinks: {
@@ -649,7 +650,7 @@ const Header = ({
     pathname === "/services/portfolio";
 
   const isAdvisoryActive = pathname === "/services/business-advisory";
-  const isEcosystemActive = pathname === "/partners";
+  const isEcosystemActive = pathname === "/partners" || pathname.startsWith("/partners/");
   const isWorkshopsActive =
     pathname === "/programs/workshops" ||
     pathname === "/programs/workshops/focus-circle" ||

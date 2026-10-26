@@ -140,11 +140,11 @@ describe('Header', () => {
     const menu = screen.getByRole('menu', { name: 'ecosystem' })
     expect(within(menu).getAllByRole('menuitem')).toHaveLength(6)
     expect(within(menu).getByRole('menuitem', { name: /ecosystemOverview/i })).toHaveAttribute('href', '/partners')
-    expect(within(menu).getByRole('menuitem', { name: /ecosystemTechnologyProviders/i })).toHaveAttribute('href', '/partners#technology-providers')
-    expect(within(menu).getByRole('menuitem', { name: /ecosystemDeliveryPlatforms/i })).toHaveAttribute('href', '/partners#delivery-platforms')
-    expect(within(menu).getByRole('menuitem', { name: /ecosystemStrategicRelationships/i })).toHaveAttribute('href', '/partners#strategic-relationships')
-    expect(within(menu).getByRole('menuitem', { name: /ecosystemEvaluation/i })).toHaveAttribute('href', '/partners#evaluation-standard')
-    expect(within(menu).getByRole('menuitem', { name: /ecosystemTransparency/i })).toHaveAttribute('href', '/partners#compensation')
+    expect(within(menu).getByRole('menuitem', { name: /ecosystemTechnologyProviders/i })).toHaveAttribute('href', '/partners/technology-providers')
+    expect(within(menu).getByRole('menuitem', { name: /ecosystemDeliveryPlatforms/i })).toHaveAttribute('href', '/partners/delivery-platforms')
+    expect(within(menu).getByRole('menuitem', { name: /ecosystemStrategicRelationships/i })).toHaveAttribute('href', '/partners/strategic-relationships')
+    expect(within(menu).getByRole('menuitem', { name: /ecosystemEvaluation/i })).toHaveAttribute('href', '/partners/evaluation-standard')
+    expect(within(menu).getByRole('menuitem', { name: /ecosystemTransparency/i })).toHaveAttribute('href', '/partners/compensation')
   })
 
   it('keeps business outcomes and supporting service paths clearly exposed', () => {
@@ -197,7 +197,7 @@ describe('Header', () => {
 
     const panel = document.getElementById('ecosystem-mobile-panel')
     expect(within(panel!).getAllByRole('link')).toHaveLength(6)
-    expect(within(panel!).getByRole('link', { name: /ecosystemTransparency/i })).toHaveAttribute('href', '/partners#compensation')
+    expect(within(panel!).getByRole('link', { name: /ecosystemTransparency/i })).toHaveAttribute('href', '/partners/compensation')
   })
 
   it('marks only the matching dropdown item for the current page', () => {

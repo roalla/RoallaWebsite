@@ -2,15 +2,26 @@
 
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 import {
+  ecosystemDirectoryGroups,
   ecosystemKeys,
   ecosystemLogos,
   type EcosystemKey,
 } from '@/lib/technologyEcosystem'
 
-function anchorFor(key: EcosystemKey) {
-  return key === 'telarus' ? '#strategic-relationships' : `#${key}`
+function hrefFor(key: EcosystemKey) {
+  if (key === 'telarus') {
+    return '/partners/strategic-relationships' as const
+  }
+  const group = ecosystemDirectoryGroups.find((entry) =>
+    (entry.keys as readonly string[]).includes(key),
+  )
+  if (group?.id === 'delivery-platforms') {
+    return { pathname: '/partners/delivery-platforms' as const, hash: key }
+  }
+  return { pathname: '/partners/technology-providers' as const, hash: key }
 }
 
 export default function PartnersLogoStrip() {
@@ -47,9 +58,9 @@ export default function PartnersLogoStrip() {
                 const isDuplicate = useMarquee && index >= ecosystemKeys.length
                 const logo = ecosystemLogos[key]
                 return (
-                  <a
+                  <Link
                     key={`${key}-${index}`}
-                    href={anchorFor(key)}
+                    href={hrefFor(key)}
                     tabIndex={isDuplicate ? -1 : 0}
                     aria-hidden={isDuplicate || undefined}
                     className="group/item flex min-h-20 w-40 shrink-0 flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white px-3 py-3 text-center shadow-sm transition hover:-translate-y-0.5 hover:border-primary/45 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:w-44 md:w-48"
@@ -73,7 +84,7 @@ export default function PartnersLogoStrip() {
                     <span className="mt-1.5 text-[0.65rem] font-bold uppercase tracking-[0.08em] text-slate-500">
                       {t(`${key}.name`)}
                     </span>
-                  </a>
+                  </Link>
                 )
               })}
             </div>

@@ -49,8 +49,32 @@ export function analyzeRedirectPath(
   };
 }
 
+/**
+ * A single same-host temporary hop (common for locale prefixes, e.g. `/` → `/en`) is fine.
+ * Review only for long chains or temporary hops that change host / stack up.
+ */
 export function redirectPathStatus(analysis: RedirectPathAnalysis): "pass" | "review" | "gap" {
   if (analysis.loop || analysis.endsOnHttp) return "gap";
-  if (analysis.longChain || analysis.temporaryRedirect) return "review";
+  if (analysis.longChain) return "review";
+  if (hasRiskyTemporaryRedirects(analysis.hops)) return "review";
   return "pass";
+}
+
+function hasRiskyTemporaryRedirects(hops: RedirectHop[]) {
+  const temporary = hops.filter((hop) => TEMPORARY.has(hop.status));
+  if (temporary.length === 0) return false;
+  if (temporary.length > 1) return true;
+
+  const hosts = hops
+    .map((hop) => {
+      try {
+        return new URL(hop.url).hostname.replace(/^www\./i, "").toLowerCase();
+      } catch {
+        return null;
+      }
+    })
+    .filter((host): host is string => Boolean(host));
+
+  if (hosts.length < 2) return false;
+  return new Set(hosts).size > 1;
 }

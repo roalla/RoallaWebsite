@@ -531,10 +531,10 @@ const copy = {
       redirectPath: {
         title: "Address path",
         short: "Path",
-        pass: "The address reaches the landing page without a long or temporary redirect chain.",
-        review: "The address uses a long chain or a temporary redirect before the landing page.",
+        pass: "The address reaches the landing page without a long or risky redirect chain.",
+        review: "The address uses a long redirect chain, or temporary redirects that change the site.",
         gap: "The address path loops or ends on an unencrypted page.",
-        why: "Extra hops slow the first visit and can send people to the wrong page.",
+        why: "Extra hops slow the first visit and can send people to the wrong page. A single locale hop such as / to /en is normal.",
       },
       hsts: {
         title: "Browser lock",
@@ -1089,10 +1089,10 @@ const copy = {
       redirectPath: {
         title: "Chemin d’adresse",
         short: "Chemin",
-        pass: "L’adresse atteint la page d’arrivée sans longue chaîne ni redirection temporaire.",
-        review: "L’adresse utilise une longue chaîne ou une redirection temporaire avant la page d’arrivée.",
+        pass: "L’adresse atteint la page d’arrivée sans longue chaîne ni redirections risquées.",
+        review: "L’adresse utilise une longue chaîne de redirection, ou des redirections temporaires qui changent de site.",
         gap: "Le chemin d’adresse boucle ou se termine sur une page non chiffrée.",
-        why: "Des sauts supplémentaires ralentissent la première visite et peuvent envoyer les gens à la mauvaise page.",
+        why: "Des sauts supplémentaires ralentissent la première visite et peuvent envoyer les gens à la mauvaise page. Un seul saut de langue comme / vers /en est normal.",
       },
       hsts: {
         title: "Verrou du navigateur",

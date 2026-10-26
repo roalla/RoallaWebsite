@@ -101,7 +101,7 @@ describe("page security", () => {
     expect(result.checks.find((check) => check.id === "referrerPolicy")?.status).toBe("gap");
   });
 
-  it("reviews a long or temporary redirect path and gaps a loop", () => {
+  it("reviews a long chain, passes a locale hop, and gaps a loop", () => {
     const long = analyzePageSecurity({
       ...clear,
       redirectHops: [
@@ -115,14 +115,23 @@ describe("page security", () => {
     expect(long.redirectPath?.longChain).toBe(true);
     expect(long.checks.find((check) => check.id === "redirectPath")?.evidence).toBe("301 → 301 → 301 → 200");
 
-    const temporary = analyzePageSecurity({
+    const localeHop = analyzePageSecurity({
+      ...clear,
+      redirectHops: [
+        { status: 307, url: "https://www.roalla.com/" },
+        { status: 200, url: "https://www.roalla.com/en" },
+      ],
+    });
+    expect(localeHop.checks.find((check) => check.id === "redirectPath")?.status).toBe("pass");
+
+    const crossHostTemporary = analyzePageSecurity({
       ...clear,
       redirectHops: [
         { status: 302, url: "https://example.test/" },
-        { status: 200, url: "https://www.example.test/" },
+        { status: 200, url: "https://other.test/" },
       ],
     });
-    expect(temporary.checks.find((check) => check.id === "redirectPath")?.status).toBe("review");
+    expect(crossHostTemporary.checks.find((check) => check.id === "redirectPath")?.status).toBe("review");
 
     const loop = analyzePageSecurity({
       ...clear,
@@ -137,7 +146,7 @@ describe("page security", () => {
 });
 
 describe("redirect path analysis", () => {
-  it("passes a short permanent chain", () => {
+  it("passes a short permanent chain and a single same-host temporary hop", () => {
     const analysis = analyzeRedirectPath([
       { status: 301, url: "https://example.test/" },
       { status: 200, url: "https://www.example.test/" },
@@ -145,6 +154,13 @@ describe("redirect path analysis", () => {
     expect(redirectPathStatus(analysis)).toBe("pass");
     expect(analysis.longChain).toBe(false);
     expect(analysis.temporaryRedirect).toBe(false);
+
+    const locale = analyzeRedirectPath([
+      { status: 307, url: "https://www.roalla.com/" },
+      { status: 200, url: "https://www.roalla.com/en" },
+    ]);
+    expect(locale.temporaryRedirect).toBe(true);
+    expect(redirectPathStatus(locale)).toBe("pass");
   });
 
   it("flags loops and http endings", () => {

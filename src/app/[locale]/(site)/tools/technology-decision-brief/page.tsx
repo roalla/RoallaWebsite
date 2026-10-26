@@ -5,7 +5,13 @@ import { getTranslations } from "next-intl/server";
 
 type Props = {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ from?: string; criteria?: string }>;
+  searchParams: Promise<{
+    from?: string;
+    criteria?: string;
+    portfolio?: string;
+    need?: string;
+    audience?: string;
+  }>;
 };
 
 const standardKeys = [
@@ -18,6 +24,20 @@ const standardKeys = [
   "standard7",
   "standard8",
 ] as const;
+
+const portfolioKeys = [
+  "security",
+  "unified_communications",
+  "conversational_ai",
+  "cloud",
+  "managed_services",
+  "infrastructure",
+  "connectivity",
+  "applications",
+  "solution_sourcing",
+] as const;
+
+const audienceKeys = ["mid_market", "multi_site", "operations_heavy"] as const;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -47,6 +67,15 @@ export default async function Page({ params, searchParams }: Props) {
         .filter(Boolean),
     );
     evaluationCriteria = standardKeys.filter((key) => selected.has(key)).map((key) => t(key));
+  }
+
+  if (query.from === "partners-directory") {
+    const t = await getTranslations({ locale, namespace: "partnersPlatforms" });
+    const portfolio = portfolioKeys.find((key) => key === query.portfolio);
+    if (portfolio) evaluationCriteria.push(t(`portfolio_${portfolio}`));
+    const audience = audienceKeys.find((key) => key === query.audience);
+    if (audience) evaluationCriteria.push(t(`audience_${audience}`));
+    if (query.need?.trim()) evaluationCriteria.push(query.need.trim().slice(0, 80));
   }
 
   return (

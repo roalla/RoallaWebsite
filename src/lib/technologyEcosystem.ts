@@ -2,11 +2,13 @@ export const ecosystemKeys = [
   'telarus',
   'fieldEffect',
   'zoom',
+  'dialpad',
+  'polyai',
+  'speechLogix',
   'lunavi',
   'equinix',
   'terago',
   'thrive',
-  'speechLogix',
 ] as const
 
 export type EcosystemKey = (typeof ecosystemKeys)[number]
@@ -16,7 +18,17 @@ export const ecosystemDirectoryGroups = [
     id: 'technology-providers',
     titleKey: 'technologyProvidersTitle',
     descriptionKey: 'technologyProvidersDescription',
-    keys: ['fieldEffect', 'zoom', 'equinix', 'terago'],
+    keys: [
+      'fieldEffect',
+      'zoom',
+      'dialpad',
+      'polyai',
+      'speechLogix',
+      'equinix',
+      'terago',
+      'lunavi',
+      'thrive',
+    ],
   },
   {
     id: 'delivery-platforms',
@@ -56,6 +68,18 @@ export const ecosystemLogos: Partial<Record<EcosystemKey, EcosystemLogo>> = {
     width: 160,
     height: 80,
     className: 'h-8 w-auto object-contain md:h-9',
+  },
+  dialpad: {
+    src: '/images/partners/dialpad-logo.png',
+    width: 480,
+    height: 120,
+    className: 'h-8 w-auto max-w-full object-contain md:h-9',
+  },
+  polyai: {
+    src: '/images/partners/polyai-logo.png',
+    width: 480,
+    height: 120,
+    className: 'h-8 w-auto max-w-full object-contain md:h-9',
   },
   lunavi: {
     src: '/images/partners/lunavi-logo.png',
@@ -97,6 +121,8 @@ export const ecosystemCtas: Partial<Record<EcosystemKey, EcosystemCta>> = {
   telarus: { type: 'internal', href: '/partners/strategic-relationships' },
   fieldEffect: { type: 'external', href: 'https://fieldeffect.com/' },
   zoom: { type: 'external', href: 'https://www.zoom.com/' },
+  dialpad: { type: 'external', href: 'https://www.dialpad.com/' },
+  polyai: { type: 'external', href: 'https://poly.ai/' },
   lunavi: { type: 'external', href: 'https://www.lunavi.com/' },
   equinix: { type: 'external', href: 'https://www.equinix.com/' },
   terago: { type: 'external', href: 'https://terago.ca/' },

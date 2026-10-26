@@ -17,7 +17,12 @@ export default async function PartnersDirectoryList({ groupId, showHeading = tru
   const group = ecosystemDirectoryGroups.find((entry) => entry.id === groupId)
   if (!group) return null
 
-  const items = buildPartnersDirectoryItems(groupId, (key) => tEco(key), locale)
+  const items = buildPartnersDirectoryItems(
+    groupId,
+    (key) => tEco(key),
+    locale,
+    (tag) => t(`portfolio_${tag}`),
+  )
 
   return (
     <PartnersDirectoryExplorer
@@ -26,6 +31,7 @@ export default async function PartnersDirectoryList({ groupId, showHeading = tru
       showHeading={showHeading}
       businessNeedLabel={t('businessNeedLabel')}
       fitLabel={t('fitLabel')}
+      portfolioLabel={t('matrixPortfolio')}
       reviewedLabel={t('matrixReviewed')}
       organizationsNote={t('organizationsNote')}
       filterAllLabel={t('directoryFilterAll')}
@@ -35,6 +41,10 @@ export default async function PartnersDirectoryList({ groupId, showHeading = tru
       searchPlaceholder={t('directorySearchPlaceholder')}
       audienceAllLabel={t('audienceFilterAll')}
       exclusivityLabel={t('exclusivity_non_exclusive')}
+      compareCtaLabel={t('directoryCompareCta')}
+      filterBriefLabel={t('directoryFilterBriefLabel')}
+      filterBriefCta={t('directoryFilterBriefCta')}
+      progressLabel={t('directoryProgressLabel')}
       accessLabels={{
         advisor: t('access_advisor'),
         verified_supplier: t('access_verified_supplier'),

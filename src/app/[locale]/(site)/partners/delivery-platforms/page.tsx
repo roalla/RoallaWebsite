@@ -6,10 +6,13 @@ import StickyMobileCTA from '@/components/StickyMobileCTA'
 import PartnersClosingCta from '@/components/partners/PartnersClosingCta'
 import PartnersDirectoryList from '@/components/partners/PartnersDirectoryList'
 import PartnersHubContinue from '@/components/partners/PartnersHubContinue'
+import PartnersOutcomeVignette from '@/components/partners/PartnersOutcomeVignette'
 import PartnersPageActions from '@/components/partners/PartnersPageActions'
+import PartnersProofVignette from '@/components/partners/PartnersProofVignette'
 import PartnersRelationshipMatrix from '@/components/partners/PartnersRelationshipMatrix'
 import PartnersSectionHero from '@/components/partners/PartnersSectionHero'
 import PartnersSectionNav from '@/components/partners/PartnersSectionNav'
+import PartnersSoftPrompt from '@/components/partners/PartnersSoftPrompt'
 import { buildPageMetadata } from '@/lib/page-metadata'
 import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/structured-data'
 
@@ -89,7 +92,11 @@ export default async function DeliveryPlatformsPage({ params }: Props) {
       </div>
 
       <div className="container mx-auto px-4 pb-12 sm:px-6 lg:px-8 lg:pb-16">
-        <div className="mb-10">
+        <PartnersProofVignette />
+        <div className="mt-10">
+          <PartnersOutcomeVignette />
+        </div>
+        <div className="mb-10 mt-12">
           <h2 className="font-serif text-2xl font-bold text-slate-950">{t('matrixTitle')}</h2>
           <div className="mt-6">
             <PartnersRelationshipMatrix groupId="delivery-platforms" />
@@ -97,6 +104,13 @@ export default async function DeliveryPlatformsPage({ params }: Props) {
         </div>
         <PartnersDirectoryList groupId="delivery-platforms" showHeading={false} />
       </div>
+
+      <PartnersSoftPrompt
+        title={t('softPromptTitle')}
+        body={t('softPromptBody')}
+        ctaLabel={t('softPromptCta')}
+        dismissLabel={t('softPromptDismiss')}
+      />
 
       <PartnersClosingCta
         pagePath={path}

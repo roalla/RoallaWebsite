@@ -28,6 +28,18 @@ export type EcosystemGeography = 'canada' | 'north_america' | 'global'
 
 export type EcosystemAudienceTag = 'mid_market' | 'multi_site' | 'operations_heavy'
 
+/** Capability portfolio labels shown as matrix pills (not endorsements). */
+export type EcosystemPortfolioTag =
+  | 'security'
+  | 'unified_communications'
+  | 'conversational_ai'
+  | 'cloud'
+  | 'managed_services'
+  | 'infrastructure'
+  | 'connectivity'
+  | 'applications'
+  | 'solution_sourcing'
+
 export type EcosystemGovernanceRecord = {
   accessType: EcosystemAccessType
   exclusivity: 'non_exclusive'
@@ -36,6 +48,8 @@ export type EcosystemGovernanceRecord = {
   /** ISO year-month of last public review */
   reviewedAt: string
   audience: readonly EcosystemAudienceTag[]
+  /** Primary capability domains this organization is typically considered for */
+  portfolio: readonly EcosystemPortfolioTag[]
 }
 
 export const ecosystemGovernance: Record<EcosystemKey, EcosystemGovernanceRecord> = {
@@ -46,6 +60,7 @@ export const ecosystemGovernance: Record<EcosystemKey, EcosystemGovernanceRecord
     compensation: 'advisor_channel',
     reviewedAt: '2026-10',
     audience: ['mid_market', 'multi_site', 'operations_heavy'],
+    portfolio: ['solution_sourcing'],
   },
   fieldEffect: {
     accessType: 'verified_supplier',
@@ -54,6 +69,7 @@ export const ecosystemGovernance: Record<EcosystemKey, EcosystemGovernanceRecord
     compensation: 'referral_possible',
     reviewedAt: '2026-10',
     audience: ['mid_market', 'operations_heavy'],
+    portfolio: ['security'],
   },
   zoom: {
     accessType: 'verified_supplier',
@@ -62,6 +78,25 @@ export const ecosystemGovernance: Record<EcosystemKey, EcosystemGovernanceRecord
     compensation: 'referral_possible',
     reviewedAt: '2026-10',
     audience: ['mid_market', 'multi_site'],
+    portfolio: ['unified_communications'],
+  },
+  dialpad: {
+    accessType: 'provider',
+    exclusivity: 'non_exclusive',
+    geography: 'global',
+    compensation: 'none_listed',
+    reviewedAt: '2026-10',
+    audience: ['mid_market', 'multi_site'],
+    portfolio: ['unified_communications'],
+  },
+  polyai: {
+    accessType: 'provider',
+    exclusivity: 'non_exclusive',
+    geography: 'global',
+    compensation: 'none_listed',
+    reviewedAt: '2026-10',
+    audience: ['mid_market', 'operations_heavy'],
+    portfolio: ['conversational_ai'],
   },
   lunavi: {
     accessType: 'service_partner',
@@ -70,6 +105,7 @@ export const ecosystemGovernance: Record<EcosystemKey, EcosystemGovernanceRecord
     compensation: 'referral_possible',
     reviewedAt: '2026-10',
     audience: ['mid_market', 'operations_heavy'],
+    portfolio: ['cloud', 'managed_services', 'applications'],
   },
   equinix: {
     accessType: 'provider',
@@ -78,6 +114,7 @@ export const ecosystemGovernance: Record<EcosystemKey, EcosystemGovernanceRecord
     compensation: 'referral_possible',
     reviewedAt: '2026-10',
     audience: ['multi_site', 'operations_heavy'],
+    portfolio: ['infrastructure'],
   },
   terago: {
     accessType: 'provider',
@@ -86,6 +123,7 @@ export const ecosystemGovernance: Record<EcosystemKey, EcosystemGovernanceRecord
     compensation: 'referral_possible',
     reviewedAt: '2026-10',
     audience: ['mid_market', 'multi_site'],
+    portfolio: ['connectivity'],
   },
   thrive: {
     accessType: 'service_partner',
@@ -94,6 +132,7 @@ export const ecosystemGovernance: Record<EcosystemKey, EcosystemGovernanceRecord
     compensation: 'referral_possible',
     reviewedAt: '2026-10',
     audience: ['mid_market', 'operations_heavy'],
+    portfolio: ['managed_services', 'security', 'cloud'],
   },
   speechLogix: {
     accessType: 'independent_reseller',
@@ -102,6 +141,7 @@ export const ecosystemGovernance: Record<EcosystemKey, EcosystemGovernanceRecord
     compensation: 'reseller_possible',
     reviewedAt: '2026-10',
     audience: ['mid_market'],
+    portfolio: ['unified_communications'],
   },
 }
 

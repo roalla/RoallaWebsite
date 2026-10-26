@@ -5,6 +5,7 @@ import {
   type EcosystemCompensationCategory,
   type EcosystemGeography,
   type EcosystemAccessType,
+  type EcosystemPortfolioTag,
 } from '@/lib/ecosystem-governance'
 import {
   ecosystemCtas,
@@ -32,6 +33,8 @@ export type PartnersDirectoryItem = {
   reviewedAt: string
   reviewedLabel: string
   audience: readonly EcosystemAudienceTag[]
+  portfolio: readonly EcosystemPortfolioTag[]
+  portfolioLabels: readonly string[]
 }
 
 function tagsFromNeed(need: string): string[] {
@@ -45,6 +48,7 @@ export function buildPartnersDirectoryItems(
   groupId: (typeof ecosystemDirectoryGroups)[number]['id'],
   tEco: (key: string) => string,
   locale: string,
+  portfolioLabel: (tag: EcosystemPortfolioTag) => string = (tag) => tag,
 ): PartnersDirectoryItem[] {
   const group = ecosystemDirectoryGroups.find((entry) => entry.id === groupId)
   if (!group) return []
@@ -72,6 +76,8 @@ export function buildPartnersDirectoryItems(
       reviewedAt: gov.reviewedAt,
       reviewedLabel: formatReviewedMonth(gov.reviewedAt, locale),
       audience: gov.audience,
+      portfolio: gov.portfolio,
+      portfolioLabels: gov.portfolio.map(portfolioLabel),
     }
   })
 }

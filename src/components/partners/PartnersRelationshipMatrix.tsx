@@ -2,9 +2,11 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import {
   ecosystemGovernance,
   formatReviewedMonth,
+  type EcosystemPortfolioTag,
 } from '@/lib/ecosystem-governance'
 import { ecosystemDirectoryGroups, type EcosystemKey } from '@/lib/technologyEcosystem'
 import Reveal from '@/components/motion/Reveal'
+import PartnersRelationshipMatrixView from '@/components/partners/PartnersRelationshipMatrixView'
 
 type Props = {
   groupId?: (typeof ecosystemDirectoryGroups)[number]['id']
@@ -36,52 +38,37 @@ export default async function PartnersRelationshipMatrix({
   }
 
   const uniqueKeys = Array.from(new Set(keys))
+  const portfolioLabel = (tag: EcosystemPortfolioTag) => t(`portfolio_${tag}`)
+
+  const rows = uniqueKeys.map((key) => {
+    const gov = ecosystemGovernance[key]
+    return {
+      key,
+      name: tEco(`${key}.name`),
+      portfolioLabels: gov.portfolio.map(portfolioLabel),
+      access: t(`access_${gov.accessType}`),
+      exclusivity: t('exclusivity_non_exclusive'),
+      geography: t(`geo_${gov.geography}`),
+      compensation: t(`comp_${gov.compensation}`),
+      reviewed: formatReviewedMonth(gov.reviewedAt, locale),
+    }
+  })
 
   return (
-    <Reveal className="overflow-x-auto">
-      <table className="min-w-full border-collapse text-left text-sm">
-        <caption className="sr-only">{t('matrixCaption')}</caption>
-        <thead>
-          <tr className="border-b border-slate-300 text-xs uppercase tracking-[0.12em] text-slate-500">
-            <th scope="col" className="py-3 pr-4 font-bold">
-              {t('matrixOrg')}
-            </th>
-            <th scope="col" className="py-3 pr-4 font-bold">
-              {t('matrixAccess')}
-            </th>
-            <th scope="col" className="py-3 pr-4 font-bold">
-              {t('matrixExclusivity')}
-            </th>
-            <th scope="col" className="py-3 pr-4 font-bold">
-              {t('matrixGeography')}
-            </th>
-            <th scope="col" className="py-3 pr-4 font-bold">
-              {t('matrixCompensation')}
-            </th>
-            <th scope="col" className="py-3 font-bold">
-              {t('matrixReviewed')}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {uniqueKeys.map((key) => {
-            const gov = ecosystemGovernance[key]
-            return (
-              <tr key={key} className="border-b border-slate-200 align-top">
-                <th scope="row" className="py-3.5 pr-4 font-semibold text-slate-950">
-                  {tEco(`${key}.name`)}
-                </th>
-                <td className="py-3.5 pr-4 text-slate-700">{t(`access_${gov.accessType}`)}</td>
-                <td className="py-3.5 pr-4 text-slate-700">{t('exclusivity_non_exclusive')}</td>
-                <td className="py-3.5 pr-4 text-slate-700">{t(`geo_${gov.geography}`)}</td>
-                <td className="py-3.5 pr-4 text-slate-700">{t(`comp_${gov.compensation}`)}</td>
-                <td className="py-3.5 text-slate-700">{formatReviewedMonth(gov.reviewedAt, locale)}</td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
-      <p className="mt-4 text-xs leading-5 text-slate-500">{t('matrixNote')}</p>
+    <Reveal>
+      <PartnersRelationshipMatrixView
+        caption={t('matrixCaption')}
+        orgLabel={t('matrixOrg')}
+        portfolioLabel={t('matrixPortfolio')}
+        accessLabel={t('matrixAccess')}
+        exclusivityLabel={t('matrixExclusivity')}
+        geographyLabel={t('matrixGeography')}
+        compensationLabel={t('matrixCompensation')}
+        reviewedLabel={t('matrixReviewed')}
+        note={t('matrixNote')}
+        jumpHint={t('matrixJumpHint')}
+        rows={rows}
+      />
     </Reveal>
   )
 }

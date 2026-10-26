@@ -66,7 +66,11 @@ export default async function PartnersSectionHero({
         fill
         priority={imagePriority}
         sizes="100vw"
-        className={isSlate ? '-z-30 object-cover object-center opacity-30' : '-z-30 object-cover object-center opacity-40'}
+        className={
+          isSlate
+            ? 'partners-hero-media -z-30 object-cover object-center opacity-30'
+            : 'partners-hero-media -z-30 object-cover object-center opacity-40'
+        }
       />
       <div
         className={

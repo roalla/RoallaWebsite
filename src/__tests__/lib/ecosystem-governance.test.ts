@@ -15,4 +15,10 @@ describe('ecosystem governance integrity', () => {
       expect(ecosystemGovernance[key].exclusivity).toBe('non_exclusive')
     }
   })
+
+  it('assigns at least one portfolio capability to every organization', () => {
+    for (const key of ecosystemKeys) {
+      expect(ecosystemGovernance[key].portfolio.length).toBeGreaterThan(0)
+    }
+  })
 })

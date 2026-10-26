@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import Reveal from '@/components/motion/Reveal'
 import PartnersBrandLockup from '@/components/partners/PartnersBrandLockup'
-import { Link } from '@/i18n/navigation'
+import PartnersTrackLink from '@/components/partners/PartnersTrackLink'
 
 export type PartnersHeroCta =
   | {
@@ -33,6 +33,7 @@ type Props = {
   tone?: 'dark' | 'slate'
   primaryCta: PartnersHeroCta
   secondaryCta?: PartnersHeroCta
+  pagePath: string
 }
 
 export default async function PartnersSectionHero({
@@ -44,6 +45,7 @@ export default async function PartnersSectionHero({
   tone = 'dark',
   primaryCta,
   secondaryCta,
+  pagePath,
 }: Props) {
   const tCommon = await getTranslations('common')
   const t = await getTranslations('partnersPlatforms')
@@ -90,20 +92,24 @@ export default async function PartnersSectionHero({
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-200">{description}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Link
+            <PartnersTrackLink
               href={primaryCta.href}
+              event="partners_hero_cta"
+              eventParams={{ path: pagePath, slot: 'primary' }}
               className="inline-flex min-h-12 items-center justify-center rounded-lg bg-primary px-6 text-sm font-semibold text-slate-950 transition-colors hover:bg-primary-light"
             >
               {primaryCta.label}
               <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-            </Link>
+            </PartnersTrackLink>
             {secondaryCta ? (
-              <Link
+              <PartnersTrackLink
                 href={secondaryCta.href}
+                event="partners_hero_cta"
+                eventParams={{ path: pagePath, slot: 'secondary' }}
                 className="inline-flex min-h-12 items-center justify-center px-2 text-sm font-semibold text-white/90 underline-offset-4 hover:text-white hover:underline"
               >
                 {secondaryCta.label}
-              </Link>
+              </PartnersTrackLink>
             ) : null}
           </div>
         </Reveal>

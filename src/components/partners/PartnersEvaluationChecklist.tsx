@@ -1,8 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
 import Reveal from '@/components/motion/Reveal'
+import PartnersTrackLink from '@/components/partners/PartnersTrackLink'
+import { trackAnalyticsEvent } from '@/lib/analytics'
 import { Link } from '@/i18n/navigation'
 
 type Props = {
@@ -23,9 +25,24 @@ export default function PartnersEvaluationChecklist({
   compensationLinkLabel,
 }: Props) {
   const [checked, setChecked] = useState<Record<string, boolean>>({})
-  const done = criteria.filter((item) => checked[item.key]).length
+  const selectedKeys = useMemo(
+    () => criteria.filter((item) => checked[item.key]).map((item) => item.key),
+    [checked, criteria],
+  )
+  const done = selectedKeys.length
   const total = criteria.length
   const progress = total === 0 ? 0 : Math.round((done / total) * 100)
+
+  const briefHref =
+    selectedKeys.length > 0
+      ? ({
+          pathname: '/tools/technology-decision-brief' as const,
+          query: {
+            from: 'partners-evaluation',
+            criteria: selectedKeys.join(','),
+          },
+        } as const)
+      : ('/tools/technology-decision-brief' as const)
 
   return (
     <section aria-labelledby="evaluation-standard-heading">
@@ -55,7 +72,16 @@ export default function PartnersEvaluationChecklist({
             <Reveal as="li" key={item.key} delayMs={Math.min(index * 40, 200)}>
               <button
                 type="button"
-                onClick={() => setChecked((prev) => ({ ...prev, [item.key]: !prev[item.key] }))}
+                onClick={() => {
+                  setChecked((prev) => {
+                    const next = { ...prev, [item.key]: !prev[item.key] }
+                    trackAnalyticsEvent('partners_evaluation_toggle', {
+                      criterion: item.key,
+                      checked: !prev[item.key],
+                    })
+                    return next
+                  })
+                }}
                 aria-pressed={isOn}
                 className={
                   isOn
@@ -79,22 +105,29 @@ export default function PartnersEvaluationChecklist({
       </ul>
 
       <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <Link
-          href="/tools/technology-decision-brief"
+        <PartnersTrackLink
+          href={briefHref}
+          event="partners_evaluation_brief"
+          eventParams={{ criteria_count: done }}
           className="inline-flex min-h-12 items-center justify-center rounded-lg bg-primary px-6 text-sm font-semibold text-slate-950 transition-colors hover:bg-primary-light"
         >
           {primaryCtaLabel}
           <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-        </Link>
-        <Link
+        </PartnersTrackLink>
+        <PartnersTrackLink
           href={{ pathname: '/contact', query: { intent: 'consulting', focus: 'technology' } }}
+          event="partners_hero_cta"
+          eventParams={{ location: 'evaluation_secondary' }}
           className="inline-flex min-h-12 items-center justify-center px-2 text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
         >
           {secondaryCtaLabel}
-        </Link>
+        </PartnersTrackLink>
       </div>
       <p className="mt-5">
-        <Link href="/partners/compensation" className="text-sm font-semibold text-slate-600 underline-offset-4 hover:text-slate-900 hover:underline">
+        <Link
+          href="/partners/compensation"
+          className="text-sm font-semibold text-slate-600 underline-offset-4 hover:text-slate-900 hover:underline"
+        >
           {compensationLinkLabel}
         </Link>
       </p>

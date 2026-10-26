@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
+import { trackAnalyticsEvent, type AnalyticsEventName } from '@/lib/analytics'
 import type { ConsultationIntent, ConsultingFocus } from '@/lib/consultation-request'
 
 type StickyMobileCTAProps = {
@@ -25,6 +26,8 @@ type StickyMobileCTAProps = {
   offer?: string
   sublabel?: string
   brandMark?: boolean
+  analyticsEvent?: AnalyticsEventName
+  analyticsParams?: Record<string, string | number | boolean | undefined>
 }
 
 export default function StickyMobileCTA({
@@ -39,6 +42,8 @@ export default function StickyMobileCTA({
   offer,
   sublabel,
   brandMark = false,
+  analyticsEvent,
+  analyticsParams,
 }: StickyMobileCTAProps) {
   const linkHref = (() => {
     const query: Record<string, string> = {}
@@ -85,6 +90,10 @@ export default function StickyMobileCTA({
   const buttonClass =
     'flex w-full flex-col items-center justify-center rounded-lg bg-primary-dark hover:bg-primary-darker text-white font-semibold py-3 px-6 text-sm shadow-md transition-colors'
 
+  const onTrack = () => {
+    if (analyticsEvent) trackAnalyticsEvent(analyticsEvent, analyticsParams)
+  }
+
   const labelBlock = (
     <>
       <span className="inline-flex items-center gap-2">
@@ -102,11 +111,11 @@ export default function StickyMobileCTA({
       aria-label={label}
     >
       {anchorHref ? (
-        <a href={anchorHref} className={buttonClass}>
+        <a href={anchorHref} className={buttonClass} onClick={onTrack}>
           {labelBlock}
         </a>
       ) : (
-        <Link href={linkHref} className={buttonClass}>
+        <Link href={linkHref} className={buttonClass} onClick={onTrack}>
           {labelBlock}
         </Link>
       )}

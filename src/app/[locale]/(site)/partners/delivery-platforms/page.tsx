@@ -5,6 +5,9 @@ import JsonLd from '@/components/JsonLd'
 import StickyMobileCTA from '@/components/StickyMobileCTA'
 import PartnersClosingCta from '@/components/partners/PartnersClosingCta'
 import PartnersDirectoryList from '@/components/partners/PartnersDirectoryList'
+import PartnersHubContinue from '@/components/partners/PartnersHubContinue'
+import PartnersPageActions from '@/components/partners/PartnersPageActions'
+import PartnersRelationshipMatrix from '@/components/partners/PartnersRelationshipMatrix'
 import PartnersSectionHero from '@/components/partners/PartnersSectionHero'
 import PartnersSectionNav from '@/components/partners/PartnersSectionNav'
 import { buildPageMetadata } from '@/lib/page-metadata'
@@ -15,6 +18,7 @@ type Props = {
 }
 
 const path = '/partners/delivery-platforms'
+const ogImage = '/images/partners/partner-outcome-access.webp'
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
@@ -25,6 +29,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     path,
     title: t('deliveryPlatformsMetadataTitle'),
     description: t('deliveryPlatformsMetadataDescription'),
+    ogImage,
+    ogImageAlt: t('outcome1Alt'),
   })
 }
 
@@ -47,21 +53,12 @@ export default async function DeliveryPlatformsPage({ params }: Props) {
         ]}
       />
 
-      <div className="sr-only">
-        <Breadcrumb
-          items={[
-            { label: tBreadcrumb('home'), href: '/' },
-            { label: t('title'), href: '/partners' },
-            { label: t('deliveryPlatformsTitle') },
-          ]}
-        />
-      </div>
-
       <PartnersSectionHero
+        pagePath={path}
         eyebrow={t('organizationsEyebrow')}
         title={t('deliveryPlatformsTitle')}
         description={t('deliveryPlatformsDescription')}
-        imageSrc="/images/partners/partner-outcome-evaluate.webp"
+        imageSrc={ogImage}
         tone="slate"
         primaryCta={{
           label: t('deliveryPrimaryCta'),
@@ -75,11 +72,34 @@ export default async function DeliveryPlatformsPage({ params }: Props) {
 
       <PartnersSectionNav current={path} />
 
-      <div className="container mx-auto px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+      <div className="container mx-auto px-4 pt-6 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <Breadcrumb
+            items={[
+              { label: tBreadcrumb('home'), href: '/' },
+              { label: t('title'), href: '/partners' },
+              { label: t('deliveryPlatformsTitle') },
+            ]}
+          />
+          <PartnersPageActions pagePath={path} pageTitle={t('deliveryPlatformsTitle')} />
+        </div>
+        <div className="mt-6">
+          <PartnersHubContinue />
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 pb-12 sm:px-6 lg:px-8 lg:pb-16">
+        <div className="mb-10">
+          <h2 className="font-serif text-2xl font-bold text-slate-950">{t('matrixTitle')}</h2>
+          <div className="mt-6">
+            <PartnersRelationshipMatrix groupId="delivery-platforms" />
+          </div>
+        </div>
         <PartnersDirectoryList groupId="delivery-platforms" showHeading={false} />
       </div>
 
       <PartnersClosingCta
+        pagePath={path}
         title={t('deliveryCloseTitle')}
         body={t('deliveryCloseBody')}
         primaryCta={{
@@ -97,6 +117,8 @@ export default async function DeliveryPlatformsPage({ params }: Props) {
         sublabel={tCommon('ctaSubtext')}
         href="/services/digital"
         brandMark
+        analyticsEvent="partners_sticky_cta"
+        analyticsParams={{ path }}
       />
     </main>
   )

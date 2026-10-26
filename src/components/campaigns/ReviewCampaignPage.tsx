@@ -22,7 +22,7 @@ export default function ReviewCampaignPage({ campaign, locale }: { campaign: Cam
         ...servicePageJsonLd({ locale: language, path: page.path, name: page.eyebrow, description: page.metadataDescription, serviceType: page.eyebrow, offers: page.outcomes.map(([name, description]) => ({ name, description })), faqs: page.faqs.map(([question, answer]) => ({ question, answer })) }),
       ]} />
       <main>
-        <section className="relative overflow-hidden bg-slate-950 pb-20 pt-28 text-white lg:pb-28 lg:pt-36">
+        <section data-header-tone="dark" className="relative overflow-hidden bg-slate-950 pb-20 pt-28 text-white lg:pb-28 lg:pt-36">
           <div className="absolute inset-0 opacity-60" aria-hidden><div className="absolute -left-32 top-0 h-96 w-96 rounded-full bg-primary/30 blur-3xl" /><div className="absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-brand-gold/15 blur-3xl" /></div>
           <div className="container relative mx-auto grid gap-10 px-4 sm:px-6 lg:grid-cols-[1.1fr_.9fr] lg:items-center lg:px-8">
             <div>

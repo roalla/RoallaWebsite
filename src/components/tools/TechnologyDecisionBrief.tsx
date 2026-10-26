@@ -241,7 +241,13 @@ function choiceButton(active: boolean) {
     : "cursor-pointer rounded-xl border-2 border-slate-200 bg-white px-4 py-3.5 text-sm font-medium text-slate-700 transition hover:border-primary/50 hover:bg-slate-50";
 }
 
-export default function TechnologyDecisionBrief({ locale }: { locale: string }) {
+export default function TechnologyDecisionBrief({
+  locale,
+  evaluationCriteria = [],
+}: {
+  locale: string;
+  evaluationCriteria?: string[];
+}) {
   const language = locale === "fr" ? "fr" : "en";
   const t = copy[language];
   const [input, setInput] = useState(initial);
@@ -251,6 +257,12 @@ export default function TechnologyDecisionBrief({ locale }: { locale: string }) 
   const [step, setStep] = useState(1);
   const [showSaveReminder, setShowSaveReminder] = useState(false);
   const trackedSteps = useRef<Set<number>>(new Set());
+  const criteriaBanner =
+    evaluationCriteria.length > 0
+      ? language === "fr"
+        ? `Critères déjà considérés depuis l’écosystème (${evaluationCriteria.length}) : ${evaluationCriteria.join(" · ")}`
+        : `Criteria already considered from the ecosystem (${evaluationCriteria.length}): ${evaluationCriteria.join(" · ")}`
+      : null;
 
   useEffect(() => {
     try {
@@ -443,6 +455,11 @@ export default function TechnologyDecisionBrief({ locale }: { locale: string }) 
 
   return (
     <div className="space-y-6">
+      {criteriaBanner ? (
+        <div className="rounded-2xl border border-primary/30 bg-primary/[0.06] px-5 py-4 text-sm leading-6 text-slate-800 print:hidden">
+          {criteriaBanner}
+        </div>
+      ) : null}
       <div className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:px-6 print:hidden">
         <div className="inline-flex rounded-xl border border-slate-200 bg-slate-50 p-1">
           <button

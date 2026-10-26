@@ -1,8 +1,23 @@
 import type { Metadata } from "next";
 import TechnologyDecisionBrief from "@/components/tools/TechnologyDecisionBrief";
 import { buildPageMetadata } from "@/lib/page-metadata";
+import { getTranslations } from "next-intl/server";
 
-type Props = { params: Promise<{ locale: string }> };
+type Props = {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ from?: string; criteria?: string }>;
+};
+
+const standardKeys = [
+  "standard1",
+  "standard2",
+  "standard3",
+  "standard4",
+  "standard5",
+  "standard6",
+  "standard7",
+  "standard8",
+] as const;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -17,9 +32,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-export default async function Page({ params }: Props) {
+export default async function Page({ params, searchParams }: Props) {
   const { locale } = await params;
+  const query = await searchParams;
   const fr = locale === "fr";
+  let evaluationCriteria: string[] = [];
+
+  if (query.from === "partners-evaluation" && query.criteria) {
+    const t = await getTranslations({ locale, namespace: "partnersPlatforms" });
+    const selected = new Set(
+      query.criteria
+        .split(",")
+        .map((key) => key.trim())
+        .filter(Boolean),
+    );
+    evaluationCriteria = standardKeys.filter((key) => selected.has(key)).map((key) => t(key));
+  }
+
   return (
     <div className="page-shell">
       <div className="container mx-auto px-4 pb-16 pt-24 sm:px-6 lg:px-8 lg:pt-28">
@@ -39,7 +68,7 @@ export default async function Page({ params }: Props) {
           </p>
         </header>
         <main className="mx-auto mt-10 max-w-6xl">
-          <TechnologyDecisionBrief locale={locale} />
+          <TechnologyDecisionBrief locale={locale} evaluationCriteria={evaluationCriteria} />
         </main>
       </div>
     </div>

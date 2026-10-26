@@ -4,7 +4,11 @@ import Breadcrumb from '@/components/Breadcrumb'
 import JsonLd from '@/components/JsonLd'
 import StickyMobileCTA from '@/components/StickyMobileCTA'
 import PartnersClosingCta from '@/components/partners/PartnersClosingCta'
+import PartnersEnterpriseEngage from '@/components/partners/PartnersEnterpriseEngage'
+import PartnersEnterpriseFaq, { partnersEnterpriseFaqJsonLd } from '@/components/partners/PartnersEnterpriseFaq'
 import PartnersEvaluationSection from '@/components/partners/PartnersEvaluationSection'
+import PartnersHubContinue from '@/components/partners/PartnersHubContinue'
+import PartnersPageActions from '@/components/partners/PartnersPageActions'
 import PartnersSectionHero from '@/components/partners/PartnersSectionHero'
 import PartnersSectionNav from '@/components/partners/PartnersSectionNav'
 import { buildPageMetadata } from '@/lib/page-metadata'
@@ -15,6 +19,7 @@ type Props = {
 }
 
 const path = '/partners/evaluation-standard'
+const ogImage = '/images/partners/partner-outcome-evaluate.webp'
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
@@ -25,6 +30,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     path,
     title: t('evaluationMetadataTitle'),
     description: t('evaluationMetadataDescription'),
+    ogImage,
+    ogImageAlt: t('outcome2Alt'),
   })
 }
 
@@ -44,24 +51,16 @@ export default async function EvaluationStandardPage({ params }: Props) {
             { name: t('standardTitle') },
           ]),
           webPageJsonLd(locale, path, t('standardTitle'), t('evaluationMetadataDescription')),
+          partnersEnterpriseFaqJsonLd((key) => t(key)),
         ]}
       />
 
-      <div className="sr-only">
-        <Breadcrumb
-          items={[
-            { label: tBreadcrumb('home'), href: '/' },
-            { label: t('title'), href: '/partners' },
-            { label: t('standardTitle') },
-          ]}
-        />
-      </div>
-
       <PartnersSectionHero
+        pagePath={path}
         eyebrow={t('eyebrow')}
         title={t('standardTitle')}
         description={t('evaluationHeroDescription')}
-        imageSrc="/images/partners/partner-outcome-evaluate.webp"
+        imageSrc={ogImage}
         primaryCta={{
           label: t('evaluationPrimaryCta'),
           href: '/tools/technology-decision-brief',
@@ -74,11 +73,30 @@ export default async function EvaluationStandardPage({ params }: Props) {
 
       <PartnersSectionNav current={path} />
 
-      <div className="container mx-auto px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+      <div className="container mx-auto px-4 pt-6 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <Breadcrumb
+            items={[
+              { label: tBreadcrumb('home'), href: '/' },
+              { label: t('title'), href: '/partners' },
+              { label: t('standardTitle') },
+            ]}
+          />
+          <PartnersPageActions pagePath={path} pageTitle={t('standardTitle')} />
+        </div>
+        <div className="mt-6">
+          <PartnersHubContinue />
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 pb-12 sm:px-6 lg:px-8 lg:pb-16">
         <PartnersEvaluationSection />
+        <PartnersEnterpriseFaq />
+        <PartnersEnterpriseEngage />
       </div>
 
       <PartnersClosingCta
+        pagePath={path}
         title={t('evaluationCloseTitle')}
         body={t('evaluationCloseBody')}
         primaryCta={{
@@ -96,6 +114,8 @@ export default async function EvaluationStandardPage({ params }: Props) {
         sublabel={tCommon('ctaSubtext')}
         href="/tools/technology-decision-brief"
         brandMark
+        analyticsEvent="partners_sticky_cta"
+        analyticsParams={{ path }}
       />
     </main>
   )

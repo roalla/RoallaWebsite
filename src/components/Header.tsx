@@ -28,6 +28,7 @@ import { CLIENT_PORTAL_URL } from "@/lib/site";
 import { HEADER_INSIGHT_SLUGS, headerInsightsForGroup, type InsightSlug } from "@/lib/insights";
 import { trackAnalyticsEvent } from "@/lib/analytics";
 import { solutionsByNeedContent } from "@/lib/solutions-by-need";
+import { campaignReviewIds } from "@/lib/campaign-review-content";
 
 /** Canadian flag: red bands, white centre, red maple leaf (simplified) */
 function CanadianFlagIcon({ className }: { className?: string }) {
@@ -107,6 +108,20 @@ function getFocusables(container: HTMLElement | null): HTMLElement[] {
 /** Viewport band used to decide whether the fixed header sits over dark content */
 const HEADER_TONE_BAND_PX = 88;
 
+/** First paint for routes whose hero is dark before the tone observer connects. */
+function headerStartsOverDark(pathname: string): boolean {
+  return (
+    pathname === "/" ||
+    pathname === "/solutions" ||
+    pathname.startsWith("/solutions/") ||
+    pathname === "/executive-insights" ||
+    pathname === "/about" ||
+    pathname === "/partners" ||
+    pathname.startsWith("/partners/") ||
+    campaignReviewIds.some((id) => pathname === `/${id}`)
+  );
+}
+
 function observeHeaderTone(
   onChange: (overDark: boolean) => void,
 ): () => void {
@@ -165,15 +180,7 @@ const Header = ({
   const pathname = usePathname() ?? "/";
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [overDark, setOverDark] = useState(
-    pathname === "/" ||
-      pathname === "/solutions" ||
-      pathname.startsWith("/solutions/") ||
-      pathname === "/executive-insights" ||
-      pathname === "/about" ||
-      pathname === "/partners" ||
-      pathname.startsWith("/partners/"),
-  );
+  const [overDark, setOverDark] = useState(() => headerStartsOverDark(pathname));
   const [mounted, setMounted] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);

@@ -287,7 +287,7 @@ export default function HomeTechnologyEcosystem() {
 
         <div className="mt-8 flex justify-center">
           <Link
-            href={{ pathname: '/partners', hash: 'technology-providers' }}
+            href="/partners/technology-providers"
             className="inline-flex min-h-12 items-center justify-center rounded-lg bg-primary px-6 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
           >
             {t('viewAllCta')}

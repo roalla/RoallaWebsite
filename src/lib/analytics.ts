@@ -51,7 +51,17 @@ export type AnalyticsEventName =
   | "solutions_assessment_click"
   | "outcome_page_view"
   | "outcome_selection"
-  | "outcome_cta_click";
+  | "outcome_cta_click"
+  | "partners_hero_cta"
+  | "partners_start_here"
+  | "partners_directory_filter"
+  | "partners_directory_search"
+  | "partners_directory_external"
+  | "partners_evaluation_toggle"
+  | "partners_evaluation_brief"
+  | "partners_section_nav"
+  | "partners_sticky_cta"
+  | "partners_closing_cta";
 
 export function trackAnalyticsEvent(
   eventName: AnalyticsEventName,

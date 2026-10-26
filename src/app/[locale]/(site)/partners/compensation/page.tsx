@@ -5,6 +5,10 @@ import JsonLd from '@/components/JsonLd'
 import StickyMobileCTA from '@/components/StickyMobileCTA'
 import PartnersClosingCta from '@/components/partners/PartnersClosingCta'
 import PartnersCompensationSection from '@/components/partners/PartnersCompensationSection'
+import PartnersEnterpriseFaq, { partnersEnterpriseFaqJsonLd } from '@/components/partners/PartnersEnterpriseFaq'
+import PartnersGovernanceBands from '@/components/partners/PartnersGovernanceBands'
+import PartnersHubContinue from '@/components/partners/PartnersHubContinue'
+import PartnersPageActions from '@/components/partners/PartnersPageActions'
 import PartnersSectionHero from '@/components/partners/PartnersSectionHero'
 import PartnersSectionNav from '@/components/partners/PartnersSectionNav'
 import { buildPageMetadata } from '@/lib/page-metadata'
@@ -15,6 +19,7 @@ type Props = {
 }
 
 const path = '/partners/compensation'
+const ogImage = '/images/partners/partner-outcome-disclose.webp'
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
@@ -25,6 +30,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     path,
     title: t('compensationMetadataTitle'),
     description: t('compensationMetadataDescription'),
+    ogImage,
+    ogImageAlt: t('outcome3Alt'),
   })
 }
 
@@ -44,24 +51,16 @@ export default async function CompensationPage({ params }: Props) {
             { name: t('compensationTitle') },
           ]),
           webPageJsonLd(locale, path, t('compensationTitle'), t('compensationMetadataDescription')),
+          partnersEnterpriseFaqJsonLd((key) => t(key)),
         ]}
       />
 
-      <div className="sr-only">
-        <Breadcrumb
-          items={[
-            { label: tBreadcrumb('home'), href: '/' },
-            { label: t('title'), href: '/partners' },
-            { label: t('compensationTitle') },
-          ]}
-        />
-      </div>
-
       <PartnersSectionHero
+        pagePath={path}
         eyebrow={t('eyebrow')}
         title={t('compensationTitle')}
         description={t('compensationHeroDescription')}
-        imageSrc="/images/partners/partner-outcome-disclose.webp"
+        imageSrc={ogImage}
         tone="slate"
         primaryCta={{
           label: t('compensationPrimaryCta'),
@@ -75,11 +74,32 @@ export default async function CompensationPage({ params }: Props) {
 
       <PartnersSectionNav current={path} />
 
-      <div className="container mx-auto px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+      <div className="container mx-auto px-4 pt-6 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <Breadcrumb
+            items={[
+              { label: tBreadcrumb('home'), href: '/' },
+              { label: t('title'), href: '/partners' },
+              { label: t('compensationTitle') },
+            ]}
+          />
+          <PartnersPageActions pagePath={path} pageTitle={t('compensationTitle')} />
+        </div>
+        <div className="mt-6">
+          <PartnersHubContinue />
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 pb-12 sm:px-6 lg:px-8 lg:pb-16">
         <PartnersCompensationSection />
+        <div className="mt-12">
+          <PartnersGovernanceBands />
+        </div>
+        <PartnersEnterpriseFaq />
       </div>
 
       <PartnersClosingCta
+        pagePath={path}
         title={t('compensationCloseTitle')}
         body={t('compensationCloseBody')}
         primaryCta={{
@@ -98,6 +118,8 @@ export default async function CompensationPage({ params }: Props) {
         intent="consulting"
         focus="technology"
         brandMark
+        analyticsEvent="partners_sticky_cta"
+        analyticsParams={{ path }}
       />
     </main>
   )

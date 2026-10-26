@@ -2,19 +2,36 @@
 
 import { useMemo, useState } from 'react'
 import Image from 'next/image'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Search } from 'lucide-react'
 import Reveal from '@/components/motion/Reveal'
+import { trackAnalyticsEvent } from '@/lib/analytics'
 import type { PartnersDirectoryItem } from '@/lib/partners-directory'
+import type {
+  EcosystemAccessType,
+  EcosystemAudienceTag,
+  EcosystemCompensationCategory,
+  EcosystemGeography,
+} from '@/lib/ecosystem-governance'
 
 type Props = {
   headingId: string
   heading: string
   showHeading: boolean
   businessNeedLabel: string
+  fitLabel: string
+  reviewedLabel: string
   organizationsNote: string
   filterAllLabel: string
   emptyLabel: string
   curatorLabel: string
+  searchLabel: string
+  searchPlaceholder: string
+  audienceAllLabel: string
+  exclusivityLabel: string
+  accessLabels: Record<EcosystemAccessType, string>
+  geoLabels: Record<EcosystemGeography, string>
+  compLabels: Record<EcosystemCompensationCategory, string>
+  audienceLabels: Record<EcosystemAudienceTag, string>
   items: PartnersDirectoryItem[]
 }
 
@@ -23,13 +40,25 @@ export default function PartnersDirectoryExplorer({
   heading,
   showHeading,
   businessNeedLabel,
+  fitLabel,
+  reviewedLabel,
   organizationsNote,
   filterAllLabel,
   emptyLabel,
   curatorLabel,
+  searchLabel,
+  searchPlaceholder,
+  audienceAllLabel,
+  exclusivityLabel,
+  accessLabels,
+  geoLabels,
+  compLabels,
+  audienceLabels,
   items,
 }: Props) {
   const [activeTag, setActiveTag] = useState<string | null>(null)
+  const [audience, setAudience] = useState<EcosystemAudienceTag | null>(null)
+  const [query, setQuery] = useState('')
 
   const tags = useMemo(() => {
     const seen = new Set<string>()
@@ -45,12 +74,32 @@ export default function PartnersDirectoryExplorer({
     return ordered.slice(0, 8)
   }, [items])
 
-  const visible = activeTag
-    ? items.filter((item) =>
+  const audiences = useMemo(() => {
+    const seen = new Set<EcosystemAudienceTag>()
+    for (const item of items) {
+      for (const tag of item.audience) seen.add(tag)
+    }
+    return Array.from(seen)
+  }, [items])
+
+  const visible = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    return items.filter((item) => {
+      const tagOk =
+        !activeTag ||
         item.filterTags.some((tag) => tag.toLowerCase() === activeTag.toLowerCase()) ||
-        item.need.toLowerCase().includes(activeTag.toLowerCase()),
+        item.need.toLowerCase().includes(activeTag.toLowerCase())
+      if (!tagOk) return false
+      if (audience && !item.audience.includes(audience)) return false
+      if (!q) return true
+      return (
+        item.name.toLowerCase().includes(q) ||
+        item.relationship.toLowerCase().includes(q) ||
+        item.need.toLowerCase().includes(q) ||
+        item.fit.toLowerCase().includes(q)
       )
-    : items
+    })
+  }, [activeTag, audience, items, query])
 
   return (
     <section aria-labelledby={headingId}>
@@ -64,11 +113,76 @@ export default function PartnersDirectoryExplorer({
         </h2>
       )}
 
-      {tags.length > 1 ? (
-        <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label={filterAllLabel}>
+      <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <label className="relative block min-w-0 flex-1 sm:max-w-sm">
+          <span className="sr-only">{searchLabel}</span>
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden />
+          <input
+            type="search"
+            value={query}
+            onChange={(event) => {
+              const next = event.target.value
+              setQuery(next)
+              if (next.trim().length === 1 || next.trim().length === 0) {
+                trackAnalyticsEvent('partners_directory_search', { has_query: next.trim().length > 0 })
+              }
+            }}
+            placeholder={searchPlaceholder}
+            className="min-h-11 w-full rounded-lg border border-slate-200 bg-white py-2 pl-10 pr-3 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+          />
+        </label>
+      </div>
+
+      {audiences.length > 0 ? (
+        <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label={audienceAllLabel}>
           <button
             type="button"
-            onClick={() => setActiveTag(null)}
+            onClick={() => {
+              setAudience(null)
+              trackAnalyticsEvent('partners_directory_filter', { audience: 'all' })
+            }}
+            className={
+              audience === null
+                ? 'rounded-full bg-slate-900 px-3.5 py-1.5 text-sm font-semibold text-white'
+                : 'rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-sm font-medium text-slate-700 transition hover:border-slate-300'
+            }
+            aria-pressed={audience === null}
+          >
+            {audienceAllLabel}
+          </button>
+          {audiences.map((tag) => {
+            const selected = audience === tag
+            return (
+              <button
+                key={tag}
+                type="button"
+                onClick={() => {
+                  const next = selected ? null : tag
+                  setAudience(next)
+                  trackAnalyticsEvent('partners_directory_filter', { audience: next ?? 'all' })
+                }}
+                className={
+                  selected
+                    ? 'rounded-full bg-slate-900 px-3.5 py-1.5 text-sm font-semibold text-white'
+                    : 'rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-sm font-medium text-slate-700 transition hover:border-slate-300'
+                }
+                aria-pressed={selected}
+              >
+                {audienceLabels[tag]}
+              </button>
+            )
+          })}
+        </div>
+      ) : null}
+
+      {tags.length > 1 ? (
+        <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label={filterAllLabel}>
+          <button
+            type="button"
+            onClick={() => {
+              setActiveTag(null)
+              trackAnalyticsEvent('partners_directory_filter', { tag: 'all' })
+            }}
             className={
               activeTag === null
                 ? 'rounded-full bg-slate-900 px-3.5 py-1.5 text-sm font-semibold text-white'
@@ -84,7 +198,11 @@ export default function PartnersDirectoryExplorer({
               <button
                 key={tag}
                 type="button"
-                onClick={() => setActiveTag(selected ? null : tag)}
+                onClick={() => {
+                  const next = selected ? null : tag
+                  setActiveTag(next)
+                  trackAnalyticsEvent('partners_directory_filter', { tag: next ?? 'all' })
+                }}
                 className={
                   selected
                     ? 'rounded-full bg-slate-900 px-3.5 py-1.5 text-sm font-semibold text-white'
@@ -99,7 +217,7 @@ export default function PartnersDirectoryExplorer({
         </div>
       ) : null}
 
-      <ul className={`${showHeading || tags.length > 1 ? 'mt-8' : ''} divide-y divide-slate-200 border-y border-slate-200`}>
+      <ul className="mt-8 divide-y divide-slate-200 border-y border-slate-200">
         {visible.length === 0 ? (
           <li className="py-10 text-sm text-slate-600">{emptyLabel}</li>
         ) : (
@@ -139,11 +257,31 @@ export default function PartnersDirectoryExplorer({
                   <p className="mt-3 text-sm leading-6 text-slate-500">
                     <span className="font-semibold text-slate-700">{businessNeedLabel}:</span> {item.need}
                   </p>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">
+                    <span className="font-semibold text-slate-900">{fitLabel}:</span> {item.fit}
+                  </p>
+                  <dl className="mt-4 grid gap-2 text-xs text-slate-600 sm:grid-cols-2">
+                    <div>
+                      <dt className="font-semibold text-slate-800">{accessLabels[item.accessType]}</dt>
+                      <dd>
+                        {geoLabels[item.geography]} · {exclusivityLabel}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="font-semibold text-slate-800">{compLabels[item.compensation]}</dt>
+                      <dd>
+                        {reviewedLabel}: {item.reviewedLabel}
+                      </dd>
+                    </div>
+                  </dl>
                   {item.externalCta ? (
                     <a
                       href={item.externalCta.href}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() =>
+                        trackAnalyticsEvent('partners_directory_external', { partner: item.key })
+                      }
                       className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-primary-dark hover:underline"
                     >
                       {item.externalCta.label}

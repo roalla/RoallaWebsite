@@ -222,7 +222,7 @@ export default function OutcomeLandingPage({
               <h2 className="mt-3 max-w-3xl font-serif text-3xl font-bold text-slate-950">{copy.supplierTitle}</h2>
               <p className="mt-4 max-w-4xl leading-7 text-slate-700">{copy.supplierDescription}</p>
               <Link
-                href={{ pathname: '/partners', hash: 'technology-providers' }}
+                href="/partners/technology-providers"
                 data-outcome-track="supplier_context|providers"
                 className="mt-5 inline-flex min-h-[44px] items-center font-semibold text-primary-dark underline-offset-4 hover:underline"
               >

@@ -1,5 +1,6 @@
-import { getTranslations } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import PartnersBrandLockup from '@/components/partners/PartnersBrandLockup'
+import PartnersEnterpriseArtifacts from '@/components/partners/PartnersEnterpriseArtifacts'
 import PartnersEvaluationChecklist from '@/components/partners/PartnersEvaluationChecklist'
 
 const standardKeys = [
@@ -16,6 +17,8 @@ const standardKeys = [
 export default async function PartnersEvaluationSection() {
   const t = await getTranslations('partnersPlatforms')
   const tCommon = await getTranslations('common')
+  const locale = await getLocale()
+  const criteria = standardKeys.map((key) => t(key))
 
   return (
     <>
@@ -38,6 +41,7 @@ export default async function PartnersEvaluationSection() {
         secondaryCtaLabel={t('evaluationSecondaryCta')}
         compensationLinkLabel={t('evaluationCompensationLink')}
       />
+      <PartnersEnterpriseArtifacts locale={locale} criteria={criteria} />
     </>
   )
 }

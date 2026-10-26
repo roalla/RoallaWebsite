@@ -170,7 +170,8 @@ const Header = ({
       pathname === "/solutions" ||
       pathname.startsWith("/solutions/") ||
       pathname === "/executive-insights" ||
-      pathname === "/about",
+      pathname === "/about" ||
+      pathname === "/partners",
   );
   const [mounted, setMounted] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);

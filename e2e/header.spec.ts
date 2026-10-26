@@ -34,10 +34,24 @@ test.describe("Header", () => {
     await expect(
       menu.getByRole("menuitem", { name: /View all outcome pathways/i }),
     ).toHaveAttribute("href", "/en/solutions");
-    await expect(
-      menu.locator('a[href="/en/partners"]'),
-    ).toHaveAttribute("role", "menuitem");
-    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(12);
+    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(11);
+  });
+
+  test("Ecosystem exposes the approved desktop destinations without a duplicate", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await page.goto("/en");
+
+    const navigation = page.getByLabel("Main navigation");
+    await navigation.getByRole("button", { name: "Ecosystem", exact: true }).click();
+    const menu = page.locator('[aria-labelledby="ecosystem-dropdown-desktop"]');
+    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(6);
+    await expect(menu.getByRole("menuitem", { name: "Ecosystem Overview" })).toHaveAttribute("href", "/en/partners");
+    await expect(menu.getByRole("menuitem", { name: "Technology Providers" })).toHaveAttribute("href", "/en/partners#technology-providers");
+    await expect(menu.getByRole("menuitem", { name: "Delivery Platforms" })).toHaveAttribute("href", "/en/partners#delivery-platforms");
+    await expect(menu.getByRole("menuitem", { name: "Strategic Relationships" })).toHaveAttribute("href", "/en/partners#strategic-relationships");
+    await expect(menu.getByRole("menuitem", { name: "How We Evaluate Solutions" })).toHaveAttribute("href", "/en/partners#evaluation-standard");
+    await expect(menu.getByRole("menuitem", { name: "Commercial Transparency" })).toHaveAttribute("href", "/en/partners#compensation");
+    await expect(navigation.getByRole("button", { name: "Ecosystem", exact: true })).toHaveCount(1);
   });
 
   test("digital portfolio is a persistent primary destination", async ({ page }) => {

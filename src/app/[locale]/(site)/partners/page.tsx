@@ -17,7 +17,8 @@ import Breadcrumb from '@/components/Breadcrumb'
 import JsonLd from '@/components/JsonLd'
 import { Link } from '@/i18n/navigation'
 import { buildPageMetadata } from '@/lib/page-metadata'
-import { breadcrumbJsonLd } from '@/lib/structured-data'
+import { breadcrumbJsonLd, ecosystemItemListJsonLd, webPageJsonLd } from '@/lib/structured-data'
+import { ecosystemCtas, ecosystemDirectoryGroups, ecosystemKeys, ecosystemLogos } from '@/lib/technologyEcosystem'
 
 type Props = {
   params: Promise<{ locale: string }>
@@ -27,7 +28,7 @@ const categoryIcons = [CloudCog, ShieldCheck, Bot, PhoneCall, Network, Radio] as
 const categoryKeys = ['category1', 'category2', 'category3', 'category4', 'category5', 'category6'] as const
 const standardKeys = ['standard1', 'standard2', 'standard3', 'standard4', 'standard5', 'standard6', 'standard7', 'standard8'] as const
 const partnerOutcomes = [
-  { key: 'outcome1', image: '/images/partners/partner-outcome-access.webp', href: '#verified-access' },
+  { key: 'outcome1', image: '/images/partners/partner-outcome-access.webp', href: '#strategic-relationships' },
   { key: 'outcome2', image: '/images/partners/partner-outcome-evaluate.webp', href: '#evaluation-standard' },
   { key: 'outcome3', image: '/images/partners/partner-outcome-disclose.webp', href: '#compensation' },
 ] as const
@@ -47,21 +48,34 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function PartnersPage({ params }: Props) {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'partnersPlatforms' })
+  const tEco = await getTranslations({ locale, namespace: 'home.technologyEcosystem' })
   const tBreadcrumb = await getTranslations('breadcrumb')
 
   return (
     <main className="page-shell">
       <JsonLd
-        data={breadcrumbJsonLd(locale, [
+        data={[
+          breadcrumbJsonLd(locale, [
           { name: tBreadcrumb('home'), path: '' },
           { name: t('title') },
-        ])}
+          ]),
+          webPageJsonLd(locale, '/partners', t('title'), t('metadataDescription')),
+          ecosystemItemListJsonLd(
+            locale,
+            t('organizationsTitle'),
+            ecosystemKeys.map((key) => ({
+              id: key === 'telarus' ? 'strategic-relationships' : key,
+              name: tEco(`${key}.name`),
+              description: `${tEco(`${key}.relationship`)} — ${tEco(`${key}.need`)}`,
+            })),
+          ),
+        ]}
       />
       <div className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent" aria-hidden />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16 lg:pb-24">
         <Breadcrumb items={[{ label: tBreadcrumb('home'), href: '/' }, { label: t('title') }]} />
 
-        <header className="py-10 lg:py-14">
+        <header id="ecosystem-overview" className="scroll-mt-28 py-10 lg:py-14">
           <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm lg:grid lg:grid-cols-[1.05fr_.95fr]">
             <div className="flex flex-col justify-center p-7 sm:p-9 lg:p-12">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-dark">{t('eyebrow')}</p>
@@ -137,7 +151,7 @@ export default async function PartnersPage({ params }: Props) {
           </div>
         </section>
 
-        <section id="verified-access" className="scroll-mt-28 rounded-2xl border border-primary/25 bg-white p-6 lg:p-9" aria-labelledby="telarus-heading">
+        <section id="strategic-relationships" className="scroll-mt-28 rounded-2xl border border-primary/25 bg-white p-6 lg:p-9" aria-labelledby="telarus-heading">
           <div className="flex flex-col gap-7 lg:flex-row lg:items-start lg:justify-between">
             <div className="max-w-3xl">
               <div className="flex items-center gap-3">
@@ -145,11 +159,12 @@ export default async function PartnersPage({ params }: Props) {
                   <Handshake className="h-5 w-5 text-primary-dark" aria-hidden />
                 </span>
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">{t('verifiedLabel')}</p>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">{t('strategicRelationshipsTitle')}</p>
                   <h2 id="telarus-heading" className="text-2xl font-serif font-bold text-slate-900">{t('telarusTitle')}</h2>
                 </div>
               </div>
               <p className="mt-5 leading-relaxed text-slate-700">{t('telarusBody')}</p>
+              <p className="mt-4 text-sm leading-6 text-slate-600"><span className="font-semibold text-slate-900">{t('businessNeedLabel')}:</span> {tEco('telarus.need')}</p>
             </div>
             <div className="rounded-xl border border-slate-200 bg-slate-50 px-5 py-4 lg:max-w-xs">
               <p className="text-sm font-semibold text-slate-900">{t('positioningTitle')}</p>
@@ -195,6 +210,61 @@ export default async function PartnersPage({ params }: Props) {
               </Link>
             </div>
           </div>
+        </section>
+
+        <section className="mt-10" aria-labelledby="ecosystem-organizations-heading">
+          <div className="max-w-3xl">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{t('organizationsEyebrow')}</p>
+            <h2 id="ecosystem-organizations-heading" className="mt-3 text-3xl font-serif font-bold text-slate-950 lg:text-4xl">{t('organizationsTitle')}</h2>
+            <p className="mt-4 leading-7 text-slate-600">{t('organizationsDescription')}</p>
+          </div>
+
+          <div className="mt-8 space-y-10">
+            {ecosystemDirectoryGroups.map((group) => (
+              <section key={group.id} id={group.id} className="scroll-mt-28" aria-labelledby={`${group.id}-heading`}>
+                <div className="max-w-3xl">
+                  <h3 id={`${group.id}-heading`} className="text-2xl font-serif font-bold text-slate-950">{t(group.titleKey)}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{t(group.descriptionKey)}</p>
+                </div>
+                <ul className="mt-5 grid gap-5 lg:grid-cols-2">
+                  {group.keys.map((key) => {
+                    const logo = ecosystemLogos[key]
+                    const cta = ecosystemCtas[key]
+                    return (
+                      <li id={key} key={key} className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                        <div className="flex items-start gap-4">
+                          <div className="flex h-14 w-36 shrink-0 items-center justify-center rounded-xl bg-white px-3 ring-1 ring-slate-200">
+                            {logo ? (
+                              <Image src={logo.src} alt="" width={logo.width} height={logo.height} className={logo.className} />
+                            ) : (
+                              <span className="text-base font-extrabold tracking-tight text-slate-900">{tEco(`${key}.wordmark`)}</span>
+                            )}
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary-dark">{tEco(`${key}.relationship`)}</p>
+                            <h4 className="mt-1 text-xl font-serif font-bold text-slate-950">{tEco(`${key}.name`)}</h4>
+                          </div>
+                        </div>
+                        <p className="mt-4 text-sm leading-6 text-slate-600">{tEco(`${key}.description`)}</p>
+                        <div className="mt-4 rounded-xl bg-slate-50 px-4 py-3">
+                          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">{t('businessNeedLabel')}</p>
+                          <p className="mt-1 text-sm leading-6 text-slate-800">{tEco(`${key}.need`)}</p>
+                        </div>
+                        {cta?.type === 'external' ? (
+                          <a href={cta.href} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-primary-dark hover:underline">
+                            {tEco(`${key}.cta`)}
+                            <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                          </a>
+                        ) : null}
+                      </li>
+                    )
+                  })}
+                </ul>
+              </section>
+            ))}
+          </div>
+
+          <p className="mt-8 rounded-xl border border-slate-200 bg-slate-50 px-5 py-4 text-sm leading-6 text-slate-600">{t('organizationsNote')}</p>
         </section>
 
         <div className="mt-10 grid gap-8 lg:grid-cols-2">

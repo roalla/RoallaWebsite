@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
+import { permanentRedirect } from 'next/navigation'
 import Breadcrumb from '@/components/Breadcrumb'
 import JsonLd from '@/components/JsonLd'
 import { Link } from '@/i18n/navigation'
@@ -27,6 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProvidersPage({ params }: Props) {
   const { locale } = await params
+  permanentRedirect(`/${locale}/partners#technology-providers`)
   const t = await getTranslations({ locale, namespace: 'providersPage' })
   const tEco = await getTranslations({ locale, namespace: 'home.technologyEcosystem' })
   const tBreadcrumb = await getTranslations('breadcrumb')

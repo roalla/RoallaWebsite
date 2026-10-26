@@ -179,14 +179,17 @@ const Header = ({
   const localeDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const localeDropdownMobileRef = useRef<HTMLDivElement>(null);
   const digitalDropdownDesktopRef = useRef<HTMLDivElement>(null);
+  const ecosystemDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const workshopsDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const resourcesDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const previousMenuOpen = useRef(false);
   const [localeDropdownOpen, setLocaleDropdownOpen] = useState(false);
   const [digitalDropdownOpen, setDigitalDropdownOpen] = useState(false);
+  const [ecosystemDropdownOpen, setEcosystemDropdownOpen] = useState(false);
   const [workshopsDropdownOpen, setWorkshopsDropdownOpen] = useState(false);
   const [resourcesDropdownOpen, setResourcesDropdownOpen] = useState(false);
   const [digitalMobileExpanded, setDigitalMobileExpanded] = useState(false);
+  const [ecosystemMobileExpanded, setEcosystemMobileExpanded] = useState(false);
   const [workshopsMobileExpanded, setWorkshopsMobileExpanded] = useState(false);
   const [resourcesMobileExpanded, setResourcesMobileExpanded] = useState(false);
 
@@ -287,6 +290,28 @@ const Header = ({
   }, [digitalDropdownOpen]);
 
   useEffect(() => {
+    if (!ecosystemDropdownOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as Node;
+      if (!ecosystemDropdownDesktopRef.current?.contains(target)) {
+        setEcosystemDropdownOpen(false);
+      }
+    };
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setEcosystemDropdownOpen(false);
+        document.getElementById("ecosystem-dropdown-desktop")?.focus();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [ecosystemDropdownOpen]);
+
+  useEffect(() => {
     if (!workshopsDropdownOpen) return;
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
@@ -325,8 +350,9 @@ const Header = ({
   }, [resourcesDropdownOpen]);
 
   const closeOtherDesktopDropdowns = useCallback(
-    (keep: "digital" | "workshops" | "resources" | "locale") => {
+    (keep: "digital" | "ecosystem" | "workshops" | "resources" | "locale") => {
       if (keep !== "digital") setDigitalDropdownOpen(false);
+      if (keep !== "ecosystem") setEcosystemDropdownOpen(false);
       if (keep !== "workshops") setWorkshopsDropdownOpen(false);
       if (keep !== "resources") setResourcesDropdownOpen(false);
       if (keep !== "locale") setLocaleDropdownOpen(false);
@@ -341,6 +367,7 @@ const Header = ({
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
     setDigitalMobileExpanded(false);
+    setEcosystemMobileExpanded(false);
     setWorkshopsMobileExpanded(false);
     setResourcesMobileExpanded(false);
   }, []);
@@ -525,7 +552,15 @@ const Header = ({
   const moreHelpLinks = [
     { nameKey: "helpDigitalProducts" as const, href: "/services/digital-products" as const },
     { nameKey: "helpManagedOptimization" as const, href: "/services/managed-optimization" as const },
-    { nameKey: "technologyPartners" as const, href: "/partners" as const },
+  ];
+
+  const ecosystemLinks = [
+    { nameKey: "ecosystemOverview" as const, href: "/partners" as const },
+    { nameKey: "ecosystemTechnologyProviders" as const, href: { pathname: "/partners" as const, hash: "technology-providers" } },
+    { nameKey: "ecosystemDeliveryPlatforms" as const, href: { pathname: "/partners" as const, hash: "delivery-platforms" } },
+    { nameKey: "ecosystemStrategicRelationships" as const, href: { pathname: "/partners" as const, hash: "strategic-relationships" } },
+    { nameKey: "ecosystemEvaluation" as const, href: { pathname: "/partners" as const, hash: "evaluation-standard" } },
+    { nameKey: "ecosystemTransparency" as const, href: { pathname: "/partners" as const, hash: "compensation" } },
   ];
 
   const workshopLinks: {
@@ -610,10 +645,10 @@ const Header = ({
     pathname === "/services/search-ai-visibility" ||
     pathname === "/services/managed-optimization" ||
     pathname === "/services/digital-events" ||
-    pathname === "/partners" ||
     pathname === "/services/portfolio";
 
   const isAdvisoryActive = pathname === "/services/business-advisory";
+  const isEcosystemActive = pathname === "/partners";
   const isWorkshopsActive =
     pathname === "/programs/workshops" ||
     pathname === "/programs/workshops/focus-circle" ||
@@ -672,7 +707,8 @@ const Header = ({
     } else {
       setResourcesMobileExpanded(false);
     }
-  }, [isMenuOpen, pathname, isDigitalActive, isResourcesActive]);
+    setEcosystemMobileExpanded(isEcosystemActive);
+  }, [isMenuOpen, pathname, isDigitalActive, isEcosystemActive, isResourcesActive]);
 
   const showFoundingPromo =
     pathname === "/services/digital" ||
@@ -946,6 +982,61 @@ const Header = ({
                     </span>
                     <ArrowRight className="h-4 w-4 shrink-0 text-primary" aria-hidden />
                   </Link>
+                </div>
+              </div>
+
+              <div className="relative" ref={ecosystemDropdownDesktopRef}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    closeOtherDesktopDropdowns("ecosystem");
+                    setEcosystemDropdownOpen((open) => !open);
+                  }}
+                  aria-expanded={ecosystemDropdownOpen}
+                  aria-haspopup="menu"
+                  id="ecosystem-dropdown-desktop"
+                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
+                    isEcosystemActive || ecosystemDropdownOpen
+                      ? "text-primary"
+                      : navIdleClass
+                  } ${ecosystemDropdownOpen ? navOpenBgClass : ""}`}
+                >
+                  {t("ecosystem")}
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${ecosystemDropdownOpen ? "rotate-180" : ""}`}
+                  />
+                  <span
+                    className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                      isEcosystemActive ? "w-full" : "w-0 group-hover:w-full"
+                    }`}
+                  />
+                </button>
+                <div
+                  role="menu"
+                  aria-labelledby="ecosystem-dropdown-desktop"
+                  className={`absolute left-1/2 top-full z-50 mt-2 w-80 -translate-x-1/2 overflow-hidden rounded-xl border border-white/10 bg-zinc-950 p-2 shadow-2xl shadow-black/60 ${dropdownPanelClass(ecosystemDropdownOpen)}`}
+                >
+                  {ecosystemLinks.map((item) => {
+                    const current = typeof item.href === "string" && pathname === item.href;
+                    return (
+                      <Link
+                        key={item.nameKey}
+                        href={item.href}
+                        role="menuitem"
+                        aria-current={current ? "page" : undefined}
+                        onClick={() => {
+                          setEcosystemDropdownOpen(false);
+                          closeMenu();
+                        }}
+                        className={`flex min-h-11 items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors hover:bg-white/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40 ${
+                          current ? "bg-primary/10 text-primary" : "text-slate-200"
+                        }`}
+                      >
+                        {t(item.nameKey)}
+                        <ArrowRight className="h-4 w-4 shrink-0 opacity-60" aria-hidden />
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -1522,6 +1613,49 @@ const Header = ({
                       </span>
                       <ArrowRight className="h-4 w-4 shrink-0 text-primary" aria-hidden />
                     </Link>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-white/10 pt-1">
+                <button
+                  type="button"
+                  onClick={() => setEcosystemMobileExpanded((open) => !open)}
+                  aria-expanded={ecosystemMobileExpanded}
+                  aria-controls="ecosystem-mobile-panel"
+                  className={`w-full flex items-center justify-between px-3 py-3 min-h-[44px] rounded-md text-base font-medium transition-colors duration-200 ${
+                    isEcosystemActive
+                      ? "text-primary bg-primary/10"
+                      : "text-gray-300 hover:text-primary hover:bg-white/5"
+                  }`}
+                >
+                  {t("ecosystem")}
+                  <ChevronDown
+                    className={`w-5 h-5 transition-transform ${ecosystemMobileExpanded ? "rotate-180" : ""}`}
+                  />
+                </button>
+                <div
+                  id="ecosystem-mobile-panel"
+                  className={`collapse-grid ${ecosystemMobileExpanded ? "collapse-grid-open" : "collapse-grid-closed"}`}
+                >
+                  <div className="overflow-hidden min-h-0 pb-2">
+                    {ecosystemLinks.map((item) => {
+                      const current = typeof item.href === "string" && pathname === item.href;
+                      return (
+                        <Link
+                          key={item.nameKey}
+                          href={item.href}
+                          aria-current={current ? "page" : undefined}
+                          className={`flex min-h-[44px] items-center justify-between gap-3 rounded-md py-2.5 pl-5 pr-3 text-sm font-medium transition-colors hover:bg-white/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40 ${
+                            current ? "bg-primary/10 text-primary" : "text-slate-300"
+                          }`}
+                          onClick={(event) => handleMobileNavClick(event, "/partners")}
+                        >
+                          {t(item.nameKey)}
+                          <ArrowRight className="h-4 w-4 shrink-0 opacity-60" aria-hidden />
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               </div>

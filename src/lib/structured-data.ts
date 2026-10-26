@@ -39,6 +39,28 @@ export function useCaseItemListJsonLd(
   };
 }
 
+export function ecosystemItemListJsonLd(
+  locale: string,
+  name: string,
+  items: readonly { id: string; name: string; description: string }[],
+) {
+  const page = pageUrl(locale, "/partners");
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name,
+    numberOfItems: items.length,
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: `${page}#${item.id}`,
+      name: item.name,
+      description: item.description,
+    })),
+  };
+}
+
 export const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",

@@ -11,6 +11,26 @@ export const ecosystemKeys = [
 
 export type EcosystemKey = (typeof ecosystemKeys)[number]
 
+export const ecosystemDirectoryGroups = [
+  {
+    id: 'technology-providers',
+    titleKey: 'technologyProvidersTitle',
+    descriptionKey: 'technologyProvidersDescription',
+    keys: ['fieldEffect', 'zoom', 'equinix', 'terago'],
+  },
+  {
+    id: 'delivery-platforms',
+    titleKey: 'deliveryPlatformsTitle',
+    descriptionKey: 'deliveryPlatformsDescription',
+    keys: ['lunavi', 'thrive', 'speechLogix'],
+  },
+] as const satisfies readonly {
+  id: 'technology-providers' | 'delivery-platforms'
+  titleKey: 'technologyProvidersTitle' | 'deliveryPlatformsTitle'
+  descriptionKey: 'technologyProvidersDescription' | 'deliveryPlatformsDescription'
+  keys: readonly EcosystemKey[]
+}[]
+
 export type EcosystemLogo = {
   src: string
   width: number

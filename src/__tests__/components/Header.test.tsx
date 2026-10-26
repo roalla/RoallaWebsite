@@ -129,7 +129,22 @@ describe('Header', () => {
     expect(screen.getByRole('menuitem', { name: /helpGetFound/i })).toHaveAttribute('href', '/services/search-ai-visibility')
     expect(screen.getByRole('menuitem', { name: /helpPlanExecution/i })).toHaveAttribute('href', '/services/business-advisory')
     expect(screen.getByRole('menuitem', { name: /helpDevelopTeam/i })).toHaveAttribute('href', '/programs/workshops')
-    expect(screen.getByRole('menuitem', { name: /technologyPartners/i })).toHaveAttribute('href', '/partners')
+  })
+
+  it('renders one accessible Ecosystem dropdown with the approved destinations', () => {
+    render(<Header />)
+    const ecosystemButton = screen.getByRole('button', { name: 'ecosystem' })
+    expect(ecosystemButton).toHaveAttribute('aria-haspopup', 'menu')
+    fireEvent.click(ecosystemButton)
+
+    const menu = screen.getByRole('menu', { name: 'ecosystem' })
+    expect(within(menu).getAllByRole('menuitem')).toHaveLength(6)
+    expect(within(menu).getByRole('menuitem', { name: /ecosystemOverview/i })).toHaveAttribute('href', '/partners')
+    expect(within(menu).getByRole('menuitem', { name: /ecosystemTechnologyProviders/i })).toHaveAttribute('href', '/partners#technology-providers')
+    expect(within(menu).getByRole('menuitem', { name: /ecosystemDeliveryPlatforms/i })).toHaveAttribute('href', '/partners#delivery-platforms')
+    expect(within(menu).getByRole('menuitem', { name: /ecosystemStrategicRelationships/i })).toHaveAttribute('href', '/partners#strategic-relationships')
+    expect(within(menu).getByRole('menuitem', { name: /ecosystemEvaluation/i })).toHaveAttribute('href', '/partners#evaluation-standard')
+    expect(within(menu).getByRole('menuitem', { name: /ecosystemTransparency/i })).toHaveAttribute('href', '/partners#compensation')
   })
 
   it('keeps business outcomes and supporting service paths clearly exposed', () => {
@@ -152,7 +167,7 @@ describe('Header', () => {
       'href',
       '/assessment',
     )
-    expect(within(menu).getAllByRole('menuitem')).toHaveLength(12)
+    expect(within(menu).getAllByRole('menuitem')).toHaveLength(11)
   })
 
   it('exposes the same customer needs and outcomes in the mobile navigation', () => {
@@ -169,6 +184,20 @@ describe('Header', () => {
     expect(within(panel!).getByRole('link', { name: /helpBuildDigital/i })).toHaveAttribute('href', '/website-design')
     expect(within(panel!).getByRole('link', { name: /helpConnectAutomate/i })).toHaveAttribute('href', '/services/automation')
     expect(within(panel!).getByRole('link', { name: /browseOutcomes/i })).toHaveAttribute('href', '/solutions')
+  })
+
+  it('exposes the Ecosystem destinations in mobile navigation', () => {
+    render(<Header />)
+    fireEvent.click(screen.getByRole('button', { name: 'openMenu' }))
+    const ecosystemToggle = screen
+      .getAllByRole('button', { name: 'ecosystem' })
+      .find((button) => button.getAttribute('aria-controls') === 'ecosystem-mobile-panel')
+    expect(ecosystemToggle).toBeDefined()
+    fireEvent.click(ecosystemToggle!)
+
+    const panel = document.getElementById('ecosystem-mobile-panel')
+    expect(within(panel!).getAllByRole('link')).toHaveLength(6)
+    expect(within(panel!).getByRole('link', { name: /ecosystemTransparency/i })).toHaveAttribute('href', '/partners#compensation')
   })
 
   it('marks only the matching dropdown item for the current page', () => {

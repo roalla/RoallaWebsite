@@ -72,10 +72,10 @@ test.describe("Services brand journey", () => {
     ).toBeVisible();
   });
 
-  test("partners page publishes the verified relationship and compensation disclosure", async ({ page }) => {
+  test("ecosystem page publishes relationship types, business needs, and compensation disclosure", async ({ page }) => {
     await page.goto("/en/partners");
 
-    await expect(page.getByRole("heading", { name: "Partners & Platforms", level: 1 })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "ROALLA Technology Ecosystem.", level: 1 })).toBeVisible();
     const outcomes = page.locator("#partner-outcomes");
     await expect(
       outcomes.getByRole("heading", {
@@ -89,6 +89,9 @@ test.describe("Services brand journey", () => {
       "#evaluation-standard",
     );
     await expect(page.getByRole("heading", { name: "Telarus Technology Advisor", level: 2 })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Technology Providers", level: 3 })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Delivery Platforms", level: 3 })).toBeVisible();
+    await expect(page.getByText("Access is not endorsement.")).toBeVisible();
     await expect(page.getByRole("heading", { name: "How ROALLA is compensated", level: 2 })).toBeVisible();
     await expect(page.getByRole("link", { name: "Discuss Your Technology Needs" })).toHaveAttribute(
       "href",

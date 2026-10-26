@@ -59,6 +59,13 @@
     "helpMorePathsHeading": "More ways to explore",
     "helpDigitalProducts": "Digital products & applications",
     "helpManagedOptimization": "Ongoing optimization & support",
+    "ecosystem": "Ecosystem",
+    "ecosystemOverview": "Ecosystem Overview",
+    "ecosystemTechnologyProviders": "Technology Providers",
+    "ecosystemDeliveryPlatforms": "Delivery Platforms",
+    "ecosystemStrategicRelationships": "Strategic Relationships",
+    "ecosystemEvaluation": "How We Evaluate Solutions",
+    "ecosystemTransparency": "Commercial Transparency",
     "digitalOverview": "Digital Enablement & Implementation",
     "digitalOverviewDesc": "Websites, apps, integrations, automation, AI, and implementation",
     "digitalWebsites": "Websites",
@@ -169,7 +176,7 @@
     "digitalCreations": "Digital Enablement",
     "assessment": "Assessment",
     "faq": "FAQ",
-    "partners": "Partners & Platforms",
+    "partners": "Ecosystem",
     "technologyAdvisory": "Technology Advisory & Solution Sourcing",
     "agentic": "ROALLA Agentic",
     "digitalVisibility": "Digital Visibility Optimization",
@@ -321,13 +328,14 @@
       "openLabel": "Open details for {name}, categorized as {relationship}",
       "valueLabel": "How ROALLA adds value",
       "closeLabel": "Close details",
-      "viewAllCta": "View all providers",
+      "viewAllCta": "Explore the ecosystem",
       "telarus": {
         "name": "Telarus",
         "wordmark": "TELARUS",
         "relationship": "Verified advisor relationship",
         "description": "ROALLA is a Telarus Technology Advisor through a non-exclusive relationship that provides access to suppliers, solution specialists, sales engineering, and implementation support.",
         "value": "ROALLA starts with client requirements and expected outcomes, compares suitable options, discloses relevant compensation, and remains accountable through implementation.",
+        "need": "Multi-provider solution sourcing, specialist access, commercial comparison, and implementation support.",
         "cta": "View partner disclosure"
       },
       "fieldEffect": {
@@ -336,6 +344,7 @@
         "relationship": "Cybersecurity partner",
         "description": "ROALLA partners with Field Effect to help organizations evaluate and source managed detection and response—intelligence-grade cybersecurity engineered for the AI era.",
         "value": "Clarify cybersecurity requirements and expected outcomes, then compare suitable MDR and related controls before committing to a stack.",
+        "need": "Managed detection and response, cybersecurity operations, and risk reduction.",
         "cta": "Visit Field Effect"
       },
       "zoom": {
@@ -344,6 +353,7 @@
         "relationship": "Verified supplier",
         "description": "ROALLA can source and support Zoom communications solutions—meetings, phone, contact centre, and collaboration—through verified supplier access when they fit client requirements.",
         "value": "Define calling, meeting, and collaboration needs first, then compare Zoom and other qualified options on fit, cost, adoption, and support.",
+        "need": "Meetings, cloud phone, contact centre, and workforce collaboration.",
         "cta": "Visit Zoom"
       },
       "lunavi": {
@@ -352,6 +362,7 @@
         "relationship": "Service-focused partner",
         "description": "ROALLA works with Lunavi for service-led delivery—cloud, Microsoft, managed services, AI and data analytics, and application development—when clients need hands-on implementation and ongoing IT support.",
         "value": "Define transformation and operations outcomes first, then engage Lunavi where specialized delivery capacity improves speed, quality, and accountability.",
+        "need": "Cloud, Microsoft, managed services, data and AI, and application delivery.",
         "cta": "Visit Lunavi"
       },
       "equinix": {
@@ -360,6 +371,7 @@
         "relationship": "Provider",
         "description": "ROALLA can source Equinix digital infrastructure—colocation, interconnection, and related data centre services—when clients need secure, globally connected facilities for hybrid and multi-cloud workloads.",
         "value": "Clarify location, interconnection, latency, and resilience requirements first, then compare Equinix and other qualified infrastructure options on fit, cost, and operational control.",
+        "need": "Colocation, interconnection, data centres, and hybrid or multi-cloud infrastructure.",
         "cta": "Visit Equinix"
       },
       "terago": {
@@ -368,6 +380,7 @@
         "relationship": "Connectivity provider",
         "description": "ROALLA can source TERAGO Canadian connectivity—business internet, managed SD-WAN, business continuity, and private 5G—when clients need resilient, fully managed wireless and networking infrastructure.",
         "value": "Define uptime, diversity, coverage, and managed-service requirements first, then compare TERAGO and other qualified connectivity options on fit, deployment speed, and accountability.",
+        "need": "Business internet, managed networking, continuity, and private wireless connectivity.",
         "cta": "Visit TERAGO"
       },
       "thrive": {
@@ -376,6 +389,7 @@
         "relationship": "Service-focused partner",
         "description": "ROALLA works with Thrive for NextGen managed services—cybersecurity, cloud, managed IT infrastructure, Microsoft 365, and compliance—when clients need outsourced operations with clear accountability.",
         "value": "Define risk, operations, and compliance outcomes first, then engage Thrive where managed delivery capacity improves resilience, response, and day-to-day IT performance.",
+        "need": "Managed IT, cybersecurity, cloud operations, Microsoft 365, and compliance support.",
         "cta": "Visit Thrive"
       },
       "speechLogix": {
@@ -384,6 +398,7 @@
         "relationship": "Independent reseller / BD intermediary",
         "description": "ROALLA acts as a non-exclusive independent reseller and business development intermediary for SpeechLogix unified communications and collaboration solutions—including the XLogix platform and related cloud telephony offerings—when they fit client requirements.",
         "value": "Clarify UC, contact centre, and collaboration needs first, then introduce SpeechLogix where the platform fit, white-label flexibility, and delivery model support the intended outcomes.",
+        "need": "Unified communications, cloud telephony, collaboration, and contact-centre workflows.",
         "cta": "Visit SpeechLogix"
       }
     },
@@ -4206,11 +4221,11 @@
     "advisoryCta": "Explore Technology Advisory"
   },
   "partnersPlatforms": {
-    "metadataTitle": "Technology Partners & Platforms | ROALLA",
-    "metadataDescription": "Verified technology relationships, solution categories, evaluation standards, and compensation disclosure for ROALLA technology advisory services.",
-    "eyebrow": "Technology advisory",
-    "title": "Partners & Platforms",
-    "subtitle": "Requirements-based, non-exclusive technology advice backed by verified supplier relationships, clear evaluation criteria, and disclosed commercial interests.",
+    "metadataTitle": "ROALLA Technology Ecosystem | ROALLA",
+    "metadataDescription": "Explore ROALLA's technology ecosystem by verified relationship type and business need, with solution evaluation standards and commercial disclosure.",
+    "eyebrow": "Technology ecosystem",
+    "title": "ROALLA Technology Ecosystem.",
+    "subtitle": "Explore verified technology relationships by business need, understand how solutions are evaluated, and see relevant commercial interests before you commit.",
     "heroPrimaryCta": "Explore Technology Advisory",
     "heroSecondaryCta": "See how options are evaluated",
     "outcomesEyebrow": "What partner access should produce",
@@ -4235,10 +4250,20 @@
     "outcomesInsightBody": "A verified relationship opens doors. It does not replace requirements, fit assessment, due diligence, or your final decision.",
     "outcomesCta": "Start a requirements review",
     "verifiedLabel": "Verified relationship",
+    "strategicRelationshipsTitle": "Strategic Relationships",
     "telarusTitle": "Telarus Technology Advisor",
     "telarusBody": "ROALLA is a Telarus Technology Advisor. Through this non-exclusive relationship, we can draw on an extensive supplier ecosystem, solution specialists, sales engineering, and implementation support to help clients qualify, source, and implement suitable business technology.",
     "positioningTitle": "What this means for clients",
     "positioningBody": "We begin with your requirements and compare suitable options. A partner relationship does not replace fit assessment, due diligence, or your final purchasing decision.",
+    "businessNeedLabel": "Business need",
+    "organizationsEyebrow": "Relationship type and business need",
+    "organizationsTitle": "Know who may be involved—and why.",
+    "organizationsDescription": "Organizations are grouped by the documented role they can play in a client engagement. Each listing also identifies the business need it may support.",
+    "technologyProvidersTitle": "Technology Providers",
+    "technologyProvidersDescription": "Technology organizations whose products or services may be considered when they fit the client’s requirements. A listing is not a blanket recommendation or endorsement.",
+    "deliveryPlatformsTitle": "Delivery Platforms",
+    "deliveryPlatformsDescription": "Organizations and platforms that may contribute specialist delivery, implementation, managed services, or communications capabilities under the relationship stated on each listing.",
+    "organizationsNote": "Relationship labels describe documented access or working arrangements only. They do not imply exclusivity, universal endorsement, or reseller authorization beyond what is expressly stated.",
     "category1": "Cloud & infrastructure",
     "category2": "Cybersecurity & continuity",
     "category3": "Email, backup, and workplace software",
@@ -4312,7 +4337,7 @@
       "s14Title": "14. Governing law, disputes, and general terms",
       "s14Body": "These Terms are governed by the laws of the Province of Ontario and the federal laws of Canada applicable therein, without regard to conflict-of-law principles. You agree that the courts of Ontario (and appellate courts therefrom) have exclusive jurisdiction over disputes arising from website use under these Terms, unless a signed engagement agreement specifies otherwise.\n\nIf any provision is held unenforceable, the remaining provisions remain in effect. Failure to enforce a provision is not a waiver. These Terms, together with the Privacy Policy and AI Policy, constitute the entire agreement between you and Roalla regarding website use and supersede prior website-related understandings. Section headings are for convenience only.\n\nQuestions: sales@roalla.com · (289) 838-5868.",
       "s15Title": "15. Partner and compensation disclosure",
-      "s15Body": "Roalla may maintain non-exclusive commercial relationships with technology distributors, suppliers, platforms, and service providers. Roalla is a Telarus Technology Advisor and may identify other verified relationships on the Partners & Platforms page. A listed relationship does not mean every available supplier or solution has been evaluated, endorsed, or included in a recommendation.\n\nRoalla may receive referral fees, commissions, incentives, or other compensation when a client purchases an eligible solution through Roalla or a partner channel. Roalla may also charge separate advisory, implementation, migration, adoption, or ongoing service fees under a written proposal. Any material commercial relationship that affects a recommendation will be disclosed before the client commits.\n\nTechnology recommendations are needs-led and may consider business and technical requirements, security, privacy, compliance, integrations, implementation effort, service levels, support, total cost, contract commitments, scalability, exit considerations, and user adoption. Clients remain responsible for reviewing supplier terms, pricing, security, compliance, and fit before purchasing."
+      "s15Body": "Roalla may maintain non-exclusive commercial relationships with technology distributors, suppliers, platforms, and service providers. Roalla is a Telarus Technology Advisor and may identify other verified relationships on the Ecosystem page. A listed relationship does not mean every available supplier or solution has been evaluated, endorsed, or included in a recommendation.\n\nRoalla may receive referral fees, commissions, incentives, or other compensation when a client purchases an eligible solution through Roalla or a partner channel. Roalla may also charge separate advisory, implementation, migration, adoption, or ongoing service fees under a written proposal. Any material commercial relationship that affects a recommendation will be disclosed before the client commits.\n\nTechnology recommendations are needs-led and may consider business and technical requirements, security, privacy, compliance, integrations, implementation effort, service levels, support, total cost, contract commitments, scalability, exit considerations, and user adoption. Clients remain responsible for reviewing supplier terms, pricing, security, compliance, and fit before purchasing."
     },
     "privacy": {
       "metadataTitle": "Privacy Policy | ROALLA",

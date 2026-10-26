@@ -1,0 +1,273 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - link "Skip to main content" [ref=e3] [cursor=pointer]:
+      - /url: "#main-content"
+    - navigation "Main navigation" [ref=e4]:
+      - generic [ref=e5]:
+        - link "ROALLA" [ref=e7] [cursor=pointer]:
+          - /url: /en
+          - generic [ref=e9]: ROALLA
+        - generic [ref=e11]:
+          - button "How We Help" [ref=e13] [cursor=pointer]:
+            - text: How We Help
+            - img [ref=e14]
+          - button "Ecosystem" [ref=e18] [cursor=pointer]:
+            - text: Ecosystem
+            - img [ref=e19]
+          - button "Advisory & Workshops" [ref=e22] [cursor=pointer]:
+            - text: Advisory & Workshops
+            - img [ref=e23]
+          - button "Insights" [ref=e26] [cursor=pointer]:
+            - text: Insights
+            - img [ref=e27]
+        - generic [ref=e29]:
+          - button "Select language" [ref=e31] [cursor=pointer]:
+            - img [ref=e32]
+            - generic [ref=e37]: EN
+            - img [ref=e38]
+          - link "Sign in to the Roalla Client Portal" [ref=e40] [cursor=pointer]:
+            - /url: https://portal.roalla.com
+            - text: Client Portal
+          - generic [ref=e42]:
+            - link "Discuss your needs" [ref=e43] [cursor=pointer]:
+              - /url: /en/contact
+              - img [ref=e44]
+              - text: Discuss your needs
+            - tooltip "~3 min · No obligation · Reply in 1 business day"
+  - main [ref=e46]:
+    - generic [ref=e47]:
+      - generic [ref=e52]:
+        - generic [ref=e53]:
+          - link "Business outcomes" [ref=e54] [cursor=pointer]:
+            - /url: /en/solutions
+          - paragraph [ref=e55]: Business outcome pathway · Direction and ownership
+          - heading "Turn competing priorities into an executable plan" [level=1] [ref=e56]
+          - paragraph [ref=e57]: Clarify the decisions, operating rhythm, ownership, and sequence needed to move from ideas to progress.
+          - generic [ref=e58]:
+            - paragraph [ref=e59]: The short answer
+            - paragraph [ref=e60]: A focused roadmap with sequenced priorities, accountable owners, and evidence for the next decision.
+          - generic [ref=e61]:
+            - link "Talk through this outcome" [ref=e62] [cursor=pointer]:
+              - /url: "#outcome-contact"
+              - text: Talk through this outcome
+              - img [ref=e63]
+            - link "See the supporting service" [ref=e65] [cursor=pointer]:
+              - /url: /en/services/business-advisory
+              - text: See the supporting service
+              - img [ref=e66]
+        - figure "Direction and ownership" [ref=e68]:
+          - img "Leadership team aligning business priorities on a shared strategic plan" [ref=e70]
+          - generic [ref=e72]: Direction and ownership
+      - complementary "Why leaders can start here" [ref=e73]:
+        - generic [ref=e74]:
+          - generic [ref=e75]:
+            - img [ref=e76]
+            - generic [ref=e78]: 30+ years of business and technology experience
+          - generic [ref=e79]:
+            - img [ref=e80]
+            - generic [ref=e82]: 500+ engagements delivered
+          - generic [ref=e83]:
+            - img [ref=e84]
+            - generic [ref=e86]: Needs-led recommendations with accountable implementation
+      - main [ref=e87]:
+        - region "A clear route from friction to progress" [ref=e88]:
+          - generic [ref=e89]:
+            - paragraph [ref=e90]: Problem → solution → benefit
+            - heading "A clear route from friction to progress" [level=2] [ref=e91]
+            - generic [ref=e92]:
+              - group [ref=e93]:
+                - generic "01 What may be getting in the way" [ref=e94] [cursor=pointer]:
+                  - generic [ref=e95]:
+                    - text: "01"
+                    - generic [ref=e96]: What may be getting in the way
+                  - img [ref=e97]
+                - list [ref=e99]:
+                  - listitem [ref=e100]:
+                    - generic [ref=e102]: Too many priorities are competing
+                  - listitem [ref=e103]:
+                    - generic [ref=e105]: Plans stall between meetings
+                  - listitem [ref=e106]:
+                    - generic [ref=e108]: Ownership or measures are unclear
+              - group [ref=e109]:
+                - generic "02 What we can change together" [ref=e110] [cursor=pointer]:
+                  - generic [ref=e111]:
+                    - text: "02"
+                    - generic [ref=e112]: What we can change together
+                  - img [ref=e113]
+                - list [ref=e115]:
+                  - listitem [ref=e116]:
+                    - img [ref=e117]
+                    - generic [ref=e119]: Strategy and operating priorities
+                  - listitem [ref=e120]:
+                    - img [ref=e121]
+                    - generic [ref=e123]: Technology roadmap
+                  - listitem [ref=e124]:
+                    - img [ref=e125]
+                    - generic [ref=e127]: Decision rights and measures
+              - article [ref=e128]:
+                - text: "03"
+                - heading "What better looks like" [level=3] [ref=e129]
+                - paragraph [ref=e130]: A focused roadmap with sequenced priorities, accountable owners, and evidence for the next decision.
+        - generic [ref=e132]:
+          - generic [ref=e133]:
+            - paragraph [ref=e134]: A practical path
+            - heading "Move from pressure to a decision your team can use" [level=2] [ref=e135]
+            - paragraph [ref=e136]: The exact scope changes with the situation. The sequence stays grounded in the outcome, the evidence, and the people responsible for implementation.
+            - generic [ref=e137]:
+              - paragraph [ref=e138]: How this work is delivered
+              - heading "Business advisory with implementation support" [level=3] [ref=e139]
+              - paragraph [ref=e140]: ROALLA leads the advisory work directly and stays involved as priorities become owned actions, operating rhythms, and measurable follow-through.
+          - list [ref=e141]:
+            - listitem [ref=e142]:
+              - text: "01"
+              - heading "Clarify" [level=3] [ref=e143]
+              - paragraph [ref=e144]: Confirm the current state, the result that matters, the constraints, and how success will be measured.
+            - listitem [ref=e145]:
+              - text: "02"
+              - heading "Evaluate" [level=3] [ref=e146]
+              - paragraph [ref=e147]: Compare the viable approaches against the same business, technical, risk, cost, and adoption criteria.
+            - listitem [ref=e148]:
+              - text: "03"
+              - heading "Activate" [level=3] [ref=e149]
+              - paragraph [ref=e150]: Turn the decision into owned next steps, implementation milestones, and a useful review rhythm.
+          - generic [ref=e151]:
+            - paragraph [ref=e152]: ROALLA will confirm the desired outcome, the facts that matter, and the smallest practical next step before recommending a scope.
+            - link "Talk through this outcome" [ref=e153] [cursor=pointer]:
+              - /url: "#outcome-contact"
+              - text: Talk through this outcome
+              - img [ref=e154]
+        - region "What leaders usually want to know first" [ref=e156]:
+          - generic [ref=e157]:
+            - paragraph [ref=e158]: Quick answers
+            - heading "What leaders usually want to know first" [level=2] [ref=e159]
+            - generic [ref=e160]:
+              - group [ref=e161]:
+                - generic "What result should this pathway produce?" [ref=e162] [cursor=pointer]
+                - paragraph [ref=e163]: A focused roadmap with sequenced priorities, accountable owners, and evidence for the next decision..
+              - group [ref=e164]:
+                - generic "When is this pathway a useful starting point?" [ref=e165] [cursor=pointer]
+              - group [ref=e166]:
+                - generic "What might the work include?" [ref=e167] [cursor=pointer]
+        - generic [ref=e169]:
+          - paragraph [ref=e170]: Related outcomes
+          - heading "The next closest paths" [level=2] [ref=e171]
+          - generic [ref=e172]:
+            - link "Automate work with control Connect workflows and apply AI with human oversight Explore this outcome" [ref=e173] [cursor=pointer]:
+              - /url: /en/solutions/automation-ai
+              - generic [ref=e175]:
+                - heading "Automate work with control" [level=3] [ref=e176]
+                - paragraph [ref=e177]: Connect workflows and apply AI with human oversight
+                - generic [ref=e178]:
+                  - text: Explore this outcome
+                  - img [ref=e179]
+            - link "Modernize infrastructure and cloud Plan, migrate, and manage the right environment Explore this outcome" [ref=e181] [cursor=pointer]:
+              - /url: /en/solutions/cloud-infrastructure
+              - generic [ref=e183]:
+                - heading "Modernize infrastructure and cloud" [level=3] [ref=e184]
+                - paragraph [ref=e185]: Plan, migrate, and manage the right environment
+                - generic [ref=e186]:
+                  - text: Explore this outcome
+                  - img [ref=e187]
+      - region "Tell us what is getting in the way" [ref=e189]:
+        - generic [ref=e190]:
+          - generic [ref=e191]:
+            - paragraph [ref=e192]: Discuss this outcome
+            - heading "Tell us what is getting in the way" [level=2] [ref=e193]
+            - paragraph [ref=e194]: Three fields. No finished brief required. We’ll reply with a practical next step.
+            - paragraph [ref=e195]:
+              - text: Prefer the full consultation form?
+              - link "Add more project detail" [ref=e196] [cursor=pointer]:
+                - /url: /en/contact?intent=consulting&outcome=strategy&from_page=%2Fsolutions%2Fstrategy
+          - button "Talk through this outcome" [ref=e199] [cursor=pointer]
+  - contentinfo [ref=e200]:
+    - generic [ref=e201]:
+      - generic [ref=e202]:
+        - generic [ref=e203]:
+          - link "ROALLA" [ref=e204] [cursor=pointer]:
+            - /url: /en
+            - generic [ref=e205]: ROALLA
+          - paragraph [ref=e206]: Advise, source, make agentic, build, connect, and improve the technology that supports growth and operations.
+          - paragraph [ref=e207]: Advise · Source · Agentic · Build / Connect · Improve
+        - generic [ref=e208]:
+          - paragraph [ref=e209]: Explore
+          - navigation "Explore" [ref=e210]:
+            - link "Technology Advisory & Solution Sourcing" [ref=e211] [cursor=pointer]:
+              - /url: /en/services/technology-advisory
+            - link "ROALLA Agentic" [ref=e212] [cursor=pointer]:
+              - /url: /en/services/ai-agents
+            - link "Digital Enablement" [ref=e213] [cursor=pointer]:
+              - /url: /en/services/digital
+            - link "Digital Visibility Optimization" [ref=e214] [cursor=pointer]:
+              - /url: /en/services/search-ai-visibility
+            - link "Ecosystem" [ref=e215] [cursor=pointer]:
+              - /url: /en/partners
+            - link "Digital Portfolio" [ref=e216] [cursor=pointer]:
+              - /url: /en/services/portfolio
+            - link "Business Advisory" [ref=e217] [cursor=pointer]:
+              - /url: /en/services/business-advisory
+            - link "Team Workshops" [ref=e218] [cursor=pointer]:
+              - /url: /en/programs/workshops
+        - generic [ref=e219]:
+          - paragraph [ref=e220]: Company
+          - navigation "Company" [ref=e221]:
+            - link "About" [ref=e222] [cursor=pointer]:
+              - /url: /en/about
+            - link "Insights" [ref=e223] [cursor=pointer]:
+              - /url: /en/insights
+            - link "FAQ" [ref=e224] [cursor=pointer]:
+              - /url: /en/faq
+            - link "Ecosystem" [ref=e225] [cursor=pointer]:
+              - /url: /en/partners
+            - link "Contact" [ref=e226] [cursor=pointer]:
+              - /url: /en/contact
+        - generic [ref=e227]:
+          - paragraph [ref=e228]: Contact
+          - list [ref=e229]:
+            - listitem [ref=e230]:
+              - link "Send a message" [ref=e231] [cursor=pointer]:
+                - /url: /en/contact
+                - img [ref=e233]
+                - text: Send a message
+            - listitem [ref=e236]:
+              - link "(289) 838-5868" [ref=e237] [cursor=pointer]:
+                - /url: tel:289-838-5868
+                - img [ref=e239]
+                - text: (289) 838-5868
+          - generic [ref=e241]:
+            - link "Roalla on LinkedIn" [ref=e242] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/102042431/
+              - img [ref=e243]
+            - link "Roalla on YouTube" [ref=e247] [cursor=pointer]:
+              - /url: https://www.youtube.com/@RoallaGroup
+              - img [ref=e248]
+          - link "Discuss your needs" [ref=e251] [cursor=pointer]:
+            - /url: /en/contact
+            - img [ref=e252]
+            - text: Discuss your needs
+          - paragraph [ref=e254]: ~3 min · No obligation · Reply in 1 business day
+      - generic [ref=e255]:
+        - paragraph [ref=e256]: © 2026 Roalla Business Enablement Group. All Rights Reserved.
+        - generic [ref=e257]:
+          - link "Terms & Conditions" [ref=e258] [cursor=pointer]:
+            - /url: /en/terms
+          - link "Privacy Policy" [ref=e259] [cursor=pointer]:
+            - /url: /en/privacy
+          - link "AI Policy" [ref=e260] [cursor=pointer]:
+            - /url: /en/ai-policy
+          - link "Sign in to the Roalla Client Portal" [ref=e261] [cursor=pointer]:
+            - /url: https://portal.roalla.com
+            - text: Client Portal
+            - img [ref=e262]
+          - link "SSO Home" [ref=e265] [cursor=pointer]:
+            - /url: https://sso.roalla.com/home.html
+            - text: SSO Home
+            - img [ref=e266]
+          - link "Contact" [ref=e269] [cursor=pointer]:
+            - /url: /en/contact
+            - text: Contact
+            - img [ref=e270]
+  - alert [ref=e273]: Set direction and priorities | ROALLA
+```

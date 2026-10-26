@@ -1,0 +1,601 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - link "Passer au contenu principal" [ref=e3] [cursor=pointer]:
+      - /url: "#main-content"
+    - navigation "Main navigation" [ref=e4]:
+      - generic [ref=e5]:
+        - link "ROALLA" [ref=e7] [cursor=pointer]:
+          - /url: /fr
+          - generic [ref=e9]: ROALLA
+        - generic [ref=e11]:
+          - button "Comment nous aidons" [ref=e13] [cursor=pointer]:
+            - text: Comment nous aidons
+            - img [ref=e14]
+          - button "Écosystème" [ref=e17] [cursor=pointer]:
+            - text: Écosystème
+            - img [ref=e18]
+          - button "Conseil et ateliers" [ref=e21] [cursor=pointer]:
+            - text: Conseil et ateliers
+            - img [ref=e22]
+          - button "Perspectives" [ref=e25] [cursor=pointer]:
+            - text: Perspectives
+            - img [ref=e26]
+        - generic [ref=e28]:
+          - button "Choisir la langue" [ref=e30] [cursor=pointer]:
+            - img [ref=e31]
+            - generic [ref=e39]: FR
+            - img [ref=e40]
+          - link "Se connecter au portail client Roalla" [ref=e42] [cursor=pointer]:
+            - /url: https://portal.roalla.com
+            - text: Portail client
+          - generic [ref=e44]:
+            - link "Discuter de vos besoins" [ref=e45] [cursor=pointer]:
+              - /url: /fr/contact
+              - img [ref=e46]
+              - text: Discuter de vos besoins
+            - tooltip "~3 min · Sans obligation · Réponse en 1 jour ouvrable"
+  - main [ref=e48]:
+    - generic [ref=e49]:
+      - generic [ref=e54]:
+        - paragraph [ref=e55]: Conseil technologique axé sur les besoins et livraison
+        - heading "Choisissez la bonne technologie. Faites-la mettre en œuvre." [level=1] [ref=e56]:
+          - generic [ref=e57]: Choisissez la bonne technologie.
+          - generic [ref=e58]: Faites-la mettre en œuvre.
+        - paragraph [ref=e60]: ROALLA aide les organisations en croissance à clarifier leurs besoins, comparer les options et mener la bonne solution jusqu’à sa mise en œuvre—de l’infonuagique et la cybersécurité aux sites Web, applications, automatisations et à l’IA.
+        - generic [ref=e61]:
+          - link "Soumettre une demande de service" [ref=e62] [cursor=pointer]:
+            - /url: /fr/contact
+            - text: Soumettre une demande de service
+            - img [ref=e63]
+          - link "Faire l'évaluation de 5 minutes" [ref=e65] [cursor=pointer]:
+            - /url: /fr/assessment
+        - paragraph [ref=e66]: Décrivez le besoin → réponse adaptée en 1 jour ouvrable → prochaine étape balisée. Sans obligation avant approbation.
+        - paragraph [ref=e67]: Dirigé par le fondateur · Axé sur vos besoins · Aucun argumentaire fournisseur au premier appel · Réponse en 1 jour ouvrable
+      - region "Une attention experte de la découverte à la mise en œuvre" [ref=e68]:
+        - generic [ref=e69]:
+          - generic [ref=e70]:
+            - generic [ref=e71]:
+              - paragraph [ref=e72]: 30+
+              - paragraph [ref=e73]: ans en affaires et en technologie
+            - generic [ref=e74]:
+              - paragraph [ref=e75]: 500+
+              - paragraph [ref=e76]: mandats et projets livrés
+            - generic [ref=e77]:
+              - paragraph [ref=e78]: "1"
+              - paragraph [ref=e79]: responsable principal tout au long du mandat
+          - generic [ref=e80]:
+            - img "Steven Robin, fondateur et conseiller principal de ROALLA" [ref=e82]
+            - generic [ref=e83]:
+              - paragraph [ref=e84]: Une attention experte de la découverte à la mise en œuvre
+              - paragraph [ref=e85]: Travaillez directement avec Steven Robin, fondateur et conseiller principal de ROALLA, fort d'une expérience de direction en entreprise et d'une livraison technologique pratique.
+              - paragraph [ref=e86]:
+                - img [ref=e87]
+                - text: Aucun transfert à une équipe de livraison junior
+            - link "Rencontrer le fondateur" [ref=e90] [cursor=pointer]:
+              - /url: /fr/about
+              - text: Rencontrer le fondateur
+              - img [ref=e91]
+      - region "Chaque relation, expliquée clairement." [ref=e93]:
+        - generic [ref=e95]:
+          - generic [ref=e96]:
+            - paragraph [ref=e97]: Écosystème technologique
+            - heading "Chaque relation, expliquée clairement." [level=2] [ref=e98]
+            - paragraph [ref=e99]: Explorez les relations de partenaire, de conseiller et de fournisseur qui appuient le conseil et la livraison technologiques de ROALLA. Arrêtez-vous sur un nom pour voir exactement ce que la relation signifie.
+          - generic "Écosystème technologique de ROALLA" [ref=e102]:
+            - button "Ouvrir les détails de Telarus, classé comme Relation de conseiller vérifiée" [ref=e103] [cursor=pointer]:
+              - generic [ref=e105]: Relation de conseiller vérifiée
+            - button "Ouvrir les détails de Field Effect, classé comme Partenaire en cybersécurité" [ref=e106] [cursor=pointer]:
+              - generic [ref=e108]: Partenaire en cybersécurité
+            - button "Ouvrir les détails de Zoom, classé comme Fournisseur vérifié" [ref=e109] [cursor=pointer]:
+              - generic [ref=e111]: Fournisseur vérifié
+            - button "Ouvrir les détails de Lunavi, classé comme Partenaire axé sur les services" [ref=e112] [cursor=pointer]:
+              - generic [ref=e114]: Partenaire axé sur les services
+            - button "Ouvrir les détails de Equinix, classé comme Fournisseur" [ref=e115] [cursor=pointer]:
+              - generic [ref=e117]: Fournisseur
+            - button "Ouvrir les détails de TERAGO, classé comme Fournisseur de connectivité" [ref=e118] [cursor=pointer]:
+              - generic [ref=e120]: Fournisseur de connectivité
+            - button "Ouvrir les détails de Thrive, classé comme Partenaire axé sur les services" [ref=e121] [cursor=pointer]:
+              - generic [ref=e123]: Partenaire axé sur les services
+            - button "Ouvrir les détails de SpeechLogix, classé comme Revendeur indépendant / intermédiaire AD" [ref=e124] [cursor=pointer]:
+              - generic [ref=e126]: Revendeur indépendant / intermédiaire AD
+            - button [ref=e127] [cursor=pointer]:
+              - generic [ref=e129]: Relation de conseiller vérifiée
+            - button [ref=e130] [cursor=pointer]:
+              - generic [ref=e132]: Partenaire en cybersécurité
+            - button [ref=e133] [cursor=pointer]:
+              - generic [ref=e135]: Fournisseur vérifié
+            - button [ref=e136] [cursor=pointer]:
+              - generic [ref=e138]: Partenaire axé sur les services
+            - button [ref=e139] [cursor=pointer]:
+              - generic [ref=e141]: Fournisseur
+            - button [ref=e142] [cursor=pointer]:
+              - generic [ref=e144]: Fournisseur de connectivité
+            - button [ref=e145] [cursor=pointer]:
+              - generic [ref=e147]: Partenaire axé sur les services
+            - button [ref=e148] [cursor=pointer]:
+              - generic [ref=e150]: Revendeur indépendant / intermédiaire AD
+          - link "Explorer l’écosystème" [ref=e152] [cursor=pointer]:
+            - /url: /fr/partners#technology-providers
+            - text: Explorer l’écosystème
+            - img [ref=e153]
+      - generic [ref=e157]:
+        - generic [ref=e158]:
+          - paragraph [ref=e159]: Commencez par votre situation
+          - heading "Que cherchez-vous à faire avancer?" [level=2] [ref=e160]
+          - paragraph [ref=e161]: Choisissez la situation qui ressemble le plus à la vôtre. Chaque parcours explique l'approche probable, le résultat attendu et la prochaine étape la plus pratique.
+        - generic [ref=e162]:
+          - link "Je dois choisir ou remplacer une technologie Clarifier les exigences, comparer des fournisseurs qualifiés et prendre une décision défendable avant d'engager le budget. Explorer le conseil technologique" [ref=e164] [cursor=pointer]:
+            - /url: /fr/solutions/cloud-infrastructure
+            - img [ref=e166]
+            - heading "Je dois choisir ou remplacer une technologie" [level=3] [ref=e171]
+            - paragraph [ref=e172]: Clarifier les exigences, comparer des fournisseurs qualifiés et prendre une décision défendable avant d'engager le budget.
+            - generic [ref=e173]:
+              - text: Explorer le conseil technologique
+              - img [ref=e174]
+          - link "J'ai besoin d'un site Web ou d'un produit numérique Créer une présence Web crédible, une expérience client, un portail, une application ou un nouveau service numérique. Explorer la livraison numérique" [ref=e177] [cursor=pointer]:
+            - /url: /fr/solutions/digital-experience
+            - img [ref=e179]
+            - heading "J'ai besoin d'un site Web ou d'un produit numérique" [level=3] [ref=e183]
+            - paragraph [ref=e184]: Créer une présence Web crédible, une expérience client, un portail, une application ou un nouveau service numérique.
+            - generic [ref=e185]:
+              - text: Explorer la livraison numérique
+              - img [ref=e186]
+          - link "Je dois connecter des systèmes ou automatiser le travail Éliminer la double saisie, améliorer les transferts et ajouter de l'automatisation ou de l'IA là où elle crée de la valeur. Explorer l'automatisation" [ref=e189] [cursor=pointer]:
+            - /url: /fr/solutions/automation-ai
+            - img [ref=e191]
+            - heading "Je dois connecter des systèmes ou automatiser le travail" [level=3] [ref=e195]
+            - paragraph [ref=e196]: Éliminer la double saisie, améliorer les transferts et ajouter de l'automatisation ou de l'IA là où elle crée de la valeur.
+            - generic [ref=e197]:
+              - text: Explorer l'automatisation
+              - img [ref=e198]
+          - link "J'ai besoin de priorités claires et d'un plan d'exécution Transformer les priorités concurrentes en décisions, responsables, jalons et plan pratique de 90 jours. Explorer le conseil d'affaires" [ref=e201] [cursor=pointer]:
+            - /url: /fr/solutions/strategy
+            - img [ref=e203]
+            - heading "J'ai besoin de priorités claires et d'un plan d'exécution" [level=3] [ref=e207]
+            - paragraph [ref=e208]: Transformer les priorités concurrentes en décisions, responsables, jalons et plan pratique de 90 jours.
+            - generic [ref=e209]:
+              - text: Explorer le conseil d'affaires
+              - img [ref=e210]
+        - link "Voir les situations courantes, les résultats et les prochaines étapes" [ref=e213] [cursor=pointer]:
+          - /url: /fr/solutions
+          - text: Voir les situations courantes, les résultats et les prochaines étapes
+          - img [ref=e214]
+      - generic [ref=e218]:
+        - generic [ref=e219]:
+          - paragraph [ref=e220]: Preuves dans les deux volets
+          - heading "Des résultats mesurables—et du travail visible" [level=2] [ref=e221]
+          - paragraph [ref=e222]: La même équipe qui façonne votre stratégie livre aussi les sites et plateformes que votre feuille de route exige.
+        - generic [ref=e223]:
+          - generic [ref=e224]:
+            - heading "Portfolio numérique" [level=3] [ref=e225]
+            - paragraph [ref=e226]: Ouvrez un site en direct — chaque projet ci-dessous est en production.
+          - paragraph [ref=e227]: 6 sites Web · 5 produits numériques · 11 exemples vérifiés
+        - generic [ref=e228]:
+          - generic [ref=e229]:
+            - generic [ref=e230]:
+              - generic [ref=e232]: En ligne
+              - generic [ref=e233]: pitchhotshot.com
+            - link "pitchhotshot.com Pitch Hotshots — rehearse investor pitches and sales talks with AI scoring, delivery metrics, and stage-ready feedback Ouvrir le site" [ref=e234] [cursor=pointer]:
+              - /url: https://www.pitchhotshot.com/
+              - generic [ref=e235]:
+                - generic [ref=e240]: pitchhotshot.com
+                - generic [ref=e241]:
+                  - img "Pitch Hotshots — rehearse investor pitches and sales talks with AI scoring, delivery metrics, and stage-ready feedback" [ref=e242]
+                  - generic [ref=e243]: Ouvrir le site
+            - generic [ref=e244]:
+              - paragraph [ref=e245]: Produit ROALLA
+              - heading "Pitch Hotshots" [level=4] [ref=e246]
+              - generic [ref=e247]:
+                - generic [ref=e248]:
+                  - term [ref=e249]: "Besoin :"
+                  - definition [ref=e250]: Une façon reproductible de pratiquer les présentations à fort enjeu.
+                - generic [ref=e251]:
+                  - term [ref=e252]: "Livré :"
+                  - definition [ref=e253]: Une plateforme de répétition et de notation assistée par l'IA.
+                - generic [ref=e254]:
+                  - term [ref=e255]: "Résultat :"
+                  - definition [ref=e256]: Plateforme de répétition de pitchs avec IA — notation, métriques et feedback utiles.
+              - generic [ref=e257]:
+                - link "Voir l'étude de cas" [ref=e258] [cursor=pointer]:
+                  - /url: /fr/services/portfolio/pitch-hotshots
+                  - text: Voir l'étude de cas
+                  - img [ref=e259]
+                - link "Ouvrir le site Pitch Hotshots" [ref=e261] [cursor=pointer]:
+                  - /url: https://www.pitchhotshot.com/
+                  - text: Ouvrir le site Pitch Hotshots
+                  - img [ref=e262]
+          - generic [ref=e266]:
+            - generic [ref=e267]:
+              - generic [ref=e269]: En ligne
+              - generic [ref=e270]: kaylankaptures.com
+            - link "kaylankaptures.com Kaylan Kaptures homepage — photography brand site with scenic hero, Book a Session CTA, and portfolio path Ouvrir le site" [ref=e271] [cursor=pointer]:
+              - /url: https://www.kaylankaptures.com/
+              - generic [ref=e272]:
+                - generic [ref=e277]: kaylankaptures.com
+                - generic [ref=e278]:
+                  - img "Kaylan Kaptures homepage — photography brand site with scenic hero, Book a Session CTA, and portfolio path" [ref=e279]
+                  - generic [ref=e280]: Ouvrir le site
+            - generic [ref=e281]:
+              - paragraph [ref=e282]: Projet client
+              - heading "Kaylan Kaptures" [level=4] [ref=e283]
+              - generic [ref=e284]:
+                - generic [ref=e285]:
+                  - term [ref=e286]: "Besoin :"
+                  - definition [ref=e287]: Une marque de photographie avait besoin d'un parcours plus clair du portfolio à la réservation.
+                - generic [ref=e288]:
+                  - term [ref=e289]: "Livré :"
+                  - definition [ref=e290]: Un site axé sur la conversion avec des parcours de services et de réservation.
+                - generic [ref=e291]:
+                  - term [ref=e292]: "Résultat :"
+                  - definition [ref=e293]: Site de marque photo avec parcours de réservation et portfolio qui convertit.
+              - link "Ouvrir le site Kaylan Kaptures" [ref=e295] [cursor=pointer]:
+                - /url: https://www.kaylankaptures.com/
+                - text: Ouvrir le site Kaylan Kaptures
+                - img [ref=e296]
+          - generic [ref=e300]:
+            - generic [ref=e301]:
+              - generic [ref=e303]: En ligne
+              - generic [ref=e304]: ryanmuncegoaltending.com
+            - link "ryanmuncegoaltending.com Ryan Munce Goaltending homepage — elite goaltending camps, private training, instructor profiles, and Book with Ryan booking paths Ouvrir le site" [ref=e305] [cursor=pointer]:
+              - /url: https://www.ryanmuncegoaltending.com/
+              - generic [ref=e306]:
+                - generic [ref=e311]: ryanmuncegoaltending.com
+                - generic [ref=e312]:
+                  - img "Ryan Munce Goaltending homepage — elite goaltending camps, private training, instructor profiles, and Book with Ryan booking paths" [ref=e313]
+                  - generic [ref=e314]: Ouvrir le site
+            - generic [ref=e315]:
+              - paragraph [ref=e316]: Projet client
+              - heading "Ryan Munce Goaltending" [level=4] [ref=e317]
+              - generic [ref=e318]:
+                - generic [ref=e319]:
+                  - term [ref=e320]: "Besoin :"
+                  - definition [ref=e321]: Les joueurs et les parents avaient du mal à trouver les programmes et les options de réservation.
+                - generic [ref=e322]:
+                  - term [ref=e323]: "Livré :"
+                  - definition [ref=e324]: Un site sportif structuré avec accès direct aux programmes et à la réservation.
+                - generic [ref=e325]:
+                  - term [ref=e326]: "Résultat :"
+                  - definition [ref=e327]: Site sportif où programmes et réservation sont faciles à trouver.
+              - link "Ouvrir le site Ryan Munce Goaltending" [ref=e329] [cursor=pointer]:
+                - /url: https://www.ryanmuncegoaltending.com/
+                - text: Ouvrir le site Ryan Munce Goaltending
+                - img [ref=e330]
+        - link "Voir le portfolio numérique complet" [ref=e335] [cursor=pointer]:
+          - /url: /fr/services/portfolio
+          - text: Voir le portfolio numérique complet
+          - img [ref=e336]
+        - generic [ref=e338]:
+          - generic [ref=e339]:
+            - img [ref=e341]
+            - generic [ref=e344]:
+              - heading "Résultats en accompagnement d'entreprise" [level=3] [ref=e345]
+              - paragraph [ref=e346]: Stratégie, planification et exécution avec la discipline de mettre en œuvre—pas seulement recommander.
+          - list [ref=e347]:
+            - listitem [ref=e348]:
+              - img [ref=e349]
+              - text: Plans de 90 jours avec priorités et KPI alignés
+            - listitem [ref=e352]:
+              - img [ref=e353]
+              - text: Améliorations de processus qui réduisent les délais
+            - listitem [ref=e356]:
+              - img [ref=e357]
+              - text: Soutien à la mise en œuvre—pas seulement des recommandations
+          - link "Explorer l'accompagnement d'entreprise" [ref=e360] [cursor=pointer]:
+            - /url: /fr/services/business-advisory
+            - text: Explorer l'accompagnement d'entreprise
+            - img [ref=e361]
+      - generic [ref=e364]:
+        - paragraph [ref=e365]: Un parcours technologique connecté
+        - heading "Acheter, construire, connecter ou améliorer?" [level=2] [ref=e366]
+        - paragraph [ref=e367]: Commencez par l’exigence—pas par un produit prédéterminé. ROALLA aide à choisir le chemin le plus pratique, puis reste responsable de la mise en œuvre et de l’amélioration continue.
+        - list [ref=e368]:
+          - listitem [ref=e369]:
+            - link "01 Acheter Lorsqu’une plateforme ou un service géré existant convient, comparer et rechercher des options qualifiées selon des exigences claires. Explorer la recherche de solutions" [ref=e370] [cursor=pointer]:
+              - /url: /fr/services/technology-advisory
+              - generic [ref=e371]:
+                - img [ref=e373]
+                - generic [ref=e378]: "01"
+              - heading "Acheter" [level=3] [ref=e379]
+              - paragraph [ref=e380]: Lorsqu’une plateforme ou un service géré existant convient, comparer et rechercher des options qualifiées selon des exigences claires.
+              - generic [ref=e381]: Explorer la recherche de solutions
+          - listitem [ref=e382]:
+            - link "02 Construire Lorsque le besoin est unique ou crée un avantage, concevoir et construire le site, l’application ou le produit numérique. Explorer les produits numériques" [ref=e383] [cursor=pointer]:
+              - /url: /fr/services/digital-products
+              - generic [ref=e384]:
+                - img [ref=e386]
+                - generic [ref=e390]: "02"
+              - heading "Construire" [level=3] [ref=e391]
+              - paragraph [ref=e392]: Lorsque le besoin est unique ou crée un avantage, concevoir et construire le site, l’application ou le produit numérique.
+              - generic [ref=e393]: Explorer les produits numériques
+          - listitem [ref=e394]:
+            - link "03 Connecter Lorsque les bons systèmes existent déjà, les intégrer, automatiser les flux et améliorer la circulation de l’information. Explorer les intégrations" [ref=e395] [cursor=pointer]:
+              - /url: /fr/services/automation
+              - generic [ref=e396]:
+                - img [ref=e398]
+                - generic [ref=e402]: "03"
+              - heading "Connecter" [level=3] [ref=e403]
+              - paragraph [ref=e404]: Lorsque les bons systèmes existent déjà, les intégrer, automatiser les flux et améliorer la circulation de l’information.
+              - generic [ref=e405]: Explorer les intégrations
+          - listitem [ref=e406]:
+            - link "04 Améliorer Soutenir l’adoption, la performance, la visibilité, la sécurité et l’optimisation continue après le lancement. Explorer l’optimisation gérée" [ref=e407] [cursor=pointer]:
+              - /url: /fr/services/managed-optimization
+              - generic [ref=e408]:
+                - img [ref=e410]
+                - generic [ref=e415]: "04"
+              - heading "Améliorer" [level=3] [ref=e416]
+              - paragraph [ref=e417]: Soutenir l’adoption, la performance, la visibilité, la sécurité et l’optimisation continue après le lancement.
+              - generic [ref=e418]: Explorer l’optimisation gérée
+      - generic [ref=e421]:
+        - generic [ref=e422]:
+          - paragraph [ref=e423]: Pourquoi ROALLA
+          - heading "Le conseil et la livraison restent connectés" [level=2] [ref=e424]
+          - paragraph [ref=e425]: La personne qui aide à cadrer la décision demeure responsable de la transformer en résultat fonctionnel.
+        - generic [ref=e426]:
+          - generic [ref=e427]:
+            - img [ref=e429]
+            - heading "Axé sur les besoins" [level=3] [ref=e432]
+            - paragraph [ref=e433]: Les exigences et les résultats d'affaires passent avant toute plateforme, fournisseur ou solution prédéterminée.
+          - generic [ref=e434]:
+            - img [ref=e436]
+            - heading "Dirigé par le fondateur" [level=3] [ref=e440]
+            - paragraph [ref=e441]: Travaillez directement avec un décideur expérimenté, de la découverte à la mise en œuvre.
+          - generic [ref=e442]:
+            - img [ref=e444]
+            - heading "Responsable de la mise en œuvre" [level=3] [ref=e449]
+            - paragraph [ref=e450]: Les recommandations comprennent des responsables, des jalons et du soutien pendant la livraison et l'adoption.
+          - generic [ref=e451]:
+            - img [ref=e453]
+            - heading "Commercialement transparent" [level=3] [ref=e456]
+            - paragraph [ref=e457]: Les relations avec les partenaires et toute rémunération pertinente sont divulguées avant votre engagement.
+        - generic [ref=e458]:
+          - link "Besoin aussi d'une direction d'affaires? Transformez les priorités en plan d'exécution pratique Le conseil d'affaires relie stratégie, opérations, leadership et mise en œuvre—pas seulement des recommandations. Explorer le conseil d'affaires" [ref=e459] [cursor=pointer]:
+            - /url: /fr/services/business-advisory
+            - paragraph [ref=e460]: Besoin aussi d'une direction d'affaires?
+            - heading "Transformez les priorités en plan d'exécution pratique" [level=3] [ref=e461]
+            - paragraph [ref=e462]: Le conseil d'affaires relie stratégie, opérations, leadership et mise en œuvre—pas seulement des recommandations.
+            - generic [ref=e463]:
+              - text: Explorer le conseil d'affaires
+              - img [ref=e464]
+          - link "Prêt pour une IA qui peut agir? Transformez un flux utile en agent IA gouverné ROALLA Agentic relie conseil, orchestration IA, intégrations, approbations humaines et opérations mesurables. Explorer ROALLA Agentic" [ref=e466] [cursor=pointer]:
+            - /url: /fr/services/ai-agents
+            - paragraph [ref=e467]: Prêt pour une IA qui peut agir?
+            - heading "Transformez un flux utile en agent IA gouverné" [level=3] [ref=e468]
+            - paragraph [ref=e469]: ROALLA Agentic relie conseil, orchestration IA, intégrations, approbations humaines et opérations mesurables.
+            - generic [ref=e470]:
+              - text: Explorer ROALLA Agentic
+              - img [ref=e471]
+          - link "Besoin d'être plus facile à trouver? Améliorez la recherche et la lisibilité par l'IA Renforcez le référencement technique, les données structurées, la clarté du contenu, la présence locale, l'accessibilité et la conversion. Explorer l'optimisation de la visibilité" [ref=e473] [cursor=pointer]:
+            - /url: /fr/services/search-ai-visibility
+            - paragraph [ref=e474]: Besoin d'être plus facile à trouver?
+            - heading "Améliorez la recherche et la lisibilité par l'IA" [level=3] [ref=e475]
+            - paragraph [ref=e476]: Renforcez le référencement technique, les données structurées, la clarté du contenu, la présence locale, l'accessibilité et la conversion.
+            - generic [ref=e477]:
+              - text: Explorer l'optimisation de la visibilité
+              - img [ref=e478]
+      - generic [ref=e482]:
+        - generic [ref=e483]:
+          - paragraph [ref=e484]: Résultats livrés
+          - heading "Ce qui a changé après le travail" [level=2] [ref=e485]
+          - paragraph [ref=e486]: Des résultats précis issus de sites clients et du conseil—nommés pour que vous puissiez vérifier le travail.
+        - generic [ref=e487]:
+          - blockquote [ref=e488]:
+            - paragraph [ref=e489]: “Les parents trouvent les camps et réservent sans appeler d'abord. Le site vend le programme avant que le téléphone sonne.
+            - generic [ref=e490]:
+              - paragraph [ref=e491]: Ryan Munce
+              - paragraph [ref=e492]: Fondateur, développement elite de gardiens
+              - paragraph [ref=e493]: Ryan Munce Goaltending · site en ligne
+          - blockquote [ref=e494]:
+            - paragraph [ref=e495]: "“Nous avons arrêté de tourner en rond sur les priorités. Quatre-vingt-dix jours plus tard: responsables, dates et mesures suivies par la direction."
+            - generic [ref=e496]:
+              - paragraph [ref=e497]: Responsable des opérations
+              - paragraph [ref=e498]: Entreprise de services en croissance
+              - paragraph [ref=e499]: Conseil d'affaires · plan opérationnel 90 jours
+          - blockquote [ref=e500]:
+            - paragraph [ref=e501]: “Le reporting hebdomadaire ne mange plus une demi-journée. Le flux a réduit la préparation de plusieurs heures à quelques minutes.
+            - generic [ref=e502]:
+              - paragraph [ref=e503]: Gestionnaire de cabinet
+              - paragraph [ref=e504]: Services professionnels multi-sites
+              - paragraph [ref=e505]: Automatisation des flux · ops internes
+        - generic [ref=e506]:
+          - link "Voir le portfolio numérique" [ref=e507] [cursor=pointer]:
+            - /url: /fr/services/portfolio
+            - text: Voir le portfolio numérique
+            - img [ref=e508]
+          - link "Soumettre une demande de service" [ref=e510] [cursor=pointer]:
+            - /url: /fr/contact
+      - region "Prenez votre prochaine décision majeure avec plus de clarté." [ref=e511]:
+        - generic [ref=e514]:
+          - generic [ref=e515]:
+            - generic [ref=e516]:
+              - img [ref=e518]
+              - paragraph [ref=e520]: Perspectives pour dirigeants ROALLA
+            - heading "Prenez votre prochaine décision majeure avec plus de clarté." [level=2] [ref=e521]
+            - paragraph [ref=e522]: Explorez des cadres pour la préparation à l’IA, la modernisation technologique, la cybersécurité, la préparation à une acquisition, la croissance, les opérations et la valeur d’entreprise.
+            - generic "Thèmes des perspectives pour dirigeants" [ref=e523]:
+              - generic [ref=e524]: IA et gouvernance
+              - generic [ref=e525]: Transformation technologique
+              - generic [ref=e526]: Risque et résilience
+              - generic [ref=e527]: Valeur d’entreprise
+            - generic [ref=e528]:
+              - link "Explorer les perspectives" [ref=e529] [cursor=pointer]:
+                - /url: /fr/executive-insights
+                - text: Explorer les perspectives
+                - img [ref=e530]
+              - generic [ref=e532]: 47 guides décisionnels
+          - generic [ref=e536]:
+            - paragraph [ref=e537]: De la perspective à l’action
+            - paragraph [ref=e538]: Cadrez la décision. Évaluez la préparation. Séquencez l’action.
+      - generic [ref=e541]:
+        - generic [ref=e542]:
+          - paragraph [ref=e543]: Guides pratiques
+          - heading "Des prochaines étapes utiles pour des décisions courantes" [level=2] [ref=e544]
+          - paragraph [ref=e545]: Trois guides pratiques pour choisir une technologie, améliorer un site Web ou décider quoi automatiser en premier.
+        - generic [ref=e546]:
+          - 'link "5 min de lecture Construire, acheter ou intégrer: comment prendre une meilleure décision technologique Comparez chaque option à des exigences d’affaires et techniques claires. En savoir plus" [ref=e548] [cursor=pointer]':
+            - /url: /fr/insights/build-buy-or-integrate-technology
+            - generic [ref=e551]:
+              - generic [ref=e552]:
+                - img [ref=e553]
+                - paragraph [ref=e555]: 5 min de lecture
+              - 'heading "Construire, acheter ou intégrer: comment prendre une meilleure décision technologique" [level=3] [ref=e556]'
+              - paragraph [ref=e557]: Comparez chaque option à des exigences d’affaires et techniques claires.
+              - generic [ref=e558]:
+                - text: En savoir plus
+                - img [ref=e559]
+          - link "5 min de lecture Avez-vous besoin d’un nouveau site ou d’une amélioration de conversion? Réparez ce qui fonctionne encore et refondez seulement lorsque la fondation bloque les progrès. En savoir plus" [ref=e562] [cursor=pointer]:
+            - /url: /fr/insights/website-redesign-or-conversion-refresh
+            - generic [ref=e565]:
+              - generic [ref=e566]:
+                - img [ref=e567]
+                - paragraph [ref=e569]: 5 min de lecture
+              - heading "Avez-vous besoin d’un nouveau site ou d’une amélioration de conversion?" [level=3] [ref=e570]
+              - paragraph [ref=e571]: Réparez ce qui fonctionne encore et refondez seulement lorsque la fondation bloque les progrès.
+              - generic [ref=e572]:
+                - text: En savoir plus
+                - img [ref=e573]
+          - link "5 min de lecture Que devrait automatiser votre entreprise et que faut-il laisser aux personnes? Choisissez une automatisation qui gagne du temps tout en préservant responsabilité, jugement et soin du client. En savoir plus" [ref=e576] [cursor=pointer]:
+            - /url: /fr/insights/what-to-automate-first
+            - generic [ref=e579]:
+              - generic [ref=e580]:
+                - img [ref=e581]
+                - paragraph [ref=e583]: 5 min de lecture
+              - heading "Que devrait automatiser votre entreprise et que faut-il laisser aux personnes?" [level=3] [ref=e584]
+              - paragraph [ref=e585]: Choisissez une automatisation qui gagne du temps tout en préservant responsabilité, jugement et soin du client.
+              - generic [ref=e586]:
+                - text: En savoir plus
+                - img [ref=e587]
+        - link "Explorer les 86+ articles" [ref=e590] [cursor=pointer]:
+          - /url: /fr/insights
+          - text: Explorer les 86+ articles
+          - img [ref=e591]
+      - generic [ref=e596]:
+        - heading "Trouvez la bonne prochaine étape" [level=2] [ref=e597]
+        - paragraph [ref=e598]: Que vous choisissiez une technologie, clarifiiez vos priorités, construisiez quelque chose de nouveau, connectiez vos systèmes ou amélioriez l'existant, ROALLA vous aidera à déterminer le point de départ le plus pratique.
+        - generic [ref=e599]:
+          - generic [ref=e600]:
+            - link "Soumettre une demande de service" [ref=e601] [cursor=pointer]:
+              - /url: /fr/contact
+              - img [ref=e602]
+              - text: Soumettre une demande de service
+            - paragraph [ref=e604]: ~3 min · Sans obligation · Réponse en 1 jour ouvrable
+          - generic "Ce qui se passe ensuite" [ref=e605]:
+            - paragraph [ref=e606]: Ce qui se passe ensuite
+            - list [ref=e607]:
+              - listitem [ref=e608]:
+                - generic [ref=e609]: "1"
+                - generic [ref=e610]:
+                  - generic [ref=e611]: Décrivez le besoin
+                  - generic [ref=e612]: Trois courtes questions sur l’objectif, le délai et les contraintes.
+              - listitem [ref=e613]:
+                - generic [ref=e614]: "2"
+                - generic [ref=e615]:
+                  - generic [ref=e616]: Recevez une réponse adaptée
+                  - generic [ref=e617]: Nous répondons en un jour ouvrable avec le bon point de départ—pas un discours de vente.
+              - listitem [ref=e618]:
+                - generic [ref=e619]: "3"
+                - generic [ref=e620]:
+                  - generic [ref=e621]: Prochaine étape balisée
+                  - generic [ref=e622]: Réservez un appel ou recevez un plan clair à approuver avant tout engagement.
+            - paragraph [ref=e623]: Aucune obligation sur la première demande. Nous ne vous engageons pas dans un mandat, un forfait ou un calendrier avant votre approbation écrite de la portée.
+          - paragraph [ref=e624]: Aucun mandat ni forfait avant votre approbation écrite de la portée.
+          - link "Vous préférez commencer seul? Faites l'évaluation de 5 minutes" [ref=e625] [cursor=pointer]:
+            - /url: /fr/assessment
+      - paragraph [ref=e629]:
+        - text: Des questions?
+        - link "FAQ" [ref=e630] [cursor=pointer]:
+          - /url: /fr/faq
+        - text: ou
+        - link "contactez-nous" [ref=e631] [cursor=pointer]:
+          - /url: /fr/contact
+  - contentinfo [ref=e632]:
+    - generic [ref=e633]:
+      - generic [ref=e634]:
+        - generic [ref=e635]:
+          - link "ROALLA" [ref=e636] [cursor=pointer]:
+            - /url: /fr
+            - generic [ref=e637]: ROALLA
+          - paragraph [ref=e638]: Conseiller, rechercher, rendre agentique, construire, relier et améliorer les technologies qui soutiennent la croissance et les opérations.
+          - paragraph [ref=e639]: Conseiller · Rechercher · Agentique · Construire / Relier · Améliorer
+        - generic [ref=e640]:
+          - paragraph [ref=e641]: Explorer
+          - navigation "Explorer" [ref=e642]:
+            - link "Conseil technologique et recherche de solutions" [ref=e643] [cursor=pointer]:
+              - /url: /fr/services/technology-advisory
+            - link "ROALLA Agentic" [ref=e644] [cursor=pointer]:
+              - /url: /fr/services/ai-agents
+            - link "Accompagnement numérique" [ref=e645] [cursor=pointer]:
+              - /url: /fr/services/digital
+            - link "Optimisation de la visibilité numérique" [ref=e646] [cursor=pointer]:
+              - /url: /fr/services/search-ai-visibility
+            - link "Écosystème" [ref=e647] [cursor=pointer]:
+              - /url: /fr/partners
+            - link "Portfolio numérique" [ref=e648] [cursor=pointer]:
+              - /url: /fr/services/portfolio
+            - link "Conseil d’affaires" [ref=e649] [cursor=pointer]:
+              - /url: /fr/services/business-advisory
+            - link "Ateliers d’équipe" [ref=e650] [cursor=pointer]:
+              - /url: /fr/programs/workshops
+        - generic [ref=e651]:
+          - paragraph [ref=e652]: Entreprise
+          - navigation "Entreprise" [ref=e653]:
+            - link "À propos" [ref=e654] [cursor=pointer]:
+              - /url: /fr/about
+            - link "Perspectives" [ref=e655] [cursor=pointer]:
+              - /url: /fr/insights
+            - link "FAQ" [ref=e656] [cursor=pointer]:
+              - /url: /fr/faq
+            - link "Écosystème" [ref=e657] [cursor=pointer]:
+              - /url: /fr/partners
+            - link "Contact" [ref=e658] [cursor=pointer]:
+              - /url: /fr/contact
+        - generic [ref=e659]:
+          - paragraph [ref=e660]: Contact
+          - list [ref=e661]:
+            - listitem [ref=e662]:
+              - link "Envoyer un message" [ref=e663] [cursor=pointer]:
+                - /url: /fr/contact
+                - img [ref=e665]
+                - text: Envoyer un message
+            - listitem [ref=e668]:
+              - link "(289) 838-5868" [ref=e669] [cursor=pointer]:
+                - /url: tel:289-838-5868
+                - img [ref=e671]
+                - text: (289) 838-5868
+          - generic [ref=e673]:
+            - link "Roalla on LinkedIn" [ref=e674] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/102042431/
+              - img [ref=e675]
+            - link "Roalla on YouTube" [ref=e679] [cursor=pointer]:
+              - /url: https://www.youtube.com/@RoallaGroup
+              - img [ref=e680]
+          - link "Discuter de vos besoins" [ref=e683] [cursor=pointer]:
+            - /url: /fr/contact
+            - img [ref=e684]
+            - text: Discuter de vos besoins
+          - paragraph [ref=e686]: ~3 min · Sans obligation · Réponse en 1 jour ouvrable
+      - generic [ref=e687]:
+        - paragraph [ref=e688]: © 2026 Roalla Business Enablement Group. Tous droits réservés.
+        - generic [ref=e689]:
+          - link "Conditions d'utilisation" [ref=e690] [cursor=pointer]:
+            - /url: /fr/terms
+          - link "Politique de confidentialité" [ref=e691] [cursor=pointer]:
+            - /url: /fr/privacy
+          - link "Politique d'IA" [ref=e692] [cursor=pointer]:
+            - /url: /fr/ai-policy
+          - link "Se connecter au portail client Roalla" [ref=e693] [cursor=pointer]:
+            - /url: https://portal.roalla.com
+            - text: Portail client
+            - img [ref=e694]
+          - link "SSO Home" [ref=e697] [cursor=pointer]:
+            - /url: https://sso.roalla.com/home.html
+            - text: SSO Home
+            - img [ref=e698]
+          - link "Contact" [ref=e701] [cursor=pointer]:
+            - /url: /fr/contact
+            - text: Contact
+            - img [ref=e702]
+  - alert [ref=e705]
+```

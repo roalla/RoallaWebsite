@@ -188,7 +188,7 @@
     "useCases": "Cas d'usage",
     "clientPortal": "Portail client",
     "clientPortalAria": "Se connecter au portail client Roalla",
-    "teamSignIn": "Connexion employés",
+    "teamSignIn": "SSO Home",
     "terms": "Conditions d'utilisation",
     "privacy": "Politique de confidentialité",
     "aiPolicy": "Politique d'IA",
@@ -3198,7 +3198,7 @@
     "ctaSubtitle": "Parlez-nous de vos objectifs—nous vous aiderons à trouver le bon point de départ.",
     "ctaButton": "Discuter de vos besoins",
     "employeeHubLine": "Employés Roalla :",
-    "employeeHubLink": "Connexion au hub interne"
+    "employeeHubLink": "Ouvrir SSO Home"
   },
   "assessmentPage": {
     "metadataTitle": "Trouvez votre point de départ | ROALLA",
@@ -3954,7 +3954,10 @@
     "ctaPortfolio": "Voir des exemples en ligne dans notre portfolio"
   },
   "hub": {
-    "title": "Hub interne",
+    "title": "CMS du site (héritage)",
+    "legacyBannerTitle": "L’accueil opérateurs est SSO Home",
+    "legacyBannerBody": "Ce CMS du site est temporaire. Utilisez SSO Home pour les applications, outils et le travail quotidien.",
+    "legacyBannerCta": "Ouvrir SSO Home",
     "navDashboard": "Tableau de bord",
     "navCustomers": "Clients",
     "navPlaybooks": "Guides",
@@ -3999,7 +4002,7 @@
     "lessonSectionRecommendations": "Recommandations",
     "lessonSectionMeta": "Classification",
     "loginTitle": "Connexion employé",
-    "loginSubtitle": "Hub interne Roalla — réservé aux employés et partenaires invités.",
+    "loginSubtitle": "CMS du site Roalla (héritage) — réservé aux employés et partenaires invités.",
     "loginSso": "Continuer avec Roalla SSO",
     "loginPreparing": "Préparation de la connexion…",
     "loginPartnerHint": "Partenaires : utilisez le courriel avec lequel vous avez été invité.",

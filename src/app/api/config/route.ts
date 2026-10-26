@@ -8,7 +8,7 @@ export async function GET() {
     authEnabled: authConfigured(),
     authUrl: roallaAuthHubUrl(),
     authClientId: roallaAuthClientId(),
-    appName: process.env.APP_NAME || 'Roalla Internal Hub',
+    appName: process.env.APP_NAME || 'Roalla Website CMS (legacy)',
     bffMode: true,
     hubAdminEmail: getHubAdminEmailDisplay(),
     configStatus: authConfigStatus(),

@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { useTranslations } from 'next-intl'
-import { Link } from '@/i18n/navigation'
 import {
   Award,
   BriefcaseBusiness,
@@ -23,6 +22,7 @@ import ScheduleButton from './ScheduleButton'
 import Reveal from './motion/Reveal'
 import CountUpNumber from './about/CountUpNumber'
 import FounderPortrait from './about/FounderPortrait'
+import { SSO_HOME_URL } from '@/lib/site'
 import { BrandJourneyTeaser } from './services/BrandJourneyTeaser'
 
 const valueIcons = [CheckCircle, Heart, Clock, Award] as const
@@ -332,12 +332,12 @@ const About = () => {
 
           <p className="mt-10 text-center text-xs text-slate-400">
             {t('employeeHubLine')}{' '}
-            <Link
-              href="/hub/login"
+            <a
+              href={SSO_HOME_URL}
               className="text-slate-500 underline-offset-2 hover:text-primary hover:underline"
             >
               {t('employeeHubLink')}
-            </Link>
+            </a>
           </p>
         </div>
       </section>

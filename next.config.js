@@ -9,46 +9,66 @@ const scriptSrc =
 const nextConfig = {
   output: "standalone",
   async redirects() {
+    const ssoHome = "https://sso.roalla.com/home.html";
     const legacyAppRedirects = [
-      // Legacy auth → internal hub
-      { source: "/login", destination: "/en/hub/login", permanent: false },
+      // Operator home is SSO Home (not www /hub)
+      { source: "/hub", destination: ssoHome, permanent: false },
+      { source: "/hub/tools", destination: ssoHome, permanent: false },
+      { source: "/hub/login", destination: ssoHome, permanent: false },
       {
-        source: "/login/:path*",
-        destination: "/en/hub/login",
+        source: "/:locale(en|fr)/hub",
+        destination: ssoHome,
         permanent: false,
       },
-      { source: "/dashboard", destination: "/en/hub", permanent: false },
-      { source: "/profile", destination: "/en/hub", permanent: false },
-      { source: "/admin", destination: "/en/hub", permanent: false },
-      { source: "/admin/:path*", destination: "/en/hub", permanent: false },
+      {
+        source: "/:locale(en|fr)/hub/tools",
+        destination: ssoHome,
+        permanent: false,
+      },
+      {
+        source: "/:locale(en|fr)/hub/login",
+        destination: ssoHome,
+        permanent: false,
+      },
+      // Legacy auth / admin shells → SSO Home
+      { source: "/login", destination: ssoHome, permanent: false },
+      {
+        source: "/login/:path*",
+        destination: ssoHome,
+        permanent: false,
+      },
+      { source: "/dashboard", destination: ssoHome, permanent: false },
+      { source: "/profile", destination: ssoHome, permanent: false },
+      { source: "/admin", destination: ssoHome, permanent: false },
+      { source: "/admin/:path*", destination: ssoHome, permanent: false },
       {
         source: "/:locale(en|fr)/login/:path*",
-        destination: "/:locale/hub/login",
+        destination: ssoHome,
         permanent: false,
       },
       {
         source: "/:locale(en|fr)/login",
-        destination: "/:locale/hub/login",
+        destination: ssoHome,
         permanent: false,
       },
       {
         source: "/:locale(en|fr)/dashboard",
-        destination: "/:locale/hub",
+        destination: ssoHome,
         permanent: false,
       },
       {
         source: "/:locale(en|fr)/profile",
-        destination: "/:locale/hub",
+        destination: ssoHome,
         permanent: false,
       },
       {
         source: "/:locale(en|fr)/admin/:path*",
-        destination: "/:locale/hub",
+        destination: ssoHome,
         permanent: false,
       },
       {
         source: "/:locale(en|fr)/admin",
-        destination: "/:locale/hub",
+        destination: ssoHome,
         permanent: false,
       },
       // Internal playbook moved behind auth

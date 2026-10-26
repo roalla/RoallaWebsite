@@ -3,9 +3,12 @@ export const OG_IMAGE = '/og-landing.jpg'
 export const OG_IMAGE_ALT =
   'ROALLA homepage — Prepare. Transform. Emerge. Soar. Websites, digital products, automation, and AI.'
 
-/** Client Portal (engagements) — separate from employee /hub login on this site. */
+/** Client Portal (engagements) — separate from the website CMS on this site. */
 export const CLIENT_PORTAL_URL =
   process.env.NEXT_PUBLIC_CLIENT_PORTAL_URL?.trim() || 'https://portal.roalla.com'
+
+/** Sole operator home — suite launcher and employee sign-in live here, not on www /hub. */
+export const SSO_HOME_URL = 'https://sso.roalla.com/home.html'
 
 export const SOCIAL_LINKS = {
   linkedin: 'https://www.linkedin.com/company/102042431/',

@@ -7,9 +7,10 @@ import { loadHeaderInsightSlugs } from '@/lib/header-insights-store'
 import { getHubSession } from '@/lib/hub/auth-session'
 import { canManageHeaderInsights } from '@/lib/hub/permissions'
 import { INSIGHT_GROUPS, type InsightGroup, type InsightSlug } from '@/lib/insights'
+import { SSO_HOME_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
-  title: 'Insights menu | Roalla Internal Hub',
+  title: 'Insights menu | Website CMS (legacy)',
   robots: { index: false, follow: false },
 }
 
@@ -20,7 +21,7 @@ type Props = { params: Promise<{ locale: string }> }
 export default async function HubHeaderInsightsPage({ params }: Props) {
   const { locale } = await params
   const session = await getHubSession()
-  if (!session.signedIn || !session.user) redirect(`/${locale}/hub/login`)
+  if (!session.signedIn || !session.user) redirect(SSO_HOME_URL)
   if (!canManageHeaderInsights(session.user.role)) redirect(`/${locale}/hub`)
 
   const t = await getTranslations({ locale, namespace: 'insights' })

@@ -4,9 +4,10 @@ import { getHubSession } from '@/lib/hub/auth-session'
 import { dbConfigured, dbQuery } from '@/lib/db'
 import { canManageCustomers, canViewAllCustomers } from '@/lib/hub/permissions'
 import CustomersList from '@/components/hub/CustomersList'
+import { SSO_HOME_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
-  title: 'Customers | Roalla Internal Hub',
+  title: 'Customers | Website CMS (legacy)',
   robots: { index: false, follow: false },
 }
 
@@ -17,7 +18,7 @@ type Props = { params: Promise<{ locale: string }> }
 export default async function HubCustomersPage({ params }: Props) {
   const { locale } = await params
   const session = await getHubSession()
-  if (!session.signedIn || !session.user) redirect(`/${locale}/hub/login`)
+  if (!session.signedIn || !session.user) redirect(SSO_HOME_URL)
 
   const role = session.user.role
   if (!canManageCustomers(role) && !canViewAllCustomers(role) && role !== 'contractor') {

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Script from 'next/script'
+import { SSO_HOME_URL } from '@/lib/site'
 
 type Props = {
   returnPath: string
@@ -36,7 +37,11 @@ export default function AuthCallbackClient({ returnPath }: Props) {
 
         if (signedIn) {
           await fetch('/api/auth/sync', { method: 'POST', credentials: 'include' })
-          window.location.href = returnPath.startsWith('/') ? returnPath : `/${returnPath}`
+          window.location.href = /^https?:\/\//i.test(returnPath)
+            ? returnPath
+            : returnPath.startsWith('/')
+              ? returnPath
+              : `/${returnPath}`
           return
         }
 
@@ -63,10 +68,10 @@ export default function AuthCallbackClient({ returnPath }: Props) {
           <p className="text-slate-600 text-sm">{error || 'Finishing authentication…'}</p>
           {error && (
             <a
-              href="/en/hub/login"
+              href={SSO_HOME_URL}
               className="inline-block mt-4 text-sm text-amber-700 hover:underline"
             >
-              Back to employee sign in
+              Back to SSO Home
             </a>
           )}
         </div>

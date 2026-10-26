@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import AuthCallbackClient from '@/components/auth/AuthCallbackClient'
+import { SSO_HOME_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Signing in… | ROALLA',
@@ -12,7 +13,7 @@ type Props = {
 
 export default async function AuthCallbackPage({ searchParams }: Props) {
   const sp = await searchParams
-  const returnPath = sp.return || '/en/hub'
+  const returnPath = sp.return || SSO_HOME_URL
 
   return <AuthCallbackClient returnPath={returnPath} />
 }

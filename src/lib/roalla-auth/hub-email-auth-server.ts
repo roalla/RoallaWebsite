@@ -1,11 +1,16 @@
 import { publicAppOriginUrl, roallaAuthClientId, roallaAuthHubUrl } from '@/lib/roalla-auth/config'
+import { SSO_HOME_URL } from '@/lib/site'
 
 export function buildAuthCallbackReturnUrl(returnPath: string): string {
-  const trimmed = returnPath.trim() || '/en/hub'
-  const normalized = trimmed.startsWith('/') ? trimmed : `/${trimmed}`
-  const localeMatch = normalized.match(/^\/(en|fr)(\/|$)/)
+  const trimmed = returnPath.trim() || SSO_HOME_URL
+  const destination = /^https?:\/\//i.test(trimmed)
+    ? trimmed
+    : trimmed.startsWith('/')
+      ? trimmed
+      : `/${trimmed}`
+  const localeMatch = destination.match(/^\/(en|fr)(\/|$)/)
   const locale = localeMatch?.[1] || 'en'
-  const callback = `/${locale}/auth/callback?return=${encodeURIComponent(normalized)}`
+  const callback = `/${locale}/auth/callback?return=${encodeURIComponent(destination)}`
   return new URL(callback, publicAppOriginUrl()).toString()
 }
 
@@ -47,7 +52,7 @@ export async function hubEmailLogin(body: EmailAuthHubBody): Promise<HubProxyRes
   return proxyHubAuthApi('/api/login', {
     email: body.email,
     password: body.password,
-    return_url: buildAuthCallbackReturnUrl(body.return_path ?? '/en/hub'),
+    return_url: buildAuthCallbackReturnUrl(body.return_path ?? SSO_HOME_URL),
     code_challenge: body.code_challenge,
     code_challenge_method: body.code_challenge_method ?? 'S256',
   })
@@ -58,7 +63,7 @@ export async function hubEmailRegister(body: EmailAuthHubBody): Promise<HubProxy
     email: body.email,
     password: body.password,
     name: body.name ?? '',
-    return_url: buildAuthCallbackReturnUrl(body.return_path ?? '/en/hub'),
+    return_url: buildAuthCallbackReturnUrl(body.return_path ?? SSO_HOME_URL),
     code_challenge: body.code_challenge,
     code_challenge_method: body.code_challenge_method ?? 'S256',
   })

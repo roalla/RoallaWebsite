@@ -51,6 +51,7 @@ const FILES: Record<string, string> = {
   "executive-hiring-first-100-days": "executive-hiring-first-100-days.pdf",
   "leadership-team-evolution-growth-stage": "leadership-team-evolution-growth-stage.pdf",
   "executive-performance-scorecards": "executive-performance-scorecards.pdf",
+  "sustainable-performance-psychological-wellbeing": "sustainable-performance-psychological-wellbeing.pdf",
 };
 
 function secret() {

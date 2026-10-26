@@ -414,6 +414,14 @@ export const EXECUTIVE_GUIDES: readonly ExecutiveGuide[] = [
     en: { title: "Executive Performance Scorecards for Growth Companies", summary: "Balance enterprise outcomes, customer value, financial results, operating health, people, risk and transformation in a decision-useful executive scorecard.", categoryLabel: "Executive performance" },
     fr: { title: "Tableaux de bord de performance des dirigeants", summary: "Équilibrez résultats d’entreprise, valeur client, finances, opérations, talents, risque et transformation dans un tableau de bord utile à la décision.", categoryLabel: "Performance des dirigeants" },
   },
+  {
+    slug: "sustainable-performance-psychological-wellbeing",
+    number: "EI—48",
+    category: "operations",
+    image: "/images/executive-insights/sustainable-performance-psychological-wellbeing.png",
+    en: { title: "Sustainable Performance, Psychological Wellbeing and Work-Life Balance", summary: "Create healthier, more sustainable work by aligning psychosocial risk controls, workload, priorities, boundaries, manager practices and voluntary employee tools.", categoryLabel: "People & performance" },
+    fr: { title: "Performance durable, bien-être psychologique et équilibre travail-vie personnelle", summary: "Créez un travail plus sain et durable en harmonisant les risques psychosociaux, la charge, les priorités, les limites, la gestion et les outils volontaires.", categoryLabel: "Personnes et performance" },
+  },
 ] as const;
 
 export function findExecutiveGuide(slug: string) {

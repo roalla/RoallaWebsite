@@ -53,7 +53,7 @@ const About = () => {
 
   return (
     <div id="about">
-      <section className="relative isolate overflow-hidden bg-slate-950 text-white">
+      <section data-header-tone="dark" className="relative isolate overflow-hidden bg-slate-950 text-white">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
           <div className="about-aurora absolute -left-32 -top-40 h-[34rem] w-[34rem] rounded-full bg-primary/25 blur-3xl" />
           <div className="about-aurora about-aurora-slow absolute -bottom-48 -right-24 h-[36rem] w-[36rem] rounded-full bg-brand-gold/10 blur-3xl" />
@@ -293,7 +293,7 @@ const About = () => {
         </div>
       </section>
 
-      <section className="relative isolate overflow-hidden bg-slate-950 py-20 lg:py-28">
+      <section data-header-tone="dark" className="relative isolate overflow-hidden bg-slate-950 py-20 lg:py-28">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
           <div className="about-aurora absolute -left-24 top-0 h-96 w-96 rounded-full bg-primary/25 blur-3xl" />
           <div className="about-aurora about-aurora-slow absolute -right-16 bottom-0 h-96 w-96 rounded-full bg-brand-gold/10 blur-3xl" />

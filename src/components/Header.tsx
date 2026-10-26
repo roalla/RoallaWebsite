@@ -166,7 +166,11 @@ const Header = ({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [overDark, setOverDark] = useState(
-    pathname === "/" || pathname === "/solutions" || pathname.startsWith("/solutions/"),
+    pathname === "/" ||
+      pathname === "/solutions" ||
+      pathname.startsWith("/solutions/") ||
+      pathname === "/executive-insights" ||
+      pathname === "/about",
   );
   const [mounted, setMounted] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);

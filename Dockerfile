@@ -11,6 +11,14 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
+# Stable across replicas of the same image; rotate only when you rebuild.
+# Generate once: openssl rand -base64 32
+ARG NEXT_SERVER_ACTIONS_ENCRYPTION_KEY
+ENV NEXT_SERVER_ACTIONS_ENCRYPTION_KEY=$NEXT_SERVER_ACTIONS_ENCRYPTION_KEY
+# Unique per deploy so clients hard-reload when versions skew.
+ARG GIT_SHA=unknown
+ENV GIT_SHA=$GIT_SHA
+ENV NEXT_DEPLOYMENT_ID=$GIT_SHA
 RUN npm run build
 
 FROM node:20-bookworm-slim AS runtime

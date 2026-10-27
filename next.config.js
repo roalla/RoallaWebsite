@@ -8,6 +8,12 @@ const scriptSrc =
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",
+  // Pins client assets / Server Action IDs to one deploy. Reduces
+  // "Failed to find Server Action" when a tab outlives a rolling cutover.
+  // Set NEXT_DEPLOYMENT_ID (or GIT_SHA) at image build time.
+  ...(process.env.NEXT_DEPLOYMENT_ID || process.env.GIT_SHA
+    ? { deploymentId: process.env.NEXT_DEPLOYMENT_ID || process.env.GIT_SHA }
+    : {}),
   async redirects() {
     const ssoHome = "https://sso.roalla.com/home.html";
     const legacyAppRedirects = [

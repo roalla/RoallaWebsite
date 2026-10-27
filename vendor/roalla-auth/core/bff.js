@@ -80,6 +80,76 @@ function authCookieOptions(maxAgeMs) {
   return { ...COOKIE_OPTS, maxAge: maxAgeMs };
 }
 
+function safeRelativePath(nextRaw, fallback = "/") {
+  const raw = String(nextRaw || "").trim() || fallback;
+  if (!raw.startsWith("/") || raw.startsWith("//")) return fallback;
+  return raw;
+}
+
+function escapeHtmlText(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function withQueryParam(relativePath, key, value) {
+  const path = safeRelativePath(relativePath, "/");
+  try {
+    const url = new URL(path, "https://bff.invalid");
+    url.searchParams.set(key, value);
+    return `${url.pathname}${url.search}${url.hash}`;
+  } catch (_) {
+    return path;
+  }
+}
+
+function htmlBridgeRedirect(relativePath, message = "Signing you in…") {
+  const target = safeRelativePath(relativePath, "/");
+  const attr = target
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+  const json = JSON.stringify(target);
+  return {
+    status: 200,
+    target,
+    headers: {
+      "Content-Type": "text/html; charset=utf-8",
+      "Cache-Control": "no-store, no-cache, must-revalidate",
+      "Referrer-Policy": "no-referrer",
+      Pragma: "no-cache",
+    },
+    body:
+      `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/>` +
+      `<meta name="referrer" content="no-referrer"/>` +
+      `<meta http-equiv="refresh" content="0;url=${attr}"/>` +
+      `<title>Signing in</title></head><body><p>${escapeHtmlText(message)}</p>` +
+      `<script>location.replace(${json});</script></body></html>`,
+  };
+}
+
+function isSpeculativePrefetch(getHeader) {
+  if (typeof getHeader !== "function") return false;
+  const purpose = String(getHeader("purpose") || "").toLowerCase();
+  const secPurpose = String(getHeader("sec-purpose") || "").toLowerCase();
+  return purpose === "prefetch" || secPurpose.includes("prefetch");
+}
+
+async function exchangeSsoHandoff({ token, db, mail, getHeader } = {}) {
+  if (isSpeculativePrefetch(getHeader)) return { prefetch: true, ok: false, data: null };
+  const upstream = await hubFetch("/api/session/sso-handoff/exchange", { token });
+  const data = await upstream.json().catch(() => ({}));
+  if (!upstream.ok || !data.access_token) return { prefetch: false, ok: false, data };
+  try {
+    await syncHubUser(db, mail, data.access_token);
+  } catch (err) {
+    console.error("sso handoff user sync", err);
+  }
+  return { prefetch: false, ok: true, data };
+}
+
 function clearAuthCookies(setCookie) {
   setCookie(REFRESH_COOKIE, "", { ...COOKIE_OPTS, maxAge: 0 });
   setCookie(ACCESS_COOKIE, "", { ...COOKIE_OPTS, maxAge: 0 });
@@ -128,6 +198,10 @@ module.exports = {
   hubFetch,
   hubGet,
   syncHubUser,
+  safeRelativePath,
+  withQueryParam,
+  htmlBridgeRedirect,
+  exchangeSsoHandoff,
   exchangeWithHub,
   applyAuthCookies,
   clearAuthCookies,

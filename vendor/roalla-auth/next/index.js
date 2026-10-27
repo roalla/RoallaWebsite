@@ -1,7 +1,7 @@
 /**
  * Next.js App Router auth helpers (BFF mode).
  */
-const { createRemoteJWKSet, jwtVerify } = require("jose");
+const { createRemoteJWKSet, jwtVerify, decodeJwt } = require("jose");
 const {
   REFRESH_COOKIE,
   ACCESS_COOKIE,
@@ -12,6 +12,10 @@ const {
   fetchSiblingApps,
   hubFetch,
   hubPostWithAuth,
+  exchangeSsoHandoff,
+  safeRelativePath,
+  withQueryParam,
+  htmlBridgeRedirect,
 } = require("../core/bff");
 
 function jsonResponse(body, status = 200, headers = {}) {
@@ -34,6 +38,11 @@ function setCookieHeader(name, value, opts) {
   if (opts.sameSite) parts.push(`SameSite=${opts.sameSite}`);
   if (opts.secure) parts.push("Secure");
   return parts.join("; ");
+}
+
+function bridgeRedirectResponse(locationPath, message) {
+  const bridge = htmlBridgeRedirect(locationPath, message);
+  return new Response(bridge.body, { status: bridge.status, headers: bridge.headers });
 }
 
 function applyCookiesToResponse(response, setCookieFn) {
@@ -91,7 +100,7 @@ async function getServerSession(request) {
   return verifyAccessToken(data.access_token);
 }
 
-function createAuthHandlers({ db, mail } = {}) {
+function createAuthHandlers({ db, mail, afterAuth } = {}) {
   async function exchangeAndRespond(request, payload) {
     const { ok, status, data } = await exchangeWithHub(payload);
     if (!ok) return jsonResponse(data, status);
@@ -182,6 +191,69 @@ function createAuthHandlers({ db, mail } = {}) {
       }
     },
 
+    async ssoHandoff(request) {
+      if (!process.env.AUTH_URL || !process.env.AUTH_CLIENT_ID) {
+        return jsonResponse({ error: "Auth not configured." }, 501);
+      }
+      const method = String(request.method || "GET").toUpperCase();
+      let token = "";
+      let nextRaw = "";
+      if (method === "POST") {
+        const contentType = request.headers.get("content-type") || "";
+        if (contentType.includes("application/json")) {
+          const body = await request.json().catch(() => ({}));
+          token = String(body.token || "").trim();
+          nextRaw = body.next || "";
+        } else {
+          const form = await request.formData().catch(() => null);
+          token = String(form?.get("token") || "").trim();
+          nextRaw = form?.get("next") || "";
+        }
+      } else {
+        const url = new URL(request.url);
+        token = String(url.searchParams.get("token") || "").trim();
+        nextRaw = url.searchParams.get("next") || "";
+      }
+      const nextPath = safeRelativePath(nextRaw || "/", "/");
+      if (!token) return bridgeRedirectResponse(nextPath, "Continuing…");
+
+      try {
+        const result = await exchangeSsoHandoff({
+          token,
+          db,
+          mail,
+          getHeader: method === "GET" ? (name) => request.headers.get(name) : undefined,
+        });
+        if (result.prefetch) {
+          return new Response(null, {
+            status: 204,
+            headers: { "Cache-Control": "no-store", "Referrer-Policy": "no-referrer" },
+          });
+        }
+        if (!result.ok) {
+          return bridgeRedirectResponse(withQueryParam(nextPath, "sso_error", "1"), "Sign-in handoff failed…");
+        }
+        if (typeof afterAuth === "function" && result.data?.access_token) {
+          try {
+            const payload = decodeJwt(result.data.access_token);
+            await afterAuth({
+              userId: String(payload.sub || ""),
+              email: String(payload.email || ""),
+              name: String(payload.name || ""),
+            });
+          } catch (err) {
+            console.error("sso handoff afterAuth", err);
+          }
+        }
+        let response = bridgeRedirectResponse(nextPath, "Signing you in…");
+        response = applyCookiesToResponse(response, (setCookie) => applyAuthCookies(setCookie, result.data));
+        return response;
+      } catch (err) {
+        console.error("sso handoff exchange", err);
+        return bridgeRedirectResponse(withQueryParam(nextPath, "sso_error", "1"), "Sign-in handoff failed…");
+      }
+    },
+
     async storageSas(request) {
       if (!process.env.AUTH_URL || !process.env.AUTH_CLIENT_ID) {
         return jsonResponse({ error: "Auth not configured." }, 501);
@@ -212,6 +284,7 @@ function createAuthRouteHandlers(options) {
       const path = new URL(request.url).pathname;
       if (path.endsWith("/session")) return handlers.session(request);
       if (path.endsWith("/sibling-apps")) return handlers.siblingApps(request);
+      if (path.endsWith("/sso-handoff")) return handlers.ssoHandoff(request);
       return jsonResponse({ error: "Not found." }, 404);
     },
     POST: async (request) => {
@@ -220,6 +293,7 @@ function createAuthRouteHandlers(options) {
       if (path.endsWith("/refresh")) return handlers.refresh(request);
       if (path.endsWith("/logout")) return handlers.logout(request);
       if (path.endsWith("/sync")) return handlers.sync(request);
+      if (path.endsWith("/sso-handoff")) return handlers.ssoHandoff(request);
       return jsonResponse({ error: "Not found." }, 404);
     },
   };

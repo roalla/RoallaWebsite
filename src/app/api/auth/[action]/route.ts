@@ -4,7 +4,13 @@ import { db } from '@/lib/db'
 import { ensureUserRole } from '@/lib/hub/sync-user'
 
 const mail = {}
-const handlers = createAuthHandlers({ db, mail })
+const handlers = createAuthHandlers({
+  db,
+  mail,
+  afterAuth: async ({ userId, email, name }: { userId: string; email: string; name: string }) => {
+    if (userId) await ensureUserRole(userId, email, name)
+  },
+})
 
 type RouteContext = { params: Promise<{ action: string }> }
 
@@ -23,6 +29,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
   const { action } = await context.params
   if (action === 'session') return handlers.session(request)
   if (action === 'sibling-apps') return handlers.siblingApps(request)
+  if (action === 'sso-handoff') return handlers.ssoHandoff(request)
   return Response.json({ error: 'Not found.' }, { status: 404 })
 }
 
@@ -42,5 +49,6 @@ export async function POST(request: NextRequest, context: RouteContext) {
     await syncRoleAfterAuth(request)
     return res
   }
+  if (action === 'sso-handoff') return handlers.ssoHandoff(request)
   return Response.json({ error: 'Not found.' }, { status: 404 })
 }

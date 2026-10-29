@@ -1,38 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import {
-  ArrowDown,
-  ArrowRight,
-  Bot,
-  Check,
-  ChevronDown,
-  Compass,
-  MessagesSquare,
-  MonitorSmartphone,
-  Network,
-  RadioTower,
-  SearchCheck,
-  ServerCog,
-  ShieldCheck,
-} from 'lucide-react'
+import { ArrowDown, ArrowRight, Check, ChevronDown } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import { trackAnalyticsEvent } from '@/lib/analytics'
-import { outcomeGroups } from '@/lib/solution-outcome-pages'
-import type { SolutionsByNeedContent, SolutionPathId } from '@/lib/solutions-by-need'
-import GrowthVisibilityPanel from '@/components/solutions/GrowthVisibilityPanel'
-
-const PATHWAY_ICONS = {
-  strategy: Compass,
-  'cloud-infrastructure': ServerCog,
-  communications: MessagesSquare,
-  security: ShieldCheck,
-  iot: RadioTower,
-  network: Network,
-  'digital-experience': MonitorSmartphone,
-  'automation-ai': Bot,
-  visibility: SearchCheck,
-} satisfies Record<SolutionPathId, typeof Compass>
+import { outcomeGroups, type OutcomeGroupId } from '@/lib/solution-outcome-pages'
+import type { SolutionsByNeedContent } from '@/lib/solutions-by-need'
+import OutcomeGroupPanel from '@/components/solutions/OutcomeGroupPanel'
 
 export default function SolutionsByNeedPage({
   content,
@@ -43,24 +17,26 @@ export default function SolutionsByNeedPage({
 }) {
   const groups = outcomeGroups[locale]
   const stepOne = locale === 'fr' ? 'Étape 1 · Choisissez le type de changement' : 'Step 1 · Choose the kind of change'
-  const stepTwo = locale === 'fr' ? 'Étape 2 · Choisissez le résultat le plus proche' : 'Step 2 · Choose the closest outcome'
-  const stepTwoVisibility =
-    locale === 'fr' ? 'Étape 2 · Cadrez le résultat, puis commencez par des preuves' : 'Step 2 · Frame the outcome, then start with evidence'
+  const stepTwo =
+    locale === 'fr'
+      ? 'Étape 2 · Cadrez le résultat, puis commencez par des preuves'
+      : 'Step 2 · Frame the outcome, then start with evidence'
   const openLabel = (count: number) =>
     locale === 'fr'
       ? `Voir ${count} ${count === 1 ? 'parcours' : 'parcours'}`
       : `See ${count} ${count === 1 ? 'path' : 'paths'}`
 
   const [openId, setOpenId] = useState<string>(groups[0]?.id ?? 'growth-visibility')
-  const [hashHighlight, setHashHighlight] = useState(false)
+  const [hashHighlight, setHashHighlight] = useState<OutcomeGroupId | null>(null)
 
   useEffect(() => {
     const applyHash = () => {
       const hash = window.location.hash.replace(/^#/, '')
       if (!hash) return
-      if (groups.some((group) => group.id === hash)) {
-        setOpenId(hash)
-        if (hash === 'growth-visibility') setHashHighlight(true)
+      const matched = groups.find((group) => group.id === hash)
+      if (matched) {
+        setOpenId(matched.id)
+        setHashHighlight(matched.id)
         const el = document.getElementById(hash)
         el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
       }
@@ -112,7 +88,6 @@ export default function SolutionsByNeedPage({
                 .map((id) => content.pathways.find((pathway) => pathway.id === id))
                 .filter((pathway): pathway is NonNullable<typeof pathway> => Boolean(pathway))
               const isOpen = openId === group.id
-              const isVisibility = group.id === 'growth-visibility'
 
               return (
                 <details
@@ -135,50 +110,12 @@ export default function SolutionsByNeedPage({
                     <ChevronDown className="h-6 w-6 shrink-0 text-primary-dark transition group-open:rotate-180" aria-hidden />
                   </summary>
                   <div className="border-t border-slate-200 px-6 pb-7 pt-6 sm:px-7">
-                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
-                      {isVisibility ? stepTwoVisibility : stepTwo}
-                    </p>
-
-                    {isVisibility ? (
-                      <GrowthVisibilityPanel locale={locale} highlighted={hashHighlight} />
-                    ) : (
-                      <div className="mt-5 grid gap-4 lg:grid-cols-3">
-                        {pathways.map((pathway) => {
-                          const Icon = PATHWAY_ICONS[pathway.id]
-                          return (
-                            <Link
-                              key={pathway.id}
-                              id={pathway.id}
-                              href={{ pathname: '/solutions/[slug]', params: { slug: pathway.id } }}
-                              onClick={() => {
-                                trackAnalyticsEvent('solutions_pathway_click', {
-                                  location: 'guided_discovery',
-                                  pathway: pathway.id,
-                                })
-                                trackAnalyticsEvent('outcome_selection', {
-                                  location: 'guided_discovery',
-                                  outcome: pathway.id,
-                                  group: group.id,
-                                })
-                              }}
-                              className="group/card flex min-h-full flex-col rounded-xl border border-slate-200 bg-white p-5 transition hover:border-primary/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                            >
-                              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary-dark">
-                                <Icon className="h-5 w-5" aria-hidden />
-                              </span>
-                              <h3 className="mt-4 font-serif text-xl font-bold leading-tight text-slate-950 group-hover/card:text-primary-dark">
-                                {pathway.shortTitle}
-                              </h3>
-                              <p className="mt-3 text-sm leading-6 text-slate-600">{pathway.navDescription}</p>
-                              <span className="mt-auto inline-flex items-center pt-5 text-sm font-semibold text-primary-dark">
-                                {content.serviceCta}
-                                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-                              </span>
-                            </Link>
-                          )
-                        })}
-                      </div>
-                    )}
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">{stepTwo}</p>
+                    <OutcomeGroupPanel
+                      groupId={group.id}
+                      locale={locale}
+                      highlighted={hashHighlight === group.id}
+                    />
                   </div>
                 </details>
               )

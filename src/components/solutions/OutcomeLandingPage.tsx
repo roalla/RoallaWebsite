@@ -65,52 +65,95 @@ export default function OutcomeLandingPage({
       <OutcomePageAnalytics outcome={pathway.id} />
       <section
         data-header-tone="dark"
-        className="relative overflow-hidden bg-slate-950 px-4 pb-16 pt-28 text-white sm:px-6 lg:px-8 lg:pb-20 lg:pt-32"
+        className="relative isolate overflow-hidden bg-slate-950 px-4 pb-16 pt-28 text-white sm:px-6 lg:px-8 lg:pb-20 lg:pt-32"
       >
-        <div className="absolute inset-0" aria-hidden>
-          <div className="absolute -right-20 top-12 h-80 w-80 rounded-full bg-primary/20 blur-3xl" />
-          <div className="absolute -left-24 bottom-0 h-64 w-64 rounded-full bg-cyan-400/10 blur-3xl" />
-        </div>
-        <div className="relative mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
-          <div>
-            <Link href="/solutions" data-outcome-track="hero_breadcrumb|solutions" className="inline-flex min-h-[44px] items-center text-sm font-semibold text-slate-300 underline-offset-4 hover:text-white hover:underline">
-              {copy.breadcrumb}
-            </Link>
-            <p className="mt-5 text-xs font-bold uppercase tracking-[0.2em] text-primary">
-              {copy.eyebrow} · {visual.focus[locale]}
-            </p>
-            <h1 className="mt-4 max-w-4xl font-serif text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">{pathway.title}</h1>
-            <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-300 sm:text-xl">{pathway.description}</p>
-            <div className="mt-6 max-w-3xl border-l-2 border-primary bg-white/[0.06] px-4 py-3 sm:px-5">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary">{copy.plainAnswer}</p>
-              <p className="mt-2 leading-7 text-slate-100">{pathway.result}</p>
-            </div>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href="#outcome-contact" data-outcome-track="hero|embedded-contact" className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary-dark px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-darker focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
-                {copy.ctaPrimary}<ArrowDown className="ml-2 h-4 w-4" aria-hidden />
-              </a>
-              <Link href={pathway.href} data-outcome-track={`hero|${pathway.href}`} className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-white/25 bg-white/5 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
-                {copy.serviceCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-              </Link>
-            </div>
+        {/* Full-bleed first in DOM + static webp (unoptimized) so LCP is not waiting on /_next/image. */}
+        <Image
+          src={visual.src}
+          alt=""
+          fill
+          priority
+          fetchPriority="high"
+          unoptimized
+          sizes="100vw"
+          className="-z-30 object-cover object-center opacity-45"
+        />
+        <div
+          className="absolute inset-0 -z-20 bg-gradient-to-r from-slate-950 via-slate-950/92 to-slate-950/55"
+          aria-hidden
+        />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/30 via-transparent to-slate-950/80" aria-hidden />
+
+        <div className="relative mx-auto max-w-6xl">
+          <Link href="/solutions" data-outcome-track="hero_breadcrumb|solutions" className="inline-flex min-h-[44px] items-center text-sm font-semibold text-slate-300 underline-offset-4 hover:text-white hover:underline">
+            {copy.breadcrumb}
+          </Link>
+          <p className="mt-5 text-xs font-bold uppercase tracking-[0.2em] text-primary">
+            {copy.eyebrow} · {visual.focus[locale]}
+          </p>
+          <h1 className="mt-4 max-w-4xl font-serif text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">{pathway.title}</h1>
+          <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-200 sm:text-xl">{pathway.description}</p>
+          <div className="mt-6 max-w-3xl border-l-2 border-primary bg-black/25 px-4 py-3 backdrop-blur-[2px] sm:px-5">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary">{copy.plainAnswer}</p>
+            <p className="mt-2 leading-7 text-slate-100">{pathway.result}</p>
           </div>
-          <figure className="group relative overflow-hidden rounded-3xl border border-white/15 bg-slate-900 shadow-2xl">
-            <div className="relative aspect-[4/3]">
-              <Image
-                src={visual.src}
-                alt={visual.alt[locale]}
-                fill
-                priority
-                fetchPriority="high"
-                sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) calc(100vw - 3rem), 528px"
-                className="object-cover transition-transform duration-700 motion-safe:group-hover:scale-[1.025]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" aria-hidden />
-            </div>
-            <figcaption className="absolute bottom-0 left-0 right-0 p-5 text-sm font-semibold text-white sm:p-6">{visual.focus[locale]}</figcaption>
-          </figure>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            {pathway.id === "visibility" ? (
+              <Link
+                href={{
+                  pathname: "/tools/digital-presence-snapshot",
+                  query: {
+                    campaign: "solutions-visibility-outcome",
+                    offer: "free-automated-visibility-snapshot",
+                    conversion_source: "outcome_hero",
+                    entry_page: sourcePage,
+                    selected_problem: "website-and-ai-visibility",
+                  },
+                }}
+                data-outcome-track="hero|digital-presence-snapshot"
+                className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 transition-colors hover:bg-brand-gold-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              >
+                {copy.visibilityToolCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+            ) : null}
+            <a href="#outcome-contact" data-outcome-track="hero|embedded-contact" className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary-dark px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-darker focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+              {copy.ctaPrimary}<ArrowDown className="ml-2 h-4 w-4" aria-hidden />
+            </a>
+            <Link href={pathway.href} data-outcome-track={`hero|${pathway.href}`} className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-white/25 bg-white/5 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+              {copy.serviceCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+          <p className="sr-only">{visual.alt[locale]}</p>
         </div>
       </section>
+
+      {pathway.id === "visibility" ? (
+        <aside className="border-b border-slate-200 bg-white px-4 py-8 sm:px-6 lg:px-8" aria-labelledby="visibility-tool-title">
+          <div className="mx-auto flex max-w-6xl flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+            <div className="max-w-3xl">
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">{copy.visibilityToolEyebrow}</p>
+              <h2 id="visibility-tool-title" className="mt-2 font-serif text-2xl font-bold text-slate-950 sm:text-3xl">{copy.visibilityToolTitle}</h2>
+              <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base">{copy.visibilityToolBody}</p>
+            </div>
+            <Link
+              href={{
+                pathname: "/tools/digital-presence-snapshot",
+                query: {
+                  campaign: "solutions-visibility-outcome",
+                  offer: "free-automated-visibility-snapshot",
+                  conversion_source: "outcome_band",
+                  entry_page: sourcePage,
+                  selected_problem: "website-and-ai-visibility",
+                },
+              }}
+              data-outcome-track="band|digital-presence-snapshot"
+              className="inline-flex min-h-[48px] shrink-0 items-center justify-center rounded-lg bg-primary-dark px-6 py-3 font-semibold text-white transition hover:bg-primary-darker focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            >
+              {copy.visibilityToolCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+        </aside>
+      ) : null}
 
       <aside className="border-b border-slate-200 bg-slate-50 px-4 py-6 sm:px-6 lg:px-8" aria-label={copy.credibilityLabel}>
         <div className="mx-auto grid max-w-6xl gap-5 sm:grid-cols-3">

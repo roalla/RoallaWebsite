@@ -58,6 +58,10 @@ export type SolutionsByNeedContent = {
   examplesLabel: string;
   resultLabel: string;
   serviceCta: string;
+  visibilityToolLabel: string;
+  visibilityToolTitle: string;
+  visibilityToolBody: string;
+  visibilityToolCta: string;
   assessmentPrompt: string;
   closingEyebrow: string;
   closingTitle: string;
@@ -87,6 +91,10 @@ export const solutionsByNeedContent: Record<"en" | "fr", SolutionsByNeedContent>
     examplesLabel: "What this can include",
     resultLabel: "Typical result",
     serviceCta: "Explore this outcome",
+    visibilityToolLabel: "Start with evidence",
+    visibilityToolTitle: "Check your website first.",
+    visibilityToolBody: "Enter your domain in the free Digital Presence Snapshot—performance, search readability, and priority actions. No email required.",
+    visibilityToolCta: "Check my website",
     assessmentPrompt: "Still deciding? The assessment turns your priorities into a recommended starting point.",
     closingEyebrow: "A simpler first step",
     closingTitle: "Bring the need. We’ll help shape the route.",
@@ -224,6 +232,10 @@ export const solutionsByNeedContent: Record<"en" | "fr", SolutionsByNeedContent>
     examplesLabel: "Ce que cela peut comprendre",
     resultLabel: "Résultat type",
     serviceCta: "Explorer ce résultat",
+    visibilityToolLabel: "Commencer par des preuves",
+    visibilityToolTitle: "Vérifiez d’abord votre site Web.",
+    visibilityToolBody: "Entrez votre domaine dans l’Aperçu gratuit de présence numérique—performance, lisibilité pour la recherche et actions prioritaires. Aucun courriel requis.",
+    visibilityToolCta: "Vérifier mon site",
     assessmentPrompt: "Vous hésitez encore? L’évaluation transforme vos priorités en point de départ recommandé.",
     closingEyebrow: "Une première étape plus simple",
     closingTitle: "Apportez le besoin. Nous vous aiderons à tracer la route.",

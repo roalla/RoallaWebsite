@@ -115,6 +115,36 @@ export default function SolutionsByNeedPage({
                         );
                       })}
                     </div>
+                    {group.id === "growth-visibility" ? (
+                      <div className="mt-6 flex flex-col gap-4 border border-slate-200 bg-slate-950 px-5 py-5 text-white sm:flex-row sm:items-center sm:justify-between sm:px-6">
+                        <div className="max-w-2xl">
+                          <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-light">{content.visibilityToolLabel}</p>
+                          <p className="mt-2 font-serif text-xl font-bold">{content.visibilityToolTitle}</p>
+                          <p className="mt-2 text-sm leading-6 text-slate-300">{content.visibilityToolBody}</p>
+                        </div>
+                        <Link
+                          href={{
+                            pathname: "/tools/digital-presence-snapshot",
+                            query: {
+                              campaign: "solutions-growth-visibility",
+                              offer: "free-automated-visibility-snapshot",
+                              conversion_source: "solutions_group",
+                              selected_problem: "website-and-ai-visibility",
+                            },
+                          }}
+                          onClick={() =>
+                            trackAnalyticsEvent("solutions_tool_click", {
+                              location: "growth_visibility_group",
+                              tool: "digital-presence-snapshot",
+                            })
+                          }
+                          className="inline-flex min-h-[48px] shrink-0 items-center justify-center rounded-lg bg-brand-gold px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-brand-gold-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                        >
+                          {content.visibilityToolCta}
+                          <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                        </Link>
+                      </div>
+                    ) : null}
                   </div>
                 </details>
               );

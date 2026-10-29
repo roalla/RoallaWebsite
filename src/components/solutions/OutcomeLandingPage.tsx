@@ -11,7 +11,9 @@ import {
 import { Link } from "@/i18n/navigation";
 import DeferredOutcomeContactForm from "@/components/solutions/DeferredOutcomeContactForm";
 import OutcomePageAnalytics from "@/components/solutions/OutcomePageAnalytics";
+import OutcomeSignalMatch from "@/components/solutions/OutcomeSignalMatch";
 import type { ConsultationIntent, ConsultingFocus } from "@/lib/consultation-request";
+import { pathwayEvidenceCtas } from "@/lib/pathway-evidence-cta";
 import type { SolutionPathId, SolutionPathway } from "@/lib/solutions-by-need";
 import {
   outcomeDeliveryModels,
@@ -53,6 +55,7 @@ export default function OutcomeLandingPage({
   const contact = contactQuery(pathway.id);
   const deliveryModel = outcomeDeliveryModels[pathway.id][locale];
   const sourcePage = `/solutions/${pathway.id}`;
+  const evidenceCta = pathwayEvidenceCtas[pathway.id];
   const fullFormQuery = {
     intent: contact.intent,
     ...(contact.focus ? { focus: contact.focus } : {}),
@@ -97,30 +100,43 @@ export default function OutcomeLandingPage({
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary">{copy.plainAnswer}</p>
             <p className="mt-2 leading-7 text-slate-100">{pathway.result}</p>
           </div>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            {pathway.id === "visibility" ? (
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <a
+              href="#outcome-contact"
+              data-outcome-track="hero|embedded-contact"
+              className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary-dark px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-darker focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            >
+              {copy.ctaPrimary}
+              <ArrowDown className="ml-2 h-4 w-4" aria-hidden />
+            </a>
+            {evidenceCta ? (
               <Link
                 href={{
-                  pathname: "/tools/digital-presence-snapshot",
+                  pathname: evidenceCta.pathname,
                   query: {
-                    campaign: "solutions-visibility-outcome",
-                    offer: "free-automated-visibility-snapshot",
+                    campaign: `solutions-${pathway.id}-outcome`,
                     conversion_source: "outcome_hero",
                     entry_page: sourcePage,
-                    selected_problem: "website-and-ai-visibility",
+                    ...(evidenceCta.offer ? { offer: evidenceCta.offer } : {}),
+                    ...(evidenceCta.selectedProblem
+                      ? { selected_problem: evidenceCta.selectedProblem }
+                      : {}),
                   },
                 }}
-                data-outcome-track="hero|digital-presence-snapshot"
+                data-outcome-track={`hero|${evidenceCta.pathname}`}
                 className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 transition-colors hover:bg-brand-gold-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
-                {copy.visibilityToolCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                {evidenceCta.label[locale]}
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
             ) : null}
-            <a href="#outcome-contact" data-outcome-track="hero|embedded-contact" className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary-dark px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-darker focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
-              {copy.ctaPrimary}<ArrowDown className="ml-2 h-4 w-4" aria-hidden />
-            </a>
-            <Link href={pathway.href} data-outcome-track={`hero|${pathway.href}`} className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-white/25 bg-white/5 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
-              {copy.serviceCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            <Link
+              href={pathway.href}
+              data-outcome-track={`hero|${pathway.href}`}
+              className="inline-flex min-h-[44px] items-center px-1 text-sm font-semibold text-slate-300 underline-offset-4 hover:text-white hover:underline"
+            >
+              {copy.serviceCta}
+              <ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden />
             </Link>
           </div>
           <p className="sr-only">{visual.alt[locale]}</p>
@@ -165,6 +181,14 @@ export default function OutcomeLandingPage({
           ))}
         </div>
       </aside>
+
+      <OutcomeSignalMatch
+        pathwayId={pathway.id}
+        signals={pathway.signals}
+        matchEyebrow={copy.matchEyebrow}
+        matchTitle={copy.matchTitle}
+        matchHint={copy.matchHint}
+      />
 
       <main>
         <section className="px-4 py-14 sm:px-6 lg:px-8 lg:py-20" aria-labelledby="outcome-journey-title">

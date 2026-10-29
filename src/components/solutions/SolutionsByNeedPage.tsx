@@ -58,18 +58,14 @@ export default function SolutionsByNeedPage({
           <h1 className="mt-5 max-w-4xl font-serif text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">{content.title}</h1>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-200 sm:text-xl">{content.intro}</p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <a href="#outcome-finder" className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 transition hover:bg-brand-gold-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+            <a
+              href="#outcome-finder"
+              onClick={() => trackAnalyticsEvent('outcome_cta_click', { location: 'solutions_hero_finder' })}
+              className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 transition hover:bg-brand-gold-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            >
               {content.heroSecondary}
               <ArrowDown className="ml-2 h-4 w-4" aria-hidden />
             </a>
-            <Link
-              href="/assessment"
-              onClick={() => trackAnalyticsEvent('solutions_assessment_click', { location: 'solutions_hero' })}
-              className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-white/40 bg-white/10 px-6 py-3 font-semibold text-white transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-            >
-              {content.heroPrimary}
-              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-            </Link>
           </div>
         </div>
       </section>
@@ -96,8 +92,16 @@ export default function SolutionsByNeedPage({
                   open={isOpen}
                   onToggle={(event) => {
                     const nextOpen = event.currentTarget.open
-                    if (nextOpen) setOpenId(group.id)
-                    else if (openId === group.id) setOpenId('')
+                    if (nextOpen) {
+                      setOpenId(group.id)
+                      trackAnalyticsEvent('outcome_selection', {
+                        location: 'solutions_group_open',
+                        group: group.id,
+                        outcome: group.id,
+                      })
+                    } else if (openId === group.id) {
+                      setOpenId('')
+                    }
                   }}
                   className="group scroll-mt-28 rounded-2xl border border-slate-200 bg-slate-50 shadow-sm open:border-primary/30 open:bg-white"
                 >
@@ -122,20 +126,6 @@ export default function SolutionsByNeedPage({
             })}
           </div>
 
-          <div className="mt-10 flex flex-col gap-4 rounded-2xl border border-primary/25 bg-primary/[0.05] p-6 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex gap-3">
-              <Check className="mt-1 h-5 w-5 shrink-0 text-primary-dark" aria-hidden />
-              <p className="max-w-3xl font-medium leading-7 text-slate-800">{content.assessmentPrompt}</p>
-            </div>
-            <Link
-              href="/assessment"
-              onClick={() => trackAnalyticsEvent('solutions_assessment_click', { location: 'guided_discovery' })}
-              className="inline-flex min-h-[44px] shrink-0 items-center justify-center rounded-lg bg-primary-dark px-5 py-3 text-sm font-semibold text-white transition hover:bg-primary-darker focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-            >
-              {content.heroPrimary}
-              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-            </Link>
-          </div>
         </div>
       </section>
 
@@ -145,6 +135,10 @@ export default function SolutionsByNeedPage({
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-light">{content.closingEyebrow}</p>
             <h2 className="mt-3 font-serif text-3xl font-bold text-white">{content.closingTitle}</h2>
             <p className="mt-4 leading-7 text-slate-200">{content.closingDescription}</p>
+            <p className="mt-4 flex gap-2 text-sm leading-6 text-slate-300">
+              <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary-light" aria-hidden />
+              {content.assessmentPrompt}
+            </p>
           </div>
           <Link
             href="/assessment"

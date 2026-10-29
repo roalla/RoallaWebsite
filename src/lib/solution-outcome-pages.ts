@@ -10,6 +10,18 @@ export type OutcomeGroupId =
   | "security-compliance"
   | "execution";
 
+export const OUTCOME_GROUP_IDS = [
+  "growth-visibility",
+  "experience-products",
+  "automation-ai",
+  "security-compliance",
+  "execution",
+] as const satisfies readonly OutcomeGroupId[];
+
+export function isOutcomeGroupId(value: string): value is OutcomeGroupId {
+  return (OUTCOME_GROUP_IDS as readonly string[]).includes(value);
+}
+
 export type OutcomeVisual = {
   src: string;
   alt: Record<"en" | "fr", string>;

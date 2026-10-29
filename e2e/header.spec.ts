@@ -20,16 +20,16 @@ test.describe("Header", () => {
     const menu = page.locator('[aria-labelledby="digital-dropdown-desktop"]');
     await expect(menu.getByText("What needs to change next?", { exact: true })).toBeVisible();
     await expect(
-      menu.locator('a[href="/en/solutions#growth-visibility"]'),
+      menu.locator('a[href="/en/solutions/need/growth-visibility"]'),
     ).toHaveAttribute("role", "menuitem");
     await expect(
-      menu.locator('a[href="/en/solutions#experience-products"]'),
+      menu.locator('a[href="/en/solutions/need/experience-products"]'),
     ).toHaveAttribute("role", "menuitem");
     await expect(
-      menu.locator('a[href="/en/solutions#automation-ai"]'),
+      menu.locator('a[href="/en/solutions/need/automation-ai"]'),
     ).toHaveAttribute("role", "menuitem");
     await expect(
-      menu.locator('a[href="/en/solutions#security-compliance"]'),
+      menu.locator('a[href="/en/solutions/need/security-compliance"]'),
     ).toHaveAttribute("role", "menuitem");
     await expect(menu.locator('a[href="/en/services/technology-advisory"]')).toHaveAttribute("role", "menuitem");
     await expect(menu.locator('a[href="/en/services/security-risk-compliance"]')).toHaveAttribute("role", "menuitem");

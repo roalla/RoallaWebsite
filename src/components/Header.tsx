@@ -499,37 +499,55 @@ const Header = ({
       | "helpGetFoundDesc"
       | "helpReduceRiskDesc"
       | "helpPlanExecutionDesc";
-    href: { pathname: "/solutions"; hash: string };
+    href: {
+      pathname: "/solutions/need/[groupId]";
+      params: { groupId: string };
+    };
     icon: typeof Globe;
   }[] = [
     {
       nameKey: "helpGetFound",
       descKey: "helpGetFoundDesc",
-      href: { pathname: "/solutions", hash: "growth-visibility" },
+      href: {
+        pathname: "/solutions/need/[groupId]",
+        params: { groupId: "growth-visibility" },
+      },
       icon: SearchCheck,
     },
     {
       nameKey: "helpBuildDigital",
       descKey: "helpBuildDigitalDesc",
-      href: { pathname: "/solutions", hash: "experience-products" },
+      href: {
+        pathname: "/solutions/need/[groupId]",
+        params: { groupId: "experience-products" },
+      },
       icon: Globe,
     },
     {
       nameKey: "helpUseAi",
       descKey: "helpUseAiDesc",
-      href: { pathname: "/solutions", hash: "automation-ai" },
+      href: {
+        pathname: "/solutions/need/[groupId]",
+        params: { groupId: "automation-ai" },
+      },
       icon: Workflow,
     },
     {
       nameKey: "helpReduceRisk",
       descKey: "helpReduceRiskDesc",
-      href: { pathname: "/solutions", hash: "security-compliance" },
+      href: {
+        pathname: "/solutions/need/[groupId]",
+        params: { groupId: "security-compliance" },
+      },
       icon: ShieldCheck,
     },
     {
       nameKey: "helpPlanExecution",
       descKey: "helpPlanExecutionDesc",
-      href: { pathname: "/solutions", hash: "execution" },
+      href: {
+        pathname: "/solutions/need/[groupId]",
+        params: { groupId: "execution" },
+      },
       icon: Target,
     },
   ];
@@ -617,10 +635,19 @@ const Header = ({
   ];
 
   const isCurrentHref = (
-    href: string | { pathname: string; hash?: string },
+    href:
+      | string
+      | { pathname: string; hash?: string; params?: Record<string, string> },
   ) => {
-    const path = typeof href === "string" ? href : href.pathname;
-    return pathname === path;
+    if (typeof href === "string") return pathname === href;
+    if (href.pathname.includes("[") && href.params) {
+      const resolved = Object.entries(href.params).reduce(
+        (path, [key, value]) => path.replace(`[${key}]`, value),
+        href.pathname,
+      );
+      return pathname === resolved;
+    }
+    return pathname === href.pathname;
   };
 
   const isDigitalActive =
@@ -1533,7 +1560,10 @@ const Header = ({
                               location: "mobile_header",
                               pathway: item.nameKey,
                             });
-                            handleMobileNavClick(event, item.href.pathname);
+                            handleMobileNavClick(
+                              event,
+                              `/solutions/need/${item.href.params.groupId}`,
+                            );
                           }}
                         >
                           <Icon

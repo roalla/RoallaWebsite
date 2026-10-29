@@ -1,5 +1,13 @@
 import { SOLUTION_PATH_IDS, solutionsByNeedContent } from '@/lib/solutions-by-need'
-import { outcomeDeliveryModels, outcomeEvidence, outcomeGroups, outcomeVisuals, relatedOutcomeIds } from '@/lib/solution-outcome-pages'
+import {
+  OUTCOME_GROUP_IDS,
+  isOutcomeGroupId,
+  outcomeDeliveryModels,
+  outcomeEvidence,
+  outcomeGroups,
+  outcomeVisuals,
+  relatedOutcomeIds,
+} from '@/lib/solution-outcome-pages'
 
 describe('solutions by need content', () => {
   it.each(['en', 'fr'] as const)('defines nine complete, ordered outcome pathways for %s', (locale) => {
@@ -18,17 +26,19 @@ describe('solutions by need content', () => {
   })
 
   it.each(['en', 'fr'] as const)('groups every %s outcome exactly once for guided discovery', (locale) => {
-    expect(outcomeGroups[locale].map((group) => group.id)).toEqual([
-      'growth-visibility',
-      'experience-products',
-      'automation-ai',
-      'security-compliance',
-      'execution',
-    ])
+    expect(outcomeGroups[locale].map((group) => group.id)).toEqual([...OUTCOME_GROUP_IDS])
     const groupedIds = outcomeGroups[locale].flatMap((group) => group.pathwayIds)
     expect(groupedIds).toHaveLength(SOLUTION_PATH_IDS.length)
     expect(new Set(groupedIds).size).toBe(SOLUTION_PATH_IDS.length)
     expect(groupedIds).toEqual(expect.arrayContaining([...SOLUTION_PATH_IDS]))
+  })
+
+  it('validates outcome group ids for dedicated need pages', () => {
+    OUTCOME_GROUP_IDS.forEach((id) => {
+      expect(isOutcomeGroupId(id)).toBe(true)
+    })
+    expect(isOutcomeGroupId('not-a-group')).toBe(false)
+    expect(isOutcomeGroupId('visibility')).toBe(false)
   })
 
   it('keeps related outcomes and published evidence on valid routes', () => {

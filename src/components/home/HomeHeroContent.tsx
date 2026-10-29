@@ -33,12 +33,12 @@ export default function HomeHeroContent() {
             {t('primaryCta')}
             <ArrowRight className="w-4 h-4 shrink-0" aria-hidden />
           </Link>
-          <Link
-            href="/assessment"
+          <a
+            href="#choose-your-situation"
             className="inline-flex items-center justify-center gap-2 w-full sm:w-auto min-h-[48px] px-6 sm:px-8 py-3.5 rounded-lg border border-white/35 text-white font-semibold text-sm sm:text-base hover:bg-white/10 transition-colors"
           >
             {t('secondaryCta')}
-          </Link>
+          </a>
         </div>
         <p className="mt-4 text-xs sm:text-sm text-white/70 max-w-xl leading-relaxed">
           {t('heroNextStepsHint')}

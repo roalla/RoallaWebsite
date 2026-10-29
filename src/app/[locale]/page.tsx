@@ -47,7 +47,6 @@ export default async function Home({ params }: Props) {
       />
       <HomeHero />
       <HomeTrustBand />
-      <HomeTechnologyEcosystem />
       <HomeBusinessOutcomes />
       <HomeOurWork />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8">
@@ -55,6 +54,7 @@ export default async function Home({ params }: Props) {
       </div>
       <HomeWhatWeDo />
       <HomeTestimonials />
+      <HomeTechnologyEcosystem />
       <HomeExecutiveInsights />
       <HomeFeaturedInsight />
       <HomeCTA />

@@ -20,4 +20,15 @@ describe('campaign review landing pages', () => {
   it('rejects unknown campaign routes', () => {
     expect(getCampaignReview('not-a-campaign', 'en')).toBeNull()
   })
+
+  it('includes direct bilingual communications and one-workflow offers', () => {
+    expect(campaignReviewIds).toEqual(expect.arrayContaining([
+      'communications-modernization-review',
+      'one-workflow-ai-pilot',
+    ]))
+    expect(campaignReviewContent['communications-modernization-review'].en.caveat).toContain('Telarus')
+    expect(campaignReviewContent['communications-modernization-review'].fr.caveat).toContain('Telarus')
+    expect(campaignReviewContent['one-workflow-ai-pilot'].en.intent).toBe('ai-support')
+    expect(campaignReviewContent['one-workflow-ai-pilot'].fr.fit).toHaveLength(4)
+  })
 })

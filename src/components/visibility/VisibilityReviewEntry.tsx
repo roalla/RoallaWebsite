@@ -19,6 +19,8 @@ function normalizeWebsite(value: string) {
   return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
 }
 
+const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"] as const;
+
 export default function VisibilityReviewEntry({
   locale,
   label,
@@ -38,9 +40,21 @@ export default function VisibilityReviewEntry({
       campaign: "website-ai-visibility-review",
       locale,
     });
+    const attribution = Object.fromEntries(
+      UTM_KEYS.flatMap((key) => {
+        const value = new URLSearchParams(window.location.search).get(key);
+        return value ? [[key, value]] : [];
+      }),
+    );
     router.push({
       pathname: "/tools/digital-presence-snapshot",
-      query: { url, campaign: "website-ai-visibility-review" },
+      query: {
+        url,
+        campaign: "website-ai-visibility-review",
+        offer: "free-automated-visibility-snapshot",
+        conversion_source: "campaign_page",
+        ...attribution,
+      },
     });
   }
 

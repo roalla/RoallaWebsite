@@ -76,27 +76,17 @@ test.describe("Services brand journey", () => {
     await page.goto("/en/partners");
 
     await expect(page.getByRole("heading", { name: "ROALLA Technology Ecosystem.", level: 1 })).toBeVisible();
-    const outcomes = page.locator("#partner-outcomes");
     await expect(
-      outcomes.getByRole("heading", {
-        name: "More options, evaluated against your requirements.",
+      page.getByRole("heading", {
+        name: "More options. Clearer decisions.",
         level: 2,
       }),
     ).toBeVisible();
-    await expect(outcomes.locator("img")).toHaveCount(3);
-    await expect(outcomes.getByRole("link", { name: "Review the evaluation standard" })).toHaveAttribute(
-      "href",
-      "#evaluation-standard",
-    );
-    await expect(page.getByRole("heading", { name: "Telarus Technology Advisor", level: 2 })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Technology Providers", level: 3 })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Delivery Platforms", level: 3 })).toBeVisible();
     await expect(page.getByText("Access is not endorsement.")).toBeVisible();
-    await expect(page.getByRole("heading", { name: "How ROALLA is compensated", level: 2 })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Discuss Your Technology Needs" })).toHaveAttribute(
-      "href",
-      /intent=consulting.*focus=technology|focus=technology.*intent=consulting/,
-    );
+    await expect(page.getByRole("heading", { name: "Relationship matrix", level: 2 })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Technology Providers/i }).first()).toHaveAttribute("href", "/en/partners/technology-providers");
+    await expect(page.getByRole("link", { name: /Commercial Transparency/i }).first()).toHaveAttribute("href", "/en/partners/compensation");
+    await expect(page.getByRole("link", { name: /Strategic Relationships/i }).first()).toHaveAttribute("href", "/en/partners/strategic-relationships");
   });
 
   test("digital page leads with build offers and process line", async ({

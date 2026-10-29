@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { ArrowRight, BriefcaseBusiness, Layers, Network, Workflow } from 'lucide-react'
+import { ArrowRight, Layers, Network, Workflow } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import Reveal from '../motion/Reveal'
@@ -10,7 +10,6 @@ const situations = [
   { key: 'choose', icon: Network, slug: 'cloud-infrastructure' },
   { key: 'build', icon: Layers, slug: 'digital-experience' },
   { key: 'connect', icon: Workflow, slug: 'automation-ai' },
-  { key: 'clarify', icon: BriefcaseBusiness, slug: 'strategy' },
 ] as const
 
 export default function HomeBusinessOutcomes() {
@@ -28,7 +27,7 @@ export default function HomeBusinessOutcomes() {
           <p className="mt-3 text-lg text-slate-600">{t('description')}</p>
         </Reveal>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+        <div className="grid gap-4 md:grid-cols-3 lg:gap-5">
           {situations.map(({ key, icon: Icon, slug }, index) => (
             <Reveal
               key={key}

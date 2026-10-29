@@ -3,56 +3,42 @@ import { test, expect } from '@playwright/test'
 test.describe('Homepage funnel', () => {
   test('hero shows unified technology positioning and primary CTAs', async ({ page }) => {
     await page.goto('/en')
-    await expect(page.getByRole('heading', { level: 1 })).toContainText(/Technology decisions carried through to/i)
-    await expect(page.getByRole('heading', { level: 1 })).toContainText(/implementation\./i)
-    await expect(page.getByRole('link', { name: /Discuss Your Technology Needs/i }).first()).toBeVisible()
-    await expect(page.getByRole('link', { name: /View Solutions/i }).first()).toBeVisible()
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(/Choose the right technology/i)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(/Get it implemented/i)
+    await expect(page.getByRole('link', { name: /Tell us what needs to change/i }).first()).toBeVisible()
+    await expect(page.getByRole('link', { name: /See common problems we solve/i }).first()).toHaveAttribute('href', '#choose-your-situation')
   })
 
-  test('what we do appears before our work section', async ({ page }) => {
+  test('customer situations and proof appear before the ecosystem', async ({ page }) => {
     await page.goto('/en')
-    const whatWeDo = page.locator('#services')
+    const situations = page.locator('#choose-your-situation')
     const ourWork = page.locator('#our-work')
-    const whatBox = await whatWeDo.boundingBox()
+    const ecosystem = page.getByRole('heading', { name: 'The right relationship, clearly explained.' })
+    const situationsBox = await situations.boundingBox()
     const workBox = await ourWork.boundingBox()
-    expect(whatBox).not.toBeNull()
+    const ecosystemBox = await ecosystem.boundingBox()
+    expect(situationsBox).not.toBeNull()
     expect(workBox).not.toBeNull()
-    expect(whatBox!.y).toBeLessThan(workBox!.y)
+    expect(ecosystemBox).not.toBeNull()
+    expect(situationsBox!.y).toBeLessThan(ecosystemBox!.y)
+    expect(workBox!.y).toBeLessThan(ecosystemBox!.y)
   })
 
   test('business outcomes and visibility positioning are present in English', async ({ page }) => {
     await page.goto('/en')
 
-    await expect(
-      page.getByRole('heading', { name: 'Digital assets should create business value.' }),
-    ).toBeVisible()
-    await expect(
-      page.getByRole('heading', { name: 'Applications & Digital Products' }),
-    ).toBeVisible()
-    await expect(
-      page.getByRole('heading', { name: 'Become easier to find, understand, and trust' }),
-    ).toBeVisible()
-    await expect(page.getByText('6 websites · 5 digital products · 11 verified examples')).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'I need to make a technology decision' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'I need more customers or a better digital experience' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'I need to automate inefficient work' })).toBeVisible()
+    await expect(page.locator('#choose-your-situation').getByRole('heading', { level: 3 })).toHaveCount(3)
   })
 
   test('new homepage positioning has French parity', async ({ page }) => {
     await page.goto('/fr')
 
-    await expect(
-      page.getByRole('heading', {
-        name: "Les actifs numériques doivent créer de la valeur d'affaires.",
-      }),
-    ).toBeVisible()
-    await expect(
-      page.getByRole('heading', { name: 'Applications et produits numériques' }),
-    ).toBeVisible()
-    await expect(
-      page.getByRole('heading', {
-        name: 'Devenez plus facile à trouver, à comprendre et à reconnaître',
-      }),
-    ).toBeVisible()
-    await expect(
-      page.getByRole('heading', { name: 'Acheter, construire, connecter ou améliorer?' }),
-    ).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Je dois prendre une décision technologique' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Je veux plus de clients ou une meilleure expérience numérique' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Je dois automatiser un travail inefficace' })).toBeVisible()
+    await expect(page.locator('#choose-your-situation').getByRole('heading', { level: 3 })).toHaveCount(3)
   })
 })

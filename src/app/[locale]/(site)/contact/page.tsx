@@ -39,6 +39,30 @@ const PORTFOLIO_NAME_KEYS = {
   t19: 't19Name',
 } as const
 
+const ATTRIBUTION_PARAMS = [
+  'campaign',
+  'offer',
+  'icp',
+  'conversion_source',
+  'utm_source',
+  'utm_medium',
+  'utm_campaign',
+  'utm_content',
+  'utm_term',
+] as const
+
+function resolveAttributedSourcePage(searchParams: ReturnType<typeof useSearchParams>) {
+  const fromPage = searchParams.get('from_page')
+  if (!fromPage?.startsWith('/') || fromPage.length > 512) return null
+
+  const source = new URL(fromPage, 'https://www.roalla.com')
+  ATTRIBUTION_PARAMS.forEach((key) => {
+    const value = searchParams.get(key)?.trim()
+    if (value) source.searchParams.set(key, value.slice(0, 240))
+  })
+  return `${source.pathname}${source.search}`.slice(0, 2048)
+}
+
 function resolvePortfolioReference(
   reference: string | null,
   tConsult: ReturnType<typeof useTranslations<'consultationRequest'>>,
@@ -124,7 +148,7 @@ function ScheduleContent() {
   const initialEventGoal = resolveInitialEventGoal(needParam)
   const initialWorkshopTopic = resolveInitialWorkshopTopic(needParam, searchParams.get('topic'))
   const fromAssessment = searchParams.get('from') === 'assessment'
-  const initialSourcePage = searchParams.get('from_page')
+  const initialSourcePage = resolveAttributedSourcePage(searchParams)
   const outcomeParam = searchParams.get('outcome')
   const initialOutcome = outcomeParam && isSolutionPathId(outcomeParam) ? outcomeParam : null
   const visibilityReview =

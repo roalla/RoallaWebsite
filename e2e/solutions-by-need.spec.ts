@@ -1,30 +1,30 @@
 import { expect, test } from '@playwright/test'
 
 test.describe('Solutions by Need', () => {
-  test('Business Outcomes begins with goals and retains engagement options', async ({ page }) => {
+  test('Advisory & Workshops begins with outcomes and retains engagement options', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto('/en')
 
-    await page.getByLabel('Main navigation').getByRole('button', { name: 'Business Outcomes' }).click()
-    const menu = page.getByRole('menu', { name: 'Business Outcomes' })
-    await expect(menu.getByText('What You Want to Achieve', { exact: true })).toBeVisible()
-    await expect(menu.getByText('Explore Your Options', { exact: true })).toBeVisible()
+    await page.getByLabel('Main navigation').getByRole('button', { name: 'Advisory & Workshops' }).click()
+    const menu = page.locator('[aria-labelledby="workshops-dropdown-desktop"]')
+    await expect(menu.getByText('Advisory Outcomes', { exact: true })).toBeVisible()
+    await expect(menu.getByText('Ways to Work With Us', { exact: true })).toBeVisible()
     await expect(menu.getByRole('menuitem', { name: /Set direction and priorities/ })).toHaveAttribute('href', '/en/services/business-advisory')
     await expect(menu.getByRole('menuitem', { name: /Turn an idea into an actionable plan/ })).toHaveAttribute('href', '/en/programs/workshops/ideation')
     await expect(menu.getByRole('menuitem', { name: /Business Advisory/ })).toHaveAttribute('href', '/en/services/business-advisory')
     await expect(menu.getByRole('menuitem', { name: /Team Workshops/ })).toHaveAttribute('href', '/en/programs/workshops')
   })
 
-  test('Solutions preserves outcome-first and technology-first discovery', async ({ page }) => {
+  test('How We Help preserves need-first and outcome-first discovery', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto('/en')
 
-    await page.getByLabel('Main navigation').getByRole('button', { name: 'Solutions' }).click()
-    const menu = page.getByRole('menu', { name: 'Solutions' })
-    await expect(menu.getByText('What You Want to Achieve', { exact: true })).toBeVisible()
-    await expect(menu.getByText('Explore Technologies', { exact: true })).toBeVisible()
-    await expect(menu.getByRole('menuitem')).toHaveCount(17)
-    await expect(menu.getByRole('menuitem', { name: /Set direction and priorities/ })).toHaveAttribute('href', '/en/solutions/strategy')
+    await page.getByLabel('Main navigation').getByRole('button', { name: 'How We Help' }).click()
+    const menu = page.locator('[aria-labelledby="digital-dropdown-desktop"]')
+    await expect(menu.getByText('What do you need to move forward?', { exact: true })).toBeVisible()
+    await expect(menu.getByText('Browse by Business Outcome', { exact: true })).toBeVisible()
+    await expect(menu.getByRole('menuitem', { name: /Choose or Replace Technology/ })).toHaveAttribute('href', '/en/services/technology-advisory')
+    await expect(menu.getByRole('menuitem', { name: /View all outcome pathways/ })).toHaveAttribute('href', '/en/solutions')
     await expect(menu.getByRole('menuitem', { name: /Explore Your Options/ })).toHaveAttribute('href', '/en/assessment')
   })
 
@@ -42,10 +42,11 @@ test.describe('Solutions by Need', () => {
     await page.goto('/en')
     await page.getByRole('button', { name: 'Open menu' }).click()
     const mobileMenu = page.getByRole('dialog', { name: 'Mobile navigation' })
-    await mobileMenu.getByRole('button', { name: 'Solutions' }).click()
-    await expect(mobileMenu.getByText('What You Want to Achieve', { exact: true })).toBeVisible()
-    await expect(mobileMenu.getByText('Explore Technologies', { exact: true })).toBeVisible()
-    await expect(mobileMenu.getByRole('link', { name: /Build a digital experience/ })).toHaveAttribute('href', '/en/solutions/digital-experience')
+    await mobileMenu.getByRole('button', { name: 'How We Help' }).click()
+    await expect(mobileMenu.getByText('What do you need to move forward?', { exact: true })).toBeVisible()
+    await expect(mobileMenu.getByText('Browse by Business Outcome', { exact: true })).toBeVisible()
+    await expect(mobileMenu.getByRole('link', { name: /Build a Website or Digital Product/ })).toHaveAttribute('href', '/en/website-design')
+    await expect(mobileMenu.getByRole('link', { name: /Browse by Business Outcome/ })).toHaveAttribute('href', '/en/solutions')
   })
 
   test('dedicated outcome page is visual, concise, and preserves context in its quick inquiry', async ({ page }) => {

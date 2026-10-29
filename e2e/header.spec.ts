@@ -54,13 +54,13 @@ test.describe("Header", () => {
     await expect(navigation.getByRole("button", { name: "Ecosystem", exact: true })).toHaveCount(1);
   });
 
-  test("digital portfolio is a persistent primary destination", async ({ page }) => {
+  test("digital portfolio remains a global destination", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.goto("/en");
 
     await expect(
       page
-        .getByLabel("Main navigation")
+        .getByRole("contentinfo")
         .getByRole("link", { name: "Digital Portfolio" }),
     ).toHaveAttribute("href", "/en/services/portfolio");
   });
@@ -102,7 +102,7 @@ test.describe("Header", () => {
     await page.goto("/en/services/technology-advisory");
     await expect(
       page.getByRole("heading", {
-        name: "Choose the right technology—and carry it through implementation.",
+        name: "Turn a technology decision into a business advantage.",
         level: 1,
       }),
     ).toBeVisible();

@@ -9,7 +9,27 @@ export default function ReviewCampaignPage({ campaign, locale }: { campaign: Cam
   const page = getCampaignReview(campaign, locale)
   if (!page) return null
   const language = locale === 'fr' ? 'fr' : 'en'
-  const inquiry = `/${language}/contact?intent=${encodeURIComponent(page.intent)}&from_page=${encodeURIComponent(page.path)}&goal=${encodeURIComponent(page.title)}`
+  const offer = page.offer ?? page.eyebrow
+  const audience = page.audience ?? page.fitTitle
+  const inquiryParams = new URLSearchParams({
+    intent: page.intent,
+    from_page: page.path,
+    goal: page.title,
+    campaign,
+    offer,
+    icp: audience,
+    conversion_source: 'campaign_page',
+  })
+  if (page.focus) inquiryParams.set('focus', page.focus)
+  if (page.need) inquiryParams.set('need', page.need)
+  const inquiry = `/${language}/contact?${inquiryParams.toString()}`
+  const primaryParams = new URLSearchParams({
+    campaign,
+    offer,
+    icp: audience,
+    conversion_source: 'campaign_page',
+  })
+  const primary = `/${language}${page.toolPath}?${primaryParams.toString()}`
   const steps = language === 'fr'
     ? [['1', 'Cadrez le besoin', 'Décrivez le résultat, la contrainte ou la décision qui motive la revue.'], ['2', 'Examinez les preuves', 'Passez en revue le travail, les systèmes, les risques et les signaux disponibles.'], ['3', 'Choisissez la suite', 'Utilisez le résultat à l’interne ou demandez un soutien ciblé à ROALLA.']]
     : [['1', 'Frame the need', 'Describe the outcome, constraint, or decision driving the review.'], ['2', 'Review the evidence', 'Examine the work, systems, risks, and available signals.'], ['3', 'Choose the next step', 'Use the result internally or request focused support from ROALLA.']]
@@ -29,7 +49,7 @@ export default function ReviewCampaignPage({ campaign, locale }: { campaign: Cam
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary-light">{page.eyebrow}</p>
               <h1 className="mt-5 max-w-4xl font-serif text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">{page.title}</h1>
               <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">{page.subtitle}</p>
-              <div className="mt-8"><CampaignReviewCtas campaign={campaign} locale={language} primaryHref={`/${language}${page.toolPath}`} primaryLabel={page.primaryCta} inquiryHref={inquiry} inquiryLabel={page.inquiryCta} /></div>
+              <div className="mt-8"><CampaignReviewCtas campaign={campaign} offer={offer} audience={audience} locale={language} primaryHref={primary} primaryLabel={page.primaryCta} inquiryHref={inquiry} inquiryLabel={page.inquiryCta} /></div>
             </div>
             <aside className="rounded-3xl border border-white/15 bg-white/[0.07] p-7 backdrop-blur sm:p-8">
               <Gauge className="h-8 w-8 text-brand-gold" aria-hidden />
@@ -57,7 +77,7 @@ export default function ReviewCampaignPage({ campaign, locale }: { campaign: Cam
 
         <section className="container mx-auto max-w-4xl px-4 py-20 sm:px-6 lg:px-8"><h2 className="text-center font-serif text-3xl font-bold text-slate-950">{language === 'fr' ? 'Questions avant de commencer' : 'Questions before you begin'}</h2><div className="mt-10 space-y-3">{page.faqs.map(([question, answer]) => <details key={question} className="rounded-xl border border-slate-200 bg-white p-5"><summary className="cursor-pointer font-semibold text-slate-950">{question}</summary><p className="mt-3 text-sm leading-6 text-slate-600">{answer}</p></details>)}</div></section>
 
-        <section className="bg-primary py-16 text-white"><div className="container mx-auto flex max-w-6xl flex-col gap-7 px-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8"><div><h2 className="font-serif text-3xl font-bold text-white">{language === 'fr' ? 'Commencez par une revue ciblée.' : 'Start with a focused review.'}</h2><p className="mt-3 max-w-3xl text-primary-lighter">{language === 'fr' ? 'Utilisez l’outil libre-service ou ajoutez votre contexte pour une réponse personnelle de ROALLA.' : 'Use the self-guided tool or add your context for a personal response from ROALLA.'}</p></div><CampaignReviewCtas campaign={campaign} locale={language} primaryHref={`/${language}${page.toolPath}`} primaryLabel={page.primaryCta} inquiryHref={inquiry} inquiryLabel={page.inquiryCta} /></div></section>
+        <section className="bg-primary py-16 text-white"><div className="container mx-auto flex max-w-6xl flex-col gap-7 px-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8"><div><h2 className="font-serif text-3xl font-bold text-white">{language === 'fr' ? 'Commencez par une revue ciblée.' : 'Start with a focused review.'}</h2><p className="mt-3 max-w-3xl text-primary-lighter">{language === 'fr' ? 'Utilisez l’outil libre-service ou ajoutez votre contexte pour une réponse personnelle de ROALLA.' : 'Use the self-guided tool or add your context for a personal response from ROALLA.'}</p></div><CampaignReviewCtas campaign={campaign} offer={offer} audience={audience} locale={language} primaryHref={primary} primaryLabel={page.primaryCta} inquiryHref={inquiry} inquiryLabel={page.inquiryCta} /></div></section>
       </main>
     </div>
   )

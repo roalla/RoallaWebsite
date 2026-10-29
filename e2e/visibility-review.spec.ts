@@ -46,5 +46,15 @@ test.describe("Website and AI visibility funnel", () => {
     const snapshotUrl = new URL(page.url());
     expect(snapshotUrl.searchParams.get("url")).toBe("https://example.com");
     expect(snapshotUrl.searchParams.get("campaign")).toBe("website-ai-visibility-review");
+    expect(snapshotUrl.searchParams.get("conversion_source")).toBe("campaign_page");
+  });
+
+  test("review page explains business findings and offers a prioritized action plan", async ({ page }) => {
+    await page.goto("/en/website-ai-visibility-review");
+
+    await expect(page.getByRole("heading", { name: /connects technical signals to customer trust/i })).toBeVisible();
+    const actionPlan = page.getByRole("link", { name: "Request my prioritized action plan" });
+    await expect(actionPlan).toHaveAttribute("href", /\/en\/contact\?/);
+    await expect(actionPlan).toHaveAttribute("href", /campaign=website-ai-visibility-review/);
   });
 });

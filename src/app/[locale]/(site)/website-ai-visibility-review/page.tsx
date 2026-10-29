@@ -40,6 +40,11 @@ const pages = {
     automated: ["Website performance and accessibility", "Search and AI-readiness signals", "Social sharing and contact exposure", "Public security, domain, and email-health signals", "Prioritized technical actions"],
     personalTitle: "Optional personal review",
     personal: ["What the results mean for your actual business", "Which fixes are likely to create the most value", "Where your message or offer is unclear", "A practical sequence based on effort and impact", "A senior ROALLA lead—not a handoff to junior staff"],
+    personalCta: "Request my prioritized action plan",
+    personalGoal: "I want a prioritized website and AI visibility action plan.",
+    commonEyebrow: "Common business problems",
+    commonTitle: "The review connects technical signals to customer trust and qualified inquiries.",
+    commonFindings: [["Customers cannot quickly tell why they should choose you", "The offer, audience, proof, or next step is unclear on the page that receives campaign traffic."], ["Search engines and AI assistants get an incomplete picture", "Important services, locations, expertise, or trust signals are difficult for machines to find and explain."], ["Technical trust gaps interrupt the journey", "Performance, accessibility, security, email, or contact-path issues create friction before a visitor inquires."]],
     processEyebrow: "How it works",
     processTitle: "From website address to an informed next step",
     steps: [
@@ -83,6 +88,11 @@ const pages = {
     automated: ["Performance et accessibilité", "Signaux de recherche et de préparation à l’IA", "Partage social et exposition des coordonnées", "Signaux publics de sécurité, de domaine et de courriel", "Actions techniques prioritaires"],
     personalTitle: "Analyse personnelle facultative",
     personal: ["Ce que les résultats signifient pour votre entreprise", "Les correctifs susceptibles de créer le plus de valeur", "Les points où votre message ou votre offre manque de clarté", "Une séquence pratique selon l’effort et l’impact", "Un responsable ROALLA expérimenté, sans transfert à du personnel junior"],
+    personalCta: "Demander mon plan d’action priorisé",
+    personalGoal: "Je veux un plan d’action priorisé pour la visibilité Web et IA.",
+    commonEyebrow: "Problèmes d’affaires courants",
+    commonTitle: "L’évaluation relie les signaux techniques à la confiance des clients et aux demandes qualifiées.",
+    commonFindings: [["Les clients ne comprennent pas rapidement pourquoi vous choisir", "L’offre, le public, les preuves ou la prochaine étape manquent de clarté sur la page qui reçoit le trafic de campagne."], ["Les moteurs de recherche et assistants IA obtiennent une image incomplète", "Les services, régions, expertises ou signaux de confiance importants sont difficiles à trouver et à expliquer."], ["Des lacunes techniques interrompent le parcours", "La performance, l’accessibilité, la sécurité, le courriel ou le parcours de contact créent de la friction avant la demande."]],
     processEyebrow: "Fonctionnement",
     processTitle: "De l’adresse Web à une prochaine étape éclairée",
     steps: [["1", "Lancez l’aperçu", "Entrez l’adresse publique et laissez l’évaluation vérifier la page d’arrivée."], ["2", "Examinez les priorités", "Consultez les résultats distincts, les explications simples et les actions recommandées."], ["3", "Choisissez la suite", "Utilisez le rapport vous-même ou demandez une discussion ciblée avec ROALLA."]],
@@ -115,6 +125,16 @@ export default async function WebsiteAiVisibilityReviewPage({ params }: Props) {
   const page = pageFor(locale);
   const path = "/website-ai-visibility-review";
   const faqs = page.faqs.map(([question, answer]) => ({ question, answer }));
+  const personalReviewParams = new URLSearchParams({
+    intent: "visibility",
+    from_page: path,
+    goal: page.personalGoal,
+    campaign: "website-ai-visibility-review",
+    offer: page.personalTitle,
+    icp: page.fitTitle,
+    conversion_source: "campaign_page",
+  });
+  const personalReviewHref = `/contact?${personalReviewParams.toString()}`;
 
   return (
     <div className="page-shell bg-white">
@@ -165,8 +185,12 @@ export default async function WebsiteAiVisibilityReviewPage({ params }: Props) {
               [Sparkles, page.personalTitle, page.personal, "border-brand-gold/50 bg-brand-gold/10"],
             ].map(([Icon, title, items, tone]) => {
               const TileIcon = Icon as typeof SearchCheck;
-              return <article key={String(title)} className={`rounded-2xl border p-7 sm:p-9 ${tone}`}><TileIcon className="h-8 w-8 text-primary-dark" aria-hidden /><h3 className="mt-5 font-serif text-2xl font-bold text-slate-950">{String(title)}</h3><ul className="mt-6 space-y-3">{(items as readonly string[]).map((item) => <li key={item} className="flex gap-3 text-sm leading-6 text-slate-700"><CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-primary" aria-hidden />{item}</li>)}</ul></article>;
+              return <article key={String(title)} className={`rounded-2xl border p-7 sm:p-9 ${tone}`}><TileIcon className="h-8 w-8 text-primary-dark" aria-hidden /><h3 className="mt-5 font-serif text-2xl font-bold text-slate-950">{String(title)}</h3><ul className="mt-6 space-y-3">{(items as readonly string[]).map((item) => <li key={item} className="flex gap-3 text-sm leading-6 text-slate-700"><CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-primary" aria-hidden />{item}</li>)}</ul>{String(title) === page.personalTitle ? <a href={`/${locale}${personalReviewHref}`} className="mt-7 inline-flex min-h-11 items-center rounded-xl bg-primary px-5 py-3 font-semibold text-white hover:bg-primary-dark">{page.personalCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></a> : null}</article>;
             })}
+          </div>
+          <div className="mx-auto mt-16 max-w-6xl">
+            <div className="max-w-3xl"><p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{page.commonEyebrow}</p><h2 className="mt-4 font-serif text-3xl font-bold text-slate-950 sm:text-4xl">{page.commonTitle}</h2></div>
+            <div className="mt-8 grid gap-5 lg:grid-cols-3">{page.commonFindings.map(([title, body]) => <article key={title} className="rounded-2xl border border-slate-200 bg-slate-50 p-6"><h3 className="font-serif text-xl font-bold text-slate-950">{title}</h3><p className="mt-3 text-sm leading-6 text-slate-600">{body}</p></article>)}</div>
           </div>
         </section>
 

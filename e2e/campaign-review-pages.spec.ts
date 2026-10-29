@@ -9,10 +9,10 @@ test.describe('Campaign review landing pages', () => {
         await page.goto(`/${locale}/${id}`)
 
         await expect(page.getByRole('heading', { level: 1, name: content.title })).toBeVisible()
-        await expect(page.getByRole('link', { name: content.primaryCta }).first()).toHaveAttribute(
-          'href',
-          `/${locale}${content.toolPath}`,
-        )
+        const primaryHref = await page.getByRole('link', { name: content.primaryCta }).first().getAttribute('href')
+        const primaryUrl = new URL(primaryHref!, 'https://www.roalla.com')
+        expect(primaryUrl.pathname).toBe(`/${locale}${content.toolPath}`)
+        expect(primaryUrl.searchParams.get('campaign')).toBe(id)
         await expect(page.getByRole('link', { name: content.serviceCta })).toHaveAttribute(
           'href',
           `/${locale}${content.servicePath}`,
@@ -20,4 +20,19 @@ test.describe('Campaign review landing pages', () => {
       }
     })
   }
+
+  test('campaign CTAs preserve UTM context through the inquiry', async ({ page }) => {
+    await page.goto('/en/communications-modernization-review?utm_source=linkedin&utm_campaign=comms-renewal')
+    const inquiryLink = page.getByRole('link', { name: 'Book a requirements review' }).first()
+    await expect(inquiryLink).toHaveAttribute('href', /utm_source=linkedin/)
+    const href = await inquiryLink.getAttribute('href')
+    const inquiry = new URL(href!, 'https://www.roalla.com')
+
+    expect(inquiry.pathname).toBe('/en/contact')
+    expect(inquiry.searchParams.get('campaign')).toBe('communications-modernization-review')
+    expect(inquiry.searchParams.get('offer')).toBe('Communications Modernization Review')
+    expect(inquiry.searchParams.get('conversion_source')).toBe('campaign_page')
+    expect(inquiry.searchParams.get('utm_source')).toBe('linkedin')
+    expect(inquiry.searchParams.get('utm_campaign')).toBe('comms-renewal')
+  })
 })

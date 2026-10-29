@@ -44,6 +44,7 @@ function isDigitalOrEventLane(lane: AssessmentLane): boolean {
     lane === 'automation' ||
     lane === 'ai' ||
     lane === 'agentic' ||
+    lane === 'security' ||
     lane === 'visibility' ||
     lane === 'workshop' ||
     lane === 'event'
@@ -88,13 +89,7 @@ const InteractiveAssessment = () => {
   const [pendingValue, setPendingValue] = useState<string | null>(null)
   const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const questions = useMemo(
-    () =>
-      answers.lane === 'unsure'
-        ? [ASSESSMENT_QUESTION_IDS[0], 'direction' as const, ...ASSESSMENT_QUESTION_IDS.slice(1)]
-        : ASSESSMENT_QUESTION_IDS,
-    [answers.lane],
-  )
+  const questions = ASSESSMENT_QUESTION_IDS
   const activeQuestionId = questions[currentQuestion]
   const selectedValue = pendingValue ?? answers[activeQuestionId] ?? null
 
@@ -494,7 +489,7 @@ function AssessmentResultsView({
             </Link>
           )}
           <Link
-            href={result.laneHref as '/services/business-advisory' | '/services/technology-advisory' | '/programs/workshops' | '/services/digital' | '/services/digital-products' | '/services/automation' | '/services/ai-agents' | '/services/search-ai-visibility' | '/services/digital-events'}
+            href={result.laneHref as '/services/business-advisory' | '/services/technology-advisory' | '/services/security-risk-compliance' | '/programs/workshops' | '/services/digital' | '/services/digital-products' | '/services/automation' | '/services/ai-agents' | '/services/search-ai-visibility' | '/services/digital-events'}
             className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
           >
             {laneExploreLabel(result.lane, t)}
@@ -530,6 +525,7 @@ function starterOffer(result: AssessmentResult, french: boolean) {
     automation: ['automation', french ? 'Sprint d’occasion d’automatisation' : 'Automation Opportunity Sprint', french ? 'Cartographier un flux récurrent, ses exceptions et sa valeur possible.' : 'Map one recurring workflow, its exceptions, and its potential value.'],
     ai: ['ai', french ? 'Pilote pratique d’IA' : 'Practical AI Pilot', french ? 'Tester un flux mesurable avec des garde-fous et une révision humaine.' : 'Test one measurable workflow with guardrails and human review.'],
     agentic: ['agentic', french ? 'Sprint de préparation agentique' : 'Agentic Readiness Sprint', french ? 'Cadrer un agent gouverné, ses actions autorisées, ses systèmes et ses points de contrôle humain.' : 'Scope one governed agent, its approved actions, connected systems, and human checkpoints.'],
+    security: ['security', french ? 'Revue de préparation sécurité et conformité' : 'Security and Compliance Readiness Review', french ? 'Clarifier les obligations, les écarts importants, les responsables, les preuves et la première remédiation utile.' : 'Clarify obligations, material gaps, owners, evidence, and the first useful remediation step.'],
     visibility: ['visibility', french ? 'Évaluation de visibilité numérique' : 'Digital Visibility Assessment', french ? 'Évaluer la découvrabilité, la lisibilité pour l’IA, l’accessibilité, la performance et la conversion.' : 'Assess discoverability, AI readability, accessibility, performance, and conversion.'],
     event: ['event', french ? 'Sprint de préparation numérique à l’événement' : 'Event Digital Readiness Sprint', french ? 'Planifier le parcours, la collecte d’intérêt et le suivi avant l’événement.' : 'Plan the journey, lead capture, and follow-up before the event.'],
     consulting: ['advisory', french ? 'Sprint de clarté et d’exécution' : 'Clarity and Execution Sprint', french ? 'Transformer la priorité la plus importante en plan de 90 jours avec propriétaires et mesures.' : 'Turn the highest-priority issue into a 90-day plan with owners and measures.'],
@@ -546,6 +542,7 @@ function laneExploreLabel(
   if (lane === 'technology') return t('viewTechnologyAdvisory')
   if (lane === 'agentic') return t('viewAgentic')
   if (lane === 'visibility') return t('viewVisibility')
+  if (lane === 'security') return t('viewSecurity')
   if (lane === 'digital' || lane === 'website' || lane === 'platform' || lane === 'automation' || lane === 'ai') {
     return t('viewDigitalCreations')
   }

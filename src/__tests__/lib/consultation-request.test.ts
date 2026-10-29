@@ -134,7 +134,9 @@ describe('consultation-request', () => {
     expect(intentFromServiceParam('websites-brand')).toBe('website')
     expect(intentFromServiceParam('custom-platforms')).toBe('platform')
     expect(intentFromServiceParam('digital-events')).toBe('digital-events')
+    expect(intentFromServiceParam('security')).toBe('security')
     expect(intentFromServiceParam('workshops')).toBe('workshop')
+    expect(parseConsultationIntent('security')).toBe('security')
     expect(parseConsultationIntent('unsure')).toBe('unsure')
   })
 

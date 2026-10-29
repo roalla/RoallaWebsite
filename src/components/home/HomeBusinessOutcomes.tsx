@@ -1,15 +1,17 @@
 'use client'
 
 import React from 'react'
-import { ArrowRight, Layers, Network, Workflow } from 'lucide-react'
+import { ArrowRight, MonitorSmartphone, SearchCheck, ShieldCheck, Sparkles, Target } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import Reveal from '../motion/Reveal'
 
 const situations = [
-  { key: 'choose', icon: Network, slug: 'cloud-infrastructure' },
-  { key: 'build', icon: Layers, slug: 'digital-experience' },
-  { key: 'connect', icon: Workflow, slug: 'automation-ai' },
+  { key: 'growth', icon: SearchCheck, anchor: 'growth-visibility' },
+  { key: 'experience', icon: MonitorSmartphone, anchor: 'experience-products' },
+  { key: 'automate', icon: Sparkles, anchor: 'automation-ai' },
+  { key: 'protect', icon: ShieldCheck, anchor: 'security-compliance' },
+  { key: 'execute', icon: Target, anchor: 'execution' },
 ] as const
 
 export default function HomeBusinessOutcomes() {
@@ -27,14 +29,14 @@ export default function HomeBusinessOutcomes() {
           <p className="mt-3 text-lg text-slate-600">{t('description')}</p>
         </Reveal>
 
-        <div className="grid gap-4 md:grid-cols-3 lg:gap-5">
-          {situations.map(({ key, icon: Icon, slug }, index) => (
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5 lg:gap-5">
+          {situations.map(({ key, icon: Icon, anchor }, index) => (
             <Reveal
               key={key}
               delayMs={index * 40}
               className="h-full"
             >
-              <Link href={{ pathname: '/solutions/[slug]', params: { slug } }} className="home-tile group flex h-full flex-col rounded-2xl bg-slate-50 p-5 lg:p-6">
+              <Link href={{ pathname: '/solutions', hash: anchor }} className="home-tile group flex h-full flex-col rounded-2xl bg-slate-50 p-5 lg:p-6">
                 <div className="w-11 h-11 rounded-xl bg-primary/10 border border-primary/15 flex items-center justify-center mb-4">
                   <Icon className="w-5 h-5 text-primary-dark" aria-hidden />
                 </div>

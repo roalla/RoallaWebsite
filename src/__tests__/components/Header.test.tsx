@@ -117,18 +117,16 @@ describe('Header', () => {
     expect(screen.getByRole('menuitem', { name: /resourcesUseCases/ })).toBeInTheDocument()
   })
 
-  it('renders How We Help with direct routes for the seven customer needs', () => {
+  it('renders How We Help around the five customer outcomes', () => {
     render(<Header />)
     const digitalButton = screen.getByRole('button', { name: 'digitalEnablement' })
     expect(digitalButton).toBeInTheDocument()
     fireEvent.click(digitalButton)
-    expect(screen.getByRole('menuitem', { name: /helpChooseTechnology/i })).toHaveAttribute('href', '/services/technology-advisory')
-    expect(screen.getByRole('menuitem', { name: /helpBuildDigital/i })).toHaveAttribute('href', '/website-design')
-    expect(screen.getByRole('menuitem', { name: /helpConnectAutomate/i })).toHaveAttribute('href', '/services/automation')
-    expect(screen.getByRole('menuitem', { name: /helpUseAi/i })).toHaveAttribute('href', '/services/ai-agents')
-    expect(screen.getByRole('menuitem', { name: /helpGetFound/i })).toHaveAttribute('href', '/services/search-ai-visibility')
-    expect(screen.getByRole('menuitem', { name: /helpPlanExecution/i })).toHaveAttribute('href', '/services/business-advisory')
-    expect(screen.getByRole('menuitem', { name: /helpDevelopTeam/i })).toHaveAttribute('href', '/programs/workshops')
+    expect(screen.getByRole('menuitem', { name: /helpGetFound/i })).toHaveAttribute('href', '/solutions#growth-visibility')
+    expect(screen.getByRole('menuitem', { name: /helpBuildDigital/i })).toHaveAttribute('href', '/solutions#experience-products')
+    expect(screen.getByRole('menuitem', { name: /helpUseAi/i })).toHaveAttribute('href', '/solutions#automation-ai')
+    expect(screen.getByRole('menuitem', { name: /helpReduceRisk/i })).toHaveAttribute('href', '/solutions#security-compliance')
+    expect(screen.getByRole('menuitem', { name: /helpPlanExecution/i })).toHaveAttribute('href', '/solutions#execution')
   })
 
   it('renders one accessible Ecosystem dropdown with the approved destinations', () => {
@@ -163,11 +161,15 @@ describe('Header', () => {
       'href',
       '/services/digital-products',
     )
+    expect(within(menu).getByRole('menuitem', { name: /helpSecurityServices/i })).toHaveAttribute(
+      'href',
+      '/services/security-risk-compliance',
+    )
     expect(within(menu).getByRole('menuitem', { name: /Explore Your Options/i })).toHaveAttribute(
       'href',
       '/assessment',
     )
-    expect(within(menu).getAllByRole('menuitem')).toHaveLength(11)
+    expect(within(menu).getAllByRole('menuitem')).toHaveLength(14)
   })
 
   it('exposes the same customer needs and outcomes in the mobile navigation', () => {
@@ -181,8 +183,9 @@ describe('Header', () => {
 
     const panel = document.getElementById('how-we-help-mobile-panel')
     expect(panel).toBeInTheDocument()
-    expect(within(panel!).getByRole('link', { name: /helpBuildDigital/i })).toHaveAttribute('href', '/website-design')
-    expect(within(panel!).getByRole('link', { name: /helpConnectAutomate/i })).toHaveAttribute('href', '/services/automation')
+    expect(within(panel!).getByRole('link', { name: /helpBuildDigital/i })).toHaveAttribute('href', '/solutions#experience-products')
+    expect(within(panel!).getByRole('link', { name: /helpUseAi/i })).toHaveAttribute('href', '/solutions#automation-ai')
+    expect(within(panel!).getByRole('link', { name: /helpReduceRisk/i })).toHaveAttribute('href', '/solutions#security-compliance')
     expect(within(panel!).getByRole('link', { name: /browseOutcomes/i })).toHaveAttribute('href', '/solutions')
   })
 

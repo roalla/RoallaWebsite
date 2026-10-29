@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server'
 import HomeHero from '@/components/home/HomeHero'
 import HomeWhatWeDo from '@/components/home/HomeWhatWeDo'
 import HomeBusinessOutcomes from '@/components/home/HomeBusinessOutcomes'
+import HomeOutcomeProcess from '@/components/home/HomeOutcomeProcess'
 import HomeOurWork from '@/components/home/HomeOurWork'
 import HomeTestimonials from '@/components/home/HomeTestimonials'
 import HomeExecutiveInsights from '@/components/home/HomeExecutiveInsights'
@@ -48,6 +49,7 @@ export default async function Home({ params }: Props) {
       <HomeHero />
       <HomeTrustBand />
       <HomeBusinessOutcomes />
+      <HomeOutcomeProcess />
       <HomeOurWork />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8">
         <TechnologyDecisionFramework />

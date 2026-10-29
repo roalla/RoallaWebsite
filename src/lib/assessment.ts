@@ -11,6 +11,7 @@ export type AssessmentLane =
   | 'automation'
   | 'ai'
   | 'agentic'
+  | 'security'
   | 'visibility'
   | 'workshop'
   | 'event'
@@ -66,17 +67,28 @@ export const DIRECTION_VALUES: AssessmentDirection[] = [
   'improve',
 ]
 
-export const LANE_VALUES: AssessmentLane[] = [
+const ALL_LANE_VALUES: AssessmentLane[] = [
   'consulting',
   'technology',
+  'digital',
   'website',
   'platform',
   'automation',
   'ai',
   'agentic',
+  'security',
   'visibility',
   'event',
   'workshop',
+  'unsure',
+]
+
+export const LANE_VALUES: AssessmentLane[] = [
+  'visibility',
+  'digital',
+  'agentic',
+  'security',
+  'consulting',
   'unsure',
 ]
 
@@ -163,7 +175,7 @@ function laneForDirection(direction: AssessmentDirection): AssessmentLane {
 }
 
 function parseLane(value: string | undefined): AssessmentLane {
-  if (value && LANE_VALUES.includes(value as AssessmentLane)) {
+  if (value && ALL_LANE_VALUES.includes(value as AssessmentLane)) {
     return value as AssessmentLane
   }
   return 'unsure'
@@ -252,6 +264,8 @@ function laneHref(lane: AssessmentLane): string {
       return '/services/search-ai-visibility'
     case 'technology':
       return '/services/technology-advisory'
+    case 'security':
+      return '/services/security-risk-compliance'
     case 'workshop':
       return '/programs/workshops'
     case 'event':
@@ -269,6 +283,7 @@ function actionStageForLane(lane: AssessmentLane): AssessmentActionStage {
     case 'workshop':
       return 'advise'
     case 'technology':
+    case 'security':
       return 'source'
     case 'agentic':
       return 'agentic'
@@ -289,6 +304,7 @@ function scheduleIntentForLane(lane: AssessmentLane): ConsultationIntent {
   if (lane === 'agentic') return 'ai-support'
   if (lane === 'visibility') return 'visibility'
   if (lane === 'technology') return 'consulting'
+  if (lane === 'security') return 'security'
   if (lane === 'consulting') return 'consulting'
   if (lane === 'event') return 'digital-events'
   if (lane === 'workshop') return 'workshop'
@@ -331,8 +347,11 @@ export function buildScheduleQuery(result: AssessmentResult): Record<string, str
 export function computeAssessmentResult(answers: AssessmentAnswers): AssessmentResult | null {
   const selectedLane = parseLane(answers.lane)
   const direction = parseDirection(answers.direction)
-  if (selectedLane === 'unsure' && !direction) return null
-  const resolvedLane = selectedLane === 'unsure' ? laneForDirection(direction!) : selectedLane
+  const resolvedLane = selectedLane === 'unsure'
+    ? direction
+      ? laneForDirection(direction)
+      : 'consulting'
+    : selectedLane
   const dimensionScores = dimensionScoresFromAnswers(answers)
   if (!dimensionScores) return null
 
@@ -345,6 +364,7 @@ export function computeAssessmentResult(answers: AssessmentAnswers): AssessmentR
     resolvedLane === 'ai' ||
     resolvedLane === 'agentic' ||
     resolvedLane === 'visibility' ||
+    resolvedLane === 'security' ||
     resolvedLane === 'technology' ||
     resolvedLane === 'workshop' ||
     resolvedLane === 'event'

@@ -15,6 +15,7 @@ export type ConsultationIntent =
   | "ai-support"
   | "digital-events"
   | "visibility"
+  | "security"
   | "workshop"
   | "unsure";
 
@@ -284,6 +285,7 @@ export function parseConsultationIntent(
     "ai-support",
     "digital-events",
     "visibility",
+    "security",
     "workshop",
     "unsure",
   ];
@@ -303,6 +305,7 @@ export function intentFromServiceParam(
   if (service === "custom-platforms") return "platform";
   if (service === "digital-events") return "digital-events";
   if (service === "visibility") return "visibility";
+  if (service === "security") return "security";
   if (service === "workshops") return "workshop";
   return null;
 }
@@ -471,6 +474,7 @@ export function buildConsultationEmailSubject(
     "ai-support": "AI Support",
     "digital-events": "Digital Events",
     visibility: "Digital Visibility Optimization",
+    security: "Security, Risk & Compliance",
     workshop: "Workshops & Skill Building",
     unsure: "General Inquiry",
   };

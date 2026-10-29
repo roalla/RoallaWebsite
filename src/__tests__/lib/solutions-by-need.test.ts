@@ -18,6 +18,13 @@ describe('solutions by need content', () => {
   })
 
   it.each(['en', 'fr'] as const)('groups every %s outcome exactly once for guided discovery', (locale) => {
+    expect(outcomeGroups[locale].map((group) => group.id)).toEqual([
+      'growth-visibility',
+      'experience-products',
+      'automation-ai',
+      'security-compliance',
+      'execution',
+    ])
     const groupedIds = outcomeGroups[locale].flatMap((group) => group.pathwayIds)
     expect(groupedIds).toHaveLength(SOLUTION_PATH_IDS.length)
     expect(new Set(groupedIds).size).toBe(SOLUTION_PATH_IDS.length)

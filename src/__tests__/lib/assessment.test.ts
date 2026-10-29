@@ -44,8 +44,13 @@ describe('service assessment', () => {
     })
   })
 
-  it('requires an outcome clarifier when the user is unsure', () => {
-    expect(computeAssessmentResult({ ...readyAnswers, lane: 'unsure' })).toBeNull()
+  it('gives an unsure visitor a practical advisory starting point', () => {
+    expect(computeAssessmentResult({ ...readyAnswers, lane: 'unsure' })).toMatchObject({
+      lane: 'consulting',
+      actionStage: 'advise',
+      laneHref: '/services/business-advisory',
+      scheduleIntent: 'consulting',
+    })
 
     expect(
       computeAssessmentResult({ ...readyAnswers, lane: 'unsure', direction: 'source' }),
@@ -61,6 +66,15 @@ describe('service assessment', () => {
       lane: 'digital',
       actionStage: 'build',
       laneHref: '/services/digital',
+    })
+  })
+
+  it('routes security and compliance needs to the dedicated service', () => {
+    expect(computeAssessmentResult({ ...readyAnswers, lane: 'security' })).toMatchObject({
+      lane: 'security',
+      actionStage: 'source',
+      laneHref: '/services/security-risk-compliance',
+      scheduleIntent: 'security',
     })
   })
 

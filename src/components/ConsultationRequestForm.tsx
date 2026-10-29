@@ -7,14 +7,11 @@ import { Link } from "@/i18n/navigation";
 import toast from "react-hot-toast";
 import {
   Briefcase,
-  Globe,
   Layers,
-  Workflow,
   Sparkles,
-  CalendarDays,
   SearchCheck,
+  ShieldCheck,
   HelpCircle,
-  GraduationCap,
   ArrowLeft,
   ArrowRight,
   CheckCircle,
@@ -131,31 +128,25 @@ const intentOptions: {
   value: ConsultationIntent;
   icon: typeof Briefcase;
   titleKey:
-    | "intentWebsite"
     | "intentPlatform"
-    | "intentAutomation"
     | "intentAiSupport"
-    | "intentDigitalEvents"
     | "intentVisibility"
-    | "intentWorkshop"
+    | "intentSecurity"
     | "intentConsulting"
     | "intentUnsure";
   descKey:
-    | "intentWebsiteDesc"
     | "intentPlatformDesc"
-    | "intentAutomationDesc"
     | "intentAiSupportDesc"
-    | "intentDigitalEventsDesc"
     | "intentVisibilityDesc"
-    | "intentWorkshopDesc"
+    | "intentSecurityDesc"
     | "intentConsultingDesc"
     | "intentUnsureDesc";
 }[] = [
   {
-    value: "website",
-    icon: Globe,
-    titleKey: "intentWebsite",
-    descKey: "intentWebsiteDesc",
+    value: "visibility",
+    icon: SearchCheck,
+    titleKey: "intentVisibility",
+    descKey: "intentVisibilityDesc",
   },
   {
     value: "platform",
@@ -164,40 +155,22 @@ const intentOptions: {
     descKey: "intentPlatformDesc",
   },
   {
-    value: "automation",
-    icon: Workflow,
-    titleKey: "intentAutomation",
-    descKey: "intentAutomationDesc",
-  },
-  {
     value: "ai-support",
     icon: Sparkles,
     titleKey: "intentAiSupport",
     descKey: "intentAiSupportDesc",
   },
   {
-    value: "digital-events",
-    icon: CalendarDays,
-    titleKey: "intentDigitalEvents",
-    descKey: "intentDigitalEventsDesc",
-  },
-  {
-    value: "visibility",
-    icon: SearchCheck,
-    titleKey: "intentVisibility",
-    descKey: "intentVisibilityDesc",
+    value: "security",
+    icon: ShieldCheck,
+    titleKey: "intentSecurity",
+    descKey: "intentSecurityDesc",
   },
   {
     value: "consulting",
     icon: Briefcase,
     titleKey: "intentConsulting",
     descKey: "intentConsultingDesc",
-  },
-  {
-    value: "workshop",
-    icon: GraduationCap,
-    titleKey: "intentWorkshop",
-    descKey: "intentWorkshopDesc",
   },
   {
     value: "unsure",

@@ -18,23 +18,25 @@ test.describe("Header", () => {
 
     await page.getByLabel("Main navigation").getByRole("button", { name: "How We Help" }).click();
     const menu = page.locator('[aria-labelledby="digital-dropdown-desktop"]');
-    await expect(menu.getByText("What do you need to move forward?", { exact: true })).toBeVisible();
+    await expect(menu.getByText("What needs to change next?", { exact: true })).toBeVisible();
     await expect(
-      menu.locator('a[href="/en/services/technology-advisory"]'),
+      menu.locator('a[href="/en/solutions#growth-visibility"]'),
     ).toHaveAttribute("role", "menuitem");
     await expect(
-      menu.locator('a[href="/en/website-design"]'),
+      menu.locator('a[href="/en/solutions#experience-products"]'),
     ).toHaveAttribute("role", "menuitem");
     await expect(
-      menu.locator('a[href="/en/services/ai-agents"]'),
+      menu.locator('a[href="/en/solutions#automation-ai"]'),
     ).toHaveAttribute("role", "menuitem");
     await expect(
-      menu.locator('a[href="/en/services/search-ai-visibility"]'),
+      menu.locator('a[href="/en/solutions#security-compliance"]'),
     ).toHaveAttribute("role", "menuitem");
+    await expect(menu.locator('a[href="/en/services/technology-advisory"]')).toHaveAttribute("role", "menuitem");
+    await expect(menu.locator('a[href="/en/services/security-risk-compliance"]')).toHaveAttribute("role", "menuitem");
     await expect(
       menu.getByRole("menuitem", { name: /View all outcome pathways/i }),
     ).toHaveAttribute("href", "/en/solutions");
-    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(11);
+    await expect(menu.locator('a[role="menuitem"]')).toHaveCount(14);
   });
 
   test("Ecosystem exposes the approved desktop destinations without a duplicate", async ({ page }) => {

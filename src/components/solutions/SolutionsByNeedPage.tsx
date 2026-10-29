@@ -42,7 +42,10 @@ export default function SolutionsByNeedPage({
   const groups = outcomeGroups[locale];
   const stepOne = locale === "fr" ? "Étape 1 · Choisissez le type de changement" : "Step 1 · Choose the kind of change";
   const stepTwo = locale === "fr" ? "Étape 2 · Choisissez le résultat le plus proche" : "Step 2 · Choose the closest outcome";
-  const openLabel = locale === "fr" ? "Voir les trois parcours" : "See the three paths";
+  const openLabel = (count: number) =>
+    locale === "fr"
+      ? `Voir ${count} ${count === 1 ? "parcours" : "parcours"}`
+      : `See ${count} ${count === 1 ? "path" : "paths"}`;
 
   return (
     <div className="page-shell bg-white">
@@ -79,12 +82,12 @@ export default function SolutionsByNeedPage({
                 .filter((pathway): pathway is NonNullable<typeof pathway> => Boolean(pathway));
 
               return (
-                <details key={group.id} open={groupIndex === 0} className="group rounded-2xl border border-slate-200 bg-slate-50 shadow-sm open:border-primary/30 open:bg-white">
+                <details id={group.id} key={group.id} open={groupIndex === 0} className="group scroll-mt-28 rounded-2xl border border-slate-200 bg-slate-50 shadow-sm open:border-primary/30 open:bg-white">
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-5 rounded-2xl p-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:p-7">
                     <span>
                       <span className="block font-serif text-2xl font-bold text-slate-950">{group.title}</span>
                       <span className="mt-2 block max-w-3xl leading-7 text-slate-600">{group.description}</span>
-                      <span className="mt-3 block text-sm font-semibold text-primary-dark">{openLabel}</span>
+                      <span className="mt-3 block text-sm font-semibold text-primary-dark">{openLabel(pathways.length)}</span>
                     </span>
                     <ChevronDown className="h-6 w-6 shrink-0 text-primary-dark transition group-open:rotate-180" aria-hidden />
                   </summary>

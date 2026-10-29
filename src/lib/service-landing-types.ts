@@ -39,6 +39,10 @@ export type ServiceLandingCopy = {
   finalTitle: string;
   finalBody: string;
   cta: string;
+  resources?: readonly {
+    label: string;
+    href: string;
+  }[];
   metadataTitle: string;
   metadataDescription: string;
 };

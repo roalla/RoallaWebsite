@@ -31,6 +31,10 @@ export default function OutcomeServiceLanding({
       href: "/services/automation" as const,
     },
     {
+      label: locale === "fr" ? "Sécuriser" : "Secure",
+      href: "/services/security-risk-compliance" as const,
+    },
+    {
       label: locale === "fr" ? "Évoluer" : "Evolve",
       href: "/services/managed-optimization" as const,
     },
@@ -250,12 +254,20 @@ export default function OutcomeServiceLanding({
             <Link href={{ pathname: "/contact", query: { goal: content.finalTitle } }} className="inline-flex min-h-[48px] items-center rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-dark">
               {content.cta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Link>
-            <a href={`/${locale}/tools/digital-value-blueprint`} className="inline-flex min-h-[48px] items-center rounded-lg border border-primary/30 bg-white px-6 py-3 font-semibold text-primary-dark hover:border-primary">
-              {locale === "fr" ? "Créer mon plan de valeur" : "Build my value plan"}
-            </a>
-            <a href={`/${locale}/tools/business-value-calculators`} className="inline-flex min-h-[48px] items-center rounded-lg px-4 py-3 text-sm font-semibold text-slate-700 underline underline-offset-4">
-              {locale === "fr" ? "Utiliser les calculateurs" : "Use the value calculators"}
-            </a>
+            {(content.resources ?? [
+              { label: locale === "fr" ? "Créer mon plan de valeur" : "Build my value plan", href: "/tools/digital-value-blueprint" },
+              { label: locale === "fr" ? "Utiliser les calculateurs" : "Use the value calculators", href: "/tools/business-value-calculators" },
+            ]).map((resource, index) => (
+              <a
+                key={resource.href}
+                href={`/${locale}${resource.href}`}
+                className={index === 0
+                  ? "inline-flex min-h-[48px] items-center rounded-lg border border-primary/30 bg-white px-6 py-3 font-semibold text-primary-dark hover:border-primary"
+                  : "inline-flex min-h-[48px] items-center rounded-lg px-4 py-3 text-sm font-semibold text-slate-700 underline underline-offset-4"}
+              >
+                {resource.label}
+              </a>
+            ))}
           </div>
         </section>
       </main>

@@ -37,7 +37,7 @@ export default function HomeWhatWeDo() {
           ))}
         </div>
 
-        <Reveal className="mt-8 grid gap-4 md:grid-cols-3">
+        <Reveal className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <Link href="/services/business-advisory" className="group rounded-2xl border border-slate-200 bg-white p-5 transition-all hover:border-primary/50 hover:shadow-sm lg:p-6">
             <p className="text-xs font-bold uppercase tracking-wider text-primary-dark">{t('businessEyebrow')}</p>
             <h3 className="mt-2 font-serif text-xl font-bold text-slate-900">{t('businessTitle')}</h3>
@@ -60,6 +60,14 @@ export default function HomeWhatWeDo() {
             <p className="mt-2 text-sm leading-relaxed text-slate-600">{t('visibilityDescription')}</p>
             <span className="mt-4 inline-flex items-center text-sm font-semibold text-primary-dark">
               {t('visibilityCta')}<ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+            </span>
+          </Link>
+          <Link href="/services/security-risk-compliance" className="group rounded-2xl border border-slate-200 bg-white p-5 transition-all hover:border-primary/50 hover:shadow-sm lg:p-6">
+            <p className="text-xs font-bold uppercase tracking-wider text-primary-dark">{t('securityEyebrow')}</p>
+            <h3 className="mt-2 font-serif text-xl font-bold text-slate-900">{t('securityTitle')}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-slate-600">{t('securityDescription')}</p>
+            <span className="mt-4 inline-flex items-center text-sm font-semibold text-primary-dark">
+              {t('securityCta')}<ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
             </span>
           </Link>
         </Reveal>

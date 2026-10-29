@@ -158,6 +158,14 @@ export function homeServiceCatalogJsonLd(locale: string) {
           "Des améliorations techniques, de contenu et de confiance qui soutiennent la découvrabilité.",
         ],
         [
+          "Sécurité, risque et conformité",
+          "Revues des écarts, remédiation priorisée, préparation à la conformité, recherche de sécurité gérée et soutien à la mise en œuvre.",
+        ],
+        [
+          "Conseil d’affaires et technologique",
+          "Direction, feuilles de route, recherche de solutions, décisions et mise en œuvre responsable.",
+        ],
+        [
           "Ateliers d'équipe",
           "Sessions sur demande : Cercle de concentration, La conversation sur la charge de travail, Calme numérique, L'heure de la décision, L'offre sur une page, La liste courte et La première offre. Aucun billet public.",
         ],
@@ -184,6 +192,14 @@ export function homeServiceCatalogJsonLd(locale: string) {
           "Technical, content, and trust improvements that support discoverability.",
         ],
         [
+          "Security, Risk and Compliance",
+          "Gap reviews, prioritized remediation, compliance readiness, managed-security sourcing, and implementation support.",
+        ],
+        [
+          "Business and Technology Advisory",
+          "Direction, roadmaps, solution sourcing, decision support, and accountable implementation.",
+        ],
+        [
           "Team Workshops",
           "Hosted sessions including Focus Circle, The Workload Conversation, Digital Calm, The Decision Hour, The Offer on One Page, The Shortlist, and The First Offer. No public tickets.",
         ],
@@ -192,7 +208,7 @@ export function homeServiceCatalogJsonLd(locale: string) {
   return {
     "@context": "https://schema.org",
     "@type": "OfferCatalog",
-    name: french ? "Services numériques ROALLA" : "ROALLA digital services",
+    name: french ? "Services et solutions ROALLA" : "ROALLA services and solutions",
     url: pageUrl(locale, ""),
     itemListElement: services.map(([name, description]) => ({
       "@type": "Offer",

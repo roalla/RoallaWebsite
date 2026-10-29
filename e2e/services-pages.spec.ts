@@ -68,7 +68,7 @@ test.describe("Service pages", () => {
     await expect(
       page.getByRole("heading", { name: /Tell us how to reach you/i }),
     ).toBeVisible();
-    await expect(page.getByLabel(/Service type/i)).toBeVisible();
+    await expect(page.getByLabel(/Primary goal or challenge/i)).toBeVisible();
     await expect(page.getByLabel(/Full name/i)).toBeVisible();
     await expect(page.getByLabel(/Work email/i)).toBeVisible();
     await expect(page.getByLabel(/One-line note/i)).toBeVisible();
@@ -85,12 +85,12 @@ test.describe("Service pages", () => {
     ).toBeVisible();
   });
 
-  test("contact page shows website intent first", async ({ page }) => {
+  test("contact page starts with the customer's outcome", async ({ page }) => {
     await page.goto("/en/contact");
     await expect(
       page.getByRole("heading", { name: /Tell us what needs to change/i, level: 1 }),
     ).toBeVisible();
-    await expect(page.getByRole("button", { name: /^Website/i })).toBeVisible();
+    await expect(page.getByRole("button", { name: /Be easier to find and win more customers/i })).toBeVisible();
   });
 
   test("new service architecture routes are bilingual and reachable", async ({
@@ -100,6 +100,7 @@ test.describe("Service pages", () => {
       "digital-products",
       "search-ai-visibility",
       "automation",
+      "security-risk-compliance",
       "managed-optimization",
     ]) {
       await page.goto(`/en/services/${route}`);

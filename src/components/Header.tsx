@@ -14,6 +14,7 @@ import {
   Workflow,
   Flag,
   SearchCheck,
+  ShieldCheck,
   RefreshCw,
   Network,
   BookOpen,
@@ -481,86 +482,66 @@ const Header = ({
     [pathname],
   );
 
-  type HelpNavHref =
-    | "/services/technology-advisory"
-    | "/website-design"
-    | "/services/automation"
-    | "/services/ai-agents"
-    | "/services/search-ai-visibility"
-    | "/services/business-advisory"
-    | "/programs/workshops";
-
   type WorkshopNavHref =
     | "/programs/workshops"
     | "/programs/workshops/focus-circle";
 
   const helpLinks: {
     nameKey:
-      | "helpChooseTechnology"
       | "helpBuildDigital"
-      | "helpConnectAutomate"
       | "helpUseAi"
       | "helpGetFound"
-      | "helpPlanExecution"
-      | "helpDevelopTeam";
+      | "helpReduceRisk"
+      | "helpPlanExecution";
     descKey:
-      | "helpChooseTechnologyDesc"
       | "helpBuildDigitalDesc"
-      | "helpConnectAutomateDesc"
       | "helpUseAiDesc"
       | "helpGetFoundDesc"
-      | "helpPlanExecutionDesc"
-      | "helpDevelopTeamDesc";
-    href: HelpNavHref;
+      | "helpReduceRiskDesc"
+      | "helpPlanExecutionDesc";
+    href: { pathname: "/solutions"; hash: string };
     icon: typeof Globe;
   }[] = [
     {
-      nameKey: "helpChooseTechnology",
-      descKey: "helpChooseTechnologyDesc",
-      href: "/services/technology-advisory",
-      icon: Network,
+      nameKey: "helpGetFound",
+      descKey: "helpGetFoundDesc",
+      href: { pathname: "/solutions", hash: "growth-visibility" },
+      icon: SearchCheck,
     },
     {
       nameKey: "helpBuildDigital",
       descKey: "helpBuildDigitalDesc",
-      href: "/website-design",
+      href: { pathname: "/solutions", hash: "experience-products" },
       icon: Globe,
-    },
-    {
-      nameKey: "helpConnectAutomate",
-      descKey: "helpConnectAutomateDesc",
-      href: "/services/automation",
-      icon: Layers,
     },
     {
       nameKey: "helpUseAi",
       descKey: "helpUseAiDesc",
-      href: "/services/ai-agents",
+      href: { pathname: "/solutions", hash: "automation-ai" },
       icon: Workflow,
     },
     {
-      nameKey: "helpGetFound",
-      descKey: "helpGetFoundDesc",
-      href: "/services/search-ai-visibility",
-      icon: SearchCheck,
+      nameKey: "helpReduceRisk",
+      descKey: "helpReduceRiskDesc",
+      href: { pathname: "/solutions", hash: "security-compliance" },
+      icon: ShieldCheck,
     },
     {
       nameKey: "helpPlanExecution",
       descKey: "helpPlanExecutionDesc",
-      href: "/services/business-advisory",
-      icon: Briefcase,
-    },
-    {
-      nameKey: "helpDevelopTeam",
-      descKey: "helpDevelopTeamDesc",
-      href: "/programs/workshops",
-      icon: GraduationCap,
+      href: { pathname: "/solutions", hash: "execution" },
+      icon: Target,
     },
   ];
 
   const moreHelpLinks = [
+    { nameKey: "technologyAdvisory" as const, href: "/services/technology-advisory" as const },
+    { nameKey: "digitalWebsites" as const, href: "/website-design" as const },
     { nameKey: "helpDigitalProducts" as const, href: "/services/digital-products" as const },
+    { nameKey: "helpConnectAutomate" as const, href: "/services/automation" as const },
+    { nameKey: "helpSecurityServices" as const, href: "/services/security-risk-compliance" as const },
     { nameKey: "helpManagedOptimization" as const, href: "/services/managed-optimization" as const },
+    { nameKey: "helpDevelopTeam" as const, href: "/programs/workshops" as const },
   ];
 
   const ecosystemLinks = [
@@ -653,6 +634,7 @@ const Header = ({
     pathname === "/services/technology-advisory" ||
     pathname === "/services/search-ai-visibility" ||
     pathname === "/services/managed-optimization" ||
+    pathname === "/services/security-risk-compliance" ||
     pathname === "/services/digital-events" ||
     pathname === "/services/portfolio";
 
@@ -892,7 +874,7 @@ const Header = ({
                           const current = isCurrentHref(item.href);
                           return (
                             <Link
-                              key={item.href}
+                              key={item.nameKey}
                               href={item.href}
                               role="menuitem"
                               aria-current={current ? "page" : undefined}
@@ -1542,7 +1524,7 @@ const Header = ({
                       const current = isCurrentHref(item.href);
                       return (
                         <Link
-                          key={item.href}
+                          key={item.nameKey}
                           href={item.href}
                           aria-current={current ? "page" : undefined}
                           className={`${mobileDropdownItemClass} ${current ? "text-primary bg-primary/10" : ""}`}
@@ -1551,7 +1533,7 @@ const Header = ({
                               location: "mobile_header",
                               pathway: item.nameKey,
                             });
-                            handleMobileNavClick(event, item.href);
+                            handleMobileNavClick(event, item.href.pathname);
                           }}
                         >
                           <Icon

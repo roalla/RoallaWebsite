@@ -3,7 +3,12 @@ import {
   type SolutionPathId,
 } from "@/lib/solutions-by-need";
 
-export type OutcomeGroupId = "decide" | "operate" | "build";
+export type OutcomeGroupId =
+  | "growth-visibility"
+  | "experience-products"
+  | "automation-ai"
+  | "security-compliance"
+  | "execution";
 
 export type OutcomeVisual = {
   src: string;
@@ -166,42 +171,66 @@ export const outcomeGroups: Record<
 > = {
   en: [
     {
-      id: "decide",
-      title: "I need to make a confident decision",
-      description: "Set direction, modernize infrastructure, or reduce security risk before committing budget.",
-      pathwayIds: ["strategy", "cloud-infrastructure", "security"],
+      id: "growth-visibility",
+      title: "Be easier to find—and win more customers",
+      description: "Strengthen visibility, trust, accessibility, and conversion across search, AI, and customer journeys.",
+      pathwayIds: ["visibility"],
     },
     {
-      id: "operate",
-      title: "I need operations to work more reliably",
-      description: "Improve communications, connectivity, or connected operations across people and locations.",
-      pathwayIds: ["communications", "network", "iot"],
+      id: "experience-products",
+      title: "Improve an experience—or launch a new product or service",
+      description: "Create clearer customer and team experiences through websites, applications, communications, and digital services.",
+      pathwayIds: ["digital-experience", "communications"],
     },
     {
-      id: "build",
-      title: "I need to build, automate, or grow",
-      description: "Create a digital experience, automate work with control, or improve visibility and conversion.",
-      pathwayIds: ["digital-experience", "automation-ai", "visibility"],
+      id: "automation-ai",
+      title: "Automate valuable work—and apply AI with human control",
+      description: "Reduce repetitive work, connect approved systems, and use automation, IoT, or governed AI where the value is measurable.",
+      pathwayIds: ["automation-ai", "iot"],
+    },
+    {
+      id: "security-compliance",
+      title: "Reduce risk, strengthen security, and support compliance",
+      description: "Address security gaps, resilience, cloud and network foundations, continuity, and control ownership in the right sequence.",
+      pathwayIds: ["security", "cloud-infrastructure", "network"],
+    },
+    {
+      id: "execution",
+      title: "Turn priorities into focused, measurable execution",
+      description: "Clarify direction, sequence decisions, assign owners, and carry the practical plan through implementation.",
+      pathwayIds: ["strategy"],
     },
   ],
   fr: [
     {
-      id: "decide",
-      title: "Je dois prendre une décision avec confiance",
-      description: "Fixer la direction, moderniser l’infrastructure ou réduire le risque de sécurité avant d’engager le budget.",
-      pathwayIds: ["strategy", "cloud-infrastructure", "security"],
+      id: "growth-visibility",
+      title: "Être plus facile à trouver—et gagner plus de clients",
+      description: "Renforcer la visibilité, la confiance, l’accessibilité et la conversion dans la recherche, l’IA et les parcours clients.",
+      pathwayIds: ["visibility"],
     },
     {
-      id: "operate",
-      title: "Je dois rendre les opérations plus fiables",
-      description: "Améliorer les communications, la connectivité ou les opérations connectées entre les équipes et les sites.",
-      pathwayIds: ["communications", "network", "iot"],
+      id: "experience-products",
+      title: "Améliorer une expérience—ou lancer un nouveau produit ou service",
+      description: "Créer de meilleurs parcours clients et employés grâce aux sites, applications, communications et services numériques.",
+      pathwayIds: ["digital-experience", "communications"],
     },
     {
-      id: "build",
-      title: "Je dois créer, automatiser ou croître",
-      description: "Créer une expérience numérique, automatiser avec contrôle ou améliorer la visibilité et la conversion.",
-      pathwayIds: ["digital-experience", "automation-ai", "visibility"],
+      id: "automation-ai",
+      title: "Automatiser le travail utile—et appliquer l’IA avec contrôle humain",
+      description: "Réduire le travail répétitif, connecter les systèmes approuvés et utiliser l’automatisation, l’IdO ou l’IA gouvernée lorsque la valeur est mesurable.",
+      pathwayIds: ["automation-ai", "iot"],
+    },
+    {
+      id: "security-compliance",
+      title: "Réduire le risque, renforcer la sécurité et soutenir la conformité",
+      description: "Traiter les écarts de sécurité, la résilience, les fondations infonuagiques et réseau, la continuité et la responsabilité des contrôles dans le bon ordre.",
+      pathwayIds: ["security", "cloud-infrastructure", "network"],
+    },
+    {
+      id: "execution",
+      title: "Transformer les priorités en exécution ciblée et mesurable",
+      description: "Clarifier la direction, séquencer les décisions, désigner les responsables et mener le plan pratique jusqu’à la mise en œuvre.",
+      pathwayIds: ["strategy"],
     },
   ],
 };

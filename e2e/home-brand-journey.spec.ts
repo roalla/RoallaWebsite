@@ -8,7 +8,7 @@ test.describe("Homepage brand journey", () => {
 
     await expect(
       page.getByRole("heading", {
-        name: "What are you trying to move forward?",
+        name: "What needs to change next?",
       }),
     ).toBeVisible();
     await expect(

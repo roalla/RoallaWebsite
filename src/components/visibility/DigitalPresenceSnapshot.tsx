@@ -2994,7 +2994,7 @@ export default function DigitalPresenceSnapshot({
             <p className="mt-3 max-w-3xl text-slate-700">{t.sprintBody}</p>
             <ul className="mt-5 grid gap-3 sm:grid-cols-3">{t.sprintItems.map((item) => <li key={item} className="flex gap-2 rounded-lg bg-white/70 p-3 text-sm text-slate-800"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />{item}</li>)}</ul>
             <p className="mt-4 text-sm text-slate-600">{t.sprintPrice}</p>
-            <Link href={{ pathname: "/contact", query: { intent: "visibility", review: "results", website: resultUrl, from_page: sourcePage, goal: `${note} ${t.sprintTitle}` } }} className="mt-5 inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-dark">{t.sprintCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></Link>
+            <Link href={{ pathname: "/contact", query: { intent: "visibility", review: "results", website: resultUrl, from_page: sourcePage, goal: `${note} ${t.sprintTitle}`, offer: "visibility-improvement-sprint", selected_problem: narrative.offer.kind } }} className="mt-5 inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-dark">{t.sprintCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></Link>
           </aside>
 
           <aside className="rounded-2xl bg-slate-950 p-7 text-white sm:p-9 print:hidden">
@@ -3005,7 +3005,7 @@ export default function DigitalPresenceSnapshot({
               {t.ctaSteps.map((step, index) => <li key={step} className="rounded-lg border border-white/15 bg-white/[0.04] p-3 text-sm text-slate-200"><span className="mr-2 font-bold text-brand-gold">{index + 1}.</span>{step}</li>)}
             </ol>
             <p className="mt-5 text-sm font-semibold text-white">{t.ctaProof}</p>
-            <Link href={{ pathname: "/contact", query: { intent: "visibility", review: "results", website: resultUrl, from_page: sourcePage, goal: reviewGoal } }} onClick={() => trackAnalyticsEvent("digital_snapshot_cta", { source_page: sourcePage })} className="mt-6 inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 hover:bg-brand-gold-light">{t.cta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></Link>
+            <Link href={{ pathname: "/contact", query: { intent: "visibility", review: "results", website: resultUrl, from_page: sourcePage, goal: reviewGoal, offer: "personal-visibility-results-review", selected_problem: narrative.offer.kind } }} onClick={() => trackAnalyticsEvent("digital_snapshot_cta", { source_page: sourcePage })} className="mt-6 inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 hover:bg-brand-gold-light">{t.cta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></Link>
             <p className="mt-3 text-xs text-slate-400">{t.ctaReassurance}</p>
           </aside>
         </section>

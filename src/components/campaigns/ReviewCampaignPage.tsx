@@ -33,6 +33,7 @@ export default function ReviewCampaignPage({ campaign, locale }: { campaign: Cam
   const steps = language === 'fr'
     ? [['1', 'Cadrez le besoin', 'Décrivez le résultat, la contrainte ou la décision qui motive la revue.'], ['2', 'Examinez les preuves', 'Passez en revue le travail, les systèmes, les risques et les signaux disponibles.'], ['3', 'Choisissez la suite', 'Utilisez le résultat à l’interne ou demandez un soutien ciblé à ROALLA.']]
     : [['1', 'Frame the need', 'Describe the outcome, constraint, or decision driving the review.'], ['2', 'Review the evidence', 'Examine the work, systems, risks, and available signals.'], ['3', 'Choose the next step', 'Use the result internally or request focused support from ROALLA.']]
+  const communicationsCampaign = campaign === 'communications-modernization-review'
 
   return (
     <div className="page-shell bg-white">
@@ -67,6 +68,25 @@ export default function ReviewCampaignPage({ campaign, locale }: { campaign: Cam
         <section className="bg-slate-50 py-20">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8"><h2 className="mx-auto max-w-3xl text-center font-serif text-3xl font-bold text-slate-950 sm:text-4xl">{page.outcomeTitle}</h2><div className="mx-auto mt-10 grid max-w-6xl gap-5 lg:grid-cols-3">{page.outcomes.map(([title, body]) => <article key={title} className="rounded-2xl border border-slate-200 bg-white p-7"><h3 className="font-serif text-xl font-bold text-slate-950">{title}</h3><p className="mt-3 text-sm leading-6 text-slate-600">{body}</p></article>)}</div></div>
         </section>
+
+        {communicationsCampaign ? (
+          <section className="border-y border-slate-200 bg-white py-20">
+            <div className="container mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+              <article className="rounded-2xl border border-primary/20 bg-primary/[0.04] p-7 sm:p-9">
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{language === 'fr' ? 'Commencez sans appel de vente' : 'Start before a sales call'}</p>
+                <h2 className="mt-4 font-serif text-3xl font-bold text-slate-950">{language === 'fr' ? 'La fiche de valeur communications prépare la revue' : 'The Communications Value Brief prepares the review'}</h2>
+                <p className="mt-4 text-sm leading-7 text-slate-700">{language === 'fr' ? 'En environ cinq minutes, estimez les coûts actuels, choisissez les principales frictions et obtenez une fiche privée avec priorités et plan 30-60-90. Utilisez-la à l’interne ou joignez-la à votre demande afin que la première conversation commence avec du contexte.' : 'In about five minutes, estimate current cost, choose the most important friction, and create a private brief with priorities and a 30-60-90 plan. Use it internally or attach it to your request so the first conversation starts with context.'}</p>
+                <div className="mt-6 [&_a:nth-child(2)]:border-slate-300 [&_a:nth-child(2)]:text-slate-800 [&_a:nth-child(2)]:hover:bg-white"><CampaignReviewCtas campaign={campaign} offer={offer} audience={audience} locale={language} primaryHref={primary} primaryLabel={page.primaryCta} inquiryHref={inquiry} inquiryLabel={page.inquiryCta} /></div>
+              </article>
+              <article className="rounded-2xl border border-slate-200 bg-slate-50 p-7 sm:p-9">
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-600">{language === 'fr' ? 'Preuve de soutien, pas l’offre' : 'Supporting proof—not the offer'}</p>
+                <h2 className="mt-4 font-serif text-3xl font-bold text-slate-950">{language === 'fr' ? 'Un accès plus large après la définition des exigences' : 'Broader access after requirements are clear'}</h2>
+                <p className="mt-4 text-sm leading-7 text-slate-700">{language === 'fr' ? 'La relation non exclusive de conseiller technologique Telarus de ROALLA peut élargir l’accès aux fournisseurs, spécialistes et ingénieurs commerciaux. Elle ne remplace pas l’analyse des exigences, ne garantit pas qu’un fournisseur convient et ne retire pas votre décision finale.' : 'ROALLA’s non-exclusive Telarus Technology Advisor relationship can broaden access to suppliers, specialists, and sales engineering. It does not replace requirements analysis, guarantee that a supplier fits, or take away your final decision.'}</p>
+                <div className="mt-6 flex flex-wrap gap-4 text-sm font-semibold"><a href={`/${language}/partners/evaluation-standard`} className="text-primary-dark underline underline-offset-4">{language === 'fr' ? 'Norme d’évaluation' : 'Evaluation standard'}</a><a href={`/${language}/partners/compensation`} className="text-primary-dark underline underline-offset-4">{language === 'fr' ? 'Divulgation de rémunération' : 'Compensation disclosure'}</a></div>
+              </article>
+            </div>
+          </section>
+        ) : null}
 
         <section className="container mx-auto grid gap-8 px-4 py-20 sm:px-6 lg:grid-cols-[1.1fr_.9fr] lg:px-8">
           <article className="rounded-2xl border border-slate-200 p-7 sm:p-9"><h2 className="font-serif text-3xl font-bold text-slate-950">{page.fitTitle}</h2><ul className="mt-6 grid gap-4 sm:grid-cols-2">{page.fit.map((item) => <li key={item} className="flex gap-3 text-sm leading-6 text-slate-700"><CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-primary" aria-hidden />{item}</li>)}</ul></article>

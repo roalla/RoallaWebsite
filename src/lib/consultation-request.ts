@@ -43,6 +43,7 @@ export type ConsultationRequestPayload = {
   email: string;
   company?: string;
   phone?: string;
+  marketingConsent?: boolean;
   locale?: string;
   /**
    * Slim digital path: name, email, optional company, service type, optional note.
@@ -392,23 +393,20 @@ export function validateConsultationRequest(
 
   const intent = parseConsultationIntent(body.intent);
   if (!intent) return "Please select what you need help with";
+  if (body.lightMode && (intent === "consulting" || intent === "workshop")) {
+    return "Light mode is only available for digital service requests";
+  }
 
   if (!body.name?.trim()) return "Name is required";
+  if (!body.company?.trim()) return "Organization is required";
   if (!body.email?.trim() || !EMAIL_REGEX.test(body.email.trim())) {
     return "A valid email address is required";
   }
 
-  // Slim digital path: service type + contact + optional one-line note only.
+  // Slim digital path keeps only the qualification details needed for a useful reply.
   if (body.lightMode) {
-    if (
-      intent === "consulting" ||
-      intent === "workshop"
-    ) {
-      return "Light mode is only available for digital service requests";
-    }
-    if (body.goal?.trim() && body.goal.trim().length < 3) {
-      return "Please add a short note (at least 3 characters) or leave it blank";
-    }
+    if (!body.goal?.trim() || body.goal.trim().length < 5) return "Please describe the main problem or desired outcome";
+    if (!body.timeline?.trim()) return "Please select a timeline";
     return null;
   }
 
@@ -515,6 +513,9 @@ function appendIntentSpecificRows(
       rows.push([labels.currentSiteUrl, data.currentSiteUrl.trim()]);
     }
   }
+  if (data.intent !== "website" && data.currentSiteUrl?.trim()) {
+    rows.push([labels.currentSiteUrl, data.currentSiteUrl.trim()]);
+  }
   if (data.intent === "platform" && data.platformType) {
     rows.push([
       labels.platformType,
@@ -574,6 +575,27 @@ function appendIntentSpecificRows(
   }
   if (data.sourcePage?.trim()) {
     rows.push([labels.sourcePage, data.sourcePage.trim()]);
+    try {
+      const source = new URL(data.sourcePage.trim(), "https://www.roalla.com");
+      const attributionRows: [string, string | null][] = [
+        [labels.campaign, source.searchParams.get("campaign")],
+        [labels.selectedOffer, source.searchParams.get("offer")],
+        [labels.entryPage, source.searchParams.get("entry_page") || source.pathname],
+        [labels.selectedProblem, source.searchParams.get("selected_problem")],
+        [labels.utmSource, source.searchParams.get("utm_source")],
+        [labels.utmMedium, source.searchParams.get("utm_medium")],
+        [labels.utmCampaign, source.searchParams.get("utm_campaign")],
+        [labels.utmContent, source.searchParams.get("utm_content")],
+      ];
+      attributionRows.forEach(([label, value]) => {
+        if (label && value) rows.push([label, value.slice(0, 240)]);
+      });
+    } catch {
+      // The sanitized source page remains available even if it cannot be parsed.
+    }
+  }
+  if (labels.marketingConsent) {
+    rows.push([labels.marketingConsent, data.marketingConsent ? labels.consentYes : labels.consentNo]);
   }
 }
 

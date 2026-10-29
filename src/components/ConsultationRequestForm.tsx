@@ -75,6 +75,7 @@ type FormState = {
   email: string;
   company: string;
   phone: string;
+  marketingConsent: boolean;
   website: string;
 };
 
@@ -100,6 +101,7 @@ const initialState: FormState = {
   email: "",
   company: "",
   phone: "",
+  marketingConsent: false,
   website: "",
 };
 
@@ -344,6 +346,7 @@ export default function ConsultationRequestForm({
   const [digitalLightMode, setDigitalLightMode] = useState(startInDigitalLight);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submissionError, setSubmissionError] = useState("");
   const [monitoringInterest, setMonitoringInterest] = useState(false);
   const [form, setForm] = useState<FormState>({
     ...initialState,
@@ -421,6 +424,7 @@ export default function ConsultationRequestForm({
     const contactGaps = (): MissingField[] => {
       const gaps: MissingField[] = [];
       if (!form.name.trim()) gaps.push({ id: "field-name", label: t("gapName") });
+      if (!form.company.trim()) gaps.push({ id: "field-company", label: t("gapCompany") });
       if (!email) gaps.push({ id: "field-email", label: t("gapEmail") });
       else if (!emailValid)
         gaps.push({ id: "field-email", label: t("gapEmailInvalid") });
@@ -432,9 +436,8 @@ export default function ConsultationRequestForm({
       if (!form.intent)
         gaps.push({ id: "field-intent", label: t("gapServiceType") });
       gaps.push(...contactGaps());
-      if (form.goal.trim() && form.goal.trim().length < 3) {
-        gaps.push({ id: "field-goal", label: t("gapLightNote") });
-      }
+      if (form.goal.trim().length < 5) gaps.push({ id: "field-goal", label: t("gapGoal") });
+      if (!form.timeline) gaps.push({ id: "field-timeline", label: t("gapTimeline") });
       return gaps;
     }
 
@@ -444,6 +447,7 @@ export default function ConsultationRequestForm({
         gaps.push({ id: "field-goal", label: t("gapQuickMessage") });
       }
       gaps.push(...contactGaps());
+      if (!form.timeline) gaps.push({ id: "field-timeline", label: t("gapTimeline") });
       return gaps;
     }
 
@@ -550,6 +554,7 @@ export default function ConsultationRequestForm({
     if (digitalLightMode && !form.intent) return;
 
     setSubmitting(true);
+    setSubmissionError("");
     try {
       const submittedGoal = visibilityReview
         ? [
@@ -569,7 +574,7 @@ export default function ConsultationRequestForm({
         body: JSON.stringify({
           intent: submitIntent,
           goal: submittedGoal,
-          timeline: useLightSubmit ? "exploring" : form.timeline,
+          timeline: form.timeline,
           lightMode: useLightSubmit || undefined,
           consultingFocus: useLightSubmit
             ? undefined
@@ -610,6 +615,7 @@ export default function ConsultationRequestForm({
           email: form.email,
           company: form.company || undefined,
           phone: form.phone || undefined,
+          marketingConsent: form.marketingConsent,
           locale,
           website: form.website,
         }),
@@ -617,7 +623,9 @@ export default function ConsultationRequestForm({
 
       const data = await res.json();
       if (!res.ok) {
-        toast.error(data.error || t("errorMessage"));
+        const message = data.error || t("errorMessage");
+        setSubmissionError(message);
+        toast.error(message);
         return;
       }
 
@@ -641,6 +649,7 @@ export default function ConsultationRequestForm({
       }
       toast.success(t("successMessage"));
     } catch {
+      setSubmissionError(t("errorMessage"));
       toast.error(t("errorMessage"));
     } finally {
       setSubmitting(false);
@@ -662,7 +671,7 @@ export default function ConsultationRequestForm({
           : t("successExplore");
 
     return (
-      <div className="animate-fade-in rounded-2xl border border-slate-200 bg-white p-8 lg:p-12 text-center shadow-card">
+      <div role="status" aria-live="polite" className="animate-fade-in rounded-2xl border border-slate-200 bg-white p-8 lg:p-12 text-center shadow-card">
         <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-primary-dark/10">
           <CheckCircle className="h-7 w-7 text-primary-dark" />
         </div>
@@ -849,19 +858,23 @@ export default function ConsultationRequestForm({
                   required
                 />
               </Field>
-              <Field label={t("companyLabel")}>
+              <Field label={t("companyLabel")} required fieldId="field-company">
                 <input
+                  id="field-company"
                   type="text"
                   value={form.company}
                   onChange={(e) => update({ company: e.target.value })}
-                  className={inputClass}
+                  className={controlClass("field-company")}
                   autoComplete="organization"
+                  aria-invalid={fieldInvalid("field-company") || undefined}
+                  required
                 />
               </Field>
             </div>
 
             <Field
               label={visibilityReview ? t("visibilityReviewNoteLabel") : t("digitalLightNoteLabel")}
+              required
               fieldId="field-goal"
             >
               <textarea
@@ -872,11 +885,23 @@ export default function ConsultationRequestForm({
                 placeholder={visibilityReview ? t("visibilityReviewNotePlaceholder") : t("digitalLightNotePlaceholder")}
                 className={controlClass("field-goal", "resize-y min-h-[72px]")}
                 aria-invalid={fieldInvalid("field-goal") || undefined}
+                required
+                minLength={5}
                 maxLength={280}
               />
               <p className="mt-1.5 text-xs text-slate-500">
                 {visibilityReview ? t("visibilityReviewNoteHint") : t("digitalLightNoteHint")}
               </p>
+            </Field>
+
+            <Field label={t("timelineLabel")} required fieldId="field-timeline">
+              <select id="field-timeline" value={form.timeline} onChange={(e) => update({ timeline: e.target.value })} className={controlClass("field-timeline")} aria-invalid={fieldInvalid("field-timeline") || undefined} required>
+                <option value="">{t("selectPlaceholder")}</option>
+                <option value="asap">{t("timelineAsap")}</option>
+                <option value="1to3">{t("timeline1to3")}</option>
+                <option value="3to6">{t("timeline3to6")}</option>
+                <option value="exploring">{t("timelineExploring")}</option>
+              </select>
             </Field>
 
             {visibilityReview ? (
@@ -953,7 +978,15 @@ export default function ConsultationRequestForm({
                   required
                 />
               </Field>
+              <Field label={t("companyLabel")} required fieldId="field-company">
+                <input id="field-company" type="text" value={form.company} onChange={(e) => update({ company: e.target.value })} className={controlClass("field-company")} autoComplete="organization" aria-invalid={fieldInvalid("field-company") || undefined} required />
+              </Field>
             </div>
+            <Field label={t("timelineLabel")} required fieldId="field-timeline">
+              <select id="field-timeline" value={form.timeline} onChange={(e) => update({ timeline: e.target.value })} className={controlClass("field-timeline")} aria-invalid={fieldInvalid("field-timeline") || undefined} required>
+                <option value="">{t("selectPlaceholder")}</option><option value="asap">{t("timelineAsap")}</option><option value="1to3">{t("timeline1to3")}</option><option value="3to6">{t("timeline3to6")}</option><option value="exploring">{t("timelineExploring")}</option>
+              </select>
+            </Field>
             <p className="text-xs text-slate-500">{t("privacyNote")}</p>
             <button
               type="button"
@@ -1564,13 +1597,16 @@ export default function ConsultationRequestForm({
                       required
                     />
                   </Field>
-                  <Field label={t("companyLabel")}>
+                  <Field label={t("companyLabel")} required fieldId="field-company">
                     <input
+                      id="field-company"
                       type="text"
                       value={form.company}
                       onChange={(e) => update({ company: e.target.value })}
-                      className={inputClass}
+                      className={controlClass("field-company")}
                       autoComplete="organization"
+                      aria-invalid={fieldInvalid("field-company") || undefined}
+                      required
                     />
                   </Field>
                   <Field label={t("phoneLabel")}>
@@ -1588,6 +1624,13 @@ export default function ConsultationRequestForm({
             )}
           </>
         )}
+
+        <label className="mt-6 flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
+          <input type="checkbox" checked={form.marketingConsent} onChange={(e) => update({ marketingConsent: e.target.checked })} className="mt-1 h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary" />
+          <span><span className="block text-sm font-semibold text-slate-900">{t("marketingConsentLabel")}</span><span className="mt-1 block text-xs leading-5 text-slate-600">{t("marketingConsentHint")}</span></span>
+        </label>
+
+        {submissionError ? <p role="alert" aria-live="assertive" className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm font-semibold text-red-800">{submissionError}</p> : null}
 
         {showMissingNotice && (
           <p

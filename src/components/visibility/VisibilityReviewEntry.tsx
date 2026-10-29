@@ -40,6 +40,11 @@ export default function VisibilityReviewEntry({
       campaign: "website-ai-visibility-review",
       locale,
     });
+    trackAnalyticsEvent("landing_page_cta_click", {
+      campaign: "website-ai-visibility-review",
+      locale,
+      action: "automated_snapshot",
+    });
     const attribution = Object.fromEntries(
       UTM_KEYS.flatMap((key) => {
         const value = new URLSearchParams(window.location.search).get(key);
@@ -53,6 +58,8 @@ export default function VisibilityReviewEntry({
         campaign: "website-ai-visibility-review",
         offer: "free-automated-visibility-snapshot",
         conversion_source: "campaign_page",
+        entry_page: window.location.pathname,
+        selected_problem: "website-and-ai-visibility",
         ...attribution,
       },
     });

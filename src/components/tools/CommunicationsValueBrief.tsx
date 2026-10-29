@@ -400,6 +400,7 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
   const [step, setStep] = useState(1);
   const [showSaveReminder, setShowSaveReminder] = useState(true);
   const trackedSteps = useRef<Set<number>>(new Set());
+  const trackedStart = useRef(false);
 
   useEffect(() => {
     try {
@@ -430,6 +431,10 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
   useEffect(() => {
     if (complete || trackedSteps.current.has(step)) return;
     trackedSteps.current.add(step);
+    if (!trackedStart.current) {
+      trackedStart.current = true;
+      trackAnalyticsEvent("communications_value_brief_started", { source: "communications_value_brief" });
+    }
     trackAnalyticsEvent("communications_value_brief_step", { step, total: TOTAL_STEPS });
   }, [step, complete]);
 
@@ -544,7 +549,20 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
     .join("\n")
     .slice(0, 900);
 
-  const contactHref = `/${locale}/contact?intent=consulting&focus=technology&need=communications-modernization&goal=${encodeURIComponent(contactGoal)}&from_page=${encodeURIComponent("/tools/communications-value-brief")}`;
+  const baseContactHref = `/${locale}/contact?intent=consulting&focus=technology&need=communications-modernization&goal=${encodeURIComponent(contactGoal)}&from_page=${encodeURIComponent("/tools/communications-value-brief")}`;
+  const [contactHref, setContactHref] = useState(baseContactHref);
+  useEffect(() => {
+    const target = new URL(baseContactHref, window.location.origin);
+    const current = new URLSearchParams(window.location.search);
+    const source = new URL("/tools/communications-value-brief", window.location.origin);
+    for (const key of ["campaign", "offer", "icp", "conversion_source", "entry_page", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"] as const) {
+      const value = current.get(key);
+      if (value) source.searchParams.set(key, value.slice(0, 240));
+    }
+    source.searchParams.set("selected_problem", input.frictions[0] ?? input.situation);
+    target.searchParams.set("from_page", `${source.pathname}${source.search}`);
+    setContactHref(`${target.pathname}${target.search}`);
+  }, [baseContactHref, input.frictions, input.situation]);
   const translatedPriority = (item: string) => (language === "fr" ? priorityFr[item] ?? item : item);
   const translatedPlan = (item: string) => (language === "fr" ? planFr[item] ?? item : item);
   const printTitle = approaches.printTitles[result.approachKey];

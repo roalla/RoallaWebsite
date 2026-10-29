@@ -8,7 +8,7 @@ import { breadcrumbJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 type Props = {
   params: Promise<{ locale: string }>;
-  searchParams?: Promise<{ url?: string | string[]; campaign?: string | string[] }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
 const content = {
@@ -59,9 +59,15 @@ export default async function DigitalPresenceSnapshotPage({ params, searchParams
   const rawUrl = typeof query?.url === "string" ? query.url : "";
   const initialUrl = rawUrl.length <= 2048 ? rawUrl : "";
   const campaign = typeof query?.campaign === "string" ? query.campaign : "";
-  const sourcePage = campaign === "website-ai-visibility-review"
-    ? "/campaign/website-ai-visibility-review"
+  const attribution = new URLSearchParams();
+  for (const key of ["campaign", "offer", "conversion_source", "entry_page", "selected_problem", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"] as const) {
+    const value = query?.[key];
+    if (typeof value === "string" && value.trim()) attribution.set(key, value.slice(0, 240));
+  }
+  const sourcePath = campaign === "website-ai-visibility-review"
+    ? "/website-ai-visibility-review"
     : "/tools/digital-presence-snapshot";
+  const sourcePage = `${sourcePath}${attribution.size ? `?${attribution.toString()}` : ""}`;
   const page = contentFor(locale);
   const path = "/tools/digital-presence-snapshot";
 

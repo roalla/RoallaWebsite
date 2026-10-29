@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import JsonLd from "@/components/JsonLd";
 import VisibilityReviewEntry from "@/components/visibility/VisibilityReviewEntry";
+import AttributedCampaignLink from "@/components/campaigns/AttributedCampaignLink";
 import { Link } from "@/i18n/navigation";
 import { buildPageMetadata } from "@/lib/page-metadata";
 import { breadcrumbJsonLd, servicePageJsonLd, webPageJsonLd } from "@/lib/structured-data";
@@ -29,6 +30,7 @@ const pages = {
     note: "No email or account required for the automated snapshot. We review one public landing page and do not change your website.",
     previewEyebrow: "Your review at a glance",
     previewTitle: "One clear view of what deserves attention",
+    previewNote: "Illustrative sample—not a result or promised score. Your report uses the public website address you submit.",
     previewItems: [
       ["Website experience", "82", "Mobile and desktop"],
       ["Search readiness", "91", "Technical signals"],
@@ -45,6 +47,10 @@ const pages = {
     commonEyebrow: "Common business problems",
     commonTitle: "The review connects technical signals to customer trust and qualified inquiries.",
     commonFindings: [["Customers cannot quickly tell why they should choose you", "The offer, audience, proof, or next step is unclear on the page that receives campaign traffic."], ["Search engines and AI assistants get an incomplete picture", "Important services, locations, expertise, or trust signals are difficult for machines to find and explain."], ["Technical trust gaps interrupt the journey", "Performance, accessibility, security, email, or contact-path issues create friction before a visitor inquires."]],
+    portfolioEyebrow: "Relevant portfolio proof",
+    portfolioTitle: "See how ROALLA turns complex offers into clearer digital journeys",
+    portfolioItems: [["GRCStatus", "A dedicated case study for presenting a business platform, its audience, and its value clearly.", "/services/portfolio/grcstatus"], ["UnjargonIt", "A focused digital product example built around comprehension, usefulness, and an obvious next action.", "/services/portfolio/unjargonit"], ["Boothlio", "A campaign and event example connecting a defined audience, a specific offer, and a conversion path.", "/services/portfolio/boothlio"]],
+    portfolioCta: "View case study",
     processEyebrow: "How it works",
     processTitle: "From website address to an informed next step",
     steps: [
@@ -81,6 +87,7 @@ const pages = {
     note: "Aucun courriel ni compte requis. Nous examinons une page d’arrivée publique et ne modifions pas votre site.",
     previewEyebrow: "Votre évaluation en bref",
     previewTitle: "Une vue claire de ce qui mérite votre attention",
+    previewNote: "Exemple illustratif — ni résultat ni score promis. Votre rapport utilise l’adresse Web publique que vous soumettez.",
     previewItems: [["Expérience Web", "82", "Mobile et ordinateur"], ["Préparation à la recherche", "91", "Signaux techniques"], ["Préparation à l’IA", "68", "Contenu utilisable par les assistants"]],
     differenceEyebrow: "Automatisation et jugement expérimenté",
     differenceTitle: "Un score est utile. Savoir quoi faire ensuite a plus de valeur.",
@@ -93,6 +100,10 @@ const pages = {
     commonEyebrow: "Problèmes d’affaires courants",
     commonTitle: "L’évaluation relie les signaux techniques à la confiance des clients et aux demandes qualifiées.",
     commonFindings: [["Les clients ne comprennent pas rapidement pourquoi vous choisir", "L’offre, le public, les preuves ou la prochaine étape manquent de clarté sur la page qui reçoit le trafic de campagne."], ["Les moteurs de recherche et assistants IA obtiennent une image incomplète", "Les services, régions, expertises ou signaux de confiance importants sont difficiles à trouver et à expliquer."], ["Des lacunes techniques interrompent le parcours", "La performance, l’accessibilité, la sécurité, le courriel ou le parcours de contact créent de la friction avant la demande."]],
+    portfolioEyebrow: "Preuves pertinentes du portfolio",
+    portfolioTitle: "Voyez comment ROALLA transforme des offres complexes en parcours numériques plus clairs",
+    portfolioItems: [["GRCStatus", "Une étude de cas dédiée à la présentation claire d’une plateforme, de son public et de sa valeur.", "/services/portfolio/grcstatus"], ["UnjargonIt", "Un exemple de produit numérique axé sur la compréhension, l’utilité et une prochaine action évidente.", "/services/portfolio/unjargonit"], ["Boothlio", "Un exemple de campagne et d’événement reliant un public défini, une offre précise et un parcours de conversion.", "/services/portfolio/boothlio"]],
+    portfolioCta: "Voir l’étude de cas",
     processEyebrow: "Fonctionnement",
     processTitle: "De l’adresse Web à une prochaine étape éclairée",
     steps: [["1", "Lancez l’aperçu", "Entrez l’adresse publique et laissez l’évaluation vérifier la page d’arrivée."], ["2", "Examinez les priorités", "Consultez les résultats distincts, les explications simples et les actions recommandées."], ["3", "Choisissez la suite", "Utilisez le rapport vous-même ou demandez une discussion ciblée avec ROALLA."]],
@@ -133,6 +144,9 @@ export default async function WebsiteAiVisibilityReviewPage({ params }: Props) {
     offer: page.personalTitle,
     icp: page.fitTitle,
     conversion_source: "campaign_page",
+    review: "results",
+    selected_problem: "website-and-ai-visibility",
+    entry_page: path,
   });
   const personalReviewHref = `/contact?${personalReviewParams.toString()}`;
 
@@ -170,6 +184,7 @@ export default async function WebsiteAiVisibilityReviewPage({ params }: Props) {
                   </div>
                 ))}
               </div>
+              <p className="mt-5 text-xs leading-5 text-slate-400">{page.previewNote}</p>
             </aside>
           </div>
         </section>
@@ -185,12 +200,19 @@ export default async function WebsiteAiVisibilityReviewPage({ params }: Props) {
               [Sparkles, page.personalTitle, page.personal, "border-brand-gold/50 bg-brand-gold/10"],
             ].map(([Icon, title, items, tone]) => {
               const TileIcon = Icon as typeof SearchCheck;
-              return <article key={String(title)} className={`rounded-2xl border p-7 sm:p-9 ${tone}`}><TileIcon className="h-8 w-8 text-primary-dark" aria-hidden /><h3 className="mt-5 font-serif text-2xl font-bold text-slate-950">{String(title)}</h3><ul className="mt-6 space-y-3">{(items as readonly string[]).map((item) => <li key={item} className="flex gap-3 text-sm leading-6 text-slate-700"><CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-primary" aria-hidden />{item}</li>)}</ul>{String(title) === page.personalTitle ? <a href={`/${locale}${personalReviewHref}`} className="mt-7 inline-flex min-h-11 items-center rounded-xl bg-primary px-5 py-3 font-semibold text-white hover:bg-primary-dark">{page.personalCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></a> : null}</article>;
+              return <article key={String(title)} className={`rounded-2xl border p-7 sm:p-9 ${tone}`}><TileIcon className="h-8 w-8 text-primary-dark" aria-hidden /><h3 className="mt-5 font-serif text-2xl font-bold text-slate-950">{String(title)}</h3><ul className="mt-6 space-y-3">{(items as readonly string[]).map((item) => <li key={item} className="flex gap-3 text-sm leading-6 text-slate-700"><CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-primary" aria-hidden />{item}</li>)}</ul>{String(title) === page.personalTitle ? <AttributedCampaignLink href={`/${locale}${personalReviewHref}`} campaign="website-ai-visibility-review" offer={page.personalTitle} action="personal_review" className="mt-7 inline-flex min-h-11 items-center rounded-xl bg-primary px-5 py-3 font-semibold text-white hover:bg-primary-dark">{page.personalCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></AttributedCampaignLink> : null}</article>;
             })}
           </div>
           <div className="mx-auto mt-16 max-w-6xl">
             <div className="max-w-3xl"><p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{page.commonEyebrow}</p><h2 className="mt-4 font-serif text-3xl font-bold text-slate-950 sm:text-4xl">{page.commonTitle}</h2></div>
             <div className="mt-8 grid gap-5 lg:grid-cols-3">{page.commonFindings.map(([title, body]) => <article key={title} className="rounded-2xl border border-slate-200 bg-slate-50 p-6"><h3 className="font-serif text-xl font-bold text-slate-950">{title}</h3><p className="mt-3 text-sm leading-6 text-slate-600">{body}</p></article>)}</div>
+          </div>
+        </section>
+
+        <section className="border-y border-slate-200 bg-white py-20">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-3xl text-center"><p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{page.portfolioEyebrow}</p><h2 className="mt-4 font-serif text-3xl font-bold text-slate-950 sm:text-4xl">{page.portfolioTitle}</h2></div>
+            <div className="mx-auto mt-10 grid max-w-6xl gap-5 lg:grid-cols-3">{page.portfolioItems.map(([title, body, href]) => <article key={title} className="rounded-2xl border border-slate-200 bg-slate-50 p-7"><h3 className="font-serif text-xl font-bold text-slate-950">{title}</h3><p className="mt-3 text-sm leading-6 text-slate-600">{body}</p><a href={`/${locale}${href}`} className="mt-5 inline-flex items-center font-semibold text-primary-dark underline underline-offset-4">{page.portfolioCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></a></article>)}</div>
           </div>
         </section>
 

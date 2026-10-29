@@ -22,8 +22,8 @@ test.describe('Campaign review landing pages', () => {
   }
 
   test('campaign CTAs preserve UTM context through the inquiry', async ({ page }) => {
-    await page.goto('/en/communications-modernization-review?utm_source=linkedin&utm_campaign=comms-renewal')
-    const inquiryLink = page.getByRole('link', { name: 'Book a requirements review' }).first()
+    await page.goto('/en/communications-modernization-review?utm_source=linkedin&utm_medium=paid-social&utm_campaign=comms-renewal&utm_content=operations-leader')
+    const inquiryLink = page.getByRole('link', { name: 'Request a requirements review' }).first()
     await expect(inquiryLink).toHaveAttribute('href', /utm_source=linkedin/)
     const href = await inquiryLink.getAttribute('href')
     const inquiry = new URL(href!, 'https://www.roalla.com')
@@ -33,6 +33,10 @@ test.describe('Campaign review landing pages', () => {
     expect(inquiry.searchParams.get('offer')).toBe('Communications Modernization Review')
     expect(inquiry.searchParams.get('conversion_source')).toBe('campaign_page')
     expect(inquiry.searchParams.get('utm_source')).toBe('linkedin')
+    expect(inquiry.searchParams.get('utm_medium')).toBe('paid-social')
     expect(inquiry.searchParams.get('utm_campaign')).toBe('comms-renewal')
+    expect(inquiry.searchParams.get('utm_content')).toBe('operations-leader')
+    expect(inquiry.searchParams.get('entry_page')).toBe('/en/communications-modernization-review')
+    expect(inquiry.searchParams.get('selected_problem')).toBe('communications-modernization-review')
   })
 })

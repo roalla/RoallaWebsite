@@ -31,6 +31,7 @@ describe('consultation-request', () => {
     consultingFocus: 'operations',
     name: 'Jane Doe',
     email: 'jane@example.com',
+    company: 'Acme Inc.',
   }
 
   it('accepts a valid consulting request', () => {
@@ -97,7 +98,7 @@ describe('consultation-request', () => {
     expect(validateConsultationRequest({ ...validBase, website: 'spam' })).toBe('Invalid submission')
   })
 
-  it('accepts slim digital light-mode requests without discovery fields', () => {
+  it('keeps slim digital requests qualified without deep discovery fields', () => {
     expect(
       validateConsultationRequest({
         intent: 'website',
@@ -105,7 +106,7 @@ describe('consultation-request', () => {
         name: 'Alex Roe',
         email: 'alex@example.com',
       }),
-    ).toBeNull()
+    ).toBe('Organization is required')
 
     expect(
       validateConsultationRequest({
@@ -115,6 +116,7 @@ describe('consultation-request', () => {
         email: 'alex@example.com',
         goal: 'Need a client portal',
         company: 'Acme',
+        timeline: '1to3',
       }),
     ).toBeNull()
 
@@ -219,6 +221,19 @@ describe('consultation-request', () => {
       notProvided: 'Not provided',
       submittedAt: 'Submitted',
       source: 'Website',
+      sourcePage: 'Referrer page',
+      currentSiteUrl: 'Submitted website',
+      campaign: 'Campaign',
+      selectedOffer: 'Selected offer',
+      entryPage: 'Entry page',
+      selectedProblem: 'Selected business problem',
+      utmSource: 'UTM source',
+      utmMedium: 'UTM medium',
+      utmCampaign: 'UTM campaign',
+      utmContent: 'UTM content',
+      marketingConsent: 'Marketing consent',
+      consentYes: 'Yes — optional marketing updates',
+      consentNo: 'No — inquiry response only',
       submissionId: 'Reference',
       discoveryUrl: 'Suggested discovery URL',
       discoveryHeading: 'Suggested discovery link',
@@ -239,6 +254,10 @@ describe('consultation-request', () => {
         lightMode: true,
         name: 'Jane Doe',
         email: 'jane@example.com',
+        company: 'Acme',
+        currentSiteUrl: 'https://example.com',
+        sourcePage: '/website-ai-visibility-review?campaign=website-ai-visibility-review&offer=personal-review&entry_page=%2Fen%2Fwebsite-ai-visibility-review&selected_problem=qualified-inquiries&utm_source=linkedin&utm_medium=paid-social&utm_campaign=q4&utm_content=owner-ad',
+        marketingConsent: false,
       },
       labels,
       'Sep 25, 2026',
@@ -267,6 +286,12 @@ describe('consultation-request', () => {
     expect(salesHtml).toContain('https://www.roalla.com/email/roalla-mark.png')
     expect(salesHtml).not.toContain('Soft reminder')
     expect(salesHtml).not.toContain('Nudge at T+2')
+    expect(salesHtml).toContain('website-ai-visibility-review')
+    expect(salesHtml).toContain('personal-review')
+    expect(salesHtml).toContain('qualified-inquiries')
+    expect(salesHtml).toContain('paid-social')
+    expect(salesHtml).toContain('https://example.com')
+    expect(salesHtml).toContain('No — inquiry response only')
     expect(userHtml).toContain('Start your digital brief')
     expect(userHtml).toContain('goal=website')
     expect(userHtml).not.toContain('/digitaldiscovery')

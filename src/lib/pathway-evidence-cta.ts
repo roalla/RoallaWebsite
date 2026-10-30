@@ -5,6 +5,9 @@ export type PathwayEvidencePath =
   | '/digital-product-discovery'
   | '/website-package'
   | '/tools/communications-value-brief'
+  | '/tools/email-reach-brief'
+  | '/tools/ninety-day-plan-brief'
+  | '/tools/capacity-pressure-brief'
   | '/automation-opportunity-review'
   | '/ai-agent-readiness-review'
   | '/technology-decision-review'
@@ -47,10 +50,10 @@ export const pathwayEvidenceCtas: Partial<Record<SolutionPathId, PathwayEvidence
     },
   },
   strategy: {
-    pathname: '/assessment',
+    pathname: '/tools/ninety-day-plan-brief',
     label: {
-      en: 'Take the 5-minute assessment',
-      fr: 'Faire l’évaluation de 5 minutes',
+      en: 'Sketch a 90-day plan',
+      fr: 'Esquisser un plan de 90 jours',
     },
   },
   security: {

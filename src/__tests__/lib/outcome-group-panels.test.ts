@@ -17,7 +17,9 @@ describe('outcome group panels', () => {
     for (const locale of ['en', 'fr'] as const) {
       const copy = getOutcomeGroupPanelCopy(groupId, locale)
       expect(copy.resultTitle).toBeTruthy()
-      expect(copy.situations).toHaveLength(groupId === 'growth-visibility' ? 4 : 3)
+      const expectedCount =
+        groupId === 'growth-visibility' || groupId === 'automation-ai' ? 4 : 3
+      expect(copy.situations).toHaveLength(expectedCount)
       expect(copy.ladderSteps).toHaveLength(3)
       expect(copy.vignetteSteps.length).toBeGreaterThanOrEqual(2)
       expect(copy.pathwayLinks.length).toBeGreaterThanOrEqual(1)
@@ -25,16 +27,14 @@ describe('outcome group panels', () => {
         expect(situation.evidencePath).toMatch(/^\//)
         expect(situation.evidenceLabel).toBeTruthy()
         expect(situation.contactIntent).toBeTruthy()
+        expect(situation.typicalCauses).toHaveLength(2)
+        expect(situation.roallaHelp).toBeTruthy()
+        expect(situation.evidenceNote).toBeTruthy()
       })
       if (groupId === 'growth-visibility') {
         expect(copy.evidenceMode).toBe('domain')
         expect(copy.domainLabel).toBeTruthy()
         expect(copy.domainCta).toBeTruthy()
-        copy.situations.forEach((situation) => {
-          expect(situation.typicalCauses).toHaveLength(2)
-          expect(situation.roallaHelp).toBeTruthy()
-          expect(situation.evidenceNote).toBeTruthy()
-        })
       } else {
         expect(copy.evidenceMode).toBe('link')
       }
@@ -62,11 +62,41 @@ describe('outcome group panels', () => {
     const situation = copy.situations.find((item) => item.id === 'email-deliverability')
 
     expect(situation).toMatchObject({
-      evidencePath: '/tools/digital-presence-snapshot',
-      evidenceLabel: locale === 'fr' ? 'Examiner la livraison des courriels' : 'Review email deliverability',
+      evidencePath: '/tools/email-reach-brief',
+      evidenceLabel:
+        locale === 'fr' ? 'Vérifier si vos courriels passent' : 'Check if your emails are getting through',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
     })
     expect(copy.channels.some((channel) => channel.id === 'email')).toBe(true)
+  })
+
+  it.each(['en', 'fr'] as const)('remaps key tiles to plain-language evidence paths for %s', (locale) => {
+    const growth = getOutcomeGroupPanelCopy('growth-visibility', locale)
+    const experience = getOutcomeGroupPanelCopy('experience-products', locale)
+    const automation = getOutcomeGroupPanelCopy('automation-ai', locale)
+    const execution = getOutcomeGroupPanelCopy('execution', locale)
+
+    expect(growth.situations.find((item) => item.id === 'ai-clarity')?.evidencePath).toBe(
+      '/website-ai-visibility-review',
+    )
+    expect(experience.situations.find((item) => item.id === 'customer-journey')?.evidencePath).toBe(
+      '/digital-asset-health-review',
+    )
+    expect(automation.situations.map((item) => item.id)).toEqual([
+      'repetitive-work',
+      'staffing-capacity',
+      'peak-continuity',
+      'iot-ops',
+    ])
+    expect(automation.situations.find((item) => item.id === 'staffing-capacity')?.evidencePath).toBe(
+      '/tools/capacity-pressure-brief',
+    )
+    expect(automation.situations.find((item) => item.id === 'peak-continuity')?.evidencePath).toBe(
+      '/tools/capacity-pressure-brief',
+    )
+    execution.situations.forEach((situation) => {
+      expect(situation.evidencePath).toBe('/tools/ninety-day-plan-brief')
+    })
   })
 })

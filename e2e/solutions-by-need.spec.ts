@@ -75,4 +75,35 @@ test.describe('Solutions by Need', () => {
     await expect(page.locator('#outcome-contact input[type="email"]')).toBeVisible()
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
   })
+
+  test('growth and visibility tiles change guidance and reserve the website checker for findability', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 })
+    await page.goto('/en/solutions/need/growth-visibility')
+
+    await expect(page.getByLabel('Your website address')).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Buyers can’t find us', exact: true })).toBeVisible()
+    await expect(page.getByText('Typical causes')).toBeVisible()
+
+    await page.getByRole('button', { name: /Traffic doesn’t convert/ }).click()
+    await expect(page.getByRole('heading', { name: 'Traffic doesn’t convert', exact: true })).toBeVisible()
+    await expect(page.getByText('The offer or next step is hard to understand quickly.')).toBeVisible()
+    await expect(page.getByText('Review the conversion path')).toBeVisible()
+    await expect(page.getByLabel('Your website address')).toHaveCount(0)
+
+    await page.getByRole('button', { name: /Search or AI misunderstands us/ }).click()
+    await expect(page.getByRole('heading', { name: 'Search or AI misunderstands us', exact: true })).toBeVisible()
+    await expect(page.getByText('Services, expertise, and entity signals lack clear structure.')).toBeVisible()
+    await expect(page.getByText('Clarify our public story')).toBeVisible()
+    await expect(page.getByLabel('Your website address')).toHaveCount(0)
+
+    await page.getByRole('button', { name: /Campaign emails aren’t reaching customers/ }).click()
+    await expect(page.getByRole('heading', { name: 'Campaign emails aren’t reaching customers', exact: true })).toBeVisible()
+    await expect(page.getByText('SPF, DKIM, or DMARC is incomplete or misaligned.')).toBeVisible()
+    await expect(page.getByText('Review email deliverability')).toBeVisible()
+    await expect(page.getByLabel('Your website address')).toHaveCount(0)
+
+    await page.getByRole('button', { name: /Buyers can’t find us/ }).click()
+    await expect(page.getByLabel('Your website address')).toBeVisible()
+    await expect(page.getByRole('button', { name: /Check my website/ })).toBeVisible()
+  })
 })

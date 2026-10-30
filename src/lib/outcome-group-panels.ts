@@ -16,8 +16,11 @@ export type OutcomeGroupSituation = {
   id: string
   label: string
   hint: string
+  typicalCauses?: readonly string[]
+  roallaHelp?: string
   evidencePath: EvidencePath
   evidenceLabel: string
+  evidenceNote?: string
   pathwaySlug: SolutionPathId
   contactIntent: ConsultationIntent
   contactFocus?: ConsultingFocus
@@ -69,8 +72,15 @@ const growthEn: OutcomeGroupPanelCopy = {
       id: 'findability',
       label: 'Buyers can’t find us',
       hint: 'Discovery and search visibility are the bottleneck.',
+      typicalCauses: [
+        'Pages do not match how qualified buyers search.',
+        'Search, local, or technical signals are weak or inconsistent.',
+      ],
+      roallaHelp:
+        'ROALLA reviews search, AI readability, local visibility, and the landing page—then turns the evidence into a prioritized action plan.',
       evidencePath: '/tools/digital-presence-snapshot',
       evidenceLabel: 'Check my website',
+      evidenceNote: 'Free Digital Presence Snapshot. No email required. Public landing page only.',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
     },
@@ -78,8 +88,15 @@ const growthEn: OutcomeGroupPanelCopy = {
       id: 'conversion',
       label: 'Traffic doesn’t convert',
       hint: 'People arrive, but the path to action is unclear.',
+      typicalCauses: [
+        'The offer or next step is hard to understand quickly.',
+        'Proof appears too late, or the path to contact creates friction.',
+      ],
+      roallaHelp:
+        'ROALLA maps the buyer journey, clarifies the offer, proof, and calls to action, then prioritizes the highest-value changes before a rebuild.',
       evidencePath: '/tools/digital-presence-snapshot',
-      evidenceLabel: 'Check my website',
+      evidenceLabel: 'Review the conversion path',
+      evidenceNote: 'A focused review can separate messaging, proof, and journey friction before you rebuild.',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
     },
@@ -87,8 +104,15 @@ const growthEn: OutcomeGroupPanelCopy = {
       id: 'ai-clarity',
       label: 'Search or AI misunderstands us',
       hint: 'The business is hard to describe from the public page.',
+      typicalCauses: [
+        'Public pages use vague or inconsistent language about the business.',
+        'Services, expertise, and entity signals lack clear structure.',
+      ],
+      roallaHelp:
+        'ROALLA sharpens public positioning, content structure, and entity signals so search engines and AI systems can describe the business accurately.',
       evidencePath: '/tools/digital-presence-snapshot',
-      evidenceLabel: 'Check my website',
+      evidenceLabel: 'Clarify our public story',
+      evidenceNote: 'Start with the public evidence search and AI systems can actually read.',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
     },
@@ -96,8 +120,15 @@ const growthEn: OutcomeGroupPanelCopy = {
       id: 'email-deliverability',
       label: 'Campaign emails aren’t reaching customers',
       hint: 'Messages land in junk or fail delivery, weakening trust and customer response.',
+      typicalCauses: [
+        'SPF, DKIM, or DMARC is incomplete or misaligned.',
+        'Sender reputation, list hygiene, or campaign setup is reducing delivery.',
+      ],
+      roallaHelp:
+        'ROALLA reviews authentication, sending patterns, reputation, and the customer journey—then sequences practical fixes with clear owners.',
       evidencePath: '/tools/digital-presence-snapshot',
-      evidenceLabel: 'Check email delivery',
+      evidenceLabel: 'Review email deliverability',
+      evidenceNote: 'Begin with sending setup and delivery evidence—not a broad marketing overhaul.',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
     },
@@ -170,8 +201,15 @@ const growthFr: OutcomeGroupPanelCopy = {
       id: 'findability',
       label: 'Les acheteurs ne nous trouvent pas',
       hint: 'La découverte et la visibilité dans la recherche sont le frein.',
+      typicalCauses: [
+        'Les pages ne correspondent pas à la façon dont les acheteurs qualifiés recherchent.',
+        'Les signaux de recherche, locaux ou techniques sont faibles ou incohérents.',
+      ],
+      roallaHelp:
+        'ROALLA examine la recherche, la lisibilité pour l’IA, la visibilité locale et la page d’arrivée, puis transforme les preuves en plan d’action priorisé.',
       evidencePath: '/tools/digital-presence-snapshot',
       evidenceLabel: 'Vérifier mon site',
+      evidenceNote: 'Aperçu gratuit de présence numérique. Aucun courriel requis. Page d’arrivée publique seulement.',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
     },
@@ -179,8 +217,15 @@ const growthFr: OutcomeGroupPanelCopy = {
       id: 'conversion',
       label: 'Le trafic ne convertit pas',
       hint: 'Les gens arrivent, mais le chemin vers l’action est flou.',
+      typicalCauses: [
+        'L’offre ou la prochaine étape est difficile à comprendre rapidement.',
+        'Les preuves arrivent trop tard ou le chemin vers le contact crée de la friction.',
+      ],
+      roallaHelp:
+        'ROALLA cartographie le parcours acheteur, clarifie l’offre, les preuves et les appels à l’action, puis priorise les changements les plus utiles avant une refonte.',
       evidencePath: '/tools/digital-presence-snapshot',
-      evidenceLabel: 'Vérifier mon site',
+      evidenceLabel: 'Examiner le parcours de conversion',
+      evidenceNote: 'Une revue ciblée distingue messages, preuves et friction du parcours avant une refonte.',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
     },
@@ -188,8 +233,15 @@ const growthFr: OutcomeGroupPanelCopy = {
       id: 'ai-clarity',
       label: 'La recherche ou l’IA nous mal comprend',
       hint: 'L’entreprise est difficile à décrire à partir de la page publique.',
+      typicalCauses: [
+        'Les pages publiques décrivent l’entreprise avec un langage vague ou incohérent.',
+        'Les services, l’expertise et les signaux d’entité manquent de structure claire.',
+      ],
+      roallaHelp:
+        'ROALLA précise le positionnement public, la structure du contenu et les signaux d’entité afin que la recherche et l’IA décrivent l’entreprise avec justesse.',
       evidencePath: '/tools/digital-presence-snapshot',
-      evidenceLabel: 'Vérifier mon site',
+      evidenceLabel: 'Clarifier notre récit public',
+      evidenceNote: 'Commencez par les preuves publiques que la recherche et l’IA peuvent réellement lire.',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
     },
@@ -197,8 +249,15 @@ const growthFr: OutcomeGroupPanelCopy = {
       id: 'email-deliverability',
       label: 'Nos courriels n’atteignent pas les clients',
       hint: 'Les campagnes arrivent dans les indésirables ou échouent, ce qui réduit la confiance et les réponses.',
+      typicalCauses: [
+        'SPF, DKIM ou DMARC est incomplet ou mal aligné.',
+        'La réputation d’envoi, l’hygiène des listes ou la configuration réduit la livraison.',
+      ],
+      roallaHelp:
+        'ROALLA examine l’authentification, les habitudes d’envoi, la réputation et le parcours client, puis séquence des correctifs pratiques avec des responsables clairs.',
       evidencePath: '/tools/digital-presence-snapshot',
-      evidenceLabel: 'Vérifier la livraison des courriels',
+      evidenceLabel: 'Examiner la livraison des courriels',
+      evidenceNote: 'Commencez par la configuration d’envoi et les preuves de livraison, pas une refonte marketing générale.',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
     },

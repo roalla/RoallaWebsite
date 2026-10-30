@@ -30,6 +30,11 @@ describe('outcome group panels', () => {
         expect(copy.evidenceMode).toBe('domain')
         expect(copy.domainLabel).toBeTruthy()
         expect(copy.domainCta).toBeTruthy()
+        copy.situations.forEach((situation) => {
+          expect(situation.typicalCauses).toHaveLength(2)
+          expect(situation.roallaHelp).toBeTruthy()
+          expect(situation.evidenceNote).toBeTruthy()
+        })
       } else {
         expect(copy.evidenceMode).toBe('link')
       }
@@ -58,6 +63,7 @@ describe('outcome group panels', () => {
 
     expect(situation).toMatchObject({
       evidencePath: '/tools/digital-presence-snapshot',
+      evidenceLabel: locale === 'fr' ? 'Examiner la livraison des courriels' : 'Review email deliverability',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
     })

@@ -41,6 +41,7 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
   )
 
   const qualifierReady = Boolean(channel && priority)
+  const showWebsiteChecker = groupId === 'growth-visibility' && situation.id === 'findability'
   const ladderCount = copy.ladderSteps.length
   const activeLadder = copy.ladderSteps[ladderStep] ?? copy.ladderSteps[0]
   const ladderBackLabel = locale === 'fr' ? 'Étape précédente' : 'Previous step'
@@ -60,6 +61,10 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
     locale === 'fr' ? 'Prêt avec vos réponses' : 'Ready with your answers'
   const howItWorksLabel =
     locale === 'fr' ? 'Comment l’engagement progresse habituellement' : 'How commitment usually grows'
+  const typicalCausesLabel = locale === 'fr' ? 'Causes fréquentes' : 'Typical causes'
+  const roallaHelpLabel = locale === 'fr' ? 'Comment ROALLA peut aider' : 'How ROALLA can help'
+  const selectedChallengeLabel = locale === 'fr' ? 'Défi sélectionné' : 'Selected challenge'
+  const nextStepLabel = locale === 'fr' ? 'Prochaine étape recommandée' : 'Recommended next step'
   const seeCtaLabel = locale === 'fr' ? 'Aller aux preuves' : 'Go to evidence'
   const interpretCtaLabel = copy.contactCta
   const improveCtaLabel =
@@ -201,6 +206,7 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
                 aria-pressed={selected}
                 onClick={() => {
                   setSituationId(item.id)
+                  setLadderStep(0)
                   trackAnalyticsEvent('outcome_selection', {
                     location: `${groupId}_situation`,
                     outcome: item.pathwaySlug,
@@ -244,8 +250,39 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
         </div>
       </div>
 
+      {situation.typicalCauses?.length && situation.roallaHelp ? (
+        <section
+          key={situation.id}
+          aria-live="polite"
+          className="outcome-situation-guidance border border-primary/20 bg-primary/[0.035] px-4 py-5 sm:px-5"
+        >
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">
+            {selectedChallengeLabel}
+          </p>
+          <h4 className="mt-2 font-serif text-xl font-bold text-slate-950">{situation.label}</h4>
+          <p className="mt-1 text-sm leading-6 text-slate-600">{situation.hint}</p>
+          <div className="mt-5 grid gap-5 md:grid-cols-2 md:gap-8">
+            <div>
+              <p className="text-sm font-bold text-slate-950">{typicalCausesLabel}</p>
+              <ul className="mt-2 space-y-2">
+                {situation.typicalCauses.map((cause) => (
+                  <li key={cause} className="flex gap-2 text-sm leading-6 text-slate-700">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-gold" aria-hidden />
+                    <span>{cause}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="border-t border-primary/15 pt-5 md:border-l md:border-t-0 md:pl-8 md:pt-0">
+              <p className="text-sm font-bold text-slate-950">{roallaHelpLabel}</p>
+              <p className="mt-2 text-sm leading-6 text-slate-700">{situation.roallaHelp}</p>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       <div ref={evidenceRef} className="border border-slate-200 bg-slate-950 px-4 py-5 text-white sm:px-5">
-        {copy.evidenceMode === 'domain' ? (
+        {showWebsiteChecker ? (
           <>
             <form onSubmit={runDomainEvidence} className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
               <label htmlFor={domainId} className="block text-sm font-semibold text-white">
@@ -276,7 +313,9 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </button>
             </form>
-            <p className="mt-3 text-xs leading-5 text-slate-400">{copy.evidenceNote}</p>
+            <p className="mt-3 text-xs leading-5 text-slate-400">
+              {situation.evidenceNote ?? copy.evidenceNote}
+            </p>
             <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
               <Link
                 href={contactHref}
@@ -310,6 +349,54 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
               ))}
             </div>
           </>
+        ) : copy.evidenceMode === 'domain' ? (
+          <>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-brand-gold">
+                  {nextStepLabel}
+                </p>
+                <p className="mt-1 font-serif text-lg font-bold text-white">{situation.evidenceLabel}</p>
+              </div>
+              <Link
+                href={contactHref}
+                onClick={() =>
+                  trackAnalyticsEvent('outcome_cta_click', {
+                    location: `${groupId}_evidence_contact`,
+                    outcome: situation.pathwaySlug,
+                    group: groupId,
+                    signal: situation.id,
+                  })
+                }
+                className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-lg bg-brand-gold px-5 text-sm font-semibold text-slate-950 transition hover:bg-brand-gold-light"
+              >
+                {copy.contactCta}
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+            </div>
+            <p className="mt-3 text-xs leading-5 text-slate-400">
+              {situation.evidenceNote ?? copy.evidenceNote}
+            </p>
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              {copy.pathwayLinks.map((link) => (
+                <Link
+                  key={link.slug}
+                  href={{ pathname: '/solutions/[slug]', params: { slug: link.slug } }}
+                  onClick={() =>
+                    trackAnalyticsEvent('solutions_pathway_click', {
+                      location: `${groupId}_tertiary`,
+                      pathway: link.slug,
+                      group: groupId,
+                    })
+                  }
+                  className="inline-flex min-h-11 items-center text-sm font-semibold text-slate-300 underline-offset-4 hover:text-white hover:underline"
+                >
+                  {link.label}
+                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                </Link>
+              ))}
+            </div>
+          </>
         ) : (
           <>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -335,7 +422,9 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
             </div>
-            <p className="mt-3 text-xs leading-5 text-slate-400">{copy.evidenceNote}</p>
+            <p className="mt-3 text-xs leading-5 text-slate-400">
+              {situation.evidenceNote ?? copy.evidenceNote}
+            </p>
             <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
               <Link
                 href={contactHref}

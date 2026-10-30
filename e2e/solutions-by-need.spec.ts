@@ -31,12 +31,19 @@ test.describe('Solutions by Need', () => {
     await expect(menu.getByRole('menuitem', { name: /Explore Your Options/ })).toHaveAttribute('href', '/en/assessment')
   })
 
-  test('central page presents nine outcome pathways linked to dedicated pages', async ({ page }) => {
+  test('central page presents guided outcomes linked to dedicated pages', async ({ page }) => {
     await page.goto('/en/solutions')
 
-    await expect(page.getByRole('heading', { level: 1, name: 'Start with the outcome you need—not a service name.' })).toBeVisible()
-    await expect(page.locator('a#strategy')).toHaveAttribute('href', '/en/solutions/strategy')
-    await expect(page.locator('a#visibility')).toHaveAttribute('href', '/en/solutions/visibility')
+    await expect(page.getByRole('heading', { level: 1, name: 'What does your business need to do next?' })).toBeVisible()
+    await expect(page.getByRole('heading', { level: 2, name: 'See what ROALLA has built.' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'View the case study' }).first()).toHaveAttribute('href', '/en/services/portfolio/grcstatus')
+    await expect(page.getByRole('link', { name: 'Explore all websites and applications' })).toHaveAttribute('href', '/en/services/portfolio')
+    await page.locator('#growth-visibility > summary').click()
+    await page.locator('#growth-visibility').getByRole('button', { name: /Buyers can’t find us/ }).click()
+    await expect(page.getByRole('link', { name: 'Improve visibility and conversion' })).toHaveAttribute('href', '/en/solutions/visibility')
+    await page.locator('#execution > summary').click()
+    await page.locator('#execution').getByRole('button', { name: /Too many priorities are competing/ }).click()
+    await expect(page.getByRole('link', { name: 'Set direction and priorities' })).toHaveAttribute('href', '/en/solutions/strategy')
     await expect(page.getByRole('link', { name: 'Find your starting point' }).first()).toHaveAttribute('href', '/en/assessment')
   })
 
@@ -58,7 +65,7 @@ test.describe('Solutions by Need', () => {
     await page.goto('/en/solutions/automation-ai')
 
     await expect(page.getByRole('heading', { level: 1, name: /Reduce manual effort/ })).toBeVisible()
-    await expect(page.locator('main img').first()).toHaveAttribute('alt', /responsible automation workflow/i)
+    await expect(page.locator('main img[src*="what-to-automate-first"]')).toBeVisible()
     await expect(page.getByRole('heading', { level: 2, name: 'A clear route from friction to progress' })).toBeVisible()
     await expect(page.getByRole('heading', { level: 3, name: 'Custom integration and governed enablement' })).toBeVisible()
     await page.locator('#outcome-contact').scrollIntoViewIfNeeded()

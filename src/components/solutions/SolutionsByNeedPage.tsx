@@ -10,7 +10,6 @@ import {
   ChevronDown,
   Compass,
   ExternalLink,
-  Gauge,
   Layers3,
   Route,
   SearchCheck,
@@ -24,6 +23,7 @@ import { trackAnalyticsEvent } from '@/lib/analytics'
 import { outcomeGroups, type OutcomeGroupId } from '@/lib/solution-outcome-pages'
 import type { SolutionsByNeedContent } from '@/lib/solutions-by-need'
 import OutcomeGroupPanel from '@/components/solutions/OutcomeGroupPanel'
+import StickyMobileCTA from '@/components/StickyMobileCTA'
 
 const experienceCopy = {
   en: {
@@ -31,6 +31,10 @@ const experienceCopy = {
     heroBody: 'Choose the outcome that matters now. ROALLA turns the pressure, opportunity, or technology decision into a practical route forward.',
     heroExplore: 'Find my starting point',
     heroTalk: 'Talk through my priorities',
+    heroProofBadge: 'Real ROALLA products',
+    heroProofTitle: 'See the work behind the advice.',
+    heroProofLink: 'View published work',
+    mobileCtaHint: 'Choose the closest of five business outcomes',
     heroVisualEyebrow: 'From pressure to progress',
     heroVisualTitle: 'One connected route—not another disconnected project.',
     priorityLabel: 'Business priority',
@@ -89,6 +93,10 @@ const experienceCopy = {
     heroBody: 'Choisissez le résultat qui compte aujourd’hui. ROALLA transforme la pression, l’occasion ou la décision technologique en parcours pratique.',
     heroExplore: 'Trouver mon point de départ',
     heroTalk: 'Discuter de mes priorités',
+    heroProofBadge: 'De vrais produits ROALLA',
+    heroProofTitle: 'Voyez les réalisations derrière les conseils.',
+    heroProofLink: 'Voir les travaux publiés',
+    mobileCtaHint: 'Choisissez le plus proche de cinq résultats d’affaires',
     heroVisualEyebrow: 'De la pression au progrès',
     heroVisualTitle: 'Un parcours connecté—pas un autre projet isolé.',
     priorityLabel: 'Priorité d’affaires',
@@ -152,6 +160,19 @@ const groupPresentation: Record<OutcomeGroupId, { icon: typeof SearchCheck; acce
   execution: { icon: Target, accent: 'from-blue-500/20 to-primary/10', number: '05' },
 }
 
+const proofPresentation = [
+  { icon: Sparkles, card: 'border-cyan-200 bg-cyan-50', iconWrap: 'bg-cyan-500 text-white' },
+  { icon: ShieldCheck, card: 'border-amber-200 bg-amber-50', iconWrap: 'bg-brand-gold text-slate-950' },
+  { icon: Route, card: 'border-violet-200 bg-violet-50', iconWrap: 'bg-violet-600 text-white' },
+] as const
+
+const processPresentation = [
+  { icon: Compass, card: 'border-slate-800 bg-slate-950', badge: 'bg-brand-gold text-slate-950', title: 'text-white', body: 'text-slate-300' },
+  { icon: SearchCheck, card: 'border-cyan-200 bg-cyan-50', badge: 'bg-cyan-500 text-white', title: 'text-slate-950', body: 'text-slate-700' },
+  { icon: Route, card: 'border-amber-200 bg-amber-50', badge: 'bg-brand-gold text-slate-950', title: 'text-slate-950', body: 'text-slate-700' },
+  { icon: Target, card: 'border-primary-dark bg-primary-dark', badge: 'bg-white text-primary-dark', title: 'text-white', body: 'text-cyan-50' },
+] as const
+
 export default function SolutionsByNeedPage({ content, locale }: { content: SolutionsByNeedContent; locale: 'en' | 'fr' }) {
   const groups = outcomeGroups[locale]
   const copy = experienceCopy[locale]
@@ -199,65 +220,77 @@ export default function SolutionsByNeedPage({ content, locale }: { content: Solu
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-xl lg:mx-0" aria-label={copy.heroVisualEyebrow}>
-            <div className="absolute -inset-8 -z-10 rounded-full bg-primary/15 blur-3xl" aria-hidden />
-            <div className="overflow-hidden rounded-[2rem] border border-white/15 bg-white/[0.07] p-4 shadow-2xl shadow-black/30 backdrop-blur-xl sm:p-6">
-              <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                <div>
-                  <p className="text-[0.68rem] font-bold uppercase tracking-[0.18em] text-primary-light">{copy.heroVisualEyebrow}</p>
-                  <p className="mt-1 max-w-sm text-sm font-semibold leading-6 text-white sm:text-base">{copy.heroVisualTitle}</p>
-                </div>
-                <Compass className="h-9 w-9 shrink-0 text-primary-light" strokeWidth={1.5} aria-hidden />
-              </div>
-              <div className="mt-5 rounded-2xl border border-white/10 bg-slate-950/60 p-4">
-                <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-gold text-slate-950"><Gauge className="h-5 w-5" aria-hidden /></span>
-                  <div>
-                    <p className="text-[0.65rem] font-bold uppercase tracking-[0.16em] text-slate-400">{copy.priorityLabel}</p>
-                    <p className="mt-1 text-sm font-semibold text-white">{copy.priorityValue}</p>
-                  </div>
-                </div>
-              </div>
-              <div className="mx-auto h-6 w-px bg-gradient-to-b from-primary-light to-white/20" aria-hidden />
-              <div className="rounded-2xl border border-primary-light/25 bg-gradient-to-br from-primary/15 to-white/[0.04] p-4 sm:p-5">
-                <div className="flex items-center justify-between gap-4">
-                  <p className="text-[0.65rem] font-bold uppercase tracking-[0.16em] text-primary-light">{copy.routeLabel}</p>
-                  <Sparkles className="h-4 w-4 text-brand-gold" aria-hidden />
-                </div>
-                <div className="mt-4 grid grid-cols-3 gap-2">
-                  {copy.routeSteps.map((step, index) => (
-                    <div key={step} className="rounded-xl border border-white/10 bg-slate-950/45 px-2 py-3 text-center">
-                      <span className="mx-auto flex h-6 w-6 items-center justify-center rounded-full border border-primary-light/40 bg-primary/15 text-[0.65rem] font-bold text-primary-light">{index + 1}</span>
-                      <span className="mt-2 block text-xs font-semibold text-white">{step}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-3 flex items-center gap-3 rounded-xl bg-white px-4 py-3 text-slate-950 shadow-lg">
-                  <Check className="h-5 w-5 shrink-0 rounded-full bg-primary p-1 text-white" aria-hidden />
-                  <span className="text-sm font-bold">{copy.routeResult}</span>
-                  <ArrowRight className="ml-auto h-4 w-4 text-primary-dark" aria-hidden />
+          <div className="relative mx-auto w-full max-w-xl pb-24 sm:pb-28 lg:mx-0" aria-label={copy.heroProofTitle}>
+            <div className="absolute -inset-8 -z-10 rounded-full bg-primary/20 blur-3xl" aria-hidden />
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/20 bg-white p-3 shadow-2xl shadow-black/40 sm:p-4">
+              <div className="relative aspect-[16/10] overflow-hidden rounded-[1.4rem] bg-slate-200">
+                <Image
+                  src={copy.portfolioItems[0].image}
+                  alt={`${copy.portfolioItems[0].title} — ${copy.portfolioItems[0].type}`}
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 44vw, 92vw"
+                  className="object-cover object-top"
+                />
+                <div className="absolute inset-x-0 bottom-0 hidden bg-gradient-to-t from-slate-950 via-slate-950/75 to-transparent px-5 pb-5 pt-20 text-white sm:block">
+                  <p className="text-[0.65rem] font-bold uppercase tracking-[0.17em] text-primary-light">{copy.heroProofBadge}</p>
+                  <p className="mt-1 font-serif text-xl font-bold sm:text-2xl">{copy.heroProofTitle}</p>
+                  <a
+                    href="#published-work"
+                    className="mt-3 inline-flex min-h-10 items-center rounded-lg bg-brand-gold px-4 text-xs font-bold text-slate-950 transition hover:bg-brand-gold-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                  >
+                    {copy.heroProofLink}
+                    <ArrowDown className="ml-2 h-3.5 w-3.5" aria-hidden />
+                  </a>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      <section aria-label={copy.proofLabel} className="relative z-10 border-b border-slate-200 bg-white px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl py-7 lg:py-8">
-          <p className="text-center text-[0.68rem] font-bold uppercase tracking-[0.2em] text-slate-500">{copy.proofLabel}</p>
-          <div className="mt-5 grid gap-5 sm:grid-cols-3 sm:divide-x sm:divide-slate-200">
-            {copy.proof.map((item) => (
-              <div key={item.value} className="flex items-center justify-center gap-3 px-4 text-center sm:items-start sm:text-left">
-                <span className="font-serif text-2xl font-extrabold text-primary-dark">{item.value}</span>
-                <span className="max-w-[15rem] text-sm leading-6 text-slate-600">{item.label}</span>
+            <div className="absolute bottom-0 left-2 w-[45%] rotate-[-3deg] overflow-hidden rounded-2xl border-4 border-white bg-white shadow-2xl shadow-black/35 transition duration-300 hover:rotate-0 sm:left-5">
+              <div className="relative aspect-[16/10] overflow-hidden bg-slate-200">
+                <Image src={copy.portfolioItems[1].image} alt={`${copy.portfolioItems[1].title} — ${copy.portfolioItems[1].type}`} fill sizes="260px" className="object-cover object-top" />
               </div>
-            ))}
+              <p className="truncate px-3 py-2 text-xs font-bold text-slate-950">{copy.portfolioItems[1].title}</p>
+            </div>
+            <div className="absolute bottom-2 right-2 w-[43%] rotate-[3deg] overflow-hidden rounded-2xl border-4 border-white bg-white shadow-2xl shadow-black/35 transition duration-300 hover:rotate-0 sm:right-5">
+              <div className="relative aspect-[16/10] overflow-hidden bg-slate-200">
+                <Image src={copy.portfolioItems[2].image} alt={`${copy.portfolioItems[2].title} — ${copy.portfolioItems[2].type}`} fill sizes="250px" className="object-cover object-top" />
+              </div>
+              <p className="truncate px-3 py-2 text-xs font-bold text-slate-950">{copy.portfolioItems[2].title}</p>
+            </div>
+
+            <span className="absolute -right-2 -top-4 inline-flex items-center gap-2 rounded-full border border-brand-gold/40 bg-slate-950 px-4 py-2 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-brand-gold shadow-lg sm:right-3">
+              <Sparkles className="h-3.5 w-3.5" aria-hidden />
+              {copy.heroProofBadge}
+            </span>
           </div>
         </div>
       </section>
 
-      <section className="bg-slate-50 px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      <section aria-label={copy.proofLabel} className="relative z-10 bg-white px-4 pb-12 sm:px-6 lg:px-8">
+        <div className="mx-auto -mt-7 max-w-7xl rounded-3xl border border-slate-200 bg-white p-4 shadow-2xl shadow-slate-950/10 sm:p-6">
+          <p className="px-2 text-[0.68rem] font-bold uppercase tracking-[0.2em] text-slate-500">{copy.proofLabel}</p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            {copy.proof.map((item, index) => {
+              const presentation = proofPresentation[index]
+              const Icon = presentation.icon
+              return (
+                <div key={item.value} className={`flex gap-4 rounded-2xl border p-5 ${presentation.card}`}>
+                  <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl shadow-sm ${presentation.iconWrap}`}>
+                    <Icon className="h-5 w-5" aria-hidden />
+                  </span>
+                  <span>
+                    <span className="block font-serif text-lg font-extrabold text-slate-950">{item.value}</span>
+                    <span className="mt-1 block text-sm leading-6 text-slate-600">{item.label}</span>
+                  </span>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-gradient-to-br from-cyan-50 via-white to-amber-50 px-4 py-14 sm:px-6 lg:px-8 lg:py-24">
         <div className="mx-auto max-w-7xl">
           <div className="max-w-3xl">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary-dark">{copy.processEyebrow}</p>
@@ -266,18 +299,26 @@ export default function SolutionsByNeedPage({ content, locale }: { content: Solu
           </div>
           <div className="relative mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             <div className="absolute left-[12.5%] right-[12.5%] top-7 hidden h-px bg-gradient-to-r from-primary/20 via-primary to-primary/20 xl:block" aria-hidden />
-            {copy.processSteps.map((step, index) => (
-              <article key={step.title} className="relative rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg">
-                <span className="relative z-10 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-950 font-serif text-lg font-bold text-white shadow-md">0{index + 1}</span>
-                <h3 className="mt-5 font-serif text-xl font-bold text-slate-950">{step.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">{step.body}</p>
-              </article>
-            ))}
+            {copy.processSteps.map((step, index) => {
+              const presentation = processPresentation[index]
+              const Icon = presentation.icon
+              return (
+                <article key={step.title} className={`relative overflow-hidden rounded-2xl border p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl ${presentation.card}`}>
+                  <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-white/10" aria-hidden />
+                  <span className={`relative z-10 flex h-14 w-14 items-center justify-center rounded-2xl shadow-md ${presentation.badge}`}>
+                    <Icon className="h-6 w-6" aria-hidden />
+                  </span>
+                  <p className={`mt-5 text-[0.65rem] font-bold uppercase tracking-[0.18em] ${presentation.title}`}>0{index + 1}</p>
+                  <h3 className={`mt-2 font-serif text-xl font-bold ${presentation.title}`}>{step.title}</h3>
+                  <p className={`mt-3 text-sm leading-7 ${presentation.body}`}>{step.body}</p>
+                </article>
+              )
+            })}
           </div>
         </div>
       </section>
 
-      <section className="border-y border-slate-200 bg-white px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      <section id="published-work" className="scroll-mt-24 border-y border-slate-200 bg-white px-4 py-12 sm:px-6 lg:px-8 lg:py-24">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,.78fr)_minmax(0,1.22fr)] lg:items-end">
             <div>
@@ -351,16 +392,17 @@ export default function SolutionsByNeedPage({ content, locale }: { content: Solu
         </div>
       </section>
 
-      <section id="outcome-finder" aria-labelledby="finder-title" className="scroll-mt-24 px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-        <div className="mx-auto max-w-7xl">
+      <section id="outcome-finder" aria-labelledby="finder-title" className="relative isolate scroll-mt-24 overflow-hidden bg-slate-950 px-4 py-14 text-white sm:px-6 lg:px-8 lg:py-24">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_18%,rgba(8,184,199,0.2),transparent_28%),radial-gradient(circle_at_88%_78%,rgba(245,158,11,0.12),transparent_25%)]" aria-hidden />
+        <div className="relative mx-auto max-w-7xl">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,.7fr)_minmax(0,1.3fr)] lg:items-end">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary-dark">{copy.finderEyebrow}</p>
-              <h2 id="finder-title" className="mt-3 font-serif text-3xl font-bold leading-tight text-slate-950 sm:text-4xl lg:text-5xl">{content.pathwaysTitle}</h2>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary-light">{copy.finderEyebrow}</p>
+              <h2 id="finder-title" className="mt-3 font-serif text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">{content.pathwaysTitle}</h2>
             </div>
             <div className="lg:pb-1">
-              <p className="max-w-3xl text-lg leading-8 text-slate-600">{content.pathwaysDescription}</p>
-              <p className="mt-3 flex max-w-3xl gap-2 text-sm leading-6 text-slate-500"><Route className="mt-0.5 h-4 w-4 shrink-0 text-primary-dark" aria-hidden />{copy.finderHint}</p>
+              <p className="max-w-3xl text-lg leading-8 text-slate-300">{content.pathwaysDescription}</p>
+              <p className="mt-3 flex max-w-3xl gap-2 text-sm leading-6 text-slate-400"><Route className="mt-0.5 h-4 w-4 shrink-0 text-brand-gold" aria-hidden />{copy.finderHint}</p>
             </div>
           </div>
 
@@ -402,7 +444,7 @@ export default function SolutionsByNeedPage({ content, locale }: { content: Solu
         </div>
       </section>
 
-      <section className="border-y border-slate-200 bg-slate-50 px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      <section className="border-y border-slate-200 bg-slate-50 px-4 py-14 sm:px-6 lg:px-8 lg:py-24">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,.8fr)_minmax(0,1.2fr)] lg:items-end">
             <div>
@@ -443,7 +485,7 @@ export default function SolutionsByNeedPage({ content, locale }: { content: Solu
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-slate-950 px-4 py-16 text-white sm:px-6 lg:px-8 lg:py-20">
+      <section className="relative overflow-hidden bg-slate-950 px-4 py-14 text-white sm:px-6 lg:px-8 lg:py-20">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_50%,rgba(8,184,199,0.18),transparent_34%)]" aria-hidden />
         <div className="relative mx-auto flex max-w-7xl flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-3xl">
@@ -462,6 +504,15 @@ export default function SolutionsByNeedPage({ content, locale }: { content: Solu
           </div>
         </div>
       </section>
+
+      <StickyMobileCTA
+        label={copy.heroExplore}
+        sublabel={copy.mobileCtaHint}
+        anchorHref="#outcome-finder"
+        brandMark
+        analyticsEvent="outcome_cta_click"
+        analyticsParams={{ location: 'solutions_mobile_sticky' }}
+      />
     </div>
   )
 }

@@ -39,4 +39,16 @@ describe('outcome group panels', () => {
   it('exposes all five groups in the registry', () => {
     expect(Object.keys(outcomeGroupPanels).sort()).toEqual([...GROUP_IDS].sort())
   })
+
+  it('defaults each group’s first situation to the planned signal', () => {
+    expect(getOutcomeGroupPanelCopy('growth-visibility', 'en').situations[0].id).toBe('findability')
+    expect(getOutcomeGroupPanelCopy('experience-products', 'en').situations[0].id).toBe(
+      'website-or-product',
+    )
+    expect(getOutcomeGroupPanelCopy('automation-ai', 'en').situations[0].id).toBe('repetitive-work')
+    expect(getOutcomeGroupPanelCopy('security-compliance', 'en').situations[0].id).toBe(
+      'security-gaps',
+    )
+    expect(getOutcomeGroupPanelCopy('execution', 'en').situations[0].id).toBe('too-many-priorities')
+  })
 })

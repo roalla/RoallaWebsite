@@ -75,7 +75,7 @@ export default function OutcomeSignalMatch({
                 className={
                   selected
                     ? 'rounded-xl border border-slate-900 bg-slate-900 px-4 py-3 text-left text-sm font-semibold text-white'
-                    : 'rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-semibold text-slate-800 transition hover:border-slate-300'
+                    : 'rounded-xl border border-slate-300 bg-white px-4 py-3 text-left text-sm font-semibold text-slate-950 transition hover:border-primary/50 hover:bg-primary/[0.04]'
                 }
               >
                 {signal}

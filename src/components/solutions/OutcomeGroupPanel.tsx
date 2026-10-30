@@ -1,7 +1,7 @@
 'use client'
 
 import { FormEvent, useEffect, useId, useMemo, useRef, useState } from 'react'
-import { ArrowLeft, ArrowRight, Check, Globe2 } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, Circle, Globe2 } from 'lucide-react'
 import { Link, useRouter } from '@/i18n/navigation'
 import { trackAnalyticsEvent } from '@/lib/analytics'
 import type { OutcomeGroupId } from '@/lib/solution-outcome-pages'
@@ -28,19 +28,19 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
   const domainId = useId()
   const panelRef = useRef<HTMLDivElement>(null)
   const evidenceRef = useRef<HTMLDivElement>(null)
-  const [situationId, setSituationId] = useState<string | null>(null)
+  const [situationId, setSituationId] = useState(copy.situations[0].id)
   const [domain, setDomain] = useState('')
   const [ladderStep, setLadderStep] = useState(0)
   const [channel, setChannel] = useState<string | null>(null)
   const [priority, setPriority] = useState<string | null>(null)
   const [pulse, setPulse] = useState(highlighted)
 
-  const situation: OutcomeGroupSituation | null = useMemo(
-    () => copy.situations.find((item) => item.id === situationId) ?? null,
+  const situation: OutcomeGroupSituation = useMemo(
+    () => copy.situations.find((item) => item.id === situationId) ?? copy.situations[0],
     [copy.situations, situationId],
   )
 
-  const hasSituation = Boolean(situation)
+  const qualifierReady = Boolean(channel && priority)
   const ladderCount = copy.ladderSteps.length
   const activeLadder = copy.ladderSteps[ladderStep] ?? copy.ladderSteps[0]
   const ladderBackLabel = locale === 'fr' ? 'Étape précédente' : 'Previous step'
@@ -49,17 +49,24 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
     locale === 'fr'
       ? `Étape ${ladderStep + 1} sur ${ladderCount}`
       : `Step ${ladderStep + 1} of ${ladderCount}`
-  const pickSituationLabel =
-    locale === 'fr' ? 'Choisissez d’abord une pression ci-dessus.' : 'Choose a pressure above first.'
+  const situationSelectHint =
+    locale === 'fr' ? 'Choisissez une option pour continuer' : 'Select one to continue'
+  const situationSelectedLabel = locale === 'fr' ? 'Sélectionné' : 'Selected'
+  const qualifierOptionalHint =
+    locale === 'fr'
+      ? 'Facultatif—choisissez le canal et la priorité, puis continuez.'
+      : 'Optional—pick channel and priority, then continue.'
+  const qualifierReadyHint =
+    locale === 'fr' ? 'Prêt avec vos réponses' : 'Ready with your answers'
   const howItWorksLabel =
     locale === 'fr' ? 'Comment l’engagement progresse habituellement' : 'How commitment usually grows'
   const seeCtaLabel = locale === 'fr' ? 'Aller aux preuves' : 'Go to evidence'
   const interpretCtaLabel = copy.contactCta
   const improveCtaLabel =
     locale === 'fr' ? 'Voir les détails du parcours' : 'See pathway details'
-  const primaryPathway = situation
-    ? copy.pathwayLinks.find((link) => link.slug === situation.pathwaySlug) ?? copy.pathwayLinks[0]
-    : copy.pathwayLinks[0]
+  const primaryPathway =
+    copy.pathwayLinks.find((link) => link.slug === situation.pathwaySlug) ?? copy.pathwayLinks[0]
+  const needPage = `/solutions/need/${groupId}`
 
   function selectLadderStep(index: number) {
     if (index < 0 || index >= ladderCount) return
@@ -84,22 +91,21 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
     return {
       campaign: `solutions-${groupId}`,
       conversion_source: 'solutions_group_interactive',
-      entry_page: `/solutions#${groupId}`,
-      ...(situationId ? { signal: situationId } : {}),
+      entry_page: needPage,
+      signal: situation.id,
       ...extra,
     }
   }
 
   function runDomainEvidence(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    if (!situation) return
     const url = normalizeWebsite(domain)
     if (!url) return
     trackAnalyticsEvent('solutions_tool_click', {
       location: `${groupId}_inline`,
       tool: 'digital-presence-snapshot',
       group: groupId,
-      signal: situationId ?? 'none',
+      signal: situation.id,
     })
     router.push({
       pathname: '/tools/digital-presence-snapshot',
@@ -130,27 +136,25 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
     } as const
   }
 
-  const contactHref = situation
-    ? {
-        pathname: '/contact' as const,
-        query: {
-          intent: situation.contactIntent,
-          ...(situation.contactFocus ? { focus: situation.contactFocus } : {}),
-          outcome: situation.pathwaySlug,
-          from_page: `/solutions#${groupId}`,
-          signal: situation.id,
-          ...(channel ? { channel } : {}),
-          ...(priority ? { priority } : {}),
-        },
-      }
-    : null
+  const contactHref = {
+    pathname: '/contact' as const,
+    query: {
+      intent: situation.contactIntent,
+      ...(situation.contactFocus ? { focus: situation.contactFocus } : {}),
+      outcome: situation.pathwaySlug,
+      from_page: needPage,
+      signal: situation.id,
+      ...(channel ? { channel } : {}),
+      ...(priority ? { priority } : {}),
+    },
+  }
 
   function scrollToEvidence() {
     evidenceRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
     trackAnalyticsEvent('solutions_tool_click', {
       location: `${groupId}_ladder_see_cta`,
       group: groupId,
-      signal: situationId ?? 'none',
+      signal: situation.id,
     })
   }
 
@@ -176,6 +180,7 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
 
       <div>
         <p className="text-sm font-semibold text-slate-900">{copy.situationPrompt}</p>
+        <p className="mt-1 text-xs font-medium text-slate-500">{situationSelectHint}</p>
         <div className="mt-3 grid gap-2 sm:grid-cols-3" role="group" aria-label={copy.situationPrompt}>
           {copy.situations.map((item) => {
             const selected = situationId === item.id
@@ -195,13 +200,33 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
                 }}
                 className={
                   selected
-                    ? 'rounded-xl border border-slate-900 bg-slate-900 px-4 py-3 text-left text-white'
-                    : 'rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-left transition hover:border-slate-300'
+                    ? 'cursor-pointer rounded-xl border border-slate-900 bg-slate-900 px-4 py-3 text-left text-white'
+                    : 'cursor-pointer rounded-xl border border-slate-300 bg-white px-4 py-3 text-left text-slate-950 transition hover:border-primary/50 hover:bg-primary/[0.04]'
                 }
               >
-                <span className="block text-sm font-semibold">{item.label}</span>
-                <span className={`mt-1 block text-xs leading-5 ${selected ? 'text-slate-300' : 'text-slate-500'}`}>
-                  {item.hint}
+                <span className="flex items-start gap-2.5">
+                  {selected ? (
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-gold" aria-hidden />
+                  ) : (
+                    <Circle className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" aria-hidden />
+                  )}
+                  <span className="min-w-0 flex-1">
+                    {selected ? (
+                      <span className="mb-1 block text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold">
+                        {situationSelectedLabel}
+                      </span>
+                    ) : null}
+                    <span
+                      className={`block text-sm font-semibold ${selected ? 'text-white' : 'text-slate-950'}`}
+                    >
+                      {item.label}
+                    </span>
+                    <span
+                      className={`mt-1 block text-xs leading-5 ${selected ? 'text-slate-300' : 'text-slate-600'}`}
+                    >
+                      {item.hint}
+                    </span>
+                  </span>
                 </span>
               </button>
             )
@@ -209,16 +234,8 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
         </div>
       </div>
 
-      <div
-        ref={evidenceRef}
-        className={[
-          'border px-4 py-5 sm:px-5',
-          hasSituation ? 'border-slate-200 bg-slate-950 text-white' : 'border-dashed border-slate-300 bg-slate-50 text-slate-600',
-        ].join(' ')}
-      >
-        {!hasSituation || !situation ? (
-          <p className="text-sm font-medium">{pickSituationLabel}</p>
-        ) : copy.evidenceMode === 'domain' ? (
+      <div ref={evidenceRef} className="border border-slate-200 bg-slate-950 px-4 py-5 text-white sm:px-5">
+        {copy.evidenceMode === 'domain' ? (
           <>
             <form onSubmit={runDomainEvidence} className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
               <label htmlFor={domainId} className="block text-sm font-semibold text-white">
@@ -250,40 +267,38 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
               </button>
             </form>
             <p className="mt-3 text-xs leading-5 text-slate-400">{copy.evidenceNote}</p>
-            {contactHref ? (
-              <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+            <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+              <Link
+                href={contactHref}
+                onClick={() =>
+                  trackAnalyticsEvent('outcome_cta_click', {
+                    location: `${groupId}_contact`,
+                    outcome: situation.pathwaySlug,
+                    group: groupId,
+                    signal: situation.id,
+                  })
+                }
+                className="inline-flex min-h-11 items-center justify-center rounded-lg border border-white/25 bg-white/5 px-4 text-sm font-semibold text-white transition hover:bg-white/10"
+              >
+                {copy.contactCta}
+              </Link>
+              {copy.pathwayLinks.map((link) => (
                 <Link
-                  href={contactHref}
+                  key={link.slug}
+                  href={{ pathname: '/solutions/[slug]', params: { slug: link.slug } }}
                   onClick={() =>
-                    trackAnalyticsEvent('outcome_cta_click', {
-                      location: `${groupId}_contact`,
-                      outcome: situation.pathwaySlug,
+                    trackAnalyticsEvent('solutions_pathway_click', {
+                      location: `${groupId}_tertiary`,
+                      pathway: link.slug,
                       group: groupId,
-                      signal: situation.id,
                     })
                   }
-                  className="inline-flex min-h-11 items-center justify-center rounded-lg border border-white/25 bg-white/5 px-4 text-sm font-semibold text-white transition hover:bg-white/10"
+                  className="inline-flex min-h-11 items-center px-2 text-sm font-semibold text-slate-300 underline-offset-4 hover:text-white hover:underline"
                 >
-                  {copy.contactCta}
+                  {link.label}
                 </Link>
-                {copy.pathwayLinks.map((link) => (
-                  <Link
-                    key={link.slug}
-                    href={{ pathname: '/solutions/[slug]', params: { slug: link.slug } }}
-                    onClick={() =>
-                      trackAnalyticsEvent('solutions_pathway_click', {
-                        location: `${groupId}_tertiary`,
-                        pathway: link.slug,
-                        group: groupId,
-                      })
-                    }
-                    className="inline-flex min-h-11 items-center px-2 text-sm font-semibold text-slate-300 underline-offset-4 hover:text-white hover:underline"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            ) : null}
+              ))}
+            </div>
           </>
         ) : (
           <>
@@ -311,40 +326,38 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
               </Link>
             </div>
             <p className="mt-3 text-xs leading-5 text-slate-400">{copy.evidenceNote}</p>
-            {contactHref ? (
-              <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+            <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+              <Link
+                href={contactHref}
+                onClick={() =>
+                  trackAnalyticsEvent('outcome_cta_click', {
+                    location: `${groupId}_contact`,
+                    outcome: situation.pathwaySlug,
+                    group: groupId,
+                    signal: situation.id,
+                  })
+                }
+                className="inline-flex min-h-11 items-center justify-center rounded-lg border border-white/25 bg-white/5 px-4 text-sm font-semibold text-white transition hover:bg-white/10"
+              >
+                {copy.contactCta}
+              </Link>
+              {copy.pathwayLinks.map((link) => (
                 <Link
-                  href={contactHref}
+                  key={link.slug}
+                  href={{ pathname: '/solutions/[slug]', params: { slug: link.slug } }}
                   onClick={() =>
-                    trackAnalyticsEvent('outcome_cta_click', {
-                      location: `${groupId}_contact`,
-                      outcome: situation.pathwaySlug,
+                    trackAnalyticsEvent('solutions_pathway_click', {
+                      location: `${groupId}_tertiary`,
+                      pathway: link.slug,
                       group: groupId,
-                      signal: situation.id,
                     })
                   }
-                  className="inline-flex min-h-11 items-center justify-center rounded-lg border border-white/25 bg-white/5 px-4 text-sm font-semibold text-white transition hover:bg-white/10"
+                  className="inline-flex min-h-11 items-center px-2 text-sm font-semibold text-slate-300 underline-offset-4 hover:text-white hover:underline"
                 >
-                  {copy.contactCta}
+                  {link.label}
                 </Link>
-                {copy.pathwayLinks.map((link) => (
-                  <Link
-                    key={link.slug}
-                    href={{ pathname: '/solutions/[slug]', params: { slug: link.slug } }}
-                    onClick={() =>
-                      trackAnalyticsEvent('solutions_pathway_click', {
-                        location: `${groupId}_tertiary`,
-                        pathway: link.slug,
-                        group: groupId,
-                      })
-                    }
-                    className="inline-flex min-h-11 items-center px-2 text-sm font-semibold text-slate-300 underline-offset-4 hover:text-white hover:underline"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            ) : null}
+              ))}
+            </div>
           </>
         )}
       </div>
@@ -462,15 +475,15 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
                     <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                   </button>
                 ) : null}
-                {ladderStep === 1 && contactHref ? (
+                {ladderStep === 1 ? (
                   <Link
                     href={contactHref}
                     onClick={() =>
                       trackAnalyticsEvent('outcome_cta_click', {
                         location: `${groupId}_ladder_interpret`,
-                        outcome: situation?.pathwaySlug ?? 'none',
+                        outcome: situation.pathwaySlug,
                         group: groupId,
-                        signal: situationId ?? 'none',
+                        signal: situation.id,
                       })
                     }
                     className="inline-flex min-h-10 items-center justify-center rounded-lg bg-primary-dark px-3.5 text-sm font-semibold text-white transition hover:bg-primary-darker"
@@ -586,27 +599,31 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
           </div>
         </div>
 
-        <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:items-center">
-          {contactHref ? (
-            <Link
-              href={contactHref}
-              onClick={() =>
-                trackAnalyticsEvent('outcome_cta_click', {
-                  location: `${groupId}_qualifier`,
-                  outcome: situation?.pathwaySlug ?? 'none',
-                  group: groupId,
-                  channel: channel ?? 'none',
-                  priority: priority ?? 'none',
-                })
-              }
-              className="inline-flex min-h-11 items-center justify-center rounded-lg bg-primary-dark px-5 text-sm font-semibold text-white transition hover:bg-primary-darker"
-            >
-              {copy.qualifierCta}
-              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-            </Link>
-          ) : (
-            <p className="text-sm font-medium text-slate-600">{pickSituationLabel}</p>
-          )}
+        <p className="mt-4 text-xs font-medium text-slate-500">
+          {qualifierReady ? qualifierReadyHint : qualifierOptionalHint}
+        </p>
+        <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
+          <Link
+            href={contactHref}
+            onClick={() =>
+              trackAnalyticsEvent('outcome_cta_click', {
+                location: `${groupId}_qualifier`,
+                outcome: situation.pathwaySlug,
+                group: groupId,
+                channel: channel ?? 'none',
+                priority: priority ?? 'none',
+              })
+            }
+            className={[
+              'inline-flex min-h-12 w-full items-center justify-center rounded-lg px-5 text-sm font-semibold text-white transition sm:w-auto',
+              qualifierReady
+                ? 'bg-primary-dark hover:bg-primary-darker'
+                : 'bg-slate-800 hover:bg-slate-900',
+            ].join(' ')}
+          >
+            {copy.qualifierCta}
+            <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+          </Link>
           <p className="text-xs text-slate-500">{copy.qualifierNote}</p>
         </div>
       </div>

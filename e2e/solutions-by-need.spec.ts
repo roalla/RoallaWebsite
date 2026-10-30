@@ -35,7 +35,7 @@ test.describe('Solutions by Need', () => {
     await page.goto('/en/solutions')
 
     await expect(page.getByRole('heading', { level: 1, name: 'What does your business need to do next?' })).toBeVisible()
-    await expect(page.locator('main img[alt^="GRC Status"]')).toHaveCount(2)
+    await expect(page.locator('main img[alt^="My360Vision"]')).toHaveCount(2)
     await expect(page.locator('a[href="#published-work"]')).toHaveAttribute('href', '#published-work')
     await expect(page.getByRole('heading', { level: 2, name: 'See what ROALLA has built.' })).toBeVisible()
     await expect(page.getByRole('link', { name: 'View the case study' }).first()).toHaveAttribute('href', '/en/services/portfolio/grcstatus')

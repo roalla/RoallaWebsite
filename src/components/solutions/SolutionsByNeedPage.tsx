@@ -20,6 +20,7 @@ import {
 } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import { trackAnalyticsEvent } from '@/lib/analytics'
+import { isCaseStudySlug } from '@/lib/portfolio-case-studies'
 import { outcomeGroups, type OutcomeGroupId } from '@/lib/solution-outcome-pages'
 import type { SolutionsByNeedContent } from '@/lib/solutions-by-need'
 import OutcomeGroupPanel from '@/components/solutions/OutcomeGroupPanel'
@@ -69,9 +70,10 @@ const experienceCopy = {
     portfolioLive: 'Open the live product',
     portfolioAll: 'Explore all websites and applications',
     portfolioItems: [
-      { slug: 'grcstatus', title: 'GRC Status', type: 'Compliance readiness application', image: '/grcstatussnapshot.jpg', liveUrl: 'https://www.grcstatus.com/', description: 'Organizes control questions, evidence, ownership, and readiness into a practical starting point.' },
+      { slug: 'my360vision', title: 'My360Vision', type: 'Multi-industry IoT & telematics platform', image: '/360visionsnapshot.jpg', liveUrl: 'https://www.my360vision.com/', description: 'One connected-asset platform for devices, sensors, and mobile assets—industry profiles unlock monitoring, alerts, and operational workflows.' },
       { slug: 'pitch-hotshots', title: 'Pitch Hotshots', type: 'AI-assisted practice application', image: '/pitchhotshotsnapshot.webp', liveUrl: 'https://www.pitchhotshot.com/', description: 'Combines guided practice, scoring, delivery metrics, and structured feedback in one experience.' },
       { slug: 'boothlio', title: 'Boothlio', type: 'Event experience platform', image: '/boothlio-pic.webp', liveUrl: 'https://boothlio.com', description: 'Connects on-site engagement, information capture, and follow-up around a defined event journey.' },
+      { slug: 'grcstatus', title: 'GRC Status', type: 'Compliance readiness application', image: '/grcstatussnapshot.jpg', liveUrl: 'https://www.grcstatus.com/', description: 'Organizes control questions, evidence, ownership, and readiness into a practical starting point.' },
       { slug: 'unjargonit', title: 'UnJargon It', type: 'Plain-language learning application', image: '/unjargonitsnapshot.jpg', liveUrl: 'https://www.unjargonit.com/', description: 'Uses guided learning tracks, progress views, and hands-on experiences to make technology easier to understand.' },
     ],
     deliverablesEyebrow: 'Tangible progress',
@@ -131,9 +133,10 @@ const experienceCopy = {
     portfolioLive: 'Ouvrir le produit',
     portfolioAll: 'Explorer tous les sites et applications',
     portfolioItems: [
-      { slug: 'grcstatus', title: 'GRC Status', type: 'Application de préparation à la conformité', image: '/grcstatussnapshot.jpg', liveUrl: 'https://www.grcstatus.com/', description: 'Organise les questions de contrôle, les preuves, les responsabilités et la préparation en point de départ pratique.' },
+      { slug: 'my360vision', title: 'My360Vision', type: 'Plateforme IoT et télématique multi-industries', image: '/360visionsnapshot.jpg', liveUrl: 'https://www.my360vision.com/', description: 'Une plateforme d’actifs connectés pour appareils, capteurs et actifs mobiles—des profils industriels débloquent surveillance, alertes et flux opérationnels.' },
       { slug: 'pitch-hotshots', title: 'Pitch Hotshots', type: 'Application de pratique assistée par l’IA', image: '/pitchhotshotsnapshot.webp', liveUrl: 'https://www.pitchhotshot.com/', description: 'Réunit pratique guidée, notation, mesures de prestation et rétroaction structurée dans une même expérience.' },
       { slug: 'boothlio', title: 'Boothlio', type: 'Plateforme d’expérience événementielle', image: '/boothlio-pic.webp', liveUrl: 'https://boothlio.com', description: 'Relie l’engagement sur place, la collecte d’information et le suivi autour d’un parcours événementiel défini.' },
+      { slug: 'grcstatus', title: 'GRC Status', type: 'Application de préparation à la conformité', image: '/grcstatussnapshot.jpg', liveUrl: 'https://www.grcstatus.com/', description: 'Organise les questions de contrôle, les preuves, les responsabilités et la préparation en point de départ pratique.' },
       { slug: 'unjargonit', title: 'UnJargon It', type: 'Application d’apprentissage en langage clair', image: '/unjargonitsnapshot.jpg', liveUrl: 'https://www.unjargonit.com/', description: 'Utilise des parcours guidés, des vues de progression et des expériences pratiques pour rendre la technologie plus accessible.' },
     ],
     deliverablesEyebrow: 'Un progrès tangible',
@@ -356,7 +359,11 @@ export default function SolutionsByNeedPage({ content, locale }: { content: Solu
                   <p className="mt-3 leading-7 text-slate-600">{item.description}</p>
                   <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
                     <Link
-                      href={{ pathname: '/services/portfolio/[slug]', params: { slug: item.slug } }}
+                      href={
+                        isCaseStudySlug(item.slug)
+                          ? { pathname: '/services/portfolio/[slug]', params: { slug: item.slug } }
+                          : { pathname: '/services/portfolio', hash: item.slug }
+                      }
                       onClick={() => trackAnalyticsEvent('solutions_pathway_click', { location: 'solutions_published_work', pathway: item.slug })}
                       className="inline-flex min-h-11 items-center justify-center rounded-lg bg-slate-950 px-4 text-sm font-semibold text-white transition hover:bg-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                     >

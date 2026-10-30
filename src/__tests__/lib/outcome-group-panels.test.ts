@@ -17,7 +17,9 @@ describe('outcome group panels', () => {
     for (const locale of ['en', 'fr'] as const) {
       const copy = getOutcomeGroupPanelCopy(groupId, locale)
       expect(copy.resultTitle).toBeTruthy()
-      expect(copy.situations).toHaveLength(groupId === 'growth-visibility' ? 4 : 3)
+      expect(copy.situations).toHaveLength(
+        groupId === 'growth-visibility' || groupId === 'automation-ai' ? 4 : 3,
+      )
       expect(copy.ladderSteps).toHaveLength(3)
       expect(copy.vignetteSteps.length).toBeGreaterThanOrEqual(2)
       expect(copy.pathwayLinks.length).toBeGreaterThanOrEqual(1)
@@ -62,5 +64,24 @@ describe('outcome group panels', () => {
       contactIntent: 'visibility',
     })
     expect(copy.channels.some((channel) => channel.id === 'email')).toBe(true)
+  })
+
+  it.each(['en', 'fr'] as const)('uses capacity pressures instead of AI jargon for automation %s', (locale) => {
+    const copy = getOutcomeGroupPanelCopy('automation-ai', locale)
+    const ids = copy.situations.map((item) => item.id)
+
+    expect(ids).toEqual(['repetitive-work', 'staffing-capacity', 'peak-continuity', 'iot-ops'])
+    expect(ids).not.toContain('ai-agent')
+
+    expect(copy.situations.find((item) => item.id === 'staffing-capacity')).toMatchObject({
+      evidencePath: '/ai-agent-readiness-review',
+      pathwaySlug: 'automation-ai',
+      contactIntent: 'ai-support',
+    })
+    expect(copy.situations.find((item) => item.id === 'peak-continuity')).toMatchObject({
+      evidencePath: '/automation-opportunity-review',
+      pathwaySlug: 'automation-ai',
+      contactIntent: 'ai-support',
+    })
   })
 })

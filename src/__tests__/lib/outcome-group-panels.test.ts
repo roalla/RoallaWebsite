@@ -23,10 +23,18 @@ describe('outcome group panels', () => {
       expect(copy.ladderSteps).toHaveLength(3)
       expect(copy.vignetteSteps.length).toBeGreaterThanOrEqual(2)
       expect(copy.pathwayLinks.length).toBeGreaterThanOrEqual(1)
+      expect(copy.detailIssuesLabel).toBeTruthy()
+      expect(copy.detailApproachLabel).toBeTruthy()
+      expect(copy.detailSolutionsLabel).toBeTruthy()
       copy.situations.forEach((situation) => {
         expect(situation.evidencePath).toMatch(/^\//)
         expect(situation.evidenceLabel).toBeTruthy()
         expect(situation.contactIntent).toBeTruthy()
+        expect(situation.detail.issues.length).toBeGreaterThanOrEqual(2)
+        expect(situation.detail.approach).toBeTruthy()
+        expect(situation.detail.solutions.length).toBeGreaterThanOrEqual(2)
+        situation.detail.issues.forEach((issue) => expect(issue).toBeTruthy())
+        situation.detail.solutions.forEach((solution) => expect(solution).toBeTruthy())
       })
       if (groupId === 'growth-visibility') {
         expect(copy.evidenceMode).toBe('domain')

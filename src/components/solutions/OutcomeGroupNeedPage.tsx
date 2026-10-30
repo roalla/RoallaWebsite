@@ -34,9 +34,9 @@ export default function OutcomeGroupNeedPage({
     <div className="page-shell bg-white">
       <section
         data-header-tone="dark"
-        className="relative overflow-hidden bg-slate-950 px-4 pb-16 pt-32 text-white sm:px-6 lg:px-8 lg:pb-20 lg:pt-36"
+        className="relative isolate overflow-hidden bg-slate-950 px-4 pb-16 pt-32 text-white sm:px-6 lg:px-8 lg:pb-20 lg:pt-36"
       >
-        <div className="absolute inset-0" aria-hidden>
+        <div className="absolute inset-0 -z-10" aria-hidden>
           <div className="absolute -right-24 top-10 h-80 w-80 rounded-full bg-primary/20 blur-3xl" />
           <div className="absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-cyan-400/10 blur-3xl" />
         </div>

@@ -770,7 +770,7 @@ const Header = ({
   const headerShellClass = overDark
     ? isScrolled
       ? "bg-black/70 backdrop-blur-md shadow-lg shadow-black/40 border-white/15"
-      : "bg-black/55 backdrop-blur-lg shadow-md shadow-black/20 border-white/15"
+      : "bg-transparent border-transparent shadow-none"
     : isScrolled
       ? "bg-white/70 backdrop-blur-md shadow-md shadow-slate-900/8 border-slate-200/80"
       : "bg-white/45 backdrop-blur-xl shadow-sm shadow-slate-900/5 border-slate-200/50";

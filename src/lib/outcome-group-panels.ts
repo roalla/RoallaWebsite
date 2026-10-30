@@ -12,6 +12,12 @@ export type EvidencePath =
   | '/technology-decision-review'
   | '/assessment'
 
+export type OutcomeGroupSituationDetail = {
+  issues: readonly string[]
+  approach: string
+  solutions: readonly string[]
+}
+
 export type OutcomeGroupSituation = {
   id: string
   label: string
@@ -21,6 +27,7 @@ export type OutcomeGroupSituation = {
   pathwaySlug: SolutionPathId
   contactIntent: ConsultationIntent
   contactFocus?: ConsultingFocus
+  detail: OutcomeGroupSituationDetail
 }
 
 export type OutcomeGroupPanelCopy = {
@@ -29,6 +36,9 @@ export type OutcomeGroupPanelCopy = {
   resultBody: string
   situationPrompt: string
   situations: readonly OutcomeGroupSituation[]
+  detailIssuesLabel: string
+  detailApproachLabel: string
+  detailSolutionsLabel: string
   evidenceMode: 'domain' | 'link'
   domainLabel?: string
   domainPlaceholder?: string
@@ -73,6 +83,20 @@ const growthEn: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Check my website',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
+      detail: {
+        issues: [
+          'Local and organic listings are incomplete, inconsistent, or outdated.',
+          'Key pages are hard for search engines to crawl or understand.',
+          'Competitors appear first for the queries your buyers actually use.',
+        ],
+        approach:
+          'Start with evidence on your live public page, then prioritize findability fixes that improve how search and AI systems describe the business—before spending on broader campaigns.',
+        solutions: [
+          'Digital Presence Snapshot to baseline technical and content gaps',
+          'Search and local listing cleanup for accurate business identity',
+          'Structured content and technical SEO so discovery paths point to the right offer',
+        ],
+      },
     },
     {
       id: 'conversion',
@@ -82,6 +106,20 @@ const growthEn: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Check my website',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
+      detail: {
+        issues: [
+          'The offer hierarchy is unclear above the fold.',
+          'Calls to action compete or bury the next step.',
+          'Mobile friction and trust gaps stop inquiries before they start.',
+        ],
+        approach:
+          'Separate traffic problems from conversion problems. Use the live page as evidence, then sequence clarity, trust, and action-path changes against one measurable outcome—more qualified conversations.',
+        solutions: [
+          'Snapshot review of usability, trust signals, and CTA placement',
+          'Landing-page hierarchy and message tightening for the primary offer',
+          'Conversion-path fixes tied to inquiry quality—not vanity traffic',
+        ],
+      },
     },
     {
       id: 'ai-clarity',
@@ -91,6 +129,20 @@ const growthEn: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Check my website',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
+      detail: {
+        issues: [
+          'Public copy mixes services, audiences, and geographies without clear structure.',
+          'Missing or weak structured data makes accurate summaries harder.',
+          'AI and search answers describe a competitor, an outdated offer, or the wrong category.',
+        ],
+        approach:
+          'Make the public page readable to people and machines: clear entities, offers, and proof. Then improve how search and AI systems can summarize you accurately.',
+        solutions: [
+          'Readability and entity clarity review on the public landing page',
+          'Structured data and content patterns that state what you do and for whom',
+          'Visibility roadmap so AI/search descriptions match the business you run today',
+        ],
+      },
     },
     {
       id: 'email-deliverability',
@@ -100,8 +152,25 @@ const growthEn: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Check email delivery',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
+      detail: {
+        issues: [
+          'Authentication records (SPF, DKIM, DMARC) are missing, weak, or misaligned with the sending domain.',
+          'Sender reputation and list hygiene problems push campaigns into junk.',
+          'Customers stop trusting messages that look like phishing or never arrive.',
+        ],
+        approach:
+          'Treat deliverability as part of public trust and visibility. Confirm domain authentication and sending practices first, then improve campaign hygiene so messages reach the inbox and earn response.',
+        solutions: [
+          'Domain and email authentication check through the Digital Presence Snapshot',
+          'Sender identity and list-hygiene guidance tied to customer trust',
+          'Visibility plan that keeps email as a reliable channel—not a spam risk',
+        ],
+      },
     },
   ],
+  detailIssuesLabel: 'Common issues',
+  detailApproachLabel: 'Our approach',
+  detailSolutionsLabel: 'Example solutions',
   evidenceMode: 'domain',
   domainLabel: 'Your website address',
   domainPlaceholder: 'yourbusiness.ca',
@@ -174,6 +243,20 @@ const growthFr: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Vérifier mon site',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
+      detail: {
+        issues: [
+          'Les fiches locales et organiques sont incomplètes, incohérentes ou périmées.',
+          'Des pages clés sont difficiles à explorer ou à comprendre pour les moteurs de recherche.',
+          'Les concurrents apparaissent en premier pour les requêtes que vos acheteurs utilisent vraiment.',
+        ],
+        approach:
+          'Commencez par des preuves sur votre page publique, puis priorisez les correctifs de visibilité qui améliorent la façon dont la recherche et l’IA décrivent l’entreprise—avant d’investir dans des campagnes plus larges.',
+        solutions: [
+          'Aperçu de présence numérique pour établir les écarts techniques et de contenu',
+          'Nettoyage des fiches recherche et locales pour une identité d’entreprise exacte',
+          'Contenu structuré et SEO technique pour que les parcours de découverte mènent à la bonne offre',
+        ],
+      },
     },
     {
       id: 'conversion',
@@ -183,6 +266,20 @@ const growthFr: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Vérifier mon site',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
+      detail: {
+        issues: [
+          'La hiérarchie de l’offre est floue au-dessus de la ligne de flottaison.',
+          'Les appels à l’action se concurrencent ou enterrent la prochaine étape.',
+          'La friction mobile et les écarts de confiance stoppent les demandes avant qu’elles commencent.',
+        ],
+        approach:
+          'Séparez les problèmes de trafic des problèmes de conversion. Utilisez la page en ligne comme preuve, puis séquencez clarté, confiance et parcours d’action selon un résultat mesurable—plus de conversations qualifiées.',
+        solutions: [
+          'Revue d’aperçu sur l’utilisabilité, les signaux de confiance et le placement des CTA',
+          'Renforcement de la hiérarchie et du message de la page d’arrivée pour l’offre principale',
+          'Correctifs de conversion liés à la qualité des demandes—pas au trafic de vanité',
+        ],
+      },
     },
     {
       id: 'ai-clarity',
@@ -192,6 +289,20 @@ const growthFr: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Vérifier mon site',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
+      detail: {
+        issues: [
+          'Le texte public mélange services, publics et géographies sans structure claire.',
+          'Des données structurées absentes ou faibles rendent les résumés exacts plus difficiles.',
+          'Les réponses IA et recherche décrivent un concurrent, une offre périmée ou la mauvaise catégorie.',
+        ],
+        approach:
+          'Rendez la page publique lisible pour les personnes et les machines : entités, offres et preuves claires. Puis améliorez la façon dont la recherche et l’IA peuvent vous résumer avec justesse.',
+        solutions: [
+          'Revue de lisibilité et de clarté des entités sur la page d’arrivée publique',
+          'Données structurées et modèles de contenu qui précisent ce que vous faites et pour qui',
+          'Feuille de route de visibilité pour que les descriptions recherche/IA correspondent à l’entreprise d’aujourd’hui',
+        ],
+      },
     },
     {
       id: 'email-deliverability',
@@ -201,8 +312,25 @@ const growthFr: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Vérifier la livraison des courriels',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
+      detail: {
+        issues: [
+          'Les enregistrements d’authentification (SPF, DKIM, DMARC) manquent, sont faibles ou mal alignés avec le domaine d’envoi.',
+          'La réputation de l’expéditeur et l’hygiène des listes poussent les campagnes dans les indésirables.',
+          'Les clients cessent de faire confiance aux messages qui ressemblent à du hameçonnage ou qui n’arrivent jamais.',
+        ],
+        approach:
+          'Traitez la délivrabilité comme une partie de la confiance et de la visibilité publiques. Confirmez d’abord l’authentification du domaine et les pratiques d’envoi, puis améliorez l’hygiène des campagnes pour que les messages atteignent la boîte de réception.',
+        solutions: [
+          'Vérification du domaine et de l’authentification courriel via l’aperçu de présence numérique',
+          'Conseils sur l’identité d’expéditeur et l’hygiène des listes liés à la confiance client',
+          'Plan de visibilité qui garde le courriel comme canal fiable—pas comme risque de pourriel',
+        ],
+      },
     },
   ],
+  detailIssuesLabel: 'Problèmes courants',
+  detailApproachLabel: 'Notre approche',
+  detailSolutionsLabel: 'Exemples de solutions',
   evidenceMode: 'domain',
   domainLabel: 'Adresse de votre site Web',
   domainPlaceholder: 'votreentreprise.ca',
@@ -275,6 +403,20 @@ const experienceEn: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Start digital product discovery',
       pathwaySlug: 'digital-experience',
       contactIntent: 'platform',
+      detail: {
+        issues: [
+          'The site or product still reflects an older offer, brand, or operating model.',
+          'Stakeholders disagree on rebuild vs. focused refresh.',
+          'Users cannot tell what to do next or why the business is relevant.',
+        ],
+        approach:
+          'Frame the outcome and audience before tools dominate. Discovery separates presentation problems from workflow problems so the build matches what must change—not a default full rewrite.',
+        solutions: [
+          'Digital product discovery to capture outcome, audience, and constraints',
+          'Scoped website or product experience aligned to the current offer',
+          'Launch plan with measurement owners through adoption—not design handoff alone',
+        ],
+      },
     },
     {
       id: 'customer-journey',
@@ -284,6 +426,20 @@ const experienceEn: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Review website package options',
       pathwaySlug: 'digital-experience',
       contactIntent: 'platform',
+      detail: {
+        issues: [
+          'Prospects bounce between pages without a clear path to contact or purchase.',
+          'Forms, booking, or handoffs create drop-off at the moment of intent.',
+          'Mobile journeys break the flow that works on desktop.',
+        ],
+        approach:
+          'Map the customer journey from discovery to action, then remove the highest-friction steps first. Prefer scoped experience changes over open-ended rebuilds when the bottleneck is task completion.',
+        solutions: [
+          'Website package review against conversion and journey goals',
+          'Path fixes for offer clarity, forms, and contact handoffs',
+          'Measured experience updates that improve completion—not just aesthetics',
+        ],
+      },
     },
     {
       id: 'communications',
@@ -294,8 +450,25 @@ const experienceEn: OutcomeGroupPanelCopy = {
       pathwaySlug: 'communications',
       contactIntent: 'consulting',
       contactFocus: 'technology',
+      detail: {
+        issues: [
+          'Call routing, voicemail, or contact-centre tools create missed opportunities.',
+          'Teams collaborate across too many disconnected apps.',
+          'Customers experience inconsistent follow-up between phone, chat, and email.',
+        ],
+        approach:
+          'Clarify the communications outcome and operating constraints before selecting platforms. Compare options on the same criteria—reliability, adoption, cost, and customer experience.',
+        solutions: [
+          'Communications Value Brief to frame requirements and success measures',
+          'Technology Advisory shortlist for phone, contact centre, or collaboration',
+          'Transition plan with owners so tools support the journey—not add noise',
+        ],
+      },
     },
   ],
+  detailIssuesLabel: 'Common issues',
+  detailApproachLabel: 'Our approach',
+  detailSolutionsLabel: 'Example solutions',
   evidenceMode: 'link',
   evidenceNote: 'Free guided starting point—no finished brief required.',
   ladderEyebrow: 'How commitment grows',
@@ -365,6 +538,20 @@ const experienceFr: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Commencer la découverte produit numérique',
       pathwaySlug: 'digital-experience',
       contactIntent: 'platform',
+      detail: {
+        issues: [
+          'Le site ou le produit reflète encore une offre, une marque ou un modèle d’exploitation plus ancien.',
+          'Les parties prenantes ne s’entendent pas sur une refonte vs un rafraîchissement ciblé.',
+          'Les utilisateurs ne voient pas la prochaine étape ni pourquoi l’entreprise est pertinente.',
+        ],
+        approach:
+          'Cadrez le résultat et le public avant que les outils dominent. La découverte sépare les problèmes de présentation des problèmes de flux pour que la réalisation corresponde à ce qui doit changer—pas une réécriture par défaut.',
+        solutions: [
+          'Découverte produit numérique pour capturer résultat, public et contraintes',
+          'Expérience de site ou de produit cadré selon l’offre actuelle',
+          'Plan de lancement avec responsables de mesure jusqu’à l’adoption—pas seulement une remise de design',
+        ],
+      },
     },
     {
       id: 'customer-journey',
@@ -374,6 +561,20 @@ const experienceFr: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Voir les options de forfait site Web',
       pathwaySlug: 'digital-experience',
       contactIntent: 'platform',
+      detail: {
+        issues: [
+          'Les prospects rebondissent entre les pages sans chemin clair vers le contact ou l’achat.',
+          'Formulaires, réservations ou transferts créent des abandons au moment de l’intention.',
+          'Les parcours mobiles cassent le flux qui fonctionne sur ordinateur.',
+        ],
+        approach:
+          'Cartographiez le parcours client de la découverte à l’action, puis retirez d’abord les étapes les plus frictionnelles. Préférez des changements d’expérience ciblés à une refonte ouverte lorsque le goulot est l’accomplissement de tâches.',
+        solutions: [
+          'Revue de forfait site Web selon les objectifs de conversion et de parcours',
+          'Correctifs de chemin pour la clarté de l’offre, les formulaires et les transferts de contact',
+          'Mises à jour d’expérience mesurées qui améliorent l’achèvement—pas seulement l’esthétique',
+        ],
+      },
     },
     {
       id: 'communications',
@@ -384,8 +585,25 @@ const experienceFr: OutcomeGroupPanelCopy = {
       pathwaySlug: 'communications',
       contactIntent: 'consulting',
       contactFocus: 'technology',
+      detail: {
+        issues: [
+          'Le routage d’appels, la messagerie vocale ou les outils de centre de contact font rater des occasions.',
+          'Les équipes collaborent via trop d’applications déconnectées.',
+          'Les clients vivent un suivi incohérent entre téléphone, clavardage et courriel.',
+        ],
+        approach:
+          'Clarifiez le résultat de communications et les contraintes d’exploitation avant de choisir des plateformes. Comparez les options selon les mêmes critères—fiabilité, adoption, coût et expérience client.',
+        solutions: [
+          'Brief valeur communications pour cadrer exigences et mesures de succès',
+          'Shortlist de conseil technologique pour téléphonie, centre de contact ou collaboration',
+          'Plan de transition avec responsables pour que les outils soutiennent le parcours—sans ajouter de bruit',
+        ],
+      },
     },
   ],
+  detailIssuesLabel: 'Problèmes courants',
+  detailApproachLabel: 'Notre approche',
+  detailSolutionsLabel: 'Exemples de solutions',
   evidenceMode: 'link',
   evidenceNote: 'Point de départ guidé gratuit—aucun cahier des charges finalisé requis.',
   ladderEyebrow: 'Comment l’engagement progresse',
@@ -455,6 +673,20 @@ const automationEn: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Start automation opportunity review',
       pathwaySlug: 'automation-ai',
       contactIntent: 'ai-support',
+      detail: {
+        issues: [
+          'The same data is typed into multiple systems after every handoff.',
+          'Errors and rework grow when people copy between tools under time pressure.',
+          'Leaders cannot see where cycle time is lost across the workflow.',
+        ],
+        approach:
+          'Rank workflows by volume, friction, and failure modes before connecting tools. Automate the highest-value repeatable steps with clear exception ownership—so humans stay accountable where judgment matters.',
+        solutions: [
+          'Automation opportunity review to prioritize candidate workflows',
+          'System integration that removes duplicate entry at handoffs',
+          'Controlled task automation with measures for time saved and error rate',
+        ],
+      },
     },
     {
       id: 'staffing-capacity',
@@ -464,6 +696,20 @@ const automationEn: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Start AI agent readiness review',
       pathwaySlug: 'automation-ai',
       contactIntent: 'ai-support',
+      detail: {
+        issues: [
+          'Open roles stay unfilled while workload keeps rising.',
+          'Turnover concentrates knowledge in a few people who become bottlenecks.',
+          'Quality slips when remaining staff absorb overflow without better tooling.',
+        ],
+        approach:
+          'Find repeatable work that a governed agent or automation can carry with human review proportional to risk. Start where volume and accountability already exist—not with a demo that lacks exception owners.',
+        solutions: [
+          'AI agent readiness review for high-volume candidate workflows',
+          'Governed agents with escalation paths for exceptions',
+          'Pilot measures for containment, handoff quality, and capacity released',
+        ],
+      },
     },
     {
       id: 'peak-continuity',
@@ -473,6 +719,20 @@ const automationEn: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Start automation opportunity review',
       pathwaySlug: 'automation-ai',
       contactIntent: 'ai-support',
+      detail: {
+        issues: [
+          'Seasonal or campaign spikes overload the same thin team.',
+          'Service quality and response times degrade exactly when customers need you most.',
+          'Temporary staffing is hard to find or too expensive for short peaks.',
+        ],
+        approach:
+          'Design for peak load: identify work that can be automated or agent-assisted during surges while keeping humans on exceptions and relationship moments that protect trust and loyalty.',
+        solutions: [
+          'Automation opportunity review focused on peak-volume workflows',
+          'Overflow handling with approved automations and clear escalation',
+          'Continuity measures for response time and customer trust during spikes',
+        ],
+      },
     },
     {
       id: 'iot-ops',
@@ -483,8 +743,25 @@ const automationEn: OutcomeGroupPanelCopy = {
       pathwaySlug: 'iot',
       contactIntent: 'consulting',
       contactFocus: 'technology',
+      detail: {
+        issues: [
+          'Sensors and systems generate alerts without clear owners or next steps.',
+          'Data is collected but not connected to the decisions operations must make.',
+          'Tool sprawl makes monitoring noisy instead of actionable.',
+        ],
+        approach:
+          'Clarify the operating outcome and decision criteria before adding more devices or platforms. Connect signals to owned actions so monitoring becomes a path to response—not another dashboard.',
+        solutions: [
+          'Technology decision review for requirements and success criteria',
+          'Operating model that assigns alert ownership and escalation',
+          'Connected operations path that turns IoT data into measurable action',
+        ],
+      },
     },
   ],
+  detailIssuesLabel: 'Common issues',
+  detailApproachLabel: 'Our approach',
+  detailSolutionsLabel: 'Example solutions',
   evidenceMode: 'link',
   evidenceNote: 'Free readiness or opportunity review—no finished architecture required.',
   ladderEyebrow: 'How commitment grows',
@@ -554,6 +831,20 @@ const automationFr: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Commencer la revue d’occasions d’automatisation',
       pathwaySlug: 'automation-ai',
       contactIntent: 'ai-support',
+      detail: {
+        issues: [
+          'Les mêmes données sont saisies dans plusieurs systèmes après chaque transfert.',
+          'Erreurs et reprise augmentent lorsque les gens copient entre outils sous pression.',
+          'La direction ne voit pas où le temps de cycle se perd dans le flux.',
+        ],
+        approach:
+          'Classez les flux selon le volume, la friction et les modes de défaillance avant de connecter des outils. Automatisez les étapes répétables à plus forte valeur avec une propriété claire des exceptions—pour que les humains restent responsables là où le jugement compte.',
+        solutions: [
+          'Revue d’occasions d’automatisation pour prioriser les flux candidats',
+          'Intégration des systèmes qui élimine la double saisie aux transferts',
+          'Automatisation contrôlée des tâches avec mesures de temps gagné et de taux d’erreur',
+        ],
+      },
     },
     {
       id: 'staffing-capacity',
@@ -563,6 +854,20 @@ const automationFr: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Commencer la revue de préparation aux agents IA',
       pathwaySlug: 'automation-ai',
       contactIntent: 'ai-support',
+      detail: {
+        issues: [
+          'Les postes ouverts restent vacants pendant que la charge continue d’augmenter.',
+          'Le roulement concentre le savoir chez quelques personnes qui deviennent des goulots.',
+          'La qualité glisse lorsque le personnel restant absorbe le surplus sans meilleurs outils.',
+        ],
+        approach:
+          'Repérez le travail répétable qu’un agent gouverné ou une automatisation peut porter avec une révision humaine proportionnelle au risque. Commencez là où volume et responsabilisation existent déjà—pas avec une démo sans propriétaire d’exceptions.',
+        solutions: [
+          'Revue de préparation aux agents IA pour les flux à fort volume',
+          'Agents gouvernés avec parcours d’escalade pour les exceptions',
+          'Mesures de pilote pour confinement, qualité des transferts et capacité libérée',
+        ],
+      },
     },
     {
       id: 'peak-continuity',
@@ -572,6 +877,20 @@ const automationFr: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Commencer la revue d’occasions d’automatisation',
       pathwaySlug: 'automation-ai',
       contactIntent: 'ai-support',
+      detail: {
+        issues: [
+          'Les pics saisonniers ou de campagne surchargent la même équipe mince.',
+          'Qualité de service et délais de réponse se dégradent exactement quand les clients en ont le plus besoin.',
+          'Le personnel temporaire est difficile à trouver ou trop coûteux pour de courts pics.',
+        ],
+        approach:
+          'Concevez pour la charge de pointe : identifiez le travail automatisable ou assisté par agent pendant les surcharges tout en gardant les humains sur les exceptions et les moments relationnels qui protègent confiance et loyauté.',
+        solutions: [
+          'Revue d’occasions d’automatisation centrée sur les flux à volume de pointe',
+          'Gestion du débordement avec automatisations approuvées et escalade claire',
+          'Mesures de continuité pour délai de réponse et confiance client pendant les pics',
+        ],
+      },
     },
     {
       id: 'iot-ops',
@@ -582,8 +901,25 @@ const automationFr: OutcomeGroupPanelCopy = {
       pathwaySlug: 'iot',
       contactIntent: 'consulting',
       contactFocus: 'technology',
+      detail: {
+        issues: [
+          'Capteurs et systèmes génèrent des alertes sans responsables ni prochaines étapes clairs.',
+          'Les données sont collectées mais non reliées aux décisions que les opérations doivent prendre.',
+          'La prolifération d’outils rend la surveillance bruyante plutôt qu’actionnable.',
+        ],
+        approach:
+          'Clarifiez le résultat opérationnel et les critères de décision avant d’ajouter appareils ou plateformes. Reliez les signaux à des actions assumées pour que la surveillance devienne un parcours de réponse—pas un autre tableau de bord.',
+        solutions: [
+          'Revue de décision technologique pour exigences et critères de succès',
+          'Modèle d’exploitation qui assigne propriété des alertes et escalade',
+          'Parcours d’opérations connectées qui transforme les données IdO en action mesurable',
+        ],
+      },
     },
   ],
+  detailIssuesLabel: 'Problèmes courants',
+  detailApproachLabel: 'Notre approche',
+  detailSolutionsLabel: 'Exemples de solutions',
   evidenceMode: 'link',
   evidenceNote: 'Revue de préparation ou d’occasions gratuite—aucune architecture finalisée requise.',
   ladderEyebrow: 'Comment l’engagement progresse',
@@ -653,6 +989,20 @@ const securityEn: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Start technology decision review',
       pathwaySlug: 'security',
       contactIntent: 'security',
+      detail: {
+        issues: [
+          'Questionnaires and customer diligence expose controls you cannot evidence clearly.',
+          'Gaps are known anecdotally but not prioritized against residual risk.',
+          'Vendors pitch products before obligations and ownership are written down.',
+        ],
+        approach:
+          'Lock requirements, residual-risk tolerance, and control ownership before demos. Score options on the same criteria so the shortlist is comparable and disclosure-ready.',
+        solutions: [
+          'Technology decision review focused on security obligations and criteria',
+          'Prioritized gap list with owners and remediation sequence',
+          'Security, Risk & Compliance support through accountable transition',
+        ],
+      },
     },
     {
       id: 'cloud-infra',
@@ -663,6 +1013,20 @@ const securityEn: OutcomeGroupPanelCopy = {
       pathwaySlug: 'cloud-infrastructure',
       contactIntent: 'consulting',
       contactFocus: 'technology',
+      detail: {
+        issues: [
+          'Migration options compete without shared cost, risk, and operating criteria.',
+          'Nobody owns day-2 operations after a cloud or hosting change.',
+          'Spend grows while reliability and clarity of ownership stay flat.',
+        ],
+        approach:
+          'Decide infrastructure against explicit requirements—workload, cost, support, and operating model—before selecting a platform. Make ownership part of the decision, not an afterthought.',
+        solutions: [
+          'Decision review that compares cloud and infrastructure options on the same scorecard',
+          'Operating ownership model for run, support, and cost accountability',
+          'Transition plan sequenced to reduce risk during migration',
+        ],
+      },
     },
     {
       id: 'network',
@@ -673,8 +1037,25 @@ const securityEn: OutcomeGroupPanelCopy = {
       pathwaySlug: 'network',
       contactIntent: 'consulting',
       contactFocus: 'technology',
+      detail: {
+        issues: [
+          'Outages or slow links interrupt sites, users, or critical systems.',
+          'Single points of failure are known but not funded or sequenced.',
+          'Network changes are treated as product buys without resilience criteria.',
+        ],
+        approach:
+          'Define resilience requirements and acceptable downtime first. Compare connectivity options against those constraints, then sequence changes that improve reliability where the business feels it.',
+        solutions: [
+          'Decision review for network resilience requirements and criteria',
+          'Shortlist of connectivity approaches scored for uptime and recovery',
+          'Implementation path that reduces single points of failure with clear owners',
+        ],
+      },
     },
   ],
+  detailIssuesLabel: 'Common issues',
+  detailApproachLabel: 'Our approach',
+  detailSolutionsLabel: 'Example solutions',
   evidenceMode: 'link',
   evidenceNote: 'Free decision review—requirements and criteria before a shortlist.',
   ladderEyebrow: 'How commitment grows',
@@ -745,6 +1126,20 @@ const securityFr: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Commencer la revue de décision technologique',
       pathwaySlug: 'security',
       contactIntent: 'security',
+      detail: {
+        issues: [
+          'Questionnaires et diligences clients exposent des contrôles que vous ne pouvez pas prouver clairement.',
+          'Les écarts sont connus de façon anecdotique mais non priorisés selon le risque résiduel.',
+          'Les fournisseurs présentent des produits avant que obligations et responsabilités soient écrites.',
+        ],
+        approach:
+          'Fixez exigences, tolérance au risque résiduel et responsabilité des contrôles avant les démos. Notez les options selon les mêmes critères pour une shortlist comparable et prête à la divulgation.',
+        solutions: [
+          'Revue de décision technologique centrée sur obligations et critères de sécurité',
+          'Liste priorisée d’écarts avec responsables et séquence de remédiation',
+          'Soutien Sécurité, risque et conformité jusqu’à une transition responsabilisée',
+        ],
+      },
     },
     {
       id: 'cloud-infra',
@@ -755,6 +1150,20 @@ const securityFr: OutcomeGroupPanelCopy = {
       pathwaySlug: 'cloud-infrastructure',
       contactIntent: 'consulting',
       contactFocus: 'technology',
+      detail: {
+        issues: [
+          'Les options de migration se concurrencent sans critères partagés de coût, risque et exploitation.',
+          'Personne n’assume l’exploitation au jour 2 après un changement d’infonuagique ou d’hébergement.',
+          'Les dépenses augmentent pendant que fiabilité et clarté des responsabilités stagnent.',
+        ],
+        approach:
+          'Décidez de l’infrastructure selon des exigences explicites—charge, coût, soutien et modèle d’exploitation—avant de choisir une plateforme. Intégrez la responsabilité dans la décision, pas après coup.',
+        solutions: [
+          'Revue de décision qui compare options cloud et infrastructure sur le même tableau de bord',
+          'Modèle de responsabilité d’exploitation pour run, soutien et coûts',
+          'Plan de transition séquencé pour réduire le risque pendant la migration',
+        ],
+      },
     },
     {
       id: 'network',
@@ -765,8 +1174,25 @@ const securityFr: OutcomeGroupPanelCopy = {
       pathwaySlug: 'network',
       contactIntent: 'consulting',
       contactFocus: 'technology',
+      detail: {
+        issues: [
+          'Pannes ou liens lents interrompent sites, utilisateurs ou systèmes critiques.',
+          'Les points de défaillance uniques sont connus mais non financés ni séquencés.',
+          'Les changements réseau sont traités comme des achats de produits sans critères de résilience.',
+        ],
+        approach:
+          'Définissez d’abord les exigences de résilience et le temps d’arrêt acceptable. Comparez les options de connectivité selon ces contraintes, puis séquencez les changements qui améliorent la fiabilité là où l’entreprise la ressent.',
+        solutions: [
+          'Revue de décision pour exigences et critères de résilience réseau',
+          'Shortlist d’approches de connectivité notées pour disponibilité et reprise',
+          'Parcours de mise en œuvre qui réduit les points de défaillance uniques avec responsables clairs',
+        ],
+      },
     },
   ],
+  detailIssuesLabel: 'Problèmes courants',
+  detailApproachLabel: 'Notre approche',
+  detailSolutionsLabel: 'Exemples de solutions',
   evidenceMode: 'link',
   evidenceNote: 'Revue de décision gratuite—exigences et critères avant une shortlist.',
   ladderEyebrow: 'Comment l’engagement progresse',
@@ -837,6 +1263,20 @@ const executionEn: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Take the 5-minute assessment',
       pathwaySlug: 'strategy',
       contactIntent: 'consulting',
+      detail: {
+        issues: [
+          'Everything is labeled urgent, so nothing stays sequenced.',
+          'Teams start many initiatives and finish few of them.',
+          'Leaders cannot name the one outcome measure that ranks trade-offs.',
+        ],
+        approach:
+          'Rank competing priorities against one outcome measure and a realistic horizon. Build a 90-day sequence the team can actually carry—fewer P1s, clearer choices, visible progress.',
+        solutions: [
+          '5-minute assessment to name the pressure and constraints',
+          '90-day priority sequence with explicit trade-offs',
+          'Business Advisory through implementation support—not a longer roadmap deck',
+        ],
+      },
     },
     {
       id: 'plans-stall',
@@ -846,6 +1286,20 @@ const executionEn: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Take the 5-minute assessment',
       pathwaySlug: 'strategy',
       contactIntent: 'consulting',
+      detail: {
+        issues: [
+          'Strategy documents exist, but work does not move between meetings.',
+          'Status updates replace decisions and owned next steps.',
+          'Cadence collapses when the next planning cycle starts without review habits.',
+        ],
+        approach:
+          'Replace meeting-heavy status with an operating rhythm: owners, milestones, and a short review cadence. Keep advisory present through follow-through—not a one-off strategy session.',
+        solutions: [
+          'Assessment to locate where follow-through breaks',
+          'Weekly review rhythm with decision rights and next actions',
+          'Advisory support that carries the plan through the first execution cycles',
+        ],
+      },
     },
     {
       id: 'unclear-ownership',
@@ -855,8 +1309,25 @@ const executionEn: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Take the 5-minute assessment',
       pathwaySlug: 'strategy',
       contactIntent: 'consulting',
+      detail: {
+        issues: [
+          'Decisions bounce between people because rights are undefined.',
+          'Measures are missing, conflicting, or unused in reviews.',
+          'Accountability is shared so widely that nobody owns the result.',
+        ],
+        approach:
+          'Assign decision rights and outcome measures before the next planning cycle. Make ownership visible in the operating rhythm so progress is reviewable without adding headcount.',
+        solutions: [
+          'Assessment focused on ownership and measurement gaps',
+          'Decision-rights map tied to a small set of outcome measures',
+          'Execution cadence where owners report progress against those measures',
+        ],
+      },
     },
   ],
+  detailIssuesLabel: 'Common issues',
+  detailApproachLabel: 'Our approach',
+  detailSolutionsLabel: 'Example solutions',
   evidenceMode: 'link',
   evidenceNote: 'Five-minute assessment—practical starting point before a finished brief.',
   ladderEyebrow: 'How commitment grows',
@@ -923,6 +1394,20 @@ const executionFr: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Faire l’évaluation de 5 minutes',
       pathwaySlug: 'strategy',
       contactIntent: 'consulting',
+      detail: {
+        issues: [
+          'Tout est étiqueté urgent, donc rien ne reste séquencé.',
+          'Les équipes démarrent beaucoup d’initiatives et en terminent peu.',
+          'La direction ne peut pas nommer la seule mesure de résultat qui classe les arbitrages.',
+        ],
+        approach:
+          'Classez les priorités concurrentes selon une seule mesure de résultat et un horizon réaliste. Construisez une séquence de 90 jours que l’équipe peut vraiment porter—moins de P1, des choix plus clairs, un progrès visible.',
+        solutions: [
+          'Évaluation de 5 minutes pour nommer la pression et les contraintes',
+          'Séquence de priorités sur 90 jours avec arbitrages explicites',
+          'Conseil d’affaires jusqu’au soutien à la mise en œuvre—pas un deck de feuille de route plus long',
+        ],
+      },
     },
     {
       id: 'plans-stall',
@@ -932,6 +1417,20 @@ const executionFr: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Faire l’évaluation de 5 minutes',
       pathwaySlug: 'strategy',
       contactIntent: 'consulting',
+      detail: {
+        issues: [
+          'Les documents de stratégie existent, mais le travail n’avance pas entre les réunions.',
+          'Les mises à jour de statut remplacent décisions et prochaines étapes assumées.',
+          'La cadence s’effondre lorsque le prochain cycle de planification démarre sans habitudes de revue.',
+        ],
+        approach:
+          'Remplacez le statut centré sur les réunions par un rythme opérationnel : responsables, jalons et courte cadence de revue. Gardez le conseil présent dans le suivi—pas une séance stratégique ponctuelle.',
+        solutions: [
+          'Évaluation pour localiser où le suivi se brise',
+          'Rythme de revue hebdomadaire avec droits de décision et prochaines actions',
+          'Soutien-conseil qui porte le plan à travers les premiers cycles d’exécution',
+        ],
+      },
     },
     {
       id: 'unclear-ownership',
@@ -941,8 +1440,25 @@ const executionFr: OutcomeGroupPanelCopy = {
       evidenceLabel: 'Faire l’évaluation de 5 minutes',
       pathwaySlug: 'strategy',
       contactIntent: 'consulting',
+      detail: {
+        issues: [
+          'Les décisions rebondissent entre personnes parce que les droits sont indéfinis.',
+          'Les mesures manquent, se contredisent ou ne sont pas utilisées en revue.',
+          'La responsabilisation est si partagée que personne n’assume le résultat.',
+        ],
+        approach:
+          'Assignez droits de décision et mesures de résultat avant le prochain cycle de planification. Rendez la responsabilité visible dans le rythme opérationnel pour que le progrès soit revuable sans ajouter d’effectifs.',
+        solutions: [
+          'Évaluation centrée sur les écarts de responsabilité et de mesure',
+          'Carte des droits de décision liée à un petit ensemble de mesures de résultat',
+          'Cadence d’exécution où les responsables rapportent le progrès selon ces mesures',
+        ],
+      },
     },
   ],
+  detailIssuesLabel: 'Problèmes courants',
+  detailApproachLabel: 'Notre approche',
+  detailSolutionsLabel: 'Exemples de solutions',
   evidenceMode: 'link',
   evidenceNote: 'Évaluation de cinq minutes—point de départ pratique avant un cahier des charges finalisé.',
   ladderEyebrow: 'Comment l’engagement progresse',

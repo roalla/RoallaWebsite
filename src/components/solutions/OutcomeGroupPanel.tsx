@@ -242,6 +242,47 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
             )
           })}
         </div>
+
+        <div
+          key={situation.id}
+          className="mt-4 border border-slate-200 bg-slate-50 px-4 py-5 sm:px-5"
+          aria-live="polite"
+        >
+          <div className="grid gap-5 sm:grid-cols-3">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary-dark">
+                {copy.detailIssuesLabel}
+              </p>
+              <ul className="mt-2 space-y-2">
+                {situation.detail.issues.map((issue) => (
+                  <li key={issue} className="flex items-start gap-2 text-sm leading-6 text-slate-700">
+                    <Check className="mt-1 h-3.5 w-3.5 shrink-0 text-primary-dark" aria-hidden />
+                    <span>{issue}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary-dark">
+                {copy.detailApproachLabel}
+              </p>
+              <p className="mt-2 text-sm leading-6 text-slate-700">{situation.detail.approach}</p>
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary-dark">
+                {copy.detailSolutionsLabel}
+              </p>
+              <ul className="mt-2 space-y-2">
+                {situation.detail.solutions.map((solution) => (
+                  <li key={solution} className="flex items-start gap-2 text-sm leading-6 text-slate-700">
+                    <Check className="mt-1 h-3.5 w-3.5 shrink-0 text-primary-dark" aria-hidden />
+                    <span>{solution}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div ref={evidenceRef} className="border border-slate-200 bg-slate-950 px-4 py-5 text-white sm:px-5">

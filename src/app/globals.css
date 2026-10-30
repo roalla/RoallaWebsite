@@ -370,6 +370,10 @@
     animation: partners-hash-pulse 1.4s ease-out;
   }
 
+  .tech-advisory-hero-media {
+    animation: partners-ken-burns 28s ease-in-out infinite alternate;
+  }
+
   @keyframes outcome-ladder-step-in {
     from {
       opacity: 0;
@@ -557,7 +561,8 @@
     .partners-hero-media,
     .partners-pill-enter,
     .partners-vendor-highlight,
-    .outcome-ladder-step {
+    .outcome-ladder-step,
+    .tech-advisory-hero-media {
       animation: none;
       opacity: 1;
       transform: none;

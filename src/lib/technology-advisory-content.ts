@@ -19,22 +19,50 @@ type TechnologyCategory = {
 };
 
 export type TechnologyAdvisoryCopy = {
-  hero: { eyebrow: string; title: string; body: string; proof: string; lensTitle: string; questions: string[]; primary: string };
+  hero: {
+    eyebrow: string
+    title: string
+    body: string
+    proof: string
+    lensTitle: string
+    questions: string[]
+    primary: string
+    secondary: string
+  }
+  trust: {
+    disclosureLine: string
+    partnersCta: string
+  }
   journeys: {
-    eyebrow: string; title: string; body: string;
-    advisorTitle: string; advisorBody: string; advisorPrompt: string;
-    leadershipQuestions: string; decisionOutput: string; restart: string;
-    reviewCta: string; briefCta: string;
-    readyTitle: string; readyBody: string; categoryPrompt: string;
-    compareLabel: string; compareCta: string; inquiryCta: string;
-    advisorNeeds: AdvisorNeed[]; categories: TechnologyCategory[];
-  };
-  leadership: { eyebrow: string; title: string; body: string; items: Array<{ title: string; body: string }> };
-  credibility: { eyebrow: string; title: string; body: string; principles: Array<{ title: string; body: string }> };
-  process: { eyebrow: string; title: string; body: string; steps: Array<{ title: string; body: string }> };
-  details: { eyebrow: string; title: string; body: string; scope: string; delivery: string; disclosure: string };
-  finalCta: { eyebrow: string; title: string; body: string; primary: string; secondary: string };
-};
+    eyebrow: string
+    title: string
+    body: string
+    advisorTitle: string
+    advisorBody: string
+    advisorPrompt: string
+    leadershipQuestions: string
+    decisionOutput: string
+    restart: string
+    selectHint: string
+    selectedLabel: string
+    reviewCta: string
+    briefCta: string
+    readyTitle: string
+    readyBody: string
+    categoryPrompt: string
+    compareLabel: string
+    compareCta: string
+    inquiryCta: string
+    advisorNeeds: AdvisorNeed[]
+    categories: TechnologyCategory[]
+  }
+  leadership: { eyebrow: string; title: string; body: string; items: Array<{ title: string; body: string }> }
+  midCta: { eyebrow: string; title: string; body: string; primary: string; secondary: string }
+  credibility: { eyebrow: string; title: string; body: string; principles: Array<{ title: string; body: string }> }
+  process: { eyebrow: string; title: string; body: string; steps: Array<{ title: string; body: string }> }
+  details: { eyebrow: string; title: string; body: string; scope: string; delivery: string; disclosure: string }
+  finalCta: { eyebrow: string; title: string; body: string; primary: string; secondary: string }
+}
 
 const en: TechnologyAdvisoryCopy = {
   hero: {
@@ -45,6 +73,12 @@ const en: TechnologyAdvisoryCopy = {
     lensTitle: "Before you buy, know",
     questions: ["What creates value", "What introduces risk", "What it takes to deliver"],
     primary: "Find my smartest next move",
+    secondary: "Build a free decision brief",
+  },
+  trust: {
+    disclosureLine:
+      "Needs-led advice with disclosed supplier relationships—recommendations start from your requirements, not a preferred product.",
+    partnersCta: "Review supplier access and disclosures",
   },
   journeys: {
     eyebrow: "Your fastest path to clarity",
@@ -56,6 +90,8 @@ const en: TechnologyAdvisoryCopy = {
     leadershipQuestions: "Leadership questions to resolve",
     decisionOutput: "What ROALLA prepares",
     restart: "Choose a different priority",
+    selectHint: "Select one to continue",
+    selectedLabel: "Selected",
     reviewCta: "Talk it through with ROALLA",
     briefCta: "Build a free decision brief",
     readyTitle: "I know the domain",
@@ -153,6 +189,13 @@ const en: TechnologyAdvisoryCopy = {
       { title: "Implementation roadmap", body: "Ownership, sequence, dependencies, migration, integration, change, adoption, and measures of realized value." },
     ],
   },
+  midCta: {
+    eyebrow: "Ready when you are",
+    title: "Bring the pressure—or the shortlist.",
+    body: "Book a focused technology review, or start with a free decision brief you can reuse in the conversation.",
+    primary: "Book an executive technology review",
+    secondary: "Build a free decision brief",
+  },
   credibility: {
     eyebrow: "Independent advice · Broader supplier access",
     title: "A decision partner—not another product pitch.",
@@ -200,6 +243,12 @@ const fr: TechnologyAdvisoryCopy = {
     lensTitle: "Avant d’acheter, sachez",
     questions: ["Ce qui crée la valeur", "Ce qui introduit le risque", "Ce qu’exige la livraison"],
     primary: "Trouver ma meilleure prochaine étape",
+    secondary: "Créer une fiche de décision gratuite",
+  },
+  trust: {
+    disclosureLine:
+      "Conseil fondé sur les besoins avec relations fournisseurs divulguées—les recommandations partent de vos exigences, pas d’un produit préféré.",
+    partnersCta: "Voir l’accès aux fournisseurs et les divulgations",
   },
   journeys: {
     ...en.journeys,
@@ -212,6 +261,8 @@ const fr: TechnologyAdvisoryCopy = {
     leadershipQuestions: "Questions de direction à résoudre",
     decisionOutput: "Ce que ROALLA prépare",
     restart: "Choisir une autre priorité",
+    selectHint: "Choisissez une option pour continuer",
+    selectedLabel: "Sélectionné",
     reviewCta: "En parler avec ROALLA",
     briefCta: "Créer une fiche de décision gratuite",
     readyTitle: "Je connais le domaine",
@@ -243,6 +294,13 @@ const fr: TechnologyAdvisoryCopy = {
       { title: "Options comparables", body: "Une liste qualifiée avec portée, économie, conditions, soutien, compromis et effort de mise en œuvre normalisés." },
       { title: "Feuille de route", body: "Responsabilité, séquence, dépendances, migration, intégration, changement, adoption et valeur réalisée." },
     ],
+  },
+  midCta: {
+    eyebrow: "Prêt quand vous l’êtes",
+    title: "Apportez la pression—ou la liste.",
+    body: "Réservez une revue technologique ciblée, ou commencez par une fiche de décision gratuite à réutiliser dans la conversation.",
+    primary: "Réserver une revue technologique de direction",
+    secondary: "Créer une fiche de décision gratuite",
   },
   credibility: {
     eyebrow: "Conseil indépendant · Accès élargi aux fournisseurs", title: "Vos exigences guident le choix. Les relations fournisseurs restent visibles.",

@@ -19,6 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     path: '/services/technology-advisory',
     title: t('metadataTechnologyTitle'),
     description: t('metadataTechnologyDescription'),
+    ogImage: '/images/services/technology-advisory-hero.webp',
   })
 }
 
@@ -63,7 +64,7 @@ export default async function TechnologyAdvisoryPage() {
   const faqJsonLd = serviceMiniFaqJsonLd((key) => tServices(key), TECHNOLOGY_PAGE_FAQ_KEYS)
 
   return (
-    <div className="page-shell">
+    <div className="page-shell bg-white">
       <Script
         id="services-technology-advisory-jsonld"
         type="application/ld+json"
@@ -74,10 +75,7 @@ export default async function TechnologyAdvisoryPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
-      <div className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent" aria-hidden />
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
-        <TechnologyAdvisory />
-      </div>
+      <TechnologyAdvisory />
     </div>
   )
 }

@@ -17,7 +17,7 @@ describe('outcome group panels', () => {
     for (const locale of ['en', 'fr'] as const) {
       const copy = getOutcomeGroupPanelCopy(groupId, locale)
       expect(copy.resultTitle).toBeTruthy()
-      expect(copy.situations).toHaveLength(3)
+      expect(copy.situations).toHaveLength(groupId === 'growth-visibility' ? 4 : 3)
       expect(copy.ladderSteps).toHaveLength(3)
       expect(copy.vignetteSteps.length).toBeGreaterThanOrEqual(2)
       expect(copy.pathwayLinks.length).toBeGreaterThanOrEqual(1)
@@ -50,5 +50,17 @@ describe('outcome group panels', () => {
       'security-gaps',
     )
     expect(getOutcomeGroupPanelCopy('execution', 'en').situations[0].id).toBe('too-many-priorities')
+  })
+
+  it.each(['en', 'fr'] as const)('includes email deliverability in the growth pathway for %s', (locale) => {
+    const copy = getOutcomeGroupPanelCopy('growth-visibility', locale)
+    const situation = copy.situations.find((item) => item.id === 'email-deliverability')
+
+    expect(situation).toMatchObject({
+      evidencePath: '/tools/digital-presence-snapshot',
+      pathwaySlug: 'visibility',
+      contactIntent: 'visibility',
+    })
+    expect(copy.channels.some((channel) => channel.id === 'email')).toBe(true)
   })
 })

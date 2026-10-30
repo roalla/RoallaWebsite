@@ -92,6 +92,15 @@ const growthEn: OutcomeGroupPanelCopy = {
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
     },
+    {
+      id: 'email-deliverability',
+      label: 'Campaign emails aren’t reaching customers',
+      hint: 'Messages land in junk or fail delivery, weakening trust and customer response.',
+      evidencePath: '/tools/digital-presence-snapshot',
+      evidenceLabel: 'Check email delivery',
+      pathwaySlug: 'visibility',
+      contactIntent: 'visibility',
+    },
   ],
   evidenceMode: 'domain',
   domainLabel: 'Your website address',
@@ -134,7 +143,8 @@ const growthEn: OutcomeGroupPanelCopy = {
   channels: [
     { id: 'website', label: 'Website' },
     { id: 'local', label: 'Local / maps' },
-    { id: 'both', label: 'Both' },
+    { id: 'both', label: 'Website + local' },
+    { id: 'email', label: 'Email campaigns' },
   ],
   priorityLabel: 'Priority',
   priorities: [
@@ -146,7 +156,7 @@ const growthEn: OutcomeGroupPanelCopy = {
   qualifierNote: '~3 min · No obligation · Reply in 1 business day',
   pathwaysLabel: 'Pathway details',
   pathwayLinks: [{ slug: 'visibility', label: 'Improve visibility and conversion' }],
-  highlightLabel: 'You chose findability—start with evidence',
+  highlightLabel: 'You chose growth and visibility—start with evidence',
 }
 
 const growthFr: OutcomeGroupPanelCopy = {
@@ -180,6 +190,15 @@ const growthFr: OutcomeGroupPanelCopy = {
       hint: 'L’entreprise est difficile à décrire à partir de la page publique.',
       evidencePath: '/tools/digital-presence-snapshot',
       evidenceLabel: 'Vérifier mon site',
+      pathwaySlug: 'visibility',
+      contactIntent: 'visibility',
+    },
+    {
+      id: 'email-deliverability',
+      label: 'Nos courriels n’atteignent pas les clients',
+      hint: 'Les campagnes arrivent dans les indésirables ou échouent, ce qui réduit la confiance et les réponses.',
+      evidencePath: '/tools/digital-presence-snapshot',
+      evidenceLabel: 'Vérifier la livraison des courriels',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
     },
@@ -225,7 +244,8 @@ const growthFr: OutcomeGroupPanelCopy = {
   channels: [
     { id: 'website', label: 'Site Web' },
     { id: 'local', label: 'Local / cartes' },
-    { id: 'both', label: 'Les deux' },
+    { id: 'both', label: 'Site Web + local' },
+    { id: 'email', label: 'Campagnes courriel' },
   ],
   priorityLabel: 'Priorité',
   priorities: [
@@ -237,7 +257,7 @@ const growthFr: OutcomeGroupPanelCopy = {
   qualifierNote: '~3 min · Sans obligation · Réponse en 1 jour ouvrable',
   pathwaysLabel: 'Détails des parcours',
   pathwayLinks: [{ slug: 'visibility', label: 'Améliorer visibilité et conversion' }],
-  highlightLabel: 'Vous avez choisi la visibilité—commencez par des preuves',
+  highlightLabel: 'Vous avez choisi la croissance et la visibilité—commencez par des preuves',
 }
 
 const experienceEn: OutcomeGroupPanelCopy = {

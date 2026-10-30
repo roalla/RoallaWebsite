@@ -97,6 +97,12 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
     }
   }
 
+  function selectedProblem(active: OutcomeGroupSituation) {
+    return active.id === 'email-deliverability'
+      ? 'email-deliverability'
+      : 'website-and-ai-visibility'
+  }
+
   function runDomainEvidence(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const url = normalizeWebsite(domain)
@@ -112,7 +118,7 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
       query: {
         ...campaignQuery({
           offer: 'free-automated-visibility-snapshot',
-          selected_problem: 'website-and-ai-visibility',
+          selected_problem: selectedProblem(situation),
           url,
         }),
       },
@@ -126,7 +132,7 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
         pathname: path,
         query: campaignQuery({
           offer: 'free-automated-visibility-snapshot',
-          selected_problem: 'website-and-ai-visibility',
+          selected_problem: selectedProblem(active),
         }),
       } as const
     }
@@ -181,7 +187,11 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
       <div>
         <p className="text-sm font-semibold text-slate-900">{copy.situationPrompt}</p>
         <p className="mt-1 text-xs font-medium text-slate-500">{situationSelectHint}</p>
-        <div className="mt-3 grid gap-2 sm:grid-cols-3" role="group" aria-label={copy.situationPrompt}>
+        <div
+          className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-4"
+          role="group"
+          aria-label={copy.situationPrompt}
+        >
           {copy.situations.map((item) => {
             const selected = situationId === item.id
             return (
@@ -262,7 +272,7 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
                 type="submit"
                 className="inline-flex min-h-12 items-center justify-center rounded-lg bg-brand-gold px-5 text-sm font-semibold text-slate-950 transition hover:bg-brand-gold-light"
               >
-                {copy.domainCta ?? situation.evidenceLabel}
+                {situation.evidenceLabel}
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </button>
             </form>

@@ -69,7 +69,11 @@ const copy = {
     threeYears: '3 years',
     bestValue: 'Best value',
     selected: 'Selected',
-    emailTitle: 'Choose professional email',
+    emailTitle: 'Do you need professional email?',
+    emailNeedIntro: 'Professional email is optional. Choose No to keep it out of this estimate, or Yes to compare secure business platforms.',
+    emailYes: 'Yes, I need professional email',
+    emailYesValue: 'Show provider choices, productivity features and per-user pricing.',
+    emailProviderTitle: 'Choose the platform that fits how you work',
     emailPopular: 'Security-first setup included',
     emailIntro: 'Match your email to your website address, then choose the tools and working style that fit the business.',
     emailSetupValue: '$150 one-time ROALLA setup for one domain',
@@ -243,7 +247,11 @@ const copy = {
     threeYears: '3 ans',
     bestValue: 'Meilleure valeur',
     selected: 'Sélectionné',
-    emailTitle: 'Choisissez votre courriel professionnel',
+    emailTitle: 'Avez-vous besoin d’un courriel professionnel?',
+    emailNeedIntro: 'Le courriel professionnel est facultatif. Choisissez Non pour l’exclure de l’estimation, ou Oui pour comparer les plateformes d’affaires sécurisées.',
+    emailYes: 'Oui, j’ai besoin d’un courriel professionnel',
+    emailYesValue: 'Afficher les fournisseurs, les outils de productivité et les prix par utilisateur.',
+    emailProviderTitle: 'Choisissez la plateforme adaptée à votre façon de travailler',
     emailPopular: 'Configuration axée sur la sécurité incluse',
     emailIntro: 'Faites correspondre votre courriel à l’adresse du site, puis choisissez les outils et la façon de travailler qui conviennent à l’entreprise.',
     emailSetupValue: 'Configuration ROALLA unique de 150 $ pour un domaine',
@@ -395,14 +403,6 @@ const emailOptions: Array<{
   recommended?: boolean
 }> = [
   {
-    value: 'none',
-    label: 'emailNone',
-    description: 'emailNoneValue',
-    bestFor: 'emailNoneBestFor',
-    features: [],
-    annual: 0,
-  },
-  {
     value: 'microsoft-basic',
     label: 'microsoftBasic',
     description: 'microsoftBasicValue',
@@ -463,6 +463,7 @@ export default function WebsiteEstimateBuilder() {
   const money = useMemo(() => (amount: number) => formatCad(amount, french ? 'fr' : 'en'), [french])
   const [domainSource, setDomainSource] = useState<DomainSource>('new')
   const [domainTerm, setDomainTerm] = useState<DomainTerm>('three')
+  const [needsEmail, setNeedsEmail] = useState(false)
   const [email, setEmail] = useState<EmailChoice>('none')
   const [emailUsers, setEmailUsers] = useState(1)
   const [showExtras, setShowExtras] = useState(false)
@@ -496,6 +497,16 @@ export default function WebsiteEstimateBuilder() {
       setSocial('none')
       setHosting('own')
       setExpandedHosting(null)
+    }
+  }
+
+  const chooseEmailNeed = (needed: boolean) => {
+    setNeedsEmail(needed)
+    if (needed) {
+      setEmail((current) => current === 'none' ? 'microsoft-basic' : current)
+    } else {
+      setEmail('none')
+      setEmailUsers(1)
     }
   }
 
@@ -745,87 +756,88 @@ export default function WebsiteEstimateBuilder() {
               <legend className="flex flex-wrap items-center gap-2 text-xl font-serif font-bold text-slate-950">
                 <Mail className="h-5 w-5 text-primary" aria-hidden />
                 {t.emailTitle}
-                <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-amber-900">{t.emailPopular}</span>
               </legend>
-              <p className="mt-2 text-sm leading-6 text-slate-700">{t.emailIntro}</p>
-              <div className="mt-4 rounded-xl border border-primary/25 bg-primary/5 p-4">
-                <p className="font-bold text-primary-dark">{t.emailSetupValue}</p>
-                <p className="mt-1 text-sm leading-6 text-slate-700">{t.emailSetupIncludes}</p>
+              <p className="mt-2 text-sm leading-6 text-slate-700">{t.emailNeedIntro}</p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <label className={`cursor-pointer rounded-xl border p-4 transition ${!needsEmail ? tileSelected : tileIdle}`}>
+                  <input className="sr-only" type="radio" name="needs-email" checked={!needsEmail} onChange={() => chooseEmailNeed(false)} />
+                  <span className="flex items-start justify-between gap-3">
+                    <span className="font-semibold text-slate-950">{t.emailNone}</span>
+                    {!needsEmail ? <CheckCircle className="h-5 w-5 shrink-0 text-primary" aria-hidden /> : null}
+                  </span>
+                  <span className="mt-2 block text-sm leading-6 text-slate-700">{t.emailNoneValue}</span>
+                  {!needsEmail ? <span className="mt-3 inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                </label>
+                <label className={`cursor-pointer rounded-xl border p-4 transition ${needsEmail ? tileSelected : tileIdle}`}>
+                  <input className="sr-only" type="radio" name="needs-email" checked={needsEmail} onChange={() => chooseEmailNeed(true)} />
+                  <span className="flex items-start justify-between gap-3">
+                    <span className="font-semibold text-slate-950">{t.emailYes}</span>
+                    {needsEmail ? <CheckCircle className="h-5 w-5 shrink-0 text-primary" aria-hidden /> : null}
+                  </span>
+                  <span className="mt-2 block text-sm leading-6 text-slate-700">{t.emailYesValue}</span>
+                  {needsEmail ? <span className="mt-3 inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                </label>
               </div>
 
-              <div className="mt-4 grid gap-3 lg:grid-cols-2">
-                {emailOptions.map((option) => {
-                  const selected = email === option.value
-                  const priceLabel =
-                    option.annual === null
-                      ? t.emailProviderFeesSeparate
-                      : option.annual === 0
-                        ? money(0)
+              {needsEmail ? (
+                <div className="mt-5 border-t border-slate-200 pt-5">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h3 className="font-serif text-lg font-bold text-slate-950">{t.emailProviderTitle}</h3>
+                    <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-amber-900">{t.emailPopular}</span>
+                  </div>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">{t.emailIntro}</p>
+                  <div className="mt-4 rounded-xl border border-primary/25 bg-primary/5 p-4">
+                    <p className="font-bold text-primary-dark">{t.emailSetupValue}</p>
+                    <p className="mt-1 text-sm leading-6 text-slate-700">{t.emailSetupIncludes}</p>
+                  </div>
+
+                  <div className="mt-4 grid gap-3 lg:grid-cols-2">
+                    {emailOptions.map((option) => {
+                      const selected = email === option.value
+                      const priceLabel = option.annual === null
+                        ? t.emailProviderFeesSeparate
                         : `${money(option.annual)}${t.emailPerUserYear}`
 
-                  return (
-                    <label key={option.value} className={`cursor-pointer rounded-xl border p-4 transition ${selected ? tileSelected : tileIdle}`}>
-                      <input
-                        className="sr-only"
-                        type="radio"
-                        name="email-provider"
-                        value={option.value}
-                        checked={selected}
-                        onChange={() => setEmail(option.value)}
-                      />
-                      <span className="flex items-start justify-between gap-3">
-                        <span className="font-semibold text-slate-950">{t[option.label]}</span>
-                        <span className="shrink-0 text-right text-sm font-bold text-primary-dark">{priceLabel}</span>
-                      </span>
-                      <span className="mt-2 flex flex-wrap gap-1.5">
-                        {selected ? <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
-                        {option.recommended ? <span className="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.emailRecommended}</span> : null}
-                      </span>
-                      <span className="mt-2 block text-sm leading-6 text-slate-700">{t[option.description]}</span>
-                      {option.features.length ? (
-                        <span className="mt-3 block space-y-1.5 border-t border-slate-200 pt-3 text-xs leading-5 text-slate-700">
-                          {option.features.map((feature) => (
-                            <span key={feature} className="flex gap-2">
-                              <CheckCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" aria-hidden />
-                              <span>{t[feature]}</span>
-                            </span>
-                          ))}
-                        </span>
-                      ) : null}
-                      <span className="mt-3 block border-t border-slate-200 pt-3 text-xs font-semibold leading-5 text-primary-dark">{t[option.bestFor]}</span>
-                    </label>
-                  )
-                })}
-              </div>
+                      return (
+                        <label key={option.value} className={`cursor-pointer rounded-xl border p-4 transition ${selected ? tileSelected : tileIdle}`}>
+                          <input className="sr-only" type="radio" name="email-provider" value={option.value} checked={selected} onChange={() => setEmail(option.value)} />
+                          <span className="flex items-start justify-between gap-3">
+                            <span className="font-semibold text-slate-950">{t[option.label]}</span>
+                            <span className="shrink-0 text-right text-sm font-bold text-primary-dark">{priceLabel}</span>
+                          </span>
+                          <span className="mt-2 flex flex-wrap gap-1.5">
+                            {selected ? <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                            {option.recommended ? <span className="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.emailRecommended}</span> : null}
+                          </span>
+                          <span className="mt-2 block text-sm leading-6 text-slate-700">{t[option.description]}</span>
+                          <span className="mt-3 block space-y-1.5 border-t border-slate-200 pt-3 text-xs leading-5 text-slate-700">
+                            {option.features.map((feature) => (
+                              <span key={feature} className="flex gap-2">
+                                <CheckCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" aria-hidden />
+                                <span>{t[feature]}</span>
+                              </span>
+                            ))}
+                          </span>
+                          <span className="mt-3 block border-t border-slate-200 pt-3 text-xs font-semibold leading-5 text-primary-dark">{t[option.bestFor]}</span>
+                        </label>
+                      )
+                    })}
+                  </div>
 
-              {email !== 'none' ? (
-                <label className="mt-4 block rounded-xl border border-slate-200 bg-white p-4">
-                  <span className="text-sm font-semibold text-slate-900">{t.emailUsersLabel}</span>
-                  <input
-                    className="mt-2 h-11 w-28 rounded-lg border border-slate-300 px-3 font-semibold text-slate-950 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                    type="number"
-                    min={1}
-                    max={25}
-                    value={emailUsers}
-                    onChange={(event) => setEmailUsers(Math.min(25, Math.max(1, Number(event.target.value) || 1)))}
-                  />
-                </label>
+                  <label className="mt-4 block rounded-xl border border-slate-200 bg-white p-4">
+                    <span className="text-sm font-semibold text-slate-900">{t.emailUsersLabel}</span>
+                    <input className="mt-2 h-11 w-28 rounded-lg border border-slate-300 px-3 font-semibold text-slate-950 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" type="number" min={1} max={25} value={emailUsers} onChange={(event) => setEmailUsers(Math.min(25, Math.max(1, Number(event.target.value) || 1)))} />
+                  </label>
+
+                  <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-950">
+                    <p className="font-bold">{t.emailPrivacyTitle}</p>
+                    <p className="mt-1">{t.emailPrivacyNote}</p>
+                    <p className="mt-2 font-medium">{t.emailSensitiveDataNote}</p>
+                    <a href="https://www.priv.gc.ca/en/privacy-topics/employers-and-employees/outsourcing/02_05_d_57_os_01/" target="_blank" rel="noreferrer" className="mt-2 inline-flex font-bold text-primary-dark underline underline-offset-4">{t.emailPrivacyLink}</a>
+                  </div>
+                  <p className="mt-3 text-xs leading-5 text-slate-600">{t.emailPriceNote}</p>
+                </div>
               ) : null}
-
-              <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-950">
-                <p className="font-bold">{t.emailPrivacyTitle}</p>
-                <p className="mt-1">{t.emailPrivacyNote}</p>
-                <p className="mt-2 font-medium">{t.emailSensitiveDataNote}</p>
-                <a
-                  href="https://www.priv.gc.ca/en/privacy-topics/employers-and-employees/outsourcing/02_05_d_57_os_01/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-2 inline-flex font-bold text-primary-dark underline underline-offset-4"
-                >
-                  {t.emailPrivacyLink}
-                </a>
-              </div>
-              <p className="mt-3 text-xs leading-5 text-slate-600">{t.emailPriceNote}</p>
             </fieldset>
 
             <fieldset>

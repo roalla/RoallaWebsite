@@ -80,7 +80,7 @@ const copy = {
       'Open this only if you want social media profile setup or ROALLA hosting and care. Otherwise leave it unchecked.',
     socialTitle: 'Social media profile setup',
     socialValue:
-      'Professional profile configuration with consistent names, bios, images, links, contact details and security settings.',
+      'Professional profile configuration with consistent names, bios, images, links, contact details and security settings. Includes a 30-day starter plan of key messages and post-ready content you can leverage—you publish the posts; we provide the library to help you get started.',
     noSocial: 'No social media setup',
     instagram: 'Instagram',
     youtube: 'YouTube',
@@ -196,7 +196,7 @@ const copy = {
       'Ouvrez ceci seulement si vous voulez la configuration des profils de médias sociaux ou l’hébergement et l’entretien ROALLA. Sinon, laissez décoché.',
     socialTitle: 'Configuration des profils de médias sociaux',
     socialValue:
-      'Configuration professionnelle et cohérente des noms, biographies, images, liens, coordonnées et paramètres de sécurité.',
+      'Configuration professionnelle et cohérente des noms, biographies, images, liens, coordonnées et paramètres de sécurité. Comprend un plan de démarrage de 30 jours avec messages clés et contenu prêt à publier—vous publiez les publications; nous fournissons la bibliothèque pour vous aider à démarrer.',
     noSocial: 'Aucune configuration de médias sociaux',
     instagram: 'Instagram',
     youtube: 'YouTube',

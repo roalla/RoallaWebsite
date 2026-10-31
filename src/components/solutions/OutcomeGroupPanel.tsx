@@ -152,12 +152,9 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
       } as const
     }
     if (path === '/tools/communications-value-brief') {
-      const briefExtra =
-        active.id === 'phone-ip-uc'
-          ? { situation: 'pots-legacy' }
-          : active.id === 'communications'
-            ? { scope: 'cc' }
-            : {}
+      const briefExtra: Record<string, string> = {}
+      if (active.id === 'phone-ip-uc') briefExtra.situation = 'pots-legacy'
+      if (active.id === 'communications') briefExtra.scope = 'cc'
       return {
         pathname: path,
         query: campaignQuery(briefExtra),

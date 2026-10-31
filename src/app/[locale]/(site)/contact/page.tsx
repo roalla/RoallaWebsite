@@ -126,9 +126,13 @@ function ScheduleContent() {
   const isPackageOffer = (value: string | null): value is PackageOffer =>
     value !== null && (packageOffers as readonly string[]).includes(value)
   const fromPackageOffer = isPackageOffer(offerParam)
+  const estimateFromPage = searchParams.get('from_page')
   const fromWebsiteEstimate =
     offerParam === 'estimate' &&
-    (searchParams.get('from_page') === '/website-estimate' || Boolean(searchParams.get('estimate_total')))
+    (estimateFromPage === '/website-estimate' ||
+      estimateFromPage === '/visibility-improvement-estimate' ||
+      estimateFromPage === '/email-reach-estimate' ||
+      Boolean(searchParams.get('estimate_total')))
   const estimateTotal = searchParams.get('estimate_total')
   const estimateSummary = searchParams.get('estimate_summary')
   const estimateReferralCode = searchParams.get('estimate_referral_code')?.trim().toUpperCase() || null

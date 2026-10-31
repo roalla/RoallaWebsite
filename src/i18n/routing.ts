@@ -38,7 +38,10 @@ export const routing = defineRouting({
     "/website-design": "/website-design",
     "/website-package": "/website-package",
     "/website-estimate": "/website-estimate",
+    "/visibility-improvement-estimate": "/visibility-improvement-estimate",
+    "/email-reach-estimate": "/email-reach-estimate",
     "/website-ai-visibility-review": "/website-ai-visibility-review",
+
     "/technology-decision-review": "/technology-decision-review",
     "/ai-agent-readiness-review": "/ai-agent-readiness-review",
     "/automation-opportunity-review": "/automation-opportunity-review",

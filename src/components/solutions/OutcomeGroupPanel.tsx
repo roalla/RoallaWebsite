@@ -372,6 +372,22 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
               >
                 {copy.contactCta}
               </Link>
+              {situation.estimatePath && situation.estimateLabel ? (
+                <Link
+                  href={situation.estimatePath}
+                  onClick={() =>
+                    trackAnalyticsEvent('solutions_tool_click', {
+                      location: `${groupId}_estimate`,
+                      tool: situation.estimatePath,
+                      group: groupId,
+                      signal: situation.id,
+                    })
+                  }
+                  className="inline-flex min-h-11 items-center px-2 text-sm font-semibold text-brand-gold underline-offset-4 hover:text-brand-gold-light hover:underline"
+                >
+                  {situation.estimateLabel}
+                </Link>
+              ) : null}
               {copy.pathwayLinks.map((link) => (
                 <Link
                   key={link.slug}
@@ -481,6 +497,22 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
               >
                 {copy.contactCta}
               </Link>
+              {situation.estimatePath && situation.estimateLabel ? (
+                <Link
+                  href={situation.estimatePath}
+                  onClick={() =>
+                    trackAnalyticsEvent('solutions_tool_click', {
+                      location: `${groupId}_estimate`,
+                      tool: situation.estimatePath,
+                      group: groupId,
+                      signal: situation.id,
+                    })
+                  }
+                  className="inline-flex min-h-11 items-center px-2 text-sm font-semibold text-brand-gold underline-offset-4 hover:text-brand-gold-light hover:underline"
+                >
+                  {situation.estimateLabel}
+                </Link>
+              ) : null}
               {copy.pathwayLinks.map((link) => (
                 <Link
                   key={link.slug}

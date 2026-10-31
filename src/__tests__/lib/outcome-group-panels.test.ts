@@ -40,7 +40,7 @@ describe('outcome group panels', () => {
         expect(situation.evidenceNote).toBeTruthy()
       })
       if (groupId === 'growth-visibility') {
-        expect(copy.evidenceMode).toBe('domain')
+        expect(copy.evidenceMode).toBe('link')
         expect(copy.domainLabel).toBeTruthy()
         expect(copy.domainCta).toBeTruthy()
       } else {
@@ -73,11 +73,37 @@ describe('outcome group panels', () => {
       evidencePath: '/tools/email-reach-brief',
       evidenceLabel:
         locale === 'fr' ? 'Vérifier si vos courriels passent' : 'Check if your emails are getting through',
+      estimatePath: '/email-reach-estimate',
+      estimateLabel:
+        locale === 'fr'
+          ? 'Estimer la configuration et la portée courriel'
+          : 'Estimate email setup and reach work',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
     })
     expect(copy.channels.some((channel) => channel.id === 'email')).toBe(true)
   })
+
+  it.each(['en', 'fr'] as const)(
+    'wires visibility estimate secondary CTAs for findability and AI clarity in %s',
+    (locale) => {
+      const copy = getOutcomeGroupPanelCopy('growth-visibility', locale)
+      const findability = copy.situations.find((item) => item.id === 'findability')
+      const aiClarity = copy.situations.find((item) => item.id === 'ai-clarity')
+
+      expect(findability).toMatchObject({
+        estimatePath: '/visibility-improvement-estimate',
+        estimateLabel:
+          locale === 'fr' ? 'Estimer l’investissement d’amélioration' : 'Estimate improvement investment',
+      })
+      expect(aiClarity).toMatchObject({
+        estimatePath: '/visibility-improvement-estimate',
+        estimateLabel:
+          locale === 'fr' ? 'Estimer l’investissement d’amélioration' : 'Estimate improvement investment',
+      })
+      expect(copy.evidenceMode).toBe('link')
+    },
+  )
 
   it.each(['en', 'fr'] as const)('uses capacity pressures instead of AI jargon for automation %s', (locale) => {
     const copy = getOutcomeGroupPanelCopy('automation-ai', locale)

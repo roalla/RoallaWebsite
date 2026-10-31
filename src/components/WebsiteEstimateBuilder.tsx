@@ -31,7 +31,7 @@ const copy = {
     eyebrow: 'Website package estimator',
     title: 'Build a clear first-year website estimate.',
     intro:
-      'Start with the required launch foundation and domain term. Optional add-ons stay separate—open them only if you want email, social, or hosting support.',
+      'Start with the required launch foundation and website address. Optional add-ons stay separate—open them only if you want email, social media profiles, or hosting support.',
     outcomeClarity: 'Explain your value clearly',
     outcomeDiscovery: 'Help customers find you',
     outcomeAction: 'Make the next step easy',
@@ -51,16 +51,19 @@ const copy = {
     copyBooking: 'Copywriting and booking integration',
     copyBookingWhat: 'Client-friendly service messaging connected to the selected booking path.',
     copyBookingWhy: 'Helps visitors understand the offer and move from interest to an inquiry with less friction.',
-    visibility: 'Help search and AI find and describe your business (SEO, AEO, agentic AI)',
+    visibility: 'Help search and AI find and describe your business',
     visibilityWhat: 'Clear public signals so search tools and AI assistants can understand what you offer.',
-    visibilityWhy: 'Helps the right customers discover and understand the business when configured properly. Rankings are not guaranteed.',
-    domainTitle: 'Domain',
-    domainIntro: 'Do you already own a domain name, or do you need ROALLA to register one for you?',
-    domainExisting: 'I already have a domain',
-    domainExistingValue: 'No domain cost in this estimate. You will provide access during development so the site can go live on your domain.',
-    domainNew: 'I need a new domain',
-    domainNewValue: 'Choose a registration term. The domain will be owned by you.',
-    domainTermTitle: 'Choose your domain term',
+    visibilityWhy:
+      'Helps the right customers discover and understand the business when configured properly (SEO, AEO, agentic AI). Rankings are not guaranteed.',
+    domainTitle: 'Website address',
+    domainIntro:
+      'Do you already have a website address (domain), or do you need ROALLA to register one for you?',
+    domainExisting: 'I already have a website address',
+    domainExistingValue:
+      'No registration cost in this estimate. You will provide access during development so the site can go live on your address.',
+    domainNew: 'I need a new website address',
+    domainNewValue: 'Choose a registration term. The address will be owned by you.',
+    domainTermTitle: 'Choose how long to register it',
     oneYear: '1 year',
     twoYears: '2 years',
     threeYears: '3 years',
@@ -69,21 +72,24 @@ const copy = {
     emailTitle: 'Professional email',
     emailPopular: 'Most clients add this',
     emailLabel: 'Add professional email setup and Microsoft 365 Business Basic',
-    emailValue: 'Your email matches the website domain—for example, name@yourbusiness.ca.',
+    emailValue: 'Your email matches the website address—for example, name@yourbusiness.ca.',
     emailCost: '$150 setup + $114/year',
     extrasTitle: 'Additional options',
-    extrasLabel: 'I want social setup or hosting options',
-    extrasValue: 'Open this only if you want social profile setup or ROALLA hosting and care. Otherwise leave it unchecked.',
-    socialTitle: 'Social tools setup',
-    socialValue: 'Professional profile configuration with consistent names, bios, images, links, contact details and security settings.',
-    noSocial: 'No social setup',
+    extrasLabel: 'I want social media profiles or hosting options',
+    extrasValue:
+      'Open this only if you want social media profile setup or ROALLA hosting and care. Otherwise leave it unchecked.',
+    socialTitle: 'Social media profile setup',
+    socialValue:
+      'Professional profile configuration with consistent names, bios, images, links, contact details and security settings.',
+    noSocial: 'No social media setup',
     instagram: 'Instagram',
     youtube: 'YouTube',
     linkedin: 'LinkedIn',
     bundle: 'Instagram + YouTube + LinkedIn',
     bundleSavings: 'Bundle savings',
     hostingTitle: 'Choose your hosting path',
-    hostingIntro: 'Choose how much of the technical upkeep you want to manage yourself. Your website and domain remain yours with every option.',
+    hostingIntro:
+      'Choose how much of the technical upkeep you want to manage yourself. Your website and website address remain yours with every option.',
     hostingDetailHint: 'Tap More detail on any option if you want the full explanation.',
     hostingMoreDetail: 'More detail',
     hostingHideDetail: 'Hide detail',
@@ -117,14 +123,14 @@ const copy = {
     summaryTitle: 'Your preliminary estimate',
     coreServices: 'Core professional services',
     referralDiscount: 'Community referral discount',
-    domain: 'Domain registration',
+    domain: 'Website address registration',
     emailSetup: 'Professional email setup',
     emailAnnual: 'Microsoft 365 Business Basic — first year',
-    socialSetup: 'Social tools setup',
-    domainTermOne: '1-year domain',
-    domainTermTwo: '2-year domain',
-    domainTermThree: '3-year domain',
-    domainExistingSummary: 'Existing domain (no registration cost)',
+    socialSetup: 'Social media profile setup',
+    domainTermOne: '1-year website address',
+    domainTermTwo: '2-year website address',
+    domainTermThree: '3-year website address',
+    domainExistingSummary: 'Existing website address (no registration cost)',
     hostingFirstYear: 'Hosting and care — projected first year',
     ownHostingNote: 'Client-selected hosting provider fees are not included.',
     subtotal: 'First-year estimate before HST',
@@ -134,12 +140,14 @@ const copy = {
     disclaimer:
       'This is a preliminary, non-binding estimate based on your selections. ROALLA confirms scope, compatibility, timing and final pricing in writing before work begins.',
     cta: 'Request scope confirmation',
+    crossLinkVisibility: 'Already have a site? Estimate search and AI visibility improvements',
+    crossLinkEmail: 'Emails not reaching clients? Estimate email reach and setup',
   },
   fr: {
     eyebrow: 'Estimateur de forfait Web',
     title: 'Préparez une estimation claire pour la première année.',
     intro:
-      'Commencez par la base de lancement et la durée du domaine. Les options restent séparées—ouvrez-les seulement si vous voulez le courriel, les médias sociaux ou l’hébergement.',
+      'Commencez par la base de lancement et l’adresse du site. Les options restent séparées—ouvrez-les seulement si vous voulez le courriel, les profils de médias sociaux ou l’hébergement.',
     outcomeClarity: 'Expliquer clairement votre valeur',
     outcomeDiscovery: 'Aider les clients à vous trouver',
     outcomeAction: 'Faciliter la prochaine étape',
@@ -159,16 +167,19 @@ const copy = {
     copyBooking: 'Rédaction et intégration de la réservation',
     copyBookingWhat: 'Des messages clairs sur les services, reliés au parcours de réservation choisi.',
     copyBookingWhy: 'Aide les visiteurs à comprendre l’offre et à passer plus facilement de l’intérêt à une demande.',
-    visibility: 'Aider la recherche et l’IA à trouver et décrire votre entreprise (SEO, AEO, IA agentique)',
+    visibility: 'Aider la recherche et l’IA à trouver et décrire votre entreprise',
     visibilityWhat: 'Des signaux publics clairs pour que les outils de recherche et les assistants IA comprennent votre offre.',
-    visibilityWhy: 'Aide les bons clients à découvrir et comprendre l’entreprise lorsque la configuration est adéquate. Aucun classement n’est garanti.',
-    domainTitle: 'Domaine',
-    domainIntro: 'Possédez-vous déjà un nom de domaine, ou ROALLA doit-elle en enregistrer un pour vous?',
-    domainExisting: 'J’ai déjà un domaine',
-    domainExistingValue: 'Aucun coût de domaine dans cette estimation. Vous fournirez l’accès pendant le développement pour mettre le site en ligne sur votre domaine.',
-    domainNew: 'J’ai besoin d’un nouveau domaine',
-    domainNewValue: 'Choisissez une durée d’enregistrement. Le domaine vous appartiendra.',
-    domainTermTitle: 'Choisissez la durée du domaine',
+    visibilityWhy:
+      'Aide les bons clients à découvrir et comprendre l’entreprise lorsque la configuration est adéquate (SEO, AEO, IA agentique). Aucun classement n’est garanti.',
+    domainTitle: 'Adresse du site',
+    domainIntro:
+      'Avez-vous déjà une adresse de site (domaine), ou ROALLA doit-elle en enregistrer une pour vous?',
+    domainExisting: 'J’ai déjà une adresse de site',
+    domainExistingValue:
+      'Aucun coût d’enregistrement dans cette estimation. Vous fournirez l’accès pendant le développement pour mettre le site en ligne sur votre adresse.',
+    domainNew: 'J’ai besoin d’une nouvelle adresse de site',
+    domainNewValue: 'Choisissez une durée d’enregistrement. L’adresse vous appartiendra.',
+    domainTermTitle: 'Choisissez la durée d’enregistrement',
     oneYear: '1 an',
     twoYears: '2 ans',
     threeYears: '3 ans',
@@ -177,21 +188,24 @@ const copy = {
     emailTitle: 'Courriel professionnel',
     emailPopular: 'La plupart des clients ajoutent ceci',
     emailLabel: 'Ajouter la configuration du courriel professionnel et Microsoft 365 Business Basic',
-    emailValue: 'Votre courriel correspond au domaine du site, par exemple nom@votreentreprise.ca.',
+    emailValue: 'Votre courriel correspond à l’adresse du site, par exemple nom@votreentreprise.ca.',
     emailCost: '150 $ de configuration + 114 $/an',
     extrasTitle: 'Options supplémentaires',
-    extrasLabel: 'Je veux la configuration sociale ou des options d’hébergement',
-    extrasValue: 'Ouvrez ceci seulement si vous voulez la configuration des profils sociaux ou l’hébergement et l’entretien ROALLA. Sinon, laissez décoché.',
-    socialTitle: 'Configuration des médias sociaux',
-    socialValue: 'Configuration professionnelle et cohérente des noms, biographies, images, liens, coordonnées et paramètres de sécurité.',
-    noSocial: 'Aucune configuration sociale',
+    extrasLabel: 'Je veux des profils de médias sociaux ou des options d’hébergement',
+    extrasValue:
+      'Ouvrez ceci seulement si vous voulez la configuration des profils de médias sociaux ou l’hébergement et l’entretien ROALLA. Sinon, laissez décoché.',
+    socialTitle: 'Configuration des profils de médias sociaux',
+    socialValue:
+      'Configuration professionnelle et cohérente des noms, biographies, images, liens, coordonnées et paramètres de sécurité.',
+    noSocial: 'Aucune configuration de médias sociaux',
     instagram: 'Instagram',
     youtube: 'YouTube',
     linkedin: 'LinkedIn',
     bundle: 'Instagram + YouTube + LinkedIn',
     bundleSavings: 'Économie groupée',
     hostingTitle: 'Choisissez votre hébergement',
-    hostingIntro: 'Choisissez la part de l’entretien technique que vous souhaitez gérer. Votre site et votre domaine restent à vous avec chaque option.',
+    hostingIntro:
+      'Choisissez la part de l’entretien technique que vous souhaitez gérer. Votre site et son adresse restent à vous avec chaque option.',
     hostingDetailHint: 'Touchez Plus de détails sur une option pour voir l’explication complète.',
     hostingMoreDetail: 'Plus de détails',
     hostingHideDetail: 'Masquer les détails',
@@ -225,14 +239,14 @@ const copy = {
     summaryTitle: 'Votre estimation préliminaire',
     coreServices: 'Services professionnels de base',
     referralDiscount: 'Rabais de recommandation communautaire',
-    domain: 'Enregistrement du domaine',
+    domain: 'Enregistrement de l’adresse du site',
     emailSetup: 'Configuration du courriel professionnel',
     emailAnnual: 'Microsoft 365 Business Basic — première année',
-    socialSetup: 'Configuration des médias sociaux',
-    domainTermOne: 'Domaine 1 an',
-    domainTermTwo: 'Domaine 2 ans',
-    domainTermThree: 'Domaine 3 ans',
-    domainExistingSummary: 'Domaine existant (aucun coût d’enregistrement)',
+    socialSetup: 'Configuration des profils de médias sociaux',
+    domainTermOne: 'Adresse de site — 1 an',
+    domainTermTwo: 'Adresse de site — 2 ans',
+    domainTermThree: 'Adresse de site — 3 ans',
+    domainExistingSummary: 'Adresse de site existante (aucun coût d’enregistrement)',
     hostingFirstYear: 'Hébergement et entretien — première année projetée',
     ownHostingNote: 'Les frais de votre propre fournisseur d’hébergement ne sont pas inclus.',
     subtotal: 'Estimation de la première année avant TVH',
@@ -242,6 +256,8 @@ const copy = {
     disclaimer:
       'Cette estimation préliminaire est non contraignante. ROALLA confirmera la portée, la compatibilité, l’échéancier et le prix final par écrit avant le début des travaux.',
     cta: 'Demander la confirmation de la portée',
+    crossLinkVisibility: 'Vous avez déjà un site? Estimez les améliorations de visibilité recherche et IA',
+    crossLinkEmail: 'Les courriels n’atteignent pas les clients? Estimez la portée et la configuration',
   },
 } as const
 
@@ -731,6 +747,20 @@ export default function WebsiteEstimateBuilder() {
             </div>
             <p className="mt-5 text-xs leading-5 text-slate-600">{t.disclaimer}</p>
             <Link href={{ pathname: '/contact', query: contactQuery }} className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-primary px-5 py-3 text-center font-bold text-white transition hover:bg-primary-dark">{t.cta}</Link>
+            <div className="mt-5 space-y-2 border-t border-slate-200 pt-4 text-sm leading-6 text-slate-700">
+              <p className="flex gap-2">
+                <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                <Link href="/visibility-improvement-estimate" className="font-semibold text-primary-dark underline-offset-4 hover:underline">
+                  {t.crossLinkVisibility}
+                </Link>
+              </p>
+              <p className="flex gap-2">
+                <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                <Link href="/email-reach-estimate" className="font-semibold text-primary-dark underline-offset-4 hover:underline">
+                  {t.crossLinkEmail}
+                </Link>
+              </p>
+            </div>
           </div>
         </aside>
       </div>

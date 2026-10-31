@@ -23,6 +23,8 @@ export type OutcomeGroupSituationDetail = {
   solutions: readonly string[]
 }
 
+export type EstimatePath = '/visibility-improvement-estimate' | '/email-reach-estimate'
+
 export type OutcomeGroupSituation = {
   id: string
   label: string
@@ -32,6 +34,8 @@ export type OutcomeGroupSituation = {
   evidencePath: EvidencePath
   evidenceLabel: string
   evidenceNote?: string
+  estimatePath?: EstimatePath
+  estimateLabel?: string
   pathwaySlug: SolutionPathId
   contactIntent: ConsultationIntent
   contactFocus?: ConsultingFocus
@@ -96,6 +100,8 @@ const growthEn: OutcomeGroupPanelCopy = {
       evidencePath: '/tools/digital-presence-snapshot',
       evidenceLabel: 'Check my website',
       evidenceNote: 'Free website check. No email required. Public landing page only.',
+      estimatePath: '/visibility-improvement-estimate',
+      estimateLabel: 'Estimate improvement investment',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
       detail: {
@@ -156,6 +162,8 @@ const growthEn: OutcomeGroupPanelCopy = {
       evidencePath: '/website-ai-visibility-review',
       evidenceLabel: 'Check how search and AI describe you',
       evidenceNote: 'Start with what the public can already see—no technical project required to begin.',
+      estimatePath: '/visibility-improvement-estimate',
+      estimateLabel: 'Estimate improvement investment',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
       detail: {
@@ -186,6 +194,8 @@ const growthEn: OutcomeGroupPanelCopy = {
       evidencePath: '/tools/email-reach-brief',
       evidenceLabel: 'Check if your emails are getting through',
       evidenceNote: 'A short plain-language brief—optional to talk with us afterward.',
+      estimatePath: '/email-reach-estimate',
+      estimateLabel: 'Estimate email setup and reach work',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
       detail: {
@@ -207,7 +217,7 @@ const growthEn: OutcomeGroupPanelCopy = {
   detailIssuesLabel: 'Common issues',
   detailApproachLabel: 'Our approach',
   detailSolutionsLabel: 'Example solutions',
-  evidenceMode: 'domain',
+  evidenceMode: 'link',
   domainLabel: 'Your website address',
   domainPlaceholder: 'yourbusiness.ca',
   domainCta: 'Check my website',
@@ -284,6 +294,8 @@ const growthFr: OutcomeGroupPanelCopy = {
       evidencePath: '/tools/digital-presence-snapshot',
       evidenceLabel: 'Vérifier mon site',
       evidenceNote: 'Vérification gratuite du site. Aucun courriel requis. Page d’arrivée publique seulement.',
+      estimatePath: '/visibility-improvement-estimate',
+      estimateLabel: 'Estimer l’investissement d’amélioration',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
       detail: {
@@ -344,6 +356,8 @@ const growthFr: OutcomeGroupPanelCopy = {
       evidencePath: '/website-ai-visibility-review',
       evidenceLabel: 'Voir comment la recherche et l’IA vous décrivent',
       evidenceNote: 'Commencez par ce que le public peut déjà voir—aucun projet technique requis pour débuter.',
+      estimatePath: '/visibility-improvement-estimate',
+      estimateLabel: 'Estimer l’investissement d’amélioration',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
       detail: {
@@ -374,6 +388,8 @@ const growthFr: OutcomeGroupPanelCopy = {
       evidencePath: '/tools/email-reach-brief',
       evidenceLabel: 'Vérifier si vos courriels passent',
       evidenceNote: 'Un court aperçu en langage simple—parler avec nous ensuite est optionnel.',
+      estimatePath: '/email-reach-estimate',
+      estimateLabel: 'Estimer la configuration et la portée courriel',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
       detail: {
@@ -395,7 +411,7 @@ const growthFr: OutcomeGroupPanelCopy = {
   detailIssuesLabel: 'Problèmes courants',
   detailApproachLabel: 'Notre approche',
   detailSolutionsLabel: 'Exemples de solutions',
-  evidenceMode: 'domain',
+  evidenceMode: 'link',
   domainLabel: 'Adresse de votre site Web',
   domainPlaceholder: 'votreentreprise.ca',
   domainCta: 'Vérifier mon site',

@@ -32,7 +32,7 @@ export default function PartnersBrandLockup({
         }`}
       >
         <Image
-          src="/logo.svg"
+          src="/roalla-logo-2027.svg"
           alt=""
           width={dim.img}
           height={dim.img}

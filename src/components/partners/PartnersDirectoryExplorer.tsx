@@ -400,7 +400,7 @@ export default function PartnersDirectoryExplorer({
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                       <span className="inline-flex items-center gap-1.5 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-slate-500">
-                        <Image src="/logo.svg" alt="" width={14} height={14} className="h-3.5 w-3.5 opacity-80" />
+                        <Image src="/roalla-logo-2027.svg" alt="" width={14} height={14} className="h-3.5 w-3.5 opacity-80" />
                         {curatorLabel}
                       </span>
                       <span className="text-slate-300" aria-hidden>

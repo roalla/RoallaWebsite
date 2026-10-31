@@ -227,7 +227,7 @@ function SlideBody({ slide, presenting, index, total, stageLabels, qrSrc, qrAlt 
 
       <div className="relative flex items-center justify-between gap-4 px-5 pt-5 sm:px-8">
         <p className="flex items-center gap-2 text-[11px] font-semibold tracking-[0.32em] text-white">
-          <Image src="/logo.svg" alt="" width={20} height={20} className="h-5 w-5" />
+          <Image src="/roalla-logo-2027.svg" alt="" width={20} height={20} className="h-5 w-5" />
           ROALLA
         </p>
         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-light">{slide.kicker}</p>

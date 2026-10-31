@@ -61,7 +61,7 @@ export default function ToolkitReleaseConsole({ locale, operatorName }: Props) {
       <header className="border-b border-white/10 bg-slate-950 text-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-5 py-5 sm:px-8">
           <a href="https://sso.roalla.com/home.html" className="flex items-center gap-3" aria-label="Return to Roalla Home">
-            <img src="/roalla-logo.svg" alt="" width="38" height="38" className="h-9 w-9" />
+            <img src="/roalla-logo-2027.svg" alt="" width="38" height="38" className="h-9 w-9" />
             <span className="leading-none"><strong className="block text-lg tracking-[0.18em] text-white">ROALLA</strong><span className="mt-1 block text-xs text-slate-300">Client delivery</span></span>
           </a>
           <div className="text-right text-xs text-slate-300"><span className="block">Signed in</span><strong className="text-white">{operatorName || 'ROALLA operator'}</strong></div>

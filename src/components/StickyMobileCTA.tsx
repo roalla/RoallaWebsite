@@ -97,7 +97,7 @@ export default function StickyMobileCTA({
   const labelBlock = (
     <>
       <span className="inline-flex items-center gap-2">
-        {brandMark ? <Image src="/logo.svg" alt="" width={18} height={18} className="h-[18px] w-[18px]" /> : null}
+        {brandMark ? <Image src="/roalla-logo-2027.svg" alt="" width={18} height={18} className="h-[18px] w-[18px]" /> : null}
         {label}
       </span>
       {sublabel ? <span className="mt-0.5 text-[11px] font-normal text-white">{sublabel}</span> : null}

@@ -866,7 +866,7 @@ const Header = ({
             >
               <div className="flex-shrink-0">
                 <Image
-                  src="/logo.svg"
+                  src="/roalla-logo-2027.svg"
                   alt=""
                   width={40}
                   height={40}

@@ -59,7 +59,7 @@ const Footer = () => {
           <div className="md:col-span-5 lg:col-span-4">
             <Link href="/" className="inline-flex items-center gap-3 group mb-5">
               <Image
-                src="/logo.svg"
+                src="/roalla-logo-2027.svg"
                 alt=""
                 width={40}
                 height={40}

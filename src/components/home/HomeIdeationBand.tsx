@@ -26,7 +26,7 @@ export default function HomeIdeationBand() {
         <div className="max-w-4xl mx-auto text-center">
           <div className="flex justify-center mb-4">
             <Image
-              src="/logo.svg"
+              src="/roalla-logo-2027.svg"
               alt={`${tCommon('companyName')} logo`}
               width={48}
               height={48}

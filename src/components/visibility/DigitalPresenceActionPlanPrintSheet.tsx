@@ -300,7 +300,7 @@ export default function DigitalPresenceActionPlanPrintSheet({
       <header style={{ background: "#07111f", color: "#fff", padding: "14px 18px 10px" }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
                     <p style={{ display: "flex", alignItems: "center", gap: 10, margin: 0, letterSpacing: "0.28em", fontSize: 13, fontWeight: 700 }}>
-                      <img src="/logo.svg" alt="" width={28} height={28} style={{ width: 28, height: 28 }} />
+                      <img src="/roalla-logo-2027.svg" alt="" width={28} height={28} style={{ width: 28, height: 28 }} />
                       ROALLA
                     </p>
                     <p style={{ margin: 0, fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "#7fd4de" }}>

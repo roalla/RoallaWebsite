@@ -180,7 +180,7 @@ export default function AssessmentPrintSheet({
               <header style={{ background: '#07111f', color: '#fff', padding: '14px 20px 12px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <img src="/logo.svg" alt="" width={30} height={30} style={{ width: 30, height: 30 }} />
+                    <img src="/roalla-logo-2027.svg" alt="" width={30} height={30} style={{ width: 30, height: 30 }} />
                     <div>
                       <p style={{ margin: 0, fontSize: 14, fontWeight: 800, letterSpacing: '0.24em' }}>ROALLA</p>
                       <p style={{ margin: '2px 0 0', fontSize: 8, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#cbd5e1' }}>Business Enablement Group</p>

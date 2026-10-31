@@ -51,7 +51,7 @@ export default function PartnersLogoStrip() {
             className="group/item z-[1] flex min-h-20 w-36 shrink-0 flex-col items-center justify-center rounded-2xl border border-slate-900 bg-slate-950 px-3 py-3 text-center shadow-sm transition hover:-translate-y-0.5 hover:border-primary hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:w-40 md:w-44"
           >
             <span className="flex h-10 w-full items-center justify-center">
-              <Image src="/logo.svg" alt="" width={36} height={36} className="h-9 w-9" />
+              <Image src="/roalla-logo-2027.svg" alt="" width={36} height={36} className="h-9 w-9" />
             </span>
             <span className="mt-1.5 text-[0.65rem] font-bold uppercase tracking-[0.08em] text-white">
               {tCommon('companyName')}

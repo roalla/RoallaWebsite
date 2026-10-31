@@ -775,6 +775,7 @@
     "estimateEchoTitle": "Your preliminary website estimate",
     "estimateEchoTotalLabel": "Projected first-year total",
     "estimateEchoSelectionsLabel": "Your selections",
+    "estimateEchoReferralLabel": "Referral code",
     "estimateEchoNote": "These details are already in your request. Add any priorities or timing before you send.",
     "portfolioReferenceGoal": "Inspired by the {project} example in your portfolio — ",
     "portfolioReferenceNote": "Add scope, timeline, or priorities before sending.",

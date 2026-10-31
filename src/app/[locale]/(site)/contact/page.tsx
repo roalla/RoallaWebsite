@@ -131,6 +131,7 @@ function ScheduleContent() {
     (searchParams.get('from_page') === '/website-estimate' || Boolean(searchParams.get('estimate_total')))
   const estimateTotal = searchParams.get('estimate_total')
   const estimateSummary = searchParams.get('estimate_summary')
+  const estimateReferralCode = searchParams.get('estimate_referral_code')?.trim().toUpperCase() || null
   const tFounding = useTranslations('foundingClient')
   const packagePrefillGoal = (() => {
     if (!fromPackageOffer) return null
@@ -220,6 +221,14 @@ function ScheduleContent() {
                 <div className="mt-4 rounded-xl bg-white/80 p-4">
                   <p className="text-xs font-bold uppercase tracking-wide text-slate-600">{t('estimateEchoSelectionsLabel')}</p>
                   <p className="mt-2 text-sm leading-6 text-slate-800">{estimateSummary}</p>
+                  {estimateReferralCode ? (
+                    <p className="mt-3 flex flex-wrap items-center gap-2 text-sm text-slate-800">
+                      <span className="font-semibold">{t('estimateEchoReferralLabel')}</span>
+                      <span className="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-emerald-900">
+                        {estimateReferralCode}
+                      </span>
+                    </p>
+                  ) : null}
                 </div>
               ) : null}
               <p className="mt-3 text-sm leading-6 text-slate-700">{t('estimateEchoNote')}</p>

@@ -775,6 +775,7 @@
     "estimateEchoTitle": "Votre estimation Web préliminaire",
     "estimateEchoTotalLabel": "Total projeté de la première année",
     "estimateEchoSelectionsLabel": "Vos sélections",
+    "estimateEchoReferralLabel": "Code de recommandation",
     "estimateEchoNote": "Ces détails sont déjà dans votre demande. Ajoutez vos priorités ou l’échéancier avant d’envoyer.",
     "portfolioReferenceGoal": "Inspiré par l'exemple {project} dans votre portfolio — ",
     "portfolioReferenceNote": "Ajoutez la portée, l'échéancier ou les priorités avant d'envoyer.",

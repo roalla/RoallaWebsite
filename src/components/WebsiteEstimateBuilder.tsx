@@ -285,6 +285,7 @@ export default function WebsiteEstimateBuilder() {
   const [hosting, setHosting] = useState<HostingChoice>('own')
   const [expandedHosting, setExpandedHosting] = useState<HostingChoice | null>(null)
   const [code, setCode] = useState('')
+  const [appliedReferralCode, setAppliedReferralCode] = useState('')
   const [referralApplied, setReferralApplied] = useState(false)
   const [codeStatus, setCodeStatus] = useState<'idle' | 'loading' | 'invalid' | 'error'>('idle')
 
@@ -334,13 +335,20 @@ export default function WebsiteEstimateBuilder() {
           ? t.domainTermTwo
           : t.domainTermThree
 
+  const referralSummaryLabel =
+    referralApplied && appliedReferralCode
+      ? `${t.referralDiscount} (${appliedReferralCode})`
+      : referralApplied
+        ? t.referralDiscount
+        : null
+
   const selectionLines = [
     t.coreServices,
     domainSummaryLabel,
     email ? t.emailSetup : null,
     socialSummaryLabel,
     hostingSummaryLabel ?? t.ownHosting,
-    referralApplied ? t.referralDiscount : null,
+    referralSummaryLabel,
   ].filter(Boolean) as string[]
 
   const estimateSummary = selectionLines.join(' · ')
@@ -349,28 +357,34 @@ export default function WebsiteEstimateBuilder() {
   const applyReferralCode = async (event: React.FormEvent) => {
     event.preventDefault()
     setCodeStatus('loading')
+    const normalizedCode = code.trim().toUpperCase()
     try {
       const response = await fetch('/api/website-estimate/referral', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code }),
+        body: JSON.stringify({ code: normalizedCode }),
       })
       const result = (await response.json()) as { valid?: boolean }
       if (response.ok && result.valid) {
+        setCode(normalizedCode)
+        setAppliedReferralCode(normalizedCode)
         setReferralApplied(true)
         setCodeStatus('idle')
       } else {
         setReferralApplied(false)
+        setAppliedReferralCode('')
         setCodeStatus('invalid')
       }
     } catch {
       setReferralApplied(false)
+      setAppliedReferralCode('')
       setCodeStatus('error')
     }
   }
 
   const removeReferral = () => {
     setReferralApplied(false)
+    setAppliedReferralCode('')
     setCode('')
     setCodeStatus('idle')
   }
@@ -384,6 +398,7 @@ export default function WebsiteEstimateBuilder() {
     goal: estimateGoal,
     estimate_total: estimateTotalLabel,
     estimate_summary: estimateSummary,
+    ...(appliedReferralCode ? { estimate_referral_code: appliedReferralCode } : {}),
   }
 
   return (
@@ -691,7 +706,19 @@ export default function WebsiteEstimateBuilder() {
             <div className="flex items-center gap-2"><Sparkles className="h-5 w-5 text-primary" aria-hidden /><h2 className="text-xl font-serif font-bold text-slate-950">{t.summaryTitle}</h2></div>
             <dl className="mt-5 space-y-3 text-sm">
               <div className="flex justify-between gap-4"><dt className="text-slate-700">{t.coreServices}</dt><dd className="font-semibold tabular-nums text-slate-900">{money(WEBSITE_ESTIMATE_CORE_PRICE)}</dd></div>
-              {estimate.referralDiscount > 0 ? <div className="flex justify-between gap-4 text-emerald-700"><dt>{t.referralDiscount}</dt><dd className="font-semibold tabular-nums">–{money(estimate.referralDiscount)}</dd></div> : null}
+              {estimate.referralDiscount > 0 ? (
+                <div className="flex justify-between gap-4 text-emerald-700">
+                  <dt className="flex min-w-0 flex-wrap items-center gap-2">
+                    <span>{t.referralDiscount}</span>
+                    {appliedReferralCode ? (
+                      <span className="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-emerald-900">
+                        {appliedReferralCode}
+                      </span>
+                    ) : null}
+                  </dt>
+                  <dd className="font-semibold tabular-nums">–{money(estimate.referralDiscount)}</dd>
+                </div>
+              ) : null}
               <div className="flex justify-between gap-4"><dt className="text-slate-700">{domainSummaryLabel}</dt><dd className="font-semibold tabular-nums text-slate-900">{domainSource === 'existing' ? money(0) : money(estimate.domain)}</dd></div>
               {email ? <><div className="flex justify-between gap-4"><dt className="text-slate-700">{t.emailSetup}</dt><dd className="font-semibold tabular-nums text-slate-900">{money(estimate.emailSetup)}</dd></div><div className="flex justify-between gap-4"><dt className="text-slate-700">{t.emailAnnual}</dt><dd className="font-semibold tabular-nums text-slate-900">{money(estimate.emailAnnual)}</dd></div></> : null}
               {socialSummaryLabel && estimate.socialSetup > 0 ? <div className="flex justify-between gap-4"><dt className="text-slate-700">{socialSummaryLabel}</dt><dd className="font-semibold tabular-nums text-slate-900">{money(estimate.socialSetup)}</dd></div> : null}

@@ -61,11 +61,25 @@ const copy = {
     bundle: 'Instagram + YouTube + LinkedIn',
     bundleSavings: 'Bundle savings',
     hostingTitle: 'Choose your hosting path',
+    hostingIntro: 'Choose how much of the technical upkeep you want to manage yourself. Your website and domain remain yours with every option.',
+    hostingDetailHint: 'Hover or focus on an option for more detail.',
     ownHosting: 'My own hosting provider',
-    ownHostingValue: 'ROALLA will configure the website on your compatible platform of choice. Provider fees are separate.',
+    ownHostingValue: 'Use a compatible provider you already trust; ROALLA will configure the website there.',
+    ownHostingBestFor: 'Best when you already manage hosting',
+    ownHostingDetail: 'You choose and pay the provider directly, and you remain responsible for its account, billing, renewals and support. ROALLA confirms compatibility and configures the completed website on that platform. Provider fees are separate.',
     launchHosting: 'ROALLA Launch Hosting',
+    launchHostingValue: 'A simple, professionally managed home for your new website without another platform to configure.',
+    launchHostingBestFor: 'Simple, low-maintenance launch',
+    launchHostingDetail: 'Includes the hosting environment, launch configuration and secure website connection needed to put the site online. It is designed for clients who want reliable hosting but do not need ongoing content changes or a monthly care plan.',
     careLite: 'Care Lite',
+    careLiteValue: 'Hosting plus ongoing technical care for a site that needs occasional help after launch.',
+    careLiteBestFor: 'Best balance for most small businesses',
+    careLiteDetail: 'Adds an ongoing support path for routine website maintenance and minor requests, so you are not left to solve technical issues alone. Final response times, request limits and included work are confirmed in your written scope.',
     care: 'ROALLA Care',
+    careValue: 'More hands-on website care for a business that expects regular updates and continued improvement.',
+    careBestFor: 'For active, evolving websites',
+    careDetail: 'Adds a higher level of ongoing support for website updates, health checks and improvement needs. It is the strongest fit when the site will change regularly. Final service levels, request limits and included work are confirmed in your written scope.',
+    recommended: 'Popular choice',
     perYear: '/year',
     perMonth: '/month',
     codeTitle: 'Have a referral code?',
@@ -138,11 +152,25 @@ const copy = {
     bundle: 'Instagram + YouTube + LinkedIn',
     bundleSavings: 'Économie groupée',
     hostingTitle: 'Choisissez votre hébergement',
+    hostingIntro: 'Choisissez la part de l’entretien technique que vous souhaitez gérer. Votre site et votre domaine restent à vous avec chaque option.',
+    hostingDetailHint: 'Survolez une option ou placez-y le focus pour voir plus de détails.',
     ownHosting: 'Mon propre fournisseur',
-    ownHostingValue: 'ROALLA configurera le site sur la plateforme compatible de votre choix. Les frais du fournisseur sont séparés.',
+    ownHostingValue: 'Utilisez un fournisseur compatible que vous connaissez déjà; ROALLA y configurera le site.',
+    ownHostingBestFor: 'Idéal si vous gérez déjà l’hébergement',
+    ownHostingDetail: 'Vous choisissez et payez directement le fournisseur, et vous gérez son compte, la facturation, les renouvellements et le soutien. ROALLA confirme la compatibilité et configure le site terminé sur cette plateforme. Les frais du fournisseur sont séparés.',
     launchHosting: 'Hébergement Lancement ROALLA',
+    launchHostingValue: 'Un domicile simple et géré professionnellement pour votre nouveau site, sans autre plateforme à configurer.',
+    launchHostingBestFor: 'Lancement simple et peu exigeant',
+    launchHostingDetail: 'Comprend l’environnement d’hébergement, la configuration de lancement et la connexion sécurisée nécessaires pour mettre le site en ligne. Cette option convient aux clients qui veulent un hébergement fiable sans modifications continues ni forfait mensuel d’entretien.',
     careLite: 'Soins légers',
+    careLiteValue: 'L’hébergement avec un entretien technique continu pour un site qui a parfois besoin d’aide après le lancement.',
+    careLiteBestFor: 'Le meilleur équilibre pour la plupart des PME',
+    careLiteDetail: 'Ajoute un parcours de soutien continu pour l’entretien courant et les petites demandes, afin que vous ne soyez pas seul devant les problèmes techniques. Les délais, limites de demandes et travaux inclus seront confirmés dans la portée écrite.',
     care: 'Soins ROALLA',
+    careValue: 'Un entretien plus actif pour une entreprise qui prévoit des mises à jour régulières et une amélioration continue.',
+    careBestFor: 'Pour les sites actifs et évolutifs',
+    careDetail: 'Ajoute un niveau supérieur de soutien continu pour les mises à jour, les vérifications de santé et les besoins d’amélioration du site. C’est le meilleur choix lorsque le site changera régulièrement. Les niveaux de service, limites de demandes et travaux inclus seront confirmés dans la portée écrite.',
+    recommended: 'Choix populaire',
     perYear: '/an',
     perMonth: '/mois',
     codeTitle: 'Avez-vous un code de recommandation?',
@@ -182,12 +210,16 @@ const socialOptions: Array<{ value: SocialSetup; label: keyof typeof copy.en }> 
 const hostingOptions: Array<{
   value: HostingChoice
   label: keyof typeof copy.en
+  description: keyof typeof copy.en
+  bestFor: keyof typeof copy.en
+  detail: keyof typeof copy.en
   price: string
+  recommended?: boolean
 }> = [
-  { value: 'own', label: 'ownHosting', price: '$0' },
-  { value: 'launch', label: 'launchHosting', price: `$${WEBSITE_ESTIMATE_PRICES.launchHostingAnnual}/year` },
-  { value: 'care-lite', label: 'careLite', price: `$${WEBSITE_ESTIMATE_PRICES.careLiteMonthly}/month` },
-  { value: 'care', label: 'care', price: `$${WEBSITE_ESTIMATE_PRICES.careMonthly}/month` },
+  { value: 'own', label: 'ownHosting', description: 'ownHostingValue', bestFor: 'ownHostingBestFor', detail: 'ownHostingDetail', price: '$0' },
+  { value: 'launch', label: 'launchHosting', description: 'launchHostingValue', bestFor: 'launchHostingBestFor', detail: 'launchHostingDetail', price: `$${WEBSITE_ESTIMATE_PRICES.launchHostingAnnual}/year` },
+  { value: 'care-lite', label: 'careLite', description: 'careLiteValue', bestFor: 'careLiteBestFor', detail: 'careLiteDetail', price: `$${WEBSITE_ESTIMATE_PRICES.careLiteMonthly}/month`, recommended: true },
+  { value: 'care', label: 'care', description: 'careValue', bestFor: 'careBestFor', detail: 'careDetail', price: `$${WEBSITE_ESTIMATE_PRICES.careMonthly}/month` },
 ]
 
 export default function WebsiteEstimateBuilder() {
@@ -405,15 +437,40 @@ export default function WebsiteEstimateBuilder() {
                       <Server className="h-4 w-4 text-primary" aria-hidden />
                       {t.hostingTitle}
                     </h3>
+                    <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-700">{t.hostingIntro}</p>
+                    <p className="mt-1 flex items-center gap-1.5 text-xs font-medium text-primary-dark">
+                      <Info className="h-3.5 w-3.5" aria-hidden />
+                      {t.hostingDetailHint}
+                    </p>
                     <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                      {hostingOptions.map(({ value, label, price }) => (
-                        <label key={value} className={`cursor-pointer rounded-xl border bg-white p-4 transition ${hosting === value ? 'border-primary bg-primary/5 ring-2 ring-primary/15' : 'border-slate-200'}`}>
-                          <input className="sr-only" type="radio" name="hosting" value={value} checked={hosting === value} onChange={() => setHosting(value)} />
+                      {hostingOptions.map(({ value, label, description, bestFor, detail, price, recommended }) => (
+                        <label key={value} className={`group relative cursor-pointer rounded-xl border bg-white p-4 transition hover:z-30 hover:border-primary/60 hover:shadow-md focus-within:z-30 focus-within:border-primary focus-within:shadow-md ${hosting === value ? 'border-primary bg-primary/5 ring-2 ring-primary/15' : 'border-slate-200'}`}>
+                          <input
+                            className="sr-only"
+                            type="radio"
+                            name="hosting"
+                            value={value}
+                            checked={hosting === value}
+                            aria-describedby={`hosting-${value}-description hosting-${value}-detail`}
+                            onChange={() => setHosting(value)}
+                          />
                           <span className="flex items-start justify-between gap-3">
                             <span className="font-semibold text-slate-900">{t[label]}</span>
                             <span className="shrink-0 font-bold text-primary-dark">{price.replace('/year', t.perYear).replace('/month', t.perMonth)}</span>
                           </span>
-                          {value === 'own' ? <span className="mt-2 block text-sm leading-6 text-slate-700">{t.ownHostingValue}</span> : null}
+                          {recommended ? <span className="mt-2 inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.recommended}</span> : null}
+                          <span id={`hosting-${value}-description`} className="mt-2 block text-sm leading-6 text-slate-700">{t[description]}</span>
+                          <span className="mt-3 flex items-center justify-between gap-2 border-t border-slate-200 pt-3 text-xs font-semibold text-primary-dark">
+                            <span>{t[bestFor]}</span>
+                            <Info className="h-4 w-4 shrink-0" aria-hidden />
+                          </span>
+                          <span
+                            id={`hosting-${value}-detail`}
+                            role="tooltip"
+                            className="pointer-events-none absolute left-2 right-2 top-full z-40 mt-2 block translate-y-1 rounded-xl bg-slate-950 p-4 text-sm font-normal leading-6 text-white opacity-0 shadow-xl transition duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100"
+                          >
+                            {t[detail]}
+                          </span>
                         </label>
                       ))}
                     </div>

@@ -4,7 +4,6 @@ import React, { useMemo, useState } from 'react'
 import { CheckCircle, ChevronDown, ChevronUp, Globe2, Info, Mail, PenLine, SearchCheck, Server, Share2, Sparkles, Table2, Tag } from 'lucide-react'
 import { useLocale } from 'next-intl'
 import { Link } from '@/i18n/navigation'
-import EmailSafeText from '@/components/EmailSafeText'
 import {
   calculateWebsiteEstimate,
   DOMAIN_PRICES,
@@ -12,6 +11,7 @@ import {
   WEBSITE_ESTIMATE_PRICES,
   type DomainSource,
   type DomainTerm,
+  type EmailChoice,
   type HostingChoice,
   type SocialSetup,
 } from '@/lib/website-estimate'
@@ -69,11 +69,47 @@ const copy = {
     threeYears: '3 years',
     bestValue: 'Best value',
     selected: 'Selected',
-    emailTitle: 'Professional email',
-    emailPopular: 'Most clients add this',
-    emailLabel: 'Add professional email setup and Microsoft 365 Business Basic',
-    emailValue: 'Your email matches the website address—for example, name@yourbusiness.ca.',
-    emailCost: '$150 setup + $114/year',
+    emailTitle: 'Choose professional email',
+    emailPopular: 'Security-first setup included',
+    emailIntro: 'Match your email to your website address, then choose the tools and working style that fit the business.',
+    emailSetupValue: '$150 one-time ROALLA setup for one domain',
+    emailSetupIncludes: 'Setup includes domain connection, one initial mailbox, multi-factor authentication, administrator recovery, and core SPF, DKIM and DMARC anti-spoofing records. Additional migration or complex compliance work is scoped separately.',
+    emailPrivacyTitle: 'Canadian privacy and security matter',
+    emailPrivacyNote: 'A provider does not make a business compliant by itself. Canadian organizations remain accountable for personal information handled by cloud providers. Consider data location, access controls, retention, contracts and breach procedures based on the sensitivity of the information you handle.',
+    emailSensitiveDataNote: 'Health, financial, legal and other sensitive information may also be subject to provincial or sector-specific requirements. Confirm those obligations before using email for sensitive client information.',
+    emailPrivacyLink: 'Read the Canadian privacy guidance',
+    emailPriceNote: 'Published provider prices checked October 2026. Prices are per user, before tax, on annual commitments, and are paid directly to the provider. Providers may change pricing or features.',
+    emailUsersLabel: 'How many people need their own mailbox?',
+    emailNone: 'No professional email right now',
+    emailNoneValue: 'Continue without email setup. You can add a domain-matched mailbox later.',
+    emailNoneBestFor: 'Best when you are not ready to choose a provider',
+    microsoftBasic: 'Microsoft 365 Business Basic',
+    microsoftBasicValue: 'Business Outlook email with Microsoft’s web and mobile productivity tools.',
+    microsoftBasicBestFor: 'Best overall fit for many professional service businesses',
+    microsoftBasicFeature1: 'Web and mobile Word, Excel, PowerPoint and Outlook',
+    microsoftBasicFeature2: '1 TB cloud storage, Teams and Microsoft Bookings',
+    microsoftBasicFeature3: 'Familiar business identity with spam and malware filtering',
+    microsoftStandard: 'Microsoft 365 Business Standard',
+    microsoftStandardValue: 'Everything in Business Basic, plus installed desktop Office applications.',
+    microsoftStandardBestFor: 'Best when you need full desktop Word, Excel and PowerPoint',
+    microsoftStandardFeature1: 'Installed desktop, web and mobile Office applications',
+    microsoftStandardFeature2: 'Professional email, 1 TB storage, Teams and Bookings',
+    microsoftStandardFeature3: 'Better fit for offline work and advanced document editing',
+    googleStarter: 'Google Workspace Business Starter',
+    googleStarterValue: 'Business Gmail with Google’s browser-first collaboration suite.',
+    googleStarterBestFor: 'Best when you prefer Gmail, Drive and real-time collaboration',
+    googleStarterFeature1: 'Gmail, Drive, Docs, Sheets, Slides and Meet',
+    googleStarterFeature2: '30 GB pooled storage per user',
+    googleStarterFeature3: 'Security and administration controls with a familiar Gmail experience',
+    otherEmail: 'Another provider or email-only plan',
+    otherEmailValue: 'Use an existing provider or a lower-cost compatible service such as Zoho Mail.',
+    otherEmailBestFor: 'Best when price or an existing platform matters most',
+    otherEmailFeature1: 'ROALLA confirms compatibility before configuration',
+    otherEmailFeature2: 'Features, data location and support vary by provider',
+    otherEmailFeature3: 'Provider subscription is quoted or purchased separately',
+    emailRecommended: 'Recommended',
+    emailProviderFeesSeparate: 'Provider fees separate',
+    emailPerUserYear: '/user/year',
     extrasTitle: 'Additional options',
     extrasLabel: 'I want social media profiles or hosting options',
     extrasValue:
@@ -147,7 +183,7 @@ const copy = {
     referralDiscount: 'Community referral discount',
     domain: 'Website address registration',
     emailSetup: 'Professional email setup',
-    emailAnnual: 'Microsoft 365 Business Basic — first year',
+    emailAnnual: 'Email licenses — first year',
     socialSetup: 'Social media profile setup',
     domainTermOne: '1-year website address',
     domainTermTwo: '2-year website address',
@@ -207,11 +243,47 @@ const copy = {
     threeYears: '3 ans',
     bestValue: 'Meilleure valeur',
     selected: 'Sélectionné',
-    emailTitle: 'Courriel professionnel',
-    emailPopular: 'La plupart des clients ajoutent ceci',
-    emailLabel: 'Ajouter la configuration du courriel professionnel et Microsoft 365 Business Basic',
-    emailValue: 'Votre courriel correspond à l’adresse du site, par exemple nom@votreentreprise.ca.',
-    emailCost: '150 $ de configuration + 114 $/an',
+    emailTitle: 'Choisissez votre courriel professionnel',
+    emailPopular: 'Configuration axée sur la sécurité incluse',
+    emailIntro: 'Faites correspondre votre courriel à l’adresse du site, puis choisissez les outils et la façon de travailler qui conviennent à l’entreprise.',
+    emailSetupValue: 'Configuration ROALLA unique de 150 $ pour un domaine',
+    emailSetupIncludes: 'La configuration comprend la connexion du domaine, une première boîte, l’authentification multifacteur, la récupération administrateur et les enregistrements anti-usurpation SPF, DKIM et DMARC. Toute migration ou exigence de conformité complexe est définie séparément.',
+    emailPrivacyTitle: 'La protection des renseignements et la sécurité au Canada comptent',
+    emailPrivacyNote: 'Un fournisseur ne rend pas une entreprise conforme à lui seul. Les organisations canadiennes demeurent responsables des renseignements personnels confiés aux fournisseurs infonuagiques. Évaluez l’emplacement des données, les accès, la conservation, les contrats et les procédures d’incident selon la sensibilité des renseignements traités.',
+    emailSensitiveDataNote: 'Les renseignements sur la santé, financiers, juridiques ou autrement sensibles peuvent aussi être soumis à des exigences provinciales ou sectorielles. Confirmez ces obligations avant d’utiliser le courriel pour des renseignements clients sensibles.',
+    emailPrivacyLink: 'Lire les conseils canadiens sur la vie privée',
+    emailPriceNote: 'Prix publiés vérifiés en octobre 2026. Les prix sont par utilisateur, avant taxes, avec engagement annuel et payés directement au fournisseur. Les fournisseurs peuvent modifier leurs prix ou fonctions.',
+    emailUsersLabel: 'Combien de personnes ont besoin de leur propre boîte?',
+    emailNone: 'Aucun courriel professionnel pour l’instant',
+    emailNoneValue: 'Continuez sans configuration de courriel. Vous pourrez ajouter une boîte liée au domaine plus tard.',
+    emailNoneBestFor: 'Idéal si vous n’êtes pas prêt à choisir un fournisseur',
+    microsoftBasic: 'Microsoft 365 Business Basic',
+    microsoftBasicValue: 'Courriel Outlook professionnel avec les outils Microsoft Web et mobiles.',
+    microsoftBasicBestFor: 'Meilleur choix global pour plusieurs entreprises de services professionnels',
+    microsoftBasicFeature1: 'Word, Excel, PowerPoint et Outlook sur le Web et mobile',
+    microsoftBasicFeature2: '1 To de stockage, Teams et Microsoft Bookings',
+    microsoftBasicFeature3: 'Identité professionnelle familière avec filtrage antipourriel et antimaliciel',
+    microsoftStandard: 'Microsoft 365 Business Standard',
+    microsoftStandardValue: 'Tout le forfait Business Basic, avec les applications Office installées.',
+    microsoftStandardBestFor: 'Idéal si vous avez besoin de Word, Excel et PowerPoint sur ordinateur',
+    microsoftStandardFeature1: 'Applications Office installées, Web et mobiles',
+    microsoftStandardFeature2: 'Courriel professionnel, 1 To, Teams et Bookings',
+    microsoftStandardFeature3: 'Mieux adapté au travail hors ligne et aux documents avancés',
+    googleStarter: 'Google Workspace Business Starter',
+    googleStarterValue: 'Gmail professionnel avec la suite collaborative de Google dans le navigateur.',
+    googleStarterBestFor: 'Idéal si vous préférez Gmail, Drive et la collaboration en temps réel',
+    googleStarterFeature1: 'Gmail, Drive, Docs, Sheets, Slides et Meet',
+    googleStarterFeature2: '30 Go de stockage partagé par utilisateur',
+    googleStarterFeature3: 'Contrôles de sécurité et d’administration avec l’expérience Gmail familière',
+    otherEmail: 'Autre fournisseur ou forfait courriel seulement',
+    otherEmailValue: 'Utilisez un fournisseur existant ou un service compatible moins coûteux comme Zoho Mail.',
+    otherEmailBestFor: 'Idéal lorsque le prix ou une plateforme existante est prioritaire',
+    otherEmailFeature1: 'ROALLA confirme la compatibilité avant la configuration',
+    otherEmailFeature2: 'Les fonctions, l’emplacement des données et le soutien varient',
+    otherEmailFeature3: 'L’abonnement du fournisseur est acheté ou chiffré séparément',
+    emailRecommended: 'Recommandé',
+    emailProviderFeesSeparate: 'Frais du fournisseur séparés',
+    emailPerUserYear: '/utilisateur/an',
     extrasTitle: 'Options supplémentaires',
     extrasLabel: 'Je veux des profils de médias sociaux ou des options d’hébergement',
     extrasValue:
@@ -285,7 +357,7 @@ const copy = {
     referralDiscount: 'Rabais de recommandation communautaire',
     domain: 'Enregistrement de l’adresse du site',
     emailSetup: 'Configuration du courriel professionnel',
-    emailAnnual: 'Microsoft 365 Business Basic — première année',
+    emailAnnual: 'Licences de courriel — première année',
     socialSetup: 'Configuration des profils de médias sociaux',
     domainTermOne: 'Adresse de site — 1 an',
     domainTermTwo: 'Adresse de site — 2 ans',
@@ -311,6 +383,58 @@ const socialOptions: Array<{ value: SocialSetup; label: keyof typeof copy.en }> 
   { value: 'youtube', label: 'youtube' },
   { value: 'linkedin', label: 'linkedin' },
   { value: 'bundle', label: 'bundle' },
+]
+
+const emailOptions: Array<{
+  value: EmailChoice
+  label: keyof typeof copy.en
+  description: keyof typeof copy.en
+  bestFor: keyof typeof copy.en
+  features: readonly [keyof typeof copy.en, keyof typeof copy.en, keyof typeof copy.en] | readonly []
+  annual: number | null
+  recommended?: boolean
+}> = [
+  {
+    value: 'none',
+    label: 'emailNone',
+    description: 'emailNoneValue',
+    bestFor: 'emailNoneBestFor',
+    features: [],
+    annual: 0,
+  },
+  {
+    value: 'microsoft-basic',
+    label: 'microsoftBasic',
+    description: 'microsoftBasicValue',
+    bestFor: 'microsoftBasicBestFor',
+    features: ['microsoftBasicFeature1', 'microsoftBasicFeature2', 'microsoftBasicFeature3'],
+    annual: WEBSITE_ESTIMATE_PRICES.emailAnnual,
+    recommended: true,
+  },
+  {
+    value: 'microsoft-standard',
+    label: 'microsoftStandard',
+    description: 'microsoftStandardValue',
+    bestFor: 'microsoftStandardBestFor',
+    features: ['microsoftStandardFeature1', 'microsoftStandardFeature2', 'microsoftStandardFeature3'],
+    annual: WEBSITE_ESTIMATE_PRICES.microsoftStandardAnnual,
+  },
+  {
+    value: 'google-starter',
+    label: 'googleStarter',
+    description: 'googleStarterValue',
+    bestFor: 'googleStarterBestFor',
+    features: ['googleStarterFeature1', 'googleStarterFeature2', 'googleStarterFeature3'],
+    annual: WEBSITE_ESTIMATE_PRICES.googleWorkspaceStarterAnnual,
+  },
+  {
+    value: 'other',
+    label: 'otherEmail',
+    description: 'otherEmailValue',
+    bestFor: 'otherEmailBestFor',
+    features: ['otherEmailFeature1', 'otherEmailFeature2', 'otherEmailFeature3'],
+    annual: null,
+  },
 ]
 
 const hostingOptions: Array<{
@@ -339,7 +463,8 @@ export default function WebsiteEstimateBuilder() {
   const money = useMemo(() => (amount: number) => formatCad(amount, french ? 'fr' : 'en'), [french])
   const [domainSource, setDomainSource] = useState<DomainSource>('new')
   const [domainTerm, setDomainTerm] = useState<DomainTerm>('three')
-  const [email, setEmail] = useState(false)
+  const [email, setEmail] = useState<EmailChoice>('none')
+  const [emailUsers, setEmailUsers] = useState(1)
   const [showExtras, setShowExtras] = useState(false)
   const [social, setSocial] = useState<SocialSetup>('none')
   const [hosting, setHosting] = useState<HostingChoice>('own')
@@ -356,6 +481,7 @@ export default function WebsiteEstimateBuilder() {
     domainSource,
     domainTerm,
     email,
+    emailUsers,
     social: activeSocial,
     hosting: activeHosting,
     referralDiscount: referralApplied,
@@ -395,6 +521,11 @@ export default function WebsiteEstimateBuilder() {
         : domainTerm === 'two'
           ? t.domainTermTwo
           : t.domainTermThree
+  const selectedEmailOption = emailOptions.find((option) => option.value === email)
+  const emailSummaryLabel =
+    email === 'none' || !selectedEmailOption
+      ? null
+      : `${t[selectedEmailOption.label]} × ${emailUsers}`
 
   const referralSummaryLabel =
     referralApplied && appliedReferralCode
@@ -406,7 +537,7 @@ export default function WebsiteEstimateBuilder() {
   const selectionLines = [
     t.coreServices,
     domainSummaryLabel,
-    email ? t.emailSetup : null,
+    emailSummaryLabel,
     socialSummaryLabel,
     hostingSummaryLabel ?? t.ownHosting,
     referralSummaryLabel,
@@ -616,17 +747,85 @@ export default function WebsiteEstimateBuilder() {
                 {t.emailTitle}
                 <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-amber-900">{t.emailPopular}</span>
               </legend>
-              <label className={`mt-4 flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition ${email ? tileSelected : tileIdle}`}>
-                <input className="mt-1 h-4 w-4 accent-primary" type="checkbox" checked={email} onChange={(event) => setEmail(event.target.checked)} />
-                <span className="min-w-0 flex-1">
-                  <span className="flex flex-wrap items-center gap-2">
-                    <span className="block font-semibold text-slate-900">{t.emailLabel}</span>
-                    {email ? <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
-                  </span>
-                  <span className="mt-1 block text-sm leading-6 text-slate-700"><EmailSafeText text={t.emailValue} /></span>
-                  <span className="mt-2 block text-sm font-bold text-primary-dark">{t.emailCost}</span>
-                </span>
-              </label>
+              <p className="mt-2 text-sm leading-6 text-slate-700">{t.emailIntro}</p>
+              <div className="mt-4 rounded-xl border border-primary/25 bg-primary/5 p-4">
+                <p className="font-bold text-primary-dark">{t.emailSetupValue}</p>
+                <p className="mt-1 text-sm leading-6 text-slate-700">{t.emailSetupIncludes}</p>
+              </div>
+
+              <div className="mt-4 grid gap-3 lg:grid-cols-2">
+                {emailOptions.map((option) => {
+                  const selected = email === option.value
+                  const priceLabel =
+                    option.annual === null
+                      ? t.emailProviderFeesSeparate
+                      : option.annual === 0
+                        ? money(0)
+                        : `${money(option.annual)}${t.emailPerUserYear}`
+
+                  return (
+                    <label key={option.value} className={`cursor-pointer rounded-xl border p-4 transition ${selected ? tileSelected : tileIdle}`}>
+                      <input
+                        className="sr-only"
+                        type="radio"
+                        name="email-provider"
+                        value={option.value}
+                        checked={selected}
+                        onChange={() => setEmail(option.value)}
+                      />
+                      <span className="flex items-start justify-between gap-3">
+                        <span className="font-semibold text-slate-950">{t[option.label]}</span>
+                        <span className="shrink-0 text-right text-sm font-bold text-primary-dark">{priceLabel}</span>
+                      </span>
+                      <span className="mt-2 flex flex-wrap gap-1.5">
+                        {selected ? <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                        {option.recommended ? <span className="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.emailRecommended}</span> : null}
+                      </span>
+                      <span className="mt-2 block text-sm leading-6 text-slate-700">{t[option.description]}</span>
+                      {option.features.length ? (
+                        <span className="mt-3 block space-y-1.5 border-t border-slate-200 pt-3 text-xs leading-5 text-slate-700">
+                          {option.features.map((feature) => (
+                            <span key={feature} className="flex gap-2">
+                              <CheckCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" aria-hidden />
+                              <span>{t[feature]}</span>
+                            </span>
+                          ))}
+                        </span>
+                      ) : null}
+                      <span className="mt-3 block border-t border-slate-200 pt-3 text-xs font-semibold leading-5 text-primary-dark">{t[option.bestFor]}</span>
+                    </label>
+                  )
+                })}
+              </div>
+
+              {email !== 'none' ? (
+                <label className="mt-4 block rounded-xl border border-slate-200 bg-white p-4">
+                  <span className="text-sm font-semibold text-slate-900">{t.emailUsersLabel}</span>
+                  <input
+                    className="mt-2 h-11 w-28 rounded-lg border border-slate-300 px-3 font-semibold text-slate-950 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    type="number"
+                    min={1}
+                    max={25}
+                    value={emailUsers}
+                    onChange={(event) => setEmailUsers(Math.min(25, Math.max(1, Number(event.target.value) || 1)))}
+                  />
+                </label>
+              ) : null}
+
+              <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-950">
+                <p className="font-bold">{t.emailPrivacyTitle}</p>
+                <p className="mt-1">{t.emailPrivacyNote}</p>
+                <p className="mt-2 font-medium">{t.emailSensitiveDataNote}</p>
+                <a
+                  href="https://www.priv.gc.ca/en/privacy-topics/employers-and-employees/outsourcing/02_05_d_57_os_01/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-2 inline-flex font-bold text-primary-dark underline underline-offset-4"
+                >
+                  {t.emailPrivacyLink}
+                </a>
+              </div>
+              <p className="mt-3 text-xs leading-5 text-slate-600">{t.emailPriceNote}</p>
             </fieldset>
 
             <fieldset>
@@ -845,7 +1044,12 @@ export default function WebsiteEstimateBuilder() {
                 </div>
               ) : null}
               <div className="flex justify-between gap-4"><dt className="text-slate-700">{domainSummaryLabel}</dt><dd className="font-semibold tabular-nums text-slate-900">{domainSource === 'existing' ? money(0) : money(estimate.domain)}</dd></div>
-              {email ? <><div className="flex justify-between gap-4"><dt className="text-slate-700">{t.emailSetup}</dt><dd className="font-semibold tabular-nums text-slate-900">{money(estimate.emailSetup)}</dd></div><div className="flex justify-between gap-4"><dt className="text-slate-700">{t.emailAnnual}</dt><dd className="font-semibold tabular-nums text-slate-900">{money(estimate.emailAnnual)}</dd></div></> : null}
+              {email !== 'none' ? (
+                <>
+                  <div className="flex justify-between gap-4"><dt className="text-slate-700">{t.emailSetup}</dt><dd className="font-semibold tabular-nums text-slate-900">{money(estimate.emailSetup)}</dd></div>
+                  <div className="flex justify-between gap-4"><dt className="text-slate-700">{emailSummaryLabel ?? t.emailAnnual}</dt><dd className="text-right font-semibold tabular-nums text-slate-900">{email === 'other' ? t.emailProviderFeesSeparate : money(estimate.emailAnnual)}</dd></div>
+                </>
+              ) : null}
               {socialSummaryLabel && estimate.socialSetup > 0 ? <div className="flex justify-between gap-4"><dt className="text-slate-700">{socialSummaryLabel}</dt><dd className="font-semibold tabular-nums text-slate-900">{money(estimate.socialSetup)}</dd></div> : null}
               {hostingSummaryLabel ? <div className="flex justify-between gap-4"><dt className="text-slate-700">{hostingSummaryLabel}</dt><dd className="font-semibold tabular-nums text-slate-900">{money(estimate.hostingFirstYear)}</dd></div> : <div className="flex gap-2 rounded-lg bg-white p-3 text-xs leading-5 text-slate-700"><Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />{t.ownHostingNote}</div>}
             </dl>

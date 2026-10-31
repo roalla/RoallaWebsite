@@ -4,6 +4,8 @@ export const WEBSITE_ESTIMATE_PRICES = {
   visibility: 250,
   emailSetup: 150,
   emailAnnual: 114,
+  microsoftStandardAnnual: 228,
+  googleWorkspaceStarterAnnual: 110.4,
   socialSingle: 125,
   socialBundle: 300,
   launchHostingAnnual: 179,
@@ -15,13 +17,15 @@ export const WEBSITE_ESTIMATE_PRICES = {
 
 export type DomainTerm = 'one' | 'two' | 'three'
 export type DomainSource = 'existing' | 'new'
+export type EmailChoice = 'none' | 'microsoft-basic' | 'microsoft-standard' | 'google-starter' | 'other'
 export type SocialSetup = 'none' | 'instagram' | 'youtube' | 'linkedin' | 'bundle'
 export type HostingChoice = 'own' | 'launch' | 'care-lite' | 'care'
 
 export type WebsiteEstimateSelection = {
   domainSource: DomainSource
   domainTerm: DomainTerm
-  email: boolean
+  email: EmailChoice
+  emailUsers: number
   social: SocialSetup
   hosting: HostingChoice
   referralDiscount: boolean
@@ -41,6 +45,14 @@ const SOCIAL_PRICES: Record<SocialSetup, number> = {
   bundle: WEBSITE_ESTIMATE_PRICES.socialBundle,
 }
 
+export const EMAIL_ANNUAL_PRICES: Record<EmailChoice, number> = {
+  none: 0,
+  'microsoft-basic': WEBSITE_ESTIMATE_PRICES.emailAnnual,
+  'microsoft-standard': WEBSITE_ESTIMATE_PRICES.microsoftStandardAnnual,
+  'google-starter': WEBSITE_ESTIMATE_PRICES.googleWorkspaceStarterAnnual,
+  other: 0,
+}
+
 const HOSTING_FIRST_YEAR_PRICES: Record<HostingChoice, number> = {
   own: 0,
   launch: WEBSITE_ESTIMATE_PRICES.launchHostingAnnual,
@@ -58,8 +70,10 @@ export function calculateWebsiteEstimate(selection: WebsiteEstimateSelection) {
     ? WEBSITE_ESTIMATE_CORE_PRICE * WEBSITE_ESTIMATE_PRICES.referralDiscountRate
     : 0
   const socialSetup = SOCIAL_PRICES[selection.social]
-  const emailSetup = selection.email ? WEBSITE_ESTIMATE_PRICES.emailSetup : 0
-  const emailAnnual = selection.email ? WEBSITE_ESTIMATE_PRICES.emailAnnual : 0
+  const hasEmail = selection.email !== 'none'
+  const emailUsers = hasEmail ? Math.max(1, Math.floor(selection.emailUsers || 1)) : 0
+  const emailSetup = hasEmail ? WEBSITE_ESTIMATE_PRICES.emailSetup : 0
+  const emailAnnual = EMAIL_ANNUAL_PRICES[selection.email] * emailUsers
   const domain = selection.domainSource === 'existing' ? 0 : DOMAIN_PRICES[selection.domainTerm]
   const hostingFirstYear = HOSTING_FIRST_YEAR_PRICES[selection.hosting]
 
@@ -74,6 +88,7 @@ export function calculateWebsiteEstimate(selection: WebsiteEstimateSelection) {
     professionalServices,
     emailSetup,
     emailAnnual,
+    emailUsers,
     socialSetup,
     domain,
     hostingFirstYear,

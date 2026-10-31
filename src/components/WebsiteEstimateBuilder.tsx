@@ -1,12 +1,13 @@
 'use client'
 
 import React, { useMemo, useState } from 'react'
-import { CheckCircle, ChevronDown, ChevronUp, Globe2, Info, Mail, PenLine, SearchCheck, Server, Share2, Sparkles, Table2, Tag } from 'lucide-react'
+import { CheckCircle, ChevronDown, ChevronUp, Globe2, Info, Mail, PenLine, PhoneCall, SearchCheck, Server, Share2, Sparkles, Table2, Tag } from 'lucide-react'
 import { useLocale } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import {
   calculateWebsiteEstimate,
   DOMAIN_PRICES,
+  VOICE_MONTHLY_PRICES,
   WEBSITE_ESTIMATE_CORE_PRICE,
   WEBSITE_ESTIMATE_PRICES,
   type DomainSource,
@@ -14,6 +15,7 @@ import {
   type EmailChoice,
   type HostingChoice,
   type SocialSetup,
+  type VoiceChoice,
 } from '@/lib/website-estimate'
 
 /** Keep server/client currency text identical (ICU may emit NBSP / narrow NBSP). */
@@ -26,12 +28,18 @@ function formatCad(amount: number, locale: string) {
     .replace(/[\u00a0\u202f\u2009]/g, ' ')
 }
 
+function formatCadRate(amount: number, french: boolean) {
+  return french
+    ? `${amount.toFixed(2).replace('.', ',')} $ CA`
+    : `CA$${amount.toFixed(2)}`
+}
+
 const copy = {
   en: {
     eyebrow: 'Website package estimator',
     title: 'Build a clear first-year website estimate.',
     intro:
-      'Start with the required launch foundation and website address. Optional add-ons stay separate—choose email, social media profiles, or hosting only if you want them.',
+      'Start with the required launch foundation and website address. Optional add-ons stay separate—choose email, a business voice line, social media profiles, or hosting only if you want them.',
     outcomeClarity: 'Explain your value clearly',
     outcomeDiscovery: 'Help customers find you',
     outcomeAction: 'Make the next step easy',
@@ -115,6 +123,42 @@ const copy = {
     emailRecommended: 'Recommended',
     emailProviderFeesSeparate: 'Provider fees separate',
     emailPerUserYear: '/user/year',
+    voiceTitle: 'Do you need a separate business voice line?',
+    voiceNeedIntro: 'A business number keeps client calls separate from your personal number and gives callers a more professional experience. It is optional and defaults to No.',
+    voiceNone: 'No business voice line right now',
+    voiceNoneValue: 'Keep this out of the estimate. You can add a separate number later without changing the website.',
+    voiceYes: 'Yes, compare business voice options',
+    voiceYesValue: 'Compare ROALLA partner platforms, public Canadian pricing and the features that fit your workflow.',
+    voiceProviderTitle: 'Choose the business phone platform that fits your needs',
+    voiceIntro: 'Each option provides a business calling app for mobile and desktop. The right fit depends on whether you value simple Zoom familiarity, AI-enabled call handling or broader customer communication tools.',
+    voiceSetupValue: '$50 one-time ROALLA setup',
+    voiceSetupIncludes: 'Includes plan guidance, one user and business number setup, mobile/desktop app connection, caller ID, business hours, voicemail greeting, multi-factor authentication where available, and a basic call test. Number porting, desk phones, complex routing, auto-attendants and compliance design are scoped separately.',
+    zoomPhone: 'Zoom Phone — US & CA Unlimited',
+    zoomPhoneValue: 'A familiar all-in-one choice for calling, SMS/MMS, voicemail and Zoom meetings.',
+    zoomPhoneBestFor: 'Best for a solo professional already comfortable with Zoom',
+    zoomPhoneFeature1: 'Canadian business number with unlimited domestic calling',
+    zoomPhoneFeature2: 'Mobile and desktop apps, SMS/MMS and voicemail',
+    zoomPhoneFeature3: 'Workplace Basic, online fax allowance and optional AI features',
+    dialpadVoice: 'Dialpad Connect Standard',
+    dialpadVoiceValue: 'An AI-forward phone platform with calling, messaging and streamlined call follow-up.',
+    dialpadVoiceBestFor: 'Best when AI summaries and a modern calling workflow matter',
+    dialpadVoiceFeature1: 'Unlimited calling in Canada and the US',
+    dialpadVoiceFeature2: 'Business messaging, voicemail and mobile/desktop apps',
+    dialpadVoiceFeature3: 'AI transcription and recaps—disable for sensitive calls unless approved',
+    nextivaVoice: 'Nextiva NEXT Core',
+    nextivaVoiceValue: 'A lower-entry platform combining business voice, video, messaging and team tools.',
+    nextivaVoiceBestFor: 'Best when price and broader communication tools lead the decision',
+    nextivaVoiceFeature1: 'Unlimited voice and video calling',
+    nextivaVoiceFeature2: 'Business messaging, routing and mobile access',
+    nextivaVoiceFeature3: 'Included AI allowances; confirm Canadian messaging eligibility before purchase',
+    voiceRecommended: 'Recommended for solo professionals',
+    voicePerUserMonth: '/user/month',
+    voiceUsersLabel: 'How many people need their own business phone user?',
+    voicePriceNote: 'Public Canadian rates checked October 2026 and shown in CAD. Prices are per user, before tax, on annual terms. Taxes, regulatory charges, usage, hardware and add-ons may be extra, and providers may change pricing or features.',
+    voicePrivacyTitle: 'Protect sensitive client information',
+    voicePrivacyNote: 'For counselling or other sensitive services, use voice and text mainly for scheduling and general communication. Call recording, transcription, AI summaries and voicemail transcription should be off by default until consent, privacy obligations, retention and access controls are confirmed.',
+    voicePartnerDisclosure: 'ROALLA partners with Zoom, Dialpad and Nextiva and may receive a commission when an eligible service is purchased through ROALLA. Recommendations consider requirements, price, security, features and fit; you retain the purchasing decision.',
+    voiceDisclosureLink: 'Read the partner compensation disclosure',
     socialTitle: 'Do you need social media profile setup?',
     socialNeedIntro: 'Social setup is optional and separate from hosting. Choose Yes only if you want ROALLA to configure profiles.',
     socialYes: 'Yes, I want social media profile setup',
@@ -196,6 +240,8 @@ const copy = {
     domain: 'Website address registration',
     emailSetup: 'Professional email setup',
     emailAnnual: 'Email licenses — first year',
+    voiceSetup: 'Business voice setup',
+    voiceAnnual: 'Business voice subscription — first year',
     socialSetup: 'Social media profile setup',
     domainTermOne: '1-year website address',
     domainTermTwo: '2-year website address',
@@ -217,7 +263,7 @@ const copy = {
     eyebrow: 'Estimateur de forfait Web',
     title: 'Préparez une estimation claire pour la première année.',
     intro:
-      'Commencez par la base de lancement et l’adresse du site. Les options restent séparées—choisissez le courriel, les profils de médias sociaux ou l’hébergement seulement si vous les voulez.',
+      'Commencez par la base de lancement et l’adresse du site. Les options restent séparées—choisissez le courriel, une ligne d’affaires, les profils de médias sociaux ou l’hébergement seulement si vous les voulez.',
     outcomeClarity: 'Expliquer clairement votre valeur',
     outcomeDiscovery: 'Aider les clients à vous trouver',
     outcomeAction: 'Faciliter la prochaine étape',
@@ -301,6 +347,42 @@ const copy = {
     emailRecommended: 'Recommandé',
     emailProviderFeesSeparate: 'Frais du fournisseur séparés',
     emailPerUserYear: '/utilisateur/an',
+    voiceTitle: 'Avez-vous besoin d’une ligne téléphonique d’affaires distincte?',
+    voiceNeedIntro: 'Un numéro d’affaires sépare les appels clients de votre numéro personnel et offre une expérience plus professionnelle. Cette option est facultative et réglée à Non par défaut.',
+    voiceNone: 'Aucune ligne d’affaires pour l’instant',
+    voiceNoneValue: 'Exclure cette option de l’estimation. Vous pourrez ajouter un numéro distinct plus tard sans modifier le site.',
+    voiceYes: 'Oui, comparer les options de téléphonie',
+    voiceYesValue: 'Comparer les plateformes partenaires de ROALLA, les prix canadiens publics et les fonctions adaptées à votre façon de travailler.',
+    voiceProviderTitle: 'Choisissez la plateforme téléphonique adaptée à vos besoins',
+    voiceIntro: 'Chaque option offre une application d’appels pour mobile et ordinateur. Le meilleur choix dépend de votre préférence pour la simplicité de Zoom, les fonctions d’IA ou des outils de communication client plus étendus.',
+    voiceSetupValue: 'Configuration ROALLA unique de 50 $',
+    voiceSetupIncludes: 'Comprend les conseils sur le forfait, la configuration d’un utilisateur et d’un numéro, la connexion des applications mobile et ordinateur, l’afficheur, les heures d’ouverture, l’accueil de messagerie vocale, l’authentification multifacteur lorsqu’elle est offerte et un test de base. Le portage, les téléphones, le routage complexe, les menus automatisés et la conception de conformité sont définis séparément.',
+    zoomPhone: 'Zoom Phone — appels illimités É.-U. et Canada',
+    zoomPhoneValue: 'Un choix familier tout-en-un pour les appels, SMS/MMS, la messagerie vocale et les réunions Zoom.',
+    zoomPhoneBestFor: 'Idéal pour un professionnel autonome déjà à l’aise avec Zoom',
+    zoomPhoneFeature1: 'Numéro canadien avec appels nationaux illimités',
+    zoomPhoneFeature2: 'Applications mobile et ordinateur, SMS/MMS et messagerie vocale',
+    zoomPhoneFeature3: 'Workplace Basic, allocation de télécopie en ligne et fonctions d’IA facultatives',
+    dialpadVoice: 'Dialpad Connect Standard',
+    dialpadVoiceValue: 'Une plateforme axée sur l’IA avec appels, messages et suivi simplifié.',
+    dialpadVoiceBestFor: 'Idéal si les résumés d’IA et un flux d’appels moderne comptent',
+    dialpadVoiceFeature1: 'Appels illimités au Canada et aux États-Unis',
+    dialpadVoiceFeature2: 'Messagerie d’affaires, boîte vocale et applications mobile/ordinateur',
+    dialpadVoiceFeature3: 'Transcription et résumés IA—à désactiver pour les appels sensibles sans autorisation',
+    nextivaVoice: 'Nextiva NEXT Core',
+    nextivaVoiceValue: 'Une plateforme à prix d’entrée réduit combinant voix, vidéo, messagerie et collaboration.',
+    nextivaVoiceBestFor: 'Idéal lorsque le prix et les outils de communication étendus priment',
+    nextivaVoiceFeature1: 'Appels vocaux et vidéo illimités',
+    nextivaVoiceFeature2: 'Messagerie d’affaires, routage et accès mobile',
+    nextivaVoiceFeature3: 'Allocations IA incluses; confirmer la messagerie canadienne avant l’achat',
+    voiceRecommended: 'Recommandé pour les professionnels autonomes',
+    voicePerUserMonth: '/utilisateur/mois',
+    voiceUsersLabel: 'Combien de personnes ont besoin de leur propre utilisateur téléphonique?',
+    voicePriceNote: 'Tarifs canadiens publics vérifiés en octobre 2026 et affichés en dollars canadiens. Prix par utilisateur, avant taxes, avec engagement annuel. Les taxes, frais réglementaires, usages, appareils et options peuvent être en sus; les fournisseurs peuvent modifier les prix ou fonctions.',
+    voicePrivacyTitle: 'Protégez les renseignements clients sensibles',
+    voicePrivacyNote: 'Pour le counseling ou d’autres services sensibles, utilisez surtout la voix et les textos pour la planification et les communications générales. L’enregistrement, la transcription, les résumés IA et la transcription de la boîte vocale devraient être désactivés par défaut jusqu’à la confirmation du consentement, des obligations, de la conservation et des accès.',
+    voicePartnerDisclosure: 'ROALLA est partenaire de Zoom, Dialpad et Nextiva et peut recevoir une commission lorsqu’un service admissible est acheté par son entremise. Les recommandations tiennent compte des besoins, du prix, de la sécurité, des fonctions et de l’adéquation; la décision d’achat vous appartient.',
+    voiceDisclosureLink: 'Lire la divulgation sur la rémunération des partenaires',
     socialTitle: 'Avez-vous besoin de la configuration des profils de médias sociaux?',
     socialNeedIntro:
       'La configuration sociale est facultative et séparée de l’hébergement. Choisissez Oui seulement si vous voulez que ROALLA configure les profils.',
@@ -384,6 +466,8 @@ const copy = {
     domain: 'Enregistrement de l’adresse du site',
     emailSetup: 'Configuration du courriel professionnel',
     emailAnnual: 'Licences de courriel — première année',
+    voiceSetup: 'Configuration de la téléphonie d’affaires',
+    voiceAnnual: 'Abonnement téléphonique — première année',
     socialSetup: 'Configuration des profils de médias sociaux',
     domainTermOne: 'Adresse de site — 1 an',
     domainTermTwo: 'Adresse de site — 2 ans',
@@ -454,6 +538,38 @@ const emailOptions: Array<{
   },
 ]
 
+const voiceOptions: Array<{
+  value: Exclude<VoiceChoice, 'none'>
+  label: keyof typeof copy.en
+  description: keyof typeof copy.en
+  bestFor: keyof typeof copy.en
+  features: readonly [keyof typeof copy.en, keyof typeof copy.en, keyof typeof copy.en]
+  recommended?: boolean
+}> = [
+  {
+    value: 'zoom',
+    label: 'zoomPhone',
+    description: 'zoomPhoneValue',
+    bestFor: 'zoomPhoneBestFor',
+    features: ['zoomPhoneFeature1', 'zoomPhoneFeature2', 'zoomPhoneFeature3'],
+    recommended: true,
+  },
+  {
+    value: 'dialpad',
+    label: 'dialpadVoice',
+    description: 'dialpadVoiceValue',
+    bestFor: 'dialpadVoiceBestFor',
+    features: ['dialpadVoiceFeature1', 'dialpadVoiceFeature2', 'dialpadVoiceFeature3'],
+  },
+  {
+    value: 'nextiva',
+    label: 'nextivaVoice',
+    description: 'nextivaVoiceValue',
+    bestFor: 'nextivaVoiceBestFor',
+    features: ['nextivaVoiceFeature1', 'nextivaVoiceFeature2', 'nextivaVoiceFeature3'],
+  },
+]
+
 const hostingOptions: Array<{
   value: HostingChoice
   label: keyof typeof copy.en
@@ -488,6 +604,9 @@ export default function WebsiteEstimateBuilder() {
   const [needsEmail, setNeedsEmail] = useState(false)
   const [email, setEmail] = useState<EmailChoice>('none')
   const [emailUsers, setEmailUsers] = useState(1)
+  const [needsVoice, setNeedsVoice] = useState(false)
+  const [voice, setVoice] = useState<VoiceChoice>('none')
+  const [voiceUsers, setVoiceUsers] = useState(1)
   const [needsSocial, setNeedsSocial] = useState(false)
   const [social, setSocial] = useState<SocialSetup>('none')
   const [needsHosting, setNeedsHosting] = useState(false)
@@ -506,6 +625,8 @@ export default function WebsiteEstimateBuilder() {
     domainTerm,
     email,
     emailUsers,
+    voice,
+    voiceUsers,
     social: activeSocial,
     hosting: activeHosting,
     referralDiscount: referralApplied,
@@ -542,6 +663,16 @@ export default function WebsiteEstimateBuilder() {
     }
   }
 
+  const chooseVoiceNeed = (needed: boolean) => {
+    setNeedsVoice(needed)
+    if (needed) {
+      setVoice((current) => current === 'none' ? 'zoom' : current)
+    } else {
+      setVoice('none')
+      setVoiceUsers(1)
+    }
+  }
+
   const socialSummaryLabel =
     activeSocial === 'none'
       ? null
@@ -569,6 +700,11 @@ export default function WebsiteEstimateBuilder() {
     email === 'none' || !selectedEmailOption
       ? null
       : `${t[selectedEmailOption.label]} × ${emailUsers}`
+  const selectedVoiceOption = voiceOptions.find((option) => option.value === voice)
+  const voiceSummaryLabel =
+    voice === 'none' || !selectedVoiceOption
+      ? null
+      : `${t[selectedVoiceOption.label]} × ${voiceUsers}`
 
   const referralSummaryLabel =
     referralApplied && appliedReferralCode
@@ -581,6 +717,7 @@ export default function WebsiteEstimateBuilder() {
     t.coreServices,
     domainSummaryLabel,
     emailSummaryLabel,
+    voiceSummaryLabel,
     socialSummaryLabel,
     hostingSummaryLabel ?? t.ownHosting,
     referralSummaryLabel,
@@ -876,6 +1013,91 @@ export default function WebsiteEstimateBuilder() {
 
             <fieldset>
               <legend className="flex flex-wrap items-center gap-2 text-xl font-serif font-bold text-slate-950">
+                <PhoneCall className="h-5 w-5 text-primary" aria-hidden />
+                {t.voiceTitle}
+              </legend>
+              <p className="mt-2 text-sm leading-6 text-slate-700">{t.voiceNeedIntro}</p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <label className={`cursor-pointer rounded-xl border p-4 transition ${!needsVoice ? tileSelected : tileIdle}`}>
+                  <input className="sr-only" type="radio" name="needs-voice" checked={!needsVoice} onChange={() => chooseVoiceNeed(false)} />
+                  <span className="flex items-start justify-between gap-3">
+                    <span className="font-semibold text-slate-950">{t.voiceNone}</span>
+                    {!needsVoice ? <CheckCircle className="h-5 w-5 shrink-0 text-primary" aria-hidden /> : null}
+                  </span>
+                  <span className="mt-2 block text-sm leading-6 text-slate-700">{t.voiceNoneValue}</span>
+                  {!needsVoice ? <span className="mt-3 inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                </label>
+                <label className={`cursor-pointer rounded-xl border p-4 transition ${needsVoice ? tileSelected : tileIdle}`}>
+                  <input className="sr-only" type="radio" name="needs-voice" checked={needsVoice} onChange={() => chooseVoiceNeed(true)} />
+                  <span className="flex items-start justify-between gap-3">
+                    <span className="font-semibold text-slate-950">{t.voiceYes}</span>
+                    {needsVoice ? <CheckCircle className="h-5 w-5 shrink-0 text-primary" aria-hidden /> : null}
+                  </span>
+                  <span className="mt-2 block text-sm leading-6 text-slate-700">{t.voiceYesValue}</span>
+                  {needsVoice ? <span className="mt-3 inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                </label>
+              </div>
+
+              {needsVoice ? (
+                <div className={choicePanel}>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-dark">{t.nextStep}</p>
+                  <h3 className="mt-1 font-serif text-lg font-bold text-slate-950">{t.voiceProviderTitle}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">{t.voiceIntro}</p>
+                  <div className="mt-4 rounded-xl border border-primary/25 bg-primary/5 p-4">
+                    <p className="font-bold text-primary-dark">{t.voiceSetupValue}</p>
+                    <p className="mt-1 text-sm leading-6 text-slate-700">{t.voiceSetupIncludes}</p>
+                  </div>
+
+                  <div className="mt-4 grid gap-3">
+                    {voiceOptions.map((option) => {
+                      const selected = voice === option.value
+                      const monthlyPrice = VOICE_MONTHLY_PRICES[option.value]
+                      return (
+                        <label key={option.value} className={`cursor-pointer rounded-xl border p-4 transition ${selected ? tileSelected : tileIdle}`}>
+                          <input className="sr-only" type="radio" name="voice-provider" value={option.value} checked={selected} onChange={() => setVoice(option.value)} />
+                          <span className="flex items-start justify-between gap-3">
+                            <span className="font-semibold text-slate-950">{t[option.label]}</span>
+                            <span className="shrink-0 text-right text-sm font-bold text-primary-dark">{formatCadRate(monthlyPrice, french)}{t.voicePerUserMonth}</span>
+                          </span>
+                          <span className="mt-2 flex flex-wrap gap-1.5">
+                            {selected ? <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                            {option.recommended ? <span className="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.voiceRecommended}</span> : null}
+                          </span>
+                          <span className="mt-2 block text-sm leading-6 text-slate-700">{t[option.description]}</span>
+                          <span className="mt-3 block space-y-1.5 border-t border-slate-200 pt-3 text-xs leading-5 text-slate-700">
+                            {option.features.map((feature) => (
+                              <span key={feature} className="flex gap-2">
+                                <CheckCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" aria-hidden />
+                                <span>{t[feature]}</span>
+                              </span>
+                            ))}
+                          </span>
+                          <span className="mt-3 block border-t border-slate-200 pt-3 text-xs font-semibold leading-5 text-primary-dark">{t[option.bestFor]}</span>
+                        </label>
+                      )
+                    })}
+                  </div>
+
+                  <label className="mt-4 block rounded-xl border border-slate-200 bg-white p-4">
+                    <span className="text-sm font-semibold text-slate-900">{t.voiceUsersLabel}</span>
+                    <input className="mt-2 h-11 w-28 rounded-lg border border-slate-300 px-3 font-semibold text-slate-950 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" type="number" min={1} max={25} value={voiceUsers} onChange={(event) => setVoiceUsers(Math.min(25, Math.max(1, Number(event.target.value) || 1)))} />
+                  </label>
+
+                  <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-950">
+                    <p className="font-bold">{t.voicePrivacyTitle}</p>
+                    <p className="mt-1">{t.voicePrivacyNote}</p>
+                  </div>
+                  <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-700">
+                    <p>{t.voicePartnerDisclosure}</p>
+                    <Link href="/partners/compensation" className="mt-2 inline-flex font-bold text-primary-dark underline underline-offset-4">{t.voiceDisclosureLink}</Link>
+                  </div>
+                  <p className="mt-3 text-xs leading-5 text-slate-600">{t.voicePriceNote}</p>
+                </div>
+              ) : null}
+            </fieldset>
+
+            <fieldset>
+              <legend className="flex flex-wrap items-center gap-2 text-xl font-serif font-bold text-slate-950">
                 <Share2 className="h-5 w-5 text-primary" aria-hidden />
                 {t.socialTitle}
               </legend>
@@ -1127,6 +1349,12 @@ export default function WebsiteEstimateBuilder() {
                 <>
                   <div className="flex justify-between gap-4"><dt className="text-slate-700">{t.emailSetup}</dt><dd className="font-semibold tabular-nums text-slate-900">{money(estimate.emailSetup)}</dd></div>
                   <div className="flex justify-between gap-4"><dt className="text-slate-700">{emailSummaryLabel ?? t.emailAnnual}</dt><dd className="text-right font-semibold tabular-nums text-slate-900">{email === 'other' ? t.emailProviderFeesSeparate : money(estimate.emailAnnual)}</dd></div>
+                </>
+              ) : null}
+              {voice !== 'none' ? (
+                <>
+                  <div className="flex justify-between gap-4"><dt className="text-slate-700">{t.voiceSetup}</dt><dd className="font-semibold tabular-nums text-slate-900">{money(estimate.voiceSetup)}</dd></div>
+                  <div className="flex justify-between gap-4"><dt className="text-slate-700">{voiceSummaryLabel ?? t.voiceAnnual}</dt><dd className="font-semibold tabular-nums text-slate-900">{money(estimate.voiceAnnual)}</dd></div>
                 </>
               ) : null}
               {socialSummaryLabel && estimate.socialSetup > 0 ? <div className="flex justify-between gap-4"><dt className="text-slate-700">{socialSummaryLabel}</dt><dd className="font-semibold tabular-nums text-slate-900">{money(estimate.socialSetup)}</dd></div> : null}

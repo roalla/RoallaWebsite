@@ -7,6 +7,8 @@ describe('website estimate', () => {
       domainTerm: 'three',
       email: 'none',
       emailUsers: 1,
+      voice: 'none',
+      voiceUsers: 1,
       social: 'none',
       hosting: 'own',
       referralDiscount: false,
@@ -25,6 +27,8 @@ describe('website estimate', () => {
       domainTerm: 'three',
       email: 'none',
       emailUsers: 1,
+      voice: 'none',
+      voiceUsers: 1,
       social: 'none',
       hosting: 'own',
       referralDiscount: false,
@@ -41,6 +45,8 @@ describe('website estimate', () => {
       domainTerm: 'three',
       email: 'microsoft-basic',
       emailUsers: 1,
+      voice: 'none',
+      voiceUsers: 1,
       social: 'bundle',
       hosting: 'launch',
       referralDiscount: true,
@@ -61,6 +67,8 @@ describe('website estimate', () => {
       domainTerm: 'one',
       email: 'none',
       emailUsers: 1,
+      voice: 'none',
+      voiceUsers: 1,
       social: 'none',
       hosting: 'care-lite',
       referralDiscount: true,
@@ -76,6 +84,8 @@ describe('website estimate', () => {
       domainTerm: 'one',
       email: 'microsoft-standard',
       emailUsers: 2,
+      voice: 'none',
+      voiceUsers: 1,
       social: 'none',
       hosting: 'own',
       referralDiscount: false,
@@ -85,6 +95,8 @@ describe('website estimate', () => {
       domainTerm: 'one',
       email: 'google-starter',
       emailUsers: 1,
+      voice: 'none',
+      voiceUsers: 1,
       social: 'none',
       hosting: 'own',
       referralDiscount: false,
@@ -94,5 +106,25 @@ describe('website estimate', () => {
     expect(microsoft.emailAnnual).toBe(456)
     expect(microsoft.emailUsers).toBe(2)
     expect(google.emailAnnual).toBeCloseTo(110.4)
+  })
+
+  it('adds the voice setup fee and annual Canadian provider price by user', () => {
+    const zoom = calculateWebsiteEstimate({
+      domainSource: 'existing',
+      domainTerm: 'one',
+      email: 'none',
+      emailUsers: 1,
+      voice: 'zoom',
+      voiceUsers: 2,
+      social: 'none',
+      hosting: 'own',
+      referralDiscount: false,
+    })
+
+    expect(zoom.voiceSetup).toBe(50)
+    expect(zoom.voiceAnnual).toBeCloseTo(518.4)
+    expect(zoom.voiceUsers).toBe(2)
+    expect(zoom.professionalServices).toBe(1400)
+    expect(zoom.firstYearBeforeTax).toBeCloseTo(1918.4)
   })
 })

@@ -6,6 +6,10 @@ export const WEBSITE_ESTIMATE_PRICES = {
   emailAnnual: 114,
   microsoftStandardAnnual: 228,
   googleWorkspaceStarterAnnual: 110.4,
+  voiceSetup: 50,
+  zoomPhoneMonthly: 21.6,
+  dialpadConnectMonthly: 20,
+  nextivaCoreMonthly: 15,
   socialSingle: 125,
   socialBundle: 300,
   launchHostingAnnual: 179,
@@ -18,6 +22,7 @@ export const WEBSITE_ESTIMATE_PRICES = {
 export type DomainTerm = 'one' | 'two' | 'three'
 export type DomainSource = 'existing' | 'new'
 export type EmailChoice = 'none' | 'microsoft-basic' | 'microsoft-standard' | 'google-starter' | 'other'
+export type VoiceChoice = 'none' | 'zoom' | 'dialpad' | 'nextiva'
 export type SocialSetup = 'none' | 'instagram' | 'youtube' | 'linkedin' | 'bundle'
 export type HostingChoice = 'own' | 'launch' | 'care-lite' | 'care'
 
@@ -26,6 +31,8 @@ export type WebsiteEstimateSelection = {
   domainTerm: DomainTerm
   email: EmailChoice
   emailUsers: number
+  voice: VoiceChoice
+  voiceUsers: number
   social: SocialSetup
   hosting: HostingChoice
   referralDiscount: boolean
@@ -53,6 +60,13 @@ export const EMAIL_ANNUAL_PRICES: Record<EmailChoice, number> = {
   other: 0,
 }
 
+export const VOICE_MONTHLY_PRICES: Record<VoiceChoice, number> = {
+  none: 0,
+  zoom: WEBSITE_ESTIMATE_PRICES.zoomPhoneMonthly,
+  dialpad: WEBSITE_ESTIMATE_PRICES.dialpadConnectMonthly,
+  nextiva: WEBSITE_ESTIMATE_PRICES.nextivaCoreMonthly,
+}
+
 const HOSTING_FIRST_YEAR_PRICES: Record<HostingChoice, number> = {
   own: 0,
   launch: WEBSITE_ESTIMATE_PRICES.launchHostingAnnual,
@@ -74,12 +88,16 @@ export function calculateWebsiteEstimate(selection: WebsiteEstimateSelection) {
   const emailUsers = hasEmail ? Math.max(1, Math.floor(selection.emailUsers || 1)) : 0
   const emailSetup = hasEmail ? WEBSITE_ESTIMATE_PRICES.emailSetup : 0
   const emailAnnual = EMAIL_ANNUAL_PRICES[selection.email] * emailUsers
+  const hasVoice = selection.voice !== 'none'
+  const voiceUsers = hasVoice ? Math.max(1, Math.floor(selection.voiceUsers || 1)) : 0
+  const voiceSetup = hasVoice ? WEBSITE_ESTIMATE_PRICES.voiceSetup : 0
+  const voiceAnnual = VOICE_MONTHLY_PRICES[selection.voice] * 12 * voiceUsers
   const domain = selection.domainSource === 'existing' ? 0 : DOMAIN_PRICES[selection.domainTerm]
   const hostingFirstYear = HOSTING_FIRST_YEAR_PRICES[selection.hosting]
 
-  const professionalServices = WEBSITE_ESTIMATE_CORE_PRICE + emailSetup + socialSetup
+  const professionalServices = WEBSITE_ESTIMATE_CORE_PRICE + emailSetup + voiceSetup + socialSetup
   const firstYearBeforeTax =
-    professionalServices - referralDiscount + domain + emailAnnual + hostingFirstYear
+    professionalServices - referralDiscount + domain + emailAnnual + voiceAnnual + hostingFirstYear
   const hst = firstYearBeforeTax * WEBSITE_ESTIMATE_PRICES.hstRate
 
   return {
@@ -89,6 +107,9 @@ export function calculateWebsiteEstimate(selection: WebsiteEstimateSelection) {
     emailSetup,
     emailAnnual,
     emailUsers,
+    voiceSetup,
+    voiceAnnual,
+    voiceUsers,
     socialSetup,
     domain,
     hostingFirstYear,

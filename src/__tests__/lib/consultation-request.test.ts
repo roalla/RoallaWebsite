@@ -285,7 +285,7 @@ describe('consultation-request', () => {
     expect(salesHtml).toContain('ROALLA')
     expect(salesHtml).toContain('Roalla Business Enablement Group')
     expect(salesHtml).toContain('Burlington, Ontario, Canada')
-    expect(salesHtml).toContain('https://www.roalla.com/email/roalla-mark.png')
+    expect(salesHtml).toContain('https://www.roalla.com/email/roalla-mark-2027.png')
     expect(salesHtml).not.toContain('Soft reminder')
     expect(salesHtml).not.toContain('Nudge at T+2')
     expect(salesHtml).toContain('website-ai-visibility-review')

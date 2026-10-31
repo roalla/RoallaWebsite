@@ -2,7 +2,7 @@ import { CONTACT, SITE_URL } from "@/lib/site";
 
 /** Table layout, live text, and one small logo — branded without newsletter tricks. */
 const FONT = "Arial, Helvetica, sans-serif";
-const LOGO_URL = `${SITE_URL}/email/roalla-mark.png`;
+const LOGO_URL = `${SITE_URL}/email/roalla-mark-2027.png`;
 const PHONE_DISPLAY = "(289) 838-5868";
 const PHONE_HREF = "tel:+12898385868";
 const HOME_URL = SITE_URL;

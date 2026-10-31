@@ -40,6 +40,7 @@ const copy = {
     requiredSection: 'Required',
     optionalSection: 'Optional add-ons',
     optionalSectionIntro: 'These are not required to request a scope confirmation.',
+    nextStep: 'Next step',
     coreTitle: 'Core Website Launch',
     required: 'Required',
     included: 'Included',
@@ -225,6 +226,7 @@ const copy = {
     requiredSection: 'Requis',
     optionalSection: 'Options facultatives',
     optionalSectionIntro: 'Ces éléments ne sont pas requis pour demander une confirmation de portée.',
+    nextStep: 'Étape suivante',
     coreTitle: 'Lancement Web de base',
     required: 'Requis',
     included: 'Inclus',
@@ -468,8 +470,11 @@ const hostingOptions: Array<{
 ]
 
 const tileSelected =
-  'border-primary bg-primary/25 ring-2 ring-primary/40 shadow-md shadow-primary/15'
-const tileIdle = 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'
+  'border-2 border-primary bg-primary/20 ring-2 ring-primary/55 shadow-md shadow-primary/25'
+const tileIdle =
+  'border-2 border-slate-300 bg-white hover:border-primary/45 hover:bg-primary/5'
+const choicePanel =
+  'mt-5 rounded-2xl border-2 border-l-4 border-primary/40 border-l-primary bg-white p-4 shadow-[0_12px_28px_-14px_rgba(0,180,197,0.45)] ring-1 ring-primary/15 sm:p-5'
 
 export default function WebsiteEstimateBuilder() {
   const locale = useLocale()
@@ -741,8 +746,9 @@ export default function WebsiteEstimateBuilder() {
               </div>
 
               {domainSource === 'new' ? (
-                <div className="mt-5">
-                  <h3 className="font-serif text-lg font-bold text-slate-950">{t.domainTermTitle}</h3>
+                <div className={choicePanel}>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-dark">{t.nextStep}</p>
+                  <h3 className="mt-1 font-serif text-lg font-bold text-slate-950">{t.domainTermTitle}</h3>
                   <div className="mt-3 grid gap-3 sm:grid-cols-3">
                     {([
                       ['one', t.oneYear],
@@ -805,8 +811,9 @@ export default function WebsiteEstimateBuilder() {
               </div>
 
               {needsEmail ? (
-                <div className="mt-5 border-t border-slate-200 pt-5">
-                  <div className="flex flex-wrap items-center gap-2">
+                <div className={choicePanel}>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-dark">{t.nextStep}</p>
+                  <div className="mt-1 flex flex-wrap items-center gap-2">
                     <h3 className="font-serif text-lg font-bold text-slate-950">{t.emailProviderTitle}</h3>
                     <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-amber-900">{t.emailPopular}</span>
                   </div>
@@ -893,8 +900,9 @@ export default function WebsiteEstimateBuilder() {
               </div>
 
               {needsSocial ? (
-                <div className="mt-5 border-t border-slate-200 pt-5">
-                  <h3 className="font-serif text-lg font-bold text-slate-950">{t.socialChooseTitle}</h3>
+                <div className={choicePanel}>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-dark">{t.nextStep}</p>
+                  <h3 className="mt-1 font-serif text-lg font-bold text-slate-950">{t.socialChooseTitle}</h3>
                   <p className="mt-2 text-sm leading-6 text-slate-700">{t.socialValue}</p>
                   <div className="mt-4 grid gap-3 sm:grid-cols-2">
                     {socialOptions.map(({ value, label }) => {
@@ -949,8 +957,9 @@ export default function WebsiteEstimateBuilder() {
               </div>
 
               {needsHosting ? (
-                <div className="mt-5 border-t border-slate-200 pt-5">
-                  <h3 className="font-serif text-lg font-bold text-slate-950">{t.hostingChooseTitle}</h3>
+                <div className={choicePanel}>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-dark">{t.nextStep}</p>
+                  <h3 className="mt-1 font-serif text-lg font-bold text-slate-950">{t.hostingChooseTitle}</h3>
                   <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-700">{t.hostingIntro}</p>
                   <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
                     <p className="flex items-center gap-1.5 text-xs font-medium text-primary-dark">

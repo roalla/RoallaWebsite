@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useMemo, useState } from 'react'
-import { CheckCircle, ChevronDown, ChevronUp, Globe2, Info, Mail, PenLine, SearchCheck, Server, Share2, Sparkles, Tag } from 'lucide-react'
+import { CheckCircle, ChevronDown, ChevronUp, Globe2, Info, Mail, PenLine, SearchCheck, Server, Share2, Sparkles, Table2, Tag } from 'lucide-react'
 import { useLocale } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import EmailSafeText from '@/components/EmailSafeText'
@@ -93,6 +93,28 @@ const copy = {
     hostingDetailHint: 'Tap More detail on any option if you want the full explanation.',
     hostingMoreDetail: 'More detail',
     hostingHideDetail: 'Hide detail',
+    hostingCompare: 'Compare hosting options',
+    hostingCompareHide: 'Hide comparison',
+    hostingMatrixCaption: 'Hosting path comparison',
+    hostingMatrixFeature: 'What’s included',
+    hostingMatrixHosting: 'Hosting environment',
+    hostingMatrixBilling: 'Account, billing and renewals',
+    hostingMatrixLaunch: 'Launch configuration on the live site',
+    hostingMatrixCare: 'Ongoing technical care',
+    hostingMatrixUpdates: 'Content updates and improvements',
+    hostingMatrixBestFor: 'Best for',
+    hostingMatrixPrice: 'Listed price in this estimate',
+    hostingMatrixOwnHosting: 'Your provider',
+    hostingMatrixRoallaHosting: 'Included with ROALLA',
+    hostingMatrixYouManage: 'You manage',
+    hostingMatrixRoallaManages: 'ROALLA manages',
+    hostingMatrixConfigured: 'Configured by ROALLA',
+    hostingMatrixNotIncluded: 'Not included',
+    hostingMatrixOccasional: 'Occasional help',
+    hostingMatrixRegular: 'Regular support',
+    hostingMatrixMinor: 'Minor requests',
+    hostingMatrixActive: 'Higher cadence',
+    hostingMatrixOwnPrice: 'Provider fees separate',
     ownHosting: 'My own hosting provider',
     ownHostingValue: 'Use a compatible provider you already trust; ROALLA will configure the website there.',
     ownHostingBestFor: 'Best when you already manage hosting',
@@ -209,6 +231,28 @@ const copy = {
     hostingDetailHint: 'Touchez Plus de détails sur une option pour voir l’explication complète.',
     hostingMoreDetail: 'Plus de détails',
     hostingHideDetail: 'Masquer les détails',
+    hostingCompare: 'Comparer les options d’hébergement',
+    hostingCompareHide: 'Masquer la comparaison',
+    hostingMatrixCaption: 'Comparaison des parcours d’hébergement',
+    hostingMatrixFeature: 'Ce qui est inclus',
+    hostingMatrixHosting: 'Environnement d’hébergement',
+    hostingMatrixBilling: 'Compte, facturation et renouvellements',
+    hostingMatrixLaunch: 'Configuration de lancement sur le site en ligne',
+    hostingMatrixCare: 'Entretien technique continu',
+    hostingMatrixUpdates: 'Mises à jour de contenu et améliorations',
+    hostingMatrixBestFor: 'Idéal pour',
+    hostingMatrixPrice: 'Prix indiqué dans cette estimation',
+    hostingMatrixOwnHosting: 'Votre fournisseur',
+    hostingMatrixRoallaHosting: 'Inclus avec ROALLA',
+    hostingMatrixYouManage: 'Vous gérez',
+    hostingMatrixRoallaManages: 'ROALLA gère',
+    hostingMatrixConfigured: 'Configuré par ROALLA',
+    hostingMatrixNotIncluded: 'Non inclus',
+    hostingMatrixOccasional: 'Aide occasionnelle',
+    hostingMatrixRegular: 'Soutien régulier',
+    hostingMatrixMinor: 'Petites demandes',
+    hostingMatrixActive: 'Rythme plus élevé',
+    hostingMatrixOwnPrice: 'Frais du fournisseur séparés',
     ownHosting: 'Mon propre fournisseur',
     ownHostingValue: 'Utilisez un fournisseur compatible que vous connaissez déjà; ROALLA y configurera le site.',
     ownHostingBestFor: 'Idéal si vous gérez déjà l’hébergement',
@@ -300,6 +344,7 @@ export default function WebsiteEstimateBuilder() {
   const [social, setSocial] = useState<SocialSetup>('none')
   const [hosting, setHosting] = useState<HostingChoice>('own')
   const [expandedHosting, setExpandedHosting] = useState<HostingChoice | null>(null)
+  const [showHostingMatrix, setShowHostingMatrix] = useState(false)
   const [code, setCode] = useState('')
   const [appliedReferralCode, setAppliedReferralCode] = useState('')
   const [referralApplied, setReferralApplied] = useState(false)
@@ -639,10 +684,74 @@ export default function WebsiteEstimateBuilder() {
                       {t.hostingTitle}
                     </h3>
                     <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-700">{t.hostingIntro}</p>
-                    <p className="mt-1 flex items-center gap-1.5 text-xs font-medium text-primary-dark">
-                      <Info className="h-3.5 w-3.5" aria-hidden />
-                      {t.hostingDetailHint}
-                    </p>
+                    <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+                      <p className="flex items-center gap-1.5 text-xs font-medium text-primary-dark">
+                        <Info className="h-3.5 w-3.5" aria-hidden />
+                        {t.hostingDetailHint}
+                      </p>
+                      <button
+                        type="button"
+                        className="inline-flex items-center gap-1.5 rounded-lg border border-primary/30 bg-primary/10 px-3 py-2 text-xs font-bold text-primary-dark transition hover:bg-primary/15"
+                        aria-expanded={showHostingMatrix}
+                        aria-controls="hosting-comparison-matrix"
+                        onClick={() => setShowHostingMatrix((open) => !open)}
+                      >
+                        <Table2 className="h-3.5 w-3.5" aria-hidden />
+                        {showHostingMatrix ? t.hostingCompareHide : t.hostingCompare}
+                        {showHostingMatrix ? <ChevronUp className="h-3.5 w-3.5" aria-hidden /> : <ChevronDown className="h-3.5 w-3.5" aria-hidden />}
+                      </button>
+                    </div>
+                    {showHostingMatrix ? (
+                      <div
+                        id="hosting-comparison-matrix"
+                        className="mt-4 overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm"
+                      >
+                        <table className="min-w-[40rem] w-full border-collapse text-left text-sm">
+                          <caption className="sr-only">{t.hostingMatrixCaption}</caption>
+                          <thead>
+                            <tr className="border-b border-slate-200 bg-slate-950 text-white">
+                              <th scope="col" className="px-3 py-3 font-semibold">{t.hostingMatrixFeature}</th>
+                              <th scope="col" className="px-3 py-3 font-semibold">{t.ownHosting}</th>
+                              <th scope="col" className="px-3 py-3 font-semibold">{t.launchHosting}</th>
+                              <th scope="col" className="px-3 py-3 font-semibold">
+                                {t.careLite}
+                                <span className="mt-1 block text-[10px] font-bold uppercase tracking-wide text-emerald-300">{t.recommended}</span>
+                              </th>
+                              <th scope="col" className="px-3 py-3 font-semibold">{t.care}</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-slate-200 text-slate-800">
+                            {(
+                              [
+                                [t.hostingMatrixHosting, t.hostingMatrixOwnHosting, t.hostingMatrixRoallaHosting, t.hostingMatrixRoallaHosting, t.hostingMatrixRoallaHosting],
+                                [t.hostingMatrixBilling, t.hostingMatrixYouManage, t.hostingMatrixRoallaManages, t.hostingMatrixRoallaManages, t.hostingMatrixRoallaManages],
+                                [t.hostingMatrixLaunch, t.hostingMatrixConfigured, t.hostingMatrixConfigured, t.hostingMatrixConfigured, t.hostingMatrixConfigured],
+                                [t.hostingMatrixCare, t.hostingMatrixNotIncluded, t.hostingMatrixNotIncluded, t.hostingMatrixOccasional, t.hostingMatrixRegular],
+                                [t.hostingMatrixUpdates, t.hostingMatrixNotIncluded, t.hostingMatrixNotIncluded, t.hostingMatrixMinor, t.hostingMatrixActive],
+                                [t.hostingMatrixBestFor, t.ownHostingBestFor, t.launchHostingBestFor, t.careLiteBestFor, t.careBestFor],
+                                [
+                                  t.hostingMatrixPrice,
+                                  t.hostingMatrixOwnPrice,
+                                  `$${WEBSITE_ESTIMATE_PRICES.launchHostingAnnual}${t.perYear}`,
+                                  `$${WEBSITE_ESTIMATE_PRICES.careLiteMonthly}${t.perMonth}`,
+                                  `$${WEBSITE_ESTIMATE_PRICES.careMonthly}${t.perMonth}`,
+                                ],
+                              ] as const
+                            ).map(([feature, own, launch, careLite, care]) => (
+                              <tr key={feature} className="align-top odd:bg-white even:bg-slate-50">
+                                <th scope="row" className="px-3 py-3 font-semibold text-slate-950">
+                                  {feature}
+                                </th>
+                                <td className="px-3 py-3 leading-6">{own}</td>
+                                <td className="px-3 py-3 leading-6">{launch}</td>
+                                <td className="px-3 py-3 leading-6">{careLite}</td>
+                                <td className="px-3 py-3 leading-6">{care}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    ) : null}
                     <div className="mt-4 grid gap-3 sm:grid-cols-2">
                       {hostingOptions.map(({ value, label, description, bestFor, detail, price, recommended }) => {
                         const isExpanded = expandedHosting === value

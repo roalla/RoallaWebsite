@@ -23,7 +23,10 @@ export type OutcomeGroupSituationDetail = {
   solutions: readonly string[]
 }
 
-export type EstimatePath = '/visibility-improvement-estimate' | '/email-reach-estimate'
+export type EstimatePath =
+  | '/website-estimate'
+  | '/visibility-improvement-estimate'
+  | '/email-reach-estimate'
 
 export type OutcomeGroupSituation = {
   id: string
@@ -488,6 +491,8 @@ const experienceEn: OutcomeGroupPanelCopy = {
       evidencePath: '/digital-product-discovery',
       evidenceLabel: 'Frame the smallest useful build',
       evidenceNote: 'A short discovery—no finished project plan required to start.',
+      estimatePath: '/website-estimate',
+      estimateLabel: 'Estimate a website launch package',
       pathwaySlug: 'digital-experience',
       contactIntent: 'platform',
       detail: {
@@ -644,6 +649,8 @@ const experienceFr: OutcomeGroupPanelCopy = {
       evidencePath: '/digital-product-discovery',
       evidenceLabel: 'Cadre la plus petite réalisation utile',
       evidenceNote: 'Une courte découverte—aucun plan de projet finalisé requis pour commencer.',
+      estimatePath: '/website-estimate',
+      estimateLabel: 'Estimer un forfait de lancement Web',
       pathwaySlug: 'digital-experience',
       contactIntent: 'platform',
       detail: {

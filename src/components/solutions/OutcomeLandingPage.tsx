@@ -13,7 +13,7 @@ import DeferredOutcomeContactForm from "@/components/solutions/DeferredOutcomeCo
 import OutcomePageAnalytics from "@/components/solutions/OutcomePageAnalytics";
 import OutcomeSignalMatch from "@/components/solutions/OutcomeSignalMatch";
 import type { ConsultationIntent, ConsultingFocus } from "@/lib/consultation-request";
-import { pathwayEvidenceCtas } from "@/lib/pathway-evidence-cta";
+import { pathwayEstimateCtas, pathwayEvidenceCtas } from "@/lib/pathway-evidence-cta";
 import type { SolutionPathId, SolutionPathway } from "@/lib/solutions-by-need";
 import {
   outcomeDeliveryModels,
@@ -56,6 +56,7 @@ export default function OutcomeLandingPage({
   const deliveryModel = outcomeDeliveryModels[pathway.id][locale];
   const sourcePage = `/solutions/${pathway.id}`;
   const evidenceCta = pathwayEvidenceCtas[pathway.id];
+  const estimateCtas = pathwayEstimateCtas[pathway.id] ?? [];
   const fullFormQuery = {
     intent: contact.intent,
     ...(contact.focus ? { focus: contact.focus } : {}),
@@ -138,6 +139,17 @@ export default function OutcomeLandingPage({
               {copy.serviceCta}
               <ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden />
             </Link>
+            {estimateCtas.map((estimateCta) => (
+              <Link
+                key={estimateCta.pathname}
+                href={estimateCta.pathname}
+                data-outcome-track={`hero|${estimateCta.pathname}`}
+                className="inline-flex min-h-[44px] items-center px-1 text-sm font-semibold text-brand-gold underline-offset-4 hover:text-brand-gold-light hover:underline"
+              >
+                {estimateCta.label[locale]}
+                <ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden />
+              </Link>
+            ))}
           </div>
           <p className="sr-only">{visual.alt[locale]}</p>
         </div>
@@ -151,22 +163,34 @@ export default function OutcomeLandingPage({
               <h2 id="visibility-tool-title" className="mt-2 font-serif text-2xl font-bold text-slate-950 sm:text-3xl">{copy.visibilityToolTitle}</h2>
               <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base">{copy.visibilityToolBody}</p>
             </div>
-            <Link
-              href={{
-                pathname: "/tools/digital-presence-snapshot",
-                query: {
-                  campaign: "solutions-visibility-outcome",
-                  offer: "free-automated-visibility-snapshot",
-                  conversion_source: "outcome_band",
-                  entry_page: sourcePage,
-                  selected_problem: "website-and-ai-visibility",
-                },
-              }}
-              data-outcome-track="band|digital-presence-snapshot"
-              className="inline-flex min-h-[48px] shrink-0 items-center justify-center rounded-lg bg-primary-dark px-6 py-3 font-semibold text-white transition hover:bg-primary-darker focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-            >
-              {copy.visibilityToolCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-            </Link>
+            <div className="flex shrink-0 flex-col gap-3 sm:items-stretch">
+              <Link
+                href={{
+                  pathname: "/tools/digital-presence-snapshot",
+                  query: {
+                    campaign: "solutions-visibility-outcome",
+                    offer: "free-automated-visibility-snapshot",
+                    conversion_source: "outcome_band",
+                    entry_page: sourcePage,
+                    selected_problem: "website-and-ai-visibility",
+                  },
+                }}
+                data-outcome-track="band|digital-presence-snapshot"
+                className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary-dark px-6 py-3 font-semibold text-white transition hover:bg-primary-darker focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              >
+                {copy.visibilityToolCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+              <Link
+                href="/visibility-improvement-estimate"
+                data-outcome-track="band|visibility-improvement-estimate"
+                className="inline-flex min-h-[44px] items-center justify-center text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+              >
+                {locale === "fr"
+                  ? "Estimer le travail de visibilité recherche et IA"
+                  : "Estimate search and AI visibility work"}
+                <ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden />
+              </Link>
+            </div>
           </div>
         </aside>
       ) : null}

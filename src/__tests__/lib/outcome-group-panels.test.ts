@@ -105,6 +105,21 @@ describe('outcome group panels', () => {
     },
   )
 
+  it.each(['en', 'fr'] as const)(
+    'wires website launch estimate secondary CTA on experience website-or-product for %s',
+    (locale) => {
+      const situation = getOutcomeGroupPanelCopy('experience-products', locale).situations.find(
+        (item) => item.id === 'website-or-product',
+      )
+
+      expect(situation).toMatchObject({
+        estimatePath: '/website-estimate',
+        estimateLabel:
+          locale === 'fr' ? 'Estimer un forfait de lancement Web' : 'Estimate a website launch package',
+      })
+    },
+  )
+
   it.each(['en', 'fr'] as const)('uses capacity pressures instead of AI jargon for automation %s', (locale) => {
     const copy = getOutcomeGroupPanelCopy('automation-ai', locale)
     const ids = copy.situations.map((item) => item.id)

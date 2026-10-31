@@ -1,3 +1,4 @@
+import type { EstimatePath } from '@/lib/outcome-group-panels'
 import type { SolutionPathId } from '@/lib/solutions-by-need'
 
 export type PathwayEvidencePath =
@@ -18,6 +19,40 @@ export type PathwayEvidenceCta = {
   label: Record<'en' | 'fr', string>
   offer?: string
   selectedProblem?: string
+}
+
+export type PathwayEstimateCta = {
+  pathname: EstimatePath
+  label: Record<'en' | 'fr', string>
+}
+
+/** Light estimate links for pathway pages—secondary to free evidence CTAs. */
+export const pathwayEstimateCtas: Partial<Record<SolutionPathId, readonly PathwayEstimateCta[]>> = {
+  visibility: [
+    {
+      pathname: '/visibility-improvement-estimate',
+      label: {
+        en: 'Estimate search and AI visibility work',
+        fr: 'Estimer le travail de visibilité recherche et IA',
+      },
+    },
+    {
+      pathname: '/email-reach-estimate',
+      label: {
+        en: 'Estimate email setup and reach work',
+        fr: 'Estimer la configuration et la portée courriel',
+      },
+    },
+  ],
+  'digital-experience': [
+    {
+      pathname: '/website-estimate',
+      label: {
+        en: 'Estimate a website launch package',
+        fr: 'Estimer un forfait de lancement Web',
+      },
+    },
+  ],
 }
 
 /** Free brief/review entry points already used on the solutions hub. */

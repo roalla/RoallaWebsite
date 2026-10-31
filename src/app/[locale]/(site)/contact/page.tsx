@@ -126,6 +126,11 @@ function ScheduleContent() {
   const isPackageOffer = (value: string | null): value is PackageOffer =>
     value !== null && (packageOffers as readonly string[]).includes(value)
   const fromPackageOffer = isPackageOffer(offerParam)
+  const fromWebsiteEstimate =
+    offerParam === 'estimate' &&
+    (searchParams.get('from_page') === '/website-estimate' || Boolean(searchParams.get('estimate_total')))
+  const estimateTotal = searchParams.get('estimate_total')
+  const estimateSummary = searchParams.get('estimate_summary')
   const tFounding = useTranslations('foundingClient')
   const packagePrefillGoal = (() => {
     if (!fromPackageOffer) return null
@@ -139,7 +144,7 @@ function ScheduleContent() {
       searchParams.get('intent'),
       searchParams.get('service'),
       needParam,
-    ) ?? (fromPackageOffer ? (offerParam === 'custom' ? 'platform' : 'website') : null)
+    ) ?? (fromPackageOffer || fromWebsiteEstimate ? (offerParam === 'custom' ? 'platform' : 'website') : null)
   const initialFocus = resolveInitialFocus(searchParams.get('focus'))
   const initialWebsiteGoal =
     resolveInitialWebsiteGoal(needParam) ??
@@ -201,6 +206,25 @@ function ScheduleContent() {
             <p className="mt-4 text-lg text-slate-600">{subtitle}</p>
             <p className="mt-3 text-sm text-slate-500">{expectation}</p>
           </div>
+
+          {fromWebsiteEstimate && (estimateTotal || estimateSummary) ? (
+            <div className="mb-8 rounded-2xl border border-primary/25 bg-primary/[0.06] p-5 sm:p-6">
+              <p className="text-sm font-bold uppercase tracking-[.14em] text-primary-dark">{t('estimateEchoTitle')}</p>
+              {estimateTotal ? (
+                <div className="mt-3 flex flex-wrap items-end justify-between gap-3">
+                  <p className="text-sm font-semibold text-slate-700">{t('estimateEchoTotalLabel')}</p>
+                  <p className="text-2xl font-serif font-bold tabular-nums text-slate-950">{estimateTotal}</p>
+                </div>
+              ) : null}
+              {estimateSummary ? (
+                <div className="mt-4 rounded-xl bg-white/80 p-4">
+                  <p className="text-xs font-bold uppercase tracking-wide text-slate-600">{t('estimateEchoSelectionsLabel')}</p>
+                  <p className="mt-2 text-sm leading-6 text-slate-800">{estimateSummary}</p>
+                </div>
+              ) : null}
+              <p className="mt-3 text-sm leading-6 text-slate-700">{t('estimateEchoNote')}</p>
+            </div>
+          ) : null}
 
           <div className="rounded-2xl border border-primary/20 bg-primary/[0.04] p-5 mb-8 lg:hidden">
             <p className="text-sm font-semibold text-slate-900 mb-3">

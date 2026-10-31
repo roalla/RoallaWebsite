@@ -142,7 +142,7 @@ export default function WebsiteApproachComparison({ locale }: Props) {
             <article key={title} className={`relative flex flex-col rounded-3xl border p-6 shadow-sm ${featured ? 'border-primary/40 bg-slate-950 text-white ring-2 ring-primary/15' : 'border-slate-200 bg-white text-slate-950'}`}>
               {featured ? <span className="absolute right-5 top-5 rounded-full bg-primary px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-slate-950">ROALLA</span> : null}
               <span className={`flex h-11 w-11 items-center justify-center rounded-xl ${featured ? 'bg-white/10 text-primary-light' : 'bg-primary/10 text-primary-dark'}`}><Icon className="h-5 w-5" aria-hidden /></span>
-              <h3 className="mt-5 pr-16 text-xl font-serif font-bold">{title}</h3>
+              <h3 className={`mt-5 pr-16 text-xl font-serif font-bold ${featured ? 'text-white' : 'text-slate-950'}`}>{title}</h3>
               <p className={`mt-1 text-sm font-semibold ${featured ? 'text-primary-light' : 'text-primary-dark'}`}>{price}</p>
 
               <div className="mt-6">
@@ -172,10 +172,10 @@ export default function WebsiteApproachComparison({ locale }: Props) {
         <div className="grid lg:grid-cols-[.9fr_1.1fr]">
           <div className="p-7 sm:p-10 lg:p-12">
             <p className="text-xs font-bold uppercase tracking-[.18em] text-primary-light">{t.valueEyebrow}</p>
-            <h2 id="website-value-title" className="mt-3 text-3xl font-serif font-bold sm:text-4xl">{t.valueTitle}</h2>
-            <p className="mt-5 leading-7 text-slate-300">{t.valueIntro}</p>
+            <h2 id="website-value-title" className="mt-3 text-3xl font-serif font-bold text-white sm:text-4xl">{t.valueTitle}</h2>
+            <p className="mt-5 leading-7 text-white/95">{t.valueIntro}</p>
             <div className="mt-8 rounded-2xl border border-white/15 bg-white/[0.06] p-5">
-              <p className="text-sm font-semibold text-slate-200">{t.formulaLead}</p>
+              <p className="text-sm font-semibold text-white">{t.formulaLead}</p>
               <p className="mt-2 text-lg font-serif font-bold leading-7 text-primary-light">{t.formula}</p>
             </div>
           </div>
@@ -183,13 +183,13 @@ export default function WebsiteApproachComparison({ locale }: Props) {
             {frictions.map(({ icon: Icon, title, body }) => (
               <article key={title} className="bg-slate-950/60 p-6 sm:p-7">
                 <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-400/10 text-amber-300"><Icon className="h-5 w-5" aria-hidden /></span>
-                <h3 className="mt-4 font-serif text-lg font-bold">{title}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-300">{body}</p>
+                <h3 className="mt-4 font-serif text-lg font-bold text-white">{title}</h3>
+                <p className="mt-2 text-sm leading-6 text-white/90">{body}</p>
               </article>
             ))}
           </div>
         </div>
-        <p className="border-t border-white/10 px-7 py-5 text-xs leading-5 text-slate-400 sm:px-10 lg:px-12">{t.closing}</p>
+        <p className="border-t border-white/10 px-7 py-5 text-xs leading-5 text-white/75 sm:px-10 lg:px-12">{t.closing}</p>
       </section>
     </div>
   )

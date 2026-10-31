@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useMemo, useState } from 'react'
-import { CheckCircle, Globe2, Info, Mail, PenLine, SearchCheck, Server, Share2, Sparkles, Tag } from 'lucide-react'
+import { CheckCircle, ChevronDown, ChevronUp, Globe2, Info, Mail, PenLine, SearchCheck, Server, Share2, Sparkles, Tag } from 'lucide-react'
 import { useLocale } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import {
@@ -23,11 +23,14 @@ const copy = {
     outcomeClarity: 'Explain your value clearly',
     outcomeDiscovery: 'Help customers find you',
     outcomeAction: 'Make the next step easy',
+    referralNote: 'Have a referral code? Enter it at the bottom of this form to apply the community discount.',
+    referralNoteLink: 'Go to referral code',
     requiredSection: 'Required',
     optionalSection: 'Optional add-ons',
     optionalSectionIntro: 'These are not required to request a scope confirmation.',
     coreTitle: 'Core Website Launch',
     required: 'Required',
+    included: 'Included',
     whatItIs: 'What it is',
     whyItMatters: 'Why it matters',
     website: 'Website creation',
@@ -36,8 +39,8 @@ const copy = {
     copyBooking: 'Copywriting and booking integration',
     copyBookingWhat: 'Client-friendly service messaging connected to the selected booking path.',
     copyBookingWhy: 'Helps visitors understand the offer and move from interest to an inquiry with less friction.',
-    visibility: 'SEO, AEO and agentic/AI visibility foundations',
-    visibilityWhat: 'Technical and content signals that describe the business to search engines, answer engines and AI assistants.',
+    visibility: 'Help search and AI find and describe your business (SEO, AEO, agentic AI)',
+    visibilityWhat: 'Clear public signals so search tools and AI assistants can understand what you offer.',
     visibilityWhy: 'Helps the right customers discover and understand the business when configured properly. Rankings are not guaranteed.',
     domainTitle: 'Choose your domain term',
     domainIntro: 'The domain is required and will be owned by you.',
@@ -45,7 +48,9 @@ const copy = {
     twoYears: '2 years',
     threeYears: '3 years',
     bestValue: 'Best value',
+    selected: 'Selected',
     emailTitle: 'Professional email',
+    emailPopular: 'Most clients add this',
     emailLabel: 'Add professional email setup and Microsoft 365 Business Basic',
     emailValue: 'Your email matches the website domain—for example, name@yourbusiness.ca.',
     emailCost: '$150 setup + $114/year',
@@ -62,7 +67,9 @@ const copy = {
     bundleSavings: 'Bundle savings',
     hostingTitle: 'Choose your hosting path',
     hostingIntro: 'Choose how much of the technical upkeep you want to manage yourself. Your website and domain remain yours with every option.',
-    hostingDetailHint: 'Hover or focus on an option for more detail.',
+    hostingDetailHint: 'Tap More detail on any option if you want the full explanation.',
+    hostingMoreDetail: 'More detail',
+    hostingHideDetail: 'Hide detail',
     ownHosting: 'My own hosting provider',
     ownHostingValue: 'Use a compatible provider you already trust; ROALLA will configure the website there.',
     ownHostingBestFor: 'Best when you already manage hosting',
@@ -97,11 +104,15 @@ const copy = {
     emailSetup: 'Professional email setup',
     emailAnnual: 'Microsoft 365 Business Basic — first year',
     socialSetup: 'Social tools setup',
+    domainTermOne: '1-year domain',
+    domainTermTwo: '2-year domain',
+    domainTermThree: '3-year domain',
     hostingFirstYear: 'Hosting and care — projected first year',
     ownHostingNote: 'Client-selected hosting provider fees are not included.',
     subtotal: 'First-year estimate before HST',
     hst: 'HST (13%)',
     total: 'Projected first-year total',
+    mobileSummaryLabel: 'Estimated first-year total',
     disclaimer:
       'This is a preliminary, non-binding estimate based on your selections. ROALLA confirms scope, compatibility, timing and final pricing in writing before work begins.',
     cta: 'Request scope confirmation',
@@ -114,11 +125,14 @@ const copy = {
     outcomeClarity: 'Expliquer clairement votre valeur',
     outcomeDiscovery: 'Aider les clients à vous trouver',
     outcomeAction: 'Faciliter la prochaine étape',
+    referralNote: 'Vous avez un code de recommandation? Entrez-le au bas de ce formulaire pour appliquer le rabais communautaire.',
+    referralNoteLink: 'Aller au code de recommandation',
     requiredSection: 'Requis',
     optionalSection: 'Options facultatives',
     optionalSectionIntro: 'Ces éléments ne sont pas requis pour demander une confirmation de portée.',
     coreTitle: 'Lancement Web de base',
     required: 'Requis',
+    included: 'Inclus',
     whatItIs: 'De quoi il s’agit',
     whyItMatters: 'Pourquoi c’est important',
     website: 'Création du site Web',
@@ -127,8 +141,8 @@ const copy = {
     copyBooking: 'Rédaction et intégration de la réservation',
     copyBookingWhat: 'Des messages clairs sur les services, reliés au parcours de réservation choisi.',
     copyBookingWhy: 'Aide les visiteurs à comprendre l’offre et à passer plus facilement de l’intérêt à une demande.',
-    visibility: 'Fondations SEO, AEO et visibilité agentique/IA',
-    visibilityWhat: 'Des signaux techniques et de contenu qui décrivent l’entreprise aux moteurs de recherche, de réponse et assistants IA.',
+    visibility: 'Aider la recherche et l’IA à trouver et décrire votre entreprise (SEO, AEO, IA agentique)',
+    visibilityWhat: 'Des signaux publics clairs pour que les outils de recherche et les assistants IA comprennent votre offre.',
     visibilityWhy: 'Aide les bons clients à découvrir et comprendre l’entreprise lorsque la configuration est adéquate. Aucun classement n’est garanti.',
     domainTitle: 'Choisissez la durée du domaine',
     domainIntro: 'Le domaine est requis et vous en serez propriétaire.',
@@ -136,7 +150,9 @@ const copy = {
     twoYears: '2 ans',
     threeYears: '3 ans',
     bestValue: 'Meilleure valeur',
+    selected: 'Sélectionné',
     emailTitle: 'Courriel professionnel',
+    emailPopular: 'La plupart des clients ajoutent ceci',
     emailLabel: 'Ajouter la configuration du courriel professionnel et Microsoft 365 Business Basic',
     emailValue: 'Votre courriel correspond au domaine du site, par exemple nom@votreentreprise.ca.',
     emailCost: '150 $ de configuration + 114 $/an',
@@ -153,7 +169,9 @@ const copy = {
     bundleSavings: 'Économie groupée',
     hostingTitle: 'Choisissez votre hébergement',
     hostingIntro: 'Choisissez la part de l’entretien technique que vous souhaitez gérer. Votre site et votre domaine restent à vous avec chaque option.',
-    hostingDetailHint: 'Survolez une option ou placez-y le focus pour voir plus de détails.',
+    hostingDetailHint: 'Touchez Plus de détails sur une option pour voir l’explication complète.',
+    hostingMoreDetail: 'Plus de détails',
+    hostingHideDetail: 'Masquer les détails',
     ownHosting: 'Mon propre fournisseur',
     ownHostingValue: 'Utilisez un fournisseur compatible que vous connaissez déjà; ROALLA y configurera le site.',
     ownHostingBestFor: 'Idéal si vous gérez déjà l’hébergement',
@@ -188,11 +206,15 @@ const copy = {
     emailSetup: 'Configuration du courriel professionnel',
     emailAnnual: 'Microsoft 365 Business Basic — première année',
     socialSetup: 'Configuration des médias sociaux',
+    domainTermOne: 'Domaine 1 an',
+    domainTermTwo: 'Domaine 2 ans',
+    domainTermThree: 'Domaine 3 ans',
     hostingFirstYear: 'Hébergement et entretien — première année projetée',
     ownHostingNote: 'Les frais de votre propre fournisseur d’hébergement ne sont pas inclus.',
     subtotal: 'Estimation de la première année avant TVH',
     hst: 'TVH (13 %)',
     total: 'Total projeté de la première année',
+    mobileSummaryLabel: 'Total estimé de la première année',
     disclaimer:
       'Cette estimation préliminaire est non contraignante. ROALLA confirmera la portée, la compatibilité, l’échéancier et le prix final par écrit avant le début des travaux.',
     cta: 'Demander la confirmation de la portée',
@@ -222,6 +244,10 @@ const hostingOptions: Array<{
   { value: 'care', label: 'care', description: 'careValue', bestFor: 'careBestFor', detail: 'careDetail', price: `$${WEBSITE_ESTIMATE_PRICES.careMonthly}/month` },
 ]
 
+const tileSelected =
+  'border-primary bg-primary/25 ring-2 ring-primary/40 shadow-md shadow-primary/15'
+const tileIdle = 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'
+
 export default function WebsiteEstimateBuilder() {
   const locale = useLocale()
   const french = locale === 'fr'
@@ -235,6 +261,7 @@ export default function WebsiteEstimateBuilder() {
   const [showExtras, setShowExtras] = useState(false)
   const [social, setSocial] = useState<SocialSetup>('none')
   const [hosting, setHosting] = useState<HostingChoice>('own')
+  const [expandedHosting, setExpandedHosting] = useState<HostingChoice | null>(null)
   const [code, setCode] = useState('')
   const [referralApplied, setReferralApplied] = useState(false)
   const [codeStatus, setCodeStatus] = useState<'idle' | 'loading' | 'invalid' | 'error'>('idle')
@@ -251,11 +278,44 @@ export default function WebsiteEstimateBuilder() {
 
   const toggleExtras = (checked: boolean) => {
     setShowExtras(checked)
-    if (!checked) {
+    if (checked) {
+      setHosting('care-lite')
+      setExpandedHosting(null)
+    } else {
       setSocial('none')
       setHosting('own')
+      setExpandedHosting(null)
     }
   }
+
+  const socialSummaryLabel =
+    activeSocial === 'none'
+      ? null
+      : activeSocial === 'bundle'
+        ? t.bundle
+        : t[activeSocial]
+  const hostingSummaryLabel =
+    activeHosting === 'own'
+      ? null
+      : activeHosting === 'launch'
+        ? t.launchHosting
+        : activeHosting === 'care-lite'
+          ? t.careLite
+          : t.care
+  const domainSummaryLabel =
+    domainTerm === 'one' ? t.domainTermOne : domainTerm === 'two' ? t.domainTermTwo : t.domainTermThree
+
+  const selectionLines = [
+    t.coreServices,
+    domainSummaryLabel,
+    email ? t.emailSetup : null,
+    socialSummaryLabel,
+    hostingSummaryLabel ?? t.ownHosting,
+    referralApplied ? t.referralDiscount : null,
+  ].filter(Boolean) as string[]
+
+  const estimateSummary = selectionLines.join(' · ')
+  const estimateTotalLabel = currency.format(estimate.firstYearTotal)
 
   const applyReferralCode = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -286,14 +346,32 @@ export default function WebsiteEstimateBuilder() {
     setCodeStatus('idle')
   }
 
-  const estimateGoal = `${french ? 'Estimation Web' : 'Website estimate'}: ${currency.format(estimate.firstYearTotal)} ${french ? 'TVH incluse' : 'including HST'}; domain=${domainTerm}; email=${email ? 'yes' : 'no'}; social=${activeSocial}; hosting=${activeHosting}; referral=${referralApplied ? 'applied' : 'none'}`
+  const estimateGoal = `${french ? 'Estimation Web' : 'Website estimate'}: ${estimateTotalLabel} ${french ? 'TVH incluse' : 'including HST'}. ${estimateSummary}`
+
+  const contactQuery = {
+    intent: 'website',
+    offer: 'estimate',
+    from_page: '/website-estimate',
+    goal: estimateGoal,
+    estimate_total: estimateTotalLabel,
+    estimate_summary: estimateSummary,
+  }
 
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-900/5 overflow-hidden">
+    <section className="rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-900/5 overflow-hidden pb-24 lg:pb-0">
       <header className="bg-slate-950 px-6 py-8 text-white sm:px-8 lg:px-10">
         <p className="text-xs font-bold uppercase tracking-[.18em] text-primary-light">{t.eyebrow}</p>
         <h1 className="mt-3 max-w-3xl text-3xl font-serif font-bold text-white sm:text-4xl">{t.title}</h1>
         <p className="mt-4 max-w-3xl leading-7 text-white/95">{t.intro}</p>
+        <p className="mt-4 inline-flex max-w-3xl items-start gap-2 rounded-xl border border-amber-300/40 bg-amber-400/15 px-3.5 py-2.5 text-sm leading-6 text-white">
+          <Tag className="mt-0.5 h-4 w-4 shrink-0 text-amber-300" aria-hidden />
+          <span>
+            {t.referralNote}{' '}
+            <a href="#referral-code-section" className="font-semibold text-amber-200 underline underline-offset-4 hover:text-amber-100">
+              {t.referralNoteLink}
+            </a>
+          </span>
+        </p>
         <div className="mt-6 flex flex-wrap gap-2">
           {[t.outcomeClarity, t.outcomeDiscovery, t.outcomeAction].map((outcome) => (
             <span key={outcome} className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white">
@@ -325,11 +403,16 @@ export default function WebsiteEstimateBuilder() {
                 ].map(({ label, what, why, price, icon: Icon }) => (
                   <article key={label} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                     <div className="flex items-start justify-between gap-4">
-                      <div className="flex items-start gap-3">
+                      <div className="flex min-w-0 items-start gap-3">
                         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary-dark">
                           <Icon className="h-5 w-5" aria-hidden />
                         </span>
-                        <h3 className="pt-1.5 font-serif text-lg font-bold text-slate-950">{label}</h3>
+                        <div className="min-w-0 pt-0.5">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <h3 className="font-serif text-lg font-bold text-slate-950">{label}</h3>
+                            <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-emerald-800">{t.included}</span>
+                          </div>
+                        </div>
                       </div>
                       <p className="shrink-0 pt-2 font-bold tabular-nums text-primary-dark">{currency.format(price)}</p>
                     </div>
@@ -360,11 +443,17 @@ export default function WebsiteEstimateBuilder() {
                   ['two', t.twoYears],
                   ['three', t.threeYears],
                 ] as Array<[DomainTerm, string]>).map(([value, label]) => (
-                  <label key={value} className={`relative cursor-pointer rounded-xl border p-4 transition ${domainTerm === value ? 'border-primary bg-primary/5 ring-2 ring-primary/15' : 'border-slate-200 hover:border-slate-300'}`}>
+                  <label key={value} className={`relative cursor-pointer rounded-xl border p-4 transition ${domainTerm === value ? tileSelected : tileIdle}`}>
                     <input className="sr-only" type="radio" name="domain-term" value={value} checked={domainTerm === value} onChange={() => setDomainTerm(value)} />
-                    <span className="block font-semibold text-slate-900">{label}</span>
+                    <span className="flex items-start justify-between gap-2">
+                      <span className="block font-semibold text-slate-900">{label}</span>
+                      {domainTerm === value ? <CheckCircle className="h-5 w-5 shrink-0 text-primary-dark" aria-hidden /> : null}
+                    </span>
                     <span className="mt-1 block text-lg font-bold text-primary-dark">{currency.format(DOMAIN_PRICES[value])}</span>
-                    {value === 'three' ? <span className="mt-2 inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.bestValue}</span> : null}
+                    <span className="mt-2 flex flex-wrap gap-1.5">
+                      {domainTerm === value ? <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                      {value === 'three' ? <span className="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.bestValue}</span> : null}
+                    </span>
                   </label>
                 ))}
               </div>
@@ -381,11 +470,18 @@ export default function WebsiteEstimateBuilder() {
             </div>
 
             <fieldset>
-              <legend className="flex items-center gap-2 text-xl font-serif font-bold text-slate-950"><Mail className="h-5 w-5 text-primary" aria-hidden />{t.emailTitle}</legend>
-              <label className={`mt-4 flex cursor-pointer items-start gap-3 rounded-xl border bg-white p-4 transition ${email ? 'border-primary bg-primary/5 ring-2 ring-primary/15' : 'border-slate-200'}`}>
+              <legend className="flex flex-wrap items-center gap-2 text-xl font-serif font-bold text-slate-950">
+                <Mail className="h-5 w-5 text-primary" aria-hidden />
+                {t.emailTitle}
+                <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-amber-900">{t.emailPopular}</span>
+              </legend>
+              <label className={`mt-4 flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition ${email ? tileSelected : tileIdle}`}>
                 <input className="mt-1 h-4 w-4 accent-primary" type="checkbox" checked={email} onChange={(event) => setEmail(event.target.checked)} />
-                <span>
-                  <span className="block font-semibold text-slate-900">{t.emailLabel}</span>
+                <span className="min-w-0 flex-1">
+                  <span className="flex flex-wrap items-center gap-2">
+                    <span className="block font-semibold text-slate-900">{t.emailLabel}</span>
+                    {email ? <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                  </span>
                   <span className="mt-1 block text-sm leading-6 text-slate-700">{t.emailValue}</span>
                   <span className="mt-2 block text-sm font-bold text-primary-dark">{t.emailCost}</span>
                 </span>
@@ -394,15 +490,18 @@ export default function WebsiteEstimateBuilder() {
 
             <fieldset>
               <legend className="flex items-center gap-2 text-xl font-serif font-bold text-slate-950"><Share2 className="h-5 w-5 text-primary" aria-hidden />{t.extrasTitle}</legend>
-              <label className={`mt-4 flex cursor-pointer items-start gap-3 rounded-xl border bg-white p-4 transition ${showExtras ? 'border-primary bg-primary/5 ring-2 ring-primary/15' : 'border-slate-200'}`}>
+              <label className={`mt-4 flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition ${showExtras ? tileSelected : tileIdle}`}>
                 <input
                   className="mt-1 h-4 w-4 accent-primary"
                   type="checkbox"
                   checked={showExtras}
                   onChange={(event) => toggleExtras(event.target.checked)}
                 />
-                <span>
-                  <span className="block font-semibold text-slate-900">{t.extrasLabel}</span>
+                <span className="min-w-0 flex-1">
+                  <span className="flex flex-wrap items-center gap-2">
+                    <span className="block font-semibold text-slate-900">{t.extrasLabel}</span>
+                    {showExtras ? <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                  </span>
                   <span className="mt-1 block text-sm leading-6 text-slate-700">{t.extrasValue}</span>
                 </span>
               </label>
@@ -419,13 +518,19 @@ export default function WebsiteEstimateBuilder() {
                       {socialOptions.map(({ value, label }) => {
                         const price = value === 'none' ? 0 : value === 'bundle' ? WEBSITE_ESTIMATE_PRICES.socialBundle : WEBSITE_ESTIMATE_PRICES.socialSingle
                         return (
-                          <label key={value} className={`cursor-pointer rounded-xl border bg-white p-4 transition ${social === value ? 'border-primary bg-primary/5 ring-2 ring-primary/15' : 'border-slate-200'}`}>
+                          <label key={value} className={`cursor-pointer rounded-xl border p-4 transition ${social === value ? tileSelected : tileIdle}`}>
                             <input className="sr-only" type="radio" name="social" value={value} checked={social === value} onChange={() => setSocial(value)} />
                             <span className="flex items-start justify-between gap-3">
                               <span className="font-semibold text-slate-900">{t[label]}</span>
-                              <span className="font-bold text-primary-dark">{currency.format(price)}</span>
+                              <span className="flex items-center gap-2">
+                                <span className="font-bold text-primary-dark">{currency.format(price)}</span>
+                                {social === value ? <CheckCircle className="h-5 w-5 shrink-0 text-primary-dark" aria-hidden /> : null}
+                              </span>
                             </span>
-                            {value === 'bundle' ? <span className="mt-2 inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.bundleSavings}</span> : null}
+                            <span className="mt-2 flex flex-wrap gap-1.5">
+                              {social === value ? <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                              {value === 'bundle' ? <span className="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.bundleSavings}</span> : null}
+                            </span>
                           </label>
                         )
                       })}
@@ -443,36 +548,51 @@ export default function WebsiteEstimateBuilder() {
                       {t.hostingDetailHint}
                     </p>
                     <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                      {hostingOptions.map(({ value, label, description, bestFor, detail, price, recommended }) => (
-                        <label key={value} className={`group relative cursor-pointer rounded-xl border bg-white p-4 transition hover:z-30 hover:border-primary/60 hover:shadow-md focus-within:z-30 focus-within:border-primary focus-within:shadow-md ${hosting === value ? 'border-primary bg-primary/5 ring-2 ring-primary/15' : 'border-slate-200'}`}>
-                          <input
-                            className="sr-only"
-                            type="radio"
-                            name="hosting"
-                            value={value}
-                            checked={hosting === value}
-                            aria-describedby={`hosting-${value}-description hosting-${value}-detail`}
-                            onChange={() => setHosting(value)}
-                          />
-                          <span className="flex items-start justify-between gap-3">
-                            <span className="font-semibold text-slate-900">{t[label]}</span>
-                            <span className="shrink-0 font-bold text-primary-dark">{price.replace('/year', t.perYear).replace('/month', t.perMonth)}</span>
-                          </span>
-                          {recommended ? <span className="mt-2 inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.recommended}</span> : null}
-                          <span id={`hosting-${value}-description`} className="mt-2 block text-sm leading-6 text-slate-700">{t[description]}</span>
-                          <span className="mt-3 flex items-center justify-between gap-2 border-t border-slate-200 pt-3 text-xs font-semibold text-primary-dark">
-                            <span>{t[bestFor]}</span>
-                            <Info className="h-4 w-4 shrink-0" aria-hidden />
-                          </span>
-                          <span
-                            id={`hosting-${value}-detail`}
-                            role="tooltip"
-                            className="pointer-events-none absolute left-2 right-2 top-full z-40 mt-2 block translate-y-1 rounded-xl bg-slate-950 p-4 text-sm font-normal leading-6 text-white opacity-0 shadow-xl transition duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100"
-                          >
-                            {t[detail]}
-                          </span>
-                        </label>
-                      ))}
+                      {hostingOptions.map(({ value, label, description, bestFor, detail, price, recommended }) => {
+                        const isExpanded = expandedHosting === value
+                        return (
+                          <div key={value} className={`rounded-xl border p-4 transition ${hosting === value ? tileSelected : tileIdle}`}>
+                            <label className="cursor-pointer">
+                              <input
+                                className="sr-only"
+                                type="radio"
+                                name="hosting"
+                                value={value}
+                                checked={hosting === value}
+                                aria-describedby={`hosting-${value}-description`}
+                                onChange={() => setHosting(value)}
+                              />
+                              <span className="flex items-start justify-between gap-3">
+                                <span className="font-semibold text-slate-900">{t[label]}</span>
+                                <span className="flex items-center gap-2">
+                                  <span className="shrink-0 font-bold text-primary-dark">{price.replace('/year', t.perYear).replace('/month', t.perMonth)}</span>
+                                  {hosting === value ? <CheckCircle className="h-5 w-5 shrink-0 text-primary-dark" aria-hidden /> : null}
+                                </span>
+                              </span>
+                              <span className="mt-2 flex flex-wrap gap-1.5">
+                                {hosting === value ? <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                                {recommended ? <span className="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.recommended}</span> : null}
+                              </span>
+                              <span id={`hosting-${value}-description`} className="mt-2 block text-sm leading-6 text-slate-700">{t[description]}</span>
+                              <span className="mt-3 block border-t border-slate-200 pt-3 text-xs font-semibold text-primary-dark">{t[bestFor]}</span>
+                            </label>
+                            <button
+                              type="button"
+                              className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-primary-dark underline-offset-2 hover:underline"
+                              aria-expanded={isExpanded}
+                              onClick={() => setExpandedHosting(isExpanded ? null : value)}
+                            >
+                              {isExpanded ? <ChevronUp className="h-3.5 w-3.5" aria-hidden /> : <ChevronDown className="h-3.5 w-3.5" aria-hidden />}
+                              {isExpanded ? t.hostingHideDetail : t.hostingMoreDetail}
+                            </button>
+                            {isExpanded ? (
+                              <p id={`hosting-${value}-detail`} className="mt-3 rounded-xl bg-slate-950 p-4 text-sm leading-6 text-white">
+                                {t[detail]}
+                              </p>
+                            ) : null}
+                          </div>
+                        )
+                      })}
                     </div>
                   </div>
                 </div>
@@ -480,7 +600,7 @@ export default function WebsiteEstimateBuilder() {
             </fieldset>
           </div>
 
-          <form onSubmit={applyReferralCode} className="rounded-2xl border border-amber-200 bg-amber-50 p-5">
+          <form id="referral-code-section" onSubmit={applyReferralCode} className="scroll-mt-28 rounded-2xl border border-amber-200 bg-amber-50 p-5">
             <div className="flex items-center gap-2"><Tag className="h-5 w-5 text-amber-700" aria-hidden /><h2 className="font-serif text-lg font-bold text-slate-950">{t.codeTitle}</h2></div>
             {referralApplied ? (
               <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -507,20 +627,30 @@ export default function WebsiteEstimateBuilder() {
             <dl className="mt-5 space-y-3 text-sm">
               <div className="flex justify-between gap-4"><dt className="text-slate-700">{t.coreServices}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(WEBSITE_ESTIMATE_CORE_PRICE)}</dd></div>
               {estimate.referralDiscount > 0 ? <div className="flex justify-between gap-4 text-emerald-700"><dt>{t.referralDiscount}</dt><dd className="font-semibold tabular-nums">–{currency.format(estimate.referralDiscount)}</dd></div> : null}
-              <div className="flex justify-between gap-4"><dt className="text-slate-700">{t.domain}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.domain)}</dd></div>
+              <div className="flex justify-between gap-4"><dt className="text-slate-700">{domainSummaryLabel}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.domain)}</dd></div>
               {email ? <><div className="flex justify-between gap-4"><dt className="text-slate-700">{t.emailSetup}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.emailSetup)}</dd></div><div className="flex justify-between gap-4"><dt className="text-slate-700">{t.emailAnnual}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.emailAnnual)}</dd></div></> : null}
-              {estimate.socialSetup > 0 ? <div className="flex justify-between gap-4"><dt className="text-slate-700">{t.socialSetup}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.socialSetup)}</dd></div> : null}
-              {activeHosting !== 'own' ? <div className="flex justify-between gap-4"><dt className="text-slate-700">{t.hostingFirstYear}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.hostingFirstYear)}</dd></div> : <div className="flex gap-2 rounded-lg bg-white p-3 text-xs leading-5 text-slate-700"><Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />{t.ownHostingNote}</div>}
+              {socialSummaryLabel && estimate.socialSetup > 0 ? <div className="flex justify-between gap-4"><dt className="text-slate-700">{socialSummaryLabel}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.socialSetup)}</dd></div> : null}
+              {hostingSummaryLabel ? <div className="flex justify-between gap-4"><dt className="text-slate-700">{hostingSummaryLabel}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.hostingFirstYear)}</dd></div> : <div className="flex gap-2 rounded-lg bg-white p-3 text-xs leading-5 text-slate-700"><Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />{t.ownHostingNote}</div>}
             </dl>
             <div className="mt-6 space-y-3 border-t border-slate-300 pt-5">
               <div className="flex justify-between gap-4 text-sm"><span className="text-slate-700">{t.subtotal}</span><span className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.firstYearBeforeTax)}</span></div>
               <div className="flex justify-between gap-4 text-sm"><span className="text-slate-700">{t.hst}</span><span className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.hst)}</span></div>
-              <div className="flex items-end justify-between gap-4 border-t border-slate-300 pt-4"><span className="font-bold text-slate-950">{t.total}</span><span className="text-2xl font-serif font-bold tabular-nums text-primary-dark">{currency.format(estimate.firstYearTotal)}</span></div>
+              <div className="flex items-end justify-between gap-4 border-t border-slate-300 pt-4"><span className="font-bold text-slate-950">{t.total}</span><span className="text-2xl font-serif font-bold tabular-nums text-primary-dark">{estimateTotalLabel}</span></div>
             </div>
             <p className="mt-5 text-xs leading-5 text-slate-600">{t.disclaimer}</p>
-            <Link href={{ pathname: '/contact', query: { intent: 'website', offer: 'estimate', from_page: '/website-estimate', goal: estimateGoal } }} className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-primary px-5 py-3 text-center font-bold text-white transition hover:bg-primary-dark">{t.cta}</Link>
+            <Link href={{ pathname: '/contact', query: contactQuery }} className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-primary px-5 py-3 text-center font-bold text-white transition hover:bg-primary-dark">{t.cta}</Link>
           </div>
         </aside>
+      </div>
+
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 p-3 shadow-[0_-8px_30px_rgba(15,23,42,0.12)] backdrop-blur lg:hidden">
+        <div className="mx-auto flex max-w-7xl items-center gap-3">
+          <div className="min-w-0 flex-1">
+            <p className="text-[11px] font-bold uppercase tracking-wide text-slate-600">{t.mobileSummaryLabel}</p>
+            <p className="truncate text-lg font-serif font-bold tabular-nums text-primary-dark">{estimateTotalLabel}</p>
+          </div>
+          <Link href={{ pathname: '/contact', query: contactQuery }} className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg bg-primary px-4 text-sm font-bold text-white hover:bg-primary-dark">{t.cta}</Link>
+        </div>
       </div>
     </section>
   )

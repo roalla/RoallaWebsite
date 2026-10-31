@@ -31,7 +31,7 @@ const copy = {
     eyebrow: 'Website package estimator',
     title: 'Build a clear first-year website estimate.',
     intro:
-      'Start with the required launch foundation and website address. Optional add-ons stay separate—open them only if you want email, social media profiles, or hosting support.',
+      'Start with the required launch foundation and website address. Optional add-ons stay separate—choose email, social media profiles, or hosting only if you want them.',
     outcomeClarity: 'Explain your value clearly',
     outcomeDiscovery: 'Help customers find you',
     outcomeAction: 'Make the next step easy',
@@ -114,20 +114,27 @@ const copy = {
     emailRecommended: 'Recommended',
     emailProviderFeesSeparate: 'Provider fees separate',
     emailPerUserYear: '/user/year',
-    extrasTitle: 'Additional options',
-    extrasLabel: 'I want social media profiles or hosting options',
-    extrasValue:
-      'Open this only if you want social media profile setup or ROALLA hosting and care. Otherwise leave it unchecked.',
-    socialTitle: 'Social media profile setup',
+    socialTitle: 'Do you need social media profile setup?',
+    socialNeedIntro: 'Social setup is optional and separate from hosting. Choose Yes only if you want ROALLA to configure profiles.',
+    socialYes: 'Yes, I want social media profile setup',
+    socialYesValue: 'Show platform choices and the starter content library.',
+    socialNone: 'No social media setup right now',
+    socialNoneValue: 'Continue without social profile setup. You can add it later.',
+    socialChooseTitle: 'Choose the profiles to set up',
     socialValue:
       'Professional profile configuration with consistent names, bios, images, links, contact details and security settings. Includes a 30-day starter plan of key messages and post-ready content you can leverage—you publish the posts; we provide the library to help you get started.',
-    noSocial: 'No social media setup',
     instagram: 'Instagram',
     youtube: 'YouTube',
     linkedin: 'LinkedIn',
     bundle: 'Instagram + YouTube + LinkedIn',
     bundleSavings: 'Bundle savings',
-    hostingTitle: 'Choose your hosting path',
+    hostingTitle: 'Do you need hosting or care options?',
+    hostingNeedIntro: 'Hosting is optional and separate from social setup. Choose No to use your own provider, or Yes to compare ROALLA hosting and care.',
+    hostingYes: 'Yes, show hosting and care options',
+    hostingYesValue: 'Compare your own provider with ROALLA Launch Hosting and care plans.',
+    hostingNone: 'No—I will use my own hosting provider',
+    hostingNoneValue: 'ROALLA can still configure the finished website on a compatible provider you manage.',
+    hostingChooseTitle: 'Choose your hosting path',
     hostingIntro:
       'Choose how much of the technical upkeep you want to manage yourself. Your website and website address remain yours with every option.',
     hostingDetailHint: 'Tap More detail on any option if you want the full explanation.',
@@ -209,7 +216,7 @@ const copy = {
     eyebrow: 'Estimateur de forfait Web',
     title: 'Préparez une estimation claire pour la première année.',
     intro:
-      'Commencez par la base de lancement et l’adresse du site. Les options restent séparées—ouvrez-les seulement si vous voulez le courriel, les profils de médias sociaux ou l’hébergement.',
+      'Commencez par la base de lancement et l’adresse du site. Les options restent séparées—choisissez le courriel, les profils de médias sociaux ou l’hébergement seulement si vous les voulez.',
     outcomeClarity: 'Expliquer clairement votre valeur',
     outcomeDiscovery: 'Aider les clients à vous trouver',
     outcomeAction: 'Faciliter la prochaine étape',
@@ -292,20 +299,29 @@ const copy = {
     emailRecommended: 'Recommandé',
     emailProviderFeesSeparate: 'Frais du fournisseur séparés',
     emailPerUserYear: '/utilisateur/an',
-    extrasTitle: 'Options supplémentaires',
-    extrasLabel: 'Je veux des profils de médias sociaux ou des options d’hébergement',
-    extrasValue:
-      'Ouvrez ceci seulement si vous voulez la configuration des profils de médias sociaux ou l’hébergement et l’entretien ROALLA. Sinon, laissez décoché.',
-    socialTitle: 'Configuration des profils de médias sociaux',
+    socialTitle: 'Avez-vous besoin de la configuration des profils de médias sociaux?',
+    socialNeedIntro:
+      'La configuration sociale est facultative et séparée de l’hébergement. Choisissez Oui seulement si vous voulez que ROALLA configure les profils.',
+    socialYes: 'Oui, je veux la configuration des profils de médias sociaux',
+    socialYesValue: 'Afficher les choix de plateformes et la bibliothèque de démarrage.',
+    socialNone: 'Pas de configuration sociale pour le moment',
+    socialNoneValue: 'Continuer sans configuration de profils. Vous pourrez l’ajouter plus tard.',
+    socialChooseTitle: 'Choisissez les profils à configurer',
     socialValue:
       'Configuration professionnelle et cohérente des noms, biographies, images, liens, coordonnées et paramètres de sécurité. Comprend un plan de démarrage de 30 jours avec messages clés et contenu prêt à publier—vous publiez les publications; nous fournissons la bibliothèque pour vous aider à démarrer.',
-    noSocial: 'Aucune configuration de médias sociaux',
     instagram: 'Instagram',
     youtube: 'YouTube',
     linkedin: 'LinkedIn',
     bundle: 'Instagram + YouTube + LinkedIn',
     bundleSavings: 'Économie groupée',
-    hostingTitle: 'Choisissez votre hébergement',
+    hostingTitle: 'Avez-vous besoin d’options d’hébergement ou d’entretien?',
+    hostingNeedIntro:
+      'L’hébergement est facultatif et séparé de la configuration sociale. Choisissez Non pour votre propre fournisseur, ou Oui pour comparer l’hébergement et l’entretien ROALLA.',
+    hostingYes: 'Oui, montrer les options d’hébergement et d’entretien',
+    hostingYesValue: 'Comparer votre propre fournisseur avec l’hébergement Lancement ROALLA et les forfaits d’entretien.',
+    hostingNone: 'Non—j’utiliserai mon propre fournisseur',
+    hostingNoneValue: 'ROALLA peut quand même configurer le site terminé sur un fournisseur compatible que vous gérez.',
+    hostingChooseTitle: 'Choisissez votre hébergement',
     hostingIntro:
       'Choisissez la part de l’entretien technique que vous souhaitez gérer. Votre site et son adresse restent à vous avec chaque option.',
     hostingDetailHint: 'Touchez Plus de détails sur une option pour voir l’explication complète.',
@@ -385,8 +401,7 @@ const copy = {
   },
 } as const
 
-const socialOptions: Array<{ value: SocialSetup; label: keyof typeof copy.en }> = [
-  { value: 'none', label: 'noSocial' },
+const socialOptions: Array<{ value: Exclude<SocialSetup, 'none'>; label: keyof typeof copy.en }> = [
   { value: 'instagram', label: 'instagram' },
   { value: 'youtube', label: 'youtube' },
   { value: 'linkedin', label: 'linkedin' },
@@ -466,8 +481,9 @@ export default function WebsiteEstimateBuilder() {
   const [needsEmail, setNeedsEmail] = useState(false)
   const [email, setEmail] = useState<EmailChoice>('none')
   const [emailUsers, setEmailUsers] = useState(1)
-  const [showExtras, setShowExtras] = useState(false)
+  const [needsSocial, setNeedsSocial] = useState(false)
   const [social, setSocial] = useState<SocialSetup>('none')
+  const [needsHosting, setNeedsHosting] = useState(false)
   const [hosting, setHosting] = useState<HostingChoice>('own')
   const [expandedHosting, setExpandedHosting] = useState<HostingChoice | null>(null)
   const [showHostingMatrix, setShowHostingMatrix] = useState(false)
@@ -476,8 +492,8 @@ export default function WebsiteEstimateBuilder() {
   const [referralApplied, setReferralApplied] = useState(false)
   const [codeStatus, setCodeStatus] = useState<'idle' | 'loading' | 'invalid' | 'error'>('idle')
 
-  const activeSocial = showExtras ? social : 'none'
-  const activeHosting = showExtras ? hosting : 'own'
+  const activeSocial = needsSocial ? social : 'none'
+  const activeHosting = needsHosting ? hosting : 'own'
   const estimate = calculateWebsiteEstimate({
     domainSource,
     domainTerm,
@@ -488,15 +504,24 @@ export default function WebsiteEstimateBuilder() {
     referralDiscount: referralApplied,
   })
 
-  const toggleExtras = (checked: boolean) => {
-    setShowExtras(checked)
-    if (checked) {
-      setHosting('care-lite')
-      setExpandedHosting(null)
+  const chooseSocialNeed = (needed: boolean) => {
+    setNeedsSocial(needed)
+    if (needed) {
+      setSocial((current) => (current === 'none' ? 'instagram' : current))
     } else {
       setSocial('none')
+    }
+  }
+
+  const chooseHostingNeed = (needed: boolean) => {
+    setNeedsHosting(needed)
+    if (needed) {
+      setHosting((current) => (current === 'own' ? 'care-lite' : current))
+      setExpandedHosting(null)
+    } else {
       setHosting('own')
       setExpandedHosting(null)
+      setShowHostingMatrix(false)
     }
   }
 
@@ -841,175 +866,206 @@ export default function WebsiteEstimateBuilder() {
             </fieldset>
 
             <fieldset>
-              <legend className="flex items-center gap-2 text-xl font-serif font-bold text-slate-950"><Share2 className="h-5 w-5 text-primary" aria-hidden />{t.extrasTitle}</legend>
-              <label className={`mt-4 flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition ${showExtras ? tileSelected : tileIdle}`}>
-                <input
-                  className="mt-1 h-4 w-4 accent-primary"
-                  type="checkbox"
-                  checked={showExtras}
-                  onChange={(event) => toggleExtras(event.target.checked)}
-                />
-                <span className="min-w-0 flex-1">
-                  <span className="flex flex-wrap items-center gap-2">
-                    <span className="block font-semibold text-slate-900">{t.extrasLabel}</span>
-                    {showExtras ? <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+              <legend className="flex flex-wrap items-center gap-2 text-xl font-serif font-bold text-slate-950">
+                <Share2 className="h-5 w-5 text-primary" aria-hidden />
+                {t.socialTitle}
+              </legend>
+              <p className="mt-2 text-sm leading-6 text-slate-700">{t.socialNeedIntro}</p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <label className={`cursor-pointer rounded-xl border p-4 transition ${!needsSocial ? tileSelected : tileIdle}`}>
+                  <input className="sr-only" type="radio" name="needs-social" checked={!needsSocial} onChange={() => chooseSocialNeed(false)} />
+                  <span className="flex items-start justify-between gap-3">
+                    <span className="font-semibold text-slate-950">{t.socialNone}</span>
+                    {!needsSocial ? <CheckCircle className="h-5 w-5 shrink-0 text-primary" aria-hidden /> : null}
                   </span>
-                  <span className="mt-1 block text-sm leading-6 text-slate-700">{t.extrasValue}</span>
-                </span>
-              </label>
+                  <span className="mt-2 block text-sm leading-6 text-slate-700">{t.socialNoneValue}</span>
+                  {!needsSocial ? <span className="mt-3 inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                </label>
+                <label className={`cursor-pointer rounded-xl border p-4 transition ${needsSocial ? tileSelected : tileIdle}`}>
+                  <input className="sr-only" type="radio" name="needs-social" checked={needsSocial} onChange={() => chooseSocialNeed(true)} />
+                  <span className="flex items-start justify-between gap-3">
+                    <span className="font-semibold text-slate-950">{t.socialYes}</span>
+                    {needsSocial ? <CheckCircle className="h-5 w-5 shrink-0 text-primary" aria-hidden /> : null}
+                  </span>
+                  <span className="mt-2 block text-sm leading-6 text-slate-700">{t.socialYesValue}</span>
+                  {needsSocial ? <span className="mt-3 inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                </label>
+              </div>
 
-              {showExtras ? (
-                <div className="mt-4 space-y-6 border-t border-slate-200 pt-5">
-                  <div>
-                    <h3 className="flex items-center gap-2 font-serif text-lg font-bold text-slate-950">
-                      <Share2 className="h-4 w-4 text-primary" aria-hidden />
-                      {t.socialTitle}
-                    </h3>
-                    <p className="mt-1 text-sm leading-6 text-slate-700">{t.socialValue}</p>
-                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                      {socialOptions.map(({ value, label }) => {
-                        const price = value === 'none' ? 0 : value === 'bundle' ? WEBSITE_ESTIMATE_PRICES.socialBundle : WEBSITE_ESTIMATE_PRICES.socialSingle
-                        return (
-                          <label key={value} className={`cursor-pointer rounded-xl border p-4 transition ${social === value ? tileSelected : tileIdle}`}>
-                            <input className="sr-only" type="radio" name="social" value={value} checked={social === value} onChange={() => setSocial(value)} />
+              {needsSocial ? (
+                <div className="mt-5 border-t border-slate-200 pt-5">
+                  <h3 className="font-serif text-lg font-bold text-slate-950">{t.socialChooseTitle}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-700">{t.socialValue}</p>
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                    {socialOptions.map(({ value, label }) => {
+                      const price = value === 'bundle' ? WEBSITE_ESTIMATE_PRICES.socialBundle : WEBSITE_ESTIMATE_PRICES.socialSingle
+                      return (
+                        <label key={value} className={`cursor-pointer rounded-xl border p-4 transition ${social === value ? tileSelected : tileIdle}`}>
+                          <input className="sr-only" type="radio" name="social" value={value} checked={social === value} onChange={() => setSocial(value)} />
+                          <span className="flex items-start justify-between gap-3">
+                            <span className="font-semibold text-slate-900">{t[label]}</span>
+                            <span className="flex items-center gap-2">
+                              <span className="font-bold text-primary-dark">{money(price)}</span>
+                              {social === value ? <CheckCircle className="h-5 w-5 shrink-0 text-primary-dark" aria-hidden /> : null}
+                            </span>
+                          </span>
+                          <span className="mt-2 flex flex-wrap gap-1.5">
+                            {social === value ? <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                            {value === 'bundle' ? <span className="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.bundleSavings}</span> : null}
+                          </span>
+                        </label>
+                      )
+                    })}
+                  </div>
+                </div>
+              ) : null}
+            </fieldset>
+
+            <fieldset>
+              <legend className="flex flex-wrap items-center gap-2 text-xl font-serif font-bold text-slate-950">
+                <Server className="h-5 w-5 text-primary" aria-hidden />
+                {t.hostingTitle}
+              </legend>
+              <p className="mt-2 text-sm leading-6 text-slate-700">{t.hostingNeedIntro}</p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <label className={`cursor-pointer rounded-xl border p-4 transition ${!needsHosting ? tileSelected : tileIdle}`}>
+                  <input className="sr-only" type="radio" name="needs-hosting" checked={!needsHosting} onChange={() => chooseHostingNeed(false)} />
+                  <span className="flex items-start justify-between gap-3">
+                    <span className="font-semibold text-slate-950">{t.hostingNone}</span>
+                    {!needsHosting ? <CheckCircle className="h-5 w-5 shrink-0 text-primary" aria-hidden /> : null}
+                  </span>
+                  <span className="mt-2 block text-sm leading-6 text-slate-700">{t.hostingNoneValue}</span>
+                  {!needsHosting ? <span className="mt-3 inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                </label>
+                <label className={`cursor-pointer rounded-xl border p-4 transition ${needsHosting ? tileSelected : tileIdle}`}>
+                  <input className="sr-only" type="radio" name="needs-hosting" checked={needsHosting} onChange={() => chooseHostingNeed(true)} />
+                  <span className="flex items-start justify-between gap-3">
+                    <span className="font-semibold text-slate-950">{t.hostingYes}</span>
+                    {needsHosting ? <CheckCircle className="h-5 w-5 shrink-0 text-primary" aria-hidden /> : null}
+                  </span>
+                  <span className="mt-2 block text-sm leading-6 text-slate-700">{t.hostingYesValue}</span>
+                  {needsHosting ? <span className="mt-3 inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                </label>
+              </div>
+
+              {needsHosting ? (
+                <div className="mt-5 border-t border-slate-200 pt-5">
+                  <h3 className="font-serif text-lg font-bold text-slate-950">{t.hostingChooseTitle}</h3>
+                  <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-700">{t.hostingIntro}</p>
+                  <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+                    <p className="flex items-center gap-1.5 text-xs font-medium text-primary-dark">
+                      <Info className="h-3.5 w-3.5" aria-hidden />
+                      {t.hostingDetailHint}
+                    </p>
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-primary/30 bg-primary/10 px-3 py-2 text-xs font-bold text-primary-dark transition hover:bg-primary/15"
+                      aria-expanded={showHostingMatrix}
+                      aria-controls="hosting-comparison-matrix"
+                      onClick={() => setShowHostingMatrix((open) => !open)}
+                    >
+                      <Table2 className="h-3.5 w-3.5" aria-hidden />
+                      {showHostingMatrix ? t.hostingCompareHide : t.hostingCompare}
+                      {showHostingMatrix ? <ChevronUp className="h-3.5 w-3.5" aria-hidden /> : <ChevronDown className="h-3.5 w-3.5" aria-hidden />}
+                    </button>
+                  </div>
+                  {showHostingMatrix ? (
+                    <div
+                      id="hosting-comparison-matrix"
+                      className="mt-4 overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm"
+                    >
+                      <table className="min-w-[40rem] w-full border-collapse text-left text-sm">
+                        <caption className="sr-only">{t.hostingMatrixCaption}</caption>
+                        <thead>
+                          <tr className="border-b border-slate-200 bg-slate-950 text-white">
+                            <th scope="col" className="px-3 py-3 font-semibold">{t.hostingMatrixFeature}</th>
+                            <th scope="col" className="px-3 py-3 font-semibold">{t.ownHosting}</th>
+                            <th scope="col" className="px-3 py-3 font-semibold">{t.launchHosting}</th>
+                            <th scope="col" className="px-3 py-3 font-semibold">
+                              {t.careLite}
+                              <span className="mt-1 block text-[10px] font-bold uppercase tracking-wide text-emerald-300">{t.recommended}</span>
+                            </th>
+                            <th scope="col" className="px-3 py-3 font-semibold">{t.care}</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-200 text-slate-800">
+                          {(
+                            [
+                              [t.hostingMatrixHosting, t.hostingMatrixOwnHosting, t.hostingMatrixRoallaHosting, t.hostingMatrixRoallaHosting, t.hostingMatrixRoallaHosting],
+                              [t.hostingMatrixBilling, t.hostingMatrixYouManage, t.hostingMatrixRoallaManages, t.hostingMatrixRoallaManages, t.hostingMatrixRoallaManages],
+                              [t.hostingMatrixLaunch, t.hostingMatrixConfigured, t.hostingMatrixConfigured, t.hostingMatrixConfigured, t.hostingMatrixConfigured],
+                              [t.hostingMatrixCare, t.hostingMatrixNotIncluded, t.hostingMatrixNotIncluded, t.hostingMatrixOccasional, t.hostingMatrixRegular],
+                              [t.hostingMatrixUpdates, t.hostingMatrixNotIncluded, t.hostingMatrixNotIncluded, t.hostingMatrixMinor, t.hostingMatrixActive],
+                              [t.hostingMatrixBestFor, t.ownHostingBestFor, t.launchHostingBestFor, t.careLiteBestFor, t.careBestFor],
+                              [
+                                t.hostingMatrixPrice,
+                                t.hostingMatrixOwnPrice,
+                                `$${WEBSITE_ESTIMATE_PRICES.launchHostingAnnual}${t.perYear}`,
+                                `$${WEBSITE_ESTIMATE_PRICES.careLiteMonthly}${t.perMonth}`,
+                                `$${WEBSITE_ESTIMATE_PRICES.careMonthly}${t.perMonth}`,
+                              ],
+                            ] as const
+                          ).map(([feature, own, launch, careLite, care]) => (
+                            <tr key={feature} className="align-top odd:bg-white even:bg-slate-50">
+                              <th scope="row" className="px-3 py-3 font-semibold text-slate-950">
+                                {feature}
+                              </th>
+                              <td className="px-3 py-3 leading-6">{own}</td>
+                              <td className="px-3 py-3 leading-6">{launch}</td>
+                              <td className="px-3 py-3 leading-6">{careLite}</td>
+                              <td className="px-3 py-3 leading-6">{care}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : null}
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                    {hostingOptions.map(({ value, label, description, bestFor, detail, price, recommended }) => {
+                      const isExpanded = expandedHosting === value
+                      return (
+                        <div key={value} className={`rounded-xl border p-4 transition ${hosting === value ? tileSelected : tileIdle}`}>
+                          <label className="cursor-pointer">
+                            <input
+                              className="sr-only"
+                              type="radio"
+                              name="hosting"
+                              value={value}
+                              checked={hosting === value}
+                              aria-describedby={`hosting-${value}-description`}
+                              onChange={() => setHosting(value)}
+                            />
                             <span className="flex items-start justify-between gap-3">
                               <span className="font-semibold text-slate-900">{t[label]}</span>
                               <span className="flex items-center gap-2">
-                                <span className="font-bold text-primary-dark">{money(price)}</span>
-                                {social === value ? <CheckCircle className="h-5 w-5 shrink-0 text-primary-dark" aria-hidden /> : null}
+                                <span className="shrink-0 font-bold text-primary-dark">{price.replace('/year', t.perYear).replace('/month', t.perMonth)}</span>
+                                {hosting === value ? <CheckCircle className="h-5 w-5 shrink-0 text-primary-dark" aria-hidden /> : null}
                               </span>
                             </span>
                             <span className="mt-2 flex flex-wrap gap-1.5">
-                              {social === value ? <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
-                              {value === 'bundle' ? <span className="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.bundleSavings}</span> : null}
+                              {hosting === value ? <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                              {recommended ? <span className="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.recommended}</span> : null}
                             </span>
+                            <span id={`hosting-${value}-description`} className="mt-2 block text-sm leading-6 text-slate-700">{t[description]}</span>
+                            <span className="mt-3 block border-t border-slate-200 pt-3 text-xs font-semibold text-primary-dark">{t[bestFor]}</span>
                           </label>
-                        )
-                      })}
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="flex items-center gap-2 font-serif text-lg font-bold text-slate-950">
-                      <Server className="h-4 w-4 text-primary" aria-hidden />
-                      {t.hostingTitle}
-                    </h3>
-                    <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-700">{t.hostingIntro}</p>
-                    <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
-                      <p className="flex items-center gap-1.5 text-xs font-medium text-primary-dark">
-                        <Info className="h-3.5 w-3.5" aria-hidden />
-                        {t.hostingDetailHint}
-                      </p>
-                      <button
-                        type="button"
-                        className="inline-flex items-center gap-1.5 rounded-lg border border-primary/30 bg-primary/10 px-3 py-2 text-xs font-bold text-primary-dark transition hover:bg-primary/15"
-                        aria-expanded={showHostingMatrix}
-                        aria-controls="hosting-comparison-matrix"
-                        onClick={() => setShowHostingMatrix((open) => !open)}
-                      >
-                        <Table2 className="h-3.5 w-3.5" aria-hidden />
-                        {showHostingMatrix ? t.hostingCompareHide : t.hostingCompare}
-                        {showHostingMatrix ? <ChevronUp className="h-3.5 w-3.5" aria-hidden /> : <ChevronDown className="h-3.5 w-3.5" aria-hidden />}
-                      </button>
-                    </div>
-                    {showHostingMatrix ? (
-                      <div
-                        id="hosting-comparison-matrix"
-                        className="mt-4 overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm"
-                      >
-                        <table className="min-w-[40rem] w-full border-collapse text-left text-sm">
-                          <caption className="sr-only">{t.hostingMatrixCaption}</caption>
-                          <thead>
-                            <tr className="border-b border-slate-200 bg-slate-950 text-white">
-                              <th scope="col" className="px-3 py-3 font-semibold">{t.hostingMatrixFeature}</th>
-                              <th scope="col" className="px-3 py-3 font-semibold">{t.ownHosting}</th>
-                              <th scope="col" className="px-3 py-3 font-semibold">{t.launchHosting}</th>
-                              <th scope="col" className="px-3 py-3 font-semibold">
-                                {t.careLite}
-                                <span className="mt-1 block text-[10px] font-bold uppercase tracking-wide text-emerald-300">{t.recommended}</span>
-                              </th>
-                              <th scope="col" className="px-3 py-3 font-semibold">{t.care}</th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-slate-200 text-slate-800">
-                            {(
-                              [
-                                [t.hostingMatrixHosting, t.hostingMatrixOwnHosting, t.hostingMatrixRoallaHosting, t.hostingMatrixRoallaHosting, t.hostingMatrixRoallaHosting],
-                                [t.hostingMatrixBilling, t.hostingMatrixYouManage, t.hostingMatrixRoallaManages, t.hostingMatrixRoallaManages, t.hostingMatrixRoallaManages],
-                                [t.hostingMatrixLaunch, t.hostingMatrixConfigured, t.hostingMatrixConfigured, t.hostingMatrixConfigured, t.hostingMatrixConfigured],
-                                [t.hostingMatrixCare, t.hostingMatrixNotIncluded, t.hostingMatrixNotIncluded, t.hostingMatrixOccasional, t.hostingMatrixRegular],
-                                [t.hostingMatrixUpdates, t.hostingMatrixNotIncluded, t.hostingMatrixNotIncluded, t.hostingMatrixMinor, t.hostingMatrixActive],
-                                [t.hostingMatrixBestFor, t.ownHostingBestFor, t.launchHostingBestFor, t.careLiteBestFor, t.careBestFor],
-                                [
-                                  t.hostingMatrixPrice,
-                                  t.hostingMatrixOwnPrice,
-                                  `$${WEBSITE_ESTIMATE_PRICES.launchHostingAnnual}${t.perYear}`,
-                                  `$${WEBSITE_ESTIMATE_PRICES.careLiteMonthly}${t.perMonth}`,
-                                  `$${WEBSITE_ESTIMATE_PRICES.careMonthly}${t.perMonth}`,
-                                ],
-                              ] as const
-                            ).map(([feature, own, launch, careLite, care]) => (
-                              <tr key={feature} className="align-top odd:bg-white even:bg-slate-50">
-                                <th scope="row" className="px-3 py-3 font-semibold text-slate-950">
-                                  {feature}
-                                </th>
-                                <td className="px-3 py-3 leading-6">{own}</td>
-                                <td className="px-3 py-3 leading-6">{launch}</td>
-                                <td className="px-3 py-3 leading-6">{careLite}</td>
-                                <td className="px-3 py-3 leading-6">{care}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    ) : null}
-                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                      {hostingOptions.map(({ value, label, description, bestFor, detail, price, recommended }) => {
-                        const isExpanded = expandedHosting === value
-                        return (
-                          <div key={value} className={`rounded-xl border p-4 transition ${hosting === value ? tileSelected : tileIdle}`}>
-                            <label className="cursor-pointer">
-                              <input
-                                className="sr-only"
-                                type="radio"
-                                name="hosting"
-                                value={value}
-                                checked={hosting === value}
-                                aria-describedby={`hosting-${value}-description`}
-                                onChange={() => setHosting(value)}
-                              />
-                              <span className="flex items-start justify-between gap-3">
-                                <span className="font-semibold text-slate-900">{t[label]}</span>
-                                <span className="flex items-center gap-2">
-                                  <span className="shrink-0 font-bold text-primary-dark">{price.replace('/year', t.perYear).replace('/month', t.perMonth)}</span>
-                                  {hosting === value ? <CheckCircle className="h-5 w-5 shrink-0 text-primary-dark" aria-hidden /> : null}
-                                </span>
-                              </span>
-                              <span className="mt-2 flex flex-wrap gap-1.5">
-                                {hosting === value ? <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
-                                {recommended ? <span className="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.recommended}</span> : null}
-                              </span>
-                              <span id={`hosting-${value}-description`} className="mt-2 block text-sm leading-6 text-slate-700">{t[description]}</span>
-                              <span className="mt-3 block border-t border-slate-200 pt-3 text-xs font-semibold text-primary-dark">{t[bestFor]}</span>
-                            </label>
-                            <button
-                              type="button"
-                              className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-primary-dark underline-offset-2 hover:underline"
-                              aria-expanded={isExpanded}
-                              onClick={() => setExpandedHosting(isExpanded ? null : value)}
-                            >
-                              {isExpanded ? <ChevronUp className="h-3.5 w-3.5" aria-hidden /> : <ChevronDown className="h-3.5 w-3.5" aria-hidden />}
-                              {isExpanded ? t.hostingHideDetail : t.hostingMoreDetail}
-                            </button>
-                            {isExpanded ? (
-                              <p id={`hosting-${value}-detail`} className="mt-3 rounded-xl bg-slate-950 p-4 text-sm leading-6 text-white">
-                                {t[detail]}
-                              </p>
-                            ) : null}
-                          </div>
-                        )
-                      })}
-                    </div>
+                          <button
+                            type="button"
+                            className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-primary-dark underline-offset-2 hover:underline"
+                            aria-expanded={isExpanded}
+                            onClick={() => setExpandedHosting(isExpanded ? null : value)}
+                          >
+                            {isExpanded ? <ChevronUp className="h-3.5 w-3.5" aria-hidden /> : <ChevronDown className="h-3.5 w-3.5" aria-hidden />}
+                            {isExpanded ? t.hostingHideDetail : t.hostingMoreDetail}
+                          </button>
+                          {isExpanded ? (
+                            <p id={`hosting-${value}-detail`} className="mt-3 rounded-xl bg-slate-950 p-4 text-sm leading-6 text-white">
+                              {t[detail]}
+                            </p>
+                          ) : null}
+                        </div>
+                      )
+                    })}
                   </div>
                 </div>
               ) : null}

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import EmailSafeText from '@/components/EmailSafeText'
 import { CONTACT } from '@/lib/site'
 
 type Props = {
@@ -71,7 +72,7 @@ export default function PartnersMethodologyPrintSheet({
         <p className="mt-6 text-sm leading-6 text-slate-700">{independence}</p>
         <p className="mt-6 text-xs leading-5 text-slate-500">{disclaimer}</p>
         <footer className="mt-8 border-t border-slate-200 pt-4 text-xs text-slate-500">
-          ROALLA · {CONTACT.email} · {CONTACT.phone}
+          ROALLA · <EmailSafeText text={CONTACT.email} /> · {CONTACT.phone}
         </footer>
       </div>
     </>

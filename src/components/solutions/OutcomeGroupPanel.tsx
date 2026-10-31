@@ -193,7 +193,7 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
         <p className="text-sm font-semibold text-slate-900">{copy.situationPrompt}</p>
         <p className="mt-1 text-xs font-medium text-slate-500">{situationSelectHint}</p>
         <div
-          className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-4"
+          className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
           role="group"
           aria-label={copy.situationPrompt}
         >

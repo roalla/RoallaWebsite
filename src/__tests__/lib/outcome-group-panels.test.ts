@@ -18,7 +18,7 @@ describe('outcome group panels', () => {
       const copy = getOutcomeGroupPanelCopy(groupId, locale)
       expect(copy.resultTitle).toBeTruthy()
       expect(copy.situations).toHaveLength(
-        groupId === 'growth-visibility' || groupId === 'automation-ai' ? 4 : 3,
+        groupId === 'growth-visibility' ? 5 : groupId === 'automation-ai' ? 4 : 3,
       )
       expect(copy.ladderSteps).toHaveLength(3)
       expect(copy.vignetteSteps.length).toBeGreaterThanOrEqual(2)
@@ -54,7 +54,7 @@ describe('outcome group panels', () => {
   })
 
   it('defaults each group’s first situation to the planned signal', () => {
-    expect(getOutcomeGroupPanelCopy('growth-visibility', 'en').situations[0].id).toBe('findability')
+    expect(getOutcomeGroupPanelCopy('growth-visibility', 'en').situations[0].id).toBe('no-presence')
     expect(getOutcomeGroupPanelCopy('experience-products', 'en').situations[0].id).toBe(
       'website-or-product',
     )
@@ -116,6 +116,23 @@ describe('outcome group panels', () => {
         estimatePath: '/website-estimate',
         estimateLabel:
           locale === 'fr' ? 'Estimer un forfait de lancement Web' : 'Estimate a website launch package',
+      })
+    },
+  )
+
+  it.each(['en', 'fr'] as const)(
+    'routes no online presence on growth-visibility to the website launch estimate for %s',
+    (locale) => {
+      const situation = getOutcomeGroupPanelCopy('growth-visibility', locale).situations.find(
+        (item) => item.id === 'no-presence',
+      )
+
+      expect(situation).toMatchObject({
+        evidencePath: '/website-estimate',
+        evidenceLabel:
+          locale === 'fr' ? 'Estimer un forfait de lancement Web' : 'Estimate a website launch package',
+        pathwaySlug: 'digital-experience',
+        contactIntent: 'website',
       })
     },
   )

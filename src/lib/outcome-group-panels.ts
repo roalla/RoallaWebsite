@@ -6,6 +6,7 @@ export type EvidencePath =
   | '/tools/digital-presence-snapshot'
   | '/digital-product-discovery'
   | '/website-package'
+  | '/website-estimate'
   | '/tools/communications-value-brief'
   | '/tools/email-reach-brief'
   | '/tools/ninety-day-plan-brief'
@@ -87,9 +88,40 @@ const growthEn: OutcomeGroupPanelCopy = {
   resultEyebrow: 'What better looks like',
   resultTitle: 'Qualified buyers find you—and understand why to act.',
   resultBody:
-    'A clearer public presence: search and AI can describe the business accurately, the landing page earns trust, and the next step is obvious. Start with evidence on your live site, then decide the improvement path.',
+    'A clearer public presence: search and AI can describe the business accurately, the landing page earns trust, and the next step is obvious. If you are starting from scratch, begin with a website launch estimate; if you already have a site, start with evidence on the live page.',
   situationPrompt: 'Which outcome pressure is closest?',
   situations: [
+    {
+      id: 'no-presence',
+      label: 'We have little or no online presence',
+      hint: 'There is no credible website or public footprint to improve yet.',
+      typicalCauses: [
+        'The business still relies on referrals, word of mouth, or offline channels.',
+        'Past attempts stalled before a clear public site and contact path launched.',
+      ],
+      roallaHelp:
+        'ROALLA helps you estimate and launch a practical first website package—website address, clear offer messaging, and the basics that help customers find and contact you.',
+      evidencePath: '/website-estimate',
+      evidenceLabel: 'Estimate a website launch package',
+      evidenceNote:
+        'Build a preliminary first-year estimate for a new site, website address, professional email, and hosting options.',
+      pathwaySlug: 'digital-experience',
+      contactIntent: 'website',
+      detail: {
+        issues: [
+          'There is no public page buyers can trust when they hear about the business.',
+          'Search, maps, and AI assistants have little accurate information to show.',
+          'Without a clear next step online, referrals and offline interest stall.',
+        ],
+        approach:
+          'Treat this as a launch—not an optimization of a site that does not exist yet. Estimate the first-year package, confirm scope, then put a credible public presence online before spending on broader campaigns.',
+        solutions: [
+          'Website package estimate for creation, copy, booking path, and visibility foundations',
+          'Website address, professional email, and hosting choices sized to the first year',
+          'Launch path that makes the business findable and easy to contact',
+        ],
+      },
+    },
     {
       id: 'findability',
       label: 'Buyers can’t find us',
@@ -259,6 +291,7 @@ const growthEn: OutcomeGroupPanelCopy = {
     'If you are not ready to run the tool, tell us the channel and the priority. We’ll reply with a practical next step.',
   channelLabel: 'Main channel',
   channels: [
+    { id: 'starting', label: 'No site yet' },
     { id: 'website', label: 'Website' },
     { id: 'local', label: 'Local / maps' },
     { id: 'both', label: 'Website + local' },
@@ -266,6 +299,7 @@ const growthEn: OutcomeGroupPanelCopy = {
   ],
   priorityLabel: 'Priority',
   priorities: [
+    { id: 'launch', label: 'Get online' },
     { id: 'findability', label: 'Findability' },
     { id: 'trust', label: 'Trust' },
     { id: 'conversion', label: 'Conversion' },
@@ -273,7 +307,10 @@ const growthEn: OutcomeGroupPanelCopy = {
   qualifierCta: 'Get a fit reply',
   qualifierNote: '~3 min · No obligation · Reply in 1 business day',
   pathwaysLabel: 'Pathway details',
-  pathwayLinks: [{ slug: 'visibility', label: 'Improve visibility and conversion' }],
+  pathwayLinks: [
+    { slug: 'visibility', label: 'Improve visibility and conversion' },
+    { slug: 'digital-experience', label: 'Build a digital experience' },
+  ],
   highlightLabel: 'You chose growth and visibility—start with evidence',
 }
 
@@ -281,9 +318,40 @@ const growthFr: OutcomeGroupPanelCopy = {
   resultEyebrow: 'À quoi ressemble une meilleure situation',
   resultTitle: 'Les bons acheteurs vous trouvent—et comprennent pourquoi agir.',
   resultBody:
-    'Une présence publique plus claire : la recherche et l’IA décrivent l’entreprise avec justesse, la page d’arrivée inspire confiance, et la prochaine étape est évidente. Commencez par des preuves sur votre site en ligne, puis choisissez le parcours d’amélioration.',
+    'Une présence publique plus claire : la recherche et l’IA décrivent l’entreprise avec justesse, la page d’arrivée inspire confiance, et la prochaine étape est évidente. Si vous partez de zéro, commencez par une estimation de lancement Web; si vous avez déjà un site, commencez par des preuves sur la page en ligne.',
   situationPrompt: 'Quelle pression de résultat est la plus proche?',
   situations: [
+    {
+      id: 'no-presence',
+      label: 'Nous n’avons presque pas de présence en ligne',
+      hint: 'Il n’y a pas encore de site crédible ou d’empreinte publique à améliorer.',
+      typicalCauses: [
+        'L’entreprise s’appuie encore sur le bouche-à-oreille, les références ou des canaux hors ligne.',
+        'Des tentatives antérieures se sont arrêtées avant le lancement d’un site clair avec un parcours de contact.',
+      ],
+      roallaHelp:
+        'ROALLA vous aide à estimer et lancer un premier forfait Web pratique—adresse du site, message d’offre clair, et les bases pour que les clients vous trouvent et vous joignent.',
+      evidencePath: '/website-estimate',
+      evidenceLabel: 'Estimer un forfait de lancement Web',
+      evidenceNote:
+        'Préparez une estimation préliminaire pour la première année : nouveau site, adresse, courriel professionnel et options d’hébergement.',
+      pathwaySlug: 'digital-experience',
+      contactIntent: 'website',
+      detail: {
+        issues: [
+          'Il n’y a pas de page publique digne de confiance quand les gens entendent parler de l’entreprise.',
+          'La recherche, les cartes et les assistants IA ont peu d’information exacte à afficher.',
+          'Sans prochaine étape claire en ligne, les références et l’intérêt hors ligne s’essoufflent.',
+        ],
+        approach:
+          'Traitez cela comme un lancement—pas comme l’optimisation d’un site qui n’existe pas encore. Estimez le forfait de la première année, confirmez la portée, puis mettez en ligne une présence crédible avant d’investir dans des campagnes plus larges.',
+        solutions: [
+          'Estimation de forfait Web pour la création, la rédaction, le parcours de réservation et les fondations de visibilité',
+          'Adresse du site, courriel professionnel et choix d’hébergement adaptés à la première année',
+          'Parcours de lancement qui rend l’entreprise trouvable et facile à contacter',
+        ],
+      },
+    },
     {
       id: 'findability',
       label: 'Les acheteurs ne nous trouvent pas',
@@ -453,6 +521,7 @@ const growthFr: OutcomeGroupPanelCopy = {
     'Si vous n’êtes pas prêt à lancer l’outil, indiquez le canal et la priorité. Nous répondrons avec une prochaine étape pratique.',
   channelLabel: 'Canal principal',
   channels: [
+    { id: 'starting', label: 'Pas encore de site' },
     { id: 'website', label: 'Site Web' },
     { id: 'local', label: 'Local / cartes' },
     { id: 'both', label: 'Site Web + local' },
@@ -460,6 +529,7 @@ const growthFr: OutcomeGroupPanelCopy = {
   ],
   priorityLabel: 'Priorité',
   priorities: [
+    { id: 'launch', label: 'Se mettre en ligne' },
     { id: 'findability', label: 'Visibilité' },
     { id: 'trust', label: 'Confiance' },
     { id: 'conversion', label: 'Conversion' },
@@ -467,7 +537,10 @@ const growthFr: OutcomeGroupPanelCopy = {
   qualifierCta: 'Obtenir une réponse d’adéquation',
   qualifierNote: '~3 min · Sans obligation · Réponse en 1 jour ouvrable',
   pathwaysLabel: 'Détails des parcours',
-  pathwayLinks: [{ slug: 'visibility', label: 'Améliorer visibilité et conversion' }],
+  pathwayLinks: [
+    { slug: 'visibility', label: 'Améliorer visibilité et conversion' },
+    { slug: 'digital-experience', label: 'Bâtir une expérience numérique' },
+  ],
   highlightLabel: 'Vous avez choisi la croissance et la visibilité—commencez par des preuves',
 }
 

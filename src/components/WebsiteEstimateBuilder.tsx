@@ -19,10 +19,13 @@ const copy = {
     eyebrow: 'Website package estimator',
     title: 'Build a clear first-year website estimate.',
     intro:
-      'Start with the client-ready launch foundation, choose the domain term, and add only the email, social and hosting support you need.',
+      'Start with the required launch foundation and domain term. Optional add-ons stay separate—open them only if you want email, social, or hosting support.',
     outcomeClarity: 'Explain your value clearly',
     outcomeDiscovery: 'Help customers find you',
     outcomeAction: 'Make the next step easy',
+    requiredSection: 'Required',
+    optionalSection: 'Optional add-ons',
+    optionalSectionIntro: 'These are not required to request a scope confirmation.',
     coreTitle: 'Core Website Launch',
     required: 'Required',
     whatItIs: 'What it is',
@@ -46,6 +49,9 @@ const copy = {
     emailLabel: 'Add professional email setup and Microsoft 365 Business Basic',
     emailValue: 'Your email matches the website domain—for example, name@yourbusiness.ca.',
     emailCost: '$150 setup + $114/year',
+    extrasTitle: 'Additional options',
+    extrasLabel: 'I want social setup or hosting options',
+    extrasValue: 'Open this only if you want social profile setup or ROALLA hosting and care. Otherwise leave it unchecked.',
     socialTitle: 'Social tools setup',
     socialValue: 'Professional profile configuration with consistent names, bios, images, links, contact details and security settings.',
     noSocial: 'No social setup',
@@ -90,10 +96,13 @@ const copy = {
     eyebrow: 'Estimateur de forfait Web',
     title: 'Préparez une estimation claire pour la première année.',
     intro:
-      'Commencez par la base de lancement, choisissez la durée du domaine et ajoutez seulement le courriel, les médias sociaux et l’hébergement requis.',
+      'Commencez par la base de lancement et la durée du domaine. Les options restent séparées—ouvrez-les seulement si vous voulez le courriel, les médias sociaux ou l’hébergement.',
     outcomeClarity: 'Expliquer clairement votre valeur',
     outcomeDiscovery: 'Aider les clients à vous trouver',
     outcomeAction: 'Faciliter la prochaine étape',
+    requiredSection: 'Requis',
+    optionalSection: 'Options facultatives',
+    optionalSectionIntro: 'Ces éléments ne sont pas requis pour demander une confirmation de portée.',
     coreTitle: 'Lancement Web de base',
     required: 'Requis',
     whatItIs: 'De quoi il s’agit',
@@ -117,6 +126,9 @@ const copy = {
     emailLabel: 'Ajouter la configuration du courriel professionnel et Microsoft 365 Business Basic',
     emailValue: 'Votre courriel correspond au domaine du site, par exemple nom@votreentreprise.ca.',
     emailCost: '150 $ de configuration + 114 $/an',
+    extrasTitle: 'Options supplémentaires',
+    extrasLabel: 'Je veux la configuration sociale ou des options d’hébergement',
+    extrasValue: 'Ouvrez ceci seulement si vous voulez la configuration des profils sociaux ou l’hébergement et l’entretien ROALLA. Sinon, laissez décoché.',
     socialTitle: 'Configuration des médias sociaux',
     socialValue: 'Configuration professionnelle et cohérente des noms, biographies, images, liens, coordonnées et paramètres de sécurité.',
     noSocial: 'Aucune configuration sociale',
@@ -188,13 +200,30 @@ export default function WebsiteEstimateBuilder() {
   )
   const [domainTerm, setDomainTerm] = useState<DomainTerm>('three')
   const [email, setEmail] = useState(false)
+  const [showExtras, setShowExtras] = useState(false)
   const [social, setSocial] = useState<SocialSetup>('none')
   const [hosting, setHosting] = useState<HostingChoice>('own')
   const [code, setCode] = useState('')
   const [referralApplied, setReferralApplied] = useState(false)
   const [codeStatus, setCodeStatus] = useState<'idle' | 'loading' | 'invalid' | 'error'>('idle')
 
-  const estimate = calculateWebsiteEstimate({ domainTerm, email, social, hosting, referralDiscount: referralApplied })
+  const activeSocial = showExtras ? social : 'none'
+  const activeHosting = showExtras ? hosting : 'own'
+  const estimate = calculateWebsiteEstimate({
+    domainTerm,
+    email,
+    social: activeSocial,
+    hosting: activeHosting,
+    referralDiscount: referralApplied,
+  })
+
+  const toggleExtras = (checked: boolean) => {
+    setShowExtras(checked)
+    if (!checked) {
+      setSocial('none')
+      setHosting('own')
+    }
+  }
 
   const applyReferralCode = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -225,17 +254,17 @@ export default function WebsiteEstimateBuilder() {
     setCodeStatus('idle')
   }
 
-  const estimateGoal = `${french ? 'Estimation Web' : 'Website estimate'}: ${currency.format(estimate.firstYearTotal)} ${french ? 'TVH incluse' : 'including HST'}; domain=${domainTerm}; email=${email ? 'yes' : 'no'}; social=${social}; hosting=${hosting}; referral=${referralApplied ? 'applied' : 'none'}`
+  const estimateGoal = `${french ? 'Estimation Web' : 'Website estimate'}: ${currency.format(estimate.firstYearTotal)} ${french ? 'TVH incluse' : 'including HST'}; domain=${domainTerm}; email=${email ? 'yes' : 'no'}; social=${activeSocial}; hosting=${activeHosting}; referral=${referralApplied ? 'applied' : 'none'}`
 
   return (
     <section className="rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-900/5 overflow-hidden">
       <header className="bg-slate-950 px-6 py-8 text-white sm:px-8 lg:px-10">
-        <p className="text-xs font-bold uppercase tracking-[.18em] text-primary-lighter">{t.eyebrow}</p>
-        <h1 className="mt-3 max-w-3xl text-3xl font-serif font-bold sm:text-4xl">{t.title}</h1>
-        <p className="mt-4 max-w-3xl leading-7 text-slate-300">{t.intro}</p>
+        <p className="text-xs font-bold uppercase tracking-[.18em] text-primary-light">{t.eyebrow}</p>
+        <h1 className="mt-3 max-w-3xl text-3xl font-serif font-bold text-white sm:text-4xl">{t.title}</h1>
+        <p className="mt-4 max-w-3xl leading-7 text-white/95">{t.intro}</p>
         <div className="mt-6 flex flex-wrap gap-2">
           {[t.outcomeClarity, t.outcomeDiscovery, t.outcomeAction].map((outcome) => (
-            <span key={outcome} className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] px-3 py-1.5 text-xs font-semibold text-slate-100">
+            <span key={outcome} className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white">
               <CheckCircle className="h-3.5 w-3.5 text-primary-light" aria-hidden />
               {outcome}
             </span>
@@ -245,108 +274,154 @@ export default function WebsiteEstimateBuilder() {
 
       <div className="grid lg:grid-cols-[1.2fr_.8fr]">
         <div className="space-y-8 p-6 sm:p-8 lg:p-10">
-          <fieldset>
-            <legend className="flex w-full items-center justify-between gap-3 text-xl font-serif font-bold text-slate-950">
-              {t.coreTitle}
-              <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-primary-dark">{t.required}</span>
-            </legend>
-            <div className="mt-4 space-y-3">
-              {[
-                { label: t.website, what: t.websiteWhat, why: t.websiteWhy, price: WEBSITE_ESTIMATE_PRICES.website, icon: Globe2 },
-                { label: t.copyBooking, what: t.copyBookingWhat, why: t.copyBookingWhy, price: WEBSITE_ESTIMATE_PRICES.copyAndBooking, icon: PenLine },
-                { label: t.visibility, what: t.visibilityWhat, why: t.visibilityWhy, price: WEBSITE_ESTIMATE_PRICES.visibility, icon: SearchCheck },
-              ].map(({ label, what, why, price, icon: Icon }) => (
-                <article key={label} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-start gap-3">
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary-dark">
-                        <Icon className="h-5 w-5" aria-hidden />
-                      </span>
-                      <h3 className="pt-1.5 font-serif text-lg font-bold text-slate-950">{label}</h3>
-                    </div>
-                    <p className="shrink-0 pt-2 font-bold tabular-nums text-primary-dark">{currency.format(price)}</p>
-                  </div>
-                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                    <div className="rounded-xl bg-slate-50 p-3">
-                      <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">{t.whatItIs}</p>
-                      <p className="mt-1.5 text-sm leading-6 text-slate-700">{what}</p>
-                    </div>
-                    <div className="rounded-xl bg-primary/5 p-3">
-                      <p className="text-[11px] font-bold uppercase tracking-wider text-primary-dark">{t.whyItMatters}</p>
-                      <p className="mt-1.5 text-sm leading-6 text-slate-700">{why}</p>
-                    </div>
-                  </div>
-                </article>
-              ))}
+          <div className="space-y-8">
+            <div className="flex items-center gap-3">
+              <h2 className="text-sm font-bold uppercase tracking-[.16em] text-slate-950">{t.requiredSection}</h2>
+              <div className="h-px flex-1 bg-slate-200" aria-hidden />
             </div>
-          </fieldset>
 
-          <fieldset>
-            <legend className="text-xl font-serif font-bold text-slate-950">{t.domainTitle}</legend>
-            <p className="mt-1 text-sm text-slate-600">{t.domainIntro}</p>
-            <div className="mt-4 grid gap-3 sm:grid-cols-3">
-              {([
-                ['one', t.oneYear],
-                ['two', t.twoYears],
-                ['three', t.threeYears],
-              ] as Array<[DomainTerm, string]>).map(([value, label]) => (
-                <label key={value} className={`relative cursor-pointer rounded-xl border p-4 transition ${domainTerm === value ? 'border-primary bg-primary/5 ring-2 ring-primary/15' : 'border-slate-200 hover:border-slate-300'}`}>
-                  <input className="sr-only" type="radio" name="domain-term" value={value} checked={domainTerm === value} onChange={() => setDomainTerm(value)} />
-                  <span className="block font-semibold text-slate-900">{label}</span>
-                  <span className="mt-1 block text-lg font-bold text-primary-dark">{currency.format(DOMAIN_PRICES[value])}</span>
-                  {value === 'three' ? <span className="mt-2 inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.bestValue}</span> : null}
-                </label>
-              ))}
-            </div>
-          </fieldset>
+            <fieldset>
+              <legend className="flex w-full items-center justify-between gap-3 text-xl font-serif font-bold text-slate-950">
+                {t.coreTitle}
+                <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-primary-dark">{t.required}</span>
+              </legend>
+              <div className="mt-4 space-y-3">
+                {[
+                  { label: t.website, what: t.websiteWhat, why: t.websiteWhy, price: WEBSITE_ESTIMATE_PRICES.website, icon: Globe2 },
+                  { label: t.copyBooking, what: t.copyBookingWhat, why: t.copyBookingWhy, price: WEBSITE_ESTIMATE_PRICES.copyAndBooking, icon: PenLine },
+                  { label: t.visibility, what: t.visibilityWhat, why: t.visibilityWhy, price: WEBSITE_ESTIMATE_PRICES.visibility, icon: SearchCheck },
+                ].map(({ label, what, why, price, icon: Icon }) => (
+                  <article key={label} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex items-start gap-3">
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary-dark">
+                          <Icon className="h-5 w-5" aria-hidden />
+                        </span>
+                        <h3 className="pt-1.5 font-serif text-lg font-bold text-slate-950">{label}</h3>
+                      </div>
+                      <p className="shrink-0 pt-2 font-bold tabular-nums text-primary-dark">{currency.format(price)}</p>
+                    </div>
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                      <div className="rounded-xl bg-slate-50 p-3">
+                        <p className="text-[11px] font-bold uppercase tracking-wider text-slate-600">{t.whatItIs}</p>
+                        <p className="mt-1.5 text-sm leading-6 text-slate-800">{what}</p>
+                      </div>
+                      <div className="rounded-xl bg-primary/5 p-3">
+                        <p className="text-[11px] font-bold uppercase tracking-wider text-primary-dark">{t.whyItMatters}</p>
+                        <p className="mt-1.5 text-sm leading-6 text-slate-800">{why}</p>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </fieldset>
 
-          <fieldset>
-            <legend className="flex items-center gap-2 text-xl font-serif font-bold text-slate-950"><Mail className="h-5 w-5 text-primary" aria-hidden />{t.emailTitle}</legend>
-            <label className={`mt-4 flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition ${email ? 'border-primary bg-primary/5 ring-2 ring-primary/15' : 'border-slate-200'}`}>
-              <input className="mt-1 h-4 w-4 accent-primary" type="checkbox" checked={email} onChange={(event) => setEmail(event.target.checked)} />
-              <span>
-                <span className="block font-semibold text-slate-900">{t.emailLabel}</span>
-                <span className="mt-1 block text-sm leading-6 text-slate-600">{t.emailValue}</span>
-                <span className="mt-2 block text-sm font-bold text-primary-dark">{t.emailCost}</span>
-              </span>
-            </label>
-          </fieldset>
-
-          <fieldset>
-            <legend className="flex items-center gap-2 text-xl font-serif font-bold text-slate-950"><Share2 className="h-5 w-5 text-primary" aria-hidden />{t.socialTitle}</legend>
-            <p className="mt-1 text-sm leading-6 text-slate-600">{t.socialValue}</p>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              {socialOptions.map(({ value, label }) => {
-                const price = value === 'none' ? 0 : value === 'bundle' ? WEBSITE_ESTIMATE_PRICES.socialBundle : WEBSITE_ESTIMATE_PRICES.socialSingle
-                return (
-                  <label key={value} className={`cursor-pointer rounded-xl border p-4 transition ${social === value ? 'border-primary bg-primary/5 ring-2 ring-primary/15' : 'border-slate-200'}`}>
-                    <input className="sr-only" type="radio" name="social" value={value} checked={social === value} onChange={() => setSocial(value)} />
-                    <span className="flex items-start justify-between gap-3">
-                      <span className="font-semibold text-slate-900">{t[label]}</span>
-                      <span className="font-bold text-primary-dark">{currency.format(price)}</span>
-                    </span>
-                    {value === 'bundle' ? <span className="mt-2 inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.bundleSavings}</span> : null}
+            <fieldset>
+              <legend className="flex w-full items-center justify-between gap-3 text-xl font-serif font-bold text-slate-950">
+                {t.domainTitle}
+                <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-primary-dark">{t.required}</span>
+              </legend>
+              <p className="mt-1 text-sm text-slate-700">{t.domainIntro}</p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                {([
+                  ['one', t.oneYear],
+                  ['two', t.twoYears],
+                  ['three', t.threeYears],
+                ] as Array<[DomainTerm, string]>).map(([value, label]) => (
+                  <label key={value} className={`relative cursor-pointer rounded-xl border p-4 transition ${domainTerm === value ? 'border-primary bg-primary/5 ring-2 ring-primary/15' : 'border-slate-200 hover:border-slate-300'}`}>
+                    <input className="sr-only" type="radio" name="domain-term" value={value} checked={domainTerm === value} onChange={() => setDomainTerm(value)} />
+                    <span className="block font-semibold text-slate-900">{label}</span>
+                    <span className="mt-1 block text-lg font-bold text-primary-dark">{currency.format(DOMAIN_PRICES[value])}</span>
+                    {value === 'three' ? <span className="mt-2 inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.bestValue}</span> : null}
                   </label>
-                )
-              })}
-            </div>
-          </fieldset>
+                ))}
+              </div>
+            </fieldset>
+          </div>
 
-          <fieldset>
-            <legend className="flex items-center gap-2 text-xl font-serif font-bold text-slate-950"><Server className="h-5 w-5 text-primary" aria-hidden />{t.hostingTitle}</legend>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              {hostingOptions.map(({ value, label, price }) => (
-                <label key={value} className={`cursor-pointer rounded-xl border p-4 transition ${hosting === value ? 'border-primary bg-primary/5 ring-2 ring-primary/15' : 'border-slate-200'}`}>
-                  <input className="sr-only" type="radio" name="hosting" value={value} checked={hosting === value} onChange={() => setHosting(value)} />
-                  <span className="flex items-start justify-between gap-3">
-                    <span className="font-semibold text-slate-900">{t[label]}</span>
-                    <span className="shrink-0 font-bold text-primary-dark">{price.replace('/year', t.perYear).replace('/month', t.perMonth)}</span>
-                  </span>
-                  {value === 'own' ? <span className="mt-2 block text-sm leading-6 text-slate-600">{t.ownHostingValue}</span> : null}
-                </label>
-              ))}
+          <div className="space-y-6 rounded-3xl border border-dashed border-slate-300 bg-slate-50/70 p-5 sm:p-6">
+            <div>
+              <div className="flex items-center gap-3">
+                <h2 className="text-sm font-bold uppercase tracking-[.16em] text-slate-950">{t.optionalSection}</h2>
+                <div className="h-px flex-1 bg-slate-300" aria-hidden />
+              </div>
+              <p className="mt-2 text-sm text-slate-700">{t.optionalSectionIntro}</p>
             </div>
-          </fieldset>
+
+            <fieldset>
+              <legend className="flex items-center gap-2 text-xl font-serif font-bold text-slate-950"><Mail className="h-5 w-5 text-primary" aria-hidden />{t.emailTitle}</legend>
+              <label className={`mt-4 flex cursor-pointer items-start gap-3 rounded-xl border bg-white p-4 transition ${email ? 'border-primary bg-primary/5 ring-2 ring-primary/15' : 'border-slate-200'}`}>
+                <input className="mt-1 h-4 w-4 accent-primary" type="checkbox" checked={email} onChange={(event) => setEmail(event.target.checked)} />
+                <span>
+                  <span className="block font-semibold text-slate-900">{t.emailLabel}</span>
+                  <span className="mt-1 block text-sm leading-6 text-slate-700">{t.emailValue}</span>
+                  <span className="mt-2 block text-sm font-bold text-primary-dark">{t.emailCost}</span>
+                </span>
+              </label>
+            </fieldset>
+
+            <fieldset>
+              <legend className="flex items-center gap-2 text-xl font-serif font-bold text-slate-950"><Share2 className="h-5 w-5 text-primary" aria-hidden />{t.extrasTitle}</legend>
+              <label className={`mt-4 flex cursor-pointer items-start gap-3 rounded-xl border bg-white p-4 transition ${showExtras ? 'border-primary bg-primary/5 ring-2 ring-primary/15' : 'border-slate-200'}`}>
+                <input
+                  className="mt-1 h-4 w-4 accent-primary"
+                  type="checkbox"
+                  checked={showExtras}
+                  onChange={(event) => toggleExtras(event.target.checked)}
+                />
+                <span>
+                  <span className="block font-semibold text-slate-900">{t.extrasLabel}</span>
+                  <span className="mt-1 block text-sm leading-6 text-slate-700">{t.extrasValue}</span>
+                </span>
+              </label>
+
+              {showExtras ? (
+                <div className="mt-4 space-y-6 border-t border-slate-200 pt-5">
+                  <div>
+                    <h3 className="flex items-center gap-2 font-serif text-lg font-bold text-slate-950">
+                      <Share2 className="h-4 w-4 text-primary" aria-hidden />
+                      {t.socialTitle}
+                    </h3>
+                    <p className="mt-1 text-sm leading-6 text-slate-700">{t.socialValue}</p>
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                      {socialOptions.map(({ value, label }) => {
+                        const price = value === 'none' ? 0 : value === 'bundle' ? WEBSITE_ESTIMATE_PRICES.socialBundle : WEBSITE_ESTIMATE_PRICES.socialSingle
+                        return (
+                          <label key={value} className={`cursor-pointer rounded-xl border bg-white p-4 transition ${social === value ? 'border-primary bg-primary/5 ring-2 ring-primary/15' : 'border-slate-200'}`}>
+                            <input className="sr-only" type="radio" name="social" value={value} checked={social === value} onChange={() => setSocial(value)} />
+                            <span className="flex items-start justify-between gap-3">
+                              <span className="font-semibold text-slate-900">{t[label]}</span>
+                              <span className="font-bold text-primary-dark">{currency.format(price)}</span>
+                            </span>
+                            {value === 'bundle' ? <span className="mt-2 inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.bundleSavings}</span> : null}
+                          </label>
+                        )
+                      })}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="flex items-center gap-2 font-serif text-lg font-bold text-slate-950">
+                      <Server className="h-4 w-4 text-primary" aria-hidden />
+                      {t.hostingTitle}
+                    </h3>
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                      {hostingOptions.map(({ value, label, price }) => (
+                        <label key={value} className={`cursor-pointer rounded-xl border bg-white p-4 transition ${hosting === value ? 'border-primary bg-primary/5 ring-2 ring-primary/15' : 'border-slate-200'}`}>
+                          <input className="sr-only" type="radio" name="hosting" value={value} checked={hosting === value} onChange={() => setHosting(value)} />
+                          <span className="flex items-start justify-between gap-3">
+                            <span className="font-semibold text-slate-900">{t[label]}</span>
+                            <span className="shrink-0 font-bold text-primary-dark">{price.replace('/year', t.perYear).replace('/month', t.perMonth)}</span>
+                          </span>
+                          {value === 'own' ? <span className="mt-2 block text-sm leading-6 text-slate-700">{t.ownHostingValue}</span> : null}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+            </fieldset>
+          </div>
 
           <form onSubmit={applyReferralCode} className="rounded-2xl border border-amber-200 bg-amber-50 p-5">
             <div className="flex items-center gap-2"><Tag className="h-5 w-5 text-amber-700" aria-hidden /><h2 className="font-serif text-lg font-bold text-slate-950">{t.codeTitle}</h2></div>
@@ -373,19 +448,19 @@ export default function WebsiteEstimateBuilder() {
           <div className="lg:sticky lg:top-28">
             <div className="flex items-center gap-2"><Sparkles className="h-5 w-5 text-primary" aria-hidden /><h2 className="text-xl font-serif font-bold text-slate-950">{t.summaryTitle}</h2></div>
             <dl className="mt-5 space-y-3 text-sm">
-              <div className="flex justify-between gap-4"><dt className="text-slate-600">{t.coreServices}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(WEBSITE_ESTIMATE_CORE_PRICE)}</dd></div>
+              <div className="flex justify-between gap-4"><dt className="text-slate-700">{t.coreServices}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(WEBSITE_ESTIMATE_CORE_PRICE)}</dd></div>
               {estimate.referralDiscount > 0 ? <div className="flex justify-between gap-4 text-emerald-700"><dt>{t.referralDiscount}</dt><dd className="font-semibold tabular-nums">–{currency.format(estimate.referralDiscount)}</dd></div> : null}
-              <div className="flex justify-between gap-4"><dt className="text-slate-600">{t.domain}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.domain)}</dd></div>
-              {email ? <><div className="flex justify-between gap-4"><dt className="text-slate-600">{t.emailSetup}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.emailSetup)}</dd></div><div className="flex justify-between gap-4"><dt className="text-slate-600">{t.emailAnnual}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.emailAnnual)}</dd></div></> : null}
-              {estimate.socialSetup > 0 ? <div className="flex justify-between gap-4"><dt className="text-slate-600">{t.socialSetup}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.socialSetup)}</dd></div> : null}
-              {hosting !== 'own' ? <div className="flex justify-between gap-4"><dt className="text-slate-600">{t.hostingFirstYear}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.hostingFirstYear)}</dd></div> : <div className="flex gap-2 rounded-lg bg-white p-3 text-xs leading-5 text-slate-600"><Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />{t.ownHostingNote}</div>}
+              <div className="flex justify-between gap-4"><dt className="text-slate-700">{t.domain}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.domain)}</dd></div>
+              {email ? <><div className="flex justify-between gap-4"><dt className="text-slate-700">{t.emailSetup}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.emailSetup)}</dd></div><div className="flex justify-between gap-4"><dt className="text-slate-700">{t.emailAnnual}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.emailAnnual)}</dd></div></> : null}
+              {estimate.socialSetup > 0 ? <div className="flex justify-between gap-4"><dt className="text-slate-700">{t.socialSetup}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.socialSetup)}</dd></div> : null}
+              {activeHosting !== 'own' ? <div className="flex justify-between gap-4"><dt className="text-slate-700">{t.hostingFirstYear}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.hostingFirstYear)}</dd></div> : <div className="flex gap-2 rounded-lg bg-white p-3 text-xs leading-5 text-slate-700"><Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />{t.ownHostingNote}</div>}
             </dl>
             <div className="mt-6 space-y-3 border-t border-slate-300 pt-5">
-              <div className="flex justify-between gap-4 text-sm"><span className="text-slate-600">{t.subtotal}</span><span className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.firstYearBeforeTax)}</span></div>
-              <div className="flex justify-between gap-4 text-sm"><span className="text-slate-600">{t.hst}</span><span className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.hst)}</span></div>
+              <div className="flex justify-between gap-4 text-sm"><span className="text-slate-700">{t.subtotal}</span><span className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.firstYearBeforeTax)}</span></div>
+              <div className="flex justify-between gap-4 text-sm"><span className="text-slate-700">{t.hst}</span><span className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.hst)}</span></div>
               <div className="flex items-end justify-between gap-4 border-t border-slate-300 pt-4"><span className="font-bold text-slate-950">{t.total}</span><span className="text-2xl font-serif font-bold tabular-nums text-primary-dark">{currency.format(estimate.firstYearTotal)}</span></div>
             </div>
-            <p className="mt-5 text-xs leading-5 text-slate-500">{t.disclaimer}</p>
+            <p className="mt-5 text-xs leading-5 text-slate-600">{t.disclaimer}</p>
             <Link href={{ pathname: '/contact', query: { intent: 'website', offer: 'estimate', from_page: '/website-estimate', goal: estimateGoal } }} className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-primary px-5 py-3 text-center font-bold text-white transition hover:bg-primary-dark">{t.cta}</Link>
           </div>
         </aside>

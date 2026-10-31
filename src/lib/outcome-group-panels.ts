@@ -70,15 +70,6 @@ export type OutcomeGroupPanelCopy = {
   vignetteBody: string
   vignetteSteps: readonly string[]
   contactCta: string
-  qualifierEyebrow: string
-  qualifierTitle: string
-  qualifierBody: string
-  channelLabel: string
-  channels: readonly { id: string; label: string }[]
-  priorityLabel: string
-  priorities: readonly { id: string; label: string }[]
-  qualifierCta: string
-  qualifierNote: string
   pathwaysLabel: string
   pathwayLinks: readonly { slug: SolutionPathId; label: string }[]
   highlightLabel: string
@@ -285,27 +276,6 @@ const growthEn: OutcomeGroupPanelCopy = {
     'A short review turned findings into a sequenced improvement plan—not a rebuild.',
   ],
   contactCta: 'Talk through this outcome',
-  qualifierEyebrow: 'Prefer a human reply first?',
-  qualifierTitle: 'Two quick answers. Fit reply in one business day.',
-  qualifierBody:
-    'If you are not ready to run the tool, tell us the channel and the priority. We’ll reply with a practical next step.',
-  channelLabel: 'Main channel',
-  channels: [
-    { id: 'starting', label: 'No site yet' },
-    { id: 'website', label: 'Website' },
-    { id: 'local', label: 'Local / maps' },
-    { id: 'both', label: 'Website + local' },
-    { id: 'email', label: 'Email campaigns' },
-  ],
-  priorityLabel: 'Priority',
-  priorities: [
-    { id: 'launch', label: 'Get online' },
-    { id: 'findability', label: 'Findability' },
-    { id: 'trust', label: 'Trust' },
-    { id: 'conversion', label: 'Conversion' },
-  ],
-  qualifierCta: 'Get a fit reply',
-  qualifierNote: '~3 min · No obligation · Reply in 1 business day',
   pathwaysLabel: 'Pathway details',
   pathwayLinks: [
     { slug: 'visibility', label: 'Improve visibility and conversion' },
@@ -515,27 +485,6 @@ const growthFr: OutcomeGroupPanelCopy = {
     'Une courte revue a transformé les constats en plan d’amélioration séquencé—pas une refonte.',
   ],
   contactCta: 'Discuter de ce résultat',
-  qualifierEyebrow: 'Vous préférez d’abord une réponse humaine?',
-  qualifierTitle: 'Deux réponses rapides. Réponse d’adéquation en un jour ouvrable.',
-  qualifierBody:
-    'Si vous n’êtes pas prêt à lancer l’outil, indiquez le canal et la priorité. Nous répondrons avec une prochaine étape pratique.',
-  channelLabel: 'Canal principal',
-  channels: [
-    { id: 'starting', label: 'Pas encore de site' },
-    { id: 'website', label: 'Site Web' },
-    { id: 'local', label: 'Local / cartes' },
-    { id: 'both', label: 'Site Web + local' },
-    { id: 'email', label: 'Campagnes courriel' },
-  ],
-  priorityLabel: 'Priorité',
-  priorities: [
-    { id: 'launch', label: 'Se mettre en ligne' },
-    { id: 'findability', label: 'Visibilité' },
-    { id: 'trust', label: 'Confiance' },
-    { id: 'conversion', label: 'Conversion' },
-  ],
-  qualifierCta: 'Obtenir une réponse d’adéquation',
-  qualifierNote: '~3 min · Sans obligation · Réponse en 1 jour ouvrable',
   pathwaysLabel: 'Détails des parcours',
   pathwayLinks: [
     { slug: 'visibility', label: 'Améliorer visibilité et conversion' },
@@ -677,23 +626,6 @@ const experienceEn: OutcomeGroupPanelCopy = {
     'Launch included measurement owners—not only a design handoff.',
   ],
   contactCta: 'Talk through this outcome',
-  qualifierEyebrow: 'Prefer a human reply first?',
-  qualifierTitle: 'Two quick answers. Fit reply in one business day.',
-  qualifierBody: 'Tell us the audience and the pressure. We’ll reply with a practical next step.',
-  channelLabel: 'Primary audience',
-  channels: [
-    { id: 'customers', label: 'Customers' },
-    { id: 'employees', label: 'Employees' },
-    { id: 'both', label: 'Both' },
-  ],
-  priorityLabel: 'Priority',
-  priorities: [
-    { id: 'clarity', label: 'Clarity' },
-    { id: 'conversion', label: 'Conversion' },
-    { id: 'speed', label: 'Speed to launch' },
-  ],
-  qualifierCta: 'Get a fit reply',
-  qualifierNote: '~3 min · No obligation · Reply in 1 business day',
   pathwaysLabel: 'Pathway details',
   pathwayLinks: [
     { slug: 'digital-experience', label: 'Build a digital experience' },
@@ -835,23 +767,6 @@ const experienceFr: OutcomeGroupPanelCopy = {
     'Le lancement incluait des responsables de mesure—pas seulement une remise de design.',
   ],
   contactCta: 'Discuter de ce résultat',
-  qualifierEyebrow: 'Vous préférez d’abord une réponse humaine?',
-  qualifierTitle: 'Deux réponses rapides. Réponse d’adéquation en un jour ouvrable.',
-  qualifierBody: 'Indiquez le public et la pression. Nous répondrons avec une prochaine étape pratique.',
-  channelLabel: 'Public principal',
-  channels: [
-    { id: 'customers', label: 'Clients' },
-    { id: 'employees', label: 'Employés' },
-    { id: 'both', label: 'Les deux' },
-  ],
-  priorityLabel: 'Priorité',
-  priorities: [
-    { id: 'clarity', label: 'Clarté' },
-    { id: 'conversion', label: 'Conversion' },
-    { id: 'speed', label: 'Rapidité de lancement' },
-  ],
-  qualifierCta: 'Obtenir une réponse d’adéquation',
-  qualifierNote: '~3 min · Sans obligation · Réponse en 1 jour ouvrable',
   pathwaysLabel: 'Détails des parcours',
   pathwayLinks: [
     { slug: 'digital-experience', label: 'Créer une expérience numérique' },
@@ -1021,23 +936,6 @@ const automationEn: OutcomeGroupPanelCopy = {
     'The pilot measured handoff quality—not only demo polish.',
   ],
   contactCta: 'Talk through this outcome',
-  qualifierEyebrow: 'Prefer a human reply first?',
-  qualifierTitle: 'Two quick answers. Fit reply in one business day.',
-  qualifierBody: 'Tell us the work type and the risk tolerance. We’ll reply with a practical next step.',
-  channelLabel: 'Work type',
-  channels: [
-    { id: 'internal', label: 'Internal ops' },
-    { id: 'customer', label: 'Customer-facing' },
-    { id: 'both', label: 'Both' },
-  ],
-  priorityLabel: 'Priority',
-  priorities: [
-    { id: 'speed', label: 'Speed' },
-    { id: 'control', label: 'Control' },
-    { id: 'cost', label: 'Cost to serve' },
-  ],
-  qualifierCta: 'Get a fit reply',
-  qualifierNote: '~3 min · No obligation · Reply in 1 business day',
   pathwaysLabel: 'Pathway details',
   pathwayLinks: [
     { slug: 'automation-ai', label: 'Automate work with control' },
@@ -1207,23 +1105,6 @@ const automationFr: OutcomeGroupPanelCopy = {
     'Le pilote a mesuré la qualité des transferts—pas seulement le poli de la démo.',
   ],
   contactCta: 'Discuter de ce résultat',
-  qualifierEyebrow: 'Vous préférez d’abord une réponse humaine?',
-  qualifierTitle: 'Deux réponses rapides. Réponse d’adéquation en un jour ouvrable.',
-  qualifierBody: 'Indiquez le type de travail et la tolérance au risque. Nous répondrons avec une prochaine étape pratique.',
-  channelLabel: 'Type de travail',
-  channels: [
-    { id: 'internal', label: 'Ops internes' },
-    { id: 'customer', label: 'Côté client' },
-    { id: 'both', label: 'Les deux' },
-  ],
-  priorityLabel: 'Priorité',
-  priorities: [
-    { id: 'speed', label: 'Vitesse' },
-    { id: 'control', label: 'Contrôle' },
-    { id: 'cost', label: 'Coût de service' },
-  ],
-  qualifierCta: 'Obtenir une réponse d’adéquation',
-  qualifierNote: '~3 min · Sans obligation · Réponse en 1 jour ouvrable',
   pathwaysLabel: 'Détails des parcours',
   pathwayLinks: [
     { slug: 'automation-ai', label: 'Automatiser avec contrôle' },
@@ -1364,23 +1245,6 @@ const securityEn: OutcomeGroupPanelCopy = {
     'Material commercial interests were disclosed before commitment.',
   ],
   contactCta: 'Talk through this outcome',
-  qualifierEyebrow: 'Prefer a human reply first?',
-  qualifierTitle: 'Two quick answers. Fit reply in one business day.',
-  qualifierBody: 'Tell us the pressure and the timeline. We’ll reply with a practical next step.',
-  channelLabel: 'Pressure',
-  channels: [
-    { id: 'assurance', label: 'Customer assurance' },
-    { id: 'operations', label: 'Operations risk' },
-    { id: 'both', label: 'Both' },
-  ],
-  priorityLabel: 'Timeline',
-  priorities: [
-    { id: 'urgent', label: 'Urgent' },
-    { id: 'planned', label: 'This quarter' },
-    { id: 'explore', label: 'Exploring' },
-  ],
-  qualifierCta: 'Get a fit reply',
-  qualifierNote: '~3 min · No obligation · Reply in 1 business day',
   pathwaysLabel: 'Pathway details',
   pathwayLinks: [
     { slug: 'security', label: 'Reduce security and compliance risk' },
@@ -1522,23 +1386,6 @@ const securityFr: OutcomeGroupPanelCopy = {
     'Les intérêts commerciaux importants ont été divulgués avant l’engagement.',
   ],
   contactCta: 'Discuter de ce résultat',
-  qualifierEyebrow: 'Vous préférez d’abord une réponse humaine?',
-  qualifierTitle: 'Deux réponses rapides. Réponse d’adéquation en un jour ouvrable.',
-  qualifierBody: 'Indiquez la pression et l’échéance. Nous répondrons avec une prochaine étape pratique.',
-  channelLabel: 'Pression',
-  channels: [
-    { id: 'assurance', label: 'Assurance client' },
-    { id: 'operations', label: 'Risque opérationnel' },
-    { id: 'both', label: 'Les deux' },
-  ],
-  priorityLabel: 'Échéance',
-  priorities: [
-    { id: 'urgent', label: 'Urgent' },
-    { id: 'planned', label: 'Ce trimestre' },
-    { id: 'explore', label: 'Exploration' },
-  ],
-  qualifierCta: 'Obtenir une réponse d’adéquation',
-  qualifierNote: '~3 min · Sans obligation · Réponse en 1 jour ouvrable',
   pathwaysLabel: 'Détails des parcours',
   pathwayLinks: [
     { slug: 'security', label: 'Réduire les risques de sécurité et de conformité' },
@@ -1678,23 +1525,6 @@ const executionEn: OutcomeGroupPanelCopy = {
     'A weekly review rhythm replaced status meetings without owners.',
   ],
   contactCta: 'Talk through this outcome',
-  qualifierEyebrow: 'Prefer a human reply first?',
-  qualifierTitle: 'Two quick answers. Fit reply in one business day.',
-  qualifierBody: 'Tell us the team size pressure and the horizon. We’ll reply with a practical next step.',
-  channelLabel: 'Horizon',
-  channels: [
-    { id: '30-days', label: '30 days' },
-    { id: '90-days', label: '90 days' },
-    { id: 'year', label: 'This year' },
-  ],
-  priorityLabel: 'Pressure',
-  priorities: [
-    { id: 'focus', label: 'Focus' },
-    { id: 'ownership', label: 'Ownership' },
-    { id: 'pace', label: 'Pace' },
-  ],
-  qualifierCta: 'Get a fit reply',
-  qualifierNote: '~3 min · No obligation · Reply in 1 business day',
   pathwaysLabel: 'Pathway details',
   pathwayLinks: [{ slug: 'strategy', label: 'Set direction and priorities' }],
   highlightLabel: 'You chose execution—start with evidence',
@@ -1830,23 +1660,6 @@ const executionFr: OutcomeGroupPanelCopy = {
     'Un rythme de revue hebdomadaire a remplacé les réunions de statut sans responsables.',
   ],
   contactCta: 'Discuter de ce résultat',
-  qualifierEyebrow: 'Vous préférez d’abord une réponse humaine?',
-  qualifierTitle: 'Deux réponses rapides. Réponse d’adéquation en un jour ouvrable.',
-  qualifierBody: 'Indiquez l’horizon et la pression. Nous répondrons avec une prochaine étape pratique.',
-  channelLabel: 'Horizon',
-  channels: [
-    { id: '30-days', label: '30 jours' },
-    { id: '90-days', label: '90 jours' },
-    { id: 'year', label: 'Cette année' },
-  ],
-  priorityLabel: 'Pression',
-  priorities: [
-    { id: 'focus', label: 'Focus' },
-    { id: 'ownership', label: 'Responsabilités' },
-    { id: 'pace', label: 'Rythme' },
-  ],
-  qualifierCta: 'Obtenir une réponse d’adéquation',
-  qualifierNote: '~3 min · Sans obligation · Réponse en 1 jour ouvrable',
   pathwaysLabel: 'Détails des parcours',
   pathwayLinks: [{ slug: 'strategy', label: 'Fixer la direction et les priorités' }],
   highlightLabel: 'Vous avez choisi l’exécution—commencez par des preuves',

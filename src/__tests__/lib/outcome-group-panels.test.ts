@@ -81,7 +81,7 @@ describe('outcome group panels', () => {
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
     })
-    expect(copy.channels.some((channel) => channel.id === 'email')).toBe(true)
+    expect(situation?.evidencePath).toBe('/tools/email-reach-brief')
   })
 
   it.each(['en', 'fr'] as const)(

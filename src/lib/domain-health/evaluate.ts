@@ -1,4 +1,4 @@
-export const DOMAIN_CHECK_IDS = ["mx", "spf", "dkim", "dmarc", "names"] as const;
+export const DOMAIN_CHECK_IDS = ["mx", "spf", "dkim", "dmarc", "bimi", "names"] as const;
 
 export type DomainCheckId = (typeof DOMAIN_CHECK_IDS)[number];
 export type DomainCheckStatus = "pass" | "review" | "gap";
@@ -20,6 +20,7 @@ export type DomainDnsRecords = {
   mx: Array<{ exchange: string; priority: number }>;
   txt: string[];
   dmarc: string[];
+  bimi: string[];
   dkimSelectors: string[];
   apexAddresses: string[];
   wwwAddresses: string[];
@@ -46,6 +47,7 @@ export function evaluateDomainHealth(
       evaluateSpf(records),
       evaluateDkim(records),
       evaluateDmarc(records),
+      evaluateBimi(records),
       evaluateNames(records),
     ],
   };
@@ -88,6 +90,27 @@ function evaluateDmarc(records: DomainDnsRecords): DomainHealthCheck {
     return { id: "dmarc", status: "pass", evidence: [clip(policy)] };
   }
   return { id: "dmarc", status: "review", evidence: [clip(policy)] };
+}
+
+function dmarcEnforcing(records: DomainDnsRecords) {
+  const policy = records.dmarc.find((record) => /^v=DMARC1(\s|;|$)/i.test(record.trim()));
+  if (!policy) return false;
+  const disposition = policy.match(/(?:^|;)\s*p\s*=\s*(none|quarantine|reject)\b/i)?.[1]?.toLowerCase();
+  return disposition === "quarantine" || disposition === "reject";
+}
+
+/** BIMI is optional brand display; full pass also needs enforcing DMARC. */
+function evaluateBimi(records: DomainDnsRecords): DomainHealthCheck {
+  const record = records.bimi.find((value) => /^v=BIMI1(\s|;|$)/i.test(value.trim()));
+  if (!record) return { id: "bimi", status: "gap", evidence: [] };
+  const logo = record.match(/(?:^|;)\s*l\s*=\s*([^\s;]+)/i)?.[1];
+  if (!logo) {
+    return { id: "bimi", status: "review", evidence: [clip(record)] };
+  }
+  if (!dmarcEnforcing(records)) {
+    return { id: "bimi", status: "review", evidence: [clip(record)] };
+  }
+  return { id: "bimi", status: "pass", evidence: [clip(record)] };
 }
 
 function evaluateNames(records: DomainDnsRecords): DomainHealthCheck {

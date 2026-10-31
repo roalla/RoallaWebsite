@@ -7,6 +7,7 @@ function records(overrides: Partial<DomainDnsRecords> = {}): DomainDnsRecords {
     mx: [{ exchange: "aspmx.l.google.com", priority: 1 }],
     txt: ["v=spf1 include:_spf.google.com -all"],
     dmarc: ["v=DMARC1; p=reject; rua=mailto:dmarc@example.com"],
+    bimi: ["v=BIMI1; l=https://example.com/logo.svg"],
     dkimSelectors: ["google"],
     apexAddresses: ["192.0.2.10"],
     wwwAddresses: ["192.0.2.10"],
@@ -29,6 +30,7 @@ describe("evaluateDomainHealth", () => {
       ["spf", "pass"],
       ["dkim", "pass"],
       ["dmarc", "pass"],
+      ["bimi", "pass"],
       ["names", "pass"],
     ]);
   });
@@ -38,12 +40,22 @@ describe("evaluateDomainHealth", () => {
       mx: [],
       txt: [],
       dmarc: [],
+      bimi: [],
       dkimSelectors: [],
     }));
     expect(snapshot.checks.find((check) => check.id === "mx")?.status).toBe("gap");
     expect(snapshot.checks.find((check) => check.id === "spf")?.status).toBe("gap");
     expect(snapshot.checks.find((check) => check.id === "dkim")?.status).toBe("gap");
     expect(snapshot.checks.find((check) => check.id === "dmarc")?.status).toBe("gap");
+    expect(snapshot.checks.find((check) => check.id === "bimi")?.status).toBe("gap");
+  });
+
+  it("reviews BIMI when a logo record exists but DMARC is not enforcing", () => {
+    const snapshot = evaluateDomainHealth(records({
+      dmarc: ["v=DMARC1; p=none"],
+      bimi: ["v=BIMI1; l=https://example.com/logo.svg"],
+    }));
+    expect(snapshot.checks.find((check) => check.id === "bimi")?.status).toBe("review");
   });
 
   it("treats a monitor-only DMARC policy and an allow-all SPF as unfinished", () => {
@@ -125,6 +137,7 @@ describe("DNS-over-HTTPS lookup", () => {
       ["spf", "pass"],
       ["dkim", "pass"],
       ["dmarc", "pass"],
+      ["bimi", "gap"],
       ["names", "pass"],
     ]);
   });
@@ -161,6 +174,7 @@ describe("DNS-over-HTTPS lookup", () => {
     }) as typeof fetch;
 
     const snapshot = await inspectDomain("example.com", createDnsJsonClient(fetchImpl), () => "2026-10-01T00:00:00.000Z");
-    expect(snapshot.checks.every((check) => check.status === "pass")).toBe(true);
+    expect(snapshot.checks.filter((check) => check.id !== "bimi").every((check) => check.status === "pass")).toBe(true);
+    expect(snapshot.checks.find((check) => check.id === "bimi")?.status).toBe("gap");
   });
 });

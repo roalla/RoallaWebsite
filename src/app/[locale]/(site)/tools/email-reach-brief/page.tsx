@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import PlainLanguageBrief from '@/components/tools/PlainLanguageBrief'
+import EmailReachBriefWizard from '@/components/tools/EmailReachBriefWizard'
 import { buildPageMetadata } from '@/lib/page-metadata'
 
 type Props = { params: Promise<{ locale: string }> }
@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         : 'Are your emails reaching customers? | ROALLA',
     description:
       locale === 'fr'
-        ? 'Répondez à quelques questions simples et obtenez un aperçu privé pour améliorer la portée de vos courriels—sans jargon technique.'
-        : 'Answer a few plain questions and get a private brief to improve email reach—without technical jargon.',
+        ? 'Vérifiez la configuration publique du domaine, puis obtenez un aperçu privé pour améliorer la portée de vos courriels—sans jargon technique.'
+        : 'Check public domain email setup, then get a private brief to improve email reach—without technical jargon.',
   })
 }
 
@@ -37,12 +37,12 @@ export default async function Page({ params }: Props) {
           </h1>
           <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-slate-700">
             {fr
-              ? 'Quatre questions en langage simple. Vous obtiendrez un aperçu privé avec priorités et prochaines étapes—sans pitch.'
-              : 'Four plain-language questions. You get a private brief with priorities and next steps—no sales pitch.'}
+              ? 'Commencez par une vérification des enregistrements publics, puis deux questions rapides. Vous obtiendrez un aperçu privé avec priorités—sans pitch.'
+              : 'Start with a public mail-setup check, then two quick questions. You get a private brief with priorities—no sales pitch.'}
           </p>
         </header>
         <main className="mx-auto mt-10 max-w-3xl">
-          <PlainLanguageBrief briefId="email-reach" locale={locale} />
+          <EmailReachBriefWizard locale={locale} />
         </main>
       </div>
     </div>

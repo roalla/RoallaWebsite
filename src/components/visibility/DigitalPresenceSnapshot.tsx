@@ -497,6 +497,15 @@ const copy = {
         why: "This policy tells providers what to do when a message fails the sender checks, including mail that only pretends to be from you. Without it, phishing that uses your name is easier, and your own mail is easier to discard.",
         action: "Publish a policy that tells providers to quarantine or reject mail that fails the sender checks, after confirming legitimate mail still passes.",
       },
+      bimi: {
+        title: "Brand logo in the inbox (BIMI)",
+        short: "BIMI",
+        pass: "A brand logo record is published and DMARC is strong enough for supported inboxes.",
+        review: "A logo record exists, but DMARC is not yet strong enough—or the logo link is incomplete.",
+        gap: "No brand logo record is published for this domain.",
+        why: "BIMI is an optional open standard that can show your verified logo beside messages in some inboxes. It needs a published logo record and a strong DMARC policy. Missing BIMI does not stop mail from sending.",
+        action: "After DMARC is at quarantine or reject, publish a BIMI logo record if you want supported inboxes to show your brand mark.",
+      },
       names: {
         title: "Bare name and www",
         short: "www",
@@ -1054,6 +1063,15 @@ const copy = {
         gap: "Il n’y a pas de politique pour le courriel qui échoue aux vérifications d’expéditeur.",
         why: "Cette politique dit aux fournisseurs quoi faire quand un message échoue aux vérifications, y compris un message qui prétend seulement venir de vous. Sans elle, l’hameçonnage qui utilise votre nom est plus facile, et votre propre courriel est plus facile à écarter.",
         action: "Publier une politique qui demande aux fournisseurs de mettre en quarantaine ou de refuser le courriel qui échoue aux vérifications, après avoir confirmé que le courriel légitime passe encore.",
+      },
+      bimi: {
+        title: "Logo de marque dans la boîte (BIMI)",
+        short: "BIMI",
+        pass: "Un enregistrement de logo est publié et le DMARC est assez fort pour les boîtes prises en charge.",
+        review: "Un enregistrement de logo existe, mais le DMARC n’est pas encore assez fort—ou le lien du logo est incomplet.",
+        gap: "Aucun enregistrement de logo de marque n’est publié pour ce domaine.",
+        why: "BIMI est une norme ouverte optionnelle qui peut afficher votre logo vérifié à côté des messages dans certaines boîtes. Elle exige un enregistrement de logo et une politique DMARC forte. L’absence de BIMI n’empêche pas l’envoi du courriel.",
+        action: "Quand le DMARC est en quarantaine ou rejet, publiez un enregistrement BIMI si vous voulez que les boîtes prises en charge montrent votre marque.",
       },
       names: {
         title: "Nom nu et www",
@@ -2146,8 +2164,10 @@ export default function DigitalPresenceSnapshot({
       });
     }
     if (domain) {
-      const worst = domain.checks.find((check) => check.status === "gap")
-        ?? domain.checks.find((check) => check.status === "review");
+      // BIMI is optional brand display—do not treat a missing logo as the headline domain risk.
+      const authChecks = domain.checks.filter((check) => check.id !== "bimi");
+      const worst = authChecks.find((check) => check.status === "gap")
+        ?? authChecks.find((check) => check.status === "review");
       const domainTone: SummaryTone = worst?.status === "gap" ? "attention" : worst ? "improve" : "strong";
       summaryItems.push({
         id: "presence-domain",

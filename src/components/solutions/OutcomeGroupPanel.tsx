@@ -31,8 +31,6 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
   const [situationId, setSituationId] = useState(copy.situations[0].id)
   const [domain, setDomain] = useState('')
   const [ladderStep, setLadderStep] = useState(0)
-  const [channel, setChannel] = useState<string | null>(null)
-  const [priority, setPriority] = useState<string | null>(null)
   const [pulse, setPulse] = useState(highlighted)
 
   const situation: OutcomeGroupSituation = useMemo(
@@ -40,7 +38,6 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
     [copy.situations, situationId],
   )
 
-  const qualifierReady = Boolean(channel && priority)
   const showWebsiteChecker = groupId === 'growth-visibility' && situation.id === 'findability'
   const ladderCount = copy.ladderSteps.length
   const activeLadder = copy.ladderSteps[ladderStep] ?? copy.ladderSteps[0]
@@ -53,12 +50,6 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
   const situationSelectHint =
     locale === 'fr' ? 'Choisissez une option pour continuer' : 'Select one to continue'
   const situationSelectedLabel = locale === 'fr' ? 'Sélectionné' : 'Selected'
-  const qualifierOptionalHint =
-    locale === 'fr'
-      ? 'Facultatif—choisissez le canal et la priorité, puis continuez.'
-      : 'Optional—pick channel and priority, then continue.'
-  const qualifierReadyHint =
-    locale === 'fr' ? 'Prêt avec vos réponses' : 'Ready with your answers'
   const howItWorksLabel =
     locale === 'fr' ? 'Comment l’engagement progresse habituellement' : 'How commitment usually grows'
   const typicalCausesLabel = locale === 'fr' ? 'Causes fréquentes' : 'Typical causes'
@@ -155,8 +146,6 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
       outcome: situation.pathwaySlug,
       from_page: needPage,
       signal: situation.id,
-      ...(channel ? { channel } : {}),
-      ...(priority ? { priority } : {}),
     },
   }
 
@@ -702,103 +691,6 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
           </div>
         </div>
       </details>
-
-      <div className="border border-slate-200 px-4 py-5 sm:px-5">
-        <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">{copy.qualifierEyebrow}</p>
-        <p className="mt-2 font-serif text-xl font-bold text-slate-950">{copy.qualifierTitle}</p>
-        <p className="mt-2 text-sm leading-6 text-slate-600">{copy.qualifierBody}</p>
-
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <div>
-            <p className="text-sm font-semibold text-slate-900">{copy.channelLabel}</p>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {copy.channels.map((item) => {
-                const selected = channel === item.id
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    aria-pressed={selected}
-                    onClick={() => {
-                      setChannel(item.id)
-                      trackAnalyticsEvent('outcome_selection', {
-                        location: `${groupId}_channel`,
-                        group: groupId,
-                        channel: item.id,
-                      })
-                    }}
-                    className={
-                      selected
-                        ? 'rounded-full bg-slate-900 px-3.5 py-1.5 text-sm font-semibold text-white'
-                        : 'rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-sm font-medium text-slate-700'
-                    }
-                  >
-                    {item.label}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-          <div>
-            <p className="text-sm font-semibold text-slate-900">{copy.priorityLabel}</p>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {copy.priorities.map((item) => {
-                const selected = priority === item.id
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    aria-pressed={selected}
-                    onClick={() => {
-                      setPriority(item.id)
-                      trackAnalyticsEvent('outcome_selection', {
-                        location: `${groupId}_priority`,
-                        group: groupId,
-                        priority: item.id,
-                      })
-                    }}
-                    className={
-                      selected
-                        ? 'rounded-full bg-slate-900 px-3.5 py-1.5 text-sm font-semibold text-white'
-                        : 'rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-sm font-medium text-slate-700'
-                    }
-                  >
-                    {item.label}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-        </div>
-
-        <p className="mt-4 text-xs font-medium text-slate-500">
-          {qualifierReady ? qualifierReadyHint : qualifierOptionalHint}
-        </p>
-        <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
-          <Link
-            href={contactHref}
-            onClick={() =>
-              trackAnalyticsEvent('outcome_cta_click', {
-                location: `${groupId}_qualifier`,
-                outcome: situation.pathwaySlug,
-                group: groupId,
-                channel: channel ?? 'none',
-                priority: priority ?? 'none',
-              })
-            }
-            className={[
-              'inline-flex min-h-12 w-full items-center justify-center rounded-lg px-5 text-sm font-semibold text-white transition sm:w-auto',
-              qualifierReady
-                ? 'bg-primary-dark hover:bg-primary-darker'
-                : 'bg-slate-800 hover:bg-slate-900',
-            ].join(' ')}
-          >
-            {copy.qualifierCta}
-            <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-          </Link>
-          <p className="text-xs text-slate-500">{copy.qualifierNote}</p>
-        </div>
-      </div>
     </div>
   )
 }

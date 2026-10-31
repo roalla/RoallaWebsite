@@ -51,10 +51,11 @@ export async function inspectDomain(
 }
 
 export async function lookupDomainRecords(domain: string, client: DnsClient): Promise<DomainDnsRecords> {
-  const [mx, txt, dmarc, dkimSelectors, apexAddresses, wwwAddresses, apexCname, wwwCname] = await Promise.all([
+  const [mx, txt, dmarc, bimi, dkimSelectors, apexAddresses, wwwAddresses, apexCname, wwwCname] = await Promise.all([
     client.resolveMx(domain),
     joinedTxt(client, domain),
     joinedTxt(client, `_dmarc.${domain}`),
+    joinedTxt(client, `default._bimi.${domain}`),
     dkim(client, domain),
     addresses(client, domain),
     addresses(client, `www.${domain}`),
@@ -67,6 +68,7 @@ export async function lookupDomainRecords(domain: string, client: DnsClient): Pr
     mx,
     txt,
     dmarc,
+    bimi,
     dkimSelectors,
     apexAddresses,
     wwwAddresses,

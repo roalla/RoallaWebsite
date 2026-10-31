@@ -14,10 +14,12 @@ export const WEBSITE_ESTIMATE_PRICES = {
 } as const
 
 export type DomainTerm = 'one' | 'two' | 'three'
+export type DomainSource = 'existing' | 'new'
 export type SocialSetup = 'none' | 'instagram' | 'youtube' | 'linkedin' | 'bundle'
 export type HostingChoice = 'own' | 'launch' | 'care-lite' | 'care'
 
 export type WebsiteEstimateSelection = {
+  domainSource: DomainSource
   domainTerm: DomainTerm
   email: boolean
   social: SocialSetup
@@ -58,7 +60,7 @@ export function calculateWebsiteEstimate(selection: WebsiteEstimateSelection) {
   const socialSetup = SOCIAL_PRICES[selection.social]
   const emailSetup = selection.email ? WEBSITE_ESTIMATE_PRICES.emailSetup : 0
   const emailAnnual = selection.email ? WEBSITE_ESTIMATE_PRICES.emailAnnual : 0
-  const domain = DOMAIN_PRICES[selection.domainTerm]
+  const domain = selection.domainSource === 'existing' ? 0 : DOMAIN_PRICES[selection.domainTerm]
   const hostingFirstYear = HOSTING_FIRST_YEAR_PRICES[selection.hosting]
 
   const professionalServices = WEBSITE_ESTIMATE_CORE_PRICE + emailSetup + socialSetup

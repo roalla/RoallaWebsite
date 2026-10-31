@@ -4,15 +4,27 @@ import React, { useMemo, useState } from 'react'
 import { CheckCircle, ChevronDown, ChevronUp, Globe2, Info, Mail, PenLine, SearchCheck, Server, Share2, Sparkles, Tag } from 'lucide-react'
 import { useLocale } from 'next-intl'
 import { Link } from '@/i18n/navigation'
+import EmailSafeText from '@/components/EmailSafeText'
 import {
   calculateWebsiteEstimate,
   DOMAIN_PRICES,
   WEBSITE_ESTIMATE_CORE_PRICE,
   WEBSITE_ESTIMATE_PRICES,
+  type DomainSource,
   type DomainTerm,
   type HostingChoice,
   type SocialSetup,
 } from '@/lib/website-estimate'
+
+/** Keep server/client currency text identical (ICU may emit NBSP / narrow NBSP). */
+function formatCad(amount: number, locale: string) {
+  return new Intl.NumberFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', {
+    style: 'currency',
+    currency: 'CAD',
+  })
+    .format(amount)
+    .replace(/[\u00a0\u202f\u2009]/g, ' ')
+}
 
 const copy = {
   en: {
@@ -42,8 +54,13 @@ const copy = {
     visibility: 'Help search and AI find and describe your business (SEO, AEO, agentic AI)',
     visibilityWhat: 'Clear public signals so search tools and AI assistants can understand what you offer.',
     visibilityWhy: 'Helps the right customers discover and understand the business when configured properly. Rankings are not guaranteed.',
-    domainTitle: 'Choose your domain term',
-    domainIntro: 'The domain is required and will be owned by you.',
+    domainTitle: 'Domain',
+    domainIntro: 'Do you already own a domain name, or do you need ROALLA to register one for you?',
+    domainExisting: 'I already have a domain',
+    domainExistingValue: 'No domain cost in this estimate. You will provide access during development so the site can go live on your domain.',
+    domainNew: 'I need a new domain',
+    domainNewValue: 'Choose a registration term. The domain will be owned by you.',
+    domainTermTitle: 'Choose your domain term',
     oneYear: '1 year',
     twoYears: '2 years',
     threeYears: '3 years',
@@ -107,6 +124,7 @@ const copy = {
     domainTermOne: '1-year domain',
     domainTermTwo: '2-year domain',
     domainTermThree: '3-year domain',
+    domainExistingSummary: 'Existing domain (no registration cost)',
     hostingFirstYear: 'Hosting and care — projected first year',
     ownHostingNote: 'Client-selected hosting provider fees are not included.',
     subtotal: 'First-year estimate before HST',
@@ -144,8 +162,13 @@ const copy = {
     visibility: 'Aider la recherche et l’IA à trouver et décrire votre entreprise (SEO, AEO, IA agentique)',
     visibilityWhat: 'Des signaux publics clairs pour que les outils de recherche et les assistants IA comprennent votre offre.',
     visibilityWhy: 'Aide les bons clients à découvrir et comprendre l’entreprise lorsque la configuration est adéquate. Aucun classement n’est garanti.',
-    domainTitle: 'Choisissez la durée du domaine',
-    domainIntro: 'Le domaine est requis et vous en serez propriétaire.',
+    domainTitle: 'Domaine',
+    domainIntro: 'Possédez-vous déjà un nom de domaine, ou ROALLA doit-elle en enregistrer un pour vous?',
+    domainExisting: 'J’ai déjà un domaine',
+    domainExistingValue: 'Aucun coût de domaine dans cette estimation. Vous fournirez l’accès pendant le développement pour mettre le site en ligne sur votre domaine.',
+    domainNew: 'J’ai besoin d’un nouveau domaine',
+    domainNewValue: 'Choisissez une durée d’enregistrement. Le domaine vous appartiendra.',
+    domainTermTitle: 'Choisissez la durée du domaine',
     oneYear: '1 an',
     twoYears: '2 ans',
     threeYears: '3 ans',
@@ -209,6 +232,7 @@ const copy = {
     domainTermOne: 'Domaine 1 an',
     domainTermTwo: 'Domaine 2 ans',
     domainTermThree: 'Domaine 3 ans',
+    domainExistingSummary: 'Domaine existant (aucun coût d’enregistrement)',
     hostingFirstYear: 'Hébergement et entretien — première année projetée',
     ownHostingNote: 'Les frais de votre propre fournisseur d’hébergement ne sont pas inclus.',
     subtotal: 'Estimation de la première année avant TVH',
@@ -252,10 +276,8 @@ export default function WebsiteEstimateBuilder() {
   const locale = useLocale()
   const french = locale === 'fr'
   const t = copy[french ? 'fr' : 'en']
-  const currency = useMemo(
-    () => new Intl.NumberFormat(french ? 'fr-CA' : 'en-CA', { style: 'currency', currency: 'CAD' }),
-    [french],
-  )
+  const money = useMemo(() => (amount: number) => formatCad(amount, french ? 'fr' : 'en'), [french])
+  const [domainSource, setDomainSource] = useState<DomainSource>('new')
   const [domainTerm, setDomainTerm] = useState<DomainTerm>('three')
   const [email, setEmail] = useState(false)
   const [showExtras, setShowExtras] = useState(false)
@@ -269,6 +291,7 @@ export default function WebsiteEstimateBuilder() {
   const activeSocial = showExtras ? social : 'none'
   const activeHosting = showExtras ? hosting : 'own'
   const estimate = calculateWebsiteEstimate({
+    domainSource,
     domainTerm,
     email,
     social: activeSocial,
@@ -303,7 +326,13 @@ export default function WebsiteEstimateBuilder() {
           ? t.careLite
           : t.care
   const domainSummaryLabel =
-    domainTerm === 'one' ? t.domainTermOne : domainTerm === 'two' ? t.domainTermTwo : t.domainTermThree
+    domainSource === 'existing'
+      ? t.domainExistingSummary
+      : domainTerm === 'one'
+        ? t.domainTermOne
+        : domainTerm === 'two'
+          ? t.domainTermTwo
+          : t.domainTermThree
 
   const selectionLines = [
     t.coreServices,
@@ -315,7 +344,7 @@ export default function WebsiteEstimateBuilder() {
   ].filter(Boolean) as string[]
 
   const estimateSummary = selectionLines.join(' · ')
-  const estimateTotalLabel = currency.format(estimate.firstYearTotal)
+  const estimateTotalLabel = money(estimate.firstYearTotal)
 
   const applyReferralCode = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -414,7 +443,7 @@ export default function WebsiteEstimateBuilder() {
                           </div>
                         </div>
                       </div>
-                      <p className="shrink-0 pt-2 font-bold tabular-nums text-primary-dark">{currency.format(price)}</p>
+                      <p className="shrink-0 pt-2 font-bold tabular-nums text-primary-dark">{money(price)}</p>
                     </div>
                     <div className="mt-4 grid gap-3 sm:grid-cols-2">
                       <div className="rounded-xl bg-slate-50 p-3">
@@ -437,26 +466,62 @@ export default function WebsiteEstimateBuilder() {
                 <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-primary-dark">{t.required}</span>
               </legend>
               <p className="mt-1 text-sm text-slate-700">{t.domainIntro}</p>
-              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {([
-                  ['one', t.oneYear],
-                  ['two', t.twoYears],
-                  ['three', t.threeYears],
-                ] as Array<[DomainTerm, string]>).map(([value, label]) => (
-                  <label key={value} className={`relative cursor-pointer rounded-xl border p-4 transition ${domainTerm === value ? tileSelected : tileIdle}`}>
-                    <input className="sr-only" type="radio" name="domain-term" value={value} checked={domainTerm === value} onChange={() => setDomainTerm(value)} />
+                  ['existing', t.domainExisting, t.domainExistingValue],
+                  ['new', t.domainNew, t.domainNewValue],
+                ] as Array<[DomainSource, string, string]>).map(([value, label, detail]) => (
+                  <label key={value} className={`relative cursor-pointer rounded-xl border p-4 transition ${domainSource === value ? tileSelected : tileIdle}`}>
+                    <input
+                      className="sr-only"
+                      type="radio"
+                      name="domain-source"
+                      value={value}
+                      checked={domainSource === value}
+                      onChange={() => setDomainSource(value)}
+                    />
                     <span className="flex items-start justify-between gap-2">
                       <span className="block font-semibold text-slate-900">{label}</span>
-                      {domainTerm === value ? <CheckCircle className="h-5 w-5 shrink-0 text-primary-dark" aria-hidden /> : null}
+                      {domainSource === value ? <CheckCircle className="h-5 w-5 shrink-0 text-primary-dark" aria-hidden /> : null}
                     </span>
-                    <span className="mt-1 block text-lg font-bold text-primary-dark">{currency.format(DOMAIN_PRICES[value])}</span>
+                    <span className="mt-2 block text-sm leading-6 text-slate-700">{detail}</span>
                     <span className="mt-2 flex flex-wrap gap-1.5">
-                      {domainTerm === value ? <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
-                      {value === 'three' ? <span className="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.bestValue}</span> : null}
+                      {domainSource === value ? <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                      {value === 'existing' ? (
+                        <span className="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">
+                          {money(0)}
+                        </span>
+                      ) : null}
                     </span>
                   </label>
                 ))}
               </div>
+
+              {domainSource === 'new' ? (
+                <div className="mt-5">
+                  <h3 className="font-serif text-lg font-bold text-slate-950">{t.domainTermTitle}</h3>
+                  <div className="mt-3 grid gap-3 sm:grid-cols-3">
+                    {([
+                      ['one', t.oneYear],
+                      ['two', t.twoYears],
+                      ['three', t.threeYears],
+                    ] as Array<[DomainTerm, string]>).map(([value, label]) => (
+                      <label key={value} className={`relative cursor-pointer rounded-xl border p-4 transition ${domainTerm === value ? tileSelected : tileIdle}`}>
+                        <input className="sr-only" type="radio" name="domain-term" value={value} checked={domainTerm === value} onChange={() => setDomainTerm(value)} />
+                        <span className="flex items-start justify-between gap-2">
+                          <span className="block font-semibold text-slate-900">{label}</span>
+                          {domainTerm === value ? <CheckCircle className="h-5 w-5 shrink-0 text-primary-dark" aria-hidden /> : null}
+                        </span>
+                        <span className="mt-1 block text-lg font-bold text-primary-dark">{money(DOMAIN_PRICES[value])}</span>
+                        <span className="mt-2 flex flex-wrap gap-1.5">
+                          {domainTerm === value ? <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                          {value === 'three' ? <span className="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.bestValue}</span> : null}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
             </fieldset>
           </div>
 
@@ -482,7 +547,7 @@ export default function WebsiteEstimateBuilder() {
                     <span className="block font-semibold text-slate-900">{t.emailLabel}</span>
                     {email ? <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
                   </span>
-                  <span className="mt-1 block text-sm leading-6 text-slate-700">{t.emailValue}</span>
+                  <span className="mt-1 block text-sm leading-6 text-slate-700"><EmailSafeText text={t.emailValue} /></span>
                   <span className="mt-2 block text-sm font-bold text-primary-dark">{t.emailCost}</span>
                 </span>
               </label>
@@ -523,7 +588,7 @@ export default function WebsiteEstimateBuilder() {
                             <span className="flex items-start justify-between gap-3">
                               <span className="font-semibold text-slate-900">{t[label]}</span>
                               <span className="flex items-center gap-2">
-                                <span className="font-bold text-primary-dark">{currency.format(price)}</span>
+                                <span className="font-bold text-primary-dark">{money(price)}</span>
                                 {social === value ? <CheckCircle className="h-5 w-5 shrink-0 text-primary-dark" aria-hidden /> : null}
                               </span>
                             </span>
@@ -625,16 +690,16 @@ export default function WebsiteEstimateBuilder() {
           <div className="lg:sticky lg:top-28">
             <div className="flex items-center gap-2"><Sparkles className="h-5 w-5 text-primary" aria-hidden /><h2 className="text-xl font-serif font-bold text-slate-950">{t.summaryTitle}</h2></div>
             <dl className="mt-5 space-y-3 text-sm">
-              <div className="flex justify-between gap-4"><dt className="text-slate-700">{t.coreServices}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(WEBSITE_ESTIMATE_CORE_PRICE)}</dd></div>
-              {estimate.referralDiscount > 0 ? <div className="flex justify-between gap-4 text-emerald-700"><dt>{t.referralDiscount}</dt><dd className="font-semibold tabular-nums">–{currency.format(estimate.referralDiscount)}</dd></div> : null}
-              <div className="flex justify-between gap-4"><dt className="text-slate-700">{domainSummaryLabel}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.domain)}</dd></div>
-              {email ? <><div className="flex justify-between gap-4"><dt className="text-slate-700">{t.emailSetup}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.emailSetup)}</dd></div><div className="flex justify-between gap-4"><dt className="text-slate-700">{t.emailAnnual}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.emailAnnual)}</dd></div></> : null}
-              {socialSummaryLabel && estimate.socialSetup > 0 ? <div className="flex justify-between gap-4"><dt className="text-slate-700">{socialSummaryLabel}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.socialSetup)}</dd></div> : null}
-              {hostingSummaryLabel ? <div className="flex justify-between gap-4"><dt className="text-slate-700">{hostingSummaryLabel}</dt><dd className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.hostingFirstYear)}</dd></div> : <div className="flex gap-2 rounded-lg bg-white p-3 text-xs leading-5 text-slate-700"><Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />{t.ownHostingNote}</div>}
+              <div className="flex justify-between gap-4"><dt className="text-slate-700">{t.coreServices}</dt><dd className="font-semibold tabular-nums text-slate-900">{money(WEBSITE_ESTIMATE_CORE_PRICE)}</dd></div>
+              {estimate.referralDiscount > 0 ? <div className="flex justify-between gap-4 text-emerald-700"><dt>{t.referralDiscount}</dt><dd className="font-semibold tabular-nums">–{money(estimate.referralDiscount)}</dd></div> : null}
+              <div className="flex justify-between gap-4"><dt className="text-slate-700">{domainSummaryLabel}</dt><dd className="font-semibold tabular-nums text-slate-900">{domainSource === 'existing' ? money(0) : money(estimate.domain)}</dd></div>
+              {email ? <><div className="flex justify-between gap-4"><dt className="text-slate-700">{t.emailSetup}</dt><dd className="font-semibold tabular-nums text-slate-900">{money(estimate.emailSetup)}</dd></div><div className="flex justify-between gap-4"><dt className="text-slate-700">{t.emailAnnual}</dt><dd className="font-semibold tabular-nums text-slate-900">{money(estimate.emailAnnual)}</dd></div></> : null}
+              {socialSummaryLabel && estimate.socialSetup > 0 ? <div className="flex justify-between gap-4"><dt className="text-slate-700">{socialSummaryLabel}</dt><dd className="font-semibold tabular-nums text-slate-900">{money(estimate.socialSetup)}</dd></div> : null}
+              {hostingSummaryLabel ? <div className="flex justify-between gap-4"><dt className="text-slate-700">{hostingSummaryLabel}</dt><dd className="font-semibold tabular-nums text-slate-900">{money(estimate.hostingFirstYear)}</dd></div> : <div className="flex gap-2 rounded-lg bg-white p-3 text-xs leading-5 text-slate-700"><Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />{t.ownHostingNote}</div>}
             </dl>
             <div className="mt-6 space-y-3 border-t border-slate-300 pt-5">
-              <div className="flex justify-between gap-4 text-sm"><span className="text-slate-700">{t.subtotal}</span><span className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.firstYearBeforeTax)}</span></div>
-              <div className="flex justify-between gap-4 text-sm"><span className="text-slate-700">{t.hst}</span><span className="font-semibold tabular-nums text-slate-900">{currency.format(estimate.hst)}</span></div>
+              <div className="flex justify-between gap-4 text-sm"><span className="text-slate-700">{t.subtotal}</span><span className="font-semibold tabular-nums text-slate-900">{money(estimate.firstYearBeforeTax)}</span></div>
+              <div className="flex justify-between gap-4 text-sm"><span className="text-slate-700">{t.hst}</span><span className="font-semibold tabular-nums text-slate-900">{money(estimate.hst)}</span></div>
               <div className="flex items-end justify-between gap-4 border-t border-slate-300 pt-4"><span className="font-bold text-slate-950">{t.total}</span><span className="text-2xl font-serif font-bold tabular-nums text-primary-dark">{estimateTotalLabel}</span></div>
             </div>
             <p className="mt-5 text-xs leading-5 text-slate-600">{t.disclaimer}</p>

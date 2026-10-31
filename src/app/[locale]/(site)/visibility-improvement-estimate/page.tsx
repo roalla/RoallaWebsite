@@ -23,9 +23,9 @@ export default async function VisibilityImprovementEstimatePage() {
   return (
     <div className="page-shell">
       <div className="container mx-auto px-4 pb-20 pt-24 sm:px-6 lg:px-8 lg:pt-28">
-        <main className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-7xl">
           <VisibilityImprovementEstimateBuilder />
-        </main>
+        </div>
       </div>
     </div>
   )

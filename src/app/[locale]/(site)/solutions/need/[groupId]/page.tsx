@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import JsonLd from '@/components/JsonLd'
+import NeedSituationSummary from '@/components/solutions/NeedSituationSummary'
 import OutcomeGroupNeedPage from '@/components/solutions/OutcomeGroupNeedPage'
 import { buildPageMetadata } from '@/lib/page-metadata'
+import { getOutcomeGroupPanelCopy } from '@/lib/outcome-group-panels'
 import {
   OUTCOME_GROUP_IDS,
   isOutcomeGroupId,
@@ -45,6 +47,19 @@ export default async function OutcomeGroupNeedRoute({ params }: Props) {
 
   const solutions = solutionsByNeedContent[language]
   const path = `/solutions/need/${groupId}`
+  const panel = getOutcomeGroupPanelCopy(groupId, language)
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: panel.situations.map((situation) => ({
+      '@type': 'Question',
+      name: situation.label,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: [situation.hint, situation.detail.approach, ...situation.detail.solutions].join(' '),
+      },
+    })),
+  }
 
   return (
     <>
@@ -56,6 +71,7 @@ export default async function OutcomeGroupNeedRoute({ params }: Props) {
             { name: solutions.navLabel, path: '/solutions' },
             { name: group.title },
           ]),
+          faqJsonLd,
         ]}
       />
       <OutcomeGroupNeedPage
@@ -68,6 +84,7 @@ export default async function OutcomeGroupNeedRoute({ params }: Props) {
         assessmentDescription={solutions.assessmentDescription}
         assessmentCta={solutions.heroPrimary}
       />
+      <NeedSituationSummary groupId={groupId} locale={language} />
     </>
   )
 }

@@ -124,8 +124,8 @@
     overflow: visible;
     clip: auto;
     white-space: normal;
-    background: var(--roalla-color-brand, #00b4c5);
-    color: white;
+    background: var(--roalla-color-brand-dark, #007a87);
+    color: #f8fafc;
     text-decoration: none;
     border-radius: 4px;
   }

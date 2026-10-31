@@ -15,6 +15,7 @@ import {
   type CommunicationsValueBriefInput,
 } from "@/lib/communications-value-brief";
 import { trackAnalyticsEvent } from "@/lib/analytics";
+import SoftCapture from "@/components/conversion/SoftCapture";
 import CommunicationsValueBriefPrintSheet from "@/components/tools/CommunicationsValueBriefPrintSheet";
 
 const money = (value: number, locale: string) =>
@@ -407,16 +408,22 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
       const stored = JSON.parse(localStorage.getItem("roalla-communications-value-brief") || "{}");
       const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
       const situationParam = params?.get("situation");
+      const scopeParam = params?.get("scope");
       const validSituations = new Set(["pots-legacy", "current-cloud-unsure", "fragmented", "renewal"]);
+      const validScopes = new Set(["uc", "cc", "both"]);
       const fromQuery =
         situationParam && validSituations.has(situationParam)
           ? (situationParam as CommunicationsValueBriefInput["situation"])
+          : null;
+      const scopeFromQuery =
+        scopeParam && validScopes.has(scopeParam)
+          ? (scopeParam as CommunicationsValueBriefInput["scope"])
           : null;
       if (stored && typeof stored === "object") {
         setInput((current) => ({
           ...current,
           situation: fromQuery ?? stored.situation ?? current.situation,
-          scope: stored.scope ?? current.scope,
+          scope: scopeFromQuery ?? stored.scope ?? current.scope,
           scale: stored.scale ?? current.scale,
           frictions: Array.isArray(stored.frictions)
             ? stored.frictions.slice(0, MAX_COMMUNICATIONS_FRICTIONS)
@@ -428,8 +435,12 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
           valuePerMissed: typeof stored.valuePerMissed === "number" ? stored.valuePerMissed : current.valuePerMissed,
         }));
         // Never auto-open results — user must finish the wizard again.
-      } else if (fromQuery) {
-        setInput((current) => ({ ...current, situation: fromQuery }));
+      } else if (fromQuery || scopeFromQuery) {
+        setInput((current) => ({
+          ...current,
+          ...(fromQuery ? { situation: fromQuery } : {}),
+          ...(scopeFromQuery ? { scope: scopeFromQuery } : {}),
+        }));
       }
     } catch {
       /* ignore */
@@ -972,6 +983,13 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
             </div>
 
             <p className="mt-7 text-xs leading-5 text-slate-500">{t.disclaimer}</p>
+            <SoftCapture
+              locale={locale === "fr" ? "fr" : "en"}
+              context="communications-value-brief"
+              contactHref={contactHref}
+              contactLabel={ctaLabel}
+              onSaved={() => save()}
+            />
             <div className="mt-6 flex flex-wrap gap-3">
               <a
                 href={contactHref}

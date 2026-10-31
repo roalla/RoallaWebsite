@@ -70,7 +70,7 @@ export default async function SocialPresenceSnapshotPage({ params, searchParams 
         ]),
         webPageJsonLd(locale, path, page.metadataTitle, page.metadataDescription),
       ]} />
-      <main className="container mx-auto px-4 pb-20 pt-24 sm:px-6 lg:px-8 lg:pt-28">
+      <div className="container mx-auto px-4 pb-20 pt-24 sm:px-6 lg:px-8 lg:pt-28">
         <header className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-6 py-10 text-white shadow-xl sm:px-10 lg:py-14">
           <div className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-primary/20 blur-3xl" aria-hidden />
           <div className="relative max-w-4xl">
@@ -119,7 +119,7 @@ export default async function SocialPresenceSnapshotPage({ params, searchParams 
             {locale === "fr" ? "Ouvrir la liste de profils sociaux" : "Open social profile checklist"}
           </Link>
         </aside>
-      </main>
+      </div>
     </div>
   );
 }

@@ -96,9 +96,9 @@ export default async function Page({ params, searchParams }: Props) {
               : "Choose your context. You will get decision priorities, a tailored process, and a branded PDF—before you speak with providers."}
           </p>
         </header>
-        <main className="mx-auto mt-10 max-w-6xl">
+        <div className="mx-auto mt-10 max-w-6xl">
           <TechnologyDecisionBrief locale={locale} evaluationCriteria={evaluationCriteria} />
-        </main>
+        </div>
       </div>
     </div>
   );

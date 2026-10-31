@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useId, useMemo, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, Check, Circle, Globe2 } from 'lucide-react'
 import { Link, useRouter } from '@/i18n/navigation'
 import { trackAnalyticsEvent } from '@/lib/analytics'
+import { readSolutionsResume, writeSolutionsResume } from '@/lib/conversion-attribution'
 import { solutionsByNeedContent } from '@/lib/solutions-by-need'
 import type { OutcomeGroupId } from '@/lib/solution-outcome-pages'
 import {
@@ -53,7 +54,6 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
   const situationSelectedLabel = locale === 'fr' ? 'Sélectionné' : 'Selected'
   const howItWorksLabel =
     locale === 'fr' ? 'Comment l’engagement progresse habituellement' : 'How commitment usually grows'
-  const typicalCausesLabel = locale === 'fr' ? 'Causes fréquentes' : 'Typical causes'
   const roallaHelpLabel = locale === 'fr' ? 'Comment ROALLA peut aider' : 'How ROALLA can help'
   const selectedChallengeLabel = locale === 'fr' ? 'Défi sélectionné' : 'Selected challenge'
   const nextStepLabel = locale === 'fr' ? 'Prochaine étape recommandée' : 'Recommended next step'
@@ -77,10 +77,28 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
   }
 
   useEffect(() => {
+    const resume = readSolutionsResume(groupId)
+    if (resume?.situationId && copy.situations.some((item) => item.id === resume.situationId)) {
+      setSituationId(resume.situationId)
+    }
+  }, [copy.situations, groupId])
+
+  useEffect(() => {
+    writeSolutionsResume(groupId, {
+      situationId,
+      evidencePath: situation.evidencePath,
+    })
+  }, [groupId, situation.evidencePath, situationId])
+
+  useEffect(() => {
     if (!highlighted) return
     setPulse(true)
     const timer = window.setTimeout(() => setPulse(false), 1800)
-    panelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    panelRef.current?.scrollIntoView({
+      behavior: reduceMotion ? 'auto' : 'smooth',
+      block: 'nearest',
+    })
     return () => window.clearTimeout(timer)
   }, [highlighted])
 
@@ -95,9 +113,9 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
   }
 
   function selectedProblem(active: OutcomeGroupSituation) {
-    return active.id === 'email-deliverability'
-      ? 'email-deliverability'
-      : 'website-and-ai-visibility'
+    if (active.id === 'email-deliverability') return 'email-deliverability'
+    if (active.id === 'findability' || active.id === 'ai-answers') return 'website-and-ai-visibility'
+    return active.id
   }
 
   function runDomainEvidence(event: FormEvent<HTMLFormElement>) {
@@ -133,15 +151,31 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
         }),
       } as const
     }
-    if (path === '/tools/communications-value-brief' && active.id === 'phone-ip-uc') {
+    if (path === '/tools/communications-value-brief') {
+      const briefExtra =
+        active.id === 'phone-ip-uc'
+          ? { situation: 'pots-legacy' }
+          : active.id === 'communications'
+            ? { scope: 'cc' }
+            : {}
       return {
         pathname: path,
-        query: campaignQuery({ situation: 'pots-legacy' }),
+        query: campaignQuery(briefExtra),
       } as const
     }
     return {
       pathname: path,
-      query: campaignQuery(),
+      query: campaignQuery({ selected_problem: selectedProblem(active) }),
+    } as const
+  }
+
+  function estimateHref(path: string) {
+    return {
+      pathname: path as
+        | '/website-estimate'
+        | '/email-reach-estimate'
+        | '/visibility-improvement-estimate',
+      query: campaignQuery({ selected_problem: selectedProblem(situation) }),
     } as const
   }
 
@@ -153,6 +187,10 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
       outcome: situation.pathwaySlug,
       from_page: needPage,
       signal: situation.id,
+      campaign: `solutions-${groupId}`,
+      conversion_source: 'solutions_group_interactive',
+      entry_page: needPage,
+      selected_problem: selectedProblem(situation),
     },
   }
 
@@ -182,7 +220,11 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
   ) : null
 
   function scrollToEvidence() {
-    evidenceRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    evidenceRef.current?.scrollIntoView({
+      behavior: reduceMotion ? 'auto' : 'smooth',
+      block: 'nearest',
+    })
     trackAnalyticsEvent('solutions_tool_click', {
       location: `${groupId}_ladder_see_cta`,
       group: groupId,
@@ -270,78 +312,72 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
           })}
         </div>
 
-        <div
-          key={situation.id}
-          className="mt-4 border border-slate-200 bg-slate-50 px-4 py-5 sm:px-5"
-          aria-live="polite"
-        >
-          <div className="grid gap-5 sm:grid-cols-3">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary-dark">
-                {copy.detailIssuesLabel}
-              </p>
-              <ul className="mt-2 space-y-2">
-                {situation.detail.issues.map((issue) => (
-                  <li key={issue} className="flex items-start gap-2 text-sm leading-6 text-slate-700">
-                    <Check className="mt-1 h-3.5 w-3.5 shrink-0 text-primary-dark" aria-hidden />
-                    <span>{issue}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary-dark">
-                {copy.detailApproachLabel}
-              </p>
-              <p className="mt-2 text-sm leading-6 text-slate-700">{situation.detail.approach}</p>
-            </div>
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary-dark">
-                {copy.detailSolutionsLabel}
-              </p>
-              <ul className="mt-2 space-y-2">
-                {situation.detail.solutions.map((solution) => (
-                  <li key={solution} className="flex items-start gap-2 text-sm leading-6 text-slate-700">
-                    <Check className="mt-1 h-3.5 w-3.5 shrink-0 text-primary-dark" aria-hidden />
-                    <span>{solution}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {situation.typicalCauses?.length && situation.roallaHelp ? (
         <section
           key={situation.id}
           aria-live="polite"
-          className="outcome-situation-guidance border border-primary/20 bg-primary/[0.035] px-4 py-5 sm:px-5"
+          className="outcome-situation-guidance mt-4 border border-primary/20 bg-primary/[0.035] px-4 py-5 sm:px-5"
         >
           <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">
             {selectedChallengeLabel}
           </p>
           <h4 className="mt-2 font-serif text-xl font-bold text-slate-950">{situation.label}</h4>
           <p className="mt-1 text-sm leading-6 text-slate-600">{situation.hint}</p>
-          <div className="mt-5 grid gap-5 md:grid-cols-2 md:gap-8">
-            <div>
-              <p className="text-sm font-bold text-slate-950">{typicalCausesLabel}</p>
-              <ul className="mt-2 space-y-2">
-                {situation.typicalCauses.map((cause) => (
-                  <li key={cause} className="flex gap-2 text-sm leading-6 text-slate-700">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-gold" aria-hidden />
-                    <span>{cause}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="border-t border-primary/15 pt-5 md:border-l md:border-t-0 md:pl-8 md:pt-0">
+
+          <ol className="mt-6 space-y-5">
+            <li className="flex gap-3">
+              <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-bold text-white">
+                1
+              </span>
+              <div className="min-w-0 flex-1 border-l-2 border-primary/25 pl-4">
+                <p className="text-sm font-bold text-slate-950">{copy.detailIssuesLabel}</p>
+                <ul className="mt-2 space-y-2">
+                  {(situation.detail.issues.length
+                    ? situation.detail.issues
+                    : situation.typicalCauses ?? []
+                  ).map((issue) => (
+                    <li key={issue} className="flex gap-2 text-sm leading-6 text-slate-700">
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-gold" aria-hidden />
+                      <span>{issue}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+            <li className="flex gap-3">
+              <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-bold text-white">
+                2
+              </span>
+              <div className="min-w-0 flex-1 border-l-2 border-primary/25 pl-4">
+                <p className="text-sm font-bold text-slate-950">{copy.detailApproachLabel}</p>
+                <p className="mt-2 text-sm leading-6 text-slate-700">{situation.detail.approach}</p>
+              </div>
+            </li>
+            <li className="flex gap-3">
+              <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-bold text-white">
+                3
+              </span>
+              <div className="min-w-0 flex-1 border-l-2 border-primary/25 pl-4">
+                <p className="text-sm font-bold text-slate-950">{copy.detailSolutionsLabel}</p>
+                <ul className="mt-2 space-y-2">
+                  {situation.detail.solutions.map((solution) => (
+                    <li key={solution} className="flex gap-2 text-sm leading-6 text-slate-700">
+                      <Check className="mt-1 h-3.5 w-3.5 shrink-0 text-primary-dark" aria-hidden />
+                      <span>{solution}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          </ol>
+
+          {situation.roallaHelp ? (
+            <div className="mt-6 border-t border-primary/15 pt-5">
               <p className="text-sm font-bold text-slate-950">{roallaHelpLabel}</p>
               <p className="mt-2 text-sm leading-6 text-slate-700">{situation.roallaHelp}</p>
             </div>
-          </div>
+          ) : null}
         </section>
-      ) : null}
+      </div>
 
       <div ref={evidenceRef} className="border border-slate-200 bg-slate-950 px-4 py-5 text-white sm:px-5">
         {showWebsiteChecker ? (
@@ -396,7 +432,7 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
               {supportingServiceLink}
               {situation.estimatePath && situation.estimateLabel ? (
                 <Link
-                  href={situation.estimatePath}
+                  href={estimateHref(situation.estimatePath)}
                   onClick={() =>
                     trackAnalyticsEvent('solutions_tool_click', {
                       location: `${groupId}_estimate`,
@@ -413,7 +449,11 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
               {copy.pathwayLinks.map((link) => (
                 <Link
                   key={link.slug}
-                  href={{ pathname: '/solutions/[slug]', params: { slug: link.slug } }}
+                  href={{
+                    pathname: '/solutions/[slug]',
+                    params: { slug: link.slug },
+                    query: campaignQuery(),
+                  }}
                   onClick={() =>
                     trackAnalyticsEvent('solutions_pathway_click', {
                       location: `${groupId}_tertiary`,
@@ -523,7 +563,7 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
               {supportingServiceLink}
               {situation.estimatePath && situation.estimateLabel ? (
                 <Link
-                  href={situation.estimatePath}
+                  href={estimateHref(situation.estimatePath)}
                   onClick={() =>
                     trackAnalyticsEvent('solutions_tool_click', {
                       location: `${groupId}_estimate`,
@@ -540,7 +580,11 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
               {copy.pathwayLinks.map((link) => (
                 <Link
                   key={link.slug}
-                  href={{ pathname: '/solutions/[slug]', params: { slug: link.slug } }}
+                  href={{
+                    pathname: '/solutions/[slug]',
+                    params: { slug: link.slug },
+                    query: campaignQuery(),
+                  }}
                   onClick={() =>
                     trackAnalyticsEvent('solutions_pathway_click', {
                       location: `${groupId}_tertiary`,
@@ -690,12 +734,17 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
                 ) : null}
                 {ladderStep === 2 && primaryPathway ? (
                   <Link
-                    href={{ pathname: '/solutions/[slug]', params: { slug: primaryPathway.slug } }}
+                    href={{
+                      pathname: '/solutions/[slug]',
+                      params: { slug: primaryPathway.slug },
+                      query: campaignQuery(),
+                    }}
                     onClick={() =>
                       trackAnalyticsEvent('solutions_pathway_click', {
                         location: `${groupId}_ladder_improve`,
                         pathway: primaryPathway.slug,
                         group: groupId,
+                        signal: situation.id,
                       })
                     }
                     className="inline-flex min-h-10 items-center justify-center rounded-lg bg-primary-dark px-3.5 text-sm font-semibold text-white transition hover:bg-primary-darker"

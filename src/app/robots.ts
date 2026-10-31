@@ -40,3 +40,5 @@ export default function robots(): MetadataRoute.Robots {
     host: 'https://www.roalla.com',
   }
 }
+
+// Agents and crawlers: also fetch https://www.roalla.com/llms.txt for public guidance.

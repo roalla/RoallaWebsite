@@ -51,7 +51,7 @@ export default async function PartnersPage({ params }: Props) {
   const tCommon = await getTranslations('common')
 
   return (
-    <main className="page-shell">
+    <div className="page-shell">
       <PartnersHashRedirect />
       <JsonLd
         data={[
@@ -212,6 +212,6 @@ export default async function PartnersPage({ params }: Props) {
         analyticsEvent="partners_sticky_cta"
         analyticsParams={{ path: '/partners' }}
       />
-    </main>
+    </div>
   )
 }

@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { INSIGHT_SLUGS } from "@/lib/insights";
 import { CASE_STUDY_SLUGS } from "@/lib/portfolio-case-studies";
+import { OUTCOME_GROUP_IDS } from "@/lib/solution-outcome-pages";
 import { SOLUTION_PATH_IDS } from "@/lib/solutions-by-need";
 import { campaignReviewIds } from "@/lib/campaign-review-content";
 
@@ -11,6 +12,7 @@ const paths = [
   "",
   "/solutions",
   ...SOLUTION_PATH_IDS.map((slug) => `/solutions/${slug}`),
+  ...OUTCOME_GROUP_IDS.map((groupId) => `/solutions/need/${groupId}`),
   "/services/digital",
   "/services/ai-agents",
   "/services/search-ai-visibility",
@@ -139,6 +141,7 @@ const changeFrequency = (
 };
 
 const priority = (path: string): number => {
+  if (path.startsWith("/solutions/need/")) return 0.91;
   if (path.startsWith("/solutions/")) return 0.9;
   if (path.startsWith("/insights/")) return 0.72;
   if (path.startsWith("/services/portfolio/")) return 0.82;

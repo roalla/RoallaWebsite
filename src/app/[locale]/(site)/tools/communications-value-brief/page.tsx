@@ -41,9 +41,9 @@ export default async function Page({ params }: Props) {
               : "Six guided steps. You will get an indicative dollar opportunity, decision priorities, and a branded PDF—without naming providers."}
           </p>
         </header>
-        <main className="mx-auto mt-10 max-w-6xl">
+        <div className="mx-auto mt-10 max-w-6xl">
           <CommunicationsValueBrief locale={locale} />
-        </main>
+        </div>
       </div>
     </div>
   );

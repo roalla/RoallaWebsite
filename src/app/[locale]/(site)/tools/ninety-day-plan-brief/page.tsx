@@ -41,9 +41,9 @@ export default async function Page({ params }: Props) {
               : 'Four questions. You get a private brief with a 90-day rhythm—without strategy jargon.'}
           </p>
         </header>
-        <main className="mx-auto mt-10 max-w-3xl">
+        <div className="mx-auto mt-10 max-w-3xl">
           <PlainLanguageBrief briefId="ninety-day-plan" locale={locale} />
-        </main>
+        </div>
       </div>
     </div>
   )

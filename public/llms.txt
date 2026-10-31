@@ -26,6 +26,19 @@ ROALLA assesses, builds, optimizes, and evolves digital assets and facilitates h
 - [AI policy](https://www.roalla.com/en/ai-policy): How ROALLA describes AI use
 - [Privacy](https://www.roalla.com/en/privacy): Privacy policy
 
+## Solutions by need
+
+- [Solutions](https://www.roalla.com/en/solutions): Outcome pathways for growth, experience, automation, risk, and execution
+- [Growth and visibility](https://www.roalla.com/en/solutions/need/growth-visibility): Findability, AI answers, email deliverability
+- [Experience and products](https://www.roalla.com/en/solutions/need/experience-products): Websites, journeys, communications, UC, AI Employee, point of sale
+- [Automation and AI](https://www.roalla.com/en/solutions/need/automation-ai): Connected operations, capacity, repetitive work
+- [Security and compliance](https://www.roalla.com/en/solutions/need/security-compliance): Security gaps, MDR, SOC 2, cloud migration, network
+- [Execution](https://www.roalla.com/en/solutions/need/execution): Priorities, ownership, delivery rhythm
+- [Executive insights](https://www.roalla.com/en/executive-insights): Downloadable executive guides
+- [Digital presence snapshot](https://www.roalla.com/en/tools/digital-presence-snapshot): Free automated visibility check
+- [Communications value brief](https://www.roalla.com/en/tools/communications-value-brief): UC and contact-centre requirements brief
+- [Technology decision brief](https://www.roalla.com/en/tools/technology-decision-brief): Vendor-neutral decision priorities
+
 ## Core services
 
 - [Digital Enablement](https://www.roalla.com/en/services/digital): Core digital enablement service
@@ -65,10 +78,15 @@ ROALLA assesses, builds, optimizes, and evolves digital assets and facilitates h
 
 ## Insights
 
+Full insight list: see [Sitemap](https://www.roalla.com/sitemap.xml) and [Insights index](https://www.roalla.com/en/insights). Curated starting points:
+
 - [SEO, AEO, GEO and bots](https://www.roalla.com/en/insights/geo-seo-aeo-and-bots): How search, answer engines, generative engines, and chatbots differ
 - [How AI systems understand business websites](https://www.roalla.com/en/insights/how-ai-systems-understand-websites): How AI systems read a business site
 - [Search and AI visibility](https://www.roalla.com/en/insights/search-and-ai-visibility): Search and AI visibility
 - [Structured data for small businesses](https://www.roalla.com/en/insights/structured-data-for-small-business): Structured data for small businesses
+- [Networking ROI for solopreneurs and small business](https://www.roalla.com/en/insights/networking-roi-solopreneurs-small-business): Measurable networking systems
+- [Web development outlook 2027](https://www.roalla.com/en/insights/web-development-outlook-2027): Product and performance operating metrics
+- [Unified communications outlook 2027](https://www.roalla.com/en/insights/unified-communications-outlook-2027): UC and contact-centre readiness
 - [Fractional COO](https://www.roalla.com/en/insights/fractional-coo): Fractional COO
 - [Strategic planning](https://www.roalla.com/en/insights/strategic-planning): Strategic planning
 - [Process optimization](https://www.roalla.com/en/insights/process-optimization): Process optimization

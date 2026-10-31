@@ -100,7 +100,7 @@ export default function NetworkingRoiArticle({ locale, title, summary, readTime,
             <InsightShare title={title} />
           </div>
           <figure className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 shadow-xl shadow-slate-900/10">
-            <Image src="/images/insights/library/networking-roi-solopreneurs-small-business.webp" alt={french ? 'Trois professionnels développent une relation d’affaires ciblée reliée à des résultats mesurables.' : 'Three professionals build a focused business relationship connected to measurable results.'} width={1672} height={941} priority sizes="(min-width: 1024px) 50vw, 100vw" className="h-auto w-full object-cover" />
+            <Image src="/images/insights/library/networking-roi-solopreneurs-small-business.opt.webp" alt={french ? 'Trois professionnels développent une relation d’affaires ciblée reliée à des résultats mesurables.' : 'Three professionals build a focused business relationship connected to measurable results.'} width={1400} height={788} priority sizes="(min-width: 1024px) 50vw, 100vw" className="h-auto w-full object-cover" />
           </figure>
         </div>
       </header>

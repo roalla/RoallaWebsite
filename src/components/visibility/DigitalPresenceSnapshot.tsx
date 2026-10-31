@@ -27,6 +27,7 @@ import { AgenticScoreTile, PresenceScoreTiles } from "@/components/visibility/Pr
 import { formatAgenticScore } from "@/lib/agentic-readiness/score";
 import type { AgenticReadiness } from "@/lib/agentic-readiness/score";
 import { trackAnalyticsEvent } from "@/lib/analytics";
+import { setLruJsonItem } from "@/lib/local-storage-lru";
 import { buildDigitalPresenceActions, type DigitalPresenceAction } from "@/lib/digital-presence/actions";
 import type { DomainHealthSnapshot } from "@/lib/domain-health/evaluate";
 import { buildSnapshotNarrative } from "@/lib/digital-presence/narrative";
@@ -122,11 +123,7 @@ function saveHistory(
     agenticDesktopApplicable: technical?.desktop?.snapshot?.agentic?.applicable ?? null,
     agenticScore: technical?.mobile?.snapshot?.agentic?.score ?? technical?.desktop?.snapshot?.agentic?.score ?? social?.agentic?.score ?? null,
   };
-  try {
-    window.localStorage.setItem(storageKey(value), JSON.stringify(history));
-  } catch {
-    // The report still works when private browsing blocks local storage.
-  }
+  setLruJsonItem(storageKey(value), { ...history, savedAt: history.checkedAt }, { maxEntries: 10 })
 }
 
 function scoreDelta(current: number | null | undefined, previous: number | null | undefined) {

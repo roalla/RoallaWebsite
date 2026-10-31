@@ -23,10 +23,10 @@ export default async function WebsiteEstimatePage({ params }: Props) {
   return (
     <div className="page-shell">
       <div className="container mx-auto px-4 pb-20 pt-24 sm:px-6 lg:px-8 lg:pt-28">
-        <main className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-7xl">
           <WebsiteEstimateBuilder />
           <WebsiteApproachComparison locale={locale} />
-        </main>
+        </div>
       </div>
     </div>
   )

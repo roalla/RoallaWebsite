@@ -162,7 +162,7 @@ export default function WebDevelopmentOutlook2027({ locale, title, summary, read
   return (
     <article className="bg-[#f4f7fb] text-slate-900">
       <header className="relative isolate min-h-[700px] overflow-hidden bg-[#07111f] text-white">
-        <Image src="/images/insights/web-development-outlook-2027/hero.webp" alt="" fill priority sizes="100vw" className="-z-20 object-cover object-center opacity-70" />
+        <Image src="/images/insights/web-development-outlook-2027/hero.opt.webp" alt="" fill priority sizes="100vw" className="-z-20 object-cover object-center opacity-70" />
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#07111f] via-[#07111f]/90 to-[#07111f]/20" />
         <div className="mx-auto grid min-h-[700px] max-w-7xl items-end px-4 pb-16 pt-28 sm:px-6 lg:px-8 lg:pb-24">
           <div className="max-w-4xl">

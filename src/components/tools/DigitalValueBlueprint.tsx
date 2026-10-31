@@ -4,6 +4,10 @@ import React, { FormEvent, useMemo, useState } from "react";
 import { ArrowRight, Download, LockKeyhole, Sparkles } from "lucide-react";
 import { recommendDigitalService, type DigitalGoal, type DigitalStage } from "@/lib/digital-value-planner";
 import { trackAnalyticsEvent } from "@/lib/analytics";
+import {
+  appendAttributionToHref,
+  readAttributionFromSearch,
+} from "@/lib/conversion-attribution";
 
 const copy = {
   en: {
@@ -63,7 +67,15 @@ export default function DigitalValueBlueprint({ locale }: { locale: string }) {
   const goalText = t.goals[goal];
   const stageText = t.stages[stage];
   const contactGoal = `${t.report}: ${t.names[recommendation.key]}. ${goalText}. ${barrier}`.slice(0, 500);
-  const contactHref = `/${locale}/contact?intent=${encodeURIComponent(recommendation.contactIntent)}&goal=${encodeURIComponent(contactGoal)}&from_page=${encodeURIComponent("/tools/digital-value-blueprint")}`;
+  const contactHrefBase = `/${locale}/contact?intent=${encodeURIComponent(recommendation.contactIntent)}&goal=${encodeURIComponent(contactGoal)}&from_page=${encodeURIComponent("/tools/digital-value-blueprint")}`;
+  const contactHref =
+    typeof window === "undefined"
+      ? contactHrefBase
+      : appendAttributionToHref(
+          contactHrefBase,
+          readAttributionFromSearch(window.location.search),
+          { conversion_source: "digital_value_blueprint", entry_page: "/tools/digital-value-blueprint" },
+        );
 
   return <div className="space-y-8">
     <form onSubmit={submit} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 print:hidden">

@@ -46,6 +46,9 @@ const ATTRIBUTION_PARAMS = [
   'conversion_source',
   'entry_page',
   'selected_problem',
+  'signal',
+  'situation',
+  'scope',
   'utm_source',
   'utm_medium',
   'utm_campaign',
@@ -174,7 +177,12 @@ function ScheduleContent() {
     [referenceParam, t, tPortfolio],
   )
 
-  const initialGoal = referenceGoal ?? packagePrefillGoal ?? searchParams.get('goal')
+  const signalParam = searchParams.get('signal')?.trim()
+  const signalGoal =
+    !referenceGoal && !packagePrefillGoal && !searchParams.get('goal') && signalParam
+      ? `Selected challenge: ${signalParam.replace(/-/g, ' ')}`
+      : null
+  const initialGoal = referenceGoal ?? packagePrefillGoal ?? searchParams.get('goal') ?? signalGoal
 
   const isDigital = isDigitalIntent(initialIntent)
   const whatYouGetItems = visibilityReview

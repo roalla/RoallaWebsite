@@ -217,7 +217,7 @@ export default function SolutionsByNeedPage({ content, locale }: { content: Solu
               <a href="#outcome-finder" onClick={() => trackAnalyticsEvent('outcome_cta_click', { location: 'solutions_hero_finder' })} className="inline-flex min-h-[50px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 shadow-lg shadow-brand-gold/10 transition hover:-translate-y-0.5 hover:bg-brand-gold-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
                 {copy.heroExplore}<ArrowDown className="ml-2 h-4 w-4" aria-hidden />
               </a>
-              <Link href="/contact" onClick={() => trackAnalyticsEvent('outcome_cta_click', { location: 'solutions_hero_contact' })} className="inline-flex min-h-[50px] items-center justify-center rounded-lg border border-white/25 bg-white/5 px-6 py-3 font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:border-white/50 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+              <Link href={{ pathname: '/contact', query: { from_page: '/solutions', conversion_source: 'solutions_hero_contact', campaign: 'solutions-index' } }} onClick={() => trackAnalyticsEvent('outcome_cta_click', { location: 'solutions_hero_contact' })} className="inline-flex min-h-[50px] items-center justify-center rounded-lg border border-white/25 bg-white/5 px-6 py-3 font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:border-white/50 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
                 {copy.heroTalk}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
             </div>
@@ -502,10 +502,10 @@ export default function SolutionsByNeedPage({ content, locale }: { content: Solu
             <p className="mt-4 flex gap-2 text-sm leading-6 text-slate-300"><Check className="mt-0.5 h-4 w-4 shrink-0 text-primary-light" aria-hidden />{content.assessmentPrompt}</p>
           </div>
           <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
-            <Link href="/assessment" onClick={() => trackAnalyticsEvent('solutions_assessment_click', { location: 'solutions_closing' })} className="inline-flex min-h-[50px] items-center justify-center rounded-lg bg-white px-6 py-3 font-semibold text-slate-950 transition hover:-translate-y-0.5 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
+            <Link href={{ pathname: '/assessment', query: { from_page: '/solutions', conversion_source: 'solutions_closing', campaign: 'solutions-index' } }} onClick={() => trackAnalyticsEvent('solutions_assessment_click', { location: 'solutions_closing' })} className="inline-flex min-h-[50px] items-center justify-center rounded-lg bg-white px-6 py-3 font-semibold text-slate-950 transition hover:-translate-y-0.5 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
               {content.heroPrimary}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Link>
-            <Link href="/contact" onClick={() => trackAnalyticsEvent('outcome_cta_click', { location: 'solutions_closing_contact' })} className="inline-flex min-h-[50px] items-center justify-center rounded-lg border border-white/30 bg-white/5 px-6 py-3 font-semibold text-white transition hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+            <Link href={{ pathname: '/contact', query: { from_page: '/solutions', conversion_source: 'solutions_closing_contact', campaign: 'solutions-index' } }} onClick={() => trackAnalyticsEvent('outcome_cta_click', { location: 'solutions_closing_contact' })} className="inline-flex min-h-[50px] items-center justify-center rounded-lg border border-white/30 bg-white/5 px-6 py-3 font-semibold text-white transition hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
               {copy.closingSecondary}
             </Link>
           </div>

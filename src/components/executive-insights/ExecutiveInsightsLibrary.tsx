@@ -62,7 +62,7 @@ const content = {
     successBody: "Use the secure link below to download it. The link expires in 48 hours.",
     emailUnavailable: "The confirmation email could not be sent. Use the download button on this page.",
     download: "Download the guide", close: "Return to insights",
-    error: "We could not prepare the guide right now. Please try again or contact sales@roalla.com.",
+    error: "We could not prepare the guide right now. Please try again or contact sales at roalla.com.",
     englishNote: "The complete PDF guide is currently available in English.",
   },
   fr: {
@@ -98,7 +98,7 @@ const content = {
     privacy: "ROALLA utilisera vos renseignements pour fournir le guide demandé et répondre à votre demande. Les communications marketing sont facultatives.", submit: "Obtenir le guide", sending: "Préparation du guide…", success: "Votre guide est prêt.",
     successBody: "Utilisez le lien sécurisé ci-dessous. Il expire dans 48 heures.",
     emailUnavailable: "Le courriel de confirmation n’a pas pu être envoyé. Utilisez le bouton de téléchargement sur cette page.",
-    download: "Télécharger le guide", close: "Retourner aux perspectives", error: "Nous ne pouvons pas préparer le guide maintenant. Réessayez ou écrivez à sales@roalla.com.", englishNote: "Le guide PDF complet est actuellement offert en anglais.",
+    download: "Télécharger le guide", close: "Retourner aux perspectives", error: "Nous ne pouvons pas préparer le guide maintenant. Réessayez ou écrivez à sales at roalla.com.", englishNote: "Le guide PDF complet est actuellement offert en anglais.",
   },
 } as const;
 

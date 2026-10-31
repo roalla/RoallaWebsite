@@ -584,16 +584,16 @@ const experienceEn: OutcomeGroupPanelCopy = {
       contactFocus: 'technology',
       detail: {
         issues: [
-          'Call routing, voicemail, or contact-centre tools create missed opportunities.',
-          'Reporting does not show missed calls, wait times, or follow-up gaps.',
-          'Customers experience inconsistent follow-up between phone, chat, and email.',
+          'Missed or misrouted calls, long queues, and abandon gaps cost customers and follow-up.',
+          'Recording, quality, or speech insights do not show what customers and agents experience.',
+          'IVR or self-service and the agent desktop lack CRM context; phone, chat, and email follow-up stay inconsistent.',
         ],
         approach:
-          'Clarify the call-handling outcome and operating constraints before selecting platforms. Compare options on the same criteria—reliability, adoption, cost, and customer experience.',
+          'Clarify channels, queues, skills, recording and compliance needs, integrations, and reporting before selecting platforms. Compare options on the same scorecard—reliability, agent adoption, customer experience, and total cost.',
         solutions: [
-          'Communications Value Brief to frame requirements and success measures',
-          'Technology Advisory shortlist for contact centre or call-handling options',
-          'Transition plan with owners so tools support the journey—not add noise',
+          'Communications Value Brief for contact-centre and call-handling requirements',
+          'Technology Advisory shortlist for unified communications or contact-centre options',
+          'Staged transition covering routing, IVR, CRM interconnect, recording, and reporting owners',
         ],
       },
     },
@@ -615,9 +615,9 @@ const experienceEn: OutcomeGroupPanelCopy = {
       contactFocus: 'technology',
       detail: {
         issues: [
-          'Desk phones, softphones, and mobile calling do not share presence, directory, or history.',
-          'Phone systems do not interconnect with collaboration, CRM, or contact tools.',
-          'Several overlapping calling and collaboration subscriptions inflate cost.',
+          'Desk phones, softphones, and mobile calling do not share presence, directory, or call history.',
+          'Phone systems do not interconnect with collaboration, CRM, or contact tools at the agent or user desktop.',
+          'Several overlapping calling and collaboration subscriptions inflate cost without a single owner.',
         ],
         approach:
           'Document users, locations, call flows, and the apps that must interconnect before choosing a unified communications platform. Compare options on reliability, integration, adoption, and total cost.',
@@ -817,16 +817,16 @@ const experienceFr: OutcomeGroupPanelCopy = {
       contactFocus: 'technology',
       detail: {
         issues: [
-          'Le routage d’appels, la messagerie vocale ou les outils de centre de contact font rater des occasions.',
-          'Les rapports ne montrent ni appels manqués, ni temps d’attente, ni lacunes de suivi.',
-          'Les clients vivent un suivi incohérent entre téléphone, clavardage et courriel.',
+          'Appels manqués ou mal acheminés, files d’attente longues et abandons coûtent des clients et du suivi.',
+          'L’enregistrement, la qualité ou les analyses vocales ne montrent pas ce que vivent clients et agents.',
+          'Le SVI ou libre-service et le bureau agent manquent de contexte CRM; le suivi téléphone, clavardage et courriel reste incohérent.',
         ],
         approach:
-          'Clarifiez le résultat de gestion des appels et les contraintes d’exploitation avant de choisir des plateformes. Comparez les options selon les mêmes critères—fiabilité, adoption, coût et expérience client.',
+          'Clarifiez canaux, files, compétences, besoins d’enregistrement et de conformité, intégrations et rapports avant de choisir des plateformes. Comparez les options sur le même tableau de bord—fiabilité, adoption des agents, expérience client et coût total.',
         solutions: [
-          'Brief valeur communications pour cadrer exigences et mesures de succès',
-          'Comparaison de conseil technologique pour centre de contact ou gestion des appels',
-          'Plan de transition avec responsables pour que les outils soutiennent le parcours—sans ajouter de bruit',
+          'Brief valeur communications pour les exigences de centre de contact et de gestion des appels',
+          'Comparaison de conseil technologique pour communications unifiées ou centre de contact',
+          'Transition par étapes : routage, SVI, interconnexion CRM, enregistrement et responsables des rapports',
         ],
       },
     },
@@ -848,9 +848,9 @@ const experienceFr: OutcomeGroupPanelCopy = {
       contactFocus: 'technology',
       detail: {
         issues: [
-          'Téléphones de bureau, logiciels de téléphonie et appels mobiles ne partagent ni présence, ni répertoire, ni historique.',
-          'Les systèmes téléphoniques ne s’interconnectent pas avec la collaboration, le CRM ou les outils de contact.',
-          'Plusieurs abonnements d’appels et de collaboration qui se chevauchent font grimper les coûts.',
+          'Téléphones de bureau, logiciels de téléphonie et appels mobiles ne partagent ni présence, ni répertoire, ni historique d’appels.',
+          'Les systèmes téléphoniques ne s’interconnectent pas avec la collaboration, le CRM ou les outils de contact au bureau de l’utilisateur ou de l’agent.',
+          'Plusieurs abonnements d’appels et de collaboration qui se chevauchent font grimper les coûts sans responsable unique.',
         ],
         approach:
           'Documentez utilisateurs, sites, parcours d’appels et applications à interconnecter avant de choisir une plateforme de communications unifiées. Comparez les options selon fiabilité, intégration, adoption et coût total.',

@@ -7,6 +7,10 @@ import {
   type TechnologyBriefInput,
 } from "@/lib/business-advisory-tools";
 import { trackAnalyticsEvent } from "@/lib/analytics";
+import {
+  appendAttributionToHref,
+  readAttributionFromSearch,
+} from "@/lib/conversion-attribution";
 import TechnologyDecisionBriefPrintSheet from "@/components/tools/TechnologyDecisionBriefPrintSheet";
 
 const TOTAL_STEPS = 5;
@@ -330,7 +334,15 @@ export default function TechnologyDecisionBrief({
     .join("\n")
     .slice(0, 900);
 
-  const contactHref = `/${locale}/contact?intent=consulting&focus=technology&goal=${encodeURIComponent(contactGoal)}&from_page=${encodeURIComponent("/tools/technology-decision-brief")}`;
+  const contactHrefBase = `/${locale}/contact?intent=consulting&focus=technology&goal=${encodeURIComponent(contactGoal)}&from_page=${encodeURIComponent("/tools/technology-decision-brief")}`;
+  const contactHref =
+    typeof window === "undefined"
+      ? contactHrefBase
+      : appendAttributionToHref(
+          contactHrefBase,
+          readAttributionFromSearch(window.location.search),
+          { conversion_source: "technology_decision_brief", entry_page: "/tools/technology-decision-brief" },
+        );
 
   const translatedPriority = (value: string) => (language === "fr" ? priorityFr[value] ?? value : value);
 

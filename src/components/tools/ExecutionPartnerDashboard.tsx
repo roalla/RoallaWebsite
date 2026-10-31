@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, Plus, Trash2 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { capArrayStorage } from "@/lib/local-storage-lru";
 
 type Item = { id: number; priority: string; owner: string; measure: string; status: string; review: string };
 const blank = (): Item => ({ id: Date.now(), priority: "", owner: "", measure: "", status: "Not started", review: "" });
@@ -13,7 +14,7 @@ export default function ExecutionPartnerDashboard({ locale }: { locale: string }
   const [items, setItems] = useState<Item[]>([blank()]);
   const [ready, setReady] = useState(false);
   useEffect(() => { try { const stored = JSON.parse(localStorage.getItem("roalla-execution-dashboard") || "null"); if (Array.isArray(stored) && stored.length) setItems(stored); } catch {} setReady(true); }, []);
-  useEffect(() => { if (ready) localStorage.setItem("roalla-execution-dashboard", JSON.stringify(items)); }, [items, ready]);
+  useEffect(() => { if (ready) capArrayStorage("roalla-execution-dashboard", items, 40); }, [items, ready]);
   const change = (id: number, key: keyof Item, value: string) => setItems((current) => current.map((item) => item.id === id ? { ...item, [key]: value } : item));
   return <div>
     <div className="grid gap-4 sm:grid-cols-3"><div className="rounded-xl border border-slate-200 bg-white p-4"><p className="text-xs font-semibold uppercase text-slate-500">{fr ? "Priorités actives" : "Active priorities"}</p><p className="mt-1 text-3xl font-bold text-slate-950">{items.filter((item) => item.status !== "Complete").length}</p></div><div className="rounded-xl border border-slate-200 bg-white p-4"><p className="text-xs font-semibold uppercase text-slate-500">{fr ? "Terminées" : "Complete"}</p><p className="mt-1 text-3xl font-bold text-slate-950">{items.filter((item) => item.status === "Complete").length}</p></div><div className="rounded-xl border border-slate-200 bg-white p-4"><p className="text-xs font-semibold uppercase text-slate-500">{fr ? "Prochaine habitude" : "Recommended rhythm"}</p><p className="mt-1 text-base font-bold text-slate-950">{fr ? "Examen mensuel" : "Monthly review"}</p></div></div>

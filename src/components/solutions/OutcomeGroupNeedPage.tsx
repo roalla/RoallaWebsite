@@ -75,7 +75,15 @@ export default function OutcomeGroupNeedPage({
               {backLabel}
             </Link>
             <Link
-              href="/assessment"
+              href={{
+                pathname: '/assessment',
+                query: {
+                  campaign: `solutions-${groupId}`,
+                  conversion_source: 'solutions_need_footer',
+                  entry_page: `/solutions/need/${groupId}`,
+                  signal: groupId,
+                },
+              }}
               onClick={() =>
                 trackAnalyticsEvent('solutions_assessment_click', {
                   location: `solutions_need_${groupId}`,

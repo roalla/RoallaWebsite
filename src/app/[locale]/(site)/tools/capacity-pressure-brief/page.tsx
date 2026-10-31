@@ -39,9 +39,9 @@ export default async function Page({ params }: Props) {
               : 'Four questions. You get a private brief on where to free capacity while keeping a person on the exceptions.'}
           </p>
         </header>
-        <main className="mx-auto mt-10 max-w-3xl">
+        <div className="mx-auto mt-10 max-w-3xl">
           <PlainLanguageBrief briefId="capacity-pressure" locale={locale} />
-        </main>
+        </div>
       </div>
     </div>
   )

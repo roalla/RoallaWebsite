@@ -41,9 +41,9 @@ export default async function Page({ params }: Props) {
               : 'Start with a public mail-setup check, then two quick questions. You get a private brief with priorities—no sales pitch.'}
           </p>
         </header>
-        <main className="mx-auto mt-10 max-w-3xl">
+        <div className="mx-auto mt-10 max-w-3xl">
           <EmailReachBriefWizard locale={locale} />
-        </main>
+        </div>
       </div>
     </div>
   )

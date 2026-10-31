@@ -42,7 +42,7 @@ export default async function CompensationPage({ params }: Props) {
   const tCommon = await getTranslations('common')
 
   return (
-    <main className="page-shell">
+    <div className="page-shell">
       <JsonLd
         data={[
           breadcrumbJsonLd(locale, [
@@ -121,6 +121,6 @@ export default async function CompensationPage({ params }: Props) {
         analyticsEvent="partners_sticky_cta"
         analyticsParams={{ path }}
       />
-    </main>
+    </div>
   )
 }

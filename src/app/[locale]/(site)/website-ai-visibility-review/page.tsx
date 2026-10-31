@@ -158,7 +158,7 @@ export default async function WebsiteAiVisibilityReviewPage({ params }: Props) {
         ...servicePageJsonLd({ locale, path, name: page.eyebrow, description: page.metadataDescription, serviceType: "Website and AI visibility assessment", offers: [{ name: page.automatedTitle, description: page.automated.join(" ") }, { name: page.personalTitle, description: page.personal.join(" ") }], faqs }),
       ]} />
 
-      <main>
+      <div>
         <section id="top" className="relative scroll-mt-24 overflow-hidden bg-slate-950 pb-20 pt-28 text-white lg:pb-28 lg:pt-36">
           <div className="absolute inset-0 opacity-50" aria-hidden>
             <div className="absolute -left-40 top-10 h-96 w-96 rounded-full bg-primary/30 blur-3xl" />
@@ -236,7 +236,7 @@ export default async function WebsiteAiVisibilityReviewPage({ params }: Props) {
         <section id="start-review" className="bg-primary py-16 text-white">
           <div className="container mx-auto flex max-w-6xl flex-col gap-7 px-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8"><div><h2 className="font-serif text-3xl font-bold text-white sm:text-4xl">{page.finalTitle}</h2><p className="mt-3 max-w-3xl text-primary-lighter">{page.finalBody}</p></div><a href="#top" className="inline-flex min-h-[50px] shrink-0 items-center justify-center rounded-xl bg-brand-gold px-7 py-3 font-bold text-slate-950 hover:bg-brand-gold-light">{page.finalButton}<ArrowRight className="ml-2 h-5 w-5" aria-hidden /></a></div>
         </section>
-      </main>
+      </div>
     </div>
   );
 }

@@ -179,6 +179,9 @@ describe('outcome group panels', () => {
       contactIntent: 'consulting',
       contactFocus: 'technology',
     })
+    expect(copy.situations.find((item) => item.id === 'communications')?.detail.issues.join(' ')).toMatch(
+      /recording|quality|speech|IVR|self-service|CRM|queue|abandon|enregistrement|qualité|SVI|CRM|attente/i,
+    )
     expect(copy.situations.find((item) => item.id === 'ai-employee')).toMatchObject({
       evidencePath: '/ai-employee-fit-review',
       pathwaySlug: 'communications',

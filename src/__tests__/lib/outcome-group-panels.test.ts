@@ -35,6 +35,9 @@ describe('outcome group panels', () => {
         expect(situation.detail.solutions.length).toBeGreaterThanOrEqual(2)
         situation.detail.issues.forEach((issue) => expect(issue).toBeTruthy())
         situation.detail.solutions.forEach((solution) => expect(solution).toBeTruthy())
+        expect(situation.typicalCauses).toHaveLength(2)
+        expect(situation.roallaHelp).toBeTruthy()
+        expect(situation.evidenceNote).toBeTruthy()
       })
       if (groupId === 'growth-visibility') {
         expect(copy.evidenceMode).toBe('domain')
@@ -67,7 +70,9 @@ describe('outcome group panels', () => {
     const situation = copy.situations.find((item) => item.id === 'email-deliverability')
 
     expect(situation).toMatchObject({
-      evidencePath: '/tools/digital-presence-snapshot',
+      evidencePath: '/tools/email-reach-brief',
+      evidenceLabel:
+        locale === 'fr' ? 'Vérifier si vos courriels passent' : 'Check if your emails are getting through',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
     })
@@ -90,6 +95,25 @@ describe('outcome group panels', () => {
       evidencePath: '/automation-opportunity-review',
       pathwaySlug: 'automation-ai',
       contactIntent: 'ai-support',
+    })
+  })
+
+  it.each(['en', 'fr'] as const)('remaps key tiles to plain-language evidence paths for %s', (locale) => {
+    const growth = getOutcomeGroupPanelCopy('growth-visibility', locale)
+    const experience = getOutcomeGroupPanelCopy('experience-products', locale)
+    const automation = getOutcomeGroupPanelCopy('automation-ai', locale)
+    const execution = getOutcomeGroupPanelCopy('execution', locale)
+
+    expect(growth.situations.find((item) => item.id === 'ai-clarity')?.evidencePath).toBe(
+      '/website-ai-visibility-review',
+    )
+    expect(experience.situations.find((item) => item.id === 'customer-journey')?.evidencePath).toBe(
+      '/digital-asset-health-review',
+    )
+    expect(automation.situations.every((item) => item.typicalCauses?.length === 2)).toBe(true)
+    expect(automation.situations.every((item) => Boolean(item.roallaHelp))).toBe(true)
+    execution.situations.forEach((situation) => {
+      expect(situation.evidencePath).toBe('/tools/ninety-day-plan-brief')
     })
   })
 })

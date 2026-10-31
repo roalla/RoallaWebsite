@@ -7,6 +7,11 @@ export type EvidencePath =
   | '/digital-product-discovery'
   | '/website-package'
   | '/tools/communications-value-brief'
+  | '/tools/email-reach-brief'
+  | '/tools/ninety-day-plan-brief'
+  | '/tools/capacity-pressure-brief'
+  | '/website-ai-visibility-review'
+  | '/digital-asset-health-review'
   | '/automation-opportunity-review'
   | '/ai-agent-readiness-review'
   | '/technology-decision-review'
@@ -22,8 +27,11 @@ export type OutcomeGroupSituation = {
   id: string
   label: string
   hint: string
+  typicalCauses?: readonly string[]
+  roallaHelp?: string
   evidencePath: EvidencePath
   evidenceLabel: string
+  evidenceNote?: string
   pathwaySlug: SolutionPathId
   contactIntent: ConsultationIntent
   contactFocus?: ConsultingFocus
@@ -79,8 +87,15 @@ const growthEn: OutcomeGroupPanelCopy = {
       id: 'findability',
       label: 'Buyers can’t find us',
       hint: 'Discovery and search visibility are the bottleneck.',
+      typicalCauses: [
+        'Pages do not match the words buyers actually use when they search.',
+        'Your public presence is incomplete or inconsistent across search and maps.',
+      ],
+      roallaHelp:
+        'ROALLA checks how easy it is to find you, whether your public page is clear, and what to fix first—then turns that into a practical action list.',
       evidencePath: '/tools/digital-presence-snapshot',
       evidenceLabel: 'Check my website',
+      evidenceNote: 'Free website check. No email required. Public landing page only.',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
       detail: {
@@ -102,8 +117,15 @@ const growthEn: OutcomeGroupPanelCopy = {
       id: 'conversion',
       label: 'Traffic doesn’t convert',
       hint: 'People arrive, but the path to action is unclear.',
+      typicalCauses: [
+        'The offer or next step is hard to understand quickly.',
+        'Proof of trust appears too late, or contacting you feels hard.',
+      ],
+      roallaHelp:
+        'ROALLA walks the customer path with you, clarifies the offer and next step, then prioritizes the highest-value changes before a rebuild.',
       evidencePath: '/tools/digital-presence-snapshot',
-      evidenceLabel: 'Check my website',
+      evidenceLabel: 'Review the path to action',
+      evidenceNote: 'A focused check can separate unclear messaging from friction in the next step—before you rebuild.',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
       detail: {
@@ -124,9 +146,16 @@ const growthEn: OutcomeGroupPanelCopy = {
     {
       id: 'ai-clarity',
       label: 'Search or AI misunderstands us',
-      hint: 'The business is hard to describe from the public page.',
-      evidencePath: '/tools/digital-presence-snapshot',
-      evidenceLabel: 'Check my website',
+      hint: 'People—and search tools—struggle to describe what you do from your public page.',
+      typicalCauses: [
+        'Your public page mixes audiences, services, and places without a clear story.',
+        'Important facts about the business are hard to find or inconsistent.',
+      ],
+      roallaHelp:
+        'ROALLA helps make your public story clear so customers, search, and AI assistants describe you accurately—then points to the highest-value fixes first.',
+      evidencePath: '/website-ai-visibility-review',
+      evidenceLabel: 'Check how search and AI describe you',
+      evidenceNote: 'Start with what the public can already see—no technical project required to begin.',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
       detail: {
@@ -147,9 +176,16 @@ const growthEn: OutcomeGroupPanelCopy = {
     {
       id: 'email-deliverability',
       label: 'Campaign emails aren’t reaching customers',
-      hint: 'Messages land in junk or fail delivery, weakening trust and customer response.',
-      evidencePath: '/tools/digital-presence-snapshot',
-      evidenceLabel: 'Check email delivery',
+      hint: 'Messages land in junk or never arrive, so customers stop responding.',
+      typicalCauses: [
+        'Sending setup or the “from” name does not match how customers know you.',
+        'Lists are outdated, or messages look like junk to the people who receive them.',
+      ],
+      roallaHelp:
+        'ROALLA helps you check whether emails reach the inbox, then sequences practical fixes—starting with how you send and who you email—before a bigger campaign overhaul.',
+      evidencePath: '/tools/email-reach-brief',
+      evidenceLabel: 'Check if your emails are getting through',
+      evidenceNote: 'A short plain-language brief—optional to talk with us afterward.',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
       detail: {
@@ -239,8 +275,15 @@ const growthFr: OutcomeGroupPanelCopy = {
       id: 'findability',
       label: 'Les acheteurs ne nous trouvent pas',
       hint: 'La découverte et la visibilité dans la recherche sont le frein.',
+      typicalCauses: [
+        'Les pages ne correspondent pas aux mots que les acheteurs utilisent vraiment.',
+        'La présence publique est incomplète ou incohérente entre la recherche et les cartes.',
+      ],
+      roallaHelp:
+        'ROALLA vérifie à quel point vous êtes faciles à trouver, si la page publique est claire, et quoi corriger en premier—puis transforme cela en liste d’actions concrètes.',
       evidencePath: '/tools/digital-presence-snapshot',
       evidenceLabel: 'Vérifier mon site',
+      evidenceNote: 'Vérification gratuite du site. Aucun courriel requis. Page d’arrivée publique seulement.',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
       detail: {
@@ -262,8 +305,15 @@ const growthFr: OutcomeGroupPanelCopy = {
       id: 'conversion',
       label: 'Le trafic ne convertit pas',
       hint: 'Les gens arrivent, mais le chemin vers l’action est flou.',
+      typicalCauses: [
+        'L’offre ou la prochaine étape est difficile à comprendre rapidement.',
+        'Les preuves de confiance arrivent trop tard, ou vous contacter semble difficile.',
+      ],
+      roallaHelp:
+        'ROALLA parcourt le chemin client avec vous, clarifie l’offre et la prochaine étape, puis priorise les changements les plus utiles avant une refonte.',
       evidencePath: '/tools/digital-presence-snapshot',
-      evidenceLabel: 'Vérifier mon site',
+      evidenceLabel: 'Examiner le chemin vers l’action',
+      evidenceNote: 'Une vérification ciblée sépare un message flou de la friction à l’étape suivante—avant une refonte.',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
       detail: {
@@ -284,9 +334,16 @@ const growthFr: OutcomeGroupPanelCopy = {
     {
       id: 'ai-clarity',
       label: 'La recherche ou l’IA nous mal comprend',
-      hint: 'L’entreprise est difficile à décrire à partir de la page publique.',
-      evidencePath: '/tools/digital-presence-snapshot',
-      evidenceLabel: 'Vérifier mon site',
+      hint: 'Les gens—et les outils de recherche—peinent à décrire ce que vous faites à partir de votre page publique.',
+      typicalCauses: [
+        'La page publique mélange publics, services et lieux sans récit clair.',
+        'Des faits importants sur l’entreprise sont difficiles à trouver ou incohérents.',
+      ],
+      roallaHelp:
+        'ROALLA clarifie votre récit public pour que clients, recherche et assistants IA vous décrivent avec justesse—puis indique les correctifs les plus utiles en premier.',
+      evidencePath: '/website-ai-visibility-review',
+      evidenceLabel: 'Voir comment la recherche et l’IA vous décrivent',
+      evidenceNote: 'Commencez par ce que le public peut déjà voir—aucun projet technique requis pour débuter.',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
       detail: {
@@ -307,9 +364,16 @@ const growthFr: OutcomeGroupPanelCopy = {
     {
       id: 'email-deliverability',
       label: 'Nos courriels n’atteignent pas les clients',
-      hint: 'Les campagnes arrivent dans les indésirables ou échouent, ce qui réduit la confiance et les réponses.',
-      evidencePath: '/tools/digital-presence-snapshot',
-      evidenceLabel: 'Vérifier la livraison des courriels',
+      hint: 'Les messages vont dans les indésirables ou n’arrivent jamais, donc les clients cessent de répondre.',
+      typicalCauses: [
+        'La configuration d’envoi ou le nom « de » ne correspond pas à la façon dont les clients vous connaissent.',
+        'Les listes sont périmées, ou les messages semblent indésirables aux destinataires.',
+      ],
+      roallaHelp:
+        'ROALLA vous aide à vérifier si les courriels atteignent la boîte de réception, puis séquence des correctifs pratiques—en commençant par comment vous envoyez et à qui—avant une plus grande refonte de campagne.',
+      evidencePath: '/tools/email-reach-brief',
+      evidenceLabel: 'Vérifier si vos courriels passent',
+      evidenceNote: 'Un court aperçu en langage simple—parler avec nous ensuite est optionnel.',
       pathwaySlug: 'visibility',
       contactIntent: 'visibility',
       detail: {
@@ -398,9 +462,16 @@ const experienceEn: OutcomeGroupPanelCopy = {
     {
       id: 'website-or-product',
       label: 'We need a clearer website or product',
-      hint: 'The public or customer experience no longer matches the business.',
+      hint: 'What customers see online no longer matches how the business really works.',
+      typicalCauses: [
+        'The site or product tries to serve too many audiences at once.',
+        'The first useful journey is unclear, so scope keeps growing.',
+      ],
+      roallaHelp:
+        'ROALLA helps define the smallest useful experience for one audience and one outcome—before a long feature list becomes the plan.',
       evidencePath: '/digital-product-discovery',
-      evidenceLabel: 'Start digital product discovery',
+      evidenceLabel: 'Frame the smallest useful build',
+      evidenceNote: 'A short discovery—no finished project plan required to start.',
       pathwaySlug: 'digital-experience',
       contactIntent: 'platform',
       detail: {
@@ -421,9 +492,16 @@ const experienceEn: OutcomeGroupPanelCopy = {
     {
       id: 'customer-journey',
       label: 'Customers hit friction online',
-      hint: 'Journeys stall between discovery, choice, and contact.',
-      evidencePath: '/website-package',
-      evidenceLabel: 'Review website package options',
+      hint: 'People stall between finding you, choosing, and getting in touch.',
+      typicalCauses: [
+        'Pages are slow, confusing, or hard to use on a phone.',
+        'Nobody owns the live site backlog, so fixes stay reactive.',
+      ],
+      roallaHelp:
+        'ROALLA checks what is blocking customers on your live site or app, then separates urgent risk from useful improvement and routine care.',
+      evidencePath: '/digital-asset-health-review',
+      evidenceLabel: 'Check what’s blocking customers online',
+      evidenceNote: 'Start with a practical baseline of the live experience—before a rebuild.',
       pathwaySlug: 'digital-experience',
       contactIntent: 'platform',
       detail: {
@@ -444,9 +522,16 @@ const experienceEn: OutcomeGroupPanelCopy = {
     {
       id: 'communications',
       label: 'Calling or collaboration is holding us back',
-      hint: 'Phone, contact centre, or team collaboration needs a clearer path.',
+      hint: 'Phone, customer contact, or team collaboration needs a clearer path.',
+      typicalCauses: [
+        'Missed calls, disconnected tools, or weak reporting hurt service.',
+        'Renewal or replacement talks start before needs are clear.',
+      ],
+      roallaHelp:
+        'ROALLA helps capture what you need from calling and customer follow-up first—so provider talks stay grounded in your requirements.',
       evidencePath: '/tools/communications-value-brief',
-      evidenceLabel: 'Open Communications Value Brief',
+      evidenceLabel: 'Build a Communications Value Brief',
+      evidenceNote: 'Free guided brief—talking with us afterward is optional.',
       pathwaySlug: 'communications',
       contactIntent: 'consulting',
       contactFocus: 'technology',
@@ -533,9 +618,16 @@ const experienceFr: OutcomeGroupPanelCopy = {
     {
       id: 'website-or-product',
       label: 'Nous avons besoin d’un site ou produit plus clair',
-      hint: 'L’expérience publique ou client ne correspond plus à l’entreprise.',
+      hint: 'Ce que les clients voient en ligne ne correspond plus au fonctionnement réel de l’entreprise.',
+      typicalCauses: [
+        'Le site ou le produit tente de servir trop de publics à la fois.',
+        'Le premier parcours utile est flou, donc la portée grossit sans cesse.',
+      ],
+      roallaHelp:
+        'ROALLA aide à définir la plus petite expérience utile pour un public et un résultat—avant qu’une longue liste de fonctions ne devienne le plan.',
       evidencePath: '/digital-product-discovery',
-      evidenceLabel: 'Commencer la découverte produit numérique',
+      evidenceLabel: 'Cadre la plus petite réalisation utile',
+      evidenceNote: 'Une courte découverte—aucun plan de projet finalisé requis pour commencer.',
       pathwaySlug: 'digital-experience',
       contactIntent: 'platform',
       detail: {
@@ -556,9 +648,16 @@ const experienceFr: OutcomeGroupPanelCopy = {
     {
       id: 'customer-journey',
       label: 'Les clients rencontrent de la friction en ligne',
-      hint: 'Les parcours bloquent entre découverte, choix et contact.',
-      evidencePath: '/website-package',
-      evidenceLabel: 'Voir les options de forfait site Web',
+      hint: 'Les gens bloquent entre vous trouver, choisir et vous joindre.',
+      typicalCauses: [
+        'Les pages sont lentes, confuses ou difficiles à utiliser sur téléphone.',
+        'Personne ne possède le carnet du site en ligne, donc les correctifs restent réactifs.',
+      ],
+      roallaHelp:
+        'ROALLA vérifie ce qui bloque les clients sur votre site ou appli en ligne, puis sépare risque urgent, amélioration utile et entretien courant.',
+      evidencePath: '/digital-asset-health-review',
+      evidenceLabel: 'Voir ce qui bloque les clients en ligne',
+      evidenceNote: 'Commencez par une référence pratique de l’expérience en ligne—avant une refonte.',
       pathwaySlug: 'digital-experience',
       contactIntent: 'platform',
       detail: {
@@ -579,9 +678,16 @@ const experienceFr: OutcomeGroupPanelCopy = {
     {
       id: 'communications',
       label: 'Les appels ou la collaboration nous freinent',
-      hint: 'Téléphonie, centre de contact ou collaboration d’équipe nécessitent un parcours plus clair.',
+      hint: 'Téléphonie, contact client ou collaboration d’équipe nécessitent un parcours plus clair.',
+      typicalCauses: [
+        'Appels manqués, outils déconnectés ou rapports faibles nuisent au service.',
+        'Les discussions de renouvellement ou remplacement commencent avant que les besoins soient clairs.',
+      ],
+      roallaHelp:
+        'ROALLA aide à capturer ce dont vous avez besoin pour les appels et le suivi client d’abord—pour que les échanges fournisseurs restent ancrés dans vos exigences.',
       evidencePath: '/tools/communications-value-brief',
-      evidenceLabel: 'Ouvrir le brief valeur communications',
+      evidenceLabel: 'Créer un brief valeur communications',
+      evidenceNote: 'Brief guidé gratuit—en parler ensuite est optionnel.',
       pathwaySlug: 'communications',
       contactIntent: 'consulting',
       contactFocus: 'technology',
@@ -660,17 +766,24 @@ const experienceFr: OutcomeGroupPanelCopy = {
 
 const automationEn: OutcomeGroupPanelCopy = {
   resultEyebrow: 'What better looks like',
-  resultTitle: 'Repeatable work runs with controls—and humans stay accountable.',
+  resultTitle: 'Repeatable work runs smoothly—and people stay accountable.',
   resultBody:
-    'Connected workflows and governed AI where the value is measurable. Start by naming the friction and the control needs, then choose automation, agents, or connected operations.',
+    'Less re-entry and clearer coverage when volume jumps. Start by naming where work piles up and what must stay human-checked, then choose the smallest useful next step.',
   situationPrompt: 'Which automation pressure is closest?',
   situations: [
     {
       id: 'repetitive-work',
       label: 'Teams re-enter the same information',
-      hint: 'Handoffs and duplicate entry slow operations.',
+      hint: 'Handoffs and duplicate entry slow everyday work.',
+      typicalCauses: [
+        'The same details are typed into more than one place after every handoff.',
+        'Mistakes grow when people copy under time pressure.',
+      ],
+      roallaHelp:
+        'ROALLA helps find the highest-value repeatable steps to remove first—with clear owners for exceptions—before connecting more tools.',
       evidencePath: '/automation-opportunity-review',
-      evidenceLabel: 'Start automation opportunity review',
+      evidenceLabel: 'Find the work worth automating',
+      evidenceNote: 'Free opportunity review—no finished architecture required.',
       pathwaySlug: 'automation-ai',
       contactIntent: 'ai-support',
       detail: {
@@ -692,8 +805,15 @@ const automationEn: OutcomeGroupPanelCopy = {
       id: 'staffing-capacity',
       label: 'We can’t hire or keep enough people',
       hint: 'Work stays with a thin team; quality and speed slip.',
+      typicalCauses: [
+        'Open roles stay unfilled while workload keeps rising.',
+        'Knowledge sits with a few people who become bottlenecks.',
+      ],
+      roallaHelp:
+        'ROALLA helps spot repeatable work that can run with a person still checking exceptions—so the team gains capacity without losing accountability.',
       evidencePath: '/ai-agent-readiness-review',
       evidenceLabel: 'Start AI agent readiness review',
+      evidenceNote: 'A short plain-language brief—optional to talk with us afterward.',
       pathwaySlug: 'automation-ai',
       contactIntent: 'ai-support',
       detail: {
@@ -715,8 +835,15 @@ const automationEn: OutcomeGroupPanelCopy = {
       id: 'peak-continuity',
       label: 'Peak demand breaks our coverage',
       hint: 'Volume jumps and service consistency is at risk.',
+      typicalCauses: [
+        'Busy seasons or campaigns overload the same thin team.',
+        'Response times slip exactly when customers need you most.',
+      ],
+      roallaHelp:
+        'ROALLA helps plan overflow help for peak work while people stay on the moments that protect customer trust.',
       evidencePath: '/automation-opportunity-review',
       evidenceLabel: 'Start automation opportunity review',
+      evidenceNote: 'A short plain-language brief—optional to talk with us afterward.',
       pathwaySlug: 'automation-ai',
       contactIntent: 'ai-support',
       detail: {
@@ -736,10 +863,17 @@ const automationEn: OutcomeGroupPanelCopy = {
     },
     {
       id: 'iot-ops',
-      label: 'Connected assets need a clearer operating path',
-      hint: 'Monitoring, alerts, or IoT data are hard to turn into action.',
+      label: 'Connected equipment needs a clearer operating path',
+      hint: 'Alerts and monitoring data are hard to turn into action.',
+      typicalCauses: [
+        'Sensors and systems raise alerts without clear owners or next steps.',
+        'Data is collected but not tied to the decisions operations must make.',
+      ],
+      roallaHelp:
+        'ROALLA clarifies the operating outcome and decision criteria before adding more devices—so monitoring becomes a path to response, not another dashboard.',
       evidencePath: '/technology-decision-review',
-      evidenceLabel: 'Start technology decision review',
+      evidenceLabel: 'Clarify the operating decision',
+      evidenceNote: 'Free decision review—requirements before a product shortlist.',
       pathwaySlug: 'iot',
       contactIntent: 'consulting',
       contactFocus: 'technology',
@@ -763,32 +897,32 @@ const automationEn: OutcomeGroupPanelCopy = {
   detailApproachLabel: 'Our approach',
   detailSolutionsLabel: 'Example solutions',
   evidenceMode: 'link',
-  evidenceNote: 'Free readiness or opportunity review—no finished architecture required.',
+  evidenceNote: 'Free guided starting point—no finished architecture required.',
   ladderEyebrow: 'How commitment grows',
   ladderTitle: 'Evidence first. Controls second. Enablement third.',
   ladderSteps: [
     {
       title: 'See',
-      body: 'Identify the workflow value, volume, and failure modes before connecting systems or agents.',
+      body: 'Identify the work volume, delays, and failure points before connecting systems or adding extra help.',
     },
     {
       title: 'Interpret',
-      body: 'Define approvals, exceptions, data access, and what must stay human-owned.',
+      body: 'Define approvals, exceptions, and what must stay human-owned.',
     },
     {
       title: 'Improve',
-      body: 'ROALLA Agentic or Technology Advisory implements the controlled path with clear owners and measures.',
+      body: 'ROALLA implements the controlled path with clear owners and measures—not a demo without accountability.',
     },
   ],
   vignetteEyebrow: 'Illustrative path',
   vignetteLabel: 'Anonymized example',
-  vignetteHeadline: 'The demo looked impressive. Readiness showed the control gap.',
+  vignetteHeadline: 'The demo looked impressive. Readiness showed the ownership gap.',
   vignetteBody:
-    'An operations team wanted an AI agent for intake. Readiness review separated a high-volume candidate workflow from one that lacked exception ownership—so the pilot started where accountability already existed.',
+    'An operations team wanted automated intake help. A short review separated high-volume work with clear owners from work that lacked exception ownership—so the pilot started where accountability already existed.',
   vignetteSteps: [
     'Opportunity framing ranked workflows by measurable friction.',
-    'Controls and escalation were defined before tool connections.',
-    'The pilot measured containment and handoff quality—not only demo polish.',
+    'Exception ownership was defined before tool connections.',
+    'The pilot measured handoff quality—not only demo polish.',
   ],
   contactCta: 'Talk through this outcome',
   qualifierEyebrow: 'Prefer a human reply first?',
@@ -811,24 +945,31 @@ const automationEn: OutcomeGroupPanelCopy = {
   pathwaysLabel: 'Pathway details',
   pathwayLinks: [
     { slug: 'automation-ai', label: 'Automate work with control' },
-    { slug: 'iot', label: 'Connect operations with IoT' },
+    { slug: 'iot', label: 'Connect operations with equipment data' },
   ],
   highlightLabel: 'You chose automation—start with evidence',
 }
 
 const automationFr: OutcomeGroupPanelCopy = {
   resultEyebrow: 'À quoi ressemble une meilleure situation',
-  resultTitle: 'Le travail répétitif s’exécute avec des contrôles—et les humains restent responsables.',
+  resultTitle: 'Le travail répétitif s’exécute sans friction—et les personnes restent responsables.',
   resultBody:
-    'Des flux connectés et une IA gouvernée lorsque la valeur est mesurable. Nommez d’abord la friction et les besoins de contrôle, puis choisissez automatisation, agents ou opérations connectées.',
+    'Moins de ressaisie et une couverture plus claire quand le volume monte. Nommez d’abord où le travail s’accumule et ce qui doit rester vérifié par une personne, puis choisissez la plus petite prochaine étape utile.',
   situationPrompt: 'Quelle pression d’automatisation est la plus proche?',
   situations: [
     {
       id: 'repetitive-work',
       label: 'Les équipes ressaisissent les mêmes données',
-      hint: 'Les transferts et la double saisie ralentissent les opérations.',
+      hint: 'Les transferts et la double saisie ralentissent le travail quotidien.',
+      typicalCauses: [
+        'Les mêmes détails sont saisis à plus d’un endroit après chaque transfert.',
+        'Les erreurs augmentent quand les gens copient sous pression.',
+      ],
+      roallaHelp:
+        'ROALLA aide à trouver les étapes répétables les plus utiles à retirer d’abord—avec des responsables clairs pour les exceptions—avant de connecter plus d’outils.',
       evidencePath: '/automation-opportunity-review',
-      evidenceLabel: 'Commencer la revue d’occasions d’automatisation',
+      evidenceLabel: 'Trouver le travail qui mérite d’être automatisé',
+      evidenceNote: 'Revue d’occasions gratuite—aucune architecture finalisée requise.',
       pathwaySlug: 'automation-ai',
       contactIntent: 'ai-support',
       detail: {
@@ -850,8 +991,15 @@ const automationFr: OutcomeGroupPanelCopy = {
       id: 'staffing-capacity',
       label: 'Nous n’arrivons pas à embaucher ou à retenir assez de gens',
       hint: 'Le travail reste sur une équipe mince; qualité et vitesse glissent.',
+      typicalCauses: [
+        'Les postes ouverts restent vacants tandis que la charge monte.',
+        'Le savoir reste chez quelques personnes qui deviennent des goulots.',
+      ],
+      roallaHelp:
+        'ROALLA aide à repérer le travail répétable qui peut tourner avec une personne qui vérifie encore les exceptions—pour gagner de la capacité sans perdre la responsabilité.',
       evidencePath: '/ai-agent-readiness-review',
       evidenceLabel: 'Commencer la revue de préparation aux agents IA',
+      evidenceNote: 'Un court aperçu en langage simple—en parler ensuite est optionnel.',
       pathwaySlug: 'automation-ai',
       contactIntent: 'ai-support',
       detail: {
@@ -873,8 +1021,15 @@ const automationFr: OutcomeGroupPanelCopy = {
       id: 'peak-continuity',
       label: 'Les pics de demande cassent notre couverture',
       hint: 'Le volume monte et la constance du service est à risque.',
+      typicalCauses: [
+        'Les saisons ou campagnes chargées surchargent la même équipe mince.',
+        'Les délais de réponse glissent exactement quand les clients ont le plus besoin de vous.',
+      ],
+      roallaHelp:
+        'ROALLA aide à planifier de l’aide en pointe tout en gardant les personnes sur les moments qui protègent la confiance client.',
       evidencePath: '/automation-opportunity-review',
       evidenceLabel: 'Commencer la revue d’occasions d’automatisation',
+      evidenceNote: 'Un court aperçu en langage simple—en parler ensuite est optionnel.',
       pathwaySlug: 'automation-ai',
       contactIntent: 'ai-support',
       detail: {
@@ -894,10 +1049,17 @@ const automationFr: OutcomeGroupPanelCopy = {
     },
     {
       id: 'iot-ops',
-      label: 'Les actifs connectés ont besoin d’un parcours plus clair',
-      hint: 'Surveillance, alertes ou données IdO sont difficiles à transformer en action.',
+      label: 'L’équipement connecté a besoin d’un parcours plus clair',
+      hint: 'Alertes et données de surveillance sont difficiles à transformer en action.',
+      typicalCauses: [
+        'Capteurs et systèmes lèvent des alertes sans responsables ni prochaines étapes clairs.',
+        'Les données sont collectées mais pas liées aux décisions que les opérations doivent prendre.',
+      ],
+      roallaHelp:
+        'ROALLA clarifie le résultat d’exploitation et les critères de décision avant d’ajouter plus d’appareils—pour que la surveillance mène à une réponse, pas à un autre tableau de bord.',
       evidencePath: '/technology-decision-review',
-      evidenceLabel: 'Commencer la revue de décision technologique',
+      evidenceLabel: 'Clarifier la décision d’exploitation',
+      evidenceNote: 'Revue de décision gratuite—exigences avant une shortlist de produits.',
       pathwaySlug: 'iot',
       contactIntent: 'consulting',
       contactFocus: 'technology',
@@ -921,32 +1083,32 @@ const automationFr: OutcomeGroupPanelCopy = {
   detailApproachLabel: 'Notre approche',
   detailSolutionsLabel: 'Exemples de solutions',
   evidenceMode: 'link',
-  evidenceNote: 'Revue de préparation ou d’occasions gratuite—aucune architecture finalisée requise.',
+  evidenceNote: 'Point de départ guidé gratuit—aucune architecture finalisée requise.',
   ladderEyebrow: 'Comment l’engagement progresse',
   ladderTitle: 'Les preuves d’abord. Les contrôles ensuite. La mise en service en troisième.',
   ladderSteps: [
     {
       title: 'Voir',
-      body: 'Identifier la valeur, le volume et les modes de défaillance du flux avant de connecter systèmes ou agents.',
+      body: 'Identifier le volume, les délais et les points de défaillance avant de connecter des systèmes ou d’ajouter de l’aide.',
     },
     {
       title: 'Interpréter',
-      body: 'Définir approbations, exceptions, accès aux données et ce qui doit rester sous responsabilité humaine.',
+      body: 'Définir approbations, exceptions et ce qui doit rester sous responsabilité humaine.',
     },
     {
       title: 'Améliorer',
-      body: 'ROALLA Agentic ou le conseil technologique met en œuvre le parcours contrôlé avec responsables et mesures clairs.',
+      body: 'ROALLA met en œuvre le parcours contrôlé avec responsables et mesures clairs—pas une démo sans responsabilisation.',
     },
   ],
   vignetteEyebrow: 'Parcours illustratif',
   vignetteLabel: 'Exemple anonymisé',
-  vignetteHeadline: 'La démo était impressionnante. La préparation a montré l’écart de contrôle.',
+  vignetteHeadline: 'La démo était impressionnante. La préparation a montré l’écart de responsabilité.',
   vignetteBody:
-    'Une équipe opérations voulait un agent IA pour l’accueil. La revue de préparation a séparé un flux à fort volume d’un autre sans propriétaire d’exceptions—donc le pilote a commencé là où la responsabilisation existait déjà.',
+    'Une équipe opérations voulait de l’aide automatisée à l’accueil. Une courte revue a séparé le travail à fort volume avec responsables clairs d’un autre sans propriétaire d’exceptions—donc le pilote a commencé là où la responsabilisation existait déjà.',
   vignetteSteps: [
     'Le cadrage a classé les flux selon la friction mesurable.',
-    'Contrôles et escalade ont été définis avant les connexions d’outils.',
-    'Le pilote a mesuré confinement et qualité des transferts—pas seulement le poli de la démo.',
+    'La responsabilité des exceptions a été définie avant les connexions d’outils.',
+    'Le pilote a mesuré la qualité des transferts—pas seulement le poli de la démo.',
   ],
   contactCta: 'Discuter de ce résultat',
   qualifierEyebrow: 'Vous préférez d’abord une réponse humaine?',
@@ -969,7 +1131,7 @@ const automationFr: OutcomeGroupPanelCopy = {
   pathwaysLabel: 'Détails des parcours',
   pathwayLinks: [
     { slug: 'automation-ai', label: 'Automatiser avec contrôle' },
-    { slug: 'iot', label: 'Connecter les opérations grâce à l’IdO' },
+    { slug: 'iot', label: 'Connecter les opérations aux données d’équipement' },
   ],
   highlightLabel: 'Vous avez choisi l’automatisation—commencez par des preuves',
 }
@@ -985,8 +1147,15 @@ const securityEn: OutcomeGroupPanelCopy = {
       id: 'security-gaps',
       label: 'We lack a clear view of security gaps',
       hint: 'Customers or partners are asking for stronger assurance.',
+      typicalCauses: [
+        'Obligations and control ownership are unclear across teams.',
+        'Vendor demos arrive before shared requirements are written.',
+      ],
+      roallaHelp:
+        'ROALLA helps lock requirements and residual-risk tolerance before scoring options—so the shortlist is comparable and disclosure-ready.',
       evidencePath: '/technology-decision-review',
-      evidenceLabel: 'Start technology decision review',
+      evidenceLabel: 'Start with decision criteria',
+      evidenceNote: 'Free decision review—requirements before a product shortlist.',
       pathwaySlug: 'security',
       contactIntent: 'security',
       detail: {
@@ -1007,9 +1176,16 @@ const securityEn: OutcomeGroupPanelCopy = {
     {
       id: 'cloud-infra',
       label: 'Cloud or infrastructure decisions are stuck',
-      hint: 'Migration, cost, or operating ownership is unclear.',
+      hint: 'Migration, cost, or who will run it day to day is unclear.',
+      typicalCauses: [
+        'Options are compared on features, not on cost, risk, and operating ownership.',
+        'Migration plans lack a clear owner after go-live.',
+      ],
+      roallaHelp:
+        'ROALLA compares approaches on the same criteria—cost, risk, support, and who operates what—before you commit.',
       evidencePath: '/technology-decision-review',
-      evidenceLabel: 'Start technology decision review',
+      evidenceLabel: 'Start with decision criteria',
+      evidenceNote: 'Free decision review—requirements before a product shortlist.',
       pathwaySlug: 'cloud-infrastructure',
       contactIntent: 'consulting',
       contactFocus: 'technology',
@@ -1031,9 +1207,16 @@ const securityEn: OutcomeGroupPanelCopy = {
     {
       id: 'network',
       label: 'Connectivity reliability is the constraint',
-      hint: 'Sites, users, or systems need a more resilient foundation.',
+      hint: 'Sites, users, or systems need a more reliable foundation.',
+      typicalCauses: [
+        'Outages or slow links hit customer or staff experience without a clear fix path.',
+        'Connectivity decisions are tied to vendors before needs are clear.',
+      ],
+      roallaHelp:
+        'ROALLA clarifies reliability needs and success measures first, then compares options that fit how you actually operate.',
       evidencePath: '/technology-decision-review',
-      evidenceLabel: 'Start technology decision review',
+      evidenceLabel: 'Start with decision criteria',
+      evidenceNote: 'Free decision review—requirements before a product shortlist.',
       pathwaySlug: 'network',
       contactIntent: 'consulting',
       contactFocus: 'technology',
@@ -1122,8 +1305,15 @@ const securityFr: OutcomeGroupPanelCopy = {
       id: 'security-gaps',
       label: 'Nous n’avons pas une vue claire des écarts de sécurité',
       hint: 'Des clients ou partenaires demandent une assurance accrue.',
+      typicalCauses: [
+        'Les obligations et la responsabilité des contrôles sont floues entre les équipes.',
+        'Les démos fournisseurs arrivent avant que les exigences partagées soient écrites.',
+      ],
+      roallaHelp:
+        'ROALLA aide à figer les exigences et la tolérance au risque résiduel avant de noter les options—pour une shortlist comparable et prête à la divulgation.',
       evidencePath: '/technology-decision-review',
-      evidenceLabel: 'Commencer la revue de décision technologique',
+      evidenceLabel: 'Commencer par les critères de décision',
+      evidenceNote: 'Revue de décision gratuite—exigences avant une shortlist de produits.',
       pathwaySlug: 'security',
       contactIntent: 'security',
       detail: {
@@ -1144,9 +1334,16 @@ const securityFr: OutcomeGroupPanelCopy = {
     {
       id: 'cloud-infra',
       label: 'Les décisions infonuagiques ou d’infrastructure bloquent',
-      hint: 'Migration, coûts ou responsabilité d’exploitation sont flous.',
+      hint: 'Migration, coûts ou qui exploitera au quotidien sont flous.',
+      typicalCauses: [
+        'Les options sont comparées sur les fonctions, pas sur coût, risque et responsabilité d’exploitation.',
+        'Les plans de migration manquent d’un responsable clair après la mise en service.',
+      ],
+      roallaHelp:
+        'ROALLA compare les approches selon les mêmes critères—coût, risque, soutien et qui exploite quoi—avant de vous engager.',
       evidencePath: '/technology-decision-review',
-      evidenceLabel: 'Commencer la revue de décision technologique',
+      evidenceLabel: 'Commencer par les critères de décision',
+      evidenceNote: 'Revue de décision gratuite—exigences avant une shortlist de produits.',
       pathwaySlug: 'cloud-infrastructure',
       contactIntent: 'consulting',
       contactFocus: 'technology',
@@ -1168,9 +1365,16 @@ const securityFr: OutcomeGroupPanelCopy = {
     {
       id: 'network',
       label: 'La fiabilité de la connectivité est la contrainte',
-      hint: 'Sites, utilisateurs ou systèmes ont besoin d’une fondation plus résiliente.',
+      hint: 'Sites, utilisateurs ou systèmes ont besoin d’une fondation plus fiable.',
+      typicalCauses: [
+        'Pannes ou liens lents nuisent à l’expérience client ou du personnel sans parcours de correctif clair.',
+        'Les décisions de connectivité sont liées à des fournisseurs avant que les besoins soient clairs.',
+      ],
+      roallaHelp:
+        'ROALLA clarifie d’abord les besoins de fiabilité et les mesures de réussite, puis compare les options adaptées à votre façon d’opérer.',
       evidencePath: '/technology-decision-review',
-      evidenceLabel: 'Commencer la revue de décision technologique',
+      evidenceLabel: 'Commencer par les critères de décision',
+      evidenceNote: 'Revue de décision gratuite—exigences avant une shortlist de produits.',
       pathwaySlug: 'network',
       contactIntent: 'consulting',
       contactFocus: 'technology',
@@ -1259,8 +1463,15 @@ const executionEn: OutcomeGroupPanelCopy = {
       id: 'too-many-priorities',
       label: 'Too many priorities are competing',
       hint: 'Everything feels urgent; nothing stays sequenced.',
-      evidencePath: '/assessment',
-      evidenceLabel: 'Take the 5-minute assessment',
+      typicalCauses: [
+        'Too many “must do now” items compete without a shared ranking.',
+        'New work arrives faster than the team can finish what is already open.',
+      ],
+      roallaHelp:
+        'ROALLA helps narrow to a 90-day sequence with owners and a clear outcome measure—so progress is visible without adding headcount.',
+      evidencePath: '/tools/ninety-day-plan-brief',
+      evidenceLabel: 'Sketch a 90-day plan',
+      evidenceNote: 'A short plain-language brief—optional to talk with us afterward.',
       pathwaySlug: 'strategy',
       contactIntent: 'consulting',
       detail: {
@@ -1282,8 +1493,15 @@ const executionEn: OutcomeGroupPanelCopy = {
       id: 'plans-stall',
       label: 'Plans stall between meetings',
       hint: 'Strategy exists, but follow-through breaks down.',
-      evidencePath: '/assessment',
-      evidenceLabel: 'Take the 5-minute assessment',
+      typicalCauses: [
+        'Status meetings replace decisions and owned next actions.',
+        'Priorities reset every week without a review rhythm that sticks.',
+      ],
+      roallaHelp:
+        'ROALLA helps replace open status updates with a short review rhythm—owners, next actions, and one outcome the team reviews every week.',
+      evidencePath: '/tools/ninety-day-plan-brief',
+      evidenceLabel: 'Sketch a 90-day plan',
+      evidenceNote: 'A short plain-language brief—optional to talk with us afterward.',
       pathwaySlug: 'strategy',
       contactIntent: 'consulting',
       detail: {
@@ -1304,9 +1522,16 @@ const executionEn: OutcomeGroupPanelCopy = {
     {
       id: 'unclear-ownership',
       label: 'Ownership or measures are unclear',
-      hint: 'Decision rights and accountability are fuzzy.',
-      evidencePath: '/assessment',
-      evidenceLabel: 'Take the 5-minute assessment',
+      hint: 'Who decides and who measures progress is fuzzy.',
+      typicalCauses: [
+        'Decision rights are unspoken, so trade-offs stall.',
+        'Measures exist on slides but nobody reviews them consistently.',
+      ],
+      roallaHelp:
+        'ROALLA helps write who owns the outcome, who decides trade-offs, and which few measures the team will actually review.',
+      evidencePath: '/tools/ninety-day-plan-brief',
+      evidenceLabel: 'Sketch a 90-day plan',
+      evidenceNote: 'A short plain-language brief—optional to talk with us afterward.',
       pathwaySlug: 'strategy',
       contactIntent: 'consulting',
       detail: {
@@ -1329,7 +1554,7 @@ const executionEn: OutcomeGroupPanelCopy = {
   detailApproachLabel: 'Our approach',
   detailSolutionsLabel: 'Example solutions',
   evidenceMode: 'link',
-  evidenceNote: 'Five-minute assessment—practical starting point before a finished brief.',
+  evidenceNote: 'A short plan sketch—practical starting point before a finished brief.',
   ladderEyebrow: 'How commitment grows',
   ladderTitle: 'Evidence first. Alignment second. Execution third.',
   ladderSteps: [
@@ -1390,8 +1615,15 @@ const executionFr: OutcomeGroupPanelCopy = {
       id: 'too-many-priorities',
       label: 'Trop de priorités se font concurrence',
       hint: 'Tout semble urgent; rien ne reste séquencé.',
-      evidencePath: '/assessment',
-      evidenceLabel: 'Faire l’évaluation de 5 minutes',
+      typicalCauses: [
+        'Trop d’éléments « à faire maintenant » se concurrencent sans classement partagé.',
+        'Le nouveau travail arrive plus vite que l’équipe ne termine ce qui est déjà ouvert.',
+      ],
+      roallaHelp:
+        'ROALLA aide à réduire à une séquence de 90 jours avec responsables et une mesure de résultat claire—pour que le progrès soit visible sans ajouter d’effectifs.',
+      evidencePath: '/tools/ninety-day-plan-brief',
+      evidenceLabel: 'Esquisser un plan de 90 jours',
+      evidenceNote: 'Un court aperçu en langage simple—en parler ensuite est optionnel.',
       pathwaySlug: 'strategy',
       contactIntent: 'consulting',
       detail: {
@@ -1413,8 +1645,15 @@ const executionFr: OutcomeGroupPanelCopy = {
       id: 'plans-stall',
       label: 'Les plans bloquent entre les réunions',
       hint: 'La stratégie existe, mais le suivi s’effondre.',
-      evidencePath: '/assessment',
-      evidenceLabel: 'Faire l’évaluation de 5 minutes',
+      typicalCauses: [
+        'Les réunions de statut remplacent les décisions et les prochaines actions assumées.',
+        'Les priorités se réinitialisent chaque semaine sans rythme de revue qui tient.',
+      ],
+      roallaHelp:
+        'ROALLA aide à remplacer les mises à jour ouvertes par un court rythme de revue—responsables, prochaines actions et un résultat que l’équipe revoit chaque semaine.',
+      evidencePath: '/tools/ninety-day-plan-brief',
+      evidenceLabel: 'Esquisser un plan de 90 jours',
+      evidenceNote: 'Un court aperçu en langage simple—en parler ensuite est optionnel.',
       pathwaySlug: 'strategy',
       contactIntent: 'consulting',
       detail: {
@@ -1435,9 +1674,16 @@ const executionFr: OutcomeGroupPanelCopy = {
     {
       id: 'unclear-ownership',
       label: 'Les responsabilités ou mesures sont floues',
-      hint: 'Les droits de décision et la responsabilisation sont ambigus.',
-      evidencePath: '/assessment',
-      evidenceLabel: 'Faire l’évaluation de 5 minutes',
+      hint: 'Qui décide et qui mesure le progrès est ambigu.',
+      typicalCauses: [
+        'Les droits de décision sont tacites, donc les arbitrages bloquent.',
+        'Les mesures existent sur des diapositives, mais personne ne les revoit de façon constante.',
+      ],
+      roallaHelp:
+        'ROALLA aide à écrire qui possède le résultat, qui décide des arbitrages, et quelles quelques mesures l’équipe revoit vraiment.',
+      evidencePath: '/tools/ninety-day-plan-brief',
+      evidenceLabel: 'Esquisser un plan de 90 jours',
+      evidenceNote: 'Un court aperçu en langage simple—en parler ensuite est optionnel.',
       pathwaySlug: 'strategy',
       contactIntent: 'consulting',
       detail: {
@@ -1460,7 +1706,7 @@ const executionFr: OutcomeGroupPanelCopy = {
   detailApproachLabel: 'Notre approche',
   detailSolutionsLabel: 'Exemples de solutions',
   evidenceMode: 'link',
-  evidenceNote: 'Évaluation de cinq minutes—point de départ pratique avant un cahier des charges finalisé.',
+  evidenceNote: 'Une courte esquisse de plan—point de départ pratique avant un cahier des charges finalisé.',
   ladderEyebrow: 'Comment l’engagement progresse',
   ladderTitle: 'Les preuves d’abord. L’alignement ensuite. L’exécution en troisième.',
   ladderSteps: [

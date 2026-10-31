@@ -34,4 +34,18 @@ describe('campaign review landing pages', () => {
     expect(campaignReviewContent['one-workflow-ai-pilot'].en.intent).toBe('ai-support')
     expect(campaignReviewContent['one-workflow-ai-pilot'].fr.fit).toHaveLength(4)
   })
+
+  it('wraps the three plain-language briefs with campaign landings', () => {
+    expect(campaignReviewIds).toEqual(
+      expect.arrayContaining(['email-reach-review', '90-day-execution-plan', 'capacity-pressure-review']),
+    )
+    expect(campaignReviewContent['email-reach-review'].en.toolPath).toBe('/tools/email-reach-brief')
+    expect(campaignReviewContent['90-day-execution-plan'].en.toolPath).toBe('/tools/ninety-day-plan-brief')
+    expect(campaignReviewContent['capacity-pressure-review'].en.toolPath).toBe(
+      '/tools/capacity-pressure-brief',
+    )
+    expect(campaignReviewContent['email-reach-review'].fr.intent).toBe('visibility')
+    expect(campaignReviewContent['90-day-execution-plan'].fr.intent).toBe('consulting')
+    expect(campaignReviewContent['capacity-pressure-review'].fr.intent).toBe('ai-support')
+  })
 })

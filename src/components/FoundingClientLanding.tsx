@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Reveal from './motion/Reveal'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import {
   ArrowRight,
@@ -100,6 +100,8 @@ const growthIncludeKeys = [
 
 export default function FoundingClientLanding() {
   const t = useTranslations('foundingClient')
+  const locale = useLocale()
+  const french = locale === 'fr'
 
   const stats = [
     { value: t('stat1Value'), label: t('stat1Label'), icon: DollarSign },
@@ -302,6 +304,25 @@ export default function FoundingClientLanding() {
               </div>
             </Reveal>
           </div>
+          <Reveal className="mt-6 rounded-2xl border border-primary/25 bg-primary/5 p-6 sm:flex sm:items-center sm:justify-between sm:gap-6">
+            <div>
+              <h3 className="text-xl font-serif font-bold text-slate-950">
+                {french ? 'Préparez votre propre estimation Web' : 'Build your own website estimate'}
+              </h3>
+              <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
+                {french
+                  ? 'Choisissez la durée du domaine, le courriel professionnel, les médias sociaux et l’hébergement. Un code de recommandation peut être appliqué avant la demande de confirmation.'
+                  : 'Choose your domain term, professional email, social setup, and hosting. Apply a referral code before requesting scope confirmation.'}
+              </p>
+            </div>
+            <Link
+              href="/website-estimate"
+              className="mt-4 inline-flex min-h-12 shrink-0 items-center justify-center rounded-lg bg-primary px-5 py-3 text-sm font-bold text-white transition hover:bg-primary-dark sm:mt-0"
+            >
+              {french ? 'Créer mon estimation' : 'Build my estimate'}
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Link>
+          </Reveal>
         </section>
 
         <section id="live-proof" className="scroll-mt-28 mb-16">

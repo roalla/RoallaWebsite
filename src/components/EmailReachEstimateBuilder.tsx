@@ -129,9 +129,11 @@ const copy = {
   },
 } as const
 
+const tileMotion =
+  'transition-all duration-200 ease-out motion-safe:hover:-translate-y-1 motion-safe:hover:scale-[1.015] motion-safe:hover:shadow-lg motion-safe:hover:shadow-primary/25'
 const tileSelected =
-  'border-primary bg-primary/25 ring-2 ring-primary/40 shadow-md shadow-primary/15'
-const tileIdle = 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'
+  `${tileMotion} border-primary bg-primary/25 ring-2 ring-primary/40 shadow-md shadow-primary/15`
+const tileIdle = `${tileMotion} border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50`
 
 export default function EmailReachEstimateBuilder() {
   const locale = useLocale()
@@ -240,7 +242,7 @@ export default function EmailReachEstimateBuilder() {
               <div className="h-px flex-1 bg-slate-200" aria-hidden />
             </div>
 
-            <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <article className={`rounded-2xl border border-slate-200 bg-white p-5 shadow-sm ${tileMotion}`}>
               <div className="flex items-start justify-between gap-4">
                 <div className="flex min-w-0 items-start gap-3">
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary-dark">

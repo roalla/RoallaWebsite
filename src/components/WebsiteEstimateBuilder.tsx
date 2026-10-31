@@ -469,10 +469,12 @@ const hostingOptions: Array<{
   { value: 'care', label: 'care', description: 'careValue', bestFor: 'careBestFor', detail: 'careDetail', price: `$${WEBSITE_ESTIMATE_PRICES.careMonthly}/month` },
 ]
 
+const tileMotion =
+  'transition-all duration-200 ease-out motion-safe:hover:-translate-y-1 motion-safe:hover:scale-[1.015] motion-safe:hover:shadow-lg motion-safe:hover:shadow-primary/25'
 const tileSelected =
-  'border-2 border-primary bg-primary/20 ring-2 ring-primary/55 shadow-md shadow-primary/25'
+  `${tileMotion} border-2 border-primary bg-primary/20 ring-2 ring-primary/55 shadow-md shadow-primary/25`
 const tileIdle =
-  'border-2 border-slate-300 bg-white hover:border-primary/45 hover:bg-primary/5'
+  `${tileMotion} border-2 border-slate-300 bg-white hover:border-primary/45 hover:bg-primary/5`
 const choicePanel =
   'mt-5 rounded-2xl border-2 border-l-4 border-primary/40 border-l-primary bg-white p-4 shadow-[0_12px_28px_-14px_rgba(0,180,197,0.45)] ring-1 ring-primary/15 sm:p-5'
 
@@ -678,7 +680,7 @@ export default function WebsiteEstimateBuilder() {
                   { label: t.copyBooking, what: t.copyBookingWhat, why: t.copyBookingWhy, price: WEBSITE_ESTIMATE_PRICES.copyAndBooking, icon: PenLine },
                   { label: t.visibility, what: t.visibilityWhat, why: t.visibilityWhy, price: WEBSITE_ESTIMATE_PRICES.visibility, icon: SearchCheck },
                 ].map(({ label, what, why, price, icon: Icon }) => (
-                  <article key={label} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                  <article key={label} className={`rounded-2xl border border-slate-200 bg-white p-5 shadow-sm ${tileMotion}`}>
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex min-w-0 items-start gap-3">
                         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary-dark">

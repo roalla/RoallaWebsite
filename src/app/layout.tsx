@@ -165,9 +165,9 @@ export default async function RootLayout({
         <style dangerouslySetInnerHTML={{ __html: globalCss }} />
         <script nonce={nonce} suppressHydrationWarning dangerouslySetInnerHTML={{ __html: trustedTypesBootstrap }} />
         <JsonLd data={[organizationJsonLd, websiteJsonLd]} />
-        <link rel="icon" href="/favicon.svg?v=3" type="image/svg+xml" />
-        <link rel="icon" href="/favicon.ico?v=3" sizes="any" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3" />
+        <link rel="icon" href="/favicon.svg?v=4" type="image/svg+xml" />
+        <link rel="icon" href="/favicon.ico?v=4" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=4" />
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="describedby" href="/llms.txt" type="text/plain" title="LLM guidance for Roalla" />
         <link rel="alternate" type="application/rss+xml" title="Roalla Insights (English)" href="/feed.xml" />

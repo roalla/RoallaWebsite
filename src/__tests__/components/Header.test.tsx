@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, fireEvent, within } from '@testing-library/react'
+import { render, screen, fireEvent, within, act } from '@testing-library/react'
 import Header from '@/components/Header'
 
 const mockPathname = jest.fn(() => '/')
@@ -169,7 +169,44 @@ describe('Header', () => {
       'href',
       '/assessment',
     )
-    expect(within(menu).getAllByRole('menuitem')).toHaveLength(14)
+    expect(within(menu).getAllByRole('menuitem')).toHaveLength(17)
+  })
+
+  it('groups explore capabilities under the five outcomes', () => {
+    render(<Header />)
+    fireEvent.click(screen.getByRole('button', { name: 'digitalEnablement' }))
+
+    const menu = screen.getByRole('menu', { name: 'digitalEnablement' })
+    const capabilities = within(menu).getByRole('group', { name: 'helpMorePathsHeading' })
+    ;[
+      'helpGroupGrowth',
+      'helpGroupExperience',
+      'helpGroupAutomation',
+      'helpGroupSecurity',
+      'helpGroupOngoing',
+    ].forEach((heading) => {
+      expect(within(capabilities).getByText(heading)).toBeInTheDocument()
+    })
+
+    const expectedLinks: [RegExp, string][] = [
+      [/digitalVisibility/i, '/services/search-ai-visibility'],
+      [/websitesAndDigital/i, '/services/digital'],
+      [/digitalWebsites/i, '/website-design'],
+      [/helpDigitalProducts/i, '/services/digital-products'],
+      [/digitalEvents/i, '/services/digital-events'],
+      [/agentic/i, '/services/ai-agents'],
+      [/digitalAutomation/i, '/services/automation'],
+      [/helpSecurityServices/i, '/services/security-risk-compliance'],
+      [/technologyAdvisory/i, '/services/technology-advisory'],
+      [/helpManagedOptimization/i, '/services/managed-optimization'],
+    ]
+    expectedLinks.forEach(([name, href]) => {
+      expect(within(capabilities).getByRole('menuitem', { name })).toHaveAttribute('href', href)
+    })
+    expect(within(capabilities).getAllByRole('menuitem')).toHaveLength(10)
+    expect(within(menu).queryByRole('menuitem', { name: /helpDevelopTeam/i })).not.toBeInTheDocument()
+    expect(within(menu).getByRole('menuitem', { name: /browseOutcomesCta/i })).toHaveAttribute('href', '/solutions')
+    expect(within(menu).getByRole('menuitem', { name: /Explore Your Options/i })).toHaveAttribute('href', '/assessment')
   })
 
   it('exposes the same customer needs and outcomes in the mobile navigation', () => {
@@ -335,6 +372,27 @@ describe('Header', () => {
     promoLinks.forEach((link) => {
       expect(link).toHaveAttribute('href', '/website-package')
     })
+  })
+
+  it('keeps the header over dark on solutions need pages when no dark-tone targets exist', async () => {
+    mockPathname.mockReturnValue('/solutions/need/growth-visibility')
+    render(<Header />)
+    const header = screen.getByRole('banner')
+    expect(header).toHaveAttribute('data-header-over-dark', 'true')
+    await act(async () => {
+      await new Promise((resolve) => requestAnimationFrame(() => resolve(null)))
+    })
+    expect(header).toHaveAttribute('data-header-over-dark', 'true')
+  })
+
+  it('does not start over dark on light routes when no dark-tone targets exist', async () => {
+    mockPathname.mockReturnValue('/contact')
+    render(<Header />)
+    const header = screen.getByRole('banner')
+    await act(async () => {
+      await new Promise((resolve) => requestAnimationFrame(() => resolve(null)))
+    })
+    expect(header).toHaveAttribute('data-header-over-dark', 'false')
   })
 
   it('hides founding client promo on the founding client page', () => {

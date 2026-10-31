@@ -12,14 +12,20 @@ const GROUP_IDS: OutcomeGroupId[] = [
   'execution',
 ]
 
+const SITUATION_COUNTS: Record<OutcomeGroupId, number> = {
+  'growth-visibility': 5,
+  'experience-products': 6,
+  'automation-ai': 4,
+  'security-compliance': 6,
+  execution: 3,
+}
+
 describe('outcome group panels', () => {
   it.each(GROUP_IDS)('defines complete EN and FR copy for %s', (groupId) => {
     for (const locale of ['en', 'fr'] as const) {
       const copy = getOutcomeGroupPanelCopy(groupId, locale)
       expect(copy.resultTitle).toBeTruthy()
-      expect(copy.situations).toHaveLength(
-        groupId === 'growth-visibility' ? 5 : groupId === 'automation-ai' ? 4 : 3,
-      )
+      expect(copy.situations).toHaveLength(SITUATION_COUNTS[groupId])
       expect(copy.ladderSteps).toHaveLength(3)
       expect(copy.vignetteSteps.length).toBeGreaterThanOrEqual(2)
       expect(copy.pathwayLinks.length).toBeGreaterThanOrEqual(1)
@@ -154,6 +160,73 @@ describe('outcome group panels', () => {
       pathwaySlug: 'automation-ai',
       contactIntent: 'ai-support',
     })
+  })
+
+  it.each(['en', 'fr'] as const)('adds phone, AI Employee, and point-of-sale situations to experience for %s', (locale) => {
+    const copy = getOutcomeGroupPanelCopy('experience-products', locale)
+
+    expect(copy.situations.map((item) => item.id)).toEqual([
+      'website-or-product',
+      'customer-journey',
+      'communications',
+      'phone-ip-uc',
+      'ai-employee',
+      'point-of-sale',
+    ])
+    expect(copy.situations.find((item) => item.id === 'phone-ip-uc')).toMatchObject({
+      evidencePath: '/tools/communications-value-brief',
+      pathwaySlug: 'communications',
+      contactIntent: 'consulting',
+      contactFocus: 'technology',
+    })
+    expect(copy.situations.find((item) => item.id === 'ai-employee')).toMatchObject({
+      evidencePath: '/ai-employee-fit-review',
+      pathwaySlug: 'communications',
+      contactIntent: 'consulting',
+      contactFocus: 'technology',
+    })
+    expect(copy.situations.find((item) => item.id === 'point-of-sale')).toMatchObject({
+      evidencePath: '/digital-product-discovery',
+      pathwaySlug: 'digital-experience',
+      contactIntent: 'platform',
+    })
+    expect(JSON.stringify(copy)).not.toMatch(/nextiva|xbert/i)
+  })
+
+  it.each(['en', 'fr'] as const)('routes iot-ops to the connected operations review for %s', (locale) => {
+    const situation = getOutcomeGroupPanelCopy('automation-ai', locale).situations.find(
+      (item) => item.id === 'iot-ops',
+    )
+
+    expect(situation).toMatchObject({
+      evidencePath: '/connected-operations-review',
+      pathwaySlug: 'iot',
+      contactIntent: 'consulting',
+      contactFocus: 'technology',
+    })
+    expect(situation?.detail.solutions.some((item) => item.includes('Signal →'))).toBe(true)
+  })
+
+  it.each(['en', 'fr'] as const)('adds coverage and compliance situations to security for %s', (locale) => {
+    const copy = getOutcomeGroupPanelCopy('security-compliance', locale)
+    const byId = (id: string) => copy.situations.find((item) => item.id === id)
+
+    expect(copy.situations.map((item) => item.id)).toEqual([
+      'security-gaps',
+      'active-threat-coverage',
+      'security-ops-capacity',
+      'compliance-readiness',
+      'cloud-infra',
+      'network',
+    ])
+    expect(byId('security-gaps')?.evidencePath).toBe('/technology-decision-review')
+    expect(byId('active-threat-coverage')?.evidencePath).toBe('/security-risk-coverage-review')
+    expect(byId('security-ops-capacity')?.evidencePath).toBe('/security-risk-coverage-review')
+    expect(byId('compliance-readiness')?.evidencePath).toBe('/compliance-readiness-review')
+    expect(byId('cloud-infra')?.evidencePath).toBe('/technology-decision-review')
+    for (const id of ['active-threat-coverage', 'security-ops-capacity', 'compliance-readiness']) {
+      expect(byId(id)).toMatchObject({ pathwaySlug: 'security', contactIntent: 'security' })
+    }
   })
 
   it.each(['en', 'fr'] as const)('remaps key tiles to plain-language evidence paths for %s', (locale) => {

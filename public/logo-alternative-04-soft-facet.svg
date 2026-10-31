@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 880" role="img" aria-labelledby="title desc">
+  <title id="title">Roalla butterfly pyramid mark — soft facet concept</title>
+  <desc id="desc">A restrained butterfly with softened wing contours around a geometric pyramid.</desc>
+
+  <g fill="#00B4C5">
+    <!-- Softer upper wings retain a precise inner edge. -->
+    <path d="M458 252C352 169 184 132 101 169l181 356 164-82z"/>
+    <path d="M542 252c106-83 274-120 357-83L718 525l-164-82z"/>
+
+    <!-- Compact lower wings -->
+    <path d="M444 476c-104 48-164 142-118 250l145-168z"/>
+    <path d="M556 476c104 48 164 142 118 250L529 558z"/>
+
+    <!-- Clean pyramid / body -->
+    <path d="M500 190 690 744h-86L500 437 396 744h-86z"/>
+  </g>
+</svg>

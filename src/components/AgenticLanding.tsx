@@ -72,7 +72,7 @@ export default function AgenticLanding({
 
       <main className="mx-auto max-w-6xl">
         <nav aria-label={content.journeyLabel} className="relative z-10 -mt-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-lg sm:p-5">
-          <ol className="grid gap-2 md:grid-cols-5">
+          <ol className="grid gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
             {content.journey.map((stage, index) => {
               const current = stage.href === "/services/ai-agents";
               return (
@@ -87,6 +87,35 @@ export default function AgenticLanding({
             })}
           </ol>
         </nav>
+
+        <section
+          aria-labelledby="agentic-evidence-title"
+          data-testid="agentic-evidence-band"
+          className="mt-8 grid gap-6 rounded-2xl border border-primary/20 bg-primary/[.04] p-6 sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center"
+        >
+          <div className="max-w-3xl">
+            <p className="text-xs font-bold uppercase tracking-[.16em] text-primary-dark">
+              {locale === "fr" ? "Les preuves d’abord" : "Evidence first"}
+            </p>
+            <h2 id="agentic-evidence-title" className="mt-2 text-2xl font-serif font-bold text-slate-950 sm:text-3xl">
+              {locale === "fr"
+                ? "Trouvez le flux prêt pour un agent IA, et les contrôles dont il a besoin"
+                : "Find the workflow that is ready for an AI agent—and the controls it needs"}
+            </h2>
+            <p className="mt-3 text-slate-700">
+              {locale === "fr"
+                ? "Une courte revue distingue un cas d’usage utile et gouvernable d’une démo impressionnante avant de connecter l’IA à vos systèmes."
+                : "A short review separates a valuable, governable use case from an impressive demo before AI is connected to your systems."}
+            </p>
+          </div>
+          <Link
+            href="/ai-agent-readiness-review"
+            className="inline-flex min-h-12 items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 transition-colors hover:bg-brand-gold-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          >
+            {locale === "fr" ? "Lancer la revue de préparation aux agents IA" : "Start the AI Agent Readiness Review"}
+            <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+          </Link>
+        </section>
 
         <section className="py-16">
           <p className="text-xs font-bold uppercase tracking-[.18em] text-primary-dark">{content.capabilitiesEyebrow}</p>

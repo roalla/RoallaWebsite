@@ -12,6 +12,10 @@ export type PathwayEvidencePath =
   | '/automation-opportunity-review'
   | '/ai-agent-readiness-review'
   | '/technology-decision-review'
+  | '/connected-operations-review'
+  | '/ai-employee-fit-review'
+  | '/security-risk-coverage-review'
+  | '/compliance-readiness-review'
   | '/assessment'
 
 export type PathwayEvidenceCta = {

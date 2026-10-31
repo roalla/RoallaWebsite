@@ -306,6 +306,55 @@ function AssessmentResultsView({
     [t, result],
   )
 
+  const evidenceLinkClass =
+    'inline-flex items-center text-sm font-semibold text-primary-dark hover:underline'
+  const evidenceLink = (() => {
+    switch (result.evidenceHref) {
+      case '/tools/digital-presence-snapshot':
+        return (
+          <Link
+            href={{
+              pathname: '/tools/digital-presence-snapshot',
+              query: {
+                campaign: 'assessment-visibility',
+                offer: 'free-automated-visibility-snapshot',
+                conversion_source: 'assessment_result',
+                entry_page: '/assessment',
+                selected_problem: 'website-and-ai-visibility',
+              },
+            }}
+            className={evidenceLinkClass}
+          >
+            {t('evidence.visibility')}
+            <ArrowRight className="ml-1.5 w-4 h-4" aria-hidden />
+          </Link>
+        )
+      case '/ai-agent-readiness-review':
+        return (
+          <Link href="/ai-agent-readiness-review" className={evidenceLinkClass}>
+            {t('evidence.agentic')}
+            <ArrowRight className="ml-1.5 w-4 h-4" aria-hidden />
+          </Link>
+        )
+      case '/security-risk-coverage-review':
+        return (
+          <Link href="/security-risk-coverage-review" className={evidenceLinkClass}>
+            {t('evidence.security')}
+            <ArrowRight className="ml-1.5 w-4 h-4" aria-hidden />
+          </Link>
+        )
+      case '/digital-product-discovery':
+        return (
+          <Link href="/digital-product-discovery" className={evidenceLinkClass}>
+            {t('evidence.digital')}
+            <ArrowRight className="ml-1.5 w-4 h-4" aria-hidden />
+          </Link>
+        )
+      default:
+        return null
+    }
+  })()
+
   const primaryServiceName =
     result.primaryService != null ? t(`services.${result.primaryService}`) : null
   const secondaryServiceName =
@@ -469,7 +518,18 @@ function AssessmentResultsView({
           {t('submitInquiry')}
         </Link>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+        <div className="flex justify-center">
+          <Link
+            href={{ pathname: '/solutions/need/[groupId]', params: { groupId: result.outcomeGroup } }}
+            className="btn-secondary inline-flex items-center"
+          >
+            {t('viewOutcomePathway')}
+            <ArrowRight className="ml-2 w-4 h-4" aria-hidden />
+          </Link>
+        </div>
+
+        <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 pt-2">
+          {evidenceLink}
           {result.useCaseHref && (
             <Link
               href={result.useCaseHref}
@@ -479,20 +539,11 @@ function AssessmentResultsView({
               <ArrowRight className="ml-1.5 w-4 h-4" />
             </Link>
           )}
-          {result.serviceHref && (
-            <Link
-              href={result.serviceHref as '/services/business-advisory'}
-              className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
-            >
-              {t('exploreService', { service: primaryServiceName ?? '' })}
-              <ArrowRight className="ml-1.5 w-4 h-4" />
-            </Link>
-          )}
           <Link
-            href={result.laneHref as '/services/business-advisory' | '/services/technology-advisory' | '/services/security-risk-compliance' | '/programs/workshops' | '/services/digital' | '/services/digital-products' | '/services/automation' | '/services/ai-agents' | '/services/search-ai-visibility' | '/services/digital-events'}
-            className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
+            href={result.supportingServiceHref as '/services/business-advisory'}
+            className="inline-flex items-center text-sm font-semibold text-slate-600 hover:text-primary-dark hover:underline"
           >
-            {laneExploreLabel(result.lane, t)}
+            {t('viewSupportingService')}
             <ArrowRight className="ml-1.5 w-4 h-4" />
           </Link>
         </div>
@@ -517,7 +568,7 @@ function AssessmentResultsView({
 
 function starterOffer(result: AssessmentResult, french: boolean) {
   const byLane = {
-    digital: ['digital', french ? 'Sprint de cadrage numérique' : 'Digital Enablement Discovery Sprint', french ? 'Définir le résultat, les utilisateurs et la plus petite solution numérique utile avant la construction.' : 'Define the outcome, users, and smallest useful digital solution before building.'],
+    digital: ['digital', french ? 'Sprint de cadrage numérique' : 'Digital Experience Discovery Sprint', french ? 'Définir le résultat, les utilisateurs et la plus petite solution numérique utile avant la construction.' : 'Define the outcome, users, and smallest useful digital solution before building.'],
     technology: ['technology', french ? 'Dossier de décision technologique' : 'Technology Decision Brief', french ? 'Clarifier les exigences, les risques, les coûts et les critères de comparaison avant de choisir un fournisseur.' : 'Clarify requirements, risks, costs, and comparison criteria before choosing a provider.'],
     workshop: ['workshop', french ? 'Atelier ciblé avec suivi de 30 jours' : 'Focused Workshop with 30-Day Follow-through', french ? 'Choisir une capacité précise, pratiquer en équipe et mesurer l’engagement après la séance.' : 'Choose one practical capability, practise as a team, and measure follow-through after the session.'],
     website: ['website', french ? 'Rafraîchissement de conversion du site' : 'Website Conversion Refresh', french ? 'Corriger le parcours client prioritaire avant de décider si une reconstruction complète est nécessaire.' : 'Improve the highest-priority customer journey before deciding whether a complete rebuild is necessary.'],
@@ -533,22 +584,6 @@ function starterOffer(result: AssessmentResult, french: boolean) {
   } as const
   const [key, name, body] = byLane[result.lane]
   return { key, name, body, timeline: french ? 'Délai habituel : 1 à 2 semaines' : 'Typical timeline: 1 to 2 weeks' }
-}
-
-function laneExploreLabel(
-  lane: AssessmentLane,
-  t: ReturnType<typeof useTranslations<'assessmentTool'>>,
-): string {
-  if (lane === 'technology') return t('viewTechnologyAdvisory')
-  if (lane === 'agentic') return t('viewAgentic')
-  if (lane === 'visibility') return t('viewVisibility')
-  if (lane === 'security') return t('viewSecurity')
-  if (lane === 'digital' || lane === 'website' || lane === 'platform' || lane === 'automation' || lane === 'ai') {
-    return t('viewDigitalCreations')
-  }
-  if (lane === 'workshop') return t('viewWorkshops')
-  if (lane === 'event') return t('viewDigitalEvents')
-  return t('viewServices')
 }
 
 export default InteractiveAssessment

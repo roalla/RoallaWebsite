@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 880" role="img" aria-labelledby="title desc">
+  <title id="title">Roalla angular digital mark — data blocks</title>
+  <desc id="desc">The angular butterfly and pyramid mark with a small sequence of square data cutouts.</desc>
+
+  <defs>
+    <mask id="data-cuts">
+      <rect width="1000" height="880" fill="#fff"/>
+      <!-- Three scalable data bits on each wing. -->
+      <g fill="#000">
+        <rect x="160" y="220" width="34" height="34"/>
+        <rect x="202" y="262" width="34" height="34"/>
+        <rect x="244" y="304" width="34" height="34"/>
+        <rect x="806" y="220" width="34" height="34"/>
+        <rect x="764" y="262" width="34" height="34"/>
+        <rect x="722" y="304" width="34" height="34"/>
+      </g>
+    </mask>
+  </defs>
+
+  <g fill="#00B4C5">
+    <g mask="url(#data-cuts)">
+      <path d="M454 222 86 116l168 410 174-83z"/>
+      <path d="m546 222 368-106-168 410-174-83z"/>
+    </g>
+    <path d="m428 478-168 82 119 196 89-211z"/>
+    <path d="m572 478 168 82-119 196-89-211z"/>
+    <path d="M500 188 698 756h-92L500 449 394 756h-92z"/>
+  </g>
+</svg>

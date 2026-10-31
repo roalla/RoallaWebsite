@@ -43,6 +43,7 @@ export default async function Page({ params }: Props) {
         locale={locale}
         content={c}
         heroImage="/images/services/automation-hero.webp"
+        service="automation"
       />
     </div>
   );

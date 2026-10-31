@@ -158,12 +158,20 @@ export default async function SearchAiVisibilityPage({
                     : "Check your website experience, search readiness, and social sharing in one clear report. No email address is required."}
                 </p>
               </div>
-              <div className="mt-5 shrink-0 lg:mt-0">
+              <div className="mt-5 flex shrink-0 flex-col gap-3 lg:mt-0">
                 <Link
                   href="/website-ai-visibility-review"
                   className="inline-flex min-h-[48px] w-full items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 transition-colors hover:bg-brand-gold-light lg:w-auto"
                 >
                   {locale === "fr" ? "Vérifier ma présence en ligne" : "Check my online presence"}
+                </Link>
+                <Link
+                  href="/visibility-improvement-estimate"
+                  className="inline-flex min-h-[48px] w-full items-center justify-center rounded-lg border border-primary/30 bg-white px-6 py-3 font-semibold text-primary-dark transition-colors hover:border-primary lg:w-auto"
+                >
+                  {locale === "fr"
+                    ? "Estimer le travail de visibilité recherche et IA"
+                    : "Estimate search and AI visibility work"}
                 </Link>
               </div>
             </div>

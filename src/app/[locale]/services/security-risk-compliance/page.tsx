@@ -38,7 +38,7 @@ export default async function SecurityRiskCompliancePage({ params }: Props) {
           { name: language === "fr" ? "Sécurité, risque et conformité" : "Security, Risk & Compliance" },
         ]),
       ]} />
-      <OutcomeServiceLanding locale={language} content={content} />
+      <OutcomeServiceLanding locale={language} content={content} service="security" />
     </div>
   );
 }

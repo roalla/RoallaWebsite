@@ -1,12 +1,13 @@
 import {
   calculateVisibilityImprovementEstimate,
   VISIBILITY_IMPROVEMENT_CORE_PRICE,
+  VISIBILITY_IMPROVEMENT_PRICES,
 } from '@/lib/visibility-improvement-estimate'
 
 describe('visibility improvement estimate', () => {
   it('calculates the required foundation at standard pricing', () => {
     const result = calculateVisibilityImprovementEstimate({
-      localMaps: false,
+      localMaps: 'none',
       offerRewrite: false,
       monitoring: false,
       referralDiscount: false,
@@ -18,9 +19,38 @@ describe('visibility improvement estimate', () => {
     expect(result.firstYearTotal).toBeCloseTo(1356)
   })
 
+  it('prices the three Google Maps options separately', () => {
+    expect(
+      calculateVisibilityImprovementEstimate({
+        localMaps: 'essentials',
+        offerRewrite: false,
+        monitoring: false,
+        referralDiscount: false,
+      }).localMaps,
+    ).toBe(VISIBILITY_IMPROVEMENT_PRICES.localMapsEssentials)
+
+    expect(
+      calculateVisibilityImprovementEstimate({
+        localMaps: 'nearby',
+        offerRewrite: false,
+        monitoring: false,
+        referralDiscount: false,
+      }).localMaps,
+    ).toBe(VISIBILITY_IMPROVEMENT_PRICES.localMapsNearby)
+
+    expect(
+      calculateVisibilityImprovementEstimate({
+        localMaps: 'compete',
+        offerRewrite: false,
+        monitoring: false,
+        referralDiscount: false,
+      }).localMaps,
+    ).toBe(VISIBILITY_IMPROVEMENT_PRICES.localMapsCompete)
+  })
+
   it('applies the 30 percent referral discount only to the foundation', () => {
     const result = calculateVisibilityImprovementEstimate({
-      localMaps: true,
+      localMaps: 'nearby',
       offerRewrite: true,
       monitoring: true,
       referralDiscount: true,

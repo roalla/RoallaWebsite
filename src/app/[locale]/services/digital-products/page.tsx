@@ -41,7 +41,7 @@ export default async function Page({ params }: Props) {
           ]),
         ]}
       />
-      <OutcomeServiceLanding locale={locale} content={c} />
+      <OutcomeServiceLanding locale={locale} content={c} service="digital-products" />
     </div>
   );
 }

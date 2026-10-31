@@ -1,6 +1,14 @@
 import type { BrandPillar } from '@/lib/brand-journey'
 import type { ConsultationIntent, ConsultingFocus } from '@/lib/consultation-request'
+import type { OutcomeGroupId } from '@/lib/solution-outcome-pages'
 import { useCaseHrefForAssessment, type UseCasePageHref } from '@/lib/use-cases'
+
+/** Free evidence/review entry points shown as tertiary result CTAs when the lane makes one obvious. */
+export type AssessmentEvidencePath =
+  | '/tools/digital-presence-snapshot'
+  | '/ai-agent-readiness-review'
+  | '/security-risk-coverage-review'
+  | '/digital-product-discovery'
 
 export type AssessmentLane =
   | 'consulting'
@@ -150,6 +158,66 @@ export type AssessmentResult = {
   serviceHref: string | null
   laneHref: string
   useCaseHref: UseCasePageHref | null
+  /** Need-group outcome pathway this lane maps to (`/solutions/need/{outcomeGroup}`). */
+  outcomeGroup: OutcomeGroupId
+  /** Tertiary free-evidence CTA when obvious for the lane. */
+  evidenceHref: AssessmentEvidencePath | null
+  /** Supporting service for the outcome pathway, shown as a text link. */
+  supportingServiceHref: string
+}
+
+export const LANE_OUTCOME_GROUPS: Record<AssessmentLane, OutcomeGroupId> = {
+  visibility: 'growth-visibility',
+  digital: 'experience-products',
+  website: 'experience-products',
+  platform: 'experience-products',
+  event: 'experience-products',
+  agentic: 'automation-ai',
+  automation: 'automation-ai',
+  ai: 'automation-ai',
+  security: 'security-compliance',
+  consulting: 'execution',
+  technology: 'execution',
+  workshop: 'execution',
+  unsure: 'execution',
+}
+
+export function outcomeGroupForLane(lane: AssessmentLane): OutcomeGroupId {
+  return LANE_OUTCOME_GROUPS[lane]
+}
+
+const OUTCOME_GROUP_SERVICE_HREFS: Record<OutcomeGroupId, string> = {
+  'growth-visibility': '/services/search-ai-visibility',
+  'experience-products': '/services/digital',
+  'automation-ai': '/services/ai-agents',
+  'security-compliance': '/services/security-risk-compliance',
+  execution: '/services/business-advisory',
+}
+
+export function evidenceHrefForLane(lane: AssessmentLane): AssessmentEvidencePath | null {
+  switch (lane) {
+    case 'visibility':
+      return '/tools/digital-presence-snapshot'
+    case 'agentic':
+      return '/ai-agent-readiness-review'
+    case 'security':
+      return '/security-risk-coverage-review'
+    case 'digital':
+      return '/digital-product-discovery'
+    default:
+      return null
+  }
+}
+
+/**
+ * Pathway service for the lane's outcome group. Lanes that are not part of a
+ * need-group pathway (technology, workshop, event) keep their own service page.
+ */
+function supportingServiceHrefForLane(lane: AssessmentLane): string {
+  if (lane === 'technology' || lane === 'workshop' || lane === 'event') {
+    return laneHref(lane)
+  }
+  return OUTCOME_GROUP_SERVICE_HREFS[outcomeGroupForLane(lane)]
 }
 
 function parseDirection(value: string | undefined): AssessmentDirection | null {
@@ -385,6 +453,9 @@ export function computeAssessmentResult(answers: AssessmentAnswers): AssessmentR
       serviceHref: null,
       laneHref: laneHref(resolvedLane),
       useCaseHref: null,
+      outcomeGroup: outcomeGroupForLane(resolvedLane),
+      evidenceHref: evidenceHrefForLane(resolvedLane),
+      supportingServiceHref: supportingServiceHrefForLane(resolvedLane),
     }
     partial.scheduleGoal = buildScheduleGoalSummary(partial)
     partial.useCaseHref = useCaseHrefForAssessment(partial)
@@ -407,6 +478,9 @@ export function computeAssessmentResult(answers: AssessmentAnswers): AssessmentR
     serviceHref: `/services/business-advisory#${meta.anchor}`,
     laneHref: '/services/business-advisory',
     useCaseHref: null,
+    outcomeGroup: outcomeGroupForLane('consulting'),
+    evidenceHref: evidenceHrefForLane('consulting'),
+    supportingServiceHref: `/services/business-advisory#${meta.anchor}`,
   }
 
   result.scheduleGoal = buildScheduleGoalSummary(result)

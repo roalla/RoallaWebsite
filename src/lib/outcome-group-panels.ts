@@ -16,6 +16,10 @@ export type EvidencePath =
   | '/automation-opportunity-review'
   | '/ai-agent-readiness-review'
   | '/technology-decision-review'
+  | '/connected-operations-review'
+  | '/ai-employee-fit-review'
+  | '/security-risk-coverage-review'
+  | '/compliance-readiness-review'
   | '/assessment'
 
 export type OutcomeGroupSituationDetail = {
@@ -564,14 +568,14 @@ const experienceEn: OutcomeGroupPanelCopy = {
     },
     {
       id: 'communications',
-      label: 'Calling or collaboration is holding us back',
-      hint: 'Phone, customer contact, or team collaboration needs a clearer path.',
+      label: 'Missed calls and weak call handling hurt service',
+      hint: 'Call routing, voicemail, or contact-centre reporting cost customers and follow-up.',
       typicalCauses: [
-        'Missed calls, disconnected tools, or weak reporting hurt service.',
+        'Calls are missed, misrouted, or lack reporting that shows what customers experience.',
         'Renewal or replacement talks start before needs are clear.',
       ],
       roallaHelp:
-        'ROALLA helps capture what you need from calling and customer follow-up first—so provider talks stay grounded in your requirements.',
+        'ROALLA helps capture what you need from call handling and customer follow-up first—so provider talks stay grounded in your requirements.',
       evidencePath: '/tools/communications-value-brief',
       evidenceLabel: 'Build a Communications Value Brief',
       evidenceNote: 'Free guided brief—talking with us afterward is optional.',
@@ -581,15 +585,107 @@ const experienceEn: OutcomeGroupPanelCopy = {
       detail: {
         issues: [
           'Call routing, voicemail, or contact-centre tools create missed opportunities.',
-          'Teams collaborate across too many disconnected apps.',
+          'Reporting does not show missed calls, wait times, or follow-up gaps.',
           'Customers experience inconsistent follow-up between phone, chat, and email.',
         ],
         approach:
-          'Clarify the communications outcome and operating constraints before selecting platforms. Compare options on the same criteria—reliability, adoption, cost, and customer experience.',
+          'Clarify the call-handling outcome and operating constraints before selecting platforms. Compare options on the same criteria—reliability, adoption, cost, and customer experience.',
         solutions: [
           'Communications Value Brief to frame requirements and success measures',
-          'Technology Advisory shortlist for phone, contact centre, or collaboration',
+          'Technology Advisory shortlist for contact centre or call-handling options',
           'Transition plan with owners so tools support the journey—not add noise',
+        ],
+      },
+    },
+    {
+      id: 'phone-ip-uc',
+      label: 'Our phones don’t connect to our apps and team tools',
+      hint: 'Phone lines, IP phones, or unified communications sit apart from collaboration, CRM, and business apps.',
+      typicalCauses: [
+        'Legacy or hosted phones were never interconnected with chat, meetings, or customer systems.',
+        'Teams juggle several calling and collaboration apps with no single owner.',
+      ],
+      roallaHelp:
+        'ROALLA helps define the unified communications and interconnect requirements first—phones, apps, users, and locations—so options are compared on the same criteria.',
+      evidencePath: '/tools/communications-value-brief',
+      evidenceLabel: 'Build a Communications Value Brief',
+      evidenceNote: 'Free guided brief—talking with us afterward is optional.',
+      pathwaySlug: 'communications',
+      contactIntent: 'consulting',
+      contactFocus: 'technology',
+      detail: {
+        issues: [
+          'Desk phones, softphones, and mobile calling do not share presence, directory, or history.',
+          'Phone systems do not interconnect with collaboration, CRM, or contact tools.',
+          'Several overlapping calling and collaboration subscriptions inflate cost.',
+        ],
+        approach:
+          'Document users, locations, call flows, and the apps that must interconnect before choosing a unified communications platform. Compare options on reliability, integration, adoption, and total cost.',
+        solutions: [
+          'Communications Value Brief to capture UC and interconnect requirements',
+          'Technology Advisory comparison of IP phone and unified communications options',
+          'Staged migration plan with owners for numbers, devices, and integrations',
+        ],
+      },
+    },
+    {
+      id: 'ai-employee',
+      label: 'We want an AI Employee on our frontline',
+      hint: 'Answering, qualifying, booking, or following up across calls and messages—without losing human handoff.',
+      typicalCauses: [
+        'Calls and messages go unanswered outside staffed hours or at peak times.',
+        'Vendor demos arrive before channels, skills, and handoff rules are defined.',
+      ],
+      roallaHelp:
+        'ROALLA frames channels, skills, knowledge, integrations, and human handoff in vendor-neutral terms—so you know whether an AI Employee fits before choosing a platform.',
+      evidencePath: '/ai-employee-fit-review',
+      evidenceLabel: 'Check AI Employee fit',
+      evidenceNote: 'Vendor-neutral review—requirements before a platform shortlist.',
+      pathwaySlug: 'communications',
+      contactIntent: 'consulting',
+      contactFocus: 'technology',
+      detail: {
+        issues: [
+          'Frontline channels lack coverage after hours or during spikes.',
+          'Nobody has defined what an AI Employee may answer, book, or escalate.',
+          'Knowledge and integrations are not ready for automated answers.',
+        ],
+        approach:
+          'Define channels, skills, trusted knowledge, integrations, and handoff rules first. Decide where an AI Employee fits and where people must stay in the loop, then compare options on the same criteria.',
+        solutions: [
+          'AI Employee fit review covering channels, skills, knowledge, and handoff',
+          'Vendor-neutral requirements checklist for comparing qualified options',
+          'Bounded pilot with measures and clear human escalation ownership',
+        ],
+      },
+    },
+    {
+      id: 'point-of-sale',
+      label: 'Our in-person checkout needs a better digital experience',
+      hint: 'Counter, kiosk, or on-site payment and ordering flows feel slow or disconnected.',
+      typicalCauses: [
+        'Point-of-sale tools do not match how customers and staff actually check out.',
+        'Orders, inventory, and customer records live in separate systems.',
+      ],
+      roallaHelp:
+        'ROALLA helps define the smallest useful in-person checkout experience for one audience and one outcome—before a long feature list or hardware choice drives scope.',
+      evidencePath: '/digital-product-discovery',
+      evidenceLabel: 'Frame the smallest useful build',
+      evidenceNote: 'A short discovery—no finished project plan required to start.',
+      pathwaySlug: 'digital-experience',
+      contactIntent: 'platform',
+      detail: {
+        issues: [
+          'Checkout is slow or error-prone at the counter, kiosk, or event table.',
+          'Sales, inventory, and customer data are not connected after the transaction.',
+          'Staff work around the point-of-sale tools instead of with them.',
+        ],
+        approach:
+          'Start with the in-person journey and the one outcome that matters—faster checkout, fewer errors, or better follow-up—then scope the smallest complete release before selecting hardware or platforms.',
+        solutions: [
+          'Digital product discovery for the checkout journey and first release',
+          'Integration scope for orders, payments, inventory, and customer records',
+          'Launch plan with measures for speed, accuracy, and adoption',
         ],
       },
     },
@@ -705,14 +801,14 @@ const experienceFr: OutcomeGroupPanelCopy = {
     },
     {
       id: 'communications',
-      label: 'Les appels ou la collaboration nous freinent',
-      hint: 'Téléphonie, contact client ou collaboration d’équipe nécessitent un parcours plus clair.',
+      label: 'Les appels manqués et la gestion d’appels faible nuisent au service',
+      hint: 'Routage d’appels, messagerie vocale ou rapports du centre de contact coûtent des clients et du suivi.',
       typicalCauses: [
-        'Appels manqués, outils déconnectés ou rapports faibles nuisent au service.',
+        'Des appels sont manqués, mal acheminés ou sans rapports montrant ce que vivent les clients.',
         'Les discussions de renouvellement ou remplacement commencent avant que les besoins soient clairs.',
       ],
       roallaHelp:
-        'ROALLA aide à capturer ce dont vous avez besoin pour les appels et le suivi client d’abord—pour que les échanges fournisseurs restent ancrés dans vos exigences.',
+        'ROALLA aide à capturer ce dont vous avez besoin pour la gestion des appels et le suivi client d’abord—pour que les échanges fournisseurs restent ancrés dans vos exigences.',
       evidencePath: '/tools/communications-value-brief',
       evidenceLabel: 'Créer un brief valeur communications',
       evidenceNote: 'Brief guidé gratuit—en parler ensuite est optionnel.',
@@ -722,15 +818,107 @@ const experienceFr: OutcomeGroupPanelCopy = {
       detail: {
         issues: [
           'Le routage d’appels, la messagerie vocale ou les outils de centre de contact font rater des occasions.',
-          'Les équipes collaborent via trop d’applications déconnectées.',
+          'Les rapports ne montrent ni appels manqués, ni temps d’attente, ni lacunes de suivi.',
           'Les clients vivent un suivi incohérent entre téléphone, clavardage et courriel.',
         ],
         approach:
-          'Clarifiez le résultat de communications et les contraintes d’exploitation avant de choisir des plateformes. Comparez les options selon les mêmes critères—fiabilité, adoption, coût et expérience client.',
+          'Clarifiez le résultat de gestion des appels et les contraintes d’exploitation avant de choisir des plateformes. Comparez les options selon les mêmes critères—fiabilité, adoption, coût et expérience client.',
         solutions: [
           'Brief valeur communications pour cadrer exigences et mesures de succès',
-          'Shortlist de conseil technologique pour téléphonie, centre de contact ou collaboration',
+          'Comparaison de conseil technologique pour centre de contact ou gestion des appels',
           'Plan de transition avec responsables pour que les outils soutiennent le parcours—sans ajouter de bruit',
+        ],
+      },
+    },
+    {
+      id: 'phone-ip-uc',
+      label: 'Nos téléphones ne se connectent pas à nos applications et outils d’équipe',
+      hint: 'Lignes téléphoniques, téléphones IP ou communications unifiées restent séparés de la collaboration, du CRM et des applications d’affaires.',
+      typicalCauses: [
+        'Des téléphones hérités ou hébergés n’ont jamais été interconnectés avec le clavardage, les réunions ou les systèmes clients.',
+        'Les équipes jonglent avec plusieurs applications d’appels et de collaboration sans responsable unique.',
+      ],
+      roallaHelp:
+        'ROALLA aide à définir d’abord les exigences de communications unifiées et d’interconnexion—téléphones, applications, utilisateurs et sites—pour comparer les options selon les mêmes critères.',
+      evidencePath: '/tools/communications-value-brief',
+      evidenceLabel: 'Créer un brief valeur communications',
+      evidenceNote: 'Brief guidé gratuit—en parler ensuite est optionnel.',
+      pathwaySlug: 'communications',
+      contactIntent: 'consulting',
+      contactFocus: 'technology',
+      detail: {
+        issues: [
+          'Téléphones de bureau, logiciels de téléphonie et appels mobiles ne partagent ni présence, ni répertoire, ni historique.',
+          'Les systèmes téléphoniques ne s’interconnectent pas avec la collaboration, le CRM ou les outils de contact.',
+          'Plusieurs abonnements d’appels et de collaboration qui se chevauchent font grimper les coûts.',
+        ],
+        approach:
+          'Documentez utilisateurs, sites, parcours d’appels et applications à interconnecter avant de choisir une plateforme de communications unifiées. Comparez les options selon fiabilité, intégration, adoption et coût total.',
+        solutions: [
+          'Brief valeur communications pour saisir les exigences UC et d’interconnexion',
+          'Comparaison de conseil technologique des options de téléphonie IP et de communications unifiées',
+          'Plan de migration par étapes avec responsables pour numéros, appareils et intégrations',
+        ],
+      },
+    },
+    {
+      id: 'ai-employee',
+      label: 'Nous voulons un employé IA en première ligne',
+      hint: 'Répondre, qualifier, réserver ou relancer par appels et messages—sans perdre le relais humain.',
+      typicalCauses: [
+        'Appels et messages restent sans réponse hors des heures de présence ou en période de pointe.',
+        'Les démos fournisseurs arrivent avant la définition des canaux, compétences et règles de relais.',
+      ],
+      roallaHelp:
+        'ROALLA cadre canaux, compétences, connaissances, intégrations et relais humain sans parti pris fournisseur—pour savoir si un employé IA convient avant de choisir une plateforme.',
+      evidencePath: '/ai-employee-fit-review',
+      evidenceLabel: 'Vérifier l’adéquation d’un employé IA',
+      evidenceNote: 'Revue neutre envers les fournisseurs—exigences avant une liste de plateformes.',
+      pathwaySlug: 'communications',
+      contactIntent: 'consulting',
+      contactFocus: 'technology',
+      detail: {
+        issues: [
+          'Les canaux de première ligne manquent de couverture hors des heures ou en période de pointe.',
+          'Personne n’a défini ce qu’un employé IA peut répondre, réserver ou escalader.',
+          'Les connaissances et intégrations ne sont pas prêtes pour des réponses automatisées.',
+        ],
+        approach:
+          'Définissez d’abord canaux, compétences, connaissances fiables, intégrations et règles de relais. Décidez où un employé IA convient et où les personnes restent dans la boucle, puis comparez les options selon les mêmes critères.',
+        solutions: [
+          'Revue d’adéquation d’un employé IA : canaux, compétences, connaissances et relais',
+          'Liste d’exigences neutre pour comparer des options qualifiées',
+          'Pilote limité avec mesures et responsabilité claire de l’escalade humaine',
+        ],
+      },
+    },
+    {
+      id: 'point-of-sale',
+      label: 'Notre paiement en personne a besoin d’une meilleure expérience numérique',
+      hint: 'Les parcours de caisse, borne ou paiement sur place semblent lents ou déconnectés.',
+      typicalCauses: [
+        'Les outils de point de vente ne correspondent pas à la façon dont clients et personnel paient réellement.',
+        'Commandes, inventaire et dossiers clients vivent dans des systèmes séparés.',
+      ],
+      roallaHelp:
+        'ROALLA aide à définir la plus petite expérience de paiement en personne utile pour un public et un résultat—avant qu’une longue liste de fonctions ou un choix de matériel dicte la portée.',
+      evidencePath: '/digital-product-discovery',
+      evidenceLabel: 'Cadre la plus petite réalisation utile',
+      evidenceNote: 'Une courte découverte—aucun plan de projet finalisé requis pour commencer.',
+      pathwaySlug: 'digital-experience',
+      contactIntent: 'platform',
+      detail: {
+        issues: [
+          'Le paiement est lent ou sujet aux erreurs au comptoir, à la borne ou à la table d’événement.',
+          'Ventes, inventaire et données clients ne sont pas reliés après la transaction.',
+          'Le personnel contourne les outils de point de vente au lieu de travailler avec eux.',
+        ],
+        approach:
+          'Commencez par le parcours en personne et le seul résultat qui compte—paiement plus rapide, moins d’erreurs ou meilleur suivi—puis cadrez la plus petite version complète avant de choisir matériel ou plateformes.',
+        solutions: [
+          'Découverte produit numérique pour le parcours de paiement et la première version',
+          'Portée d’intégration pour commandes, paiements, inventaire et dossiers clients',
+          'Plan de lancement avec mesures de rapidité, d’exactitude et d’adoption',
         ],
       },
     },
@@ -874,17 +1062,17 @@ const automationEn: OutcomeGroupPanelCopy = {
     },
     {
       id: 'iot-ops',
-      label: 'Connected equipment needs a clearer operating path',
-      hint: 'Alerts and monitoring data are hard to turn into action.',
+      label: 'Alerts fire, but nobody owns the response',
+      hint: 'Connected equipment and monitoring raise signals that never become owned action or a measured result.',
       typicalCauses: [
         'Sensors and systems raise alerts without clear owners or next steps.',
         'Data is collected but not tied to the decisions operations must make.',
       ],
       roallaHelp:
-        'ROALLA clarifies the operating outcome and decision criteria before adding more devices—so monitoring becomes a path to response, not another dashboard.',
-      evidencePath: '/technology-decision-review',
-      evidenceLabel: 'Clarify the operating decision',
-      evidenceNote: 'Free decision review—requirements before a product shortlist.',
+        'ROALLA maps Signal → Owner → Action → Measure before adding more devices—so monitoring becomes a path to response, not another dashboard.',
+      evidencePath: '/connected-operations-review',
+      evidenceLabel: 'Map signals to owned action',
+      evidenceNote: 'Free review—ownership and response path before a product shortlist.',
       pathwaySlug: 'iot',
       contactIntent: 'consulting',
       contactFocus: 'technology',
@@ -897,8 +1085,8 @@ const automationEn: OutcomeGroupPanelCopy = {
         approach:
           'Clarify the operating outcome and decision criteria before adding more devices or platforms. Connect signals to owned actions so monitoring becomes a path to response—not another dashboard.',
         solutions: [
-          'Technology decision review for requirements and success criteria',
-          'Operating model that assigns alert ownership and escalation',
+          'Connected operations review that maps Signal → Owner → Action → Measure',
+          'Operating model that assigns alert ownership, escalation, and response measures',
           'Connected operations path that turns IoT data into measurable action',
         ],
       },
@@ -1043,17 +1231,17 @@ const automationFr: OutcomeGroupPanelCopy = {
     },
     {
       id: 'iot-ops',
-      label: 'L’équipement connecté a besoin d’un parcours plus clair',
-      hint: 'Alertes et données de surveillance sont difficiles à transformer en action.',
+      label: 'Les alertes sonnent, mais personne ne possède la réponse',
+      hint: 'L’équipement connecté et la surveillance lèvent des signaux qui ne deviennent jamais une action assumée ni un résultat mesuré.',
       typicalCauses: [
         'Capteurs et systèmes lèvent des alertes sans responsables ni prochaines étapes clairs.',
         'Les données sont collectées mais pas liées aux décisions que les opérations doivent prendre.',
       ],
       roallaHelp:
-        'ROALLA clarifie le résultat d’exploitation et les critères de décision avant d’ajouter plus d’appareils—pour que la surveillance mène à une réponse, pas à un autre tableau de bord.',
-      evidencePath: '/technology-decision-review',
-      evidenceLabel: 'Clarifier la décision d’exploitation',
-      evidenceNote: 'Revue de décision gratuite—exigences avant une shortlist de produits.',
+        'ROALLA cartographie Signal → Responsable → Action → Mesure avant d’ajouter plus d’appareils—pour que la surveillance mène à une réponse, pas à un autre tableau de bord.',
+      evidencePath: '/connected-operations-review',
+      evidenceLabel: 'Relier les signaux à une action assumée',
+      evidenceNote: 'Revue gratuite—responsabilité et parcours de réponse avant une shortlist de produits.',
       pathwaySlug: 'iot',
       contactIntent: 'consulting',
       contactFocus: 'technology',
@@ -1066,8 +1254,8 @@ const automationFr: OutcomeGroupPanelCopy = {
         approach:
           'Clarifiez le résultat opérationnel et les critères de décision avant d’ajouter appareils ou plateformes. Reliez les signaux à des actions assumées pour que la surveillance devienne un parcours de réponse—pas un autre tableau de bord.',
         solutions: [
-          'Revue de décision technologique pour exigences et critères de succès',
-          'Modèle d’exploitation qui assigne propriété des alertes et escalade',
+          'Revue des opérations connectées qui cartographie Signal → Responsable → Action → Mesure',
+          'Modèle d’exploitation qui assigne propriété des alertes, escalade et mesures de réponse',
           'Parcours d’opérations connectées qui transforme les données IdO en action mesurable',
         ],
       },
@@ -1122,14 +1310,14 @@ const securityEn: OutcomeGroupPanelCopy = {
   situations: [
     {
       id: 'security-gaps',
-      label: 'We lack a clear view of security gaps',
-      hint: 'Customers or partners are asking for stronger assurance.',
+      label: 'Early diligence is exposing security gaps we can’t evidence',
+      hint: 'A customer questionnaire or partner review is the first time the gaps have been named.',
       typicalCauses: [
         'Obligations and control ownership are unclear across teams.',
         'Vendor demos arrive before shared requirements are written.',
       ],
       roallaHelp:
-        'ROALLA helps lock requirements and residual-risk tolerance before scoring options—so the shortlist is comparable and disclosure-ready.',
+        'ROALLA helps lock requirements and residual-risk tolerance at the start of diligence—so the first gap list is prioritized and any later shortlist is comparable and disclosure-ready.',
       evidencePath: '/technology-decision-review',
       evidenceLabel: 'Start with decision criteria',
       evidenceNote: 'Free decision review—requirements before a product shortlist.',
@@ -1142,7 +1330,7 @@ const securityEn: OutcomeGroupPanelCopy = {
           'Vendors pitch products before obligations and ownership are written down.',
         ],
         approach:
-          'Lock requirements, residual-risk tolerance, and control ownership before demos. Score options on the same criteria so the shortlist is comparable and disclosure-ready.',
+          'Treat this as early diligence: lock requirements, residual-risk tolerance, and control ownership before demos. Continuous detection coverage and formal compliance readiness are separate next steps once the first gaps are visible.',
         solutions: [
           'Technology decision review focused on security obligations and criteria',
           'Prioritized gap list with owners and remediation sequence',
@@ -1151,15 +1339,105 @@ const securityEn: OutcomeGroupPanelCopy = {
       },
     },
     {
-      id: 'cloud-infra',
-      label: 'Cloud or infrastructure decisions are stuck',
-      hint: 'Migration, cost, or who will run it day to day is unclear.',
+      id: 'active-threat-coverage',
+      label: 'Nobody is watching for threats around the clock',
+      hint: 'Detection and response coverage is thin or missing outside business hours.',
       typicalCauses: [
-        'Options are compared on features, not on cost, risk, and operating ownership.',
+        'Security tools exist, but alerts are not triaged or acted on consistently.',
+        'It is unclear who sees a threat first and who responds.',
+      ],
+      roallaHelp:
+        'ROALLA clarifies continuous detection and response requirements, current coverage, and ownership—so managed security options can be compared fairly.',
+      evidencePath: '/security-risk-coverage-review',
+      evidenceLabel: 'Review security coverage',
+      evidenceNote: 'Free review—coverage and response requirements before a provider shortlist.',
+      pathwaySlug: 'security',
+      contactIntent: 'security',
+      detail: {
+        issues: [
+          'Threats could go unseen overnight, on weekends, or during holidays.',
+          'Alerts pile up without a named responder or escalation path.',
+          'Insurers, customers, or partners ask about detection and response you cannot describe.',
+        ],
+        approach:
+          'Map what is monitored today, then define detection and response requirements—hours, speed, escalation, and evidence—before comparing managed security options. No service eliminates risk, so make residual risk explicit.',
+        solutions: [
+          'Security risk coverage review for detection and response requirements',
+          'Coverage map showing what is monitored and who responds at each hour',
+          'Managed security options compared on the same criteria, with relationships disclosed',
+        ],
+      },
+    },
+    {
+      id: 'security-ops-capacity',
+      label: 'Our IT team can’t run security operations alone',
+      hint: 'Monitoring, patching, and response compete with everyday IT work.',
+      typicalCauses: [
+        'A small IT team absorbs security duties on top of daily support.',
+        'Nobody has decided what to keep in-house, co-manage, or outsource.',
+      ],
+      roallaHelp:
+        'ROALLA helps decide the operating model—internal, co-managed, or managed—based on capacity, obligations, and risk tolerance, starting from the same coverage review.',
+      evidencePath: '/security-risk-coverage-review',
+      evidenceLabel: 'Review security coverage',
+      evidenceNote: 'Same free review—includes the operating-model question: in-house, co-managed, or managed.',
+      pathwaySlug: 'security',
+      contactIntent: 'security',
+      detail: {
+        issues: [
+          'Security tasks are squeezed between help-desk and project work.',
+          'Key-person risk concentrates security knowledge in one or two people.',
+          'Responsibilities between internal staff and external providers are unclear.',
+        ],
+        approach:
+          'Define coverage and response requirements first, then compare internal, co-managed, and fully managed models against real capacity, obligations, and cost. Make ownership explicit in the chosen model.',
+        solutions: [
+          'Security risk coverage review with an operating-model comparison',
+          'Responsibility map between internal staff and external providers',
+          'Managed or co-managed security options compared on shared criteria',
+        ],
+      },
+    },
+    {
+      id: 'compliance-readiness',
+      label: 'Customers are asking for SOC 2',
+      hint: 'You need to prepare for an independent examination without guessing at scope.',
+      typicalCauses: [
+        'Policies and controls exist, but evidence is scattered or incomplete.',
+        'Scope, criteria, and ownership have not been agreed.',
+      ],
+      roallaHelp:
+        'ROALLA provides SOC 2 readiness support—scope, control gaps, evidence, and ownership. Independent examinations remain with a qualified CPA firm.',
+      evidencePath: '/compliance-readiness-review',
+      evidenceLabel: 'Check SOC 2 readiness',
+      evidenceNote: 'Free readiness review—not an attestation or audit opinion.',
+      pathwaySlug: 'security',
+      contactIntent: 'security',
+      detail: {
+        issues: [
+          'Customers or partners require a SOC 2 report to proceed.',
+          'Evidence for controls is scattered across tools and people.',
+          'Timeline and effort are unclear before engaging an examiner.',
+        ],
+        approach:
+          'Establish likely scope, criteria, control gaps, and evidence ownership first, then sequence remediation toward examination. ROALLA supports readiness; a qualified CPA firm performs the independent examination.',
+        solutions: [
+          'Compliance readiness review covering scope, controls, and evidence',
+          'Gap and evidence list with owners and remediation priorities',
+          'Roadmap to engaging an independent CPA examination firm',
+        ],
+      },
+    },
+    {
+      id: 'cloud-infra',
+      label: 'A data, server, or infrastructure move is stuck',
+      hint: 'Moving workloads infrastructure-to-infrastructure is blocked on cost, risk, or who runs it afterward.',
+      typicalCauses: [
+        'Data-centre, server, or hosting options are compared on features, not on cost, risk, and operating ownership.',
         'Migration plans lack a clear owner after go-live.',
       ],
       roallaHelp:
-        'ROALLA compares approaches on the same criteria—cost, risk, support, and who operates what—before you commit.',
+        'ROALLA compares migration and hosting approaches on the same criteria—cost, risk, support, and who operates what—before you commit.',
       evidencePath: '/technology-decision-review',
       evidenceLabel: 'Start with decision criteria',
       evidenceNote: 'Free decision review—requirements before a product shortlist.',
@@ -1168,16 +1446,16 @@ const securityEn: OutcomeGroupPanelCopy = {
       contactFocus: 'technology',
       detail: {
         issues: [
-          'Migration options compete without shared cost, risk, and operating criteria.',
-          'Nobody owns day-2 operations after a cloud or hosting change.',
+          'Data and server migration options compete without shared cost, risk, and operating criteria.',
+          'Nobody owns day-2 operations after moving between data centres, hosting, or cloud environments.',
           'Spend grows while reliability and clarity of ownership stay flat.',
         ],
         approach:
-          'Decide infrastructure against explicit requirements—workload, cost, support, and operating model—before selecting a platform. Make ownership part of the decision, not an afterthought.',
+          'Decide the move against explicit requirements—workloads, data, cost, support, and operating model—before selecting a platform. Make ownership part of the decision, not an afterthought.',
         solutions: [
-          'Decision review that compares cloud and infrastructure options on the same scorecard',
+          'Decision review that compares infrastructure-to-infrastructure migration options on the same scorecard',
           'Operating ownership model for run, support, and cost accountability',
-          'Transition plan sequenced to reduce risk during migration',
+          'Transition plan sequenced to reduce risk during data and server migration',
         ],
       },
     },
@@ -1263,14 +1541,14 @@ const securityFr: OutcomeGroupPanelCopy = {
   situations: [
     {
       id: 'security-gaps',
-      label: 'Nous n’avons pas une vue claire des écarts de sécurité',
-      hint: 'Des clients ou partenaires demandent une assurance accrue.',
+      label: 'Une diligence précoce révèle des écarts de sécurité que nous ne pouvons pas prouver',
+      hint: 'Un questionnaire client ou une revue de partenaire est la première fois que les écarts sont nommés.',
       typicalCauses: [
         'Les obligations et la responsabilité des contrôles sont floues entre les équipes.',
         'Les démos fournisseurs arrivent avant que les exigences partagées soient écrites.',
       ],
       roallaHelp:
-        'ROALLA aide à figer les exigences et la tolérance au risque résiduel avant de noter les options—pour une shortlist comparable et prête à la divulgation.',
+        'ROALLA aide à figer les exigences et la tolérance au risque résiduel dès le début de la diligence—pour une première liste d’écarts priorisée et une éventuelle shortlist comparable et prête à la divulgation.',
       evidencePath: '/technology-decision-review',
       evidenceLabel: 'Commencer par les critères de décision',
       evidenceNote: 'Revue de décision gratuite—exigences avant une shortlist de produits.',
@@ -1283,7 +1561,7 @@ const securityFr: OutcomeGroupPanelCopy = {
           'Les fournisseurs présentent des produits avant que obligations et responsabilités soient écrites.',
         ],
         approach:
-          'Fixez exigences, tolérance au risque résiduel et responsabilité des contrôles avant les démos. Notez les options selon les mêmes critères pour une shortlist comparable et prête à la divulgation.',
+          'Traitez cela comme une diligence précoce : fixez exigences, tolérance au risque résiduel et responsabilité des contrôles avant les démos. La couverture de détection continue et la préparation formelle à la conformité sont des étapes distinctes une fois les premiers écarts visibles.',
         solutions: [
           'Revue de décision technologique centrée sur obligations et critères de sécurité',
           'Liste priorisée d’écarts avec responsables et séquence de remédiation',
@@ -1292,15 +1570,105 @@ const securityFr: OutcomeGroupPanelCopy = {
       },
     },
     {
-      id: 'cloud-infra',
-      label: 'Les décisions infonuagiques ou d’infrastructure bloquent',
-      hint: 'Migration, coûts ou qui exploitera au quotidien sont flous.',
+      id: 'active-threat-coverage',
+      label: 'Personne ne surveille les menaces en continu',
+      hint: 'La couverture de détection et de réponse est mince ou absente hors des heures d’affaires.',
       typicalCauses: [
-        'Les options sont comparées sur les fonctions, pas sur coût, risque et responsabilité d’exploitation.',
+        'Des outils de sécurité existent, mais les alertes ne sont pas triées ni traitées de façon constante.',
+        'On ne sait pas qui voit une menace en premier ni qui répond.',
+      ],
+      roallaHelp:
+        'ROALLA clarifie les exigences de détection et de réponse continues, la couverture actuelle et les responsabilités—pour comparer équitablement les options de sécurité gérée.',
+      evidencePath: '/security-risk-coverage-review',
+      evidenceLabel: 'Examiner la couverture de sécurité',
+      evidenceNote: 'Revue gratuite—couverture et exigences de réponse avant une shortlist de fournisseurs.',
+      pathwaySlug: 'security',
+      contactIntent: 'security',
+      detail: {
+        issues: [
+          'Des menaces pourraient passer inaperçues la nuit, la fin de semaine ou pendant les congés.',
+          'Les alertes s’accumulent sans responsable désigné ni parcours d’escalade.',
+          'Assureurs, clients ou partenaires posent des questions sur la détection et la réponse que vous ne pouvez pas décrire.',
+        ],
+        approach:
+          'Cartographiez ce qui est surveillé aujourd’hui, puis définissez les exigences de détection et de réponse—heures, rapidité, escalade et preuves—avant de comparer les options de sécurité gérée. Aucun service n’élimine le risque : rendez le risque résiduel explicite.',
+        solutions: [
+          'Revue de couverture des risques de sécurité pour les exigences de détection et de réponse',
+          'Carte de couverture montrant ce qui est surveillé et qui répond à chaque heure',
+          'Options de sécurité gérée comparées selon les mêmes critères, avec relations divulguées',
+        ],
+      },
+    },
+    {
+      id: 'security-ops-capacity',
+      label: 'Notre équipe TI ne peut pas exploiter la sécurité seule',
+      hint: 'Surveillance, correctifs et réponse concurrencent le travail TI quotidien.',
+      typicalCauses: [
+        'Une petite équipe TI absorbe les tâches de sécurité en plus du soutien quotidien.',
+        'Personne n’a décidé quoi garder à l’interne, cogérer ou externaliser.',
+      ],
+      roallaHelp:
+        'ROALLA aide à choisir le modèle d’exploitation—interne, cogéré ou géré—selon la capacité, les obligations et la tolérance au risque, à partir de la même revue de couverture.',
+      evidencePath: '/security-risk-coverage-review',
+      evidenceLabel: 'Examiner la couverture de sécurité',
+      evidenceNote: 'Même revue gratuite—inclut la question du modèle d’exploitation : interne, cogéré ou géré.',
+      pathwaySlug: 'security',
+      contactIntent: 'security',
+      detail: {
+        issues: [
+          'Les tâches de sécurité sont coincées entre le soutien technique et les projets.',
+          'Le risque lié aux personnes clés concentre le savoir de sécurité chez une ou deux personnes.',
+          'Les responsabilités entre personnel interne et fournisseurs externes sont floues.',
+        ],
+        approach:
+          'Définissez d’abord les exigences de couverture et de réponse, puis comparez les modèles interne, cogéré et entièrement géré selon la capacité réelle, les obligations et les coûts. Rendez la responsabilité explicite dans le modèle choisi.',
+        solutions: [
+          'Revue de couverture des risques de sécurité avec comparaison des modèles d’exploitation',
+          'Carte des responsabilités entre personnel interne et fournisseurs externes',
+          'Options de sécurité gérée ou cogérée comparées selon des critères partagés',
+        ],
+      },
+    },
+    {
+      id: 'compliance-readiness',
+      label: 'Des clients nous demandent SOC 2',
+      hint: 'Vous devez vous préparer à un examen indépendant sans deviner la portée.',
+      typicalCauses: [
+        'Politiques et contrôles existent, mais les preuves sont éparses ou incomplètes.',
+        'Portée, critères et responsabilités n’ont pas été convenus.',
+      ],
+      roallaHelp:
+        'ROALLA offre un soutien à la préparation SOC 2—portée, écarts de contrôle, preuves et responsabilités. Les examens indépendants relèvent d’un cabinet de CPA qualifié.',
+      evidencePath: '/compliance-readiness-review',
+      evidenceLabel: 'Vérifier la préparation SOC 2',
+      evidenceNote: 'Revue de préparation gratuite—ni attestation ni opinion d’audit.',
+      pathwaySlug: 'security',
+      contactIntent: 'security',
+      detail: {
+        issues: [
+          'Des clients ou partenaires exigent un rapport SOC 2 pour poursuivre.',
+          'Les preuves des contrôles sont dispersées entre outils et personnes.',
+          'L’échéancier et l’effort sont flous avant de mandater un examinateur.',
+        ],
+        approach:
+          'Établissez d’abord la portée probable, les critères, les écarts de contrôle et la responsabilité des preuves, puis séquencez la remédiation vers l’examen. ROALLA soutient la préparation; un cabinet de CPA qualifié réalise l’examen indépendant.',
+        solutions: [
+          'Revue de préparation à la conformité : portée, contrôles et preuves',
+          'Liste des écarts et des preuves avec responsables et priorités de remédiation',
+          'Feuille de route vers le mandat d’un cabinet de CPA indépendant',
+        ],
+      },
+    },
+    {
+      id: 'cloud-infra',
+      label: 'Un déplacement de données, de serveurs ou d’infrastructure bloque',
+      hint: 'Le passage d’une infrastructure à une autre est bloqué par les coûts, le risque ou qui exploitera ensuite.',
+      typicalCauses: [
+        'Les options de centre de données, serveurs ou hébergement sont comparées sur les fonctions, pas sur coût, risque et responsabilité d’exploitation.',
         'Les plans de migration manquent d’un responsable clair après la mise en service.',
       ],
       roallaHelp:
-        'ROALLA compare les approches selon les mêmes critères—coût, risque, soutien et qui exploite quoi—avant de vous engager.',
+        'ROALLA compare les approches de migration et d’hébergement selon les mêmes critères—coût, risque, soutien et qui exploite quoi—avant de vous engager.',
       evidencePath: '/technology-decision-review',
       evidenceLabel: 'Commencer par les critères de décision',
       evidenceNote: 'Revue de décision gratuite—exigences avant une shortlist de produits.',
@@ -1309,16 +1677,16 @@ const securityFr: OutcomeGroupPanelCopy = {
       contactFocus: 'technology',
       detail: {
         issues: [
-          'Les options de migration se concurrencent sans critères partagés de coût, risque et exploitation.',
-          'Personne n’assume l’exploitation au jour 2 après un changement d’infonuagique ou d’hébergement.',
+          'Les options de migration de données et de serveurs se concurrencent sans critères partagés de coût, risque et exploitation.',
+          'Personne n’assume l’exploitation au jour 2 après un déplacement entre centres de données, hébergement ou environnements infonuagiques.',
           'Les dépenses augmentent pendant que fiabilité et clarté des responsabilités stagnent.',
         ],
         approach:
-          'Décidez de l’infrastructure selon des exigences explicites—charge, coût, soutien et modèle d’exploitation—avant de choisir une plateforme. Intégrez la responsabilité dans la décision, pas après coup.',
+          'Décidez du déplacement selon des exigences explicites—charges, données, coût, soutien et modèle d’exploitation—avant de choisir une plateforme. Intégrez la responsabilité dans la décision, pas après coup.',
         solutions: [
-          'Revue de décision qui compare options cloud et infrastructure sur le même tableau de bord',
+          'Revue de décision qui compare les options de migration d’infrastructure à infrastructure sur le même tableau de bord',
           'Modèle de responsabilité d’exploitation pour run, soutien et coûts',
-          'Plan de transition séquencé pour réduire le risque pendant la migration',
+          'Plan de transition séquencé pour réduire le risque pendant la migration des données et serveurs',
         ],
       },
     },

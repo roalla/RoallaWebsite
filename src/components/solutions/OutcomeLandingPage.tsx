@@ -134,10 +134,13 @@ export default function OutcomeLandingPage({
             <Link
               href={pathway.href}
               data-outcome-track={`hero|${pathway.href}`}
-              className="inline-flex min-h-[44px] items-center px-1 text-sm font-semibold text-slate-300 underline-offset-4 hover:text-white hover:underline"
+              className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-white/40 bg-white/10 px-6 py-3 font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
-              {copy.serviceCta}
-              <ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden />
+              <span>
+                {copy.serviceCta}
+                <span className="sr-only">: {pathway.serviceLabel}</span>
+              </span>
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Link>
             {estimateCtas.map((estimateCta) => (
               <Link
@@ -150,6 +153,16 @@ export default function OutcomeLandingPage({
                 <ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden />
               </Link>
             ))}
+            {pathway.id === "visibility" && estimateCtas.length > 0 ? (
+              <Link
+                href="/website-ai-visibility-review"
+                data-outcome-track="hero|/website-ai-visibility-review"
+                className="inline-flex min-h-[44px] items-center px-1 text-sm font-semibold text-brand-gold underline-offset-4 hover:text-brand-gold-light hover:underline"
+              >
+                {copy.visibilityReviewHeroCta}
+                <ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden />
+              </Link>
+            ) : null}
           </div>
           <p className="sr-only">{visual.alt[locale]}</p>
         </div>
@@ -157,40 +170,87 @@ export default function OutcomeLandingPage({
 
       {pathway.id === "visibility" ? (
         <aside className="border-b border-slate-200 bg-white px-4 py-8 sm:px-6 lg:px-8" aria-labelledby="visibility-tool-title">
-          <div className="mx-auto flex max-w-6xl flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+          <div className="mx-auto max-w-6xl">
             <div className="max-w-3xl">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">{copy.visibilityToolEyebrow}</p>
-              <h2 id="visibility-tool-title" className="mt-2 font-serif text-2xl font-bold text-slate-950 sm:text-3xl">{copy.visibilityToolTitle}</h2>
-              <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base">{copy.visibilityToolBody}</p>
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">{copy.visibilityLadderEyebrow}</p>
+              <h2 id="visibility-tool-title" className="mt-2 font-serif text-2xl font-bold text-slate-950 sm:text-3xl">{copy.visibilityLadderTitle}</h2>
             </div>
-            <div className="flex shrink-0 flex-col gap-3 sm:items-stretch">
-              <Link
-                href={{
-                  pathname: "/tools/digital-presence-snapshot",
-                  query: {
-                    campaign: "solutions-visibility-outcome",
-                    offer: "free-automated-visibility-snapshot",
-                    conversion_source: "outcome_band",
-                    entry_page: sourcePage,
-                    selected_problem: "website-and-ai-visibility",
-                  },
-                }}
-                data-outcome-track="band|digital-presence-snapshot"
-                className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary-dark px-6 py-3 font-semibold text-white transition hover:bg-primary-darker focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              >
-                {copy.visibilityToolCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-              </Link>
-              <Link
-                href="/visibility-improvement-estimate"
-                data-outcome-track="band|visibility-improvement-estimate"
-                className="inline-flex min-h-[44px] items-center justify-center text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
-              >
-                {locale === "fr"
-                  ? "Estimer le travail de visibilité recherche et IA"
-                  : "Estimate search and AI visibility work"}
-                <ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden />
-              </Link>
-            </div>
+            <ol className="mt-7 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <li className="flex flex-col rounded-2xl border border-primary/25 bg-primary/[0.045] p-5">
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary-dark">
+                  {copy.visibilityLadderStepLabel} 1 · {copy.visibilityLadderValidateLabel}
+                </p>
+                <p className="mt-3 text-sm leading-6 text-slate-700">{copy.visibilityToolTitle}</p>
+                <p className="mt-2 text-sm font-semibold leading-6 text-slate-800">{copy.visibilityLadderValidatePromise}</p>
+                <Link
+                  href={{
+                    pathname: "/tools/digital-presence-snapshot",
+                    query: {
+                      campaign: "solutions-visibility-outcome",
+                      offer: "free-automated-visibility-snapshot",
+                      conversion_source: "outcome_band",
+                      entry_page: sourcePage,
+                      selected_problem: "website-and-ai-visibility",
+                    },
+                  }}
+                  data-outcome-track="band|digital-presence-snapshot"
+                  className="mt-5 inline-flex min-h-[48px] items-center justify-center rounded-lg bg-primary-dark px-5 py-3 font-semibold text-white transition hover:bg-primary-darker focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 lg:mt-auto"
+                >
+                  {copy.visibilityToolCta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                </Link>
+              </li>
+              <li className="flex flex-col rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary-dark">
+                  {copy.visibilityLadderStepLabel} 2 · {copy.visibilityLadderUnderstandLabel}
+                </p>
+                <p className="mt-3 text-sm leading-6 text-slate-700">{copy.visibilityLadderUnderstandBody}</p>
+                <Link
+                  href="/website-ai-visibility-review"
+                  data-outcome-track="band|website-ai-visibility-review"
+                  className="mt-5 inline-flex min-h-[44px] items-center text-sm font-semibold text-primary-dark underline-offset-4 hover:underline lg:mt-auto"
+                >
+                  {copy.visibilityLadderUnderstandCta}
+                  <ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden />
+                </Link>
+              </li>
+              <li className="flex flex-col rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary-dark">
+                  {copy.visibilityLadderStepLabel} 3 · {copy.visibilityLadderReasonsLabel}
+                </p>
+                <ul className="mt-3 space-y-2">
+                  {copy.visibilityLadderReasons.map((reason) => (
+                    <li key={reason} className="flex gap-2.5 text-sm leading-6 text-slate-700">
+                      <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-400" aria-hidden />
+                      <span>{reason}</span>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+              <li className="flex flex-col rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary-dark">
+                  {copy.visibilityLadderStepLabel} 4 · {copy.visibilityLadderNextLabel}
+                </p>
+                <p className="mt-3 text-sm leading-6 text-slate-700">{copy.visibilityLadderNextBody}</p>
+                <div className="mt-5 flex flex-col items-start gap-1 lg:mt-auto">
+                  <Link
+                    href="/visibility-improvement-estimate"
+                    data-outcome-track="band|visibility-improvement-estimate"
+                    className="inline-flex min-h-[44px] items-center text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                  >
+                    {copy.visibilityLadderEstimateCta}
+                    <ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden />
+                  </Link>
+                  <a
+                    href="#outcome-contact"
+                    data-outcome-track="band|embedded-contact"
+                    className="inline-flex min-h-[44px] items-center text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                  >
+                    {copy.visibilityLadderContactCta}
+                    <ArrowDown className="ml-1.5 h-3.5 w-3.5" aria-hidden />
+                  </a>
+                </div>
+              </li>
+            </ol>
           </div>
         </aside>
       ) : null}

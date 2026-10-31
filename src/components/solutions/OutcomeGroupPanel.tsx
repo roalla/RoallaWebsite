@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useId, useMemo, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, Check, Circle, Globe2 } from 'lucide-react'
 import { Link, useRouter } from '@/i18n/navigation'
 import { trackAnalyticsEvent } from '@/lib/analytics'
+import { solutionsByNeedContent } from '@/lib/solutions-by-need'
 import type { OutcomeGroupId } from '@/lib/solution-outcome-pages'
 import {
   getOutcomeGroupPanelCopy,
@@ -132,6 +133,12 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
         }),
       } as const
     }
+    if (path === '/tools/communications-value-brief' && active.id === 'phone-ip-uc') {
+      return {
+        pathname: path,
+        query: campaignQuery({ situation: 'pots-legacy' }),
+      } as const
+    }
     return {
       pathname: path,
       query: campaignQuery(),
@@ -148,6 +155,31 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
       signal: situation.id,
     },
   }
+
+  const supportingPathway = solutionsByNeedContent[locale].pathways.find(
+    (item) => item.id === situation.pathwaySlug,
+  )
+  const supportingServiceLabel = locale === 'fr' ? 'Voir le service associé' : 'See supporting service'
+  const supportingServiceLink = supportingPathway ? (
+    <Link
+      href={supportingPathway.href}
+      onClick={() =>
+        trackAnalyticsEvent('solutions_pathway_click', {
+          location: `${groupId}_supporting_service`,
+          pathway: supportingPathway.id,
+          group: groupId,
+          signal: situation.id,
+        })
+      }
+      className="inline-flex min-h-11 items-center justify-center rounded-lg border border-white/25 bg-white/5 px-4 text-sm font-semibold text-white transition hover:bg-white/10"
+    >
+      <span>
+        {supportingServiceLabel}
+        <span className="text-slate-300">: {supportingPathway.serviceLabel}</span>
+      </span>
+      <ArrowRight className="ml-2 h-4 w-4 shrink-0" aria-hidden />
+    </Link>
+  ) : null
 
   function scrollToEvidence() {
     evidenceRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
@@ -361,6 +393,7 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
               >
                 {copy.contactCta}
               </Link>
+              {supportingServiceLink}
               {situation.estimatePath && situation.estimateLabel ? (
                 <Link
                   href={situation.estimatePath}
@@ -424,6 +457,7 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
               {situation.evidenceNote ?? copy.evidenceNote}
             </p>
             <div className="mt-4 flex flex-wrap items-center gap-2">
+              {supportingServiceLink}
               {copy.pathwayLinks.map((link) => (
                 <Link
                   key={link.slug}
@@ -486,6 +520,7 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
               >
                 {copy.contactCta}
               </Link>
+              {supportingServiceLink}
               {situation.estimatePath && situation.estimateLabel ? (
                 <Link
                   href={situation.estimatePath}

@@ -1,4 +1,8 @@
-import { WEBSITE_ESTIMATE_PRICES } from '@/lib/website-estimate'
+import {
+  EMAIL_ANNUAL_PRICES,
+  WEBSITE_ESTIMATE_PRICES,
+  type EmailChoice,
+} from '@/lib/website-estimate'
 
 export const EMAIL_REACH_PRICES = {
   reachReview: 400,
@@ -11,7 +15,8 @@ export const EMAIL_REACH_PRICES = {
 } as const
 
 export type EmailReachEstimateSelection = {
-  microsoft365: boolean
+  email: EmailChoice
+  emailUsers: number
   listCleanup: boolean
   authSetup: boolean
   referralDiscount: boolean
@@ -23,8 +28,10 @@ export function calculateEmailReachEstimate(selection: EmailReachEstimateSelecti
   const referralDiscount = selection.referralDiscount
     ? EMAIL_REACH_CORE_PRICE * EMAIL_REACH_PRICES.referralDiscountRate
     : 0
-  const emailSetup = selection.microsoft365 ? EMAIL_REACH_PRICES.emailSetup : 0
-  const emailAnnual = selection.microsoft365 ? EMAIL_REACH_PRICES.emailAnnual : 0
+  const hasEmail = selection.email !== 'none'
+  const emailUsers = hasEmail ? Math.max(1, Math.floor(selection.emailUsers || 1)) : 0
+  const emailSetup = hasEmail ? EMAIL_REACH_PRICES.emailSetup : 0
+  const emailAnnual = EMAIL_ANNUAL_PRICES[selection.email] * emailUsers
   const listCleanup = selection.listCleanup ? EMAIL_REACH_PRICES.listCleanup : 0
   const authSetup = selection.authSetup ? EMAIL_REACH_PRICES.authSetup : 0
 
@@ -37,6 +44,7 @@ export function calculateEmailReachEstimate(selection: EmailReachEstimateSelecti
     referralDiscount,
     emailSetup,
     emailAnnual,
+    emailUsers,
     listCleanup,
     authSetup,
     professionalServices,

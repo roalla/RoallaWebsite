@@ -10,6 +10,7 @@ import {
   EMAIL_REACH_CORE_PRICE,
   EMAIL_REACH_PRICES,
 } from '@/lib/email-reach-estimate'
+import { EMAIL_ANNUAL_PRICES, type EmailChoice } from '@/lib/website-estimate'
 
 function formatCad(amount: number, locale: string) {
   return new Intl.NumberFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', {
@@ -38,11 +39,40 @@ const copy = {
       'A practical review and improvement package focused on whether campaign and business emails reach customers reliably.',
     foundationWhy:
       'When messages land in junk or never arrive, customers stop responding—even if the offer is strong.',
-    microsoftTitle: 'Professional email',
-    microsoftPopular: 'Most clients add this',
-    microsoftLabel: 'Add professional email setup and Microsoft 365 Business Basic',
-    microsoftValue: 'Your email matches the website address—for example, name@yourbusiness.ca.',
-    microsoftCost: '$150 setup + $114/year',
+    emailTitle: 'Do you need professional email?',
+    emailNeedIntro: 'Professional email is optional. Choose No to keep it out of this estimate, or Yes to compare secure business platforms.',
+    emailNo: 'No professional email right now',
+    emailNoValue: 'Continue without email setup. You can add a domain-matched mailbox later.',
+    emailYes: 'Yes, I need professional email',
+    emailYesValue: 'Show provider choices and per-user pricing.',
+    nextStep: 'Next step',
+    emailProviderTitle: 'Choose the platform that fits how you work',
+    emailPopular: 'Most clients add this',
+    emailSetupValue: '$150 one-time ROALLA setup for one domain',
+    emailSetupIncludes:
+      'Setup includes domain connection, one initial mailbox, multi-factor authentication, administrator recovery, and core SPF, DKIM and DMARC anti-spoofing records.',
+    domainCalloutTitle: 'Use your own business domain',
+    domainCalloutBody:
+      'Send from a custom domain such as name@yourbusiness.ca, not a consumer Gmail, Outlook or Hotmail address. A business domain builds trust and lets us set up the authentication records that help your emails reach the inbox.',
+    domainCalloutLink: 'Not sure where you stand? Start with the email reach brief',
+    emailUsersLabel: 'How many people need their own mailbox?',
+    emailRecommended: 'Recommended',
+    emailProviderFeesSeparate: 'Provider fees separate',
+    emailPerUserYear: '/user/year',
+    emailPriceNote:
+      'Published provider prices checked October 2026. Prices are per user, before tax, on annual commitments, and are paid directly to the provider. Providers may change pricing or features.',
+    microsoftBasic: 'Microsoft 365 Business Basic',
+    microsoftBasicValue: 'Business Outlook email with Microsoft’s web and mobile productivity tools.',
+    microsoftBasicBestFor: 'Best overall fit for many professional service businesses',
+    microsoftStandard: 'Microsoft 365 Business Standard',
+    microsoftStandardValue: 'Everything in Business Basic, plus installed desktop Office applications.',
+    microsoftStandardBestFor: 'Best when you need full desktop Word, Excel and PowerPoint',
+    googleStarter: 'Google Workspace Business Starter',
+    googleStarterValue: 'Business Gmail with Google’s browser-first collaboration suite.',
+    googleStarterBestFor: 'Best when you prefer Gmail, Drive and real-time collaboration',
+    otherEmail: 'Another provider or email-only plan',
+    otherEmailValue: 'Use an existing provider or a lower-cost compatible service such as Zoho Mail.',
+    otherEmailBestFor: 'Best when price or an existing platform matters most',
     extrasTitle: 'Additional options',
     extrasLabel: 'I want list cleanup or authentication setup',
     extrasValue: 'Open this only if you want optional reach add-ons. Otherwise leave it unchecked.',
@@ -62,7 +92,7 @@ const copy = {
     coreServices: 'Inbox reach package',
     referralDiscount: 'Community referral discount',
     emailSetup: 'Professional email setup',
-    emailAnnual: 'Microsoft 365 Business Basic — first year',
+    emailAnnual: 'Email licenses — first year',
     subtotal: 'First-year estimate before HST',
     hst: 'HST (13%)',
     total: 'Projected first-year total',
@@ -90,11 +120,40 @@ const copy = {
       'Un forfait pratique de revue et d’amélioration axé sur la fiabilité d’arrivée des courriels d’affaires et de campagne.',
     foundationWhy:
       'Quand les messages vont dans les indésirables ou n’arrivent jamais, les clients cessent de répondre—même si l’offre est solide.',
-    microsoftTitle: 'Courriel professionnel',
-    microsoftPopular: 'La plupart des clients ajoutent ceci',
-    microsoftLabel: 'Ajouter la configuration du courriel professionnel et Microsoft 365 Business Basic',
-    microsoftValue: 'Votre courriel correspond à l’adresse du site, par exemple nom@votreentreprise.ca.',
-    microsoftCost: '150 $ de configuration + 114 $/an',
+    emailTitle: 'Avez-vous besoin d’un courriel professionnel?',
+    emailNeedIntro: 'Le courriel professionnel est facultatif. Choisissez Non pour l’exclure de l’estimation, ou Oui pour comparer les plateformes d’affaires sécurisées.',
+    emailNo: 'Aucun courriel professionnel pour l’instant',
+    emailNoValue: 'Continuez sans configuration de courriel. Vous pourrez ajouter une boîte liée au domaine plus tard.',
+    emailYes: 'Oui, j’ai besoin d’un courriel professionnel',
+    emailYesValue: 'Afficher les fournisseurs et les prix par utilisateur.',
+    nextStep: 'Prochaine étape',
+    emailProviderTitle: 'Choisissez la plateforme adaptée à votre façon de travailler',
+    emailPopular: 'La plupart des clients ajoutent ceci',
+    emailSetupValue: 'Configuration ROALLA unique de 150 $ pour un domaine',
+    emailSetupIncludes:
+      'La configuration comprend la connexion du domaine, une première boîte, l’authentification multifacteur, la récupération administrateur et les enregistrements anti-usurpation SPF, DKIM et DMARC.',
+    domainCalloutTitle: 'Utilisez votre propre domaine d’entreprise',
+    domainCalloutBody:
+      'Envoyez depuis un domaine personnalisé, par exemple nom@votreentreprise.ca, plutôt qu’une adresse Gmail, Outlook ou Hotmail grand public. Un domaine d’entreprise inspire confiance et nous permet de configurer les enregistrements d’authentification qui aident vos courriels à atteindre la boîte de réception.',
+    domainCalloutLink: 'Vous ne savez pas où vous en êtes? Commencez par le bref sur la portée des courriels',
+    emailUsersLabel: 'Combien de personnes ont besoin de leur propre boîte?',
+    emailRecommended: 'Recommandé',
+    emailProviderFeesSeparate: 'Frais du fournisseur séparés',
+    emailPerUserYear: '/utilisateur/an',
+    emailPriceNote:
+      'Prix publiés vérifiés en octobre 2026. Les prix sont par utilisateur, avant taxes, avec engagement annuel et payés directement au fournisseur. Les fournisseurs peuvent modifier leurs prix ou fonctions.',
+    microsoftBasic: 'Microsoft 365 Business Basic',
+    microsoftBasicValue: 'Courriel Outlook professionnel avec les outils Microsoft Web et mobiles.',
+    microsoftBasicBestFor: 'Meilleur choix global pour plusieurs entreprises de services professionnels',
+    microsoftStandard: 'Microsoft 365 Business Standard',
+    microsoftStandardValue: 'Tout le forfait Business Basic, avec les applications Office installées.',
+    microsoftStandardBestFor: 'Idéal si vous avez besoin de Word, Excel et PowerPoint sur ordinateur',
+    googleStarter: 'Google Workspace Business Starter',
+    googleStarterValue: 'Gmail professionnel avec la suite collaborative de Google dans le navigateur.',
+    googleStarterBestFor: 'Idéal si vous préférez Gmail, Drive et la collaboration en temps réel',
+    otherEmail: 'Autre fournisseur ou forfait courriel seulement',
+    otherEmailValue: 'Utilisez un fournisseur existant ou un service compatible moins coûteux comme Zoho Mail.',
+    otherEmailBestFor: 'Idéal lorsque le prix ou une plateforme existante est prioritaire',
     extrasTitle: 'Options supplémentaires',
     extrasLabel: 'Je veux le nettoyage de listes ou l’authentification',
     extrasValue: 'Ouvrez ceci seulement pour des options de portée. Sinon, laissez décoché.',
@@ -116,7 +175,7 @@ const copy = {
     coreServices: 'Forfait de portée boîte de réception',
     referralDiscount: 'Rabais de recommandation communautaire',
     emailSetup: 'Configuration du courriel professionnel',
-    emailAnnual: 'Microsoft 365 Business Basic — première année',
+    emailAnnual: 'Licences de courriel — première année',
     subtotal: 'Estimation de la première année avant TVH',
     hst: 'TVH (13 %)',
     total: 'Total projeté de la première année',
@@ -129,6 +188,47 @@ const copy = {
   },
 } as const
 
+type EmailProviderChoice = Exclude<EmailChoice, 'none'>
+
+const emailOptions: Array<{
+  value: EmailProviderChoice
+  label: keyof typeof copy.en
+  description: keyof typeof copy.en
+  bestFor: keyof typeof copy.en
+  annual: number | null
+  recommended?: boolean
+}> = [
+  {
+    value: 'microsoft-basic',
+    label: 'microsoftBasic',
+    description: 'microsoftBasicValue',
+    bestFor: 'microsoftBasicBestFor',
+    annual: EMAIL_ANNUAL_PRICES['microsoft-basic'],
+    recommended: true,
+  },
+  {
+    value: 'microsoft-standard',
+    label: 'microsoftStandard',
+    description: 'microsoftStandardValue',
+    bestFor: 'microsoftStandardBestFor',
+    annual: EMAIL_ANNUAL_PRICES['microsoft-standard'],
+  },
+  {
+    value: 'google-starter',
+    label: 'googleStarter',
+    description: 'googleStarterValue',
+    bestFor: 'googleStarterBestFor',
+    annual: EMAIL_ANNUAL_PRICES['google-starter'],
+  },
+  {
+    value: 'other',
+    label: 'otherEmail',
+    description: 'otherEmailValue',
+    bestFor: 'otherEmailBestFor',
+    annual: null,
+  },
+]
+
 const tileMotion =
   'transition-all duration-200 ease-out motion-safe:hover:-translate-y-1 motion-safe:hover:scale-[1.015] motion-safe:hover:shadow-lg motion-safe:hover:shadow-primary/25'
 const tileSelected =
@@ -140,7 +240,9 @@ export default function EmailReachEstimateBuilder() {
   const french = locale === 'fr'
   const t = copy[french ? 'fr' : 'en']
   const money = useMemo(() => (amount: number) => formatCad(amount, french ? 'fr' : 'en'), [french])
-  const [microsoft365, setMicrosoft365] = useState(false)
+  const [needsEmail, setNeedsEmail] = useState(false)
+  const [email, setEmail] = useState<EmailChoice>('none')
+  const [emailUsers, setEmailUsers] = useState(1)
   const [showExtras, setShowExtras] = useState(false)
   const [listCleanup, setListCleanup] = useState(false)
   const [authSetup, setAuthSetup] = useState(false)
@@ -150,11 +252,24 @@ export default function EmailReachEstimateBuilder() {
   const [codeStatus, setCodeStatus] = useState<'idle' | 'loading' | 'invalid' | 'error'>('idle')
 
   const estimate = calculateEmailReachEstimate({
-    microsoft365,
+    email,
+    emailUsers,
     listCleanup: showExtras && listCleanup,
     authSetup: showExtras && authSetup,
     referralDiscount: referralApplied,
   })
+
+  const chooseEmailNeed = (needed: boolean) => {
+    setNeedsEmail(needed)
+    if (needed) {
+      setEmail((current) => (current === 'none' ? 'microsoft-basic' : current))
+    } else {
+      setEmail('none')
+      setEmailUsers(1)
+    }
+  }
+
+  const selectedEmailOption = emailOptions.find((option) => option.value === email)
 
   const toggleExtras = (checked: boolean) => {
     setShowExtras(checked)
@@ -166,7 +281,7 @@ export default function EmailReachEstimateBuilder() {
 
   const selectionLines = [
     t.coreServices,
-    microsoft365 ? t.emailSetup : null,
+    selectedEmailOption ? `${t.emailSetup}: ${t[selectedEmailOption.label]} × ${estimate.emailUsers}` : null,
     showExtras && listCleanup ? t.listCleanup : null,
     showExtras && authSetup ? t.authSetup : null,
     referralApplied
@@ -284,31 +399,106 @@ export default function EmailReachEstimateBuilder() {
             <fieldset>
               <legend className="flex flex-wrap items-center gap-2 text-xl font-serif font-bold text-slate-950">
                 <Mail className="h-5 w-5 text-primary" aria-hidden />
-                {t.microsoftTitle}
-                <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-amber-900">
-                  {t.microsoftPopular}
-                </span>
+                {t.emailTitle}
               </legend>
-              <label className={`mt-4 flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition ${microsoft365 ? tileSelected : tileIdle}`}>
-                <input
-                  className="mt-1 h-4 w-4 accent-primary"
-                  type="checkbox"
-                  checked={microsoft365}
-                  onChange={(event) => setMicrosoft365(event.target.checked)}
-                />
-                <span className="min-w-0 flex-1">
-                  <span className="flex flex-wrap items-center gap-2">
-                    <span className="block font-semibold text-slate-900">{t.microsoftLabel}</span>
-                    {microsoft365 ? (
-                      <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span>
-                    ) : null}
+              <p className="mt-2 text-sm leading-6 text-slate-700">{t.emailNeedIntro}</p>
+
+              <div className="mt-4 rounded-xl border border-primary/25 bg-primary/5 p-4 text-sm leading-6 text-slate-800">
+                <p className="font-bold text-primary-dark">{t.domainCalloutTitle}</p>
+                <p className="mt-1">
+                  <EmailSafeText text={t.domainCalloutBody} />
+                </p>
+                <Link
+                  href="/tools/email-reach-brief"
+                  className="mt-2 inline-flex font-bold text-primary-dark underline underline-offset-4"
+                >
+                  {t.domainCalloutLink}
+                </Link>
+              </div>
+
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <label className={`cursor-pointer rounded-xl border p-4 transition ${!needsEmail ? tileSelected : tileIdle}`}>
+                  <input className="sr-only" type="radio" name="reach-needs-email" checked={!needsEmail} onChange={() => chooseEmailNeed(false)} />
+                  <span className="flex items-start justify-between gap-3">
+                    <span className="font-semibold text-slate-950">{t.emailNo}</span>
+                    {!needsEmail ? <CheckCircle className="h-5 w-5 shrink-0 text-primary" aria-hidden /> : null}
                   </span>
-                  <span className="mt-1 block text-sm leading-6 text-slate-700">
-                    <EmailSafeText text={t.microsoftValue} />
+                  <span className="mt-2 block text-sm leading-6 text-slate-700">{t.emailNoValue}</span>
+                  {!needsEmail ? <span className="mt-3 inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                </label>
+                <label className={`cursor-pointer rounded-xl border p-4 transition ${needsEmail ? tileSelected : tileIdle}`}>
+                  <input className="sr-only" type="radio" name="reach-needs-email" checked={needsEmail} onChange={() => chooseEmailNeed(true)} />
+                  <span className="flex items-start justify-between gap-3">
+                    <span className="font-semibold text-slate-950">{t.emailYes}</span>
+                    {needsEmail ? <CheckCircle className="h-5 w-5 shrink-0 text-primary" aria-hidden /> : null}
                   </span>
-                  <span className="mt-2 block text-sm font-bold text-primary-dark">{t.microsoftCost}</span>
-                </span>
-              </label>
+                  <span className="mt-2 block text-sm leading-6 text-slate-700">{t.emailYesValue}</span>
+                  {needsEmail ? <span className="mt-3 inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                </label>
+              </div>
+
+              {needsEmail ? (
+                <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-primary-dark">{t.nextStep}</p>
+                  <div className="mt-1 flex flex-wrap items-center gap-2">
+                    <h3 className="font-serif text-lg font-bold text-slate-950">{t.emailProviderTitle}</h3>
+                    <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-amber-900">
+                      {t.emailPopular}
+                    </span>
+                  </div>
+
+                  <div className="mt-4 rounded-xl border border-primary/25 bg-primary/5 p-4">
+                    <p className="font-bold text-primary-dark">{t.emailSetupValue}</p>
+                    <p className="mt-1 text-sm leading-6 text-slate-700">{t.emailSetupIncludes}</p>
+                  </div>
+
+                  <div className="mt-4 grid gap-3 lg:grid-cols-2">
+                    {emailOptions.map((option) => {
+                      const selected = email === option.value
+                      const priceLabel =
+                        option.annual === null
+                          ? t.emailProviderFeesSeparate
+                          : `${money(option.annual)}${t.emailPerUserYear}`
+
+                      return (
+                        <label key={option.value} className={`cursor-pointer rounded-xl border p-4 transition ${selected ? tileSelected : tileIdle}`}>
+                          <input
+                            className="sr-only"
+                            type="radio"
+                            name="reach-email-provider"
+                            value={option.value}
+                            checked={selected}
+                            onChange={() => setEmail(option.value)}
+                          />
+                          <span className="flex items-start justify-between gap-3">
+                            <span className="font-semibold text-slate-950">{t[option.label]}</span>
+                            <span className="shrink-0 text-right text-sm font-bold text-primary-dark">{priceLabel}</span>
+                          </span>
+                          <span className="mt-2 flex flex-wrap gap-1.5">
+                            {selected ? <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span> : null}
+                            {option.recommended ? <span className="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">{t.emailRecommended}</span> : null}
+                          </span>
+                          <span className="mt-2 block text-sm leading-6 text-slate-700">{t[option.description]}</span>
+                          <span className="mt-3 block border-t border-slate-200 pt-3 text-xs font-semibold leading-5 text-primary-dark">{t[option.bestFor]}</span>
+                        </label>
+                      )
+                    })}
+                  </div>
+
+                  <label className="mt-4 block rounded-xl border border-slate-200 bg-white p-4">
+                    <span className="text-sm font-semibold text-slate-900">{t.emailUsersLabel}</span>
+                    <input
+                      className="mt-2 h-11 w-28 rounded-lg border border-slate-300 px-3 font-semibold text-slate-950 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                      type="number"
+                      min={1}
+                      max={25}
+                      value={emailUsers}
+                      onChange={(event) => setEmailUsers(Math.min(25, Math.max(1, Number(event.target.value) || 1)))}
+                    />
+                  </label>
+                  <p className="mt-3 text-xs leading-5 text-slate-600">{t.emailPriceNote}</p>
+                </div>
+              ) : null}
             </fieldset>
 
             <fieldset>
@@ -454,16 +644,21 @@ export default function EmailReachEstimateBuilder() {
                   <dd className="font-semibold tabular-nums">–{money(estimate.referralDiscount)}</dd>
                 </div>
               ) : null}
-              {microsoft365 ? (
+              {email !== 'none' ? (
                 <>
                   <div className="flex justify-between gap-4">
                     <dt className="text-slate-700">{t.emailSetup}</dt>
                     <dd className="font-semibold tabular-nums text-slate-900">{money(estimate.emailSetup)}</dd>
                   </div>
-                  <div className="flex justify-between gap-4">
-                    <dt className="text-slate-700">{t.emailAnnual}</dt>
-                    <dd className="font-semibold tabular-nums text-slate-900">{money(estimate.emailAnnual)}</dd>
-                  </div>
+                  {estimate.emailAnnual > 0 ? (
+                    <div className="flex justify-between gap-4">
+                      <dt className="text-slate-700">
+                        {t.emailAnnual}
+                        {selectedEmailOption ? ` (${t[selectedEmailOption.label]} × ${estimate.emailUsers})` : ''}
+                      </dt>
+                      <dd className="font-semibold tabular-nums text-slate-900">{money(estimate.emailAnnual)}</dd>
+                    </div>
+                  ) : null}
                 </>
               ) : null}
               {estimate.listCleanup > 0 ? (

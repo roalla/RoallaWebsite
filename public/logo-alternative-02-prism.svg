@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 880" role="img" aria-labelledby="title desc">
+  <title id="title">Roalla butterfly pyramid mark — prism concept</title>
+  <desc id="desc">A compact geometric butterfly with kite-shaped wings and a central pyramid.</desc>
+
+  <g fill="#00B4C5">
+    <!-- Four folded wing facets -->
+    <path d="M454 248 104 154l180 376 157-85z"/>
+    <path d="m546 248 350-94-180 376-157-85z"/>
+    <path d="m447 480-151 83 108 176 72-183z"/>
+    <path d="m553 480 151 83-108 176-72-183z"/>
+
+    <!-- Open pyramid / butterfly body -->
+    <path d="M500 190 694 739h-82L500 426 388 739h-82z"/>
+  </g>
+</svg>

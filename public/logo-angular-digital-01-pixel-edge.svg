@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 880" role="img" aria-labelledby="title desc">
+  <title id="title">Roalla angular digital mark — pixel edge</title>
+  <desc id="desc">The angular butterfly and pyramid mark with restrained stepped pixel edges.</desc>
+
+  <g fill="#00B4C5">
+    <!-- Stepped outer edges introduce a digital rhythm without adding fine detail. -->
+    <path d="M454 222 86 116l24 58h32v46h32l80 306 174-83z"/>
+    <path d="m546 222 368-106-24 58h-32v46h-32l-80 306-174-83z"/>
+    <path d="m428 478-168 82 119 196 89-211z"/>
+    <path d="m572 478 168 82-119 196-89-211z"/>
+    <path d="M500 188 698 756h-92L500 449 394 756h-92z"/>
+  </g>
+</svg>

@@ -1,6 +1,8 @@
 import type { AssessmentLane, AssessmentResult } from '@/lib/assessment'
 import type { ConsultationIntent } from '@/lib/consultation-request'
 import type { CaseStudySlug } from '@/lib/portfolio-case-studies'
+import type { OutcomeGroupId } from '@/lib/solution-outcome-pages'
+import type { SolutionPathId } from '@/lib/solutions-by-need'
 
 export const USE_CASE_MATURITY_LEVELS = ['proven', 'established', 'ready'] as const
 export type UseCaseMaturity = (typeof USE_CASE_MATURITY_LEVELS)[number]
@@ -48,9 +50,51 @@ export const USE_CASE_SERVICE_HREFS = {
   'managed-optimization': '/services/managed-optimization',
 } as const satisfies Record<UseCaseServiceKey, string>
 
+export const USE_CASE_INDUSTRIES = [
+  'professional-services',
+  'trades-field',
+  'retail-hospitality',
+  'healthcare-wellness',
+  'nonprofit-public',
+  'technology-saas',
+  'manufacturing-ops',
+  'general-smb',
+] as const
+export type UseCaseIndustry = (typeof USE_CASE_INDUSTRIES)[number]
+
+export const USE_CASE_TECHNOLOGIES = [
+  'websites',
+  'communications',
+  'cloud-migration',
+  'security-mdr',
+  'automation',
+  'ai-employee',
+  'iot-tracking',
+  'pos-checkout',
+  'data-ai',
+  'search-visibility',
+] as const
+export type UseCaseTechnology = (typeof USE_CASE_TECHNOLOGIES)[number]
+
+type UseCaseDefinition = {
+  id: string
+  category: UseCaseCategory
+  outcomeGroup: OutcomeGroupId
+  pathwaySlug?: SolutionPathId
+  industries: readonly UseCaseIndustry[]
+  technologies: readonly UseCaseTechnology[]
+  service: UseCaseServiceKey
+  maturity: UseCaseMaturity
+  portfolio: readonly CaseStudySlug[]
+}
+
 export const USE_CASES = [
   {
     id: 'strategic-priorities',
+    outcomeGroup: 'execution',
+    pathwaySlug: 'strategy',
+    industries: ['general-smb', 'professional-services', 'nonprofit-public', 'technology-saas'],
+    technologies: [],
     category: 'decisions',
     service: 'business-advisory',
     maturity: 'established',
@@ -58,6 +102,10 @@ export const USE_CASES = [
   },
   {
     id: 'process-bottlenecks',
+    outcomeGroup: 'execution',
+    pathwaySlug: 'strategy',
+    industries: ['general-smb', 'manufacturing-ops', 'trades-field', 'professional-services'],
+    technologies: ['automation'],
     category: 'operations',
     service: 'business-advisory',
     maturity: 'established',
@@ -65,6 +113,10 @@ export const USE_CASES = [
   },
   {
     id: 'founder-bottleneck',
+    outcomeGroup: 'execution',
+    pathwaySlug: 'strategy',
+    industries: ['general-smb', 'trades-field', 'professional-services', 'retail-hospitality'],
+    technologies: [],
     category: 'operations',
     service: 'business-advisory',
     maturity: 'established',
@@ -72,6 +124,10 @@ export const USE_CASES = [
   },
   {
     id: 'leadership-decision-rights',
+    outcomeGroup: 'execution',
+    pathwaySlug: 'strategy',
+    industries: ['general-smb', 'professional-services', 'nonprofit-public', 'healthcare-wellness'],
+    technologies: [],
     category: 'operations',
     service: 'business-advisory',
     maturity: 'established',
@@ -79,6 +135,10 @@ export const USE_CASES = [
   },
   {
     id: 'management-dashboard',
+    outcomeGroup: 'execution',
+    pathwaySlug: 'strategy',
+    industries: ['general-smb', 'professional-services', 'retail-hospitality', 'manufacturing-ops'],
+    technologies: ['data-ai'],
     category: 'operations',
     service: 'business-advisory',
     maturity: 'established',
@@ -86,6 +146,10 @@ export const USE_CASES = [
   },
   {
     id: 'profitability-capacity',
+    outcomeGroup: 'execution',
+    pathwaySlug: 'strategy',
+    industries: ['professional-services', 'trades-field', 'general-smb'],
+    technologies: ['data-ai'],
     category: 'operations',
     service: 'business-advisory',
     maturity: 'ready',
@@ -93,6 +157,10 @@ export const USE_CASES = [
   },
   {
     id: 'repeatable-delivery',
+    outcomeGroup: 'execution',
+    pathwaySlug: 'strategy',
+    industries: ['professional-services', 'trades-field', 'technology-saas', 'manufacturing-ops'],
+    technologies: ['automation'],
     category: 'operations',
     service: 'business-advisory',
     maturity: 'ready',
@@ -100,6 +168,10 @@ export const USE_CASES = [
   },
   {
     id: 'digital-change-readiness',
+    outcomeGroup: 'execution',
+    pathwaySlug: 'strategy',
+    industries: ['general-smb', 'nonprofit-public', 'healthcare-wellness'],
+    technologies: ['automation'],
     category: 'decisions',
     service: 'business-advisory',
     maturity: 'ready',
@@ -107,6 +179,10 @@ export const USE_CASES = [
   },
   {
     id: 'customer-concentration',
+    outcomeGroup: 'execution',
+    pathwaySlug: 'strategy',
+    industries: ['professional-services', 'technology-saas', 'manufacturing-ops'],
+    technologies: [],
     category: 'risk',
     service: 'business-advisory',
     maturity: 'ready',
@@ -114,6 +190,10 @@ export const USE_CASES = [
   },
   {
     id: 'partnership-readiness',
+    outcomeGroup: 'execution',
+    pathwaySlug: 'strategy',
+    industries: ['technology-saas', 'professional-services', 'general-smb'],
+    technologies: [],
     category: 'decisions',
     service: 'business-advisory',
     maturity: 'ready',
@@ -121,6 +201,10 @@ export const USE_CASES = [
   },
   {
     id: 'technology-stack-review',
+    outcomeGroup: 'security-compliance',
+    pathwaySlug: 'cloud-infrastructure',
+    industries: ['general-smb', 'professional-services', 'healthcare-wellness'],
+    technologies: ['cloud-migration', 'security-mdr'],
     category: 'risk',
     service: 'technology-advisory',
     maturity: 'established',
@@ -128,6 +212,10 @@ export const USE_CASES = [
   },
   {
     id: 'platform-selection',
+    outcomeGroup: 'security-compliance',
+    pathwaySlug: 'cloud-infrastructure',
+    industries: ['general-smb', 'retail-hospitality', 'healthcare-wellness'],
+    technologies: ['cloud-migration', 'pos-checkout'],
     category: 'decisions',
     service: 'technology-advisory',
     maturity: 'established',
@@ -135,6 +223,10 @@ export const USE_CASES = [
   },
   {
     id: 'provider-comparison',
+    outcomeGroup: 'execution',
+    pathwaySlug: 'cloud-infrastructure',
+    industries: ['general-smb', 'retail-hospitality', 'nonprofit-public'],
+    technologies: ['communications', 'cloud-migration', 'security-mdr'],
     category: 'decisions',
     service: 'technology-advisory',
     maturity: 'established',
@@ -142,6 +234,10 @@ export const USE_CASES = [
   },
   {
     id: 'continuity-recovery',
+    outcomeGroup: 'security-compliance',
+    pathwaySlug: 'security',
+    industries: ['healthcare-wellness', 'professional-services', 'retail-hospitality', 'manufacturing-ops'],
+    technologies: ['cloud-migration', 'security-mdr'],
     category: 'risk',
     service: 'technology-advisory',
     maturity: 'ready',
@@ -149,6 +245,10 @@ export const USE_CASES = [
   },
   {
     id: 'cybersecurity-sourcing',
+    outcomeGroup: 'security-compliance',
+    pathwaySlug: 'security',
+    industries: ['healthcare-wellness', 'professional-services', 'nonprofit-public', 'technology-saas'],
+    technologies: ['security-mdr'],
     category: 'risk',
     service: 'technology-advisory',
     maturity: 'ready',
@@ -156,6 +256,10 @@ export const USE_CASES = [
   },
   {
     id: 'communications-modernization',
+    outcomeGroup: 'experience-products',
+    pathwaySlug: 'communications',
+    industries: ['general-smb', 'healthcare-wellness', 'retail-hospitality', 'professional-services'],
+    technologies: ['communications'],
     category: 'risk',
     service: 'technology-advisory',
     maturity: 'ready',
@@ -163,6 +267,10 @@ export const USE_CASES = [
   },
   {
     id: 'cloud-connectivity',
+    outcomeGroup: 'security-compliance',
+    pathwaySlug: 'cloud-infrastructure',
+    industries: ['manufacturing-ops', 'retail-hospitality', 'trades-field'],
+    technologies: ['cloud-migration'],
     category: 'risk',
     service: 'technology-advisory',
     maturity: 'ready',
@@ -170,6 +278,10 @@ export const USE_CASES = [
   },
   {
     id: 'technology-implementation',
+    outcomeGroup: 'execution',
+    pathwaySlug: 'cloud-infrastructure',
+    industries: ['general-smb', 'healthcare-wellness', 'manufacturing-ops'],
+    technologies: ['cloud-migration', 'automation'],
     category: 'operations',
     service: 'technology-advisory',
     maturity: 'established',
@@ -177,6 +289,10 @@ export const USE_CASES = [
   },
   {
     id: 'website-refresh',
+    outcomeGroup: 'experience-products',
+    pathwaySlug: 'digital-experience',
+    industries: ['professional-services', 'trades-field', 'retail-hospitality', 'healthcare-wellness'],
+    technologies: ['websites'],
     category: 'growth',
     service: 'website-design',
     maturity: 'proven',
@@ -184,6 +300,10 @@ export const USE_CASES = [
   },
   {
     id: 'lead-capture',
+    outcomeGroup: 'growth-visibility',
+    pathwaySlug: 'visibility',
+    industries: ['professional-services', 'trades-field', 'healthcare-wellness', 'retail-hospitality'],
+    technologies: ['websites', 'automation'],
     category: 'growth',
     service: 'website-design',
     maturity: 'proven',
@@ -191,6 +311,10 @@ export const USE_CASES = [
   },
   {
     id: 'custom-app',
+    outcomeGroup: 'experience-products',
+    pathwaySlug: 'digital-experience',
+    industries: ['technology-saas', 'retail-hospitality', 'manufacturing-ops', 'healthcare-wellness'],
+    technologies: ['websites', 'automation'],
     category: 'growth',
     service: 'digital-products',
     maturity: 'established',
@@ -198,6 +322,10 @@ export const USE_CASES = [
   },
   {
     id: 'client-portal',
+    outcomeGroup: 'experience-products',
+    pathwaySlug: 'digital-experience',
+    industries: ['professional-services', 'healthcare-wellness', 'nonprofit-public'],
+    technologies: ['websites', 'automation'],
     category: 'growth',
     service: 'digital-products',
     maturity: 'established',
@@ -205,6 +333,10 @@ export const USE_CASES = [
   },
   {
     id: 'integrations',
+    outcomeGroup: 'automation-ai',
+    pathwaySlug: 'automation-ai',
+    industries: ['retail-hospitality', 'manufacturing-ops', 'trades-field', 'general-smb'],
+    technologies: ['automation', 'pos-checkout'],
     category: 'operations',
     service: 'automation',
     maturity: 'established',
@@ -212,6 +344,10 @@ export const USE_CASES = [
   },
   {
     id: 'workflow-automation',
+    outcomeGroup: 'automation-ai',
+    pathwaySlug: 'automation-ai',
+    industries: ['general-smb', 'trades-field', 'professional-services', 'manufacturing-ops'],
+    technologies: ['automation'],
     category: 'operations',
     service: 'automation',
     maturity: 'established',
@@ -219,6 +355,10 @@ export const USE_CASES = [
   },
   {
     id: 'event-kit',
+    outcomeGroup: 'experience-products',
+    pathwaySlug: 'digital-experience',
+    industries: ['retail-hospitality', 'nonprofit-public', 'technology-saas', 'professional-services'],
+    technologies: ['websites', 'automation'],
     category: 'growth',
     service: 'digital-events',
     maturity: 'proven',
@@ -226,6 +366,10 @@ export const USE_CASES = [
   },
   {
     id: 'ai-workflows',
+    outcomeGroup: 'automation-ai',
+    pathwaySlug: 'automation-ai',
+    industries: ['professional-services', 'technology-saas', 'retail-hospitality', 'general-smb'],
+    technologies: ['ai-employee', 'automation'],
     category: 'operations',
     service: 'ai-agents',
     maturity: 'proven',
@@ -233,6 +377,10 @@ export const USE_CASES = [
   },
   {
     id: 'human-agent-operating-model',
+    outcomeGroup: 'automation-ai',
+    pathwaySlug: 'automation-ai',
+    industries: ['professional-services', 'technology-saas', 'general-smb'],
+    technologies: ['ai-employee'],
     category: 'operations',
     service: 'business-advisory',
     maturity: 'ready',
@@ -240,6 +388,10 @@ export const USE_CASES = [
   },
   {
     id: 'search-ai-visibility',
+    outcomeGroup: 'growth-visibility',
+    pathwaySlug: 'visibility',
+    industries: ['professional-services', 'trades-field', 'retail-hospitality', 'healthcare-wellness'],
+    technologies: ['search-visibility', 'websites'],
     category: 'growth',
     service: 'search-ai-visibility',
     maturity: 'established',
@@ -247,6 +399,10 @@ export const USE_CASES = [
   },
   {
     id: 'data-ai-readiness',
+    outcomeGroup: 'automation-ai',
+    pathwaySlug: 'automation-ai',
+    industries: ['technology-saas', 'healthcare-wellness', 'manufacturing-ops', 'professional-services'],
+    technologies: ['data-ai', 'ai-employee'],
     category: 'decisions',
     service: 'technology-advisory',
     maturity: 'ready',
@@ -254,6 +410,10 @@ export const USE_CASES = [
   },
   {
     id: 'shadow-ai-risk',
+    outcomeGroup: 'security-compliance',
+    pathwaySlug: 'security',
+    industries: ['professional-services', 'healthcare-wellness', 'technology-saas', 'nonprofit-public'],
+    technologies: ['ai-employee', 'security-mdr', 'data-ai'],
     category: 'risk',
     service: 'technology-advisory',
     maturity: 'ready',
@@ -261,6 +421,10 @@ export const USE_CASES = [
   },
   {
     id: 'managed-optimization',
+    outcomeGroup: 'growth-visibility',
+    pathwaySlug: 'visibility',
+    industries: ['professional-services', 'retail-hospitality', 'trades-field', 'general-smb'],
+    technologies: ['websites', 'search-visibility'],
     category: 'growth',
     service: 'managed-optimization',
     maturity: 'established',
@@ -268,12 +432,16 @@ export const USE_CASES = [
   },
   {
     id: 'technology-adoption',
+    outcomeGroup: 'execution',
+    pathwaySlug: 'automation-ai',
+    industries: ['general-smb', 'nonprofit-public', 'healthcare-wellness'],
+    technologies: ['automation', 'ai-employee'],
     category: 'operations',
     service: 'workshops',
     maturity: 'ready',
     portfolio: [] as const satisfies readonly CaseStudySlug[],
   },
-] as const
+] as const satisfies readonly UseCaseDefinition[]
 
 export type UseCaseId = (typeof USE_CASES)[number]['id']
 

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 880" role="img" aria-labelledby="title desc">
+  <title id="title">Roalla butterfly pyramid mark — modern concept</title>
+  <desc id="desc">A geometric butterfly formed by two angular wings around a central pyramid.</desc>
+
+  <!--
+    Modernization principles:
+    - six straight-edged facets instead of many organic curves
+    - exact bilateral symmetry for a precise, technology-led feel
+    - the centre reads as both a pyramid and the butterfly's body
+    - flat colour, no gradients or fine detail, for reliable reproduction
+  -->
+  <g fill="#00B4C5">
+    <!-- Upper wings -->
+    <path d="M454 222 86 116l168 410 174-83z"/>
+    <path d="m546 222 368-106-168 410-174-83z"/>
+
+    <!-- Lower wings -->
+    <path d="m428 478-168 82 119 196 89-211z"/>
+    <path d="m572 478 168 82-119 196-89-211z"/>
+  </g>
+
+  <!-- Pyramid / butterfly body -->
+  <path fill="#00B4C5" d="M500 188 698 756h-92L500 449 394 756h-92z"/>
+</svg>

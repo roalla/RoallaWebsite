@@ -1,0 +1,644 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - link "Skip to main content" [ref=e3] [cursor=pointer]:
+      - /url: "#main-content"
+    - navigation "Main navigation" [ref=e4]:
+      - generic [ref=e5]:
+        - link "ROALLA" [ref=e7] [cursor=pointer]:
+          - /url: /en
+          - generic [ref=e9]: ROALLA
+        - generic [ref=e11]:
+          - button "How We Help" [ref=e13] [cursor=pointer]:
+            - text: How We Help
+            - img [ref=e14]
+          - button "Ecosystem" [ref=e17] [cursor=pointer]:
+            - text: Ecosystem
+            - img [ref=e18]
+          - button "Advisory & Workshops" [active] [ref=e21] [cursor=pointer]:
+            - text: Advisory & Workshops
+            - img [ref=e22]
+          - button "Insights" [ref=e26] [cursor=pointer]:
+            - text: Insights
+            - img [ref=e27]
+        - generic [ref=e29]:
+          - button "Select language" [ref=e31] [cursor=pointer]:
+            - img [ref=e32]
+            - generic [ref=e37]: EN
+            - img [ref=e38]
+          - link "Sign in to the Roalla Client Portal" [ref=e40] [cursor=pointer]:
+            - /url: https://portal.roalla.com
+            - text: Client Portal
+          - generic [ref=e42]:
+            - link "Discuss your needs" [ref=e43] [cursor=pointer]:
+              - /url: /en/contact
+              - img [ref=e44]
+              - text: Discuss your needs
+            - tooltip "~3 min · No obligation · Reply in 1 business day"
+  - main [ref=e46]:
+    - generic [ref=e47]:
+      - generic [ref=e52]:
+        - paragraph [ref=e53]: Outcome-led advisory and delivery
+        - heading "Business outcomes first. Practical solutions delivered." [level=1] [ref=e54]:
+          - generic [ref=e55]: Business outcomes first.
+          - generic [ref=e56]: Practical solutions delivered.
+        - paragraph [ref=e58]: Tell us what needs to change. ROALLA defines the requirements, evaluates the practical options, and carries the right path through implementation—whether that means advising, sourcing, building, integrating, automating, applying AI, strengthening security, or improving what already exists.
+        - generic [ref=e59]:
+          - link "Tell us what needs to change" [ref=e60] [cursor=pointer]:
+            - /url: /en/contact
+            - text: Tell us what needs to change
+            - img [ref=e61]
+          - link "See common problems we solve" [ref=e63] [cursor=pointer]:
+            - /url: "#choose-your-situation"
+        - paragraph [ref=e64]: Tell us the need → fit reply in 1 business day → scoped next step. No obligation until you approve.
+        - paragraph [ref=e65]: Founder-led · Needs-led, not vendor-led · No vendor pitch on call one · Reply in 1 business day
+      - region "Senior attention from discovery through implementation" [ref=e66]:
+        - generic [ref=e67]:
+          - generic [ref=e68]:
+            - generic [ref=e69]:
+              - paragraph [ref=e70]: 30+
+              - paragraph [ref=e71]: years across business and technology
+            - generic [ref=e72]:
+              - paragraph [ref=e73]: 500+
+              - paragraph [ref=e74]: engagements and projects delivered
+            - generic [ref=e75]:
+              - paragraph [ref=e76]: "1"
+              - paragraph [ref=e77]: senior accountable lead throughout
+          - generic [ref=e78]:
+            - img "Steven Robin, Founder and Principal Consultant of ROALLA" [ref=e80]
+            - generic [ref=e81]:
+              - paragraph [ref=e82]: Senior attention from discovery through implementation
+              - paragraph [ref=e83]: Work directly with Steven Robin, ROALLA's founder and principal consultant, backed by enterprise leadership experience and hands-on technology delivery.
+              - paragraph [ref=e84]:
+                - img [ref=e85]
+                - text: No handoff to a junior delivery team
+            - link "Meet the founder" [ref=e88] [cursor=pointer]:
+              - /url: /en/about
+              - text: Meet the founder
+              - img [ref=e89]
+      - generic [ref=e93]:
+        - generic [ref=e94]:
+          - paragraph [ref=e95]: Start with the outcome
+          - heading "What needs to change next?" [level=2] [ref=e96]
+          - paragraph [ref=e97]: Choose the pressure that sounds most familiar. You do not need to diagnose the solution or know the service name before you begin.
+        - generic [ref=e98]:
+          - link "Be easier to find—and win more customers Strengthen visibility, trust, accessibility, and conversion across search, AI, and customer journeys. Explore growth and visibility" [ref=e100] [cursor=pointer]:
+            - /url: /en/solutions#growth-visibility
+            - img [ref=e102]
+            - heading "Be easier to find—and win more customers" [level=3] [ref=e106]
+            - paragraph [ref=e107]: Strengthen visibility, trust, accessibility, and conversion across search, AI, and customer journeys.
+            - generic [ref=e108]:
+              - text: Explore growth and visibility
+              - img [ref=e109]
+          - link "Improve an experience—or launch something new Create clearer customer and team experiences, products, services, websites, applications, or communications. Explore experiences and products" [ref=e112] [cursor=pointer]:
+            - /url: /en/solutions#experience-products
+            - img [ref=e114]
+            - heading "Improve an experience—or launch something new" [level=3] [ref=e117]
+            - paragraph [ref=e118]: Create clearer customer and team experiences, products, services, websites, applications, or communications.
+            - generic [ref=e119]:
+              - text: Explore experiences and products
+              - img [ref=e120]
+          - link "Automate valuable work—and apply AI with human control Reduce repetitive work, connect approved systems, and use governed automation or AI where the value is measurable. Explore automation and AI" [ref=e123] [cursor=pointer]:
+            - /url: /en/solutions#automation-ai
+            - img [ref=e125]
+            - heading "Automate valuable work—and apply AI with human control" [level=3] [ref=e127]
+            - paragraph [ref=e128]: Reduce repetitive work, connect approved systems, and use governed automation or AI where the value is measurable.
+            - generic [ref=e129]:
+              - text: Explore automation and AI
+              - img [ref=e130]
+          - link "Reduce risk, strengthen security, and support compliance Address security gaps, resilience, continuity, cloud and network foundations, and control ownership. Explore security and risk" [ref=e133] [cursor=pointer]:
+            - /url: /en/solutions#security-compliance
+            - img [ref=e135]
+            - heading "Reduce risk, strengthen security, and support compliance" [level=3] [ref=e138]
+            - paragraph [ref=e139]: Address security gaps, resilience, continuity, cloud and network foundations, and control ownership.
+            - generic [ref=e140]:
+              - text: Explore security and risk
+              - img [ref=e141]
+          - link "Turn priorities into focused, measurable execution Clarify direction, sequence decisions, assign owners, and carry the practical plan through implementation. Explore direction and execution" [ref=e144] [cursor=pointer]:
+            - /url: /en/solutions#execution
+            - img [ref=e146]
+            - heading "Turn priorities into focused, measurable execution" [level=3] [ref=e150]
+            - paragraph [ref=e151]: Clarify direction, sequence decisions, assign owners, and carry the practical plan through implementation.
+            - generic [ref=e152]:
+              - text: Explore direction and execution
+              - img [ref=e153]
+        - link "See common situations, outcomes, and next steps" [ref=e156] [cursor=pointer]:
+          - /url: /en/solutions
+          - text: See common situations, outcomes, and next steps
+          - img [ref=e157]
+      - generic [ref=e160]:
+        - generic [ref=e161]:
+          - paragraph [ref=e162]: A practical path
+          - heading "Move from pressure to a decision your team can use" [level=2] [ref=e163]
+          - paragraph [ref=e164]: The exact scope changes with the situation. The sequence stays grounded in the outcome, the evidence, and the people responsible for implementation.
+        - generic [ref=e165]:
+          - generic [ref=e166]:
+            - generic [ref=e167]:
+              - img [ref=e168]
+              - paragraph [ref=e171]: "01"
+            - heading "Clarify" [level=3] [ref=e172]
+            - paragraph [ref=e173]: Confirm the current state, the result that matters, the constraints, and how success will be measured.
+          - generic [ref=e174]:
+            - generic [ref=e175]:
+              - img [ref=e176]
+              - paragraph [ref=e179]: "02"
+            - heading "Evaluate" [level=3] [ref=e180]
+            - paragraph [ref=e181]: Compare the viable approaches against the same business, technical, risk, cost, and adoption criteria.
+          - generic [ref=e182]:
+            - generic [ref=e183]:
+              - img [ref=e184]
+              - paragraph [ref=e187]: "03"
+            - heading "Activate" [level=3] [ref=e188]
+            - paragraph [ref=e189]: Turn the decision into owned next steps, implementation milestones, and a useful review rhythm.
+        - link "Find my starting point" [ref=e191] [cursor=pointer]:
+          - /url: /en/assessment
+          - text: Find my starting point
+          - img [ref=e192]
+      - generic [ref=e196]:
+        - generic [ref=e197]:
+          - paragraph [ref=e198]: Proof you can see
+          - heading "Outcomes you can measure—and work you can click" [level=2] [ref=e199]
+          - paragraph [ref=e200]: The same accountable team guides strategy and delivers the sites and platforms your roadmap requires.
+        - generic [ref=e201]:
+          - generic [ref=e202]:
+            - heading "Digital Portfolio" [level=3] [ref=e203]
+            - paragraph [ref=e204]: Open a live site — every project below is in production.
+          - paragraph [ref=e205]: 6 websites · 5 digital products · 11 verified examples
+        - generic [ref=e206]:
+          - generic [ref=e207]:
+            - generic [ref=e208]:
+              - generic [ref=e210]: Live
+              - generic [ref=e211]: pitchhotshot.com
+            - link "pitchhotshot.com Pitch Hotshots — rehearse investor pitches and sales talks with AI scoring, delivery metrics, and stage-ready feedback Open live site" [ref=e212] [cursor=pointer]:
+              - /url: https://www.pitchhotshot.com/
+              - generic [ref=e213]:
+                - generic [ref=e218]: pitchhotshot.com
+                - generic [ref=e219]:
+                  - img "Pitch Hotshots — rehearse investor pitches and sales talks with AI scoring, delivery metrics, and stage-ready feedback" [ref=e220]
+                  - generic [ref=e221]: Open live site
+            - generic [ref=e222]:
+              - paragraph [ref=e223]: ROALLA product
+              - heading "Pitch Hotshots" [level=4] [ref=e224]
+              - generic [ref=e225]:
+                - generic [ref=e226]:
+                  - term [ref=e227]: "Need:"
+                  - definition [ref=e228]: A repeatable way to practise high-stakes presentations.
+                - generic [ref=e229]:
+                  - term [ref=e230]: "Delivered:"
+                  - definition [ref=e231]: An AI-assisted rehearsal and scoring platform.
+                - generic [ref=e232]:
+                  - term [ref=e233]: "Outcome:"
+                  - definition [ref=e234]: AI pitch rehearsal platform — scoring, delivery metrics, and feedback founders actually use.
+              - generic [ref=e235]:
+                - link "View case study" [ref=e236] [cursor=pointer]:
+                  - /url: /en/services/portfolio/pitch-hotshots
+                  - text: View case study
+                  - img [ref=e237]
+                - link "Open Pitch Hotshots live site" [ref=e239] [cursor=pointer]:
+                  - /url: https://www.pitchhotshot.com/
+                  - text: Open Pitch Hotshots live site
+                  - img [ref=e240]
+          - generic [ref=e244]:
+            - generic [ref=e245]:
+              - generic [ref=e247]: Live
+              - generic [ref=e248]: kaylankaptures.com
+            - link "kaylankaptures.com Kaylan Kaptures homepage — photography brand site with scenic hero, Book a Session CTA, and portfolio path Open live site" [ref=e249] [cursor=pointer]:
+              - /url: https://www.kaylankaptures.com/
+              - generic [ref=e250]:
+                - generic [ref=e255]: kaylankaptures.com
+                - generic [ref=e256]:
+                  - img "Kaylan Kaptures homepage — photography brand site with scenic hero, Book a Session CTA, and portfolio path" [ref=e257]
+                  - generic [ref=e258]: Open live site
+            - generic [ref=e259]:
+              - paragraph [ref=e260]: Client work
+              - heading "Kaylan Kaptures" [level=4] [ref=e261]
+              - generic [ref=e262]:
+                - generic [ref=e263]:
+                  - term [ref=e264]: "Need:"
+                  - definition [ref=e265]: A photography brand needed a clearer path from portfolio to booking.
+                - generic [ref=e266]:
+                  - term [ref=e267]: "Delivered:"
+                  - definition [ref=e268]: A conversion-focused website with service and booking journeys.
+                - generic [ref=e269]:
+                  - term [ref=e270]: "Outcome:"
+                  - definition [ref=e271]: Photography brand site with booking paths and a portfolio that converts inquiries.
+              - link "Open Kaylan Kaptures live site" [ref=e273] [cursor=pointer]:
+                - /url: https://www.kaylankaptures.com/
+                - text: Open Kaylan Kaptures live site
+                - img [ref=e274]
+          - generic [ref=e278]:
+            - generic [ref=e279]:
+              - generic [ref=e281]: Live
+              - generic [ref=e282]: ryanmuncegoaltending.com
+            - link "ryanmuncegoaltending.com Ryan Munce Goaltending homepage — elite goaltending camps, private training, instructor profiles, and Book with Ryan booking paths Open live site" [ref=e283] [cursor=pointer]:
+              - /url: https://www.ryanmuncegoaltending.com/
+              - generic [ref=e284]:
+                - generic [ref=e289]: ryanmuncegoaltending.com
+                - generic [ref=e290]:
+                  - img "Ryan Munce Goaltending homepage — elite goaltending camps, private training, instructor profiles, and Book with Ryan booking paths" [ref=e291]
+                  - generic [ref=e292]: Open live site
+            - generic [ref=e293]:
+              - paragraph [ref=e294]: Client work
+              - heading "Ryan Munce Goaltending" [level=4] [ref=e295]
+              - generic [ref=e296]:
+                - generic [ref=e297]:
+                  - term [ref=e298]: "Need:"
+                  - definition [ref=e299]: Players and parents struggled to find programs and booking options.
+                - generic [ref=e300]:
+                  - term [ref=e301]: "Delivered:"
+                  - definition [ref=e302]: A structured sports website with direct program and booking paths.
+                - generic [ref=e303]:
+                  - term [ref=e304]: "Outcome:"
+                  - definition [ref=e305]: Sports coaching site that makes programs and booking easy to find.
+              - link "Open Ryan Munce Goaltending live site" [ref=e307] [cursor=pointer]:
+                - /url: https://www.ryanmuncegoaltending.com/
+                - text: Open Ryan Munce Goaltending live site
+                - img [ref=e308]
+        - link "View full Digital Portfolio" [ref=e313] [cursor=pointer]:
+          - /url: /en/services/portfolio
+          - text: View full Digital Portfolio
+          - img [ref=e314]
+        - generic [ref=e316]:
+          - generic [ref=e317]:
+            - img [ref=e319]
+            - generic [ref=e322]:
+              - heading "Business Enablement outcomes" [level=3] [ref=e323]
+              - paragraph [ref=e324]: Strategy, planning, and execution with the discipline to implement—not just recommend.
+          - list [ref=e325]:
+            - listitem [ref=e326]:
+              - img [ref=e327]
+              - text: 90-day plans with aligned priorities and KPIs
+            - listitem [ref=e330]:
+              - img [ref=e331]
+              - text: Process improvements that reduce cycle time
+            - listitem [ref=e334]:
+              - img [ref=e335]
+              - text: Implementation support—not recommendations alone
+          - link "Explore Business Enablement" [ref=e338] [cursor=pointer]:
+            - /url: /en/services/business-advisory
+            - text: Explore Business Enablement
+            - img [ref=e339]
+      - generic [ref=e342]:
+        - paragraph [ref=e343]: One connected technology path
+        - heading "Buy, build, connect, or improve?" [level=2] [ref=e344]
+        - paragraph [ref=e345]: Start with the requirement—not a predetermined product. ROALLA helps choose the most practical path, then stays accountable through implementation and continuous improvement.
+        - list [ref=e346]:
+          - listitem [ref=e347]:
+            - link "01 Buy When an established platform or managed service fits, compare and source qualified options against clear requirements. Explore solution sourcing" [ref=e348] [cursor=pointer]:
+              - /url: /en/services/technology-advisory
+              - generic [ref=e349]:
+                - img [ref=e351]
+                - generic [ref=e356]: "01"
+              - heading "Buy" [level=3] [ref=e357]
+              - paragraph [ref=e358]: When an established platform or managed service fits, compare and source qualified options against clear requirements.
+              - generic [ref=e359]: Explore solution sourcing
+          - listitem [ref=e360]:
+            - link "02 Build When the need is unique or creates competitive value, design and build the website, application, or digital product. Explore digital products" [ref=e361] [cursor=pointer]:
+              - /url: /en/services/digital-products
+              - generic [ref=e362]:
+                - img [ref=e364]
+                - generic [ref=e368]: "02"
+              - heading "Build" [level=3] [ref=e369]
+              - paragraph [ref=e370]: When the need is unique or creates competitive value, design and build the website, application, or digital product.
+              - generic [ref=e371]: Explore digital products
+          - listitem [ref=e372]:
+            - link "03 Connect When the right systems already exist, integrate them, automate workflows, and improve how information moves. Explore integrations" [ref=e373] [cursor=pointer]:
+              - /url: /en/services/automation
+              - generic [ref=e374]:
+                - img [ref=e376]
+                - generic [ref=e380]: "03"
+              - heading "Connect" [level=3] [ref=e381]
+              - paragraph [ref=e382]: When the right systems already exist, integrate them, automate workflows, and improve how information moves.
+              - generic [ref=e383]: Explore integrations
+          - listitem [ref=e384]:
+            - link "04 Improve Support adoption, performance, visibility, security, and continuous optimization after launch. Explore managed optimization" [ref=e385] [cursor=pointer]:
+              - /url: /en/services/managed-optimization
+              - generic [ref=e386]:
+                - img [ref=e388]
+                - generic [ref=e393]: "04"
+              - heading "Improve" [level=3] [ref=e394]
+              - paragraph [ref=e395]: Support adoption, performance, visibility, security, and continuous optimization after launch.
+              - generic [ref=e396]: Explore managed optimization
+      - generic [ref=e399]:
+        - generic [ref=e400]:
+          - paragraph [ref=e401]: Why ROALLA
+          - heading "Advice and delivery stay connected" [level=2] [ref=e402]
+          - paragraph [ref=e403]: The person helping frame the decision remains accountable for turning it into a working result.
+        - generic [ref=e404]:
+          - generic [ref=e405]:
+            - img [ref=e407]
+            - heading "Needs-led" [level=3] [ref=e410]
+            - paragraph [ref=e411]: Requirements and business outcomes come before any platform, provider, or predetermined solution.
+          - generic [ref=e412]:
+            - img [ref=e414]
+            - heading "Founder-led" [level=3] [ref=e418]
+            - paragraph [ref=e419]: Work directly with an experienced decision-maker from discovery through implementation.
+          - generic [ref=e420]:
+            - img [ref=e422]
+            - heading "Implementation-accountable" [level=3] [ref=e427]
+            - paragraph [ref=e428]: Recommendations include practical ownership, milestones, and support through delivery and adoption.
+          - generic [ref=e429]:
+            - img [ref=e431]
+            - heading "Commercially transparent" [level=3] [ref=e434]
+            - paragraph [ref=e435]: Relevant partner relationships and compensation are disclosed before you commit.
+        - generic [ref=e436]:
+          - link "Need business direction too? Turn priorities into a practical execution plan Business advisory connects strategy, operations, leadership, and implementation—not recommendations alone. Explore Business Advisory" [ref=e437] [cursor=pointer]:
+            - /url: /en/services/business-advisory
+            - paragraph [ref=e438]: Need business direction too?
+            - heading "Turn priorities into a practical execution plan" [level=3] [ref=e439]
+            - paragraph [ref=e440]: Business advisory connects strategy, operations, leadership, and implementation—not recommendations alone.
+            - generic [ref=e441]:
+              - text: Explore Business Advisory
+              - img [ref=e442]
+          - link "Ready for AI that can act? Turn a valuable workflow into a governed AI agent ROALLA Agentic connects consulting, AI orchestration, integrations, human approvals, and measurable operations. Explore ROALLA Agentic" [ref=e444] [cursor=pointer]:
+            - /url: /en/services/ai-agents
+            - paragraph [ref=e445]: Ready for AI that can act?
+            - heading "Turn a valuable workflow into a governed AI agent" [level=3] [ref=e446]
+            - paragraph [ref=e447]: ROALLA Agentic connects consulting, AI orchestration, integrations, human approvals, and measurable operations.
+            - generic [ref=e448]:
+              - text: Explore ROALLA Agentic
+              - img [ref=e449]
+          - link "Need to become easier to find? Improve search and AI readability Strengthen technical SEO, structured data, content clarity, local presence, accessibility, and conversion signals. Explore Visibility Optimization" [ref=e451] [cursor=pointer]:
+            - /url: /en/services/search-ai-visibility
+            - paragraph [ref=e452]: Need to become easier to find?
+            - heading "Improve search and AI readability" [level=3] [ref=e453]
+            - paragraph [ref=e454]: Strengthen technical SEO, structured data, content clarity, local presence, accessibility, and conversion signals.
+            - generic [ref=e455]:
+              - text: Explore Visibility Optimization
+              - img [ref=e456]
+          - link "Need to reduce risk? Strengthen security and support compliance Identify material gaps, prioritize remediation, clarify control ownership, and compare qualified managed security options. Explore Security, Risk & Compliance" [ref=e458] [cursor=pointer]:
+            - /url: /en/services/security-risk-compliance
+            - paragraph [ref=e459]: Need to reduce risk?
+            - heading "Strengthen security and support compliance" [level=3] [ref=e460]
+            - paragraph [ref=e461]: Identify material gaps, prioritize remediation, clarify control ownership, and compare qualified managed security options.
+            - generic [ref=e462]:
+              - text: Explore Security, Risk & Compliance
+              - img [ref=e463]
+      - generic [ref=e467]:
+        - generic [ref=e468]:
+          - paragraph [ref=e469]: Delivered outcomes
+          - heading "What changed after the work" [level=2] [ref=e470]
+          - paragraph [ref=e471]: Specific results from live client sites and advisory delivery—named so you can verify the work.
+        - generic [ref=e472]:
+          - blockquote [ref=e473]:
+            - paragraph [ref=e474]: “Parents could find camps and book without calling first. The site sells the program before the phone rings.
+            - generic [ref=e475]:
+              - paragraph [ref=e476]: Ryan Munce
+              - paragraph [ref=e477]: Founder, elite goaltending development
+              - paragraph [ref=e478]: Ryan Munce Goaltending · live site
+          - blockquote [ref=e479]:
+            - paragraph [ref=e480]: “We stopped debating priorities in circles. Ninety days later we had owners, dates, and measures the board could follow.
+            - generic [ref=e481]:
+              - paragraph [ref=e482]: Operations lead
+              - paragraph [ref=e483]: Growth-stage services business
+              - paragraph [ref=e484]: Business advisory · 90-day operating plan
+          - blockquote [ref=e485]:
+            - paragraph [ref=e486]: “Weekly reporting stopped eating half a day. The workflow cut preparation from hours to minutes.
+            - generic [ref=e487]:
+              - paragraph [ref=e488]: Practice manager
+              - paragraph [ref=e489]: Multi-location professional services
+              - paragraph [ref=e490]: Workflow automation · internal ops
+        - generic [ref=e491]:
+          - link "View Digital Portfolio" [ref=e492] [cursor=pointer]:
+            - /url: /en/services/portfolio
+            - text: View Digital Portfolio
+            - img [ref=e493]
+          - link "Start a service inquiry" [ref=e495] [cursor=pointer]:
+            - /url: /en/contact
+      - region "The right relationship, clearly explained." [ref=e496]:
+        - generic [ref=e498]:
+          - generic [ref=e499]:
+            - paragraph [ref=e500]: Technology ecosystem
+            - heading "The right relationship, clearly explained." [level=2] [ref=e501]
+            - paragraph [ref=e502]: Explore partner, advisor, and vendor relationships that support ROALLA's technology advisory and delivery work. Pause on any name to see exactly what the relationship means.
+          - generic "ROALLA technology ecosystem" [ref=e505]:
+            - button "Open details for Telarus, categorized as Verified advisor relationship" [ref=e506] [cursor=pointer]:
+              - generic [ref=e508]: Verified advisor relationship
+            - button "Open details for Field Effect, categorized as Cybersecurity partner" [ref=e509] [cursor=pointer]:
+              - generic [ref=e511]: Cybersecurity partner
+            - button "Open details for Zoom, categorized as Verified supplier" [ref=e512] [cursor=pointer]:
+              - generic [ref=e514]: Verified supplier
+            - button "Open details for Dialpad, categorized as Provider" [ref=e515] [cursor=pointer]:
+              - generic [ref=e517]: Provider
+            - button "Open details for PolyAI, categorized as Provider" [ref=e518] [cursor=pointer]:
+              - generic [ref=e520]: Provider
+            - button "Open details for SpeechLogix, categorized as Independent reseller / BD intermediary" [ref=e521] [cursor=pointer]:
+              - generic [ref=e523]: Independent reseller / BD intermediary
+            - button "Open details for Lunavi, categorized as Service-focused partner" [ref=e524] [cursor=pointer]:
+              - generic [ref=e526]: Service-focused partner
+            - button "Open details for Equinix, categorized as Provider" [ref=e527] [cursor=pointer]:
+              - generic [ref=e529]: Provider
+            - button "Open details for TERAGO, categorized as Connectivity provider" [ref=e530] [cursor=pointer]:
+              - generic [ref=e532]: Connectivity provider
+            - button "Open details for Thrive, categorized as Service-focused partner" [ref=e533] [cursor=pointer]:
+              - generic [ref=e535]: Service-focused partner
+          - link "Explore the ecosystem" [ref=e537] [cursor=pointer]:
+            - /url: /en/partners/technology-providers
+            - text: Explore the ecosystem
+            - img [ref=e538]
+      - region "Make the next major decision with greater clarity." [ref=e540]:
+        - generic [ref=e543]:
+          - generic [ref=e544]:
+            - generic [ref=e545]:
+              - img [ref=e547]
+              - paragraph [ref=e549]: ROALLA Executive Insights
+            - heading "Make the next major decision with greater clarity." [level=2] [ref=e550]
+            - paragraph [ref=e551]: Explore executive frameworks for AI readiness, technology modernization, cybersecurity, acquisition preparation, growth, operations, and enterprise value.
+            - generic "Executive Insight topics" [ref=e552]:
+              - generic [ref=e553]: AI and governance
+              - generic [ref=e554]: Technology transformation
+              - generic [ref=e555]: Risk and resilience
+              - generic [ref=e556]: Enterprise value
+            - generic [ref=e557]:
+              - link "Explore Executive Insights" [ref=e558] [cursor=pointer]:
+                - /url: /en/executive-insights
+                - text: Explore Executive Insights
+                - img [ref=e559]
+              - generic [ref=e561]: 48 executive decision guides
+          - generic [ref=e565]:
+            - paragraph [ref=e566]: From insight to action
+            - paragraph [ref=e567]: Frame the decision. Test readiness. Sequence action.
+      - generic [ref=e570]:
+        - generic [ref=e571]:
+          - paragraph [ref=e572]: Practical guides
+          - heading "Useful next steps for common decisions" [level=2] [ref=e573]
+          - paragraph [ref=e574]: Three practical guides selected for visitors choosing technology, improving a website, or deciding what to automate first.
+        - generic [ref=e575]:
+          - link "5 min read Build, Buy or Integrate? How to Make a Better Technology Decision Move beyond vendor presentations and compare each option against clear business and technical requirements. Learn more" [ref=e577] [cursor=pointer]:
+            - /url: /en/insights/build-buy-or-integrate-technology
+            - generic [ref=e580]:
+              - generic [ref=e581]:
+                - img [ref=e582]
+                - paragraph [ref=e584]: 5 min read
+              - heading "Build, Buy or Integrate? How to Make a Better Technology Decision" [level=3] [ref=e585]
+              - paragraph [ref=e586]: Move beyond vendor presentations and compare each option against clear business and technical requirements.
+              - generic [ref=e587]:
+                - text: Learn more
+                - img [ref=e588]
+          - link "5 min read Do You Need a New Website or Just a Conversion Refresh? Repair what still works and rebuild only when structure, technology or brand prevents meaningful improvement. Learn more" [ref=e591] [cursor=pointer]:
+            - /url: /en/insights/website-redesign-or-conversion-refresh
+            - generic [ref=e594]:
+              - generic [ref=e595]:
+                - img [ref=e596]
+                - paragraph [ref=e598]: 5 min read
+              - heading "Do You Need a New Website or Just a Conversion Refresh?" [level=3] [ref=e599]
+              - paragraph [ref=e600]: Repair what still works and rebuild only when structure, technology or brand prevents meaningful improvement.
+              - generic [ref=e601]:
+                - text: Learn more
+                - img [ref=e602]
+          - link "5 min read What Should Your Business Automate First and What Should Stay Human? A practical way to choose automation that saves time while preserving ownership, judgment and customer care. Learn more" [ref=e605] [cursor=pointer]:
+            - /url: /en/insights/what-to-automate-first
+            - generic [ref=e608]:
+              - generic [ref=e609]:
+                - img [ref=e610]
+                - paragraph [ref=e612]: 5 min read
+              - heading "What Should Your Business Automate First and What Should Stay Human?" [level=3] [ref=e613]
+              - paragraph [ref=e614]: A practical way to choose automation that saves time while preserving ownership, judgment and customer care.
+              - generic [ref=e615]:
+                - text: Learn more
+                - img [ref=e616]
+        - link "Explore all 86+ insights" [ref=e619] [cursor=pointer]:
+          - /url: /en/insights
+          - text: Explore all 86+ insights
+          - img [ref=e620]
+      - generic [ref=e625]:
+        - heading "Find the right next step" [level=2] [ref=e626]
+        - paragraph [ref=e627]: Whether you are choosing technology, clarifying priorities, building something new, connecting systems, or improving what already exists, ROALLA will help identify the most practical entry point.
+        - generic [ref=e628]:
+          - generic [ref=e629]:
+            - link "Tell us what needs to change" [ref=e630] [cursor=pointer]:
+              - /url: /en/contact
+              - img [ref=e631]
+              - text: Tell us what needs to change
+            - paragraph [ref=e633]: ~3 min · No obligation · Reply in 1 business day
+          - generic "What happens next" [ref=e634]:
+            - paragraph [ref=e635]: What happens next
+            - list [ref=e636]:
+              - listitem [ref=e637]:
+                - generic [ref=e638]: "1"
+                - generic [ref=e639]:
+                  - generic [ref=e640]: Tell us the need
+                  - generic [ref=e641]: Three short questions about goal, timing, and constraints.
+              - listitem [ref=e642]:
+                - generic [ref=e643]: "2"
+                - generic [ref=e644]:
+                  - generic [ref=e645]: Get a fit reply
+                  - generic [ref=e646]: We respond in one business day with the right entry point—not a sales pitch.
+              - listitem [ref=e647]:
+                - generic [ref=e648]: "3"
+                - generic [ref=e649]:
+                  - generic [ref=e650]: Scoped next step
+                  - generic [ref=e651]: Book a call or receive a clear plan you can approve before any commitment.
+            - paragraph [ref=e652]: No obligation on the first inquiry. We do not lock you into a retainer, package, or timeline until you approve scope in writing.
+          - paragraph [ref=e653]: No retainer or package lock-in until you approve scope in writing.
+          - link "Prefer to start on your own? Take the 5-minute assessment" [ref=e654] [cursor=pointer]:
+            - /url: /en/assessment
+      - paragraph [ref=e658]:
+        - text: Questions?
+        - link "FAQ" [ref=e659] [cursor=pointer]:
+          - /url: /en/faq
+        - text: or
+        - link "contact us" [ref=e660] [cursor=pointer]:
+          - /url: /en/contact
+  - contentinfo [ref=e661]:
+    - generic [ref=e662]:
+      - generic [ref=e663]:
+        - generic [ref=e664]:
+          - link "ROALLA" [ref=e665] [cursor=pointer]:
+            - /url: /en
+            - generic [ref=e666]: ROALLA
+          - paragraph [ref=e667]: Advise, source, make agentic, build, connect, and improve the technology that supports growth and operations.
+          - paragraph [ref=e668]: Advise · Source · Agentic · Build / Connect · Improve
+        - generic [ref=e669]:
+          - paragraph [ref=e670]: Explore
+          - navigation "Explore" [ref=e671]:
+            - link "Digital Visibility Optimization" [ref=e672] [cursor=pointer]:
+              - /url: /en/services/search-ai-visibility
+            - link "Digital Enablement" [ref=e673] [cursor=pointer]:
+              - /url: /en/services/digital
+            - link "Websites" [ref=e674] [cursor=pointer]:
+              - /url: /en/website-design
+            - link "Digital products & applications" [ref=e675] [cursor=pointer]:
+              - /url: /en/services/digital-products
+            - link "Digital Events" [ref=e676] [cursor=pointer]:
+              - /url: /en/services/digital-events
+            - link "ROALLA Agentic" [ref=e677] [cursor=pointer]:
+              - /url: /en/services/ai-agents
+            - link "Integrations & Automation" [ref=e678] [cursor=pointer]:
+              - /url: /en/services/automation
+            - link "Security, Risk & Compliance" [ref=e679] [cursor=pointer]:
+              - /url: /en/services/security-risk-compliance
+            - link "Technology Advisory & Solution Sourcing" [ref=e680] [cursor=pointer]:
+              - /url: /en/services/technology-advisory
+            - link "Ongoing optimization & support" [ref=e681] [cursor=pointer]:
+              - /url: /en/services/managed-optimization
+            - link "Ecosystem" [ref=e682] [cursor=pointer]:
+              - /url: /en/partners
+            - link "Digital Portfolio" [ref=e683] [cursor=pointer]:
+              - /url: /en/services/portfolio
+            - link "Business Advisory" [ref=e684] [cursor=pointer]:
+              - /url: /en/services/business-advisory
+            - link "Team Workshops" [ref=e685] [cursor=pointer]:
+              - /url: /en/programs/workshops
+        - generic [ref=e686]:
+          - paragraph [ref=e687]: Company
+          - navigation "Company" [ref=e688]:
+            - link "About" [ref=e689] [cursor=pointer]:
+              - /url: /en/about
+            - link "Insights" [ref=e690] [cursor=pointer]:
+              - /url: /en/insights
+            - link "FAQ" [ref=e691] [cursor=pointer]:
+              - /url: /en/faq
+            - link "Ecosystem" [ref=e692] [cursor=pointer]:
+              - /url: /en/partners
+            - link "Contact" [ref=e693] [cursor=pointer]:
+              - /url: /en/contact
+        - generic [ref=e694]:
+          - paragraph [ref=e695]: Contact
+          - list [ref=e696]:
+            - listitem [ref=e697]:
+              - link "Send a message" [ref=e698] [cursor=pointer]:
+                - /url: /en/contact
+                - img [ref=e700]
+                - text: Send a message
+            - listitem [ref=e703]:
+              - link "(289) 838-5868" [ref=e704] [cursor=pointer]:
+                - /url: tel:289-838-5868
+                - img [ref=e706]
+                - text: (289) 838-5868
+          - generic [ref=e708]:
+            - link "Roalla on LinkedIn" [ref=e709] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/102042431/
+              - img [ref=e710]
+            - link "Roalla on YouTube" [ref=e714] [cursor=pointer]:
+              - /url: https://www.youtube.com/@RoallaGroup
+              - img [ref=e715]
+          - link "Discuss your needs" [ref=e718] [cursor=pointer]:
+            - /url: /en/contact
+            - img [ref=e719]
+            - text: Discuss your needs
+          - paragraph [ref=e721]: ~3 min · No obligation · Reply in 1 business day
+      - generic [ref=e722]:
+        - paragraph [ref=e723]: © 2026 Roalla Business Enablement Group. All Rights Reserved.
+        - generic [ref=e724]:
+          - link "Terms & Conditions" [ref=e725] [cursor=pointer]:
+            - /url: /en/terms
+          - link "Privacy Policy" [ref=e726] [cursor=pointer]:
+            - /url: /en/privacy
+          - link "AI Policy" [ref=e727] [cursor=pointer]:
+            - /url: /en/ai-policy
+          - link "Sign in to the Roalla Client Portal" [ref=e728] [cursor=pointer]:
+            - /url: https://portal.roalla.com
+            - text: Client Portal
+            - img [ref=e729]
+          - link "SSO Home" [ref=e732] [cursor=pointer]:
+            - /url: https://sso.roalla.com/home.html
+            - text: SSO Home
+            - img [ref=e733]
+          - link "Contact" [ref=e736] [cursor=pointer]:
+            - /url: /en/contact
+            - text: Contact
+            - img [ref=e737]
+```

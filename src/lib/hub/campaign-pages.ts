@@ -42,6 +42,30 @@ export const hubCampaignPages = [
     descKey: 'campaignDigitalAssetHealthReviewDesc',
   },
   {
+    id: 'connected-operations-review',
+    path: '/connected-operations-review',
+    titleKey: 'campaignConnectedOperationsReview',
+    descKey: 'campaignConnectedOperationsReviewDesc',
+  },
+  {
+    id: 'ai-employee-fit-review',
+    path: '/ai-employee-fit-review',
+    titleKey: 'campaignAiEmployeeFitReview',
+    descKey: 'campaignAiEmployeeFitReviewDesc',
+  },
+  {
+    id: 'security-risk-coverage-review',
+    path: '/security-risk-coverage-review',
+    titleKey: 'campaignSecurityRiskCoverageReview',
+    descKey: 'campaignSecurityRiskCoverageReviewDesc',
+  },
+  {
+    id: 'compliance-readiness-review',
+    path: '/compliance-readiness-review',
+    titleKey: 'campaignComplianceReadinessReview',
+    descKey: 'campaignComplianceReadinessReviewDesc',
+  },
+  {
     id: 'digital-visibility-optimization',
     path: '/services/search-ai-visibility',
     titleKey: 'campaignVisibilityService',

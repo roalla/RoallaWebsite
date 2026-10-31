@@ -48,4 +48,30 @@ describe('campaign review landing pages', () => {
     expect(campaignReviewContent['90-day-execution-plan'].fr.intent).toBe('consulting')
     expect(campaignReviewContent['capacity-pressure-review'].fr.intent).toBe('ai-support')
   })
+
+  it('adds connected operations, AI Employee, security coverage, and compliance readiness reviews', () => {
+    expect(campaignReviewIds).toEqual(
+      expect.arrayContaining([
+        'connected-operations-review',
+        'ai-employee-fit-review',
+        'security-risk-coverage-review',
+        'compliance-readiness-review',
+      ]),
+    )
+    expect(campaignReviewContent['connected-operations-review'].en).toMatchObject({
+      intent: 'consulting',
+      focus: 'technology',
+      servicePath: '/services/technology-advisory',
+    })
+    expect(campaignReviewContent['ai-employee-fit-review'].en).toMatchObject({
+      intent: 'consulting',
+      focus: 'technology',
+    })
+    expect(campaignReviewContent['security-risk-coverage-review'].fr.intent).toBe('security')
+    expect(campaignReviewContent['compliance-readiness-review'].en.servicePath).toBe(
+      '/services/security-risk-compliance',
+    )
+    expect(campaignReviewContent['compliance-readiness-review'].en.caveat).toContain('CPA firm')
+    expect(JSON.stringify(campaignReviewContent['ai-employee-fit-review'])).not.toMatch(/nextiva|xbert/i)
+  })
 })

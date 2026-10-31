@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 880" role="img" aria-labelledby="title desc">
+  <title id="title">Roalla butterfly pyramid mark — pure peak concept</title>
+  <desc id="desc">A bold pyramid framed by two uninterrupted geometric butterfly wings.</desc>
+
+  <g fill="#00B4C5">
+    <path d="M454 252 100 158l166 482 166-96z"/>
+    <path d="m546 252 354-94-166 482-166-96z"/>
+    <path d="m500 294 146 406H354z"/>
+  </g>
+</svg>

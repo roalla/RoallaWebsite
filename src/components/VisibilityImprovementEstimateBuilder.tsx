@@ -6,6 +6,8 @@ import { useLocale } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import {
   calculateVisibilityImprovementEstimate,
+  LOCAL_MAPS_PRICES,
+  type LocalMapsChoice,
   VISIBILITY_IMPROVEMENT_CORE_PRICE,
   VISIBILITY_IMPROVEMENT_PRICES,
 } from '@/lib/visibility-improvement-estimate'
@@ -24,28 +26,56 @@ const copy = {
     eyebrow: 'Visibility improvement estimator',
     title: 'Estimate search and AI visibility work for an existing site.',
     intro:
-      'Start with the required visibility foundation. Open additional options only if you want maps cleanup, a focused offer rewrite, or a recheck cadence.',
+      'Start with the required visibility foundation. Add Google Maps help, an offer rewrite, or a first-year recheck plan only if you need them.',
     requiredSection: 'Required',
     optionalSection: 'Optional add-ons',
     optionalSectionIntro: 'These are not required to request a scope confirmation.',
     included: 'Included',
     selected: 'Selected',
-    whatItIs: 'What it is',
-    whyItMatters: 'Why it matters',
+    recommended: 'Recommended',
+    whatItIs: 'What you get',
+    whyItMatters: 'Why it helps you',
     foundation: 'Visibility foundation',
     foundationWhat:
       'A focused package to improve how search tools and AI assistants find and describe your existing public site.',
     foundationWhy:
       'Helps the right customers discover and understand the business when configured properly (SEO, AEO, agentic AI). Rankings are not guaranteed.',
     extrasTitle: 'Additional options',
-    extrasLabel: 'I want maps cleanup, offer rewrite, or monitoring',
+    extrasLabel: 'I want Google Maps help, an offer rewrite, or monitoring',
     extrasValue: 'Open this only if you want optional visibility add-ons. Otherwise leave it unchecked.',
-    localMaps: 'Local and maps cleanup',
-    localMapsWhat: 'Align business name, address, hours, and map listings so public identity stays consistent.',
-    offerRewrite: 'Content rewrite for one offer',
-    offerRewriteWhat: 'Rewrite one primary offer page so people and search/AI systems can describe it clearly.',
-    monitoring: 'Recheck and monitoring cadence',
-    monitoringWhat: 'Scheduled rechecks through the first year so visibility work stays current after launch.',
+    mapsTitle: 'Do you want help showing up on Google Maps?',
+    mapsNeedIntro:
+      'Nearby customers often pick whoever looks correct and trustworthy on the map. Choose a level only if your listing needs work.',
+    mapsNone: 'No Google Maps help right now',
+    mapsNoneValue: 'Continue without Maps work. You can add it later.',
+    mapsChooseTitle: 'Choose how much Maps help you want',
+    mapsEssentials: 'Fix the basics',
+    mapsEssentialsWhat:
+      'We correct your Google Business Profile so name, address, hours, and phone match what customers should see.',
+    mapsEssentialsWhy: 'Stops wrong info that causes missed calls and “are they still open?” doubt.',
+    mapsEssentialsBestFor: 'Best when details are wrong or outdated',
+    mapsNearby: 'Ready for nearby customers',
+    mapsNearbyWhat:
+      'Basics plus categories, services, and listing consistency—and a photo review: we recommend which of your existing photos to use as cover and gallery (and how to present them). We do not shoot or create new photos.',
+    mapsNearbyWhy: 'Makes it easier for local searchers to choose you instead of a messy competitor listing.',
+    mapsNearbyBestFor: 'Best for most local businesses',
+    mapsCompete: 'Compete on the map',
+    mapsCompeteWhat:
+      'Ready-for-nearby work plus a deeper cleanup across common directories, Q&A readiness, and a short plan to keep the profile strong.',
+    mapsCompeteWhy: 'Helps you look more complete and credible when customers compare a few local options.',
+    mapsCompeteBestFor: 'Best when competitors already look polished on Maps',
+    offerRewrite: 'Rewrite one offer page',
+    offerRewriteWhat:
+      'ROALLA rewrites one primary service or offer page—headline, plain explanation, who it is for, and the next step—so visitors and search/AI tools can describe it accurately.',
+    offerRewriteWhy:
+      'Clearer pages reduce confusion and bounce. Customers understand what you sell and how to inquire; search and AI tools get facts they can trust. Rankings are not guaranteed.',
+    offerRewriteBestFor: 'Best when your main offer page is vague, outdated, or hard to explain in one sentence',
+    monitoring: 'First-year check-ins',
+    monitoringWhat:
+      'Scheduled reviews through the first year of the listing and site signals from your foundation work, with a short note on what drifted and what to fix next.',
+    monitoringWhy:
+      'Hours, pages, and listings change. Without check-ins, early wins fade and wrong details can return.',
+    monitoringBestFor: 'Best when you want light follow-up without a full monthly SEO retainer',
     codeTitle: 'Have a referral code?',
     codePlaceholder: 'Enter referral code',
     apply: 'Apply code',
@@ -71,31 +101,56 @@ const copy = {
     eyebrow: 'Estimateur d’amélioration de visibilité',
     title: 'Estimez le travail de visibilité recherche et IA pour un site existant.',
     intro:
-      'Commencez par la fondation de visibilité requise. Ouvrez les options seulement si vous voulez un nettoyage des cartes, une réécriture d’offre ou un rythme de revérification.',
+      'Commencez par la fondation de visibilité requise. Ajoutez l’aide Google Maps, une réécriture d’offre ou un plan de revérification seulement si vous en avez besoin.',
     requiredSection: 'Requis',
     optionalSection: 'Options facultatives',
     optionalSectionIntro: 'Ces éléments ne sont pas requis pour demander une confirmation de portée.',
     included: 'Inclus',
     selected: 'Sélectionné',
-    whatItIs: 'De quoi il s’agit',
-    whyItMatters: 'Pourquoi c’est important',
+    recommended: 'Recommandé',
+    whatItIs: 'Ce que vous obtenez',
+    whyItMatters: 'Pourquoi ça vous aide',
     foundation: 'Fondation de visibilité',
     foundationWhat:
       'Un forfait ciblé pour améliorer la façon dont les outils de recherche et les assistants IA trouvent et décrivent votre site public existant.',
     foundationWhy:
       'Aide les bons clients à découvrir et comprendre l’entreprise lorsque la configuration est adéquate (SEO, AEO, IA agentique). Aucun classement n’est garanti.',
     extrasTitle: 'Options supplémentaires',
-    extrasLabel: 'Je veux le nettoyage des cartes, une réécriture d’offre ou le suivi',
+    extrasLabel: 'Je veux de l’aide Google Maps, une réécriture d’offre ou le suivi',
     extrasValue: 'Ouvrez ceci seulement pour des options de visibilité. Sinon, laissez décoché.',
-    localMaps: 'Nettoyage local et cartes',
-    localMapsWhat:
-      'Alignez le nom, l’adresse, les heures et les fiches cartographiques pour une identité publique cohérente.',
-    offerRewrite: 'Réécriture du contenu pour une offre',
+    mapsTitle: 'Voulez-vous de l’aide pour apparaître sur Google Maps?',
+    mapsNeedIntro:
+      'Les clients du coin choisissent souvent qui paraît exact et digne de confiance sur la carte. Choisissez un niveau seulement si votre fiche a besoin de travail.',
+    mapsNone: 'Pas d’aide Google Maps pour le moment',
+    mapsNoneValue: 'Continuer sans travail Maps. Vous pourrez l’ajouter plus tard.',
+    mapsChooseTitle: 'Choisissez le niveau d’aide Maps',
+    mapsEssentials: 'Corriger l’essentiel',
+    mapsEssentialsWhat:
+      'Nous corrigeons votre fiche d’établissement Google pour que le nom, l’adresse, les heures et le téléphone correspondent à ce que les clients doivent voir.',
+    mapsEssentialsWhy: 'Réduit les infos fausses qui causent des appels manqués et des doutes « sont-ils encore ouverts? ».',
+    mapsEssentialsBestFor: 'Idéal quand les détails sont faux ou dépassés',
+    mapsNearby: 'Prêt pour les clients du coin',
+    mapsNearbyWhat:
+      'L’essentiel plus les catégories, services et la cohérence des listings—et une revue photo : nous recommandons lesquelles de vos photos existantes utiliser en couverture et en galerie (et comment les présenter). Nous ne photographions pas et ne créons pas de nouvelles images.',
+    mapsNearbyWhy: 'Facilite le choix pour les chercheurs locaux plutôt qu’un concurrent mal listé.',
+    mapsNearbyBestFor: 'Idéal pour la plupart des entreprises locales',
+    mapsCompete: 'Concourir sur la carte',
+    mapsCompeteWhat:
+      'Le forfait « prêt pour le coin » plus un nettoyage plus profond des annuaires courants, la préparation Q&R et un court plan pour garder la fiche solide.',
+    mapsCompeteWhy: 'Vous aide à paraître plus complet et crédible quand les clients comparent quelques options locales.',
+    mapsCompeteBestFor: 'Idéal quand les concurrents ont déjà une fiche soignée',
+    offerRewrite: 'Réécrire une page d’offre',
     offerRewriteWhat:
-      'Réécrivez une page d’offre principale pour que les personnes et les systèmes de recherche/IA la décrivent clairement.',
-    monitoring: 'Revérification et suivi',
+      'ROALLA réécrit une page de service ou d’offre principale—titre, explication simple, pour qui c’est, et la prochaine étape—pour que les visiteurs et les outils de recherche/IA la décrivent avec exactitude.',
+    offerRewriteWhy:
+      'Des pages plus claires réduisent la confusion et les départs rapides. Les clients comprennent ce que vous vendez et comment vous joindre; la recherche et l’IA obtiennent des faits fiables. Aucun classement n’est garanti.',
+    offerRewriteBestFor: 'Idéal quand votre page d’offre principale est vague, dépassée ou difficile à expliquer en une phrase',
+    monitoring: 'Suivis de la première année',
     monitoringWhat:
-      'Des revérifications planifiées pendant la première année pour garder le travail de visibilité à jour.',
+      'Des revues planifiées pendant la première année des signaux de fiche et de site issus de la fondation, avec une courte note sur ce qui a dérivé et quoi corriger ensuite.',
+    monitoringWhy:
+      'Les heures, pages et listings changent. Sans suivis, les gains s’effacent et de mauvaises infos peuvent revenir.',
+    monitoringBestFor: 'Idéal si vous voulez un suivi léger sans forfait SEO mensuel complet',
     codeTitle: 'Avez-vous un code de recommandation?',
     codePlaceholder: 'Entrez le code',
     apply: 'Appliquer',
@@ -131,7 +186,7 @@ export default function VisibilityImprovementEstimateBuilder() {
   const t = copy[french ? 'fr' : 'en']
   const money = useMemo(() => (amount: number) => formatCad(amount, french ? 'fr' : 'en'), [french])
   const [showExtras, setShowExtras] = useState(false)
-  const [localMaps, setLocalMaps] = useState(false)
+  const [localMaps, setLocalMaps] = useState<LocalMapsChoice>('none')
   const [offerRewrite, setOfferRewrite] = useState(false)
   const [monitoring, setMonitoring] = useState(false)
   const [code, setCode] = useState('')
@@ -139,8 +194,9 @@ export default function VisibilityImprovementEstimateBuilder() {
   const [referralApplied, setReferralApplied] = useState(false)
   const [codeStatus, setCodeStatus] = useState<'idle' | 'loading' | 'invalid' | 'error'>('idle')
 
+  const activeLocalMaps: LocalMapsChoice = showExtras ? localMaps : 'none'
   const estimate = calculateVisibilityImprovementEstimate({
-    localMaps: showExtras && localMaps,
+    localMaps: activeLocalMaps,
     offerRewrite: showExtras && offerRewrite,
     monitoring: showExtras && monitoring,
     referralDiscount: referralApplied,
@@ -149,15 +205,24 @@ export default function VisibilityImprovementEstimateBuilder() {
   const toggleExtras = (checked: boolean) => {
     setShowExtras(checked)
     if (!checked) {
-      setLocalMaps(false)
+      setLocalMaps('none')
       setOfferRewrite(false)
       setMonitoring(false)
     }
   }
 
+  const mapsSummaryLabel =
+    activeLocalMaps === 'none'
+      ? null
+      : activeLocalMaps === 'essentials'
+        ? t.mapsEssentials
+        : activeLocalMaps === 'nearby'
+          ? t.mapsNearby
+          : t.mapsCompete
+
   const selectionLines = [
     t.coreServices,
-    showExtras && localMaps ? t.localMaps : null,
+    mapsSummaryLabel,
     showExtras && offerRewrite ? t.offerRewrite : null,
     showExtras && monitoring ? t.monitoring : null,
     referralApplied
@@ -217,20 +282,49 @@ export default function VisibilityImprovementEstimateBuilder() {
     ...(appliedReferralCode ? { estimate_referral_code: appliedReferralCode } : {}),
   }
 
-  const optionalItems = [
+  const mapsOptions: Array<{
+    value: Exclude<LocalMapsChoice, 'none'>
+    label: string
+    what: string
+    why: string
+    bestFor: string
+    price: number
+    recommended?: boolean
+  }> = [
     {
-      key: 'localMaps' as const,
-      label: t.localMaps,
-      detail: t.localMapsWhat,
-      price: VISIBILITY_IMPROVEMENT_PRICES.localMaps,
-      checked: localMaps,
-      setChecked: setLocalMaps,
-      icon: MapPin,
+      value: 'essentials',
+      label: t.mapsEssentials,
+      what: t.mapsEssentialsWhat,
+      why: t.mapsEssentialsWhy,
+      bestFor: t.mapsEssentialsBestFor,
+      price: LOCAL_MAPS_PRICES.essentials,
     },
+    {
+      value: 'nearby',
+      label: t.mapsNearby,
+      what: t.mapsNearbyWhat,
+      why: t.mapsNearbyWhy,
+      bestFor: t.mapsNearbyBestFor,
+      price: LOCAL_MAPS_PRICES.nearby,
+      recommended: true,
+    },
+    {
+      value: 'compete',
+      label: t.mapsCompete,
+      what: t.mapsCompeteWhat,
+      why: t.mapsCompeteWhy,
+      bestFor: t.mapsCompeteBestFor,
+      price: LOCAL_MAPS_PRICES.compete,
+    },
+  ]
+
+  const optionalItems = [
     {
       key: 'offerRewrite' as const,
       label: t.offerRewrite,
-      detail: t.offerRewriteWhat,
+      what: t.offerRewriteWhat,
+      why: t.offerRewriteWhy,
+      bestFor: t.offerRewriteBestFor,
       price: VISIBILITY_IMPROVEMENT_PRICES.offerRewrite,
       checked: offerRewrite,
       setChecked: setOfferRewrite,
@@ -239,7 +333,9 @@ export default function VisibilityImprovementEstimateBuilder() {
     {
       key: 'monitoring' as const,
       label: t.monitoring,
-      detail: t.monitoringWhat,
+      what: t.monitoringWhat,
+      why: t.monitoringWhy,
+      bestFor: t.monitoringBestFor,
       price: VISIBILITY_IMPROVEMENT_PRICES.monitoring,
       checked: monitoring,
       setChecked: setMonitoring,
@@ -323,30 +419,128 @@ export default function VisibilityImprovementEstimateBuilder() {
               </label>
 
               {showExtras ? (
-                <div className="mt-4 grid gap-3 border-t border-slate-200 pt-5 sm:grid-cols-1">
-                  {optionalItems.map(({ key, label, detail, price, checked, setChecked, icon: Icon }) => (
-                    <label
-                      key={key}
-                      className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition ${checked ? tileSelected : tileIdle}`}
-                    >
+                <div className="mt-4 space-y-6 border-t border-slate-200 pt-5">
+                  <div>
+                    <h3 className="flex items-center gap-2 font-serif text-lg font-bold text-slate-950">
+                      <MapPin className="h-5 w-5 text-primary" aria-hidden />
+                      {t.mapsTitle}
+                    </h3>
+                    <p className="mt-2 text-sm leading-6 text-slate-700">{t.mapsNeedIntro}</p>
+
+                    <label className={`mt-4 flex cursor-pointer items-start gap-3 rounded-xl border p-4 ${localMaps === 'none' ? tileSelected : tileIdle}`}>
                       <input
                         className="mt-1 h-4 w-4 accent-primary"
-                        type="checkbox"
-                        checked={checked}
-                        onChange={(event) => setChecked(event.target.checked)}
+                        type="radio"
+                        name="local-maps"
+                        checked={localMaps === 'none'}
+                        onChange={() => setLocalMaps('none')}
                       />
                       <span className="min-w-0 flex-1">
-                        <span className="flex flex-wrap items-center justify-between gap-2">
-                          <span className="flex items-center gap-2 font-semibold text-slate-900">
-                            <Icon className="h-4 w-4 text-primary" aria-hidden />
-                            {label}
-                          </span>
-                          <span className="font-bold tabular-nums text-primary-dark">{money(price)}</span>
+                        <span className="flex flex-wrap items-center gap-2">
+                          <span className="font-semibold text-slate-950">{t.mapsNone}</span>
+                          {localMaps === 'none' ? (
+                            <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span>
+                          ) : null}
                         </span>
-                        <span className="mt-1 block text-sm leading-6 text-slate-700">{detail}</span>
+                        <span className="mt-1 block text-sm leading-6 text-slate-700">{t.mapsNoneValue}</span>
                       </span>
                     </label>
-                  ))}
+
+                    {localMaps !== 'none' ? (
+                      <p className="mt-5 text-sm font-bold uppercase tracking-[0.14em] text-primary-dark">{t.mapsChooseTitle}</p>
+                    ) : (
+                      <p className="mt-5 text-sm font-semibold text-slate-800">{t.mapsChooseTitle}</p>
+                    )}
+
+                    <div className="mt-3 grid gap-3">
+                      {mapsOptions.map((option) => {
+                        const selected = localMaps === option.value
+                        return (
+                          <label
+                            key={option.value}
+                            className={`cursor-pointer rounded-xl border p-4 ${selected ? tileSelected : tileIdle}`}
+                          >
+                            <input
+                              className="sr-only"
+                              type="radio"
+                              name="local-maps"
+                              value={option.value}
+                              checked={selected}
+                              onChange={() => setLocalMaps(option.value)}
+                            />
+                            <span className="flex flex-wrap items-start justify-between gap-3">
+                              <span className="flex min-w-0 flex-wrap items-center gap-2">
+                                <span className="font-semibold text-slate-950">{option.label}</span>
+                                {selected ? (
+                                  <span className="inline-flex rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-white">{t.selected}</span>
+                                ) : null}
+                                {option.recommended ? (
+                                  <span className="inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-800">
+                                    {t.recommended}
+                                  </span>
+                                ) : null}
+                              </span>
+                              <span className="flex items-center gap-2">
+                                <span className="font-bold tabular-nums text-primary-dark">{money(option.price)}</span>
+                                {selected ? <CheckCircle className="h-5 w-5 shrink-0 text-primary-dark" aria-hidden /> : null}
+                              </span>
+                            </span>
+                            <span className="mt-3 grid gap-2 sm:grid-cols-2">
+                              <span className="rounded-xl bg-slate-50 p-3">
+                                <span className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">{t.whatItIs}</span>
+                                <span className="mt-1.5 block text-sm leading-6 text-slate-800">{option.what}</span>
+                              </span>
+                              <span className="rounded-xl bg-primary/5 p-3">
+                                <span className="block text-[11px] font-bold uppercase tracking-wider text-primary-dark">{t.whyItMatters}</span>
+                                <span className="mt-1.5 block text-sm leading-6 text-slate-800">{option.why}</span>
+                              </span>
+                            </span>
+                            <span className="mt-3 block border-t border-slate-200 pt-3 text-xs font-semibold text-primary-dark">
+                              {option.bestFor}
+                            </span>
+                          </label>
+                        )
+                      })}
+                    </div>
+                  </div>
+
+                  <div className="grid gap-3">
+                    {optionalItems.map(({ key, label, what, why, bestFor, price, checked, setChecked, icon: Icon }) => (
+                      <label
+                        key={key}
+                        className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 ${checked ? tileSelected : tileIdle}`}
+                      >
+                        <input
+                          className="mt-1 h-4 w-4 accent-primary"
+                          type="checkbox"
+                          checked={checked}
+                          onChange={(event) => setChecked(event.target.checked)}
+                        />
+                        <span className="min-w-0 flex-1">
+                          <span className="flex flex-wrap items-center justify-between gap-2">
+                            <span className="flex items-center gap-2 font-semibold text-slate-900">
+                              <Icon className="h-4 w-4 text-primary" aria-hidden />
+                              {label}
+                            </span>
+                            <span className="font-bold tabular-nums text-primary-dark">{money(price)}</span>
+                          </span>
+                          <span className="mt-3 grid gap-2 sm:grid-cols-2">
+                            <span className="rounded-xl bg-slate-50 p-3">
+                              <span className="block text-[11px] font-bold uppercase tracking-wider text-slate-600">{t.whatItIs}</span>
+                              <span className="mt-1.5 block text-sm leading-6 text-slate-800">{what}</span>
+                            </span>
+                            <span className="rounded-xl bg-primary/5 p-3">
+                              <span className="block text-[11px] font-bold uppercase tracking-wider text-primary-dark">{t.whyItMatters}</span>
+                              <span className="mt-1.5 block text-sm leading-6 text-slate-800">{why}</span>
+                            </span>
+                          </span>
+                          <span className="mt-3 block border-t border-slate-200 pt-3 text-xs font-semibold text-primary-dark">
+                            {bestFor}
+                          </span>
+                        </span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
               ) : null}
             </fieldset>
@@ -428,9 +622,9 @@ export default function VisibilityImprovementEstimateBuilder() {
                   <dd className="font-semibold tabular-nums">–{money(estimate.referralDiscount)}</dd>
                 </div>
               ) : null}
-              {estimate.localMaps > 0 ? (
+              {estimate.localMaps > 0 && mapsSummaryLabel ? (
                 <div className="flex justify-between gap-4">
-                  <dt className="text-slate-700">{t.localMaps}</dt>
+                  <dt className="text-slate-700">{mapsSummaryLabel}</dt>
                   <dd className="font-semibold tabular-nums text-slate-900">{money(estimate.localMaps)}</dd>
                 </div>
               ) : null}

@@ -125,7 +125,9 @@ function headerStartsOverDark(pathname: string): boolean {
 
 function observeHeaderTone(
   onChange: (overDark: boolean) => void,
+  pathname: string,
 ): () => void {
+  let mutationObserver: MutationObserver | null = null;
   let observer: IntersectionObserver | null = null;
   let frame: number | null = null;
   const intersecting = new Set<Element>();
@@ -135,7 +137,7 @@ function observeHeaderTone(
     intersecting.clear();
     const targets = document.querySelectorAll('[data-header-tone="dark"]');
     if (targets.length === 0) {
-      onChange(false);
+      onChange(headerStartsOverDark(pathname));
       return;
     }
     const bottomInset = Math.max(window.innerHeight - HEADER_TONE_BAND_PX, 0);
@@ -162,8 +164,18 @@ function observeHeaderTone(
 
   schedule();
   window.addEventListener("resize", schedule);
+  if (typeof MutationObserver !== "undefined" && document.body) {
+    mutationObserver = new MutationObserver(schedule);
+    mutationObserver.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["data-header-tone"],
+      childList: true,
+      subtree: true,
+    });
+  }
   return () => {
     window.removeEventListener("resize", schedule);
+    mutationObserver?.disconnect();
     if (frame !== null) window.cancelAnimationFrame(frame);
     observer?.disconnect();
   };
@@ -241,7 +253,7 @@ const Header = ({
     };
   }, [pathname]);
 
-  useEffect(() => observeHeaderTone(setOverDark), [pathname]);
+  useEffect(() => observeHeaderTone(setOverDark, pathname), [pathname]);
 
   useEffect(() => {
     if (!isMenuOpen) return;
@@ -552,14 +564,43 @@ const Header = ({
     },
   ];
 
-  const moreHelpLinks = [
-    { nameKey: "technologyAdvisory" as const, href: "/services/technology-advisory" as const },
-    { nameKey: "digitalWebsites" as const, href: "/website-design" as const },
-    { nameKey: "helpDigitalProducts" as const, href: "/services/digital-products" as const },
-    { nameKey: "helpConnectAutomate" as const, href: "/services/automation" as const },
-    { nameKey: "helpSecurityServices" as const, href: "/services/security-risk-compliance" as const },
-    { nameKey: "helpManagedOptimization" as const, href: "/services/managed-optimization" as const },
-    { nameKey: "helpDevelopTeam" as const, href: "/programs/workshops" as const },
+  /** Capability links regrouped under the five customer outcomes. Workshops live in Advisory & Workshops. */
+  const capabilityGroups = [
+    {
+      headingKey: "helpGroupGrowth" as const,
+      links: [
+        { nameKey: "digitalVisibility" as const, href: "/services/search-ai-visibility" as const },
+      ],
+    },
+    {
+      headingKey: "helpGroupExperience" as const,
+      links: [
+        { nameKey: "websitesAndDigital" as const, href: "/services/digital" as const },
+        { nameKey: "digitalWebsites" as const, href: "/website-design" as const },
+        { nameKey: "helpDigitalProducts" as const, href: "/services/digital-products" as const },
+        { nameKey: "digitalEvents" as const, href: "/services/digital-events" as const },
+      ],
+    },
+    {
+      headingKey: "helpGroupAutomation" as const,
+      links: [
+        { nameKey: "agentic" as const, href: "/services/ai-agents" as const },
+        { nameKey: "digitalAutomation" as const, href: "/services/automation" as const },
+      ],
+    },
+    {
+      headingKey: "helpGroupSecurity" as const,
+      links: [
+        { nameKey: "helpSecurityServices" as const, href: "/services/security-risk-compliance" as const },
+        { nameKey: "technologyAdvisory" as const, href: "/services/technology-advisory" as const },
+      ],
+    },
+    {
+      headingKey: "helpGroupOngoing" as const,
+      links: [
+        { nameKey: "helpManagedOptimization" as const, href: "/services/managed-optimization" as const },
+      ],
+    },
   ];
 
   const ecosystemLinks = [
@@ -956,31 +997,48 @@ const Header = ({
                         {t("browseOutcomesCta")}
                         <ArrowRight className="h-4 w-4" aria-hidden />
                       </Link>
-                      <div className="mt-5 border-t border-white/10 pt-4">
-                        <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500">
-                          {t("helpMorePathsHeading")}
-                        </p>
-                        <div className="mt-2 space-y-1">
-                          {moreHelpLinks.map((item) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              role="menuitem"
-                              aria-current={isCurrentHref(item.href) ? "page" : undefined}
-                              onClick={() => {
-                                setDigitalDropdownOpen(false);
-                                closeMenu();
-                              }}
-                              className="group flex items-center justify-between gap-2 rounded-md px-2 py-2 text-xs font-semibold text-slate-300 transition-colors hover:bg-white/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                            >
-                              {t(item.nameKey)}
-                              <ArrowRight className="h-3.5 w-3.5 shrink-0 opacity-60" aria-hidden />
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
                     </section>
                   </div>
+                  <section
+                    role="group"
+                    aria-labelledby="explore-capabilities-heading"
+                    className="border-t border-white/10 px-5 py-4"
+                  >
+                    <p
+                      id="explore-capabilities-heading"
+                      className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-400"
+                    >
+                      {t("helpMorePathsHeading")}
+                    </p>
+                    <div className="mt-3 grid grid-cols-5 gap-x-4">
+                      {capabilityGroups.map((group) => (
+                        <div key={group.headingKey} className="min-w-0">
+                          <p className="px-2 pb-1 text-[11px] font-bold uppercase tracking-[0.12em] text-primary">
+                            {t(group.headingKey)}
+                          </p>
+                          <div className="space-y-0.5">
+                            {group.links.map((item) => (
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                role="menuitem"
+                                aria-current={isCurrentHref(item.href) ? "page" : undefined}
+                                onClick={() => {
+                                  setDigitalDropdownOpen(false);
+                                  closeMenu();
+                                }}
+                                className={`block rounded-md px-2 py-1.5 text-xs font-semibold leading-snug transition-colors hover:bg-white/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                                  isCurrentHref(item.href) ? "bg-primary/10 text-primary" : "text-slate-300"
+                                }`}
+                              >
+                                {t(item.nameKey)}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
                   <Link
                     href="/assessment"
                     role="menuitem"
@@ -1605,17 +1663,24 @@ const Header = ({
                     <p className="px-5 pb-1 pt-2 text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500">
                       {t("helpMorePathsHeading")}
                     </p>
-                    {moreHelpLinks.map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        aria-current={isCurrentHref(item.href) ? "page" : undefined}
-                        className="flex min-h-[44px] items-center justify-between gap-3 rounded-md py-2.5 pl-5 pr-3 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
-                        onClick={(event) => handleMobileNavClick(event, item.href)}
-                      >
-                        {t(item.nameKey)}
-                        <ArrowRight className="h-4 w-4 shrink-0 opacity-60" aria-hidden />
-                      </Link>
+                    {capabilityGroups.map((group) => (
+                      <div key={group.headingKey}>
+                        <p className="px-5 pb-0.5 pt-2 text-[11px] font-bold uppercase tracking-[0.12em] text-primary">
+                          {t(group.headingKey)}
+                        </p>
+                        {group.links.map((item) => (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            aria-current={isCurrentHref(item.href) ? "page" : undefined}
+                            className="flex min-h-[44px] items-center justify-between gap-3 rounded-md py-2.5 pl-5 pr-3 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
+                            onClick={(event) => handleMobileNavClick(event, item.href)}
+                          >
+                            {t(item.nameKey)}
+                            <ArrowRight className="h-4 w-4 shrink-0 opacity-60" aria-hidden />
+                          </Link>
+                        ))}
+                      </div>
                     ))}
                     <Link
                       href="/assessment"

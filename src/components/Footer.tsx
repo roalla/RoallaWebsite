@@ -16,12 +16,18 @@ const companyLinks = [
   { nameKey: 'contact' as const, href: '/contact' as const },
 ]
 
+// Ordered by outcome: Growth, Experience, Automation/AI, Security/cloud/network, Ongoing.
 const exploreLinks = [
-  { nameKey: 'technologyAdvisory' as const, href: '/services/technology-advisory' as const },
-  { nameKey: 'security' as const, href: '/services/security-risk-compliance' as const },
-  { nameKey: 'agentic' as const, href: '/services/ai-agents' as const },
-  { nameKey: 'digitalEnablement' as const, href: '/services/digital' as const },
   { nameKey: 'digitalVisibility' as const, href: '/services/search-ai-visibility' as const },
+  { nameKey: 'digitalEnablement' as const, href: '/services/digital' as const },
+  { nameKey: 'websites' as const, href: '/website-design' as const },
+  { nameKey: 'digitalProducts' as const, href: '/services/digital-products' as const },
+  { nameKey: 'digitalEvents' as const, href: '/services/digital-events' as const },
+  { nameKey: 'agentic' as const, href: '/services/ai-agents' as const },
+  { nameKey: 'automation' as const, href: '/services/automation' as const },
+  { nameKey: 'security' as const, href: '/services/security-risk-compliance' as const },
+  { nameKey: 'technologyAdvisory' as const, href: '/services/technology-advisory' as const },
+  { nameKey: 'managedOptimization' as const, href: '/services/managed-optimization' as const },
   { nameKey: 'partners' as const, href: '/partners' as const },
   { nameKey: 'ourWork' as const, href: '/services/portfolio' as const },
   { nameKey: 'programs' as const, href: '/services/business-advisory' as const },

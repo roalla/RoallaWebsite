@@ -405,10 +405,17 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
   useEffect(() => {
     try {
       const stored = JSON.parse(localStorage.getItem("roalla-communications-value-brief") || "{}");
+      const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+      const situationParam = params?.get("situation");
+      const validSituations = new Set(["pots-legacy", "current-cloud-unsure", "fragmented", "renewal"]);
+      const fromQuery =
+        situationParam && validSituations.has(situationParam)
+          ? (situationParam as CommunicationsValueBriefInput["situation"])
+          : null;
       if (stored && typeof stored === "object") {
         setInput((current) => ({
           ...current,
-          situation: stored.situation ?? current.situation,
+          situation: fromQuery ?? stored.situation ?? current.situation,
           scope: stored.scope ?? current.scope,
           scale: stored.scale ?? current.scale,
           frictions: Array.isArray(stored.frictions)
@@ -421,6 +428,8 @@ export default function CommunicationsValueBrief({ locale }: { locale: string })
           valuePerMissed: typeof stored.valuePerMissed === "number" ? stored.valuePerMissed : current.valuePerMissed,
         }));
         // Never auto-open results — user must finish the wizard again.
+      } else if (fromQuery) {
+        setInput((current) => ({ ...current, situation: fromQuery }));
       }
     } catch {
       /* ignore */

@@ -33,6 +33,8 @@ export type AnalyticsEventName =
   | "communications_value_brief_pdf"
   | "communications_value_brief_contact"
   | "communications_value_brief_started"
+  | "plain_language_brief_complete"
+  | "plain_language_brief_contact"
   | "workshop_finder_completed"
   | "workshop_impact_saved"
   | "visibility_review_started"

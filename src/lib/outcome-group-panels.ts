@@ -111,6 +111,10 @@ const growthEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA helps you estimate and launch a practical first website package—website address, clear offer messaging, and the basics that help customers find and contact you.',
+      image: {
+        src: '/images/insights/library/website-after-launch.webp',
+        alt: 'New business website ready to launch for customers who cannot find you online yet',
+      },
       evidencePath: '/website-estimate',
       evidenceLabel: 'Estimate a website launch package',
       evidenceNote:
@@ -142,6 +146,10 @@ const growthEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA checks how easy it is to find you, whether your public page is clear, and what to fix first—then turns that into a practical action list.',
+      image: {
+        src: '/images/insights/library/search-and-ai-visibility.webp',
+        alt: 'Search and visibility signals that help buyers find a business online',
+      },
       evidencePath: '/tools/digital-presence-snapshot',
       evidenceLabel: 'Check my website',
       evidenceNote: 'Free website check. No email required. Public landing page only.',
@@ -174,6 +182,10 @@ const growthEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA walks the customer path with you, clarifies the offer and next step, then prioritizes the highest-value changes before a rebuild.',
+      image: {
+        src: '/images/insights/library/website-redesign-or-conversion-refresh.webp',
+        alt: 'Landing page path from visit to inquiry when traffic does not convert',
+      },
       evidencePath: '/tools/digital-presence-snapshot',
       evidenceLabel: 'Review the path to action',
       evidenceNote: 'A focused check can separate unclear messaging from friction in the next step—before you rebuild.',
@@ -204,6 +216,10 @@ const growthEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA helps make your public story clear so customers, search, and AI assistants describe you accurately—then points to the highest-value fixes first.',
+      image: {
+        src: '/images/insights/library/how-ai-systems-understand-websites.webp',
+        alt: 'How search and AI systems read a public website to describe a business',
+      },
       evidencePath: '/website-ai-visibility-review',
       evidenceLabel: 'Check how search and AI describe you',
       evidenceNote: 'Start with what the public can already see—no technical project required to begin.',
@@ -236,6 +252,10 @@ const growthEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA helps you check whether emails reach the inbox, then sequences practical fixes—starting with how you send and who you email—before a bigger campaign overhaul.',
+      image: {
+        src: '/images/insights/library/professional-email-avoid-spam-phishing.webp',
+        alt: 'Professional email deliverability so campaign messages reach the inbox',
+      },
       evidencePath: '/tools/email-reach-brief',
       evidenceLabel: 'Check if your emails are getting through',
       evidenceNote: 'A short plain-language brief—optional to talk with us afterward.',
@@ -320,6 +340,10 @@ const growthFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA vous aide à estimer et lancer un premier forfait Web pratique—adresse du site, message d’offre clair, et les bases pour que les clients vous trouvent et vous joignent.',
+      image: {
+        src: '/images/insights/library/website-after-launch.webp',
+        alt: 'Nouveau site Web prêt à lancer pour les clients qui ne vous trouvent pas encore en ligne',
+      },
       evidencePath: '/website-estimate',
       evidenceLabel: 'Estimer un forfait de lancement Web',
       evidenceNote:
@@ -351,6 +375,10 @@ const growthFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA vérifie à quel point vous êtes faciles à trouver, si la page publique est claire, et quoi corriger en premier—puis transforme cela en liste d’actions concrètes.',
+      image: {
+        src: '/images/insights/library/search-and-ai-visibility.webp',
+        alt: 'Signaux de recherche et de visibilité qui aident les acheteurs à trouver une entreprise en ligne',
+      },
       evidencePath: '/tools/digital-presence-snapshot',
       evidenceLabel: 'Vérifier mon site',
       evidenceNote: 'Vérification gratuite du site. Aucun courriel requis. Page d’arrivée publique seulement.',
@@ -383,6 +411,10 @@ const growthFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA parcourt le chemin client avec vous, clarifie l’offre et la prochaine étape, puis priorise les changements les plus utiles avant une refonte.',
+      image: {
+        src: '/images/insights/library/website-redesign-or-conversion-refresh.webp',
+        alt: 'Parcours de page d’arrivée de la visite à la demande lorsque le trafic ne convertit pas',
+      },
       evidencePath: '/tools/digital-presence-snapshot',
       evidenceLabel: 'Examiner le chemin vers l’action',
       evidenceNote: 'Une vérification ciblée sépare un message flou de la friction à l’étape suivante—avant une refonte.',
@@ -413,6 +445,10 @@ const growthFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA clarifie votre récit public pour que clients, recherche et assistants IA vous décrivent avec justesse—puis indique les correctifs les plus utiles en premier.',
+      image: {
+        src: '/images/insights/library/how-ai-systems-understand-websites.webp',
+        alt: 'Comment la recherche et l’IA lisent un site public pour décrire une entreprise',
+      },
       evidencePath: '/website-ai-visibility-review',
       evidenceLabel: 'Voir comment la recherche et l’IA vous décrivent',
       evidenceNote: 'Commencez par ce que le public peut déjà voir—aucun projet technique requis pour débuter.',
@@ -445,6 +481,10 @@ const growthFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA vous aide à vérifier si les courriels atteignent la boîte de réception, puis séquence des correctifs pratiques—en commençant par comment vous envoyez et à qui—avant une plus grande refonte de campagne.',
+      image: {
+        src: '/images/insights/library/professional-email-avoid-spam-phishing.webp',
+        alt: 'Délivrabilité du courriel professionnel pour que les campagnes atteignent la boîte de réception',
+      },
       evidencePath: '/tools/email-reach-brief',
       evidenceLabel: 'Vérifier si vos courriels passent',
       evidenceNote: 'Un court aperçu en langage simple—parler avec nous ensuite est optionnel.',
@@ -529,6 +569,10 @@ const experienceEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA helps define the smallest useful experience for one audience and one outcome—before a long feature list becomes the plan.',
+      image: {
+        src: '/images/insights/library/website-portal-or-custom-app.webp',
+        alt: 'Choosing a clearer website or digital product for one audience and outcome',
+      },
       evidencePath: '/digital-product-discovery',
       evidenceLabel: 'Frame the smallest useful build',
       evidenceNote: 'A short discovery—no finished project plan required to start.',
@@ -561,6 +605,10 @@ const experienceEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA checks what is blocking customers on your live site or app, then separates urgent risk from useful improvement and routine care.',
+      image: {
+        src: '/images/insights/library/contrast-text-size-accessibility-conversion.webp',
+        alt: 'Customer journey friction between discovery, choice, and contact',
+      },
       evidencePath: '/digital-asset-health-review',
       evidenceLabel: 'Check what’s blocking customers online',
       evidenceNote: 'Start with a practical baseline of the live experience—before a rebuild.',
@@ -591,6 +639,10 @@ const experienceEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA helps capture what you need from call handling and customer follow-up first—so provider talks stay grounded in your requirements.',
+      image: {
+        src: '/images/insights/library/analog-to-ip-business-telephony.webp',
+        alt: 'Call handling and contact-centre operations that miss customer follow-up',
+      },
       evidencePath: '/tools/communications-value-brief',
       evidenceLabel: 'Build a Communications Value Brief',
       evidenceNote: 'Free guided brief—talking with us afterward is optional.',
@@ -622,6 +674,10 @@ const experienceEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA helps define the unified communications and interconnect requirements first—phones, apps, users, and locations—so options are compared on the same criteria.',
+      image: {
+        src: '/images/insights/library/build-buy-or-integrate-technology.webp',
+        alt: 'Phones and unified communications that must interconnect with business apps',
+      },
       evidencePath: '/tools/communications-value-brief',
       evidenceLabel: 'Build a Communications Value Brief',
       evidenceNote: 'Free guided brief—talking with us afterward is optional.',
@@ -653,6 +709,10 @@ const experienceEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA frames channels, skills, knowledge, integrations, and human handoff in vendor-neutral terms—so you know whether an AI Employee fits before choosing a platform.',
+      image: {
+        src: '/images/insights/library/practical-ai-use-cases.webp',
+        alt: 'AI Employee covering frontline channels with human handoff',
+      },
       evidencePath: '/ai-employee',
       evidenceLabel: 'Explore AI Employee by industry',
       evidenceNote: 'See industry use cases, then check fit before a platform shortlist.',
@@ -684,6 +744,10 @@ const experienceEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA helps define the smallest useful in-person checkout experience for one audience and one outcome—before a long feature list or hardware choice drives scope.',
+      image: {
+        src: '/images/insights/library/trade-show-leads-after-qr-scan.webp',
+        alt: 'In-person checkout and on-site digital experience at the counter',
+      },
       evidencePath: '/digital-product-discovery',
       evidenceLabel: 'Frame the smallest useful build',
       evidenceNote: 'A short discovery—no finished project plan required to start.',
@@ -762,6 +826,10 @@ const experienceFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA aide à définir la plus petite expérience utile pour un public et un résultat—avant qu’une longue liste de fonctions ne devienne le plan.',
+      image: {
+        src: '/images/insights/library/website-portal-or-custom-app.webp',
+        alt: 'Choisir un site ou un produit numérique plus clair pour un public et un résultat',
+      },
       evidencePath: '/digital-product-discovery',
       evidenceLabel: 'Cadre la plus petite réalisation utile',
       evidenceNote: 'Une courte découverte—aucun plan de projet finalisé requis pour commencer.',
@@ -794,6 +862,10 @@ const experienceFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA vérifie ce qui bloque les clients sur votre site ou appli en ligne, puis sépare risque urgent, amélioration utile et entretien courant.',
+      image: {
+        src: '/images/insights/library/contrast-text-size-accessibility-conversion.webp',
+        alt: 'Friction du parcours client entre découverte, choix et contact',
+      },
       evidencePath: '/digital-asset-health-review',
       evidenceLabel: 'Voir ce qui bloque les clients en ligne',
       evidenceNote: 'Commencez par une référence pratique de l’expérience en ligne—avant une refonte.',
@@ -824,6 +896,10 @@ const experienceFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA aide à capturer ce dont vous avez besoin pour la gestion des appels et le suivi client d’abord—pour que les échanges fournisseurs restent ancrés dans vos exigences.',
+      image: {
+        src: '/images/insights/library/analog-to-ip-business-telephony.webp',
+        alt: 'Gestion des appels et centre de contact qui font rater le suivi client',
+      },
       evidencePath: '/tools/communications-value-brief',
       evidenceLabel: 'Créer un brief valeur communications',
       evidenceNote: 'Brief guidé gratuit—en parler ensuite est optionnel.',
@@ -855,6 +931,10 @@ const experienceFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA aide à définir d’abord les exigences de communications unifiées et d’interconnexion—téléphones, applications, utilisateurs et sites—pour comparer les options selon les mêmes critères.',
+      image: {
+        src: '/images/insights/library/build-buy-or-integrate-technology.webp',
+        alt: 'Téléphones et communications unifiées à interconnecter avec les applications d’affaires',
+      },
       evidencePath: '/tools/communications-value-brief',
       evidenceLabel: 'Créer un brief valeur communications',
       evidenceNote: 'Brief guidé gratuit—en parler ensuite est optionnel.',
@@ -886,6 +966,10 @@ const experienceFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA cadre canaux, compétences, connaissances, intégrations et relais humain sans parti pris fournisseur—pour savoir si un employé IA convient avant de choisir une plateforme.',
+      image: {
+        src: '/images/insights/library/practical-ai-use-cases.webp',
+        alt: 'Employé IA couvrant les canaux de première ligne avec relais humain',
+      },
       evidencePath: '/ai-employee',
       evidenceLabel: 'Explorer l’employé IA par industrie',
       evidenceNote: 'Voir les cas d’usage par industrie, puis vérifier l’adéquation avant une liste de plateformes.',
@@ -917,6 +1001,10 @@ const experienceFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA aide à définir la plus petite expérience de paiement en personne utile pour un public et un résultat—avant qu’une longue liste de fonctions ou un choix de matériel dicte la portée.',
+      image: {
+        src: '/images/insights/library/trade-show-leads-after-qr-scan.webp',
+        alt: 'Paiement en personne et expérience numérique sur place au comptoir',
+      },
       evidencePath: '/digital-product-discovery',
       evidenceLabel: 'Cadre la plus petite réalisation utile',
       evidenceNote: 'Une courte découverte—aucun plan de projet finalisé requis pour commencer.',
@@ -1677,6 +1765,10 @@ const securityEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA helps lock requirements and residual-risk tolerance at the start of diligence—so the first gap list is prioritized and any later shortlist is comparable and disclosure-ready.',
+      image: {
+        src: '/images/insights/library/it-provider-who-owns-risk.webp',
+        alt: 'Security gaps exposed during early diligence and questionnaires',
+      },
       evidencePath: '/technology-decision-review',
       evidenceLabel: 'Start with decision criteria',
       evidenceNote: 'Free decision review—requirements before a product shortlist.',
@@ -1707,6 +1799,10 @@ const securityEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA clarifies continuous detection and response requirements, current coverage, and ownership—so managed security options can be compared fairly.',
+      image: {
+        src: '/images/insights/library/data-ownership-leaving-software-platform.webp',
+        alt: 'Around-the-clock threat detection and response coverage',
+      },
       evidencePath: '/security-risk-coverage-review',
       evidenceLabel: 'Review security coverage',
       evidenceNote: 'Free review—coverage and response requirements before a provider shortlist.',
@@ -1737,6 +1833,10 @@ const securityEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA helps decide the operating model—internal, co-managed, or managed—based on capacity, obligations, and risk tolerance, starting from the same coverage review.',
+      image: {
+        src: '/images/insights/library/owner-is-the-capacity-problem.webp',
+        alt: 'IT team capacity stretched across security operations and daily support',
+      },
       evidencePath: '/security-risk-coverage-review',
       evidenceLabel: 'Review security coverage',
       evidenceNote: 'Same free review—includes the operating-model question: in-house, co-managed, or managed.',
@@ -1767,6 +1867,10 @@ const securityEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA provides SOC 2 readiness support—scope, control gaps, evidence, and ownership. Independent examinations remain with a qualified CPA firm.',
+      image: {
+        src: '/images/insights/library/what-to-expect-soc-2-examination-saas.webp',
+        alt: 'SOC 2 readiness before an independent examination',
+      },
       evidencePath: '/compliance-readiness-review',
       evidenceLabel: 'Check SOC 2 readiness',
       evidenceNote: 'Free readiness review—not an attestation or audit opinion.',
@@ -1797,6 +1901,10 @@ const securityEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA compares migration and hosting approaches on the same criteria—cost, risk, support, and who operates what—before you commit.',
+      image: {
+        src: '/images/insights/library/cloud-backup-sync-recovery-differences.webp',
+        alt: 'Data, server, or infrastructure migration between environments',
+      },
       evidencePath: '/technology-decision-review',
       evidenceLabel: 'Start with decision criteria',
       evidenceNote: 'Free decision review—requirements before a product shortlist.',
@@ -1828,6 +1936,10 @@ const securityEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA clarifies reliability needs and success measures first, then compares options that fit how you actually operate.',
+      image: {
+        src: '/images/insights/library/technology-renewal-checklist.webp',
+        alt: 'Network and connectivity reliability for sites, users, and systems',
+      },
       evidencePath: '/technology-decision-review',
       evidenceLabel: 'Start with decision criteria',
       evidenceNote: 'Free decision review—requirements before a product shortlist.',
@@ -1908,6 +2020,10 @@ const securityFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA aide à figer les exigences et la tolérance au risque résiduel dès le début de la diligence—pour une première liste d’écarts priorisée et une éventuelle shortlist comparable et prête à la divulgation.',
+      image: {
+        src: '/images/insights/library/it-provider-who-owns-risk.webp',
+        alt: 'Écarts de sécurité exposés pendant une diligence ou un questionnaire',
+      },
       evidencePath: '/technology-decision-review',
       evidenceLabel: 'Commencer par les critères de décision',
       evidenceNote: 'Revue de décision gratuite—exigences avant une shortlist de produits.',
@@ -1938,6 +2054,10 @@ const securityFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA clarifie les exigences de détection et de réponse continues, la couverture actuelle et les responsabilités—pour comparer équitablement les options de sécurité gérée.',
+      image: {
+        src: '/images/insights/library/data-ownership-leaving-software-platform.webp',
+        alt: 'Couverture de détection et de réponse aux menaces jour et nuit',
+      },
       evidencePath: '/security-risk-coverage-review',
       evidenceLabel: 'Examiner la couverture de sécurité',
       evidenceNote: 'Revue gratuite—couverture et exigences de réponse avant une shortlist de fournisseurs.',
@@ -1968,6 +2088,10 @@ const securityFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA aide à choisir le modèle d’exploitation—interne, cogéré ou géré—selon la capacité, les obligations et la tolérance au risque, à partir de la même revue de couverture.',
+      image: {
+        src: '/images/insights/library/owner-is-the-capacity-problem.webp',
+        alt: 'Capacité TI étirée entre opérations de sécurité et soutien quotidien',
+      },
       evidencePath: '/security-risk-coverage-review',
       evidenceLabel: 'Examiner la couverture de sécurité',
       evidenceNote: 'Même revue gratuite—inclut la question du modèle d’exploitation : interne, cogéré ou géré.',
@@ -1998,6 +2122,10 @@ const securityFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA offre un soutien à la préparation SOC 2—portée, écarts de contrôle, preuves et responsabilités. Les examens indépendants relèvent d’un cabinet de CPA qualifié.',
+      image: {
+        src: '/images/insights/library/what-to-expect-soc-2-examination-saas.webp',
+        alt: 'Préparation SOC 2 avant un examen indépendant',
+      },
       evidencePath: '/compliance-readiness-review',
       evidenceLabel: 'Vérifier la préparation SOC 2',
       evidenceNote: 'Revue de préparation gratuite—ni attestation ni opinion d’audit.',
@@ -2028,6 +2156,10 @@ const securityFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA compare les approches de migration et d’hébergement selon les mêmes critères—coût, risque, soutien et qui exploite quoi—avant de vous engager.',
+      image: {
+        src: '/images/insights/library/cloud-backup-sync-recovery-differences.webp',
+        alt: 'Migration de données, serveurs ou infrastructure entre environnements',
+      },
       evidencePath: '/technology-decision-review',
       evidenceLabel: 'Commencer par les critères de décision',
       evidenceNote: 'Revue de décision gratuite—exigences avant une shortlist de produits.',
@@ -2059,6 +2191,10 @@ const securityFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA clarifie d’abord les besoins de fiabilité et les mesures de réussite, puis compare les options adaptées à votre façon d’opérer.',
+      image: {
+        src: '/images/insights/library/technology-renewal-checklist.webp',
+        alt: 'Fiabilité réseau et connectivité pour sites, utilisateurs et systèmes',
+      },
       evidencePath: '/technology-decision-review',
       evidenceLabel: 'Commencer par les critères de décision',
       evidenceNote: 'Revue de décision gratuite—exigences avant une shortlist de produits.',
@@ -2139,6 +2275,10 @@ const executionEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA helps narrow to a 90-day sequence with owners and a clear outcome measure—so progress is visible without adding headcount.',
+      image: {
+        src: '/images/insights/library/what-should-you-stop-doing-this-quarter.webp',
+        alt: 'Too many competing priorities without a shared ranking',
+      },
       evidencePath: '/tools/ninety-day-plan-brief',
       evidenceLabel: 'Sketch a 90-day plan',
       evidenceNote: 'A short plain-language brief—optional to talk with us afterward.',
@@ -2169,6 +2309,10 @@ const executionEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA helps replace open status updates with a short review rhythm—owners, next actions, and one outcome the team reviews every week.',
+      image: {
+        src: '/images/insights/library/meetings-moving-business-or-reporting-past.webp',
+        alt: 'Plans that stall between meetings without owned next actions',
+      },
       evidencePath: '/tools/ninety-day-plan-brief',
       evidenceLabel: 'Sketch a 90-day plan',
       evidenceNote: 'A short plain-language brief—optional to talk with us afterward.',
@@ -2199,6 +2343,10 @@ const executionEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA helps write who owns the outcome, who decides trade-offs, and which few measures the team will actually review.',
+      image: {
+        src: '/images/insights/library/minimum-monthly-owner-dashboard.webp',
+        alt: 'Unclear ownership and measures for execution progress',
+      },
       evidencePath: '/tools/ninety-day-plan-brief',
       evidenceLabel: 'Sketch a 90-day plan',
       evidenceNote: 'A short plain-language brief—optional to talk with us afterward.',
@@ -2274,6 +2422,10 @@ const executionFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA aide à réduire à une séquence de 90 jours avec responsables et une mesure de résultat claire—pour que le progrès soit visible sans ajouter d’effectifs.',
+      image: {
+        src: '/images/insights/library/what-should-you-stop-doing-this-quarter.webp',
+        alt: 'Trop de priorités concurrentes sans classement partagé',
+      },
       evidencePath: '/tools/ninety-day-plan-brief',
       evidenceLabel: 'Esquisser un plan de 90 jours',
       evidenceNote: 'Un court aperçu en langage simple—en parler ensuite est optionnel.',
@@ -2304,6 +2456,10 @@ const executionFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA aide à remplacer les mises à jour ouvertes par un court rythme de revue—responsables, prochaines actions et un résultat que l’équipe revoit chaque semaine.',
+      image: {
+        src: '/images/insights/library/meetings-moving-business-or-reporting-past.webp',
+        alt: 'Plans qui bloquent entre les réunions sans prochaines actions assignées',
+      },
       evidencePath: '/tools/ninety-day-plan-brief',
       evidenceLabel: 'Esquisser un plan de 90 jours',
       evidenceNote: 'Un court aperçu en langage simple—en parler ensuite est optionnel.',
@@ -2334,6 +2490,10 @@ const executionFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA aide à écrire qui possède le résultat, qui décide des arbitrages, et quelles quelques mesures l’équipe revoit vraiment.',
+      image: {
+        src: '/images/insights/library/minimum-monthly-owner-dashboard.webp',
+        alt: 'Responsabilités et mesures floues pour le suivi de l’exécution',
+      },
       evidencePath: '/tools/ninety-day-plan-brief',
       evidenceLabel: 'Esquisser un plan de 90 jours',
       evidenceNote: 'Un court aperçu en langage simple—en parler ensuite est optionnel.',

@@ -184,6 +184,72 @@ describe('outcome group panels', () => {
     },
   )
 
+  it.each(['en', 'fr'] as const)('gives growth-visibility situations picture tiles for %s', (locale) => {
+    const copy = getOutcomeGroupPanelCopy('growth-visibility', locale)
+
+    expect(copy.situations.every((item) => Boolean(item.image?.src && item.image.alt))).toBe(true)
+    expect(copy.situations.map((item) => item.id)).toEqual([
+      'no-presence',
+      'findability',
+      'conversion',
+      'ai-clarity',
+      'email-deliverability',
+    ])
+    expect(copy.situations.find((item) => item.id === 'findability')?.image?.src).toContain(
+      'search-and-ai-visibility',
+    )
+    expect(copy.situations.find((item) => item.id === 'email-deliverability')?.image?.src).toContain(
+      'professional-email',
+    )
+  })
+
+  it.each(['en', 'fr'] as const)('gives experience-products situations picture tiles for %s', (locale) => {
+    const copy = getOutcomeGroupPanelCopy('experience-products', locale)
+
+    expect(copy.situations.every((item) => Boolean(item.image?.src && item.image.alt))).toBe(true)
+    expect(copy.situations.find((item) => item.id === 'website-or-product')?.image?.src).toContain(
+      'website-portal-or-custom-app',
+    )
+    expect(copy.situations.find((item) => item.id === 'communications')?.image?.src).toContain(
+      'analog-to-ip-business-telephony',
+    )
+    expect(copy.situations.find((item) => item.id === 'point-of-sale')?.image?.src).toContain(
+      'trade-show-leads-after-qr-scan',
+    )
+  })
+
+  it.each(['en', 'fr'] as const)('gives security-compliance situations picture tiles for %s', (locale) => {
+    const copy = getOutcomeGroupPanelCopy('security-compliance', locale)
+
+    expect(copy.situations.every((item) => Boolean(item.image?.src && item.image.alt))).toBe(true)
+    expect(copy.situations.find((item) => item.id === 'security-gaps')?.image?.src).toContain(
+      'it-provider-who-owns-risk',
+    )
+    expect(copy.situations.find((item) => item.id === 'compliance-readiness')?.image?.src).toContain(
+      'what-to-expect-soc-2',
+    )
+    expect(copy.situations.find((item) => item.id === 'network')?.image?.src).toContain(
+      'technology-renewal-checklist',
+    )
+  })
+
+  it.each(['en', 'fr'] as const)('gives execution situations picture tiles for %s', (locale) => {
+    const copy = getOutcomeGroupPanelCopy('execution', locale)
+
+    expect(copy.situations.every((item) => Boolean(item.image?.src && item.image.alt))).toBe(true)
+    expect(copy.situations.map((item) => item.id)).toEqual([
+      'too-many-priorities',
+      'plans-stall',
+      'unclear-ownership',
+    ])
+    expect(copy.situations.find((item) => item.id === 'too-many-priorities')?.image?.src).toContain(
+      'what-should-you-stop-doing',
+    )
+    expect(copy.situations.find((item) => item.id === 'plans-stall')?.image?.src).toContain(
+      'meetings-moving-business',
+    )
+  })
+
   it.each(['en', 'fr'] as const)('adds phone, AI Employee, and point-of-sale situations to experience for %s', (locale) => {
     const copy = getOutcomeGroupPanelCopy('experience-products', locale)
 

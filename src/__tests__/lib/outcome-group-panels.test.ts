@@ -167,6 +167,23 @@ describe('outcome group panels', () => {
     })
   })
 
+  it.each(['en', 'fr'] as const)(
+    'gives automation situations images and situation-aware stories for %s',
+    (locale) => {
+      const copy = getOutcomeGroupPanelCopy('automation-ai', locale)
+
+      expect(copy.situations.every((item) => Boolean(item.image?.src && item.image.alt))).toBe(true)
+      expect(copy.situationStories).toBeDefined()
+      for (const id of ['repetitive-work', 'staffing-capacity', 'peak-continuity', 'ai-employee', 'iot-ops']) {
+        const story = copy.situationStories?.[id]
+        expect(story?.ladderSteps).toHaveLength(3)
+        expect(story?.vignetteHeadline).toBeTruthy()
+        expect(story?.vignetteBody).toBeTruthy()
+        expect(story?.vignetteSteps.length).toBeGreaterThanOrEqual(2)
+      }
+    },
+  )
+
   it.each(['en', 'fr'] as const)('adds phone, AI Employee, and point-of-sale situations to experience for %s', (locale) => {
     const copy = getOutcomeGroupPanelCopy('experience-products', locale)
 

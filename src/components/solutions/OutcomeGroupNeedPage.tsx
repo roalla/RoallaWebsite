@@ -3,8 +3,11 @@
 import { ArrowRight } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import { trackAnalyticsEvent } from '@/lib/analytics'
+import { pathwayEvidenceCtas } from '@/lib/pathway-evidence-cta'
 import type { OutcomeGroupId } from '@/lib/solution-outcome-pages'
+import type { SolutionPathId } from '@/lib/solutions-by-need'
 import OutcomeGroupPanel from '@/components/solutions/OutcomeGroupPanel'
+import AutomationAiNeedExtras from '@/components/solutions/AutomationAiNeedExtras'
 
 type Props = {
   groupId: OutcomeGroupId
@@ -15,6 +18,14 @@ type Props = {
   assessmentLabel: string
   assessmentDescription: string
   assessmentCta: string
+}
+
+const GROUP_PRIMARY_PATHWAY: Record<OutcomeGroupId, SolutionPathId> = {
+  'growth-visibility': 'visibility',
+  'experience-products': 'digital-experience',
+  'automation-ai': 'automation-ai',
+  'security-compliance': 'security',
+  execution: 'strategy',
 }
 
 export default function OutcomeGroupNeedPage({
@@ -29,6 +40,33 @@ export default function OutcomeGroupNeedPage({
 }: Props) {
   const eyebrow = locale === 'fr' ? 'Parcours par résultat' : 'Outcome pathway'
   const backLabel = locale === 'fr' ? 'Tous les parcours de résultats' : 'All outcome pathways'
+  const talkLabel = locale === 'fr' ? 'Discuter de ce résultat' : 'Talk through this outcome'
+  const needPage = `/solutions/need/${groupId}`
+  const primaryPathway = GROUP_PRIMARY_PATHWAY[groupId]
+  const evidenceCta = pathwayEvidenceCtas[primaryPathway]
+  const evidenceHref = evidenceCta
+    ? {
+        pathname: evidenceCta.pathname,
+        query: {
+          campaign: `solutions-${groupId}`,
+          conversion_source: 'solutions_need_hero',
+          entry_page: needPage,
+          signal: groupId,
+          ...(evidenceCta.offer ? { offer: evidenceCta.offer } : {}),
+          ...(evidenceCta.selectedProblem ? { selected_problem: evidenceCta.selectedProblem } : {}),
+        },
+      }
+    : null
+  const contactHref = {
+    pathname: '/contact' as const,
+    query: {
+      campaign: `solutions-${groupId}`,
+      conversion_source: 'solutions_need_hero',
+      entry_page: needPage,
+      signal: groupId,
+      outcome: primaryPathway,
+    },
+  }
 
   return (
     <div className="page-shell bg-white">
@@ -52,12 +90,44 @@ export default function OutcomeGroupNeedPage({
             {title}
           </h1>
           <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-200 sm:text-xl">{description}</p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            {evidenceHref && evidenceCta ? (
+              <Link
+                href={evidenceHref}
+                onClick={() =>
+                  trackAnalyticsEvent('solutions_tool_click', {
+                    location: `solutions_need_${groupId}_hero`,
+                    tool: evidenceCta.pathname,
+                    group: groupId,
+                  })
+                }
+                className="inline-flex min-h-12 items-center justify-center rounded-lg bg-brand-gold px-5 text-sm font-semibold text-slate-950 transition hover:bg-brand-gold-light"
+              >
+                {evidenceCta.label[locale]}
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+            ) : null}
+            <Link
+              href={contactHref}
+              onClick={() =>
+                trackAnalyticsEvent('outcome_cta_click', {
+                  location: `solutions_need_${groupId}_hero`,
+                  outcome: primaryPathway,
+                  group: groupId,
+                })
+              }
+              className="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/25 bg-white/5 px-5 text-sm font-semibold text-white transition hover:bg-white/10"
+            >
+              {talkLabel}
+            </Link>
+          </div>
         </div>
       </section>
 
       <section className="px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <div className="mx-auto max-w-5xl">
-          <OutcomeGroupPanel groupId={groupId} locale={locale} highlighted />
+          <OutcomeGroupPanel groupId={groupId} locale={locale} highlighted expandCommitment />
+          {groupId === 'automation-ai' ? <AutomationAiNeedExtras locale={locale} /> : null}
         </div>
       </section>
 
@@ -80,7 +150,7 @@ export default function OutcomeGroupNeedPage({
                 query: {
                   campaign: `solutions-${groupId}`,
                   conversion_source: 'solutions_need_footer',
-                  entry_page: `/solutions/need/${groupId}`,
+                  entry_page: needPage,
                   signal: groupId,
                 },
               }}

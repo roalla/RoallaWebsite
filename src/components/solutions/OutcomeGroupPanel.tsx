@@ -1,6 +1,7 @@
 'use client'
 
 import { FormEvent, useEffect, useId, useMemo, useRef, useState } from 'react'
+import Image from 'next/image'
 import { ArrowLeft, ArrowRight, Check, Circle, Globe2 } from 'lucide-react'
 import { Link, useRouter } from '@/i18n/navigation'
 import { trackAnalyticsEvent } from '@/lib/analytics'
@@ -16,6 +17,8 @@ type Props = {
   groupId: OutcomeGroupId
   locale: 'en' | 'fr'
   highlighted?: boolean
+  /** Open the commitment ladder/vignette by default (need pages). */
+  expandCommitment?: boolean
 }
 
 function normalizeWebsite(value: string) {
@@ -24,7 +27,12 @@ function normalizeWebsite(value: string) {
   return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`
 }
 
-export default function OutcomeGroupPanel({ groupId, locale, highlighted = false }: Props) {
+export default function OutcomeGroupPanel({
+  groupId,
+  locale,
+  highlighted = false,
+  expandCommitment = false,
+}: Props) {
   const copy = getOutcomeGroupPanelCopy(groupId, locale)
   const router = useRouter()
   const domainId = useId()
@@ -34,15 +42,25 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
   const [domain, setDomain] = useState('')
   const [ladderStep, setLadderStep] = useState(0)
   const [pulse, setPulse] = useState(highlighted)
+  const [commitmentOpen, setCommitmentOpen] = useState(expandCommitment)
 
   const situation: OutcomeGroupSituation = useMemo(
     () => copy.situations.find((item) => item.id === situationId) ?? copy.situations[0],
     [copy.situations, situationId],
   )
 
+  const situationStory = copy.situationStories?.[situation.id]
+  const ladderSteps = situationStory?.ladderSteps ?? copy.ladderSteps
+  const vignetteHeadline = situationStory?.vignetteHeadline ?? copy.vignetteHeadline
+  const vignetteBody = situationStory?.vignetteBody ?? copy.vignetteBody
+  const vignetteSteps = situationStory?.vignetteSteps ?? copy.vignetteSteps
+  const useImageTiles = copy.situations.some((item) => Boolean(item.image))
+
   const showWebsiteChecker = groupId === 'growth-visibility' && situation.id === 'findability'
-  const ladderCount = copy.ladderSteps.length
-  const activeLadder = copy.ladderSteps[ladderStep] ?? copy.ladderSteps[0]
+  const ladderCount = ladderSteps.length
+  const activeLadder = ladderSteps[ladderStep] ?? ladderSteps[0]
+  const fitReviewLabel =
+    locale === 'fr' ? 'Revue d’adéquation employé IA' : 'AI Employee fit review'
   const ladderBackLabel = locale === 'fr' ? 'Étape précédente' : 'Previous step'
   const ladderNextLabel = locale === 'fr' ? 'Étape suivante' : 'Next step'
   const ladderProgressLabel =
@@ -71,7 +89,7 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
     trackAnalyticsEvent('solutions_tool_click', {
       location: `${groupId}_ladder`,
       step: index + 1,
-      label: copy.ladderSteps[index]?.title,
+      label: ladderSteps[index]?.title,
       group: groupId,
     })
   }
@@ -253,12 +271,69 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
         <p className="text-sm font-semibold text-slate-900">{copy.situationPrompt}</p>
         <p className="mt-1 text-xs font-medium text-slate-500">{situationSelectHint}</p>
         <div
-          className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
+          className={
+            useImageTiles
+              ? 'mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5'
+              : 'mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5'
+          }
           role="group"
           aria-label={copy.situationPrompt}
         >
           {copy.situations.map((item) => {
             const selected = situationId === item.id
+            if (useImageTiles && item.image) {
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  aria-pressed={selected}
+                  onClick={() => {
+                    setSituationId(item.id)
+                    setLadderStep(0)
+                    trackAnalyticsEvent('outcome_selection', {
+                      location: `${groupId}_situation`,
+                      outcome: item.pathwaySlug,
+                      group: groupId,
+                      signal: item.id,
+                    })
+                  }}
+                  className={[
+                    'group/tile cursor-pointer overflow-hidden rounded-xl border text-left transition',
+                    selected
+                      ? 'border-slate-900 ring-2 ring-slate-900'
+                      : 'border-slate-200 hover:border-primary/50 hover:shadow-sm',
+                  ].join(' ')}
+                >
+                  <span className="relative block aspect-[16/10] overflow-hidden bg-slate-100">
+                    <Image
+                      src={item.image.src}
+                      alt={item.image.alt}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1280px) 33vw, 20vw"
+                      className="object-cover transition duration-300 group-hover/tile:scale-[1.03]"
+                    />
+                    {selected ? (
+                      <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded bg-slate-950/90 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold">
+                        <Check className="h-3 w-3" aria-hidden />
+                        {situationSelectedLabel}
+                      </span>
+                    ) : null}
+                  </span>
+                  <span className={`block px-3 py-3 ${selected ? 'bg-slate-900' : 'bg-white'}`}>
+                    <span
+                      className={`block text-sm font-semibold leading-5 ${selected ? 'text-white' : 'text-slate-950'}`}
+                    >
+                      {item.label}
+                    </span>
+                    <span
+                      className={`mt-1 block text-xs leading-5 ${selected ? 'text-slate-300' : 'text-slate-600'}`}
+                    >
+                      {item.hint}
+                    </span>
+                  </span>
+                </button>
+              )
+            }
             return (
               <button
                 key={item.id}
@@ -558,6 +633,25 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
                 {copy.contactCta}
               </Link>
               {supportingServiceLink}
+              {situation.id === 'ai-employee' ? (
+                <Link
+                  href={{
+                    pathname: '/ai-employee-fit-review',
+                    query: campaignQuery({ selected_problem: selectedProblem(situation) }),
+                  }}
+                  onClick={() =>
+                    trackAnalyticsEvent('solutions_tool_click', {
+                      location: `${groupId}_fit_review`,
+                      tool: '/ai-employee-fit-review',
+                      group: groupId,
+                      signal: situation.id,
+                    })
+                  }
+                  className="inline-flex min-h-11 items-center px-2 text-sm font-semibold text-brand-gold underline-offset-4 hover:text-brand-gold-light hover:underline"
+                >
+                  {fitReviewLabel}
+                </Link>
+              ) : null}
               {situation.estimatePath && situation.estimateLabel ? (
                 <Link
                   href={estimateHref(situation.estimatePath)}
@@ -599,7 +693,11 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
         )}
       </div>
 
-      <details className="group border border-slate-200 open:bg-slate-50/60">
+      <details
+        className="group border border-slate-200 open:bg-slate-50/60"
+        open={commitmentOpen}
+        onToggle={(event) => setCommitmentOpen((event.target as HTMLDetailsElement).open)}
+      >
         <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 marker:content-none sm:px-5">
           <span>
             <span className="block text-xs font-bold uppercase tracking-[0.16em] text-slate-500">{copy.ladderEyebrow}</span>
@@ -612,7 +710,7 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
 
           <div className="mt-5" role="group" aria-label={copy.ladderTitle}>
             <ol className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-0">
-              {copy.ladderSteps.map((step, index) => {
+              {ladderSteps.map((step, index) => {
                 const active = ladderStep === index
                 const complete = index < ladderStep
                 return (
@@ -759,10 +857,10 @@ export default function OutcomeGroupPanel({ groupId, locale, highlighted = false
               <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">{copy.vignetteEyebrow}</p>
               <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">{copy.vignetteLabel}</p>
             </div>
-            <p className="mt-3 font-serif text-lg font-bold text-slate-950 sm:text-xl">{copy.vignetteHeadline}</p>
-            <p className="mt-2 text-sm leading-6 text-slate-600">{copy.vignetteBody}</p>
+            <p className="mt-3 font-serif text-lg font-bold text-slate-950 sm:text-xl">{vignetteHeadline}</p>
+            <p className="mt-2 text-sm leading-6 text-slate-600">{vignetteBody}</p>
             <ul className="mt-4 space-y-2">
-              {copy.vignetteSteps.map((step) => (
+              {vignetteSteps.map((step) => (
                 <li key={step} className="flex gap-2 text-sm leading-6 text-slate-700">
                   <Check className="mt-1 h-4 w-4 shrink-0 text-primary-dark" aria-hidden />
                   <span>{step}</span>

@@ -428,6 +428,7 @@ export type OutcomeEvidence = {
   slug: "grcstatus" | "pitch-hotshots" | "boothlio" | "unjargonit";
   title: Record<"en" | "fr", string>;
   description: Record<"en" | "fr", string>;
+  image?: string;
 };
 
 export const outcomeEvidence: Partial<Record<SolutionPathId, readonly OutcomeEvidence[]>> = {
@@ -467,6 +468,25 @@ export const outcomeEvidence: Partial<Record<SolutionPathId, readonly OutcomeEvi
         en: "A published AI-assisted practice product with scoring, delivery metrics, and structured feedback.",
         fr: "Un produit publié de pratique assistée par l’IA avec notation, mesures de prestation et rétroaction structurée.",
       },
+      image: "/pitchhotshotsnapshot.webp",
+    },
+    {
+      slug: "unjargonit",
+      title: { en: "UnJargon It", fr: "UnJargon It" },
+      description: {
+        en: "A published learning product that turns dense technology topics into guided, trackable practice.",
+        fr: "Un produit d’apprentissage publié qui transforme des sujets technologiques denses en pratique guidée et suivie.",
+      },
+      image: "/unjargonitsnapshot.jpg",
+    },
+    {
+      slug: "boothlio",
+      title: { en: "Boothlio", fr: "Boothlio" },
+      description: {
+        en: "A published event platform that captures engagement and routes follow-up without manual re-entry.",
+        fr: "Une plateforme événementielle publiée qui capture l’engagement et achemine le suivi sans ressaisie manuelle.",
+      },
+      image: "/boothlio-pic.webp",
     },
   ],
 };

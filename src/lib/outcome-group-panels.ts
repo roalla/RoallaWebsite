@@ -34,12 +34,25 @@ export type EstimatePath =
   | '/visibility-improvement-estimate'
   | '/email-reach-estimate'
 
+export type OutcomeGroupSituationImage = {
+  src: string
+  alt: string
+}
+
+export type OutcomeGroupSituationStory = {
+  ladderSteps: readonly { title: string; body: string }[]
+  vignetteHeadline: string
+  vignetteBody: string
+  vignetteSteps: readonly string[]
+}
+
 export type OutcomeGroupSituation = {
   id: string
   label: string
   hint: string
   typicalCauses?: readonly string[]
   roallaHelp?: string
+  image?: OutcomeGroupSituationImage
   evidencePath: EvidencePath
   evidenceLabel: string
   evidenceNote?: string
@@ -57,6 +70,7 @@ export type OutcomeGroupPanelCopy = {
   resultBody: string
   situationPrompt: string
   situations: readonly OutcomeGroupSituation[]
+  situationStories?: Readonly<Record<string, OutcomeGroupSituationStory>>
   detailIssuesLabel: string
   detailApproachLabel: string
   detailSolutionsLabel: string
@@ -981,6 +995,10 @@ const automationEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA helps find the highest-value repeatable steps to remove first—with clear owners for exceptions—before connecting more tools.',
+      image: {
+        src: '/images/insights/library/what-to-automate-first.webp',
+        alt: 'Team mapping which repeatable work to automate first',
+      },
       evidencePath: '/automation-opportunity-review',
       evidenceLabel: 'Find the work worth automating',
       evidenceNote: 'Free opportunity review—no finished architecture required.',
@@ -1011,6 +1029,10 @@ const automationEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA helps spot repeatable work that can run with a person still checking exceptions—so the team gains capacity without losing accountability.',
+      image: {
+        src: '/images/insights/library/hire-or-fix-the-work-first.webp',
+        alt: 'Leader deciding whether to hire or redesign the work first',
+      },
       evidencePath: '/ai-agent-readiness-review',
       evidenceLabel: 'Start AI agent readiness review',
       evidenceNote: 'A short plain-language brief—optional to talk with us afterward.',
@@ -1041,6 +1063,10 @@ const automationEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA helps plan overflow help for peak work while people stay on the moments that protect customer trust.',
+      image: {
+        src: '/images/insights/library/can-business-operate-two-weeks-without-you.webp',
+        alt: 'Operations continuity planning for coverage when volume spikes',
+      },
       evidencePath: '/automation-opportunity-review',
       evidenceLabel: 'Start automation opportunity review',
       evidenceNote: 'A short plain-language brief—optional to talk with us afterward.',
@@ -1071,6 +1097,10 @@ const automationEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA frames where an AI Employee fits by industry—then helps define channels, skills, knowledge, integrations, and human handoff before a platform shortlist.',
+      image: {
+        src: '/images/insights/library/practical-ai-use-cases.webp',
+        alt: 'Practical frontline AI use cases with human escalation paths',
+      },
       evidencePath: '/ai-employee',
       evidenceLabel: 'Explore AI Employee by industry',
       evidenceNote: 'Industry use cases first—then a vendor-neutral fit review when you are ready.',
@@ -1101,6 +1131,10 @@ const automationEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA maps Signal → Owner → Action → Measure before adding more devices—so monitoring becomes a path to response, not another dashboard.',
+      image: {
+        src: '/images/insights/library/smb-digital-efficiency.webp',
+        alt: 'Connected operational data tied to owned response actions',
+      },
       evidencePath: '/connected-operations-review',
       evidenceLabel: 'Map signals to owned action',
       evidenceNote: 'Free review—ownership and response path before a product shortlist.',
@@ -1123,6 +1157,128 @@ const automationEn: OutcomeGroupPanelCopy = {
       },
     },
   ],
+  situationStories: {
+    'repetitive-work': {
+      ladderSteps: [
+        {
+          title: 'See',
+          body: 'Map where the same details are re-entered after handoffs—and where errors show up under time pressure.',
+        },
+        {
+          title: 'Interpret',
+          body: 'Decide which steps can leave systems without a person typing, and which exceptions stay human-owned.',
+        },
+        {
+          title: 'Improve',
+          body: 'Connect the highest-value handoff first with measures for time saved and error rate—not a full rewrite.',
+        },
+      ],
+      vignetteHeadline: 'They asked for more tools. The review showed duplicate entry.',
+      vignetteBody:
+        'A services team thought they needed another CRM plug-in. Framing the handoffs first showed the same customer details typed three times—so the first fix removed re-entry at the transfer, with a named owner for exceptions.',
+      vignetteSteps: [
+        'Volume and failure points were ranked before any vendor shortlist.',
+        'Exception ownership was assigned before systems were connected.',
+        'The pilot tracked cycle time and rework—not feature count.',
+      ],
+    },
+    'staffing-capacity': {
+      ladderSteps: [
+        {
+          title: 'See',
+          body: 'Separate work that piles up because roles are open from work that only a person should still judge.',
+        },
+        {
+          title: 'Interpret',
+          body: 'Define what a governed agent may carry, and the escalation path when judgment is required.',
+        },
+        {
+          title: 'Improve',
+          body: 'Pilot where volume and accountability already exist—so capacity is released without a demo that lacks owners.',
+        },
+      ],
+      vignetteHeadline: 'Hiring stalled. Readiness showed which work could run with review.',
+      vignetteBody:
+        'A thin operations team could not fill two roles. An agent readiness pass found high-volume intake that already had exception owners—so the pilot covered overflow while people stayed on the moments that needed judgment.',
+      vignetteSteps: [
+        'Candidate workflows were scored by volume and existing ownership.',
+        'Escalation rules were written before any agent went live.',
+        'Measures tracked containment and capacity released—not demo polish.',
+      ],
+    },
+    'peak-continuity': {
+      ladderSteps: [
+        {
+          title: 'See',
+          body: 'Name the peak windows, the work that breaks first, and the moments that must stay with people.',
+        },
+        {
+          title: 'Interpret',
+          body: 'Design overflow help for surges while humans keep relationship and exception moments.',
+        },
+        {
+          title: 'Improve',
+          body: 'Stand up approved automations for peak load with response-time and trust measures.',
+        },
+      ],
+      vignetteHeadline: 'Seasonal spikes broke coverage. Peak design fixed the overflow path.',
+      vignetteBody:
+        'A customer team hired temps every busy season and still missed response times. Mapping peak workflows showed which intake could be automated during surges—so people stayed on the conversations that protect loyalty.',
+      vignetteSteps: [
+        'Peak windows and failure modes were listed before tooling.',
+        'Overflow rules and human checkpoints were agreed up front.',
+        'The pilot measured response time and handoff quality through the spike.',
+      ],
+    },
+    'ai-employee': {
+      ladderSteps: [
+        {
+          title: 'See',
+          body: 'Match the industry pattern and frontline channels where coverage fails after hours or at peak.',
+        },
+        {
+          title: 'Interpret',
+          body: 'Define skills, trusted knowledge, integrations, and what must escalate to a person.',
+        },
+        {
+          title: 'Improve',
+          body: 'Run a bounded pilot with clear human ownership—before locking a platform shortlist.',
+        },
+      ],
+      vignetteHeadline: 'The vendor demo arrived first. Fit framing put handoff rules first.',
+      vignetteBody:
+        'A service business wanted an AI Employee on phones and chat. Industry use cases and a fit review named channels, booking rules, and escalation owners before any platform bake-off—so people stayed accountable for exceptions.',
+      vignetteSteps: [
+        'Industry patterns narrowed the frontline scope.',
+        'Skills, knowledge, and handoff rules were written before demos.',
+        'The pilot measured containment and escalation quality.',
+      ],
+    },
+    'iot-ops': {
+      ladderSteps: [
+        {
+          title: 'See',
+          body: 'List the alerts that fire today and which ones never become an owned next step.',
+        },
+        {
+          title: 'Interpret',
+          body: 'Map Signal → Owner → Action → Measure before adding more devices or dashboards.',
+        },
+        {
+          title: 'Improve',
+          body: 'Connect monitoring to response paths with escalation and response-time measures.',
+        },
+      ],
+      vignetteHeadline: 'More sensors made more noise. Ownership made monitoring actionable.',
+      vignetteBody:
+        'An operations lead had alerts from three systems and no clear responders. A connected-operations review assigned owners and next steps before any new devices—so signals became a path to action, not another dashboard.',
+      vignetteSteps: [
+        'Noisy alerts were separated from decision-ready signals.',
+        'Owners and escalation were assigned before platform changes.',
+        'Response measures replaced “dashboard live” as the success test.',
+      ],
+    },
+  },
   detailIssuesLabel: 'Common issues',
   detailApproachLabel: 'Our approach',
   detailSolutionsLabel: 'Example solutions',
@@ -1180,6 +1336,10 @@ const automationFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA aide à trouver les étapes répétables les plus utiles à retirer d’abord—avec des responsables clairs pour les exceptions—avant de connecter plus d’outils.',
+      image: {
+        src: '/images/insights/library/what-to-automate-first.webp',
+        alt: 'Équipe cartographiant le travail répétable à automatiser en premier',
+      },
       evidencePath: '/automation-opportunity-review',
       evidenceLabel: 'Trouver le travail qui mérite d’être automatisé',
       evidenceNote: 'Revue d’occasions gratuite—aucune architecture finalisée requise.',
@@ -1210,6 +1370,10 @@ const automationFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA aide à repérer le travail répétable qui peut tourner avec une personne qui vérifie encore les exceptions—pour gagner de la capacité sans perdre la responsabilité.',
+      image: {
+        src: '/images/insights/library/hire-or-fix-the-work-first.webp',
+        alt: 'Dirigeant décidant s’il faut embaucher ou redéfinir le travail d’abord',
+      },
       evidencePath: '/ai-agent-readiness-review',
       evidenceLabel: 'Commencer la revue de préparation aux agents IA',
       evidenceNote: 'Un court aperçu en langage simple—en parler ensuite est optionnel.',
@@ -1240,6 +1404,10 @@ const automationFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA aide à planifier de l’aide en pointe tout en gardant les personnes sur les moments qui protègent la confiance client.',
+      image: {
+        src: '/images/insights/library/can-business-operate-two-weeks-without-you.webp',
+        alt: 'Planification de continuité pour la couverture lors des pics de volume',
+      },
       evidencePath: '/automation-opportunity-review',
       evidenceLabel: 'Commencer la revue d’occasions d’automatisation',
       evidenceNote: 'Un court aperçu en langage simple—en parler ensuite est optionnel.',
@@ -1270,6 +1438,10 @@ const automationFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA cadre où un employé IA convient par industrie—puis aide à définir canaux, compétences, connaissances, intégrations et relais humain avant une shortlist de plateformes.',
+      image: {
+        src: '/images/insights/library/practical-ai-use-cases.webp',
+        alt: 'Cas d’usage IA de première ligne avec parcours d’escalade humaine',
+      },
       evidencePath: '/ai-employee',
       evidenceLabel: 'Explorer l’employé IA par industrie',
       evidenceNote: 'Cas d’usage par industrie d’abord—puis une revue d’adéquation neutre quand vous êtes prêt.',
@@ -1300,6 +1472,10 @@ const automationFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA cartographie Signal → Responsable → Action → Mesure avant d’ajouter plus d’appareils—pour que la surveillance mène à une réponse, pas à un autre tableau de bord.',
+      image: {
+        src: '/images/insights/library/smb-digital-efficiency.webp',
+        alt: 'Données opérationnelles connectées liées à des actions de réponse assumées',
+      },
       evidencePath: '/connected-operations-review',
       evidenceLabel: 'Relier les signaux à une action assumée',
       evidenceNote: 'Revue gratuite—responsabilité et parcours de réponse avant une shortlist de produits.',
@@ -1322,6 +1498,128 @@ const automationFr: OutcomeGroupPanelCopy = {
       },
     },
   ],
+  situationStories: {
+    'repetitive-work': {
+      ladderSteps: [
+        {
+          title: 'Voir',
+          body: 'Cartographier où les mêmes détails sont ressaisis après les transferts—et où les erreurs apparaissent sous pression.',
+        },
+        {
+          title: 'Interpréter',
+          body: 'Décider quelles étapes peuvent quitter les systèmes sans saisie humaine, et quelles exceptions restent sous responsabilité humaine.',
+        },
+        {
+          title: 'Améliorer',
+          body: 'Connecter d’abord le transfert à plus forte valeur avec des mesures de temps gagné et de taux d’erreur—pas une réécriture complète.',
+        },
+      ],
+      vignetteHeadline: 'Ils demandaient plus d’outils. La revue a montré la double saisie.',
+      vignetteBody:
+        'Une équipe de services croyait avoir besoin d’un autre module CRM. Cadrer les transferts d’abord a montré les mêmes détails client saisis trois fois—donc le premier correctif a retiré la ressaisie au transfert, avec un responsable nommé pour les exceptions.',
+      vignetteSteps: [
+        'Volume et points de défaillance ont été classés avant toute shortlist fournisseur.',
+        'La responsabilité des exceptions a été assignée avant de connecter les systèmes.',
+        'Le pilote a suivi le temps de cycle et la reprise—pas le nombre de fonctions.',
+      ],
+    },
+    'staffing-capacity': {
+      ladderSteps: [
+        {
+          title: 'Voir',
+          body: 'Séparer le travail qui s’accumule parce que des postes sont ouverts du travail qu’une personne doit encore juger.',
+        },
+        {
+          title: 'Interpréter',
+          body: 'Définir ce qu’un agent gouverné peut porter, et le parcours d’escalade quand le jugement est requis.',
+        },
+        {
+          title: 'Améliorer',
+          body: 'Piloter là où volume et responsabilisation existent déjà—pour libérer de la capacité sans démo sans responsables.',
+        },
+      ],
+      vignetteHeadline: 'L’embauche bloquait. La préparation a montré quel travail pouvait tourner avec révision.',
+      vignetteBody:
+        'Une équipe opérations mince n’arrivait pas à pourvoir deux postes. Une revue de préparation aux agents a trouvé un accueil à fort volume qui avait déjà des responsables d’exceptions—donc le pilote a couvert le surplus tandis que les personnes restaient sur les moments de jugement.',
+      vignetteSteps: [
+        'Les flux candidats ont été notés selon le volume et la propriété existante.',
+        'Les règles d’escalade ont été écrites avant toute mise en service d’agent.',
+        'Les mesures ont suivi confinement et capacité libérée—pas le poli de la démo.',
+      ],
+    },
+    'peak-continuity': {
+      ladderSteps: [
+        {
+          title: 'Voir',
+          body: 'Nommer les fenêtres de pointe, le travail qui casse en premier, et les moments qui doivent rester avec les personnes.',
+        },
+        {
+          title: 'Interpréter',
+          body: 'Concevoir de l’aide en débordement pour les surcharges tout en gardant les humains sur les moments relationnels et d’exception.',
+        },
+        {
+          title: 'Améliorer',
+          body: 'Mettre en place des automatisations approuvées pour la charge de pointe avec des mesures de délai de réponse et de confiance.',
+        },
+      ],
+      vignetteHeadline: 'Les pics saisonniers cassaient la couverture. La conception de pointe a fixé le parcours de débordement.',
+      vignetteBody:
+        'Une équipe client embauchait des temporaires chaque saison chargée et manquait quand même les délais de réponse. Cartographier les flux de pointe a montré quel accueil pouvait être automatisé pendant les surcharges—pour que les personnes restent sur les conversations qui protègent la loyauté.',
+      vignetteSteps: [
+        'Fenêtres de pointe et modes de défaillance ont été listés avant les outils.',
+        'Règles de débordement et points de contrôle humains ont été convenus d’avance.',
+        'Le pilote a mesuré le délai de réponse et la qualité des transferts pendant le pic.',
+      ],
+    },
+    'ai-employee': {
+      ladderSteps: [
+        {
+          title: 'Voir',
+          body: 'Apparier le modèle d’industrie et les canaux de première ligne où la couverture échoue hors des heures ou en pointe.',
+        },
+        {
+          title: 'Interpréter',
+          body: 'Définir compétences, connaissances fiables, intégrations et ce qui doit escalader vers une personne.',
+        },
+        {
+          title: 'Améliorer',
+          body: 'Mener un pilote limité avec une propriété humaine claire—avant de verrouiller une shortlist de plateformes.',
+        },
+      ],
+      vignetteHeadline: 'La démo fournisseur est arrivée d’abord. Le cadrage d’adéquation a mis les règles de relais en premier.',
+      vignetteBody:
+        'Une entreprise de services voulait un employé IA au téléphone et en clavardage. Les cas d’usage par industrie et une revue d’adéquation ont nommé canaux, règles de réservation et responsables d’escalade avant tout essai de plateforme—pour que les personnes restent responsables des exceptions.',
+      vignetteSteps: [
+        'Les modèles d’industrie ont resserré la portée de première ligne.',
+        'Compétences, connaissances et règles de relais ont été écrites avant les démos.',
+        'Le pilote a mesuré le confinement et la qualité de l’escalade.',
+      ],
+    },
+    'iot-ops': {
+      ladderSteps: [
+        {
+          title: 'Voir',
+          body: 'Lister les alertes qui sonnent aujourd’hui et celles qui ne deviennent jamais une prochaine étape assumée.',
+        },
+        {
+          title: 'Interpréter',
+          body: 'Cartographier Signal → Responsable → Action → Mesure avant d’ajouter plus d’appareils ou de tableaux de bord.',
+        },
+        {
+          title: 'Améliorer',
+          body: 'Relier la surveillance à des parcours de réponse avec escalade et mesures de délai de réponse.',
+        },
+      ],
+      vignetteHeadline: 'Plus de capteurs ont fait plus de bruit. La responsabilité a rendu la surveillance actionnable.',
+      vignetteBody:
+        'Un responsable opérations avait des alertes de trois systèmes et aucun répondant clair. Une revue des opérations connectées a assigné responsables et prochaines étapes avant tout nouvel appareil—pour que les signaux deviennent un parcours d’action, pas un autre tableau de bord.',
+      vignetteSteps: [
+        'Les alertes bruyantes ont été séparées des signaux prêts pour la décision.',
+        'Responsables et escalade ont été assignés avant les changements de plateforme.',
+        'Les mesures de réponse ont remplacé « tableau de bord en ligne » comme critère de succès.',
+      ],
+    },
+  },
   detailIssuesLabel: 'Problèmes courants',
   detailApproachLabel: 'Notre approche',
   detailSolutionsLabel: 'Exemples de solutions',

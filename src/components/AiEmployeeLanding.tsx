@@ -305,10 +305,10 @@ export default function AiEmployeeLanding({
               <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">{content.relatedLead}</p>
               <ul className="mt-6 grid gap-4 md:grid-cols-2">
                 {content.relatedLinks.map((item) => (
-                  <li key={item.href}>
+                  <li key={item.groupId}>
                     <Link
-                      href={item.href}
-                      onClick={() => trackCta(item.href.includes('automation-ai') ? 'related_automation' : 'related_experience')}
+                      href={{ pathname: '/solutions/need/[groupId]', params: { groupId: item.groupId } }}
+                      onClick={() => trackCta(item.groupId === 'automation-ai' ? 'related_automation' : 'related_experience')}
                       className="block h-full border border-slate-200 bg-white p-5 transition-colors hover:border-primary/40"
                     >
                       <span className="inline-flex items-center font-semibold text-primary-dark">

@@ -52,7 +52,11 @@ export type AiEmployeeCopy = {
   distinctLinkLabel: string
   relatedTitle: string
   relatedLead: string
-  relatedLinks: readonly { href: '/solutions/need/automation-ai' | '/solutions/need/experience-products'; label: string; description: string }[]
+  relatedLinks: readonly {
+    groupId: 'automation-ai' | 'experience-products'
+    label: string
+    description: string
+  }[]
 }
 
 export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
@@ -1597,12 +1601,12 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
     relatedLead: 'AI Employee sits with frontline experience and governed automation. Start from the outcome that matches your pressure.',
     relatedLinks: [
       {
-        href: '/solutions/need/automation-ai',
+        groupId: 'automation-ai',
         label: 'Automate work & apply AI responsibly',
         description: 'Capacity, peak coverage, and controlled automation—including AI Employee as a frontline option.',
       },
       {
-        href: '/solutions/need/experience-products',
+        groupId: 'experience-products',
         label: 'Improve customer and team experience',
         description: 'Communications, frontline channels, and digital experiences where an AI Employee often starts.',
       },
@@ -3150,12 +3154,12 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
     relatedLead: 'L’employé IA se situe entre l’expérience de première ligne et l’automatisation gouvernée. Partez du résultat qui correspond à votre pression.',
     relatedLinks: [
       {
-        href: '/solutions/need/automation-ai',
+        groupId: 'automation-ai',
         label: 'Automatiser le travail et appliquer l’IA de façon responsable',
         description: 'Capacité, couverture en pointe et automatisation contrôlée—y compris l’employé IA comme option de première ligne.',
       },
       {
-        href: '/solutions/need/experience-products',
+        groupId: 'experience-products',
         label: 'Améliorer l’expérience clients et équipes',
         description: 'Communications, canaux de première ligne et expériences numériques où un employé IA commence souvent.',
       },

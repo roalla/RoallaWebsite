@@ -17,6 +17,7 @@ export type EvidencePath =
   | '/ai-agent-readiness-review'
   | '/technology-decision-review'
   | '/connected-operations-review'
+  | '/ai-employee'
   | '/ai-employee-fit-review'
   | '/security-risk-coverage-review'
   | '/compliance-readiness-review'
@@ -638,9 +639,9 @@ const experienceEn: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA frames channels, skills, knowledge, integrations, and human handoff in vendor-neutral terms—so you know whether an AI Employee fits before choosing a platform.',
-      evidencePath: '/ai-employee-fit-review',
-      evidenceLabel: 'Check AI Employee fit',
-      evidenceNote: 'Vendor-neutral review—requirements before a platform shortlist.',
+      evidencePath: '/ai-employee',
+      evidenceLabel: 'Explore AI Employee by industry',
+      evidenceNote: 'See industry use cases, then check fit before a platform shortlist.',
       pathwaySlug: 'communications',
       contactIntent: 'consulting',
       contactFocus: 'technology',
@@ -653,8 +654,8 @@ const experienceEn: OutcomeGroupPanelCopy = {
         approach:
           'Define channels, skills, trusted knowledge, integrations, and handoff rules first. Decide where an AI Employee fits and where people must stay in the loop, then compare options on the same criteria.',
         solutions: [
+          'AI Employee industry page with practical frontline use cases',
           'AI Employee fit review covering channels, skills, knowledge, and handoff',
-          'Vendor-neutral requirements checklist for comparing qualified options',
           'Bounded pilot with measures and clear human escalation ownership',
         ],
       },
@@ -871,9 +872,9 @@ const experienceFr: OutcomeGroupPanelCopy = {
       ],
       roallaHelp:
         'ROALLA cadre canaux, compétences, connaissances, intégrations et relais humain sans parti pris fournisseur—pour savoir si un employé IA convient avant de choisir une plateforme.',
-      evidencePath: '/ai-employee-fit-review',
-      evidenceLabel: 'Vérifier l’adéquation d’un employé IA',
-      evidenceNote: 'Revue neutre envers les fournisseurs—exigences avant une liste de plateformes.',
+      evidencePath: '/ai-employee',
+      evidenceLabel: 'Explorer l’employé IA par industrie',
+      evidenceNote: 'Voir les cas d’usage par industrie, puis vérifier l’adéquation avant une liste de plateformes.',
       pathwaySlug: 'communications',
       contactIntent: 'consulting',
       contactFocus: 'technology',
@@ -886,8 +887,8 @@ const experienceFr: OutcomeGroupPanelCopy = {
         approach:
           'Définissez d’abord canaux, compétences, connaissances fiables, intégrations et règles de relais. Décidez où un employé IA convient et où les personnes restent dans la boucle, puis comparez les options selon les mêmes critères.',
         solutions: [
+          'Page employé IA par industrie avec des cas d’usage de première ligne',
           'Revue d’adéquation d’un employé IA : canaux, compétences, connaissances et relais',
-          'Liste d’exigences neutre pour comparer des options qualifiées',
           'Pilote limité avec mesures et responsabilité claire de l’escalade humaine',
         ],
       },
@@ -1061,6 +1062,36 @@ const automationEn: OutcomeGroupPanelCopy = {
       },
     },
     {
+      id: 'ai-employee',
+      label: 'We want an AI Employee on our frontline',
+      hint: 'Answer, qualify, book, and hand off across calls and messages—with people still owning exceptions.',
+      typicalCauses: [
+        'Calls and messages go unanswered outside staffed hours or at peak times.',
+        'Vendor demos arrive before channels, skills, and handoff rules are defined.',
+      ],
+      roallaHelp:
+        'ROALLA frames where an AI Employee fits by industry—then helps define channels, skills, knowledge, integrations, and human handoff before a platform shortlist.',
+      evidencePath: '/ai-employee',
+      evidenceLabel: 'Explore AI Employee by industry',
+      evidenceNote: 'Industry use cases first—then a vendor-neutral fit review when you are ready.',
+      pathwaySlug: 'automation-ai',
+      contactIntent: 'ai-support',
+      detail: {
+        issues: [
+          'Frontline channels lack coverage after hours or during spikes.',
+          'Nobody has defined what an AI Employee may answer, book, or escalate.',
+          'Knowledge and integrations are not ready for automated answers.',
+        ],
+        approach:
+          'Start with the industry pattern that matches your work. Define channels, skills, trusted knowledge, integrations, and handoff rules before comparing platforms—so people stay accountable for exceptions.',
+        solutions: [
+          'AI Employee industry page with practical frontline use cases',
+          'AI Employee fit review covering channels, skills, knowledge, and handoff',
+          'Bounded pilot with measures and clear human escalation ownership',
+        ],
+      },
+    },
+    {
       id: 'iot-ops',
       label: 'Alerts fire, but nobody owns the response',
       hint: 'Connected equipment and monitoring raise signals that never become owned action or a measured result.',
@@ -1226,6 +1257,36 @@ const automationFr: OutcomeGroupPanelCopy = {
           'Revue d’occasions d’automatisation centrée sur les flux à volume de pointe',
           'Gestion du débordement avec automatisations approuvées et escalade claire',
           'Mesures de continuité pour délai de réponse et confiance client pendant les pics',
+        ],
+      },
+    },
+    {
+      id: 'ai-employee',
+      label: 'Nous voulons un employé IA en première ligne',
+      hint: 'Répondre, qualifier, réserver et transférer par appels et messages—avec des personnes qui restent responsables des exceptions.',
+      typicalCauses: [
+        'Appels et messages restent sans réponse hors des heures de présence ou en période de pointe.',
+        'Les démos fournisseurs arrivent avant la définition des canaux, compétences et règles de relais.',
+      ],
+      roallaHelp:
+        'ROALLA cadre où un employé IA convient par industrie—puis aide à définir canaux, compétences, connaissances, intégrations et relais humain avant une shortlist de plateformes.',
+      evidencePath: '/ai-employee',
+      evidenceLabel: 'Explorer l’employé IA par industrie',
+      evidenceNote: 'Cas d’usage par industrie d’abord—puis une revue d’adéquation neutre quand vous êtes prêt.',
+      pathwaySlug: 'automation-ai',
+      contactIntent: 'ai-support',
+      detail: {
+        issues: [
+          'Les canaux de première ligne manquent de couverture hors des heures ou en période de pointe.',
+          'Personne n’a défini ce qu’un employé IA peut répondre, réserver ou escalader.',
+          'Les connaissances et intégrations ne sont pas prêtes pour des réponses automatisées.',
+        ],
+        approach:
+          'Commencez par le modèle d’industrie qui correspond à votre travail. Définissez canaux, compétences, connaissances fiables, intégrations et règles de relais avant de comparer les plateformes—pour que les personnes restent responsables des exceptions.',
+        solutions: [
+          'Page employé IA par industrie avec des cas d’usage de première ligne',
+          'Revue d’adéquation d’un employé IA : canaux, compétences, connaissances et relais',
+          'Pilote limité avec mesures et responsabilité claire de l’escalade humaine',
         ],
       },
     },

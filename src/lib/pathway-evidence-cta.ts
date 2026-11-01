@@ -13,6 +13,7 @@ export type PathwayEvidencePath =
   | '/ai-agent-readiness-review'
   | '/technology-decision-review'
   | '/connected-operations-review'
+  | '/ai-employee'
   | '/ai-employee-fit-review'
   | '/security-risk-coverage-review'
   | '/compliance-readiness-review'

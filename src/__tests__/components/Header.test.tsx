@@ -169,7 +169,7 @@ describe('Header', () => {
       'href',
       '/assessment',
     )
-    expect(within(menu).getAllByRole('menuitem')).toHaveLength(17)
+    expect(within(menu).getAllByRole('menuitem')).toHaveLength(18)
   })
 
   it('groups explore capabilities under the five outcomes', () => {
@@ -194,6 +194,7 @@ describe('Header', () => {
       [/digitalWebsites/i, '/website-design'],
       [/helpDigitalProducts/i, '/services/digital-products'],
       [/digitalEvents/i, '/services/digital-events'],
+      [/aiEmployee/i, '/ai-employee'],
       [/agentic/i, '/services/ai-agents'],
       [/digitalAutomation/i, '/services/automation'],
       [/helpSecurityServices/i, '/services/security-risk-compliance'],
@@ -203,7 +204,7 @@ describe('Header', () => {
     expectedLinks.forEach(([name, href]) => {
       expect(within(capabilities).getByRole('menuitem', { name })).toHaveAttribute('href', href)
     })
-    expect(within(capabilities).getAllByRole('menuitem')).toHaveLength(10)
+    expect(within(capabilities).getAllByRole('menuitem')).toHaveLength(11)
     expect(within(menu).queryByRole('menuitem', { name: /helpDevelopTeam/i })).not.toBeInTheDocument()
     expect(within(menu).getByRole('menuitem', { name: /browseOutcomesCta/i })).toHaveAttribute('href', '/solutions')
     expect(within(menu).getByRole('menuitem', { name: /Explore Your Options/i })).toHaveAttribute('href', '/assessment')

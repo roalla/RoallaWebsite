@@ -5,6 +5,7 @@ import { useLocale } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { outcomePageCopy } from '@/lib/solution-outcome-pages'
 import Reveal from '../motion/Reveal'
+import { BusinessJourneyMotion } from '../motion/OperationalMotion'
 
 export default function HomeOutcomeProcess() {
   const locale = useLocale() === 'fr' ? 'fr' : 'en'
@@ -17,6 +18,9 @@ export default function HomeOutcomeProcess() {
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-light">{content.processEyebrow}</p>
           <h2 className="mt-3 font-serif text-3xl font-bold text-white md:text-4xl">{content.processTitle}</h2>
           <p className="mt-4 text-lg leading-8 text-slate-300">{content.processDescription}</p>
+        </Reveal>
+        <Reveal delayMs={40}>
+          <BusinessJourneyMotion />
         </Reveal>
         <div className="mt-9 grid gap-4 md:grid-cols-3">
           {content.steps.map((step, index) => (

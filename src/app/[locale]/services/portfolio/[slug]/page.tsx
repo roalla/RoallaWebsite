@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 import Breadcrumb from "@/components/Breadcrumb";
 import JsonLd from "@/components/JsonLd";
 import BrowserFrame from "@/components/digital/BrowserFrame";
+import { PortfolioProjectMotion } from "@/components/motion/OperationalMotion";
 import ScheduleButton from "@/components/ScheduleButton";
 import {
   buildPortfolioScheduleQuery,
@@ -119,6 +120,10 @@ export default async function PortfolioCaseStudyPage({ params }: Props) {
             />
           </div>
         ) : null}
+
+        <div className="max-w-5xl mb-12">
+          <PortfolioProjectMotion name={name} category={item.category} />
+        </div>
 
         <div className="grid gap-8 max-w-5xl md:grid-cols-2">
           <section className="rounded-2xl border border-slate-200 bg-white p-6">

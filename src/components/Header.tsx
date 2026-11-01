@@ -584,6 +584,7 @@ const Header = ({
     {
       headingKey: "helpGroupAutomation" as const,
       links: [
+        { nameKey: "aiEmployee" as const, href: "/ai-employee" as const },
         { nameKey: "agentic" as const, href: "/services/ai-agents" as const },
         { nameKey: "digitalAutomation" as const, href: "/services/automation" as const },
       ],
@@ -699,6 +700,7 @@ const Header = ({
     pathname === "/services/digital-products" ||
     pathname === "/services/automation" ||
     pathname === "/services/ai-agents" ||
+    pathname === "/ai-employee" ||
     pathname === "/services/technology-advisory" ||
     pathname === "/services/search-ai-visibility" ||
     pathname === "/services/managed-optimization" ||

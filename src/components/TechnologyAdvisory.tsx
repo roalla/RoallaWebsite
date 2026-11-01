@@ -17,6 +17,7 @@ import {
   ShieldCheck,
 } from 'lucide-react'
 import Reveal from './motion/Reveal'
+import { TechnologyDecisionMotion } from './motion/OperationalMotion'
 import ServiceMiniFAQ from './services/ServiceMiniFAQ'
 import StickyMobileCTA from './StickyMobileCTA'
 import { TECHNOLOGY_PAGE_FAQ_KEYS } from '@/lib/service-faq-jsonld'
@@ -217,6 +218,9 @@ const TechnologyAdvisory = () => {
                 ))}
               </ol>
             </div>
+          </Reveal>
+          <Reveal when="mount" delayMs={260}>
+            <TechnologyDecisionMotion />
           </Reveal>
         </div>
       </header>

@@ -23,6 +23,7 @@ const exploreLinks = [
   { nameKey: 'websites' as const, href: '/website-design' as const },
   { nameKey: 'digitalProducts' as const, href: '/services/digital-products' as const },
   { nameKey: 'digitalEvents' as const, href: '/services/digital-events' as const },
+  { nameKey: 'aiEmployee' as const, href: '/ai-employee' as const },
   { nameKey: 'agentic' as const, href: '/services/ai-agents' as const },
   { nameKey: 'automation' as const, href: '/services/automation' as const },
   { nameKey: 'security' as const, href: '/services/security-risk-compliance' as const },

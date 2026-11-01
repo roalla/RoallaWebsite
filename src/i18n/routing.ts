@@ -60,6 +60,7 @@ export const routing = defineRouting({
     "/90-day-execution-plan": "/90-day-execution-plan",
     "/capacity-pressure-review": "/capacity-pressure-review",
     "/connected-operations-review": "/connected-operations-review",
+    "/ai-employee": "/ai-employee",
     "/ai-employee-fit-review": "/ai-employee-fit-review",
     "/security-risk-coverage-review": "/security-risk-coverage-review",
     "/compliance-readiness-review": "/compliance-readiness-review",

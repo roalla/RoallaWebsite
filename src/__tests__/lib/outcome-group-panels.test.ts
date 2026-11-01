@@ -15,7 +15,7 @@ const GROUP_IDS: OutcomeGroupId[] = [
 const SITUATION_COUNTS: Record<OutcomeGroupId, number> = {
   'growth-visibility': 5,
   'experience-products': 6,
-  'automation-ai': 4,
+  'automation-ai': 5,
   'security-compliance': 6,
   execution: 3,
 }
@@ -147,7 +147,7 @@ describe('outcome group panels', () => {
     const copy = getOutcomeGroupPanelCopy('automation-ai', locale)
     const ids = copy.situations.map((item) => item.id)
 
-    expect(ids).toEqual(['repetitive-work', 'staffing-capacity', 'peak-continuity', 'iot-ops'])
+    expect(ids).toEqual(['repetitive-work', 'staffing-capacity', 'peak-continuity', 'ai-employee', 'iot-ops'])
     expect(ids).not.toContain('ai-agent')
 
     expect(copy.situations.find((item) => item.id === 'staffing-capacity')).toMatchObject({
@@ -157,6 +157,11 @@ describe('outcome group panels', () => {
     })
     expect(copy.situations.find((item) => item.id === 'peak-continuity')).toMatchObject({
       evidencePath: '/automation-opportunity-review',
+      pathwaySlug: 'automation-ai',
+      contactIntent: 'ai-support',
+    })
+    expect(copy.situations.find((item) => item.id === 'ai-employee')).toMatchObject({
+      evidencePath: '/ai-employee',
       pathwaySlug: 'automation-ai',
       contactIntent: 'ai-support',
     })
@@ -183,7 +188,7 @@ describe('outcome group panels', () => {
       /recording|quality|speech|IVR|self-service|CRM|queue|abandon|enregistrement|qualité|SVI|CRM|attente/i,
     )
     expect(copy.situations.find((item) => item.id === 'ai-employee')).toMatchObject({
-      evidencePath: '/ai-employee-fit-review',
+      evidencePath: '/ai-employee',
       pathwaySlug: 'communications',
       contactIntent: 'consulting',
       contactFocus: 'technology',

@@ -1,3 +1,8 @@
+export type AiEmployeeImage = {
+  src: string
+  alt: string
+}
+
 export type AiEmployeeUse = {
   title: string
   description: string
@@ -14,6 +19,7 @@ export type AiEmployeeIndustry = {
   id: string
   label: string
   shortLabel: string
+  image: AiEmployeeImage
   positioning: string
   promise: string
   audiences: readonly AiEmployeeAudience[]
@@ -28,15 +34,20 @@ export type AiEmployeeIndustry = {
 export type AiEmployeeCopy = {
   metadataTitle: string
   metadataDescription: string
+  brandName: string
   eyebrow: string
   title: string
   lead: string
   primaryCta: string
   secondaryCta: string
+  heroImage: AiEmployeeImage
+  industrySelectHint: string
+  audienceSelectHint: string
+  selectedLabel: string
   howEyebrow: string
   howTitle: string
   howLead: string
-  howSteps: readonly { title: string; description: string }[]
+  howSteps: readonly { title: string; description: string; image: AiEmployeeImage }[]
   industriesEyebrow: string
   industriesTitle: string
   industriesLead: string
@@ -56,6 +67,7 @@ export type AiEmployeeCopy = {
     groupId: 'automation-ai' | 'experience-products'
     label: string
     description: string
+    image: AiEmployeeImage
   }[]
 }
 
@@ -64,11 +76,19 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
     metadataTitle: 'AI Employee by Industry | ROALLA',
     metadataDescription:
       'An AI Employee that answers requests, resolves routine work, and hands off with full context—across IT, trades, logistics, warehouses, manufacturing, care practices, legal, accounting, real estate, veterinary, insurance, immigration, home care, and public service desks.',
+    brandName: 'ROALLA',
     eyebrow: 'AI Employee',
     title: 'An AI front line for your business—always on, clear, and ready to hand off.',
     lead: 'Answer every request, resolve what is approved, and send complex work to the right person with full context. Explore industry patterns across Canadian service and operations businesses—then expand as the work is proven.',
     primaryCta: 'Check AI Employee fit',
     secondaryCta: 'Talk with ROALLA',
+    heroImage: {
+      src: '/images/insights/library/practical-ai-use-cases.webp',
+      alt: 'Frontline AI Employee handling customer requests with clear human handoff',
+    },
+    industrySelectHint: 'Choose an industry to see fit patterns.',
+    audienceSelectHint: 'Choose who the AI Employee supports first.',
+    selectedLabel: 'Selected',
     howEyebrow: 'How it works',
     howTitle: 'Understand. Resolve. Document. Escalate.',
     howLead:
@@ -77,18 +97,34 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
       {
         title: 'Understand the request',
         description: 'Identify who needs help, what is needed, how urgent it is, and what has already been tried.',
+        image: {
+          src: '/images/insights/library/analog-to-ip-business-telephony.webp',
+          alt: 'Understanding inbound requests across phone and digital channels',
+        },
       },
       {
         title: 'Use approved knowledge',
         description: 'Answer from your service rules, catalogues, scripts, and known-issue notes—not generic internet advice.',
+        image: {
+          src: '/images/insights/library/five-rules-before-team-uses-ai.webp',
+          alt: 'Approved knowledge and rules guiding AI Employee answers',
+        },
       },
       {
         title: 'Complete routine work',
         description: 'Create records, classify priority, share status, book appointments, and update systems when those steps are approved.',
+        image: {
+          src: '/images/insights/library/what-to-automate-first.webp',
+          alt: 'Completing repeatable frontline work with clear ownership',
+        },
       },
       {
         title: 'Escalate with context',
         description: 'When judgment, safety, pricing exceptions, or risk is involved, a person receives a complete summary—not a blank message.',
+        image: {
+          src: '/images/insights/library/hire-or-fix-the-work-first.webp',
+          alt: 'Handing complex work to a person with full context',
+        },
       },
     ],
     industriesEyebrow: 'Use cases by industry',
@@ -100,6 +136,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'it-msp',
         label: 'IT & Managed Services',
         shortLabel: 'IT / MSP',
+        image: {
+          src: '/images/insights/library/it-provider-who-owns-risk.webp',
+          alt: 'IT and managed services front line for tickets and after-hours coverage',
+        },
         positioning: 'The AI front line for IT support',
         promise:
           'Answer every request, resolve routine issues, and route complex incidents to the right technician with full context.',
@@ -205,6 +245,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'trades-field',
         label: 'Trades & Field Service',
         shortLabel: 'Trades',
+        image: {
+          src: '/images/insights/library/trade-show-leads-after-qr-scan.webp',
+          alt: 'Trades and field service intake for calls, booking, and job follow-through',
+        },
         positioning: 'The AI front line for the shop phone',
         promise:
           'Answer every call and message, qualify the job, book routine work, and get true emergencies to the right tech—with the details already captured.',
@@ -310,6 +354,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'transportation-logistics',
         label: 'Transportation & Logistics',
         shortLabel: 'Logistics',
+        image: {
+          src: '/images/insights/library/smb-digital-efficiency.webp',
+          alt: 'Transportation and logistics desk for shipper questions and dispatch handoff',
+        },
         positioning: 'The AI front line for freight and fleet coordination',
         promise:
           'Answer shipment questions, capture new moves, track exceptions, and get dispatchers the right details before a load is late.',
@@ -415,6 +463,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'warehouses',
         label: 'Warehouses',
         shortLabel: 'Warehouse',
+        image: {
+          src: '/images/insights/library/process-optimization.webp',
+          alt: 'Warehouse and 3PL service desk for customer updates and dock coordination',
+        },
         positioning: 'The AI front line for the warehouse desk and dock',
         promise:
           'Answer inventory and order questions, coordinate dock appointments, and turn receiving or picking exceptions into clear next steps for the floor.',
@@ -520,6 +572,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'care-practices',
         label: 'Care Practices',
         shortLabel: 'Practices',
+        image: {
+          src: '/images/insights/library/authentic-professional-portrait-selection.webp',
+          alt: 'Care practice front desk for patient booking and care continuity',
+        },
         positioning: 'The AI front line for clinic reception',
         promise:
           'Answer every patient call and message, book the right visit type, and keep recalls and waitlists moving—while clinical judgment stays with your providers.',
@@ -625,6 +681,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'manufacturing',
         label: 'Manufacturing',
         shortLabel: 'Manufacturing',
+        image: {
+          src: '/images/insights/library/twelve-month-technology-roadmap.webp',
+          alt: 'Manufacturing order desk and plant floor request routing',
+        },
         positioning: 'The AI front line for the plant desk and floor',
         promise:
           'Answer order and quality questions, triage maintenance and line issues, and hand supervisors a complete summary—so production keeps moving.',
@@ -730,6 +790,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'legal',
         label: 'Legal',
         shortLabel: 'Legal',
+        image: {
+          src: '/images/insights/library/client-boundaries-without-damaging-relationships.webp',
+          alt: 'Legal intake and client coordination with clear matter handoff',
+        },
         positioning: 'The AI front line for law-firm intake',
         promise:
           'Answer every inquiry, capture case details, book consultations, and route urgent matters to the right attorney—so your team practices law instead of chasing the phone.',
@@ -835,6 +899,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'accounting-tax',
         label: 'Accounting & Tax',
         shortLabel: 'Accounting',
+        image: {
+          src: '/images/insights/library/measure-software-business-value.webp',
+          alt: 'Accounting and tax client intake, booking, and file readiness',
+        },
         positioning: 'The AI front line for the firm desk in peak season',
         promise:
           'Answer client calls, book appointments, chase documents, and route urgent filing questions—so accountants stay on billable work.',
@@ -940,6 +1008,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'real-estate-property',
         label: 'Real Estate & Property',
         shortLabel: 'Real estate',
+        image: {
+          src: '/images/insights/library/sales-pipeline-or-list-of-contacts.webp',
+          alt: 'Real estate and property desk for leads and resident requests',
+        },
         positioning: 'The AI front line for listings, leads, and tenants',
         promise:
           'Answer every lead and tenant request, book showings or service visits, and route urgent issues—so deals and buildings keep moving.',
@@ -1045,6 +1117,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'veterinary',
         label: 'Veterinary',
         shortLabel: 'Veterinary',
+        image: {
+          src: '/images/insights/library/building-business-or-demanding-job.webp',
+          alt: 'Veterinary front desk for booking, reminders, and care continuity',
+        },
         positioning: 'The AI front line for the clinic phone',
         promise:
           'Answer every pet-owner call, book the right visit type, and escalate true emergencies—while clinical judgment stays with your veterinary team.',
@@ -1150,6 +1226,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'insurance-brokerage',
         label: 'Insurance Brokerages',
         shortLabel: 'Insurance',
+        image: {
+          src: '/images/insights/library/should-you-say-yes-to-this-opportunity.webp',
+          alt: 'Insurance brokerage intake for quoting and claims routing',
+        },
         positioning: 'The AI front line for the brokerage desk',
         promise:
           'Qualify new risks, book advisor time, answer routine policy questions from approved scripts, and route claims—without giving unlicensed advice.',
@@ -1255,6 +1335,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'immigration-settlement',
         label: 'Immigration & Settlement',
         shortLabel: 'Immigration',
+        image: {
+          src: '/images/insights/library/structured-data-for-small-business.webp',
+          alt: 'Immigration and settlement enquiry intake and file readiness',
+        },
         positioning: 'The AI front line for high-volume immigration inquiries',
         promise:
           'Answer every enquiry in the languages you support, capture case basics, book consultations, and chase documents—without giving immigration advice.',
@@ -1360,6 +1444,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'home-care-seniors',
         label: 'Home Care & Seniors',
         shortLabel: 'Home care',
+        image: {
+          src: '/images/insights/library/can-business-operate-two-weeks-without-you.webp',
+          alt: 'Home care intake for family assessments and scheduling updates',
+        },
         positioning: 'The AI front line for families and care coordination',
         promise:
           'Answer family inquiries, book assessments, coordinate visit changes, and escalate urgent client needs—with dignity and clear human handoff.',
@@ -1465,6 +1553,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'municipal-public',
         label: 'Municipal & Public Service',
         shortLabel: 'Municipal',
+        image: {
+          src: '/images/insights/library/turn-custom-service-into-repeatable-offer.webp',
+          alt: 'Municipal and public service desk for resident requests and counter support',
+        },
         positioning: 'The AI front line for resident service desks',
         promise:
           'Answer routine resident questions, take service requests, book appointments, and route complex matters to the right department—with a complete summary.',
@@ -1604,11 +1696,19 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         groupId: 'automation-ai',
         label: 'Automate work & apply AI responsibly',
         description: 'Capacity, peak coverage, and controlled automation—including AI Employee as a frontline option.',
+        image: {
+          src: '/images/insights/library/what-to-automate-first.webp',
+          alt: 'Automation and AI outcomes including AI Employee as a frontline option',
+        },
       },
       {
         groupId: 'experience-products',
         label: 'Improve customer and team experience',
         description: 'Communications, frontline channels, and digital experiences where an AI Employee often starts.',
+        image: {
+          src: '/images/insights/library/analog-to-ip-business-telephony.webp',
+          alt: 'Customer experience and communications pathways for frontline AI',
+        },
       },
     ],
   },
@@ -1616,11 +1716,19 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
     metadataTitle: 'Employé IA par industrie | ROALLA',
     metadataDescription:
       'Un employé IA qui répond aux demandes, résout le travail courant et transfère avec tout le contexte—pour les TI, les métiers, la logistique, les entrepôts, la fabrication, les cliniques de soins, le juridique, la comptabilité, l’immobilier, la médecine vétérinaire, l’assurance, l’immigration, les soins à domicile et les services publics.',
+    brandName: 'ROALLA',
     eyebrow: 'Employé IA',
     title: 'Une première ligne IA pour votre entreprise—toujours disponible, claire et prête à transférer.',
     lead: 'Répondez à chaque demande, résolvez ce qui est approuvé et envoyez le travail complexe à la bonne personne avec tout le contexte. Explorez les modèles par industrie pour les entreprises de services et d’opérations au Canada—puis élargissez une fois la preuve faite.',
     primaryCta: 'Vérifier l’adéquation d’un employé IA',
     secondaryCta: 'Parler avec ROALLA',
+    heroImage: {
+      src: '/images/insights/library/practical-ai-use-cases.webp',
+      alt: 'Employé IA de première ligne qui traite les demandes avec un relais humain clair',
+    },
+    industrySelectHint: 'Choisissez une industrie pour voir les modèles d’adéquation.',
+    audienceSelectHint: 'Choisissez qui l’employé IA soutient en premier.',
+    selectedLabel: 'Sélectionné',
     howEyebrow: 'Comment ça fonctionne',
     howTitle: 'Comprendre. Résoudre. Documenter. Escalader.',
     howLead:
@@ -1629,18 +1737,34 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
       {
         title: 'Comprendre la demande',
         description: 'Identifier qui a besoin d’aide, ce qui est requis, l’urgence et ce qui a déjà été tenté.',
+        image: {
+          src: '/images/insights/library/analog-to-ip-business-telephony.webp',
+          alt: 'Comprendre les demandes entrantes sur les canaux téléphone et numériques',
+        },
       },
       {
         title: 'Utiliser des connaissances approuvées',
         description: 'Répondre à partir de vos règles de service, catalogues, scripts et notes de problèmes connus—pas de conseils génériques.',
+        image: {
+          src: '/images/insights/library/five-rules-before-team-uses-ai.webp',
+          alt: 'Connaissances et règles approuvées qui guident les réponses de l’employé IA',
+        },
       },
       {
         title: 'Compléter le travail courant',
         description: 'Créer des dossiers, classer la priorité, communiquer le statut, réserver des rendez-vous et mettre à jour les systèmes lorsque c’est approuvé.',
+        image: {
+          src: '/images/insights/library/what-to-automate-first.webp',
+          alt: 'Compléter le travail de première ligne répétable avec une responsabilité claire',
+        },
       },
       {
         title: 'Escalader avec contexte',
         description: 'Quand le jugement, la sécurité, une exception de prix ou le risque interviennent, une personne reçoit un résumé complet—pas un message vide.',
+        image: {
+          src: '/images/insights/library/hire-or-fix-the-work-first.webp',
+          alt: 'Transférer le travail complexe à une personne avec tout le contexte',
+        },
       },
     ],
     industriesEyebrow: 'Cas d’usage par industrie',
@@ -1652,6 +1776,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'it-msp',
         label: 'TI et services gérés',
         shortLabel: 'TI / MSP',
+        image: {
+          src: '/images/insights/library/it-provider-who-owns-risk.webp',
+          alt: 'Première ligne TI et services gérés pour billets et couverture hors heures',
+        },
         positioning: 'La première ligne IA du soutien TI',
         promise:
           'Répondre à chaque demande, résoudre les problèmes courants et acheminer les incidents complexes au bon technicien avec tout le contexte.',
@@ -1757,6 +1885,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'trades-field',
         label: 'Métiers et services sur le terrain',
         shortLabel: 'Métiers',
+        image: {
+          src: '/images/insights/library/trade-show-leads-after-qr-scan.webp',
+          alt: 'Accueil métiers et services sur le terrain pour appels, réservations et suivi',
+        },
         positioning: 'La première ligne IA du téléphone de l’atelier',
         promise:
           'Répondre à chaque appel et message, qualifier le travail, réserver les interventions courantes et acheminer les vraies urgences au bon technicien—avec les détails déjà saisis.',
@@ -1862,6 +1994,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'transportation-logistics',
         label: 'Transport et logistique',
         shortLabel: 'Logistique',
+        image: {
+          src: '/images/insights/library/smb-digital-efficiency.webp',
+          alt: 'Bureau transport et logistique pour questions expéditeurs et transfert à la répartition',
+        },
         positioning: 'La première ligne IA de la coordination fret et flotte',
         promise:
           'Répondre aux questions d’expédition, saisir les nouveaux mouvements, suivre les exceptions et donner aux répartiteurs les bons détails avant qu’un chargement soit en retard.',
@@ -1967,6 +2103,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'warehouses',
         label: 'Entrepôts',
         shortLabel: 'Entrepôt',
+        image: {
+          src: '/images/insights/library/process-optimization.webp',
+          alt: 'Bureau entrepôt et 3PL pour mises à jour clients et coordination quai',
+        },
         positioning: 'La première ligne IA du bureau et du quai d’entrepôt',
         promise:
           'Répondre aux questions d’inventaire et de commandes, coordonner les rendez-vous de quai et transformer les exceptions de réception ou de prélèvement en prochaines étapes claires pour le plancher.',
@@ -2072,6 +2212,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'care-practices',
         label: 'Cliniques de soins',
         shortLabel: 'Cliniques',
+        image: {
+          src: '/images/insights/library/authentic-professional-portrait-selection.webp',
+          alt: 'Réception de clinique pour réservations patients et continuité des soins',
+        },
         positioning: 'La première ligne IA de la réception clinique',
         promise:
           'Répondre à chaque appel et message de patient, réserver le bon type de visite et faire avancer rappels et listes d’attente—pendant que le jugement clinique reste à vos professionnels.',
@@ -2177,6 +2321,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'manufacturing',
         label: 'Fabrication',
         shortLabel: 'Fabrication',
+        image: {
+          src: '/images/insights/library/twelve-month-technology-roadmap.webp',
+          alt: 'Bureau commandes fabrication et acheminement des demandes d’usine',
+        },
         positioning: 'La première ligne IA du bureau et du plancher d’usine',
         promise:
           'Répondre aux questions de commandes et de qualité, trier les problèmes de maintenance et de ligne, et transmettre aux superviseurs un résumé complet—pour que la production continue.',
@@ -2282,6 +2430,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'legal',
         label: 'Juridique',
         shortLabel: 'Juridique',
+        image: {
+          src: '/images/insights/library/client-boundaries-without-damaging-relationships.webp',
+          alt: 'Accueil juridique et coordination clients avec transfert clair de dossiers',
+        },
         positioning: 'La première ligne IA de l’accueil d’un cabinet',
         promise:
           'Répondre à chaque demande, saisir les détails du dossier, réserver des consultations et acheminer les affaires urgentes au bon avocat—pour que votre équipe pratique le droit au lieu de courir après le téléphone.',
@@ -2387,6 +2539,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'accounting-tax',
         label: 'Comptabilité et fiscalité',
         shortLabel: 'Comptabilité',
+        image: {
+          src: '/images/insights/library/measure-software-business-value.webp',
+          alt: 'Accueil comptabilité et fiscalité, réservations et préparation de dossiers',
+        },
         positioning: 'La première ligne IA du bureau en haute saison',
         promise:
           'Répondre aux appels clients, réserver des rendez-vous, relancer les documents et acheminer les questions de production urgentes—pour que les comptables restent sur le travail facturable.',
@@ -2492,6 +2648,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'real-estate-property',
         label: 'Immobilier et immeubles',
         shortLabel: 'Immobilier',
+        image: {
+          src: '/images/insights/library/sales-pipeline-or-list-of-contacts.webp',
+          alt: 'Bureau immobilier pour prospects et demandes de résidents',
+        },
         positioning: 'La première ligne IA des inscriptions, prospects et locataires',
         promise:
           'Répondre à chaque prospect et demande de locataire, réserver des visites ou interventions, et acheminer les urgences—pour que les transactions et les immeubles avancent.',
@@ -2597,6 +2757,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'veterinary',
         label: 'Médecine vétérinaire',
         shortLabel: 'Vétérinaire',
+        image: {
+          src: '/images/insights/library/building-business-or-demanding-job.webp',
+          alt: 'Réception vétérinaire pour réservations, rappels et continuité des soins',
+        },
         positioning: 'La première ligne IA du téléphone de clinique',
         promise:
           'Répondre à chaque appel de propriétaire, réserver le bon type de visite et escalader les vraies urgences—pendant que le jugement clinique reste à votre équipe vétérinaire.',
@@ -2702,6 +2866,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'insurance-brokerage',
         label: 'Courtage d’assurance',
         shortLabel: 'Assurance',
+        image: {
+          src: '/images/insights/library/should-you-say-yes-to-this-opportunity.webp',
+          alt: 'Accueil courtage d’assurance pour soumissions et acheminement des réclamations',
+        },
         positioning: 'La première ligne IA du bureau de courtage',
         promise:
           'Qualifier les nouveaux risques, réserver le temps des conseillers, répondre aux questions de police courantes selon des scripts approuvés et acheminer les réclamations—sans donner de conseils non licenciés.',
@@ -2807,6 +2975,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'immigration-settlement',
         label: 'Immigration et établissement',
         shortLabel: 'Immigration',
+        image: {
+          src: '/images/insights/library/structured-data-for-small-business.webp',
+          alt: 'Accueil immigration et établissement pour demandes et préparation de dossiers',
+        },
         positioning: 'La première ligne IA des demandes d’immigration à fort volume',
         promise:
           'Répondre à chaque demande dans les langues que vous soutenez, saisir les bases du dossier, réserver des consultations et relancer les documents—sans donner de conseils d’immigration.',
@@ -2912,6 +3084,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'home-care-seniors',
         label: 'Soins à domicile et aînés',
         shortLabel: 'Soins à domicile',
+        image: {
+          src: '/images/insights/library/can-business-operate-two-weeks-without-you.webp',
+          alt: 'Accueil soins à domicile pour évaluations familiales et mises à jour d’horaire',
+        },
         positioning: 'La première ligne IA des familles et de la coordination des soins',
         promise:
           'Répondre aux demandes des familles, réserver des évaluations, coordonner les changements de visite et escalader les besoins urgents—avec dignité et transfert humain clair.',
@@ -3017,6 +3193,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         id: 'municipal-public',
         label: 'Services municipaux et publics',
         shortLabel: 'Municipal',
+        image: {
+          src: '/images/insights/library/turn-custom-service-into-repeatable-offer.webp',
+          alt: 'Bureau municipal et services publics pour demandes de résidents et soutien au comptoir',
+        },
         positioning: 'La première ligne IA des guichets de service aux résidents',
         promise:
           'Répondre aux questions courantes des résidents, prendre les demandes de service, réserver des rendez-vous et acheminer les dossiers complexes au bon service—avec un résumé complet.',
@@ -3157,11 +3337,19 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         groupId: 'automation-ai',
         label: 'Automatiser le travail et appliquer l’IA de façon responsable',
         description: 'Capacité, couverture en pointe et automatisation contrôlée—y compris l’employé IA comme option de première ligne.',
+        image: {
+          src: '/images/insights/library/what-to-automate-first.webp',
+          alt: 'Résultats d’automatisation et d’IA, y compris l’employé IA en première ligne',
+        },
       },
       {
         groupId: 'experience-products',
         label: 'Améliorer l’expérience clients et équipes',
         description: 'Communications, canaux de première ligne et expériences numériques où un employé IA commence souvent.',
+        image: {
+          src: '/images/insights/library/analog-to-ip-business-telephony.webp',
+          alt: 'Parcours d’expérience client et de communications pour l’IA de première ligne',
+        },
       },
     ],
   },

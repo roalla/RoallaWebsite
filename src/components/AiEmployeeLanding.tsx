@@ -169,6 +169,7 @@ export default function AiEmployeeLanding({
                         src={step.image.src}
                         alt={step.image.alt}
                         fill
+                        loading="lazy"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                         className="object-cover"
                       />
@@ -222,6 +223,7 @@ export default function AiEmployeeLanding({
                         src={item.image.src}
                         alt={item.image.alt}
                         fill
+                        loading="lazy"
                         sizes="(max-width: 640px) 100vw, (max-width: 1280px) 33vw, 25vw"
                         className="object-cover transition duration-300 group-hover/tile:scale-[1.03]"
                       />
@@ -289,6 +291,7 @@ export default function AiEmployeeLanding({
                             src={industry.image.src}
                             alt={industry.image.alt}
                             fill
+                            loading="lazy"
                             sizes="(max-width: 640px) 100vw, 50vw"
                             className={[
                               'object-cover transition duration-300 group-hover/tile:scale-[1.03]',
@@ -325,21 +328,10 @@ export default function AiEmployeeLanding({
                       {audience.uses.map((use) => (
                         <li
                           key={use.title}
-                          className="overflow-hidden rounded-xl border border-slate-200 bg-white"
+                          className="border-t-2 border-primary/30 bg-white px-4 py-4"
                         >
-                          <span className="relative block aspect-[16/10] overflow-hidden bg-slate-100">
-                            <Image
-                              src={industry.image.src}
-                              alt={industry.image.alt}
-                              fill
-                              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                              className="object-cover"
-                            />
-                          </span>
-                          <div className="px-4 py-4">
-                            <h4 className="font-serif text-lg font-bold text-slate-950">{use.title}</h4>
-                            <p className="mt-2 text-sm leading-6 text-slate-600">{use.description}</p>
-                          </div>
+                          <h4 className="font-serif text-lg font-bold text-slate-950">{use.title}</h4>
+                          <p className="mt-2 text-sm leading-6 text-slate-600">{use.description}</p>
                         </li>
                       ))}
                     </ul>
@@ -453,6 +445,7 @@ export default function AiEmployeeLanding({
                           src={item.image.src}
                           alt={item.image.alt}
                           fill
+                          loading="lazy"
                           sizes="(max-width: 768px) 100vw, 50vw"
                           className="object-cover transition duration-300 group-hover/tile:scale-[1.03]"
                         />

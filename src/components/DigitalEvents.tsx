@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
 import Reveal from './motion/Reveal'
 import { useLocale, useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
@@ -38,6 +39,12 @@ import {
 
 const capabilityIcons = [QrCode, CalendarDays, Smartphone, Rocket] as const
 const capabilityAnchors = ['booth', 'microsites', 'apps', 'activations'] as const
+const capabilityImages = [
+  '/images/insights/library/trade-show-leads-after-qr-scan.webp',
+  '/ColdBru-Event.jpg',
+  '/boothlio-pic.webp',
+  '/images/services/digital-outcome-launch.webp',
+] as const
 const formatKeys = ['format1', 'format2', 'format3'] as const
 const formatIcons = [QrCode, CalendarDays, Smartphone] as const
 const fitKeys = ['fit1', 'fit2', 'fit3'] as const
@@ -58,6 +65,8 @@ type EventCapability = {
   outcome: string
   icon: (typeof capabilityIcons)[number]
   anchor: (typeof capabilityAnchors)[number]
+  imageSrc: string
+  imageAlt: string
 }
 
 function EventCapabilityCard({
@@ -69,7 +78,17 @@ function EventCapabilityCard({
 }) {
   return (
     <Reveal as="article" id={topic.anchor} className="scroll-mt-28 h-full">
-      <div className={serviceCardClass}>
+      <div className={`${serviceCardClass} overflow-hidden group/tile`}>
+      <span className="relative block aspect-[16/10] overflow-hidden bg-slate-100">
+        <Image
+          src={topic.imageSrc}
+          alt={topic.imageAlt}
+          fill
+          loading="lazy"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className="object-cover transition duration-300 group-hover/tile:scale-[1.03]"
+        />
+      </span>
       <div className="p-6 lg:p-7 flex flex-col flex-1 h-full">
         <div className="flex items-start gap-4 mb-4">
           <div
@@ -128,6 +147,8 @@ export default function DigitalEvents() {
   const capabilities: EventCapability[] = capabilityAnchors.map((anchor, i) => ({
     anchor,
     icon: capabilityIcons[i],
+    imageSrc: capabilityImages[i],
+    imageAlt: t(`topic${i}ImageAlt` as 'topic0ImageAlt'),
     title: t(`topic${i}Title` as 'topic0Title'),
     desc: t(`topic${i}Desc` as 'topic0Desc'),
     ideal: t(`topic${i}Ideal` as 'topic0Ideal'),

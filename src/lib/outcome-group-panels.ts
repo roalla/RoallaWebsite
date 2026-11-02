@@ -19,6 +19,8 @@ export type EvidencePath =
   | '/connected-operations-review'
   | '/ai-employee'
   | '/ai-employee-fit-review'
+  | '/tools/ai-employee-fit-brief'
+  | '/tools/learning-adoption-brief'
   | '/security-risk-coverage-review'
   | '/compliance-readiness-review'
   | '/continuity-recovery-review'
@@ -631,6 +633,74 @@ const experienceEn: OutcomeGroupPanelCopy = {
       },
     },
     {
+      id: 'customer-adoption',
+      label: 'Customers stall after launch without clear how-to content',
+      hint: 'People buy or sign up, then get stuck because videos, docs, or guides are missing or confusing.',
+      typicalCauses: [
+        'Marketing explains the offer, but not the first tasks customers must complete.',
+        'Support answers the same how-to questions because materials are hard to find or outdated.',
+      ],
+      roallaHelp:
+        'ROALLA helps choose the smallest useful adoption path—docs, short video, or tracked modules—before producing more content that goes stale.',
+      image: {
+        src: '/images/insights/library/website-after-launch.webp',
+        alt: 'Customer adoption materials after a digital launch',
+      },
+      evidencePath: '/tools/learning-adoption-brief',
+      evidenceLabel: 'Frame learning and adoption needs',
+      evidenceNote: 'Free brief—audience, format, and ownership before you build content.',
+      pathwaySlug: 'digital-experience',
+      contactIntent: 'platform',
+      detail: {
+        issues: [
+          'Customers cannot complete first-week tasks without calling support.',
+          'Videos and docs exist but do not match the live product or journey.',
+          'Marketing content does not connect to task-level how-to guidance.',
+        ],
+        approach:
+          'Separate awareness content from adoption content. Start with one audience and one outcome, then choose docs, short video, YouTube-style hosting, or SCORM only when tracking is required.',
+        solutions: [
+          'Learning & Adoption Brief for audience, format, and ownership',
+          'Scoped how-to guides and short videos tied to the live journey',
+          'Tracked SCORM or LMS modules when completion proof is required',
+        ],
+      },
+    },
+    {
+      id: 'internal-education',
+      label: 'Teams need consistent training on services, policies, or practice',
+      hint: 'Staff apply rules unevenly because service, policy, or industry training is informal or outdated.',
+      typicalCauses: [
+        'Knowledge lives with a few people and does not transfer cleanly to new hires.',
+        'Policy and service updates are announced once, then disappear into folders.',
+      ],
+      roallaHelp:
+        'ROALLA helps define internal education that matches the job—simple video when speed matters, tracked modules when completion and refresh must be proven.',
+      image: {
+        src: '/images/insights/library/workshop-consultant-or-fractional-leader.webp',
+        alt: 'Internal team education on services and policies',
+      },
+      evidencePath: '/tools/learning-adoption-brief',
+      evidenceLabel: 'Frame learning and adoption needs',
+      evidenceNote: 'Free brief—keep staff training scoped to one outcome and owner.',
+      pathwaySlug: 'digital-experience',
+      contactIntent: 'platform',
+      detail: {
+        issues: [
+          'Service quality varies because training is informal or incomplete.',
+          'Policies and industry guidance are hard to find when people need them.',
+          'Nobody owns refresh dates, so materials drift from current practice.',
+        ],
+        approach:
+          'Name the audience, the behaviour that must change, and the owner. Prefer short videos or docs for speed; use SCORM or LMS only when you need completion records.',
+        solutions: [
+          'Learning & Adoption Brief for internal education priorities',
+          'Service, policy, or industry modules with clear ownership',
+          'Simple video libraries or tracked SCORM paths based on proof needs',
+        ],
+      },
+    },
+    {
       id: 'communications',
       label: 'Missed calls and weak call handling hurt service',
       hint: 'Call routing, voicemail, or contact-centre reporting cost customers and follow-up.',
@@ -884,6 +954,74 @@ const experienceFr: OutcomeGroupPanelCopy = {
           'Revue de forfait site Web selon les objectifs de conversion et de parcours',
           'Correctifs de chemin pour la clarté de l’offre, les formulaires et les transferts de contact',
           'Mises à jour d’expérience mesurées qui améliorent l’achèvement—pas seulement l’esthétique',
+        ],
+      },
+    },
+    {
+      id: 'customer-adoption',
+      label: 'Les clients bloquent après le lancement faute de guides clairs',
+      hint: 'Les gens achètent ou s’inscrivent, puis bloquent parce que vidéos, docs ou guides manquent ou sont confus.',
+      typicalCauses: [
+        'Le marketing explique l’offre, mais pas les premières tâches que les clients doivent accomplir.',
+        'Le soutien répond aux mêmes questions pratiques parce que le matériel est difficile à trouver ou périmé.',
+      ],
+      roallaHelp:
+        'ROALLA aide à choisir le plus petit parcours d’adoption utile—docs, courte vidéo ou modules suivis—avant de produire plus de contenu qui vieillit.',
+      image: {
+        src: '/images/insights/library/website-after-launch.webp',
+        alt: 'Matériel d’adoption client après un lancement numérique',
+      },
+      evidencePath: '/tools/learning-adoption-brief',
+      evidenceLabel: 'Cadre les besoins d’apprentissage et d’adoption',
+      evidenceNote: 'Brief gratuit—public, format et responsabilités avant de bâtir le contenu.',
+      pathwaySlug: 'digital-experience',
+      contactIntent: 'platform',
+      detail: {
+        issues: [
+          'Les clients ne peuvent pas terminer les tâches de la première semaine sans appeler le soutien.',
+          'Vidéos et docs existent mais ne correspondent pas au produit ou parcours en ligne.',
+          'Le contenu marketing ne se relie pas aux guides pratiques de tâches.',
+        ],
+        approach:
+          'Séparez le contenu de notoriété du contenu d’adoption. Commencez par un public et un résultat, puis choisissez docs, courte vidéo, hébergement style YouTube, ou SCORM seulement si le suivi est requis.',
+        solutions: [
+          'Brief adoption et formation pour public, format et responsabilités',
+          'Guides pratiques et courtes vidéos liés au parcours en ligne',
+          'Modules SCORM ou LMS suivis lorsque la preuve de complétion est requise',
+        ],
+      },
+    },
+    {
+      id: 'internal-education',
+      label: 'Les équipes ont besoin d’une formation cohérente sur services, politiques ou pratiques',
+      hint: 'Le personnel applique les règles inégalement parce que la formation sur le service, les politiques ou l’industrie est informelle ou périmée.',
+      typicalCauses: [
+        'Le savoir reste chez quelques personnes et se transfère mal aux nouvelles recrues.',
+        'Les mises à jour de politiques et de services sont annoncées une fois, puis disparaissent dans des dossiers.',
+      ],
+      roallaHelp:
+        'ROALLA aide à définir une formation interne adaptée au travail—vidéo simple quand la vitesse compte, modules suivis quand la complétion et le rafraîchissement doivent être prouvés.',
+      image: {
+        src: '/images/insights/library/workshop-consultant-or-fractional-leader.webp',
+        alt: 'Formation interne sur les services et politiques',
+      },
+      evidencePath: '/tools/learning-adoption-brief',
+      evidenceLabel: 'Cadre les besoins d’apprentissage et d’adoption',
+      evidenceNote: 'Brief gratuit—gardez la formation ciblée sur un résultat et un responsable.',
+      pathwaySlug: 'digital-experience',
+      contactIntent: 'platform',
+      detail: {
+        issues: [
+          'La qualité de service varie parce que la formation est informelle ou incomplète.',
+          'Politiques et guides sectoriels sont difficiles à trouver au moment utile.',
+          'Personne ne possède les dates de révision, donc le matériel dérive de la pratique actuelle.',
+        ],
+        approach:
+          'Nommez le public, le comportement à changer et le responsable. Préférez courtes vidéos ou docs pour la vitesse; utilisez SCORM ou LMS seulement si des registres de complétion sont nécessaires.',
+        solutions: [
+          'Brief adoption et formation pour les priorités internes',
+          'Modules service, politique ou industrie avec responsabilités claires',
+          'Bibliothèques vidéo simples ou parcours SCORM suivis selon les besoins de preuve',
         ],
       },
     },

@@ -56,6 +56,8 @@ export const routing = defineRouting({
     "/tools/email-reach-brief": "/tools/email-reach-brief",
     "/tools/ninety-day-plan-brief": "/tools/ninety-day-plan-brief",
     "/tools/capacity-pressure-brief": "/tools/capacity-pressure-brief",
+    "/tools/ai-employee-fit-brief": "/tools/ai-employee-fit-brief",
+    "/tools/learning-adoption-brief": "/tools/learning-adoption-brief",
     "/email-reach-review": "/email-reach-review",
     "/90-day-execution-plan": "/90-day-execution-plan",
     "/capacity-pressure-review": "/capacity-pressure-review",

@@ -14,7 +14,7 @@ const GROUP_IDS: OutcomeGroupId[] = [
 
 const SITUATION_COUNTS: Record<OutcomeGroupId, number> = {
   'growth-visibility': 5,
-  'experience-products': 6,
+  'experience-products': 8,
   'automation-ai': 5,
   'security-compliance': 7,
   execution: 3,
@@ -256,11 +256,23 @@ describe('outcome group panels', () => {
     expect(copy.situations.map((item) => item.id)).toEqual([
       'website-or-product',
       'customer-journey',
+      'customer-adoption',
+      'internal-education',
       'communications',
       'phone-ip-uc',
       'ai-employee',
       'point-of-sale',
     ])
+    expect(copy.situations.find((item) => item.id === 'customer-adoption')).toMatchObject({
+      evidencePath: '/tools/learning-adoption-brief',
+      pathwaySlug: 'digital-experience',
+      contactIntent: 'platform',
+    })
+    expect(copy.situations.find((item) => item.id === 'internal-education')).toMatchObject({
+      evidencePath: '/tools/learning-adoption-brief',
+      pathwaySlug: 'digital-experience',
+      contactIntent: 'platform',
+    })
     expect(copy.situations.find((item) => item.id === 'phone-ip-uc')).toMatchObject({
       evidencePath: '/tools/communications-value-brief',
       pathwaySlug: 'communications',

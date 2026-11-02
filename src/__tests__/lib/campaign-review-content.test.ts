@@ -12,7 +12,7 @@ describe('campaign review landing pages', () => {
         expect(page.fit.length).toBeGreaterThanOrEqual(4)
         expect(page.faqs.length).toBeGreaterThanOrEqual(3)
         expect(page.servicePath).toMatch(/^\/services\//)
-        expect(page.toolPath).toMatch(/^\/(assessment|tools\/)/)
+        expect(page.toolPath).toMatch(/^\/(assessment|contact|tools\/)/)
       }
     }
   })

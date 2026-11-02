@@ -15,6 +15,8 @@ export type PathwayEvidencePath =
   | '/connected-operations-review'
   | '/ai-employee'
   | '/ai-employee-fit-review'
+  | '/tools/ai-employee-fit-brief'
+  | '/tools/learning-adoption-brief'
   | '/security-risk-coverage-review'
   | '/compliance-readiness-review'
   | '/continuity-recovery-review'

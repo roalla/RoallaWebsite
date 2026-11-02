@@ -41,11 +41,19 @@ export default function AiEmployeeLanding({
   }, [reduceMotion])
 
   const industryLabel = industry?.label ?? 'IT & Managed Services'
-  const fitHrefBase = useMemo(
-    () =>
-      `/${language}/ai-employee-fit-review?offer=${encodeURIComponent('AI Employee Fit Review')}&icp=${encodeURIComponent(industryLabel)}`,
-    [industryLabel, language],
-  )
+  const fitHrefBase = useMemo(() => {
+    const params = new URLSearchParams({
+      offer: 'AI Employee Fit Brief',
+      industry: industryLabel,
+      icp: industryLabel,
+      campaign: 'ai-employee',
+      conversion_source: 'ai_employee_page',
+      entry_page: '/ai-employee',
+      signal: 'ai-employee',
+    })
+    if (audienceId) params.set('audience', audienceId)
+    return `/${language}/tools/ai-employee-fit-brief?${params.toString()}`
+  }, [audienceId, industryLabel, language])
   const contactHrefBase = useMemo(() => {
     const params = new URLSearchParams({
       intent: 'consulting',
@@ -70,12 +78,7 @@ export default function AiEmployeeLanding({
       offer: content.eyebrow,
       icp: industryLabel,
     }
-    setFitHref(
-      appendAttributionToHref(fitHrefBase, inbound, {
-        ...defaults,
-        campaign: 'ai-employee-fit-review',
-      }),
-    )
+    setFitHref(appendAttributionToHref(fitHrefBase, inbound, defaults))
     setContactHref(appendAttributionToHref(contactHrefBase, inbound, defaults))
   }, [contactHrefBase, content.eyebrow, fitHrefBase, industryLabel])
 
@@ -112,22 +115,23 @@ export default function AiEmployeeLanding({
                 reduceMotion || !heroReady ? 'scale-100' : 'scale-105',
               ].join(' ')}
             />
-            <div className="absolute inset-0 bg-slate-950/55" />
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/88 to-slate-950/70" />
-            <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-slate-950 to-transparent" />
+            {/* Darkest behind the copy and the header edge; faces and the right side of the room stay visible. */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.68)_0%,rgba(15,23,42,0.5)_52%,rgba(15,23,42,0.4)_100%)] md:bg-[linear-gradient(to_right,rgba(15,23,42,0.55)_0%,rgba(15,23,42,0.24)_38%,transparent_70%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(15,23,42,0.22)_0%,rgba(15,23,42,0.1)_34%,rgba(15,23,42,0.5)_66%,rgba(15,23,42,0.8)_100%)]" />
+            <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-slate-950/55 to-transparent" />
           </div>
           <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
             <Reveal when="mount" className="max-w-3xl">
-              <p className="font-serif text-3xl font-bold tracking-tight text-white sm:text-4xl">
+              <p className="font-serif text-3xl font-bold tracking-tight text-white [text-shadow:0_1px_2px_rgba(15,23,42,0.55)] sm:text-4xl">
                 {content.brandName}
               </p>
-              <p className="mt-3 text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">
+              <p className="mt-3 text-xs font-bold uppercase tracking-[0.2em] text-brand-gold [text-shadow:0_1px_2px_rgba(15,23,42,0.65)]">
                 {content.eyebrow}
               </p>
-              <h1 className="mt-4 font-serif text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
+              <h1 className="mt-4 font-serif text-4xl font-bold leading-tight text-white [text-shadow:0_2px_16px_rgba(15,23,42,0.45)] sm:text-5xl lg:text-6xl">
                 {content.title}
               </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-white/95 drop-shadow-sm">{content.lead}</p>
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-white [text-shadow:0_1px_2px_rgba(15,23,42,0.6)]">{content.lead}</p>
               <div
                 className={[
                   'mt-8 flex flex-wrap gap-3 transition-opacity duration-700',
@@ -145,7 +149,7 @@ export default function AiEmployeeLanding({
                 <a
                   href={contactHref}
                   onClick={() => trackCta('hero_contact')}
-                  className="inline-flex min-h-12 items-center rounded-lg border border-white/30 bg-white/5 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/10"
+                  className="inline-flex min-h-12 items-center rounded-lg border border-white/55 bg-slate-950/45 px-6 py-3 font-semibold text-white shadow-sm backdrop-blur-sm transition-colors hover:bg-slate-950/60"
                 >
                   {content.secondaryCta}
                 </a>

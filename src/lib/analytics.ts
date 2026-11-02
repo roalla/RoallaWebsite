@@ -75,7 +75,13 @@ export type AnalyticsEventName =
   | "partners_closing_cta"
   | "ai_employee_cta"
   | "ai_employee_industry"
-  | "ai_employee_audience";
+  | "ai_employee_audience"
+  | "ai_employee_fit_brief_started"
+  | "ai_employee_fit_brief_complete"
+  | "ai_employee_fit_brief_soft_capture"
+  | "learning_adoption_brief_started"
+  | "learning_adoption_brief_complete"
+  | "learning_adoption_brief_soft_capture";
 
 export function trackAnalyticsEvent(
   eventName: AnalyticsEventName,

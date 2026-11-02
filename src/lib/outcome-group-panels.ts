@@ -21,6 +21,7 @@ export type EvidencePath =
   | '/ai-employee-fit-review'
   | '/security-risk-coverage-review'
   | '/compliance-readiness-review'
+  | '/continuity-recovery-review'
   | '/assessment'
 
 export type OutcomeGroupSituationDetail = {
@@ -1752,7 +1753,7 @@ const securityEn: OutcomeGroupPanelCopy = {
   resultEyebrow: 'What better looks like',
   resultTitle: 'Material risks are visible—and remediation has owners.',
   resultBody:
-    'A prioritized risk and infrastructure path: security gaps, cloud foundations, and network resilience sequenced against obligations and operating reality. Start with decision criteria before products dominate.',
+    'A prioritized risk and infrastructure path: security gaps, privacy and cyber baselines (including SOC 2), continuity and recovery proof, cloud foundations, and network resilience sequenced against obligations and operating reality. Start with decision criteria before products dominate.',
   situationPrompt: 'Which risk pressure is closest?',
   situations: [
     {
@@ -1776,12 +1777,12 @@ const securityEn: OutcomeGroupPanelCopy = {
       contactIntent: 'security',
       detail: {
         issues: [
-          'Questionnaires and customer diligence expose controls you cannot evidence clearly.',
+          'Questionnaires often cite privacy or cyber baselines—PIPEDA, GDPR, Cyber Essentials, or similar—and expose controls you cannot evidence clearly.',
           'Gaps are known anecdotally but not prioritized against residual risk.',
           'Vendors pitch products before obligations and ownership are written down.',
         ],
         approach:
-          'Treat this as early diligence: lock requirements, residual-risk tolerance, and control ownership before demos. Continuous detection coverage and formal compliance readiness are separate next steps once the first gaps are visible.',
+          'Treat this as early diligence: name the obligation buyers are asking about, then lock residual-risk tolerance and control ownership before demos. Continuous detection coverage and formal compliance readiness are separate next steps once the first gaps are visible.',
         solutions: [
           'Technology decision review focused on security obligations and criteria',
           'Prioritized gap list with owners and remediation sequence',
@@ -1812,10 +1813,10 @@ const securityEn: OutcomeGroupPanelCopy = {
         issues: [
           'Threats could go unseen overnight, on weekends, or during holidays.',
           'Alerts pile up without a named responder or escalation path.',
-          'Insurers, customers, or partners ask about detection and response you cannot describe.',
+          'Insurers, customers, or partners ask about detection and response you cannot describe—often the same “who is watching?” question that shows up in diligence.',
         ],
         approach:
-          'Map what is monitored today, then define detection and response requirements—hours, speed, escalation, and evidence—before comparing managed security options. No service eliminates risk, so make residual risk explicit.',
+          'Map what is monitored today, then define detection and response requirements—hours, speed, escalation, and evidence—before comparing managed security options. Continuous coverage is what buyers and insurers often expect when they ask about monitoring and response. No service eliminates risk, so make residual risk explicit.',
         solutions: [
           'Security risk coverage review for detection and response requirements',
           'Coverage map showing what is monitored and who responds at each hour',
@@ -1846,10 +1847,10 @@ const securityEn: OutcomeGroupPanelCopy = {
         issues: [
           'Security tasks are squeezed between help-desk and project work.',
           'Key-person risk concentrates security knowledge in one or two people.',
-          'Responsibilities between internal staff and external providers are unclear.',
+          'Responsibilities between internal staff and external providers are unclear—yet partners still expect named ownership for monitoring and response.',
         ],
         approach:
-          'Define coverage and response requirements first, then compare internal, co-managed, and fully managed models against real capacity, obligations, and cost. Make ownership explicit in the chosen model.',
+          'Define coverage and response requirements first, then compare internal, co-managed, and fully managed models against real capacity, obligations, and cost. Clear operating ownership is what diligence and insurers often expect when they ask who runs day-to-day security. Make ownership explicit in the chosen model.',
         solutions: [
           'Security risk coverage review with an operating-model comparison',
           'Responsibility map between internal staff and external providers',
@@ -1859,35 +1860,36 @@ const securityEn: OutcomeGroupPanelCopy = {
     },
     {
       id: 'compliance-readiness',
-      label: 'Customers are asking for SOC 2',
-      hint: 'You need to prepare for an independent examination without guessing at scope.',
+      label: 'Customers or partners need proof of our controls',
+      hint: 'You need a clear readiness path before SOC 2, Cyber Essentials, or privacy diligence—not a guess at scope.',
       typicalCauses: [
         'Policies and controls exist, but evidence is scattered or incomplete.',
-        'Scope, criteria, and ownership have not been agreed.',
+        'Which obligation applies—and who owns evidence—has not been agreed.',
       ],
       roallaHelp:
-        'ROALLA provides SOC 2 readiness support—scope, control gaps, evidence, and ownership. Independent examinations remain with a qualified CPA firm.',
+        'ROALLA helps map obligation → scope → control gaps → evidence owners → sequence for readiness work such as SOC 2, Cyber Essentials, or privacy diligence (for example PIPEDA or UK GDPR). Independent examinations, certifications, and legal advice stay with qualified external parties.',
       image: {
         src: '/images/insights/library/what-to-expect-soc-2-examination-saas.webp',
-        alt: 'SOC 2 readiness before an independent examination',
+        alt: 'Control-proof readiness before SOC 2, Cyber Essentials, or privacy diligence',
       },
       evidencePath: '/compliance-readiness-review',
-      evidenceLabel: 'Check SOC 2 readiness',
-      evidenceNote: 'Free readiness review—not an attestation or audit opinion.',
+      evidenceLabel: 'Check compliance readiness',
+      evidenceNote:
+        'Free readiness review—not legal advice, an attestation, a certification, or an audit opinion.',
       pathwaySlug: 'security',
       contactIntent: 'security',
       detail: {
         issues: [
-          'Customers or partners require a SOC 2 report to proceed.',
+          'Customers or partners ask for proof against frameworks you recognize—SOC 2, Cyber Essentials, PIPEDA, UK GDPR, or sector rules such as CIRO reporting, OSFI B-13, or DORA where they apply.',
           'Evidence for controls is scattered across tools and people.',
-          'Timeline and effort are unclear before engaging an examiner.',
+          'Timeline and effort are unclear before engaging an examiner, assessor, or counsel.',
         ],
         approach:
-          'Establish likely scope, criteria, control gaps, and evidence ownership first, then sequence remediation toward examination. ROALLA supports readiness; a qualified CPA firm performs the independent examination.',
+          'Name the obligation first, then establish likely scope, control gaps, and evidence ownership before sequencing remediation. ROALLA supports readiness and ownership; counsel, Cyber Essentials assessors, and CPA examination firms remain independent. This is not legal advice.',
         solutions: [
-          'Compliance readiness review covering scope, controls, and evidence',
+          'Compliance readiness review covering obligation, scope, controls, and evidence',
           'Gap and evidence list with owners and remediation priorities',
-          'Roadmap to engaging an independent CPA examination firm',
+          'Roadmap to engaging the right independent examiner, assessor, or counsel when needed',
         ],
       },
     },
@@ -1923,6 +1925,42 @@ const securityEn: OutcomeGroupPanelCopy = {
           'Decision review that compares infrastructure-to-infrastructure migration options on the same scorecard',
           'Operating ownership model for run, support, and cost accountability',
           'Transition plan sequenced to reduce risk during data and server migration',
+        ],
+      },
+    },
+    {
+      id: 'continuity-recovery',
+      label: 'We can’t prove continuity or recovery if a site or data hall fails',
+      hint: 'Commercial sites and data-centre environments need a current-state view of recovery targets, availability, and facility readiness—before another product buy.',
+      typicalCauses: [
+        'Recovery time and data-loss targets are assumed, not agreed or tested.',
+        'Power, cooling, equipment, and connectivity single points of failure are tribal knowledge.',
+      ],
+      roallaHelp:
+        'ROALLA helps measure current-state continuity metrics—RTO, RPO, availability, and PUE where a facility applies—then maps power, HVAC, equipment, and connectivity gaps into a sequenced plan. Analysis and planning can stay with ROALLA; build and remediation may involve your team or other specialists.',
+      image: {
+        src: '/images/insights/library/cloud-backup-sync-recovery-differences.webp',
+        alt: 'Business continuity and disaster recovery planning for sites and data centres',
+      },
+      evidencePath: '/continuity-recovery-review',
+      evidenceLabel: 'Start continuity and recovery review',
+      evidenceNote:
+        'Free capability review—analysis and planning aid, not a certified facility assessment.',
+      pathwaySlug: 'cloud-infrastructure',
+      contactIntent: 'consulting',
+      contactFocus: 'technology',
+      detail: {
+        issues: [
+          'RTO and RPO are unclear, untested, or different in every conversation.',
+          'Availability and facility efficiency (including PUE) are claimed but not measured against targets.',
+          'Power, HVAC, equipment, and connectivity single points of failure are undocumented—and the written plan has not been exercised.',
+        ],
+        approach:
+          'Measure current state, name recovery and availability targets, then map facility and operations domains (power, cooling, equipment, connectivity, backup, runbooks) before sequencing remediation. Standards buyers cite—such as Uptime Tier concepts or ASHRAE thermal guidance—are recognition language, not a claim that ROALLA certifies facilities. Implementation can be ROALLA, your team, or other specialists with clear owners.',
+        solutions: [
+          'Continuity and Recovery Review for current-state metrics and domain gaps',
+          'Scorecard covering RTO, RPO, availability, PUE (when applicable), and facility domains',
+          'Sequenced BC/DR plan with owners across analyse, plan, remediate, and test',
         ],
       },
     },
@@ -2007,7 +2045,7 @@ const securityFr: OutcomeGroupPanelCopy = {
   resultEyebrow: 'À quoi ressemble une meilleure situation',
   resultTitle: 'Les risques importants sont visibles—et la remédiation a des responsables.',
   resultBody:
-    'Un parcours priorisé de risque et d’infrastructure : écarts de sécurité, fondations infonuagiques et résilience réseau séquencés selon les obligations et la réalité opérationnelle. Commencez par les critères de décision avant que les produits dominent.',
+    'Un parcours priorisé de risque et d’infrastructure : écarts de sécurité, bases de confidentialité et de cybersécurité (y compris SOC 2), preuve de continuité et de reprise, fondations infonuagiques et résilience réseau séquencés selon les obligations et la réalité opérationnelle. Commencez par les critères de décision avant que les produits dominent.',
   situationPrompt: 'Quelle pression de risque est la plus proche?',
   situations: [
     {
@@ -2031,12 +2069,12 @@ const securityFr: OutcomeGroupPanelCopy = {
       contactIntent: 'security',
       detail: {
         issues: [
-          'Questionnaires et diligences clients exposent des contrôles que vous ne pouvez pas prouver clairement.',
+          'Les questionnaires citent souvent des bases de confidentialité ou de cybersécurité—LPRPDE, RGPD, Cyber Essentials ou l’équivalent—et exposent des contrôles que vous ne pouvez pas prouver clairement.',
           'Les écarts sont connus de façon anecdotique mais non priorisés selon le risque résiduel.',
           'Les fournisseurs présentent des produits avant que obligations et responsabilités soient écrites.',
         ],
         approach:
-          'Traitez cela comme une diligence précoce : fixez exigences, tolérance au risque résiduel et responsabilité des contrôles avant les démos. La couverture de détection continue et la préparation formelle à la conformité sont des étapes distinctes une fois les premiers écarts visibles.',
+          'Traitez cela comme une diligence précoce : nommez l’obligation demandée par les acheteurs, puis figez la tolérance au risque résiduel et la responsabilité des contrôles avant les démos. La couverture de détection continue et la préparation formelle à la conformité sont des étapes distinctes une fois les premiers écarts visibles.',
         solutions: [
           'Revue de décision technologique centrée sur obligations et critères de sécurité',
           'Liste priorisée d’écarts avec responsables et séquence de remédiation',
@@ -2067,10 +2105,10 @@ const securityFr: OutcomeGroupPanelCopy = {
         issues: [
           'Des menaces pourraient passer inaperçues la nuit, la fin de semaine ou pendant les congés.',
           'Les alertes s’accumulent sans responsable désigné ni parcours d’escalade.',
-          'Assureurs, clients ou partenaires posent des questions sur la détection et la réponse que vous ne pouvez pas décrire.',
+          'Assureurs, clients ou partenaires posent des questions sur la détection et la réponse que vous ne pouvez pas décrire—souvent la même question « qui surveille ? » qui revient en diligence.',
         ],
         approach:
-          'Cartographiez ce qui est surveillé aujourd’hui, puis définissez les exigences de détection et de réponse—heures, rapidité, escalade et preuves—avant de comparer les options de sécurité gérée. Aucun service n’élimine le risque : rendez le risque résiduel explicite.',
+          'Cartographiez ce qui est surveillé aujourd’hui, puis définissez les exigences de détection et de réponse—heures, rapidité, escalade et preuves—avant de comparer les options de sécurité gérée. Une couverture continue est ce que les acheteurs et assureurs attendent souvent quand ils demandent surveillance et réponse. Aucun service n’élimine le risque : rendez le risque résiduel explicite.',
         solutions: [
           'Revue de couverture des risques de sécurité pour les exigences de détection et de réponse',
           'Carte de couverture montrant ce qui est surveillé et qui répond à chaque heure',
@@ -2101,10 +2139,10 @@ const securityFr: OutcomeGroupPanelCopy = {
         issues: [
           'Les tâches de sécurité sont coincées entre le soutien technique et les projets.',
           'Le risque lié aux personnes clés concentre le savoir de sécurité chez une ou deux personnes.',
-          'Les responsabilités entre personnel interne et fournisseurs externes sont floues.',
+          'Les responsabilités entre personnel interne et fournisseurs externes sont floues—alors que les partenaires attendent encore une responsabilité nommée pour la surveillance et la réponse.',
         ],
         approach:
-          'Définissez d’abord les exigences de couverture et de réponse, puis comparez les modèles interne, cogéré et entièrement géré selon la capacité réelle, les obligations et les coûts. Rendez la responsabilité explicite dans le modèle choisi.',
+          'Définissez d’abord les exigences de couverture et de réponse, puis comparez les modèles interne, cogéré et entièrement géré selon la capacité réelle, les obligations et les coûts. Une responsabilité d’exploitation claire est ce que diligence et assureurs attendent souvent quand ils demandent qui gère la sécurité au quotidien. Rendez la responsabilité explicite dans le modèle choisi.',
         solutions: [
           'Revue de couverture des risques de sécurité avec comparaison des modèles d’exploitation',
           'Carte des responsabilités entre personnel interne et fournisseurs externes',
@@ -2114,35 +2152,36 @@ const securityFr: OutcomeGroupPanelCopy = {
     },
     {
       id: 'compliance-readiness',
-      label: 'Des clients nous demandent SOC 2',
-      hint: 'Vous devez vous préparer à un examen indépendant sans deviner la portée.',
+      label: 'Clients ou partenaires exigent la preuve de nos contrôles',
+      hint: 'Vous avez besoin d’un parcours de préparation clair avant SOC 2, Cyber Essentials ou une diligence de confidentialité—pas d’une portée au hasard.',
       typicalCauses: [
         'Politiques et contrôles existent, mais les preuves sont éparses ou incomplètes.',
-        'Portée, critères et responsabilités n’ont pas été convenus.',
+        'Quelle obligation s’applique—et qui possède les preuves—n’a pas été convenu.',
       ],
       roallaHelp:
-        'ROALLA offre un soutien à la préparation SOC 2—portée, écarts de contrôle, preuves et responsabilités. Les examens indépendants relèvent d’un cabinet de CPA qualifié.',
+        'ROALLA aide à cartographier obligation → portée → écarts de contrôle → responsables des preuves → séquence pour un travail de préparation comme SOC 2, Cyber Essentials ou une diligence de confidentialité (par exemple LPRPDE ou RGPD britannique). Examens indépendants, certifications et avis juridiques restent auprès de parties externes qualifiées.',
       image: {
         src: '/images/insights/library/what-to-expect-soc-2-examination-saas.webp',
-        alt: 'Préparation SOC 2 avant un examen indépendant',
+        alt: 'Préparation à la preuve des contrôles avant SOC 2, Cyber Essentials ou diligence de confidentialité',
       },
       evidencePath: '/compliance-readiness-review',
-      evidenceLabel: 'Vérifier la préparation SOC 2',
-      evidenceNote: 'Revue de préparation gratuite—ni attestation ni opinion d’audit.',
+      evidenceLabel: 'Vérifier la préparation à la conformité',
+      evidenceNote:
+        'Revue de préparation gratuite—ni avis juridique, ni attestation, ni certification, ni opinion d’audit.',
       pathwaySlug: 'security',
       contactIntent: 'security',
       detail: {
         issues: [
-          'Des clients ou partenaires exigent un rapport SOC 2 pour poursuivre.',
+          'Clients ou partenaires demandent une preuve selon des cadres que vous reconnaissez—SOC 2, Cyber Essentials, LPRPDE, RGPD britannique, ou des règles sectorielles comme les signalements CIRO, la ligne directrice B-13 du BSIF ou DORA lorsqu’elles s’appliquent.',
           'Les preuves des contrôles sont dispersées entre outils et personnes.',
-          'L’échéancier et l’effort sont flous avant de mandater un examinateur.',
+          'L’échéancier et l’effort sont flous avant de mandater un examinateur, un évaluateur ou un conseiller juridique.',
         ],
         approach:
-          'Établissez d’abord la portée probable, les critères, les écarts de contrôle et la responsabilité des preuves, puis séquencez la remédiation vers l’examen. ROALLA soutient la préparation; un cabinet de CPA qualifié réalise l’examen indépendant.',
+          'Nommez d’abord l’obligation, puis établissez la portée probable, les écarts de contrôle et la responsabilité des preuves avant de séquencer la remédiation. ROALLA soutient la préparation et les responsabilités; conseillers juridiques, évaluateurs Cyber Essentials et cabinets de CPA restent indépendants. Ceci n’est pas un avis juridique.',
         solutions: [
-          'Revue de préparation à la conformité : portée, contrôles et preuves',
+          'Revue de préparation à la conformité : obligation, portée, contrôles et preuves',
           'Liste des écarts et des preuves avec responsables et priorités de remédiation',
-          'Feuille de route vers le mandat d’un cabinet de CPA indépendant',
+          'Feuille de route pour mandater le bon examinateur, évaluateur ou conseiller indépendant au besoin',
         ],
       },
     },
@@ -2178,6 +2217,42 @@ const securityFr: OutcomeGroupPanelCopy = {
           'Revue de décision qui compare les options de migration d’infrastructure à infrastructure sur le même tableau de bord',
           'Modèle de responsabilité d’exploitation pour run, soutien et coûts',
           'Plan de transition séquencé pour réduire le risque pendant la migration des données et serveurs',
+        ],
+      },
+    },
+    {
+      id: 'continuity-recovery',
+      label: 'Nous ne pouvons pas prouver la continuité ou la reprise si un site ou une salle de données tombe',
+      hint: 'Les sites commerciaux et les environnements de centre de données ont besoin d’une vue de l’état actuel des cibles de reprise, de la disponibilité et de la préparation des installations—avant un autre achat de produit.',
+      typicalCauses: [
+        'Les cibles de délai de reprise et de perte de données sont supposées, non convenues ni testées.',
+        'Les points de défaillance uniques d’alimentation, de refroidissement, d’équipement et de connectivité restent du savoir tribal.',
+      ],
+      roallaHelp:
+        'ROALLA aide à mesurer les indicateurs de continuité de l’état actuel—RTO, RPO, disponibilité et PUE lorsqu’une installation s’applique—puis cartographie les écarts d’alimentation, CVC, équipement et connectivité dans un plan séquencé. L’analyse et la planification peuvent rester avec ROALLA; la construction et la remédiation peuvent impliquer votre équipe ou d’autres spécialistes.',
+      image: {
+        src: '/images/insights/library/cloud-backup-sync-recovery-differences.webp',
+        alt: 'Planification de continuité des activités et de reprise après sinistre pour sites et centres de données',
+      },
+      evidencePath: '/continuity-recovery-review',
+      evidenceLabel: 'Commencer la revue de continuité et de reprise',
+      evidenceNote:
+        'Revue de capacité gratuite—aide à l’analyse et à la planification, pas une évaluation d’installation certifiée.',
+      pathwaySlug: 'cloud-infrastructure',
+      contactIntent: 'consulting',
+      contactFocus: 'technology',
+      detail: {
+        issues: [
+          'Le RTO et le RPO sont flous, non testés ou différents selon chaque conversation.',
+          'La disponibilité et l’efficacité des installations (y compris le PUE) sont affirmées mais non mesurées par rapport aux cibles.',
+          'Les points de défaillance uniques d’alimentation, CVC, équipement et connectivité ne sont pas documentés—et le plan écrit n’a pas été exercé.',
+        ],
+        approach:
+          'Mesurez l’état actuel, nommez les cibles de reprise et de disponibilité, puis cartographiez les domaines d’installation et d’exploitation (alimentation, refroidissement, équipement, connectivité, sauvegarde, procédures) avant de séquencer la remédiation. Les normes citées par les acheteurs—comme les concepts de niveau Uptime ou les lignes directrices thermiques ASHRAE—servent de langage de reconnaissance, pas d’une affirmation que ROALLA certifie les installations. La mise en œuvre peut être ROALLA, votre équipe ou d’autres spécialistes avec des responsables clairs.',
+        solutions: [
+          'Revue de continuité et de reprise pour indicateurs d’état actuel et écarts par domaine',
+          'Tableau de bord couvrant RTO, RPO, disponibilité, PUE (le cas échéant) et domaines d’installation',
+          'Plan BC/DR séquencé avec responsables pour analyser, planifier, remédier et tester',
         ],
       },
     },

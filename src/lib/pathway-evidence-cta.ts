@@ -17,6 +17,7 @@ export type PathwayEvidencePath =
   | '/ai-employee-fit-review'
   | '/security-risk-coverage-review'
   | '/compliance-readiness-review'
+  | '/continuity-recovery-review'
   | '/assessment'
 
 export type PathwayEvidenceCta = {

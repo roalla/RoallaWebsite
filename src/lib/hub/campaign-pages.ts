@@ -66,6 +66,12 @@ export const hubCampaignPages = [
     descKey: 'campaignComplianceReadinessReviewDesc',
   },
   {
+    id: 'continuity-recovery-review',
+    path: '/continuity-recovery-review',
+    titleKey: 'campaignContinuityRecoveryReview',
+    descKey: 'campaignContinuityRecoveryReviewDesc',
+  },
+  {
     id: 'digital-visibility-optimization',
     path: '/services/search-ai-visibility',
     titleKey: 'campaignVisibilityService',

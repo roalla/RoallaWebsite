@@ -14,6 +14,7 @@ describe('hub campaign page shortcuts', () => {
       'ai-employee-fit-review',
       'security-risk-coverage-review',
       'compliance-readiness-review',
+      'continuity-recovery-review',
       'digital-visibility-optimization',
       'digital-presence-snapshot',
       'website-packages',

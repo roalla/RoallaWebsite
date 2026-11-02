@@ -16,7 +16,7 @@ const SITUATION_COUNTS: Record<OutcomeGroupId, number> = {
   'growth-visibility': 5,
   'experience-products': 6,
   'automation-ai': 5,
-  'security-compliance': 6,
+  'security-compliance': 7,
   execution: 3,
 }
 
@@ -301,6 +301,8 @@ describe('outcome group panels', () => {
   it.each(['en', 'fr'] as const)('adds coverage and compliance situations to security for %s', (locale) => {
     const copy = getOutcomeGroupPanelCopy('security-compliance', locale)
     const byId = (id: string) => copy.situations.find((item) => item.id === id)
+    const compliance = byId('compliance-readiness')
+    const blob = JSON.stringify(copy)
 
     expect(copy.situations.map((item) => item.id)).toEqual([
       'security-gaps',
@@ -308,16 +310,34 @@ describe('outcome group panels', () => {
       'security-ops-capacity',
       'compliance-readiness',
       'cloud-infra',
+      'continuity-recovery',
       'network',
     ])
     expect(byId('security-gaps')?.evidencePath).toBe('/technology-decision-review')
     expect(byId('active-threat-coverage')?.evidencePath).toBe('/security-risk-coverage-review')
     expect(byId('security-ops-capacity')?.evidencePath).toBe('/security-risk-coverage-review')
-    expect(byId('compliance-readiness')?.evidencePath).toBe('/compliance-readiness-review')
+    expect(compliance?.evidencePath).toBe('/compliance-readiness-review')
     expect(byId('cloud-infra')?.evidencePath).toBe('/technology-decision-review')
+    expect(byId('continuity-recovery')).toMatchObject({
+      evidencePath: '/continuity-recovery-review',
+      pathwaySlug: 'cloud-infrastructure',
+      contactIntent: 'consulting',
+      contactFocus: 'technology',
+    })
+    expect(JSON.stringify(byId('continuity-recovery'))).toMatch(/RTO|RPO|PUE/)
     for (const id of ['active-threat-coverage', 'security-ops-capacity', 'compliance-readiness']) {
       expect(byId(id)).toMatchObject({ pathwaySlug: 'security', contactIntent: 'security' })
     }
+    expect(compliance?.evidenceLabel).toMatch(
+      locale === 'fr' ? /préparation à la conformité/i : /compliance readiness/i,
+    )
+    expect(compliance?.label).not.toMatch(/^Customers are asking for SOC 2$|^Des clients nous demandent SOC 2$/)
+    expect(blob).toMatch(/Cyber Essentials/)
+    expect(blob).toMatch(/SOC 2/)
+    expect(blob).toMatch(locale === 'fr' ? /LPRPDE|PIPEDA/ : /PIPEDA/)
+    expect(blob).toMatch(/GDPR|RGPD/)
+    expect(blob).not.toMatch(/thrive/i)
+    expect(copy.resultBody).toMatch(locale === 'fr' ? /SOC 2/ : /privacy and cyber baselines/)
   })
 
   it.each(['en', 'fr'] as const)('remaps key tiles to plain-language evidence paths for %s', (locale) => {

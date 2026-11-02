@@ -32,12 +32,13 @@ ROALLA assesses, builds, optimizes, and evolves digital assets and facilitates h
 - [Growth and visibility](https://www.roalla.com/en/solutions/need/growth-visibility): Findability, AI answers, email deliverability
 - [Experience and products](https://www.roalla.com/en/solutions/need/experience-products): Websites, journeys, communications, UC, AI Employee, point of sale
 - [Automation and AI](https://www.roalla.com/en/solutions/need/automation-ai): Connected operations, capacity, repetitive work
-- [Security and compliance](https://www.roalla.com/en/solutions/need/security-compliance): Security gaps, MDR, SOC 2, cloud migration, network
+- [Security and compliance](https://www.roalla.com/en/solutions/need/security-compliance): Security gaps, MDR, SOC 2, continuity and recovery, cloud migration, network
 - [Execution](https://www.roalla.com/en/solutions/need/execution): Priorities, ownership, delivery rhythm
 - [Executive insights](https://www.roalla.com/en/executive-insights): Downloadable executive guides
 - [Digital presence snapshot](https://www.roalla.com/en/tools/digital-presence-snapshot): Free automated visibility check
 - [Communications value brief](https://www.roalla.com/en/tools/communications-value-brief): UC and contact-centre requirements brief
 - [Technology decision brief](https://www.roalla.com/en/tools/technology-decision-brief): Vendor-neutral decision priorities
+- [Continuity and recovery review](https://www.roalla.com/en/continuity-recovery-review): RTO, RPO, availability, PUE, and facility domain gaps
 
 ## Core services
 

@@ -4236,6 +4236,8 @@
     "campaignSecurityRiskCoverageReviewDesc": "Exigences de détection et de réponse continues, lacunes de couverture et modèle d’exploitation.",
     "campaignComplianceReadinessReview": "Revue de préparation à la conformité",
     "campaignComplianceReadinessReviewDesc": "Préparation SOC 2 : portée, contrôles, preuves et responsabilités. Soutien à la préparation, pas une attestation.",
+    "campaignContinuityRecoveryReview": "Revue de continuité et de reprise",
+    "campaignContinuityRecoveryReviewDesc": "RTO, RPO, disponibilité, PUE et écarts de domaines d’installation pour sites et centres de données.",
     "campaignVisibilityService": "Optimisation de la visibilité numérique",
     "campaignVisibilityServiceDesc": "Page de service complète sur la recherche, la visibilité IA, l’accessibilité, la conversion et le suivi.",
     "campaignPresenceSnapshot": "Aperçu de la présence numérique",

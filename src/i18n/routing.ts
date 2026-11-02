@@ -64,6 +64,7 @@ export const routing = defineRouting({
     "/ai-employee-fit-review": "/ai-employee-fit-review",
     "/security-risk-coverage-review": "/security-risk-coverage-review",
     "/compliance-readiness-review": "/compliance-readiness-review",
+    "/continuity-recovery-review": "/continuity-recovery-review",
     "/about": "/about",
     "/partners": "/partners",
     "/partners/strategic-relationships": "/partners/strategic-relationships",

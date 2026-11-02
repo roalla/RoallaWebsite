@@ -4236,6 +4236,8 @@
     "campaignSecurityRiskCoverageReviewDesc": "Continuous detection and response requirements, coverage gaps, and operating model.",
     "campaignComplianceReadinessReview": "Compliance Readiness Review",
     "campaignComplianceReadinessReviewDesc": "SOC 2 readiness: scope, controls, evidence, and ownership. Readiness support, not attestation.",
+    "campaignContinuityRecoveryReview": "Continuity & Recovery Review",
+    "campaignContinuityRecoveryReviewDesc": "Current-state RTO, RPO, availability, PUE, and facility domain gaps for sites and data centres.",
     "campaignVisibilityService": "Digital Visibility Optimization",
     "campaignVisibilityServiceDesc": "Full service page covering search, AI visibility, accessibility, conversion, and monitoring.",
     "campaignPresenceSnapshot": "Digital Presence Snapshot",

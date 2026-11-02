@@ -56,6 +56,7 @@ describe('campaign review landing pages', () => {
         'ai-employee-fit-review',
         'security-risk-coverage-review',
         'compliance-readiness-review',
+        'continuity-recovery-review',
       ]),
     )
     expect(campaignReviewContent['connected-operations-review'].en).toMatchObject({
@@ -72,6 +73,13 @@ describe('campaign review landing pages', () => {
       '/services/security-risk-compliance',
     )
     expect(campaignReviewContent['compliance-readiness-review'].en.caveat).toContain('CPA firm')
+    expect(campaignReviewContent['continuity-recovery-review'].en).toMatchObject({
+      intent: 'consulting',
+      focus: 'technology',
+      need: 'continuity-recovery',
+      servicePath: '/services/technology-advisory',
+    })
+    expect(JSON.stringify(campaignReviewContent['continuity-recovery-review'])).toMatch(/PUE|RTO|RPO/)
     expect(JSON.stringify(campaignReviewContent['ai-employee-fit-review'])).not.toMatch(/nextiva|xbert/i)
   })
 })

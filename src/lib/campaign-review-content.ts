@@ -14,6 +14,7 @@ export const campaignReviewIds = [
   'ai-employee-fit-review',
   'security-risk-coverage-review',
   'compliance-readiness-review',
+  'continuity-recovery-review',
 ] as const
 
 export type CampaignReviewId = (typeof campaignReviewIds)[number]
@@ -999,6 +1000,158 @@ export const campaignReviewContent: Record<CampaignReviewId, LocalizedCampaignRe
         ['ROALLA émet-elle le rapport SOC 2?', 'Non. Seul un cabinet de CPA indépendant peut réaliser l’examen et émettre un rapport SOC 2. ROALLA soutient la préparation en amont.'],
         ['La revue peut-elle garantir que nous réussirons?', 'Non. Elle clarifie portée, écarts et preuves pour vous préparer de façon réaliste. Les résultats dépendent de l’examen.'],
         ['Faut-il d’abord une plateforme de conformité?', 'Pas nécessairement. La portée, les contrôles et les responsabilités doivent être compris avant de choisir des outils.'],
+      ],
+    },
+  },
+  'continuity-recovery-review': {
+    en: {
+      path: '/continuity-recovery-review',
+      metadataTitle: 'Continuity & Recovery Review | ROALLA',
+      metadataDescription:
+        'Assess current-state continuity for commercial sites and data centres: RTO, RPO, availability, PUE, and gaps across power, HVAC, equipment, and connectivity—before another product buy.',
+      eyebrow: 'Continuity & Recovery Review',
+      title: 'Can you prove recovery if a site or data hall fails?',
+      subtitle:
+        'For leaders who need a current-state view of recovery targets, availability, and facility readiness—then a sequenced plan with clear owners.',
+      signalsTitle: 'This review is useful when',
+      signals: [
+        'RTO and RPO are assumed, untested, or debated in every meeting',
+        'Availability or facility efficiency (including PUE) is claimed but not measured',
+        'Power, cooling, equipment, or connectivity single points of failure are tribal knowledge',
+        'A continuity plan exists on paper but has not been exercised',
+      ],
+      reviewTitle: 'What the review examines',
+      reviewItems: [
+        'Critical services and the downtime customers will actually tolerate',
+        'Current and target RTO, RPO, and last tested restore',
+        'Availability metrics and, when a facility applies, current or estimated PUE',
+        'Domain checklist: power, HVAC/cooling, IT equipment, connectivity, physical security, backup/replication, people and runbooks',
+        'Standards buyers cite as recognition language—such as Uptime Tier concepts or ASHRAE thermal guidance—not as ROALLA certification',
+        'Owners, multi-party delivery options, and a sequenced path to remediate and test',
+      ],
+      outcomeTitle: 'Leave with a capability brief—not a product catalogue',
+      outcomes: [
+        [
+          'Current-state scorecard',
+          'RTO, RPO, availability, and PUE (when applicable) against the targets you name.',
+        ],
+        [
+          'Domain gap list',
+          'Power, cooling, equipment, connectivity, and runbook gaps with owners.',
+        ],
+        [
+          'Sequenced BC/DR plan',
+          'Analyse → plan → remediate → test, including work that may stay with your team or other specialists.',
+        ],
+      ],
+      fitTitle: 'For commercial sites and data-centre environments',
+      fit: [
+        'Organizations with on-prem, colocation, or hybrid hosting risk',
+        'Operators preparing customer, insurer, or board continuity questions',
+        'Teams comparing backup, failover, or facility upgrades without shared criteria',
+        'Leaders who may implement with ROALLA, internal staff, or multiple providers',
+      ],
+      caveatTitle: 'Analysis and planning—not a certified facility assessment',
+      caveat:
+        'This review is a capability and planning aid. It is not a certified Uptime assessment, engineering stamp, penetration test, or legal opinion. ROALLA may analyse and plan; build and remediation can involve your team or other specialists. Relevant relationships are disclosed.',
+      primaryCta: 'Review continuity and recovery',
+      inquiryCta: 'Discuss continuity planning',
+      serviceCta: 'Explore Technology Advisory',
+      servicePath: '/services/technology-advisory',
+      toolPath: '/assessment',
+      intent: 'consulting',
+      focus: 'technology',
+      need: 'continuity-recovery',
+      audience: 'Leaders who need proof of continuity and recovery for sites or data centres',
+      offer: 'Continuity & Recovery Review',
+      faqs: [
+        [
+          'Will you calculate exact engineering PUE for our hall?',
+          'We capture measured or estimated PUE as a current-state signal when a facility applies. Detailed engineering load studies need separate scope with qualified specialists.',
+        ],
+        [
+          'Does ROALLA have to implement the remediation?',
+          'No. The review clarifies gaps and owners so work can be delivered by ROALLA, your team, or other providers with disclosure of relevant relationships.',
+        ],
+        [
+          'Is this a disaster-recovery product shortlist?',
+          'Not first. Metrics, domains, and ownership come before comparing backup, failover, or facility options.',
+        ],
+      ],
+    },
+    fr: {
+      path: '/continuity-recovery-review',
+      metadataTitle: 'Revue de continuité et de reprise | ROALLA',
+      metadataDescription:
+        'Évaluez la continuité de l’état actuel pour sites commerciaux et centres de données : RTO, RPO, disponibilité, PUE et écarts d’alimentation, CVC, équipement et connectivité—avant un autre achat de produit.',
+      eyebrow: 'Revue de continuité et de reprise',
+      title: 'Pouvez-vous prouver la reprise si un site ou une salle de données tombe?',
+      subtitle:
+        'Pour les dirigeants qui ont besoin d’une vue de l’état actuel des cibles de reprise, de la disponibilité et de la préparation des installations—puis d’un plan séquencé avec responsables clairs.',
+      signalsTitle: 'Cette revue est utile lorsque',
+      signals: [
+        'Le RTO et le RPO sont supposés, non testés ou débattus à chaque réunion',
+        'La disponibilité ou l’efficacité des installations (y compris le PUE) est affirmée mais non mesurée',
+        'Les points de défaillance uniques d’alimentation, de refroidissement, d’équipement ou de connectivité restent du savoir tribal',
+        'Un plan de continuité existe sur papier mais n’a pas été exercé',
+      ],
+      reviewTitle: 'Ce que la revue examine',
+      reviewItems: [
+        'Services critiques et le temps d’arrêt que les clients toléreront réellement',
+        'RTO et RPO actuels et cibles, et dernière restauration testée',
+        'Indicateurs de disponibilité et, lorsqu’une installation s’applique, PUE actuel ou estimé',
+        'Liste de domaines : alimentation, CVC/refroidissement, équipement TI, connectivité, sécurité physique, sauvegarde/réplication, personnes et procédures',
+        'Normes citées par les acheteurs comme langage de reconnaissance—concepts de niveau Uptime ou lignes directrices thermiques ASHRAE—sans certification ROALLA',
+        'Responsables, options de livraison multipartite et parcours séquencé pour remédier et tester',
+      ],
+      outcomeTitle: 'Repartez avec un brief de capacité—pas un catalogue de produits',
+      outcomes: [
+        [
+          'Tableau de bord de l’état actuel',
+          'RTO, RPO, disponibilité et PUE (le cas échéant) par rapport aux cibles que vous nommez.',
+        ],
+        [
+          'Liste des écarts par domaine',
+          'Écarts d’alimentation, refroidissement, équipement, connectivité et procédures avec responsables.',
+        ],
+        [
+          'Plan BC/DR séquencé',
+          'Analyser → planifier → remédier → tester, y compris le travail qui peut rester à votre équipe ou à d’autres spécialistes.',
+        ],
+      ],
+      fitTitle: 'Pour les sites commerciaux et les environnements de centre de données',
+      fit: [
+        'Organisations avec risque d’hébergement sur place, colocation ou hybride',
+        'Exploitants qui préparent des questions de continuité de clients, assureurs ou conseils',
+        'Équipes qui comparent sauvegarde, basculement ou modernisation d’installations sans critères partagés',
+        'Dirigeants qui peuvent mettre en œuvre avec ROALLA, le personnel interne ou plusieurs fournisseurs',
+      ],
+      caveatTitle: 'Analyse et planification—pas une évaluation d’installation certifiée',
+      caveat:
+        'Cette revue est une aide à la capacité et à la planification. Ce n’est ni une évaluation Uptime certifiée, ni un sceau d’ingénierie, ni un test d’intrusion, ni un avis juridique. ROALLA peut analyser et planifier; la construction et la remédiation peuvent impliquer votre équipe ou d’autres spécialistes. Les relations pertinentes sont divulguées.',
+      primaryCta: 'Examiner la continuité et la reprise',
+      inquiryCta: 'Discuter de la planification de continuité',
+      serviceCta: 'Explorer le conseil technologique',
+      servicePath: '/services/technology-advisory',
+      toolPath: '/assessment',
+      intent: 'consulting',
+      focus: 'technology',
+      need: 'continuity-recovery',
+      audience: 'Dirigeants qui ont besoin de prouver la continuité et la reprise pour sites ou centres de données',
+      offer: 'Revue de continuité et de reprise',
+      faqs: [
+        [
+          'Calculerez-vous le PUE d’ingénierie exact de notre salle?',
+          'Nous saisissons un PUE mesuré ou estimé comme signal d’état actuel lorsqu’une installation s’applique. Les études de charge d’ingénierie détaillées exigent une portée distincte avec des spécialistes qualifiés.',
+        ],
+        [
+          'ROALLA doit-elle mettre en œuvre la remédiation?',
+          'Non. La revue clarifie écarts et responsables pour que le travail puisse être livré par ROALLA, votre équipe ou d’autres fournisseurs, avec divulgation des relations pertinentes.',
+        ],
+        [
+          'Est-ce une shortlist de produits de reprise après sinistre?',
+          'Pas d’abord. Indicateurs, domaines et responsabilités précèdent la comparaison des options de sauvegarde, basculement ou installation.',
+        ],
       ],
     },
   },

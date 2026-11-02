@@ -203,7 +203,8 @@ export const outcomeGroups: Record<
     {
       id: "security-compliance",
       title: "Reduce risk, strengthen security, and support compliance",
-      description: "Address security gaps, resilience, cloud and network foundations, continuity, and control ownership in the right sequence.",
+      description:
+        "Address security gaps, privacy and cyber baselines (including SOC 2), continuity and recovery proof, resilience, cloud and network foundations, and control ownership in the right sequence.",
       pathwayIds: ["security", "cloud-infrastructure", "network"],
     },
     {
@@ -235,7 +236,8 @@ export const outcomeGroups: Record<
     {
       id: "security-compliance",
       title: "Réduire le risque, renforcer la sécurité et soutenir la conformité",
-      description: "Traiter les écarts de sécurité, la résilience, les fondations infonuagiques et réseau, la continuité et la responsabilité des contrôles dans le bon ordre.",
+      description:
+        "Traiter les écarts de sécurité, les bases de confidentialité et de cybersécurité (y compris SOC 2), la preuve de continuité et de reprise, la résilience, les fondations infonuagiques et réseau, et la responsabilité des contrôles dans le bon ordre.",
       pathwayIds: ["security", "cloud-infrastructure", "network"],
     },
     {

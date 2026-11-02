@@ -298,13 +298,14 @@ export default function OutcomeGroupPanel({
                     })
                   }}
                   className={[
-                    'group/tile cursor-pointer overflow-hidden rounded-xl border text-left transition',
+                    // Stretched grid <button>s vertically center content by default; pin media to top.
+                    'group/tile flex h-full cursor-pointer flex-col items-stretch justify-start overflow-hidden rounded-xl border text-left transition',
                     selected
                       ? 'border-slate-900 ring-2 ring-slate-900'
                       : 'border-slate-200 hover:border-primary/50 hover:shadow-sm',
                   ].join(' ')}
                 >
-                  <span className="relative block aspect-[16/10] overflow-hidden bg-slate-100">
+                  <span className="relative block aspect-[16/10] w-full shrink-0 overflow-hidden bg-slate-100">
                     <Image
                       src={item.image.src}
                       alt={item.image.alt}
@@ -319,7 +320,9 @@ export default function OutcomeGroupPanel({
                       </span>
                     ) : null}
                   </span>
-                  <span className={`block px-3 py-3 ${selected ? 'bg-slate-900' : 'bg-white'}`}>
+                  <span
+                    className={`block w-full flex-1 px-3 py-3 ${selected ? 'bg-slate-900' : 'bg-white'}`}
+                  >
                     <span
                       className={`block text-sm font-semibold leading-5 ${selected ? 'text-white' : 'text-slate-950'}`}
                     >

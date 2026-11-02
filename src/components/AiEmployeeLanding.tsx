@@ -112,21 +112,22 @@ export default function AiEmployeeLanding({
                 reduceMotion || !heroReady ? 'scale-100' : 'scale-105',
               ].join(' ')}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/92 via-slate-950/78 to-slate-950/45" />
-            <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-slate-950 to-transparent" />
+            <div className="absolute inset-0 bg-slate-950/55" />
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/88 to-slate-950/70" />
+            <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-slate-950 to-transparent" />
           </div>
           <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
             <Reveal when="mount" className="max-w-3xl">
               <p className="font-serif text-3xl font-bold tracking-tight text-white sm:text-4xl">
                 {content.brandName}
               </p>
-              <p className="mt-3 text-xs font-bold uppercase tracking-[0.2em] text-primary-light">
+              <p className="mt-3 text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">
                 {content.eyebrow}
               </p>
               <h1 className="mt-4 font-serif text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
                 {content.title}
               </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-200">{content.lead}</p>
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-white/95 drop-shadow-sm">{content.lead}</p>
               <div
                 className={[
                   'mt-8 flex flex-wrap gap-3 transition-opacity duration-700',

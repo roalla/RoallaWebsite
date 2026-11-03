@@ -10,12 +10,40 @@ import path from 'path'
 
 const root = process.cwd()
 
+async function convertExecutiveInsightPngs() {
+  const dir = path.join(root, 'public/images/executive-insights')
+  if (!fs.existsSync(dir)) return
+  const pngs = fs.readdirSync(dir).filter((name) => name.endsWith('.png'))
+  for (const name of pngs) {
+    const input = path.join(dir, name)
+    const out = path.join(dir, `${name.slice(0, -4)}.webp`)
+    if (fs.existsSync(out) && fs.statSync(out).size > 0) continue
+    const tmp = `${out}.part`
+    await sharp(input)
+      .rotate()
+      .resize({ width: 1200, withoutEnlargement: true })
+      .webp({ quality: 72, effort: 4 })
+      .toFile(tmp)
+    fs.renameSync(tmp, out)
+    console.log(
+      'executive',
+      name,
+      Math.round(fs.statSync(input).size / 1024) + 'KB ->',
+      Math.round(fs.statSync(out).size / 1024) + 'KB',
+    )
+  }
+}
+
 function replaceExecutiveGuides() {
   const file = path.join(root, 'src/lib/executive-guides.ts')
   if (!fs.existsSync(file)) return
   let source = fs.readFileSync(file, 'utf8')
   const before = (source.match(/executive-insights\/[^"]+\.png/g) || []).length
-  source = source.replace(/(\/images\/executive-insights\/[^"]+)\.png/g, '$1.webp')
+  // Only rewrite when the .webp sibling exists on disk.
+  source = source.replace(/(\/images\/executive-insights\/)([A-Za-z0-9._-]+)\.png/g, (match, prefix, slug) => {
+    const webpDisk = path.join(root, 'public', 'images', 'executive-insights', `${slug}.webp`)
+    return fs.existsSync(webpDisk) ? `${prefix}${slug}.webp` : match
+  })
   fs.writeFileSync(file, source)
   const after = (source.match(/executive-insights\/[^"]+\.png/g) || []).length
   console.log('executive-guides png refs', before, '->', after)
@@ -146,6 +174,7 @@ function preferOptInFile(relPath) {
   }
 }
 
+await convertExecutiveInsightPngs()
 replaceExecutiveGuides()
 await optimizeInsightLibrary()
 await optimizeHeavyAssets()

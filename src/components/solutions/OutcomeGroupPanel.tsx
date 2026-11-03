@@ -261,11 +261,13 @@ export default function OutcomeGroupPanel({
         <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary-dark">{copy.highlightLabel}</p>
       ) : null}
 
-      <div>
-        <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">{copy.resultEyebrow}</p>
-        <h3 className="mt-2 font-serif text-2xl font-bold text-slate-950 sm:text-3xl">{copy.resultTitle}</h3>
-        <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base">{copy.resultBody}</p>
-      </div>
+      {!expandCommitment ? (
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">{copy.resultEyebrow}</p>
+          <h3 className="mt-2 font-serif text-2xl font-bold text-slate-950 sm:text-3xl">{copy.resultTitle}</h3>
+          <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base">{copy.resultBody}</p>
+        </div>
+      ) : null}
 
       <div>
         <p className="text-sm font-semibold text-slate-900">{copy.situationPrompt}</p>

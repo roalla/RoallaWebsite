@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import JsonLd from '@/components/JsonLd'
-import NeedSituationSummary from '@/components/solutions/NeedSituationSummary'
 import OutcomeGroupNeedPage from '@/components/solutions/OutcomeGroupNeedPage'
 import { buildPageMetadata } from '@/lib/page-metadata'
 import { getOutcomeGroupPanelCopy } from '@/lib/outcome-group-panels'
@@ -84,7 +83,6 @@ export default async function OutcomeGroupNeedRoute({ params }: Props) {
         assessmentDescription={solutions.assessmentDescription}
         assessmentCta={solutions.heroPrimary}
       />
-      <NeedSituationSummary groupId={groupId} locale={language} />
     </>
   )
 }

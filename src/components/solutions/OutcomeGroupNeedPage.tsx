@@ -8,6 +8,7 @@ import type { OutcomeGroupId } from '@/lib/solution-outcome-pages'
 import type { SolutionPathId } from '@/lib/solutions-by-need'
 import OutcomeGroupPanel from '@/components/solutions/OutcomeGroupPanel'
 import AutomationAiNeedExtras from '@/components/solutions/AutomationAiNeedExtras'
+import NeedSituationSummary from '@/components/solutions/NeedSituationSummary'
 
 type Props = {
   groupId: OutcomeGroupId
@@ -130,6 +131,8 @@ export default function OutcomeGroupNeedPage({
           {groupId === 'automation-ai' ? <AutomationAiNeedExtras locale={locale} /> : null}
         </div>
       </section>
+
+      <NeedSituationSummary groupId={groupId} locale={locale} />
 
       <section className="border-t border-slate-200 bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-5xl flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">

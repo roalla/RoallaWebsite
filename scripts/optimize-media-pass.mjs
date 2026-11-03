@@ -80,17 +80,72 @@ async function writeOptWebp(inputRel, { width = 1200, quality = 68 } = {}) {
   return '/' + path.relative(root, out).replace(/\\/g, '/').replace(/^public\//, '')
 }
 
+function isDerivativeWebp(name) {
+  return (
+    name.endsWith('.opt.webp') ||
+    name.endsWith('.card.webp') ||
+    name.endsWith('.hero.webp') ||
+    name.endsWith('.part')
+  )
+}
+
+async function writeSizedWebp(inputAbs, outAbs, { width, quality }) {
+  if (
+    fs.existsSync(outAbs) &&
+    fs.statSync(outAbs).size > 0 &&
+    fs.statSync(outAbs).mtimeMs >= fs.statSync(inputAbs).mtimeMs
+  ) {
+    return
+  }
+  const tmp = `${outAbs}.part`
+  await sharp(inputAbs)
+    .rotate()
+    .resize({ width, withoutEnlargement: true })
+    .webp({ quality, effort: 4 })
+    .toFile(tmp)
+  fs.renameSync(tmp, outAbs)
+  console.log(
+    path.relative(root, outAbs),
+    Math.round(fs.statSync(inputAbs).size / 1024) + 'KB ->',
+    Math.round(fs.statSync(outAbs).size / 1024) + 'KB',
+  )
+}
+
 async function optimizeInsightLibrary() {
   const dir = path.join(root, 'public/images/insights/library')
-  const files = fs
-    .readdirSync(dir)
-    .filter((name) => name.endsWith('.webp') && !name.endsWith('.opt.webp'))
+  const files = fs.readdirSync(dir).filter((name) => name.endsWith('.webp') && !isDerivativeWebp(name))
   for (const name of files) {
     const out = path.join(dir, name.replace(/\.webp$/i, '.opt.webp'))
     if (fs.existsSync(out) && fs.statSync(out).size < fs.statSync(path.join(dir, name)).size * 0.95) {
       continue
     }
     await writeOptWebp(`public/images/insights/library/${name}`, { width: 960, quality: 66 })
+  }
+}
+
+/** Smaller static variants for AI Employee tiles/hero (avoid /_next/image hop). */
+async function optimizeAiEmployeeVariants() {
+  const file = path.join(root, 'src/lib/ai-employee-content.ts')
+  if (!fs.existsSync(file)) return
+  const source = fs.readFileSync(file, 'utf8')
+  const refs = [...source.matchAll(/\/images\/insights\/library\/([A-Za-z0-9._-]+)\.(card|hero)\.webp/g)]
+  const seen = new Set()
+  for (const [, slug, kind] of refs) {
+    const key = `${slug}.${kind}`
+    if (seen.has(key)) continue
+    seen.add(key)
+    const dir = path.join(root, 'public/images/insights/library')
+    const opt = path.join(dir, `${slug}.opt.webp`)
+    const raw = path.join(dir, `${slug}.webp`)
+    const input = fs.existsSync(opt) ? opt : raw
+    if (!fs.existsSync(input)) {
+      console.log('missing ai-employee source', slug)
+      continue
+    }
+    const out = path.join(dir, `${slug}.${kind}.webp`)
+    const width = kind === 'hero' ? 1080 : 640
+    const quality = kind === 'hero' ? 68 : 62
+    await writeSizedWebp(input, out, { width, quality })
   }
 }
 
@@ -151,7 +206,7 @@ function preferOptInFile(relPath) {
   source = source.replace(
     /(\/images\/insights\/library\/)([A-Za-z0-9._-]+)\.webp/g,
     (match, prefix, slug) => {
-      if (slug.endsWith('.opt')) return match
+      if (slug.endsWith('.opt') || slug.endsWith('.card') || slug.endsWith('.hero')) return match
       const optDisk = path.join(root, 'public', 'images', 'insights', 'library', `${slug}.opt.webp`)
       return fs.existsSync(optDisk) ? `${prefix}${slug}.opt.webp` : match
     },
@@ -161,7 +216,16 @@ function preferOptInFile(relPath) {
   source = source.replace(
     /(\/[A-Za-z0-9._/-]+)\.(jpe?g|png|webp)/gi,
     (match, base, ext) => {
-      if (base.endsWith('.opt') || match.includes('.opt.webp')) return match
+      if (
+        base.endsWith('.opt') ||
+        base.endsWith('.card') ||
+        base.endsWith('.hero') ||
+        match.includes('.opt.webp') ||
+        match.includes('.card.webp') ||
+        match.includes('.hero.webp')
+      ) {
+        return match
+      }
       const publicRel = `${base.slice(1)}.opt.webp`
       const optDisk = path.join(root, 'public', publicRel)
       return fs.existsSync(optDisk) ? `${base}.opt.webp` : match
@@ -178,6 +242,7 @@ await convertExecutiveInsightPngs()
 replaceExecutiveGuides()
 await optimizeInsightLibrary()
 await optimizeHeavyAssets()
+await optimizeAiEmployeeVariants()
 
 for (const file of [
   'src/lib/outcome-group-panels.ts',

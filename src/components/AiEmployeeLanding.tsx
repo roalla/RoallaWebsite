@@ -111,7 +111,7 @@ export default function AiEmployeeLanding({
               priority
               unoptimized
               fetchPriority="high"
-              sizes="100vw"
+              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 100vw, 1440px"
               className={[
                 'object-cover transition-transform duration-[1800ms] ease-out',
                 reduceMotion || !heroReady ? 'scale-100' : 'scale-105',
@@ -270,10 +270,23 @@ export default function AiEmployeeLanding({
                   <p className="mt-4 text-xs font-medium text-slate-500">{content.audienceSelectHint}</p>
                 </Reveal>
 
+                <div className="relative mt-6 aspect-[21/9] overflow-hidden rounded-xl bg-slate-100 sm:aspect-[24/9]">
+                  <Image
+                    src={industry.image.src}
+                    alt={industry.image.alt}
+                    fill
+                    loading="lazy"
+                    unoptimized
+                    decoding="async"
+                    sizes="(max-width: 1024px) 100vw, 1152px"
+                    className="object-cover"
+                  />
+                </div>
+
                 <div
                   role="listbox"
                   aria-label={industry.label}
-                  className="mt-6 grid gap-3 sm:grid-cols-2"
+                  className="mt-4 grid gap-3 sm:grid-cols-2"
                 >
                   {industry.audiences.map((item) => {
                     const selected = item.id === audienceId
@@ -291,46 +304,29 @@ export default function AiEmployeeLanding({
                           })
                         }}
                         className={[
-                          'group/tile flex h-full cursor-pointer flex-col items-stretch justify-start overflow-hidden rounded-xl border text-left transition',
+                          'h-full rounded-xl border px-4 py-4 text-left transition',
                           selected
-                            ? 'border-slate-900 ring-2 ring-slate-900'
-                            : 'border-slate-200 hover:border-primary/50 hover:shadow-sm',
+                            ? 'border-slate-900 bg-slate-900 text-white ring-2 ring-slate-900'
+                            : 'border-slate-200 bg-white hover:border-primary/50 hover:shadow-sm',
                         ].join(' ')}
                       >
-                        <span className="relative block aspect-[16/10] w-full shrink-0 overflow-hidden bg-slate-100">
-                          <Image
-                            src={industry.image.src}
-                            alt={industry.image.alt}
-                            fill
-                            loading="lazy"
-                            unoptimized
-                            decoding="async"
-                            sizes="(max-width: 640px) 100vw, 50vw"
-                            className={[
-                              'object-cover transition duration-300 group-hover/tile:scale-[1.03]',
-                              item.id === industry.audiences[1]?.id ? 'object-[center_70%]' : '',
-                            ].join(' ')}
-                          />
+                        <span className="flex items-start justify-between gap-3">
+                          <span
+                            className={`block text-base font-semibold leading-6 ${selected ? 'text-white' : 'text-slate-950'}`}
+                          >
+                            {item.label}
+                          </span>
                           {selected ? (
-                            <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded bg-slate-950/90 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold">
+                            <span className="inline-flex shrink-0 items-center gap-1 rounded bg-white/10 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold">
                               <Check className="h-3 w-3" aria-hidden />
                               {content.selectedLabel}
                             </span>
                           ) : null}
                         </span>
                         <span
-                          className={`block w-full flex-1 px-4 py-4 ${selected ? 'bg-slate-900' : 'bg-white'}`}
+                          className={`mt-1 block text-sm leading-6 ${selected ? 'text-slate-300' : 'text-slate-600'}`}
                         >
-                          <span
-                            className={`block text-base font-semibold leading-6 ${selected ? 'text-white' : 'text-slate-950'}`}
-                          >
-                            {item.label}
-                          </span>
-                          <span
-                            className={`mt-1 block text-sm leading-6 ${selected ? 'text-slate-300' : 'text-slate-600'}`}
-                          >
-                            {item.lead}
-                          </span>
+                          {item.lead}
                         </span>
                       </button>
                     )

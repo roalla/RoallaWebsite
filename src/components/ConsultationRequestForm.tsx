@@ -180,6 +180,48 @@ const intentOptions: {
   },
 ];
 
+const intentAccents: Record<
+  (typeof intentOptions)[number]["value"],
+  { well: string; wellSelected: string; tileSelected: string }
+> = {
+  visibility: {
+    well: "bg-cyan-100 text-cyan-800",
+    wellSelected: "bg-cyan-600 text-white",
+    tileSelected:
+      "border-cyan-600 bg-cyan-50 shadow-md shadow-cyan-500/20 ring-2 ring-cyan-600/25",
+  },
+  platform: {
+    well: "bg-sky-100 text-sky-800",
+    wellSelected: "bg-sky-700 text-white",
+    tileSelected:
+      "border-sky-700 bg-sky-50 shadow-md shadow-sky-500/20 ring-2 ring-sky-700/25",
+  },
+  "ai-support": {
+    well: "bg-brand-gold/25 text-brand-gold-dark",
+    wellSelected: "bg-brand-gold text-slate-950",
+    tileSelected:
+      "border-brand-gold bg-brand-gold/10 shadow-md shadow-brand-gold/25 ring-2 ring-brand-gold/35",
+  },
+  security: {
+    well: "bg-teal-100 text-teal-800",
+    wellSelected: "bg-teal-700 text-white",
+    tileSelected:
+      "border-teal-700 bg-teal-50 shadow-md shadow-teal-500/20 ring-2 ring-teal-700/25",
+  },
+  consulting: {
+    well: "bg-primary/15 text-primary-dark",
+    wellSelected: "bg-primary-dark text-white",
+    tileSelected:
+      "border-primary-dark bg-primary/[0.08] shadow-md shadow-primary/20 ring-2 ring-primary-dark/25",
+  },
+  unsure: {
+    well: "bg-slate-100 text-slate-600",
+    wellSelected: "bg-slate-700 text-white",
+    tileSelected:
+      "border-slate-600 bg-slate-50 shadow-md shadow-slate-400/20 ring-2 ring-slate-500/25",
+  },
+};
+
 function goalPlaceholderKey(intent: ConsultationIntent | ""): string {
   switch (intent) {
     case "website":
@@ -696,21 +738,22 @@ export default function ConsultationRequestForm({
   }
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white shadow-card overflow-hidden">
-      <div className="border-b border-slate-200 bg-slate-50 px-6 py-4">
+    <div className="overflow-hidden rounded-2xl border border-primary/25 bg-white shadow-card">
+      <div className="h-1 bg-gradient-to-r from-brand-gold via-brand-gold-light to-primary" aria-hidden />
+      <div className="border-b border-white/10 bg-gradient-to-br from-slate-950 via-slate-950 to-cyan-950 px-6 py-4">
         {!quickMode && !digitalLightMode && (
           <>
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <p className="text-sm font-medium text-slate-500">
+              <p className="text-sm font-medium text-white">
                 {t("stepLabel", { current: step, total: 3 })}
               </p>
-              <p className="text-xs text-slate-400">{stepTimeHint}</p>
+              <p className="text-xs text-slate-300">{stepTimeHint}</p>
             </div>
             <div className="mt-3 flex gap-2">
               {[1, 2, 3].map((n) => (
                 <div
                   key={n}
-                  className={`h-1.5 flex-1 rounded-full transition-colors ${n <= step ? "bg-primary-dark" : "bg-slate-200"}`}
+                  className={`h-1.5 flex-1 rounded-full transition-colors ${n <= step ? "bg-brand-gold" : "bg-white/10"}`}
                 />
               ))}
             </div>
@@ -718,16 +761,16 @@ export default function ConsultationRequestForm({
         )}
         {digitalLightMode && (
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <p className="text-sm font-medium text-slate-500">
+            <p className="text-sm font-medium text-white">
               {visibilityReview ? t("visibilityReviewEyebrow") : t("digitalLightEyebrow")}
             </p>
-            <p className="text-xs text-slate-400">{t("digitalLightTimeHint")}</p>
+            <p className="text-xs text-slate-300">{t("digitalLightTimeHint")}</p>
           </div>
         )}
         {quickMode && (
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <p className="text-sm font-medium text-slate-600">{t("quickInquiryToggle")}</p>
-            <p className="text-xs text-slate-400">{t("digitalLightTimeHint")}</p>
+            <p className="text-sm font-medium text-white">{t("quickInquiryToggle")}</p>
+            <p className="text-xs text-slate-300">{t("digitalLightTimeHint")}</p>
           </div>
         )}
       </div>
@@ -1004,6 +1047,7 @@ export default function ConsultationRequestForm({
                   {intentOptions.map((option) => {
                     const Icon = option.icon;
                     const selected = form.intent === option.value;
+                    const accent = intentAccents[option.value];
                     return (
                       <button
                         key={option.value}
@@ -1053,16 +1097,14 @@ export default function ConsultationRequestForm({
                         }}
                         className={`text-left rounded-xl border p-4 transition-all duration-200 ease-out hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/30 hover:ring-2 hover:ring-primary/35 hover:border-primary/50 hover:bg-white ${
                           selected
-                            ? "border-primary-dark bg-primary-dark/5 shadow-md shadow-primary/20 ring-2 ring-primary-dark/25"
+                            ? accent.tileSelected
                             : "border-slate-200 bg-white shadow-sm"
                         }`}
                       >
                         <div className="flex items-start gap-3">
                           <div
                             className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition-colors ${
-                              selected
-                                ? "bg-primary-dark/15 text-primary-dark"
-                                : "bg-slate-100 text-slate-500"
+                              selected ? accent.wellSelected : accent.well
                             }`}
                           >
                             <Icon className="h-5 w-5" />
@@ -1653,7 +1695,7 @@ export default function ConsultationRequestForm({
               type="submit"
               disabled={submitting}
               aria-describedby={showMissingNotice ? "missing-fields" : undefined}
-              className="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white shadow-md hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors sm:ml-auto"
+              className="inline-flex items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 shadow-md shadow-brand-gold/20 transition-colors hover:bg-brand-gold-light disabled:cursor-not-allowed disabled:opacity-50 sm:ml-auto"
             >
               {submitting ? (
                 <>
@@ -1676,7 +1718,7 @@ export default function ConsultationRequestForm({
                 setAttempted(false);
                 setStep((s) => s + 1);
               }}
-              className="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white shadow-md hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white shadow-md transition-colors hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50"
             >
               {t("continue")}
               <ArrowRight className="ml-2 h-4 w-4" />
@@ -1686,7 +1728,7 @@ export default function ConsultationRequestForm({
               type="submit"
               disabled={submitting}
               aria-describedby={showMissingNotice ? "missing-fields" : undefined}
-              className="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 font-semibold text-white shadow-md hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="inline-flex items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 shadow-md shadow-brand-gold/20 transition-colors hover:bg-brand-gold-light disabled:cursor-not-allowed disabled:opacity-50"
             >
               {submitting ? (
                 <>

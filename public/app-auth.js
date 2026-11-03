@@ -174,7 +174,13 @@
       const res = await fetch("/api/me", { headers: { Authorization: `Bearer ${token}`, Accept: "application/json" } });
       if (!res.ok) { user = null; return null; }
       const data = await res.json();
-      user = { userId: data.userId || data.sub, email: data.email, name: data.name };
+      const id = data?.userId || data?.sub || data?.user?.userId;
+      if (!id) { user = null; return null; }
+      user = {
+        userId: id,
+        email: data.email || data.user?.email,
+        name: data.name || data.user?.name,
+      };
       return user;
     } catch (_) {
       user = null;

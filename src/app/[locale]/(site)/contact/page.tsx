@@ -2,7 +2,7 @@
 
 import React, { Suspense, useMemo } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { CheckCircle2 } from 'lucide-react'
 import ConsultationRequestForm, {
@@ -120,7 +120,9 @@ function resolvePortfolioReference(
 function ScheduleContent() {
   const t = useTranslations('consultationRequest')
   const tPortfolio = useTranslations('digitalCreations')
+  const locale = useLocale()
   const searchParams = useSearchParams()
+  const pageEyebrow = locale === 'fr' ? 'Demande de service' : 'Service inquiry'
   const needParam = searchParams.get('need')
   const referenceParam = searchParams.get('reference')
   const offerParam = searchParams.get('offer')
@@ -208,12 +210,23 @@ function ScheduleContent() {
     : t('whatToExpect')
 
   return (
-    <div className="page-shell">
-      <div className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent" aria-hidden />
+    <div className="relative isolate overflow-hidden bg-gradient-to-b from-slate-50 via-cyan-50/40 to-white">
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_rgba(0,180,197,0.16),_transparent_55%),radial-gradient(ellipse_at_bottom_right,_rgba(242,193,78,0.12),_transparent_45%)]"
+        aria-hidden
+      />
+      <div className="h-1.5 bg-gradient-to-r from-brand-gold via-primary to-primary-dark" aria-hidden />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10 lg:mb-12">
-            <h1 className="text-4xl md:text-5xl font-serif font-extrabold text-slate-900">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary-dark">
+              <span className="text-brand-gold-dark">ROALLA</span>
+              <span className="mx-2 text-slate-300" aria-hidden>
+                ·
+              </span>
+              {pageEyebrow}
+            </p>
+            <h1 className="mt-3 text-4xl md:text-5xl font-serif font-extrabold text-slate-900">
               {title}
             </h1>
             <p className="mt-4 text-lg text-slate-600">{subtitle}</p>
@@ -247,14 +260,14 @@ function ScheduleContent() {
             </div>
           ) : null}
 
-          <div className="rounded-2xl border border-primary/20 bg-primary/[0.04] p-5 mb-8 lg:hidden">
+          <div className="mb-8 rounded-2xl border border-primary/25 border-l-4 border-l-brand-gold bg-gradient-to-br from-primary/[0.08] to-cyan-50/80 p-5 lg:hidden">
             <p className="text-sm font-semibold text-slate-900 mb-3">
               {visibilityReview ? t('visibilityReviewBenefitsTitle') : t('whatYouGetTitle')}
             </p>
             <ul className="space-y-2">
               {whatYouGetItems.map((item) => (
                 <li key={item} className="flex items-start gap-2 text-sm text-slate-700">
-                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" aria-hidden />
+                  <CheckCircle2 className="w-4 h-4 text-brand-gold-dark shrink-0 mt-0.5" aria-hidden />
                   {item}
                 </li>
               ))}
@@ -282,14 +295,14 @@ function ScheduleContent() {
               fromFoundingOffer={fromPackageOffer}
               visibilityReview={visibilityReview}
             />
-            <aside className="hidden lg:block rounded-2xl border border-slate-200 bg-slate-50 p-6 sticky top-28">
+            <aside className="sticky top-28 hidden rounded-2xl border border-primary/25 border-l-4 border-l-brand-gold bg-gradient-to-br from-primary/[0.08] via-cyan-50/90 to-white p-6 lg:block">
               <p className="text-sm font-semibold text-slate-900 mb-4">
                 {visibilityReview ? t('visibilityReviewBenefitsTitle') : t('whatYouGetTitle')}
               </p>
               <ul className="space-y-3">
                 {whatYouGetItems.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-sm text-slate-700 leading-snug">
-                    <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" aria-hidden />
+                  <li key={item} className="flex items-start gap-2.5 text-sm leading-snug text-slate-700">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-gold-dark" aria-hidden />
                     {item}
                   </li>
                 ))}
@@ -312,7 +325,7 @@ function ScheduleContent() {
 
 export default function SchedulePage() {
   return (
-    <Suspense fallback={<div className="page-shell min-h-[60vh]" />}>
+    <Suspense fallback={<div className="min-h-[60vh] bg-gradient-to-b from-slate-50 via-cyan-50/40 to-white" />}>
       <ScheduleContent />
     </Suspense>
   )

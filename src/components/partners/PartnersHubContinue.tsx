@@ -21,7 +21,10 @@ export default function PartnersHubContinue() {
     fetch('/api/me', { credentials: 'include' })
       .then(async (res) => {
         if (!res.ok) return null
-        return (await res.json()) as MeResponse
+        const data = (await res.json()) as MeResponse & { user?: MeResponse | null }
+        if (data?.userId) return data
+        if (data?.user?.userId) return data.user
+        return null
       })
       .then((data) => {
         if (!cancelled && data?.userId) setUser(data)

@@ -16,23 +16,16 @@ const companyLinks = [
   { nameKey: 'contact' as const, href: '/contact' as const },
 ]
 
-// Ordered by outcome: Growth, Experience, Automation/AI, Security/cloud/network, Ongoing.
+// Short outcome-aligned hubs; deeper landings live under /solutions and service pages.
 const exploreLinks = [
+  { nameKey: 'solutions' as const, href: '/solutions' as const },
   { nameKey: 'digitalVisibility' as const, href: '/services/search-ai-visibility' as const },
   { nameKey: 'digitalEnablement' as const, href: '/services/digital' as const },
-  { nameKey: 'websites' as const, href: '/website-design' as const },
   { nameKey: 'digitalProducts' as const, href: '/services/digital-products' as const },
-  { nameKey: 'digitalEvents' as const, href: '/services/digital-events' as const },
-  { nameKey: 'aiEmployee' as const, href: '/ai-employee' as const },
-  { nameKey: 'agentic' as const, href: '/services/ai-agents' as const },
-  { nameKey: 'automation' as const, href: '/services/automation' as const },
+  { nameKey: 'aiAutomation' as const, href: '/services/ai-agents' as const },
   { nameKey: 'security' as const, href: '/services/security-risk-compliance' as const },
-  { nameKey: 'technologyAdvisory' as const, href: '/services/technology-advisory' as const },
-  { nameKey: 'managedOptimization' as const, href: '/services/managed-optimization' as const },
-  { nameKey: 'partners' as const, href: '/partners' as const },
-  { nameKey: 'ourWork' as const, href: '/services/portfolio' as const },
   { nameKey: 'programs' as const, href: '/services/business-advisory' as const },
-  { nameKey: 'workshops' as const, href: '/programs/workshops' as const },
+  { nameKey: 'ourWork' as const, href: '/services/portfolio' as const },
 ]
 
 const socialLinks = [
@@ -56,8 +49,8 @@ const Footer = () => {
   return (
     <footer data-header-tone="dark" className="bg-slate-950 text-slate-300 border-t border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="py-12 lg:py-14 grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12">
-          <div className="md:col-span-5 lg:col-span-4">
+        <div className="py-12 lg:py-14 grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-10">
+          <div className="md:col-span-4 lg:col-span-3">
             <Link href="/" className="inline-flex items-center gap-3 group mb-5">
               <Image
                 src="/roalla-logo-2027.svg"
@@ -74,11 +67,11 @@ const Footer = () => {
             <p className="mt-2 text-xs text-slate-400">{t('subtitle')}</p>
           </div>
 
-          <div className="md:col-span-3 lg:col-span-2">
+          <div className="md:col-span-4 lg:col-span-4">
             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400 mb-4">
               {t('exploreLabel')}
             </p>
-            <nav className="flex flex-col gap-2.5" aria-label={t('exploreLabel')}>
+            <nav className="grid grid-cols-2 gap-x-6 gap-y-2.5" aria-label={t('exploreLabel')}>
               {exploreLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -108,7 +101,7 @@ const Footer = () => {
             </nav>
           </div>
 
-          <div className="md:col-span-4 lg:col-span-4">
+          <div className="md:col-span-4 lg:col-span-3">
             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400 mb-4">
               {t('contactLabel')}
             </p>

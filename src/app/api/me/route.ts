@@ -13,8 +13,9 @@ export async function GET(request: NextRequest) {
     }
   }
 
+  // Session probe: anonymous is a normal 200, not an auth failure (avoids console 401 noise).
   if (!auth?.userId) {
-    return Response.json({ error: 'Authentication required.' }, { status: 401 })
+    return Response.json({ user: null })
   }
 
   return Response.json({

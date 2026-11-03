@@ -79,7 +79,7 @@ export default function WebsiteDesignLanding() {
     <section id="website-design" className="section-padding relative">
       <ServicePageHero
         variant="digital"
-        backgroundImage="/images/services/website-design-hero.webp"
+        backgroundImage="/images/services/website-design-hero.opt.webp"
         backgroundScrim="strong"
         backgroundObjectClass="object-[72%_center]"
         eyebrow={t('heroEyebrow')}

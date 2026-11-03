@@ -40,10 +40,10 @@ import {
 const capabilityIcons = [QrCode, CalendarDays, Smartphone, Rocket] as const
 const capabilityAnchors = ['booth', 'microsites', 'apps', 'activations'] as const
 const capabilityImages = [
-  '/images/insights/library/trade-show-leads-after-qr-scan.webp',
-  '/ColdBru-Event.jpg',
-  '/boothlio-pic.webp',
-  '/images/services/digital-outcome-launch.webp',
+  '/images/insights/library/trade-show-leads-after-qr-scan.opt.webp',
+  '/ColdBru-Event.opt.webp',
+  '/boothlio-pic.opt.webp',
+  '/images/services/digital-outcome-launch.opt.webp',
 ] as const
 const formatKeys = ['format1', 'format2', 'format3'] as const
 const formatIcons = [QrCode, CalendarDays, Smartphone] as const
@@ -85,6 +85,8 @@ function EventCapabilityCard({
           alt={topic.imageAlt}
           fill
           loading="lazy"
+          unoptimized
+          decoding="async"
           sizes="(max-width: 768px) 100vw, 50vw"
           className="object-cover transition duration-300 group-hover/tile:scale-[1.03]"
         />

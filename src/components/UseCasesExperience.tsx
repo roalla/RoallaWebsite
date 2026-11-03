@@ -365,7 +365,7 @@ export default function UseCasesExperience() {
     <section id="use-cases" className="section-padding bg-white py-20 pb-28 md:pb-20 lg:py-28">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <Reveal as="header" when="mount" className="relative mb-10 overflow-hidden rounded-2xl border border-slate-700/80 bg-slate-950 px-7 py-14 text-left text-white shadow-xl lg:px-12 lg:py-20">
-          <Image src="/images/services/use-cases-hero.webp" alt="" fill priority sizes="(max-width: 1280px) 100vw, 1152px" className="pointer-events-none object-cover object-[72%_center] opacity-65" aria-hidden />
+          <Image src="/images/services/use-cases-hero.opt.webp" alt="" fill priority fetchPriority="high" unoptimized sizes="(max-width: 1280px) 100vw, 1152px" className="pointer-events-none object-cover object-[72%_center] opacity-65" aria-hidden />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/94 to-slate-950/50" aria-hidden />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/30 via-transparent to-slate-950/65" aria-hidden />
           <div className="relative max-w-3xl">

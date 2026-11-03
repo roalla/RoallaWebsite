@@ -27,6 +27,13 @@ export default async function AiEmployeePage({ params }: Props) {
 
   return (
     <>
+      <link
+        rel="preload"
+        as="image"
+        href={content.heroImage.src}
+        type="image/webp"
+        fetchPriority="high"
+      />
       <JsonLd
         data={[
           webPageJsonLd(language, path, content.eyebrow, content.metadataDescription),

@@ -231,7 +231,7 @@ const Workshops = () => {
     <section id="workshops" className="section-padding relative">
       <ServicePageHero
         variant="consulting"
-        backgroundImage="/images/services/workshops-hero.webp"
+        backgroundImage="/images/services/workshops-hero.opt.webp"
         backgroundScrim="strong"
         backgroundObjectClass="object-[72%_center]"
         eyebrow={t("heroEyebrow")}

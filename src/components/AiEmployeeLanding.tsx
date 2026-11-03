@@ -109,6 +109,8 @@ export default function AiEmployeeLanding({
               alt=""
               fill
               priority
+              unoptimized
+              fetchPriority="high"
               sizes="100vw"
               className={[
                 'object-cover transition-transform duration-[1800ms] ease-out',
@@ -175,6 +177,8 @@ export default function AiEmployeeLanding({
                         alt={step.image.alt}
                         fill
                         loading="lazy"
+                        unoptimized
+                        decoding="async"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                         className="object-cover"
                       />
@@ -229,6 +233,8 @@ export default function AiEmployeeLanding({
                         alt={item.image.alt}
                         fill
                         loading="lazy"
+                        unoptimized
+                        decoding="async"
                         sizes="(max-width: 640px) 100vw, (max-width: 1280px) 33vw, 25vw"
                         className="object-cover transition duration-300 group-hover/tile:scale-[1.03]"
                       />
@@ -297,6 +303,8 @@ export default function AiEmployeeLanding({
                             alt={industry.image.alt}
                             fill
                             loading="lazy"
+                            unoptimized
+                            decoding="async"
                             sizes="(max-width: 640px) 100vw, 50vw"
                             className={[
                               'object-cover transition duration-300 group-hover/tile:scale-[1.03]',
@@ -453,6 +461,8 @@ export default function AiEmployeeLanding({
                           alt={item.image.alt}
                           fill
                           loading="lazy"
+                          unoptimized
+                          decoding="async"
                           sizes="(max-width: 768px) 100vw, 50vw"
                           className="object-cover transition duration-300 group-hover/tile:scale-[1.03]"
                         />

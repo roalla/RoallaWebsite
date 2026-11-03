@@ -176,13 +176,15 @@ export default function WebsiteBuilderLimitationsArticle({ locale, title, summar
           </div>
           <figure className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 shadow-xl shadow-slate-900/10">
             <Image
-              src="/images/insights/website-builder-growth/website-builder-growth-hero.webp"
+              src="/images/insights/website-builder-growth/website-builder-growth-hero.opt.webp"
               alt={french
                 ? 'Une propriétaire d’entreprise examine un beau site qui ne se connecte pas à ses outils essentiels.'
                 : 'A business owner reviews a polished website that is not connecting to essential business tools.'}
               width={1200}
               height={675}
               priority
+              fetchPriority="high"
+              unoptimized
               sizes="(min-width: 1024px) 640px, 100vw"
               className="h-auto w-full object-cover"
             />

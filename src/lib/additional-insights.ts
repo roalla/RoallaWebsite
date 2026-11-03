@@ -13,7 +13,7 @@ type AdditionalInsightSlug = Extract<EnrichedInsightSlug,
 
 export const ADDITIONAL_INSIGHTS: Record<AdditionalInsightSlug, InsightEntry> = {
   'website-portal-or-custom-app': {
-    image: '/images/insights/library/website-portal-or-custom-app.webp',
+    image: '/images/insights/library/website-portal-or-custom-app.opt.webp',
     en: {
       category: 'Digital Products',
       imageAlt: 'A business owner and advisor compare a public website, client portal and workflow application.',
@@ -47,7 +47,7 @@ export const ADDITIONAL_INSIGHTS: Record<AdditionalInsightSlug, InsightEntry> = 
     },
   },
   'what-to-automate-first': {
-    image: '/images/insights/library/what-to-automate-first.webp',
+    image: '/images/insights/library/what-to-automate-first.opt.webp',
     en: {
       category: 'Workflow Automation', imageAlt: 'A team maps repetitive work and separates automation from human judgment.',
       plainAnswer: 'Automate stable, repetitive work with clear rules. Keep people responsible for exceptions, judgment, relationships and consequential decisions.',
@@ -72,7 +72,7 @@ export const ADDITIONAL_INSIGHTS: Record<AdditionalInsightSlug, InsightEntry> = 
     },
   },
   'website-redesign-or-conversion-refresh': {
-    image: '/images/insights/library/website-redesign-or-conversion-refresh.webp',
+    image: '/images/insights/library/website-redesign-or-conversion-refresh.opt.webp',
     en: {
       category: 'Website Design', imageAlt: 'A business owner and web strategist review an existing site and a focused improvement plan.',
       plainAnswer: 'Refresh the conversion path when the foundation still works. Redesign when structure, technology, brand and content all prevent meaningful improvement.',
@@ -97,7 +97,7 @@ export const ADDITIONAL_INSIGHTS: Record<AdditionalInsightSlug, InsightEntry> = 
     },
   },
   'build-buy-or-integrate-technology': {
-    image: '/images/insights/library/build-buy-or-integrate-technology.webp',
+    image: '/images/insights/library/build-buy-or-integrate-technology.opt.webp',
     en: {
       category: 'Technology Advisory', imageAlt: 'A leader and requirements-based advisor compare technology solution options and integration plans.',
       plainAnswer: 'Buy when a proven product fits the need, configure when differences are modest, integrate when useful systems must cooperate, and build only where the requirement creates distinct value.',
@@ -122,7 +122,7 @@ export const ADDITIONAL_INSIGHTS: Record<AdditionalInsightSlug, InsightEntry> = 
     },
   },
   'website-after-launch': {
-    image: '/images/insights/library/website-after-launch.webp',
+    image: '/images/insights/library/website-after-launch.opt.webp',
     en: {
       category: 'Managed Optimization', imageAlt: 'A business owner and digital specialist review website performance after launch.',
       plainAnswer: 'Launch creates a starting point. The site still needs monitoring, maintenance, measurement and focused improvement as customers, content and technology change.',
@@ -147,7 +147,7 @@ export const ADDITIONAL_INSIGHTS: Record<AdditionalInsightSlug, InsightEntry> = 
     },
   },
   'trade-show-leads-after-qr-scan': {
-    image: '/images/insights/library/trade-show-leads-after-qr-scan.webp',
+    image: '/images/insights/library/trade-show-leads-after-qr-scan.opt.webp',
     en: {
       category: 'Digital Events', imageAlt: 'A trade show team connects a QR interaction with organized lead follow-up.',
       plainAnswer: 'A QR code creates an opening, not a relationship. Conversion depends on a useful mobile experience, meaningful context and timely follow-up.',
@@ -172,7 +172,7 @@ export const ADDITIONAL_INSIGHTS: Record<AdditionalInsightSlug, InsightEntry> = 
     },
   },
   'workshop-consultant-or-fractional-leader': {
-    image: '/images/insights/library/workshop-consultant-or-fractional-leader.webp',
+    image: '/images/insights/library/workshop-consultant-or-fractional-leader.opt.webp',
     en: {
       category: 'Business Enablement', imageAlt: 'A leader compares a facilitated workshop, advisory conversation and embedded fractional leadership.',
       plainAnswer: 'Choose a workshop to build shared understanding, consulting to solve a defined problem, and fractional leadership when the organization needs continuing senior ownership.',
@@ -197,7 +197,7 @@ export const ADDITIONAL_INSIGHTS: Record<AdditionalInsightSlug, InsightEntry> = 
     },
   },
   'practical-ai-use-cases': {
-    image: '/images/insights/library/practical-ai-use-cases.webp',
+    image: '/images/insights/library/practical-ai-use-cases.opt.webp',
     en: {
       category: 'Practical AI', imageAlt: 'A small business team evaluates an AI-assisted workflow with a human review checkpoint.',
       plainAnswer: 'Start where work is repetitive, information is available and a person can verify the result. Avoid beginning with high consequence decisions or a tool looking for a problem.',

@@ -447,7 +447,8 @@ function PortfolioCard({
               className="object-cover object-top group-hover:scale-[1.04] transition-transform duration-500"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               unoptimized
-              priority={index < 2}
+              decoding="async"
+              loading="lazy"
             />
           ) : null}
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/55 via-slate-900/10 to-transparent" />
@@ -669,7 +670,7 @@ const DigitalCreations = ({
         title={t("portfolioTitle")}
         subtitle={t("portfolioSubtitle")}
         subtitleHighlight={t("portfolioSubtitleHighlight")}
-        backgroundImage="/images/PortfolioPics/portfolio-hero.jpg"
+        backgroundImage="/images/PortfolioPics/portfolio-hero.opt.webp"
         stats={[]}
         visual={<LiveDomainChips t={t} />}
         primaryCta={

@@ -42,7 +42,7 @@ export default async function Page({ params }: Props) {
       <OutcomeServiceLanding
         locale={locale}
         content={c}
-        heroImage="/images/services/automation-hero.webp"
+        heroImage="/images/services/automation-hero.opt.webp"
         service="automation"
       />
     </div>

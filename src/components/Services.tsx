@@ -223,7 +223,7 @@ const Services = () => {
       link: t("outcome1Link"),
       alt: t("outcome1Alt"),
       href: "#strategy-roadmaps",
-      image: "/images/programs/business-outcome-focus.webp",
+      image: "/images/programs/business-outcome-focus.opt.webp",
     },
     {
       label: t("outcome2Label"),
@@ -232,7 +232,7 @@ const Services = () => {
       link: t("outcome2Link"),
       alt: t("outcome2Alt"),
       href: "#operations",
-      image: "/images/programs/business-outcome-improve.webp",
+      image: "/images/programs/business-outcome-improve.opt.webp",
     },
     {
       label: t("outcome3Label"),
@@ -241,7 +241,7 @@ const Services = () => {
       link: t("outcome3Link"),
       alt: t("outcome3Alt"),
       href: "#leadership",
-      image: "/images/programs/business-outcome-lead.webp",
+      image: "/images/programs/business-outcome-lead.opt.webp",
     },
   ];
 
@@ -249,7 +249,7 @@ const Services = () => {
     <section id="services" className="section-padding relative bg-slate-50/60">
       <ServicePageHero
         variant="consulting"
-        backgroundImage="/images/services/business-advisory-hero.webp"
+        backgroundImage="/images/services/business-advisory-hero.opt.webp"
         backgroundScrim="strong"
         backgroundObjectClass="object-[68%_42%]"
         eyebrow={t("heroEyebrow")}
@@ -310,6 +310,9 @@ const Services = () => {
                     src={outcome.image}
                     alt={outcome.alt}
                     fill
+                    loading="lazy"
+                    unoptimized
+                    decoding="async"
                     sizes="(min-width: 1024px) 360px, (min-width: 768px) 50vw, 100vw"
                     className="object-cover transition duration-500 group-hover:scale-[1.03]"
                   />

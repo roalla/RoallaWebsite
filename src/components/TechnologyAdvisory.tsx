@@ -154,7 +154,7 @@ const TechnologyAdvisory = () => {
         className="relative isolate overflow-hidden bg-slate-950 px-4 pb-14 pt-28 text-white sm:px-6 lg:px-8 lg:pb-16 lg:pt-32"
       >
         <Image
-          src="/images/services/technology-advisory-hero.webp"
+          src="/images/services/technology-advisory-hero.opt.webp"
           alt=""
           fill
           priority

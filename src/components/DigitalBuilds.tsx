@@ -291,7 +291,7 @@ const DigitalBuilds = () => {
 
   const digitalOutcomes = [
     {
-      image: "/images/services/digital-outcome-launch.webp",
+      image: "/images/services/digital-outcome-launch.opt.webp",
       alt: t("outcomesLaunchAlt"),
       kicker: t("outcomesLaunchKicker"),
       title: t("outcomesLaunchTitle"),
@@ -300,7 +300,7 @@ const DigitalBuilds = () => {
       href: "#websites",
     },
     {
-      image: "/images/services/digital-outcome-operations.webp",
+      image: "/images/services/digital-outcome-operations.opt.webp",
       alt: t("outcomesOperationsAlt"),
       kicker: t("outcomesOperationsKicker"),
       title: t("outcomesOperationsTitle"),
@@ -309,7 +309,7 @@ const DigitalBuilds = () => {
       href: "#automation",
     },
     {
-      image: "/images/services/digital-outcome-growth.webp",
+      image: "/images/services/digital-outcome-growth.opt.webp",
       alt: t("outcomesGrowthAlt"),
       kicker: t("outcomesGrowthKicker"),
       title: t("outcomesGrowthTitle"),
@@ -419,6 +419,9 @@ const DigitalBuilds = () => {
                       src={outcome.image}
                       alt={outcome.alt}
                       fill
+                      loading="lazy"
+                      unoptimized
+                      decoding="async"
                       sizes="(min-width: 1024px) 33vw, 100vw"
                       className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
                     />

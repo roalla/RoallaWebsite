@@ -70,11 +70,11 @@ const experienceCopy = {
     portfolioLive: 'Open the live product',
     portfolioAll: 'Explore all websites and applications',
     portfolioItems: [
-      { slug: 'my360vision', title: 'My360Vision', type: 'Multi-industry IoT & telematics platform', image: '/360visionsnapshot.jpg', liveUrl: 'https://www.my360vision.com/', description: 'One connected-asset platform for devices, sensors, and mobile assets—industry profiles unlock monitoring, alerts, and operational workflows.' },
-      { slug: 'pitch-hotshots', title: 'Pitch Hotshots', type: 'AI-assisted practice application', image: '/pitchhotshotsnapshot.webp', liveUrl: 'https://www.pitchhotshot.com/', description: 'Combines guided practice, scoring, delivery metrics, and structured feedback in one experience.' },
-      { slug: 'boothlio', title: 'Boothlio', type: 'Event experience platform', image: '/boothlio-pic.webp', liveUrl: 'https://boothlio.com', description: 'Connects on-site engagement, information capture, and follow-up around a defined event journey.' },
-      { slug: 'grcstatus', title: 'GRC Status', type: 'Compliance readiness application', image: '/grcstatussnapshot.jpg', liveUrl: 'https://www.grcstatus.com/', description: 'Organizes control questions, evidence, ownership, and readiness into a practical starting point.' },
-      { slug: 'unjargonit', title: 'UnJargon It', type: 'Plain-language learning application', image: '/unjargonitsnapshot.jpg', liveUrl: 'https://www.unjargonit.com/', description: 'Uses guided learning tracks, progress views, and hands-on experiences to make technology easier to understand.' },
+      { slug: 'my360vision', title: 'My360Vision', type: 'Multi-industry IoT & telematics platform', image: '/360visionsnapshot.opt.webp', liveUrl: 'https://www.my360vision.com/', description: 'One connected-asset platform for devices, sensors, and mobile assets—industry profiles unlock monitoring, alerts, and operational workflows.' },
+      { slug: 'pitch-hotshots', title: 'Pitch Hotshots', type: 'AI-assisted practice application', image: '/pitchhotshotsnapshot.opt.webp', liveUrl: 'https://www.pitchhotshot.com/', description: 'Combines guided practice, scoring, delivery metrics, and structured feedback in one experience.' },
+      { slug: 'boothlio', title: 'Boothlio', type: 'Event experience platform', image: '/boothlio-pic.opt.webp', liveUrl: 'https://boothlio.com', description: 'Connects on-site engagement, information capture, and follow-up around a defined event journey.' },
+      { slug: 'grcstatus', title: 'GRC Status', type: 'Compliance readiness application', image: '/grcstatussnapshot.opt.webp', liveUrl: 'https://www.grcstatus.com/', description: 'Organizes control questions, evidence, ownership, and readiness into a practical starting point.' },
+      { slug: 'unjargonit', title: 'UnJargon It', type: 'Plain-language learning application', image: '/unjargonitsnapshot.opt.webp', liveUrl: 'https://www.unjargonit.com/', description: 'Uses guided learning tracks, progress views, and hands-on experiences to make technology easier to understand.' },
     ],
     deliverablesEyebrow: 'Tangible progress',
     deliverablesTitle: 'Leave with more than recommendations.',
@@ -133,11 +133,11 @@ const experienceCopy = {
     portfolioLive: 'Ouvrir le produit',
     portfolioAll: 'Explorer tous les sites et applications',
     portfolioItems: [
-      { slug: 'my360vision', title: 'My360Vision', type: 'Plateforme IoT et télématique multi-industries', image: '/360visionsnapshot.jpg', liveUrl: 'https://www.my360vision.com/', description: 'Une plateforme d’actifs connectés pour appareils, capteurs et actifs mobiles—des profils industriels débloquent surveillance, alertes et flux opérationnels.' },
-      { slug: 'pitch-hotshots', title: 'Pitch Hotshots', type: 'Application de pratique assistée par l’IA', image: '/pitchhotshotsnapshot.webp', liveUrl: 'https://www.pitchhotshot.com/', description: 'Réunit pratique guidée, notation, mesures de prestation et rétroaction structurée dans une même expérience.' },
-      { slug: 'boothlio', title: 'Boothlio', type: 'Plateforme d’expérience événementielle', image: '/boothlio-pic.webp', liveUrl: 'https://boothlio.com', description: 'Relie l’engagement sur place, la collecte d’information et le suivi autour d’un parcours événementiel défini.' },
-      { slug: 'grcstatus', title: 'GRC Status', type: 'Application de préparation à la conformité', image: '/grcstatussnapshot.jpg', liveUrl: 'https://www.grcstatus.com/', description: 'Organise les questions de contrôle, les preuves, les responsabilités et la préparation en point de départ pratique.' },
-      { slug: 'unjargonit', title: 'UnJargon It', type: 'Application d’apprentissage en langage clair', image: '/unjargonitsnapshot.jpg', liveUrl: 'https://www.unjargonit.com/', description: 'Utilise des parcours guidés, des vues de progression et des expériences pratiques pour rendre la technologie plus accessible.' },
+      { slug: 'my360vision', title: 'My360Vision', type: 'Plateforme IoT et télématique multi-industries', image: '/360visionsnapshot.opt.webp', liveUrl: 'https://www.my360vision.com/', description: 'Une plateforme d’actifs connectés pour appareils, capteurs et actifs mobiles—des profils industriels débloquent surveillance, alertes et flux opérationnels.' },
+      { slug: 'pitch-hotshots', title: 'Pitch Hotshots', type: 'Application de pratique assistée par l’IA', image: '/pitchhotshotsnapshot.opt.webp', liveUrl: 'https://www.pitchhotshot.com/', description: 'Réunit pratique guidée, notation, mesures de prestation et rétroaction structurée dans une même expérience.' },
+      { slug: 'boothlio', title: 'Boothlio', type: 'Plateforme d’expérience événementielle', image: '/boothlio-pic.opt.webp', liveUrl: 'https://boothlio.com', description: 'Relie l’engagement sur place, la collecte d’information et le suivi autour d’un parcours événementiel défini.' },
+      { slug: 'grcstatus', title: 'GRC Status', type: 'Application de préparation à la conformité', image: '/grcstatussnapshot.opt.webp', liveUrl: 'https://www.grcstatus.com/', description: 'Organise les questions de contrôle, les preuves, les responsabilités et la préparation en point de départ pratique.' },
+      { slug: 'unjargonit', title: 'UnJargon It', type: 'Application d’apprentissage en langage clair', image: '/unjargonitsnapshot.opt.webp', liveUrl: 'https://www.unjargonit.com/', description: 'Utilise des parcours guidés, des vues de progression et des expériences pratiques pour rendre la technologie plus accessible.' },
     ],
     deliverablesEyebrow: 'Un progrès tangible',
     deliverablesTitle: 'Repartez avec plus que des recommandations.',
@@ -232,6 +232,8 @@ export default function SolutionsByNeedPage({ content, locale }: { content: Solu
                   alt={`${copy.portfolioItems[0].title} — ${copy.portfolioItems[0].type}`}
                   fill
                   priority
+                  fetchPriority="high"
+                  unoptimized
                   sizes="(min-width: 1024px) 44vw, 92vw"
                   className="object-cover object-top"
                 />
@@ -251,13 +253,13 @@ export default function SolutionsByNeedPage({ content, locale }: { content: Solu
 
             <div className="absolute bottom-0 left-2 w-[45%] rotate-[-3deg] overflow-hidden rounded-2xl border-4 border-white bg-white shadow-2xl shadow-black/35 transition duration-300 hover:rotate-0 sm:left-5">
               <div className="relative aspect-[16/10] overflow-hidden bg-slate-200">
-                <Image src={copy.portfolioItems[1].image} alt={`${copy.portfolioItems[1].title} — ${copy.portfolioItems[1].type}`} fill sizes="260px" className="object-cover object-top" />
+                <Image src={copy.portfolioItems[1].image} alt={`${copy.portfolioItems[1].title} — ${copy.portfolioItems[1].type}`} fill loading="lazy" unoptimized decoding="async" sizes="260px" className="object-cover object-top" />
               </div>
               <p className="truncate px-3 py-2 text-xs font-bold text-slate-950">{copy.portfolioItems[1].title}</p>
             </div>
             <div className="absolute bottom-2 right-2 w-[43%] rotate-[3deg] overflow-hidden rounded-2xl border-4 border-white bg-white shadow-2xl shadow-black/35 transition duration-300 hover:rotate-0 sm:right-5">
               <div className="relative aspect-[16/10] overflow-hidden bg-slate-200">
-                <Image src={copy.portfolioItems[2].image} alt={`${copy.portfolioItems[2].title} — ${copy.portfolioItems[2].type}`} fill sizes="250px" className="object-cover object-top" />
+                <Image src={copy.portfolioItems[2].image} alt={`${copy.portfolioItems[2].title} — ${copy.portfolioItems[2].type}`} fill loading="lazy" unoptimized decoding="async" sizes="250px" className="object-cover object-top" />
               </div>
               <p className="truncate px-3 py-2 text-xs font-bold text-slate-950">{copy.portfolioItems[2].title}</p>
             </div>
@@ -345,6 +347,9 @@ export default function SolutionsByNeedPage({ content, locale }: { content: Solu
                     src={item.image}
                     alt={`${item.title} — ${item.type}`}
                     fill
+                    loading="lazy"
+                    unoptimized
+                    decoding="async"
                     sizes="(min-width: 768px) 50vw, 100vw"
                     className="object-cover object-top transition duration-500 group-hover:scale-[1.025]"
                   />

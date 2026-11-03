@@ -310,6 +310,9 @@ export default function OutcomeGroupPanel({
                       src={item.image.src}
                       alt={item.image.alt}
                       fill
+                      loading="lazy"
+                      unoptimized
+                      decoding="async"
                       sizes="(max-width: 640px) 100vw, (max-width: 1280px) 33vw, 20vw"
                       className="object-cover transition duration-300 group-hover/tile:scale-[1.03]"
                     />

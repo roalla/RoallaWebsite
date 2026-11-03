@@ -186,6 +186,8 @@ export default function OutcomeServiceLanding({
               alt=""
               fill
               priority
+              fetchPriority="high"
+              unoptimized
               sizes="(max-width: 1280px) 100vw, 1152px"
               className="pointer-events-none object-cover object-[72%_center] opacity-70"
               aria-hidden

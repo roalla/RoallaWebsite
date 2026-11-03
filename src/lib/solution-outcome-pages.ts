@@ -35,7 +35,7 @@ export type OutcomeDeliveryModel = {
 
 export const outcomeVisuals: Record<SolutionPathId, OutcomeVisual> = {
   strategy: {
-    src: "/images/insights/library/strategic-planning.webp",
+    src: "/images/insights/library/strategic-planning.opt.webp",
     alt: {
       en: "Leadership team aligning business priorities on a shared strategic plan",
       fr: "Équipe de direction alignant les priorités d’affaires dans un plan stratégique commun",
@@ -43,7 +43,7 @@ export const outcomeVisuals: Record<SolutionPathId, OutcomeVisual> = {
     focus: { en: "Direction and ownership", fr: "Orientation et responsabilités" },
   },
   "cloud-infrastructure": {
-    src: "/images/insights/library/cloud-backup-sync-recovery-differences.webp",
+    src: "/images/insights/library/cloud-backup-sync-recovery-differences.opt.webp",
     alt: {
       en: "Connected cloud infrastructure supporting secure business continuity",
       fr: "Infrastructure infonuagique connectée soutenant la continuité sécurisée des activités",
@@ -51,7 +51,7 @@ export const outcomeVisuals: Record<SolutionPathId, OutcomeVisual> = {
     focus: { en: "Resilience and scale", fr: "Résilience et évolutivité" },
   },
   communications: {
-    src: "/images/insights/library/analog-to-ip-business-telephony.webp",
+    src: "/images/insights/library/analog-to-ip-business-telephony.opt.webp",
     alt: {
       en: "Modern business calling and collaboration across a connected team",
       fr: "Téléphonie et collaboration d’affaires modernes pour une équipe connectée",
@@ -59,7 +59,7 @@ export const outcomeVisuals: Record<SolutionPathId, OutcomeVisual> = {
     focus: { en: "Clearer conversations", fr: "Conversations plus claires" },
   },
   security: {
-    src: "/images/insights/library/consolidate-systems-before-soc-2-readiness.webp",
+    src: "/images/insights/library/consolidate-systems-before-soc-2-readiness.opt.webp",
     alt: {
       en: "Business systems organized for stronger security and compliance readiness",
       fr: "Systèmes d’affaires organisés pour renforcer la sécurité et la préparation à la conformité",
@@ -67,7 +67,7 @@ export const outcomeVisuals: Record<SolutionPathId, OutcomeVisual> = {
     focus: { en: "Risk and readiness", fr: "Risque et préparation" },
   },
   iot: {
-    src: "/images/insights/library/smb-digital-efficiency.webp",
+    src: "/images/insights/library/smb-digital-efficiency.opt.webp",
     alt: {
       en: "Connected operational data helping a team monitor work in real time",
       fr: "Données opérationnelles connectées aidant une équipe à suivre le travail en temps réel",
@@ -75,7 +75,7 @@ export const outcomeVisuals: Record<SolutionPathId, OutcomeVisual> = {
     focus: { en: "Connected operations", fr: "Opérations connectées" },
   },
   network: {
-    src: "/images/insights/library/technology-renewal-checklist.webp",
+    src: "/images/insights/library/technology-renewal-checklist.opt.webp",
     alt: {
       en: "Business leader reviewing network reliability and technology renewal priorities",
       fr: "Dirigeant examinant la fiabilité du réseau et les priorités de renouvellement technologique",
@@ -83,7 +83,7 @@ export const outcomeVisuals: Record<SolutionPathId, OutcomeVisual> = {
     focus: { en: "Reliable connectivity", fr: "Connectivité fiable" },
   },
   "digital-experience": {
-    src: "/images/insights/library/website-portal-or-custom-app.webp",
+    src: "/images/insights/library/website-portal-or-custom-app.opt.webp",
     alt: {
       en: "Customer using a clear digital portal designed around a practical task",
       fr: "Client utilisant un portail numérique clair conçu autour d’une tâche concrète",
@@ -91,7 +91,7 @@ export const outcomeVisuals: Record<SolutionPathId, OutcomeVisual> = {
     focus: { en: "Useful digital journeys", fr: "Parcours numériques utiles" },
   },
   "automation-ai": {
-    src: "/images/insights/library/what-to-automate-first.webp",
+    src: "/images/insights/library/what-to-automate-first.opt.webp",
     alt: {
       en: "Team mapping a responsible automation workflow with human review points",
       fr: "Équipe cartographiant un flux d’automatisation responsable avec des points de révision humaine",
@@ -99,7 +99,7 @@ export const outcomeVisuals: Record<SolutionPathId, OutcomeVisual> = {
     focus: { en: "Controlled automation", fr: "Automatisation contrôlée" },
   },
   visibility: {
-    src: "/images/insights/library/search-and-ai-visibility.webp",
+    src: "/images/insights/library/search-and-ai-visibility.opt.webp",
     alt: {
       en: "Business content becoming easier to find in search and AI-assisted discovery",
       fr: "Contenu d’affaires devenant plus facile à trouver dans la recherche et la découverte assistée par l’IA",
@@ -470,7 +470,7 @@ export const outcomeEvidence: Partial<Record<SolutionPathId, readonly OutcomeEvi
         en: "A published AI-assisted practice product with scoring, delivery metrics, and structured feedback.",
         fr: "Un produit publié de pratique assistée par l’IA avec notation, mesures de prestation et rétroaction structurée.",
       },
-      image: "/pitchhotshotsnapshot.webp",
+      image: "/pitchhotshotsnapshot.opt.webp",
     },
     {
       slug: "unjargonit",
@@ -479,7 +479,7 @@ export const outcomeEvidence: Partial<Record<SolutionPathId, readonly OutcomeEvi
         en: "A published learning product that turns dense technology topics into guided, trackable practice.",
         fr: "Un produit d’apprentissage publié qui transforme des sujets technologiques denses en pratique guidée et suivie.",
       },
-      image: "/unjargonitsnapshot.jpg",
+      image: "/unjargonitsnapshot.opt.webp",
     },
     {
       slug: "boothlio",
@@ -488,7 +488,7 @@ export const outcomeEvidence: Partial<Record<SolutionPathId, readonly OutcomeEvi
         en: "A published event platform that captures engagement and routes follow-up without manual re-entry.",
         fr: "Une plateforme événementielle publiée qui capture l’engagement et achemine le suivi sans ressaisie manuelle.",
       },
-      image: "/boothlio-pic.webp",
+      image: "/boothlio-pic.opt.webp",
     },
   ],
 };

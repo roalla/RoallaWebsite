@@ -140,7 +140,7 @@ export default function ExecutiveInsightsLibrary({ locale, guides }: Props) {
 
   return <>
     <section data-header-tone="dark" className="relative isolate overflow-hidden bg-[#090b0e] px-4 pb-20 pt-32 text-white sm:px-6 lg:px-8 lg:pb-24 lg:pt-40">
-      <Image src="/images/executive-insights/hero.avif" alt="" fill priority sizes="100vw" className="-z-30 object-cover object-center opacity-45" />
+      <Image src="/images/executive-insights/hero.avif" alt="" fill priority fetchPriority="high" unoptimized sizes="100vw" className="-z-30 object-cover object-center opacity-45" />
       <div className="absolute inset-0 -z-20 bg-gradient-to-r from-[#050608] via-[#050608]/95 to-[#050608]/70" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/20 via-transparent to-black/65" />
       <div className="mx-auto grid max-w-7xl gap-16 lg:grid-cols-[1.2fr_.8fr] lg:items-end">

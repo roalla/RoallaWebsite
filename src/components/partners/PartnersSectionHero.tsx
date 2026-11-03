@@ -65,6 +65,8 @@ export default async function PartnersSectionHero({
         alt=""
         fill
         priority={imagePriority}
+        fetchPriority={imagePriority ? 'high' : 'auto'}
+        unoptimized
         sizes="100vw"
         className={
           isSlate

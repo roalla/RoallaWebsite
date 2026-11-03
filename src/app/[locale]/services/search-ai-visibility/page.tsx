@@ -72,10 +72,12 @@ export default async function SearchAiVisibilityPage({
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
         <header className="relative overflow-hidden rounded-2xl border border-slate-700/80 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-6 py-10 lg:px-12 lg:py-14 shadow-xl">
           <Image
-            src="/images/services/ai-agents-hero.webp"
+            src="/images/services/ai-agents-hero.opt.webp"
             alt=""
             fill
             priority
+            fetchPriority="high"
+            unoptimized
             sizes="(max-width: 1280px) 100vw, 1152px"
             className="pointer-events-none object-cover object-[72%_center] opacity-70"
             aria-hidden

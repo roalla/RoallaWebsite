@@ -113,6 +113,8 @@ export default function PortfolioWalkthrough({
               src={item.imageUrl}
               alt={portfolioImageAlts[item.id]}
               fill
+              unoptimized
+              decoding="async"
               className="object-cover object-top"
               sizes="(max-width: 1024px) 100vw, 50vw"
             />

@@ -156,6 +156,8 @@ export function ServicePageHero({
             alt=""
             fill
             priority
+            fetchPriority="high"
+            unoptimized
             sizes="(max-width: 1280px) 100vw, 1152px"
             className={`pointer-events-none object-cover ${backgroundObjectClass} ${
               strongScrim ? 'opacity-70' : 'opacity-80'

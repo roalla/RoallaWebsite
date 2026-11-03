@@ -1,3 +1,5 @@
+import type { AppHref } from '@/i18n/navigation'
+
 export type ServiceActionServiceId =
   | 'search-ai-visibility'
   | 'ai-agents'
@@ -335,10 +337,19 @@ export function getServiceActionBand(serviceId: ServiceActionServiceId): Service
   return serviceActionBands[serviceId]
 }
 
-export function attributedServiceTileHref(href: string, serviceId: ServiceActionServiceId, tileId: string) {
-  const url = new URL(href, 'https://www.roalla.com')
-  url.searchParams.set('campaign', `service-${serviceId}`)
-  url.searchParams.set('conversion_source', 'service_action_tile')
-  url.searchParams.set('signal', tileId)
-  return `${url.pathname}${url.search}`
+export function attributedServiceTileHref(
+  href: string,
+  serviceId: ServiceActionServiceId,
+  tileId: string,
+): AppHref {
+  const pathname = new URL(href, 'https://www.roalla.com').pathname
+  // Query-bearing hrefs are valid at runtime; AppHref is a narrow pathname union.
+  return {
+    pathname: pathname as '/',
+    query: {
+      campaign: `service-${serviceId}`,
+      conversion_source: 'service_action_tile',
+      signal: tileId,
+    },
+  } as AppHref
 }

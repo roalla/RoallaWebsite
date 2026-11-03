@@ -1,7 +1,7 @@
 'use client'
 
 import { ArrowRight } from 'lucide-react'
-import { Link } from '@/i18n/navigation'
+import { Link, type AppHref } from '@/i18n/navigation'
 import Reveal from '@/components/motion/Reveal'
 import { trackAnalyticsEvent } from '@/lib/analytics'
 import type { ServiceActionServiceId } from '@/lib/service-action-tiles'
@@ -47,7 +47,7 @@ export default function ServiceTrends2027({ serviceId, locale, className = '' }:
             <p className="mt-2 flex-1 text-sm leading-6 text-slate-600">{trend.body[locale]}</p>
             {trend.href && trend.hrefLabel ? (
               <Link
-                href={trend.href}
+                href={trend.href as AppHref}
                 onClick={() =>
                   trackAnalyticsEvent('service_trends_2027_click', {
                     service: serviceId,

@@ -38,10 +38,14 @@ describe('service action tiles', () => {
       'search-ai-visibility',
       'ai-visibility-review',
     )
-    expect(href).toContain('/website-ai-visibility-review?')
-    expect(href).toContain('campaign=service-search-ai-visibility')
-    expect(href).toContain('conversion_source=service_action_tile')
-    expect(href).toContain('signal=ai-visibility-review')
+    expect(href).toEqual({
+      pathname: '/website-ai-visibility-review',
+      query: {
+        campaign: 'service-search-ai-visibility',
+        conversion_source: 'service_action_tile',
+        signal: 'ai-visibility-review',
+      },
+    })
   })
 })
 

@@ -180,8 +180,16 @@ const intentOptions: {
   },
 ];
 
+type IntentTileId =
+  | "visibility"
+  | "platform"
+  | "ai-support"
+  | "security"
+  | "consulting"
+  | "unsure";
+
 const intentAccents: Record<
-  (typeof intentOptions)[number]["value"],
+  IntentTileId,
   { well: string; wellSelected: string; tileSelected: string }
 > = {
   visibility: {
@@ -1047,7 +1055,7 @@ export default function ConsultationRequestForm({
                   {intentOptions.map((option) => {
                     const Icon = option.icon;
                     const selected = form.intent === option.value;
-                    const accent = intentAccents[option.value];
+                    const accent = intentAccents[option.value as IntentTileId];
                     return (
                       <button
                         key={option.value}

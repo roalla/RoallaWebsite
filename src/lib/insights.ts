@@ -302,7 +302,10 @@ export function insightCoverImage(slug: InsightSlug): string {
   if (slug === 'web-development-digital-experience-outlook-2027') {
     return '/images/insights/web-development-outlook-2027/card.webp'
   }
-  return full.replace('/images/insights/library/', '/images/insights/cards/')
+  // Card thumbs live as plain .webp; library covers may be .opt.webp.
+  return full
+    .replace('/images/insights/library/', '/images/insights/cards/')
+    .replace(/\.opt\.webp$/i, '.webp')
 }
 
 export function insightFromEngagement(slug: InsightSlug): boolean {

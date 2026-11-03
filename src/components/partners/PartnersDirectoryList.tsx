@@ -45,6 +45,8 @@ export default async function PartnersDirectoryList({ groupId, showHeading = tru
       filterBriefLabel={t('directoryFilterBriefLabel')}
       filterBriefCta={t('directoryFilterBriefCta')}
       progressLabel={t('directoryProgressLabel')}
+      detailsSummaryLabel={t('directoryDetailsSummary')}
+      detailsHintLabel={t('directoryDetailsHint')}
       accessLabels={{
         advisor: t('access_advisor'),
         verified_supplier: t('access_verified_supplier'),

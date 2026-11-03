@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { CheckCircle2, SearchCheck } from "lucide-react";
 import JsonLd from "@/components/JsonLd";
+import ServiceActionTiles from "@/components/services/ServiceActionTiles";
+import ServiceTrends2027 from "@/components/services/ServiceTrends2027";
 import VisibilityCtas from "@/components/visibility/VisibilityCtas";
 import { Link } from "@/i18n/navigation";
 import { buildPageMetadata } from "@/lib/page-metadata";
@@ -143,41 +145,11 @@ export default async function SearchAiVisibilityPage({
         </header>
 
         <main className="max-w-6xl mx-auto">
-          <section className="pt-10">
-            <div className="rounded-2xl border border-primary/20 bg-primary/[0.04] p-6 sm:p-8 lg:flex lg:items-center lg:justify-between lg:gap-10">
-              <div className="max-w-3xl">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-dark">
-                  {locale === "fr" ? "Outil gratuit" : "Free tool"}
-                </p>
-                <h2 className="mt-2 text-2xl font-serif font-bold text-slate-950">
-                  {locale === "fr"
-                    ? "Découvrez gratuitement ce qui peut freiner votre présence en ligne."
-                    : "See what may be holding back your online presence for free."}
-                </h2>
-                <p className="mt-3 text-slate-700">
-                  {locale === "fr"
-                    ? "Vérifiez l’expérience de votre site, sa préparation à la recherche et son apparence sur les réseaux sociaux dans un seul rapport clair. Aucune adresse courriel requise."
-                    : "Check your website experience, search readiness, and social sharing in one clear report. No email address is required."}
-                </p>
-              </div>
-              <div className="mt-5 flex shrink-0 flex-col gap-3 lg:mt-0">
-                <Link
-                  href="/website-ai-visibility-review"
-                  className="inline-flex min-h-[48px] w-full items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 transition-colors hover:bg-brand-gold-light lg:w-auto"
-                >
-                  {locale === "fr" ? "Vérifier ma présence en ligne" : "Check my online presence"}
-                </Link>
-                <Link
-                  href="/visibility-improvement-estimate"
-                  className="inline-flex min-h-[48px] w-full items-center justify-center rounded-lg border border-primary/30 bg-white px-6 py-3 font-semibold text-primary-dark transition-colors hover:border-primary lg:w-auto"
-                >
-                  {locale === "fr"
-                    ? "Estimer le travail de visibilité recherche et IA"
-                    : "Estimate search and AI visibility work"}
-                </Link>
-              </div>
-            </div>
-          </section>
+          <ServiceActionTiles
+            serviceId="search-ai-visibility"
+            locale={locale === "fr" ? "fr" : "en"}
+            className="pt-6"
+          />
 
           <section className="py-16 max-w-3xl">
             <h2 className="text-3xl font-serif font-bold text-slate-900">
@@ -335,6 +307,11 @@ export default async function SearchAiVisibilityPage({
               </p>
             </div>
           </section>
+
+          <ServiceTrends2027
+            serviceId="search-ai-visibility"
+            locale={locale === "fr" ? "fr" : "en"}
+          />
 
           <section className="py-16">
             <h2 className="text-3xl font-serif font-bold text-slate-900">

@@ -17,9 +17,9 @@ export default async function PartnersTelarusSection() {
 
   return (
     <section aria-labelledby="telarus-heading">
-      <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
         <Reveal className="max-w-3xl">
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-4">
             <PartnersBrandLockup
               companyName={tCommon('companyName')}
               label={t('brandAdvisorLabel')}
@@ -27,9 +27,6 @@ export default async function PartnersTelarusSection() {
               tone="light"
             />
             <div className="flex flex-wrap items-center gap-3">
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                {t('strategicViaLabel')}
-              </p>
               {telarusLogo ? (
                 <div className="flex h-12 w-36 items-center justify-center rounded-xl bg-white px-3 ring-1 ring-slate-200">
                   <Image
@@ -42,6 +39,9 @@ export default async function PartnersTelarusSection() {
                   />
                 </div>
               ) : null}
+              <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                {t('strategicViaLabel')}
+              </p>
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
@@ -51,19 +51,15 @@ export default async function PartnersTelarusSection() {
                 {t('telarusTitle')}
               </h2>
             </div>
+            <p className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-700">
+              <span className="font-semibold text-slate-900">{t('businessNeedLabel')}:</span>{' '}
+              {tEco('telarus.need')}
+            </p>
           </div>
-          <p className="mt-5 leading-relaxed text-slate-700">{t('telarusBody')}</p>
-          <p className="mt-4 text-sm leading-6 text-slate-600">
-            <span className="font-semibold text-slate-900">{t('businessNeedLabel')}:</span> {tEco('telarus.need')}
-          </p>
-        </Reveal>
-        <Reveal delayMs={80} className="max-w-sm border-l-2 border-primary/40 pl-5 lg:mt-2">
-          <p className="text-sm font-semibold text-slate-900">{t('positioningTitle')}</p>
-          <p className="mt-2 text-sm leading-relaxed text-slate-600">{t('positioningBody')}</p>
         </Reveal>
       </div>
 
-      <ul className="mt-8 flex flex-wrap gap-2">
+      <ul className="mt-7 flex flex-wrap gap-2">
         {categoryKeys.map((key, index) => {
           const Icon = categoryIcons[index]
           return (
@@ -76,6 +72,27 @@ export default async function PartnersTelarusSection() {
           )
         })}
       </ul>
+
+      <Reveal delayMs={80} className="mt-6">
+        <details className="group/details rounded-xl border border-slate-200 bg-white open:shadow-sm">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-slate-900 marker:content-none [&::-webkit-details-marker]:hidden sm:px-5">
+            <span>{t('telarusDetailsSummary')}</span>
+            <span
+              className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-500 transition group-open/details:rotate-45"
+              aria-hidden
+            >
+              +
+            </span>
+          </summary>
+          <div className="space-y-4 border-t border-slate-200 px-4 py-4 sm:px-5">
+            <p className="leading-relaxed text-slate-700">{t('telarusBody')}</p>
+            <div className="border-l-2 border-primary/40 pl-4">
+              <p className="text-sm font-semibold text-slate-900">{t('positioningTitle')}</p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600">{t('positioningBody')}</p>
+            </div>
+          </div>
+        </details>
+      </Reveal>
 
       <Reveal delayMs={120} className="mt-8 flex flex-col gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:flex-row sm:items-stretch sm:gap-0 sm:overflow-hidden sm:p-0">
         <Link

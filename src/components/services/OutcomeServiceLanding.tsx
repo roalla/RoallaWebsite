@@ -2,7 +2,11 @@ import React from "react";
 import Image from "next/image";
 import { ArrowRight, BarChart3, CheckCircle2, Clock3, ShieldCheck } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import ServiceActionTiles from "@/components/services/ServiceActionTiles";
+import ServiceTrends2027 from "@/components/services/ServiceTrends2027";
 import type { ServiceLandingCopy } from "@/lib/service-landing-types";
+import type { ServiceActionServiceId } from "@/lib/service-action-tiles";
+import { attributedServiceTileHref } from "@/lib/service-action-tiles";
 
 export type OutcomeServiceId =
   | "automation"
@@ -148,6 +152,13 @@ export default function OutcomeServiceLanding({
 }) {
   const lang: "en" | "fr" = locale === "fr" ? "fr" : "en";
   const engagement = service ? serviceEngagement[service] : undefined;
+  const actionServiceId: ServiceActionServiceId | undefined =
+    service === "digital-products" || service === "security" || service === "managed-optimization"
+      ? service
+      : undefined;
+  const heroEvidenceHref = engagement
+    ? attributedServiceTileHref(engagement.primary.href, (actionServiceId ?? "digital-products"), "hero-evidence")
+    : null;
   const journey = [
     {
       label: lang === "fr" ? "Conseiller" : "Advise",
@@ -210,16 +221,32 @@ export default function OutcomeServiceLanding({
           <p className="mt-4 rounded-r-md border-l-2 border-primary-light bg-slate-950/55 py-2 pl-4 pr-3 text-sm font-medium text-primary-light backdrop-blur-sm">
             {content.outcome}
           </p>
-          <Link
-            href="/contact"
-            className="mt-8 inline-flex min-h-[48px] items-center rounded-lg bg-primary px-6 py-3 font-semibold text-white shadow-lg shadow-black/30 hover:bg-primary-dark transition-colors"
-          >
-            {content.cta}
-            <ArrowRight className="ml-2 w-4 h-4" aria-hidden />
-          </Link>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            {engagement && heroEvidenceHref ? (
+              <Link
+                href={heroEvidenceHref}
+                className="inline-flex min-h-[48px] items-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 shadow-lg shadow-black/30 transition-colors hover:bg-brand-gold-light"
+              >
+                {engagement.primary.label[lang]}
+                <ArrowRight className="ml-2 w-4 h-4" aria-hidden />
+              </Link>
+            ) : null}
+            <Link
+              href="/contact"
+              className={`inline-flex min-h-[48px] items-center rounded-lg px-6 py-3 font-semibold shadow-lg shadow-black/30 transition-colors ${
+                engagement
+                  ? "border border-white/30 bg-white/5 text-white hover:bg-white/10"
+                  : "bg-primary text-white hover:bg-primary-dark"
+              }`}
+            >
+              {content.cta}
+              <ArrowRight className="ml-2 w-4 h-4" aria-hidden />
+            </Link>
+          </div>
         </div>
       </header>
       <main className="max-w-6xl mx-auto">
+        {actionServiceId ? <ServiceActionTiles serviceId={actionServiceId} locale={lang} /> : null}
         <nav
           aria-label={
             locale === "fr"
@@ -264,7 +291,11 @@ export default function OutcomeServiceLanding({
             <p className="mt-3 max-w-3xl text-slate-300">{engagement.body[lang]}</p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <Link
-                href={engagement.primary.href}
+                href={
+                  actionServiceId
+                    ? attributedServiceTileHref(engagement.primary.href, actionServiceId, "evidence-primary")
+                    : engagement.primary.href
+                }
                 className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 transition-colors hover:bg-brand-gold-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
               >
                 {engagement.primary.label[lang]}
@@ -272,7 +303,11 @@ export default function OutcomeServiceLanding({
               </Link>
               {engagement.secondary?.kind === "evidence" ? (
                 <Link
-                  href={engagement.secondary.href}
+                  href={
+                    actionServiceId
+                      ? attributedServiceTileHref(engagement.secondary.href, actionServiceId, "evidence-secondary")
+                      : engagement.secondary.href
+                  }
                   className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-white/30 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                 >
                   {engagement.secondary.label[lang]}
@@ -435,6 +470,8 @@ export default function OutcomeServiceLanding({
             {content.proof.label}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
           </a>
         </section>
+
+        {actionServiceId ? <ServiceTrends2027 serviceId={actionServiceId} locale={lang} /> : null}
 
         <section className="py-16">
           <h2 className="text-3xl font-serif font-bold text-slate-950">{content.faqTitle}</h2>

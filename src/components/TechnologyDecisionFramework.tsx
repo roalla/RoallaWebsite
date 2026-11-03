@@ -34,7 +34,7 @@ export default function TechnologyDecisionFramework({
 
       <ol className={`${compact ? 'mt-5' : 'mt-7'} grid gap-3 sm:grid-cols-2 lg:grid-cols-4`}>
         {paths.map(({ key, icon: Icon, href }, index) => (
-          <li key={key}>
+          <li key={key} className="motion-safe:transition-transform motion-safe:duration-300 motion-safe:hover:-translate-y-0.5">
             <Link
               href={href}
               className={`group block h-full rounded-xl border border-slate-200 bg-white transition-all hover:border-primary hover:shadow-sm ${compact ? 'p-4' : 'p-5'}`}

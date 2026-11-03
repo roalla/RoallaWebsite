@@ -42,6 +42,8 @@ type Props = {
   filterBriefLabel: string
   filterBriefCta: string
   progressLabel: string
+  detailsSummaryLabel: string
+  detailsHintLabel: string
   accessLabels: Record<EcosystemAccessType, string>
   geoLabels: Record<EcosystemGeography, string>
   compLabels: Record<EcosystemCompensationCategory, string>
@@ -69,6 +71,8 @@ export default function PartnersDirectoryExplorer({
   filterBriefLabel,
   filterBriefCta,
   progressLabel,
+  detailsSummaryLabel,
+  detailsHintLabel,
   accessLabels,
   geoLabels,
   compLabels,
@@ -398,15 +402,19 @@ export default function PartnersDirectoryExplorer({
                     )}
                   </div>
                   <div className="min-w-0">
-                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <span className="inline-flex items-center gap-1.5 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-slate-500">
-                        <Image src="/roalla-logo-2027.svg" alt="" width={14} height={14} className="h-3.5 w-3.5 opacity-80" />
-                        {curatorLabel}
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="text-[0.65rem] font-bold uppercase tracking-[0.14em] text-primary-dark">
+                        {item.relationship}
+                      </p>
+                      <span
+                        className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 text-[0.65rem] font-semibold text-slate-600"
+                        title={`${accessLabels[item.accessType]} · ${geoLabels[item.geography]}`}
+                      >
+                        {accessLabels[item.accessType]}
                       </span>
-                      <span className="text-slate-300" aria-hidden>
-                        ·
+                      <span className="inline-flex items-center rounded-full border border-slate-200 bg-white px-2 py-0.5 text-[0.65rem] font-semibold text-slate-600">
+                        {compLabels[item.compensation]}
                       </span>
-                      <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary-dark">{item.relationship}</p>
                     </div>
                     <h3 className="mt-1.5 font-serif text-xl font-bold text-slate-950">{item.name}</h3>
                     {item.portfolioLabels.length > 0 ? (
@@ -414,7 +422,7 @@ export default function PartnersDirectoryExplorer({
                         className="mt-2.5 flex list-none flex-wrap gap-1.5 p-0"
                         aria-label={portfolioLabel}
                       >
-                        {item.portfolioLabels.map((label, pillIndex) => (
+                        {item.portfolioLabels.slice(0, 3).map((label, pillIndex) => (
                           <li
                             key={label}
                             className="partners-pill-enter"
@@ -427,27 +435,7 @@ export default function PartnersDirectoryExplorer({
                         ))}
                       </ul>
                     ) : null}
-                    <p className="mt-3 text-sm leading-6 text-slate-600">{item.description}</p>
-                    <p className="mt-3 text-sm leading-6 text-slate-500">
-                      <span className="font-semibold text-slate-700">{businessNeedLabel}:</span> {item.need}
-                    </p>
-                    <p className="mt-2 text-sm leading-6 text-slate-700">
-                      <span className="font-semibold text-slate-900">{fitLabel}:</span> {item.fit}
-                    </p>
-                    <dl className="mt-4 grid gap-2 text-xs text-slate-600 sm:grid-cols-2">
-                      <div>
-                        <dt className="font-semibold text-slate-800">{accessLabels[item.accessType]}</dt>
-                        <dd>
-                          {geoLabels[item.geography]} · {exclusivityLabel}
-                        </dd>
-                      </div>
-                      <div>
-                        <dt className="font-semibold text-slate-800">{compLabels[item.compensation]}</dt>
-                        <dd>
-                          {reviewedLabel}: {item.reviewedLabel}
-                        </dd>
-                      </div>
-                    </dl>
+
                     <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
                       {item.externalCta ? (
                         <a
@@ -457,7 +445,7 @@ export default function PartnersDirectoryExplorer({
                           onClick={() =>
                             trackAnalyticsEvent('partners_directory_external', { partner: item.key })
                           }
-                          className="inline-flex min-h-11 items-center text-sm font-semibold text-primary-dark hover:underline"
+                          className="inline-flex min-h-11 items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-white transition hover:bg-primary-dark"
                         >
                           {item.externalCta.label}
                           <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
@@ -478,6 +466,57 @@ export default function PartnersDirectoryExplorer({
                         {compareCtaLabel}
                       </Link>
                     </div>
+
+                    <details className="group/details mt-4 rounded-xl border border-slate-200 bg-slate-50/80 open:bg-white">
+                      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-slate-900 marker:content-none [&::-webkit-details-marker]:hidden">
+                        <span>
+                          {detailsSummaryLabel}
+                          <span className="mt-0.5 block text-xs font-medium text-slate-500">
+                            {detailsHintLabel}
+                          </span>
+                        </span>
+                        <span
+                          className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition group-open/details:rotate-45"
+                          aria-hidden
+                        >
+                          +
+                        </span>
+                      </summary>
+                      <div className="space-y-3 border-t border-slate-200 px-4 py-4">
+                        <p className="text-sm leading-6 text-slate-600">{item.description}</p>
+                        <p className="text-sm leading-6 text-slate-600">
+                          <span className="font-semibold text-slate-800">{businessNeedLabel}:</span>{' '}
+                          {item.need}
+                        </p>
+                        <p className="text-sm leading-6 text-slate-700">
+                          <span className="font-semibold text-slate-900">{fitLabel}:</span> {item.fit}
+                        </p>
+                        <dl className="grid gap-2 border-t border-slate-100 pt-3 text-xs text-slate-600 sm:grid-cols-2">
+                          <div>
+                            <dt className="font-semibold text-slate-800">{accessLabels[item.accessType]}</dt>
+                            <dd>
+                              {geoLabels[item.geography]} · {exclusivityLabel}
+                            </dd>
+                          </div>
+                          <div>
+                            <dt className="font-semibold text-slate-800">{compLabels[item.compensation]}</dt>
+                            <dd>
+                              {reviewedLabel}: {item.reviewedLabel}
+                            </dd>
+                          </div>
+                        </dl>
+                        <p className="inline-flex items-center gap-1.5 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-slate-500">
+                          <Image
+                            src="/roalla-logo-2027.svg"
+                            alt=""
+                            width={14}
+                            height={14}
+                            className="h-3.5 w-3.5 opacity-80"
+                          />
+                          {curatorLabel}
+                        </p>
+                      </div>
+                    </details>
                   </div>
                 </div>
               </Reveal>

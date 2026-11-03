@@ -10,8 +10,8 @@ import { formatInsightReadTime } from '@/lib/insight-read-time'
 
 const CURATED_INSIGHTS = [
   'build-buy-or-integrate-technology',
-  'website-redesign-or-conversion-refresh',
   'what-to-automate-first',
+  'practical-ai-use-cases',
 ] as const satisfies readonly InsightSlug[]
 
 export default function HomeFeaturedInsight() {

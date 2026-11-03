@@ -182,7 +182,7 @@ export const visibilityContent = {
     finalTitle:
       "Make your business easier to discover, understand, trust, and use.",
     finalBody:
-      "Start with a visibility assessment or use the business assessment to identify your most practical entry point.",
+      "Start with the free website and AI review, or request a visibility evaluation when you want a guided next step.",
   },
   fr: {
     metadataTitle: "Optimisation de la visibilité numérique | ROALLA",
@@ -368,7 +368,7 @@ export const visibilityContent = {
     finalTitle:
       "Rendez votre entreprise plus facile à découvrir, comprendre, reconnaître et utiliser.",
     finalBody:
-      "Commencez par une évaluation de visibilité ou utilisez l’évaluation d’entreprise pour déterminer votre point de départ le plus pratique.",
+      "Commencez par la revue Web et IA gratuite, ou demandez une évaluation de visibilité lorsque vous voulez une prochaine étape guidée.",
   },
 } as const;
 

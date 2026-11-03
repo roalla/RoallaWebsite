@@ -45,6 +45,8 @@ export type AnalyticsEventName =
   | "landing_page_cta_click"
   | "campaign_review_cta"
   | "service_framework_click"
+  | "service_action_tile_click"
+  | "service_trends_2027_click"
   | "consultation_request_submitted"
   | "executive_guide_cta_click"
   | "executive_guide_request"

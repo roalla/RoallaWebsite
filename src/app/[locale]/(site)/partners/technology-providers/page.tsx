@@ -91,17 +91,17 @@ export default async function TechnologyProvidersPage({ params }: Props) {
       </div>
 
       <div className="container mx-auto px-4 pb-12 sm:px-6 lg:px-8 lg:pb-16">
-        <PartnersProofVignette />
-        <div className="mt-10">
-          <PartnersOutcomeVignette />
-        </div>
-        <div className="mb-10 mt-12">
+        <div className="mb-10">
           <h2 className="font-serif text-2xl font-bold text-slate-950">{t('matrixTitle')}</h2>
           <div className="mt-6">
             <PartnersRelationshipMatrix groupId="technology-providers" />
           </div>
         </div>
         <PartnersDirectoryList groupId="technology-providers" showHeading={false} />
+        <div className="mt-14 space-y-10 border-t border-slate-200 pt-12">
+          <PartnersProofVignette />
+          <PartnersOutcomeVignette />
+        </div>
       </div>
 
       <PartnersSoftPrompt

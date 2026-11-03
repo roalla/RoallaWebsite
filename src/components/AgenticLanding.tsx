@@ -13,8 +13,11 @@ import {
   Workflow,
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import ServiceActionTiles from "@/components/services/ServiceActionTiles";
+import ServiceTrends2027 from "@/components/services/ServiceTrends2027";
 import type { AgenticServiceCopy } from "@/lib/agentic-service-content";
 import { AgentWorkflowMotion } from "@/components/motion/OperationalMotion";
+import { attributedServiceTileHref } from "@/lib/service-action-tiles";
 
 const capabilityIcons = [Bot, Workflow, Network, UserCheck] as const;
 const layerIcons = [GitBranch, BrainCircuit, Library] as const;
@@ -26,6 +29,17 @@ export default function AgenticLanding({
   locale: string;
   content: AgenticServiceCopy;
 }) {
+  const lang = locale === "fr" ? "fr" : "en";
+  const readinessHref = attributedServiceTileHref(
+    "/ai-agent-readiness-review",
+    "ai-agents",
+    "hero-readiness",
+  );
+  const readinessLabel =
+    lang === "fr"
+      ? "Lancer la revue de préparation aux agents IA"
+      : "Start the AI Agent Readiness Review";
+
   return (
     <div className="container mx-auto px-4 pb-16 pt-24 sm:px-6 lg:px-8 lg:pt-28">
       <header
@@ -48,10 +62,23 @@ export default function AgenticLanding({
             <p className="mt-4 max-w-3xl text-base leading-7 text-slate-200">{content.description}</p>
             <p className="mt-5 max-w-3xl rounded-r-md border-l-2 border-brand-gold bg-slate-950/55 py-2 pl-4 pr-3 text-sm font-semibold leading-6 text-brand-gold backdrop-blur-sm">{content.outcome}</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href={{ pathname: "/contact", query: { goal: "ROALLA Agentic" } }} className="inline-flex min-h-12 items-center rounded-lg bg-primary px-6 py-3 font-semibold text-white shadow-lg shadow-black/30 transition-colors hover:bg-primary-dark">
-                {content.cta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              <Link
+                href={readinessHref}
+                className="inline-flex min-h-12 items-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 shadow-lg shadow-black/30 transition-colors hover:bg-brand-gold-light"
+              >
+                {readinessLabel}
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
-              <Link href="/services/automation" className="inline-flex min-h-12 items-center rounded-lg border border-white/35 bg-slate-950/45 px-6 py-3 font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/10">
+              <Link
+                href={{ pathname: "/contact", query: { goal: "ROALLA Agentic" } }}
+                className="inline-flex min-h-12 items-center rounded-lg border border-white/35 bg-slate-950/45 px-6 py-3 font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/10"
+              >
+                {content.cta}
+              </Link>
+              <Link
+                href="/services/automation"
+                className="inline-flex min-h-12 items-center rounded-lg border border-white/20 bg-transparent px-6 py-3 text-sm font-semibold text-slate-200 transition-colors hover:bg-white/10"
+              >
                 {content.secondaryCta}
               </Link>
             </div>
@@ -61,7 +88,8 @@ export default function AgenticLanding({
       </header>
 
       <main className="mx-auto max-w-6xl">
-        <nav aria-label={content.journeyLabel} className="relative z-10 -mt-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-lg sm:p-5">
+        <ServiceActionTiles serviceId="ai-agents" locale={lang} className="pt-10" />
+        <nav aria-label={content.journeyLabel} className="relative z-10 mt-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-lg sm:p-5">
           <ol className="grid gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
             {content.journey.map((stage, index) => {
               const current = stage.href === "/services/ai-agents";
@@ -99,10 +127,10 @@ export default function AgenticLanding({
             </p>
           </div>
           <Link
-            href="/ai-agent-readiness-review"
+            href={attributedServiceTileHref("/ai-agent-readiness-review", "ai-agents", "evidence-band")}
             className="inline-flex min-h-12 items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 transition-colors hover:bg-brand-gold-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
-            {locale === "fr" ? "Lancer la revue de préparation aux agents IA" : "Start the AI Agent Readiness Review"}
+            {readinessLabel}
             <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
           </Link>
         </section>
@@ -197,6 +225,8 @@ export default function AgenticLanding({
             </div>
           </div>
         </section>
+
+        <ServiceTrends2027 serviceId="ai-agents" locale={lang} />
 
         <section className="py-16">
           <h2 className="text-3xl font-serif font-bold text-slate-950">{content.faqTitle}</h2>

@@ -56,6 +56,7 @@ for (const [path, lang] of [["/en/", "en"], ["/fr/", "fr"], ["/en/privacy/", "en
     assert.match(html, new RegExp(`<html lang="${lang}">`));
     assert.match(html, /<main id="main">/);
     assert.match(html, /ROALLA Business Enablement Group/);
+    assert.match(html, /\/assets\/roalla-logo\.svg/);
     assert.match(html, /<link rel="canonical"/);
     assert.match(html, /application\/ld\+json/);
   });

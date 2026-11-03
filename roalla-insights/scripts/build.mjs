@@ -144,7 +144,7 @@ function header(lang, active = "") {
   return `<a class="skip" href="#main">${t.skip}</a>
   <header class="site-header">
     <nav class="nav wrap" aria-label="${lang === "fr" ? "Navigation principale" : "Main navigation"}">
-      <a class="brand" href="${p.home}" aria-label="ROALLA Insights — ${lang === "fr" ? "Accueil" : "Home"}"><span class="brand-mark" aria-hidden="true"></span><span>ROALLA <small>INSIGHTS</small></span></a>
+      <a class="brand" href="${p.home}" aria-label="ROALLA Insights — ${lang === "fr" ? "Accueil" : "Home"}"><img class="brand-logo" src="/assets/roalla-logo.svg" alt="" width="40" height="40"><span>ROALLA <small>INSIGHTS</small></span></a>
       <div class="nav-links">
         <a href="${p.home}#review">${t.navReview}</a>
         <a href="${p.home}#process">${t.navProcess}</a>
@@ -160,7 +160,7 @@ function footer(lang) {
   const p = paths(lang);
   return `<footer class="site-footer"><div class="wrap">
     <div class="footer-grid">
-      <div><a class="brand" href="${p.home}"><span class="brand-mark" aria-hidden="true"></span><span>ROALLA <small>INSIGHTS</small></span></a><p>${t.footerAbout}</p></div>
+      <div><a class="brand" href="${p.home}" aria-label="ROALLA Insights"><img class="brand-logo" src="/assets/roalla-logo.svg" alt="" width="40" height="40"><span>ROALLA <small>INSIGHTS</small></span></a><p>${t.footerAbout}</p></div>
       <div><h2>${t.footerExplore}</h2><div class="footer-links"><a href="${p.corporate}" data-attribution>www.roalla.com</a><a href="${p.privacy}">${t.privacy}</a><a href="${p.preferences}">${t.preferences}</a><a href="${p.unsubscribe}">${t.unsubscribe}</a></div></div>
       <div><h2>${t.footerContact}</h2><div class="footer-links"><span>Steven Robin</span><a href="mailto:sales@roalla.com">sales@roalla.com</a><a href="tel:+12898385868">+1 289 838 5868</a><a href="https://www.linkedin.com/in/stevenrobin/" rel="noopener noreferrer">LinkedIn</a></div></div>
     </div>

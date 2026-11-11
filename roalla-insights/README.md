@@ -1,6 +1,6 @@
 # ROALLA Insights
 
-Lightweight bilingual campaign application for the ROALLA Website & AI Visibility Review. ROALLA Insights is operated by ROALLA Business Enablement Group.
+Lightweight bilingual product-discovery and lead-generation application for ROALLA's advisory, digital and enablement portfolio. ROALLA Insights is operated by ROALLA Business Enablement Group.
 
 ## Local development
 
@@ -24,7 +24,7 @@ npm test
 
 Create or select a Railway service from the parent repository and set **Root Directory** to `/roalla-insights`. Railway will use `railway.json`, run `npm run build`, start with `npm start`, and inject `PORT` automatically.
 
-Set `SITE_URL` during the build when the production hostname differs from the default `https://insights.roalla.com`. The value is used for canonical URLs, structured data, `robots.txt`, and `sitemap.xml`.
+Set `SITE_URL` during the build when the production hostname differs from the default `https://www.roallainsights.com`. The value is used for canonical URLs, structured data, `robots.txt`, and `sitemap.xml`.
 
 ## Attribution
 

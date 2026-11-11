@@ -1,6 +1,12 @@
 # ROALLA Insights
 
-Lightweight bilingual product-discovery and lead-generation application for ROALLA's advisory, digital and enablement portfolio. ROALLA Insights is operated by ROALLA Business Enablement Group.
+Lightweight bilingual sales-campaign landing-page application operated by ROALLA Business Enablement Group. The current active campaign is the ROALLA Website & AI Visibility Review.
+
+## Campaign-only role
+
+ROALLA Insights is intentionally not a corporate website, service catalogue, resource hub or general product directory. Each public marketing page must support a defined sales campaign with one audience, one offer, a focused proof path and a clear conversion action. The complete evergreen service portfolio remains on `www.roalla.com`.
+
+New campaigns should be added as dedicated localized landing pages only after the audience, offer, campaign message, attribution and destination CTA are defined.
 
 ## Local development
 

@@ -2,7 +2,7 @@
   "name": "roalla-insights",
   "version": "1.0.0",
   "private": true,
-  "description": "Bilingual ROALLA product-discovery and lead-generation microsite.",
+  "description": "Bilingual ROALLA sales-campaign landing-page application.",
   "type": "module",
   "engines": {
     "node": ">=20"

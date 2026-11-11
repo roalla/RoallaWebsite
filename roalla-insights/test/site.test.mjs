@@ -62,24 +62,14 @@ for (const [path, lang] of [["/en/", "en"], ["/fr/", "fr"], ["/en/privacy/", "en
   });
 }
 
-test("English product hub exposes the complete portfolio and product-specific lead paths", async () => {
+test("homepage remains a focused sales-campaign landing page", async () => {
   const response = await request("/en/");
   assert.equal(response.statusCode, 200);
-  assert.match(response.body, /11 products/);
-  assert.match(response.body, /Business advisory/);
-  assert.match(response.body, /Search &amp; AI visibility|Search & AI visibility/);
-  assert.match(response.body, /AI agents/);
-  assert.match(response.body, /Team workshops/);
-  assert.match(response.body, /intent=product-discovery&amp;focus=automation|intent=product-discovery&focus=automation/);
-});
-
-test("French product hub is localized and canonicalized to the microsite", async () => {
-  const response = await request("/fr/");
-  assert.equal(response.statusCode, 200);
-  assert.match(response.body, /11 produits/);
-  assert.match(response.body, /Conseil technologique/);
-  assert.match(response.body, /Automatisation et intégration/);
-  assert.match(response.body, /https:\/\/www\.roallainsights\.com\/fr\//);
+  assert.match(response.body, /Website &amp; AI Visibility Review|Website & AI Visibility Review/);
+  assert.match(response.body, /intent=website-ai-visibility-review/);
+  assert.doesNotMatch(response.body, /The product portfolio/);
+  assert.doesNotMatch(response.body, /11 products/);
+  assert.match(response.body, /https:\/\/www\.roallainsights\.com\/en\//);
 });
 
 test("campaign script supports standard UTM and click identifiers", async () => {

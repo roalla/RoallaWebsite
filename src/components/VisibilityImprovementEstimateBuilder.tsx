@@ -11,6 +11,9 @@ import {
   VISIBILITY_IMPROVEMENT_CORE_PRICE,
   VISIBILITY_IMPROVEMENT_PRICES,
 } from '@/lib/visibility-improvement-estimate'
+import EstimateInvestmentPayback, {
+  type EstimatePaybackPlanning,
+} from '@/components/estimates/EstimateInvestmentPayback'
 
 function formatCad(amount: number, locale: string) {
   return new Intl.NumberFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', {
@@ -91,6 +94,21 @@ const copy = {
     hst: 'HST (13%)',
     total: 'Projected first-year total',
     mobileSummaryLabel: 'Estimated first-year total',
+    chatgptTitle: 'Why not just use ChatGPT?',
+    chatgptLead: 'ChatGPT can help you think. This package is for what chat tools cannot reliably do on your live public presence.',
+    chatgptPoints: [
+      'See how your real site, maps listing, and public facts show up—not a generic checklist.',
+      'Fix and publish what customers and AI systems actually read (pages, listings, consistency).',
+      'Light first-year check-ins so hours, pages, and details do not quietly drift back.',
+    ],
+    chatgptClose: 'ROALLA does not guarantee rankings or AI citations—neither do chat tools. You pay for scoped work on your footprint, not a transcript.',
+    paybackTitle: 'Think of this as an investment',
+    paybackLead:
+      'If clearer search, maps, and AI answers help even one extra customer choose you, the work can pay for itself.',
+    paybackInputLabel: 'What is one new client worth to you? (CAD)',
+    paybackResult: (total: string, n: number, value: string) =>
+      `At your estimate of ${total}, this pays back after about ${n} new client${n === 1 ? '' : 's'} at ${value} each.`,
+    paybackSoftClose: 'This is a planning aid—not a forecast. Results are not guaranteed.',
     disclaimer:
       'This is a preliminary, non-binding estimate based on your selections. ROALLA confirms scope, compatibility, timing and final pricing in writing before work begins.',
     cta: 'Request scope confirmation',
@@ -166,13 +184,28 @@ const copy = {
     hst: 'TVH (13 %)',
     total: 'Total projeté de la première année',
     mobileSummaryLabel: 'Total estimé de la première année',
+    chatgptTitle: 'Pourquoi ne pas simplement utiliser ChatGPT?',
+    chatgptLead: 'ChatGPT peut aider à réfléchir. Ce forfait porte sur ce que les outils de clavardage ne peuvent pas faire de façon fiable sur votre présence publique réelle.',
+    chatgptPoints: [
+      'Voir comment votre vrai site, votre fiche cartes et vos faits publics apparaissent—pas une liste générique.',
+      'Corriger et publier ce que clients et systèmes d’IA lisent vraiment (pages, fiches, cohérence).',
+      'Des suivis légers la première année pour que heures, pages et détails ne dérivent pas en silence.',
+    ],
+    chatgptClose: 'ROALLA ne garantit ni classement ni citation IA—les outils de clavardage non plus. Vous payez un travail ciblé sur votre empreinte, pas une transcription.',
+    paybackTitle: 'Voyez ceci comme un investissement',
+    paybackLead:
+      'Si une recherche, des cartes et des réponses IA plus claires aident ne serait-ce qu’un client de plus à vous choisir, le travail peut se rentabiliser.',
+    paybackInputLabel: 'Quelle est la valeur d’un nouveau client pour vous? (CAD)',
+    paybackResult: (total: string, n: number, value: string) =>
+      `Avec votre estimation de ${total}, cela se rentabilise après environ ${n} nouveau${n === 1 ? '' : 'x'} client${n === 1 ? '' : 's'} à ${value} chacun.`,
+    paybackSoftClose: 'Ceci est un outil de planification—pas une prévision. Les résultats ne sont pas garantis.',
     disclaimer:
       'Cette estimation préliminaire est non contraignante. ROALLA confirmera la portée, la compatibilité, l’échéancier et le prix final par écrit avant le début des travaux.',
     cta: 'Demander la confirmation de la portée',
     crossLinkLaunch: 'Besoin d’un nouveau site? Estimez un forfait de lancement Web',
     crossLinkEmail: 'Les courriels n’atteignent pas les clients? Estimez la portée et la configuration',
   },
-} as const
+}
 
 const tileMotion =
   'transition-all duration-200 ease-out motion-safe:hover:-translate-y-1 motion-safe:hover:scale-[1.015] motion-safe:hover:shadow-lg motion-safe:hover:shadow-primary/25'
@@ -191,6 +224,10 @@ export default function VisibilityImprovementEstimateBuilder() {
   const [monitoring, setMonitoring] = useState(false)
   const [code, setCode] = useState('')
   const [appliedReferralCode, setAppliedReferralCode] = useState('')
+  const [paybackPlanning, setPaybackPlanning] = useState<EstimatePaybackPlanning>({
+    value: 2500,
+    paybackCount: null,
+  })
   const [referralApplied, setReferralApplied] = useState(false)
   const [codeStatus, setCodeStatus] = useState<'idle' | 'loading' | 'invalid' | 'error'>('idle')
 
@@ -232,7 +269,13 @@ export default function VisibilityImprovementEstimateBuilder() {
       : null,
   ].filter(Boolean) as string[]
 
-  const estimateSummary = selectionLines.join(' · ')
+  const paybackSummary =
+    paybackPlanning.value > 0 && paybackPlanning.paybackCount !== null
+      ? french
+        ? `Valeur client ${money(paybackPlanning.value)} · ~${paybackPlanning.paybackCount} client(s) pour rentabiliser`
+        : `Client value ${money(paybackPlanning.value)} · ~${paybackPlanning.paybackCount} client(s) to pay back`
+      : null
+  const estimateSummary = [...selectionLines, paybackSummary].filter(Boolean).join(' · ')
   const estimateTotalLabel = money(estimate.firstYearTotal)
 
   const applyReferralCode = async (event: React.FormEvent) => {
@@ -280,6 +323,14 @@ export default function VisibilityImprovementEstimateBuilder() {
     estimate_total: estimateTotalLabel,
     estimate_summary: estimateSummary,
     ...(appliedReferralCode ? { estimate_referral_code: appliedReferralCode } : {}),
+    ...(paybackPlanning.value > 0
+      ? {
+          client_value: money(paybackPlanning.value),
+          ...(paybackPlanning.paybackCount !== null
+            ? { clients_to_payback: String(paybackPlanning.paybackCount) }
+            : {}),
+        }
+      : {}),
   }
 
   const mapsOptions: Array<{
@@ -655,6 +706,34 @@ export default function VisibilityImprovementEstimateBuilder() {
                 <span className="text-2xl font-serif font-bold tabular-nums text-primary-dark">{estimateTotalLabel}</span>
               </div>
             </div>
+            <div className="mt-5 rounded-xl border border-slate-200 bg-white p-4">
+              <p className="flex items-start gap-2 text-sm font-bold text-slate-950">
+                <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                <span>{t.chatgptTitle}</span>
+              </p>
+              <p className="mt-2 text-xs leading-5 text-slate-600">{t.chatgptLead}</p>
+              <ul className="mt-3 space-y-2 text-xs leading-5 text-slate-700">
+                {t.chatgptPoints.map((point) => (
+                  <li key={point} className="flex gap-2">
+                    <CheckCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-3 text-xs leading-5 text-slate-600">{t.chatgptClose}</p>
+            </div>
+            <EstimateInvestmentPayback
+              locale={french ? 'fr' : 'en'}
+              total={estimate.firstYearTotal}
+              title={t.paybackTitle}
+              lead={t.paybackLead}
+              inputLabel={t.paybackInputLabel}
+              softClose={t.paybackSoftClose}
+              formatResult={({ totalLabel, valueLabel, paybackCount }) =>
+                t.paybackResult(totalLabel, paybackCount, valueLabel)
+              }
+              onPlanningChange={setPaybackPlanning}
+            />
             <p className="mt-5 text-xs leading-5 text-slate-600">{t.disclaimer}</p>
             <Link
               href={{ pathname: '/contact', query: contactQuery }}

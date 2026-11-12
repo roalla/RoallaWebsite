@@ -7,11 +7,23 @@ import { Link } from '@/i18n/navigation'
 import Reveal from '@/components/motion/Reveal'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 import type { AiEmployeeCopy } from '@/lib/ai-employee-content'
+import { isAiEmployeeIndustryId } from '@/lib/ai-employee-content'
 import { trackAnalyticsEvent } from '@/lib/analytics'
 import {
   appendAttributionToHref,
   readAttributionFromSearch,
 } from '@/lib/conversion-attribution'
+
+function readIndustryFromSearch(search: string, fallbackId: string) {
+  const raw = new URLSearchParams(search).get('industry')?.trim() ?? ''
+  return raw && isAiEmployeeIndustryId(raw) ? raw : fallbackId
+}
+
+function replaceIndustryQuery(industryId: string) {
+  const url = new URL(window.location.href)
+  url.searchParams.set('industry', industryId)
+  window.history.replaceState(window.history.state, '', `${url.pathname}${url.search}${url.hash}`)
+}
 
 export default function AiEmployeeLanding({
   locale,
@@ -23,7 +35,8 @@ export default function AiEmployeeLanding({
   const language = locale === 'fr' ? 'fr' : 'en'
   const reduceMotion = usePrefersReducedMotion()
   const firstIndustry = content.industries[0]
-  const [industryId, setIndustryId] = useState(firstIndustry?.id ?? 'it-msp')
+  const fallbackIndustryId = firstIndustry?.id ?? 'it-msp'
+  const [industryId, setIndustryId] = useState(fallbackIndustryId)
   const industry = content.industries.find((item) => item.id === industryId) ?? firstIndustry
   const [audienceId, setAudienceId] = useState(industry?.audiences[0]?.id ?? 'internal-it')
   const audience =
@@ -39,6 +52,19 @@ export default function AiEmployeeLanding({
     const id = window.requestAnimationFrame(() => setHeroReady(true))
     return () => window.cancelAnimationFrame(id)
   }, [reduceMotion])
+
+  useEffect(() => {
+    const nextId = readIndustryFromSearch(window.location.search, fallbackIndustryId)
+    const nextIndustry = content.industries.find((item) => item.id === nextId) ?? firstIndustry
+    setIndustryId(nextId)
+    if (nextIndustry?.audiences[0]) setAudienceId(nextIndustry.audiences[0].id)
+    replaceIndustryQuery(nextId)
+    if (nextId !== fallbackIndustryId) {
+      window.requestAnimationFrame(() => {
+        detailRef.current?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' })
+      })
+    }
+  }, [content.industries, fallbackIndustryId, firstIndustry, reduceMotion])
 
   const industryLabel = industry?.label ?? 'IT & Managed Services'
   const fitHrefBase = useMemo(() => {
@@ -90,6 +116,7 @@ export default function AiEmployeeLanding({
     setIndustryId(id)
     const next = content.industries.find((item) => item.id === id)
     if (next?.audiences[0]) setAudienceId(next.audiences[0].id)
+    replaceIndustryQuery(id)
     trackAnalyticsEvent('ai_employee_industry', { industry: id })
     window.requestAnimationFrame(() => {
       detailRef.current?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' })

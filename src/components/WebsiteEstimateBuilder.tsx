@@ -17,6 +17,9 @@ import {
   type SocialSetup,
   type VoiceChoice,
 } from '@/lib/website-estimate'
+import EstimateInvestmentPayback, {
+  type EstimatePaybackPlanning,
+} from '@/components/estimates/EstimateInvestmentPayback'
 
 /** Keep server/client currency text identical (ICU may emit NBSP / narrow NBSP). */
 function formatCad(amount: number, locale: string) {
@@ -253,6 +256,10 @@ const copy = {
     hst: 'HST (13%)',
     total: 'Projected first-year total',
     mobileSummaryLabel: 'Estimated first-year total',
+    paybackTitle: 'Think of this as an investment',
+    paybackLead: 'A clear site and contact path exists to win business—not to look busy online.',
+    paybackInputLabel: 'What is one new client worth to you? (CAD)',
+    paybackSoftClose: 'This is a planning aid—not a forecast. Results are not guaranteed.',
     disclaimer:
       'This is a preliminary, non-binding estimate based on your selections. ROALLA confirms scope, compatibility, timing and final pricing in writing before work begins.',
     cta: 'Request scope confirmation',
@@ -479,6 +486,11 @@ const copy = {
     hst: 'TVH (13 %)',
     total: 'Total projeté de la première année',
     mobileSummaryLabel: 'Total estimé de la première année',
+    paybackTitle: 'Voyez ceci comme un investissement',
+    paybackLead:
+      'Un site clair avec une voie de contact existe pour gagner des clients—pas pour avoir l’air occupé en ligne.',
+    paybackInputLabel: 'Quelle est la valeur d’un nouveau client pour vous? (CAD)',
+    paybackSoftClose: 'Ceci est un outil de planification—pas une prévision. Les résultats ne sont pas garantis.',
     disclaimer:
       'Cette estimation préliminaire est non contraignante. ROALLA confirmera la portée, la compatibilité, l’échéancier et le prix final par écrit avant le début des travaux.',
     cta: 'Demander la confirmation de la portée',
@@ -486,6 +498,13 @@ const copy = {
     crossLinkEmail: 'Les courriels n’atteignent pas les clients? Estimez la portée et la configuration',
   },
 } as const
+
+function formatWebsitePaybackResult(french: boolean, total: string, n: number, value: string) {
+  if (french) {
+    return `Avec votre estimation de ${total}, cela se rentabilise après environ ${n} nouveau${n === 1 ? '' : 'x'} client${n === 1 ? '' : 's'} à ${value} chacun.`
+  }
+  return `At your estimate of ${total}, this pays back after about ${n} new client${n === 1 ? '' : 's'} at ${value} each.`
+}
 
 const socialOptions: Array<{ value: Exclude<SocialSetup, 'none'>; label: keyof typeof copy.en }> = [
   { value: 'instagram', label: 'instagram' },
@@ -617,6 +636,10 @@ export default function WebsiteEstimateBuilder() {
   const [appliedReferralCode, setAppliedReferralCode] = useState('')
   const [referralApplied, setReferralApplied] = useState(false)
   const [codeStatus, setCodeStatus] = useState<'idle' | 'loading' | 'invalid' | 'error'>('idle')
+  const [paybackPlanning, setPaybackPlanning] = useState<EstimatePaybackPlanning>({
+    value: 2500,
+    paybackCount: null,
+  })
 
   const activeSocial = needsSocial ? social : 'none'
   const activeHosting = needsHosting ? hosting : 'own'
@@ -723,7 +746,13 @@ export default function WebsiteEstimateBuilder() {
     referralSummaryLabel,
   ].filter(Boolean) as string[]
 
-  const estimateSummary = selectionLines.join(' · ')
+  const paybackSummary =
+    paybackPlanning.value > 0 && paybackPlanning.paybackCount !== null
+      ? french
+        ? `Valeur client ${money(paybackPlanning.value)} · ~${paybackPlanning.paybackCount} client(s) pour rentabiliser`
+        : `Client value ${money(paybackPlanning.value)} · ~${paybackPlanning.paybackCount} client(s) to pay back`
+      : null
+  const estimateSummary = [...selectionLines, paybackSummary].filter(Boolean).join(' · ')
   const estimateTotalLabel = money(estimate.firstYearTotal)
 
   const applyReferralCode = async (event: React.FormEvent) => {
@@ -771,6 +800,14 @@ export default function WebsiteEstimateBuilder() {
     estimate_total: estimateTotalLabel,
     estimate_summary: estimateSummary,
     ...(appliedReferralCode ? { estimate_referral_code: appliedReferralCode } : {}),
+    ...(paybackPlanning.value > 0
+      ? {
+          client_value: money(paybackPlanning.value),
+          ...(paybackPlanning.paybackCount !== null
+            ? { clients_to_payback: String(paybackPlanning.paybackCount) }
+            : {}),
+        }
+      : {}),
   }
 
   return (
@@ -1365,6 +1402,18 @@ export default function WebsiteEstimateBuilder() {
               <div className="flex justify-between gap-4 text-sm"><span className="text-slate-700">{t.hst}</span><span className="font-semibold tabular-nums text-slate-900">{money(estimate.hst)}</span></div>
               <div className="flex items-end justify-between gap-4 border-t border-slate-300 pt-4"><span className="font-bold text-slate-950">{t.total}</span><span className="text-2xl font-serif font-bold tabular-nums text-primary-dark">{estimateTotalLabel}</span></div>
             </div>
+            <EstimateInvestmentPayback
+              locale={french ? 'fr' : 'en'}
+              total={estimate.firstYearTotal}
+              title={t.paybackTitle}
+              lead={t.paybackLead}
+              inputLabel={t.paybackInputLabel}
+              softClose={t.paybackSoftClose}
+              formatResult={({ totalLabel, valueLabel, paybackCount }) =>
+                formatWebsitePaybackResult(french, totalLabel, paybackCount, valueLabel)
+              }
+              onPlanningChange={setPaybackPlanning}
+            />
             <p className="mt-5 text-xs leading-5 text-slate-600">{t.disclaimer}</p>
             <Link href={{ pathname: '/contact', query: contactQuery }} className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-primary px-5 py-3 text-center font-bold text-white transition hover:bg-primary-dark">{t.cta}</Link>
             <div className="mt-5 space-y-2 border-t border-slate-200 pt-4 text-sm leading-6 text-slate-700">

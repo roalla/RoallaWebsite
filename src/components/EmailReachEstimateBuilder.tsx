@@ -11,6 +11,9 @@ import {
   EMAIL_REACH_PRICES,
 } from '@/lib/email-reach-estimate'
 import { EMAIL_ANNUAL_PRICES, type EmailChoice } from '@/lib/website-estimate'
+import EstimateInvestmentPayback, {
+  type EstimatePaybackPlanning,
+} from '@/components/estimates/EstimateInvestmentPayback'
 
 function formatCad(amount: number, locale: string) {
   return new Intl.NumberFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', {
@@ -97,6 +100,11 @@ const copy = {
     hst: 'HST (13%)',
     total: 'Projected first-year total',
     mobileSummaryLabel: 'Estimated first-year total',
+    paybackTitle: 'Think of this as an investment',
+    paybackLead:
+      'If important mail reaches the inbox instead of junk, one recovered conversation can cover the work.',
+    paybackInputLabel: 'What is one new client (or one won opportunity) worth to you? (CAD)',
+    paybackSoftClose: 'This is a planning aid—not a forecast. Results are not guaranteed.',
     disclaimer:
       'This is a preliminary, non-binding estimate based on your selections. ROALLA confirms scope, compatibility, timing and final pricing in writing before work begins.',
     cta: 'Request scope confirmation',
@@ -180,6 +188,11 @@ const copy = {
     hst: 'TVH (13 %)',
     total: 'Total projeté de la première année',
     mobileSummaryLabel: 'Total estimé de la première année',
+    paybackTitle: 'Voyez ceci comme un investissement',
+    paybackLead:
+      'Si les courriels importants atteignent la boîte de réception plutôt que les indésirables, une conversation récupérée peut couvrir le travail.',
+    paybackInputLabel: 'Quelle est la valeur d’un nouveau client (ou d’une occasion gagnée) pour vous? (CAD)',
+    paybackSoftClose: 'Ceci est un outil de planification—pas une prévision. Les résultats ne sont pas garantis.',
     disclaimer:
       'Cette estimation préliminaire est non contraignante. ROALLA confirmera la portée, la compatibilité, l’échéancier et le prix final par écrit avant le début des travaux.',
     cta: 'Demander la confirmation de la portée',
@@ -187,6 +200,13 @@ const copy = {
     crossLinkVisibility: 'Vous avez déjà un site? Estimez les améliorations de visibilité recherche et IA',
   },
 } as const
+
+function formatEmailPaybackResult(french: boolean, total: string, n: number, value: string) {
+  if (french) {
+    return `Avec votre estimation de ${total}, cela se rentabilise après environ ${n} occasion${n === 1 ? '' : 's'} gagnée${n === 1 ? '' : 's'} à ${value} chacune.`
+  }
+  return `At your estimate of ${total}, this pays back after about ${n} won opportunit${n === 1 ? 'y' : 'ies'} at ${value} each.`
+}
 
 type EmailProviderChoice = Exclude<EmailChoice, 'none'>
 
@@ -250,6 +270,10 @@ export default function EmailReachEstimateBuilder() {
   const [appliedReferralCode, setAppliedReferralCode] = useState('')
   const [referralApplied, setReferralApplied] = useState(false)
   const [codeStatus, setCodeStatus] = useState<'idle' | 'loading' | 'invalid' | 'error'>('idle')
+  const [paybackPlanning, setPaybackPlanning] = useState<EstimatePaybackPlanning>({
+    value: 2500,
+    paybackCount: null,
+  })
 
   const estimate = calculateEmailReachEstimate({
     email,
@@ -291,7 +315,13 @@ export default function EmailReachEstimateBuilder() {
       : null,
   ].filter(Boolean) as string[]
 
-  const estimateSummary = selectionLines.join(' · ')
+  const paybackSummary =
+    paybackPlanning.value > 0 && paybackPlanning.paybackCount !== null
+      ? french
+        ? `Valeur occasion ${money(paybackPlanning.value)} · ~${paybackPlanning.paybackCount} occasion(s) pour rentabiliser`
+        : `Opportunity value ${money(paybackPlanning.value)} · ~${paybackPlanning.paybackCount} opportunit${paybackPlanning.paybackCount === 1 ? 'y' : 'ies'} to pay back`
+      : null
+  const estimateSummary = [...selectionLines, paybackSummary].filter(Boolean).join(' · ')
   const estimateTotalLabel = money(estimate.firstYearTotal)
 
   const applyReferralCode = async (event: React.FormEvent) => {
@@ -339,6 +369,14 @@ export default function EmailReachEstimateBuilder() {
     estimate_total: estimateTotalLabel,
     estimate_summary: estimateSummary,
     ...(appliedReferralCode ? { estimate_referral_code: appliedReferralCode } : {}),
+    ...(paybackPlanning.value > 0
+      ? {
+          opportunity_value: money(paybackPlanning.value),
+          ...(paybackPlanning.paybackCount !== null
+            ? { opportunities_to_payback: String(paybackPlanning.paybackCount) }
+            : {}),
+        }
+      : {}),
   }
 
   return (
@@ -688,6 +726,18 @@ export default function EmailReachEstimateBuilder() {
                 <span className="text-2xl font-serif font-bold tabular-nums text-primary-dark">{estimateTotalLabel}</span>
               </div>
             </div>
+            <EstimateInvestmentPayback
+              locale={french ? 'fr' : 'en'}
+              total={estimate.firstYearTotal}
+              title={t.paybackTitle}
+              lead={t.paybackLead}
+              inputLabel={t.paybackInputLabel}
+              softClose={t.paybackSoftClose}
+              formatResult={({ totalLabel, valueLabel, paybackCount }) =>
+                formatEmailPaybackResult(french, totalLabel, paybackCount, valueLabel)
+              }
+              onPlanningChange={setPaybackPlanning}
+            />
             <p className="mt-5 text-xs leading-5 text-slate-600">{t.disclaimer}</p>
             <Link
               href={{ pathname: '/contact', query: contactQuery }}

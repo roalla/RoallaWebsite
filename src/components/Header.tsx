@@ -30,6 +30,7 @@ import { HEADER_INSIGHT_SLUGS, headerInsightsForGroup, type InsightSlug } from "
 import { trackAnalyticsEvent } from "@/lib/analytics";
 import { solutionsByNeedContent } from "@/lib/solutions-by-need";
 import { campaignReviewIds } from "@/lib/campaign-review-content";
+import { getAiEmployeeIndustryNav } from "@/lib/ai-employee-content";
 
 /** Canadian flag: red bands, white centre, red maple leaf (simplified) */
 function CanadianFlagIcon({ className }: { className?: string }) {
@@ -201,16 +202,19 @@ const Header = ({
   const localeDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const localeDropdownMobileRef = useRef<HTMLDivElement>(null);
   const digitalDropdownDesktopRef = useRef<HTMLDivElement>(null);
+  const industryDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const ecosystemDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const workshopsDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const resourcesDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const previousMenuOpen = useRef(false);
   const [localeDropdownOpen, setLocaleDropdownOpen] = useState(false);
   const [digitalDropdownOpen, setDigitalDropdownOpen] = useState(false);
+  const [industryDropdownOpen, setIndustryDropdownOpen] = useState(false);
   const [ecosystemDropdownOpen, setEcosystemDropdownOpen] = useState(false);
   const [workshopsDropdownOpen, setWorkshopsDropdownOpen] = useState(false);
   const [resourcesDropdownOpen, setResourcesDropdownOpen] = useState(false);
   const [digitalMobileExpanded, setDigitalMobileExpanded] = useState(false);
+  const [industryMobileExpanded, setIndustryMobileExpanded] = useState(false);
   const [ecosystemMobileExpanded, setEcosystemMobileExpanded] = useState(false);
   const [workshopsMobileExpanded, setWorkshopsMobileExpanded] = useState(false);
   const [resourcesMobileExpanded, setResourcesMobileExpanded] = useState(false);
@@ -312,6 +316,28 @@ const Header = ({
   }, [digitalDropdownOpen]);
 
   useEffect(() => {
+    if (!industryDropdownOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as Node;
+      if (!industryDropdownDesktopRef.current?.contains(target)) {
+        setIndustryDropdownOpen(false);
+      }
+    };
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIndustryDropdownOpen(false);
+        document.getElementById("industry-dropdown-desktop")?.focus();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [industryDropdownOpen]);
+
+  useEffect(() => {
     if (!ecosystemDropdownOpen) return;
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
@@ -372,8 +398,9 @@ const Header = ({
   }, [resourcesDropdownOpen]);
 
   const closeOtherDesktopDropdowns = useCallback(
-    (keep: "digital" | "ecosystem" | "workshops" | "resources" | "locale") => {
+    (keep: "digital" | "industry" | "ecosystem" | "workshops" | "resources" | "locale") => {
       if (keep !== "digital") setDigitalDropdownOpen(false);
+      if (keep !== "industry") setIndustryDropdownOpen(false);
       if (keep !== "ecosystem") setEcosystemDropdownOpen(false);
       if (keep !== "workshops") setWorkshopsDropdownOpen(false);
       if (keep !== "resources") setResourcesDropdownOpen(false);
@@ -389,6 +416,7 @@ const Header = ({
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
     setDigitalMobileExpanded(false);
+    setIndustryMobileExpanded(false);
     setEcosystemMobileExpanded(false);
     setWorkshopsMobileExpanded(false);
     setResourcesMobileExpanded(false);
@@ -402,6 +430,7 @@ const Header = ({
   const tCommon = useTranslations("common");
   const locale = useLocale();
   const solutionsContent = solutionsByNeedContent[locale === "fr" ? "fr" : "en"];
+  const industryNavItems = getAiEmployeeIndustryNav(locale);
   const startingPointLabel = locale === "fr" ? "Explorer vos options" : "Explore Your Options";
 
   const isConsultingPage =
@@ -709,6 +738,7 @@ const Header = ({
     pathname === "/services/portfolio";
 
   const isAdvisoryActive = pathname === "/services/business-advisory";
+  const isIndustryActive = pathname === "/ai-employee";
   const isEcosystemActive = pathname === "/partners" || pathname.startsWith("/partners/");
   const isWorkshopsActive =
     pathname === "/programs/workshops" ||
@@ -750,7 +780,8 @@ const Header = ({
 
   useEffect(() => {
     if (!isMenuOpen) return;
-    if (isDigitalActive) {
+    setIndustryMobileExpanded(isIndustryActive);
+    if (isDigitalActive && !isIndustryActive) {
       setDigitalMobileExpanded(true);
     } else {
       setDigitalMobileExpanded(false);
@@ -769,7 +800,7 @@ const Header = ({
       setResourcesMobileExpanded(false);
     }
     setEcosystemMobileExpanded(isEcosystemActive);
-  }, [isMenuOpen, pathname, isDigitalActive, isEcosystemActive, isResourcesActive]);
+  }, [isMenuOpen, pathname, isDigitalActive, isIndustryActive, isEcosystemActive, isResourcesActive]);
 
   const showFoundingPromo =
     pathname === "/services/digital" ||
@@ -1059,6 +1090,90 @@ const Header = ({
                     </span>
                     <ArrowRight className="h-4 w-4 shrink-0 text-primary" aria-hidden />
                   </Link>
+                </div>
+              </div>
+
+              <div className="relative" ref={industryDropdownDesktopRef}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    closeOtherDesktopDropdowns("industry");
+                    setIndustryDropdownOpen((open) => {
+                      if (!open) {
+                        trackAnalyticsEvent("industry_menu_open", {
+                          location: "desktop_header",
+                        });
+                      }
+                      return !open;
+                    });
+                  }}
+                  aria-expanded={industryDropdownOpen}
+                  aria-haspopup="menu"
+                  id="industry-dropdown-desktop"
+                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
+                    isIndustryActive || industryDropdownOpen
+                      ? "text-primary"
+                      : navIdleClass
+                  } ${industryDropdownOpen ? navOpenBgClass : ""}`}
+                >
+                  {t("industry")}
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${industryDropdownOpen ? "rotate-180" : ""}`}
+                  />
+                  <span
+                    className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                      isIndustryActive ? "w-full" : "w-0 group-hover:w-full"
+                    }`}
+                  />
+                </button>
+                <div
+                  role="menu"
+                  aria-labelledby="industry-dropdown-desktop"
+                  className={`absolute left-1/2 top-full z-50 mt-2 w-[min(40rem,calc(100vw-2rem))] -translate-x-1/2 overflow-hidden rounded-xl border border-white/10 bg-zinc-950 shadow-2xl shadow-black/60 ${dropdownPanelClass(industryDropdownOpen)}`}
+                >
+                  <div className="border-b border-white/10 bg-white/[0.03] px-4 py-2.5">
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                      {t("industryMenuLabel")}
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-0.5 p-2 sm:grid-cols-3">
+                    {industryNavItems.map((item) => (
+                      <Link
+                        key={item.id}
+                        href={{ pathname: "/ai-employee", query: { industry: item.id } }}
+                        role="menuitem"
+                        aria-current={isIndustryActive ? "page" : undefined}
+                        onClick={() => {
+                          trackAnalyticsEvent("industry_nav_click", {
+                            location: "desktop_header",
+                            industry: item.id,
+                          });
+                          setIndustryDropdownOpen(false);
+                        }}
+                        className="rounded-lg px-2.5 py-2 text-sm font-medium text-slate-200 transition-colors hover:bg-white/5 hover:text-white focus-visible:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="border-t border-white/10 p-2">
+                    <Link
+                      href="/ai-employee"
+                      role="menuitem"
+                      aria-current={isIndustryActive ? "page" : undefined}
+                      onClick={() => {
+                        trackAnalyticsEvent("industry_nav_click", {
+                          location: "desktop_header",
+                          industry: "all",
+                        });
+                        setIndustryDropdownOpen(false);
+                      }}
+                      className="flex items-center justify-between gap-3 rounded-lg px-2.5 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
+                    >
+                      <span>{t("industryBrowseAll")}</span>
+                      <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />
+                    </Link>
+                  </div>
                 </div>
               </div>
 
@@ -1699,6 +1814,78 @@ const Header = ({
                         <span className="mt-1 block text-xs text-slate-500">{solutionsContent.assessmentDescription}</span>
                       </span>
                       <ArrowRight className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-white/10 pt-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIndustryMobileExpanded((expanded) => {
+                      if (!expanded) {
+                        trackAnalyticsEvent("industry_menu_open", {
+                          location: "mobile_header",
+                        });
+                      }
+                      return !expanded;
+                    });
+                  }}
+                  aria-expanded={industryMobileExpanded}
+                  aria-controls="industry-mobile-panel"
+                  className={`w-full flex items-center justify-between px-3 py-3 min-h-[44px] rounded-md text-base font-medium transition-colors duration-200 ${
+                    isIndustryActive
+                      ? "text-primary bg-primary/10"
+                      : "text-gray-300 hover:text-primary hover:bg-white/5"
+                  }`}
+                >
+                  {t("industry")}
+                  <ChevronDown
+                    className={`w-5 h-5 transition-transform ${industryMobileExpanded ? "rotate-180" : ""}`}
+                  />
+                </button>
+                <div
+                  id="industry-mobile-panel"
+                  className={`collapse-grid ${industryMobileExpanded ? "collapse-grid-open" : "collapse-grid-closed"}`}
+                >
+                  <div className="overflow-hidden min-h-0 pb-2">
+                    <p className="px-5 pb-1 pt-2 text-[11px] font-bold uppercase tracking-[0.15em] text-primary">
+                      {t("industryMenuLabel")}
+                    </p>
+                    {industryNavItems.map((item) => (
+                      <Link
+                        key={item.id}
+                        href={{ pathname: "/ai-employee", query: { industry: item.id } }}
+                        aria-current={isIndustryActive ? "page" : undefined}
+                        className={`flex min-h-[44px] items-center justify-between gap-3 rounded-md py-2.5 pl-5 pr-3 text-sm font-medium transition-colors hover:bg-white/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40 ${
+                          isIndustryActive ? "bg-primary/10 text-primary" : "text-slate-300"
+                        }`}
+                        onClick={(event) => {
+                          trackAnalyticsEvent("industry_nav_click", {
+                            location: "mobile_header",
+                            industry: item.id,
+                          });
+                          handleMobileNavClick(event, `/ai-employee?industry=${item.id}`);
+                        }}
+                      >
+                        {item.label}
+                        <ArrowRight className="h-4 w-4 shrink-0 opacity-60" aria-hidden />
+                      </Link>
+                    ))}
+                    <Link
+                      href="/ai-employee"
+                      className="mx-3 mt-2 flex min-h-[44px] items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/5 px-3 py-3 text-sm font-semibold text-primary"
+                      onClick={(event) => {
+                        trackAnalyticsEvent("industry_nav_click", {
+                          location: "mobile_header",
+                          industry: "all",
+                        });
+                        handleMobileNavClick(event, "/ai-employee");
+                      }}
+                    >
+                      <span>{t("industryBrowseAll")}</span>
+                      <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />
                     </Link>
                   </div>
                 </div>

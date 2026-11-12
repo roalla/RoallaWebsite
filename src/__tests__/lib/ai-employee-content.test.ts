@@ -1,4 +1,8 @@
-import { aiEmployeeContent } from '@/lib/ai-employee-content'
+import {
+  aiEmployeeContent,
+  getAiEmployeeIndustryNav,
+  isAiEmployeeIndustryId,
+} from '@/lib/ai-employee-content'
 import {
   appendAttributionToHref,
   readAttributionFromSearch,
@@ -23,6 +27,17 @@ describe('ai employee content', () => {
     expect(copy.industries[0].image.src).toContain('it-provider-who-owns-risk.card.webp')
     expect(copy.industries[1].id).toBe('recruiting-staffing')
     expect(copy.industries.find((item) => item.id === 'recruiting-staffing')?.audiences).toHaveLength(2)
+  })
+
+  it.each(['en', 'fr'] as const)('exports a lightweight industry nav list for %s', (locale) => {
+    const nav = getAiEmployeeIndustryNav(locale)
+    expect(nav).toHaveLength(15)
+    expect(nav[0]).toEqual({
+      id: 'it-msp',
+      label: aiEmployeeContent[locale].industries[0].label,
+    })
+    expect(isAiEmployeeIndustryId('legal')).toBe(true)
+    expect(isAiEmployeeIndustryId('not-an-industry')).toBe(false)
   })
 
   it('preserves solutions attribution on fit and contact handoffs', () => {

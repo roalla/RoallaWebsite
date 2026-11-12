@@ -76,6 +76,8 @@ export type AnalyticsEventName =
   | "partners_section_nav"
   | "partners_sticky_cta"
   | "partners_closing_cta"
+  | "industry_menu_open"
+  | "industry_nav_click"
   | "ai_employee_cta"
   | "ai_employee_industry"
   | "ai_employee_audience"

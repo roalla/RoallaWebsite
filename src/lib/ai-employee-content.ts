@@ -3572,3 +3572,17 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
     ],
   },
 }
+
+export type AiEmployeeIndustryNavItem = {
+  id: string
+  label: string
+}
+
+export function getAiEmployeeIndustryNav(locale: string): AiEmployeeIndustryNavItem[] {
+  const copy = aiEmployeeContent[locale === 'fr' ? 'fr' : 'en']
+  return copy.industries.map(({ id, label }) => ({ id, label }))
+}
+
+export function isAiEmployeeIndustryId(id: string): boolean {
+  return aiEmployeeContent.en.industries.some((item) => item.id === id)
+}

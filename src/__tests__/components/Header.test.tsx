@@ -14,11 +14,37 @@ jest.mock('next-intl', () => ({
 }))
 
 jest.mock('@/i18n/navigation', () => ({
-  Link: ({ children, href, ...props }: { children: React.ReactNode; href: string | { pathname: string; hash?: string; params?: Record<string, string> } }) => {
-    const resolvedHref = typeof href === 'string'
-      ? href
-      : `${Object.entries(href.params ?? {}).reduce((path, [key, value]) => path.replace(`[${key}]`, value), href.pathname)}${href.hash ? `#${href.hash}` : ''}`
-    return <a href={resolvedHref} {...props}>{children}</a>
+  Link: ({
+    children,
+    href,
+    ...props
+  }: {
+    children: React.ReactNode
+    href:
+      | string
+      | {
+          pathname: string
+          hash?: string
+          params?: Record<string, string>
+          query?: Record<string, string>
+        }
+  }) => {
+    const resolvedHref =
+      typeof href === 'string'
+        ? href
+        : `${Object.entries(href.params ?? {}).reduce(
+            (path, [key, value]) => path.replace(`[${key}]`, value),
+            href.pathname,
+          )}${
+            href.query
+              ? `?${new URLSearchParams(href.query).toString()}`
+              : ''
+          }${href.hash ? `#${href.hash}` : ''}`
+    return (
+      <a href={resolvedHref} {...props}>
+        {children}
+      </a>
+    )
   },
   usePathname: () => mockPathname(),
 }))
@@ -143,6 +169,47 @@ describe('Header', () => {
     expect(within(menu).getByRole('menuitem', { name: /ecosystemStrategicRelationships/i })).toHaveAttribute('href', '/partners/strategic-relationships')
     expect(within(menu).getByRole('menuitem', { name: /ecosystemEvaluation/i })).toHaveAttribute('href', '/partners/evaluation-standard')
     expect(within(menu).getByRole('menuitem', { name: /ecosystemTransparency/i })).toHaveAttribute('href', '/partners/compensation')
+  })
+
+  it('renders a top-level Industry dropdown that deep-links AI Employee industries', () => {
+    render(<Header />)
+    const industryButton = screen.getByRole('button', { name: 'industry' })
+    expect(industryButton).toHaveAttribute('aria-haspopup', 'menu')
+    fireEvent.click(industryButton)
+
+    const menu = screen.getByRole('menu', { name: 'industry' })
+    expect(within(menu).getByText('industryMenuLabel')).toBeInTheDocument()
+    expect(within(menu).getByRole('menuitem', { name: 'IT & Managed Services' })).toHaveAttribute(
+      'href',
+      '/ai-employee?industry=it-msp',
+    )
+    expect(within(menu).getByRole('menuitem', { name: 'Legal' })).toHaveAttribute(
+      'href',
+      '/ai-employee?industry=legal',
+    )
+    expect(within(menu).getByRole('menuitem', { name: 'industryBrowseAll' })).toHaveAttribute(
+      'href',
+      '/ai-employee',
+    )
+    expect(within(menu).getAllByRole('menuitem')).toHaveLength(16)
+  })
+
+  it('exposes Industry destinations in the mobile navigation', () => {
+    render(<Header />)
+    fireEvent.click(screen.getByRole('button', { name: 'openMenu' }))
+    const mobileToggle = screen.getAllByRole('button', { name: 'industry' }).find((button) =>
+      button.getAttribute('aria-controls')?.includes('mobile'),
+    )
+    expect(mobileToggle).toBeTruthy()
+    fireEvent.click(mobileToggle!)
+    expect(screen.getByRole('link', { name: 'IT & Managed Services' })).toHaveAttribute(
+      'href',
+      '/ai-employee?industry=it-msp',
+    )
+    expect(screen.getByRole('link', { name: 'industryBrowseAll' })).toHaveAttribute(
+      'href',
+      '/ai-employee',
+    )
   })
 
   it('keeps business outcomes and supporting service paths clearly exposed', () => {

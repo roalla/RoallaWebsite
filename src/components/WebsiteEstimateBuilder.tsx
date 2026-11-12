@@ -262,7 +262,8 @@ const copy = {
     taxDisclaimer:
       'ROALLA is federally incorporated. Package prices are CAD nationwide. Tax lines are a preliminary estimate from the location you select; final tax is confirmed on scoping.',
     total: 'Projected first-year total',
-    mobileSummaryLabel: 'Estimated first-year total',
+    mobileSummaryLabel: 'Your estimate',
+    jumpToEstimate: 'See your running estimate',
     paybackTitle: 'Think of this as an investment',
     paybackLead: 'A clear site and contact path exists to win business—not to look busy online.',
     paybackInputLabel: 'What is one new client worth to you? (CAD)',
@@ -496,7 +497,8 @@ const copy = {
     taxDisclaimer:
       'ROALLA est constituée sous régime fédéral. Les forfaits sont en $ CA partout au pays. Les lignes de taxe sont une estimation préliminaire selon le lieu choisi; la taxe finale est confirmée au cadrage.',
     total: 'Total projeté de la première année',
-    mobileSummaryLabel: 'Total estimé de la première année',
+    mobileSummaryLabel: 'Votre estimation',
+    jumpToEstimate: 'Voir votre estimation en cours',
     paybackTitle: 'Voyez ceci comme un investissement',
     paybackLead:
       'Un site clair avec une voie de contact existe pour gagner des clients—pas pour avoir l’air occupé en ligne.',
@@ -870,8 +872,8 @@ export default function WebsiteEstimateBuilder() {
   )
 
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-900/5 overflow-hidden pb-24 lg:pb-0">
-      <header className="bg-slate-950 px-6 py-8 text-white sm:px-8 lg:px-10">
+    <section className="rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-900/5 pb-24 lg:pb-0">
+      <header className="rounded-t-3xl bg-slate-950 px-6 py-8 text-white sm:px-8 lg:px-10">
         <p className="text-xs font-bold uppercase tracking-[.18em] text-primary-light">{t.eyebrow}</p>
         <h1 className="mt-3 max-w-3xl text-3xl font-serif font-bold text-white sm:text-4xl">{t.title}</h1>
         <p className="mt-4 max-w-3xl leading-7 text-white/95">{t.intro}</p>
@@ -892,10 +894,22 @@ export default function WebsiteEstimateBuilder() {
             </span>
           ))}
         </div>
+        <a
+          href="#estimate-summary"
+          className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-lg border border-white/25 bg-white/10 px-4 py-2 text-sm font-bold text-white transition hover:bg-white/15 lg:hidden"
+        >
+          {t.jumpToEstimate}
+          <span aria-hidden>→</span>
+        </a>
+        <p className="mt-4 hidden text-sm font-semibold text-primary-light lg:block">
+          <a href="#estimate-summary" className="underline-offset-4 hover:underline">
+            {t.jumpToEstimate} →
+          </a>
+        </p>
       </header>
 
       <div className="grid lg:grid-cols-[1.2fr_.8fr]">
-        <div className="space-y-8 p-6 sm:p-8 lg:p-10">
+        <div className="order-2 space-y-8 p-6 sm:p-8 lg:order-1 lg:p-10">
           <EstimateMarketContextFields
             locale={french ? 'fr' : 'en'}
             marketId={marketId}
@@ -1429,7 +1443,10 @@ export default function WebsiteEstimateBuilder() {
           </form>
         </div>
 
-        <aside className="border-t border-slate-200 bg-slate-50 p-6 sm:p-8 lg:border-l lg:border-t-0 lg:p-10">
+        <aside
+          id="estimate-summary"
+          className="order-1 scroll-mt-28 border-b border-slate-200 bg-slate-50 p-6 sm:p-8 lg:order-2 lg:border-b-0 lg:border-l lg:p-10"
+        >
           <div className="lg:sticky lg:top-28">
             <div className="flex items-center gap-2"><Sparkles className="h-5 w-5 text-primary" aria-hidden /><h2 className="text-xl font-serif font-bold text-slate-950">{t.summaryTitle}</h2></div>
             <dl className="mt-5 space-y-3 text-sm">
@@ -1530,10 +1547,10 @@ export default function WebsiteEstimateBuilder() {
 
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 p-3 shadow-[0_-8px_30px_rgba(15,23,42,0.12)] backdrop-blur lg:hidden">
         <div className="mx-auto flex max-w-7xl items-center gap-3">
-          <div className="min-w-0 flex-1">
+          <a href="#estimate-summary" className="min-w-0 flex-1 rounded-lg px-1 py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
             <p className="text-[11px] font-bold uppercase tracking-wide text-slate-600">{t.mobileSummaryLabel}</p>
             <p className="truncate text-lg font-serif font-bold tabular-nums text-primary-dark">{estimateTotalLabel}</p>
-          </div>
+          </a>
           {mobileContactCta}
         </div>
       </div>

@@ -95,16 +95,33 @@ export function getMarketConsiderations(
   return [toolAngle(locale, tool, marketId), ...pressures]
 }
 
+/** DIY builder limits vs ROALLA scoped website/visibility work (not email). */
+export function getPlatformConsiderations(locale: string, tool: EstimateToolKind): string[] {
+  if (tool !== 'website' && tool !== 'visibility') return []
+  const fr = locale === 'fr'
+  if (fr) {
+    return [
+      'Les plateformes générateurs (thèmes WordPress, GoDaddy, Wix) limitent souvent les données structurées, l’architecture crawlable et la liberté d’ajuster les pages pour la recherche et les assistants IA.',
+      'Le travail ROALLA porte sur l’empreinte publique que vous contrôlez—offre et contact clairs, signaux techniques pour le SEO, l’AEO et la découverte agentique—pas seulement un thème ou un modèle de marketplace.',
+    ]
+  }
+  return [
+    'Builder platforms (WordPress themes, GoDaddy, Wix) often restrict structured data, crawlable architecture, and how freely you can tune pages for search and AI assistants.',
+    'ROALLA’s package work owns the public footprint—clear offer/contact path, technical signals for SEO/AEO/agentic discovery, and scoped changes on a stack you control—not a theme preset or marketplace template alone.',
+  ]
+}
+
 export function getEstimateConsiderations(args: {
   locale: string
   marketId: string | null | undefined
   regionId: string | null | undefined
   tool: EstimateToolKind
 }): string[] {
+  const platform = getPlatformConsiderations(args.locale, args.tool)
   const market = getMarketConsiderations(args.locale, args.marketId, args.tool)
   const region = getRegionConsiderations(args.locale, args.regionId)
-  // Cap at 4 bullets for the summary panel
-  return [...market, ...region].slice(0, 4)
+  // Cap at 5 so platform contrast still leaves room for market/region tips
+  return [...platform, ...market, ...region].slice(0, 5)
 }
 
 export function buildEstimateContextSummary(args: {

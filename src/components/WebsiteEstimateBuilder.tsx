@@ -638,6 +638,7 @@ export default function WebsiteEstimateBuilder() {
     considerations,
     contextSummary,
     attributionQuery,
+    crossLinkQuery,
   } = useEstimateMarketRegion(french ? 'fr' : 'en', 'website')
   const [domainSource, setDomainSource] = useState<DomainSource>('new')
   const [domainTerm, setDomainTerm] = useState<DomainTerm>('three')
@@ -1506,13 +1507,19 @@ export default function WebsiteEstimateBuilder() {
             <div className="mt-5 space-y-2 border-t border-slate-200 pt-4 text-sm leading-6 text-slate-700">
               <p className="flex gap-2">
                 <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-                <Link href="/visibility-improvement-estimate" className="font-semibold text-primary-dark underline-offset-4 hover:underline">
+                <Link
+                  href={{ pathname: '/visibility-improvement-estimate', query: crossLinkQuery }}
+                  className="font-semibold text-primary-dark underline-offset-4 hover:underline"
+                >
                   {t.crossLinkVisibility}
                 </Link>
               </p>
               <p className="flex gap-2">
                 <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-                <Link href="/email-reach-estimate" className="font-semibold text-primary-dark underline-offset-4 hover:underline">
+                <Link
+                  href={{ pathname: '/email-reach-estimate', query: crossLinkQuery }}
+                  className="font-semibold text-primary-dark underline-offset-4 hover:underline"
+                >
                   {t.crossLinkEmail}
                 </Link>
               </p>

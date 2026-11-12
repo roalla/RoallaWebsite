@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   type AttributionBag,
   readAttributionFromSearch,
@@ -14,23 +14,69 @@ import {
 } from '@/lib/estimate-market-context'
 import { isEstimateRegionId } from '@/lib/estimate-regions'
 
+export const ESTIMATE_DEFAULT_REGION = 'CA-ON'
+const REGION_STORAGE_KEY = 'roalla-estimate-region'
+const MARKET_STORAGE_KEY = 'roalla-estimate-market'
+
+function readStored(key: string): string {
+  if (typeof window === 'undefined') return ''
+  try {
+    return window.sessionStorage.getItem(key)?.trim() || ''
+  } catch {
+    return ''
+  }
+}
+
+function writeStored(key: string, value: string) {
+  if (typeof window === 'undefined') return
+  try {
+    if (value) window.sessionStorage.setItem(key, value)
+    else window.sessionStorage.removeItem(key)
+  } catch {
+    /* ignore quota */
+  }
+}
+
 export function useEstimateMarketRegion(locale: string, tool: EstimateToolKind) {
-  const [marketId, setMarketId] = useState('')
-  const [regionId, setRegionId] = useState('')
+  const [marketId, setMarketIdState] = useState('')
+  const [regionId, setRegionIdState] = useState(ESTIMATE_DEFAULT_REGION)
   const [attribution, setAttribution] = useState<AttributionBag>({})
 
   useEffect(() => {
     const params = readAttributionFromSearch(window.location.search)
     const search = new URLSearchParams(window.location.search)
     setAttribution(params)
-    const resolved = resolveEstimateMarketId(
+
+    const urlMarket = resolveEstimateMarketId(
       locale,
       params.industry || params.icp || search.get('industry') || search.get('icp'),
     )
-    if (resolved) setMarketId(resolved)
-    const region = params.region || search.get('region')
-    if (region && isEstimateRegionId(region)) setRegionId(region)
+    const storedMarket = resolveEstimateMarketId(locale, readStored(MARKET_STORAGE_KEY))
+    setMarketIdState(urlMarket || storedMarket || '')
+
+    const urlRegion = params.region || search.get('region')
+    const storedRegion = readStored(REGION_STORAGE_KEY)
+    if (urlRegion && isEstimateRegionId(urlRegion)) {
+      setRegionIdState(urlRegion)
+      writeStored(REGION_STORAGE_KEY, urlRegion)
+    } else if (storedRegion && isEstimateRegionId(storedRegion)) {
+      setRegionIdState(storedRegion)
+    } else {
+      setRegionIdState(ESTIMATE_DEFAULT_REGION)
+      writeStored(REGION_STORAGE_KEY, ESTIMATE_DEFAULT_REGION)
+    }
   }, [locale])
+
+  const setMarketId = useCallback((value: string) => {
+    setMarketIdState(value)
+    writeStored(MARKET_STORAGE_KEY, value)
+  }, [])
+
+  const setRegionId = useCallback((value: string) => {
+    setRegionIdState(value)
+    if (value && isEstimateRegionId(value)) writeStored(REGION_STORAGE_KEY, value)
+    else writeStored(REGION_STORAGE_KEY, '')
+  }, [])
 
   const regionReady = Boolean(regionId && isEstimateRegionId(regionId))
 
@@ -75,5 +121,6 @@ export function useEstimateMarketRegion(locale: string, tool: EstimateToolKind) 
     considerations,
     contextSummary,
     attributionQuery,
+    crossLinkQuery: attributionQuery,
   }
 }

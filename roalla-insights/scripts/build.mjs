@@ -25,6 +25,9 @@ const shell = {
     scenariosHeading: "Sounds familiar?",
     scenariosLead: "These are the pressures this campaign is built to address.",
     pressureHint: "Free check on ROALLA.com",
+    estimateToolsHeading: "Plan the investment",
+    estimateToolsLead: "When you are ready to scope work, build a first-year CAD estimate—free checks stay available above.",
+    estimateToolsHint: "Estimate on ROALLA.com",
     privacy: "Privacy",
     preferences: "Communication preferences",
     unsubscribe: "Unsubscribe",
@@ -63,6 +66,9 @@ const shell = {
     scenariosHeading: "Ça vous dit quelque chose?",
     scenariosLead: "Voici les pressions que cette campagne est conçue pour traiter.",
     pressureHint: "Vérification gratuite sur ROALLA.com",
+    estimateToolsHeading: "Planifier l’investissement",
+    estimateToolsLead: "Quand vous êtes prêt à cadrer le travail, construisez une estimation de première année en $ CA—les vérifications gratuites restent disponibles plus haut.",
+    estimateToolsHint: "Estimation sur ROALLA.com",
     privacy: "Confidentialité",
     preferences: "Préférences de communication",
     unsubscribe: "Se désabonner",
@@ -194,6 +200,11 @@ const campaigns = {
         { title: "Interpret", body: "Optional ROALLA working review to decide what matters for buyers.", cta: "Request your review", pathKey: "contact" },
         { title: "Improve", body: "Build a first-year Digital Visibility Optimization quote—maps, offer clarity, and monitoring you can plan.", cta: "Estimate visibility work", pathKey: "visibilityEstimate" }
       ],
+      estimateTools: [
+        { label: "Need a clearer website or a new launch package", cta: "Build a website estimate", pathKey: "websiteEstimate", extra: { selected_problem: "website-and-ai-visibility" } },
+        { label: "Improve search, maps, and AI visibility on an existing site", cta: "Estimate visibility work", pathKey: "visibilityEstimate", extra: { selected_problem: "website-and-ai-visibility" } },
+        { label: "Professional email that reaches the inbox", cta: "Estimate email reach work", pathKey: "emailEstimate", extra: { selected_problem: "email-deliverability" } }
+      ],
       introEyebrow: "Clarity before complexity",
       introTitle: "Customers judge you in more places than one.",
       introCopy: "This review checks search and maps, AI answers, whether your site makes the offer and contact path clear, and whether important email reaches the inbox. The fastest proof is a free Digital Presence Snapshot of your public page—no email required—then we show what to fix first.",
@@ -243,6 +254,11 @@ const campaigns = {
         { title: "Voir", body: "Instantané gratuit de présence numérique de votre page publique—sans courriel requis.", cta: "Vérification gratuite du site", pathKey: "snapshot", extra: { offer: "free-automated-visibility-snapshot", selected_problem: "website-and-ai-visibility" } },
         { title: "Interpréter", body: "Évaluation de travail facultative avec ROALLA pour décider ce qui compte pour les acheteurs.", cta: "Demander votre évaluation", pathKey: "contact" },
         { title: "Améliorer", body: "Construisez une estimation d’optimisation de la visibilité numérique—cartes, clarté de l’offre et suivi planifiable.", cta: "Estimer le travail de visibilité", pathKey: "visibilityEstimate" }
+      ],
+      estimateTools: [
+        { label: "Besoin d’un site plus clair ou d’un forfait de lancement", cta: "Construire une estimation Web", pathKey: "websiteEstimate", extra: { selected_problem: "website-and-ai-visibility" } },
+        { label: "Améliorer la recherche, les cartes et la visibilité IA sur un site existant", cta: "Estimer le travail de visibilité", pathKey: "visibilityEstimate", extra: { selected_problem: "website-and-ai-visibility" } },
+        { label: "Courriel professionnel qui atteint la boîte de réception", cta: "Estimer le travail de portée courriel", pathKey: "emailEstimate", extra: { selected_problem: "email-deliverability" } }
       ],
       introEyebrow: "La clarté avant la complexité",
       introTitle: "Les clients vous jugent à plus d’un endroit.",
@@ -406,6 +422,8 @@ function paths(lang) {
     visibilityReview: `${corporate}/website-ai-visibility-review`,
     emailBrief: `${corporate}/tools/email-reach-brief`,
     visibilityEstimate: `${corporate}/visibility-improvement-estimate`,
+    websiteEstimate: `${corporate}/website-estimate`,
+    emailEstimate: `${corporate}/email-reach-estimate`,
     needGrowth: `${corporate}/solutions/need/growth-visibility`,
     visibilityService: `${corporate}/services/search-ai-visibility`,
     aiEmployeePage: `${corporate}/ai-employee`,
@@ -649,6 +667,20 @@ function campaignPage(lang, slug) {
         <p class="examples-cta"><a class="button pressure-sales" href="${contactHref}" data-attribution>${copy.primaryCta}<span aria-hidden="true"> →</span></a></p>
       </div>
     </section>
+    ${Array.isArray(copy.estimateTools) && copy.estimateTools.length
+      ? `<section class="section estimate-tools-band" id="estimate-tools">
+      <div class="wrap">
+        <div class="section-head reveal-on-scroll">
+          <div><p class="eyebrow">${t.estimateToolsHeading}</p><h2>${t.estimateToolsHeading}</h2></div>
+          <p class="lead">${t.estimateToolsLead}</p>
+        </div>
+        <ul class="pressure-list">${copy.estimateTools.map((item) => {
+          const href = resolveProofHref(lang, slug, item.pathKey, campaign.intent, item.extra || {});
+          return `<li class="pressure-tile"><p class="pressure-label">${item.label}</p><a class="button gold pressure-cta" href="${href}" data-attribution>${item.cta}<span aria-hidden="true"> →</span></a><p class="pressure-hint">${t.estimateToolsHint}</p></li>`;
+        }).join("")}</ul>
+      </div>
+    </section>`
+      : ""}
     <section class="section ladder-band" id="ladder">
       <div class="wrap">
         <div class="section-head reveal-on-scroll">

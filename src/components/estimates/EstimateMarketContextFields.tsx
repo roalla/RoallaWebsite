@@ -14,7 +14,7 @@ const copy = {
     marketPlaceholder: 'Select a market (optional)',
     region: 'Province or state',
     regionPlaceholder: 'Select province or state',
-    regionHint: 'Required to estimate tax and request a scope confirmation.',
+    regionHint: 'Tax is estimated for your selected location (Ontario by default—change if you are elsewhere).',
     groupCa: 'Canada',
     groupUs: 'United States',
     groupOther: 'Other',
@@ -26,7 +26,8 @@ const copy = {
     marketPlaceholder: 'Choisir un marché (optionnel)',
     region: 'Province ou État',
     regionPlaceholder: 'Choisir la province ou l’État',
-    regionHint: 'Requis pour estimer la taxe et demander une confirmation de cadrage.',
+    regionHint:
+      'La taxe est estimée selon le lieu choisi (Ontario par défaut—modifiez si vous êtes ailleurs).',
     groupCa: 'Canada',
     groupUs: 'États-Unis',
     groupOther: 'Autre',

@@ -113,7 +113,12 @@ test("visibility campaign uses need-style hero and sales CTAs", async () => {
   assert.match(response.body, /email-reach-brief/);
   assert.match(response.body, /solutions\/need\/growth-visibility/);
   assert.match(response.body, /visibility-improvement-estimate/);
+  assert.match(response.body, /website-estimate/);
+  assert.match(response.body, /email-reach-estimate/);
   assert.match(response.body, /Estimate visibility work/);
+  assert.match(response.body, /Build a website estimate/);
+  assert.match(response.body, /Estimate email reach work/);
+  assert.match(response.body, /Plan the investment/);
   assert.match(response.body, /data-ladder-stepper/);
   assert.match(response.body, /role="tablist"/);
   assert.match(response.body, /button gold ladder-cta/);

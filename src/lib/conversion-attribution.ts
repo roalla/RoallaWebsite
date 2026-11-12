@@ -7,6 +7,8 @@ export const ATTRIBUTION_QUERY_KEYS = [
   'campaign',
   'offer',
   'icp',
+  'industry',
+  'region',
   'conversion_source',
   'entry_page',
   'signal',

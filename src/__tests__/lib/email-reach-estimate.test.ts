@@ -6,12 +6,13 @@ import {
 import { EMAIL_ANNUAL_PRICES, WEBSITE_ESTIMATE_PRICES } from '@/lib/website-estimate'
 
 const base = {
-  email: 'none',
+  email: 'none' as const,
   emailUsers: 1,
   listCleanup: false,
   authSetup: false,
   referralDiscount: false,
-} as const
+  regionId: 'CA-ON' as const,
+}
 
 describe('email reach estimate', () => {
   it('calculates the required inbox-reach package at standard pricing', () => {
@@ -21,7 +22,7 @@ describe('email reach estimate', () => {
     expect(result.emailSetup).toBe(0)
     expect(result.emailAnnual).toBe(0)
     expect(result.firstYearBeforeTax).toBe(400)
-    expect(result.hst).toBeCloseTo(52)
+    expect(result.taxTotal).toBeCloseTo(52)
     expect(result.firstYearTotal).toBeCloseTo(452)
   })
 

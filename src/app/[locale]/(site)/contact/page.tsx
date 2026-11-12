@@ -43,6 +43,8 @@ const ATTRIBUTION_PARAMS = [
   'campaign',
   'offer',
   'icp',
+  'industry',
+  'region',
   'conversion_source',
   'entry_page',
   'selected_problem',

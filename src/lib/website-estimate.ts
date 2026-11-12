@@ -1,3 +1,5 @@
+import { applyEstimateTax } from '@/lib/estimate-regions'
+
 export const WEBSITE_ESTIMATE_PRICES = {
   website: 800,
   copyAndBooking: 300,
@@ -15,6 +17,7 @@ export const WEBSITE_ESTIMATE_PRICES = {
   launchHostingAnnual: 179,
   careLiteMonthly: 49,
   careMonthly: 99,
+  /** @deprecated Tax now comes from applyEstimateTax / customer region. */
   hstRate: 0.13,
   referralDiscountRate: 0.3,
 } as const
@@ -36,6 +39,8 @@ export type WebsiteEstimateSelection = {
   social: SocialSetup
   hosting: HostingChoice
   referralDiscount: boolean
+  /** Customer province/state id from estimate-regions (required for tax-ready totals). */
+  regionId?: string | null
 }
 
 export const DOMAIN_PRICES: Record<DomainTerm, number> = {
@@ -98,7 +103,7 @@ export function calculateWebsiteEstimate(selection: WebsiteEstimateSelection) {
   const professionalServices = WEBSITE_ESTIMATE_CORE_PRICE + emailSetup + voiceSetup + socialSetup
   const firstYearBeforeTax =
     professionalServices - referralDiscount + domain + emailAnnual + voiceAnnual + hostingFirstYear
-  const hst = firstYearBeforeTax * WEBSITE_ESTIMATE_PRICES.hstRate
+  const tax = applyEstimateTax(firstYearBeforeTax, selection.regionId)
 
   return {
     core: WEBSITE_ESTIMATE_CORE_PRICE,
@@ -114,7 +119,13 @@ export function calculateWebsiteEstimate(selection: WebsiteEstimateSelection) {
     domain,
     hostingFirstYear,
     firstYearBeforeTax,
-    hst,
-    firstYearTotal: firstYearBeforeTax + hst,
+    taxReady: tax.taxReady,
+    taxLines: tax.taxLines,
+    taxTotal: tax.taxTotal,
+    taxNote: tax.taxNote,
+    provincialSalesTaxMaybeApplies: tax.provincialSalesTaxMaybeApplies,
+    /** @deprecated Prefer taxTotal */
+    hst: tax.taxTotal,
+    firstYearTotal: tax.firstYearTotal,
   }
 }

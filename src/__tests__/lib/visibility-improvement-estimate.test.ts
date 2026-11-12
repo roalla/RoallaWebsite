@@ -4,6 +4,8 @@ import {
   VISIBILITY_IMPROVEMENT_PRICES,
 } from '@/lib/visibility-improvement-estimate'
 
+const ontario = { regionId: 'CA-ON' as const }
+
 describe('visibility improvement estimate', () => {
   it('calculates the required foundation at standard pricing', () => {
     const result = calculateVisibilityImprovementEstimate({
@@ -11,11 +13,12 @@ describe('visibility improvement estimate', () => {
       offerRewrite: false,
       monitoring: false,
       referralDiscount: false,
+      ...ontario,
     })
 
     expect(VISIBILITY_IMPROVEMENT_CORE_PRICE).toBe(1200)
     expect(result.firstYearBeforeTax).toBe(1200)
-    expect(result.hst).toBeCloseTo(156)
+    expect(result.taxTotal).toBeCloseTo(156)
     expect(result.firstYearTotal).toBeCloseTo(1356)
   })
 
@@ -26,6 +29,7 @@ describe('visibility improvement estimate', () => {
         offerRewrite: false,
         monitoring: false,
         referralDiscount: false,
+        ...ontario,
       }).localMaps,
     ).toBe(VISIBILITY_IMPROVEMENT_PRICES.localMapsEssentials)
 
@@ -35,6 +39,7 @@ describe('visibility improvement estimate', () => {
         offerRewrite: false,
         monitoring: false,
         referralDiscount: false,
+        ...ontario,
       }).localMaps,
     ).toBe(VISIBILITY_IMPROVEMENT_PRICES.localMapsNearby)
 
@@ -44,6 +49,7 @@ describe('visibility improvement estimate', () => {
         offerRewrite: false,
         monitoring: false,
         referralDiscount: false,
+        ...ontario,
       }).localMaps,
     ).toBe(VISIBILITY_IMPROVEMENT_PRICES.localMapsCompete)
   })
@@ -54,6 +60,7 @@ describe('visibility improvement estimate', () => {
       offerRewrite: true,
       monitoring: true,
       referralDiscount: true,
+      ...ontario,
     })
 
     expect(result.referralDiscount).toBe(360)

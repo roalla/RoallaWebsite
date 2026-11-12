@@ -1,3 +1,4 @@
+import { applyEstimateTax } from '@/lib/estimate-regions'
 import {
   EMAIL_ANNUAL_PRICES,
   WEBSITE_ESTIMATE_PRICES,
@@ -10,6 +11,7 @@ export const EMAIL_REACH_PRICES = {
   emailAnnual: WEBSITE_ESTIMATE_PRICES.emailAnnual,
   listCleanup: 250,
   authSetup: 200,
+  /** @deprecated Tax now comes from applyEstimateTax / customer region. */
   hstRate: WEBSITE_ESTIMATE_PRICES.hstRate,
   referralDiscountRate: WEBSITE_ESTIMATE_PRICES.referralDiscountRate,
 } as const
@@ -20,6 +22,7 @@ export type EmailReachEstimateSelection = {
   listCleanup: boolean
   authSetup: boolean
   referralDiscount: boolean
+  regionId?: string | null
 }
 
 export const EMAIL_REACH_CORE_PRICE = EMAIL_REACH_PRICES.reachReview
@@ -37,7 +40,7 @@ export function calculateEmailReachEstimate(selection: EmailReachEstimateSelecti
 
   const professionalServices = EMAIL_REACH_CORE_PRICE + emailSetup + listCleanup + authSetup
   const firstYearBeforeTax = professionalServices - referralDiscount + emailAnnual
-  const hst = firstYearBeforeTax * EMAIL_REACH_PRICES.hstRate
+  const tax = applyEstimateTax(firstYearBeforeTax, selection.regionId)
 
   return {
     core: EMAIL_REACH_CORE_PRICE,
@@ -49,7 +52,13 @@ export function calculateEmailReachEstimate(selection: EmailReachEstimateSelecti
     authSetup,
     professionalServices,
     firstYearBeforeTax,
-    hst,
-    firstYearTotal: firstYearBeforeTax + hst,
+    taxReady: tax.taxReady,
+    taxLines: tax.taxLines,
+    taxTotal: tax.taxTotal,
+    taxNote: tax.taxNote,
+    provincialSalesTaxMaybeApplies: tax.provincialSalesTaxMaybeApplies,
+    /** @deprecated Prefer taxTotal */
+    hst: tax.taxTotal,
+    firstYearTotal: tax.firstYearTotal,
   }
 }

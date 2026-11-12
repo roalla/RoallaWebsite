@@ -53,6 +53,14 @@ describe('conversion attribution', () => {
     expect(href).toContain('signal=communications')
     expect(decodeURIComponent(href)).toContain('entry_page=/solutions/need/experience-products')
   })
+
+  it('round-trips industry and region attribution keys', () => {
+    const bag = readAttributionFromSearch('?industry=legal&region=CA-ON&icp=Legal')
+    expect(bag).toMatchObject({ industry: 'legal', region: 'CA-ON', icp: 'Legal' })
+    const href = appendAttributionToHref('/en/contact?intent=website&from_page=%2Fwebsite-estimate', bag)
+    expect(href).toContain('industry=legal')
+    expect(href).toContain('region=CA-ON')
+  })
 })
 
 describe('local storage LRU', () => {

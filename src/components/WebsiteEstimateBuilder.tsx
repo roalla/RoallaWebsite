@@ -20,6 +20,9 @@ import {
 import EstimateInvestmentPayback, {
   type EstimatePaybackPlanning,
 } from '@/components/estimates/EstimateInvestmentPayback'
+import EstimateMarketContextFields from '@/components/estimates/EstimateMarketContextFields'
+import EstimateConsiderations from '@/components/estimates/EstimateConsiderations'
+import { useEstimateMarketRegion } from '@/hooks/useEstimateMarketRegion'
 
 /** Keep server/client currency text identical (ICU may emit NBSP / narrow NBSP). */
 function formatCad(amount: number, locale: string) {
@@ -252,8 +255,12 @@ const copy = {
     domainExistingSummary: 'Existing website address (no registration cost)',
     hostingFirstYear: 'Hosting and care — projected first year',
     ownHostingNote: 'Client-selected hosting provider fees are not included.',
-    subtotal: 'First-year estimate before HST',
+    subtotal: 'First-year estimate before tax',
     hst: 'HST (13%)',
+    taxSelectPrompt: 'Select your province or state to estimate tax.',
+    regionRequiredCta: 'Select your province or state to continue',
+    taxDisclaimer:
+      'ROALLA is federally incorporated. Package prices are CAD nationwide. Tax lines are a preliminary estimate from the location you select; final tax is confirmed on scoping.',
     total: 'Projected first-year total',
     mobileSummaryLabel: 'Estimated first-year total',
     paybackTitle: 'Think of this as an investment',
@@ -482,8 +489,12 @@ const copy = {
     domainExistingSummary: 'Adresse de site existante (aucun coût d’enregistrement)',
     hostingFirstYear: 'Hébergement et entretien — première année projetée',
     ownHostingNote: 'Les frais de votre propre fournisseur d’hébergement ne sont pas inclus.',
-    subtotal: 'Estimation de la première année avant TVH',
+    subtotal: 'Estimation de la première année avant taxes',
     hst: 'TVH (13 %)',
+    taxSelectPrompt: 'Sélectionnez votre province ou État pour estimer la taxe.',
+    regionRequiredCta: 'Sélectionnez votre province ou État pour continuer',
+    taxDisclaimer:
+      'ROALLA est constituée sous régime fédéral. Les forfaits sont en $ CA partout au pays. Les lignes de taxe sont une estimation préliminaire selon le lieu choisi; la taxe finale est confirmée au cadrage.',
     total: 'Total projeté de la première année',
     mobileSummaryLabel: 'Total estimé de la première année',
     paybackTitle: 'Voyez ceci comme un investissement',
@@ -618,6 +629,16 @@ export default function WebsiteEstimateBuilder() {
   const french = locale === 'fr'
   const t = copy[french ? 'fr' : 'en']
   const money = useMemo(() => (amount: number) => formatCad(amount, french ? 'fr' : 'en'), [french])
+  const {
+    marketId,
+    setMarketId,
+    regionId,
+    setRegionId,
+    regionReady,
+    considerations,
+    contextSummary,
+    attributionQuery,
+  } = useEstimateMarketRegion(french ? 'fr' : 'en', 'website')
   const [domainSource, setDomainSource] = useState<DomainSource>('new')
   const [domainTerm, setDomainTerm] = useState<DomainTerm>('three')
   const [needsEmail, setNeedsEmail] = useState(false)
@@ -653,6 +674,7 @@ export default function WebsiteEstimateBuilder() {
     social: activeSocial,
     hosting: activeHosting,
     referralDiscount: referralApplied,
+    regionId: regionId || null,
   })
 
   const chooseSocialNeed = (needed: boolean) => {
@@ -752,8 +774,17 @@ export default function WebsiteEstimateBuilder() {
         ? `Valeur client ${money(paybackPlanning.value)} · ~${paybackPlanning.paybackCount} client(s) pour rentabiliser`
         : `Client value ${money(paybackPlanning.value)} · ~${paybackPlanning.paybackCount} client(s) to pay back`
       : null
-  const estimateSummary = [...selectionLines, paybackSummary].filter(Boolean).join(' · ')
+  const estimateSummary = [...selectionLines, contextSummary || null, paybackSummary]
+    .filter(Boolean)
+    .join(' · ')
   const estimateTotalLabel = money(estimate.firstYearTotal)
+  const taxInclusiveLabel = estimate.taxReady
+    ? french
+      ? 'taxes incluses'
+      : 'including tax'
+    : french
+      ? 'avant taxes (région requise)'
+      : 'before tax (region required)'
 
   const applyReferralCode = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -790,7 +821,7 @@ export default function WebsiteEstimateBuilder() {
     setCodeStatus('idle')
   }
 
-  const estimateGoal = `${french ? 'Estimation Web' : 'Website estimate'}: ${estimateTotalLabel} ${french ? 'TVH incluse' : 'including HST'}. ${estimateSummary}`
+  const estimateGoal = `${french ? 'Estimation Web' : 'Website estimate'}: ${estimateTotalLabel} ${taxInclusiveLabel}. ${estimateSummary}`
 
   const contactQuery = {
     intent: 'website',
@@ -799,6 +830,7 @@ export default function WebsiteEstimateBuilder() {
     goal: estimateGoal,
     estimate_total: estimateTotalLabel,
     estimate_summary: estimateSummary,
+    ...attributionQuery,
     ...(appliedReferralCode ? { estimate_referral_code: appliedReferralCode } : {}),
     ...(paybackPlanning.value > 0
       ? {
@@ -809,6 +841,32 @@ export default function WebsiteEstimateBuilder() {
         }
       : {}),
   }
+
+  const contactCta = regionReady ? (
+    <Link
+      href={{ pathname: '/contact', query: contactQuery }}
+      className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-primary px-5 py-3 text-center font-bold text-white transition hover:bg-primary-dark"
+    >
+      {t.cta}
+    </Link>
+  ) : (
+    <p className="mt-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-center text-sm font-semibold text-amber-950">
+      {t.regionRequiredCta}
+    </p>
+  )
+
+  const mobileContactCta = regionReady ? (
+    <Link
+      href={{ pathname: '/contact', query: contactQuery }}
+      className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg bg-primary px-4 text-sm font-bold text-white hover:bg-primary-dark"
+    >
+      {t.cta}
+    </Link>
+  ) : (
+    <span className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg bg-slate-300 px-4 text-sm font-bold text-slate-600">
+      {t.cta}
+    </span>
+  )
 
   return (
     <section className="rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-900/5 overflow-hidden pb-24 lg:pb-0">
@@ -837,6 +895,13 @@ export default function WebsiteEstimateBuilder() {
 
       <div className="grid lg:grid-cols-[1.2fr_.8fr]">
         <div className="space-y-8 p-6 sm:p-8 lg:p-10">
+          <EstimateMarketContextFields
+            locale={french ? 'fr' : 'en'}
+            marketId={marketId}
+            regionId={regionId}
+            onMarketChange={setMarketId}
+            onRegionChange={setRegionId}
+          />
           <div className="space-y-8">
             <div className="flex items-center gap-3">
               <h2 className="text-sm font-bold uppercase tracking-[.16em] text-slate-950">{t.requiredSection}</h2>
@@ -1399,9 +1464,30 @@ export default function WebsiteEstimateBuilder() {
             </dl>
             <div className="mt-6 space-y-3 border-t border-slate-300 pt-5">
               <div className="flex justify-between gap-4 text-sm"><span className="text-slate-700">{t.subtotal}</span><span className="font-semibold tabular-nums text-slate-900">{money(estimate.firstYearBeforeTax)}</span></div>
-              <div className="flex justify-between gap-4 text-sm"><span className="text-slate-700">{t.hst}</span><span className="font-semibold tabular-nums text-slate-900">{money(estimate.hst)}</span></div>
+              {estimate.taxReady ? (
+                estimate.taxLines.length > 0 ? (
+                  estimate.taxLines.map((line) => (
+                    <div key={line.id} className="flex justify-between gap-4 text-sm">
+                      <span className="text-slate-700">{french ? line.label.fr : line.label.en}</span>
+                      <span className="font-semibold tabular-nums text-slate-900">{money(line.amount)}</span>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-xs leading-5 text-slate-600">
+                    {estimate.taxNote ? (french ? estimate.taxNote.fr : estimate.taxNote.en) : null}
+                  </p>
+                )
+              ) : (
+                <p className="text-sm font-medium text-amber-900">{t.taxSelectPrompt}</p>
+              )}
+              {estimate.taxNote && estimate.taxReady && estimate.taxLines.length > 0 ? (
+                <p className="text-xs leading-5 text-slate-600">
+                  {french ? estimate.taxNote.fr : estimate.taxNote.en}
+                </p>
+              ) : null}
               <div className="flex items-end justify-between gap-4 border-t border-slate-300 pt-4"><span className="font-bold text-slate-950">{t.total}</span><span className="text-2xl font-serif font-bold tabular-nums text-primary-dark">{estimateTotalLabel}</span></div>
             </div>
+            <EstimateConsiderations locale={french ? 'fr' : 'en'} items={considerations} />
             <EstimateInvestmentPayback
               locale={french ? 'fr' : 'en'}
               total={estimate.firstYearTotal}
@@ -1415,7 +1501,8 @@ export default function WebsiteEstimateBuilder() {
               onPlanningChange={setPaybackPlanning}
             />
             <p className="mt-5 text-xs leading-5 text-slate-600">{t.disclaimer}</p>
-            <Link href={{ pathname: '/contact', query: contactQuery }} className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-primary px-5 py-3 text-center font-bold text-white transition hover:bg-primary-dark">{t.cta}</Link>
+            <p className="mt-2 text-xs leading-5 text-slate-600">{t.taxDisclaimer}</p>
+            {contactCta}
             <div className="mt-5 space-y-2 border-t border-slate-200 pt-4 text-sm leading-6 text-slate-700">
               <p className="flex gap-2">
                 <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
@@ -1440,7 +1527,7 @@ export default function WebsiteEstimateBuilder() {
             <p className="text-[11px] font-bold uppercase tracking-wide text-slate-600">{t.mobileSummaryLabel}</p>
             <p className="truncate text-lg font-serif font-bold tabular-nums text-primary-dark">{estimateTotalLabel}</p>
           </div>
-          <Link href={{ pathname: '/contact', query: contactQuery }} className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg bg-primary px-4 text-sm font-bold text-white hover:bg-primary-dark">{t.cta}</Link>
+          {mobileContactCta}
         </div>
       </div>
     </section>

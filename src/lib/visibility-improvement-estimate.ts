@@ -1,3 +1,4 @@
+import { applyEstimateTax } from '@/lib/estimate-regions'
 import { WEBSITE_ESTIMATE_PRICES } from '@/lib/website-estimate'
 
 export const VISIBILITY_IMPROVEMENT_PRICES = {
@@ -9,6 +10,7 @@ export const VISIBILITY_IMPROVEMENT_PRICES = {
   localMaps: 350,
   offerRewrite: 450,
   monitoring: 480,
+  /** @deprecated Tax now comes from applyEstimateTax / customer region. */
   hstRate: WEBSITE_ESTIMATE_PRICES.hstRate,
   referralDiscountRate: WEBSITE_ESTIMATE_PRICES.referralDiscountRate,
 } as const
@@ -20,6 +22,7 @@ export type VisibilityImprovementSelection = {
   offerRewrite: boolean
   monitoring: boolean
   referralDiscount: boolean
+  regionId?: string | null
 }
 
 export const LOCAL_MAPS_PRICES: Record<LocalMapsChoice, number> = {
@@ -42,7 +45,7 @@ export function calculateVisibilityImprovementEstimate(selection: VisibilityImpr
   const professionalServices =
     VISIBILITY_IMPROVEMENT_CORE_PRICE + localMaps + offerRewrite + monitoring
   const firstYearBeforeTax = professionalServices - referralDiscount
-  const hst = firstYearBeforeTax * VISIBILITY_IMPROVEMENT_PRICES.hstRate
+  const tax = applyEstimateTax(firstYearBeforeTax, selection.regionId)
 
   return {
     core: VISIBILITY_IMPROVEMENT_CORE_PRICE,
@@ -53,7 +56,13 @@ export function calculateVisibilityImprovementEstimate(selection: VisibilityImpr
     monitoring,
     professionalServices,
     firstYearBeforeTax,
-    hst,
-    firstYearTotal: firstYearBeforeTax + hst,
+    taxReady: tax.taxReady,
+    taxLines: tax.taxLines,
+    taxTotal: tax.taxTotal,
+    taxNote: tax.taxNote,
+    provincialSalesTaxMaybeApplies: tax.provincialSalesTaxMaybeApplies,
+    /** @deprecated Prefer taxTotal */
+    hst: tax.taxTotal,
+    firstYearTotal: tax.firstYearTotal,
   }
 }

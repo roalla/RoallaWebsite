@@ -2729,7 +2729,7 @@ const HUB_CACHE: Partial<Record<HubLocale, Partial<Record<IndustryHubId, Industr
 export function listIndustryHubIds(): IndustryHubId[] {
   return [...INDUSTRY_HUB_IDS]
 }
-export function isIndustryHubId(id: string): boolean {
+export function isIndustryHubId(id: string): id is IndustryHubId {
   return (INDUSTRY_HUB_IDS as readonly string[]).includes(id)
 }
 export function getIndustryHub(locale: string, id: string): IndustryHub | null {

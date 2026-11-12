@@ -73,11 +73,12 @@ for (const [path, lang] of [
   });
 }
 
-test("homepage is a photo-led campaign hub with two tiles", async () => {
+test("homepage is a photo-led campaign hub with compact tiles and links underneath", async () => {
   const response = await request("/en/");
   assert.equal(response.statusCode, 200);
   assert.match(response.body, /Be easier to find/);
   assert.match(response.body, /Automate with control/);
+  assert.match(response.body, /campaign-tile-link/);
   assert.match(response.body, /\/en\/campaigns\/visibility-review\//);
   assert.match(response.body, /\/en\/campaigns\/ai-employee-readiness\//);
   assert.match(response.body, /\/assets\/campaigns\/visibility-hero\.webp/);
@@ -88,26 +89,36 @@ test("homepage is a photo-led campaign hub with two tiles", async () => {
   assert.match(response.body, /https:\/\/www\.roallainsights\.com\/en\//);
 });
 
-test("visibility campaign remains a focused sales landing", async () => {
+test("visibility campaign stays focused with examples and conversion CTA", async () => {
   const response = await request("/en/campaigns/visibility-review/");
   assert.equal(response.statusCode, 200);
   assert.match(response.body, /Website &amp; AI Visibility Review|Website & AI Visibility Review/);
   assert.match(response.body, /intent=website-ai-visibility-review/);
+  assert.match(response.body, /Sounds familiar/);
+  assert.match(response.body, /ChatGPT/);
   assert.match(response.body, /Looking to 2027/);
-  assert.match(response.body, /AI tools recommend clearer businesses/);
   assert.match(response.body, /\/assets\/campaigns\/visibility-hero\.webp/);
   assert.match(response.body, /You don(?:'|’|&rsquo;)t need to be technical/);
 });
 
-test("AI readiness campaign converts with plain-language offer", async () => {
+test("AI readiness campaign converts with plain-language examples", async () => {
   const response = await request("/en/campaigns/ai-employee-readiness/");
   assert.equal(response.statusCode, 200);
   assert.match(response.body, /Automate the busy work/);
   assert.match(response.body, /intent=ai-support/);
+  assert.match(response.body, /Sounds familiar/);
+  assert.match(response.body, /generic chat widget/);
   assert.match(response.body, /Looking to 2027/);
-  assert.match(response.body, /AI help has real ongoing costs/);
   assert.match(response.body, /\/assets\/campaigns\/ai-employee-hero\.webp/);
   assert.match(response.body, /See if an AI Employee fits/);
+});
+
+test("styles load brand fonts and WCAG-oriented muted token", async () => {
+  const css = await readFile(new URL("../src/assets/styles.css", import.meta.url), "utf8");
+  assert.match(css, /Roalla Figtree/);
+  assert.match(css, /Roalla Sora/);
+  assert.match(css, /--muted:\s*#334852/);
+  assert.match(css, /--cyan-dark:\s*#005f6c/);
 });
 
 test("campaign script supports standard UTM and click identifiers", async () => {

@@ -28,6 +28,8 @@ const shell = {
     footerExplore: "Explore",
     footerContact: "Contact",
     reassurance: "You don’t need to be technical—we translate the findings into decisions.",
+    examplesEyebrow: "Sounds familiar?",
+    examplesTitle: "Here’s what this looks like in a real business.",
     trendsEyebrow: "Looking to 2027",
     trendsTitle: "What to prepare for next",
     trendsCopy: "Short signals for business decisions—not a technology lecture."
@@ -53,6 +55,8 @@ const shell = {
     footerExplore: "Explorer",
     footerContact: "Contact",
     reassurance: "Vous n’avez pas besoin d’être technique—nous traduisons les constats en décisions.",
+    examplesEyebrow: "Ça vous dit quelque chose?",
+    examplesTitle: "Voici à quoi ça ressemble dans une vraie entreprise.",
     trendsEyebrow: "Vers 2027",
     trendsTitle: "Ce qu’il faut préparer ensuite",
     trendsCopy: "Des signaux courts pour décider—pas un cours de technologie."
@@ -65,12 +69,12 @@ const hub = {
     description: "Choose a focused ROALLA campaign—be easier to find online, or automate busy work with clear human control.",
     eyebrow: "ROALLA Insights",
     heroTitle: "Clear outcomes. Fast decisions.",
-    heroCopy: "Pick the campaign that matches the result you want. Each page is built to help you decide quickly—without a technology degree.",
+    heroCopy: "Choose the result you want. Each campaign helps you decide quickly.",
     tiles: [
       {
         slug: "visibility-review",
         title: "Be easier to find",
-        blurb: "See how clearly your website speaks to customers, search, and AI tools—then get a plain-language next step.",
+        blurb: "A plain-language review of how customers, search, and AI tools see your business.",
         cta: "Open visibility campaign",
         image: "/assets/campaigns/visibility-hero.webp",
         imageAlt: "Business visibility across search and digital channels"
@@ -78,7 +82,7 @@ const hub = {
       {
         slug: "ai-employee-readiness",
         title: "Automate with control",
-        blurb: "Find out if an AI Employee fits a busy process—with approvals, handoffs, and costs planned up front.",
+        blurb: "See if an AI Employee fits one busy process—with people still in charge.",
         cta: "Open AI readiness campaign",
         image: "/assets/campaigns/ai-employee-hero.webp",
         imageAlt: "Frontline AI support with clear human handoff"
@@ -90,12 +94,12 @@ const hub = {
     description: "Choisissez une campagne ROALLA ciblée—être plus facile à trouver en ligne, ou automatiser le travail répétitif avec un contrôle humain clair.",
     eyebrow: "ROALLA Insights",
     heroTitle: "Des résultats clairs. Des décisions rapides.",
-    heroCopy: "Choisissez la campagne qui correspond au résultat voulu. Chaque page vous aide à décider vite—sans diplôme technique.",
+    heroCopy: "Choisissez le résultat voulu. Chaque campagne vous aide à décider vite.",
     tiles: [
       {
         slug: "visibility-review",
         title: "Être plus facile à trouver",
-        blurb: "Voyez à quel point votre site parle clairement aux clients, à la recherche et aux outils d’IA—puis obtenez une prochaine étape en langage simple.",
+        blurb: "Une évaluation en langage simple de la façon dont clients, recherche et outils d’IA voient votre entreprise.",
         cta: "Ouvrir la campagne visibilité",
         image: "/assets/campaigns/visibility-hero.webp",
         imageAlt: "Visibilité d’entreprise dans la recherche et les canaux numériques"
@@ -103,7 +107,7 @@ const hub = {
       {
         slug: "ai-employee-readiness",
         title: "Automatiser avec contrôle",
-        blurb: "Vérifiez si un employé IA convient à un processus chargé—avec approbations, transferts et coûts prévus dès le départ.",
+        blurb: "Vérifiez si un employé IA convient à un processus chargé—avec des personnes aux commandes.",
         cta: "Ouvrir la campagne préparation IA",
         image: "/assets/campaigns/ai-employee-hero.webp",
         imageAlt: "Soutien IA en première ligne avec transfert humain clair"
@@ -122,13 +126,18 @@ const campaigns = {
       description: "A practical review of how clearly your website presents your business to customers, search, and AI tools—plus a prioritized path to improve what matters.",
       heroEyebrow: "Website & AI Visibility Review",
       heroTitle: "Be easier to find. Easier to trust. Easier to choose.",
-      heroCopy: "We look at how your public website presents your business to people, search results, and AI tools—then give you a plain-language plan for what to fix first.",
+      heroCopy: "A plain-language review of how customers, search, and AI tools see your business—and what to fix first.",
       primaryCta: "Request your review",
       secondaryCta: "See what we examine",
-      homework: "To start, send your website address and the business result you want the site to support.",
+      homework: "To start, send your website address and the result you want the site to support.",
+      examples: [
+        "A customer asks ChatGPT who to call near them—and your business isn’t named.",
+        "Your Google listing says one thing, your website says another, and people stop trusting both.",
+        "The site looks fine to you, but visitors can’t tell what you do or how to contact you on their phone."
+      ],
       introEyebrow: "Clarity before complexity",
       introTitle: "Customers judge you in more places than one.",
-      introCopy: "People still visit your pages and search results. More often, they also ask AI tools to summarize, compare, and recommend. This review checks whether every audience can tell who you serve, what you do, and what to do next.",
+      introCopy: "People visit pages, search results, and AI answers. This review checks whether they can tell who you serve, what you do, and what to do next.",
       pillars: [
         ["Easier to find", "Whether search can understand and show your pages to the right people."],
         ["Clear to AI tools", "Whether assistants can name your offer, location, credibility, and next step."],
@@ -166,13 +175,18 @@ const campaigns = {
       description: "Une évaluation pratique de la façon dont votre site présente clairement votre entreprise aux clients, à la recherche et aux outils d’IA—avec une voie d’amélioration priorisée.",
       heroEyebrow: "Évaluation de la visibilité Web et IA",
       heroTitle: "Plus facile à trouver. À croire. À choisir.",
-      heroCopy: "Nous examinons comment votre site public présente votre entreprise aux personnes, aux résultats de recherche et aux outils d’IA—puis nous vous donnons un plan en langage simple pour ce qu’il faut corriger en premier.",
+      heroCopy: "Une évaluation en langage simple de la façon dont clients, recherche et outils d’IA voient votre entreprise—et quoi corriger en premier.",
       primaryCta: "Demander votre évaluation",
       secondaryCta: "Voir ce que nous examinons",
-      homework: "Pour commencer, envoyez l’adresse du site et le résultat d’affaires que celui-ci doit soutenir.",
+      homework: "Pour commencer, envoyez l’adresse du site et le résultat que celui-ci doit soutenir.",
+      examples: [
+        "Un client demande à ChatGPT qui appeler près de chez lui—et votre entreprise n’est pas nommée.",
+        "Votre fiche Google dit une chose, votre site en dit une autre, et la confiance baisse.",
+        "Le site vous semble bien, mais sur téléphone on ne voit pas clairement ce que vous faites ni comment vous joindre."
+      ],
       introEyebrow: "La clarté avant la complexité",
       introTitle: "Les clients vous jugent à plus d’un endroit.",
-      introCopy: "Les gens consultent encore vos pages et les résultats de recherche. De plus en plus, ils demandent aussi aux outils d’IA de résumer, comparer et recommander. Cette évaluation vérifie si chaque public comprend qui vous servez, ce que vous faites et quoi faire ensuite.",
+      introCopy: "Les gens consultent pages, résultats de recherche et réponses IA. Cette évaluation vérifie s’ils comprennent qui vous servez, ce que vous faites et quoi faire ensuite.",
       pillars: [
         ["Plus facile à trouver", "La recherche peut-elle comprendre et montrer vos pages aux bonnes personnes."],
         ["Clair pour les outils d’IA", "Les assistants peuvent-ils nommer votre offre, votre lieu, votre crédibilité et la prochaine étape."],
@@ -214,13 +228,18 @@ const campaigns = {
       description: "See whether an AI Employee fits a busy process—with clear approvals, human handoffs, and costs planned before you build.",
       heroEyebrow: "AI Employee & Agent Readiness",
       heroTitle: "Automate the busy work. Keep control.",
-      heroCopy: "An AI Employee can answer requests and handle routine steps—when the process is clear and a person owns the exceptions. This campaign helps you decide fit before you spend.",
+      heroCopy: "See if an AI Employee fits one busy process—with clear approvals and a person for exceptions.",
       primaryCta: "See if an AI Employee fits",
       secondaryCta: "See what we examine",
-      homework: "To start, describe the busy work and who handles exceptions today. No technical homework required.",
+      homework: "To start, describe the busy work and who handles exceptions today.",
+      examples: [
+        "The same scheduling, quote, or “are you open?” questions land every day while the team is with customers.",
+        "You’re afraid a chatbot will invent answers or change something it shouldn’t—so nothing gets automated.",
+        "You tried a generic chat widget; it didn’t follow your rules and staff stopped using it."
+      ],
       introEyebrow: "Control before complexity",
       introTitle: "AI helps when the work is clear—and people stay accountable.",
-      introCopy: "Owners want fewer missed calls and less repetitive follow-up. The risk is an unsupervised tool that changes records, invents answers, or creates surprise costs. Readiness means picking one process, setting approvals, and knowing who takes over when judgment is needed.",
+      introCopy: "Fewer missed calls and less repetitive follow-up—without an unsupervised tool inventing answers or changing records. Readiness means one process, clear approvals, and a person for exceptions.",
       pillars: [
         ["The right workload", "One busy, measurable process—not a vague “do everything” chatbot."],
         ["Approvals that protect you", "Clear rules for when AI can act and when a person must decide."],
@@ -258,13 +277,18 @@ const campaigns = {
       description: "Vérifiez si un employé IA convient à un processus chargé—avec des approbations claires, des transferts humains et des coûts prévus avant de construire.",
       heroEyebrow: "Préparation employé IA et agents",
       heroTitle: "Automatisez le travail répétitif. Gardez le contrôle.",
-      heroCopy: "Un employé IA peut répondre aux demandes et traiter des étapes routinières—quand le processus est clair et qu’une personne possède les exceptions. Cette campagne aide à décider de l’adéquation avant de dépenser.",
+      heroCopy: "Vérifiez si un employé IA convient à un processus chargé—avec des approbations claires et une personne pour les exceptions.",
       primaryCta: "Voir si un employé IA convient",
       secondaryCta: "Voir ce que nous examinons",
-      homework: "Pour commencer, décrivez le travail répétitif et qui gère les exceptions aujourd’hui. Aucun devoir technique.",
+      homework: "Pour commencer, décrivez le travail répétitif et qui gère les exceptions aujourd’hui.",
+      examples: [
+        "Les mêmes questions d’horaire, de soumission ou « êtes-vous ouverts? » arrivent chaque jour pendant que l’équipe sert les clients.",
+        "Vous craignez qu’un clavardage invente des réponses ou change quelque chose—alors rien n’est automatisé.",
+        "Vous avez essayé un clavardage générique; il n’a pas suivi vos règles et l’équipe a arrêté de l’utiliser."
+      ],
       introEyebrow: "Le contrôle avant la complexité",
       introTitle: "L’IA aide quand le travail est clair—et que les gens restent responsables.",
-      introCopy: "Les dirigeants veulent moins d’appels manqués et moins de suivis répétitifs. Le risque est un outil sans supervision qui modifie des dossiers, invente des réponses ou crée des coûts surprises. La préparation, c’est choisir un processus, fixer les approbations et savoir qui reprend quand le jugement est nécessaire.",
+      introCopy: "Moins d’appels manqués et moins de suivis répétitifs—sans outil sans supervision qui invente des réponses ou modifie des dossiers. La préparation, c’est un processus, des approbations claires et une personne pour les exceptions.",
       pillars: [
         ["La bonne charge de travail", "Un processus mesurable et chargé—pas un clavardage vague « qui fait tout »."],
         ["Des approbations qui protègent", "Des règles claires pour quand l’IA peut agir et quand une personne doit décider."],
@@ -430,10 +454,14 @@ function hubPage(lang) {
   const p = paths(lang);
   const tiles = h.tiles.map((tile) => {
     const href = p.campaign(tile.slug);
-    return `<a class="campaign-tile reveal" href="${href}">
-      <span class="campaign-tile-media"><img src="${tile.image}" alt="${tile.imageAlt}" width="720" height="480" loading="eager" decoding="async"></span>
-      <span class="campaign-tile-body"><span class="eyebrow">${tile.cta}</span><strong>${tile.title}</strong><span class="campaign-tile-blurb">${tile.blurb}</span></span>
-    </a>`;
+    return `<article class="campaign-tile reveal">
+      <div class="campaign-tile-media"><img src="${tile.image}" alt="${tile.imageAlt}" width="640" height="360" loading="eager" decoding="async"></div>
+      <div class="campaign-tile-body">
+        <h2>${tile.title}</h2>
+        <p class="campaign-tile-blurb">${tile.blurb}</p>
+        <a class="campaign-tile-link" href="${href}">${tile.cta}</a>
+      </div>
+    </article>`;
   }).join("");
   const content = `<main id="main">
     <section class="hub-hero">
@@ -470,6 +498,7 @@ function campaignPage(lang, slug) {
   const other = paths(lang === "fr" ? "en" : "fr");
   const route = p.campaign(slug);
   const contactHref = `${p.contact}?intent=${encodeURIComponent(campaign.intent)}`;
+  const examples = (copy.examples || []).map((item) => `<li>${item}</li>`).join("");
   const content = `<main id="main">
     <section class="hero hero-media">
       <div class="hero-media-bg" aria-hidden="true"><img src="${campaign.image}" alt="" width="1600" height="900" loading="eager" decoding="async"></div>
@@ -479,13 +508,20 @@ function campaignPage(lang, slug) {
           <p class="eyebrow">${copy.heroEyebrow}</p>
           <h1>${copy.heroTitle}</h1>
           <p class="hero-copy">${copy.heroCopy}</p>
-          <p class="hero-reassure">${t.reassurance}</p>
           <div class="actions">
             <a class="button" href="${contactHref}" data-attribution>${copy.primaryCta}</a>
-            <a class="button secondary" href="#review">${copy.secondaryCta}</a>
+            <a class="text-link hero-secondary" href="#examples">${copy.secondaryCta}</a>
           </div>
-          <p class="hero-homework">${copy.homework}</p>
         </div>
+      </div>
+    </section>
+    <section class="section examples" id="examples">
+      <div class="wrap">
+        <div class="section-head reveal-on-scroll">
+          <div><p class="eyebrow">${t.examplesEyebrow}</p><h2>${t.examplesTitle}</h2></div>
+        </div>
+        <ol class="example-list">${examples}</ol>
+        <p class="examples-cta"><a class="button" href="${contactHref}" data-attribution>${copy.primaryCta}</a></p>
       </div>
     </section>
     <section class="section" id="review">

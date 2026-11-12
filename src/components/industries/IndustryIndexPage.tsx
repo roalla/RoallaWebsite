@@ -1,11 +1,16 @@
 'use client'
 
+import { useEffect } from 'react'
 import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import Reveal from '@/components/motion/Reveal'
 import { trackAnalyticsEvent } from '@/lib/analytics'
-import { getIndustryHub, type IndustryHubIndexCopy } from '@/lib/industry-hub-content'
+import {
+  getIndustryHub,
+  toIndustryOptImageSrc,
+  type IndustryHubIndexCopy,
+} from '@/lib/industry-hub-content'
 
 export default function IndustryIndexPage({
   locale,
@@ -14,17 +19,25 @@ export default function IndustryIndexPage({
   locale: string
   copy: IndustryHubIndexCopy
 }) {
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+  }, [])
+
   return (
     <div className="page-shell bg-white">
       <section
         data-header-tone="dark"
-        className="bg-slate-950 px-4 pb-16 pt-28 text-white sm:px-6 lg:px-8 lg:pb-20 lg:pt-32"
+        className="relative isolate overflow-hidden bg-slate-950 px-4 pb-16 pt-28 text-white sm:px-6 lg:px-8 lg:pb-20 lg:pt-32"
       >
-        <div className="mx-auto max-w-7xl">
+        <div className="absolute inset-0 -z-10" aria-hidden>
+          <div className="absolute -right-24 top-10 h-80 w-80 rounded-full bg-primary/20 blur-3xl" />
+          <div className="absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-cyan-400/10 blur-3xl" />
+        </div>
+        <div className="relative mx-auto max-w-7xl">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-light">
             {locale === 'fr' ? 'Secteurs' : 'Industries'}
           </p>
-          <h1 className="mt-4 max-w-3xl font-serif text-4xl font-bold sm:text-5xl">{copy.title}</h1>
+          <h1 className="mt-4 max-w-3xl font-serif text-4xl font-bold text-white sm:text-5xl">{copy.title}</h1>
           <p className="mt-5 max-w-2xl text-base leading-7 text-slate-200">{copy.lead}</p>
         </div>
       </section>
@@ -48,7 +61,7 @@ export default function IndustryIndexPage({
                 >
                   <span className="relative block aspect-[16/10] overflow-hidden bg-slate-100">
                     <Image
-                      src={hub.image.src}
+                      src={toIndustryOptImageSrc(hub.image.src)}
                       alt={hub.image.alt}
                       fill
                       unoptimized

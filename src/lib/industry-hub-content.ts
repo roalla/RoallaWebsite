@@ -86,9 +86,26 @@ export type IndustryHub = {
   ui: {
     startHereEyebrow: string
     proofEyebrow: string
+    leadTilesTitle: string
     relatedTitle: string
     relatedLead: string
   }
+}
+
+/** Prefer crisp library tiles (automation-ai style) over muddy card washes. */
+export function toIndustryOptImageSrc(src: string) {
+  return src.replace(/\.card\.webp$/i, '.opt.webp').replace(/\.hero\.webp$/i, '.opt.webp')
+}
+
+export const INDUSTRY_SERVICE_TILE_IMAGES: Record<IndustryHubServiceKey, string> = {
+  aiEmployee: '/images/insights/library/practical-ai-use-cases.opt.webp',
+  security: '/images/insights/library/it-provider-who-owns-risk.opt.webp',
+  ucaas: '/images/insights/library/analog-to-ip-business-telephony.opt.webp',
+  ccaas: '/images/insights/library/analog-to-ip-business-telephony.opt.webp',
+  cloudMigration: '/images/insights/library/twelve-month-technology-roadmap.opt.webp',
+  automation: '/images/insights/library/what-to-automate-first.opt.webp',
+  visibility: '/images/insights/library/search-and-ai-visibility.opt.webp',
+  websites: '/images/insights/library/website-after-launch.opt.webp',
 }
 export type IndustryHubIndexCopy = {
   title: string
@@ -169,6 +186,7 @@ const SHARED_COPY: Record<
     startHereTitle: string
     startHereCta: Record<IndustryStartHereTarget, string>
     proofEyebrow: string
+    leadTilesTitle: string
     relatedTitle: string
     relatedLead: string
     indexTitle: string
@@ -191,6 +209,7 @@ const SHARED_COPY: Record<
       assessment: 'Find your starting point',
     },
     proofEyebrow: 'Related reading',
+    leadTilesTitle: 'Priority paths for this industry',
     relatedTitle: 'Also relevant here',
     relatedLead: 'Other ROALLA paths that often help this industry move forward.',
     indexTitle: 'Technology built around your industry',
@@ -213,6 +232,7 @@ const SHARED_COPY: Record<
       assessment: 'Trouver votre point de départ',
     },
     proofEyebrow: 'Lecture connexe',
+    leadTilesTitle: 'Parcours prioritaires pour ce secteur',
     relatedTitle: 'Aussi pertinent ici',
     relatedLead: 'D’autres parcours ROALLA qui aident souvent ce secteur à progresser.',
     indexTitle: 'Une technologie pensée pour votre industrie',
@@ -2699,6 +2719,7 @@ function buildHub(locale: HubLocale, id: IndustryHubId): IndustryHub {
     ui: {
       startHereEyebrow: shared.startHereEyebrow,
       proofEyebrow: shared.proofEyebrow,
+      leadTilesTitle: shared.leadTilesTitle,
       relatedTitle: shared.relatedTitle,
       relatedLead: shared.relatedLead,
     },

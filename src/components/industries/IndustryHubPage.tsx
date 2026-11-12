@@ -1,11 +1,13 @@
 'use client'
 
+import { useEffect } from 'react'
 import Image from 'next/image'
 import { ArrowRight, Check, Compass, BookOpen } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import Reveal from '@/components/motion/Reveal'
 import { trackAnalyticsEvent } from '@/lib/analytics'
 import {
+  INDUSTRY_SERVICE_TILE_IMAGES,
   type IndustryHub,
   type IndustryHubServiceKey,
   type IndustryHubStartHere,
@@ -105,23 +107,20 @@ export default function IndustryHubPage({
     })
   }
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+  }, [hub.id])
+
   return (
     <div className="page-shell bg-white">
       <section
         data-header-tone="dark"
         className="relative isolate overflow-hidden bg-slate-950 px-4 pb-16 pt-28 text-white sm:px-6 lg:px-8 lg:pb-20 lg:pt-32"
       >
-        <Image
-          src={hub.image.src}
-          alt=""
-          fill
-          priority
-          fetchPriority="high"
-          unoptimized
-          className="object-cover opacity-35"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/55" aria-hidden />
+        <div className="absolute inset-0 -z-10" aria-hidden>
+          <div className="absolute -right-24 top-10 h-80 w-80 rounded-full bg-primary/20 blur-3xl" />
+          <div className="absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-cyan-400/10 blur-3xl" />
+        </div>
         <div className="relative mx-auto max-w-7xl">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-light">{hub.hero.eyebrow}</p>
           <h1 className="mt-4 max-w-3xl font-serif text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
@@ -220,6 +219,51 @@ export default function IndustryHubPage({
         </div>
       </section>
 
+      <section className="border-b border-slate-200 bg-slate-50 px-4 py-14 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <Reveal>
+            <h2 className="font-serif text-3xl font-bold text-slate-950 sm:text-4xl">{hub.ui.leadTilesTitle}</h2>
+          </Reveal>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2">
+            {hub.leadServices.map((key) => {
+              const block = hub.services[key]
+              return (
+                <Reveal key={key}>
+                  <Link
+                    href={serviceHref(hub, key)}
+                    onClick={() => trackService(key)}
+                    className="group/tile flex h-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:border-primary/50 hover:shadow-sm"
+                  >
+                    <span className="relative block aspect-[16/10] w-full shrink-0 overflow-hidden bg-slate-100">
+                      <Image
+                        src={INDUSTRY_SERVICE_TILE_IMAGES[key]}
+                        alt=""
+                        fill
+                        loading="lazy"
+                        unoptimized
+                        decoding="async"
+                        sizes="(max-width: 640px) 100vw, 50vw"
+                        className="object-cover transition duration-300 group-hover/tile:scale-[1.03]"
+                      />
+                    </span>
+                    <span className="flex flex-1 flex-col px-4 py-4">
+                      <span className="text-xs font-bold uppercase tracking-[0.14em] text-primary-dark">
+                        {block.eyebrow}
+                      </span>
+                      <span className="mt-2 font-serif text-xl font-bold text-slate-950">{block.title}</span>
+                      <span className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-primary-dark">
+                        {block.ctaLabel}
+                        <ArrowRight className="h-4 w-4 transition group-hover/tile:translate-x-0.5" aria-hidden />
+                      </span>
+                    </span>
+                  </Link>
+                </Reveal>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
       {hub.leadServices.map((key, index) => {
         const block = hub.services[key]
         return (
@@ -283,10 +327,14 @@ export default function IndustryHubPage({
         </div>
       </section>
 
-      <section className="bg-slate-950 px-4 py-16 text-white sm:px-6 lg:px-8 lg:py-20">
-        <div className="mx-auto max-w-3xl text-center">
+      <section className="relative isolate overflow-hidden bg-slate-950 px-4 py-16 text-white sm:px-6 lg:px-8 lg:py-20">
+        <div className="absolute inset-0 -z-10" aria-hidden>
+          <div className="absolute -right-16 top-8 h-64 w-64 rounded-full bg-primary/20 blur-3xl" />
+          <div className="absolute -left-12 bottom-0 h-48 w-48 rounded-full bg-cyan-400/10 blur-3xl" />
+        </div>
+        <div className="relative mx-auto max-w-3xl text-center">
           <Reveal>
-            <h2 className="font-serif text-3xl font-bold sm:text-4xl">{hub.closer.title}</h2>
+            <h2 className="font-serif text-3xl font-bold text-white sm:text-4xl">{hub.closer.title}</h2>
             <p className="mt-4 text-base leading-7 text-slate-300">{hub.closer.lead}</p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link

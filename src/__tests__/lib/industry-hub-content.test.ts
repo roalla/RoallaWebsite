@@ -1,12 +1,14 @@
 import {
   FEATURED_INDUSTRY_HUB_IDS,
   INDUSTRY_HUB_IDS,
+  INDUSTRY_SERVICE_TILE_IMAGES,
   SERVICE_KEYS,
   getFeaturedIndustryHubNav,
   getIndustryHub,
   getIndustryHubIndex,
   isIndustryHubId,
   listIndustryHubIds,
+  toIndustryOptImageSrc,
 } from '@/lib/industry-hub-content'
 
 describe('industry hub content', () => {
@@ -59,5 +61,20 @@ describe('industry hub content', () => {
       return SERVICE_KEYS.map((key) => hub.services[key].title)
     })
     expect(new Set(titles).size).toBe(titles.length)
+  })
+
+  it('maps card/hero library paths to opt tiles', () => {
+    expect(toIndustryOptImageSrc('/images/insights/library/it-provider-who-owns-risk.card.webp')).toBe(
+      '/images/insights/library/it-provider-who-owns-risk.opt.webp',
+    )
+    expect(toIndustryOptImageSrc('/images/insights/library/practical-ai-use-cases.hero.webp')).toBe(
+      '/images/insights/library/practical-ai-use-cases.opt.webp',
+    )
+  })
+
+  it('exposes opt.webp tile paths for every service key', () => {
+    for (const key of SERVICE_KEYS) {
+      expect(INDUSTRY_SERVICE_TILE_IMAGES[key]).toMatch(/\.opt\.webp$/)
+    }
   })
 })

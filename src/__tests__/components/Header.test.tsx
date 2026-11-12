@@ -171,7 +171,7 @@ describe('Header', () => {
     expect(within(menu).getByRole('menuitem', { name: /ecosystemTransparency/i })).toHaveAttribute('href', '/partners/compensation')
   })
 
-  it('renders a top-level Industry dropdown that deep-links AI Employee industries', () => {
+  it('renders a top-level Industry dropdown with featured hubs only', () => {
     render(<Header />)
     const industryButton = screen.getByRole('button', { name: 'industry' })
     expect(industryButton).toHaveAttribute('aria-haspopup', 'menu')
@@ -181,20 +181,21 @@ describe('Header', () => {
     expect(within(menu).getByText('industryMenuLabel')).toBeInTheDocument()
     expect(within(menu).getByRole('menuitem', { name: 'IT & Managed Services' })).toHaveAttribute(
       'href',
-      '/ai-employee?industry=it-msp',
+      '/industries/it-msp',
     )
     expect(within(menu).getByRole('menuitem', { name: 'Legal' })).toHaveAttribute(
       'href',
-      '/ai-employee?industry=legal',
+      '/industries/legal',
     )
+    expect(within(menu).queryByRole('menuitem', { name: 'Warehouses' })).not.toBeInTheDocument()
     expect(within(menu).getByRole('menuitem', { name: 'industryBrowseAll' })).toHaveAttribute(
       'href',
-      '/ai-employee',
+      '/industries',
     )
-    expect(within(menu).getAllByRole('menuitem')).toHaveLength(16)
+    expect(within(menu).getAllByRole('menuitem')).toHaveLength(9)
   })
 
-  it('exposes Industry destinations in the mobile navigation', () => {
+  it('exposes featured Industry destinations in the mobile navigation', () => {
     render(<Header />)
     fireEvent.click(screen.getByRole('button', { name: 'openMenu' }))
     const mobileToggle = screen.getAllByRole('button', { name: 'industry' }).find((button) =>
@@ -204,11 +205,12 @@ describe('Header', () => {
     fireEvent.click(mobileToggle!)
     expect(screen.getByRole('link', { name: 'IT & Managed Services' })).toHaveAttribute(
       'href',
-      '/ai-employee?industry=it-msp',
+      '/industries/it-msp',
     )
+    expect(screen.queryByRole('link', { name: 'Warehouses' })).not.toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'industryBrowseAll' })).toHaveAttribute(
       'href',
-      '/ai-employee',
+      '/industries',
     )
   })
 

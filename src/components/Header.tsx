@@ -30,7 +30,7 @@ import { HEADER_INSIGHT_SLUGS, headerInsightsForGroup, type InsightSlug } from "
 import { trackAnalyticsEvent } from "@/lib/analytics";
 import { solutionsByNeedContent } from "@/lib/solutions-by-need";
 import { campaignReviewIds } from "@/lib/campaign-review-content";
-import { getAiEmployeeIndustryNav } from "@/lib/ai-employee-content";
+import { getFeaturedIndustryHubNav } from "@/lib/industry-hub-content";
 
 /** Canadian flag: red bands, white centre, red maple leaf (simplified) */
 function CanadianFlagIcon({ className }: { className?: string }) {
@@ -116,6 +116,8 @@ function headerStartsOverDark(pathname: string): boolean {
     pathname === "/" ||
     pathname === "/solutions" ||
     pathname.startsWith("/solutions/") ||
+    pathname === "/industries" ||
+    pathname.startsWith("/industries/") ||
     pathname === "/executive-insights" ||
     pathname === "/about" ||
     pathname === "/partners" ||
@@ -430,7 +432,7 @@ const Header = ({
   const tCommon = useTranslations("common");
   const locale = useLocale();
   const solutionsContent = solutionsByNeedContent[locale === "fr" ? "fr" : "en"];
-  const industryNavItems = getAiEmployeeIndustryNav(locale);
+  const industryNavItems = getFeaturedIndustryHubNav(locale);
   const startingPointLabel = locale === "fr" ? "Explorer vos options" : "Explore Your Options";
 
   const isConsultingPage =
@@ -738,7 +740,7 @@ const Header = ({
     pathname === "/services/portfolio";
 
   const isAdvisoryActive = pathname === "/services/business-advisory";
-  const isIndustryActive = pathname === "/ai-employee";
+  const isIndustryActive = pathname === "/industries" || pathname.startsWith("/industries/");
   const isEcosystemActive = pathname === "/partners" || pathname.startsWith("/partners/");
   const isWorkshopsActive =
     pathname === "/programs/workshops" ||
@@ -1137,12 +1139,15 @@ const Header = ({
                     </p>
                   </div>
                   <div className="grid grid-cols-2 gap-0.5 p-2 sm:grid-cols-3">
-                    {industryNavItems.map((item) => (
+                    {industryNavItems.map((item) => {
+                      const href = `/industries/${item.id}`;
+                      const current = pathname === href;
+                      return (
                       <Link
                         key={item.id}
-                        href={{ pathname: "/ai-employee", query: { industry: item.id } }}
+                        href={{ pathname: "/industries/[slug]", params: { slug: item.id } }}
                         role="menuitem"
-                        aria-current={isIndustryActive ? "page" : undefined}
+                        aria-current={current ? "page" : undefined}
                         onClick={() => {
                           trackAnalyticsEvent("industry_nav_click", {
                             location: "desktop_header",
@@ -1150,17 +1155,19 @@ const Header = ({
                           });
                           setIndustryDropdownOpen(false);
                         }}
-                        className="rounded-lg px-2.5 py-2 text-sm font-medium text-slate-200 transition-colors hover:bg-white/5 hover:text-white focus-visible:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
+                        className={`rounded-lg px-2.5 py-2 text-sm font-medium transition-colors hover:bg-white/5 hover:text-white focus-visible:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40 ${
+                          current ? "bg-primary/10 text-primary" : "text-slate-200"
+                        }`}
                       >
                         {item.label}
                       </Link>
-                    ))}
+                    )})}
                   </div>
                   <div className="border-t border-white/10 p-2">
                     <Link
-                      href="/ai-employee"
+                      href="/industries"
                       role="menuitem"
-                      aria-current={isIndustryActive ? "page" : undefined}
+                      aria-current={pathname === "/industries" ? "page" : undefined}
                       onClick={() => {
                         trackAnalyticsEvent("industry_nav_click", {
                           location: "desktop_header",
@@ -1853,35 +1860,38 @@ const Header = ({
                     <p className="px-5 pb-1 pt-2 text-[11px] font-bold uppercase tracking-[0.15em] text-primary">
                       {t("industryMenuLabel")}
                     </p>
-                    {industryNavItems.map((item) => (
+                    {industryNavItems.map((item) => {
+                      const href = `/industries/${item.id}`;
+                      const current = pathname === href;
+                      return (
                       <Link
                         key={item.id}
-                        href={{ pathname: "/ai-employee", query: { industry: item.id } }}
-                        aria-current={isIndustryActive ? "page" : undefined}
+                        href={{ pathname: "/industries/[slug]", params: { slug: item.id } }}
+                        aria-current={current ? "page" : undefined}
                         className={`flex min-h-[44px] items-center justify-between gap-3 rounded-md py-2.5 pl-5 pr-3 text-sm font-medium transition-colors hover:bg-white/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40 ${
-                          isIndustryActive ? "bg-primary/10 text-primary" : "text-slate-300"
+                          current ? "bg-primary/10 text-primary" : "text-slate-300"
                         }`}
                         onClick={(event) => {
                           trackAnalyticsEvent("industry_nav_click", {
                             location: "mobile_header",
                             industry: item.id,
                           });
-                          handleMobileNavClick(event, `/ai-employee?industry=${item.id}`);
+                          handleMobileNavClick(event, href);
                         }}
                       >
                         {item.label}
                         <ArrowRight className="h-4 w-4 shrink-0 opacity-60" aria-hidden />
                       </Link>
-                    ))}
+                    )})}
                     <Link
-                      href="/ai-employee"
+                      href="/industries"
                       className="mx-3 mt-2 flex min-h-[44px] items-center justify-between gap-3 rounded-lg border border-white/10 bg-white/5 px-3 py-3 text-sm font-semibold text-primary"
                       onClick={(event) => {
                         trackAnalyticsEvent("industry_nav_click", {
                           location: "mobile_header",
                           industry: "all",
                         });
-                        handleMobileNavClick(event, "/ai-employee");
+                        handleMobileNavClick(event, "/industries");
                       }}
                     >
                       <span>{t("industryBrowseAll")}</span>

@@ -168,6 +168,41 @@ export default function OutcomeLandingPage({
         </div>
       </section>
 
+      {pathway.id === "communications" ? (
+        <aside className="border-b border-slate-200 bg-slate-50 px-4 py-10 sm:px-6 lg:px-8">
+          <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2">
+            <div id="unified-communications" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6">
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">
+                {locale === "fr" ? "UCaaS" : "UCaaS"}
+              </p>
+              <h2 className="mt-2 font-serif text-2xl font-bold text-slate-950">
+                {locale === "fr"
+                  ? "Téléphonie et collaboration d’affaires"
+                  : "Business phone and collaboration"}
+              </h2>
+              <p className="mt-3 text-sm leading-6 text-slate-600">
+                {locale === "fr"
+                  ? "Numéros professionnels, files d’attente, postes souples et bascule fiable pour les équipes qui doivent rester joignables."
+                  : "Professional numbers, queues, softphones, and reliable failover for teams that must stay reachable."}
+              </p>
+            </div>
+            <div id="contact-center" className="scroll-mt-28 rounded-2xl border border-slate-200 bg-white p-6">
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">
+                {locale === "fr" ? "CCaaS" : "CCaaS"}
+              </p>
+              <h2 className="mt-2 font-serif text-2xl font-bold text-slate-950">
+                {locale === "fr" ? "Centre de contact et files d’attente" : "Contact center and queues"}
+              </h2>
+              <p className="mt-3 text-sm leading-6 text-slate-600">
+                {locale === "fr"
+                  ? "Séparez l’accueil, le service et les urgences pour que les demandes à fort enjeu n’attendent pas derrière le volume courant."
+                  : "Separate intake, service, and emergencies so high-stakes requests do not wait behind routine volume."}
+              </p>
+            </div>
+          </div>
+        </aside>
+      ) : null}
+
       {pathway.id === "visibility" ? (
         <aside className="border-b border-slate-200 bg-white px-4 py-8 sm:px-6 lg:px-8" aria-labelledby="visibility-tool-title">
           <div className="mx-auto max-w-6xl">

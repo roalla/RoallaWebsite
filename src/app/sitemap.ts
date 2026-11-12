@@ -4,6 +4,7 @@ import { CASE_STUDY_SLUGS } from "@/lib/portfolio-case-studies";
 import { OUTCOME_GROUP_IDS } from "@/lib/solution-outcome-pages";
 import { SOLUTION_PATH_IDS } from "@/lib/solutions-by-need";
 import { campaignReviewIds } from "@/lib/campaign-review-content";
+import { INDUSTRY_HUB_IDS } from "@/lib/industry-hub-content";
 
 const baseUrl = "https://www.roalla.com";
 const locales = ["en", "fr"] as const;
@@ -36,6 +37,8 @@ const paths = [
   "/programs/workshops/first-offer",
   "/website-design",
   "/ai-employee",
+  "/industries",
+  ...INDUSTRY_HUB_IDS.map((slug) => `/industries/${slug}`),
   "/website-package",
   "/website-estimate",
   "/visibility-improvement-estimate",
@@ -91,6 +94,7 @@ const priorities: Record<string, number> = {
   "/services/portfolio": 0.9,
   "/website-design": 0.88,
   "/ai-employee": 0.94,
+  "/industries": 0.93,
   "/website-package": 0.86,
   "/website-estimate": 0.84,
   "/visibility-improvement-estimate": 0.83,

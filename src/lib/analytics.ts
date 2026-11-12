@@ -1,5 +1,6 @@
 export type AnalyticsEventName =
   | "visibility_assessment_click"
+  | "visibility_estimate_click"
   | "visibility_service_inquiry"
   | "visibility_snapshot_started"
   | "visibility_snapshot_completed"

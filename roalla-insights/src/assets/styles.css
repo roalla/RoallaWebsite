@@ -156,9 +156,24 @@ img, svg { max-width: 100%; display: block; }
   grid-template-rows: 150px auto;
   background: var(--white);
   border: 1px solid var(--line);
+  border-radius: 1rem;
   overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+.campaign-tile:hover,
+.campaign-tile:focus-visible {
+  transform: translateY(-4px);
+  border-color: var(--brand-mid);
+  box-shadow: 0 16px 36px rgba(6, 21, 29, .14);
+}
+.campaign-tile:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
 }
 .campaign-tile-media {
+  display: block;
   overflow: hidden;
   background: var(--navy);
 }
@@ -166,11 +181,11 @@ img, svg { max-width: 100%; display: block; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform .4s ease;
+  transition: transform .45s ease;
 }
 .campaign-tile:hover .campaign-tile-media img,
-.campaign-tile:focus-within .campaign-tile-media img {
-  transform: scale(1.04);
+.campaign-tile:focus-visible .campaign-tile-media img {
+  transform: scale(1.05);
 }
 .campaign-tile-body {
   display: grid;
@@ -181,10 +196,10 @@ img, svg { max-width: 100%; display: block; }
   margin: 0;
   max-width: none;
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: clamp(1.15rem, 3.6vw, 1.35rem);
   font-weight: 700;
   letter-spacing: -.02em;
-  line-height: 1.2;
+  line-height: 1.25;
   color: var(--ink);
 }
 .campaign-tile-blurb {
@@ -202,7 +217,10 @@ img, svg { max-width: 100%; display: block; }
   display: inline-flex;
   align-items: center;
 }
-.campaign-tile-link:hover { color: var(--brand-mid); }
+.campaign-tile:hover .campaign-tile-link,
+.campaign-tile:focus-visible .campaign-tile-link {
+  color: var(--brand-mid);
+}
 
 .hero {
   position: relative;
@@ -628,6 +646,7 @@ h2 {
   html { scroll-behavior: auto; }
   .reveal,
   .reveal-on-scroll,
+  .campaign-tile,
   .campaign-tile-media img,
   .button {
     animation: none !important;

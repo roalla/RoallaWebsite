@@ -5,7 +5,7 @@ const sourceAssets = new URL("../src/assets/", import.meta.url);
 const configuredUrl = process.env.SITE_URL || "https://www.roallainsights.com";
 const siteUrl = configuredUrl.replace(/\/$/, "");
 const updated = "2026-11-12";
-const assetVersion = "20261112b";
+const assetVersion = "20261112c";
 
 const shell = {
   en: {
@@ -67,23 +67,23 @@ const shell = {
 const hub = {
   en: {
     title: "ROALLA Insights | Outcome-focused sales campaigns",
-    description: "Choose a focused ROALLA campaign—be easier to find online, or automate busy work with clear human control.",
+    description: "Choose a focused ROALLA campaign—improve how customers find you online and in AI chats, or use AI Employees to cut missed calls and lost opportunities.",
     eyebrow: "ROALLA Insights",
     heroTitle: "Clear outcomes. Fast decisions.",
     heroCopy: "Choose the result you want. Each campaign helps you decide quickly.",
     tiles: [
       {
         slug: "visibility-review",
-        title: "Be easier to find",
-        blurb: "A plain-language review of how customers, search, and AI tools see your business.",
+        title: "Improve how customers find you online or from AI chats",
+        blurb: "A plain-language path to clearer search, maps, and AI recommendations.",
         cta: "Open visibility campaign",
         image: "/assets/campaigns/visibility-hero.webp",
         imageAlt: "Business visibility across search and digital channels"
       },
       {
         slug: "ai-employee-readiness",
-        title: "Automate with control",
-        blurb: "See if an AI Employee fits one busy process—with people still in charge.",
+        title: "AI Employees can help you reduce churn, missed calls, missed opportunities, and abandoned calls",
+        blurb: "See if one busy process fits—with people still in control.",
         cta: "Open AI readiness campaign",
         image: "/assets/campaigns/ai-employee-hero.webp",
         imageAlt: "Frontline AI support with clear human handoff"
@@ -99,16 +99,16 @@ const hub = {
     tiles: [
       {
         slug: "visibility-review",
-        title: "Être plus facile à trouver",
-        blurb: "Une évaluation en langage simple de la façon dont clients, recherche et outils d’IA voient votre entreprise.",
+        title: "Améliorez la façon dont les clients vous trouvent en ligne ou via les clavardages IA",
+        blurb: "Une voie claire pour la recherche, les cartes et les recommandations IA.",
         cta: "Ouvrir la campagne visibilité",
         image: "/assets/campaigns/visibility-hero.webp",
         imageAlt: "Visibilité d’entreprise dans la recherche et les canaux numériques"
       },
       {
         slug: "ai-employee-readiness",
-        title: "Automatiser avec contrôle",
-        blurb: "Vérifiez si un employé IA convient à un processus chargé—avec des personnes aux commandes.",
+        title: "Les employés IA peuvent vous aider à réduire le roulement, les appels manqués, les occasions perdues et les appels abandonnés",
+        blurb: "Vérifiez si un processus chargé convient—avec des personnes aux commandes.",
         cta: "Ouvrir la campagne préparation IA",
         image: "/assets/campaigns/ai-employee-hero.webp",
         imageAlt: "Soutien IA en première ligne avec transfert humain clair"
@@ -455,14 +455,14 @@ function hubPage(lang) {
   const p = paths(lang);
   const tiles = h.tiles.map((tile) => {
     const href = p.campaign(tile.slug);
-    return `<article class="campaign-tile reveal">
-      <div class="campaign-tile-media"><img src="${tile.image}" alt="${tile.imageAlt}" width="640" height="360" loading="eager" decoding="async"></div>
-      <div class="campaign-tile-body">
+    return `<a class="campaign-tile reveal" href="${href}">
+      <span class="campaign-tile-media"><img src="${tile.image}" alt="${tile.imageAlt}" width="640" height="360" loading="eager" decoding="async"></span>
+      <span class="campaign-tile-body">
         <h2>${tile.title}</h2>
         <p class="campaign-tile-blurb">${tile.blurb}</p>
-        <a class="campaign-tile-link" href="${href}">${tile.cta}</a>
-      </div>
-    </article>`;
+        <span class="campaign-tile-link">${tile.cta}</span>
+      </span>
+    </a>`;
   }).join("");
   const content = `<main id="main">
     <section class="hub-hero">

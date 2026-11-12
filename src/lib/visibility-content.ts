@@ -11,6 +11,7 @@ export const visibilityContent = {
       "Improve search visibility, AI readability, technical health, content clarity, accessibility, and conversion through one coordinated optimization service.",
     primaryCta: "Request a Visibility Assessment",
     assessmentCta: "Run the free website & AI review",
+    estimateCta: "Estimate visibility work",
     proofTitle: "A practical visibility foundation",
     proofSubtitle:
       "Built around clarity, access, trust, and measurable improvement.",
@@ -196,6 +197,7 @@ export const visibilityContent = {
       "Améliorez la visibilité dans la recherche, la lisibilité par l’IA, la santé technique, la clarté du contenu, l’accessibilité et la conversion dans un service coordonné.",
     primaryCta: "Demander une évaluation de visibilité",
     assessmentCta: "Lancer l’évaluation Web et IA gratuite",
+    estimateCta: "Estimer le travail de visibilité",
     proofTitle: "Une fondation de visibilité pratique",
     proofSubtitle:
       "Axée sur la clarté, l’accès, la confiance et l’amélioration mesurable.",

@@ -5,7 +5,7 @@ const sourceAssets = new URL("../src/assets/", import.meta.url);
 const configuredUrl = process.env.SITE_URL || "https://www.roallainsights.com";
 const siteUrl = configuredUrl.replace(/\/$/, "");
 const updated = "2026-11-12";
-const assetVersion = "20261112k";
+const assetVersion = "20261112m";
 const campaignImages = {
   visibility: `/assets/campaigns/visibility-hero.webp?v=${assetVersion}`,
   aiEmployee: `/assets/campaigns/ai-employee-hero.webp?v=${assetVersion}`
@@ -45,7 +45,10 @@ const shell = {
     trendsCopy: "Short signals for business decisions—not a technology lecture.",
     ladderEyebrow: "Evidence first",
     ladderTitle: "See. Interpret. Improve.",
-    ladderLead: "Prove the pressure on ROALLA.com, then decide the next conversation."
+    ladderLead: "Prove the pressure on ROALLA.com, then decide the next conversation.",
+    ladderPrev: "Back",
+    ladderNext: "Next",
+    closingEyebrow: "Start with ROALLA"
   },
   fr: {
     alternate: "EN",
@@ -80,7 +83,10 @@ const shell = {
     trendsCopy: "Des signaux courts pour décider—pas un cours de technologie.",
     ladderEyebrow: "La preuve d’abord",
     ladderTitle: "Voir. Interpréter. Améliorer.",
-    ladderLead: "Prouvez la pression sur ROALLA.com, puis choisissez la prochaine conversation."
+    ladderLead: "Prouvez la pression sur ROALLA.com, puis choisissez la prochaine conversation.",
+    ladderPrev: "Précédent",
+    ladderNext: "Suivant",
+    closingEyebrow: "Commencer avec ROALLA"
   }
 };
 
@@ -185,8 +191,8 @@ const campaigns = {
       pathwayLink: "Explore the growth and visibility pathway on ROALLA.com",
       ladder: [
         { title: "See", body: "Free Digital Presence Snapshot of your public page—no email required.", cta: "Free website check", pathKey: "snapshot", extra: { offer: "free-automated-visibility-snapshot", selected_problem: "website-and-ai-visibility" } },
-        { title: "Interpret", body: "Optional working review with Steven to decide what matters for buyers.", cta: "Request your review", pathKey: "contact" },
-        { title: "Improve", body: "Digital Visibility Optimization—prioritized discovery, trust, and conversion changes.", cta: "See the service", pathKey: "visibilityService" }
+        { title: "Interpret", body: "Optional ROALLA working review to decide what matters for buyers.", cta: "Request your review", pathKey: "contact" },
+        { title: "Improve", body: "Build a first-year Digital Visibility Optimization quote—maps, offer clarity, and monitoring you can plan.", cta: "Estimate visibility work", pathKey: "visibilityEstimate" }
       ],
       introEyebrow: "Clarity before complexity",
       introTitle: "Customers judge you in more places than one.",
@@ -210,7 +216,7 @@ const campaigns = {
         ["Prioritized next steps", "What to do first, sequenced by value and effort."],
         ["Visibility findings", "How clearly your pages, facts, and AI-readable cues tell your story."],
         ["Selected checks", "Practical looks at mobile, desktop, accessibility, security basics, the contact path, and email deliverability basics."],
-        ["Working call with Steven", "A practical conversation to interpret the findings and decide what comes next."],
+        ["Working call with ROALLA", "A practical conversation to interpret the findings and decide what comes next."],
         ["No ranking promises", "A grounded review of what you can control—never a guarantee of rankings or AI citations."]
       ],
       processEyebrow: "A focused engagement",
@@ -218,7 +224,7 @@ const campaigns = {
       process: [
         ["Share the starting point", "Send the website address and the result you want the site to support."],
         ["ROALLA reviews the evidence", "We examine selected public pages through a customer, search, and AI lens—and explain findings in plain language."],
-        ["Choose the next move", "Review the findings with Steven and decide what to fix, test, or leave alone."]
+        ["Choose the next move", "Review the findings with ROALLA and decide what to fix, test, or leave alone."]
       ],
       ctaTitle: "Ready to see what your website is really communicating?"
     },
@@ -235,8 +241,8 @@ const campaigns = {
       pathwayLink: "Explorer le parcours croissance et visibilité sur ROALLA.com",
       ladder: [
         { title: "Voir", body: "Instantané gratuit de présence numérique de votre page publique—sans courriel requis.", cta: "Vérification gratuite du site", pathKey: "snapshot", extra: { offer: "free-automated-visibility-snapshot", selected_problem: "website-and-ai-visibility" } },
-        { title: "Interpréter", body: "Évaluation de travail facultative avec Steven pour décider ce qui compte pour les acheteurs.", cta: "Demander votre évaluation", pathKey: "contact" },
-        { title: "Améliorer", body: "Optimisation de la visibilité numérique—changements priorisés pour découverte, confiance et conversion.", cta: "Voir le service", pathKey: "visibilityService" }
+        { title: "Interpréter", body: "Évaluation de travail facultative avec ROALLA pour décider ce qui compte pour les acheteurs.", cta: "Demander votre évaluation", pathKey: "contact" },
+        { title: "Améliorer", body: "Construisez une estimation d’optimisation de la visibilité numérique—cartes, clarté de l’offre et suivi planifiable.", cta: "Estimer le travail de visibilité", pathKey: "visibilityEstimate" }
       ],
       introEyebrow: "La clarté avant la complexité",
       introTitle: "Les clients vous jugent à plus d’un endroit.",
@@ -260,7 +266,7 @@ const campaigns = {
         ["Prochaines étapes priorisées", "Quoi faire d’abord, selon la valeur et l’effort."],
         ["Constats de visibilité", "À quel point vos pages, faits et indices lisibles par l’IA racontent votre histoire."],
         ["Vérifications ciblées", "Regards pratiques sur mobile, ordinateur, accessibilité, bases de sécurité, chemin de contact et bases de délivrabilité du courriel."],
-        ["Appel de travail avec Steven", "Une conversation pratique pour interpréter les constats et choisir la suite."],
+        ["Appel de travail avec ROALLA", "Une conversation pratique pour interpréter les constats et choisir la suite."],
         ["Aucune promesse de classement", "Une évaluation des éléments contrôlables—jamais une garantie de classement ou de citation par l’IA."]
       ],
       processEyebrow: "Un mandat ciblé",
@@ -268,7 +274,7 @@ const campaigns = {
       process: [
         ["Partager le point de départ", "Envoyez l’adresse du site et le résultat que celui-ci doit soutenir."],
         ["ROALLA examine les preuves", "Nous examinons des pages publiques choisies sous l’angle client, recherche et IA—et expliquons les constats en langage simple."],
-        ["Choisir la prochaine étape", "Passez les constats en revue avec Steven et décidez quoi corriger, tester ou laisser tel quel."]
+        ["Choisir la prochaine étape", "Passez les constats en revue avec ROALLA et décidez quoi corriger, tester ou laisser tel quel."]
       ],
       ctaTitle: "Prêt à voir ce que votre site communique vraiment?"
     }
@@ -292,12 +298,12 @@ const campaigns = {
       pathwayLink: "Explore the automation and AI pathway on ROALLA.com",
       ladder: [
         { title: "See", body: "Review the AI Employee product and how governed frontline help works.", cta: "See AI Employee", pathKey: "aiEmployeePage" },
-        { title: "Interpret", body: "Talk with Steven about fit, approvals, and the first workload.", cta: "See if an AI Employee fits", pathKey: "contact" },
+        { title: "Interpret", body: "Talk with ROALLA about fit, approvals, and the first workload.", cta: "See if an AI Employee fits", pathKey: "contact" },
         { title: "Improve", body: "Follow the full automation pathway when you are ready to sequence evidence and controls.", cta: "Open the pathway", pathKey: "needAutomation" }
       ],
       introEyebrow: "Control before complexity",
       introTitle: "AI helps when the work is clear—and people stay accountable.",
-      introCopy: "Unanswered peak and after-hours calls, the same questions every day, callers who hang up, and long ramp with churn—readiness means one process, clear approvals, and a person for exceptions. Start by seeing how AI Employee works on ROALLA.com, then decide fit with Steven.",
+      introCopy: "Unanswered peak and after-hours calls, the same questions every day, callers who hang up, and long ramp with churn—readiness means one process, clear approvals, and a person for exceptions. Start by seeing how AI Employee works on ROALLA.com, then decide fit with ROALLA.",
       pillars: [
         ["Cover the unanswered calls", "After hours and peaks without leaving customers hanging—with rules for when a person must take over."],
         ["Offload the repetitive questions", "One busy, measurable workload—not a vague “do everything” bot—with costs you can plan before a pilot."],
@@ -317,7 +323,7 @@ const campaigns = {
         ["Control checklist", "Approvals, handoffs, and exception owners stated in everyday language."],
         ["Cost & effort cues", "What tends to drive ongoing cost so you are not surprised after a pilot."],
         ["First process recommendation", "One practical starting workload if you move ahead."],
-        ["Working call with Steven", "A conversation to interpret fit and choose go, pause, or reshape."],
+        ["Working call with ROALLA", "A conversation to interpret fit and choose go, pause, or reshape."],
         ["No magic promises", "A grounded view of controllable fit—never a guarantee of savings or unsupervised autonomy."]
       ],
       processEyebrow: "A focused engagement",
@@ -325,7 +331,7 @@ const campaigns = {
       process: [
         ["Share the busy work", "Tell us the process, volume, and who handles exceptions today."],
         ["ROALLA reviews fit and control", "We map where AI can help and where people must stay accountable—in plain language."],
-        ["Choose the next move", "Decide with Steven whether to proceed, reshape the scope, or wait."]
+        ["Choose the next move", "Decide with ROALLA whether to proceed, reshape the scope, or wait."]
       ],
       ctaTitle: "Ready to see if an AI Employee fits—with control?"
     },
@@ -342,12 +348,12 @@ const campaigns = {
       pathwayLink: "Explorer le parcours automation et IA sur ROALLA.com",
       ladder: [
         { title: "Voir", body: "Consultez le produit Employé IA et comment l’aide en première ligne reste gouvernée.", cta: "Voir l’employé IA", pathKey: "aiEmployeePage" },
-        { title: "Interpréter", body: "Parlez avec Steven de l’adéquation, des approbations et de la première charge.", cta: "Voir si un employé IA convient", pathKey: "contact" },
+        { title: "Interpréter", body: "Parlez avec ROALLA de l’adéquation, des approbations et de la première charge.", cta: "Voir si un employé IA convient", pathKey: "contact" },
         { title: "Améliorer", body: "Suivez le parcours automation complet quand vous êtes prêt à enchaîner preuves et contrôles.", cta: "Ouvrir le parcours", pathKey: "needAutomation" }
       ],
       introEyebrow: "Le contrôle avant la complexité",
       introTitle: "L’IA aide quand le travail est clair—et que les gens restent responsables.",
-      introCopy: "Appels sans réponse en pointe et après les heures, les mêmes questions chaque jour, des appelants qui raccrochent, et une longue montée en compétence avec roulement—la préparation, c’est un processus, des approbations claires et une personne pour les exceptions. Commencez par voir comment fonctionne l’employé IA sur ROALLA.com, puis décidez de l’adéquation avec Steven.",
+      introCopy: "Appels sans réponse en pointe et après les heures, les mêmes questions chaque jour, des appelants qui raccrochent, et une longue montée en compétence avec roulement—la préparation, c’est un processus, des approbations claires et une personne pour les exceptions. Commencez par voir comment fonctionne l’employé IA sur ROALLA.com, puis décidez de l’adéquation avec ROALLA.",
       pillars: [
         ["Couvrir les appels sans réponse", "Après les heures et en pointe sans laisser les clients en attente—avec des règles pour quand une personne doit prendre le relais."],
         ["Délester les questions répétitives", "Une charge mesurable et ciblée—pas un robot vague « qui fait tout »—avec des coûts prévus avant un pilote."],
@@ -367,7 +373,7 @@ const campaigns = {
         ["Liste de contrôle", "Approbations, transferts et responsables d’exceptions en langage courant."],
         ["Repères de coût et d’effort", "Ce qui tend à faire monter le coût continu pour éviter les surprises après un pilote."],
         ["Première recommandation de processus", "Une charge de départ pratique si vous avancez."],
-        ["Appel de travail avec Steven", "Une conversation pour interpréter l’adéquation et choisir d’avancer, de recentrer ou d’attendre."],
+        ["Appel de travail avec ROALLA", "Une conversation pour interpréter l’adéquation et choisir d’avancer, de recentrer ou d’attendre."],
         ["Aucune promesse magique", "Une vue réaliste de l’adéquation contrôlable—jamais une garantie d’économies ou d’autonomie sans supervision."]
       ],
       processEyebrow: "Un mandat ciblé",
@@ -375,7 +381,7 @@ const campaigns = {
       process: [
         ["Partager le travail répétitif", "Décrivez le processus, le volume et qui gère les exceptions aujourd’hui."],
         ["ROALLA examine l’adéquation et le contrôle", "Nous cartographions où l’IA peut aider et où les gens restent responsables—en langage simple."],
-        ["Choisir la prochaine étape", "Décidez avec Steven d’avancer, de recentrer la portée, ou d’attendre."]
+        ["Choisir la prochaine étape", "Décidez avec ROALLA d’avancer, de recentrer la portée, ou d’attendre."]
       ],
       ctaTitle: "Prêt à voir si un employé IA convient—avec contrôle?"
     }
@@ -610,10 +616,15 @@ function campaignPage(lang, slug) {
     const href = resolveProofHref(lang, slug, item.pathKey, campaign.intent, item.extra || {});
     return `<li class="pressure-tile"><p class="pressure-label">${item.label}</p><a class="button gold pressure-cta" href="${href}" data-attribution>${item.cta}<span aria-hidden="true"> →</span></a><p class="pressure-hint">${t.pressureHint}</p></li>`;
   }).join("");
-  const ladder = (copy.ladder || []).map((step, index) => {
+  const ladderSteps = copy.ladder || [];
+  const ladderTabs = ladderSteps.map((step, index) => `<li role="presentation"><button type="button" class="ladder-tab" role="tab" id="ladder-tab-${index}" aria-controls="ladder-panel-${index}" aria-selected="${index === 0 ? "true" : "false"}" tabindex="${index === 0 ? "0" : "-1"}" data-ladder-index="${index}"><span class="ladder-tab-index">0${index + 1}</span><span class="ladder-tab-label">${step.title}</span></button></li>`).join("");
+  const ladderPanels = ladderSteps.map((step, index) => {
     const href = resolveProofHref(lang, slug, step.pathKey, campaign.intent, step.extra || {});
-    return `<article class="ladder-step"><span class="ladder-index">0${index + 1}</span><h3>${step.title}</h3><p>${step.body}</p><a class="ladder-cta" href="${href}" data-attribution>${step.cta}<span aria-hidden="true"> →</span></a></article>`;
+    return `<div class="ladder-panel${index === 0 ? " is-active" : ""}" role="tabpanel" id="ladder-panel-${index}" aria-labelledby="ladder-tab-${index}"${index === 0 ? "" : " hidden"}><h3>${step.title}</h3><p>${step.body}</p><a class="button gold ladder-cta" href="${href}" data-attribution>${step.cta}<span aria-hidden="true"> →</span></a></div>`;
   }).join("");
+  const firstDeliverable = copy.deliverables[0] || ["", ""];
+  const deliverableButtons = copy.deliverables.map((item, index) => `<button type="button" class="deliverable${index === 0 ? " is-active" : ""}" role="listitem" data-deliverable-index="${index}" aria-current="${index === 0 ? "true" : "false"}"><strong>${item[0]}</strong><p>${item[1]}</p></button>`).join("");
+  const pillars = copy.pillars.map((item, i) => `<article class="pillar reveal-on-scroll" style="--reveal-delay: ${i * 80}ms"><span class="number">0${i + 1}</span><h3>${item[0]}</h3><p>${item[1]}</p></article>`).join("");
   const content = `<main id="main" class="campaign-need">
     <section class="pathway-hero">
       <div class="pathway-hero-glow" aria-hidden="true"></div>
@@ -644,7 +655,17 @@ function campaignPage(lang, slug) {
           <div><p class="eyebrow">${t.ladderEyebrow}</p><h2>${t.ladderTitle}</h2></div>
           <p class="lead">${t.ladderLead}</p>
         </div>
-        <div class="ladder-grid">${ladder}</div>
+        <div class="ladder-stepper" data-ladder-stepper>
+          <div class="ladder-nav-wrap">
+            <ol class="ladder-nav" role="tablist" aria-label="${t.ladderTitle}">${ladderTabs}</ol>
+            <div class="ladder-progress" aria-hidden="true"><span class="ladder-progress-fill"></span></div>
+          </div>
+          <div class="ladder-panels">${ladderPanels}</div>
+          <div class="ladder-controls">
+            <button type="button" class="button ladder-prev" data-ladder-prev disabled>${t.ladderPrev}</button>
+            <button type="button" class="button ladder-next" data-ladder-next>${t.ladderNext}</button>
+          </div>
+        </div>
       </div>
     </section>
     <section class="section" id="review">
@@ -653,7 +674,7 @@ function campaignPage(lang, slug) {
           <div><p class="eyebrow">${copy.introEyebrow}</p><h2>${copy.introTitle}</h2></div>
           <p class="lead">${copy.introCopy}</p>
         </div>
-        <div class="grid-4">${copy.pillars.map((item, i) => `<article class="pillar"><span class="number">0${i + 1}</span><h3>${item[0]}</h3><p>${item[1]}</p></article>`).join("")}</div>
+        <div class="grid-4 pillars-modern">${pillars}</div>
       </div>
     </section>
     <section class="section trends" id="trends-2027">
@@ -665,13 +686,19 @@ function campaignPage(lang, slug) {
         <div class="trends-grid">${copy.trends.map((item) => `<article class="trend-signal"><p class="trend-label">${lang === "fr" ? "Signal 2027" : "2027 signal"}</p><h3>${item[0]}</h3><p>${item[1]}</p><a class="trend-cta" href="${contactHref}" data-attribution>${copy.primaryCta}</a></article>`).join("")}</div>
       </div>
     </section>
-    <section class="section dark">
+    <section class="section dark deliverables-band" id="output">
       <div class="wrap">
         <div class="section-head reveal-on-scroll">
           <div><p class="eyebrow">${copy.outputEyebrow}</p><h2>${copy.outputTitle}</h2></div>
           <p class="lead">${copy.outputCopy}</p>
         </div>
-        <div class="deliverables">${copy.deliverables.map((item) => `<div class="deliverable"><strong>${item[0]}</strong><p>${item[1]}</p></div>`).join("")}</div>
+        <div class="deliverables-spotlight" data-deliverables-spotlight>
+          <div class="deliverable-stage" aria-live="polite">
+            <strong class="deliverable-stage-title">${firstDeliverable[0]}</strong>
+            <p class="deliverable-stage-body">${firstDeliverable[1]}</p>
+          </div>
+          <div class="deliverables" role="list">${deliverableButtons}</div>
+        </div>
       </div>
     </section>
     <section class="section" id="process">
@@ -682,23 +709,16 @@ function campaignPage(lang, slug) {
     </section>
     <section class="section pathway-footer-cta">
       <div class="wrap">
-        <div class="cta-band">
-          <div>
-            <h2>${copy.ctaTitle}</h2>
-            <p class="cta-reassure">${t.reassurance}</p>
-            <p class="cta-homework">${copy.homework}</p>
-            <p class="pathway-soft"><a href="${pathwayHref}" data-attribution>${copy.pathwayLink}<span aria-hidden="true"> →</span></a></p>
+        <div class="cta-closer reveal-on-scroll">
+          <p class="eyebrow">${t.closingEyebrow}</p>
+          <h2>${copy.ctaTitle}</h2>
+          <p class="cta-reassure">${t.reassurance}</p>
+          <p class="cta-homework">${copy.homework}</p>
+          <div class="cta-closer-actions">
+            <a class="button gold" href="${contactHref}" data-attribution>${copy.primaryCta}<span aria-hidden="true"> →</span></a>
+            <a class="button cta-proof" href="${proofHref}" data-attribution>${copy.secondaryCta}</a>
           </div>
-          <div class="contact-card">
-            <h3>${t.contactTitle}</h3>
-            <p>Steven Robin<br>${t.contactRole}<br>${t.contactPlace}</p>
-            <div class="footer-links">
-              <a href="mailto:sales@roalla.com?subject=${encodeURIComponent(copy.heroEyebrow)}">${t.contactEmail}</a>
-              <a href="tel:+12898385868">${t.contactPhone}</a>
-              <a class="button gold" href="${contactHref}" data-attribution>${copy.primaryCta}<span aria-hidden="true"> →</span></a>
-              <a class="text-link proof-soft" href="${proofHref}" data-attribution>${copy.secondaryCta}</a>
-            </div>
-          </div>
+          <p class="pathway-soft"><a href="${pathwayHref}" data-attribution>${copy.pathwayLink}<span aria-hidden="true"> →</span></a></p>
         </div>
       </div>
     </section>

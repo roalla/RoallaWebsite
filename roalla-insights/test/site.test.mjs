@@ -112,8 +112,24 @@ test("visibility campaign uses need-style hero and sales CTAs", async () => {
   assert.match(response.body, /website-ai-visibility-review/);
   assert.match(response.body, /email-reach-brief/);
   assert.match(response.body, /solutions\/need\/growth-visibility/);
-  assert.match(response.body, /services\/search-ai-visibility/);
-  assert.match(response.body, /ladder-band/);
+  assert.match(response.body, /visibility-improvement-estimate/);
+  assert.match(response.body, /Estimate visibility work/);
+  assert.match(response.body, /data-ladder-stepper/);
+  assert.match(response.body, /role="tablist"/);
+  assert.match(response.body, /button gold ladder-cta/);
+  assert.match(response.body, />Back</);
+  assert.match(response.body, />Next</);
+  assert.match(response.body, /Optional ROALLA working review/);
+  assert.doesNotMatch(response.body, /with Steven/);
+  assert.match(response.body, /Working call with ROALLA/);
+  assert.match(response.body, /pillars-modern/);
+  assert.match(response.body, /reveal-on-scroll/);
+  assert.match(response.body, /data-deliverables-spotlight/);
+  assert.match(response.body, /deliverable-stage/);
+  assert.match(response.body, /cta-closer/);
+  assert.match(response.body, /Start with ROALLA/);
+  assert.doesNotMatch(response.body, /mailto:sales@roalla\.com\?subject=/);
+  assert.doesNotMatch(response.body, /Talk with Steven Robin/);
   assert.match(response.body, /See\. Interpret\. Improve/);
   assert.match(response.body, /Sounds familiar/);
   assert.match(response.body, /ChatGPT/);
@@ -144,6 +160,12 @@ test("AI readiness campaign uses need-style hero and sales CTAs", async () => {
   assert.match(response.body, /ai-agent-readiness-review/);
   assert.match(response.body, /solutions\/need\/automation-ai/);
   assert.match(response.body, /ladder-band/);
+  assert.match(response.body, /data-ladder-stepper/);
+  assert.match(response.body, /Talk with ROALLA about fit/);
+  assert.doesNotMatch(response.body, /with Steven/);
+  assert.match(response.body, /data-deliverables-spotlight/);
+  assert.match(response.body, /cta-closer/);
+  assert.doesNotMatch(response.body, /mailto:sales@roalla\.com\?subject=/);
   assert.match(response.body, /Sounds familiar/);
   assert.match(response.body, /Callers hang up before anyone can help/);
   assert.match(response.body, /Cover the unanswered calls/);
@@ -162,16 +184,24 @@ test("styles load brand fonts and WCAG-oriented muted token", async () => {
   assert.match(css, /\.pathway-hero/);
   assert.match(css, /\.pressure-list/);
   assert.match(css, /\.ladder-band/);
+  assert.match(css, /\.ladder-stepper/);
+  assert.match(css, /\.pillars-modern/);
+  assert.match(css, /\.deliverables-spotlight/);
+  assert.match(css, /\.cta-closer/);
   assert.match(css, /\.pressure-tile/);
   assert.match(css, /\.pressure-cta/);
   assert.match(css, /\.pressure-sales/);
   assert.doesNotMatch(css, /\.pressure-proof\s*\{/);
+  assert.doesNotMatch(css, /background:\s*#35505a/);
 });
 
 test("campaign script supports standard UTM and click identifiers", async () => {
   const script = await readFile(new URL("../src/assets/app.js", import.meta.url), "utf8");
   for (const key of ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid", "msclkid"]) assert.match(script, new RegExp(key));
   assert.match(script, /reveal-on-scroll/);
+  assert.match(script, /data-ladder-stepper/);
+  assert.match(script, /setStep/);
+  assert.match(script, /data-deliverables-spotlight/);
 });
 
 test("unknown routes return localized 404 with security headers", async () => {

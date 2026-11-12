@@ -111,6 +111,7 @@ export default async function SearchAiVisibilityPage({
                 <VisibilityCtas
                   primaryLabel={content.primaryCta}
                   assessmentLabel={content.assessmentCta}
+                  estimateLabel={content.estimateCta}
                   source="hero"
                 />
               </div>
@@ -357,6 +358,7 @@ export default async function SearchAiVisibilityPage({
               <VisibilityCtas
                 primaryLabel={content.primaryCta}
                 assessmentLabel={content.assessmentCta}
+                estimateLabel={content.estimateCta}
                 source="final"
               />
             </div>

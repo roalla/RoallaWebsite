@@ -9,10 +9,12 @@ import { attributedServiceTileHref } from '@/lib/service-action-tiles'
 export default function VisibilityCtas({
   primaryLabel,
   assessmentLabel,
+  estimateLabel,
   source,
 }: {
   primaryLabel: string
   assessmentLabel: string
+  estimateLabel: string
   source: 'hero' | 'final'
 }) {
   const reviewHref = attributedServiceTileHref(
@@ -20,9 +22,18 @@ export default function VisibilityCtas({
     'search-ai-visibility',
     `cta-${source}`,
   )
+  const estimateHref = {
+    pathname: '/visibility-improvement-estimate' as const,
+    query: {
+      campaign: 'services-search-ai-visibility',
+      conversion_source: `visibility_service_${source}`,
+      entry_page: '/services/search-ai-visibility',
+      signal: 'visibility-estimate',
+    },
+  }
 
   return (
-    <div className="flex flex-col gap-3 sm:flex-row">
+    <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
       <Link
         href={reviewHref}
         onClick={() =>
@@ -34,6 +45,19 @@ export default function VisibilityCtas({
         className="inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-brand-gold-light"
       >
         {assessmentLabel}
+        <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+      </Link>
+      <Link
+        href={estimateHref}
+        onClick={() =>
+          trackAnalyticsEvent('visibility_estimate_click', {
+            placement: source,
+            tool: 'visibility-improvement-estimate',
+          })
+        }
+        className="inline-flex min-h-[48px] items-center justify-center rounded-lg border border-brand-gold/70 bg-brand-gold/10 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-gold/20"
+      >
+        {estimateLabel}
         <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
       </Link>
       <Link

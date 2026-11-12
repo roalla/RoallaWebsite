@@ -65,7 +65,7 @@ for (const [path, lang] of [
     const html = response.body;
     assert.equal(response.statusCode, 200);
     assert.match(html, new RegExp(`<html lang="${lang}">`));
-    assert.match(html, /<main id="main">/);
+    assert.match(html, /<main id="main"/);
     assert.match(html, /ROALLA Business Enablement Group/);
     assert.match(html, /\/assets\/roalla-logo\.svg/);
     assert.match(html, /<link rel="canonical"/);
@@ -80,6 +80,12 @@ test("homepage is a photo-led campaign hub with full-tile links", async () => {
   assert.match(response.body, /Improve how customers find you online or from AI chats/);
   assert.match(response.body, /AI Employees can help you reduce churn, missed calls, missed opportunities, and abandoned calls/);
   assert.match(response.body, /campaign-tile-cta/);
+  assert.match(response.body, /campaign-tile-pill/);
+  assert.match(response.body, /Website &amp; AI Visibility|Website & AI Visibility/);
+  assert.match(response.body, /AI Employee/);
+  assert.match(response.body, /campaign-tile-scenarios/);
+  assert.match(response.body, /Very little online engagement by customers/);
+  assert.match(response.body, /Missing calls during peak periods or after hours/);
   assert.match(response.body, /\/en\/campaigns\/ai-employee-readiness\//);
   assert.match(response.body, /\/assets\/campaigns\/visibility-hero\.webp/);
   assert.match(response.body, /\/assets\/campaigns\/ai-employee-hero\.webp/);
@@ -89,25 +95,34 @@ test("homepage is a photo-led campaign hub with full-tile links", async () => {
   assert.match(response.body, /https:\/\/www\.roallainsights\.com\/en\//);
 });
 
-test("visibility campaign stays focused with examples and conversion CTA", async () => {
+test("visibility campaign uses need-style hero and sales CTAs", async () => {
   const response = await request("/en/campaigns/visibility-review/");
   assert.equal(response.statusCode, 200);
-  assert.match(response.body, /Website &amp; AI Visibility Review|Website & AI Visibility Review/);
+  assert.match(response.body, /campaign-need/);
+  assert.match(response.body, /pathway-hero/);
+  assert.match(response.body, /All campaigns/);
+  assert.match(response.body, /Website &amp; AI Visibility|Website & AI Visibility/);
   assert.match(response.body, /intent=website-ai-visibility-review/);
+  assert.match(response.body, /button gold pathway-primary/);
   assert.match(response.body, /Sounds familiar/);
   assert.match(response.body, /ChatGPT/);
+  assert.match(response.body, /pressure-list/);
   assert.match(response.body, /Looking to 2027/);
   assert.match(response.body, /\/assets\/campaigns\/visibility-hero\.webp/);
   assert.match(response.body, /You don(?:'|’|&rsquo;)t need to be technical/);
 });
 
-test("AI readiness campaign converts with plain-language examples", async () => {
+test("AI readiness campaign uses need-style hero and sales CTAs", async () => {
   const response = await request("/en/campaigns/ai-employee-readiness/");
   assert.equal(response.statusCode, 200);
+  assert.match(response.body, /campaign-need/);
+  assert.match(response.body, /pathway-hero/);
+  assert.match(response.body, /All campaigns/);
   assert.match(response.body, /Automate the busy work/);
   assert.match(response.body, /intent=ai-support/);
+  assert.match(response.body, /button gold pathway-primary/);
   assert.match(response.body, /Sounds familiar/);
-  assert.match(response.body, /generic chat widget/);
+  assert.match(response.body, /Abandoned calls that mean missed opportunities/);
   assert.match(response.body, /Looking to 2027/);
   assert.match(response.body, /\/assets\/campaigns\/ai-employee-hero\.webp/);
   assert.match(response.body, /See if an AI Employee fits/);
@@ -119,6 +134,9 @@ test("styles load brand fonts and WCAG-oriented muted token", async () => {
   assert.match(css, /Roalla Sora/);
   assert.match(css, /--muted:\s*#334852/);
   assert.match(css, /--cyan-dark:\s*#005f6c/);
+  assert.match(css, /\.campaign-tile-pill/);
+  assert.match(css, /\.pathway-hero/);
+  assert.match(css, /\.pressure-list/);
 });
 
 test("campaign script supports standard UTM and click identifiers", async () => {

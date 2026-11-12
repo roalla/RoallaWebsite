@@ -251,6 +251,153 @@ img, svg { max-width: 100%; display: block; }
   font-size: 1rem;
   line-height: 1;
 }
+.campaign-tile-pill {
+  position: absolute;
+  top: .7rem;
+  right: .7rem;
+  z-index: 1;
+  max-width: calc(100% - 1.4rem);
+  padding: .35rem .65rem;
+  border-radius: .4rem;
+  background: rgba(255, 255, 255, .94);
+  color: #0f172a;
+  font-size: .65rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, .18);
+}
+.campaign-tile-scenarios {
+  margin: .65rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: .4rem;
+}
+.campaign-tile-scenarios li {
+  position: relative;
+  padding-left: .95rem;
+  color: #475569;
+  font-size: .82rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.campaign-tile-scenarios li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .55em;
+  width: .35rem;
+  height: .35rem;
+  border-radius: 50%;
+  background: var(--cyan-dark);
+}
+
+.pathway-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--white);
+  background: #020617;
+  padding: 5.75rem 0 3rem;
+}
+.pathway-hero-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 88% 12%, rgba(0, 180, 197, .22), transparent 22rem),
+    radial-gradient(circle at 8% 88%, rgba(34, 211, 238, .1), transparent 18rem);
+}
+.pathway-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 48rem;
+}
+.pathway-back {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: #cbd5e1;
+  font-size: .9rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: .18em;
+}
+.pathway-back:hover { color: var(--white); }
+.pathway-eyebrow {
+  margin: 1.15rem 0 0;
+  color: #67e8f9;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+.pathway-hero h1 {
+  margin-top: 1rem;
+  max-width: 22ch;
+  color: var(--white);
+}
+.pathway-lead {
+  max-width: 40rem;
+  margin: 1.15rem 0 0;
+  color: #e2e8f0;
+  font-size: 1.08rem;
+  line-height: 1.65;
+}
+.pathway-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: .75rem;
+  margin-top: 1.6rem;
+}
+.pathway-primary,
+.pathway-secondary,
+.pathway-footer-cta .button.gold,
+.scenarios-band .button.gold {
+  border-radius: .5rem;
+}
+.pathway-secondary {
+  background: rgba(255, 255, 255, .05);
+  border-color: rgba(255, 255, 255, .25);
+  color: var(--white);
+}
+.pathway-secondary:hover {
+  background: rgba(255, 255, 255, .12);
+  color: var(--white);
+}
+.scenarios-band { background: var(--white); border-block: 1px solid #e2e8f0; }
+.pressure-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: .75rem;
+}
+.pressure-list li {
+  padding: 1rem 1.1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: .75rem;
+  background: linear-gradient(to bottom right, #f8fafc, #fff);
+  color: #0f172a;
+  font-size: .98rem;
+  font-weight: 600;
+  line-height: 1.45;
+  box-shadow: 0 1px 2px rgb(15 23 42 / .04);
+}
+.campaign-need .section-head .eyebrow { color: var(--cyan-dark); }
+.campaign-need .pillar,
+.campaign-need .trend-signal,
+.campaign-need .deliverable,
+.campaign-need .step {
+  border-radius: .75rem;
+}
+.pathway-footer-cta .cta-band {
+  border-radius: 1rem;
+}
 
 .hero {
   position: relative;
@@ -633,14 +780,18 @@ h2 {
   .nav { min-height: 72px; }
   .brand small { display: block; }
   .hub-hero { padding: 7rem 0 2.25rem; }
+  .pathway-hero { padding: 7.5rem 0 3.75rem; }
   .hero-grid { padding: 7rem 0 3rem; }
-  .actions {
+  .actions,
+  .pathway-actions {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
   }
-  .actions .button { width: auto; }
+  .actions .button,
+  .pathway-actions .button { width: auto; }
   .hero-secondary { justify-content: flex-start; }
+  .pressure-list { grid-template-columns: 1fr 1fr; }
   .grid-4 { grid-template-columns: 1fr 1fr; }
   .deliverables { grid-template-columns: 1fr 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }

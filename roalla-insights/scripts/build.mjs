@@ -5,7 +5,7 @@ const sourceAssets = new URL("../src/assets/", import.meta.url);
 const configuredUrl = process.env.SITE_URL || "https://www.roallainsights.com";
 const siteUrl = configuredUrl.replace(/\/$/, "");
 const updated = "2026-11-12";
-const assetVersion = "20261112e";
+const assetVersion = "20261112g";
 
 const shell = {
   en: {
@@ -13,9 +13,13 @@ const shell = {
     skip: "Skip to main content",
     operated: "Operated by ROALLA Business Enablement Group",
     navCampaigns: "Campaigns",
+    navAllCampaigns: "All campaigns",
     navReview: "What we examine",
     navProcess: "How it works",
     navCompany: "Visit ROALLA.com",
+    talkSecondary: "Talk with Steven",
+    scenariosHeading: "Sounds familiar?",
+    scenariosLead: "These are the pressures this campaign is built to address.",
     privacy: "Privacy",
     preferences: "Communication preferences",
     unsubscribe: "Unsubscribe",
@@ -40,9 +44,13 @@ const shell = {
     skip: "Passer au contenu principal",
     operated: "Exploité par ROALLA Business Enablement Group",
     navCampaigns: "Campagnes",
+    navAllCampaigns: "Toutes les campagnes",
     navReview: "Ce que nous examinons",
     navProcess: "La démarche",
     navCompany: "Visiter ROALLA.com",
+    talkSecondary: "Parler avec Steven",
+    scenariosHeading: "Ça vous dit quelque chose?",
+    scenariosLead: "Voici les pressions que cette campagne est conçue pour traiter.",
     privacy: "Confidentialité",
     preferences: "Préférences de communication",
     unsubscribe: "Se désabonner",
@@ -77,16 +85,30 @@ const hub = {
         title: "Improve how customers find you online or from AI chats",
         blurb: "A plain-language path to clearer search, maps, and AI recommendations.",
         cta: "Open visibility campaign",
+        servicePill: "Website & AI Visibility",
         image: "/assets/campaigns/visibility-hero.webp",
-        imageAlt: "Customer finding a business through search, maps, and AI chat"
+        imageAlt: "Customer finding a business through search, maps, and AI chat",
+        scenarios: [
+          "Very little online engagement by customers",
+          "AI chat (ChatGPT, etc.) does not match my business to customers",
+          "No visibility into website performance",
+          "Emails going to junk or classed as phishing"
+        ]
       },
       {
         slug: "ai-employee-readiness",
         title: "AI Employees can help you reduce churn, missed calls, missed opportunities, and abandoned calls",
         blurb: "See if one busy process fits—with people still in control.",
         cta: "Open AI readiness campaign",
+        servicePill: "AI Employee",
         image: "/assets/campaigns/ai-employee-hero.webp",
-        imageAlt: "Team handling customer calls with modern phone and support tools"
+        imageAlt: "Team handling customer calls with modern phone and support tools",
+        scenarios: [
+          "Missing calls during peak periods or after hours",
+          "Trouble having resources take calls after hours",
+          "Abandoned calls that mean missed opportunities",
+          "High employee churn with a long ramp-up to enable quality calls"
+        ]
       }
     ]
   },
@@ -102,16 +124,30 @@ const hub = {
         title: "Améliorez la façon dont les clients vous trouvent en ligne ou via les clavardages IA",
         blurb: "Une voie claire pour la recherche, les cartes et les recommandations IA.",
         cta: "Ouvrir la campagne visibilité",
+        servicePill: "Visibilité Web et IA",
         image: "/assets/campaigns/visibility-hero.webp",
-        imageAlt: "Client qui trouve une entreprise via la recherche, les cartes et un clavardage IA"
+        imageAlt: "Client qui trouve une entreprise via la recherche, les cartes et un clavardage IA",
+        scenarios: [
+          "Très peu d’engagement en ligne de la part des clients",
+          "Le clavardage IA (ChatGPT, etc.) ne relie pas mon entreprise aux clients",
+          "Aucune visibilité sur la performance du site",
+          "Des courriels qui vont aux indésirables ou sont classés comme hameçonnage"
+        ]
       },
       {
         slug: "ai-employee-readiness",
         title: "Les employés IA peuvent vous aider à réduire le roulement, les appels manqués, les occasions perdues et les appels abandonnés",
         blurb: "Vérifiez si un processus chargé convient—avec des personnes aux commandes.",
         cta: "Ouvrir la campagne préparation IA",
+        servicePill: "Employé IA",
         image: "/assets/campaigns/ai-employee-hero.webp",
-        imageAlt: "Équipe qui gère les appels clients avec téléphone moderne et outils de soutien"
+        imageAlt: "Équipe qui gère les appels clients avec téléphone moderne et outils de soutien",
+        scenarios: [
+          "Appels manqués en période de pointe ou après les heures",
+          "Difficile d’avoir des ressources pour prendre les appels après les heures",
+          "Appels abandonnés qui signifient des occasions perdues",
+          "Fort roulement du personnel avec une longue montée en compétence pour des appels de qualité"
+        ]
       }
     ]
   }
@@ -455,12 +491,14 @@ function hubPage(lang) {
   const p = paths(lang);
   const tiles = h.tiles.map((tile) => {
     const href = p.campaign(tile.slug);
+    const scenarios = (tile.scenarios || []).map((item) => `<li>${item}</li>`).join("");
     return `<a class="campaign-tile home-tile reveal" href="${href}">
-      <span class="campaign-tile-media"><img src="${tile.image}" alt="${tile.imageAlt}" width="640" height="400" loading="eager" decoding="async"><span class="campaign-tile-scrim" aria-hidden="true"></span></span>
+      <span class="campaign-tile-media"><img src="${tile.image}" alt="${tile.imageAlt}" width="640" height="400" loading="eager" decoding="async"><span class="campaign-tile-scrim" aria-hidden="true"></span><span class="campaign-tile-pill">${tile.servicePill}</span></span>
       <span class="campaign-tile-body">
         <h2>${tile.title}</h2>
         <p class="campaign-tile-blurb">${tile.blurb}</p>
         <span class="campaign-tile-cta">${tile.cta}<span class="campaign-tile-cta-arrow" aria-hidden="true">→</span></span>
+        <ul class="campaign-tile-scenarios">${scenarios}</ul>
       </span>
     </a>`;
   }).join("");
@@ -495,34 +533,35 @@ function campaignPage(lang, slug) {
   const t = shell[lang];
   const campaign = campaigns[slug];
   const copy = campaign[lang];
+  const tile = hub[lang].tiles.find((item) => item.slug === slug);
   const p = paths(lang);
   const other = paths(lang === "fr" ? "en" : "fr");
   const route = p.campaign(slug);
   const contactHref = `${p.contact}?intent=${encodeURIComponent(campaign.intent)}`;
-  const examples = (copy.examples || []).map((item) => `<li>${item}</li>`).join("");
-  const content = `<main id="main">
-    <section class="hero hero-media">
-      <div class="hero-media-bg" aria-hidden="true"><img src="${campaign.image}" alt="" width="1600" height="900" loading="eager" decoding="async"></div>
-      <div class="hero-media-scrim" aria-hidden="true"></div>
-      <div class="hero-grid wrap">
-        <div class="reveal">
-          <p class="eyebrow">${copy.heroEyebrow}</p>
-          <h1>${copy.heroTitle}</h1>
-          <p class="hero-copy">${copy.heroCopy}</p>
-          <div class="actions">
-            <a class="button" href="${contactHref}" data-attribution>${copy.primaryCta}</a>
-            <a class="text-link hero-secondary" href="#examples">${copy.secondaryCta}</a>
-          </div>
+  const servicePill = tile?.servicePill || copy.heroEyebrow;
+  const scenarios = (tile?.scenarios || []).map((item) => `<li>${item}</li>`).join("");
+  const content = `<main id="main" class="campaign-need">
+    <section class="pathway-hero">
+      <div class="pathway-hero-glow" aria-hidden="true"></div>
+      <div class="wrap pathway-hero-inner reveal">
+        <a class="pathway-back" href="${p.home}">${t.navAllCampaigns}</a>
+        <p class="pathway-eyebrow">${servicePill}</p>
+        <h1>${copy.heroTitle}</h1>
+        <p class="pathway-lead">${copy.heroCopy}</p>
+        <div class="pathway-actions">
+          <a class="button gold pathway-primary" href="${contactHref}" data-attribution>${copy.primaryCta}<span aria-hidden="true"> →</span></a>
+          <a class="button pathway-secondary" href="${contactHref}" data-attribution>${t.talkSecondary}</a>
         </div>
       </div>
     </section>
-    <section class="section examples" id="examples">
+    <section class="section scenarios-band" id="scenarios">
       <div class="wrap">
         <div class="section-head reveal-on-scroll">
-          <div><p class="eyebrow">${t.examplesEyebrow}</p><h2>${t.examplesTitle}</h2></div>
+          <div><p class="eyebrow">${t.scenariosHeading}</p><h2>${t.examplesTitle}</h2></div>
+          <p class="lead">${t.scenariosLead}</p>
         </div>
-        <ol class="example-list">${examples}</ol>
-        <p class="examples-cta"><a class="button" href="${contactHref}" data-attribution>${copy.primaryCta}</a></p>
+        <ul class="pressure-list">${scenarios}</ul>
+        <p class="examples-cta"><a class="button gold" href="${contactHref}" data-attribution>${copy.primaryCta}<span aria-hidden="true"> →</span></a></p>
       </div>
     </section>
     <section class="section" id="review">
@@ -558,7 +597,7 @@ function campaignPage(lang, slug) {
         <div class="process">${copy.process.map((item) => `<article class="step"><h3>${item[0]}</h3><p>${item[1]}</p></article>`).join("")}</div>
       </div>
     </section>
-    <section class="section">
+    <section class="section pathway-footer-cta">
       <div class="wrap">
         <div class="cta-band">
           <div>
@@ -572,7 +611,7 @@ function campaignPage(lang, slug) {
             <div class="footer-links">
               <a href="mailto:sales@roalla.com?subject=${encodeURIComponent(copy.heroEyebrow)}">${t.contactEmail}</a>
               <a href="tel:+12898385868">${t.contactPhone}</a>
-              <a class="button gold" href="${contactHref}" data-attribution>${copy.primaryCta}</a>
+              <a class="button gold" href="${contactHref}" data-attribution>${copy.primaryCta}<span aria-hidden="true"> →</span></a>
             </div>
           </div>
         </div>

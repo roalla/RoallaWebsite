@@ -5,6 +5,7 @@ const sourceAssets = new URL("../src/assets/", import.meta.url);
 const configuredUrl = process.env.SITE_URL || "https://www.roallainsights.com";
 const siteUrl = configuredUrl.replace(/\/$/, "");
 const updated = "2026-11-12";
+const assetVersion = "20261112b";
 
 const shell = {
   en: {
@@ -402,9 +403,9 @@ function layout({ lang, title, description, route, alternateRoute, content, stru
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${title}">
   <meta name="twitter:description" content="${description}">
-  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="/assets/styles.css?v=${assetVersion}">
   <script type="application/ld+json">${escapeJson(structuredData)}</script>
-  <script src="/assets/app.js" defer></script>
+  <script src="/assets/app.js?v=${assetVersion}" defer></script>
 </head>
 <body>${headerHtml}${content}${footer(lang)}</body>
 </html>`;

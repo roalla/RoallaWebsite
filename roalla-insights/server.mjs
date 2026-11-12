@@ -72,7 +72,11 @@ export function requestHandler(req, res) {
 
     res.writeHead(200, {
       ...securityHeaders,
-      "Cache-Control": extname(filePath) === ".html" ? "public, max-age=300" : "public, max-age=86400, immutable",
+      "Cache-Control": extname(filePath) === ".html"
+        ? "public, max-age=60, must-revalidate"
+        : [".css", ".js"].includes(extname(filePath))
+          ? "public, max-age=300, must-revalidate"
+          : "public, max-age=86400, immutable",
       "Content-Type": types[extname(filePath)] ?? "application/octet-stream"
     });
     return createReadStream(filePath).pipe(res);

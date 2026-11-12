@@ -84,8 +84,8 @@ test("homepage is a photo-led campaign hub with full-tile links", async () => {
   assert.match(response.body, /Website &amp; AI Visibility|Website & AI Visibility/);
   assert.match(response.body, /AI Employee/);
   assert.match(response.body, /campaign-tile-scenarios/);
-  assert.match(response.body, /Very little online engagement by customers/);
-  assert.match(response.body, /Missing calls during peak periods or after hours/);
+  assert.match(response.body, /Customers can(?:'|’|&rsquo;)t find us in search or on maps/);
+  assert.match(response.body, /Calls go unanswered after hours and at peak times/);
   assert.match(response.body, /\/en\/campaigns\/ai-employee-readiness\//);
   assert.match(response.body, /\/assets\/campaigns\/visibility-hero\.webp/);
   assert.match(response.body, /\/assets\/campaigns\/ai-employee-hero\.webp/);
@@ -104,8 +104,12 @@ test("visibility campaign uses need-style hero and sales CTAs", async () => {
   assert.match(response.body, /Website &amp; AI Visibility|Website & AI Visibility/);
   assert.match(response.body, /intent=website-ai-visibility-review/);
   assert.match(response.body, /button gold pathway-primary/);
+  assert.match(response.body, /href="#review"/);
+  assert.match(response.body, /See what we examine/);
   assert.match(response.body, /Sounds familiar/);
   assert.match(response.body, /ChatGPT/);
+  assert.match(response.body, /Important emails land in junk/);
+  assert.match(response.body, /Email that arrives/);
   assert.match(response.body, /pressure-list/);
   assert.match(response.body, /Looking to 2027/);
   assert.match(response.body, /\/assets\/campaigns\/visibility-hero\.webp/);
@@ -121,8 +125,11 @@ test("AI readiness campaign uses need-style hero and sales CTAs", async () => {
   assert.match(response.body, /Automate the busy work/);
   assert.match(response.body, /intent=ai-support/);
   assert.match(response.body, /button gold pathway-primary/);
+  assert.match(response.body, /href="#review"/);
+  assert.match(response.body, /See what we examine/);
   assert.match(response.body, /Sounds familiar/);
-  assert.match(response.body, /Abandoned calls that mean missed opportunities/);
+  assert.match(response.body, /Callers hang up before anyone can help/);
+  assert.match(response.body, /Cover the unanswered calls/);
   assert.match(response.body, /Looking to 2027/);
   assert.match(response.body, /\/assets\/campaigns\/ai-employee-hero\.webp/);
   assert.match(response.body, /See if an AI Employee fits/);

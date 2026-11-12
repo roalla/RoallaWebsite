@@ -5,7 +5,7 @@ const sourceAssets = new URL("../src/assets/", import.meta.url);
 const configuredUrl = process.env.SITE_URL || "https://www.roallainsights.com";
 const siteUrl = configuredUrl.replace(/\/$/, "");
 const updated = "2026-11-12";
-const assetVersion = "20261112g";
+const assetVersion = "20261112h";
 
 const shell = {
   en: {
@@ -89,10 +89,10 @@ const hub = {
         image: "/assets/campaigns/visibility-hero.webp",
         imageAlt: "Customer finding a business through search, maps, and AI chat",
         scenarios: [
-          "Very little online engagement by customers",
-          "AI chat (ChatGPT, etc.) does not match my business to customers",
-          "No visibility into website performance",
-          "Emails going to junk or classed as phishing"
+          "Customers can’t find us in search or on maps",
+          "ChatGPT and AI tools don’t recommend our business",
+          "Our website doesn’t make it clear what we do—or how to contact us",
+          "Important emails land in junk or get flagged as phishing"
         ]
       },
       {
@@ -102,12 +102,12 @@ const hub = {
         cta: "Open AI readiness campaign",
         servicePill: "AI Employee",
         image: "/assets/campaigns/ai-employee-hero.webp",
-        imageAlt: "Team handling customer calls with modern phone and support tools",
+        imageAlt: "Business team supervising an automated workflow with a human approval step",
         scenarios: [
-          "Missing calls during peak periods or after hours",
-          "Trouble having resources take calls after hours",
-          "Abandoned calls that mean missed opportunities",
-          "High employee churn with a long ramp-up to enable quality calls"
+          "Calls go unanswered after hours and at peak times",
+          "The same questions keep tying up the team every day",
+          "Callers hang up before anyone can help—lost opportunities",
+          "New hires take too long to ramp up, and good people leave"
         ]
       }
     ]
@@ -128,10 +128,10 @@ const hub = {
         image: "/assets/campaigns/visibility-hero.webp",
         imageAlt: "Client qui trouve une entreprise via la recherche, les cartes et un clavardage IA",
         scenarios: [
-          "Très peu d’engagement en ligne de la part des clients",
-          "Le clavardage IA (ChatGPT, etc.) ne relie pas mon entreprise aux clients",
-          "Aucune visibilité sur la performance du site",
-          "Des courriels qui vont aux indésirables ou sont classés comme hameçonnage"
+          "Les clients ne nous trouvent pas dans la recherche ou sur les cartes",
+          "ChatGPT et les outils d’IA ne recommandent pas notre entreprise",
+          "Notre site n’explique pas clairement ce que nous faisons—ni comment nous joindre",
+          "Des courriels importants vont aux indésirables ou sont signalés comme hameçonnage"
         ]
       },
       {
@@ -141,12 +141,12 @@ const hub = {
         cta: "Ouvrir la campagne préparation IA",
         servicePill: "Employé IA",
         image: "/assets/campaigns/ai-employee-hero.webp",
-        imageAlt: "Équipe qui gère les appels clients avec téléphone moderne et outils de soutien",
+        imageAlt: "Équipe d’affaires qui supervise un flux automatisé avec une étape d’approbation humaine",
         scenarios: [
-          "Appels manqués en période de pointe ou après les heures",
-          "Difficile d’avoir des ressources pour prendre les appels après les heures",
-          "Appels abandonnés qui signifient des occasions perdues",
-          "Fort roulement du personnel avec une longue montée en compétence pour des appels de qualité"
+          "Des appels restent sans réponse après les heures et en période de pointe",
+          "Les mêmes questions monopolisent l’équipe chaque jour",
+          "Les appelants raccrochent avant d’obtenir de l’aide—occasions perdues",
+          "Les nouvelles recrues mettent trop longtemps à se former, et les bons partent"
         ]
       }
     ]
@@ -167,24 +167,19 @@ const campaigns = {
       primaryCta: "Request your review",
       secondaryCta: "See what we examine",
       homework: "To start, send your website address and the result you want the site to support.",
-      examples: [
-        "A customer asks ChatGPT who to call near them—and your business isn’t named.",
-        "Your Google listing says one thing, your website says another, and people stop trusting both.",
-        "The site looks fine to you, but visitors can’t tell what you do or how to contact you on their phone."
-      ],
       introEyebrow: "Clarity before complexity",
       introTitle: "Customers judge you in more places than one.",
-      introCopy: "People visit pages, search results, and AI answers. This review checks whether they can tell who you serve, what you do, and what to do next.",
+      introCopy: "This review checks search and maps, AI answers, whether your site makes the offer and contact path clear, and whether important email reaches the inbox—then shows what to fix first.",
       pillars: [
-        ["Easier to find", "Whether search can understand and show your pages to the right people."],
-        ["Clear to AI tools", "Whether assistants can name your offer, location, credibility, and next step."],
-        ["Trust & ease", "Whether the site feels credible and works smoothly on phone and desktop."],
-        ["Path to contact", "Whether a serious visitor can start a conversation without friction."]
+        ["Findable in search & maps", "Whether customers can discover you where they look first."],
+        ["Named by AI tools", "Whether assistants can recommend your business with clear facts."],
+        ["Clear site & contact path", "Whether visitors know what you do and how to start a conversation."],
+        ["Email that arrives", "Whether important messages reach inboxes instead of junk or phishing flags."]
       ],
       trends: [
         ["AI tools recommend clearer businesses", "Chat tools and search summaries prefer firms that plainly say who they help, what they do, and where they work."],
         ["Your public facts must match", "When your name, services, and pages disagree, customers and machines get confused—and you lose trust."],
-        ["Being found is bigger than rankings", "Maps, search, and AI answers need one clear story about your business—not ranking tricks alone."]
+        ["Inbox trust matters as much as rankings", "Search, maps, AI answers, and email all need one clear, credible story—not ranking tricks alone."]
       ],
       outputEyebrow: "What you receive",
       outputTitle: "A short written view you can act on.",
@@ -193,7 +188,7 @@ const campaigns = {
         ["Short snapshot", "The strongest signals, the real gaps, and what that likely means for the business."],
         ["Prioritized next steps", "What to do first, sequenced by value and effort."],
         ["Visibility findings", "How clearly your pages, facts, and AI-readable cues tell your story."],
-        ["Selected checks", "Practical looks at mobile, desktop, accessibility, security basics, and the contact path."],
+        ["Selected checks", "Practical looks at mobile, desktop, accessibility, security basics, the contact path, and email deliverability basics."],
         ["Working call with Steven", "A practical conversation to interpret the findings and decide what comes next."],
         ["No ranking promises", "A grounded review of what you can control—never a guarantee of rankings or AI citations."]
       ],
@@ -216,24 +211,19 @@ const campaigns = {
       primaryCta: "Demander votre évaluation",
       secondaryCta: "Voir ce que nous examinons",
       homework: "Pour commencer, envoyez l’adresse du site et le résultat que celui-ci doit soutenir.",
-      examples: [
-        "Un client demande à ChatGPT qui appeler près de chez lui—et votre entreprise n’est pas nommée.",
-        "Votre fiche Google dit une chose, votre site en dit une autre, et la confiance baisse.",
-        "Le site vous semble bien, mais sur téléphone on ne voit pas clairement ce que vous faites ni comment vous joindre."
-      ],
       introEyebrow: "La clarté avant la complexité",
       introTitle: "Les clients vous jugent à plus d’un endroit.",
-      introCopy: "Les gens consultent pages, résultats de recherche et réponses IA. Cette évaluation vérifie s’ils comprennent qui vous servez, ce que vous faites et quoi faire ensuite.",
+      introCopy: "Cette évaluation vérifie la recherche et les cartes, les réponses IA, si votre site clarifie l’offre et le chemin de contact, et si les courriels importants atteignent la boîte de réception—puis montre quoi corriger en premier.",
       pillars: [
-        ["Plus facile à trouver", "La recherche peut-elle comprendre et montrer vos pages aux bonnes personnes."],
-        ["Clair pour les outils d’IA", "Les assistants peuvent-ils nommer votre offre, votre lieu, votre crédibilité et la prochaine étape."],
-        ["Confiance et aisance", "Le site inspire-t-il confiance et fonctionne-t-il bien sur téléphone et ordinateur."],
-        ["Chemin vers le contact", "Un visiteur sérieux peut-il démarrer une conversation sans friction."]
+        ["Trouvable dans la recherche et les cartes", "Les clients peuvent-ils vous découvrir là où ils cherchent d’abord."],
+        ["Nommé par les outils d’IA", "Les assistants peuvent-ils recommander votre entreprise avec des faits clairs."],
+        ["Site clair et chemin de contact", "Les visiteurs savent-ils ce que vous faites et comment démarrer une conversation."],
+        ["Courriel qui arrive", "Les messages importants atteignent-ils la boîte de réception plutôt que les indésirables ou les alertes d’hameçonnage."]
       ],
       trends: [
         ["Les outils d’IA recommandent les entreprises plus claires", "Les clavardages et résumés de recherche préfèrent les firmes qui disent simplement qui elles aident, ce qu’elles font et où elles travaillent."],
         ["Vos faits publics doivent concorder", "Quand le nom, les services et les pages se contredisent, clients et machines se perdent—et la confiance baisse."],
-        ["Être trouvé dépasse le classement", "Cartes, recherche et réponses IA ont besoin d’une histoire claire—pas seulement d’astuces de classement."]
+        ["La confiance de la boîte de réception compte autant que le classement", "Recherche, cartes, réponses IA et courriel ont besoin d’une histoire claire et crédible—pas seulement d’astuces de classement."]
       ],
       outputEyebrow: "Ce que vous recevez",
       outputTitle: "Une vue écrite courte et actionnable.",
@@ -242,7 +232,7 @@ const campaigns = {
         ["Court portrait", "Les meilleurs signaux, les vrais écarts et ce que cela signifie probablement pour l’entreprise."],
         ["Prochaines étapes priorisées", "Quoi faire d’abord, selon la valeur et l’effort."],
         ["Constats de visibilité", "À quel point vos pages, faits et indices lisibles par l’IA racontent votre histoire."],
-        ["Vérifications ciblées", "Regards pratiques sur mobile, ordinateur, accessibilité, bases de sécurité et chemin de contact."],
+        ["Vérifications ciblées", "Regards pratiques sur mobile, ordinateur, accessibilité, bases de sécurité, chemin de contact et bases de délivrabilité du courriel."],
         ["Appel de travail avec Steven", "Une conversation pratique pour interpréter les constats et choisir la suite."],
         ["Aucune promesse de classement", "Une évaluation des éléments contrôlables—jamais une garantie de classement ou de citation par l’IA."]
       ],
@@ -269,19 +259,14 @@ const campaigns = {
       primaryCta: "See if an AI Employee fits",
       secondaryCta: "See what we examine",
       homework: "To start, describe the busy work and who handles exceptions today.",
-      examples: [
-        "The same scheduling, quote, or “are you open?” questions land every day while the team is with customers.",
-        "You’re afraid a chatbot will invent answers or change something it shouldn’t—so nothing gets automated.",
-        "You tried a generic chat widget; it didn’t follow your rules and staff stopped using it."
-      ],
       introEyebrow: "Control before complexity",
       introTitle: "AI helps when the work is clear—and people stay accountable.",
-      introCopy: "Fewer missed calls and less repetitive follow-up—without an unsupervised tool inventing answers or changing records. Readiness means one process, clear approvals, and a person for exceptions.",
+      introCopy: "Unanswered peak and after-hours calls, the same questions every day, callers who hang up, and long ramp with churn—readiness means one process, clear approvals, and a person for exceptions.",
       pillars: [
-        ["The right workload", "One busy, measurable process—not a vague “do everything” chatbot."],
-        ["Approvals that protect you", "Clear rules for when AI can act and when a person must decide."],
-        ["Handoffs people trust", "When something is sensitive or stuck, the right person gets full context."],
-        ["Cost you can plan", "Ongoing AI help has real costs—plan them before a pilot looks “cheap.”"]
+        ["Cover the unanswered calls", "After hours and peaks without leaving customers hanging—with rules for when a person must take over."],
+        ["Offload the repetitive questions", "One busy, measurable workload—not a vague “do everything” bot—with costs you can plan before a pilot."],
+        ["Catch callers before they hang up", "Fast, reliable first response and trusted handoffs when something is sensitive or stuck."],
+        ["Reduce ramp and churn pressure", "Clear playbooks so new people succeed faster and good people stay."]
       ],
       trends: [
         ["AI help has real ongoing costs", "Cheap pilots get expensive when every question and handoff isn’t planned as a budget line."],
@@ -318,19 +303,14 @@ const campaigns = {
       primaryCta: "Voir si un employé IA convient",
       secondaryCta: "Voir ce que nous examinons",
       homework: "Pour commencer, décrivez le travail répétitif et qui gère les exceptions aujourd’hui.",
-      examples: [
-        "Les mêmes questions d’horaire, de soumission ou « êtes-vous ouverts? » arrivent chaque jour pendant que l’équipe sert les clients.",
-        "Vous craignez qu’un clavardage invente des réponses ou change quelque chose—alors rien n’est automatisé.",
-        "Vous avez essayé un clavardage générique; il n’a pas suivi vos règles et l’équipe a arrêté de l’utiliser."
-      ],
       introEyebrow: "Le contrôle avant la complexité",
       introTitle: "L’IA aide quand le travail est clair—et que les gens restent responsables.",
-      introCopy: "Moins d’appels manqués et moins de suivis répétitifs—sans outil sans supervision qui invente des réponses ou modifie des dossiers. La préparation, c’est un processus, des approbations claires et une personne pour les exceptions.",
+      introCopy: "Appels sans réponse en pointe et après les heures, les mêmes questions chaque jour, des appelants qui raccrochent, et une longue montée en compétence avec roulement—la préparation, c’est un processus, des approbations claires et une personne pour les exceptions.",
       pillars: [
-        ["La bonne charge de travail", "Un processus mesurable et chargé—pas un clavardage vague « qui fait tout »."],
-        ["Des approbations qui protègent", "Des règles claires pour quand l’IA peut agir et quand une personne doit décider."],
-        ["Des transferts fiables", "Quand c’est sensible ou bloqué, la bonne personne reçoit le contexte complet."],
-        ["Un coût planifiable", "L’aide IA a des coûts réels—prévoyez-les avant qu’un pilote paraisse « peu cher »."]
+        ["Couvrir les appels sans réponse", "Après les heures et en pointe sans laisser les clients en attente—avec des règles pour quand une personne doit prendre le relais."],
+        ["Délester les questions répétitives", "Une charge mesurable et ciblée—pas un robot vague « qui fait tout »—avec des coûts prévus avant un pilote."],
+        ["Rattraper les appelants avant qu’ils raccrochent", "Une première réponse rapide et fiable, et des transferts sûrs quand c’est sensible ou bloqué."],
+        ["Réduire la pression de formation et de roulement", "Des guides clairs pour que les nouvelles recrues réussissent plus vite et que les bons restent."]
       ],
       trends: [
         ["L’aide IA a des coûts continus réels", "Les pilotes bon marché coûtent cher quand chaque question et transfert n’est pas prévu au budget."],
@@ -550,7 +530,7 @@ function campaignPage(lang, slug) {
         <p class="pathway-lead">${copy.heroCopy}</p>
         <div class="pathway-actions">
           <a class="button gold pathway-primary" href="${contactHref}" data-attribution>${copy.primaryCta}<span aria-hidden="true"> →</span></a>
-          <a class="button pathway-secondary" href="${contactHref}" data-attribution>${t.talkSecondary}</a>
+          <a class="button pathway-secondary" href="#review">${copy.secondaryCta}</a>
         </div>
       </div>
     </section>

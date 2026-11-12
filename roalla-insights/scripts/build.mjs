@@ -5,7 +5,7 @@ const sourceAssets = new URL("../src/assets/", import.meta.url);
 const configuredUrl = process.env.SITE_URL || "https://www.roallainsights.com";
 const siteUrl = configuredUrl.replace(/\/$/, "");
 const updated = "2026-11-12";
-const assetVersion = "20261112c";
+const assetVersion = "20261112e";
 
 const shell = {
   en: {
@@ -78,7 +78,7 @@ const hub = {
         blurb: "A plain-language path to clearer search, maps, and AI recommendations.",
         cta: "Open visibility campaign",
         image: "/assets/campaigns/visibility-hero.webp",
-        imageAlt: "Business visibility across search and digital channels"
+        imageAlt: "Customer finding a business through search, maps, and AI chat"
       },
       {
         slug: "ai-employee-readiness",
@@ -86,7 +86,7 @@ const hub = {
         blurb: "See if one busy process fits—with people still in control.",
         cta: "Open AI readiness campaign",
         image: "/assets/campaigns/ai-employee-hero.webp",
-        imageAlt: "Frontline AI support with clear human handoff"
+        imageAlt: "Team handling customer calls with modern phone and support tools"
       }
     ]
   },
@@ -103,7 +103,7 @@ const hub = {
         blurb: "Une voie claire pour la recherche, les cartes et les recommandations IA.",
         cta: "Ouvrir la campagne visibilité",
         image: "/assets/campaigns/visibility-hero.webp",
-        imageAlt: "Visibilité d’entreprise dans la recherche et les canaux numériques"
+        imageAlt: "Client qui trouve une entreprise via la recherche, les cartes et un clavardage IA"
       },
       {
         slug: "ai-employee-readiness",
@@ -111,7 +111,7 @@ const hub = {
         blurb: "Vérifiez si un processus chargé convient—avec des personnes aux commandes.",
         cta: "Ouvrir la campagne préparation IA",
         image: "/assets/campaigns/ai-employee-hero.webp",
-        imageAlt: "Soutien IA en première ligne avec transfert humain clair"
+        imageAlt: "Équipe qui gère les appels clients avec téléphone moderne et outils de soutien"
       }
     ]
   }
@@ -455,12 +455,12 @@ function hubPage(lang) {
   const p = paths(lang);
   const tiles = h.tiles.map((tile) => {
     const href = p.campaign(tile.slug);
-    return `<a class="campaign-tile reveal" href="${href}">
-      <span class="campaign-tile-media"><img src="${tile.image}" alt="${tile.imageAlt}" width="640" height="360" loading="eager" decoding="async"></span>
+    return `<a class="campaign-tile home-tile reveal" href="${href}">
+      <span class="campaign-tile-media"><img src="${tile.image}" alt="${tile.imageAlt}" width="640" height="400" loading="eager" decoding="async"><span class="campaign-tile-scrim" aria-hidden="true"></span></span>
       <span class="campaign-tile-body">
         <h2>${tile.title}</h2>
         <p class="campaign-tile-blurb">${tile.blurb}</p>
-        <span class="campaign-tile-link">${tile.cta}</span>
+        <span class="campaign-tile-cta">${tile.cta}<span class="campaign-tile-cta-arrow" aria-hidden="true">→</span></span>
       </span>
     </a>`;
   }).join("");

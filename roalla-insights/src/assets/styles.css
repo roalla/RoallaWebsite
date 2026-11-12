@@ -151,75 +151,105 @@ img, svg { max-width: 100%; display: block; }
   grid-template-columns: 1fr;
   gap: 1rem;
 }
-.campaign-tile {
-  display: grid;
-  grid-template-rows: 150px auto;
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: 1rem;
+.campaign-tile,
+.home-tile {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   overflow: hidden;
   text-decoration: none;
   color: inherit;
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+  background: linear-gradient(to bottom right, #f8fafc, #fff);
+  box-shadow: 0 1px 3px 0 rgb(15 23 42 / .06), 0 1px 2px -1px rgb(15 23 42 / .06);
   transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
 }
 .campaign-tile:hover,
-.campaign-tile:focus-visible {
+.campaign-tile:focus-visible,
+.home-tile:hover,
+.home-tile:focus-within {
   transform: translateY(-4px);
-  border-color: var(--brand-mid);
-  box-shadow: 0 16px 36px rgba(6, 21, 29, .14);
+  border-color: rgba(0, 180, 197, .45);
+  box-shadow:
+    0 14px 36px -8px rgb(0 180 197 / .28),
+    0 8px 16px -6px rgb(15 23 42 / .12),
+    0 0 0 1px rgb(0 180 197 / .12);
 }
 .campaign-tile:focus-visible {
   outline: 3px solid var(--gold);
   outline-offset: 3px;
 }
 .campaign-tile-media {
+  position: relative;
   display: block;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
-  background: var(--navy);
+  background: #f1f5f9;
 }
 .campaign-tile-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform .45s ease;
+  transition: transform .5s ease;
+}
+.campaign-tile-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(15, 23, 42, .45), transparent 55%);
+  pointer-events: none;
 }
 .campaign-tile:hover .campaign-tile-media img,
 .campaign-tile:focus-visible .campaign-tile-media img {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 .campaign-tile-body {
-  display: grid;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   gap: .55rem;
-  padding: 1.1rem 1.1rem 1.25rem;
+  padding: 1.25rem;
 }
 .campaign-tile-body h2 {
   margin: 0;
   max-width: none;
   font-family: var(--font-display);
-  font-size: clamp(1.15rem, 3.6vw, 1.35rem);
+  font-size: clamp(1.1rem, 3.4vw, 1.2rem);
   font-weight: 700;
   letter-spacing: -.02em;
-  line-height: 1.25;
-  color: var(--ink);
+  line-height: 1.3;
+  color: #0f172a;
 }
 .campaign-tile-blurb {
   margin: 0;
-  color: var(--muted);
-  font-size: .95rem;
+  flex: 1;
+  color: #475569;
+  font-size: .9rem;
+  line-height: 1.55;
 }
-.campaign-tile-link {
-  margin-top: .35rem;
-  color: var(--cyan-dark);
-  font-weight: 800;
-  text-decoration: underline;
-  text-underline-offset: .18em;
-  min-height: 44px;
+.campaign-tile-cta {
+  margin-top: 1rem;
   display: inline-flex;
+  min-height: 44px;
   align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: .65rem 1rem;
+  border-radius: .5rem;
+  background: var(--gold);
+  color: #0f172a;
+  font-size: .9rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color .2s ease;
 }
-.campaign-tile:hover .campaign-tile-link,
-.campaign-tile:focus-visible .campaign-tile-link {
-  color: var(--brand-mid);
+.campaign-tile:hover .campaign-tile-cta,
+.campaign-tile:focus-visible .campaign-tile-cta {
+  background: #f7d045;
+}
+.campaign-tile-cta-arrow {
+  font-size: 1rem;
+  line-height: 1;
 }
 
 .hero {
@@ -611,7 +641,6 @@ h2 {
   }
   .actions .button { width: auto; }
   .hero-secondary { justify-content: flex-start; }
-  .campaign-tile { grid-template-rows: 170px auto; }
   .grid-4 { grid-template-columns: 1fr 1fr; }
   .deliverables { grid-template-columns: 1fr 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -623,7 +652,6 @@ h2 {
   .hub-hero-inner { max-width: 42rem; }
   h1 { max-width: 20ch; font-size: clamp(2.5rem, 4vw, 3.4rem); }
   .campaign-tiles { grid-template-columns: 1fr 1fr; gap: 1.15rem; }
-  .campaign-tile { grid-template-rows: 180px auto; }
   .section { padding-block: 4rem; }
   .section-head {
     grid-template-columns: .8fr 1.2fr;

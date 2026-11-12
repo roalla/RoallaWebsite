@@ -76,10 +76,10 @@ for (const [path, lang] of [
 test("homepage is a photo-led campaign hub with full-tile links", async () => {
   const response = await request("/en/");
   assert.equal(response.statusCode, 200);
-  assert.match(response.body, /<a class="campaign-tile reveal" href="\/en\/campaigns\/visibility-review\/">/);
+  assert.match(response.body, /<a class="campaign-tile home-tile reveal" href="\/en\/campaigns\/visibility-review\/">/);
   assert.match(response.body, /Improve how customers find you online or from AI chats/);
   assert.match(response.body, /AI Employees can help you reduce churn, missed calls, missed opportunities, and abandoned calls/);
-  assert.match(response.body, /campaign-tile-link/);
+  assert.match(response.body, /campaign-tile-cta/);
   assert.match(response.body, /\/en\/campaigns\/ai-employee-readiness\//);
   assert.match(response.body, /\/assets\/campaigns\/visibility-hero\.webp/);
   assert.match(response.body, /\/assets\/campaigns\/ai-employee-hero\.webp/);

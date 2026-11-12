@@ -5,7 +5,7 @@ const sourceAssets = new URL("../src/assets/", import.meta.url);
 const configuredUrl = process.env.SITE_URL || "https://www.roallainsights.com";
 const siteUrl = configuredUrl.replace(/\/$/, "");
 const updated = "2026-11-12";
-const assetVersion = "20261112i";
+const assetVersion = "20261112j";
 const campaignImages = {
   visibility: `/assets/campaigns/visibility-hero.webp?v=${assetVersion}`,
   aiEmployee: `/assets/campaigns/ai-employee-hero.webp?v=${assetVersion}`
@@ -41,7 +41,10 @@ const shell = {
     examplesTitle: "Here’s what this looks like in a real business.",
     trendsEyebrow: "Looking to 2027",
     trendsTitle: "What to prepare for next",
-    trendsCopy: "Short signals for business decisions—not a technology lecture."
+    trendsCopy: "Short signals for business decisions—not a technology lecture.",
+    ladderEyebrow: "Evidence first",
+    ladderTitle: "See. Interpret. Improve.",
+    ladderLead: "Prove the pressure on ROALLA.com, then decide the next conversation."
   },
   fr: {
     alternate: "EN",
@@ -72,7 +75,10 @@ const shell = {
     examplesTitle: "Voici à quoi ça ressemble dans une vraie entreprise.",
     trendsEyebrow: "Vers 2027",
     trendsTitle: "Ce qu’il faut préparer ensuite",
-    trendsCopy: "Des signaux courts pour décider—pas un cours de technologie."
+    trendsCopy: "Des signaux courts pour décider—pas un cours de technologie.",
+    ladderEyebrow: "La preuve d’abord",
+    ladderTitle: "Voir. Interpréter. Améliorer.",
+    ladderLead: "Prouvez la pression sur ROALLA.com, puis choisissez la prochaine conversation."
   }
 };
 
@@ -93,10 +99,10 @@ const hub = {
         image: campaignImages.visibility,
         imageAlt: "Customer finding a business through search, maps, and AI chat",
         scenarios: [
-          "Customers can’t find us in search or on maps",
-          "ChatGPT and AI tools don’t recommend our business",
-          "Our website doesn’t make it clear what we do—or how to contact us",
-          "Important emails land in junk or get flagged as phishing"
+          { label: "Customers can’t find us in search or on maps", cta: "Free website check", pathKey: "snapshot", extra: { offer: "free-automated-visibility-snapshot", selected_problem: "website-and-ai-visibility" } },
+          { label: "ChatGPT and AI tools don’t recommend our business", cta: "How search and AI describe you", pathKey: "visibilityReview", extra: { selected_problem: "website-and-ai-visibility" } },
+          { label: "Our website doesn’t make it clear what we do—or how to contact us", cta: "Free website check", pathKey: "snapshot", extra: { offer: "free-automated-visibility-snapshot", selected_problem: "website-and-ai-visibility" } },
+          { label: "Important emails land in junk or get flagged as phishing", cta: "Check email reach", pathKey: "emailBrief", extra: { selected_problem: "email-deliverability" } }
         ]
       },
       {
@@ -108,10 +114,10 @@ const hub = {
         image: campaignImages.aiEmployee,
         imageAlt: "Business team supervising an automated workflow with a human approval step",
         scenarios: [
-          "Calls go unanswered after hours and at peak times",
-          "The same questions keep tying up the team every day",
-          "Callers hang up before anyone can help—lost opportunities",
-          "New hires take too long to ramp up, and good people leave"
+          { label: "Calls go unanswered after hours and at peak times", cta: "See AI Employee", pathKey: "aiEmployeePage" },
+          { label: "The same questions keep tying up the team every day", cta: "Check automation fit", pathKey: "automationReview" },
+          { label: "Callers hang up before anyone can help—lost opportunities", cta: "See AI Employee", pathKey: "aiEmployeePage" },
+          { label: "New hires take too long to ramp up, and good people leave", cta: "AI agent readiness", pathKey: "aiReadiness" }
         ]
       }
     ]
@@ -132,10 +138,10 @@ const hub = {
         image: campaignImages.visibility,
         imageAlt: "Client qui trouve une entreprise via la recherche, les cartes et un clavardage IA",
         scenarios: [
-          "Les clients ne nous trouvent pas dans la recherche ou sur les cartes",
-          "ChatGPT et les outils d’IA ne recommandent pas notre entreprise",
-          "Notre site n’explique pas clairement ce que nous faisons—ni comment nous joindre",
-          "Des courriels importants vont aux indésirables ou sont signalés comme hameçonnage"
+          { label: "Les clients ne nous trouvent pas dans la recherche ou sur les cartes", cta: "Vérification gratuite du site", pathKey: "snapshot", extra: { offer: "free-automated-visibility-snapshot", selected_problem: "website-and-ai-visibility" } },
+          { label: "ChatGPT et les outils d’IA ne recommandent pas notre entreprise", cta: "Comment recherche et IA vous décrivent", pathKey: "visibilityReview", extra: { selected_problem: "website-and-ai-visibility" } },
+          { label: "Notre site n’explique pas clairement ce que nous faisons—ni comment nous joindre", cta: "Vérification gratuite du site", pathKey: "snapshot", extra: { offer: "free-automated-visibility-snapshot", selected_problem: "website-and-ai-visibility" } },
+          { label: "Des courriels importants vont aux indésirables ou sont signalés comme hameçonnage", cta: "Vérifier la portée du courriel", pathKey: "emailBrief", extra: { selected_problem: "email-deliverability" } }
         ]
       },
       {
@@ -147,10 +153,10 @@ const hub = {
         image: campaignImages.aiEmployee,
         imageAlt: "Équipe d’affaires qui supervise un flux automatisé avec une étape d’approbation humaine",
         scenarios: [
-          "Des appels restent sans réponse après les heures et en période de pointe",
-          "Les mêmes questions monopolisent l’équipe chaque jour",
-          "Les appelants raccrochent avant d’obtenir de l’aide—occasions perdues",
-          "Les nouvelles recrues mettent trop longtemps à se former, et les bons partent"
+          { label: "Des appels restent sans réponse après les heures et en période de pointe", cta: "Voir l’employé IA", pathKey: "aiEmployeePage" },
+          { label: "Les mêmes questions monopolisent l’équipe chaque jour", cta: "Vérifier l’adéquation automation", pathKey: "automationReview" },
+          { label: "Les appelants raccrochent avant d’obtenir de l’aide—occasions perdues", cta: "Voir l’employé IA", pathKey: "aiEmployeePage" },
+          { label: "Les nouvelles recrues mettent trop longtemps à se former, et les bons partent", cta: "Préparation agent IA", pathKey: "aiReadiness" }
         ]
       }
     ]
@@ -159,7 +165,10 @@ const hub = {
 
 const campaigns = {
   "visibility-review": {
-    intent: "website-ai-visibility-review",
+    intent: "visibility",
+    proofPathKey: "snapshot",
+    proofExtra: { offer: "free-automated-visibility-snapshot", selected_problem: "website-and-ai-visibility" },
+    pathwayPathKey: "needGrowth",
     image: campaignImages.visibility,
     en: {
       offerName: "Website & AI Visibility Review",
@@ -169,11 +178,17 @@ const campaigns = {
       heroTitle: "Be easier to find. Easier to trust. Easier to choose.",
       heroCopy: "A plain-language review of how customers, search, and AI tools see your business—and what to fix first.",
       primaryCta: "Request your review",
-      secondaryCta: "See what we examine",
+      secondaryCta: "Check my website",
       homework: "To start, send your website address and the result you want the site to support.",
+      pathwayLink: "Explore the growth and visibility pathway on ROALLA.com",
+      ladder: [
+        { title: "See", body: "Free Digital Presence Snapshot of your public page—no email required.", cta: "Free website check", pathKey: "snapshot", extra: { offer: "free-automated-visibility-snapshot", selected_problem: "website-and-ai-visibility" } },
+        { title: "Interpret", body: "Optional working review with Steven to decide what matters for buyers.", cta: "Request your review", pathKey: "contact" },
+        { title: "Improve", body: "Digital Visibility Optimization—prioritized discovery, trust, and conversion changes.", cta: "See the service", pathKey: "visibilityService" }
+      ],
       introEyebrow: "Clarity before complexity",
       introTitle: "Customers judge you in more places than one.",
-      introCopy: "This review checks search and maps, AI answers, whether your site makes the offer and contact path clear, and whether important email reaches the inbox—then shows what to fix first.",
+      introCopy: "This review checks search and maps, AI answers, whether your site makes the offer and contact path clear, and whether important email reaches the inbox. The fastest proof is a free Digital Presence Snapshot of your public page—no email required—then we show what to fix first.",
       pillars: [
         ["Findable in search & maps", "Whether customers can discover you where they look first."],
         ["Named by AI tools", "Whether assistants can recommend your business with clear facts."],
@@ -213,11 +228,17 @@ const campaigns = {
       heroTitle: "Plus facile à trouver. À croire. À choisir.",
       heroCopy: "Une évaluation en langage simple de la façon dont clients, recherche et outils d’IA voient votre entreprise—et quoi corriger en premier.",
       primaryCta: "Demander votre évaluation",
-      secondaryCta: "Voir ce que nous examinons",
+      secondaryCta: "Vérifier mon site",
       homework: "Pour commencer, envoyez l’adresse du site et le résultat que celui-ci doit soutenir.",
+      pathwayLink: "Explorer le parcours croissance et visibilité sur ROALLA.com",
+      ladder: [
+        { title: "Voir", body: "Instantané gratuit de présence numérique de votre page publique—sans courriel requis.", cta: "Vérification gratuite du site", pathKey: "snapshot", extra: { offer: "free-automated-visibility-snapshot", selected_problem: "website-and-ai-visibility" } },
+        { title: "Interpréter", body: "Évaluation de travail facultative avec Steven pour décider ce qui compte pour les acheteurs.", cta: "Demander votre évaluation", pathKey: "contact" },
+        { title: "Améliorer", body: "Optimisation de la visibilité numérique—changements priorisés pour découverte, confiance et conversion.", cta: "Voir le service", pathKey: "visibilityService" }
+      ],
       introEyebrow: "La clarté avant la complexité",
       introTitle: "Les clients vous jugent à plus d’un endroit.",
-      introCopy: "Cette évaluation vérifie la recherche et les cartes, les réponses IA, si votre site clarifie l’offre et le chemin de contact, et si les courriels importants atteignent la boîte de réception—puis montre quoi corriger en premier.",
+      introCopy: "Cette évaluation vérifie la recherche et les cartes, les réponses IA, si votre site clarifie l’offre et le chemin de contact, et si les courriels importants atteignent la boîte de réception. La preuve la plus rapide : un instantané gratuit de présence numérique de votre page publique—sans courriel requis—puis nous montrons quoi corriger en premier.",
       pillars: [
         ["Trouvable dans la recherche et les cartes", "Les clients peuvent-ils vous découvrir là où ils cherchent d’abord."],
         ["Nommé par les outils d’IA", "Les assistants peuvent-ils recommander votre entreprise avec des faits clairs."],
@@ -252,6 +273,9 @@ const campaigns = {
   },
   "ai-employee-readiness": {
     intent: "ai-support",
+    proofPathKey: "aiEmployeePage",
+    proofExtra: {},
+    pathwayPathKey: "needAutomation",
     image: campaignImages.aiEmployee,
     en: {
       offerName: "AI Employee & Agent Readiness",
@@ -261,11 +285,17 @@ const campaigns = {
       heroTitle: "Automate the busy work. Keep control.",
       heroCopy: "See if an AI Employee fits one busy process—with clear approvals and a person for exceptions.",
       primaryCta: "See if an AI Employee fits",
-      secondaryCta: "See what we examine",
+      secondaryCta: "See AI Employee",
       homework: "To start, describe the busy work and who handles exceptions today.",
+      pathwayLink: "Explore the automation and AI pathway on ROALLA.com",
+      ladder: [
+        { title: "See", body: "Review the AI Employee product and how governed frontline help works.", cta: "See AI Employee", pathKey: "aiEmployeePage" },
+        { title: "Interpret", body: "Talk with Steven about fit, approvals, and the first workload.", cta: "See if an AI Employee fits", pathKey: "contact" },
+        { title: "Improve", body: "Follow the full automation pathway when you are ready to sequence evidence and controls.", cta: "Open the pathway", pathKey: "needAutomation" }
+      ],
       introEyebrow: "Control before complexity",
       introTitle: "AI helps when the work is clear—and people stay accountable.",
-      introCopy: "Unanswered peak and after-hours calls, the same questions every day, callers who hang up, and long ramp with churn—readiness means one process, clear approvals, and a person for exceptions.",
+      introCopy: "Unanswered peak and after-hours calls, the same questions every day, callers who hang up, and long ramp with churn—readiness means one process, clear approvals, and a person for exceptions. Start by seeing how AI Employee works on ROALLA.com, then decide fit with Steven.",
       pillars: [
         ["Cover the unanswered calls", "After hours and peaks without leaving customers hanging—with rules for when a person must take over."],
         ["Offload the repetitive questions", "One busy, measurable workload—not a vague “do everything” bot—with costs you can plan before a pilot."],
@@ -305,11 +335,17 @@ const campaigns = {
       heroTitle: "Automatisez le travail répétitif. Gardez le contrôle.",
       heroCopy: "Vérifiez si un employé IA convient à un processus chargé—avec des approbations claires et une personne pour les exceptions.",
       primaryCta: "Voir si un employé IA convient",
-      secondaryCta: "Voir ce que nous examinons",
+      secondaryCta: "Voir l’employé IA",
       homework: "Pour commencer, décrivez le travail répétitif et qui gère les exceptions aujourd’hui.",
+      pathwayLink: "Explorer le parcours automation et IA sur ROALLA.com",
+      ladder: [
+        { title: "Voir", body: "Consultez le produit Employé IA et comment l’aide en première ligne reste gouvernée.", cta: "Voir l’employé IA", pathKey: "aiEmployeePage" },
+        { title: "Interpréter", body: "Parlez avec Steven de l’adéquation, des approbations et de la première charge.", cta: "Voir si un employé IA convient", pathKey: "contact" },
+        { title: "Améliorer", body: "Suivez le parcours automation complet quand vous êtes prêt à enchaîner preuves et contrôles.", cta: "Ouvrir le parcours", pathKey: "needAutomation" }
+      ],
       introEyebrow: "Le contrôle avant la complexité",
       introTitle: "L’IA aide quand le travail est clair—et que les gens restent responsables.",
-      introCopy: "Appels sans réponse en pointe et après les heures, les mêmes questions chaque jour, des appelants qui raccrochent, et une longue montée en compétence avec roulement—la préparation, c’est un processus, des approbations claires et une personne pour les exceptions.",
+      introCopy: "Appels sans réponse en pointe et après les heures, les mêmes questions chaque jour, des appelants qui raccrochent, et une longue montée en compétence avec roulement—la préparation, c’est un processus, des approbations claires et une personne pour les exceptions. Commencez par voir comment fonctionne l’employé IA sur ROALLA.com, puis décidez de l’adéquation avec Steven.",
       pillars: [
         ["Couvrir les appels sans réponse", "Après les heures et en pointe sans laisser les clients en attente—avec des règles pour quand une personne doit prendre le relais."],
         ["Délester les questions répétitives", "Une charge mesurable et ciblée—pas un robot vague « qui fait tout »—avec des coûts prévus avant un pilote."],
@@ -349,17 +385,54 @@ function escapeJson(value) {
 }
 
 function paths(lang) {
+  const locale = lang === "fr" ? "fr" : "en";
+  const corporate = `https://www.roalla.com/${locale}`;
   const base = lang === "fr"
-    ? { home: "/fr/", privacy: "/fr/confidentialite/", preferences: "/fr/preferences/", unsubscribe: "/fr/desabonnement/", corporate: "https://www.roalla.com/fr", contact: "https://www.roalla.com/fr/contact" }
-    : { home: "/en/", privacy: "/en/privacy/", preferences: "/en/preferences/", unsubscribe: "/en/unsubscribe/", corporate: "https://www.roalla.com/en", contact: "https://www.roalla.com/en/contact" };
+    ? { home: "/fr/", privacy: "/fr/confidentialite/", preferences: "/fr/preferences/", unsubscribe: "/fr/desabonnement/", corporate, contact: `${corporate}/contact` }
+    : { home: "/en/", privacy: "/en/privacy/", preferences: "/en/preferences/", unsubscribe: "/en/unsubscribe/", corporate, contact: `${corporate}/contact` };
   return {
     ...base,
     visibility: `${base.home}campaigns/visibility-review/`,
     aiEmployee: `${base.home}campaigns/ai-employee-readiness/`,
+    snapshot: `${corporate}/tools/digital-presence-snapshot`,
+    visibilityReview: `${corporate}/website-ai-visibility-review`,
+    emailBrief: `${corporate}/tools/email-reach-brief`,
+    visibilityEstimate: `${corporate}/visibility-improvement-estimate`,
+    needGrowth: `${corporate}/solutions/need/growth-visibility`,
+    visibilityService: `${corporate}/services/search-ai-visibility`,
+    aiEmployeePage: `${corporate}/ai-employee`,
+    aiReadiness: `${corporate}/ai-agent-readiness-review`,
+    automationReview: `${corporate}/automation-opportunity-review`,
+    needAutomation: `${corporate}/solutions/need/automation-ai`,
     campaign(slug) {
       return `${base.home}campaigns/${slug}/`;
     }
   };
+}
+
+function attributedUrl(baseUrl, { lang, slug, intent, extra = {} }) {
+  const target = new URL(baseUrl);
+  const entry = paths(lang).campaign(slug);
+  target.searchParams.set("campaign", `insights-${slug}`);
+  target.searchParams.set("entry_page", entry);
+  target.searchParams.set("conversion_source", "insights_campaign");
+  target.searchParams.set("ref", "roalla-insights");
+  target.searchParams.set("signal", slug);
+  if (intent) target.searchParams.set("intent", intent);
+  for (const [key, value] of Object.entries(extra)) {
+    if (value != null && value !== "") target.searchParams.set(key, String(value));
+  }
+  return target.toString();
+}
+
+function resolveProofHref(lang, slug, pathKey, intent, extra = {}) {
+  const p = paths(lang);
+  if (pathKey === "contact") {
+    return attributedUrl(p.contact, { lang, slug, intent, extra });
+  }
+  const base = p[pathKey];
+  if (!base) return attributedUrl(p.contact, { lang, slug, intent, extra });
+  return attributedUrl(base, { lang, slug, extra });
 }
 
 function header(lang, { mode = "hub", campaignHref = "", alternateHref = "" } = {}) {
@@ -475,7 +548,10 @@ function hubPage(lang) {
   const p = paths(lang);
   const tiles = h.tiles.map((tile) => {
     const href = p.campaign(tile.slug);
-    const scenarios = (tile.scenarios || []).map((item) => `<li>${item}</li>`).join("");
+    const scenarios = (tile.scenarios || []).map((item) => {
+      const label = typeof item === "string" ? item : item.label;
+      return `<li>${label}</li>`;
+    }).join("");
     return `<a class="campaign-tile home-tile reveal" href="${href}">
       <span class="campaign-tile-media"><img src="${tile.image}" alt="${tile.imageAlt}" width="640" height="400" loading="eager" decoding="async"><span class="campaign-tile-scrim" aria-hidden="true"></span><span class="campaign-tile-pill">${tile.servicePill}</span></span>
       <span class="campaign-tile-body">
@@ -521,9 +597,19 @@ function campaignPage(lang, slug) {
   const p = paths(lang);
   const other = paths(lang === "fr" ? "en" : "fr");
   const route = p.campaign(slug);
-  const contactHref = `${p.contact}?intent=${encodeURIComponent(campaign.intent)}`;
+  const contactHref = attributedUrl(p.contact, { lang, slug, intent: campaign.intent });
+  const proofHref = resolveProofHref(lang, slug, campaign.proofPathKey, campaign.intent, campaign.proofExtra || {});
+  const pathwayHref = resolveProofHref(lang, slug, campaign.pathwayPathKey, campaign.intent);
   const servicePill = tile?.servicePill || copy.heroEyebrow;
-  const scenarios = (tile?.scenarios || []).map((item) => `<li>${item}</li>`).join("");
+  const scenarios = (tile?.scenarios || []).map((item) => {
+    if (typeof item === "string") return `<li><span class="pressure-label">${item}</span></li>`;
+    const href = resolveProofHref(lang, slug, item.pathKey, campaign.intent, item.extra || {});
+    return `<li><span class="pressure-label">${item.label}</span><a class="pressure-proof" href="${href}" data-attribution>${item.cta}<span aria-hidden="true"> →</span></a></li>`;
+  }).join("");
+  const ladder = (copy.ladder || []).map((step, index) => {
+    const href = resolveProofHref(lang, slug, step.pathKey, campaign.intent, step.extra || {});
+    return `<article class="ladder-step"><span class="ladder-index">0${index + 1}</span><h3>${step.title}</h3><p>${step.body}</p><a class="ladder-cta" href="${href}" data-attribution>${step.cta}<span aria-hidden="true"> →</span></a></article>`;
+  }).join("");
   const content = `<main id="main" class="campaign-need">
     <section class="pathway-hero">
       <div class="pathway-hero-glow" aria-hidden="true"></div>
@@ -534,7 +620,7 @@ function campaignPage(lang, slug) {
         <p class="pathway-lead">${copy.heroCopy}</p>
         <div class="pathway-actions">
           <a class="button gold pathway-primary" href="${contactHref}" data-attribution>${copy.primaryCta}<span aria-hidden="true"> →</span></a>
-          <a class="button pathway-secondary" href="#review">${copy.secondaryCta}</a>
+          <a class="button pathway-secondary" href="${proofHref}" data-attribution>${copy.secondaryCta}</a>
         </div>
       </div>
     </section>
@@ -546,6 +632,15 @@ function campaignPage(lang, slug) {
         </div>
         <ul class="pressure-list">${scenarios}</ul>
         <p class="examples-cta"><a class="button gold" href="${contactHref}" data-attribution>${copy.primaryCta}<span aria-hidden="true"> →</span></a></p>
+      </div>
+    </section>
+    <section class="section ladder-band" id="ladder">
+      <div class="wrap">
+        <div class="section-head reveal-on-scroll">
+          <div><p class="eyebrow">${t.ladderEyebrow}</p><h2>${t.ladderTitle}</h2></div>
+          <p class="lead">${t.ladderLead}</p>
+        </div>
+        <div class="ladder-grid">${ladder}</div>
       </div>
     </section>
     <section class="section" id="review">
@@ -588,6 +683,7 @@ function campaignPage(lang, slug) {
             <h2>${copy.ctaTitle}</h2>
             <p class="cta-reassure">${t.reassurance}</p>
             <p class="cta-homework">${copy.homework}</p>
+            <p class="pathway-soft"><a href="${pathwayHref}" data-attribution>${copy.pathwayLink}<span aria-hidden="true"> →</span></a></p>
           </div>
           <div class="contact-card">
             <h3>${t.contactTitle}</h3>
@@ -596,6 +692,7 @@ function campaignPage(lang, slug) {
               <a href="mailto:sales@roalla.com?subject=${encodeURIComponent(copy.heroEyebrow)}">${t.contactEmail}</a>
               <a href="tel:+12898385868">${t.contactPhone}</a>
               <a class="button gold" href="${contactHref}" data-attribution>${copy.primaryCta}<span aria-hidden="true"> →</span></a>
+              <a class="text-link proof-soft" href="${proofHref}" data-attribution>${copy.secondaryCta}</a>
             </div>
           </div>
         </div>

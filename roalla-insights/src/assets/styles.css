@@ -378,6 +378,9 @@ img, svg { max-width: 100%; display: block; }
   gap: .75rem;
 }
 .pressure-list li {
+  display: flex;
+  flex-direction: column;
+  gap: .65rem;
   padding: 1rem 1.1rem;
   border: 1px solid #e2e8f0;
   border-radius: .75rem;
@@ -387,6 +390,79 @@ img, svg { max-width: 100%; display: block; }
   font-weight: 600;
   line-height: 1.45;
   box-shadow: 0 1px 2px rgb(15 23 42 / .04);
+}
+.pressure-label { display: block; }
+.pressure-proof {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--cyan-dark);
+  font-size: .88rem;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: .16em;
+}
+.pressure-proof:hover { color: var(--ink); }
+.ladder-band { background: #f8fafc; border-block: 1px solid #e2e8f0; }
+.ladder-grid {
+  display: grid;
+  gap: .85rem;
+}
+.ladder-step {
+  padding: 1.15rem 1.2rem;
+  border: 1px solid #e2e8f0;
+  border-radius: .75rem;
+  background: var(--white);
+}
+.ladder-index {
+  display: block;
+  margin-bottom: .45rem;
+  color: var(--cyan-dark);
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .1em;
+}
+.ladder-step h3 {
+  margin: 0 0 .45rem;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+}
+.ladder-step p {
+  margin: 0 0 .85rem;
+  color: #475569;
+  font-size: .95rem;
+  font-weight: 500;
+}
+.ladder-cta {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--cyan-dark);
+  font-size: .9rem;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: .16em;
+}
+.ladder-cta:hover { color: var(--ink); }
+.pathway-soft {
+  margin: 1rem 0 0;
+  font-size: .92rem;
+  font-weight: 700;
+}
+.pathway-soft a {
+  color: var(--cyan-dark);
+  text-decoration: underline;
+  text-underline-offset: .16em;
+}
+.pathway-soft a:hover { color: var(--ink); }
+.proof-soft {
+  color: #e8f1f4;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: .16em;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
 }
 .campaign-need .section-head .eyebrow { color: var(--cyan-dark); }
 .campaign-need .pillar,
@@ -792,6 +868,7 @@ h2 {
   .pathway-actions .button { width: auto; }
   .hero-secondary { justify-content: flex-start; }
   .pressure-list { grid-template-columns: 1fr 1fr; }
+  .ladder-grid { grid-template-columns: 1fr 1fr 1fr; }
   .grid-4 { grid-template-columns: 1fr 1fr; }
   .deliverables { grid-template-columns: 1fr 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }

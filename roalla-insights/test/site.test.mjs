@@ -104,15 +104,23 @@ test("visibility campaign uses need-style hero and sales CTAs", async () => {
   assert.match(response.body, /pathway-hero/);
   assert.match(response.body, /All campaigns/);
   assert.match(response.body, /Website &amp; AI Visibility|Website & AI Visibility/);
-  assert.match(response.body, /intent=website-ai-visibility-review/);
+  assert.match(response.body, /intent=visibility/);
+  assert.doesNotMatch(response.body, /intent=website-ai-visibility-review/);
   assert.match(response.body, /button gold pathway-primary/);
-  assert.match(response.body, /href="#review"/);
-  assert.match(response.body, /See what we examine/);
+  assert.match(response.body, /Check my website/);
+  assert.match(response.body, /digital-presence-snapshot/);
+  assert.match(response.body, /website-ai-visibility-review/);
+  assert.match(response.body, /email-reach-brief/);
+  assert.match(response.body, /solutions\/need\/growth-visibility/);
+  assert.match(response.body, /services\/search-ai-visibility/);
+  assert.match(response.body, /ladder-band/);
+  assert.match(response.body, /See\. Interpret\. Improve/);
   assert.match(response.body, /Sounds familiar/);
   assert.match(response.body, /ChatGPT/);
   assert.match(response.body, /Important emails land in junk/);
   assert.match(response.body, /Email that arrives/);
   assert.match(response.body, /pressure-list/);
+  assert.match(response.body, /pressure-proof/);
   assert.match(response.body, /Looking to 2027/);
   assert.match(response.body, /\/assets\/campaigns\/visibility-hero\.webp/);
   assert.match(response.body, /You don(?:'|’|&rsquo;)t need to be technical/);
@@ -127,8 +135,12 @@ test("AI readiness campaign uses need-style hero and sales CTAs", async () => {
   assert.match(response.body, /Automate the busy work/);
   assert.match(response.body, /intent=ai-support/);
   assert.match(response.body, /button gold pathway-primary/);
-  assert.match(response.body, /href="#review"/);
-  assert.match(response.body, /See what we examine/);
+  assert.match(response.body, /See AI Employee/);
+  assert.match(response.body, /\/ai-employee/);
+  assert.match(response.body, /automation-opportunity-review/);
+  assert.match(response.body, /ai-agent-readiness-review/);
+  assert.match(response.body, /solutions\/need\/automation-ai/);
+  assert.match(response.body, /ladder-band/);
   assert.match(response.body, /Sounds familiar/);
   assert.match(response.body, /Callers hang up before anyone can help/);
   assert.match(response.body, /Cover the unanswered calls/);
@@ -146,6 +158,8 @@ test("styles load brand fonts and WCAG-oriented muted token", async () => {
   assert.match(css, /\.campaign-tile-pill/);
   assert.match(css, /\.pathway-hero/);
   assert.match(css, /\.pressure-list/);
+  assert.match(css, /\.ladder-band/);
+  assert.match(css, /\.pressure-proof/);
 });
 
 test("campaign script supports standard UTM and click identifiers", async () => {

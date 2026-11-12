@@ -370,39 +370,75 @@ img, svg { max-width: 100%; display: block; }
   color: var(--white);
 }
 .scenarios-band { background: var(--white); border-block: 1px solid #e2e8f0; }
+.scenarios-band .section-head { margin-bottom: 1.25rem; }
 .pressure-list {
   margin: 0;
   padding: 0;
   list-style: none;
   display: grid;
-  gap: .75rem;
+  gap: 1rem;
 }
-.pressure-list li {
+.pressure-tile {
   display: flex;
   flex-direction: column;
-  gap: .65rem;
-  padding: 1rem 1.1rem;
+  gap: .85rem;
+  height: 100%;
+  padding: 1.2rem 1.2rem 1.1rem;
   border: 1px solid #e2e8f0;
-  border-radius: .75rem;
+  border-radius: 1rem;
   background: linear-gradient(to bottom right, #f8fafc, #fff);
+  box-shadow: 0 1px 3px 0 rgb(15 23 42 / .06), 0 1px 2px -1px rgb(15 23 42 / .06);
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+.pressure-tile:hover,
+.pressure-tile:focus-within {
+  transform: translateY(-3px);
+  border-color: rgba(0, 180, 197, .4);
+  box-shadow:
+    0 12px 28px -8px rgb(0 180 197 / .22),
+    0 6px 14px -6px rgb(15 23 42 / .1);
+}
+.pressure-label {
+  margin: 0;
+  flex: 1;
   color: #0f172a;
-  font-size: .98rem;
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: -.015em;
+  line-height: 1.35;
+}
+.pressure-cta.button {
+  width: 100%;
+  border-radius: .5rem;
+  margin-top: auto;
+}
+.pressure-hint {
+  margin: 0;
+  color: #64748b;
+  font-size: .78rem;
   font-weight: 600;
-  line-height: 1.45;
-  box-shadow: 0 1px 2px rgb(15 23 42 / .04);
+  line-height: 1.35;
+  text-align: center;
 }
-.pressure-label { display: block; }
-.pressure-proof {
-  display: inline-flex;
-  min-height: 44px;
-  align-items: center;
-  color: var(--cyan-dark);
-  font-size: .88rem;
-  font-weight: 800;
-  text-decoration: underline;
-  text-underline-offset: .16em;
+.examples-cta {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0 0;
 }
-.pressure-proof:hover { color: var(--ink); }
+.pressure-sales {
+  width: 100%;
+  max-width: 22rem;
+  border-radius: .5rem;
+  background: transparent;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+.pressure-sales:hover {
+  background: #f1f5f9;
+  border-color: #64748b;
+  color: #0f172a;
+}
 .ladder-band { background: #f8fafc; border-block: 1px solid #e2e8f0; }
 .ladder-grid {
   display: grid;
@@ -904,6 +940,7 @@ h2 {
   .reveal-on-scroll,
   .campaign-tile,
   .campaign-tile-media img,
+  .pressure-tile,
   .button {
     animation: none !important;
     transition: none !important;

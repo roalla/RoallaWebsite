@@ -120,7 +120,10 @@ test("visibility campaign uses need-style hero and sales CTAs", async () => {
   assert.match(response.body, /Important emails land in junk/);
   assert.match(response.body, /Email that arrives/);
   assert.match(response.body, /pressure-list/);
-  assert.match(response.body, /pressure-proof/);
+  assert.match(response.body, /pressure-tile/);
+  assert.match(response.body, /button gold pressure-cta/);
+  assert.match(response.body, /Free check on ROALLA\.com/);
+  assert.match(response.body, /pressure-sales/);
   assert.match(response.body, /Looking to 2027/);
   assert.match(response.body, /\/assets\/campaigns\/visibility-hero\.webp/);
   assert.match(response.body, /You don(?:'|’|&rsquo;)t need to be technical/);
@@ -159,7 +162,10 @@ test("styles load brand fonts and WCAG-oriented muted token", async () => {
   assert.match(css, /\.pathway-hero/);
   assert.match(css, /\.pressure-list/);
   assert.match(css, /\.ladder-band/);
-  assert.match(css, /\.pressure-proof/);
+  assert.match(css, /\.pressure-tile/);
+  assert.match(css, /\.pressure-cta/);
+  assert.match(css, /\.pressure-sales/);
+  assert.doesNotMatch(css, /\.pressure-proof\s*\{/);
 });
 
 test("campaign script supports standard UTM and click identifiers", async () => {

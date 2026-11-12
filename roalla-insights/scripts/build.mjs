@@ -5,7 +5,7 @@ const sourceAssets = new URL("../src/assets/", import.meta.url);
 const configuredUrl = process.env.SITE_URL || "https://www.roallainsights.com";
 const siteUrl = configuredUrl.replace(/\/$/, "");
 const updated = "2026-11-12";
-const assetVersion = "20261112j";
+const assetVersion = "20261112k";
 const campaignImages = {
   visibility: `/assets/campaigns/visibility-hero.webp?v=${assetVersion}`,
   aiEmployee: `/assets/campaigns/ai-employee-hero.webp?v=${assetVersion}`
@@ -24,6 +24,7 @@ const shell = {
     talkSecondary: "Talk with Steven",
     scenariosHeading: "Sounds familiar?",
     scenariosLead: "These are the pressures this campaign is built to address.",
+    pressureHint: "Free check on ROALLA.com",
     privacy: "Privacy",
     preferences: "Communication preferences",
     unsubscribe: "Unsubscribe",
@@ -58,6 +59,7 @@ const shell = {
     talkSecondary: "Parler avec Steven",
     scenariosHeading: "Ça vous dit quelque chose?",
     scenariosLead: "Voici les pressions que cette campagne est conçue pour traiter.",
+    pressureHint: "Vérification gratuite sur ROALLA.com",
     privacy: "Confidentialité",
     preferences: "Préférences de communication",
     unsubscribe: "Se désabonner",
@@ -602,9 +604,11 @@ function campaignPage(lang, slug) {
   const pathwayHref = resolveProofHref(lang, slug, campaign.pathwayPathKey, campaign.intent);
   const servicePill = tile?.servicePill || copy.heroEyebrow;
   const scenarios = (tile?.scenarios || []).map((item) => {
-    if (typeof item === "string") return `<li><span class="pressure-label">${item}</span></li>`;
+    if (typeof item === "string") {
+      return `<li class="pressure-tile"><p class="pressure-label">${item}</p></li>`;
+    }
     const href = resolveProofHref(lang, slug, item.pathKey, campaign.intent, item.extra || {});
-    return `<li><span class="pressure-label">${item.label}</span><a class="pressure-proof" href="${href}" data-attribution>${item.cta}<span aria-hidden="true"> →</span></a></li>`;
+    return `<li class="pressure-tile"><p class="pressure-label">${item.label}</p><a class="button gold pressure-cta" href="${href}" data-attribution>${item.cta}<span aria-hidden="true"> →</span></a><p class="pressure-hint">${t.pressureHint}</p></li>`;
   }).join("");
   const ladder = (copy.ladder || []).map((step, index) => {
     const href = resolveProofHref(lang, slug, step.pathKey, campaign.intent, step.extra || {});
@@ -631,7 +635,7 @@ function campaignPage(lang, slug) {
           <p class="lead">${t.scenariosLead}</p>
         </div>
         <ul class="pressure-list">${scenarios}</ul>
-        <p class="examples-cta"><a class="button gold" href="${contactHref}" data-attribution>${copy.primaryCta}<span aria-hidden="true"> →</span></a></p>
+        <p class="examples-cta"><a class="button pressure-sales" href="${contactHref}" data-attribution>${copy.primaryCta}<span aria-hidden="true"> →</span></a></p>
       </div>
     </section>
     <section class="section ladder-band" id="ladder">

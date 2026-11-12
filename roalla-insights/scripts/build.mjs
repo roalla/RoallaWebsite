@@ -5,7 +5,11 @@ const sourceAssets = new URL("../src/assets/", import.meta.url);
 const configuredUrl = process.env.SITE_URL || "https://www.roallainsights.com";
 const siteUrl = configuredUrl.replace(/\/$/, "");
 const updated = "2026-11-12";
-const assetVersion = "20261112h";
+const assetVersion = "20261112i";
+const campaignImages = {
+  visibility: `/assets/campaigns/visibility-hero.webp?v=${assetVersion}`,
+  aiEmployee: `/assets/campaigns/ai-employee-hero.webp?v=${assetVersion}`
+};
 
 const shell = {
   en: {
@@ -86,7 +90,7 @@ const hub = {
         blurb: "A plain-language path to clearer search, maps, and AI recommendations.",
         cta: "Open visibility campaign",
         servicePill: "Website & AI Visibility",
-        image: "/assets/campaigns/visibility-hero.webp",
+        image: campaignImages.visibility,
         imageAlt: "Customer finding a business through search, maps, and AI chat",
         scenarios: [
           "Customers can’t find us in search or on maps",
@@ -101,7 +105,7 @@ const hub = {
         blurb: "See if one busy process fits—with people still in control.",
         cta: "Open AI readiness campaign",
         servicePill: "AI Employee",
-        image: "/assets/campaigns/ai-employee-hero.webp",
+        image: campaignImages.aiEmployee,
         imageAlt: "Business team supervising an automated workflow with a human approval step",
         scenarios: [
           "Calls go unanswered after hours and at peak times",
@@ -125,7 +129,7 @@ const hub = {
         blurb: "Une voie claire pour la recherche, les cartes et les recommandations IA.",
         cta: "Ouvrir la campagne visibilité",
         servicePill: "Visibilité Web et IA",
-        image: "/assets/campaigns/visibility-hero.webp",
+        image: campaignImages.visibility,
         imageAlt: "Client qui trouve une entreprise via la recherche, les cartes et un clavardage IA",
         scenarios: [
           "Les clients ne nous trouvent pas dans la recherche ou sur les cartes",
@@ -140,7 +144,7 @@ const hub = {
         blurb: "Vérifiez si un processus chargé convient—avec des personnes aux commandes.",
         cta: "Ouvrir la campagne préparation IA",
         servicePill: "Employé IA",
-        image: "/assets/campaigns/ai-employee-hero.webp",
+        image: campaignImages.aiEmployee,
         imageAlt: "Équipe d’affaires qui supervise un flux automatisé avec une étape d’approbation humaine",
         scenarios: [
           "Des appels restent sans réponse après les heures et en période de pointe",
@@ -156,7 +160,7 @@ const hub = {
 const campaigns = {
   "visibility-review": {
     intent: "website-ai-visibility-review",
-    image: "/assets/campaigns/visibility-hero.webp",
+    image: campaignImages.visibility,
     en: {
       offerName: "Website & AI Visibility Review",
       title: "Website & AI Visibility Review | ROALLA Insights",
@@ -248,7 +252,7 @@ const campaigns = {
   },
   "ai-employee-readiness": {
     intent: "ai-support",
-    image: "/assets/campaigns/ai-employee-hero.webp",
+    image: campaignImages.aiEmployee,
     en: {
       offerName: "AI Employee & Agent Readiness",
       title: "AI Employee & Agent Readiness | ROALLA Insights",
@@ -505,7 +509,7 @@ function hubPage(lang) {
     content,
     structuredData: organizationSchema(lang),
     headerMode: "hub",
-    ogImage: "/assets/campaigns/visibility-hero.webp"
+    ogImage: campaignImages.visibility
   });
 }
 

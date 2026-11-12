@@ -89,6 +89,8 @@ test("homepage is a photo-led campaign hub with full-tile links", async () => {
   assert.match(response.body, /\/en\/campaigns\/ai-employee-readiness\//);
   assert.match(response.body, /\/assets\/campaigns\/visibility-hero\.webp/);
   assert.match(response.body, /\/assets\/campaigns\/ai-employee-hero\.webp/);
+  assert.match(response.body, /visibility-hero\.webp\?v=\d+[a-z]/);
+  assert.match(response.body, /ai-employee-hero\.webp\?v=\d+[a-z]/);
   assert.doesNotMatch(response.body, /intent=website-ai-visibility-review/);
   assert.doesNotMatch(response.body, /The product portfolio/);
   assert.doesNotMatch(response.body, /11 products/);

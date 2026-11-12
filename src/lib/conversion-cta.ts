@@ -19,6 +19,10 @@ export const CONVERSION_BRIEF_PATHS = [
   '/tools/technology-decision-brief',
   '/tools/digital-presence-snapshot',
   '/tools/digital-value-blueprint',
+  '/tools/estimates',
+  '/website-estimate',
+  '/visibility-improvement-estimate',
+  '/email-reach-estimate',
   '/contact',
 ] as const
 

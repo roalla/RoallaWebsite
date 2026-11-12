@@ -3,6 +3,7 @@ import { applyEstimateTax } from '@/lib/estimate-regions'
 export const WEBSITE_ESTIMATE_PRICES = {
   website: 800,
   copyAndBooking: 300,
+  /** Launch-time search/AI baseline included with a new site (not the visibility retrofit program). */
   visibility: 250,
   emailSetup: 150,
   emailAnnual: 114,

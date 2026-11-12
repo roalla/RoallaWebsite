@@ -22,7 +22,10 @@ import EstimateInvestmentPayback, {
 } from '@/components/estimates/EstimateInvestmentPayback'
 import EstimateMarketContextFields from '@/components/estimates/EstimateMarketContextFields'
 import EstimateConsiderations from '@/components/estimates/EstimateConsiderations'
+import EstimateCommercialNotes from '@/components/estimates/EstimateCommercialNotes'
+import EstimateShell from '@/components/estimates/EstimateShell'
 import { useEstimateMarketRegion } from '@/hooks/useEstimateMarketRegion'
+import { ESTIMATE_PRICING_VERSION } from '@/lib/estimate-commercial'
 
 /** Keep server/client currency text identical (ICU may emit NBSP / narrow NBSP). */
 function formatCad(amount: number, locale: string) {
@@ -66,10 +69,11 @@ const copy = {
     copyBooking: 'Copywriting and booking integration',
     copyBookingWhat: 'Client-friendly service messaging connected to the selected booking path.',
     copyBookingWhy: 'Helps visitors understand the offer and move from interest to an inquiry with less friction.',
-    visibility: 'Help search and AI find and describe your business',
-    visibilityWhat: 'Clear public signals so search tools and AI assistants can understand what you offer.',
+    visibility: 'Launch search & AI baseline',
+    visibilityWhat:
+      'Included build-time setup so titles, structure, and public facts are clear when the new site goes live—the baseline every credible site needs (similar in role to what DIY builders include, done to ROALLA’s standard).',
     visibilityWhy:
-      'Helps the right customers discover and understand the business when configured properly (SEO, AEO, agentic AI). Rankings are not guaranteed.',
+      'This is launch baseline on a site we are building—not a full visibility improvement program for an existing footprint. Rankings and AI citations are not guaranteed.',
     domainTitle: 'Website address',
     domainIntro:
       'Do you already have a website address (domain), or do you need ROALLA to register one for you?',
@@ -271,7 +275,8 @@ const copy = {
     disclaimer:
       'This is a preliminary, non-binding estimate based on your selections. ROALLA confirms scope, compatibility, timing and final pricing in writing before work begins.',
     cta: 'Request scope confirmation',
-    crossLinkVisibility: 'Already have a site? Estimate search and AI visibility improvements',
+    crossLinkVisibility:
+      'Already have a site? Estimate a visibility improvement program (different from this launch baseline)',
     crossLinkEmail: 'Emails not reaching clients? Estimate email reach and setup',
   },
   fr: {
@@ -299,10 +304,11 @@ const copy = {
     copyBooking: 'Rédaction et intégration de la réservation',
     copyBookingWhat: 'Des messages clairs sur les services, reliés au parcours de réservation choisi.',
     copyBookingWhy: 'Aide les visiteurs à comprendre l’offre et à passer plus facilement de l’intérêt à une demande.',
-    visibility: 'Aider la recherche et l’IA à trouver et décrire votre entreprise',
-    visibilityWhat: 'Des signaux publics clairs pour que les outils de recherche et les assistants IA comprennent votre offre.',
+    visibility: 'Base de lancement recherche et IA',
+    visibilityWhat:
+      'Configuration incluse à la construction pour que titres, structure et faits publics soient clairs dès la mise en ligne—la base dont tout site crédible a besoin (rôle comparable à ce qu’incluent les constructeurs DIY, au standard ROALLA).',
     visibilityWhy:
-      'Aide les bons clients à découvrir et comprendre l’entreprise lorsque la configuration est adéquate (SEO, AEO, IA agentique). Aucun classement n’est garanti.',
+      'Il s’agit de la base de lancement sur un site que nous construisons—pas d’un programme complet d’amélioration de visibilité pour une présence existante. Aucun classement ni citation IA n’est garanti.',
     domainTitle: 'Adresse du site',
     domainIntro:
       'Avez-vous déjà une adresse de site (domaine), ou ROALLA doit-elle en enregistrer une pour vous?',
@@ -507,7 +513,8 @@ const copy = {
     disclaimer:
       'Cette estimation préliminaire est non contraignante. ROALLA confirmera la portée, la compatibilité, l’échéancier et le prix final par écrit avant le début des travaux.',
     cta: 'Demander la confirmation de la portée',
-    crossLinkVisibility: 'Vous avez déjà un site? Estimez les améliorations de visibilité recherche et IA',
+    crossLinkVisibility:
+      'Vous avez déjà un site? Estimez un programme d’amélioration de visibilité (différent de cette base de lancement)',
     crossLinkEmail: 'Les courriels n’atteignent pas les clients? Estimez la portée et la configuration',
   },
 } as const
@@ -833,6 +840,10 @@ export default function WebsiteEstimateBuilder() {
     goal: estimateGoal,
     estimate_total: estimateTotalLabel,
     estimate_summary: estimateSummary,
+    estimate_tool: 'website',
+    estimate_pricing_version: ESTIMATE_PRICING_VERSION,
+    ...(regionId ? { estimate_region: regionId } : {}),
+    ...(marketId ? { estimate_market: marketId } : {}),
     ...attributionQuery,
     ...(appliedReferralCode ? { estimate_referral_code: appliedReferralCode } : {}),
     ...(paybackPlanning.value > 0
@@ -872,44 +883,37 @@ export default function WebsiteEstimateBuilder() {
   )
 
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-900/5 pb-24 lg:pb-0">
-      <header className="rounded-t-3xl bg-slate-950 px-6 py-8 text-white sm:px-8 lg:px-10">
-        <p className="text-xs font-bold uppercase tracking-[.18em] text-primary-light">{t.eyebrow}</p>
-        <h1 className="mt-3 max-w-3xl text-3xl font-serif font-bold text-white sm:text-4xl">{t.title}</h1>
-        <p className="mt-4 max-w-3xl leading-7 text-white/95">{t.intro}</p>
-        <p className="mt-4 inline-flex max-w-3xl items-start gap-2 rounded-xl border border-amber-300/40 bg-amber-400/15 px-3.5 py-2.5 text-sm leading-6 text-white">
-          <Tag className="mt-0.5 h-4 w-4 shrink-0 text-amber-300" aria-hidden />
-          <span>
-            {t.referralNote}{' '}
-            <a href="#referral-code-section" className="font-semibold text-amber-200 underline underline-offset-4 hover:text-amber-100">
-              {t.referralNoteLink}
-            </a>
-          </span>
-        </p>
-        <div className="mt-6 flex flex-wrap gap-2">
-          {[t.outcomeClarity, t.outcomeDiscovery, t.outcomeAction].map((outcome) => (
-            <span key={outcome} className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white">
-              <CheckCircle className="h-3.5 w-3.5 text-primary-light" aria-hidden />
-              {outcome}
+    <EstimateShell
+      eyebrow={t.eyebrow}
+      title={t.title}
+      intro={t.intro}
+      jumpToEstimate={t.jumpToEstimate}
+      mobileSummaryLabel={t.mobileSummaryLabel}
+      mobileTotalLabel={estimateTotalLabel}
+      mobileCta={mobileContactCta}
+      headerExtra={
+        <>
+          <p className="mt-4 inline-flex max-w-3xl items-start gap-2 rounded-xl border border-amber-300/40 bg-amber-400/15 px-3.5 py-2.5 text-sm leading-6 text-white">
+            <Tag className="mt-0.5 h-4 w-4 shrink-0 text-amber-300" aria-hidden />
+            <span>
+              {t.referralNote}{' '}
+              <a href="#referral-code-section" className="font-semibold text-amber-200 underline underline-offset-4 hover:text-amber-100">
+                {t.referralNoteLink}
+              </a>
             </span>
-          ))}
-        </div>
-        <a
-          href="#estimate-summary"
-          className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-lg border border-white/25 bg-white/10 px-4 py-2 text-sm font-bold text-white transition hover:bg-white/15 lg:hidden"
-        >
-          {t.jumpToEstimate}
-          <span aria-hidden>→</span>
-        </a>
-        <p className="mt-4 hidden text-sm font-semibold text-primary-light lg:block">
-          <a href="#estimate-summary" className="underline-offset-4 hover:underline">
-            {t.jumpToEstimate} →
-          </a>
-        </p>
-      </header>
-
-      <div className="grid lg:grid-cols-[1.2fr_.8fr]">
-        <div className="order-2 space-y-8 p-6 sm:p-8 lg:order-1 lg:p-10">
+          </p>
+          <div className="mt-6 flex flex-wrap gap-2">
+            {[t.outcomeClarity, t.outcomeDiscovery, t.outcomeAction].map((outcome) => (
+              <span key={outcome} className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white">
+                <CheckCircle className="h-3.5 w-3.5 text-primary-light" aria-hidden />
+                {outcome}
+              </span>
+            ))}
+          </div>
+        </>
+      }
+      form={
+        <>
           <EstimateMarketContextFields
             locale={french ? 'fr' : 'en'}
             marketId={marketId}
@@ -1441,13 +1445,10 @@ export default function WebsiteEstimateBuilder() {
               </>
             )}
           </form>
-        </div>
-
-        <aside
-          id="estimate-summary"
-          className="order-1 scroll-mt-28 border-b border-slate-200 bg-slate-50 p-6 sm:p-8 lg:order-2 lg:border-b-0 lg:border-l lg:p-10"
-        >
-          <div className="lg:sticky lg:top-28">
+        </>
+      }
+      summary={
+        <>
             <div className="flex items-center gap-2"><Sparkles className="h-5 w-5 text-primary" aria-hidden /><h2 className="text-xl font-serif font-bold text-slate-950">{t.summaryTitle}</h2></div>
             <dl className="mt-5 space-y-3 text-sm">
               <div className="flex justify-between gap-4"><dt className="text-slate-700">{t.coreServices}</dt><dd className="font-semibold tabular-nums text-slate-900">{money(WEBSITE_ESTIMATE_CORE_PRICE)}</dd></div>
@@ -1518,8 +1519,11 @@ export default function WebsiteEstimateBuilder() {
               }
               onPlanningChange={setPaybackPlanning}
             />
-            <p className="mt-5 text-xs leading-5 text-slate-600">{t.disclaimer}</p>
-            <p className="mt-2 text-xs leading-5 text-slate-600">{t.taxDisclaimer}</p>
+            <EstimateCommercialNotes
+              locale={french ? 'fr' : 'en'}
+              disclaimer={t.disclaimer}
+              taxDisclaimer={t.taxDisclaimer}
+            />
             {contactCta}
             <div className="mt-5 space-y-2 border-t border-slate-200 pt-4 text-sm leading-6 text-slate-700">
               <p className="flex gap-2">
@@ -1541,19 +1545,8 @@ export default function WebsiteEstimateBuilder() {
                 </Link>
               </p>
             </div>
-          </div>
-        </aside>
-      </div>
-
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 p-3 shadow-[0_-8px_30px_rgba(15,23,42,0.12)] backdrop-blur lg:hidden">
-        <div className="mx-auto flex max-w-7xl items-center gap-3">
-          <a href="#estimate-summary" className="min-w-0 flex-1 rounded-lg px-1 py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
-            <p className="text-[11px] font-bold uppercase tracking-wide text-slate-600">{t.mobileSummaryLabel}</p>
-            <p className="truncate text-lg font-serif font-bold tabular-nums text-primary-dark">{estimateTotalLabel}</p>
-          </a>
-          {mobileContactCta}
-        </div>
-      </div>
-    </section>
+        </>
+      }
+    />
   )
 }

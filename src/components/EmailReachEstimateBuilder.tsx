@@ -16,7 +16,10 @@ import EstimateInvestmentPayback, {
 } from '@/components/estimates/EstimateInvestmentPayback'
 import EstimateMarketContextFields from '@/components/estimates/EstimateMarketContextFields'
 import EstimateConsiderations from '@/components/estimates/EstimateConsiderations'
+import EstimateCommercialNotes from '@/components/estimates/EstimateCommercialNotes'
+import EstimateShell from '@/components/estimates/EstimateShell'
 import { useEstimateMarketRegion } from '@/hooks/useEstimateMarketRegion'
+import { ESTIMATE_PRICING_VERSION } from '@/lib/estimate-commercial'
 
 function formatCad(amount: number, locale: string) {
   return new Intl.NumberFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', {
@@ -116,8 +119,9 @@ const copy = {
     disclaimer:
       'This is a preliminary, non-binding estimate based on your selections. ROALLA confirms scope, compatibility, timing and final pricing in writing before work begins.',
     cta: 'Request scope confirmation',
-    crossLinkLaunch: 'Need a new site? Estimate a website launch package',
-    crossLinkVisibility: 'Already have a site? Estimate search and AI visibility improvements',
+    crossLinkLaunch: 'Need a new site? Estimate a website launch package (includes search & AI baseline)',
+    crossLinkVisibility:
+      'Already have a site? Estimate a visibility improvement program for your existing footprint',
   },
   fr: {
     eyebrow: 'Estimateur de portée courriel',
@@ -209,8 +213,10 @@ const copy = {
     disclaimer:
       'Cette estimation préliminaire est non contraignante. ROALLA confirmera la portée, la compatibilité, l’échéancier et le prix final par écrit avant le début des travaux.',
     cta: 'Demander la confirmation de la portée',
-    crossLinkLaunch: 'Besoin d’un nouveau site? Estimez un forfait de lancement Web',
-    crossLinkVisibility: 'Vous avez déjà un site? Estimez les améliorations de visibilité recherche et IA',
+    crossLinkLaunch:
+      'Besoin d’un nouveau site? Estimez un forfait de lancement Web (inclut la base recherche et IA)',
+    crossLinkVisibility:
+      'Vous avez déjà un site? Estimez un programme d’amélioration de visibilité pour votre présence existante',
   },
 } as const
 
@@ -402,6 +408,10 @@ export default function EmailReachEstimateBuilder() {
     goal: estimateGoal,
     estimate_total: estimateTotalLabel,
     estimate_summary: estimateSummary,
+    estimate_tool: 'email',
+    estimate_pricing_version: ESTIMATE_PRICING_VERSION,
+    ...(regionId ? { estimate_region: regionId } : {}),
+    ...(marketId ? { estimate_market: marketId } : {}),
     ...attributionQuery,
     ...(appliedReferralCode ? { estimate_referral_code: appliedReferralCode } : {}),
     ...(paybackPlanning.value > 0
@@ -441,27 +451,16 @@ export default function EmailReachEstimateBuilder() {
   )
 
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-900/5 pb-24 lg:pb-0">
-      <header className="rounded-t-3xl bg-slate-950 px-6 py-8 text-white sm:px-8 lg:px-10">
-        <p className="text-xs font-bold uppercase tracking-[.18em] text-primary-light">{t.eyebrow}</p>
-        <h1 className="mt-3 max-w-3xl text-3xl font-serif font-bold text-white sm:text-4xl">{t.title}</h1>
-        <p className="mt-4 max-w-3xl leading-7 text-white/95">{t.intro}</p>
-        <a
-          href="#estimate-summary"
-          className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-lg border border-white/25 bg-white/10 px-4 py-2 text-sm font-bold text-white transition hover:bg-white/15 lg:hidden"
-        >
-          {t.jumpToEstimate}
-          <span aria-hidden>→</span>
-        </a>
-        <p className="mt-4 hidden text-sm font-semibold text-primary-light lg:block">
-          <a href="#estimate-summary" className="underline-offset-4 hover:underline">
-            {t.jumpToEstimate} →
-          </a>
-        </p>
-      </header>
-
-      <div className="grid lg:grid-cols-[1.2fr_.8fr]">
-        <div className="order-2 space-y-8 p-6 sm:p-8 lg:order-1 lg:p-10">
+    <EstimateShell
+      eyebrow={t.eyebrow}
+      title={t.title}
+      intro={t.intro}
+      jumpToEstimate={t.jumpToEstimate}
+      mobileSummaryLabel={t.mobileSummaryLabel}
+      mobileTotalLabel={estimateTotalLabel}
+      mobileCta={mobileContactCta}
+      form={
+        <>
           <EstimateMarketContextFields
             locale={french ? 'fr' : 'en'}
             marketId={marketId}
@@ -736,13 +735,10 @@ export default function EmailReachEstimateBuilder() {
               </>
             )}
           </form>
-        </div>
-
-        <aside
-          id="estimate-summary"
-          className="order-1 scroll-mt-28 border-b border-slate-200 bg-slate-50 p-6 sm:p-8 lg:order-2 lg:border-b-0 lg:border-l lg:p-10"
-        >
-          <div className="lg:sticky lg:top-28">
+        </>
+      }
+      summary={
+        <>
             <div className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-primary" aria-hidden />
               <h2 className="text-xl font-serif font-bold text-slate-950">{t.summaryTitle}</h2>
@@ -839,8 +835,11 @@ export default function EmailReachEstimateBuilder() {
               }
               onPlanningChange={setPaybackPlanning}
             />
-            <p className="mt-5 text-xs leading-5 text-slate-600">{t.disclaimer}</p>
-            <p className="mt-2 text-xs leading-5 text-slate-600">{t.taxDisclaimer}</p>
+            <EstimateCommercialNotes
+              locale={french ? 'fr' : 'en'}
+              disclaimer={t.disclaimer}
+              taxDisclaimer={t.taxDisclaimer}
+            />
             {contactCta}
             <div className="mt-5 space-y-2 border-t border-slate-200 pt-4 text-sm leading-6 text-slate-700">
               <p className="flex gap-2">
@@ -862,19 +861,8 @@ export default function EmailReachEstimateBuilder() {
                 </Link>
               </p>
             </div>
-          </div>
-        </aside>
-      </div>
-
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 p-3 shadow-[0_-8px_30px_rgba(15,23,42,0.12)] backdrop-blur lg:hidden">
-        <div className="mx-auto flex max-w-7xl items-center gap-3">
-          <a href="#estimate-summary" className="min-w-0 flex-1 rounded-lg px-1 py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
-            <p className="text-[11px] font-bold uppercase tracking-wide text-slate-600">{t.mobileSummaryLabel}</p>
-            <p className="truncate text-lg font-serif font-bold tabular-nums text-primary-dark">{estimateTotalLabel}</p>
-          </a>
-          {mobileContactCta}
-        </div>
-      </div>
-    </section>
+        </>
+      }
+    />
   )
 }

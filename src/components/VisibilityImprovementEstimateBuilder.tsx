@@ -16,7 +16,10 @@ import EstimateInvestmentPayback, {
 } from '@/components/estimates/EstimateInvestmentPayback'
 import EstimateMarketContextFields from '@/components/estimates/EstimateMarketContextFields'
 import EstimateConsiderations from '@/components/estimates/EstimateConsiderations'
+import EstimateCommercialNotes from '@/components/estimates/EstimateCommercialNotes'
+import EstimateShell from '@/components/estimates/EstimateShell'
 import { useEstimateMarketRegion } from '@/hooks/useEstimateMarketRegion'
+import { ESTIMATE_PRICING_VERSION } from '@/lib/estimate-commercial'
 
 function formatCad(amount: number, locale: string) {
   return new Intl.NumberFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', {
@@ -32,7 +35,7 @@ const copy = {
     eyebrow: 'Visibility improvement estimator',
     title: 'Estimate search and AI visibility work for an existing site.',
     intro:
-      'Start with the required visibility foundation. Add Google Maps help, an offer rewrite, or a first-year recheck plan only if you need them.',
+      'For an existing site or listing footprint—not a new ROALLA website launch. Start with the visibility foundation (retrofit work). Add Google Maps help, an offer rewrite, or a first-year recheck plan only if you need them.',
     requiredSection: 'Required',
     optionalSection: 'Optional add-ons',
     optionalSectionIntro: 'These are not required to request a scope confirmation.',
@@ -43,9 +46,9 @@ const copy = {
     whyItMatters: 'Why it helps you',
     foundation: 'Visibility foundation',
     foundationWhat:
-      'A focused package to improve how search tools and AI assistants find and describe your existing public site.',
+      'A focused retrofit package to improve how search tools and AI assistants find and describe your existing public site and listings—deeper than the launch baseline included when ROALLA builds a new site.',
     foundationWhy:
-      'Helps the right customers discover and understand the business when configured properly (SEO, AEO, agentic AI). Rankings are not guaranteed.',
+      'Existing footprints often need cleanup, consistency, and competitive fixes that DIY builders and a new-site launch baseline do not cover. Rankings and AI citations are not guaranteed.',
     extrasTitle: 'Additional options',
     extrasLabel: 'I want Google Maps help, an offer rewrite, or monitoring',
     extrasValue: 'Open this only if you want optional visibility add-ons. Otherwise leave it unchecked.',
@@ -120,14 +123,15 @@ const copy = {
     disclaimer:
       'This is a preliminary, non-binding estimate based on your selections. ROALLA confirms scope, compatibility, timing and final pricing in writing before work begins.',
     cta: 'Request scope confirmation',
-    crossLinkLaunch: 'Need a new site? Estimate a website launch package',
+    crossLinkLaunch:
+      'Need a new site instead? Estimate a website launch (includes search & AI baseline—not this retrofit program)',
     crossLinkEmail: 'Emails not reaching clients? Estimate email reach and setup',
   },
   fr: {
     eyebrow: 'Estimateur d’amélioration de visibilité',
     title: 'Estimez le travail de visibilité recherche et IA pour un site existant.',
     intro:
-      'Commencez par la fondation de visibilité requise. Ajoutez l’aide Google Maps, une réécriture d’offre ou un plan de revérification seulement si vous en avez besoin.',
+      'Pour un site ou une présence existante—pas un nouveau lancement de site ROALLA. Commencez par la fondation de visibilité (travail de remise à niveau). Ajoutez l’aide Google Maps, une réécriture d’offre ou un plan de revérification seulement si vous en avez besoin.',
     requiredSection: 'Requis',
     optionalSection: 'Options facultatives',
     optionalSectionIntro: 'Ces éléments ne sont pas requis pour demander une confirmation de portée.',
@@ -138,9 +142,9 @@ const copy = {
     whyItMatters: 'Pourquoi ça vous aide',
     foundation: 'Fondation de visibilité',
     foundationWhat:
-      'Un forfait ciblé pour améliorer la façon dont les outils de recherche et les assistants IA trouvent et décrivent votre site public existant.',
+      'Un forfait de remise à niveau pour améliorer la façon dont les outils de recherche et les assistants IA trouvent et décrivent votre site et vos fiches existants—plus approfondi que la base de lancement incluse quand ROALLA construit un nouveau site.',
     foundationWhy:
-      'Aide les bons clients à découvrir et comprendre l’entreprise lorsque la configuration est adéquate (SEO, AEO, IA agentique). Aucun classement n’est garanti.',
+      'Une présence existante a souvent besoin de nettoyage, de cohérence et de correctifs concurrentiels que les constructeurs DIY et une base de lancement de nouveau site ne couvrent pas. Aucun classement ni citation IA n’est garanti.',
     extrasTitle: 'Options supplémentaires',
     extrasLabel: 'Je veux de l’aide Google Maps, une réécriture d’offre ou le suivi',
     extrasValue: 'Ouvrez ceci seulement pour des options de visibilité. Sinon, laissez décoché.',
@@ -215,7 +219,8 @@ const copy = {
     disclaimer:
       'Cette estimation préliminaire est non contraignante. ROALLA confirmera la portée, la compatibilité, l’échéancier et le prix final par écrit avant le début des travaux.',
     cta: 'Demander la confirmation de la portée',
-    crossLinkLaunch: 'Besoin d’un nouveau site? Estimez un forfait de lancement Web',
+    crossLinkLaunch:
+      'Besoin d’un nouveau site? Estimez un lancement Web (inclut la base recherche et IA—pas ce programme de remise à niveau)',
     crossLinkEmail: 'Les courriels n’atteignent pas les clients? Estimez la portée et la configuration',
   },
 }
@@ -356,6 +361,10 @@ export default function VisibilityImprovementEstimateBuilder() {
     goal: estimateGoal,
     estimate_total: estimateTotalLabel,
     estimate_summary: estimateSummary,
+    estimate_tool: 'visibility',
+    estimate_pricing_version: ESTIMATE_PRICING_VERSION,
+    ...(regionId ? { estimate_region: regionId } : {}),
+    ...(marketId ? { estimate_market: marketId } : {}),
     ...attributionQuery,
     ...(appliedReferralCode ? { estimate_referral_code: appliedReferralCode } : {}),
     ...(paybackPlanning.value > 0
@@ -456,27 +465,16 @@ export default function VisibilityImprovementEstimateBuilder() {
   ]
 
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-900/5 pb-24 lg:pb-0">
-      <header className="rounded-t-3xl bg-slate-950 px-6 py-8 text-white sm:px-8 lg:px-10">
-        <p className="text-xs font-bold uppercase tracking-[.18em] text-primary-light">{t.eyebrow}</p>
-        <h1 className="mt-3 max-w-3xl text-3xl font-serif font-bold text-white sm:text-4xl">{t.title}</h1>
-        <p className="mt-4 max-w-3xl leading-7 text-white/95">{t.intro}</p>
-        <a
-          href="#estimate-summary"
-          className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-lg border border-white/25 bg-white/10 px-4 py-2 text-sm font-bold text-white transition hover:bg-white/15 lg:hidden"
-        >
-          {t.jumpToEstimate}
-          <span aria-hidden>→</span>
-        </a>
-        <p className="mt-4 hidden text-sm font-semibold text-primary-light lg:block">
-          <a href="#estimate-summary" className="underline-offset-4 hover:underline">
-            {t.jumpToEstimate} →
-          </a>
-        </p>
-      </header>
-
-      <div className="grid lg:grid-cols-[1.2fr_.8fr]">
-        <div className="order-2 space-y-8 p-6 sm:p-8 lg:order-1 lg:p-10">
+    <EstimateShell
+      eyebrow={t.eyebrow}
+      title={t.title}
+      intro={t.intro}
+      jumpToEstimate={t.jumpToEstimate}
+      mobileSummaryLabel={t.mobileSummaryLabel}
+      mobileTotalLabel={estimateTotalLabel}
+      mobileCta={mobileContactCta}
+      form={
+        <>
           <EstimateMarketContextFields
             locale={french ? 'fr' : 'en'}
             marketId={marketId}
@@ -727,13 +725,10 @@ export default function VisibilityImprovementEstimateBuilder() {
               </>
             )}
           </form>
-        </div>
-
-        <aside
-          id="estimate-summary"
-          className="order-1 scroll-mt-28 border-b border-slate-200 bg-slate-50 p-6 sm:p-8 lg:order-2 lg:border-b-0 lg:border-l lg:p-10"
-        >
-          <div className="lg:sticky lg:top-28">
+        </>
+      }
+      summary={
+        <>
             <div className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-primary" aria-hidden />
               <h2 className="text-xl font-serif font-bold text-slate-950">{t.summaryTitle}</h2>
@@ -835,8 +830,11 @@ export default function VisibilityImprovementEstimateBuilder() {
               }
               onPlanningChange={setPaybackPlanning}
             />
-            <p className="mt-5 text-xs leading-5 text-slate-600">{t.disclaimer}</p>
-            <p className="mt-2 text-xs leading-5 text-slate-600">{t.taxDisclaimer}</p>
+            <EstimateCommercialNotes
+              locale={french ? 'fr' : 'en'}
+              disclaimer={t.disclaimer}
+              taxDisclaimer={t.taxDisclaimer}
+            />
             {contactCta}
             <div className="mt-5 space-y-2 border-t border-slate-200 pt-4 text-sm leading-6 text-slate-700">
               <p className="flex gap-2">
@@ -858,19 +856,8 @@ export default function VisibilityImprovementEstimateBuilder() {
                 </Link>
               </p>
             </div>
-          </div>
-        </aside>
-      </div>
-
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 p-3 shadow-[0_-8px_30px_rgba(15,23,42,0.12)] backdrop-blur lg:hidden">
-        <div className="mx-auto flex max-w-7xl items-center gap-3">
-          <a href="#estimate-summary" className="min-w-0 flex-1 rounded-lg px-1 py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
-            <p className="text-[11px] font-bold uppercase tracking-wide text-slate-600">{t.mobileSummaryLabel}</p>
-            <p className="truncate text-lg font-serif font-bold tabular-nums text-primary-dark">{estimateTotalLabel}</p>
-          </a>
-          {mobileContactCta}
-        </div>
-      </div>
-    </section>
+        </>
+      }
+    />
   )
 }

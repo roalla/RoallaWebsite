@@ -1,10 +1,21 @@
 # ROALLA Insights
 
-Lightweight bilingual sales-campaign landing-page application operated by ROALLA Business Enablement Group. The current active campaign is the ROALLA Website & AI Visibility Review.
+Lightweight bilingual sales-campaign landing-page application operated by ROALLA Business Enablement Group.
 
 ## Campaign-only role
 
-ROALLA Insights is intentionally not a corporate website, service catalogue, resource hub or general product directory. Each public marketing page must support a defined sales campaign with one audience, one offer, a focused proof path and a clear conversion action. The complete evergreen service portfolio remains on `www.roalla.com`.
+ROALLA Insights is intentionally not a corporate website, service catalogue, resource hub or general product directory. The homepage is a short outcome hub. Each public campaign page supports one audience, one offer, a focused proof path and a clear conversion action. The complete evergreen service portfolio remains on `www.roalla.com`.
+
+### Current routes
+
+| Path | Role |
+| --- | --- |
+| `/en/`, `/fr/` | Campaign hub (photo tiles) |
+| `/en/campaigns/visibility-review/` | Website & AI Visibility Review |
+| `/en/campaigns/ai-employee-readiness/` | AI Employee & Agent Readiness |
+| Matching `/fr/campaigns/...` | French campaign landings |
+
+Deep-link ads and email to a specific `/campaigns/{slug}/` URL. Hub traffic is for choosing a campaign.
 
 New campaigns should be added as dedicated localized landing pages only after the audience, offer, campaign message, attribution and destination CTA are defined.
 

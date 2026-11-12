@@ -48,7 +48,18 @@ test("root redirects to English while preserving attribution", async () => {
   assert.equal(response.headers.location, "/en/?utm_source=test");
 });
 
-for (const [path, lang] of [["/en/", "en"], ["/fr/", "fr"], ["/en/privacy/", "en"], ["/fr/confidentialite/", "fr"], ["/en/preferences/", "en"], ["/fr/desabonnement/", "fr"]]) {
+for (const [path, lang] of [
+  ["/en/", "en"],
+  ["/fr/", "fr"],
+  ["/en/campaigns/visibility-review/", "en"],
+  ["/fr/campaigns/visibility-review/", "fr"],
+  ["/en/campaigns/ai-employee-readiness/", "en"],
+  ["/fr/campaigns/ai-employee-readiness/", "fr"],
+  ["/en/privacy/", "en"],
+  ["/fr/confidentialite/", "fr"],
+  ["/en/preferences/", "en"],
+  ["/fr/desabonnement/", "fr"]
+]) {
   test(`${path} serves an accessible localized page`, async () => {
     const response = await request(path);
     const html = response.body;
@@ -62,19 +73,47 @@ for (const [path, lang] of [["/en/", "en"], ["/fr/", "fr"], ["/en/privacy/", "en
   });
 }
 
-test("homepage remains a focused sales-campaign landing page", async () => {
+test("homepage is a photo-led campaign hub with two tiles", async () => {
   const response = await request("/en/");
   assert.equal(response.statusCode, 200);
-  assert.match(response.body, /Website &amp; AI Visibility Review|Website & AI Visibility Review/);
-  assert.match(response.body, /intent=website-ai-visibility-review/);
+  assert.match(response.body, /Be easier to find/);
+  assert.match(response.body, /Automate with control/);
+  assert.match(response.body, /\/en\/campaigns\/visibility-review\//);
+  assert.match(response.body, /\/en\/campaigns\/ai-employee-readiness\//);
+  assert.match(response.body, /\/assets\/campaigns\/visibility-hero\.webp/);
+  assert.match(response.body, /\/assets\/campaigns\/ai-employee-hero\.webp/);
+  assert.doesNotMatch(response.body, /intent=website-ai-visibility-review/);
   assert.doesNotMatch(response.body, /The product portfolio/);
   assert.doesNotMatch(response.body, /11 products/);
   assert.match(response.body, /https:\/\/www\.roallainsights\.com\/en\//);
 });
 
+test("visibility campaign remains a focused sales landing", async () => {
+  const response = await request("/en/campaigns/visibility-review/");
+  assert.equal(response.statusCode, 200);
+  assert.match(response.body, /Website &amp; AI Visibility Review|Website & AI Visibility Review/);
+  assert.match(response.body, /intent=website-ai-visibility-review/);
+  assert.match(response.body, /Looking to 2027/);
+  assert.match(response.body, /AI tools recommend clearer businesses/);
+  assert.match(response.body, /\/assets\/campaigns\/visibility-hero\.webp/);
+  assert.match(response.body, /You don(?:'|’|&rsquo;)t need to be technical/);
+});
+
+test("AI readiness campaign converts with plain-language offer", async () => {
+  const response = await request("/en/campaigns/ai-employee-readiness/");
+  assert.equal(response.statusCode, 200);
+  assert.match(response.body, /Automate the busy work/);
+  assert.match(response.body, /intent=ai-support/);
+  assert.match(response.body, /Looking to 2027/);
+  assert.match(response.body, /AI help has real ongoing costs/);
+  assert.match(response.body, /\/assets\/campaigns\/ai-employee-hero\.webp/);
+  assert.match(response.body, /See if an AI Employee fits/);
+});
+
 test("campaign script supports standard UTM and click identifiers", async () => {
   const script = await readFile(new URL("../src/assets/app.js", import.meta.url), "utf8");
   for (const key of ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid", "msclkid"]) assert.match(script, new RegExp(key));
+  assert.match(script, /reveal-on-scroll/);
 });
 
 test("unknown routes return localized 404 with security headers", async () => {

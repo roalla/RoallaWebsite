@@ -27,6 +27,26 @@ if (header) {
   window.addEventListener("scroll", updateHeader, { passive: true });
 }
 
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+if (!reduceMotion) {
+  const revealNodes = document.querySelectorAll(".reveal-on-scroll");
+  if (revealNodes.length && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.16, rootMargin: "0px 0px -8% 0px" });
+    revealNodes.forEach((node) => observer.observe(node));
+  } else {
+    revealNodes.forEach((node) => node.classList.add("is-visible"));
+  }
+} else {
+  document.querySelectorAll(".reveal-on-scroll").forEach((node) => node.classList.add("is-visible"));
+}
+
 const form = document.querySelector("[data-preferences-form]");
 if (form) {
   const emailInput = form.querySelector("input[name='email']");

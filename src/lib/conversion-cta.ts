@@ -23,6 +23,7 @@ export const CONVERSION_BRIEF_PATHS = [
   '/website-estimate',
   '/visibility-improvement-estimate',
   '/email-reach-estimate',
+  '/workshop-estimate',
   '/contact',
 ] as const
 

@@ -43,6 +43,7 @@ const paths = [
   "/website-estimate",
   "/visibility-improvement-estimate",
   "/email-reach-estimate",
+  "/workshop-estimate",
   "/tools/estimates",
   "/website-ai-visibility-review",
 
@@ -100,6 +101,7 @@ const priorities: Record<string, number> = {
   "/website-estimate": 0.84,
   "/visibility-improvement-estimate": 0.83,
   "/email-reach-estimate": 0.83,
+  "/workshop-estimate": 0.84,
   "/tools/estimates": 0.85,
   "/website-ai-visibility-review": 0.91,
   "/tools/social-presence-snapshot": 0.88,

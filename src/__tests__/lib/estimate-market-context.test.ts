@@ -46,6 +46,7 @@ describe('estimate market context', () => {
 
   it('omits platform bullets for email estimates', () => {
     expect(getPlatformConsiderations('en', 'email')).toEqual([])
+    expect(getPlatformConsiderations('en', 'workshop').join(' ')).toMatch(/Mississauga|Hamilton|Milton/)
     expect(
       getEstimateConsiderations({
         locale: 'en',

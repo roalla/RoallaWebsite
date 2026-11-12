@@ -10,7 +10,7 @@ import {
   isEstimateRegionId,
 } from '@/lib/estimate-regions'
 
-export type EstimateToolKind = 'website' | 'visibility' | 'email'
+export type EstimateToolKind = 'website' | 'visibility' | 'email' | 'workshop'
 
 export type EstimateMarketId = IndustryHubId | 'other'
 
@@ -80,6 +80,10 @@ function toolAngle(locale: string, tool: EstimateToolKind, marketId: IndustryHub
       return fr
         ? `Pour ${getEstimateMarketLabel(locale, marketId)}, sécurisez la messagerie et les signaux d’authentification avant d’augmenter le volume.`
         : `For ${getEstimateMarketLabel(locale, marketId)}, harden mailbox and authentication signals before scaling volume.`
+    case 'workshop':
+      return fr
+        ? `Pour ${getEstimateMarketLabel(locale, marketId)}, un atelier utile produit une décision, une pratique ou un engagement nommé—pas seulement une discussion.`
+        : `For ${getEstimateMarketLabel(locale, marketId)}, a useful workshop produces a decision, practiced skill, or named commitment—not only discussion.`
   }
 }
 
@@ -95,10 +99,21 @@ export function getMarketConsiderations(
   return [toolAngle(locale, tool, marketId), ...pressures]
 }
 
-/** DIY builder limits vs ROALLA scoped website/visibility work (not email). */
+/** DIY builder limits vs ROALLA scoped website/visibility work (not email). Workshop travel framing when relevant. */
 export function getPlatformConsiderations(locale: string, tool: EstimateToolKind): string[] {
-  if (tool !== 'website' && tool !== 'visibility') return []
   const fr = locale === 'fr'
+  if (tool === 'workshop') {
+    return fr
+      ? [
+          'Les prix d’atelier sont en $ CA. Le déplacement est inclus jusqu’à Mississauga (est), Hamilton (ouest) et Milton (nord); au-delà, les frais de déplacement sont confirmés au cadrage.',
+          'Il s’agit d’une estimation d’hôte préliminaire—pas de billetterie en ligne. La portée, la taille du groupe et le lieu sont confirmés par écrit avant la réservation.',
+        ]
+      : [
+          'Workshop prices are CAD. Travel is included as far as Mississauga (east), Hamilton (west), and Milton (north); beyond that, travel fees are confirmed on scoping.',
+          'This is a preliminary host estimate—not online ticketing. Scope, group size, and venue are confirmed in writing before booking.',
+        ]
+  }
+  if (tool !== 'website' && tool !== 'visibility') return []
   if (fr) {
     return [
       'Les plateformes générateurs (thèmes WordPress, GoDaddy, Wix) limitent souvent les données structurées, l’architecture crawlable et la liberté d’ajuster les pages pour la recherche et les assistants IA.',

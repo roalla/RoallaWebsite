@@ -139,6 +139,7 @@ function ScheduleContent() {
     (estimateFromPage === '/website-estimate' ||
       estimateFromPage === '/visibility-improvement-estimate' ||
       estimateFromPage === '/email-reach-estimate' ||
+      estimateFromPage === '/workshop-estimate' ||
       Boolean(searchParams.get('estimate_total')))
   const estimateTotal = searchParams.get('estimate_total')
   const estimateSummary = searchParams.get('estimate_summary')

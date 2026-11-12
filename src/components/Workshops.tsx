@@ -106,6 +106,16 @@ function HostedWorkshopCard({
               {t("hostThisWorkshop")}
               <ArrowRight className="ml-1.5 w-4 h-4" />
             </Link>
+            <Link
+              href={{
+                pathname: "/workshop-estimate",
+                query: { need: workshop.id },
+              }}
+              className="inline-flex items-center justify-center text-sm font-medium text-slate-700 hover:text-primary hover:underline"
+            >
+              {t("estimateSession")}
+              <ArrowRight className="ml-1.5 w-4 h-4" />
+            </Link>
           </div>
         </div>
       </div>
@@ -263,8 +273,8 @@ const Workshops = () => {
           </a>
         }
         tertiaryLink={{
-          href: "/services/business-advisory",
-          label: t("heroCtaConsulting"),
+          href: "/workshop-estimate",
+          label: t("heroEstimateCta"),
         }}
         ctaSubtext={tCommon("ctaSubtext")}
       />

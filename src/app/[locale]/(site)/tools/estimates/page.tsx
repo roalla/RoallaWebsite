@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Link } from '@/i18n/navigation'
 import { buildPageMetadata } from '@/lib/page-metadata'
-import { Globe2, Inbox, SearchCheck } from 'lucide-react'
+import { Globe2, Inbox, SearchCheck, Users } from 'lucide-react'
 
 type Props = { params: Promise<{ locale: string }> }
 
@@ -9,10 +9,10 @@ const content = {
   en: {
     title: 'Package estimators | ROALLA',
     description:
-      'Choose the right preliminary estimate: new website launch (includes search & AI baseline), visibility improvement for an existing site, or email reach and setup.',
+      'Choose the right preliminary estimate: website launch, visibility improvement, email reach, or a facilitated workshop session.',
     eyebrow: 'Package estimators',
     heading: 'What do you need to estimate?',
-    lead: 'Each tool prices a different job. A new-site launch includes a search & AI baseline—like platform builders do. Improving an existing footprint is a separate retrofit program.',
+    lead: 'Each tool prices a different job. A new-site launch includes a search & AI baseline. Improving an existing footprint, email reach, and workshops are separate estimates.',
     cards: [
       {
         href: '/website-estimate' as const,
@@ -32,16 +32,22 @@ const content = {
         title: 'Email reach',
         body: 'Professional mailbox setup and inbox-reach work so client email is more likely to arrive and stay trusted.',
       },
+      {
+        href: '/workshop-estimate' as const,
+        icon: Users,
+        title: 'Workshop session',
+        body: 'Facilitated 1 hour, half day (3h), or full day (6h)—with add-ons and included travel inside Mississauga, Hamilton, and Milton.',
+      },
     ],
     cta: 'Open estimator',
   },
   fr: {
     title: 'Estimateurs de forfaits | ROALLA',
     description:
-      'Choisissez la bonne estimation préliminaire: lancement de site (inclut la base recherche et IA), amélioration de visibilité pour un site existant, ou portée courriel.',
+      'Choisissez la bonne estimation préliminaire: lancement de site, amélioration de visibilité, portée courriel ou séance d’atelier facilitée.',
     eyebrow: 'Estimateurs de forfaits',
     heading: 'Que souhaitez-vous estimer?',
-    lead: 'Chaque outil tarifie un travail différent. Un lancement de site inclut une base recherche et IA—comme les constructeurs de plateformes. Améliorer une présence existante est un programme de remise à niveau distinct.',
+    lead: 'Chaque outil tarifie un travail différent. Un lancement de site inclut une base recherche et IA. Visibilité, courriel et ateliers sont des estimations séparées.',
     cards: [
       {
         href: '/website-estimate' as const,
@@ -60,6 +66,12 @@ const content = {
         icon: Inbox,
         title: 'Portée courriel',
         body: 'Configuration de boîte professionnelle et travail de portée pour que les courriels clients arrivent mieux et restent crédibles.',
+      },
+      {
+        href: '/workshop-estimate' as const,
+        icon: Users,
+        title: 'Séance d’atelier',
+        body: 'Facilitation 1 heure, demi-journée (3 h) ou journée (6 h)—avec options et déplacement inclus jusqu’à Mississauga, Hamilton et Milton.',
       },
     ],
     cta: 'Ouvrir l’estimateur',
@@ -89,7 +101,7 @@ export default async function EstimatesChooserPage({ params }: Props) {
           <h1 className="mt-3 font-serif text-3xl font-bold text-slate-950 sm:text-4xl">{page.heading}</h1>
           <p className="mt-4 max-w-3xl text-base leading-7 text-slate-700">{page.lead}</p>
 
-          <ul className="mt-10 grid gap-6 md:grid-cols-3">
+          <ul className="mt-10 grid gap-6 sm:grid-cols-2">
             {page.cards.map(({ href, icon: Icon, title, body }) => (
               <li key={href}>
                 <Link

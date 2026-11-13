@@ -33,7 +33,9 @@ import EstimateMarketContextFields from '@/components/estimates/EstimateMarketCo
 import EstimateConsiderations from '@/components/estimates/EstimateConsiderations'
 import EstimateCommercialNotes from '@/components/estimates/EstimateCommercialNotes'
 import EstimateShell from '@/components/estimates/EstimateShell'
+import EstimateWizard, { EstimateModeToggle } from '@/components/estimates/EstimateWizard'
 import { useEstimateMarketRegion } from '@/hooks/useEstimateMarketRegion'
+import { useEstimateWizardMode } from '@/hooks/useEstimateWizardMode'
 import { ESTIMATE_PRICING_VERSION } from '@/lib/estimate-commercial'
 
 function formatCad(amount: number, locale: string) {
@@ -309,6 +311,7 @@ export default function WorkshopEstimateBuilder() {
     contextSummary,
     attributionQuery,
   } = useEstimateMarketRegion(french ? 'fr' : 'en', 'workshop')
+  const { mode, toggleMode } = useEstimateWizardMode('workshop')
 
   const [topic, setTopic] = useState<WorkshopTopic>('focus-circle')
   const [duration, setDuration] = useState<WorkshopDuration>('half-day')
@@ -526,6 +529,303 @@ export default function WorkshopEstimateBuilder() {
     </span>
   )
 
+  const marketStep = (
+    <EstimateMarketContextFields
+      locale={french ? 'fr' : 'en'}
+      marketId={marketId}
+      regionId={regionId}
+      onMarketChange={setMarketId}
+      onRegionChange={setRegionId}
+    />
+  )
+
+  const topicStep = (
+    <fieldset>
+      <legend className="text-xl font-serif font-bold text-slate-950">{t.topicTitle}</legend>
+      <p className="mt-2 text-sm leading-6 text-slate-700">{t.topicIntro}</p>
+      <div className="mt-4">
+        <label className="sr-only" htmlFor="workshop-topic">
+          {t.topicTitle}
+        </label>
+        <select
+          id="workshop-topic"
+          value={topic}
+          onChange={(event) => setTopic(event.target.value as WorkshopTopic)}
+          className="min-h-12 w-full rounded-lg border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-900 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+        >
+          {workshopTopicValues.map((value) => (
+            <option key={value} value={value}>
+              {topics[value]}
+            </option>
+          ))}
+        </select>
+      </div>
+    </fieldset>
+  )
+
+  const durationStep = (
+    <fieldset>
+      <legend className="text-xl font-serif font-bold text-slate-950">{t.durationTitle}</legend>
+      <div className="mt-4 space-y-3">
+        {durationOptions.map((option) => {
+          const selected = duration === option.value
+          return (
+            <label
+              key={option.value}
+              className={`block cursor-pointer rounded-2xl border p-5 ${selected ? tileSelected : tileIdle}`}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex min-w-0 items-start gap-3">
+                  <input
+                    type="radio"
+                    name="workshop-duration"
+                    className="mt-1.5"
+                    checked={selected}
+                    onChange={() => setDuration(option.value)}
+                  />
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-serif text-lg font-bold text-slate-950">{option.label}</span>
+                      {selected ? (
+                        <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-emerald-800">
+                          {t.selected}
+                        </span>
+                      ) : null}
+                    </div>
+                  </div>
+                </div>
+                <p className="shrink-0 pt-1 font-bold tabular-nums text-primary-dark">
+                  {money(WORKSHOP_DURATION_PRICES[option.value])}
+                </p>
+              </div>
+              <WhatWhy whatLabel={t.whatItIs} whyLabel={t.whyItMatters} what={option.what} why={option.why} />
+            </label>
+          )
+        })}
+      </div>
+    </fieldset>
+  )
+
+  const deliveryStep = (
+    <fieldset>
+      <legend className="text-xl font-serif font-bold text-slate-950">{t.deliveryTitle}</legend>
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        {(
+          [
+            { value: 'in-person' as const, label: t.inPerson, what: t.inPersonWhat, why: t.inPersonWhy, icon: MapPin },
+            { value: 'virtual' as const, label: t.virtual, what: t.virtualWhat, why: t.virtualWhy, icon: Monitor },
+          ] as const
+        ).map((option) => {
+          const selected = delivery === option.value
+          const Icon = option.icon
+          return (
+            <label
+              key={option.value}
+              className={`block cursor-pointer rounded-2xl border p-5 ${selected ? tileSelected : tileIdle}`}
+            >
+              <div className="flex items-start gap-3">
+                <input
+                  type="radio"
+                  name="workshop-delivery"
+                  className="mt-1.5"
+                  checked={selected}
+                  onChange={() => {
+                    setDelivery(option.value)
+                    if (option.value === 'virtual') setOutsideTravelZone(false)
+                  }}
+                />
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <Icon className="h-4 w-4 text-primary-dark" aria-hidden />
+                    <span className="font-serif text-lg font-bold text-slate-950">{option.label}</span>
+                  </div>
+                  <WhatWhy whatLabel={t.whatItIs} whyLabel={t.whyItMatters} what={option.what} why={option.why} />
+                </div>
+              </div>
+            </label>
+          )
+        })}
+      </div>
+    </fieldset>
+  )
+
+  const participantsStep = (
+    <fieldset>
+      <legend className="text-xl font-serif font-bold text-slate-950">{t.participantsTitle}</legend>
+      <div className="mt-4 space-y-3">
+        {(
+          [
+            { value: 'up-to-16' as const, label: t.band16, what: t.band16What, why: t.band16Why, price: 0 },
+            {
+              value: '17-30' as const,
+              label: t.band30,
+              what: t.band30What,
+              why: t.band30Why,
+              price: WORKSHOP_ESTIMATE_PRICES.participantSurcharge,
+            },
+            { value: 'over-30' as const, label: t.bandOver, what: t.bandOverWhat, why: t.bandOverWhy, price: null },
+          ] as const
+        ).map((option) => {
+          const selected = participantBand === option.value
+          return (
+            <label
+              key={option.value}
+              className={`block cursor-pointer rounded-2xl border p-5 ${selected ? tileSelected : tileIdle}`}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex min-w-0 items-start gap-3">
+                  <input
+                    type="radio"
+                    name="workshop-participants"
+                    className="mt-1.5"
+                    checked={selected}
+                    onChange={() => setParticipantBand(option.value)}
+                  />
+                  <div className="flex items-center gap-2">
+                    <Users className="h-4 w-4 text-primary-dark" aria-hidden />
+                    <span className="font-serif text-lg font-bold text-slate-950">{option.label}</span>
+                  </div>
+                </div>
+                <p className="shrink-0 pt-1 text-sm font-bold tabular-nums text-primary-dark">
+                  {option.price === null ? '—' : option.price === 0 ? money(0) : `+${money(option.price)}`}
+                </p>
+              </div>
+              <WhatWhy whatLabel={t.whatItIs} whyLabel={t.whyItMatters} what={option.what} why={option.why} />
+            </label>
+          )
+        })}
+      </div>
+    </fieldset>
+  )
+
+  const travelStep = (
+    <fieldset>
+      <legend className="text-xl font-serif font-bold text-slate-950">{t.travelTitle}</legend>
+      <label className={`mt-4 block cursor-pointer rounded-2xl border p-5 ${outsideTravelZone ? tileSelected : tileIdle}`}>
+        <div className="flex items-start gap-3">
+          <input
+            type="checkbox"
+            className="mt-1.5"
+            checked={outsideTravelZone}
+            onChange={(event) => setOutsideTravelZone(event.target.checked)}
+          />
+          <div>
+            <span className="font-serif text-lg font-bold text-slate-950">{t.travelLabel}</span>
+            <WhatWhy whatLabel={t.whatItIs} whyLabel={t.whyItMatters} what={t.travelWhat} why={t.travelWhy} />
+            <p className="mt-3 flex gap-2 rounded-lg bg-white p-3 text-xs leading-5 text-slate-700">
+              <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+              {t.travelSummary}
+            </p>
+          </div>
+        </div>
+      </label>
+    </fieldset>
+  )
+
+  const addOnsStep = (
+    <div className="space-y-4">
+      <div className="flex items-center gap-3">
+        <h2 className="text-sm font-bold uppercase tracking-[.16em] text-slate-950">{t.optionalSection}</h2>
+        <div className="h-px flex-1 bg-slate-200" aria-hidden />
+      </div>
+      <p className="text-sm leading-6 text-slate-700">{t.optionalSectionIntro}</p>
+      <div className="space-y-3">
+        {addOns.map((addon) => {
+          const Icon = addon.icon
+          return (
+            <label
+              key={addon.key}
+              className={`block cursor-pointer rounded-2xl border p-5 ${addon.checked ? tileSelected : tileIdle}`}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex min-w-0 items-start gap-3">
+                  <input
+                    type="checkbox"
+                    className="mt-1.5"
+                    checked={addon.checked}
+                    onChange={(event) => addon.setChecked(event.target.checked)}
+                  />
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Icon className="h-4 w-4 text-primary-dark" aria-hidden />
+                      <span className="font-serif text-lg font-bold text-slate-950">{addon.label}</span>
+                    </div>
+                  </div>
+                </div>
+                <p className="shrink-0 pt-1 font-bold tabular-nums text-primary-dark">+{money(addon.price)}</p>
+              </div>
+              <WhatWhy whatLabel={t.whatItIs} whyLabel={t.whyItMatters} what={addon.what} why={addon.why} />
+            </label>
+          )
+        })}
+      </div>
+    </div>
+  )
+
+  const referralStep = (
+    <form id="referral-code-section" onSubmit={applyReferralCode} className="scroll-mt-28 rounded-2xl border border-amber-200 bg-amber-50 p-5">
+      <div className="flex items-center gap-2">
+        <Tag className="h-5 w-5 text-amber-700" aria-hidden />
+        <h2 className="font-serif text-lg font-bold text-slate-950">{t.codeTitle}</h2>
+      </div>
+      {referralApplied ? (
+        <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <p className="flex items-start gap-2 text-sm font-medium leading-6 text-emerald-800">
+            <CheckCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+            {t.codeApplied}
+          </p>
+          <button type="button" onClick={removeReferral} className="text-left text-sm font-semibold text-amber-900 underline underline-offset-4">
+            {t.remove}
+          </button>
+        </div>
+      ) : (
+        <>
+          <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+            <label className="sr-only" htmlFor="workshop-referral-code">
+              {t.codePlaceholder}
+            </label>
+            <input
+              id="workshop-referral-code"
+              value={code}
+              onChange={(event) => setCode(event.target.value)}
+              placeholder={t.codePlaceholder}
+              autoComplete="off"
+              className="min-h-12 flex-1 rounded-lg border border-amber-300 bg-white px-4 text-sm uppercase tracking-wide text-slate-900 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+            />
+            <button
+              type="submit"
+              disabled={!code.trim() || codeStatus === 'loading'}
+              className="min-h-12 rounded-lg bg-slate-950 px-5 text-sm font-bold text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {codeStatus === 'loading' ? t.applying : t.apply}
+            </button>
+          </div>
+          {codeStatus === 'invalid' ? (
+            <p className="mt-2 text-sm font-medium text-red-700" role="alert">
+              {t.invalidCode}
+            </p>
+          ) : null}
+          {codeStatus === 'error' ? (
+            <p className="mt-2 text-sm font-medium text-red-700" role="alert">
+              {t.codeError}
+            </p>
+          ) : null}
+        </>
+      )}
+    </form>
+  )
+
+  const wizardSteps = [
+    { id: 'market', title: french ? 'Marché et région' : 'Market and region', content: marketStep },
+    { id: 'topic', title: t.topicTitle, content: topicStep },
+    { id: 'duration', title: t.durationTitle, content: durationStep },
+    { id: 'delivery', title: t.deliveryTitle, content: deliveryStep },
+    { id: 'participants', title: t.participantsTitle, content: participantsStep },
+    ...(delivery === 'in-person' ? [{ id: 'travel', title: t.travelTitle, content: travelStep }] : []),
+    { id: 'addons', title: t.optionalSection, content: addOnsStep },
+    { id: 'referral', title: t.codeTitle, content: referralStep },
+  ]
+
   return (
     <EstimateShell
       eyebrow={t.eyebrow}
@@ -535,294 +835,28 @@ export default function WorkshopEstimateBuilder() {
       mobileSummaryLabel={t.mobileSummaryLabel}
       mobileTotalLabel={estimateTotalLabel}
       mobileCta={mobileContactCta}
+      modeToggle={<EstimateModeToggle locale={french ? 'fr' : 'en'} mode={mode} onToggle={toggleMode} />}
       form={
-        <>
-          <EstimateMarketContextFields
-            locale={french ? 'fr' : 'en'}
-            marketId={marketId}
-            regionId={regionId}
-            onMarketChange={setMarketId}
-            onRegionChange={setRegionId}
-          />
-
-          <div className="space-y-8">
-            <div className="flex items-center gap-3">
-              <h2 className="text-sm font-bold uppercase tracking-[.16em] text-slate-950">{t.requiredSection}</h2>
-              <div className="h-px flex-1 bg-slate-200" aria-hidden />
-            </div>
-
-            <fieldset>
-              <legend className="text-xl font-serif font-bold text-slate-950">{t.topicTitle}</legend>
-              <p className="mt-2 text-sm leading-6 text-slate-700">{t.topicIntro}</p>
-              <div className="mt-4">
-                <label className="sr-only" htmlFor="workshop-topic">
-                  {t.topicTitle}
-                </label>
-                <select
-                  id="workshop-topic"
-                  value={topic}
-                  onChange={(event) => setTopic(event.target.value as WorkshopTopic)}
-                  className="min-h-12 w-full rounded-lg border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-900 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
-                >
-                  {workshopTopicValues.map((value) => (
-                    <option key={value} value={value}>
-                      {topics[value]}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </fieldset>
-
-            <fieldset>
-              <legend className="text-xl font-serif font-bold text-slate-950">{t.durationTitle}</legend>
-              <div className="mt-4 space-y-3">
-                {durationOptions.map((option) => {
-                  const selected = duration === option.value
-                  return (
-                    <label
-                      key={option.value}
-                      className={`block cursor-pointer rounded-2xl border p-5 ${selected ? tileSelected : tileIdle}`}
-                    >
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="flex min-w-0 items-start gap-3">
-                          <input
-                            type="radio"
-                            name="workshop-duration"
-                            className="mt-1.5"
-                            checked={selected}
-                            onChange={() => setDuration(option.value)}
-                          />
-                          <div>
-                            <div className="flex flex-wrap items-center gap-2">
-                              <span className="font-serif text-lg font-bold text-slate-950">{option.label}</span>
-                              {selected ? (
-                                <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-emerald-800">
-                                  {t.selected}
-                                </span>
-                              ) : null}
-                            </div>
-                          </div>
-                        </div>
-                        <p className="shrink-0 pt-1 font-bold tabular-nums text-primary-dark">
-                          {money(WORKSHOP_DURATION_PRICES[option.value])}
-                        </p>
-                      </div>
-                      <WhatWhy whatLabel={t.whatItIs} whyLabel={t.whyItMatters} what={option.what} why={option.why} />
-                    </label>
-                  )
-                })}
-              </div>
-            </fieldset>
-
-            <fieldset>
-              <legend className="text-xl font-serif font-bold text-slate-950">{t.deliveryTitle}</legend>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                {(
-                  [
-                    { value: 'in-person' as const, label: t.inPerson, what: t.inPersonWhat, why: t.inPersonWhy, icon: MapPin },
-                    { value: 'virtual' as const, label: t.virtual, what: t.virtualWhat, why: t.virtualWhy, icon: Monitor },
-                  ] as const
-                ).map((option) => {
-                  const selected = delivery === option.value
-                  const Icon = option.icon
-                  return (
-                    <label
-                      key={option.value}
-                      className={`block cursor-pointer rounded-2xl border p-5 ${selected ? tileSelected : tileIdle}`}
-                    >
-                      <div className="flex items-start gap-3">
-                        <input
-                          type="radio"
-                          name="workshop-delivery"
-                          className="mt-1.5"
-                          checked={selected}
-                          onChange={() => {
-                            setDelivery(option.value)
-                            if (option.value === 'virtual') setOutsideTravelZone(false)
-                          }}
-                        />
-                        <div className="min-w-0">
-                          <div className="flex items-center gap-2">
-                            <Icon className="h-4 w-4 text-primary-dark" aria-hidden />
-                            <span className="font-serif text-lg font-bold text-slate-950">{option.label}</span>
-                          </div>
-                          <WhatWhy whatLabel={t.whatItIs} whyLabel={t.whyItMatters} what={option.what} why={option.why} />
-                        </div>
-                      </div>
-                    </label>
-                  )
-                })}
-              </div>
-            </fieldset>
-
-            <fieldset>
-              <legend className="text-xl font-serif font-bold text-slate-950">{t.participantsTitle}</legend>
-              <div className="mt-4 space-y-3">
-                {(
-                  [
-                    { value: 'up-to-16' as const, label: t.band16, what: t.band16What, why: t.band16Why, price: 0 },
-                    {
-                      value: '17-30' as const,
-                      label: t.band30,
-                      what: t.band30What,
-                      why: t.band30Why,
-                      price: WORKSHOP_ESTIMATE_PRICES.participantSurcharge,
-                    },
-                    { value: 'over-30' as const, label: t.bandOver, what: t.bandOverWhat, why: t.bandOverWhy, price: null },
-                  ] as const
-                ).map((option) => {
-                  const selected = participantBand === option.value
-                  return (
-                    <label
-                      key={option.value}
-                      className={`block cursor-pointer rounded-2xl border p-5 ${selected ? tileSelected : tileIdle}`}
-                    >
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="flex min-w-0 items-start gap-3">
-                          <input
-                            type="radio"
-                            name="workshop-participants"
-                            className="mt-1.5"
-                            checked={selected}
-                            onChange={() => setParticipantBand(option.value)}
-                          />
-                          <div className="flex items-center gap-2">
-                            <Users className="h-4 w-4 text-primary-dark" aria-hidden />
-                            <span className="font-serif text-lg font-bold text-slate-950">{option.label}</span>
-                          </div>
-                        </div>
-                        <p className="shrink-0 pt-1 text-sm font-bold tabular-nums text-primary-dark">
-                          {option.price === null ? '—' : option.price === 0 ? money(0) : `+${money(option.price)}`}
-                        </p>
-                      </div>
-                      <WhatWhy whatLabel={t.whatItIs} whyLabel={t.whyItMatters} what={option.what} why={option.why} />
-                    </label>
-                  )
-                })}
-              </div>
-            </fieldset>
-
-            {delivery === 'in-person' ? (
-              <fieldset>
-                <legend className="text-xl font-serif font-bold text-slate-950">{t.travelTitle}</legend>
-                <label
-                  className={`mt-4 block cursor-pointer rounded-2xl border p-5 ${outsideTravelZone ? tileSelected : tileIdle}`}
-                >
-                  <div className="flex items-start gap-3">
-                    <input
-                      type="checkbox"
-                      className="mt-1.5"
-                      checked={outsideTravelZone}
-                      onChange={(event) => setOutsideTravelZone(event.target.checked)}
-                    />
-                    <div>
-                      <span className="font-serif text-lg font-bold text-slate-950">{t.travelLabel}</span>
-                      <WhatWhy
-                        whatLabel={t.whatItIs}
-                        whyLabel={t.whyItMatters}
-                        what={t.travelWhat}
-                        why={t.travelWhy}
-                      />
-                      <p className="mt-3 flex gap-2 rounded-lg bg-white p-3 text-xs leading-5 text-slate-700">
-                        <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-                        {t.travelSummary}
-                      </p>
-                    </div>
-                  </div>
-                </label>
-              </fieldset>
-            ) : null}
-
-            <div className="space-y-4">
+        mode === 'wizard' ? (
+          <EstimateWizard locale={french ? 'fr' : 'en'} steps={wizardSteps} resetKey={delivery} />
+        ) : (
+          <>
+            {marketStep}
+            <div className="space-y-8">
               <div className="flex items-center gap-3">
-                <h2 className="text-sm font-bold uppercase tracking-[.16em] text-slate-950">{t.optionalSection}</h2>
+                <h2 className="text-sm font-bold uppercase tracking-[.16em] text-slate-950">{t.requiredSection}</h2>
                 <div className="h-px flex-1 bg-slate-200" aria-hidden />
               </div>
-              <p className="text-sm leading-6 text-slate-700">{t.optionalSectionIntro}</p>
-              <div className="space-y-3">
-                {addOns.map((addon) => {
-                  const Icon = addon.icon
-                  return (
-                    <label
-                      key={addon.key}
-                      className={`block cursor-pointer rounded-2xl border p-5 ${addon.checked ? tileSelected : tileIdle}`}
-                    >
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="flex min-w-0 items-start gap-3">
-                          <input
-                            type="checkbox"
-                            className="mt-1.5"
-                            checked={addon.checked}
-                            onChange={(event) => addon.setChecked(event.target.checked)}
-                          />
-                          <div>
-                            <div className="flex flex-wrap items-center gap-2">
-                              <Icon className="h-4 w-4 text-primary-dark" aria-hidden />
-                              <span className="font-serif text-lg font-bold text-slate-950">{addon.label}</span>
-                            </div>
-                          </div>
-                        </div>
-                        <p className="shrink-0 pt-1 font-bold tabular-nums text-primary-dark">+{money(addon.price)}</p>
-                      </div>
-                      <WhatWhy whatLabel={t.whatItIs} whyLabel={t.whyItMatters} what={addon.what} why={addon.why} />
-                    </label>
-                  )
-                })}
-              </div>
+              {topicStep}
+              {durationStep}
+              {deliveryStep}
+              {participantsStep}
+              {delivery === 'in-person' ? travelStep : null}
+              {addOnsStep}
             </div>
-          </div>
-
-          <form id="referral-code-section" onSubmit={applyReferralCode} className="scroll-mt-28 rounded-2xl border border-amber-200 bg-amber-50 p-5">
-            <div className="flex items-center gap-2">
-              <Tag className="h-5 w-5 text-amber-700" aria-hidden />
-              <h2 className="font-serif text-lg font-bold text-slate-950">{t.codeTitle}</h2>
-            </div>
-            {referralApplied ? (
-              <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <p className="flex items-start gap-2 text-sm font-medium leading-6 text-emerald-800">
-                  <CheckCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-                  {t.codeApplied}
-                </p>
-                <button type="button" onClick={removeReferral} className="text-left text-sm font-semibold text-amber-900 underline underline-offset-4">
-                  {t.remove}
-                </button>
-              </div>
-            ) : (
-              <>
-                <div className="mt-3 flex flex-col gap-2 sm:flex-row">
-                  <label className="sr-only" htmlFor="workshop-referral-code">
-                    {t.codePlaceholder}
-                  </label>
-                  <input
-                    id="workshop-referral-code"
-                    value={code}
-                    onChange={(event) => setCode(event.target.value)}
-                    placeholder={t.codePlaceholder}
-                    autoComplete="off"
-                    className="min-h-12 flex-1 rounded-lg border border-amber-300 bg-white px-4 text-sm uppercase tracking-wide text-slate-900 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
-                  />
-                  <button
-                    type="submit"
-                    disabled={!code.trim() || codeStatus === 'loading'}
-                    className="min-h-12 rounded-lg bg-slate-950 px-5 text-sm font-bold text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    {codeStatus === 'loading' ? t.applying : t.apply}
-                  </button>
-                </div>
-                {codeStatus === 'invalid' ? (
-                  <p className="mt-2 text-sm font-medium text-red-700" role="alert">
-                    {t.invalidCode}
-                  </p>
-                ) : null}
-                {codeStatus === 'error' ? (
-                  <p className="mt-2 text-sm font-medium text-red-700" role="alert">
-                    {t.codeError}
-                  </p>
-                ) : null}
-              </>
-            )}
-          </form>
-        </>
+            {referralStep}
+          </>
+        )
       }
       summary={
         <>

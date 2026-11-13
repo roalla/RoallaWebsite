@@ -24,7 +24,10 @@ import EstimateMarketContextFields from '@/components/estimates/EstimateMarketCo
 import EstimateConsiderations from '@/components/estimates/EstimateConsiderations'
 import EstimateCommercialNotes from '@/components/estimates/EstimateCommercialNotes'
 import EstimateShell from '@/components/estimates/EstimateShell'
+import { EstimateModeToggle } from '@/components/estimates/EstimateWizard'
+import EstimateFormBody from '@/components/estimates/EstimateFormBody'
 import { useEstimateMarketRegion } from '@/hooks/useEstimateMarketRegion'
+import { useEstimateWizardMode } from '@/hooks/useEstimateWizardMode'
 import { ESTIMATE_PRICING_VERSION } from '@/lib/estimate-commercial'
 
 /** Keep server/client currency text identical (ICU may emit NBSP / narrow NBSP). */
@@ -649,6 +652,7 @@ export default function WebsiteEstimateBuilder() {
     attributionQuery,
     crossLinkQuery,
   } = useEstimateMarketRegion(french ? 'fr' : 'en', 'website')
+  const { mode, toggleMode } = useEstimateWizardMode('website')
   const [domainSource, setDomainSource] = useState<DomainSource>('new')
   const [domainTerm, setDomainTerm] = useState<DomainTerm>('three')
   const [needsEmail, setNeedsEmail] = useState(false)
@@ -912,8 +916,16 @@ export default function WebsiteEstimateBuilder() {
           </div>
         </>
       }
+      modeToggle={<EstimateModeToggle locale={french ? 'fr' : 'en'} mode={mode} onToggle={toggleMode} />}
       form={
-        <>
+          <EstimateFormBody
+            locale={french ? 'fr' : 'en'}
+            mode={mode}
+            sections={[
+              {
+                id: 'market',
+                title: french ? 'Marché et région' : 'Market and region',
+                content: (
           <EstimateMarketContextFields
             locale={french ? 'fr' : 'en'}
             marketId={marketId}
@@ -921,6 +933,12 @@ export default function WebsiteEstimateBuilder() {
             onMarketChange={setMarketId}
             onRegionChange={setRegionId}
           />
+                ),
+              },
+              {
+                id: 'core',
+                title: t.coreTitle,
+                content: (
           <div className="space-y-8">
             <div className="flex items-center gap-3">
               <h2 className="text-sm font-bold uppercase tracking-[.16em] text-slate-950">{t.requiredSection}</h2>
@@ -967,7 +985,14 @@ export default function WebsiteEstimateBuilder() {
                 ))}
               </div>
             </fieldset>
-
+          </div>
+                ),
+              },
+              {
+                id: 'domain',
+                title: t.domainTitle,
+                content: (
+          <div className="space-y-8">
             <fieldset>
               <legend className="flex w-full items-center justify-between gap-3 text-xl font-serif font-bold text-slate-950">
                 {t.domainTitle}
@@ -1033,7 +1058,12 @@ export default function WebsiteEstimateBuilder() {
               ) : null}
             </fieldset>
           </div>
-
+                ),
+              },
+              {
+                id: 'email',
+                title: t.emailTitle,
+                content: (
           <div className="space-y-6 rounded-3xl border border-dashed border-slate-300 bg-slate-50/70 p-5 sm:p-6">
             <div>
               <div className="flex items-center gap-3">
@@ -1131,7 +1161,14 @@ export default function WebsiteEstimateBuilder() {
                 </div>
               ) : null}
             </fieldset>
-
+          </div>
+                ),
+              },
+              {
+                id: 'voice',
+                title: t.voiceTitle,
+                content: (
+          <div className="space-y-6 rounded-3xl border border-dashed border-slate-300 bg-slate-50/70 p-5 sm:p-6">
             <fieldset>
               <legend className="flex flex-wrap items-center gap-2 text-xl font-serif font-bold text-slate-950">
                 <PhoneCall className="h-5 w-5 text-primary" aria-hidden />
@@ -1216,7 +1253,14 @@ export default function WebsiteEstimateBuilder() {
                 </div>
               ) : null}
             </fieldset>
-
+          </div>
+                ),
+              },
+              {
+                id: 'social',
+                title: t.socialTitle,
+                content: (
+          <div className="space-y-6 rounded-3xl border border-dashed border-slate-300 bg-slate-50/70 p-5 sm:p-6">
             <fieldset>
               <legend className="flex flex-wrap items-center gap-2 text-xl font-serif font-bold text-slate-950">
                 <Share2 className="h-5 w-5 text-primary" aria-hidden />
@@ -1273,7 +1317,14 @@ export default function WebsiteEstimateBuilder() {
                 </div>
               ) : null}
             </fieldset>
-
+          </div>
+                ),
+              },
+              {
+                id: 'hosting',
+                title: t.hostingTitle,
+                content: (
+          <div className="space-y-6 rounded-3xl border border-dashed border-slate-300 bg-slate-50/70 p-5 sm:p-6">
             <fieldset>
               <legend className="flex flex-wrap items-center gap-2 text-xl font-serif font-bold text-slate-950">
                 <Server className="h-5 w-5 text-primary" aria-hidden />
@@ -1425,7 +1476,12 @@ export default function WebsiteEstimateBuilder() {
               ) : null}
             </fieldset>
           </div>
-
+                ),
+              },
+              {
+                id: 'referral',
+                title: t.codeTitle,
+                content: (
           <form id="referral-code-section" onSubmit={applyReferralCode} className="scroll-mt-28 rounded-2xl border border-amber-200 bg-amber-50 p-5">
             <div className="flex items-center gap-2"><Tag className="h-5 w-5 text-amber-700" aria-hidden /><h2 className="font-serif text-lg font-bold text-slate-950">{t.codeTitle}</h2></div>
             {referralApplied ? (
@@ -1445,8 +1501,11 @@ export default function WebsiteEstimateBuilder() {
               </>
             )}
           </form>
-        </>
-      }
+                ),
+              },
+            ]}
+          />
+        }
       summary={
         <>
             <div className="flex items-center gap-2"><Sparkles className="h-5 w-5 text-primary" aria-hidden /><h2 className="text-xl font-serif font-bold text-slate-950">{t.summaryTitle}</h2></div>

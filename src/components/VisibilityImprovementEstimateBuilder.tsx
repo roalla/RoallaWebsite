@@ -18,7 +18,10 @@ import EstimateMarketContextFields from '@/components/estimates/EstimateMarketCo
 import EstimateConsiderations from '@/components/estimates/EstimateConsiderations'
 import EstimateCommercialNotes from '@/components/estimates/EstimateCommercialNotes'
 import EstimateShell from '@/components/estimates/EstimateShell'
+import { EstimateModeToggle } from '@/components/estimates/EstimateWizard'
+import EstimateFormBody from '@/components/estimates/EstimateFormBody'
 import { useEstimateMarketRegion } from '@/hooks/useEstimateMarketRegion'
+import { useEstimateWizardMode } from '@/hooks/useEstimateWizardMode'
 import { ESTIMATE_PRICING_VERSION } from '@/lib/estimate-commercial'
 
 function formatCad(amount: number, locale: string) {
@@ -247,6 +250,7 @@ export default function VisibilityImprovementEstimateBuilder() {
     attributionQuery,
     crossLinkQuery,
   } = useEstimateMarketRegion(french ? 'fr' : 'en', 'visibility')
+  const { mode, toggleMode } = useEstimateWizardMode('visibility')
   const [showExtras, setShowExtras] = useState(false)
   const [localMaps, setLocalMaps] = useState<LocalMapsChoice>('none')
   const [offerRewrite, setOfferRewrite] = useState(false)
@@ -473,8 +477,16 @@ export default function VisibilityImprovementEstimateBuilder() {
       mobileSummaryLabel={t.mobileSummaryLabel}
       mobileTotalLabel={estimateTotalLabel}
       mobileCta={mobileContactCta}
+      modeToggle={<EstimateModeToggle locale={french ? 'fr' : 'en'} mode={mode} onToggle={toggleMode} />}
       form={
-        <>
+          <EstimateFormBody
+            locale={french ? 'fr' : 'en'}
+            mode={mode}
+            sections={[
+              {
+                id: 'market',
+                title: french ? 'Marché et région' : 'Market and region',
+                content: (
           <EstimateMarketContextFields
             locale={french ? 'fr' : 'en'}
             marketId={marketId}
@@ -482,6 +494,12 @@ export default function VisibilityImprovementEstimateBuilder() {
             onMarketChange={setMarketId}
             onRegionChange={setRegionId}
           />
+                ),
+              },
+              {
+                id: 'foundation',
+                title: t.foundation,
+                content: (
           <div className="space-y-8">
             <div className="flex items-center gap-3">
               <h2 className="text-sm font-bold uppercase tracking-[.16em] text-slate-950">{t.requiredSection}</h2>
@@ -517,7 +535,12 @@ export default function VisibilityImprovementEstimateBuilder() {
               </div>
             </article>
           </div>
-
+                ),
+              },
+              {
+                id: 'extras',
+                title: t.optionalSection,
+                content: (
           <div className="space-y-6 rounded-3xl border border-dashed border-slate-300 bg-slate-50/70 p-5 sm:p-6">
             <div>
               <div className="flex items-center gap-3">
@@ -674,7 +697,12 @@ export default function VisibilityImprovementEstimateBuilder() {
               ) : null}
             </fieldset>
           </div>
-
+                ),
+              },
+              {
+                id: 'referral',
+                title: t.codeTitle,
+                content: (
           <form id="referral-code-section" onSubmit={applyReferralCode} className="scroll-mt-28 rounded-2xl border border-amber-200 bg-amber-50 p-5">
             <div className="flex items-center gap-2">
               <Tag className="h-5 w-5 text-amber-700" aria-hidden />
@@ -725,8 +753,11 @@ export default function VisibilityImprovementEstimateBuilder() {
               </>
             )}
           </form>
-        </>
-      }
+                ),
+              },
+            ]}
+          />
+        }
       summary={
         <>
             <div className="flex items-center gap-2">

@@ -7,6 +7,8 @@ type EstimateShellProps = {
   jumpToEstimate: string
   /** Optional chips or notes under the intro (desktop outcomes, referral note, etc.) */
   headerExtra?: ReactNode
+  /** Form vs guided-wizard toggle in the header. */
+  modeToggle?: ReactNode
   form: ReactNode
   summary: ReactNode
   mobileSummaryLabel: string
@@ -24,6 +26,7 @@ export default function EstimateShell({
   intro,
   jumpToEstimate,
   headerExtra,
+  modeToggle,
   form,
   summary,
   mobileSummaryLabel,
@@ -37,13 +40,16 @@ export default function EstimateShell({
         <h1 className="mt-3 max-w-3xl text-3xl font-serif font-bold text-white sm:text-4xl">{title}</h1>
         <p className="mt-4 max-w-3xl leading-7 text-white/95">{intro}</p>
         {headerExtra}
-        <a
-          href="#estimate-summary"
-          className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-lg border border-white/25 bg-white/10 px-4 py-2 text-sm font-bold text-white transition hover:bg-white/15 lg:hidden"
-        >
-          {jumpToEstimate}
-          <span aria-hidden>→</span>
-        </a>
+        <div className="mt-5 flex flex-wrap items-center gap-3">
+          {modeToggle}
+          <a
+            href="#estimate-summary"
+            className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-white/25 bg-white/10 px-4 py-2 text-sm font-bold text-white transition hover:bg-white/15 lg:hidden"
+          >
+            {jumpToEstimate}
+            <span aria-hidden>→</span>
+          </a>
+        </div>
         <p className="mt-4 hidden text-sm font-semibold text-primary-light lg:block">
           <a href="#estimate-summary" className="underline-offset-4 hover:underline">
             {jumpToEstimate} →

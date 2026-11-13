@@ -12,7 +12,7 @@ const content = {
       'Choose the right preliminary estimate: website launch, visibility improvement, email reach, or a facilitated workshop session.',
     eyebrow: 'Package estimators',
     heading: 'What do you need to estimate?',
-    lead: 'Each tool prices a different job. A new-site launch includes a search & AI baseline. Improving an existing footprint, email reach, and workshops are separate estimates.',
+    lead: 'Each tool prices a different job. A new-site launch includes a search & AI baseline. Improving an existing footprint, email reach, and workshops are separate estimates. Every estimator also offers optional guided steps if you prefer one question at a time.',
     cards: [
       {
         href: '/website-estimate' as const,
@@ -47,7 +47,7 @@ const content = {
       'Choisissez la bonne estimation préliminaire: lancement de site, amélioration de visibilité, portée courriel ou séance d’atelier facilitée.',
     eyebrow: 'Estimateurs de forfaits',
     heading: 'Que souhaitez-vous estimer?',
-    lead: 'Chaque outil tarifie un travail différent. Un lancement de site inclut une base recherche et IA. Visibilité, courriel et ateliers sont des estimations séparées.',
+    lead: 'Chaque outil tarifie un travail différent. Un lancement de site inclut une base recherche et IA. Visibilité, courriel et ateliers sont des estimations séparées. Chaque estimateur offre aussi des étapes guidées si vous préférez une question à la fois.',
     cards: [
       {
         href: '/website-estimate' as const,

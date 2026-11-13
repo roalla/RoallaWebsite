@@ -55,29 +55,46 @@ export function preferEstimate(source: PreferEstimateSource): boolean {
   return false
 }
 
+export type EstimatePathname =
+  | '/email-reach-estimate'
+  | '/visibility-improvement-estimate'
+  | '/website-estimate'
+
 export type BuildEstimateHrefInput = {
-  pathname: string
+  pathname: EstimatePathname
   website?: string
   attribution?: AttributionBag
   fromTool: EvidenceToolId | string
 }
 
-/** Build an estimate path that preserves solutions/Insights attribution + website. */
+export type EstimateHref = {
+  pathname: EstimatePathname
+  query: Record<string, string>
+}
+
+/** Build a typed estimate Link href that preserves Insights/solutions attribution + website. */
 export function buildEstimateHref({
   pathname,
   website,
   attribution = {},
   fromTool,
-}: BuildEstimateHrefInput): string {
-  const target = new URL(pathname.startsWith('/') ? pathname : `/${pathname}`, 'https://www.roalla.com')
+}: BuildEstimateHrefInput): EstimateHref {
+  const query: Record<string, string> = {}
   for (const key of ATTRIBUTION_QUERY_KEYS) {
     const value = attribution[key]?.trim()
-    if (value) target.searchParams.set(key, value.slice(0, 240))
+    if (value) query[key] = value.slice(0, 240)
   }
   const site = website?.trim()
-  if (site) target.searchParams.set('website', site.slice(0, 240))
-  if (fromTool.trim()) target.searchParams.set('from_tool', fromTool.trim().slice(0, 80))
-  return `${target.pathname}${target.search}`
+  if (site) query.website = site.slice(0, 240)
+  if (fromTool.trim()) query.from_tool = fromTool.trim().slice(0, 80)
+  return { pathname, query }
+}
+
+/** Serialize for assertions or plain anchors. */
+export function serializeEstimateHref(href: EstimateHref): string {
+  const params = new URLSearchParams(href.query)
+  const search = params.toString()
+  return search ? `${href.pathname}?${search}` : href.pathname
 }
 
 export function writeEvidenceArtifact(

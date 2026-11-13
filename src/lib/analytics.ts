@@ -16,6 +16,7 @@ export type AnalyticsEventName =
   | "digital_snapshot_completed"
   | "digital_snapshot_compared"
   | "digital_snapshot_cta"
+  | "digital_snapshot_estimate_cta"
   | "digital_blueprint_completed"
   | "business_value_calculated"
   | "monitoring_preview_opened"

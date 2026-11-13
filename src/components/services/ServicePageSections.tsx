@@ -35,7 +35,16 @@ type ServicePageHeroProps = {
   primaryCta: React.ReactNode
   secondaryCta?: React.ReactNode
   ctaSubtext?: string
-  tertiaryLink?: { href: '/assessment' | '/services/portfolio' | '/services/business-advisory' | '/services/technology-advisory' | '/services/digital'; label: string }
+  tertiaryLink?: {
+    href:
+      | '/assessment'
+      | '/services/portfolio'
+      | '/services/business-advisory'
+      | '/services/technology-advisory'
+      | '/services/digital'
+      | '/workshop-estimate'
+    label: string
+  }
   stats: ServiceStat[]
   statsNote?: string
   variant?: 'consulting' | 'digital'

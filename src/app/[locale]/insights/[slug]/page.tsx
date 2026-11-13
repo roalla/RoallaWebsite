@@ -11,6 +11,7 @@ import NetworkingRoiArticle from '@/components/insights/NetworkingRoiArticle'
 import WebsiteBuilderLimitationsArticle from '@/components/insights/WebsiteBuilderLimitationsArticle'
 import WebDevelopmentOutlook2027 from '@/components/insights/WebDevelopmentOutlook2027'
 import UnifiedCommunicationsOutlook2027 from '@/components/insights/UnifiedCommunicationsOutlook2027'
+import BillC8CyberReadinessArticle from '@/components/insights/BillC8CyberReadinessArticle'
 import JsonLd from '@/components/JsonLd'
 import type { EnrichedInsightSlug } from '@/lib/enriched-insights'
 import { INSIGHT_OG_IMAGES, INSIGHT_SLUGS, isInsightSlug } from '@/lib/insights'
@@ -50,7 +51,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const isGeoSeoAeoBotsArticle = slug === GEO_SEO_AEO_BOTS_SLUG
   const isWebDevelopmentOutlook2027 = slug === 'web-development-digital-experience-outlook-2027'
   const isUnifiedCommunicationsOutlook2027 = slug === 'unified-communications-contact-centre-outlook-2027'
-  const hasSocialCopy = isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle || isNetworkingRoiArticle || isGeoSeoAeoBotsArticle || isWebDevelopmentOutlook2027 || isUnifiedCommunicationsOutlook2027
+  const isBillC8CyberReadiness = slug === 'canada-bill-c8-critical-cyber-systems-readiness'
+  const hasSocialCopy = isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle || isNetworkingRoiArticle || isGeoSeoAeoBotsArticle || isWebDevelopmentOutlook2027 || isUnifiedCommunicationsOutlook2027 || isBillC8CyberReadiness
 
   return buildArticlePageMetadata({
     locale,
@@ -58,7 +60,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: t(`${slug}.metadataTitle`),
     description: t(`${slug}.metadataDescription`),
     datePublished: t(`${slug}.datePublished`),
-    dateModified: isWebsiteBuilderArticle || isWebDevelopmentOutlook2027 || isUnifiedCommunicationsOutlook2027 ? t(`${slug}.dateModified`) : undefined,
+    dateModified: isWebsiteBuilderArticle || isWebDevelopmentOutlook2027 || isUnifiedCommunicationsOutlook2027 || isBillC8CyberReadiness ? t(`${slug}.dateModified`) : undefined,
     ogImage,
     ogImageAlt: OG_IMAGE_ALT,
     ogTitle: hasSocialCopy ? t(`${slug}.socialTitle`) : undefined,
@@ -83,7 +85,8 @@ export default async function InsightArticlePage({ params }: Props) {
   const isGeoSeoAeoBotsArticle = slug === GEO_SEO_AEO_BOTS_SLUG
   const isWebDevelopmentOutlook2027 = slug === 'web-development-digital-experience-outlook-2027'
   const isUnifiedCommunicationsOutlook2027 = slug === 'unified-communications-contact-centre-outlook-2027'
-  const isLongFormArticle = isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle || isNetworkingRoiArticle || isGeoSeoAeoBotsArticle || isWebDevelopmentOutlook2027 || isUnifiedCommunicationsOutlook2027
+  const isBillC8CyberReadiness = slug === 'canada-bill-c8-critical-cyber-systems-readiness'
+  const isLongFormArticle = isWebsiteBuilderArticle || isFreeWebsiteBuilderTradeoffsArticle || isContrastTextSizeArticle || isNetworkingRoiArticle || isGeoSeoAeoBotsArticle || isWebDevelopmentOutlook2027 || isUnifiedCommunicationsOutlook2027 || isBillC8CyberReadiness
 
   return (
     <div className="page-shell">
@@ -100,7 +103,7 @@ export default async function InsightArticlePage({ params }: Props) {
             title,
             description,
             datePublished: t(`${slug}.datePublished`),
-            dateModified: isWebsiteBuilderArticle || isWebDevelopmentOutlook2027 || isUnifiedCommunicationsOutlook2027 ? t(`${slug}.dateModified`) : undefined,
+            dateModified: isWebsiteBuilderArticle || isWebDevelopmentOutlook2027 || isUnifiedCommunicationsOutlook2027 || isBillC8CyberReadiness ? t(`${slug}.dateModified`) : undefined,
             image: ogImage,
           }),
         ]}
@@ -116,7 +119,15 @@ export default async function InsightArticlePage({ params }: Props) {
               ]}
             />
           </div>
-          {isUnifiedCommunicationsOutlook2027 ? (
+          {isBillC8CyberReadiness ? (
+            <BillC8CyberReadinessArticle
+              locale={locale}
+              title={title}
+              summary={t(`${slug}.summary`)}
+              readTime={readTime}
+              category={t(`${slug}.category`)}
+            />
+          ) : isUnifiedCommunicationsOutlook2027 ? (
             <UnifiedCommunicationsOutlook2027
               locale={locale}
               title={title}

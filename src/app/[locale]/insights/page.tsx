@@ -31,6 +31,7 @@ function insightCategory(
     || slug === GEO_SEO_AEO_BOTS_SLUG
     || slug === 'web-development-digital-experience-outlook-2027'
     || slug === 'unified-communications-contact-centre-outlook-2027'
+    || slug === 'canada-bill-c8-critical-cyber-systems-readiness'
   ) {
     return t(`${slug}.category`)
   }

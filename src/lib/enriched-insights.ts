@@ -16,6 +16,7 @@ export type EnrichedInsightSlug = Exclude<
   | 'geo-seo-aeo-and-bots'
   | 'web-development-digital-experience-outlook-2027'
   | 'unified-communications-contact-centre-outlook-2027'
+  | 'canada-bill-c8-critical-cyber-systems-readiness'
 >
 
 export type InsightStep = { title: string; body: string }

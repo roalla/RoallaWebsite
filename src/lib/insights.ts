@@ -1,6 +1,7 @@
 import { OG_IMAGE } from '@/lib/site'
 
 export const INSIGHT_SLUGS = [
+  "canada-bill-c8-critical-cyber-systems-readiness",
   "unified-communications-contact-centre-outlook-2027",
   "web-development-digital-experience-outlook-2027",
   "fractional-coo",
@@ -134,11 +135,12 @@ export const INSIGHT_GROUPS: Record<InsightGroup, readonly InsightSlug[]> = {
     "free-website-builder-seo-ai-visibility-tradeoffs",
     "contrast-text-size-accessibility-conversion",
   ],
-  advisory: ["which-customers-are-actually-profitable", "minimum-monthly-owner-dashboard", "what-should-you-stop-doing-this-quarter", "can-business-operate-two-weeks-without-you", "client-boundaries-without-damaging-relationships", "meetings-moving-business-or-reporting-past", "when-solopreneur-should-form-partnership", "building-business-or-demanding-job", "should-you-say-yes-to-this-opportunity", "hire-or-fix-the-work-first", "revenue-growing-why-not-more-cash", "what-if-biggest-client-leaves", "turn-custom-service-into-repeatable-offer", "sales-pipeline-or-list-of-contacts", "owner-is-the-capacity-problem", "networking-roi-solopreneurs-small-business", "five-rules-before-team-uses-ai", "data-ownership-leaving-software-platform", "software-subscription-stack-audit", "cloud-backup-sync-recovery-differences", "it-provider-who-owns-risk", "twelve-month-technology-roadmap", "data-ready-for-automation", "measure-software-business-value", "personal-information-stop-collecting", "technology-renewal-checklist", "consolidate-systems-before-soc-2-readiness", "what-to-expect-soc-2-examination-saas", "analog-to-ip-business-telephony", "fractional-coo", "strategic-planning", "process-optimization", "build-buy-or-integrate-technology", "workshop-consultant-or-fractional-leader", "founder-decision-bottleneck", "clear-decision-rights", "90-day-plan-vs-five-year-strategy", "process-problems-and-ownership", "team-change-readiness", "questions-before-choosing-business-platform", "what-technology-advisor-does", "compare-technology-proposals", "business-continuity-basics", "small-business-cybersecurity-priorities", "workshop-vs-another-meeting", "why-training-does-not-change-behaviour", "workshop-to-30-days-of-action", "prepare-strategic-planning-workshop", "ideation-too-many-ideas"],
+  advisory: ["canada-bill-c8-critical-cyber-systems-readiness", "which-customers-are-actually-profitable", "minimum-monthly-owner-dashboard", "what-should-you-stop-doing-this-quarter", "can-business-operate-two-weeks-without-you", "client-boundaries-without-damaging-relationships", "meetings-moving-business-or-reporting-past", "when-solopreneur-should-form-partnership", "building-business-or-demanding-job", "should-you-say-yes-to-this-opportunity", "hire-or-fix-the-work-first", "revenue-growing-why-not-more-cash", "what-if-biggest-client-leaves", "turn-custom-service-into-repeatable-offer", "sales-pipeline-or-list-of-contacts", "owner-is-the-capacity-problem", "networking-roi-solopreneurs-small-business", "five-rules-before-team-uses-ai", "data-ownership-leaving-software-platform", "software-subscription-stack-audit", "cloud-backup-sync-recovery-differences", "it-provider-who-owns-risk", "twelve-month-technology-roadmap", "data-ready-for-automation", "measure-software-business-value", "personal-information-stop-collecting", "technology-renewal-checklist", "consolidate-systems-before-soc-2-readiness", "what-to-expect-soc-2-examination-saas", "analog-to-ip-business-telephony", "fractional-coo", "strategic-planning", "process-optimization", "build-buy-or-integrate-technology", "workshop-consultant-or-fractional-leader", "founder-decision-bottleneck", "clear-decision-rights", "90-day-plan-vs-five-year-strategy", "process-problems-and-ownership", "team-change-readiness", "questions-before-choosing-business-platform", "what-technology-advisor-does", "compare-technology-proposals", "business-continuity-basics", "small-business-cybersecurity-priorities", "workshop-vs-another-meeting", "why-training-does-not-change-behaviour", "workshop-to-30-days-of-action", "prepare-strategic-planning-workshop", "ideation-too-many-ideas"],
 };
 
 /** Advisory articles whose subject is technology, security, data, or solution sourcing. */
 export const ADVISORY_TECHNOLOGY_SLUGS = [
+  "canada-bill-c8-critical-cyber-systems-readiness",
   "unified-communications-contact-centre-outlook-2027",
   "five-rules-before-team-uses-ai",
   "data-ownership-leaving-software-platform",
@@ -195,6 +197,7 @@ export function isInsightSlug(value: string): value is InsightSlug {
 
 /** Optional per-article social preview images (defaults to site OG image). */
 export const INSIGHT_OG_IMAGES: Partial<Record<InsightSlug, string>> = {
+  "canada-bill-c8-critical-cyber-systems-readiness": "/images/executive-insights/cybersecurity.webp",
   "unified-communications-contact-centre-outlook-2027": "/images/insights/ucaas-ccaas-outlook-2027/og.webp",
   "web-development-digital-experience-outlook-2027": "/images/insights/web-development-outlook-2027/og.webp",
   "fractional-coo": "/images/insights/library/fractional-coo.opt.webp",
@@ -313,6 +316,7 @@ export function insightFromEngagement(slug: InsightSlug): boolean {
 }
 
 export const INSIGHT_PUBLISHED_DATES: Record<InsightSlug, string> = {
+  "canada-bill-c8-critical-cyber-systems-readiness": "2026-11-13",
   "unified-communications-contact-centre-outlook-2027": "2026-10-15",
   "web-development-digital-experience-outlook-2027": "2026-10-15",
   "fractional-coo": "2025-11-01",

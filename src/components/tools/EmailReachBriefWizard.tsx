@@ -1,10 +1,20 @@
 'use client'
 
-import { FormEvent, useMemo, useState } from 'react'
+import { FormEvent, useEffect, useMemo, useState } from 'react'
 import { ArrowLeft, ArrowRight, Check, Loader2, LockKeyhole } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import { trackAnalyticsEvent } from '@/lib/analytics'
+import {
+  type AttributionBag,
+  readAttributionFromSearch,
+} from '@/lib/conversion-attribution'
 import type { DomainHealthSnapshot } from '@/lib/domain-health/evaluate'
+import {
+  buildEstimateHref,
+  EVIDENCE_STORAGE_KEYS,
+  preferEstimate,
+  writeEvidenceArtifact,
+} from '@/lib/evidence-to-estimate'
 import {
   buildEmailReachBrief,
   parseEmailReachTarget,
@@ -70,6 +80,14 @@ export default function EmailReachBriefWizard({ locale }: Props) {
   const [checkedDomain, setCheckedDomain] = useState('')
   const [situation, setSituation] = useState<EmailReachSituation>('junk-folder')
   const [urgency, setUrgency] = useState<EmailReachUrgency>('this-quarter')
+  const [attribution, setAttribution] = useState<AttributionBag>({})
+  const [estimatePreferred, setEstimatePreferred] = useState(false)
+
+  useEffect(() => {
+    const bag = readAttributionFromSearch(window.location.search)
+    setAttribution(bag)
+    setEstimatePreferred(preferEstimate(bag))
+  }, [])
 
   const copy = fr
     ? {
@@ -94,6 +112,8 @@ export default function EmailReachBriefWizard({ locale }: Props) {
         plan: 'Prochaines 30 / 60 / 90 jours',
         contact: 'Obtenir une réponse d’adéquation',
         estimate: 'Estimer la configuration et la portée courriel',
+        estimatePrimary: 'Estimer la portée courriel',
+        contactSecondary: 'Ou obtenir une réponse d’adéquation',
         restart: 'Recommencer',
         learnSummary: 'Apprendre ce que signifient ces contrôles',
         learnIntro:
@@ -184,6 +204,8 @@ export default function EmailReachBriefWizard({ locale }: Props) {
         plan: 'Next 30 / 60 / 90 days',
         contact: 'Get a fit reply',
         estimate: 'Estimate email setup and reach work',
+        estimatePrimary: 'Estimate email reach work',
+        contactSecondary: 'Or get a fit reply',
         restart: 'Start over',
         learnSummary: 'Learn what these checks mean',
         learnIntro:
@@ -265,6 +287,22 @@ export default function EmailReachBriefWizard({ locale }: Props) {
     [situation, urgency, mailHealth],
   )
 
+  useEffect(() => {
+    if (phase !== 'brief') return
+    const scores: Record<string, number | null> = {}
+    for (const id of ['mx', 'spf', 'dkim', 'dmarc', 'bimi'] as const) {
+      const check = mailHealth?.checks.find((item) => item.id === id)
+      scores[id] = check?.status === 'pass' ? 1 : check?.status === 'review' ? 0.5 : check ? 0 : null
+    }
+    writeEvidenceArtifact(EVIDENCE_STORAGE_KEYS.emailReachBrief, {
+      tool: 'email-reach-brief',
+      domain: checkedDomain || undefined,
+      priorities: brief.priorities.slice(0, 7),
+      scores,
+      asOf: new Date().toISOString(),
+    })
+  }, [brief.priorities, checkedDomain, mailHealth, phase])
+
   const contactHref = {
     pathname: '/contact' as const,
     query: {
@@ -272,10 +310,21 @@ export default function EmailReachBriefWizard({ locale }: Props) {
       need: 'email-reach',
       from_page: '/tools/email-reach-brief',
       goal: brief.headline,
-      conversion_source: 'plain_language_brief',
+      conversion_source: attribution.conversion_source || 'plain_language_brief',
+      ...attribution,
       ...(checkedDomain ? { website: checkedDomain } : {}),
     },
   }
+
+  const estimateHref = buildEstimateHref({
+    pathname: '/email-reach-estimate',
+    website: checkedDomain || undefined,
+    attribution: {
+      ...attribution,
+      conversion_source: attribution.conversion_source || 'plain_language_brief',
+    },
+    fromTool: 'email-reach-brief',
+  })
 
   async function runCheck(event: FormEvent) {
     event.preventDefault()
@@ -514,19 +563,39 @@ export default function EmailReachBriefWizard({ locale }: Props) {
             </ol>
           </div>
           <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
-            <Link
-              href={contactHref}
-              className="inline-flex min-h-12 items-center justify-center rounded-lg bg-primary-dark px-5 text-sm font-semibold text-white transition hover:bg-primary-darker"
-            >
-              {copy.contact}
-              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-            </Link>
-            <Link
-              href="/email-reach-estimate"
-              className="inline-flex min-h-11 items-center justify-center px-2 text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
-            >
-              {copy.estimate}
-            </Link>
+            {estimatePreferred ? (
+              <>
+                <Link
+                  href={estimateHref}
+                  className="inline-flex min-h-12 items-center justify-center rounded-lg bg-primary-dark px-5 text-sm font-semibold text-white transition hover:bg-primary-darker"
+                >
+                  {copy.estimatePrimary}
+                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                </Link>
+                <Link
+                  href={contactHref}
+                  className="inline-flex min-h-11 items-center justify-center px-2 text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                >
+                  {copy.contactSecondary}
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  href={contactHref}
+                  className="inline-flex min-h-12 items-center justify-center rounded-lg bg-primary-dark px-5 text-sm font-semibold text-white transition hover:bg-primary-darker"
+                >
+                  {copy.contact}
+                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                </Link>
+                <Link
+                  href={estimateHref}
+                  className="inline-flex min-h-11 items-center justify-center px-2 text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
+                >
+                  {copy.estimate}
+                </Link>
+              </>
+            )}
             <button
               type="button"
               onClick={restart}

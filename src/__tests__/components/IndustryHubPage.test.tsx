@@ -58,15 +58,15 @@ describe('Industry hub contrast and imagery', () => {
     expect(scrollTo).toHaveBeenCalledWith({ top: 0, left: 0, behavior: 'auto' })
   })
 
-  it('uses abstract dark hero without photo wash and white closer heading', () => {
+  it('uses full-bleed industry hero photo with readable scrim and white closer heading', () => {
     const hub = getIndustryHub('en', 'it-msp')!
     const { container } = render(<IndustryHubPage locale="en" hub={hub} />)
 
     const hero = container.querySelector('section[data-header-tone="dark"]')
     expect(hero).toBeTruthy()
-    expect(hero?.querySelector('img')).toBeNull()
-    expect(hero?.innerHTML).toContain('bg-primary/20')
-    expect(hero?.innerHTML).toContain('bg-cyan-400/10')
+    const heroImg = hero?.querySelector('img')
+    expect(heroImg?.getAttribute('src') || '').toContain('/images/industries/it-msp')
+    expect(hero?.innerHTML).toContain('from-slate-950')
 
     const closerTitle = screen.getByRole('heading', { level: 2, name: hub.closer.title })
     expect(closerTitle.className).toContain('text-white')
@@ -77,9 +77,10 @@ describe('Industry hub contrast and imagery', () => {
     const { container } = render(<IndustryHubPage locale="en" hub={hub} />)
 
     expect(screen.getByRole('heading', { name: hub.ui.leadTilesTitle })).toBeInTheDocument()
-    const tiles = Array.from(container.querySelectorAll('img')).filter((img) =>
-      (img.getAttribute('src') || '').endsWith('.opt.webp'),
-    )
+    const tiles = Array.from(container.querySelectorAll('img')).filter((img) => {
+      const src = img.getAttribute('src') || ''
+      return src.includes('/images/insights/library/') && src.endsWith('.opt.webp')
+    })
     expect(tiles.length).toBe(hub.leadServices.length)
   })
 

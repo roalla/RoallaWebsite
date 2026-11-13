@@ -27,6 +27,16 @@ import { AgenticScoreTile, PresenceScoreTiles } from "@/components/visibility/Pr
 import { formatAgenticScore } from "@/lib/agentic-readiness/score";
 import type { AgenticReadiness } from "@/lib/agentic-readiness/score";
 import { trackAnalyticsEvent } from "@/lib/analytics";
+import {
+  type AttributionBag,
+  readAttributionFromSearch,
+} from "@/lib/conversion-attribution";
+import {
+  buildEstimateHref,
+  EVIDENCE_STORAGE_KEYS,
+  preferEstimate,
+  writeEvidenceArtifact,
+} from "@/lib/evidence-to-estimate";
 import { setLruJsonItem } from "@/lib/local-storage-lru";
 import { buildDigitalPresenceActions, type DigitalPresenceAction } from "@/lib/digital-presence/actions";
 import type { DomainHealthSnapshot } from "@/lib/domain-health/evaluate";
@@ -661,6 +671,11 @@ const copy = {
     blueprintLink: "Build my 90-day value blueprint",
     calculatorsLink: "Estimate potential business value",
     monitoringLink: "Preview ongoing monitoring",
+    estimateCtaTitle: "Estimate the visibility work next",
+    estimateCtaBody:
+      "You already have evidence from this check. Get a preliminary estimate for search and AI visibility improvement, then request a fit reply when you are ready.",
+    estimateCta: "Estimate visibility improvement",
+    estimateSecondaryCta: "Or request a free results review",
     ctaTitle: "Get a free 15-minute review of your results",
     ctaBody: "A ROALLA specialist will explain your biggest opportunity, answer your questions, and recommend a practical next step.",
     ctaSteps: ["We review your results", "You receive one clear priority", "You decide whether to continue"],
@@ -1228,6 +1243,11 @@ const copy = {
     blueprintLink: "Créer mon plan de valeur sur 90 jours",
     calculatorsLink: "Estimer la valeur d’affaires possible",
     monitoringLink: "Prévisualiser le suivi continu",
+    estimateCtaTitle: "Estimer ensuite le travail de visibilité",
+    estimateCtaBody:
+      "Vous avez déjà les constats de cette vérification. Obtenez une estimation préliminaire pour l’amélioration de la visibilité recherche et IA, puis demandez une réponse d’adéquation quand vous êtes prêt.",
+    estimateCta: "Estimer l’amélioration de la visibilité",
+    estimateSecondaryCta: "Ou demander un examen gratuit des résultats",
     ctaTitle: "Obtenez un examen gratuit de 15 minutes de vos résultats",
     ctaBody: "Un spécialiste de ROALLA expliquera votre principale possibilité d’amélioration, répondra à vos questions et recommandera une prochaine étape pratique.",
     ctaSteps: ["Nous examinons vos résultats", "Vous recevez une priorité claire", "Vous décidez si vous souhaitez poursuivre"],
@@ -1592,6 +1612,8 @@ export default function DigitalPresenceSnapshot({
   const [agenticDetailsOpen, setAgenticDetailsOpen] = useState<Record<string, boolean>>({});
   const [contactDetailsOpen, setContactDetailsOpen] = useState(false);
   const [securityDetailsOpen, setSecurityDetailsOpen] = useState(false);
+  const [attribution, setAttribution] = useState<AttributionBag>({});
+  const [estimatePreferred, setEstimatePreferred] = useState(false);
   const domainScrollTarget = useRef<string | null>(null);
   const securityScrollTarget = useRef<string | null>(null);
   const resultsRef = useRef<HTMLElement>(null);
@@ -1599,6 +1621,12 @@ export default function DigitalPresenceSnapshot({
 
   useEffect(() => {
     setPrintMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const bag = readAttributionFromSearch(window.location.search);
+    setAttribution(bag);
+    setEstimatePreferred(preferEstimate(bag));
   }, []);
 
   useEffect(() => {
@@ -1635,6 +1663,48 @@ export default function DigitalPresenceSnapshot({
       resultsRef.current?.focus();
     }
   }, [started, technicalLoading, socialLoading, domainLoading, technical, social, domain]);
+
+  useEffect(() => {
+    if (!started || technicalLoading || socialLoading || domainLoading) return;
+    if (!technical && !social && !domain) return;
+    const checkedUrl = social?.finalUrl || technicalSnapshots[0]?.finalUrl || url;
+    let domainName = domain?.domain || "";
+    if (!domainName && checkedUrl) {
+      try {
+        const candidate = /^https?:\/\//i.test(checkedUrl) ? checkedUrl : `https://${checkedUrl}`;
+        domainName = new URL(candidate).hostname;
+      } catch {
+        domainName = checkedUrl.trim().toLowerCase();
+      }
+    }
+    const priorities = actions.slice(0, 7).map((action) => presentAction(action, t, language).title);
+    writeEvidenceArtifact(EVIDENCE_STORAGE_KEYS.digitalPresenceSnapshot, {
+      tool: "digital-presence-snapshot",
+      domain: domainName || undefined,
+      url: checkedUrl || undefined,
+      priorities,
+      scores: {
+        mobilePerformance: technical?.mobile?.snapshot?.scores.performance ?? null,
+        desktopPerformance: technical?.desktop?.snapshot?.scores.performance ?? null,
+        social: social?.score ?? null,
+        agentic: social?.agentic?.score ?? null,
+      },
+      asOf: new Date().toISOString(),
+    });
+  }, [
+    actions,
+    domain,
+    domainLoading,
+    language,
+    social,
+    socialLoading,
+    started,
+    t,
+    technical,
+    technicalLoading,
+    technicalSnapshots,
+    url,
+  ]);
 
   async function runSnapshot(forceFresh = false, honeypot: FormDataEntryValue | null = "") {
     const body = JSON.stringify({ url, website: honeypot, fresh: forceFresh });
@@ -1845,6 +1915,22 @@ export default function DigitalPresenceSnapshot({
       ? fill(t.agenticGap, { seo: String(averageSeo), agentic: formatAgenticScore(agenticResult) })
       : "";
   const reviewGoal = `${note} ${lead} ${recommendation.title}`.slice(0, 700);
+  const contactReviewQuery = {
+    intent: "visibility",
+    review: "results",
+    website: resultUrl,
+    from_page: sourcePage,
+    goal: reviewGoal,
+    offer: "personal-visibility-results-review",
+    selected_problem: narrative.offer.kind,
+    ...attribution,
+  };
+  const estimateHref = buildEstimateHref({
+    pathname: "/visibility-improvement-estimate",
+    website: resultUrl,
+    attribution,
+    fromTool: "digital-presence-snapshot",
+  });
   const finding = narrative.finding;
   const findingText = finding?.kind === "opportunity"
     ? `${fill(t.findingOpportunity, {
@@ -3016,14 +3102,55 @@ export default function DigitalPresenceSnapshot({
 
           <aside className="rounded-2xl bg-slate-950 p-7 text-white sm:p-9 print:hidden">
             <SearchCheck className="h-8 w-8 text-primary-light" aria-hidden />
-            <h2 className="mt-4 text-2xl font-serif font-bold text-white">{t.ctaTitle}</h2>
-            <p className="mt-3 max-w-3xl text-slate-300">{t.ctaBody}</p>
-            <ol className="mt-5 grid gap-3 sm:grid-cols-3">
-              {t.ctaSteps.map((step, index) => <li key={step} className="rounded-lg border border-white/15 bg-white/[0.04] p-3 text-sm text-slate-200"><span className="mr-2 font-bold text-brand-gold">{index + 1}.</span>{step}</li>)}
-            </ol>
-            <p className="mt-5 text-sm font-semibold text-white">{t.ctaProof}</p>
-            <Link href={{ pathname: "/contact", query: { intent: "visibility", review: "results", website: resultUrl, from_page: sourcePage, goal: reviewGoal, offer: "personal-visibility-results-review", selected_problem: narrative.offer.kind } }} onClick={() => trackAnalyticsEvent("digital_snapshot_cta", { source_page: sourcePage })} className="mt-6 inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 hover:bg-brand-gold-light">{t.cta}<ArrowRight className="ml-2 h-4 w-4" aria-hidden /></Link>
-            <p className="mt-3 text-xs text-slate-400">{t.ctaReassurance}</p>
+            {estimatePreferred ? (
+              <>
+                <h2 className="mt-4 text-2xl font-serif font-bold text-white">{t.estimateCtaTitle}</h2>
+                <p className="mt-3 max-w-3xl text-slate-300">{t.estimateCtaBody}</p>
+                <Link
+                  href={estimateHref}
+                  onClick={() =>
+                    trackAnalyticsEvent("digital_snapshot_estimate_cta", {
+                      source_page: sourcePage,
+                      from_tool: "digital-presence-snapshot",
+                    })
+                  }
+                  className="mt-6 inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 hover:bg-brand-gold-light"
+                >
+                  {t.estimateCta}
+                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                </Link>
+                <Link
+                  href={{ pathname: "/contact", query: contactReviewQuery }}
+                  onClick={() => trackAnalyticsEvent("digital_snapshot_cta", { source_page: sourcePage })}
+                  className="mt-4 inline-flex min-h-[44px] items-center justify-center px-2 text-sm font-semibold text-slate-300 underline-offset-4 hover:text-white hover:underline"
+                >
+                  {t.estimateSecondaryCta}
+                </Link>
+              </>
+            ) : (
+              <>
+                <h2 className="mt-4 text-2xl font-serif font-bold text-white">{t.ctaTitle}</h2>
+                <p className="mt-3 max-w-3xl text-slate-300">{t.ctaBody}</p>
+                <ol className="mt-5 grid gap-3 sm:grid-cols-3">
+                  {t.ctaSteps.map((step, index) => (
+                    <li key={step} className="rounded-lg border border-white/15 bg-white/[0.04] p-3 text-sm text-slate-200">
+                      <span className="mr-2 font-bold text-brand-gold">{index + 1}.</span>
+                      {step}
+                    </li>
+                  ))}
+                </ol>
+                <p className="mt-5 text-sm font-semibold text-white">{t.ctaProof}</p>
+                <Link
+                  href={{ pathname: "/contact", query: contactReviewQuery }}
+                  onClick={() => trackAnalyticsEvent("digital_snapshot_cta", { source_page: sourcePage })}
+                  className="mt-6 inline-flex min-h-[48px] items-center justify-center rounded-lg bg-brand-gold px-6 py-3 font-semibold text-slate-950 hover:bg-brand-gold-light"
+                >
+                  {t.cta}
+                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                </Link>
+                <p className="mt-3 text-xs text-slate-400">{t.ctaReassurance}</p>
+              </>
+            )}
           </aside>
         </section>
       ) : null}

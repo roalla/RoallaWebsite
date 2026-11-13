@@ -8,6 +8,7 @@ import Reveal from '@/components/motion/Reveal'
 import { trackAnalyticsEvent } from '@/lib/analytics'
 import {
   INDUSTRY_SERVICE_TILE_IMAGES,
+  toIndustryOptImageSrc,
   type IndustryHub,
   type IndustryHubServiceKey,
   type IndustryHubStartHere,
@@ -118,8 +119,17 @@ export default function IndustryHubPage({
         className="relative isolate overflow-hidden bg-slate-950 px-4 pb-16 pt-28 text-white sm:px-6 lg:px-8 lg:pb-20 lg:pt-32"
       >
         <div className="absolute inset-0 -z-10" aria-hidden>
-          <div className="absolute -right-24 top-10 h-80 w-80 rounded-full bg-primary/20 blur-3xl" />
-          <div className="absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-cyan-400/10 blur-3xl" />
+          <Image
+            src={toIndustryOptImageSrc(hub.heroImage.src)}
+            alt=""
+            fill
+            priority
+            unoptimized
+            sizes="100vw"
+            className="object-cover object-center opacity-55"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/88 to-slate-950/55" />
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-transparent to-slate-950/75" />
         </div>
         <div className="relative mx-auto max-w-7xl">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-light">{hub.hero.eyebrow}</p>

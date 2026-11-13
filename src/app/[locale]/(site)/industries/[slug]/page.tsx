@@ -29,8 +29,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     path: `/industries/${slug}`,
     title: hub.metadataTitle,
     description: hub.metadataDescription,
-    ogImage: hub.image.src,
-    ogImageAlt: hub.image.alt,
+    ogImage: hub.heroImage.src,
+    ogImageAlt: hub.heroImage.alt,
   })
 }
 
@@ -45,7 +45,7 @@ export default async function IndustryHubRoutePage({ params }: Props) {
 
   return (
     <>
-      <link rel="preload" as="image" href={hub.image.src} type="image/webp" fetchPriority="high" />
+      <link rel="preload" as="image" href={hub.heroImage.src} type="image/webp" fetchPriority="high" />
       <JsonLd
         data={[
           webPageJsonLd(language, path, hub.metadataTitle, hub.metadataDescription),

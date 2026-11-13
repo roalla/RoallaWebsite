@@ -18,6 +18,7 @@ import {
   Loader2,
 } from "lucide-react";
 import {
+  assembleEngagementFromContactHandoff,
   automationGoalFromNeedParam,
   hasIntentSubSelection,
   intentFromNeedParam,
@@ -42,6 +43,11 @@ import {
   type WebsiteGoal,
   type WorkshopTopic,
 } from "@/lib/consultation-request";
+import { readAttributionFromSearch } from "@/lib/conversion-attribution";
+import {
+  EVIDENCE_STORAGE_KEYS,
+  readEvidenceArtifact,
+} from "@/lib/evidence-to-estimate";
 import { shouldUseDigitalDiscoveryFunnel } from "@/lib/discovery-funnel";
 import { trackAnalyticsEvent } from "@/lib/analytics";
 import {
@@ -49,6 +55,53 @@ import {
   isValidPortfolioReference,
   type PortfolioItemId,
 } from "@/lib/digitalPortfolio";
+
+function resolveSessionEvidence(fromTool: string | null) {
+  const tool = fromTool?.trim() || "";
+  if (tool === "digital-presence-snapshot") {
+    return readEvidenceArtifact(EVIDENCE_STORAGE_KEYS.digitalPresenceSnapshot);
+  }
+  if (tool === "email-reach-brief") {
+    return readEvidenceArtifact(EVIDENCE_STORAGE_KEYS.emailReachBrief);
+  }
+  return (
+    readEvidenceArtifact(EVIDENCE_STORAGE_KEYS.digitalPresenceSnapshot) ||
+    readEvidenceArtifact(EVIDENCE_STORAGE_KEYS.emailReachBrief)
+  );
+}
+
+function buildEngagementForSubmit() {
+  if (typeof window === "undefined") return undefined;
+  const params = new URLSearchParams(window.location.search);
+  const fromTool = params.get("from_tool");
+  const artifact = resolveSessionEvidence(fromTool);
+  const attribution = readAttributionFromSearch(params);
+
+  return (
+    assembleEngagementFromContactHandoff({
+      estimateTotal: params.get("estimate_total"),
+      estimateSummary: params.get("estimate_summary"),
+      website: params.get("website"),
+      fromTool,
+      engagementEvidence: params.get("engagement_evidence"),
+      estimateReferralCode: params.get("estimate_referral_code"),
+      estimateRegion: params.get("estimate_region"),
+      estimateTool: params.get("estimate_tool"),
+      fromPage: params.get("from_page"),
+      pricingVersion: params.get("estimate_pricing_version"),
+      attribution,
+      evidence: artifact
+        ? {
+            toolName: artifact.tool,
+            url: artifact.url || artifact.domain,
+            priorities: artifact.priorities,
+            scores: artifact.scores,
+            asOf: artifact.asOf,
+          }
+        : null,
+    }) ?? undefined
+  );
+}
 
 type FormState = {
   intent: ConsultationIntent | "";
@@ -591,6 +644,7 @@ export default function ConsultationRequestForm({
             .filter(Boolean)
             .join("\n")
         : form.goal;
+      const engagement = buildEngagementForSubmit();
       const res = await fetch("/api/consultation-request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -641,6 +695,7 @@ export default function ConsultationRequestForm({
           marketingConsent: form.marketingConsent,
           locale,
           website: form.website,
+          engagement,
         }),
       });
 

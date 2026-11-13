@@ -36,15 +36,15 @@ export function buildAiEmployeeFitBrief(input: AiEmployeeFitBriefInput) {
   }
 
   const summaries: Record<AiEmployeeFitPath, string> = {
-    'intake-first': `Your answers point to coverage and first-response pressure${industryNote}.${audienceNote} Begin with answering and capturing context on the channels customers already use, then add booking or follow-up once intake is reliable.`,
-    'knowledge-first': `Your answers show the channels and skills are clearer than the knowledge base${industryNote}.${audienceNote} An AI Employee should only answer from approved sources. Tighten knowledge and ownership before expanding automated replies.`,
+    'intake-first': `Your answers point to coverage and first-response pressure${industryNote}.${audienceNote} Begin with answering and capturing context where customers already reach you (phone, chat, or email), then add booking or follow-up once intake is reliable.`,
+    'knowledge-first': `Your answers show how customers reach you and what the AI should do first are clearer than your approved answers${industryNote}.${audienceNote} An AI Employee should only answer from approved sources. Tighten knowledge and ownership before expanding automated replies.`,
     'handoff-first': `Your answers show people still need a clear takeover path${industryNote}.${audienceNote} Write when a person must take over, what context they receive, and who owns exceptions—before choosing a platform demo.`,
-    'pilot-ready': `Your answers suggest a contained first release is realistic${industryNote}.${audienceNote} Keep the pilot on one channel and one skill set, with measures and human escalation owned from day one.`,
+    'pilot-ready': `Your answers suggest a contained first release is realistic${industryNote}.${audienceNote} Keep the pilot on one way customers reach you and one first job, with measures and human escalation owned from day one.`,
   }
 
   const priorities: Record<AiEmployeeFitPath, string[]> = {
     'intake-first': [
-      'Name the primary channel and hours that currently break coverage.',
+      'Name the main way customers reach you and the hours that currently break coverage.',
       'Decide what an AI Employee may answer vs. only capture and route.',
       'Measure missed contacts recovered and time-to-first-response.',
     ],
@@ -59,7 +59,7 @@ export function buildAiEmployeeFitBrief(input: AiEmployeeFitBriefInput) {
       'Name the owner for after-hours and peak overflow exceptions.',
     ],
     'pilot-ready': [
-      'Pick one channel and one high-volume skill for the first release.',
+      'Pick one way customers reach you and one high-volume first job for the release.',
       'Confirm integrations needed for booking or ticket creation—if any.',
       'Set success measures and a stop/expand decision after a short pilot.',
     ],
@@ -67,7 +67,7 @@ export function buildAiEmployeeFitBrief(input: AiEmployeeFitBriefInput) {
 
   const plan: Record<AiEmployeeFitPath, [string, string, string]> = {
     'intake-first': [
-      'Map current missed contacts by channel and time of day.',
+      'Map current missed contacts by how customers reach you and time of day.',
       'Pilot intake + context capture with clear human routing.',
       'Add one approved skill only after intake quality is stable.',
     ],
@@ -82,7 +82,7 @@ export function buildAiEmployeeFitBrief(input: AiEmployeeFitBriefInput) {
       'Only then compare AI Employee options on the same criteria.',
     ],
     'pilot-ready': [
-      'Confirm channel, skill, knowledge, and handoff in one brief.',
+      'Confirm how customers reach you, the first job, knowledge, and handoff in one brief.',
       'Compare platforms against those requirements—not demos alone.',
       'Run a time-boxed pilot with measures and a named owner.',
     ],

@@ -61,6 +61,8 @@ export type IndustryHub = {
   label: string
   shortLabel: string
   image: { src: string; alt: string }
+  /** Full-bleed hub page hero (industry + services scene). */
+  heroImage: { src: string; alt: string }
   metadataTitle: string
   metadataDescription: string
   hero: {
@@ -106,6 +108,85 @@ export const INDUSTRY_SERVICE_TILE_IMAGES: Record<IndustryHubServiceKey, string>
   automation: '/images/insights/library/what-to-automate-first.opt.webp',
   visibility: '/images/insights/library/search-and-ai-visibility.opt.webp',
   websites: '/images/insights/library/website-after-launch.opt.webp',
+}
+
+/** Full-bleed industry hub heroes (industry setting + ROALLA service cues). */
+export const INDUSTRY_HERO_IMAGES: Record<IndustryHubId, { src: string; alt: string; altFr: string }> = {
+  'it-msp': {
+    src: '/images/industries/it-msp.hero.webp',
+    alt: 'IT and managed services desk with ticket screens and after-hours phone support',
+    altFr: 'Bureau TI et services gérés avec écrans de billets et soutien téléphonique hors heures',
+  },
+  'recruiting-staffing': {
+    src: '/images/industries/recruiting-staffing.hero.webp',
+    alt: 'Recruiting desk handling candidate and client intake calls',
+    altFr: 'Bureau de recrutement gérant les appels candidats et clients',
+  },
+  'trades-field': {
+    src: '/images/industries/trades-field.hero.webp',
+    alt: 'Trades field crew catching customer leads by phone at a job site',
+    altFr: 'Équipe de métiers captant des leads clients par téléphone sur un chantier',
+  },
+  'transportation-logistics': {
+    src: '/images/industries/transportation-logistics.hero.webp',
+    alt: 'Logistics dispatch coordinating drivers and customer calls',
+    altFr: 'Répartition logistique coordonnant chauffeurs et appels clients',
+  },
+  warehouses: {
+    src: '/images/industries/warehouses.hero.webp',
+    alt: 'Warehouse operations desk coordinating dock and customer requests',
+    altFr: 'Bureau d’entrepôt coordonnant quai et demandes clients',
+  },
+  'care-practices': {
+    src: '/images/industries/care-practices.hero.webp',
+    alt: 'Care practice front desk with secure patient intake and appointment phone',
+    altFr: 'Réception de clinique avec admission sécurisée et téléphone de rendez-vous',
+  },
+  manufacturing: {
+    src: '/images/industries/manufacturing.hero.webp',
+    alt: 'Manufacturing plant office with operations screens overlooking the floor',
+    altFr: 'Bureau d’usine avec écrans d’exploitation surplombant l’atelier',
+  },
+  legal: {
+    src: '/images/industries/legal.hero.webp',
+    alt: 'Law firm reception with confidential client intake',
+    altFr: 'Réception de cabinet juridique avec admission confidentielle de clients',
+  },
+  'accounting-tax': {
+    src: '/images/industries/accounting-tax.hero.webp',
+    alt: 'Accounting firm desk managing busy-season client calls',
+    altFr: 'Bureau comptable gérant les appels clients en haute saison',
+  },
+  'real-estate-property': {
+    src: '/images/industries/real-estate-property.hero.webp',
+    alt: 'Real estate brokerage desk with listings and lead phone calls',
+    altFr: 'Bureau de courtage immobilier avec annonces et appels de prospects',
+  },
+  veterinary: {
+    src: '/images/industries/veterinary.hero.webp',
+    alt: 'Veterinary clinic front desk booking appointments by phone',
+    altFr: 'Réception de clinique vétérinaire prenant des rendez-vous au téléphone',
+  },
+  'insurance-brokerage': {
+    src: '/images/industries/insurance-brokerage.hero.webp',
+    alt: 'Insurance brokerage desk handling policy and service calls',
+    altFr: 'Bureau de courtage d’assurance gérant appels de polices et de service',
+  },
+  'immigration-settlement': {
+    src: '/images/industries/immigration-settlement.hero.webp',
+    alt: 'Immigration case desk with structured client intake',
+    altFr: 'Bureau de dossiers d’immigration avec admission structurée de clients',
+  },
+  'home-care-seniors': {
+    src: '/images/industries/home-care-seniors.hero.webp',
+    alt: 'Home-care coordinator desk supporting families and caregivers by phone',
+    altFr: 'Bureau de coordination de soins à domicile soutenant familles et aidants au téléphone',
+  },
+  'municipal-public': {
+    src: '/images/industries/municipal-public.hero.webp',
+    alt: 'Municipal service counter assisting residents with inquiries',
+    altFr: 'Comptoir de services municipaux aidant les résidents',
+  },
 }
 export type IndustryHubIndexCopy = {
   title: string
@@ -2681,11 +2762,16 @@ function buildHub(locale: HubLocale, id: IndustryHubId): IndustryHub {
       href: SERVICE_HREFS[key],
     }
   }
+  const heroAsset = INDUSTRY_HERO_IMAGES[id]
   return {
     id,
     label: ai.label,
     shortLabel: ai.shortLabel,
     image: { src: ai.image.src, alt: ai.image.alt },
+    heroImage: {
+      src: heroAsset.src,
+      alt: locale === 'fr' ? heroAsset.altFr : heroAsset.alt,
+    },
     metadataTitle: data.metaTitle,
     metadataDescription: data.metaDescription,
     hero: {

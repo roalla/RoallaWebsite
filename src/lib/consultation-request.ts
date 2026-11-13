@@ -6,6 +6,29 @@ import {
   inquiryEmailPlainFooter,
   renderInquiryEmail,
 } from "@/lib/inquiry-email";
+import type { ConsultationEngagement } from "@/lib/consultation-engagement";
+
+export type { ConsultationEngagement } from "@/lib/consultation-engagement";
+export {
+  assembleEngagementFromContactHandoff,
+  buildPlanningReportEmailSubject,
+  buildPlanningReportSalesHtml,
+  buildPlanningReportSalesText,
+  buildPlanningReportUserHtml,
+  buildPlanningReportUserText,
+  parseEngagementFromBody,
+  parseEngagementKind,
+  ENGAGEMENT_CAPS,
+  ENGAGEMENT_KINDS,
+} from "@/lib/consultation-engagement";
+export type {
+  AssembleEngagementInput,
+  EngagementAttribution,
+  EngagementEstimate,
+  EngagementEvidence,
+  EngagementKind,
+  ParseEngagementResult,
+} from "@/lib/consultation-engagement";
 
 export type ConsultationIntent =
   | "consulting"
@@ -53,6 +76,8 @@ export type ConsultationRequestPayload = {
   lightMode?: boolean;
   /** Honeypot — must be empty */
   website?: string;
+  /** Optional estimate-backed engagement packet for planning-report emails. */
+  engagement?: ConsultationEngagement;
 };
 
 /** Default note when light-mode submissions omit the optional one-liner. */

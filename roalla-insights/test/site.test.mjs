@@ -76,14 +76,17 @@ for (const [path, lang] of [
 test("homepage is a photo-led campaign hub with full-tile links", async () => {
   const response = await request("/en/");
   assert.equal(response.statusCode, 200);
-  assert.match(response.body, /<a class="campaign-tile home-tile reveal" href="\/en\/campaigns\/visibility-review\/">/);
+  assert.match(response.body, /<article class="campaign-tile home-tile reveal">/);
+  assert.match(response.body, /href="\/en\/campaigns\/visibility-review\/"/);
   assert.match(response.body, /Improve how customers find you online or from AI chats/);
-  assert.match(response.body, /AI Employees can help you reduce churn, missed calls, missed opportunities, and abandoned calls/);
+  assert.match(response.body, /Improve customer experience with AI employees/);
+  assert.match(response.body, /Open AI employees campaign/);
   assert.match(response.body, /campaign-tile-cta/);
   assert.match(response.body, /campaign-tile-pill/);
   assert.match(response.body, /Website &amp; AI Visibility|Website & AI Visibility/);
-  assert.match(response.body, /AI Employee/);
+  assert.match(response.body, /AI Employees/);
   assert.match(response.body, /campaign-tile-scenarios/);
+  assert.match(response.body, /campaign-tile-scenario-link/);
   assert.match(response.body, /Customers can(?:'|’|&rsquo;)t find us in search or on maps/);
   assert.match(response.body, /Calls go unanswered after hours and at peak times/);
   assert.match(response.body, /\/en\/campaigns\/ai-employee-readiness\//);
@@ -109,22 +112,21 @@ test("visibility campaign uses need-style hero and sales CTAs", async () => {
   assert.match(response.body, /button gold pathway-primary/);
   assert.match(response.body, /Check my website/);
   assert.match(response.body, /digital-presence-snapshot/);
-  assert.match(response.body, /website-ai-visibility-review/);
   assert.match(response.body, /email-reach-brief/);
   assert.match(response.body, /solutions\/need\/growth-visibility/);
   assert.match(response.body, /visibility-improvement-estimate/);
   assert.match(response.body, /website-estimate/);
   assert.match(response.body, /email-reach-estimate/);
   assert.match(response.body, /Estimate visibility work/);
-  assert.match(response.body, /Build a website estimate/);
   assert.match(response.body, /Estimate email reach work/);
-  assert.match(response.body, /Plan the investment/);
+  assert.match(response.body, /Or build a website estimate/);
   assert.match(response.body, /data-ladder-stepper/);
   assert.match(response.body, /role="tablist"/);
   assert.match(response.body, /button gold ladder-cta/);
+  assert.match(response.body, /ladder-cta-row/);
   assert.match(response.body, />Back</);
   assert.match(response.body, />Next</);
-  assert.match(response.body, /Optional ROALLA working review/);
+  assert.match(response.body, /Request a ROALLA working review/);
   assert.doesNotMatch(response.body, /with Steven/);
   assert.match(response.body, /Working call with ROALLA/);
   assert.match(response.body, /pillars-modern/);
@@ -135,7 +137,7 @@ test("visibility campaign uses need-style hero and sales CTAs", async () => {
   assert.match(response.body, /Start with ROALLA/);
   assert.doesNotMatch(response.body, /mailto:sales@roalla\.com\?subject=/);
   assert.doesNotMatch(response.body, /Talk with Steven Robin/);
-  assert.match(response.body, /See\. Interpret\. Improve/);
+  assert.match(response.body, /See\. Improve\. Interpret/);
   assert.match(response.body, /Sounds familiar/);
   assert.match(response.body, /ChatGPT/);
   assert.match(response.body, /Important emails land in junk/);
@@ -145,28 +147,30 @@ test("visibility campaign uses need-style hero and sales CTAs", async () => {
   assert.match(response.body, /button gold pressure-cta/);
   assert.match(response.body, /Free check on ROALLA\.com/);
   assert.match(response.body, /pressure-sales/);
-  assert.match(response.body, /Looking to 2027/);
+  assert.doesNotMatch(response.body, /Looking to 2027/);
+  assert.doesNotMatch(response.body, /Plan the investment/);
   assert.match(response.body, /\/assets\/campaigns\/visibility-hero\.webp/);
   assert.match(response.body, /You don(?:'|’|&rsquo;)t need to be technical/);
 });
 
-test("AI readiness campaign uses need-style hero and sales CTAs", async () => {
+test("AI employees campaign uses need-style hero and sales CTAs", async () => {
   const response = await request("/en/campaigns/ai-employee-readiness/");
   assert.equal(response.statusCode, 200);
   assert.match(response.body, /campaign-need/);
   assert.match(response.body, /pathway-hero/);
   assert.match(response.body, /All campaigns/);
-  assert.match(response.body, /Automate the busy work/);
+  assert.match(response.body, /Improve customer experience with AI employees/);
   assert.match(response.body, /intent=ai-support/);
   assert.match(response.body, /button gold pathway-primary/);
+  assert.match(response.body, /Check AI Employee fit/);
   assert.match(response.body, /See AI Employee/);
   assert.match(response.body, /\/ai-employee/);
-  assert.match(response.body, /automation-opportunity-review/);
-  assert.match(response.body, /ai-agent-readiness-review/);
+  assert.doesNotMatch(response.body, /automation-opportunity-review/);
+  assert.doesNotMatch(response.body, /ai-agent-readiness-review/);
   assert.match(response.body, /solutions\/need\/automation-ai/);
   assert.match(response.body, /ladder-band/);
   assert.match(response.body, /data-ladder-stepper/);
-  assert.match(response.body, /Talk with ROALLA about fit/);
+  assert.match(response.body, /Scope the first workload with ROALLA/);
   assert.doesNotMatch(response.body, /with Steven/);
   assert.match(response.body, /data-deliverables-spotlight/);
   assert.match(response.body, /cta-closer/);
@@ -174,9 +178,8 @@ test("AI readiness campaign uses need-style hero and sales CTAs", async () => {
   assert.match(response.body, /Sounds familiar/);
   assert.match(response.body, /Callers hang up before anyone can help/);
   assert.match(response.body, /Cover the unanswered calls/);
-  assert.match(response.body, /Looking to 2027/);
+  assert.doesNotMatch(response.body, /Looking to 2027/);
   assert.match(response.body, /\/assets\/campaigns\/ai-employee-hero\.webp/);
-  assert.match(response.body, /See if an AI Employee fits/);
 });
 
 test("styles load brand fonts and WCAG-oriented muted token", async () => {

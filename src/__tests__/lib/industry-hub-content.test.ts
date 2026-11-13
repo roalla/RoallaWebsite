@@ -36,6 +36,8 @@ describe('industry hub content', () => {
       expect(hub).not.toBeNull()
       expect(hub!.label).toBeTruthy()
       expect(hub!.image.src).toContain('.webp')
+      expect(hub!.heroImage.src).toContain(`/images/industries/${id}.hero.webp`)
+      expect(hub!.heroImage.alt).toBeTruthy()
       expect(hub!.pressures.length).toBeGreaterThanOrEqual(3)
       expect(hub!.leadServices).toHaveLength(2)
       expect(hub!.relatedServices).toHaveLength(6)

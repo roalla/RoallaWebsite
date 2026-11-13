@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { CheckCircle, Inbox, ListChecks, Mail, ShieldCheck, Sparkles, Tag, Info } from 'lucide-react'
 import { useLocale } from 'next-intl'
 import { Link } from '@/i18n/navigation'
@@ -23,6 +23,12 @@ import EstimateFormBody from '@/components/estimates/EstimateFormBody'
 import { useEstimateMarketRegion } from '@/hooks/useEstimateMarketRegion'
 import { useEstimateWizardMode } from '@/hooks/useEstimateWizardMode'
 import { ESTIMATE_PRICING_VERSION } from '@/lib/estimate-commercial'
+import {
+  EVIDENCE_STORAGE_KEYS,
+  readEvidenceArtifact,
+  showEstimateContinuation,
+  summarizeEvidenceForContact,
+} from '@/lib/evidence-to-estimate'
 
 function formatCad(amount: number, locale: string) {
   return new Intl.NumberFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', {
@@ -125,6 +131,9 @@ const copy = {
     crossLinkLaunch: 'Need a new site? Estimate a website launch package (includes search & AI baseline)',
     crossLinkVisibility:
       'Already have a site? Estimate a visibility improvement program for your existing footprint',
+    continuationTitle: 'Continuing from your email reach brief',
+    continuationBody:
+      'Use this estimate to size the next step from your email reach check. Your domain and priorities stay available for the contact request.',
   },
   fr: {
     eyebrow: 'Estimateur de portée courriel',
@@ -220,6 +229,9 @@ const copy = {
       'Besoin d’un nouveau site? Estimez un forfait de lancement Web (inclut la base recherche et IA)',
     crossLinkVisibility:
       'Vous avez déjà un site? Estimez un programme d’amélioration de visibilité pour votre présence existante',
+    continuationTitle: 'Suite de votre brief de portée courriel',
+    continuationBody:
+      'Utilisez cette estimation pour dimensionner la prochaine étape après la vérification de portée courriel. Le domaine et les priorités restent disponibles pour la demande de contact.',
   },
 } as const
 
@@ -308,6 +320,26 @@ export default function EmailReachEstimateBuilder() {
     value: 2500,
     paybackCount: null,
   })
+  const [website, setWebsite] = useState('')
+  const [fromTool, setFromTool] = useState('')
+  const [showContinuation, setShowContinuation] = useState(false)
+  const [evidenceSummary, setEvidenceSummary] = useState('')
+
+  useEffect(() => {
+    const search = window.location.search
+    const params = new URLSearchParams(search)
+    const inboundWebsite = params.get('website')?.trim() || ''
+    const inboundFromTool = params.get('from_tool')?.trim() || ''
+    setWebsite(inboundWebsite.slice(0, 240))
+    setFromTool(inboundFromTool.slice(0, 80))
+    setShowContinuation(showEstimateContinuation(search, inboundFromTool))
+    if (inboundFromTool === 'email-reach-brief' || !inboundFromTool) {
+      const artifact = readEvidenceArtifact(EVIDENCE_STORAGE_KEYS.emailReachBrief)
+      setEvidenceSummary(summarizeEvidenceForContact(artifact))
+      if (!inboundWebsite && artifact?.domain) setWebsite(artifact.domain.slice(0, 240))
+      else if (!inboundWebsite && artifact?.url) setWebsite(artifact.url.slice(0, 240))
+    }
+  }, [])
 
   const estimate = calculateEmailReachEstimate({
     email,
@@ -417,6 +449,10 @@ export default function EmailReachEstimateBuilder() {
     ...(regionId ? { estimate_region: regionId } : {}),
     ...(marketId ? { estimate_market: marketId } : {}),
     ...attributionQuery,
+    ...(website ? { website } : {}),
+    ...(fromTool ? { from_tool: fromTool } : {}),
+    // TODO: post structured engagement.evidence when the contact form accepts an engagement packet.
+    ...(evidenceSummary ? { engagement_evidence: evidenceSummary } : {}),
     ...(appliedReferralCode ? { estimate_referral_code: appliedReferralCode } : {}),
     ...(paybackPlanning.value > 0
       ? {
@@ -464,6 +500,19 @@ export default function EmailReachEstimateBuilder() {
       mobileTotalLabel={estimateTotalLabel}
       mobileCta={mobileContactCta}
       modeToggle={<EstimateModeToggle locale={french ? 'fr' : 'en'} mode={mode} onToggle={toggleMode} />}
+      headerExtra={
+        showContinuation ? (
+          <div className="mt-5 rounded-xl border border-brand-gold/40 bg-white/10 px-4 py-3 text-sm text-white/95">
+            <p className="font-semibold text-brand-gold">{t.continuationTitle}</p>
+            <p className="mt-1 leading-6 text-white/90">{t.continuationBody}</p>
+            {website ? (
+              <p className="mt-2 break-all text-xs text-white/70">
+                {french ? 'Domaine vérifié' : 'Checked domain'}: {website}
+              </p>
+            ) : null}
+          </div>
+        ) : null
+      }
       form={
           <EstimateFormBody
             locale={french ? 'fr' : 'en'}

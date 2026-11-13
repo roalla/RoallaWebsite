@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { CheckCircle, MapPin, PenLine, SearchCheck, Sparkles, Tag, Info } from 'lucide-react'
 import { useLocale } from 'next-intl'
 import { Link } from '@/i18n/navigation'
@@ -23,6 +23,12 @@ import EstimateFormBody from '@/components/estimates/EstimateFormBody'
 import { useEstimateMarketRegion } from '@/hooks/useEstimateMarketRegion'
 import { useEstimateWizardMode } from '@/hooks/useEstimateWizardMode'
 import { ESTIMATE_PRICING_VERSION } from '@/lib/estimate-commercial'
+import {
+  EVIDENCE_STORAGE_KEYS,
+  readEvidenceArtifact,
+  showEstimateContinuation,
+  summarizeEvidenceForContact,
+} from '@/lib/evidence-to-estimate'
 
 function formatCad(amount: number, locale: string) {
   return new Intl.NumberFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', {
@@ -129,6 +135,9 @@ const copy = {
     crossLinkLaunch:
       'Need a new site instead? Estimate a website launch (includes search & AI baseline—not this retrofit program)',
     crossLinkEmail: 'Emails not reaching clients? Estimate email reach and setup',
+    continuationTitle: 'Continuing from your website check',
+    continuationBody:
+      'Use this estimate to size the next step from your Digital Presence Snapshot. Your checked website and priorities stay available for the contact request.',
   },
   fr: {
     eyebrow: 'Estimateur d’amélioration de visibilité',
@@ -225,6 +234,9 @@ const copy = {
     crossLinkLaunch:
       'Besoin d’un nouveau site? Estimez un lancement Web (inclut la base recherche et IA—pas ce programme de remise à niveau)',
     crossLinkEmail: 'Les courriels n’atteignent pas les clients? Estimez la portée et la configuration',
+    continuationTitle: 'Suite de votre vérification de site',
+    continuationBody:
+      'Utilisez cette estimation pour dimensionner la prochaine étape après l’aperçu de présence numérique. Le site vérifié et les priorités restent disponibles pour la demande de contact.',
   },
 }
 
@@ -263,6 +275,26 @@ export default function VisibilityImprovementEstimateBuilder() {
   })
   const [referralApplied, setReferralApplied] = useState(false)
   const [codeStatus, setCodeStatus] = useState<'idle' | 'loading' | 'invalid' | 'error'>('idle')
+  const [website, setWebsite] = useState('')
+  const [fromTool, setFromTool] = useState('')
+  const [showContinuation, setShowContinuation] = useState(false)
+  const [evidenceSummary, setEvidenceSummary] = useState('')
+
+  useEffect(() => {
+    const search = window.location.search
+    const params = new URLSearchParams(search)
+    const inboundWebsite = params.get('website')?.trim() || ''
+    const inboundFromTool = params.get('from_tool')?.trim() || ''
+    setWebsite(inboundWebsite.slice(0, 240))
+    setFromTool(inboundFromTool.slice(0, 80))
+    setShowContinuation(showEstimateContinuation(search, inboundFromTool))
+    if (inboundFromTool === 'digital-presence-snapshot' || !inboundFromTool) {
+      const artifact = readEvidenceArtifact(EVIDENCE_STORAGE_KEYS.digitalPresenceSnapshot)
+      setEvidenceSummary(summarizeEvidenceForContact(artifact))
+      if (!inboundWebsite && artifact?.url) setWebsite(artifact.url.slice(0, 240))
+      else if (!inboundWebsite && artifact?.domain) setWebsite(artifact.domain.slice(0, 240))
+    }
+  }, [])
 
   const activeLocalMaps: LocalMapsChoice = showExtras ? localMaps : 'none'
   const estimate = calculateVisibilityImprovementEstimate({
@@ -370,6 +402,10 @@ export default function VisibilityImprovementEstimateBuilder() {
     ...(regionId ? { estimate_region: regionId } : {}),
     ...(marketId ? { estimate_market: marketId } : {}),
     ...attributionQuery,
+    ...(website ? { website } : {}),
+    ...(fromTool ? { from_tool: fromTool } : {}),
+    // TODO: post structured engagement.evidence when the contact form accepts an engagement packet.
+    ...(evidenceSummary ? { engagement_evidence: evidenceSummary } : {}),
     ...(appliedReferralCode ? { estimate_referral_code: appliedReferralCode } : {}),
     ...(paybackPlanning.value > 0
       ? {
@@ -478,6 +514,19 @@ export default function VisibilityImprovementEstimateBuilder() {
       mobileTotalLabel={estimateTotalLabel}
       mobileCta={mobileContactCta}
       modeToggle={<EstimateModeToggle locale={french ? 'fr' : 'en'} mode={mode} onToggle={toggleMode} />}
+      headerExtra={
+        showContinuation ? (
+          <div className="mt-5 rounded-xl border border-brand-gold/40 bg-white/10 px-4 py-3 text-sm text-white/95">
+            <p className="font-semibold text-brand-gold">{t.continuationTitle}</p>
+            <p className="mt-1 leading-6 text-white/90">{t.continuationBody}</p>
+            {website ? (
+              <p className="mt-2 break-all text-xs text-white/70">
+                {french ? 'Site vérifié' : 'Checked website'}: {website}
+              </p>
+            ) : null}
+          </div>
+        ) : null
+      }
       form={
           <EstimateFormBody
             locale={french ? 'fr' : 'en'}

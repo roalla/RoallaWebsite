@@ -6,8 +6,14 @@ import {
   buildConsultationSalesEmailText,
   buildConsultationUserConfirmationHtml,
   buildConsultationUserConfirmationText,
+  buildPlanningReportEmailSubject,
+  buildPlanningReportSalesHtml,
+  buildPlanningReportSalesText,
+  buildPlanningReportUserHtml,
+  buildPlanningReportUserText,
   LIGHT_MODE_DEFAULT_GOAL,
   parseConsultationIntent,
+  parseEngagementFromBody,
   validateConsultationRequest,
   type ConsultationRequestPayload,
 } from "@/lib/consultation-request";
@@ -164,14 +170,64 @@ const EMAIL_LABELS: Record<string, string> = {
   userDiscoveryBody:
     "When you're ready, you can start a short digital brief so we can prepare clearer recommendations. Completely optional — we'll still follow up either way.",
   userDiscoveryCta: "Start your digital brief",
+  engagementKind: "Engagement",
+  "engagementKind_visibility-estimate": "Visibility estimate",
+  "engagementKind_email-reach-estimate": "Email reach estimate",
+  "engagementKind_website-estimate": "Website estimate",
+  "engagementKind_workshop-estimate": "Workshop estimate",
+  engagementWebsite: "Website",
+  engagementFromTool: "From tool",
+  conversionSource: "Conversion source",
+  signal: "Signal",
+  evidenceTool: "Tool",
+  evidenceUrl: "Checked URL",
+  evidencePriorities: "Priorities",
+  evidenceScores: "Scores",
+  evidenceAsOf: "As of",
+  estimateTotal: "Preliminary total",
+  estimateRegion: "Region",
+  estimateReferral: "Referral code",
+  estimatePricingVersion: "Pricing version",
+  estimateSummary: "Selections",
+  planningSalesHeading: "Planning report — internal",
+  planningSalesEyebrow: "Sales desk · Planning report",
+  planningSalesIntro:
+    "A prospective client submitted an estimate-backed planning request through the ROALLA website.",
+  planningHeaderSection: "Prospect",
+  planningJourneySection: "Journey",
+  planningEvidenceSection: "Evidence snapshot",
+  planningEstimateSection: "Preliminary estimate",
+  planningNoteSection: "Prospect note",
+  planningUserHeading: "Your preliminary planning report",
+  planningUserPreheader:
+    "Your preliminary planning report from Roalla — estimate and next steps inside.",
+  planningUserEyebrow: "Planning report",
+  planningUserGreeting:
+    "Thank you for sharing your estimate with Roalla Business Enablement Group.",
+  planningUserBody: "Here is a preliminary planning report for {kind}.",
+  planningUserEvidenceSection: "What we checked",
+  planningUserEstimateSection: "Your preliminary estimate",
+  planningUserNext1: "We review your tool results and preliminary estimate.",
+  planningUserNext2: "You receive a written scope and confirmed next step.",
+  planningUserNext3: "Kickoff once the plan is agreed in writing.",
+  planningUserCta:
+    "Reply to this email anytime — or call (289) 838-5868.",
+  planningUserSubject: "Your ROALLA planning report",
 };
 
 export async function POST(request: NextRequest) {
   try {
-    const body = (await request.json()) as Partial<ConsultationRequestPayload>;
+    const body = (await request.json()) as Partial<ConsultationRequestPayload> & {
+      engagement?: unknown;
+    };
     const validationError = validateConsultationRequest(body);
     if (validationError) {
       return NextResponse.json({ error: validationError }, { status: 400 });
+    }
+
+    const engagementResult = parseEngagementFromBody(body.engagement);
+    if (!engagementResult.ok) {
+      return NextResponse.json({ error: engagementResult.error }, { status: 400 });
     }
 
     const intent = parseConsultationIntent(body.intent)!;
@@ -209,6 +265,7 @@ export async function POST(request: NextRequest) {
       phone: body.phone?.trim(),
       marketingConsent: body.marketingConsent === true,
       locale: body.locale?.trim(),
+      engagement: engagementResult.engagement,
     };
 
     const submissionId = `CR-${Date.now()}`;
@@ -226,22 +283,50 @@ export async function POST(request: NextRequest) {
       timeStyle: "short",
     });
     const origin = request.headers.get("origin") || "Unknown";
-    const subject = buildConsultationEmailSubject(payload.name, payload.intent);
     const emailOptions = { discoveryUrl, submissionId };
-    const text = buildConsultationSalesEmailText(
-      payload,
-      EMAIL_LABELS,
-      submittedAt,
-      origin,
-      emailOptions,
-    );
-    const html = buildConsultationSalesEmailHtml(
-      payload,
-      EMAIL_LABELS,
-      submittedAt,
-      origin,
-      emailOptions,
-    );
+    const hasEngagement = Boolean(payload.engagement);
+    const subject = hasEngagement && payload.engagement
+      ? buildPlanningReportEmailSubject(payload.name, payload.engagement)
+      : buildConsultationEmailSubject(payload.name, payload.intent);
+    const text = hasEngagement
+      ? buildPlanningReportSalesText(
+          payload,
+          EMAIL_LABELS,
+          submittedAt,
+          origin,
+          emailOptions,
+        )
+      : buildConsultationSalesEmailText(
+          payload,
+          EMAIL_LABELS,
+          submittedAt,
+          origin,
+          emailOptions,
+        );
+    const html = hasEngagement
+      ? buildPlanningReportSalesHtml(
+          payload,
+          EMAIL_LABELS,
+          submittedAt,
+          origin,
+          emailOptions,
+        )
+      : buildConsultationSalesEmailHtml(
+          payload,
+          EMAIL_LABELS,
+          submittedAt,
+          origin,
+          emailOptions,
+        );
+    const userSubject = hasEngagement
+      ? EMAIL_LABELS.planningUserSubject
+      : EMAIL_LABELS.userSubject;
+    const userText = hasEngagement
+      ? buildPlanningReportUserText(payload, EMAIL_LABELS, emailOptions)
+      : buildConsultationUserConfirmationText(payload, EMAIL_LABELS, emailOptions);
+    const userHtml = hasEngagement
+      ? buildPlanningReportUserHtml(payload, EMAIL_LABELS, emailOptions)
+      : buildConsultationUserConfirmationHtml(payload, EMAIL_LABELS, emailOptions);
 
     if (hubMailConfigured()) {
       try {
@@ -257,15 +342,9 @@ export async function POST(request: NextRequest) {
         const userResult = await sendHubMail({
           to: payload.email,
           replyTo: CONTACT.email,
-          subject: EMAIL_LABELS.userSubject,
-          text: buildConsultationUserConfirmationText(payload, EMAIL_LABELS, {
-            discoveryUrl,
-            submissionId,
-          }),
-          html: buildConsultationUserConfirmationHtml(payload, EMAIL_LABELS, {
-            discoveryUrl,
-            submissionId,
-          }),
+          subject: userSubject,
+          text: userText,
+          html: userHtml,
         });
         if (!userResult.ok) throw new Error(userResult.error);
       } catch (emailError) {

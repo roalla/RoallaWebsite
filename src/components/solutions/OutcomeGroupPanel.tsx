@@ -79,6 +79,14 @@ export default function OutcomeGroupPanel({
   const interpretCtaLabel = copy.contactCta
   const improveCtaLabel =
     locale === 'fr' ? 'Voir les détails du parcours' : 'See pathway details'
+  const evidenceThenEstimateNote =
+    locale === 'fr'
+      ? 'Vérifiez d’abord, puis estimez le travail avant de demander une réponse.'
+      : 'Check first, then estimate the work before you request a fit reply.'
+  const showEvidenceThenEstimate =
+    Boolean(situation.estimatePath && situation.estimateLabel) &&
+    Boolean(situation.evidencePath) &&
+    !situation.evidencePath.includes('estimate')
   const primaryPathway =
     copy.pathwayLinks.find((link) => link.slug === situation.pathwaySlug) ?? copy.pathwayLinks[0]
   const needPage = `/solutions/need/${groupId}`
@@ -494,6 +502,9 @@ export default function OutcomeGroupPanel({
             <p className="mt-3 text-xs leading-5 text-slate-400">
               {situation.evidenceNote ?? copy.evidenceNote}
             </p>
+            {showEvidenceThenEstimate ? (
+              <p className="mt-2 text-xs leading-5 text-slate-300">{evidenceThenEstimateNote}</p>
+            ) : null}
             <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
               <Link
                 href={contactHref}
@@ -625,6 +636,9 @@ export default function OutcomeGroupPanel({
             <p className="mt-3 text-xs leading-5 text-slate-400">
               {situation.evidenceNote ?? copy.evidenceNote}
             </p>
+            {showEvidenceThenEstimate ? (
+              <p className="mt-2 text-xs leading-5 text-slate-300">{evidenceThenEstimateNote}</p>
+            ) : null}
             <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
               <Link
                 href={contactHref}

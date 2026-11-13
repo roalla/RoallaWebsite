@@ -61,6 +61,7 @@ const EN = {
   ctaBody: 'ROALLA helps leadership connect applicability, technology architecture, operating dependencies, vendor governance, incident readiness and evidence into a practical program. Legal interpretation remains with qualified counsel; ROALLA coordinates the business and technology work needed to act.',
   cta: 'Discuss Bill C-8 readiness',
   service: 'Explore Technology Advisory',
+  guide: 'Get the EI-49 executive guide',
 }
 
 const FR = {
@@ -120,6 +121,7 @@ const FR = {
   ctaBody: 'ROALLA aide la direction à relier applicabilité, architecture technologique, dépendances, gouvernance fournisseurs, préparation aux incidents et preuves dans un programme pratique. L’interprétation juridique demeure la responsabilité de conseillers qualifiés; ROALLA coordonne le travail d’affaires et technologique nécessaire pour agir.',
   cta: 'Discuter de la préparation à C-8',
   service: 'Explorer le conseil technologique',
+  guide: 'Obtenir le guide EI-49',
 }
 
 const sources = [
@@ -176,6 +178,6 @@ export default function BillC8CyberReadinessArticle({ locale, title, summary, re
 
     <section className="bg-white px-4 py-16 sm:px-6 lg:px-8"><div className="mx-auto max-w-7xl"><h2 className="font-serif text-3xl text-[#07111f]">{c.sourcesTitle}</h2><p className="mt-3 max-w-3xl leading-7 text-slate-600">{c.sourcesIntro}</p><ol className="mt-7 grid gap-3 md:grid-cols-2">{sources.map(([label, href], index) => <li key={href}><a href={href} target="_blank" rel="noreferrer" className="flex min-h-16 items-center justify-between gap-4 border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 hover:border-[#00b4c5] hover:text-[#007a87]"><span><span className="mr-3 text-slate-400">{index + 1}.</span>{label}</span><ChevronRight className="h-4 w-4 shrink-0" /></a></li>)}</ol></div></section>
 
-    <section className="bg-[#07111f] px-4 py-20 text-white sm:px-6 lg:px-8"><div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.25fr_.75fr] lg:items-end"><div><ShieldCheck className="h-9 w-9 text-[#f5c518]" /><h2 className="mt-6 font-serif text-4xl text-white sm:text-5xl">{c.ctaTitle}</h2><p className="mt-5 max-w-3xl text-lg leading-8 text-slate-300">{c.ctaBody}</p></div><div className="flex flex-col gap-3"><Link href={{ pathname: '/contact', query: { from_page: 'insight-bill-c8-readiness' } }} className="inline-flex min-h-12 items-center justify-between bg-[#00b4c5] px-5 text-sm font-bold text-[#07111f]">{c.cta}<ArrowRight className="h-4 w-4" /></Link><Link href="/services/technology-advisory" className="inline-flex min-h-12 items-center justify-between border border-white/25 px-5 text-sm font-bold text-white">{c.service}<ArrowRight className="h-4 w-4" /></Link></div></div></section>
+    <section className="bg-[#07111f] px-4 py-20 text-white sm:px-6 lg:px-8"><div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.25fr_.75fr] lg:items-end"><div><ShieldCheck className="h-9 w-9 text-[#f5c518]" /><h2 className="mt-6 font-serif text-4xl text-white sm:text-5xl">{c.ctaTitle}</h2><p className="mt-5 max-w-3xl text-lg leading-8 text-slate-300">{c.ctaBody}</p></div><div className="flex flex-col gap-3"><Link href={{ pathname: '/executive-insights', query: { guide: 'bill-c8-critical-cyber-systems-readiness' } }} className="inline-flex min-h-12 items-center justify-between bg-[#f5c518] px-5 text-sm font-bold text-[#07111f]">{c.guide}<ArrowRight className="h-4 w-4" /></Link><Link href={{ pathname: '/contact', query: { from_page: 'insight-bill-c8-readiness' } }} className="inline-flex min-h-12 items-center justify-between bg-[#00b4c5] px-5 text-sm font-bold text-[#07111f]">{c.cta}<ArrowRight className="h-4 w-4" /></Link><Link href="/services/technology-advisory" className="inline-flex min-h-12 items-center justify-between border border-white/25 px-5 text-sm font-bold text-white">{c.service}<ArrowRight className="h-4 w-4" /></Link></div></div></section>
   </article>
 }

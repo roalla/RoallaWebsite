@@ -4,6 +4,7 @@ import path from "node:path";
 import { findExecutiveGuide } from "@/lib/executive-guides";
 
 const FILES: Record<string, string> = {
+  "bill-c8-critical-cyber-systems-readiness": "bill-c8-critical-cyber-systems-readiness.pdf",
   "ai-readiness-governance": "ai-readiness-governance.pdf",
   "acquisition-readiness-value-creation": "acquisition-readiness-value-creation.pdf",
   "saas-soc-2-readiness": "saas-soc-2-readiness.pdf",

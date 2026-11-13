@@ -22,6 +22,15 @@ export type ExecutiveGuide = {
 
 export const EXECUTIVE_GUIDES: readonly ExecutiveGuide[] = [
   {
+    slug: "bill-c8-critical-cyber-systems-readiness",
+    number: "EI—49",
+    category: "risk",
+    image: "/images/executive-insights/cybersecurity.webp",
+    featured: true,
+    en: { title: "Bill C-8 Critical Cyber Systems Readiness", summary: "Determine direct and supply-chain exposure, translate the new federal cyber framework into operating capabilities and build an evidence-led 90-day readiness plan.", categoryLabel: "Risk & resilience" },
+    fr: { title: "Préparation aux cybersystèmes essentiels du projet de loi C-8", summary: "Déterminez l’exposition directe et celle de la chaîne d’approvisionnement, transformez le cadre fédéral en capacités opérationnelles et bâtissez un plan de préparation de 90 jours.", categoryLabel: "Risque et résilience" },
+  },
+  {
     slug: "unified-communications-contact-centre-outlook-2027",
     number: "EI—37",
     category: "technology",

@@ -3,7 +3,7 @@
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { ArrowDownRight, ArrowRight, ArrowUpRight, Check, X } from "lucide-react";
 import Image from "next/image";
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { trackAnalyticsEvent } from "@/lib/analytics";
 import type { ExecutiveGuide, ExecutiveGuideCategory } from "@/lib/executive-guides";
@@ -114,6 +114,18 @@ export default function ExecutiveInsightsLibrary({ locale, guides }: Props) {
   const visible = useMemo(() => filter === "all" ? guides : guides.filter((guide) => guide.category === filter), [filter, guides]);
   const isWellbeingGuide = selected?.slug === "sustainable-performance-psychological-wellbeing";
   const toolkitContactHref = { pathname: "/contact" as const, query: { intent: "consulting", focus: "team", goal: c.toolkitGoal, from_page: "/executive-insights" } };
+
+  useEffect(() => {
+    const requestedSlug = new URLSearchParams(window.location.search).get("guide");
+    const requestedGuide = guides.find((guide) => guide.slug === requestedSlug);
+    if (requestedGuide) {
+      setSelected(requestedGuide);
+      setError("");
+      setDownloadUrl("");
+      setEmailSent(true);
+      trackAnalyticsEvent("executive_guide_cta_click", { guide: requestedGuide.slug, source: "direct-link" });
+    }
+  }, [guides]);
 
   function openGuide(guide: ExecutiveGuide) {
     setSelected(guide); setError(""); setDownloadUrl(""); setEmailSent(true);

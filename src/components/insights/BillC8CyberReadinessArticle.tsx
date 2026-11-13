@@ -136,7 +136,7 @@ export default function BillC8CyberReadinessArticle({ locale, title, summary, re
   const exposureIcons = [Building2, Users, ShieldCheck]
 
   return <article className="bg-[#f4f7fb] text-slate-900">
-    <header className="relative isolate overflow-hidden bg-[#07111f] px-4 pb-20 pt-16 text-white sm:px-6 lg:px-8 lg:pb-28 lg:pt-24">
+    <header data-header-tone="dark" className="relative isolate overflow-hidden bg-[#07111f] px-4 pb-20 pt-16 text-white sm:px-6 lg:px-8 lg:pb-28 lg:pt-24">
       <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_78%_20%,rgba(0,180,197,.32),transparent_30%),radial-gradient(circle_at_83%_80%,rgba(220,38,38,.14),transparent_24%),linear-gradient(120deg,#07111f_0%,#0b2030_58%,#083d47_100%)]" />
       <div className="absolute right-[8%] top-[12%] -z-10 hidden h-96 w-96 rounded-full border border-cyan-300/20 lg:block"><div className="absolute inset-14 rounded-full border border-cyan-300/15" /><ShieldCheck className="absolute inset-0 m-auto h-28 w-28 text-cyan-300/25" /></div>
       <div className="mx-auto max-w-7xl">

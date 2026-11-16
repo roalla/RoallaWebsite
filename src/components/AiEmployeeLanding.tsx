@@ -448,6 +448,31 @@ export default function AiEmployeeLanding({
 
         <section className="border-y border-slate-200 bg-slate-50 py-16">
           <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div className="mb-10 grid gap-5 rounded-2xl bg-slate-950 p-6 text-white sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-cyan-300">
+                  {language === 'fr' ? 'Relier l’employé IA à la conversation' : 'Connect the AI Employee to the conversation'}
+                </p>
+                <h2 className="mt-2 font-serif text-2xl font-bold text-white">
+                  {language === 'fr'
+                    ? 'Voyez comment l’IA s’intègre à la téléphonie et au centre de contact.'
+                    : 'See how AI fits with business calling and the contact centre.'}
+                </h2>
+                <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-300">
+                  {language === 'fr'
+                    ? 'Concevez ensemble les canaux, les connaissances, les intégrations et le relais humain.'
+                    : 'Design channels, knowledge, integrations and human handoff together.'}
+                </p>
+              </div>
+              <Link
+                href="/services/unified-communications-contact-centres-ai-employees"
+                onClick={() => trackCta('unified_comms_link')}
+                className="inline-flex min-h-12 items-center justify-center rounded-lg bg-brand-gold px-5 py-3 text-sm font-bold text-slate-950 hover:bg-brand-gold-light"
+              >
+                {language === 'fr' ? 'Explorer le parcours unifié' : 'Explore the unified pathway'}
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+            </div>
             <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
               <div>
                 <h2 className="font-serif text-2xl font-bold text-slate-950">{content.distinctTitle}</h2>

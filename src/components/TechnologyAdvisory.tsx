@@ -499,6 +499,33 @@ const TechnologyAdvisory = () => {
           </div>
         </Reveal>
 
+        <Reveal className="mt-10 overflow-hidden rounded-2xl bg-slate-950 px-6 py-8 text-white sm:px-8">
+          <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-cyan-300">
+                {locale === 'fr' ? 'Parcours spécialisé' : 'Specialized pathway'}
+              </p>
+              <h2 className="mt-2 font-serif text-2xl font-bold text-white sm:text-3xl">
+                {locale === 'fr'
+                  ? 'Communications unifiées, centres de contact et employés IA'
+                  : 'Unified Communications, Contact Centres & AI Employees'}
+              </h2>
+              <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
+                {locale === 'fr'
+                  ? 'Reliez téléphonie, canaux clients, contexte CRM, automatisation et relais humain dans un même modèle opérationnel.'
+                  : 'Connect business calling, customer channels, CRM context, automation and human handoff in one operating model.'}
+              </p>
+            </div>
+            <Link
+              href="/services/unified-communications-contact-centres-ai-employees"
+              className="inline-flex min-h-12 items-center justify-center rounded-lg bg-brand-gold px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-brand-gold-light"
+            >
+              {locale === 'fr' ? 'Explorer le parcours' : 'Explore the pathway'}
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+        </Reveal>
+
         <Reveal className="relative mt-10 overflow-hidden bg-slate-950 px-6 py-10 text-white sm:px-8 lg:px-10 lg:py-12">
           <div className="pointer-events-none absolute -right-28 -top-28 h-72 w-72 rounded-full bg-primary/15 blur-3xl" aria-hidden />
           <div className="relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">

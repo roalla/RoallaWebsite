@@ -27,6 +27,8 @@ export const routing = defineRouting({
       "/services/portfolio/digital-products",
     "/services/business-advisory": "/services/business-advisory",
     "/services/technology-advisory": "/services/technology-advisory",
+    "/services/unified-communications-contact-centres-ai-employees":
+      "/services/unified-communications-contact-centres-ai-employees",
     "/programs/workshops": "/programs/workshops",
     "/programs/workshops/focus-circle": "/programs/workshops/focus-circle",
     "/programs/workshops/workload-conversation": "/programs/workshops/workload-conversation",

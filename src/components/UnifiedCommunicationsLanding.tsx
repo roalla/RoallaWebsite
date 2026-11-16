@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import Image from 'next/image'
 import {
   ArrowRight,
   Bot,
@@ -37,6 +38,9 @@ const copy = {
     lead: 'ROALLA helps organizations design and source cloud calling, collaboration, contact-centre and AI Employee capabilities around the customer and employee experience—not a vendor catalogue.',
     primary: 'Choose your business challenge',
     secondary: 'Discuss the opportunity',
+    heroImageAlt: 'Contact-centre professional supporting customers in a modern communications environment',
+    heroVisualTitle: 'Never miss an opportunity to connect.',
+    capabilityChips: ['Voice & collaboration', 'Customer experience', 'AI-powered service'],
     proof: ['Vendor-neutral requirements', 'UCaaS + CCaaS + AI in one plan', 'Human handoff and governance built in'],
     selectorEyebrow: 'Start with the operating problem',
     selectorTitle: 'What is making communication harder than it should be?',
@@ -111,6 +115,9 @@ const copy = {
     title: 'Transformez chaque conversation en travail connecté et responsable.',
     lead: 'ROALLA aide les organisations à concevoir et sourcer la téléphonie infonuagique, la collaboration, le centre de contact et les employés IA autour de l’expérience client et employé—pas d’un catalogue fournisseur.',
     primary: 'Choisir votre enjeu d’affaires', secondary: 'Discuter de l’occasion',
+    heroImageAlt: 'Professionnelle de centre de contact au service des clients dans un environnement de communications moderne',
+    heroVisualTitle: 'Ne manquez jamais une occasion de créer un lien.',
+    capabilityChips: ['Voix et collaboration', 'Expérience client', 'Service propulsé par l’IA'],
     proof: ['Exigences neutres', 'UCaaS + CCaaS + IA dans un même plan', 'Relais humain et gouvernance intégrés'],
     selectorEyebrow: 'Commencez par le problème opérationnel', selectorTitle: 'Qu’est-ce qui rend les communications plus difficiles qu’elles ne devraient l’être?', selectorLead: 'Choisissez l’enjeu le plus proche. Le point de départ recommandé s’adapte à votre réponse.', selected: 'Sélectionné', challengeLabel: 'Sélecteur d’enjeu d’affaires',
     challenges: {
@@ -179,17 +186,45 @@ export default function UnifiedCommunicationsLanding({ locale }: { locale: strin
                 <Link href={contactHref} className="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/30 bg-white/10 px-6 py-3 font-bold text-white hover:bg-white/15">{c.secondary}</Link>
               </div>
             </Reveal>
-            <Reveal when="mount" delayMs={100} className="rounded-2xl border border-white/15 bg-white/[0.07] p-6 backdrop-blur-sm">
-              <div className="grid gap-5">
-                {[PhoneCall, Headphones, Bot].map((Icon, index) => (
-                  <div key={c.proof[index]} className="flex items-center gap-4">
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-cyan-300/10 text-cyan-300"><Icon className="h-5 w-5" aria-hidden /></span>
-                    <p className="font-semibold text-white">{c.proof[index]}</p>
-                  </div>
-                ))}
-              </div>
+            <Reveal when="mount" delayMs={100} className="overflow-hidden rounded-2xl border border-white/15 bg-slate-900 shadow-2xl shadow-black/30">
+              <figure>
+                <div className="relative aspect-[16/10] overflow-hidden bg-slate-900">
+                  <Image
+                    src="/images/services/unified-communications-contact-centre-hero.webp"
+                    alt={c.heroImageAlt}
+                    fill
+                    priority
+                    fetchPriority="high"
+                    sizes="(max-width: 1023px) 100vw, 42vw"
+                    className="object-cover object-center"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/5 to-transparent" aria-hidden />
+                  <figcaption className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+                    <p className="max-w-lg font-serif text-xl font-bold leading-tight text-white sm:text-2xl">
+                      {c.heroVisualTitle}
+                    </p>
+                  </figcaption>
+                </div>
+                <div className="flex flex-wrap gap-2 border-t border-white/10 p-4">
+                  {c.capabilityChips.map((chip) => (
+                    <span key={chip} className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-xs font-bold text-slate-100">
+                      {chip}
+                    </span>
+                  ))}
+                </div>
+              </figure>
             </Reveal>
           </div>
+          <Reveal when="mount" delayMs={160} className="mx-auto mt-10 grid max-w-6xl gap-3 border-t border-white/15 pt-6 sm:grid-cols-3">
+            {c.proof.map((item) => (
+              <div key={item} className="flex items-center gap-3 text-sm font-semibold text-slate-200">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-300/10 text-cyan-300">
+                  <Check className="h-4 w-4" aria-hidden />
+                </span>
+                {item}
+              </div>
+            ))}
+          </Reveal>
         </section>
 
         <section id="challenge-selector" className="scroll-mt-24 border-b border-slate-200 bg-slate-50 py-20">

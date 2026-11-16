@@ -238,7 +238,7 @@ describe('Header', () => {
       'href',
       '/assessment',
     )
-    expect(within(menu).getAllByRole('menuitem')).toHaveLength(18)
+    expect(within(menu).getAllByRole('menuitem')).toHaveLength(19)
   })
 
   it('groups explore capabilities under the five outcomes', () => {
@@ -259,6 +259,7 @@ describe('Header', () => {
 
     const expectedLinks: [RegExp, string][] = [
       [/digitalVisibility/i, '/services/search-ai-visibility'],
+      [/unifiedCommunications/i, '/services/unified-communications-contact-centres-ai-employees'],
       [/websitesAndDigital/i, '/services/digital'],
       [/digitalWebsites/i, '/website-design'],
       [/helpDigitalProducts/i, '/services/digital-products'],
@@ -273,7 +274,7 @@ describe('Header', () => {
     expectedLinks.forEach(([name, href]) => {
       expect(within(capabilities).getByRole('menuitem', { name })).toHaveAttribute('href', href)
     })
-    expect(within(capabilities).getAllByRole('menuitem')).toHaveLength(11)
+    expect(within(capabilities).getAllByRole('menuitem')).toHaveLength(12)
     expect(within(menu).queryByRole('menuitem', { name: /helpDevelopTeam/i })).not.toBeInTheDocument()
     expect(within(menu).getByRole('menuitem', { name: /browseOutcomesCta/i })).toHaveAttribute('href', '/solutions')
     expect(within(menu).getByRole('menuitem', { name: /Explore Your Options/i })).toHaveAttribute('href', '/assessment')
@@ -441,6 +442,24 @@ describe('Header', () => {
     expect(promoLinks.length).toBeGreaterThan(0)
     promoLinks.forEach((link) => {
       expect(link).toHaveAttribute('href', '/website-package')
+    })
+  })
+
+  it('shows a Canadian company mark that follows the header tone', async () => {
+    mockPathname.mockReturnValue('/')
+    const { unmount } = render(<Header />)
+    screen.getAllByRole('img', { name: 'canadianCompany' }).forEach((mark) => {
+      expect(mark).toHaveAttribute('data-maple-tone', 'dark')
+    })
+    unmount()
+
+    mockPathname.mockReturnValue('/contact')
+    render(<Header />)
+    await act(async () => {
+      await new Promise((resolve) => requestAnimationFrame(() => resolve(null)))
+    })
+    screen.getAllByRole('img', { name: 'canadianCompany' }).forEach((mark) => {
+      expect(mark).toHaveAttribute('data-maple-tone', 'light')
     })
   })
 

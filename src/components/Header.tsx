@@ -62,6 +62,36 @@ function QuebecFlagIcon({ className }: { className?: string }) {
   );
 }
 
+/** Maple leaf mark: white leaf over dark header bands, black leaf over light bands. */
+function CanadianCompanyMark({ overDark }: { overDark: boolean }) {
+  const tCommon = useTranslations("common");
+  const label = tCommon("canadianCompany");
+  return (
+    <span
+      role="img"
+      aria-label={label}
+      title={label}
+      data-maple-tone={overDark ? "dark" : "light"}
+      className="relative inline-flex h-7 w-7 shrink-0 sm:h-8 sm:w-8"
+    >
+      <Image
+        src="/icons/maple-leaf-on-dark.png"
+        alt=""
+        width={192}
+        height={189}
+        className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-300 ${overDark ? "opacity-100" : "opacity-0"}`}
+      />
+      <Image
+        src="/icons/maple-leaf-on-light.png"
+        alt=""
+        width={192}
+        height={187}
+        className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-300 ${overDark ? "opacity-0" : "opacity-100"}`}
+      />
+    </span>
+  );
+}
+
 function ResourceArticleLink({
   slug,
   title,
@@ -606,6 +636,10 @@ const Header = ({
     {
       headingKey: "helpGroupExperience" as const,
       links: [
+        {
+          nameKey: "unifiedCommunications" as const,
+          href: "/services/unified-communications-contact-centres-ai-employees" as const,
+        },
         { nameKey: "websitesAndDigital" as const, href: "/services/digital" as const },
         { nameKey: "digitalWebsites" as const, href: "/website-design" as const },
         { nameKey: "helpDigitalProducts" as const, href: "/services/digital-products" as const },
@@ -1626,6 +1660,7 @@ const Header = ({
                 {headerCtaLabel}
               </ScheduleButton>
             </div>
+            <CanadianCompanyMark overDark={overDark} />
           </div>
 
           {/* Mobile menu button */}
@@ -1656,6 +1691,7 @@ const Header = ({
                 <Menu className={mobileToggleIconClass} aria-hidden />
               )}
             </button>
+            <CanadianCompanyMark overDark={overDark} />
           </div>
         </div>
 

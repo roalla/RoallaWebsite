@@ -850,18 +850,21 @@ const Header = ({
     ? "group flex items-center gap-1.5 rounded-lg border border-primary/40 bg-primary/10 px-2.5 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/20 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black"
     : "group flex items-center gap-1.5 rounded-lg border border-primary/40 bg-primary/10 px-2.5 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/20 hover:text-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white";
 
-  const foundingPromoLink = showFoundingPromo ? (
-    <Link
-      href="/website-package"
-      className={`${foundingPromoLinkClass} hidden xl:flex`}
-      aria-label={t("foundingPromoLabel")}
-      title={t("foundingPromoLabel")}
-      onClick={closeMenu}
-    >
-      <Flag className="h-4 w-4 shrink-0" aria-hidden />
-      <span className="sr-only">{t("foundingPromoShort")}</span>
-    </Link>
-  ) : null;
+  // Keep the promo out of the desktop bar on website-design: that route also
+  // shows Digital Portfolio, which already fills the available nav width.
+  const foundingPromoLink =
+    showFoundingPromo && !showDigitalPortfolioNav ? (
+      <Link
+        href="/website-package"
+        className={`${foundingPromoLinkClass} hidden xl:flex`}
+        aria-label={t("foundingPromoLabel")}
+        title={t("foundingPromoLabel")}
+        onClick={closeMenu}
+      >
+        <Flag className="h-4 w-4 shrink-0" aria-hidden />
+        <span className="sr-only">{t("foundingPromoShort")}</span>
+      </Link>
+    ) : null;
 
   const dropdownPanelClass = (open: boolean) =>
     `dropdown-panel ${open ? "dropdown-panel-open" : "dropdown-panel-closed"}`;
@@ -927,7 +930,7 @@ const Header = ({
       >
         <div className="flex min-w-0 items-center justify-between gap-2 xl:gap-4 h-16 xl:h-20">
           {/* Logo */}
-          <div className="min-w-0 max-w-[140px] shrink sm:max-w-[200px] xl:shrink-0">
+          <div className="relative z-20 min-w-0 max-w-[140px] shrink sm:max-w-[200px] xl:shrink-0">
             <Link
               href="/"
               className="flex items-center space-x-2 sm:space-x-3 group min-w-0"
@@ -954,7 +957,7 @@ const Header = ({
 
           {/* Desktop Navigation */}
           <div className="hidden xl:flex min-w-0 flex-1 items-center justify-center">
-            <div className="flex items-center justify-center gap-3 2xl:gap-5">
+            <div className="flex min-w-0 items-center justify-center gap-2 2xl:gap-5">
               <div className="relative" ref={digitalDropdownDesktopRef}>
                 <button
                   type="button"
@@ -973,7 +976,7 @@ const Header = ({
                   aria-expanded={digitalDropdownOpen}
                   aria-haspopup="menu"
                   id="digital-dropdown-desktop"
-                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
+                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 ${
                     isDigitalActive || digitalDropdownOpen
                       ? "text-primary"
                       : navIdleClass
@@ -1146,7 +1149,7 @@ const Header = ({
                   aria-expanded={industryDropdownOpen}
                   aria-haspopup="menu"
                   id="industry-dropdown-desktop"
-                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
+                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 ${
                     isIndustryActive || industryDropdownOpen
                       ? "text-primary"
                       : navIdleClass
@@ -1228,7 +1231,7 @@ const Header = ({
                   aria-expanded={ecosystemDropdownOpen}
                   aria-haspopup="menu"
                   id="ecosystem-dropdown-desktop"
-                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
+                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 ${
                     isEcosystemActive || ecosystemDropdownOpen
                       ? "text-primary"
                       : navIdleClass
@@ -1316,7 +1319,7 @@ const Header = ({
                   aria-expanded={workshopsDropdownOpen}
                   aria-haspopup="menu"
                   id="workshops-dropdown-desktop"
-                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
+                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 ${
                     isAdvisoryActive || isWorkshopsActive || workshopsDropdownOpen
                       ? "text-primary"
                       : navIdleClass
@@ -1446,7 +1449,7 @@ const Header = ({
                   aria-expanded={resourcesDropdownOpen}
                   aria-haspopup="menu"
                   id="resources-dropdown-desktop"
-                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 -mx-1 ${
+                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 ${
                     isResourcesActive || resourcesDropdownOpen
                       ? "text-primary"
                       : navIdleClass
@@ -1582,7 +1585,7 @@ const Header = ({
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden xl:flex items-center justify-end gap-2 xl:gap-3 flex-shrink-0">
+          <div className="relative z-10 hidden xl:flex shrink-0 items-center justify-end gap-2 xl:gap-3">
             {foundingPromoLink}
             {isLocaleRoute && (
               <div
@@ -1642,7 +1645,7 @@ const Header = ({
             )}
             <a
               href={CLIENT_PORTAL_URL}
-              className={`${clientPortalLinkClass} hidden xl:block`}
+              className={`${clientPortalLinkClass} hidden 2xl:block`}
               aria-label={t("clientPortalAria")}
             >
               {t("clientPortal")}

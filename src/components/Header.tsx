@@ -72,7 +72,7 @@ function CanadianCompanyMark({ overDark }: { overDark: boolean }) {
       aria-label={label}
       title={label}
       data-maple-tone={overDark ? "dark" : "light"}
-      className="relative inline-flex h-7 w-7 shrink-0 sm:h-8 sm:w-8"
+      className="relative inline-flex h-6 w-6 shrink-0 sm:h-7 sm:w-7 xl:h-8 xl:w-8"
     >
       <Image
         src="/icons/maple-leaf-on-dark.png"
@@ -925,9 +925,9 @@ const Header = ({
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
         aria-label="Main navigation"
       >
-        <div className="flex items-center justify-between gap-3 xl:gap-4 h-16 xl:h-20">
+        <div className="flex min-w-0 items-center justify-between gap-2 xl:gap-4 h-16 xl:h-20">
           {/* Logo */}
-          <div className="flex-shrink-0 min-w-0 max-w-[140px] sm:max-w-[200px]">
+          <div className="min-w-0 max-w-[140px] shrink sm:max-w-[200px] xl:shrink-0">
             <Link
               href="/"
               className="flex items-center space-x-2 sm:space-x-3 group min-w-0"
@@ -953,7 +953,7 @@ const Header = ({
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden xl:flex items-center justify-center min-w-0 flex-1">
+          <div className="hidden xl:flex min-w-0 flex-1 items-center justify-center">
             <div className="flex items-center justify-center gap-3 2xl:gap-5">
               <div className="relative" ref={digitalDropdownDesktopRef}>
                 <button
@@ -1664,7 +1664,7 @@ const Header = ({
           </div>
 
           {/* Mobile menu button */}
-          <div className="xl:hidden flex items-center space-x-2">
+          <div className="xl:hidden flex shrink-0 items-center gap-2">
             {showFoundingPromo && (
               <Link
                 href="/website-package"

@@ -32,6 +32,24 @@ function fitBriefHref(hub: IndustryHub, conversionSource: string) {
   }
 }
 
+function ucPathwayHref(
+  hub: IndustryHub,
+  focus: 'ucaas' | 'ccaas' | 'ai-employee',
+  conversionSource: string,
+) {
+  return {
+    pathname: '/services/unified-communications-contact-centres-ai-employees' as const,
+    query: {
+      industry: hub.id,
+      focus,
+      campaign: 'industry-hub',
+      conversion_source: conversionSource,
+      entry_page: `/industries/${hub.id}`,
+      signal: focus === 'ai-employee' ? 'ai-employee' : 'unified-communications',
+    },
+  }
+}
+
 function serviceHref(hub: IndustryHub, key: IndustryHubServiceKey) {
   switch (key) {
     case 'aiEmployee':
@@ -39,17 +57,9 @@ function serviceHref(hub: IndustryHub, key: IndustryHubServiceKey) {
     case 'security':
       return '/services/security-risk-compliance' as const
     case 'ucaas':
-      return {
-        pathname: '/solutions/[slug]' as const,
-        params: { slug: 'communications' },
-        hash: 'unified-communications',
-      }
+      return ucPathwayHref(hub, 'ucaas', 'industry_hub_ucaas')
     case 'ccaas':
-      return {
-        pathname: '/solutions/[slug]' as const,
-        params: { slug: 'communications' },
-        hash: 'contact-center',
-      }
+      return ucPathwayHref(hub, 'ccaas', 'industry_hub_ccaas')
     case 'cloudMigration':
       return { pathname: '/solutions/[slug]' as const, params: { slug: 'cloud-infrastructure' } }
     case 'automation':
@@ -423,40 +433,59 @@ export default function IndustryHubPage({
                   </div>
                 </>
               ) : null}
-              <div className="mt-8 flex flex-wrap gap-3">
-                {selectedPath === 'aiEmployee' ? (
-                  <>
+              <div className="mt-8 flex flex-col gap-4">
+                <div className="flex flex-wrap gap-3">
+                  {selectedPath === 'aiEmployee' ? (
+                    <>
+                      <Link
+                        href={fitBriefHref(hub, 'industry_hub_path_detail')}
+                        onClick={() => trackService('aiEmployee')}
+                        className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-bold text-white transition hover:bg-primary-dark"
+                      >
+                        {selectedBlock.ctaLabel}
+                        <ArrowRight className="h-4 w-4" aria-hidden />
+                      </Link>
+                      <Link
+                        href={{ pathname: '/contact', query: contactQuery }}
+                        onClick={() =>
+                          trackAnalyticsEvent('industry_hub_cta', {
+                            industry: hub.id,
+                            slot: 'path_detail_contact',
+                          })
+                        }
+                        className="inline-flex min-h-12 items-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-900 transition hover:border-primary"
+                      >
+                        {french ? 'Parler avec ROALLA' : 'Talk with ROALLA'}
+                      </Link>
+                    </>
+                  ) : (
                     <Link
-                      href={fitBriefHref(hub, 'industry_hub_path_detail')}
-                      onClick={() => trackService('aiEmployee')}
+                      href={serviceHref(hub, selectedPath)}
+                      onClick={() => trackService(selectedPath)}
                       className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-bold text-white transition hover:bg-primary-dark"
                     >
                       {selectedBlock.ctaLabel}
                       <ArrowRight className="h-4 w-4" aria-hidden />
                     </Link>
-                    <Link
-                      href={{ pathname: '/contact', query: contactQuery }}
-                      onClick={() =>
-                        trackAnalyticsEvent('industry_hub_cta', {
-                          industry: hub.id,
-                          slot: 'path_detail_contact',
-                        })
-                      }
-                      className="inline-flex min-h-12 items-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-900 transition hover:border-primary"
-                    >
-                      {french ? 'Parler avec ROALLA' : 'Talk with ROALLA'}
-                    </Link>
-                  </>
-                ) : (
+                  )}
+                </div>
+                {selectedPath === 'aiEmployee' ? (
                   <Link
-                    href={serviceHref(hub, selectedPath)}
-                    onClick={() => trackService(selectedPath)}
-                    className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-bold text-white transition hover:bg-primary-dark"
+                    href={ucPathwayHref(hub, 'ai-employee', 'industry_hub_ai_uc_bridge')}
+                    onClick={() =>
+                      trackAnalyticsEvent('industry_hub_cta', {
+                        industry: hub.id,
+                        slot: 'path_detail_uc_bridge',
+                      })
+                    }
+                    className="inline-flex items-center gap-2 text-sm font-bold text-primary-dark underline-offset-4 hover:underline"
                   >
-                    {selectedBlock.ctaLabel}
+                    {french
+                      ? 'Voir comment cela s’intègre à la téléphonie et au centre de contact'
+                      : 'See how this fits with calling and the contact centre'}
                     <ArrowRight className="h-4 w-4" aria-hidden />
                   </Link>
-                )}
+                ) : null}
               </div>
             </Reveal>
           </div>

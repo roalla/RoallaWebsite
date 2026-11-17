@@ -154,6 +154,59 @@ describe('Industry hub contrast and imagery', () => {
     expect(fit!.getAttribute('href')).toContain('/tools/ai-employee-fit-brief')
     expect(fit!.getAttribute('href')).toContain('campaign=industry-hub')
     expect(fit!.getAttribute('href')).not.toContain('/ai-employee?')
+
+    const ucBridge = screen.getByRole('link', {
+      name: /See how this fits with calling and the contact centre/i,
+    })
+    expect(ucBridge.getAttribute('href')).toContain(
+      '/services/unified-communications-contact-centres-ai-employees',
+    )
+    expect(ucBridge.getAttribute('href')).toContain('industry=legal')
+    expect(ucBridge.getAttribute('href')).toContain('signal=ai-employee')
+  })
+
+  it('routes UCaaS and CCaaS CTAs to the unified communications pathway', async () => {
+    const hub = getIndustryHub('en', 'veterinary')!
+    render(<IndustryHubPage locale="en" hub={hub} />)
+
+    await act(async () => {
+      screen.getByRole('option', { name: new RegExp(hub.services.ucaas.title, 'i') }).click()
+    })
+    await flushAnimationFrame()
+
+    const ucaasCta = screen.getByRole('link', { name: hub.services.ucaas.ctaLabel })
+    expect(ucaasCta.getAttribute('href')).toContain(
+      '/services/unified-communications-contact-centres-ai-employees',
+    )
+    expect(ucaasCta.getAttribute('href')).toContain('industry=veterinary')
+    expect(ucaasCta.getAttribute('href')).toContain('focus=ucaas')
+    expect(ucaasCta.getAttribute('href')).toContain('signal=unified-communications')
+
+    const ccaasRelated = screen.getByRole('link', { name: hub.services.ccaas.ctaLabel })
+    expect(ccaasRelated.getAttribute('href')).toContain(
+      '/services/unified-communications-contact-centres-ai-employees',
+    )
+    expect(ccaasRelated.getAttribute('href')).toContain('focus=ccaas')
+    expect(ccaasRelated.getAttribute('href')).toContain('industry=veterinary')
+  })
+
+  it('uses communications-popular UCaaS path for transportation hubs', async () => {
+    const hub = getIndustryHub('en', 'transportation-logistics')!
+    render(<IndustryHubPage locale="en" hub={hub} />)
+
+    expect(hub.startHere.target).toBe('communications')
+    expect(hub.services.ucaas.eyebrow).toMatch(/Unified communications/i)
+
+    await act(async () => {
+      screen.getByRole('option', { name: new RegExp(hub.services.ucaas.title, 'i') }).click()
+    })
+    await flushAnimationFrame()
+
+    const cta = screen.getByRole('link', { name: hub.services.ucaas.ctaLabel })
+    expect(cta.getAttribute('href')).toContain(
+      '/services/unified-communications-contact-centres-ai-employees',
+    )
+    expect(cta.getAttribute('href')).toContain('industry=transportation-logistics')
   })
 
   it('shows only the selected non-AI path detail', async () => {

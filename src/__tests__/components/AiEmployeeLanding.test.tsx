@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 import AiEmployeeLanding from '@/components/AiEmployeeLanding'
 import { aiEmployeeContent } from '@/lib/ai-employee-content'
 
@@ -38,43 +38,94 @@ jest.mock('@/hooks/usePrefersReducedMotion', () => ({
   usePrefersReducedMotion: () => true,
 }))
 
-describe('AiEmployeeLanding product CTAs', () => {
+async function flushAnimationFrame() {
+  await act(async () => {
+    await new Promise<void>((resolve) => {
+      window.requestAnimationFrame(() => resolve())
+    })
+  })
+}
+
+describe('AiEmployeeLanding industry query sync', () => {
+  const replaceState = jest.fn()
+  const scrollIntoView = jest.fn()
+
   beforeEach(() => {
+    replaceState.mockClear()
+    scrollIntoView.mockClear()
+    window.history.replaceState = replaceState
     window.history.pushState({}, '', '/en/ai-employee')
+    Element.prototype.scrollIntoView = scrollIntoView
   })
 
-  it('renders product conversion CTAs without an industry listbox', () => {
-    render(<AiEmployeeLanding locale="en" content={aiEmployeeContent.en} />)
-
-    expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
-    expect(screen.queryByRole('option')).not.toBeInTheDocument()
-
-    const fitLinks = screen.getAllByRole('link', { name: /Check AI Employee fit/i })
-    expect(fitLinks.length).toBeGreaterThanOrEqual(2)
-    expect(fitLinks[0]).toHaveAttribute('href', expect.stringContaining('/tools/ai-employee-fit-brief'))
-    expect(fitLinks[0]).toHaveAttribute('href', expect.stringContaining('campaign=ai-employee'))
-    expect(fitLinks[0].getAttribute('href')).not.toContain('industry=')
-
-    const contactLinks = screen.getAllByRole('link', { name: /Talk with ROALLA/i })
-    expect(contactLinks[0]).toHaveAttribute('href', expect.stringContaining('/contact'))
-    expect(contactLinks[0]).toHaveAttribute('href', expect.stringContaining('intent=consulting'))
-    expect(contactLinks[0]).toHaveAttribute('href', expect.stringContaining('from_page=%2Fai-employee'))
-
-    expect(screen.getByRole('link', { name: /Browse industry hubs/i })).toHaveAttribute(
-      'href',
-      '/industries',
-    )
-  })
-
-  it('ignores legacy industry query params and stays product-only', () => {
+  it('selects a valid industry from the query string, syncs the URL, and scrolls to detail', async () => {
     window.history.pushState({}, '', '/en/ai-employee?industry=legal')
 
     render(<AiEmployeeLanding locale="en" content={aiEmployeeContent.en} />)
+    await flushAnimationFrame()
 
-    expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
-    expect(screen.queryByText(/^Legal$/)).not.toBeInTheDocument()
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      /An AI front line for your business/i,
+    expect(screen.getByRole('option', { name: /Legal/i })).toHaveAttribute('aria-selected', 'true')
+    expect(replaceState).toHaveBeenCalled()
+    const lastCall = replaceState.mock.calls.at(-1)
+    expect(String(lastCall?.[2])).toContain('industry=legal')
+    expect(scrollIntoView).toHaveBeenCalled()
+  })
+
+  it('scrolls to detail for the default industry when it is in the query', async () => {
+    window.history.pushState({}, '', '/en/ai-employee?industry=it-msp')
+
+    render(<AiEmployeeLanding locale="en" content={aiEmployeeContent.en} />)
+    await flushAnimationFrame()
+
+    expect(screen.getByRole('option', { name: /IT & Managed Services/i })).toHaveAttribute(
+      'aria-selected',
+      'true',
     )
+    expect(scrollIntoView).toHaveBeenCalled()
+    expect(String(replaceState.mock.calls.at(-1)?.[2])).toContain('industry=it-msp')
+  })
+
+  it('falls back to the first industry for invalid query values and still scrolls', async () => {
+    window.history.pushState({}, '', '/en/ai-employee?industry=not-real')
+
+    render(<AiEmployeeLanding locale="en" content={aiEmployeeContent.en} />)
+    await flushAnimationFrame()
+
+    expect(screen.getByRole('option', { name: /IT & Managed Services/i })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    )
+    expect(scrollIntoView).toHaveBeenCalled()
+    const lastCall = replaceState.mock.calls.at(-1)
+    expect(String(lastCall?.[2])).toContain('industry=it-msp')
+  })
+
+  it('does not rewrite the URL on bare /ai-employee and does not auto-scroll', async () => {
+    window.history.pushState({}, '', '/en/ai-employee')
+
+    render(<AiEmployeeLanding locale="en" content={aiEmployeeContent.en} />)
+    await flushAnimationFrame()
+
+    expect(replaceState).not.toHaveBeenCalled()
+    expect(scrollIntoView).not.toHaveBeenCalled()
+    expect(screen.getByRole('option', { name: /IT & Managed Services/i })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    )
+  })
+
+  it('updates the query when an industry is selected in-page', async () => {
+    render(<AiEmployeeLanding locale="en" content={aiEmployeeContent.en} />)
+    await flushAnimationFrame()
+
+    await act(async () => {
+      screen.getByRole('option', { name: /Veterinary/i }).click()
+    })
+    await flushAnimationFrame()
+
+    const lastCall = replaceState.mock.calls.at(-1)
+    expect(String(lastCall?.[2])).toContain('industry=veterinary')
+    expect(screen.getByRole('option', { name: /Veterinary/i })).toHaveAttribute('aria-selected', 'true')
+    expect(scrollIntoView).toHaveBeenCalled()
   })
 })

@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 import IndustryHubPage from '@/components/industries/IndustryHubPage'
 import IndustryIndexPage from '@/components/industries/IndustryIndexPage'
 import { getIndustryHub, getIndustryHubIndex } from '@/lib/industry-hub-content'
@@ -44,7 +44,24 @@ jest.mock('@/lib/analytics', () => ({
   trackAnalyticsEvent: jest.fn(),
 }))
 
+jest.mock('@/hooks/usePrefersReducedMotion', () => ({
+  usePrefersReducedMotion: () => true,
+}))
+
+async function flushAnimationFrame() {
+  await act(async () => {
+    await new Promise<void>((resolve) => {
+      window.requestAnimationFrame(() => resolve())
+    })
+  })
+}
+
 describe('Industry hub contrast and imagery', () => {
+  beforeEach(() => {
+    window.history.pushState({}, '', '/en/industries/legal')
+    Element.prototype.scrollIntoView = jest.fn()
+  })
+
   it('scrolls to the top when an industry hub loads', () => {
     const scrollTo = jest.fn()
     window.scrollTo = scrollTo
@@ -84,20 +101,79 @@ describe('Industry hub contrast and imagery', () => {
     expect(tiles.length).toBe(hub.leadServices.length)
   })
 
-  it('routes AI Employee CTAs to Fit Brief and shows industry AI detail', () => {
+  it('hides path detail until a priority tile is selected', () => {
     const hub = getIndustryHub('en', 'legal')!
     render(<IndustryHubPage locale="en" hub={hub} />)
 
-    const secondary = screen.getByRole('link', { name: hub.hero.secondaryCta })
-    expect(secondary.getAttribute('href')).toContain('/tools/ai-employee-fit-brief')
-    expect(secondary.getAttribute('href')).toContain('campaign=industry-hub')
-    expect(secondary.getAttribute('href')).toContain('signal=ai-employee')
-    expect(secondary.getAttribute('href')).not.toContain('/ai-employee?')
+    expect(screen.queryByRole('heading', { name: /Client intake & new matters/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: /Strongest place to begin/i })).not.toBeInTheDocument()
+    expect(screen.getByRole('listbox', { name: hub.ui.leadTilesTitle })).toBeInTheDocument()
+  })
 
-    expect(hub.startHere.target).toBe('fit-brief')
+  it('shows industry-scoped AI detail and Fit Brief conversion after selecting AI Employee', async () => {
+    const hub = getIndustryHub('en', 'legal')!
+    render(<IndustryHubPage locale="en" hub={hub} />)
+
+    await act(async () => {
+      screen.getByRole('option', { name: new RegExp(hub.services.aiEmployee.title, 'i') }).click()
+    })
+    await flushAnimationFrame()
+
     expect(screen.getByRole('heading', { name: /Client intake & new matters/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /Strongest place to begin/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /Clear limits build trust/i })).toBeInTheDocument()
+
+    const fit = screen
+      .getAllByRole('link', { name: hub.services.aiEmployee.ctaLabel })
+      .find((link) => (link.getAttribute('href') || '').includes('conversion_source=industry_hub_path_detail'))
+    expect(fit).toBeTruthy()
+    expect(fit!.getAttribute('href')).toContain('/tools/ai-employee-fit-brief')
+    expect(fit!.getAttribute('href')).toContain('campaign=industry-hub')
+    expect(fit!.getAttribute('href')).not.toContain('/ai-employee?')
+  })
+
+  it('shows only the selected non-AI path detail', async () => {
+    const hub = getIndustryHub('en', 'legal')!
+    const otherKey = hub.leadServices.find((key) => key !== 'aiEmployee')!
+    render(<IndustryHubPage locale="en" hub={hub} />)
+
+    await act(async () => {
+      screen.getByRole('option', { name: new RegExp(hub.services[otherKey].title, 'i') }).click()
+    })
+    await flushAnimationFrame()
+
+    expect(screen.getByRole('heading', { level: 2, name: hub.services[otherKey].title })).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: /Client intake & new matters/i })).not.toBeInTheDocument()
+  })
+
+  it('lets hero secondary select the AI path on-page', async () => {
+    const hub = getIndustryHub('en', 'legal')!
+    render(<IndustryHubPage locale="en" hub={hub} />)
+
+    await act(async () => {
+      screen.getByRole('button', { name: hub.hero.secondaryCta }).click()
+    })
+    await flushAnimationFrame()
+
+    expect(screen.getByRole('heading', { name: /Client intake & new matters/i })).toBeInTheDocument()
+    expect(window.location.hash).toBe('#path=aiEmployee')
+  })
+
+  it('lets ai-employee start-here select the AI path on-page', async () => {
+    const hub = getIndustryHub('en', 'trades-field')!
+    render(<IndustryHubPage locale="en" hub={hub} />)
+
+    expect(hub.startHere.target).toBe('ai-employee')
+    await act(async () => {
+      screen.getByRole('button', { name: hub.startHere.ctaLabel }).click()
+    })
+    await flushAnimationFrame()
+
+    expect(window.location.hash).toBe('#path=aiEmployee')
+    expect(screen.getByRole('option', { name: new RegExp(hub.services.aiEmployee.title, 'i') })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    )
   })
 
   it('keeps industries index hero heading white and uses opt tiles', () => {

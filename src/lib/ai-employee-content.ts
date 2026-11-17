@@ -41,6 +41,9 @@ export type AiEmployeeCopy = {
   primaryCta: string
   secondaryCta: string
   heroImage: AiEmployeeImage
+  industrySelectHint: string
+  audienceSelectHint: string
+  selectedLabel: string
   howEyebrow: string
   howTitle: string
   howLead: string
@@ -48,7 +51,6 @@ export type AiEmployeeCopy = {
   industriesEyebrow: string
   industriesTitle: string
   industriesLead: string
-  industriesBrowseLabel: string
   industries: readonly AiEmployeeIndustry[]
   faqTitle: string
   faqs: readonly { question: string; answer: string }[]
@@ -84,6 +86,9 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
       src: '/images/insights/library/practical-ai-use-cases.hero.webp',
       alt: 'Frontline AI Employee handling customer requests with clear human handoff',
     },
+    industrySelectHint: 'Choose an industry to see fit patterns.',
+    audienceSelectHint: 'Choose who the AI Employee supports first.',
+    selectedLabel: 'Selected',
     howEyebrow: 'How it works',
     howTitle: 'Understand. Resolve. Document. Escalate.',
     howLead:
@@ -122,11 +127,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         },
       },
     ],
-    industriesEyebrow: 'By industry',
-    industriesTitle: 'See AI Employee patterns for your sector',
+    industriesEyebrow: 'Use cases by industry',
+    industriesTitle: 'Where an AI Employee creates value',
     industriesLead:
-      'Industry hubs spell out fit patterns, audiences, and boundaries for your sector—then take you to a Fit Brief or a conversation with ROALLA.',
-    industriesBrowseLabel: 'Browse industry hubs',
+      'Each industry has different requests, rules, and risk. We start where the volume is high and the boundaries are clear.',
     industries: [
       {
         id: 'it-msp',
@@ -1831,6 +1835,9 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
       src: '/images/insights/library/practical-ai-use-cases.hero.webp',
       alt: 'Employé IA de première ligne qui traite les demandes avec un relais humain clair',
     },
+    industrySelectHint: 'Choisissez une industrie pour voir les modèles d’adéquation.',
+    audienceSelectHint: 'Choisissez qui l’employé IA soutient en premier.',
+    selectedLabel: 'Sélectionné',
     howEyebrow: 'Comment ça fonctionne',
     howTitle: 'Comprendre. Résoudre. Documenter. Escalader.',
     howLead:
@@ -1869,11 +1876,10 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
         },
       },
     ],
-    industriesEyebrow: 'Par secteur',
-    industriesTitle: 'Voir les modèles d’employé IA pour votre secteur',
+    industriesEyebrow: 'Cas d’usage par industrie',
+    industriesTitle: 'Où un employé IA crée de la valeur',
     industriesLead:
-      'Les pages secteur détaillent les modèles d’adéquation, les publics et les limites—puis mènent à une vérification d’adéquation ou à une discussion avec ROALLA.',
-    industriesBrowseLabel: 'Parcourir les secteurs',
+      'Chaque industrie a ses demandes, règles et risques. Nous commençons là où le volume est élevé et les limites sont claires.',
     industries: [
       {
         id: 'it-msp',

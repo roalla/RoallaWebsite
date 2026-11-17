@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { ArrowRight, Check, Compass, BookOpen } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
@@ -9,11 +9,15 @@ import { trackAnalyticsEvent } from '@/lib/analytics'
 import { aiEmployeeContent } from '@/lib/ai-employee-content'
 import {
   INDUSTRY_SERVICE_TILE_IMAGES,
+  SERVICE_KEYS,
   toIndustryOptImageSrc,
   type IndustryHub,
   type IndustryHubServiceKey,
   type IndustryHubStartHere,
 } from '@/lib/industry-hub-content'
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
+
+const PATH_HASH_PREFIX = 'path='
 
 function fitBriefHref(hub: IndustryHub, conversionSource: string) {
   return {
@@ -61,6 +65,7 @@ function serviceHref(hub: IndustryHub, key: IndustryHubServiceKey) {
 function startHereHref(hub: IndustryHub, startHere: IndustryHubStartHere) {
   switch (startHere.target) {
     case 'ai-employee':
+      return `#${PATH_HASH_PREFIX}aiEmployee`
     case 'fit-brief':
       return fitBriefHref(hub, 'industry_hub_start_here')
     case 'security':
@@ -88,6 +93,19 @@ function proofHref(hub: IndustryHub) {
   }
 }
 
+function readPathFromHash(hash: string): IndustryHubServiceKey | null {
+  const raw = hash.replace(/^#/, '')
+  if (!raw.startsWith(PATH_HASH_PREFIX)) return null
+  const key = raw.slice(PATH_HASH_PREFIX.length)
+  return (SERVICE_KEYS as readonly string[]).includes(key) ? (key as IndustryHubServiceKey) : null
+}
+
+function writePathHash(key: IndustryHubServiceKey | null) {
+  const url = new URL(window.location.href)
+  url.hash = key ? `${PATH_HASH_PREFIX}${key}` : ''
+  window.history.replaceState(window.history.state, '', `${url.pathname}${url.search}${url.hash}`)
+}
+
 export default function IndustryHubPage({
   locale,
   hub,
@@ -97,7 +115,10 @@ export default function IndustryHubPage({
 }) {
   const french = locale === 'fr'
   const language = french ? 'fr' : 'en'
+  const reduceMotion = usePrefersReducedMotion()
   const aiIndustry = aiEmployeeContent[language].industries.find((entry) => entry.id === hub.id)
+  const [selectedPath, setSelectedPath] = useState<IndustryHubServiceKey | null>(null)
+  const detailRef = useRef<HTMLDivElement>(null)
   const contactQuery = {
     intent: 'consulting' as const,
     from_page: `/industries/${hub.id}`,
@@ -114,9 +135,51 @@ export default function IndustryHubPage({
     })
   }
 
+  const selectPath = (key: IndustryHubServiceKey, opts?: { scroll?: boolean; track?: boolean }) => {
+    setSelectedPath(key)
+    writePathHash(key)
+    if (opts?.track !== false) trackService(key)
+    if (opts?.scroll !== false) {
+      window.requestAnimationFrame(() => {
+        detailRef.current?.scrollIntoView({
+          behavior: reduceMotion ? 'auto' : 'smooth',
+          block: 'start',
+        })
+      })
+    }
+  }
+
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
-  }, [hub.id])
+    const fromHash = readPathFromHash(window.location.hash)
+    const allowed = fromHash && hub.leadServices.includes(fromHash) ? fromHash : null
+    setSelectedPath(allowed)
+    if (allowed) {
+      window.requestAnimationFrame(() => {
+        detailRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' })
+      })
+    }
+  }, [hub.id, hub.leadServices])
+
+  useEffect(() => {
+    const onHashChange = () => {
+      const fromHash = readPathFromHash(window.location.hash)
+      if (fromHash && hub.leadServices.includes(fromHash)) {
+        setSelectedPath(fromHash)
+        window.requestAnimationFrame(() => {
+          detailRef.current?.scrollIntoView({
+            behavior: reduceMotion ? 'auto' : 'smooth',
+            block: 'start',
+          })
+        })
+      }
+    }
+    window.addEventListener('hashchange', onHashChange)
+    return () => window.removeEventListener('hashchange', onHashChange)
+  }, [hub.leadServices, reduceMotion])
+
+  const selectedBlock = selectedPath ? hub.services[selectedPath] : null
+  const showAiDetail = selectedPath === 'aiEmployee' && Boolean(aiIndustry)
 
   return (
     <div className="page-shell bg-white">
@@ -154,17 +217,17 @@ export default function IndustryHubPage({
             >
               {hub.hero.primaryCta}
             </Link>
-            <Link
-              href={serviceHref(hub, 'aiEmployee')}
+            <button
+              type="button"
               onClick={() => {
-                trackService('aiEmployee')
                 trackAnalyticsEvent('industry_hub_cta', { industry: hub.id, slot: 'hero_secondary' })
+                selectPath('aiEmployee')
               }}
               className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border border-white/25 bg-white/5 px-6 py-3 text-sm font-bold text-white transition hover:bg-white/10"
             >
               {hub.hero.secondaryCta}
               <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
+            </button>
           </div>
         </div>
       </section>
@@ -196,20 +259,38 @@ export default function IndustryHubPage({
             </p>
             <h2 className="mt-3 font-serif text-2xl font-bold text-slate-950 sm:text-3xl">{hub.startHere.title}</h2>
             <p className="mt-3 text-sm leading-6 text-slate-700 sm:text-base">{hub.startHere.lead}</p>
-            <Link
-              href={startHereHref(hub, hub.startHere)}
-              onClick={() =>
-                trackAnalyticsEvent('industry_hub_cta', {
-                  industry: hub.id,
-                  slot: 'start_here',
-                  target: hub.startHere.target,
-                })
-              }
-              className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-bold text-white transition hover:bg-primary-dark"
-            >
-              {hub.startHere.ctaLabel}
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
+            {hub.startHere.target === 'ai-employee' ? (
+              <button
+                type="button"
+                onClick={() => {
+                  trackAnalyticsEvent('industry_hub_cta', {
+                    industry: hub.id,
+                    slot: 'start_here',
+                    target: hub.startHere.target,
+                  })
+                  selectPath('aiEmployee')
+                }}
+                className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-bold text-white transition hover:bg-primary-dark"
+              >
+                {hub.startHere.ctaLabel}
+                <ArrowRight className="h-4 w-4" aria-hidden />
+              </button>
+            ) : (
+              <Link
+                href={startHereHref(hub, hub.startHere)}
+                onClick={() =>
+                  trackAnalyticsEvent('industry_hub_cta', {
+                    industry: hub.id,
+                    slot: 'start_here',
+                    target: hub.startHere.target,
+                  })
+                }
+                className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-bold text-white transition hover:bg-primary-dark"
+              >
+                {hub.startHere.ctaLabel}
+                <ArrowRight className="h-4 w-4" aria-hidden />
+              </Link>
+            )}
           </Reveal>
           <Reveal className="rounded-2xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
             <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
@@ -239,16 +320,33 @@ export default function IndustryHubPage({
         <div className="mx-auto max-w-7xl">
           <Reveal>
             <h2 className="font-serif text-3xl font-bold text-slate-950 sm:text-4xl">{hub.ui.leadTilesTitle}</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
+              {french
+                ? 'Choisissez un parcours pour voir les détails adaptés à ce secteur.'
+                : 'Choose a path to see details tailored to this industry.'}
+            </p>
           </Reveal>
-          <div className="mt-8 grid gap-6 sm:grid-cols-2">
+          <div
+            role="listbox"
+            aria-label={hub.ui.leadTilesTitle}
+            className="mt-8 grid gap-6 sm:grid-cols-2"
+          >
             {hub.leadServices.map((key) => {
               const block = hub.services[key]
+              const selected = key === selectedPath
               return (
                 <Reveal key={key}>
-                  <Link
-                    href={serviceHref(hub, key)}
-                    onClick={() => trackService(key)}
-                    className="group/tile flex h-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:border-primary/50 hover:shadow-sm"
+                  <button
+                    type="button"
+                    role="option"
+                    aria-selected={selected}
+                    onClick={() => selectPath(key)}
+                    className={[
+                      'group/tile flex h-full w-full flex-col overflow-hidden rounded-xl border text-left transition',
+                      selected
+                        ? 'border-slate-900 ring-2 ring-slate-900'
+                        : 'border-slate-200 bg-white hover:border-primary/50 hover:shadow-sm',
+                    ].join(' ')}
                   >
                     <span className="relative block aspect-[16/10] w-full shrink-0 overflow-hidden bg-slate-100">
                       <Image
@@ -262,17 +360,25 @@ export default function IndustryHubPage({
                         className="object-cover transition duration-300 group-hover/tile:scale-[1.03]"
                       />
                     </span>
-                    <span className="flex flex-1 flex-col px-4 py-4">
-                      <span className="text-xs font-bold uppercase tracking-[0.14em] text-primary-dark">
+                    <span className={`flex flex-1 flex-col px-4 py-4 ${selected ? 'bg-slate-900' : 'bg-white'}`}>
+                      <span
+                        className={`text-xs font-bold uppercase tracking-[0.14em] ${selected ? 'text-brand-gold' : 'text-primary-dark'}`}
+                      >
                         {block.eyebrow}
                       </span>
-                      <span className="mt-2 font-serif text-xl font-bold text-slate-950">{block.title}</span>
-                      <span className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-primary-dark">
-                        {block.ctaLabel}
+                      <span
+                        className={`mt-2 font-serif text-xl font-bold ${selected ? 'text-white' : 'text-slate-950'}`}
+                      >
+                        {block.title}
+                      </span>
+                      <span
+                        className={`mt-3 inline-flex items-center gap-2 text-sm font-bold ${selected ? 'text-brand-gold' : 'text-primary-dark'}`}
+                      >
+                        {french ? 'Voir les détails' : 'View details'}
                         <ArrowRight className="h-4 w-4 transition group-hover/tile:translate-x-0.5" aria-hidden />
                       </span>
                     </span>
-                  </Link>
+                  </button>
                 </Reveal>
               )
             })}
@@ -280,87 +386,111 @@ export default function IndustryHubPage({
         </div>
       </section>
 
-      {hub.leadServices.map((key, index) => {
-        const block = hub.services[key]
-        const showAiDetail = key === 'aiEmployee' && aiIndustry
-        return (
-          <section
-            key={key}
-            className={`px-4 py-16 sm:px-6 lg:px-8 ${index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}`}
-          >
-            <div className="mx-auto max-w-3xl">
-              <Reveal>
-                <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">{block.eyebrow}</p>
-                <h2 className="mt-3 font-serif text-3xl font-bold text-slate-950 sm:text-4xl">{block.title}</h2>
-                <p className="mt-4 text-base leading-7 text-slate-600">{block.lead}</p>
-                {showAiDetail ? (
-                  <p className="mt-4 text-base font-medium leading-7 text-slate-800">{aiIndustry.promise}</p>
-                ) : null}
-                <ul className="mt-6 space-y-3">
-                  {block.points.map((point) => (
-                    <li key={point} className="flex gap-3 text-sm leading-6 text-slate-700">
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ul>
-                {showAiDetail
-                  ? aiIndustry.audiences.map((audience) => (
-                      <div key={audience.id} className="mt-10 border-t border-slate-200 pt-8">
-                        <h3 className="font-serif text-2xl font-bold text-slate-950">{audience.label}</h3>
-                        <p className="mt-3 text-sm leading-6 text-slate-600">{audience.lead}</p>
-                        <ul className="mt-5 space-y-4">
-                          {audience.uses.map((use) => (
-                            <li key={use.title}>
-                              <p className="font-semibold text-slate-950">{use.title}</p>
-                              <p className="mt-1 text-sm leading-6 text-slate-600">{use.description}</p>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))
-                  : null}
-                {showAiDetail ? (
+      {selectedPath && selectedBlock ? (
+        <section className="bg-white px-4 py-16 sm:px-6 lg:px-8">
+          <div ref={detailRef} className="mx-auto max-w-3xl scroll-mt-28">
+            <Reveal>
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">
+                {selectedBlock.eyebrow}
+              </p>
+              <h2 className="mt-3 font-serif text-3xl font-bold text-slate-950 sm:text-4xl">
+                {selectedBlock.title}
+              </h2>
+              <p className="mt-4 text-base leading-7 text-slate-600">{selectedBlock.lead}</p>
+              {showAiDetail && aiIndustry ? (
+                <p className="mt-4 text-base font-medium leading-7 text-slate-800">{aiIndustry.promise}</p>
+              ) : null}
+              <ul className="mt-6 space-y-3">
+                {selectedBlock.points.map((point) => (
+                  <li key={point} className="flex gap-3 text-sm leading-6 text-slate-700">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+              {showAiDetail && aiIndustry
+                ? aiIndustry.audiences.map((audience) => (
+                    <div key={audience.id} className="mt-10 border-t border-slate-200 pt-8">
+                      <h3 className="font-serif text-2xl font-bold text-slate-950">{audience.label}</h3>
+                      <p className="mt-3 text-sm leading-6 text-slate-600">{audience.lead}</p>
+                      <ul className="mt-5 space-y-4">
+                        {audience.uses.map((use) => (
+                          <li key={use.title}>
+                            <p className="font-semibold text-slate-950">{use.title}</p>
+                            <p className="mt-1 text-sm leading-6 text-slate-600">{use.description}</p>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))
+                : null}
+              {showAiDetail && aiIndustry ? (
+                <>
+                  <div className="mt-10 border-t border-slate-200 pt-8">
+                    <h3 className="font-serif text-2xl font-bold text-slate-950">{aiIndustry.startTitle}</h3>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">{aiIndustry.startLead}</p>
+                    <ul className="mt-5 space-y-3">
+                      {aiIndustry.startWith.map((item) => (
+                        <li key={item} className="flex gap-3 text-sm leading-6 text-slate-700">
+                          <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="mt-10 border-t border-slate-200 pt-8">
+                    <h3 className="font-serif text-2xl font-bold text-slate-950">{aiIndustry.boundaryTitle}</h3>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">{aiIndustry.boundaryLead}</p>
+                    <ul className="mt-5 space-y-3">
+                      {aiIndustry.boundaries.map((item) => (
+                        <li key={item} className="flex gap-3 text-sm leading-6 text-slate-700">
+                          <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </>
+              ) : null}
+              <div className="mt-8 flex flex-wrap gap-3">
+                {selectedPath === 'aiEmployee' ? (
                   <>
-                    <div className="mt-10 border-t border-slate-200 pt-8">
-                      <h3 className="font-serif text-2xl font-bold text-slate-950">{aiIndustry.startTitle}</h3>
-                      <p className="mt-3 text-sm leading-6 text-slate-600">{aiIndustry.startLead}</p>
-                      <ul className="mt-5 space-y-3">
-                        {aiIndustry.startWith.map((item) => (
-                          <li key={item} className="flex gap-3 text-sm leading-6 text-slate-700">
-                            <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="mt-10 border-t border-slate-200 pt-8">
-                      <h3 className="font-serif text-2xl font-bold text-slate-950">{aiIndustry.boundaryTitle}</h3>
-                      <p className="mt-3 text-sm leading-6 text-slate-600">{aiIndustry.boundaryLead}</p>
-                      <ul className="mt-5 space-y-3">
-                        {aiIndustry.boundaries.map((item) => (
-                          <li key={item} className="flex gap-3 text-sm leading-6 text-slate-700">
-                            <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    <Link
+                      href={fitBriefHref(hub, 'industry_hub_path_detail')}
+                      onClick={() => trackService('aiEmployee')}
+                      className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-bold text-white transition hover:bg-primary-dark"
+                    >
+                      {selectedBlock.ctaLabel}
+                      <ArrowRight className="h-4 w-4" aria-hidden />
+                    </Link>
+                    <Link
+                      href={{ pathname: '/contact', query: contactQuery }}
+                      onClick={() =>
+                        trackAnalyticsEvent('industry_hub_cta', {
+                          industry: hub.id,
+                          slot: 'path_detail_contact',
+                        })
+                      }
+                      className="inline-flex min-h-12 items-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-900 transition hover:border-primary"
+                    >
+                      {french ? 'Parler avec ROALLA' : 'Talk with ROALLA'}
+                    </Link>
                   </>
-                ) : null}
-                <Link
-                  href={serviceHref(hub, key)}
-                  onClick={() => trackService(key)}
-                  className="mt-8 inline-flex min-h-12 items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-bold text-white transition hover:bg-primary-dark"
-                >
-                  {block.ctaLabel}
-                  <ArrowRight className="h-4 w-4" aria-hidden />
-                </Link>
-              </Reveal>
-            </div>
-          </section>
-        )
-      })}
+                ) : (
+                  <Link
+                    href={serviceHref(hub, selectedPath)}
+                    onClick={() => trackService(selectedPath)}
+                    className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-bold text-white transition hover:bg-primary-dark"
+                  >
+                    {selectedBlock.ctaLabel}
+                    <ArrowRight className="h-4 w-4" aria-hidden />
+                  </Link>
+                )}
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      ) : null}
 
       <section className="border-y border-slate-200 bg-white px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">

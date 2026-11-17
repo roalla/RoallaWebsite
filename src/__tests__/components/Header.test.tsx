@@ -323,18 +323,9 @@ describe('Header', () => {
     expect(current[0]).toHaveAttribute('href', '/website-design')
   })
 
-  it('renders digital portfolio only on website-design', () => {
-    mockPathname.mockReturnValue('/website-design')
-    render(<Header />)
-    const portfolioLinks = screen.getAllByRole('link', { name: 'digitalPortfolio' })
-    expect(portfolioLinks.length).toBeGreaterThan(0)
-    portfolioLinks.forEach((link) => {
-      expect(link).toHaveAttribute('href', '/services/portfolio')
-    })
-  })
-
   it.each([
     '/',
+    '/website-design',
     '/services/digital',
     '/services/digital-products',
     '/services/portfolio',
@@ -435,8 +426,14 @@ describe('Header', () => {
     expect(screen.queryByRole('link', { name: 'foundingPromoLabel' })).not.toBeInTheDocument()
   })
 
-  it('renders founding client promo on digital routes', () => {
+  it('hides founding client promo on the digital enablement page', () => {
     mockPathname.mockReturnValue('/services/digital')
+    render(<Header />)
+    expect(screen.queryByRole('link', { name: 'foundingPromoLabel' })).not.toBeInTheDocument()
+  })
+
+  it('renders founding client promo on website-design', () => {
+    mockPathname.mockReturnValue('/website-design')
     render(<Header />)
     const promoLinks = screen.getAllByRole('link', { name: 'foundingPromoLabel' })
     expect(promoLinks.length).toBeGreaterThan(0)

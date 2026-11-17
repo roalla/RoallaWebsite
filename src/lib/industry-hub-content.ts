@@ -224,7 +224,7 @@ export const SERVICE_KEYS: readonly IndustryHubServiceKey[] = [
   'websites',
 ]
 const SERVICE_HREFS: Record<IndustryHubServiceKey, string> = {
-  aiEmployee: '/ai-employee',
+  aiEmployee: '/tools/ai-employee-fit-brief',
   security: '/services/security-risk-compliance',
   ucaas: '/solutions/communications',
   ccaas: '/solutions/communications',
@@ -235,7 +235,7 @@ const SERVICE_HREFS: Record<IndustryHubServiceKey, string> = {
 }
 const SERVICE_FRAME: Record<HubLocale, Record<IndustryHubServiceKey, { eyebrow: string; ctaLabel: string }>> = {
   en: {
-    aiEmployee: { eyebrow: 'AI Employee', ctaLabel: 'Explore AI Employee' },
+    aiEmployee: { eyebrow: 'AI Employee', ctaLabel: 'Check AI Employee fit' },
     security: { eyebrow: 'Security, risk & compliance', ctaLabel: 'See security & compliance' },
     ucaas: { eyebrow: 'Business phone & UCaaS', ctaLabel: 'Explore business communications' },
     ccaas: { eyebrow: 'Contact center (CCaaS)', ctaLabel: 'Explore contact center' },
@@ -245,7 +245,7 @@ const SERVICE_FRAME: Record<HubLocale, Record<IndustryHubServiceKey, { eyebrow: 
     websites: { eyebrow: 'Website design', ctaLabel: 'See website design' },
   },
   fr: {
-    aiEmployee: { eyebrow: 'Employé IA', ctaLabel: 'Découvrir l’Employé IA' },
+    aiEmployee: { eyebrow: 'Employé IA', ctaLabel: 'Vérifier l’adéquation de l’Employé IA' },
     security: { eyebrow: 'Sécurité, risque et conformité', ctaLabel: 'Voir sécurité et conformité' },
     ucaas: { eyebrow: 'Téléphonie d’affaires et UCaaS', ctaLabel: 'Découvrir les communications d’affaires' },
     ccaas: { eyebrow: 'Centre de contact (CCaaS)', ctaLabel: 'Découvrir le centre de contact' },
@@ -277,13 +277,13 @@ const SHARED_COPY: Record<
   en: {
     heroEyebrow: (label) => `Industry hub · ${label}`,
     primaryCta: 'Book a free consultation',
-    secondaryCta: (label) => `Explore AI Employee for ${label}`,
+    secondaryCta: (label) => `Check AI Employee fit for ${label}`,
     closerPrimaryCta: 'Talk to Roalla',
     closerSecondaryCta: 'Browse all industries',
     startHereEyebrow: 'Start here',
     startHereTitle: 'The practical first move for this industry',
     startHereCta: {
-      'ai-employee': 'Explore AI Employee for this industry',
+      'ai-employee': 'Check AI Employee fit',
       'fit-brief': 'Check AI Employee fit',
       security: 'Review security & compliance',
       communications: 'Explore business communications',
@@ -300,13 +300,13 @@ const SHARED_COPY: Record<
   fr: {
     heroEyebrow: (label) => `Pôle sectoriel · ${label}`,
     primaryCta: 'Réserver une consultation gratuite',
-    secondaryCta: (label) => `Découvrir l’Employé IA pour ${label}`,
+    secondaryCta: (label) => `Vérifier l’adéquation de l’Employé IA pour ${label}`,
     closerPrimaryCta: 'Parler à Roalla',
     closerSecondaryCta: 'Voir tous les secteurs',
     startHereEyebrow: 'Commencez ici',
     startHereTitle: 'Le premier pas pratique pour ce secteur',
     startHereCta: {
-      'ai-employee': 'Découvrir l’Employé IA pour ce secteur',
+      'ai-employee': 'Vérifier l’adéquation de l’Employé IA',
       'fit-brief': 'Vérifier l’adéquation de l’Employé IA',
       security: 'Revoir sécurité et conformité',
       communications: 'Explorer les communications d’affaires',

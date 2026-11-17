@@ -18,7 +18,6 @@ import {
 } from "lucide-react";
 import ScheduleButton from "./ScheduleButton";
 import InquiryNextSteps from "@/components/conversion/InquiryNextSteps";
-import PackageLadder from "@/components/conversion/PackageLadder";
 import StickyMobileCTA from "./StickyMobileCTA";
 import TechnologyDecisionFramework from "./TechnologyDecisionFramework";
 import ServiceMiniFAQ from "./services/ServiceMiniFAQ";
@@ -41,7 +40,6 @@ import {
   ServiceSectionHeading,
   ServicePageCTA,
   serviceCardClass,
-  serviceHeroSecondaryButtonClass,
   servicePrimaryLinkClass,
 } from "./services/ServicePageSections";
 import { trackAnalyticsEvent } from "@/lib/analytics";
@@ -341,15 +339,6 @@ const DigitalBuilds = () => {
             {tCommon("scheduleConsultationDigital")}
           </ScheduleButton>
         }
-        secondaryCta={
-          <Link
-            href="/website-package"
-            className={serviceHeroSecondaryButtonClass}
-          >
-            {t("heroCtaPackages")}
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Link>
-        }
         tertiaryLink={{
           href: "/services/portfolio",
           label: t("heroCtaPortfolio"),
@@ -359,7 +348,6 @@ const DigitalBuilds = () => {
 
       <div className="max-w-6xl mx-auto">
         <InquiryNextSteps className="mb-8" />
-        <PackageLadder className="mb-10 rounded-2xl border border-slate-200 bg-white p-6 lg:p-8" />
         <Reveal className="mb-8 rounded-2xl border border-slate-200 bg-white p-6 lg:flex lg:items-center lg:justify-between lg:gap-8 lg:p-8">
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-dark">{t("advisoryBridgeEyebrow")}</p>

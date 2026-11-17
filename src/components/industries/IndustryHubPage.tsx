@@ -6,6 +6,7 @@ import { ArrowRight, Check, Compass, BookOpen } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import Reveal from '@/components/motion/Reveal'
 import { trackAnalyticsEvent } from '@/lib/analytics'
+import { aiEmployeeContent } from '@/lib/ai-employee-content'
 import {
   INDUSTRY_SERVICE_TILE_IMAGES,
   toIndustryOptImageSrc,
@@ -14,10 +15,24 @@ import {
   type IndustryHubStartHere,
 } from '@/lib/industry-hub-content'
 
+function fitBriefHref(hub: IndustryHub, conversionSource: string) {
+  return {
+    pathname: '/tools/ai-employee-fit-brief' as const,
+    query: {
+      industry: hub.label,
+      icp: hub.label,
+      campaign: 'industry-hub',
+      conversion_source: conversionSource,
+      entry_page: `/industries/${hub.id}`,
+      signal: 'ai-employee',
+    },
+  }
+}
+
 function serviceHref(hub: IndustryHub, key: IndustryHubServiceKey) {
   switch (key) {
     case 'aiEmployee':
-      return { pathname: '/ai-employee' as const, query: { industry: hub.id } }
+      return fitBriefHref(hub, 'industry_hub_ai_employee')
     case 'security':
       return '/services/security-risk-compliance' as const
     case 'ucaas':
@@ -46,19 +61,8 @@ function serviceHref(hub: IndustryHub, key: IndustryHubServiceKey) {
 function startHereHref(hub: IndustryHub, startHere: IndustryHubStartHere) {
   switch (startHere.target) {
     case 'ai-employee':
-      return serviceHref(hub, 'aiEmployee')
     case 'fit-brief':
-      return {
-        pathname: '/tools/ai-employee-fit-brief' as const,
-        query: {
-          industry: hub.label,
-          icp: hub.label,
-          campaign: 'industry-hub',
-          conversion_source: 'industry_hub_start_here',
-          entry_page: `/industries/${hub.id}`,
-          signal: 'ai-employee',
-        },
-      }
+      return fitBriefHref(hub, 'industry_hub_start_here')
     case 'security':
       return '/services/security-risk-compliance' as const
     case 'communications':
@@ -92,6 +96,8 @@ export default function IndustryHubPage({
   hub: IndustryHub
 }) {
   const french = locale === 'fr'
+  const language = french ? 'fr' : 'en'
+  const aiIndustry = aiEmployeeContent[language].industries.find((entry) => entry.id === hub.id)
   const contactQuery = {
     intent: 'consulting' as const,
     from_page: `/industries/${hub.id}`,
@@ -276,6 +282,7 @@ export default function IndustryHubPage({
 
       {hub.leadServices.map((key, index) => {
         const block = hub.services[key]
+        const showAiDetail = key === 'aiEmployee' && aiIndustry
         return (
           <section
             key={key}
@@ -286,6 +293,9 @@ export default function IndustryHubPage({
                 <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">{block.eyebrow}</p>
                 <h2 className="mt-3 font-serif text-3xl font-bold text-slate-950 sm:text-4xl">{block.title}</h2>
                 <p className="mt-4 text-base leading-7 text-slate-600">{block.lead}</p>
+                {showAiDetail ? (
+                  <p className="mt-4 text-base font-medium leading-7 text-slate-800">{aiIndustry.promise}</p>
+                ) : null}
                 <ul className="mt-6 space-y-3">
                   {block.points.map((point) => (
                     <li key={point} className="flex gap-3 text-sm leading-6 text-slate-700">
@@ -294,6 +304,50 @@ export default function IndustryHubPage({
                     </li>
                   ))}
                 </ul>
+                {showAiDetail
+                  ? aiIndustry.audiences.map((audience) => (
+                      <div key={audience.id} className="mt-10 border-t border-slate-200 pt-8">
+                        <h3 className="font-serif text-2xl font-bold text-slate-950">{audience.label}</h3>
+                        <p className="mt-3 text-sm leading-6 text-slate-600">{audience.lead}</p>
+                        <ul className="mt-5 space-y-4">
+                          {audience.uses.map((use) => (
+                            <li key={use.title}>
+                              <p className="font-semibold text-slate-950">{use.title}</p>
+                              <p className="mt-1 text-sm leading-6 text-slate-600">{use.description}</p>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))
+                  : null}
+                {showAiDetail ? (
+                  <>
+                    <div className="mt-10 border-t border-slate-200 pt-8">
+                      <h3 className="font-serif text-2xl font-bold text-slate-950">{aiIndustry.startTitle}</h3>
+                      <p className="mt-3 text-sm leading-6 text-slate-600">{aiIndustry.startLead}</p>
+                      <ul className="mt-5 space-y-3">
+                        {aiIndustry.startWith.map((item) => (
+                          <li key={item} className="flex gap-3 text-sm leading-6 text-slate-700">
+                            <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="mt-10 border-t border-slate-200 pt-8">
+                      <h3 className="font-serif text-2xl font-bold text-slate-950">{aiIndustry.boundaryTitle}</h3>
+                      <p className="mt-3 text-sm leading-6 text-slate-600">{aiIndustry.boundaryLead}</p>
+                      <ul className="mt-5 space-y-3">
+                        {aiIndustry.boundaries.map((item) => (
+                          <li key={item} className="flex gap-3 text-sm leading-6 text-slate-700">
+                            <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </>
+                ) : null}
                 <Link
                   href={serviceHref(hub, key)}
                   onClick={() => trackService(key)}

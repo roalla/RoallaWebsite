@@ -9,7 +9,6 @@ import {
   Globe,
   GraduationCap,
   Target,
-  Images,
   Layers,
   Workflow,
   Flag,
@@ -839,32 +838,26 @@ const Header = ({
   }, [isMenuOpen, pathname, isDigitalActive, isIndustryActive, isEcosystemActive, isResourcesActive]);
 
   const showFoundingPromo =
-    pathname === "/services/digital" ||
     pathname === "/website-design" ||
     pathname === "/services/digital-events" ||
     pathname === "/services/portfolio";
-
-  const showDigitalPortfolioNav = pathname === "/website-design";
 
   const foundingPromoLinkClass = overDark
     ? "group flex items-center gap-1.5 rounded-lg border border-primary/40 bg-primary/10 px-2.5 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/20 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black"
     : "group flex items-center gap-1.5 rounded-lg border border-primary/40 bg-primary/10 px-2.5 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/20 hover:text-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white";
 
-  // Keep the promo out of the desktop bar on website-design: that route also
-  // shows Digital Portfolio, which already fills the available nav width.
-  const foundingPromoLink =
-    showFoundingPromo && !showDigitalPortfolioNav ? (
-      <Link
-        href="/website-package"
-        className={`${foundingPromoLinkClass} hidden xl:flex`}
-        aria-label={t("foundingPromoLabel")}
-        title={t("foundingPromoLabel")}
-        onClick={closeMenu}
-      >
-        <Flag className="h-4 w-4 shrink-0" aria-hidden />
-        <span className="sr-only">{t("foundingPromoShort")}</span>
-      </Link>
-    ) : null;
+  const foundingPromoLink = showFoundingPromo ? (
+    <Link
+      href="/website-package"
+      className={`${foundingPromoLinkClass} hidden xl:flex`}
+      aria-label={t("foundingPromoLabel")}
+      title={t("foundingPromoLabel")}
+      onClick={closeMenu}
+    >
+      <Flag className="h-4 w-4 shrink-0" aria-hidden />
+      <span className="sr-only">{t("foundingPromoShort")}</span>
+    </Link>
+  ) : null;
 
   const dropdownPanelClass = (open: boolean) =>
     `dropdown-panel ${open ? "dropdown-panel-open" : "dropdown-panel-closed"}`;
@@ -1630,22 +1623,6 @@ const Header = ({
                 {headerCtaLabel}
               </ScheduleButton>
             </div>
-            {showDigitalPortfolioNav ? (
-              <Link
-                href="/services/portfolio"
-                aria-label={t("digitalPortfolio")}
-                aria-current={
-                  isActive("/services/portfolio") ? "page" : undefined
-                }
-                title={t("digitalPortfolio")}
-                className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-md transition-colors duration-200 ${
-                  isActive("/services/portfolio") ? "text-primary" : navIdleClass
-                }`}
-                onClick={closeMenu}
-              >
-                <Images className="h-5 w-5" aria-hidden />
-              </Link>
-            ) : null}
             <CanadianCompanyMark overDark={overDark} />
           </div>
 
@@ -1965,28 +1942,6 @@ const Header = ({
                   </div>
                 </div>
               </div>
-
-              {showDigitalPortfolioNav ? (
-                <div>
-                  <Link
-                    href="/services/portfolio"
-                    aria-current={
-                      isActive("/services/portfolio") ? "page" : undefined
-                    }
-                    className={`block px-3 py-3 min-h-[44px] flex items-center gap-3 rounded-md text-base font-medium transition-colors duration-200 ${
-                      isActive("/services/portfolio")
-                        ? "text-primary bg-primary/10"
-                        : "text-gray-300 hover:text-primary hover:bg-white/5"
-                    }`}
-                    onClick={(e) =>
-                      handleMobileNavClick(e, "/services/portfolio")
-                    }
-                  >
-                    <Images className="h-4 w-4 shrink-0 opacity-70" aria-hidden />
-                    {t("digitalPortfolio")}
-                  </Link>
-                </div>
-              ) : null}
 
               <div className="border-t border-white/10 pt-1">
                 <button

@@ -84,6 +84,22 @@ describe('Industry hub contrast and imagery', () => {
     expect(tiles.length).toBe(hub.leadServices.length)
   })
 
+  it('routes AI Employee CTAs to Fit Brief and shows industry AI detail', () => {
+    const hub = getIndustryHub('en', 'legal')!
+    render(<IndustryHubPage locale="en" hub={hub} />)
+
+    const secondary = screen.getByRole('link', { name: hub.hero.secondaryCta })
+    expect(secondary.getAttribute('href')).toContain('/tools/ai-employee-fit-brief')
+    expect(secondary.getAttribute('href')).toContain('campaign=industry-hub')
+    expect(secondary.getAttribute('href')).toContain('signal=ai-employee')
+    expect(secondary.getAttribute('href')).not.toContain('/ai-employee?')
+
+    expect(hub.startHere.target).toBe('fit-brief')
+    expect(screen.getByRole('heading', { name: /Client intake & new matters/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /Strongest place to begin/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /Clear limits build trust/i })).toBeInTheDocument()
+  })
+
   it('keeps industries index hero heading white and uses opt tiles', () => {
     const copy = getIndustryHubIndex('en')
     const { container } = render(<IndustryIndexPage locale="en" copy={copy} />)

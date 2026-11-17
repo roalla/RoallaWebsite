@@ -1,29 +1,17 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
-import { ArrowRight, Check, CheckCircle2, ShieldCheck } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import Reveal from '@/components/motion/Reveal'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 import type { AiEmployeeCopy } from '@/lib/ai-employee-content'
-import { isAiEmployeeIndustryId } from '@/lib/ai-employee-content'
 import { trackAnalyticsEvent } from '@/lib/analytics'
 import {
   appendAttributionToHref,
   readAttributionFromSearch,
 } from '@/lib/conversion-attribution'
-
-function readIndustryFromSearch(search: string, fallbackId: string) {
-  const raw = new URLSearchParams(search).get('industry')?.trim() ?? ''
-  return raw && isAiEmployeeIndustryId(raw) ? raw : fallbackId
-}
-
-function replaceIndustryQuery(industryId: string) {
-  const url = new URL(window.location.href)
-  url.searchParams.set('industry', industryId)
-  window.history.replaceState(window.history.state, '', `${url.pathname}${url.search}${url.hash}`)
-}
 
 export default function AiEmployeeLanding({
   locale,
@@ -34,14 +22,6 @@ export default function AiEmployeeLanding({
 }) {
   const language = locale === 'fr' ? 'fr' : 'en'
   const reduceMotion = usePrefersReducedMotion()
-  const firstIndustry = content.industries[0]
-  const fallbackIndustryId = firstIndustry?.id ?? 'it-msp'
-  const [industryId, setIndustryId] = useState(fallbackIndustryId)
-  const industry = content.industries.find((item) => item.id === industryId) ?? firstIndustry
-  const [audienceId, setAudienceId] = useState(industry?.audiences[0]?.id ?? 'internal-it')
-  const audience =
-    industry?.audiences.find((item) => item.id === audienceId) ?? industry?.audiences[0]
-  const detailRef = useRef<HTMLDivElement>(null)
   const [heroReady, setHeroReady] = useState(false)
 
   useEffect(() => {
@@ -53,43 +33,26 @@ export default function AiEmployeeLanding({
     return () => window.cancelAnimationFrame(id)
   }, [reduceMotion])
 
-  useEffect(() => {
-    const nextId = readIndustryFromSearch(window.location.search, fallbackIndustryId)
-    const nextIndustry = content.industries.find((item) => item.id === nextId) ?? firstIndustry
-    setIndustryId(nextId)
-    if (nextIndustry?.audiences[0]) setAudienceId(nextIndustry.audiences[0].id)
-    replaceIndustryQuery(nextId)
-    if (nextId !== fallbackIndustryId) {
-      window.requestAnimationFrame(() => {
-        detailRef.current?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' })
-      })
-    }
-  }, [content.industries, fallbackIndustryId, firstIndustry, reduceMotion])
-
-  const industryLabel = industry?.label ?? 'IT & Managed Services'
   const fitHrefBase = useMemo(() => {
     const params = new URLSearchParams({
       offer: 'AI Employee Fit Brief',
-      industry: industryLabel,
-      icp: industryLabel,
       campaign: 'ai-employee',
       conversion_source: 'ai_employee_page',
       entry_page: '/ai-employee',
       signal: 'ai-employee',
     })
-    if (audienceId) params.set('audience', audienceId)
     return `/${language}/tools/ai-employee-fit-brief?${params.toString()}`
-  }, [audienceId, industryLabel, language])
+  }, [language])
+
   const contactHrefBase = useMemo(() => {
     const params = new URLSearchParams({
       intent: 'consulting',
       focus: 'technology',
       from_page: '/ai-employee',
       goal: content.eyebrow,
-      reference: industryId,
     })
     return `/${language}/contact?${params.toString()}`
-  }, [content.eyebrow, industryId, language])
+  }, [content.eyebrow, language])
 
   const [fitHref, setFitHref] = useState(fitHrefBase)
   const [contactHref, setContactHref] = useState(contactHrefBase)
@@ -102,25 +65,13 @@ export default function AiEmployeeLanding({
       entry_page: '/ai-employee',
       signal: 'ai-employee',
       offer: content.eyebrow,
-      icp: industryLabel,
     }
     setFitHref(appendAttributionToHref(fitHrefBase, inbound, defaults))
     setContactHref(appendAttributionToHref(contactHrefBase, inbound, defaults))
-  }, [contactHrefBase, content.eyebrow, fitHrefBase, industryLabel])
+  }, [contactHrefBase, content.eyebrow, fitHrefBase])
 
   const trackCta = (slot: string) => {
-    trackAnalyticsEvent('ai_employee_cta', { slot, industry: industryId, audience: audienceId })
-  }
-
-  const selectIndustry = (id: string) => {
-    setIndustryId(id)
-    const next = content.industries.find((item) => item.id === id)
-    if (next?.audiences[0]) setAudienceId(next.audiences[0].id)
-    replaceIndustryQuery(id)
-    trackAnalyticsEvent('ai_employee_industry', { industry: id })
-    window.requestAnimationFrame(() => {
-      detailRef.current?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' })
-    })
+    trackAnalyticsEvent('ai_employee_cta', { slot })
   }
 
   return (
@@ -144,7 +95,6 @@ export default function AiEmployeeLanding({
                 reduceMotion || !heroReady ? 'scale-100' : 'scale-105',
               ].join(' ')}
             />
-            {/* Darkest behind the copy and the header edge; faces and the right side of the room stay visible. */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.68)_0%,rgba(15,23,42,0.5)_52%,rgba(15,23,42,0.4)_100%)] md:bg-[linear-gradient(to_right,rgba(15,23,42,0.55)_0%,rgba(15,23,42,0.24)_38%,transparent_70%)]" />
             <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(15,23,42,0.22)_0%,rgba(15,23,42,0.1)_34%,rgba(15,23,42,0.5)_66%,rgba(15,23,42,0.8)_100%)]" />
             <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-slate-950/55 to-transparent" />
@@ -224,211 +174,21 @@ export default function AiEmployeeLanding({
           </div>
         </section>
 
-        <section className="bg-slate-50 py-20" id="industries">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <Reveal className="mx-auto max-w-3xl text-center">
+        <section className="border-b border-slate-200 bg-slate-50 py-16" id="industries">
+          <div className="container mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
+            <Reveal>
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{content.industriesEyebrow}</p>
               <h2 className="mt-3 font-serif text-3xl font-bold text-slate-950 sm:text-4xl">{content.industriesTitle}</h2>
               <p className="mt-4 text-base leading-7 text-slate-600">{content.industriesLead}</p>
-              <p className="mt-2 text-xs font-medium text-slate-500">{content.industrySelectHint}</p>
+              <Link
+                href="/industries"
+                onClick={() => trackCta('browse_industries')}
+                className="mt-8 inline-flex min-h-12 items-center rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-bold text-slate-900 transition hover:border-primary"
+              >
+                {content.industriesBrowseLabel}
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
             </Reveal>
-
-            <div
-              role="listbox"
-              aria-label={content.industriesTitle}
-              className="mx-auto mt-10 grid max-w-6xl gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-            >
-              {content.industries.map((item) => {
-                const selected = item.id === industryId
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    role="option"
-                    aria-selected={selected}
-                    onClick={() => selectIndustry(item.id)}
-                    className={[
-                      'group/tile flex h-full cursor-pointer flex-col items-stretch justify-start overflow-hidden rounded-xl border text-left transition',
-                      selected
-                        ? 'border-slate-900 ring-2 ring-slate-900'
-                        : 'border-slate-200 hover:border-primary/50 hover:shadow-sm',
-                    ].join(' ')}
-                  >
-                    <span className="relative block aspect-[16/10] w-full shrink-0 overflow-hidden bg-slate-100">
-                      <Image
-                        src={item.image.src}
-                        alt={item.image.alt}
-                        fill
-                        loading="lazy"
-                        unoptimized
-                        decoding="async"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1280px) 33vw, 25vw"
-                        className="object-cover transition duration-300 group-hover/tile:scale-[1.03]"
-                      />
-                      {selected ? (
-                        <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded bg-slate-950/90 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold">
-                          <Check className="h-3 w-3" aria-hidden />
-                          {content.selectedLabel}
-                        </span>
-                      ) : null}
-                    </span>
-                    <span className={`block w-full flex-1 px-3 py-3 ${selected ? 'bg-slate-900' : 'bg-white'}`}>
-                      <span
-                        className={`block text-sm font-semibold leading-5 ${selected ? 'text-white' : 'text-slate-950'}`}
-                      >
-                        {item.label}
-                      </span>
-                      <span
-                        className={`mt-1 block text-xs leading-5 ${selected ? 'text-slate-300' : 'text-slate-600'}`}
-                      >
-                        {item.shortLabel}
-                      </span>
-                    </span>
-                  </button>
-                )
-              })}
-            </div>
-
-            {industry ? (
-              <div ref={detailRef} className="mx-auto mt-14 max-w-6xl scroll-mt-28">
-                <Reveal>
-                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">{industry.positioning}</p>
-                  <h3 className="mt-3 max-w-3xl font-serif text-2xl font-bold text-slate-950 sm:text-3xl">{industry.promise}</h3>
-                  <p className="mt-4 text-xs font-medium text-slate-500">{content.audienceSelectHint}</p>
-                </Reveal>
-
-                <div className="relative mt-6 aspect-[21/9] overflow-hidden rounded-xl bg-slate-100 sm:aspect-[24/9]">
-                  <Image
-                    src={industry.image.src}
-                    alt={industry.image.alt}
-                    fill
-                    loading="lazy"
-                    unoptimized
-                    decoding="async"
-                    sizes="(max-width: 1024px) 100vw, 1152px"
-                    className="object-cover"
-                  />
-                </div>
-
-                <div
-                  role="listbox"
-                  aria-label={industry.label}
-                  className="mt-4 grid gap-3 sm:grid-cols-2"
-                >
-                  {industry.audiences.map((item) => {
-                    const selected = item.id === audienceId
-                    return (
-                      <button
-                        key={item.id}
-                        type="button"
-                        role="option"
-                        aria-selected={selected}
-                        onClick={() => {
-                          setAudienceId(item.id)
-                          trackAnalyticsEvent('ai_employee_audience', {
-                            industry: industryId,
-                            audience: item.id,
-                          })
-                        }}
-                        className={[
-                          'h-full rounded-xl border px-4 py-4 text-left transition',
-                          selected
-                            ? 'border-slate-900 bg-slate-900 text-white ring-2 ring-slate-900'
-                            : 'border-slate-200 bg-white hover:border-primary/50 hover:shadow-sm',
-                        ].join(' ')}
-                      >
-                        <span className="flex items-start justify-between gap-3">
-                          <span
-                            className={`block text-base font-semibold leading-6 ${selected ? 'text-white' : 'text-slate-950'}`}
-                          >
-                            {item.label}
-                          </span>
-                          {selected ? (
-                            <span className="inline-flex shrink-0 items-center gap-1 rounded bg-white/10 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold">
-                              <Check className="h-3 w-3" aria-hidden />
-                              {content.selectedLabel}
-                            </span>
-                          ) : null}
-                        </span>
-                        <span
-                          className={`mt-1 block text-sm leading-6 ${selected ? 'text-slate-300' : 'text-slate-600'}`}
-                        >
-                          {item.lead}
-                        </span>
-                      </button>
-                    )
-                  })}
-                </div>
-
-                {audience ? (
-                  <div className="mt-10">
-                    <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                      {audience.uses.map((use) => (
-                        <li
-                          key={use.title}
-                          className="border-t-2 border-primary/30 bg-white px-4 py-4"
-                        >
-                          <h4 className="font-serif text-lg font-bold text-slate-950">{use.title}</h4>
-                          <p className="mt-2 text-sm leading-6 text-slate-600">{use.description}</p>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : null}
-
-                <div className="mt-12 grid gap-10 border-t border-slate-200 pt-10 lg:grid-cols-2">
-                  <div>
-                    <h3 className="font-serif text-2xl font-bold text-slate-950">{industry.startTitle}</h3>
-                    <p className="mt-3 text-sm leading-6 text-slate-600">{industry.startLead}</p>
-                    <ol className="mt-6 space-y-3">
-                      {industry.startWith.map((item, index) => (
-                        <li key={item} className="flex gap-3 text-sm leading-6 text-slate-700">
-                          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary font-bold text-slate-950">
-                            {index + 1}
-                          </span>
-                          {item}
-                        </li>
-                      ))}
-                    </ol>
-                  </div>
-                  <aside>
-                    <div className="flex items-start gap-3">
-                      <ShieldCheck className="mt-1 h-7 w-7 shrink-0 text-primary-dark" aria-hidden />
-                      <div>
-                        <h3 className="font-serif text-2xl font-bold text-slate-950">{industry.boundaryTitle}</h3>
-                        <p className="mt-3 text-sm leading-6 text-slate-600">{industry.boundaryLead}</p>
-                      </div>
-                    </div>
-                    <ul className="mt-6 space-y-4">
-                      {industry.boundaries.map((item) => (
-                        <li key={item} className="flex gap-3 text-sm leading-6 text-slate-700">
-                          <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-primary-dark" aria-hidden />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </aside>
-                </div>
-
-                <div className="mt-10 flex flex-wrap gap-3">
-                  <a
-                    href={fitHref}
-                    onClick={() => trackCta('industry_fit')}
-                    className="inline-flex min-h-12 items-center rounded-lg bg-primary px-6 py-3 font-semibold text-slate-950 transition-colors hover:bg-primary-light"
-                  >
-                    {content.primaryCta}
-                    <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-                  </a>
-                  <a
-                    href={contactHref}
-                    onClick={() => trackCta('industry_contact')}
-                    className="inline-flex min-h-12 items-center rounded-lg border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-800 transition-colors hover:border-slate-400"
-                  >
-                    {content.secondaryCta}
-                  </a>
-                </div>
-              </div>
-            ) : null}
           </div>
         </section>
 

@@ -52,12 +52,12 @@ export const INDUSTRY_HUB_PRIORITY: Record<IndustryHubId, IndustryHubPriority> =
   },
   'recruiting-staffing': {
     leadServices: ['aiEmployee', 'ucaas'],
-    startHereTarget: 'ai-employee',
+    startHereTarget: 'fit-brief',
     proof: { kind: 'insight', slug: 'hire-or-fix-the-work-first' },
   },
   'trades-field': {
     leadServices: ['aiEmployee', 'visibility'],
-    startHereTarget: 'ai-employee',
+    startHereTarget: 'fit-brief',
     proof: { kind: 'use-case', slug: 'lead-capture' },
   },
   'transportation-logistics': {
@@ -67,7 +67,7 @@ export const INDUSTRY_HUB_PRIORITY: Record<IndustryHubId, IndustryHubPriority> =
   },
   warehouses: {
     leadServices: ['aiEmployee', 'cloudMigration'],
-    startHereTarget: 'ai-employee',
+    startHereTarget: 'fit-brief',
     proof: { kind: 'use-case', slug: 'workflow-automation' },
   },
   'care-practices': {
@@ -92,12 +92,12 @@ export const INDUSTRY_HUB_PRIORITY: Record<IndustryHubId, IndustryHubPriority> =
   },
   'real-estate-property': {
     leadServices: ['aiEmployee', 'visibility'],
-    startHereTarget: 'ai-employee',
+    startHereTarget: 'fit-brief',
     proof: { kind: 'insight', slug: 'sales-pipeline-or-list-of-contacts' },
   },
   veterinary: {
     leadServices: ['aiEmployee', 'ucaas'],
-    startHereTarget: 'ai-employee',
+    startHereTarget: 'fit-brief',
     proof: { kind: 'use-case', slug: 'communications-modernization' },
   },
   'insurance-brokerage': {
@@ -107,7 +107,7 @@ export const INDUSTRY_HUB_PRIORITY: Record<IndustryHubId, IndustryHubPriority> =
   },
   'immigration-settlement': {
     leadServices: ['aiEmployee', 'security'],
-    startHereTarget: 'ai-employee',
+    startHereTarget: 'fit-brief',
     proof: { kind: 'insight', slug: 'structured-data-for-small-business' },
   },
   'home-care-seniors': {

@@ -66,6 +66,12 @@ export const hubCampaignPages = [
     descKey: 'campaignComplianceReadinessReviewDesc',
   },
   {
+    id: 'pci-dss-readiness-review',
+    path: '/pci-dss-readiness-review',
+    titleKey: 'campaignPciDssReadinessReview',
+    descKey: 'campaignPciDssReadinessReviewDesc',
+  },
+  {
     id: 'continuity-recovery-review',
     path: '/continuity-recovery-review',
     titleKey: 'campaignContinuityRecoveryReview',

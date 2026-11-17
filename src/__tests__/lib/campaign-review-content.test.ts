@@ -56,6 +56,7 @@ describe('campaign review landing pages', () => {
         'ai-employee-fit-review',
         'security-risk-coverage-review',
         'compliance-readiness-review',
+        'pci-dss-readiness-review',
         'continuity-recovery-review',
       ]),
     )
@@ -73,6 +74,14 @@ describe('campaign review landing pages', () => {
       '/services/security-risk-compliance',
     )
     expect(campaignReviewContent['compliance-readiness-review'].en.caveat).toContain('CPA firm')
+    expect(campaignReviewContent['pci-dss-readiness-review'].en).toMatchObject({
+      intent: 'security',
+      servicePath: '/services/security-risk-compliance',
+      offer: 'PCI DSS Readiness Review',
+    })
+    expect(campaignReviewContent['pci-dss-readiness-review'].en.caveat).toMatch(/does not certify|ASV/i)
+    expect(campaignReviewContent['pci-dss-readiness-review'].fr.caveat).toMatch(/ne certifie pas|ASV/i)
+    expect(JSON.stringify(campaignReviewContent['pci-dss-readiness-review'])).toMatch(/SAQ|acquirer|acquéreur/)
     expect(campaignReviewContent['continuity-recovery-review'].en).toMatchObject({
       intent: 'consulting',
       focus: 'technology',

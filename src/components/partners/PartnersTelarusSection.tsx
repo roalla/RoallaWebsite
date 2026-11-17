@@ -1,5 +1,20 @@
 import Image from 'next/image'
-import { ArrowRight, Bot, CloudCog, Network, PhoneCall, Radio, ShieldCheck } from 'lucide-react'
+import {
+  ArrowRight,
+  BarChart3,
+  Bot,
+  Cloud,
+  CloudCog,
+  Cog,
+  Headset,
+  Layers,
+  LayoutGrid,
+  Network,
+  PhoneCall,
+  Radio,
+  Shield,
+  ShieldCheck,
+} from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import Reveal from '@/components/motion/Reveal'
 import PartnersBrandLockup from '@/components/partners/PartnersBrandLockup'
@@ -8,6 +23,18 @@ import { ecosystemLogos } from '@/lib/technologyEcosystem'
 
 const categoryIcons = [CloudCog, ShieldCheck, Bot, PhoneCall, Network, Radio] as const
 const categoryKeys = ['category1', 'category2', 'category3', 'category4', 'category5', 'category6'] as const
+
+const allianceIcons = [Cog, Layers, Headset, Cloud, Bot, LayoutGrid, Shield, BarChart3] as const
+const allianceCategoryKeys = [
+  'allianceCategory1',
+  'allianceCategory2',
+  'allianceCategory3',
+  'allianceCategory4',
+  'allianceCategory5',
+  'allianceCategory6',
+  'allianceCategory7',
+  'allianceCategory8',
+] as const
 
 export default async function PartnersTelarusSection() {
   const t = await getTranslations('partnersPlatforms')
@@ -72,6 +99,47 @@ export default async function PartnersTelarusSection() {
           )
         })}
       </ul>
+
+      <Reveal delayMs={60} className="mt-8">
+        <div
+          className="rounded-xl border border-slate-200 bg-white px-4 py-5 sm:px-5"
+          aria-labelledby="alliance-network-heading"
+        >
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            {t('allianceEyebrow')}
+          </p>
+          <h3
+            id="alliance-network-heading"
+            className="mt-1 font-serif text-xl font-bold text-slate-900 sm:text-2xl"
+          >
+            {t('allianceTitle')}
+          </h3>
+          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-700">{t('allianceBody')}</p>
+          <ul className="mt-4 space-y-2 text-sm text-slate-800 sm:flex sm:flex-wrap sm:gap-x-6 sm:gap-y-2 sm:space-y-0">
+            <li className="flex items-start gap-2">
+              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-dark" aria-hidden />
+              <span className="font-medium">{t('allianceProof1')}</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-dark" aria-hidden />
+              <span className="font-medium">{t('allianceProof2')}</span>
+            </li>
+          </ul>
+          <ul className="mt-5 flex flex-wrap gap-2">
+            {allianceCategoryKeys.map((key, index) => {
+              const Icon = allianceIcons[index]
+              return (
+                <li key={key}>
+                  <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm font-medium text-slate-800">
+                    <Icon className="h-4 w-4 shrink-0 text-primary-dark" aria-hidden />
+                    {t(key)}
+                  </span>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      </Reveal>
 
       <Reveal delayMs={80} className="mt-6">
         <details className="group/details rounded-xl border border-slate-200 bg-white open:shadow-sm">

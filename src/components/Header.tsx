@@ -1276,39 +1276,6 @@ const Header = ({
                 </div>
               </div>
 
-              {showDigitalPortfolioNav ? (
-                <div className="relative group/portfolio">
-                  <Link
-                    href="/services/portfolio"
-                    aria-label={t("digitalPortfolio")}
-                    aria-current={
-                      isActive("/services/portfolio") ? "page" : undefined
-                    }
-                    className={`relative flex items-center justify-center rounded-md p-2 transition-colors duration-200 ${
-                      isActive("/services/portfolio")
-                        ? "text-primary"
-                        : navIdleClass
-                    }`}
-                    onClick={closeMenu}
-                  >
-                    <Images className="h-5 w-5" aria-hidden />
-                    <span
-                      className={`absolute -bottom-0.5 left-1/2 h-0.5 -translate-x-1/2 bg-primary transition-all duration-300 ${
-                        isActive("/services/portfolio")
-                          ? "w-5"
-                          : "w-0 group-hover/portfolio:w-5"
-                      }`}
-                    />
-                  </Link>
-                  <span
-                    role="tooltip"
-                    className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-zinc-950 px-2.5 py-1.5 text-xs font-medium text-white opacity-0 shadow-lg border border-white/10 transition-opacity duration-150 group-hover/portfolio:opacity-100 group-focus-within/portfolio:opacity-100"
-                  >
-                    {t("digitalPortfolio")}
-                  </span>
-                </div>
-              ) : null}
-
               <div className="relative" ref={workshopsDropdownDesktopRef}>
                 <button
                   type="button"
@@ -1589,7 +1556,7 @@ const Header = ({
             {foundingPromoLink}
             {isLocaleRoute && (
               <div
-                className="relative flex items-center"
+                className="relative z-10 flex items-center"
                 ref={localeDropdownDesktopRef}
               >
                 <button
@@ -1663,6 +1630,22 @@ const Header = ({
                 {headerCtaLabel}
               </ScheduleButton>
             </div>
+            {showDigitalPortfolioNav ? (
+              <Link
+                href="/services/portfolio"
+                aria-label={t("digitalPortfolio")}
+                aria-current={
+                  isActive("/services/portfolio") ? "page" : undefined
+                }
+                title={t("digitalPortfolio")}
+                className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-md transition-colors duration-200 ${
+                  isActive("/services/portfolio") ? "text-primary" : navIdleClass
+                }`}
+                onClick={closeMenu}
+              >
+                <Images className="h-5 w-5" aria-hidden />
+              </Link>
+            ) : null}
             <CanadianCompanyMark overDark={overDark} />
           </div>
 

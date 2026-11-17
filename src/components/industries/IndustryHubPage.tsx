@@ -13,8 +13,8 @@ import {
   toIndustryOptImageSrc,
   type IndustryHub,
   type IndustryHubServiceKey,
-  type IndustryHubStartHere,
 } from '@/lib/industry-hub-content'
+import type { IndustryStartHereTarget } from '@/lib/industry-hub-priority'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 
 const PATH_HASH_PREFIX = 'path='
@@ -62,10 +62,11 @@ function serviceHref(hub: IndustryHub, key: IndustryHubServiceKey) {
   }
 }
 
-function startHereHref(hub: IndustryHub, startHere: IndustryHubStartHere) {
-  switch (startHere.target) {
-    case 'ai-employee':
-      return `#${PATH_HASH_PREFIX}aiEmployee`
+function startHereLinkHref(
+  hub: IndustryHub,
+  target: Exclude<IndustryStartHereTarget, 'ai-employee'>,
+) {
+  switch (target) {
     case 'fit-brief':
       return fitBriefHref(hub, 'industry_hub_start_here')
     case 'security':
@@ -277,7 +278,7 @@ export default function IndustryHubPage({
               </button>
             ) : (
               <Link
-                href={startHereHref(hub, hub.startHere)}
+                href={startHereLinkHref(hub, hub.startHere.target)}
                 onClick={() =>
                   trackAnalyticsEvent('industry_hub_cta', {
                     industry: hub.id,

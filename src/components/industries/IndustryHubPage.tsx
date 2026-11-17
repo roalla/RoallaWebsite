@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import { ArrowRight, Check, Compass, BookOpen } from 'lucide-react'
+import { ArrowRight, Check, BookOpen } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import Reveal from '@/components/motion/Reveal'
 import { trackAnalyticsEvent } from '@/lib/analytics'
@@ -14,7 +14,6 @@ import {
   type IndustryHub,
   type IndustryHubServiceKey,
 } from '@/lib/industry-hub-content'
-import type { IndustryStartHereTarget } from '@/lib/industry-hub-priority'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 
 const PATH_HASH_PREFIX = 'path='
@@ -62,22 +61,17 @@ function serviceHref(hub: IndustryHub, key: IndustryHubServiceKey) {
   }
 }
 
-function startHereLinkHref(
-  hub: IndustryHub,
-  target: Exclude<IndustryStartHereTarget, 'ai-employee'>,
-) {
-  switch (target) {
+function popularLeadKey(hub: IndustryHub): IndustryHubServiceKey {
+  switch (hub.startHere.target) {
+    case 'ai-employee':
     case 'fit-brief':
-      return fitBriefHref(hub, 'industry_hub_start_here')
+      return 'aiEmployee'
     case 'security':
-      return '/services/security-risk-compliance' as const
+      return 'security'
     case 'communications':
-      return {
-        pathname: '/solutions/[slug]' as const,
-        params: { slug: 'communications' },
-      }
+      return hub.leadServices.includes('ucaas') ? 'ucaas' : hub.leadServices[0]
     case 'assessment':
-      return '/assessment' as const
+      return hub.leadServices.includes('security') ? 'security' : hub.leadServices[0]
   }
 }
 
@@ -181,6 +175,7 @@ export default function IndustryHubPage({
 
   const selectedBlock = selectedPath ? hub.services[selectedPath] : null
   const showAiDetail = selectedPath === 'aiEmployee' && Boolean(aiIndustry)
+  const popularKey = popularLeadKey(hub)
 
   return (
     <div className="page-shell bg-white">
@@ -251,72 +246,6 @@ export default function IndustryHubPage({
         </div>
       </section>
 
-      <section className="border-b border-slate-200 bg-white px-4 py-14 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.2fr_0.8fr]">
-          <Reveal className="rounded-2xl border border-primary/20 bg-primary/[0.06] p-6 sm:p-8">
-            <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">
-              <Compass className="h-4 w-4" aria-hidden />
-              {hub.ui.startHereEyebrow}
-            </p>
-            <h2 className="mt-3 font-serif text-2xl font-bold text-slate-950 sm:text-3xl">{hub.startHere.title}</h2>
-            <p className="mt-3 text-sm leading-6 text-slate-700 sm:text-base">{hub.startHere.lead}</p>
-            {hub.startHere.target === 'ai-employee' ? (
-              <button
-                type="button"
-                onClick={() => {
-                  trackAnalyticsEvent('industry_hub_cta', {
-                    industry: hub.id,
-                    slot: 'start_here',
-                    target: hub.startHere.target,
-                  })
-                  selectPath('aiEmployee')
-                }}
-                className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-bold text-white transition hover:bg-primary-dark"
-              >
-                {hub.startHere.ctaLabel}
-                <ArrowRight className="h-4 w-4" aria-hidden />
-              </button>
-            ) : (
-              <Link
-                href={startHereLinkHref(hub, hub.startHere.target)}
-                onClick={() =>
-                  trackAnalyticsEvent('industry_hub_cta', {
-                    industry: hub.id,
-                    slot: 'start_here',
-                    target: hub.startHere.target,
-                  })
-                }
-                className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-bold text-white transition hover:bg-primary-dark"
-              >
-                {hub.startHere.ctaLabel}
-                <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
-            )}
-          </Reveal>
-          <Reveal className="rounded-2xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
-            <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
-              <BookOpen className="h-4 w-4" aria-hidden />
-              {hub.ui.proofEyebrow}
-            </p>
-            <h3 className="mt-3 font-serif text-xl font-bold text-slate-950">{hub.proof.label}</h3>
-            <Link
-              href={proofHref(hub)}
-              onClick={() =>
-                trackAnalyticsEvent('industry_hub_cta', {
-                  industry: hub.id,
-                  slot: 'proof',
-                  kind: hub.proof.proof.kind,
-                })
-              }
-              className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-primary-dark underline-offset-4 hover:underline"
-            >
-              {french ? 'Lire la suite' : 'Read more'}
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
-          </Reveal>
-        </div>
-      </section>
-
       <section className="border-b border-slate-200 bg-slate-50 px-4 py-14 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <Reveal>
@@ -335,6 +264,7 @@ export default function IndustryHubPage({
             {hub.leadServices.map((key) => {
               const block = hub.services[key]
               const selected = key === selectedPath
+              const isPopular = key === popularKey
               return (
                 <Reveal key={key}>
                   <button
@@ -360,6 +290,11 @@ export default function IndustryHubPage({
                         sizes="(max-width: 640px) 100vw, 50vw"
                         className="object-cover transition duration-300 group-hover/tile:scale-[1.03]"
                       />
+                      {isPopular ? (
+                        <span className="absolute right-2 top-2 rounded-full bg-slate-950/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-brand-gold">
+                          {hub.ui.popularLabel}
+                        </span>
+                      ) : null}
                     </span>
                     <span className={`flex flex-1 flex-col px-4 py-4 ${selected ? 'bg-slate-900' : 'bg-white'}`}>
                       <span
@@ -372,6 +307,13 @@ export default function IndustryHubPage({
                       >
                         {block.title}
                       </span>
+                      {isPopular ? (
+                        <span
+                          className={`mt-2 text-sm leading-6 ${selected ? 'text-slate-300' : 'text-slate-600'}`}
+                        >
+                          {hub.startHere.lead}
+                        </span>
+                      ) : null}
                       <span
                         className={`mt-3 inline-flex items-center gap-2 text-sm font-bold ${selected ? 'text-brand-gold' : 'text-primary-dark'}`}
                       >
@@ -384,6 +326,34 @@ export default function IndustryHubPage({
               )
             })}
           </div>
+        </div>
+      </section>
+
+      <section className="border-b border-slate-200 bg-white px-4 py-10 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <Reveal className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+            <div>
+              <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
+                <BookOpen className="h-4 w-4" aria-hidden />
+                {hub.ui.proofEyebrow}
+              </p>
+              <h3 className="mt-2 font-serif text-xl font-bold text-slate-950">{hub.proof.label}</h3>
+            </div>
+            <Link
+              href={proofHref(hub)}
+              onClick={() =>
+                trackAnalyticsEvent('industry_hub_cta', {
+                  industry: hub.id,
+                  slot: 'proof',
+                  kind: hub.proof.proof.kind,
+                })
+              }
+              className="inline-flex shrink-0 items-center gap-2 text-sm font-bold text-primary-dark underline-offset-4 hover:underline"
+            >
+              {french ? 'Lire la suite' : 'Read more'}
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
+          </Reveal>
         </div>
       </section>
 

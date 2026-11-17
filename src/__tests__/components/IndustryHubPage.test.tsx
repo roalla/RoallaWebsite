@@ -101,6 +101,30 @@ describe('Industry hub contrast and imagery', () => {
     expect(tiles.length).toBe(hub.leadServices.length)
   })
 
+  it('folds start-here into the popular priority tile and removes the Start here section', () => {
+    const hub = getIndustryHub('en', 'it-msp')!
+    render(<IndustryHubPage locale="en" hub={hub} />)
+
+    expect(screen.queryByRole('heading', { name: hub.startHere.title })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: hub.startHere.ctaLabel })).not.toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: hub.startHere.ctaLabel })).not.toBeInTheDocument()
+
+    expect(screen.getByText(hub.ui.popularLabel)).toBeInTheDocument()
+    expect(screen.getByText(hub.startHere.lead)).toBeInTheDocument()
+    expect(screen.getByText(hub.ui.proofEyebrow)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: hub.proof.label })).toBeInTheDocument()
+  })
+
+  it('puts Popular and start-here lead on the AI tile for fit-brief industries', () => {
+    const hub = getIndustryHub('en', 'legal')!
+    render(<IndustryHubPage locale="en" hub={hub} />)
+
+    expect(hub.startHere.target).toBe('fit-brief')
+    const aiOption = screen.getByRole('option', { name: new RegExp(hub.services.aiEmployee.title, 'i') })
+    expect(aiOption).toHaveTextContent(hub.ui.popularLabel)
+    expect(aiOption).toHaveTextContent(hub.startHere.lead)
+  })
+
   it('hides path detail until a priority tile is selected', () => {
     const hub = getIndustryHub('en', 'legal')!
     render(<IndustryHubPage locale="en" hub={hub} />)
@@ -159,13 +183,13 @@ describe('Industry hub contrast and imagery', () => {
     expect(window.location.hash).toBe('#path=aiEmployee')
   })
 
-  it('lets ai-employee start-here select the AI path on-page', async () => {
+  it('lets trades-field select AI from the popular priority tile', async () => {
     const hub = getIndustryHub('en', 'trades-field')!
     render(<IndustryHubPage locale="en" hub={hub} />)
 
     expect(hub.startHere.target).toBe('ai-employee')
     await act(async () => {
-      screen.getByRole('button', { name: hub.startHere.ctaLabel }).click()
+      screen.getByRole('option', { name: new RegExp(hub.services.aiEmployee.title, 'i') }).click()
     })
     await flushAnimationFrame()
 

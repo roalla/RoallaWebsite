@@ -88,6 +88,7 @@ export type IndustryHub = {
   ui: {
     startHereEyebrow: string
     proofEyebrow: string
+    popularLabel: string
     leadTilesTitle: string
     relatedTitle: string
     relatedLead: string
@@ -267,6 +268,7 @@ const SHARED_COPY: Record<
     startHereTitle: string
     startHereCta: Record<IndustryStartHereTarget, string>
     proofEyebrow: string
+    popularLabel: string
     leadTilesTitle: string
     relatedTitle: string
     relatedLead: string
@@ -290,6 +292,7 @@ const SHARED_COPY: Record<
       assessment: 'Find your starting point',
     },
     proofEyebrow: 'Related reading',
+    popularLabel: 'Popular',
     leadTilesTitle: 'Priority paths for this industry',
     relatedTitle: 'Also relevant here',
     relatedLead: 'Other ROALLA paths that often help this industry move forward.',
@@ -313,6 +316,7 @@ const SHARED_COPY: Record<
       assessment: 'Trouver votre point de départ',
     },
     proofEyebrow: 'Lecture connexe',
+    popularLabel: 'Populaire',
     leadTilesTitle: 'Parcours prioritaires pour ce secteur',
     relatedTitle: 'Aussi pertinent ici',
     relatedLead: 'D’autres parcours ROALLA qui aident souvent ce secteur à progresser.',
@@ -2805,6 +2809,7 @@ function buildHub(locale: HubLocale, id: IndustryHubId): IndustryHub {
     ui: {
       startHereEyebrow: shared.startHereEyebrow,
       proofEyebrow: shared.proofEyebrow,
+      popularLabel: shared.popularLabel,
       leadTilesTitle: shared.leadTilesTitle,
       relatedTitle: shared.relatedTitle,
       relatedLead: shared.relatedLead,

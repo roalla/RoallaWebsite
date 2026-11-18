@@ -124,7 +124,7 @@ export default function WebsiteDesignLogoStrip({ eyebrow, listLabel }: Props) {
   return (
     <section
       aria-labelledby="website-design-logo-strip-heading"
-      className="mb-10 border border-slate-200 bg-slate-50 py-8 lg:py-10"
+      className="py-8 lg:py-10"
     >
       <div className="px-1 sm:px-2">
         <p

@@ -15,9 +15,9 @@ import PartnersSectionNav from '@/components/partners/PartnersSectionNav'
 import PartnersEnterpriseEngage from '@/components/partners/PartnersEnterpriseEngage'
 import PartnersGovernanceBands from '@/components/partners/PartnersGovernanceBands'
 import PartnersHubContinue from '@/components/partners/PartnersHubContinue'
+import PartnersOutcomesStrip from '@/components/partners/PartnersOutcomesStrip'
 import PartnersPageActions from '@/components/partners/PartnersPageActions'
-import PartnersRelationshipMatrix from '@/components/partners/PartnersRelationshipMatrix'
-import PartnersRoleEntry from '@/components/partners/PartnersRoleEntry'
+import PartnersProcurementMatrix from '@/components/partners/PartnersProcurementMatrix'
 import PartnersStartHere from '@/components/partners/PartnersStartHere'
 import PartnersTrackLink from '@/components/partners/PartnersTrackLink'
 import { partnersSectionNav } from '@/lib/partners-sections'
@@ -57,7 +57,7 @@ export default async function PartnersPage({ params }: Props) {
         data={[
           breadcrumbJsonLd(locale, [
             { name: tBreadcrumb('home'), path: '' },
-            { name: t('title') },
+            { name: t('breadcrumbTitle') },
           ]),
           webPageJsonLd(locale, '/partners', t('title'), t('metadataDescription')),
           ecosystemItemListJsonLd(
@@ -103,7 +103,7 @@ export default async function PartnersPage({ params }: Props) {
             <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-200">{t('subtitle')}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
               <PartnersTrackLink
-                href="/services/technology-advisory"
+                href={{ pathname: '/contact', query: { intent: 'consulting', focus: 'technology' } }}
                 event="partners_hero_cta"
                 eventParams={{ path: '/partners', slot: 'primary' }}
                 className="inline-flex min-h-12 items-center justify-center rounded-lg bg-primary px-6 text-sm font-semibold text-slate-950 transition-colors hover:bg-primary-light"
@@ -129,8 +129,8 @@ export default async function PartnersPage({ params }: Props) {
 
       <div className="container mx-auto px-4 pt-6 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <Breadcrumb items={[{ label: tBreadcrumb('home'), href: '/' }, { label: t('title') }]} />
-          <PartnersPageActions pagePath="/partners" pageTitle={t('title')} />
+          <Breadcrumb items={[{ label: tBreadcrumb('home'), href: '/' }, { label: t('breadcrumbTitle') }]} />
+          <PartnersPageActions pagePath="/partners" pageTitle={t('breadcrumbTitle')} />
         </div>
         <div className="mt-6">
           <PartnersHubContinue />
@@ -138,37 +138,10 @@ export default async function PartnersPage({ params }: Props) {
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-16 lg:pb-24">
-        <PartnersRoleEntry />
         <PartnersStartHere />
+        <PartnersOutcomesStrip />
 
-        <section className="border-b border-slate-200 py-12 lg:py-14" aria-labelledby="partner-outcomes-heading">
-          <div className="max-w-3xl">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{t('outcomesEyebrow')}</p>
-            <h2 id="partner-outcomes-heading" className="mt-3 font-serif text-3xl font-bold text-slate-950 lg:text-4xl">
-              {t('outcomesTitle')}
-            </h2>
-            <p className="mt-3 text-base leading-7 text-slate-600">{t('outcomesDescription')}</p>
-          </div>
-          <p className="mt-8 max-w-3xl text-sm leading-6 text-slate-600">
-            <span className="font-semibold text-slate-900">{t('outcomesInsightTitle')}</span>{' '}
-            {t('outcomesInsightBody')}
-          </p>
-        </section>
-
-        <section className="border-b border-slate-200 py-12 lg:py-14" aria-labelledby="matrix-heading">
-          <div className="max-w-3xl">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{t('matrixEyebrow')}</p>
-            <h2 id="matrix-heading" className="mt-3 font-serif text-3xl font-bold text-slate-950 lg:text-4xl">
-              {t('matrixTitle')}
-            </h2>
-            <p className="mt-3 text-base leading-7 text-slate-600">{t('matrixDescription')}</p>
-          </div>
-          <div className="mt-8">
-            <PartnersRelationshipMatrix />
-          </div>
-        </section>
-
-        <section className="py-12 lg:py-16" aria-labelledby="browse-sections-heading">
+        <section className="border-b border-slate-200 py-12 lg:py-14" aria-labelledby="browse-sections-heading">
           <div className="max-w-3xl">
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{t('browseEyebrow')}</p>
             <h2 id="browse-sections-heading" className="mt-3 font-serif text-3xl font-bold text-slate-950 lg:text-4xl">
@@ -185,8 +158,15 @@ export default async function PartnersPage({ params }: Props) {
                   eventParams={{ path: item.path, location: 'browse_list' }}
                   className="group flex items-center justify-between gap-4 py-5 transition hover:bg-slate-50/80"
                 >
-                  <span className="font-serif text-xl font-bold text-slate-950 group-hover:text-primary-dark">
-                    {t(item.labelKey)}
+                  <span className="min-w-0">
+                    <span className="block font-serif text-xl font-bold text-slate-950 group-hover:text-primary-dark">
+                      {t(item.labelKey)}
+                    </span>
+                    {'descriptionKey' in item && item.descriptionKey ? (
+                      <span className="mt-1 block text-sm leading-6 text-slate-600">
+                        {t(item.descriptionKey)}
+                      </span>
+                    ) : null}
                   </span>
                   <ArrowRight className="h-4 w-4 shrink-0 text-primary-dark transition group-hover:translate-x-0.5" aria-hidden />
                 </PartnersTrackLink>
@@ -195,7 +175,11 @@ export default async function PartnersPage({ params }: Props) {
           </ul>
         </section>
 
-        <div className="py-12 lg:py-16">
+        <div className="py-12 lg:py-14">
+          <PartnersProcurementMatrix />
+        </div>
+
+        <div className="pb-12 lg:pb-16">
           <PartnersGovernanceBands />
         </div>
 
@@ -207,7 +191,8 @@ export default async function PartnersPage({ params }: Props) {
       <StickyMobileCTA
         label={t('heroPrimaryCta')}
         sublabel={tCommon('ctaSubtext')}
-        href="/services/technology-advisory"
+        intent="consulting"
+        focus="technology"
         brandMark
         analyticsEvent="partners_sticky_cta"
         analyticsParams={{ path: '/partners' }}

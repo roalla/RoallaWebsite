@@ -47,7 +47,7 @@ export default async function CompensationPage({ params }: Props) {
         data={[
           breadcrumbJsonLd(locale, [
             { name: tBreadcrumb('home'), path: '' },
-            { name: t('title'), path: '/partners' },
+            { name: t('breadcrumbTitle'), path: '/partners' },
             { name: t('compensationTitle') },
           ]),
           webPageJsonLd(locale, path, t('compensationTitle'), t('compensationMetadataDescription')),
@@ -79,7 +79,7 @@ export default async function CompensationPage({ params }: Props) {
           <Breadcrumb
             items={[
               { label: tBreadcrumb('home'), href: '/' },
-              { label: t('title'), href: '/partners' },
+              { label: t('breadcrumbTitle'), href: '/partners' },
               { label: t('compensationTitle') },
             ]}
           />
@@ -93,7 +93,7 @@ export default async function CompensationPage({ params }: Props) {
       <div className="container mx-auto px-4 pb-12 sm:px-6 lg:px-8 lg:pb-16">
         <PartnersCompensationSection />
         <div className="mt-12">
-          <PartnersGovernanceBands />
+          <PartnersGovernanceBands variant="disclosure" />
         </div>
         <PartnersEnterpriseFaq />
       </div>

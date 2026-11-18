@@ -38,6 +38,14 @@ const UC_LOGOS: readonly UcLogo[] = [
     className: 'h-8 w-auto max-w-full object-contain md:h-9',
   },
   {
+    id: 'dialpad',
+    name: 'Dialpad',
+    src: '/images/partners/dialpad-logo.png',
+    width: 480,
+    height: 120,
+    className: 'h-8 w-auto max-w-full object-contain md:h-9',
+  },
+  {
     id: 'net2phone',
     name: 'net2phone',
     src: '/images/partners/net2phone-logo.png',

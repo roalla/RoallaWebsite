@@ -9,7 +9,7 @@ import PartnersHubContinue from '@/components/partners/PartnersHubContinue'
 import PartnersOutcomeVignette from '@/components/partners/PartnersOutcomeVignette'
 import PartnersPageActions from '@/components/partners/PartnersPageActions'
 import PartnersProofVignette from '@/components/partners/PartnersProofVignette'
-import PartnersRelationshipMatrix from '@/components/partners/PartnersRelationshipMatrix'
+import PartnersProcurementMatrix from '@/components/partners/PartnersProcurementMatrix'
 import PartnersSectionHero from '@/components/partners/PartnersSectionHero'
 import PartnersSectionNav from '@/components/partners/PartnersSectionNav'
 import PartnersSoftPrompt from '@/components/partners/PartnersSoftPrompt'
@@ -49,7 +49,7 @@ export default async function TechnologyProvidersPage({ params }: Props) {
         data={[
           breadcrumbJsonLd(locale, [
             { name: tBreadcrumb('home'), path: '' },
-            { name: t('title'), path: '/partners' },
+            { name: t('breadcrumbTitle'), path: '/partners' },
             { name: t('technologyProvidersTitle') },
           ]),
           webPageJsonLd(locale, path, t('technologyProvidersTitle'), t('technologyProvidersMetadataDescription')),
@@ -79,7 +79,7 @@ export default async function TechnologyProvidersPage({ params }: Props) {
           <Breadcrumb
             items={[
               { label: tBreadcrumb('home'), href: '/' },
-              { label: t('title'), href: '/partners' },
+              { label: t('breadcrumbTitle'), href: '/partners' },
               { label: t('technologyProvidersTitle') },
             ]}
           />
@@ -91,13 +91,11 @@ export default async function TechnologyProvidersPage({ params }: Props) {
       </div>
 
       <div className="container mx-auto px-4 pb-12 sm:px-6 lg:px-8 lg:pb-16">
-        <div className="mb-10">
-          <h2 className="font-serif text-2xl font-bold text-slate-950">{t('matrixTitle')}</h2>
-          <div className="mt-6">
-            <PartnersRelationshipMatrix groupId="technology-providers" />
-          </div>
-        </div>
+        <p className="mb-8 max-w-3xl text-base leading-7 text-slate-600">{t('technologyProvidersContrast')}</p>
         <PartnersDirectoryList groupId="technology-providers" showHeading={false} />
+        <div className="mt-12">
+          <PartnersProcurementMatrix groupId="technology-providers" />
+        </div>
         <div className="mt-14 space-y-10 border-t border-slate-200 pt-12">
           <PartnersProofVignette />
           <PartnersOutcomeVignette />

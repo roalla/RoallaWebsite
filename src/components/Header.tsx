@@ -672,7 +672,11 @@ const Header = ({
     { nameKey: "ecosystemOverview" as const, href: "/partners" as const },
     { nameKey: "ecosystemTechnologyProviders" as const, href: "/partners/technology-providers" as const },
     { nameKey: "ecosystemDeliveryPlatforms" as const, href: "/partners/delivery-platforms" as const },
-    { nameKey: "ecosystemStrategicRelationships" as const, href: "/partners/strategic-relationships" as const },
+    {
+      nameKey: "ecosystemStrategicRelationships" as const,
+      descKey: "ecosystemStrategicRelationshipsDesc" as const,
+      href: "/partners/strategic-relationships" as const,
+    },
     { nameKey: "ecosystemEvaluation" as const, href: "/partners/evaluation-standard" as const },
     { nameKey: "ecosystemTransparency" as const, href: "/partners/compensation" as const },
   ];
@@ -1257,11 +1261,18 @@ const Header = ({
                           setEcosystemDropdownOpen(false);
                           closeMenu();
                         }}
-                        className={`flex min-h-11 items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors hover:bg-white/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40 ${
+                        className={`flex min-h-11 items-center justify-between gap-3 rounded-lg px-3 py-2.5 transition-colors hover:bg-white/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40 ${
                           current ? "bg-primary/10 text-primary" : "text-slate-200"
                         }`}
                       >
-                        {t(item.nameKey)}
+                        <span className="min-w-0">
+                          <span className="block text-sm font-semibold">{t(item.nameKey)}</span>
+                          {"descKey" in item && item.descKey ? (
+                            <span className="mt-0.5 block text-xs font-normal leading-snug text-slate-400">
+                              {t(item.descKey)}
+                            </span>
+                          ) : null}
+                        </span>
                         <ArrowRight className="h-4 w-4 shrink-0 opacity-60" aria-hidden />
                       </Link>
                     );
@@ -1929,12 +1940,19 @@ const Header = ({
                           key={item.nameKey}
                           href={item.href}
                           aria-current={current ? "page" : undefined}
-                          className={`flex min-h-[44px] items-center justify-between gap-3 rounded-md py-2.5 pl-5 pr-3 text-sm font-medium transition-colors hover:bg-white/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40 ${
+                          className={`flex min-h-[44px] items-center justify-between gap-3 rounded-md py-2.5 pl-5 pr-3 transition-colors hover:bg-white/5 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40 ${
                             current ? "bg-primary/10 text-primary" : "text-slate-300"
                           }`}
                           onClick={(event) => handleMobileNavClick(event, "/partners")}
                         >
-                          {t(item.nameKey)}
+                          <span className="min-w-0">
+                            <span className="block text-sm font-medium">{t(item.nameKey)}</span>
+                            {"descKey" in item && item.descKey ? (
+                              <span className="mt-0.5 block text-xs font-normal leading-snug text-slate-500">
+                                {t(item.descKey)}
+                              </span>
+                            ) : null}
+                          </span>
                           <ArrowRight className="h-4 w-4 shrink-0 opacity-60" aria-hidden />
                         </Link>
                       );

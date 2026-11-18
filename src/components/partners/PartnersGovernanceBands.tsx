@@ -7,11 +7,30 @@ import {
 import Reveal from '@/components/motion/Reveal'
 
 type Props = {
-  variant?: 'full' | 'compact'
+  variant?: 'full' | 'compact' | 'disclosure'
 }
 
 export default async function PartnersGovernanceBands({ variant = 'full' }: Props) {
   const t = await getTranslations('partnersPlatforms')
+
+  const disclosure = (
+    <Reveal delayMs={variant === 'disclosure' ? 0 : 100} className="border-t border-slate-200 pt-6">
+      <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">{t('disclosureVersionEyebrow')}</p>
+      <p className="mt-2 text-sm leading-6 text-slate-700">
+        {t('disclosureVersionBody', {
+          version: ECOSYSTEM_DISCLOSURE_VERSION,
+          date: ECOSYSTEM_DISCLOSURE_EFFECTIVE,
+        })}
+      </p>
+      <Link href="/terms" className="mt-3 inline-flex text-sm font-semibold text-primary-dark hover:underline">
+        {t('termsLink')}
+      </Link>
+    </Reveal>
+  )
+
+  if (variant === 'disclosure') {
+    return <div className="space-y-6">{disclosure}</div>
+  }
 
   return (
     <div className={variant === 'full' ? 'space-y-8' : 'space-y-6'}>
@@ -27,18 +46,7 @@ export default async function PartnersGovernanceBands({ variant = 'full' }: Prop
         <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-700">{t('securityBody')}</p>
       </Reveal>
 
-      <Reveal delayMs={100} className="border-t border-slate-200 pt-6">
-        <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">{t('disclosureVersionEyebrow')}</p>
-        <p className="mt-2 text-sm leading-6 text-slate-700">
-          {t('disclosureVersionBody', {
-            version: ECOSYSTEM_DISCLOSURE_VERSION,
-            date: ECOSYSTEM_DISCLOSURE_EFFECTIVE,
-          })}
-        </p>
-        <Link href="/terms" className="mt-3 inline-flex text-sm font-semibold text-primary-dark hover:underline">
-          {t('termsLink')}
-        </Link>
-      </Reveal>
+      {disclosure}
     </div>
   )
 }

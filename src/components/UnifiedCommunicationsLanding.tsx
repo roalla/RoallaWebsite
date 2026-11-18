@@ -111,6 +111,9 @@ const copy = {
     aiLink: 'Explore AI Employee by industry',
     logoStripEyebrow: 'Platforms and partners we can source through',
     logoStripLabel: 'Communications platform partners',
+    allianceLine:
+      'When CX or contact-centre delivery needs specialized partners, ROALLA can extend the engagement through the Alliance Network—while you keep ROALLA as your guide.',
+    allianceCta: 'See Alliance Network delivery',
   },
   fr: {
     metadataPath: '/services/unified-communications-contact-centres-ai-employees',
@@ -140,6 +143,9 @@ const copy = {
     relatedTitle: 'Vous explorez déjà une partie du modèle?', techLink: 'Explorer le conseil technologique', aiLink: 'Explorer l’employé IA par industrie',
     logoStripEyebrow: 'Plateformes et partenaires que nous pouvons sourcer',
     logoStripLabel: 'Partenaires de plateformes de communications',
+    allianceLine:
+      'Lorsque la livraison CX ou centre de contact exige des partenaires spécialisés, ROALLA peut étendre le mandat via le réseau d’alliances—pendant que vous gardez ROALLA comme guide.',
+    allianceCta: 'Voir la livraison du réseau d’alliances',
   },
 } as const
 
@@ -233,6 +239,19 @@ export default function UnifiedCommunicationsLanding({ locale }: { locale: strin
         </section>
 
         <UnifiedCommunicationsLogoStrip eyebrow={c.logoStripEyebrow} listLabel={c.logoStripLabel} />
+
+        <div className="border-b border-slate-200 bg-white py-8">
+          <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+            <p className="max-w-3xl text-sm leading-6 text-slate-600">{c.allianceLine}</p>
+            <Link
+              href="/partners/strategic-relationships#alliance-network"
+              className="inline-flex shrink-0 items-center text-sm font-semibold text-primary-dark hover:underline"
+            >
+              {c.allianceCta}
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+        </div>
 
         <section id="challenge-selector" className="scroll-mt-24 border-b border-slate-200 bg-slate-50 py-20">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">

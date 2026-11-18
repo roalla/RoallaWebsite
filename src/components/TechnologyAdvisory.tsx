@@ -247,6 +247,15 @@ const TechnologyAdvisory = () => {
               {copy.trust.partnersCta}
             </Link>
           </p>
+          <p className="mt-3 max-w-4xl text-sm leading-6 text-slate-700">
+            {copy.trust.allianceLine}{' '}
+            <Link
+              href="/partners/strategic-relationships#alliance-network"
+              className="font-semibold text-primary-dark underline-offset-4 hover:underline"
+            >
+              {copy.trust.allianceCta}
+            </Link>
+          </p>
         </div>
       </aside>
 

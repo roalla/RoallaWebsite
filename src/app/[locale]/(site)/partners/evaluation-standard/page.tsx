@@ -47,7 +47,7 @@ export default async function EvaluationStandardPage({ params }: Props) {
         data={[
           breadcrumbJsonLd(locale, [
             { name: tBreadcrumb('home'), path: '' },
-            { name: t('title'), path: '/partners' },
+            { name: t('breadcrumbTitle'), path: '/partners' },
             { name: t('standardTitle') },
           ]),
           webPageJsonLd(locale, path, t('standardTitle'), t('evaluationMetadataDescription')),
@@ -78,7 +78,7 @@ export default async function EvaluationStandardPage({ params }: Props) {
           <Breadcrumb
             items={[
               { label: tBreadcrumb('home'), href: '/' },
-              { label: t('title'), href: '/partners' },
+              { label: t('breadcrumbTitle'), href: '/partners' },
               { label: t('standardTitle') },
             ]}
           />

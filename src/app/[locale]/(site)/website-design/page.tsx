@@ -50,7 +50,7 @@ export default async function WebsiteDesignPage() {
   }
 
   return (
-    <div className="page-shell">
+    <div className="page-shell bg-white">
       <Script
         id="website-design-jsonld"
         type="application/ld+json"
@@ -61,10 +61,7 @@ export default async function WebsiteDesignPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
-      <div className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent" aria-hidden />
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
-        <WebsiteDesignLanding />
-      </div>
+      <WebsiteDesignLanding />
     </div>
   )
 }

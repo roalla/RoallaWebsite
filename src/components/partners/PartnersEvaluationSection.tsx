@@ -2,6 +2,7 @@ import { getLocale, getTranslations } from 'next-intl/server'
 import PartnersBrandLockup from '@/components/partners/PartnersBrandLockup'
 import PartnersEnterpriseArtifacts from '@/components/partners/PartnersEnterpriseArtifacts'
 import PartnersEvaluationChecklist from '@/components/partners/PartnersEvaluationChecklist'
+import PartnersEvaluationFlow from '@/components/partners/PartnersEvaluationFlow'
 
 const standardKeys = [
   'standard1',
@@ -33,6 +34,7 @@ export default async function PartnersEvaluationSection() {
           tone="light"
         />
       </div>
+      <PartnersEvaluationFlow />
       <PartnersEvaluationChecklist
         intro={t('standardIntro')}
         progressLabel={t('evaluationProgress')}

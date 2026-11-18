@@ -2,16 +2,14 @@ import React from 'react'
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import HomeHero from '@/components/home/HomeHero'
-import HomeWhatWeDo from '@/components/home/HomeWhatWeDo'
+import HomeProofStrip from '@/components/home/HomeProofStrip'
 import HomeBusinessOutcomes from '@/components/home/HomeBusinessOutcomes'
-import HomeCommunicationsFeature from '@/components/home/HomeCommunicationsFeature'
 import HomeResults from '@/components/home/HomeResults'
-import HomeFeaturedInsight from '@/components/home/HomeFeaturedInsight'
+import HomeWhatWeDo from '@/components/home/HomeWhatWeDo'
+import HomeEcosystemLink from '@/components/home/HomeEcosystemLink'
 import HomeCTA from '@/components/home/HomeCTA'
+import HomeFeaturedInsight from '@/components/home/HomeFeaturedInsight'
 import HomeClosing from '@/components/home/HomeClosing'
-import HomeTrustBand from '@/components/home/HomeTrustBand'
-import HomeTechnologyEcosystem from '@/components/home/HomeTechnologyEcosystem'
-import TechnologyDecisionFramework from '@/components/TechnologyDecisionFramework'
 import { buildPageMetadata } from '@/lib/page-metadata'
 import JsonLd from '@/components/JsonLd'
 import { homeServiceCatalogJsonLd, webPageJsonLd } from '@/lib/structured-data'
@@ -45,17 +43,13 @@ export default async function Home({ params }: Props) {
         ]}
       />
       <HomeHero />
-      <HomeTrustBand />
+      <HomeProofStrip />
       <HomeBusinessOutcomes />
-      <HomeCommunicationsFeature />
-      <HomeWhatWeDo />
       <HomeResults />
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8">
-        <TechnologyDecisionFramework compact />
-      </div>
-      <HomeTechnologyEcosystem />
-      <HomeFeaturedInsight />
+      <HomeWhatWeDo />
+      <HomeEcosystemLink />
       <HomeCTA />
+      <HomeFeaturedInsight />
       <HomeClosing />
     </div>
   )

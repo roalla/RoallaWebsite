@@ -1,40 +1,46 @@
 'use client'
 
 import Image from 'next/image'
-import { ArrowRight, Bot, LineChart, Workflow } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import Reveal from '../motion/Reveal'
 import { getPortfolioItem, portfolioImageAlts } from '@/lib/digitalPortfolio'
 
-const tiles = [
-  { key: 'product', icon: Bot, kind: 'visual' as const },
-  { key: 'advisory', icon: LineChart, kind: 'quote' as const },
-  { key: 'automation', icon: Workflow, kind: 'quote' as const },
-] as const
+const metrics = ['metric1', 'metric2', 'metric3'] as const
 
 export default function HomeResults() {
   const t = useTranslations('home.results')
   const pitch = getPortfolioItem('pitch-hotshots')
 
   return (
-    <section id="our-work" className="relative scroll-mt-24 bg-white py-14 lg:py-20">
-      <div className="section-divider" />
+    <section id="our-work" className="relative scroll-mt-24 bg-slate-50 py-16 lg:py-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal className="mx-auto mb-10 max-w-2xl text-center">
+        <Reveal className="mb-12 max-w-3xl">
           <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-primary-dark">{t('eyebrow')}</p>
-          <h2 className="font-serif text-2xl font-bold text-slate-900 md:text-3xl">{t('title')}</h2>
-          <p className="mt-3 text-slate-600">{t('description')}</p>
+          <h2 className="font-serif text-3xl font-bold text-slate-900 md:text-4xl">{t('title')}</h2>
+          <p className="mt-3 text-lg text-slate-600">{t('description')}</p>
         </Reveal>
 
-        <div className="mx-auto grid max-w-6xl gap-5 md:grid-cols-3 lg:gap-6">
-          {tiles.map(({ key, icon: Icon, kind }, index) => (
-            <Reveal
-              key={key}
-              delayMs={index * 60}
-              className="home-tile group flex h-full flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-slate-50 to-white"
-            >
-              {kind === 'visual' && pitch?.imageUrl ? (
+        <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
+          <div className="grid gap-8 sm:grid-cols-3 lg:col-span-7">
+            {metrics.map((key, index) => (
+              <Reveal key={key} delayMs={index * 40} className="border-t border-slate-300 pt-5">
+                <p className="font-serif text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+                  {t(`${key}Value`)}
+                </p>
+                <p className="mt-2 text-sm font-semibold text-slate-900">{t(`${key}Label`)}</p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">{t(`${key}Body`)}</p>
+              </Reveal>
+            ))}
+          </div>
+
+          {pitch?.imageUrl ? (
+            <Reveal delayMs={80} className="lg:col-span-5">
+              <Link
+                href="/services/portfolio"
+                className="group block overflow-hidden border border-slate-200 bg-white"
+              >
                 <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
                   <Image
                     src={pitch.imageUrl}
@@ -42,55 +48,34 @@ export default function HomeResults() {
                     fill
                     unoptimized
                     decoding="async"
-                    sizes="(max-width: 767px) 100vw, 360px"
+                    sizes="(max-width: 1023px) 100vw, 40vw"
                     className="object-cover object-top transition-transform duration-500 motion-safe:group-hover:scale-[1.03]"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/55 via-slate-950/10 to-transparent" aria-hidden />
-                  <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-slate-950/70 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur">
-                    <Icon className="h-3 w-3 text-cyan-300" aria-hidden />
-                    {t(`${key}Badge`)}
+                  <div
+                    className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"
+                    aria-hidden
+                  />
+                  <p className="absolute bottom-4 left-4 right-4 font-serif text-lg font-bold text-white">
+                    {t('liveExampleTitle')}
+                  </p>
+                </div>
+                <div className="p-5">
+                  <p className="text-sm leading-relaxed text-slate-600">{t('liveExampleBody')}</p>
+                  <span className="mt-4 inline-flex items-center text-sm font-semibold text-primary-dark">
+                    {t('liveExampleCta')}
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
                   </span>
                 </div>
-              ) : (
-                <div className="flex items-center gap-3 border-b border-slate-100 px-5 pt-5 sm:px-6 sm:pt-6">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-primary/15 bg-primary/10">
-                    <Icon className="h-5 w-5 text-primary-dark" aria-hidden />
-                  </span>
-                  <p className="text-[11px] font-bold uppercase tracking-wider text-primary-dark">{t(`${key}Badge`)}</p>
-                </div>
-              )}
-
-              <div className="flex flex-1 flex-col p-5 sm:p-6">
-                {kind === 'quote' ? (
-                  <blockquote className="flex-1">
-                    <p className="text-sm leading-relaxed text-slate-700">
-                      <span className="mr-1 font-serif text-lg leading-none text-primary" aria-hidden>
-                        “
-                      </span>
-                      {t(`${key}Quote`)}
-                    </p>
-                  </blockquote>
-                ) : (
-                  <p className="flex-1 text-sm leading-relaxed text-slate-700">{t(`${key}Body`)}</p>
-                )}
-                <footer className="mt-5 border-t border-slate-200 pt-4">
-                  <p className="text-sm font-semibold text-slate-900">{t(`${key}Name`)}</p>
-                  <p className="mt-0.5 text-xs text-slate-600">{t(`${key}Meta`)}</p>
-                </footer>
-              </div>
+              </Link>
             </Reveal>
-          ))}
+          ) : null}
         </div>
 
-        <Reveal className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-6">
+        <Reveal className="mt-12">
           <Link
-            href="/contact"
+            href="/services/portfolio"
             className="inline-flex min-h-11 items-center justify-center rounded-lg bg-primary px-5 text-sm font-semibold text-white transition-colors hover:bg-cyan-600"
           >
-            {t('primaryCta')}
-            <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-          </Link>
-          <Link href="/services/portfolio" className="link-action inline-flex items-center text-sm font-semibold hover:underline">
             {t('secondaryCta')}
             <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
           </Link>

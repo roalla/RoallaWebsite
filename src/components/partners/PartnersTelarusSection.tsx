@@ -25,16 +25,19 @@ const categoryIcons = [CloudCog, ShieldCheck, Bot, PhoneCall, Network, Radio] as
 const categoryKeys = ['category1', 'category2', 'category3', 'category4', 'category5', 'category6'] as const
 
 const allianceIcons = [Cog, Layers, Headset, Cloud, Bot, LayoutGrid, Shield, BarChart3] as const
-const allianceCategoryKeys = [
-  'allianceCategory1',
-  'allianceCategory2',
-  'allianceCategory3',
-  'allianceCategory4',
-  'allianceCategory5',
-  'allianceCategory6',
-  'allianceCategory7',
-  'allianceCategory8',
-] as const
+const allianceCategories = [
+  { key: 'allianceCategory1' as const, href: '/services/digital' as const },
+  { key: 'allianceCategory2' as const, href: '/services/managed-optimization' as const },
+  {
+    key: 'allianceCategory3' as const,
+    href: '/services/unified-communications-contact-centres-ai-employees' as const,
+  },
+  { key: 'allianceCategory4' as const, href: '/services/technology-advisory' as const },
+  { key: 'allianceCategory5' as const, href: '/ai-employee' as const },
+  { key: 'allianceCategory6' as const, href: '/services/digital-products' as const },
+  { key: 'allianceCategory7' as const, href: '/services/security-risk-compliance' as const },
+  { key: 'allianceCategory8' as const, href: '/services/managed-optimization' as const },
+]
 
 export default async function PartnersTelarusSection() {
   const t = await getTranslations('partnersPlatforms')
@@ -75,9 +78,10 @@ export default async function PartnersTelarusSection() {
                 {t('strategicRelationshipsTitle')}
               </p>
               <h2 id="telarus-heading" className="mt-1 font-serif text-2xl font-bold text-slate-900 sm:text-3xl">
-                {t('telarusTitle')}
+                {t('strategicClientLeadTitle')}
               </h2>
             </div>
+            <p className="text-base leading-7 text-slate-700">{t('strategicClientLeadBody')}</p>
             <p className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-700">
               <span className="font-semibold text-slate-900">{t('businessNeedLabel')}:</span>{' '}
               {tEco('telarus.need')}
@@ -102,7 +106,8 @@ export default async function PartnersTelarusSection() {
 
       <Reveal delayMs={60} className="mt-8">
         <div
-          className="rounded-xl border border-slate-200 bg-white px-4 py-5 sm:px-5"
+          id="alliance-network"
+          className="scroll-mt-28 rounded-xl border border-slate-200 bg-white px-4 py-5 sm:px-5"
           aria-labelledby="alliance-network-heading"
         >
           <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
@@ -125,19 +130,41 @@ export default async function PartnersTelarusSection() {
               <span className="font-medium">{t('allianceProof2')}</span>
             </li>
           </ul>
-          <ul className="mt-5 flex flex-wrap gap-2">
-            {allianceCategoryKeys.map((key, index) => {
+          <p className="mt-5 text-xs font-semibold uppercase tracking-wider text-slate-500">
+            {t('allianceServicesLabel')}
+          </p>
+          <ul className="mt-3 flex flex-wrap gap-2">
+            {allianceCategories.map((item, index) => {
               const Icon = allianceIcons[index]
               return (
-                <li key={key}>
-                  <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm font-medium text-slate-800">
+                <li key={item.key}>
+                  <Link
+                    href={item.href}
+                    className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3.5 py-2 text-sm font-medium text-slate-800 transition hover:border-primary hover:bg-white hover:text-primary-dark"
+                  >
                     <Icon className="h-4 w-4 shrink-0 text-primary-dark" aria-hidden />
-                    {t(key)}
-                  </span>
+                    {t(item.key)}
+                  </Link>
                 </li>
               )
             })}
           </ul>
+          <div className="mt-6 flex flex-col gap-3 border-t border-slate-200 pt-5 sm:flex-row sm:items-center sm:gap-5">
+            <Link
+              href={{ pathname: '/contact', query: { intent: 'consulting', focus: 'technology' } }}
+              className="inline-flex min-h-11 items-center justify-center rounded-lg bg-primary px-5 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
+            >
+              {t('allianceCta')}
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Link>
+            <Link
+              href="/tools/technology-decision-brief"
+              className="inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
+            >
+              {t('allianceBriefCta')}
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Link>
+          </div>
         </div>
       </Reveal>
 
@@ -153,6 +180,7 @@ export default async function PartnersTelarusSection() {
             </span>
           </summary>
           <div className="space-y-4 border-t border-slate-200 px-4 py-4 sm:px-5">
+            <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">{t('telarusTitle')}</p>
             <p className="leading-relaxed text-slate-700">{t('telarusBody')}</p>
             <div className="border-l-2 border-primary/40 pl-4">
               <p className="text-sm font-semibold text-slate-900">{t('positioningTitle')}</p>

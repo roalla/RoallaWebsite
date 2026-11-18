@@ -23,6 +23,7 @@ export const partnersSectionNav = [
   {
     path: '/partners/strategic-relationships',
     labelKey: 'strategicRelationshipsTitle',
+    descriptionKey: 'strategicRelationshipsHubHint',
   },
   {
     path: '/partners/technology-providers',

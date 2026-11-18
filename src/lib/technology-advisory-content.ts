@@ -32,6 +32,8 @@ export type TechnologyAdvisoryCopy = {
   trust: {
     disclosureLine: string
     partnersCta: string
+    allianceLine: string
+    allianceCta: string
   }
   journeys: {
     eyebrow: string
@@ -79,6 +81,9 @@ const en: TechnologyAdvisoryCopy = {
     disclosureLine:
       "Needs-led advice with disclosed supplier relationships—recommendations start from your requirements, not a preferred product.",
     partnersCta: "Review supplier access and disclosures",
+    allianceLine:
+      "When specialized delivery is required, ROALLA can extend the engagement through the Telarus Alliance Network—while you keep ROALLA as your guide.",
+    allianceCta: "See Alliance Network delivery",
   },
   journeys: {
     eyebrow: "Your fastest path to clarity",
@@ -249,6 +254,9 @@ const fr: TechnologyAdvisoryCopy = {
     disclosureLine:
       "Conseil fondé sur les besoins avec relations fournisseurs divulguées—les recommandations partent de vos exigences, pas d’un produit préféré.",
     partnersCta: "Voir l’accès aux fournisseurs et les divulgations",
+    allianceLine:
+      "Lorsqu’une livraison spécialisée est requise, ROALLA peut étendre le mandat via le réseau d’alliances Telarus—pendant que vous gardez ROALLA comme guide.",
+    allianceCta: "Voir la livraison du réseau d’alliances",
   },
   journeys: {
     ...en.journeys,

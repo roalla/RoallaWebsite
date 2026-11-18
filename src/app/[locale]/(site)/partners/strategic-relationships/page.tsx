@@ -6,8 +6,9 @@ import StickyMobileCTA from '@/components/StickyMobileCTA'
 import PartnersClosingCta from '@/components/partners/PartnersClosingCta'
 import PartnersHubContinue from '@/components/partners/PartnersHubContinue'
 import PartnersPageActions from '@/components/partners/PartnersPageActions'
+import PartnersProcurementMatrix from '@/components/partners/PartnersProcurementMatrix'
 import PartnersProofVignette from '@/components/partners/PartnersProofVignette'
-import PartnersRelationshipMatrix from '@/components/partners/PartnersRelationshipMatrix'
+import PartnersRelationshipModel from '@/components/partners/PartnersRelationshipModel'
 import PartnersSectionHero from '@/components/partners/PartnersSectionHero'
 import PartnersSectionNav from '@/components/partners/PartnersSectionNav'
 import PartnersTelarusSection from '@/components/partners/PartnersTelarusSection'
@@ -47,7 +48,7 @@ export default async function StrategicRelationshipsPage({ params }: Props) {
         data={[
           breadcrumbJsonLd(locale, [
             { name: tBreadcrumb('home'), path: '' },
-            { name: t('title'), path: '/partners' },
+            { name: t('breadcrumbTitle'), path: '/partners' },
             { name: t('strategicRelationshipsTitle') },
           ]),
           webPageJsonLd(locale, path, t('strategicRelationshipsTitle'), t('strategicMetadataDescription')),
@@ -57,7 +58,7 @@ export default async function StrategicRelationshipsPage({ params }: Props) {
       <PartnersSectionHero
         pagePath={path}
         eyebrow={t('strategicRelationshipsTitle')}
-        title={t('telarusTitle')}
+        title={t('strategicHeroTitle')}
         description={t('strategicHeroDescription')}
         imageSrc={ogImage}
         primaryCta={{
@@ -77,7 +78,7 @@ export default async function StrategicRelationshipsPage({ params }: Props) {
           <Breadcrumb
             items={[
               { label: tBreadcrumb('home'), href: '/' },
-              { label: t('title'), href: '/partners' },
+              { label: t('breadcrumbTitle'), href: '/partners' },
               { label: t('strategicRelationshipsTitle') },
             ]}
           />
@@ -89,9 +90,10 @@ export default async function StrategicRelationshipsPage({ params }: Props) {
       </div>
 
       <div className="container mx-auto px-4 pb-12 sm:px-6 lg:px-8 lg:pb-16">
+        <PartnersRelationshipModel />
         <PartnersTelarusSection />
         <div className="mt-10">
-          <PartnersRelationshipMatrix telarusOnly />
+          <PartnersProcurementMatrix telarusOnly />
         </div>
         <PartnersProofVignette />
       </div>

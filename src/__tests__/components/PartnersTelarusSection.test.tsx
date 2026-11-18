@@ -77,7 +77,14 @@ describe('PartnersTelarusSection', () => {
     expect(screen.getByText('allianceBody')).toBeInTheDocument()
     expect(screen.getByText('allianceProof1')).toBeInTheDocument()
     expect(screen.getByText('allianceProof2')).toBeInTheDocument()
+    expect(screen.getByText('allianceServicesLabel')).toBeInTheDocument()
     expect(screen.getByText('allianceCategory5')).toBeInTheDocument()
     expect(screen.getByText('allianceCategory8')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'allianceCategory5' })).toHaveAttribute(
+      'href',
+      '/ai-employee',
+    )
+    expect(screen.getByRole('link', { name: 'allianceCta' })).toBeInTheDocument()
+    expect(document.getElementById('alliance-network')).toBeTruthy()
   })
 })

@@ -1,152 +1,102 @@
-import React from 'react'
+import React, { type CSSProperties } from 'react'
 
 type VisualProps = {
   className?: string
 }
 
-function Spark({ className = '' }: VisualProps) {
-  return <span className={`roalla-hero-spark ${className}`} aria-hidden />
-}
+const networkNodes = [
+  [72, 86, 7], [148, 48, 5], [214, 116, 6], [314, 62, 8], [410, 104, 5],
+  [472, 54, 6], [98, 214, 5], [188, 192, 8], [282, 218, 6], [382, 184, 7],
+  [486, 232, 5], [130, 330, 7], [238, 300, 5], [344, 326, 8], [446, 304, 6],
+] as const
+
+const networkPaths = [
+  'M72 86C118 62 155 67 214 116S270 75 314 62S385 86 410 104S449 71 472 54',
+  'M72 86C80 142 72 180 98 214S157 181 188 192S242 224 282 218S341 177 382 184S451 210 486 232',
+  'M98 214C121 257 107 293 130 330S204 306 238 300S300 309 344 326S408 289 446 304',
+  'M214 116C222 168 244 179 282 218S303 283 344 326',
+  'M410 104C397 134 395 151 382 184S407 262 446 304',
+] as const
 
 export function ConnectedIntelligenceVisual({ className = '' }: VisualProps) {
-  const nodes = [
-    { label: 'Strategy', className: 'left-[5%] top-[14%]' },
-    { label: 'Technology', className: 'right-[3%] top-[18%]' },
-    { label: 'Automation', className: 'bottom-[12%] right-[8%]' },
-    { label: 'Growth', className: 'bottom-[8%] left-[7%]' },
-  ]
-
   return (
-    <div
-      className={`roalla-hero-visual roalla-connected-intelligence ${className}`}
-      data-testid="connected-intelligence-hero"
-      aria-hidden
-    >
-      <div className="roalla-visual-grid" />
-      <div className="roalla-orbit roalla-orbit-wide" />
-      <div className="roalla-orbit roalla-orbit-tight" />
-      <svg className="absolute inset-[8%] h-[84%] w-[84%]" viewBox="0 0 520 420" fill="none">
-        <path className="roalla-data-path" pathLength="1" d="M74 74C154 91 179 142 260 210C337 274 392 271 454 337" />
-        <path className="roalla-data-path roalla-data-path-reverse" pathLength="1" d="M446 81C373 104 332 141 260 210C188 278 136 303 71 344" />
-        <path className="roalla-data-path roalla-data-path-soft" pathLength="1" d="M70 77C134 183 159 223 71 343M446 82C371 178 373 250 454 337" />
+    <div className={`roalla-hero-visual roalla-connected-intelligence ${className}`} data-testid="connected-intelligence-hero" aria-hidden>
+      <div className="roalla-network-aura" />
+      <svg className="roalla-network-map" viewBox="0 0 540 390" fill="none">
+        <defs>
+          <filter id="network-glow" x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur stdDeviation="4" result="blur" />
+            <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
+          <radialGradient id="node-fill"><stop stopColor="#E9FDFF" /><stop offset=".35" stopColor="#00B4C5" /><stop offset="1" stopColor="#006A78" /></radialGradient>
+        </defs>
+        <g className="roalla-network-lines">{networkPaths.map((path) => <path key={path} d={path} />)}</g>
+        <g className="roalla-network-pulses" filter="url(#network-glow)">
+          {networkPaths.map((path, index) => <path key={path} d={path} pathLength="100" style={{ animationDelay: `${index * -1.35}s` }} />)}
+        </g>
+        <g className="roalla-network-nodes" filter="url(#network-glow)">
+          {networkNodes.map(([cx, cy, r], index) => (
+            <g key={`${cx}-${cy}`} style={{ animationDelay: `${index * -0.21}s` }}>
+              <circle className="roalla-network-node-halo" cx={cx} cy={cy} r={r + 7} />
+              <circle cx={cx} cy={cy} r={r} fill="url(#node-fill)" />
+              <circle cx={cx - r * 0.25} cy={cy - r * 0.28} r={Math.max(1.2, r * 0.22)} fill="white" />
+            </g>
+          ))}
+        </g>
       </svg>
-      <div className="roalla-core">
-        <span className="roalla-core-halo" />
-        <span className="text-[10px] font-bold tracking-[0.24em] text-white sm:text-xs">ROALLA</span>
-        <span className="mt-1 text-[8px] font-semibold uppercase tracking-[0.14em] text-cyan-200 sm:text-[9px]">
-          Connected
-        </span>
-      </div>
-      {nodes.map((node, index) => (
-        <div key={node.label} className={`roalla-intelligence-node ${node.className}`}>
-          <span className="roalla-node-dot" style={{ animationDelay: `${index * -0.7}s` }} />
-          <span>{node.label}</span>
-        </div>
-      ))}
-      <Spark className="left-[25%] top-[31%]" />
-      <Spark className="bottom-[27%] right-[24%]" />
+      <div className="roalla-network-signal roalla-network-signal-a" />
+      <div className="roalla-network-signal roalla-network-signal-b" />
+      <div className="roalla-network-signal roalla-network-signal-c" />
     </div>
   )
+}
+
+function MiniBars() {
+  return <div className="roalla-command-bars">{[38, 68, 49, 82, 61, 92, 74].map((height, index) => <span key={index} style={{ height: `${height}%`, animationDelay: `${index * 90}ms` }} />)}</div>
 }
 
 export function DigitalCommandCentreVisual({ className = '' }: VisualProps) {
   return (
-    <div
-      className={`roalla-hero-visual roalla-command-centre ${className}`}
-      data-testid="digital-command-centre-hero"
-      aria-hidden
-    >
-      <div className="roalla-visual-grid" />
-      <div className="roalla-command-shell">
-        <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-          <div>
-            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-cyan-300">Digital command centre</p>
-            <p className="mt-1 text-xs font-semibold text-white">Decision intelligence</p>
-          </div>
-          <span className="inline-flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.12em] text-emerald-300">
-            <span className="roalla-status-pulse" /> Live
-          </span>
-        </div>
-        <div className="grid grid-cols-[1.25fr_.75fr] gap-3 p-3">
-          <div className="rounded-lg border border-white/10 bg-slate-950/55 p-3">
-            <div className="flex items-center justify-between text-[9px] font-semibold text-slate-400">
-              <span>READINESS SIGNAL</span><span className="text-cyan-300">84%</span>
-            </div>
-            <svg className="mt-3 h-20 w-full" viewBox="0 0 250 80" fill="none">
-              <defs>
-                <linearGradient id="command-fill" x1="0" y1="0" x2="0" y2="1">
-                  <stop stopColor="#22D3EE" stopOpacity=".32" />
-                  <stop offset="1" stopColor="#22D3EE" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-              <path d="M2 69L34 59L64 63L96 43L126 48L158 28L190 35L220 13L248 18V80H2Z" fill="url(#command-fill)" />
-              <path className="roalla-chart-line" pathLength="1" d="M2 69L34 59L64 63L96 43L126 48L158 28L190 35L220 13L248 18" />
-            </svg>
-            <div className="mt-2 grid grid-cols-3 gap-2">
-              {['Fit', 'Risk', 'Value'].map((label, index) => (
-                <div key={label} className="rounded-md bg-white/[0.045] px-2 py-2">
-                  <p className="text-[8px] uppercase tracking-wider text-slate-500">{label}</p>
-                  <p className="mt-1 text-xs font-bold text-white">{[92, 18, 87][index]}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="space-y-3">
-            <div className="rounded-lg border border-cyan-300/20 bg-cyan-300/[0.07] p-3">
-              <p className="text-[8px] uppercase tracking-[0.14em] text-cyan-200">Priority</p>
-              <p className="mt-2 text-xs font-semibold leading-4 text-white">Unify the customer journey</p>
-              <div className="mt-3 h-1 overflow-hidden rounded-full bg-white/10"><span className="roalla-progress block h-full w-4/5 bg-cyan-300" /></div>
-            </div>
-            <div className="rounded-lg border border-amber-300/20 bg-amber-300/[0.06] p-3">
-              <p className="text-[8px] uppercase tracking-[0.14em] text-amber-200">Next decision</p>
-              <p className="mt-2 text-xs font-semibold leading-4 text-white">Compare viable paths</p>
-              <div className="mt-3 flex gap-1.5">{[0, 1, 2].map((item) => <span key={item} className="h-1.5 flex-1 rounded-full bg-amber-300/50" />)}</div>
-            </div>
-          </div>
-        </div>
+    <div className={`roalla-hero-visual roalla-command-centre ${className}`} data-testid="digital-command-centre-hero" aria-hidden>
+      <div className="roalla-command-horizon" />
+      <svg className="roalla-command-connectors" viewBox="0 0 480 400" fill="none">
+        <path d="M238 198C179 169 154 128 88 104" /><path d="M238 198C305 160 339 137 407 123" />
+        <path d="M238 198C183 245 153 269 96 302" /><path d="M238 198C301 239 333 267 405 292" />
+      </svg>
+      <div className="roalla-command-core"><span /><span /><span /></div>
+      <div className="roalla-glass-panel roalla-panel-analytics">
+        <div className="roalla-panel-topline"><span /><i>84</i></div>
+        <svg viewBox="0 0 190 66" fill="none"><path className="roalla-area-chart" d="M2 58L30 48L55 52L82 33L108 40L136 18L162 25L188 8V66H2Z" /><path className="roalla-line-chart" pathLength="1" d="M2 58L30 48L55 52L82 33L108 40L136 18L162 25L188 8" /></svg>
       </div>
-      <Spark className="right-[7%] top-[11%]" />
+      <div className="roalla-glass-panel roalla-panel-systems">
+        <div className="roalla-panel-topline"><span /><i>07</i></div>
+        <div className="roalla-system-grid">{Array.from({ length: 6 }, (_, index) => <span key={index}><i /></span>)}</div>
+      </div>
+      <div className="roalla-glass-panel roalla-panel-signals"><div className="roalla-panel-topline"><span /><i>92</i></div><MiniBars /></div>
+      <div className="roalla-glass-panel roalla-panel-status"><div className="roalla-status-orbit"><span /></div><div className="roalla-status-lines"><span /><span /><span /></div></div>
     </div>
   )
 }
 
-export function DigitalTransformationVisual({ className = '' }: VisualProps) {
-  const stages = [
-    { label: 'Capture', value: '01' },
-    { label: 'Connect', value: '02' },
-    { label: 'Automate', value: '03' },
-    { label: 'Improve', value: '04' },
-  ]
+const transformationParticles = Array.from({ length: 24 }, (_, index) => ({
+  x: 6 + ((index * 37) % 72), y: 5 + ((index * 53) % 88), delay: -(index % 8) * 0.38, size: index % 5 === 0 ? 5 : index % 3 === 0 ? 4 : 3,
+}))
 
+export function DigitalTransformationVisual({ className = '' }: VisualProps) {
   return (
-    <div
-      className={`roalla-hero-visual roalla-transformation ${className}`}
-      data-testid="digital-transformation-hero"
-      aria-hidden
-    >
-      <div className="roalla-visual-grid" />
-      <div className="roalla-transform-ring roalla-transform-ring-outer" />
-      <div className="roalla-transform-ring roalla-transform-ring-inner" />
-      <div className="roalla-transform-core">
-        <span className="text-[9px] font-bold uppercase tracking-[0.17em] text-cyan-200">Human</span>
-        <span className="mt-1 text-sm font-bold text-white">Control</span>
-        <span className="mt-1 text-[8px] uppercase tracking-[0.15em] text-amber-200">AI enabled</span>
+    <div className={`roalla-hero-visual roalla-transformation ${className}`} data-testid="digital-transformation-hero" aria-hidden>
+      <div className="roalla-transform-field">
+        {transformationParticles.map((particle, index) => (
+          <span key={index} className="roalla-transform-particle" style={{ '--particle-x': `${particle.x}%`, '--particle-y': `${particle.y}%`, '--particle-delay': `${particle.delay}s`, '--particle-size': `${particle.size}px` } as CSSProperties} />
+        ))}
       </div>
-      <svg className="absolute inset-[8%] h-[84%] w-[84%]" viewBox="0 0 480 400" fill="none">
-        <path className="roalla-data-path" pathLength="1" d="M57 101C155 69 162 158 240 200C318 242 331 314 428 295" />
-        <path className="roalla-data-path roalla-data-path-reverse" pathLength="1" d="M55 300C132 328 172 253 240 200C307 148 363 79 427 102" />
+      <svg className="roalla-workflow-lines" viewBox="0 0 500 390" fill="none">
+        <path pathLength="1" d="M64 92C136 92 121 194 194 194H255" /><path pathLength="1" d="M64 194H255" /><path pathLength="1" d="M64 296C136 296 121 194 194 194" />
+        <path pathLength="1" d="M255 194H318C359 194 357 102 408 102" /><path pathLength="1" d="M255 194H408" /><path pathLength="1" d="M255 194H318C359 194 357 286 408 286" />
       </svg>
-      {stages.map((stage, index) => {
-        const positions = ['left-[3%] top-[17%]', 'right-[2%] top-[17%]', 'bottom-[15%] right-[1%]', 'bottom-[13%] left-[2%]']
-        return (
-          <div key={stage.label} className={`roalla-transform-stage ${positions[index]}`}>
-            <span className="text-[8px] font-bold text-amber-200">{stage.value}</span>
-            <span>{stage.label}</span>
-          </div>
-        )
-      })}
-      <Spark className="left-[23%] top-[29%]" />
-      <Spark className="bottom-[28%] right-[22%]" />
+      <div className="roalla-convergence-core"><span /><span /><span /></div>
+      <div className="roalla-workflow-node roalla-workflow-node-a"><span /><i /></div><div className="roalla-workflow-node roalla-workflow-node-b"><span /><i /></div><div className="roalla-workflow-node roalla-workflow-node-c"><span /><i /></div>
+      <div className="roalla-workflow-node roalla-workflow-node-d"><span /><i /></div><div className="roalla-workflow-node roalla-workflow-node-e"><span /><i /></div><div className="roalla-workflow-node roalla-workflow-node-f"><span /><i /></div>
     </div>
   )
 }

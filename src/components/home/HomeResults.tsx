@@ -37,8 +37,10 @@ export default function HomeResults() {
 
           {pitch?.imageUrl ? (
             <Reveal delayMs={80} className="lg:col-span-5">
-              <Link
-                href="/services/portfolio"
+              <a
+                href={pitch.tryUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group block overflow-hidden border border-slate-200 bg-white"
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
@@ -66,17 +68,17 @@ export default function HomeResults() {
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
                   </span>
                 </div>
-              </Link>
+              </a>
             </Reveal>
           ) : null}
         </div>
 
         <Reveal className="mt-12">
           <Link
-            href="/services/portfolio"
+            href="/contact"
             className="inline-flex min-h-11 items-center justify-center rounded-lg bg-primary px-5 text-sm font-semibold text-white transition-colors hover:bg-cyan-600"
           >
-            {t('secondaryCta')}
+            {t('primaryCta')}
             <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
           </Link>
         </Reveal>

@@ -2,10 +2,10 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import { ArrowRight, ArrowUpRight } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Linkedin, Youtube } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
-import { CLIENT_PORTAL_URL, SSO_HOME_URL } from '@/lib/site'
+import { CLIENT_PORTAL_URL, SOCIAL_LINKS, SSO_HOME_URL } from '@/lib/site'
 
 const FOOTER_ATMOSPHERE_SRC = '/images/Hero/roalla-hero-homepage-desktop-2.webp'
 
@@ -27,14 +27,14 @@ const exploreLinks = [
 
 const socialLinks = [
   {
-    href: 'https://www.linkedin.com/company/102042431/',
+    href: SOCIAL_LINKS.linkedin,
     labelKey: 'linkedinAria' as const,
-    nameKey: 'linkedin' as const,
+    Icon: Linkedin,
   },
   {
-    href: 'https://www.youtube.com/@RoallaGroup',
+    href: SOCIAL_LINKS.youtube,
     labelKey: 'youtubeAria' as const,
-    nameKey: 'youtube' as const,
+    Icon: Youtube,
   },
 ] as const
 
@@ -174,32 +174,25 @@ const Footer = () => {
                     {t('sendMessage')}
                   </Link>
                 </li>
-                <li>
-                  <a
-                    href="tel:289-838-5868"
-                    className="text-base font-medium text-white underline-offset-4 transition-colors hover:text-brand-gold hover:underline"
-                  >
-                    (289) 838-5868
-                  </a>
-                </li>
               </ul>
 
-              <p className="mt-6 text-sm text-slate-400">
-                {socialLinks.map((item, index) => (
-                  <React.Fragment key={item.href}>
-                    {index > 0 ? <span className="mx-2 text-slate-600" aria-hidden>·</span> : null}
-                    <a
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={t(item.labelKey)}
-                      className="text-slate-300 transition-colors hover:text-brand-gold"
-                    >
-                      {t(item.nameKey)}
-                    </a>
-                  </React.Fragment>
+              <div className="mt-6 flex items-center gap-3">
+                {socialLinks.map(({ href, labelKey, Icon }) => (
+                  <a
+                    key={href}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={t(labelKey)}
+                    className="group inline-flex h-11 w-11 items-center justify-center rounded-lg border border-white/15 bg-white/5 text-slate-300 transition-all duration-300 hover:border-brand-gold/60 hover:bg-brand-gold/10 hover:text-brand-gold hover:shadow-[0_0_20px_rgba(212,175,55,0.45)] motion-safe:hover:-translate-y-1 motion-safe:hover:scale-110 motion-reduce:transition-colors"
+                  >
+                    <Icon
+                      className="h-5 w-5 transition-transform duration-300 motion-safe:group-hover:scale-110"
+                      aria-hidden
+                    />
+                  </a>
                 ))}
-              </p>
+              </div>
 
               <div className="mt-8 border-t border-brand-gold/40 pt-5">
                 <Link

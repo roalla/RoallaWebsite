@@ -59,7 +59,7 @@ export default function HomeBusinessOutcomes() {
                 href={{ pathname: '/solutions', hash: anchor }}
                 className="group flex h-full flex-col border-t border-slate-200 pt-5 transition hover:border-primary"
               >
-                <div className="relative mb-5 aspect-[16/10] overflow-hidden bg-slate-200">
+                <div className="relative mb-5 aspect-[16/10] overflow-hidden rounded-lg bg-slate-200">
                   <Image
                     src={image}
                     alt=""
@@ -73,7 +73,7 @@ export default function HomeBusinessOutcomes() {
                     className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-transparent"
                     aria-hidden
                   />
-                  <span className="absolute left-3 top-3 flex h-9 w-9 items-center justify-center border border-white/25 bg-slate-950/65 text-white backdrop-blur-sm">
+                  <span className="absolute left-3 top-3 flex h-9 w-9 items-center justify-center rounded-md border border-white/25 bg-slate-950/65 text-white backdrop-blur-sm">
                     <Icon className="h-4 w-4" aria-hidden />
                   </span>
                 </div>

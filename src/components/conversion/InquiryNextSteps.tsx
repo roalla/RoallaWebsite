@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from "react";
 import { useTranslations } from "next-intl";
@@ -10,8 +10,8 @@ const toneClass: Record<Tone, { wrap: string; step: string; title: string; body:
     wrap: "border-slate-200 bg-slate-50 text-slate-900",
     step: "bg-primary/10 text-primary-dark border-primary/20",
     title: "text-slate-900",
-    body: "text-slate-600",
-    risk: "text-slate-500",
+    body: "text-slate-700",
+    risk: "text-slate-600",
   },
   dark: {
     wrap: "border-white/15 bg-white/[0.06] text-white",
@@ -51,23 +51,23 @@ export default function InquiryNextSteps({
       className={`rounded-xl border px-4 py-4 sm:px-5 sm:py-5 ${styles.wrap} ${className}`}
       aria-label={t("label")}
     >
-      <p className={`text-xs font-semibold uppercase tracking-wider mb-3 ${styles.title}`}>
+      <p className={`mb-4 text-sm font-semibold uppercase tracking-wider ${styles.title}`}>
         {t("label")}
       </p>
-      <ol className="grid gap-3 sm:grid-cols-3">
+      <ol className="grid gap-4 lg:grid-cols-3">
         {steps.map((step, index) => (
           <li key={step.title} className="flex gap-3 min-w-0">
             <span
-              className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-md border text-xs font-bold ${styles.step}`}
+              className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md border text-sm font-bold ${styles.step}`}
               aria-hidden
             >
               {index + 1}
             </span>
             <span className="min-w-0">
-              <span className={`block text-sm font-semibold leading-snug ${styles.title}`}>
+              <span className={`block text-base font-semibold leading-snug ${styles.title}`}>
                 {step.title}
               </span>
-              <span className={`mt-0.5 block text-xs leading-relaxed ${styles.body}`}>
+              <span className={`mt-1 block text-sm leading-relaxed ${styles.body}`}>
                 {step.body}
               </span>
             </span>
@@ -75,7 +75,7 @@ export default function InquiryNextSteps({
         ))}
       </ol>
       {showRisk ? (
-        <p className={`mt-3 text-xs leading-relaxed border-t border-current/10 pt-3 ${styles.risk}`}>
+        <p className={`mt-4 border-t border-current/10 pt-3 text-sm leading-relaxed ${styles.risk}`}>
           {t("riskReversal")}
         </p>
       ) : null}

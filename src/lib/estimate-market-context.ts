@@ -10,7 +10,7 @@ import {
   isEstimateRegionId,
 } from '@/lib/estimate-regions'
 
-export type EstimateToolKind = 'website' | 'visibility' | 'email' | 'workshop'
+export type EstimateToolKind = 'website' | 'visibility' | 'email' | 'workshop' | 'pci-dss'
 
 export type EstimateMarketId = IndustryHubId | 'other'
 
@@ -84,6 +84,10 @@ function toolAngle(locale: string, tool: EstimateToolKind, marketId: IndustryHub
       return fr
         ? `Pour ${getEstimateMarketLabel(locale, marketId)}, un atelier utile produit une décision, une pratique ou un engagement nommé—pas seulement une discussion.`
         : `For ${getEstimateMarketLabel(locale, marketId)}, a useful workshop produces a decision, practiced skill, or named commitment—not only discussion.`
+    case 'pci-dss':
+      return fr
+        ? `Pour ${getEstimateMarketLabel(locale, marketId)}, documentez chaque canal de paiement, fournisseur, responsabilité et preuve avant de choisir une voie de validation.`
+        : `For ${getEstimateMarketLabel(locale, marketId)}, document every payment channel, provider, responsibility, and item of evidence before choosing a validation path.`
   }
 }
 

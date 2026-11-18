@@ -47,6 +47,17 @@ describe('service action tiles', () => {
       },
     })
   })
+
+  it('links the public security service page to the PCI DSS readiness estimator', () => {
+    expect(getServiceActionBand('security').tiles).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: 'pci-dss-readiness',
+          href: '/pci-dss-readiness-estimate',
+        }),
+      ]),
+    )
+  })
 })
 
 describe('service trends 2027', () => {

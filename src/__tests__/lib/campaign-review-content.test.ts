@@ -12,7 +12,7 @@ describe('campaign review landing pages', () => {
         expect(page.fit.length).toBeGreaterThanOrEqual(4)
         expect(page.faqs.length).toBeGreaterThanOrEqual(3)
         expect(page.servicePath).toMatch(/^\/services\//)
-        expect(page.toolPath).toMatch(/^\/(assessment|contact|tools\/)/)
+        expect(page.toolPath).toMatch(/^\/(assessment|contact|tools\/|[a-z0-9-]+-estimate$)/)
       }
     }
   })
@@ -78,6 +78,7 @@ describe('campaign review landing pages', () => {
       intent: 'security',
       servicePath: '/services/security-risk-compliance',
       offer: 'PCI DSS Readiness Review',
+      toolPath: '/pci-dss-readiness-estimate',
     })
     expect(campaignReviewContent['pci-dss-readiness-review'].en.caveat).toMatch(/does not certify|ASV/i)
     expect(campaignReviewContent['pci-dss-readiness-review'].fr.caveat).toMatch(/ne certifie pas|ASV/i)

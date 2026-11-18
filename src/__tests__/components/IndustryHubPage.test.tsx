@@ -2,6 +2,7 @@ import React from 'react'
 import { render, screen, act } from '@testing-library/react'
 import IndustryHubPage from '@/components/industries/IndustryHubPage'
 import IndustryIndexPage from '@/components/industries/IndustryIndexPage'
+import { aiEmployeeContent } from '@/lib/ai-employee-content'
 import { getIndustryHub, getIndustryHubIndex } from '@/lib/industry-hub-content'
 
 jest.mock('next/image', () => ({
@@ -127,15 +128,19 @@ describe('Industry hub contrast and imagery', () => {
 
   it('hides path detail until a priority tile is selected', () => {
     const hub = getIndustryHub('en', 'legal')!
+    const aiIndustry = aiEmployeeContent.en.industries.find((item) => item.id === 'legal')!
     render(<IndustryHubPage locale="en" hub={hub} />)
 
-    expect(screen.queryByRole('heading', { name: /Client intake & new matters/i })).not.toBeInTheDocument()
+    expect(screen.queryByText(aiIndustry.positioning)).not.toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: /Strongest place to begin/i })).not.toBeInTheDocument()
     expect(screen.getByRole('listbox', { name: hub.ui.leadTilesTitle })).toBeInTheDocument()
   })
 
-  it('shows industry-scoped AI detail and Fit Brief conversion after selecting AI Employee', async () => {
+  it('shows landing-style AI detail and Fit Brief conversion after selecting AI Employee', async () => {
     const hub = getIndustryHub('en', 'legal')!
+    const aiIndustry = aiEmployeeContent.en.industries.find((item) => item.id === 'legal')!
+    const defaultAudience = aiIndustry.audiences[0]
+    const otherAudience = aiIndustry.audiences[1]
     render(<IndustryHubPage locale="en" hub={hub} />)
 
     await act(async () => {
@@ -143,12 +148,27 @@ describe('Industry hub contrast and imagery', () => {
     })
     await flushAnimationFrame()
 
-    expect(screen.getByRole('heading', { name: /Client intake & new matters/i })).toBeInTheDocument()
+    expect(screen.getByText(aiIndustry.positioning)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: aiIndustry.promise })).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: aiIndustry.image.alt })).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: new RegExp(defaultAudience.label, 'i') })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    )
+    expect(screen.getByRole('heading', { name: defaultAudience.uses[0].title })).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: otherAudience.uses[0].title })).not.toBeInTheDocument()
+
+    await act(async () => {
+      screen.getByRole('option', { name: new RegExp(otherAudience.label, 'i') }).click()
+    })
+    expect(screen.getByRole('heading', { name: otherAudience.uses[0].title })).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: defaultAudience.uses[0].title })).not.toBeInTheDocument()
+
     expect(screen.getByRole('heading', { name: /Strongest place to begin/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /Clear limits build trust/i })).toBeInTheDocument()
 
     const fit = screen
-      .getAllByRole('link', { name: hub.services.aiEmployee.ctaLabel })
+      .getAllByRole('link', { name: aiEmployeeContent.en.primaryCta })
       .find((link) => (link.getAttribute('href') || '').includes('conversion_source=industry_hub_path_detail'))
     expect(fit).toBeTruthy()
     expect(fit!.getAttribute('href')).toContain('/tools/ai-employee-fit-brief')
@@ -211,6 +231,7 @@ describe('Industry hub contrast and imagery', () => {
 
   it('shows only the selected non-AI path detail', async () => {
     const hub = getIndustryHub('en', 'legal')!
+    const aiIndustry = aiEmployeeContent.en.industries.find((item) => item.id === 'legal')!
     const otherKey = hub.leadServices.find((key) => key !== 'aiEmployee')!
     render(<IndustryHubPage locale="en" hub={hub} />)
 
@@ -220,11 +241,12 @@ describe('Industry hub contrast and imagery', () => {
     await flushAnimationFrame()
 
     expect(screen.getByRole('heading', { level: 2, name: hub.services[otherKey].title })).toBeInTheDocument()
-    expect(screen.queryByRole('heading', { name: /Client intake & new matters/i })).not.toBeInTheDocument()
+    expect(screen.queryByText(aiIndustry.positioning)).not.toBeInTheDocument()
   })
 
   it('lets hero secondary select the AI path on-page', async () => {
     const hub = getIndustryHub('en', 'legal')!
+    const aiIndustry = aiEmployeeContent.en.industries.find((item) => item.id === 'legal')!
     render(<IndustryHubPage locale="en" hub={hub} />)
 
     await act(async () => {
@@ -232,7 +254,7 @@ describe('Industry hub contrast and imagery', () => {
     })
     await flushAnimationFrame()
 
-    expect(screen.getByRole('heading', { name: /Client intake & new matters/i })).toBeInTheDocument()
+    expect(screen.getByText(aiIndustry.positioning)).toBeInTheDocument()
     expect(window.location.hash).toBe('#path=aiEmployee')
   })
 

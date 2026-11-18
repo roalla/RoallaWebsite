@@ -184,6 +184,23 @@ export const serviceActionBands: Record<ServiceActionServiceId, ServiceActionBan
         },
       },
       {
+        id: 'pci-dss-readiness',
+        icon: 'shield',
+        href: '/pci-dss-readiness-estimate',
+        label: {
+          en: 'Card-payment responsibilities are unclear',
+          fr: 'Les responsabilités liées aux paiements par carte sont floues',
+        },
+        outcome: {
+          en: 'Map payment channels, PCI DSS scope, provider responsibilities, evidence, and priority readiness gaps.',
+          fr: 'Cartographiez les canaux de paiement, la portée PCI DSS, les responsabilités des fournisseurs, les preuves et les écarts prioritaires.',
+        },
+        cta: {
+          en: 'Build a PCI DSS readiness estimate',
+          fr: 'Estimer une revue de préparation PCI DSS',
+        },
+      },
+      {
         id: 'security-situations',
         icon: 'need',
         href: '/solutions/need/security-compliance',

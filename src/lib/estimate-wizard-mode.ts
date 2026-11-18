@@ -1,6 +1,6 @@
 export type EstimateWizardMode = 'form' | 'wizard'
 
-export type EstimateWizardTool = 'website' | 'visibility' | 'email' | 'workshop'
+export type EstimateWizardTool = 'website' | 'visibility' | 'email' | 'workshop' | 'pci-dss'
 
 export function estimateWizardStorageKey(tool: EstimateWizardTool): string {
   return `roalla-estimate-wizard-${tool}`

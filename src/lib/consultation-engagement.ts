@@ -17,6 +17,7 @@ export const ENGAGEMENT_KINDS = [
   "email-reach-estimate",
   "website-estimate",
   "workshop-estimate",
+  "pci-dss-estimate",
 ] as const;
 export type EngagementKind = (typeof ENGAGEMENT_KINDS)[number];
 
@@ -317,12 +318,14 @@ function inferEngagementKind(options: {
   }
   if (tool === "website" || tool === "website-estimate") return "website-estimate";
   if (tool === "workshop" || tool === "workshop-estimate") return "workshop-estimate";
+  if (tool === "pci-dss" || tool === "pci-dss-estimate") return "pci-dss-estimate";
 
   const page = options.fromPage?.trim().toLowerCase() || "";
   if (page.includes("visibility-improvement-estimate")) return "visibility-estimate";
   if (page.includes("email-reach-estimate")) return "email-reach-estimate";
   if (page.includes("website-estimate")) return "website-estimate";
   if (page.includes("workshop-estimate")) return "workshop-estimate";
+  if (page.includes("pci-dss-readiness-estimate")) return "pci-dss-estimate";
 
   const fromTool = options.fromTool?.trim().toLowerCase() || "";
   if (fromTool === "digital-presence-snapshot") return "visibility-estimate";
@@ -926,6 +929,7 @@ export function buildPlanningReportEmailSubject(
     "email-reach-estimate": "Email reach estimate",
     "website-estimate": "Website estimate",
     "workshop-estimate": "Workshop estimate",
+    "pci-dss-estimate": "PCI DSS readiness estimate",
   };
   return `Planning report — ${kindTitles[engagement.kind]} — ${name}`;
 }

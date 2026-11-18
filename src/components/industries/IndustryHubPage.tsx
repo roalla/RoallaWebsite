@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import { ArrowRight, Check, BookOpen } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import Reveal from '@/components/motion/Reveal'
+import AiEmployeeIndustryDetail from '@/components/AiEmployeeIndustryDetail'
 import { trackAnalyticsEvent } from '@/lib/analytics'
 import { aiEmployeeContent } from '@/lib/ai-employee-content'
 import {
@@ -18,18 +19,34 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 
 const PATH_HASH_PREFIX = 'path='
 
+function fitBriefQuery(hub: IndustryHub, conversionSource: string) {
+  return {
+    industry: hub.label,
+    icp: hub.label,
+    campaign: 'industry-hub',
+    conversion_source: conversionSource,
+    entry_page: `/industries/${hub.id}`,
+    signal: 'ai-employee',
+  }
+}
+
 function fitBriefHref(hub: IndustryHub, conversionSource: string) {
   return {
     pathname: '/tools/ai-employee-fit-brief' as const,
-    query: {
-      industry: hub.label,
-      icp: hub.label,
-      campaign: 'industry-hub',
-      conversion_source: conversionSource,
-      entry_page: `/industries/${hub.id}`,
-      signal: 'ai-employee',
-    },
+    query: fitBriefQuery(hub, conversionSource),
   }
+}
+
+function fitBriefAbsoluteHref(language: 'en' | 'fr', hub: IndustryHub, conversionSource: string) {
+  return `/${language}/tools/ai-employee-fit-brief?${new URLSearchParams(fitBriefQuery(hub, conversionSource)).toString()}`
+}
+
+function contactAbsoluteHref(
+  language: 'en' | 'fr',
+  hub: IndustryHub,
+  contactQuery: Record<string, string>,
+) {
+  return `/${language}/contact?${new URLSearchParams(contactQuery).toString()}`
 }
 
 function ucPathwayHref(
@@ -121,17 +138,29 @@ export default function IndustryHubPage({
   const french = locale === 'fr'
   const language = french ? 'fr' : 'en'
   const reduceMotion = usePrefersReducedMotion()
-  const aiIndustry = aiEmployeeContent[language].industries.find((entry) => entry.id === hub.id)
+  const aiCopy = aiEmployeeContent[language]
+  const aiIndustry = aiCopy.industries.find((entry) => entry.id === hub.id)
   const [selectedPath, setSelectedPath] = useState<IndustryHubServiceKey | null>(null)
   const detailRef = useRef<HTMLDivElement>(null)
-  const contactQuery = {
-    intent: 'consulting' as const,
-    from_page: `/industries/${hub.id}`,
-    goal: french
-      ? `Secteur: ${hub.label}. ${hub.hero.title}`
-      : `Industry: ${hub.label}. ${hub.hero.title}`,
-    reference: hub.id,
-  }
+  const contactQuery = useMemo(
+    () => ({
+      intent: 'consulting',
+      from_page: `/industries/${hub.id}`,
+      goal: french
+        ? `Secteur: ${hub.label}. ${hub.hero.title}`
+        : `Industry: ${hub.label}. ${hub.hero.title}`,
+      reference: hub.id,
+    }),
+    [french, hub.hero.title, hub.id, hub.label],
+  )
+  const aiFitHref = useMemo(
+    () => fitBriefAbsoluteHref(language, hub, 'industry_hub_path_detail'),
+    [hub, language],
+  )
+  const aiContactHref = useMemo(
+    () => contactAbsoluteHref(language, hub, contactQuery),
+    [contactQuery, hub, language],
+  )
 
   const trackService = (key: IndustryHubServiceKey) => {
     trackAnalyticsEvent('industry_hub_service_click', {
@@ -369,126 +398,79 @@ export default function IndustryHubPage({
 
       {selectedPath && selectedBlock ? (
         <section className="bg-white px-4 py-16 sm:px-6 lg:px-8">
-          <div ref={detailRef} className="mx-auto max-w-3xl scroll-mt-28">
-            <Reveal>
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">
-                {selectedBlock.eyebrow}
-              </p>
-              <h2 className="mt-3 font-serif text-3xl font-bold text-slate-950 sm:text-4xl">
-                {selectedBlock.title}
-              </h2>
-              <p className="mt-4 text-base leading-7 text-slate-600">{selectedBlock.lead}</p>
-              {showAiDetail && aiIndustry ? (
-                <p className="mt-4 text-base font-medium leading-7 text-slate-800">{aiIndustry.promise}</p>
-              ) : null}
-              <ul className="mt-6 space-y-3">
-                {selectedBlock.points.map((point) => (
-                  <li key={point} className="flex gap-3 text-sm leading-6 text-slate-700">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
-              {showAiDetail && aiIndustry
-                ? aiIndustry.audiences.map((audience) => (
-                    <div key={audience.id} className="mt-10 border-t border-slate-200 pt-8">
-                      <h3 className="font-serif text-2xl font-bold text-slate-950">{audience.label}</h3>
-                      <p className="mt-3 text-sm leading-6 text-slate-600">{audience.lead}</p>
-                      <ul className="mt-5 space-y-4">
-                        {audience.uses.map((use) => (
-                          <li key={use.title}>
-                            <p className="font-semibold text-slate-950">{use.title}</p>
-                            <p className="mt-1 text-sm leading-6 text-slate-600">{use.description}</p>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))
-                : null}
-              {showAiDetail && aiIndustry ? (
-                <>
-                  <div className="mt-10 border-t border-slate-200 pt-8">
-                    <h3 className="font-serif text-2xl font-bold text-slate-950">{aiIndustry.startTitle}</h3>
-                    <p className="mt-3 text-sm leading-6 text-slate-600">{aiIndustry.startLead}</p>
-                    <ul className="mt-5 space-y-3">
-                      {aiIndustry.startWith.map((item) => (
-                        <li key={item} className="flex gap-3 text-sm leading-6 text-slate-700">
-                          <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="mt-10 border-t border-slate-200 pt-8">
-                    <h3 className="font-serif text-2xl font-bold text-slate-950">{aiIndustry.boundaryTitle}</h3>
-                    <p className="mt-3 text-sm leading-6 text-slate-600">{aiIndustry.boundaryLead}</p>
-                    <ul className="mt-5 space-y-3">
-                      {aiIndustry.boundaries.map((item) => (
-                        <li key={item} className="flex gap-3 text-sm leading-6 text-slate-700">
-                          <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </>
-              ) : null}
-              <div className="mt-8 flex flex-col gap-4">
-                <div className="flex flex-wrap gap-3">
-                  {selectedPath === 'aiEmployee' ? (
-                    <>
-                      <Link
-                        href={fitBriefHref(hub, 'industry_hub_path_detail')}
-                        onClick={() => trackService('aiEmployee')}
-                        className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-bold text-white transition hover:bg-primary-dark"
-                      >
-                        {selectedBlock.ctaLabel}
-                        <ArrowRight className="h-4 w-4" aria-hidden />
-                      </Link>
-                      <Link
-                        href={{ pathname: '/contact', query: contactQuery }}
-                        onClick={() =>
-                          trackAnalyticsEvent('industry_hub_cta', {
-                            industry: hub.id,
-                            slot: 'path_detail_contact',
-                          })
-                        }
-                        className="inline-flex min-h-12 items-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-900 transition hover:border-primary"
-                      >
-                        {french ? 'Parler avec ROALLA' : 'Talk with ROALLA'}
-                      </Link>
-                    </>
-                  ) : (
-                    <Link
-                      href={serviceHref(hub, selectedPath)}
-                      onClick={() => trackService(selectedPath)}
-                      className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-bold text-white transition hover:bg-primary-dark"
-                    >
-                      {selectedBlock.ctaLabel}
-                      <ArrowRight className="h-4 w-4" aria-hidden />
-                    </Link>
-                  )}
-                </div>
-                {selectedPath === 'aiEmployee' ? (
+          {showAiDetail && aiIndustry ? (
+            <AiEmployeeIndustryDetail
+              industry={aiIndustry}
+              audienceSelectHint={aiCopy.audienceSelectHint}
+              selectedLabel={aiCopy.selectedLabel}
+              primaryCta={aiCopy.primaryCta}
+              secondaryCta={aiCopy.secondaryCta}
+              fitHref={aiFitHref}
+              contactHref={aiContactHref}
+              detailRef={detailRef}
+              className="mx-auto max-w-6xl"
+              onAudienceChange={(audienceId) =>
+                trackAnalyticsEvent('industry_hub_ai_audience', {
+                  industry: hub.id,
+                  audience: audienceId,
+                })
+              }
+              onFitClick={() => trackService('aiEmployee')}
+              onContactClick={() =>
+                trackAnalyticsEvent('industry_hub_cta', {
+                  industry: hub.id,
+                  slot: 'path_detail_contact',
+                })
+              }
+              footer={
+                <Link
+                  href={ucPathwayHref(hub, 'ai-employee', 'industry_hub_ai_uc_bridge')}
+                  onClick={() =>
+                    trackAnalyticsEvent('industry_hub_cta', {
+                      industry: hub.id,
+                      slot: 'path_detail_uc_bridge',
+                    })
+                  }
+                  className="inline-flex items-center gap-2 text-sm font-bold text-primary-dark underline-offset-4 hover:underline"
+                >
+                  {french
+                    ? 'Voir comment cela s’intègre à la téléphonie et au centre de contact'
+                    : 'See how this fits with calling and the contact centre'}
+                  <ArrowRight className="h-4 w-4" aria-hidden />
+                </Link>
+              }
+            />
+          ) : (
+            <div ref={detailRef} className="mx-auto max-w-3xl scroll-mt-28">
+              <Reveal>
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">
+                  {selectedBlock.eyebrow}
+                </p>
+                <h2 className="mt-3 font-serif text-3xl font-bold text-slate-950 sm:text-4xl">
+                  {selectedBlock.title}
+                </h2>
+                <p className="mt-4 text-base leading-7 text-slate-600">{selectedBlock.lead}</p>
+                <ul className="mt-6 space-y-3">
+                  {selectedBlock.points.map((point) => (
+                    <li key={point} className="flex gap-3 text-sm leading-6 text-slate-700">
+                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-8">
                   <Link
-                    href={ucPathwayHref(hub, 'ai-employee', 'industry_hub_ai_uc_bridge')}
-                    onClick={() =>
-                      trackAnalyticsEvent('industry_hub_cta', {
-                        industry: hub.id,
-                        slot: 'path_detail_uc_bridge',
-                      })
-                    }
-                    className="inline-flex items-center gap-2 text-sm font-bold text-primary-dark underline-offset-4 hover:underline"
+                    href={serviceHref(hub, selectedPath)}
+                    onClick={() => trackService(selectedPath)}
+                    className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-bold text-white transition hover:bg-primary-dark"
                   >
-                    {french
-                      ? 'Voir comment cela s’intègre à la téléphonie et au centre de contact'
-                      : 'See how this fits with calling and the contact centre'}
+                    {selectedBlock.ctaLabel}
                     <ArrowRight className="h-4 w-4" aria-hidden />
                   </Link>
-                ) : null}
-              </div>
-            </Reveal>
-          </div>
+                </div>
+              </Reveal>
+            </div>
+          )}
         </section>
       ) : null}
 

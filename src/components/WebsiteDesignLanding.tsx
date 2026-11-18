@@ -21,6 +21,7 @@ import ScheduleButton from './ScheduleButton'
 import StickyMobileCTA from './StickyMobileCTA'
 import ServiceMiniFAQ from './services/ServiceMiniFAQ'
 import BrowserFrame from './digital/BrowserFrame'
+import WebsiteDesignLogoStrip from './WebsiteDesignLogoStrip'
 import {
   getPortfolioItem,
   portfolioImageAlts,
@@ -110,6 +111,8 @@ export default function WebsiteDesignLanding() {
         }
         ctaSubtext={t('heroCtaSubtext')}
       />
+
+      <WebsiteDesignLogoStrip eyebrow={t('logoStripEyebrow')} listLabel={t('logoStripLabel')} />
 
       <Reveal className="mb-8 rounded-xl border border-primary/25 bg-primary/[0.05] p-5 md:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>

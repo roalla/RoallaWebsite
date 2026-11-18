@@ -18,6 +18,7 @@ import { Link } from '@/i18n/navigation'
 import ConsultationRequestForm from '@/components/ConsultationRequestForm'
 import CommunicationsValueBrief from '@/components/tools/CommunicationsValueBrief'
 import Reveal from '@/components/motion/Reveal'
+import UnifiedCommunicationsLogoStrip from '@/components/UnifiedCommunicationsLogoStrip'
 import { trackAnalyticsEvent } from '@/lib/analytics'
 
 type ChallengeId = 'missed' | 'fragmented' | 'legacy' | 'capacity' | 'ai'
@@ -108,6 +109,8 @@ const copy = {
     relatedTitle: 'Already exploring one part of the model?',
     techLink: 'Explore Technology Advisory',
     aiLink: 'Explore AI Employee by industry',
+    logoStripEyebrow: 'Platforms and partners we can source through',
+    logoStripLabel: 'Communications platform partners',
   },
   fr: {
     metadataPath: '/services/unified-communications-contact-centres-ai-employees',
@@ -135,6 +138,8 @@ const copy = {
     assessmentEyebrow: 'Parcours de génération 1 · autonome', assessmentTitle: 'Chiffrez l’occasion communications.', assessmentLead: 'Remplissez la fiche guidée pour estimer les coûts évitables, les frictions de service et les priorités. Téléchargez le résultat ou apportez-le à une conversation.',
     inquiryEyebrow: 'Parcours de génération 2 · avec conseiller', inquiryTitle: 'Envoyez l’enjeu pendant qu’il est encore précis.', inquiryLead: 'L’enjeu sélectionné est joint à la demande. ROALLA répondra avec une prochaine étape pratique, pas une soumission fournisseur non sollicitée.',
     relatedTitle: 'Vous explorez déjà une partie du modèle?', techLink: 'Explorer le conseil technologique', aiLink: 'Explorer l’employé IA par industrie',
+    logoStripEyebrow: 'Plateformes et partenaires que nous pouvons sourcer',
+    logoStripLabel: 'Partenaires de plateformes de communications',
   },
 } as const
 
@@ -226,6 +231,8 @@ export default function UnifiedCommunicationsLanding({ locale }: { locale: strin
             ))}
           </Reveal>
         </section>
+
+        <UnifiedCommunicationsLogoStrip eyebrow={c.logoStripEyebrow} listLabel={c.logoStripLabel} />
 
         <section id="challenge-selector" className="scroll-mt-24 border-b border-slate-200 bg-slate-50 py-20">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">

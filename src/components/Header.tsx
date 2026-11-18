@@ -234,6 +234,7 @@ const Header = ({
   const ecosystemDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const resourcesDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const previousMenuOpen = useRef(false);
+  const hoverCloseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [localeDropdownOpen, setLocaleDropdownOpen] = useState(false);
   const [digitalDropdownOpen, setDigitalDropdownOpen] = useState(false);
   const [industryDropdownOpen, setIndustryDropdownOpen] = useState(false);
@@ -413,6 +414,73 @@ const Header = ({
     },
     [],
   );
+
+  type DesktopNavMenu = "digital" | "industry" | "ecosystem" | "resources";
+
+  const clearHoverCloseTimeout = useCallback(() => {
+    if (hoverCloseTimeoutRef.current) {
+      clearTimeout(hoverCloseTimeoutRef.current);
+      hoverCloseTimeoutRef.current = null;
+    }
+  }, []);
+
+  const canHoverDesktopNav = useCallback(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  }, []);
+
+  const openDesktopNavMenu = useCallback(
+    (menu: DesktopNavMenu) => {
+      if (!canHoverDesktopNav()) return;
+      clearHoverCloseTimeout();
+      closeOtherDesktopDropdowns(menu);
+      if (menu === "digital") {
+        setDigitalDropdownOpen((open) => {
+          if (!open) {
+            trackAnalyticsEvent("solutions_menu_open", {
+              location: "desktop_header",
+              menu: "how_we_help",
+            });
+          }
+          return true;
+        });
+        return;
+      }
+      if (menu === "industry") {
+        setIndustryDropdownOpen((open) => {
+          if (!open) {
+            trackAnalyticsEvent("industry_menu_open", {
+              location: "desktop_header",
+            });
+          }
+          return true;
+        });
+        return;
+      }
+      if (menu === "ecosystem") {
+        setEcosystemDropdownOpen(true);
+        return;
+      }
+      setResourcesDropdownOpen(true);
+    },
+    [canHoverDesktopNav, clearHoverCloseTimeout, closeOtherDesktopDropdowns],
+  );
+
+  const scheduleCloseDesktopNavMenus = useCallback(() => {
+    if (!canHoverDesktopNav()) return;
+    clearHoverCloseTimeout();
+    hoverCloseTimeoutRef.current = setTimeout(() => {
+      setDigitalDropdownOpen(false);
+      setIndustryDropdownOpen(false);
+      setEcosystemDropdownOpen(false);
+      setResourcesDropdownOpen(false);
+      hoverCloseTimeoutRef.current = null;
+    }, 180);
+  }, [canHoverDesktopNav, clearHoverCloseTimeout]);
+
+  useEffect(() => {
+    return () => clearHoverCloseTimeout();
+  }, [clearHoverCloseTimeout]);
 
   const toggleMenu = () => {
     setIsMenuOpen((open) => !open);
@@ -849,10 +917,16 @@ const Header = ({
           {/* Desktop Navigation */}
           <div className="hidden xl:flex min-w-0 flex-1 items-center justify-center">
             <div className="flex min-w-0 items-center justify-center gap-2 2xl:gap-5">
-              <div className="relative" ref={digitalDropdownDesktopRef}>
+              <div
+                className="relative"
+                ref={digitalDropdownDesktopRef}
+                onMouseEnter={() => openDesktopNavMenu("digital")}
+                onMouseLeave={scheduleCloseDesktopNavMenus}
+              >
                 <button
                   type="button"
                   onClick={() => {
+                    clearHoverCloseTimeout();
                     closeOtherDesktopDropdowns("digital");
                     setDigitalDropdownOpen((open) => {
                       if (!open) {
@@ -1023,10 +1097,16 @@ const Header = ({
                 </div>
               </div>
 
-              <div className="relative" ref={industryDropdownDesktopRef}>
+              <div
+                className="relative"
+                ref={industryDropdownDesktopRef}
+                onMouseEnter={() => openDesktopNavMenu("industry")}
+                onMouseLeave={scheduleCloseDesktopNavMenus}
+              >
                 <button
                   type="button"
                   onClick={() => {
+                    clearHoverCloseTimeout();
                     closeOtherDesktopDropdowns("industry");
                     setIndustryDropdownOpen((open) => {
                       if (!open) {
@@ -1112,10 +1192,16 @@ const Header = ({
                 </div>
               </div>
 
-              <div className="relative" ref={ecosystemDropdownDesktopRef}>
+              <div
+                className="relative"
+                ref={ecosystemDropdownDesktopRef}
+                onMouseEnter={() => openDesktopNavMenu("ecosystem")}
+                onMouseLeave={scheduleCloseDesktopNavMenus}
+              >
                 <button
                   type="button"
                   onClick={() => {
+                    clearHoverCloseTimeout();
                     closeOtherDesktopDropdowns("ecosystem");
                     setEcosystemDropdownOpen((open) => !open);
                   }}
@@ -1174,10 +1260,16 @@ const Header = ({
                 </div>
               </div>
 
-              <div className="relative" ref={resourcesDropdownDesktopRef}>
+              <div
+                className="relative"
+                ref={resourcesDropdownDesktopRef}
+                onMouseEnter={() => openDesktopNavMenu("resources")}
+                onMouseLeave={scheduleCloseDesktopNavMenus}
+              >
                 <button
                   type="button"
                   onClick={() => {
+                    clearHoverCloseTimeout();
                     closeOtherDesktopDropdowns("resources");
                     setResourcesDropdownOpen((o) => !o);
                   }}

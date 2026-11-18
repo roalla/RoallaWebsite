@@ -410,7 +410,7 @@ export default function IndustryHubPage({
               detailRef={detailRef}
               className="mx-auto max-w-6xl"
               onAudienceChange={(audienceId) =>
-                trackAnalyticsEvent('industry_hub_ai_audience', {
+                trackAnalyticsEvent('ai_employee_audience', {
                   industry: hub.id,
                   audience: audienceId,
                 })

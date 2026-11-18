@@ -91,6 +91,9 @@ describe('Header', () => {
     portalLinks.forEach((link) => {
       expect(link).toHaveAttribute('href', 'https://portal.roalla.com')
     })
+    const desktopPortal = portalLinks.find((link) => link.getAttribute('title') === 'clientPortal')
+    expect(desktopPortal).toBeTruthy()
+    expect(desktopPortal).toHaveAttribute('title', 'clientPortal')
   })
 
   it('renders the five featured insights under digital enablement, advisory, and other', () => {
@@ -238,10 +241,10 @@ describe('Header', () => {
       'href',
       '/assessment',
     )
-    expect(within(menu).getAllByRole('menuitem')).toHaveLength(19)
+    expect(within(menu).getAllByRole('menuitem')).toHaveLength(22)
   })
 
-  it('groups explore capabilities under the five outcomes', () => {
+  it('groups explore capabilities under the six outcomes including execution engagements', () => {
     render(<Header />)
     fireEvent.click(screen.getByRole('button', { name: 'digitalEnablement' }))
 
@@ -252,6 +255,7 @@ describe('Header', () => {
       'helpGroupExperience',
       'helpGroupAutomation',
       'helpGroupSecurity',
+      'helpGroupExecution',
       'helpGroupOngoing',
     ].forEach((heading) => {
       expect(within(capabilities).getByText(heading)).toBeInTheDocument()
@@ -269,12 +273,15 @@ describe('Header', () => {
       [/digitalAutomation/i, '/services/automation'],
       [/helpSecurityServices/i, '/services/security-risk-compliance'],
       [/technologyAdvisory/i, '/services/technology-advisory'],
+      [/businessEnablement/i, '/services/business-advisory'],
+      [/teamWorkshops/i, '/programs/workshops'],
+      [/focusCircle/i, '/programs/workshops/focus-circle'],
       [/helpManagedOptimization/i, '/services/managed-optimization'],
     ]
     expectedLinks.forEach(([name, href]) => {
       expect(within(capabilities).getByRole('menuitem', { name })).toHaveAttribute('href', href)
     })
-    expect(within(capabilities).getAllByRole('menuitem')).toHaveLength(12)
+    expect(within(capabilities).getAllByRole('menuitem')).toHaveLength(15)
     expect(within(menu).queryByRole('menuitem', { name: /helpDevelopTeam/i })).not.toBeInTheDocument()
     expect(within(menu).getByRole('menuitem', { name: /browseOutcomesCta/i })).toHaveAttribute('href', '/solutions')
     expect(within(menu).getByRole('menuitem', { name: /Explore Your Options/i })).toHaveAttribute('href', '/assessment')
@@ -295,6 +302,19 @@ describe('Header', () => {
     expect(within(panel!).getByRole('link', { name: /helpUseAi/i })).toHaveAttribute('href', '/solutions/need/automation-ai')
     expect(within(panel!).getByRole('link', { name: /helpReduceRisk/i })).toHaveAttribute('href', '/solutions/need/security-compliance')
     expect(within(panel!).getByRole('link', { name: /browseOutcomes/i })).toHaveAttribute('href', '/solutions')
+    expect(within(panel!).getByText('helpGroupExecution')).toBeInTheDocument()
+    expect(within(panel!).getByRole('link', { name: /businessEnablement/i })).toHaveAttribute(
+      'href',
+      '/services/business-advisory',
+    )
+    expect(within(panel!).getByRole('link', { name: /teamWorkshops/i })).toHaveAttribute(
+      'href',
+      '/programs/workshops',
+    )
+    expect(within(panel!).getByRole('link', { name: /focusCircle/i })).toHaveAttribute(
+      'href',
+      '/programs/workshops/focus-circle',
+    )
   })
 
   it('exposes the Ecosystem destinations in mobile navigation', () => {
@@ -337,49 +357,37 @@ describe('Header', () => {
     expect(screen.queryByRole('link', { name: 'digitalPortfolio' })).not.toBeInTheDocument()
   })
 
-  it('offers advisory outcomes and engagement options in one category', () => {
+  it('nests advisory and workshop engagements under How We Help execution', () => {
     render(<Header />)
-    fireEvent.click(screen.getByRole('button', { name: 'businessAdvisoryWorkshops' }))
-    const menu = screen.getByRole('menu', { name: 'businessAdvisoryWorkshops' })
-    expect(within(menu).getByText('businessOutcomesHeading')).toBeInTheDocument()
-    expect(within(menu).getByText('businessOptionsHeading')).toBeInTheDocument()
-    expect(within(menu).getByRole('menuitem', { name: /businessOutcomeDirection/i })).toHaveAttribute(
+    expect(screen.queryByRole('button', { name: 'businessAdvisoryWorkshops' })).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'digitalEnablement' }))
+    const menu = screen.getByRole('menu', { name: 'digitalEnablement' })
+    expect(within(menu).getByText('helpGroupExecution')).toBeInTheDocument()
+    expect(within(menu).getByRole('menuitem', { name: /businessEnablement/i })).toHaveAttribute(
       'href',
       '/services/business-advisory',
     )
-    expect(within(menu).getByRole('menuitem', { name: /businessOutcomeIdeas/i })).toHaveAttribute(
-      'href',
-      '/programs/workshops/ideation',
-    )
-    expect(screen.getByRole('menuitem', { name: /businessEnablement/i })).toHaveAttribute(
-      'href',
-      '/services/business-advisory',
-    )
-    expect(screen.getByRole('menuitem', { name: /teamWorkshops/i })).toHaveAttribute(
+    expect(within(menu).getByRole('menuitem', { name: /teamWorkshops/i })).toHaveAttribute(
       'href',
       '/programs/workshops',
     )
-    expect(screen.getByRole('menuitem', { name: /focusCircle/i })).toHaveAttribute(
+    expect(within(menu).getByRole('menuitem', { name: /focusCircle/i })).toHaveAttribute(
       'href',
       '/programs/workshops/focus-circle',
     )
-    expect(screen.queryByRole('menuitem', { name: /workloadConversation/i })).not.toBeInTheDocument()
-    expect(screen.queryByRole('menuitem', { name: /digitalCalm/i })).not.toBeInTheDocument()
-    expect(screen.queryByRole('menuitem', { name: /decisionHour/i })).not.toBeInTheDocument()
-    expect(screen.queryByRole('menuitem', { name: /offerPage/i })).not.toBeInTheDocument()
-    expect(screen.queryByRole('menuitem', { name: /theShortlist/i })).not.toBeInTheDocument()
-    expect(screen.queryByRole('menuitem', { name: /firstOffer/i })).not.toBeInTheDocument()
-    const items = within(menu).getAllByRole('menuitem')
-    expect(items).toHaveLength(7)
-    expect(items[5]).toHaveAttribute('href', '/programs/workshops')
-    expect(items[6]).toHaveAttribute('href', '/programs/workshops/focus-circle')
-    expect(within(menu).getAllByRole('separator')).toHaveLength(1)
+    expect(within(menu).queryByRole('menuitem', { name: /businessOutcomeDirection/i })).not.toBeInTheDocument()
+    expect(within(menu).queryByRole('menuitem', { name: /workloadConversation/i })).not.toBeInTheDocument()
+    expect(within(menu).queryByRole('menuitem', { name: /digitalCalm/i })).not.toBeInTheDocument()
+    expect(within(menu).queryByRole('menuitem', { name: /decisionHour/i })).not.toBeInTheDocument()
+    expect(within(menu).queryByRole('menuitem', { name: /offerPage/i })).not.toBeInTheDocument()
+    expect(within(menu).queryByRole('menuitem', { name: /theShortlist/i })).not.toBeInTheDocument()
+    expect(within(menu).queryByRole('menuitem', { name: /firstOffer/i })).not.toBeInTheDocument()
   })
 
   it('marks team workshops when that page is selected', () => {
     mockPathname.mockReturnValue('/programs/workshops')
     render(<Header />)
-    fireEvent.click(screen.getByRole('button', { name: 'businessAdvisoryWorkshops' }))
+    fireEvent.click(screen.getByRole('button', { name: 'digitalEnablement' }))
     expect(screen.getByRole('menuitem', { name: /teamWorkshops/i })).toHaveAttribute(
       'aria-current',
       'page',
@@ -387,7 +395,7 @@ describe('Header', () => {
   })
 
   it.each(['/services/business-advisory', '/programs/workshops'])(
-    'opens only Advisory & Workshops on mobile for %s',
+    'opens How We Help on mobile for advisory and workshop routes %s',
     (path) => {
       mockPathname.mockReturnValue(path)
       render(<Header />)
@@ -396,16 +404,13 @@ describe('Header', () => {
       const howWeHelpToggle = screen
         .getAllByRole('button', { name: 'digitalEnablement' })
         .find((button) => button.getAttribute('aria-controls') === 'how-we-help-mobile-panel')
-      const advisoryToggle = screen
-        .getAllByRole('button', { name: 'businessAdvisoryWorkshops' })
-        .find((button) => button.getAttribute('aria-controls') === 'business-outcomes-mobile-panel')
 
-      expect(howWeHelpToggle).toHaveAttribute('aria-expanded', 'false')
-      expect(advisoryToggle).toHaveAttribute('aria-expanded', 'true')
+      expect(howWeHelpToggle).toHaveAttribute('aria-expanded', 'true')
+      expect(screen.queryByRole('button', { name: 'businessAdvisoryWorkshops' })).not.toBeInTheDocument()
     },
   )
 
-  it('opens only How We Help on mobile for a general service need', () => {
+  it('opens How We Help on mobile for a general service need', () => {
     mockPathname.mockReturnValue('/services/ai-agents')
     render(<Header />)
     fireEvent.click(screen.getByRole('button', { name: 'openMenu' }))
@@ -413,12 +418,17 @@ describe('Header', () => {
     const howWeHelpToggle = screen
       .getAllByRole('button', { name: 'digitalEnablement' })
       .find((button) => button.getAttribute('aria-controls') === 'how-we-help-mobile-panel')
-    const advisoryToggle = screen
-      .getAllByRole('button', { name: 'businessAdvisoryWorkshops' })
-      .find((button) => button.getAttribute('aria-controls') === 'business-outcomes-mobile-panel')
 
     expect(howWeHelpToggle).toHaveAttribute('aria-expanded', 'true')
-    expect(advisoryToggle).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('exposes four top-level navigation menus', () => {
+    render(<Header />)
+    expect(screen.getByRole('button', { name: 'digitalEnablement' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'industry' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'ecosystem' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'resources' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'businessAdvisoryWorkshops' })).not.toBeInTheDocument()
   })
 
   it('hides founding client promo on the homepage', () => {

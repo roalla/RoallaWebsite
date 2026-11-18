@@ -5,19 +5,16 @@ import {
   Menu,
   X,
   ChevronDown,
-  Briefcase,
   Globe,
-  GraduationCap,
   Target,
-  Layers,
   Workflow,
   Flag,
   SearchCheck,
   ShieldCheck,
   RefreshCw,
-  Network,
   BookOpen,
   ArrowRight,
+  LogIn,
 } from "lucide-react";
 import Image from "next/image";
 import { usePathname as useNextPathname } from "next/navigation";
@@ -235,19 +232,16 @@ const Header = ({
   const digitalDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const industryDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const ecosystemDropdownDesktopRef = useRef<HTMLDivElement>(null);
-  const workshopsDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const resourcesDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const previousMenuOpen = useRef(false);
   const [localeDropdownOpen, setLocaleDropdownOpen] = useState(false);
   const [digitalDropdownOpen, setDigitalDropdownOpen] = useState(false);
   const [industryDropdownOpen, setIndustryDropdownOpen] = useState(false);
   const [ecosystemDropdownOpen, setEcosystemDropdownOpen] = useState(false);
-  const [workshopsDropdownOpen, setWorkshopsDropdownOpen] = useState(false);
   const [resourcesDropdownOpen, setResourcesDropdownOpen] = useState(false);
   const [digitalMobileExpanded, setDigitalMobileExpanded] = useState(false);
   const [industryMobileExpanded, setIndustryMobileExpanded] = useState(false);
   const [ecosystemMobileExpanded, setEcosystemMobileExpanded] = useState(false);
-  const [workshopsMobileExpanded, setWorkshopsMobileExpanded] = useState(false);
   const [resourcesMobileExpanded, setResourcesMobileExpanded] = useState(false);
 
   useEffect(() => {
@@ -391,25 +385,6 @@ const Header = ({
   }, [ecosystemDropdownOpen]);
 
   useEffect(() => {
-    if (!workshopsDropdownOpen) return;
-    const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as Node;
-      if (!workshopsDropdownDesktopRef.current?.contains(target)) {
-        setWorkshopsDropdownOpen(false);
-      }
-    };
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setWorkshopsDropdownOpen(false);
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEscape);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscape);
-    };
-  }, [workshopsDropdownOpen]);
-
-  useEffect(() => {
     if (!resourcesDropdownOpen) return;
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
@@ -429,11 +404,10 @@ const Header = ({
   }, [resourcesDropdownOpen]);
 
   const closeOtherDesktopDropdowns = useCallback(
-    (keep: "digital" | "industry" | "ecosystem" | "workshops" | "resources" | "locale") => {
+    (keep: "digital" | "industry" | "ecosystem" | "resources" | "locale") => {
       if (keep !== "digital") setDigitalDropdownOpen(false);
       if (keep !== "industry") setIndustryDropdownOpen(false);
       if (keep !== "ecosystem") setEcosystemDropdownOpen(false);
-      if (keep !== "workshops") setWorkshopsDropdownOpen(false);
       if (keep !== "resources") setResourcesDropdownOpen(false);
       if (keep !== "locale") setLocaleDropdownOpen(false);
     },
@@ -449,7 +423,6 @@ const Header = ({
     setDigitalMobileExpanded(false);
     setIndustryMobileExpanded(false);
     setEcosystemMobileExpanded(false);
-    setWorkshopsMobileExpanded(false);
     setResourcesMobileExpanded(false);
   }, []);
 
@@ -554,10 +527,6 @@ const Header = ({
     [pathname],
   );
 
-  type WorkshopNavHref =
-    | "/programs/workshops"
-    | "/programs/workshops/focus-circle";
-
   const helpLinks: {
     nameKey:
       | "helpBuildDigital"
@@ -624,7 +593,7 @@ const Header = ({
     },
   ];
 
-  /** Capability links regrouped under the five customer outcomes. Workshops live in Advisory & Workshops. */
+  /** Capability links regrouped under customer outcomes; execution engagements nest with Set Priorities. */
   const capabilityGroups = [
     {
       headingKey: "helpGroupGrowth" as const,
@@ -661,6 +630,14 @@ const Header = ({
       ],
     },
     {
+      headingKey: "helpGroupExecution" as const,
+      links: [
+        { nameKey: "businessEnablement" as const, href: "/services/business-advisory" as const },
+        { nameKey: "teamWorkshops" as const, href: "/programs/workshops" as const },
+        { nameKey: "focusCircle" as const, href: "/programs/workshops/focus-circle" as const },
+      ],
+    },
+    {
       headingKey: "helpGroupOngoing" as const,
       links: [
         { nameKey: "helpManagedOptimization" as const, href: "/services/managed-optimization" as const },
@@ -679,69 +656,6 @@ const Header = ({
     },
     { nameKey: "ecosystemEvaluation" as const, href: "/partners/evaluation-standard" as const },
     { nameKey: "ecosystemTransparency" as const, href: "/partners/compensation" as const },
-  ];
-
-  const workshopLinks: {
-    nameKey: "teamWorkshops" | "focusCircle";
-    descKey: "workshopsDesc" | "focusCircleDesc";
-    href: WorkshopNavHref;
-    icon: typeof GraduationCap;
-  }[] = [
-    {
-      nameKey: "teamWorkshops",
-      descKey: "workshopsDesc",
-      href: "/programs/workshops",
-      icon: GraduationCap,
-    },
-    {
-      nameKey: "focusCircle",
-      descKey: "focusCircleDesc",
-      href: "/programs/workshops/focus-circle",
-      icon: Target,
-    },
-  ];
-
-  const businessOutcomeLinks: {
-    nameKey:
-      | "businessOutcomeDirection"
-      | "businessOutcomeOperations"
-      | "businessOutcomeLeadership"
-      | "businessOutcomeIdeas";
-    descKey:
-      | "businessOutcomeDirectionDesc"
-      | "businessOutcomeOperationsDesc"
-      | "businessOutcomeLeadershipDesc"
-      | "businessOutcomeIdeasDesc";
-    href:
-      | "/services/business-advisory"
-      | "/programs/workshops"
-      | "/programs/workshops/ideation";
-    icon: typeof Target;
-  }[] = [
-    {
-      nameKey: "businessOutcomeDirection",
-      descKey: "businessOutcomeDirectionDesc",
-      href: "/services/business-advisory",
-      icon: Target,
-    },
-    {
-      nameKey: "businessOutcomeOperations",
-      descKey: "businessOutcomeOperationsDesc",
-      href: "/services/business-advisory",
-      icon: Workflow,
-    },
-    {
-      nameKey: "businessOutcomeLeadership",
-      descKey: "businessOutcomeLeadershipDesc",
-      href: "/programs/workshops",
-      icon: GraduationCap,
-    },
-    {
-      nameKey: "businessOutcomeIdeas",
-      descKey: "businessOutcomeIdeasDesc",
-      href: "/programs/workshops/ideation",
-      icon: BookOpen,
-    },
   ];
 
   const isCurrentHref = (
@@ -774,20 +688,12 @@ const Header = ({
     pathname === "/services/managed-optimization" ||
     pathname === "/services/security-risk-compliance" ||
     pathname === "/services/digital-events" ||
-    pathname === "/services/portfolio";
+    pathname === "/services/portfolio" ||
+    pathname === "/services/business-advisory" ||
+    pathname.startsWith("/programs/workshops");
 
-  const isAdvisoryActive = pathname === "/services/business-advisory";
   const isIndustryActive = pathname === "/industries" || pathname.startsWith("/industries/");
   const isEcosystemActive = pathname === "/partners" || pathname.startsWith("/partners/");
-  const isWorkshopsActive =
-    pathname === "/programs/workshops" ||
-    pathname === "/programs/workshops/focus-circle" ||
-    pathname === "/programs/workshops/workload-conversation" ||
-    pathname === "/programs/workshops/digital-calm" ||
-    pathname === "/programs/workshops/decision-hour" ||
-    pathname === "/programs/workshops/offer-page" ||
-    pathname === "/programs/workshops/ideation" ||
-    pathname === "/programs/workshops/first-offer";
 
   const otherResourceLinks: {
     nameKey: "resourcesUseCases" | "resourcesFaq" | "resourcesAssessment";
@@ -824,14 +730,6 @@ const Header = ({
       setDigitalMobileExpanded(true);
     } else {
       setDigitalMobileExpanded(false);
-    }
-    if (
-      pathname === "/services/business-advisory" ||
-      workshopLinks.some((item) => isCurrentHref(item.href))
-    ) {
-      setWorkshopsMobileExpanded(true);
-    } else {
-      setWorkshopsMobileExpanded(false);
     }
     if (isResourcesActive) {
       setResourcesMobileExpanded(true);
@@ -870,10 +768,6 @@ const Header = ({
     "group flex gap-3 rounded-lg px-3 py-3 transition-colors hover:bg-white/5 focus-visible:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40";
   const digitalDropdownIconClass =
     "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/5 text-slate-400 transition-colors group-hover:bg-primary/10 group-hover:text-primary group-focus-visible:bg-primary/10 group-focus-visible:text-primary";
-  const advisoryDropdownItemClass =
-    "group flex gap-3 rounded-lg px-3 py-3 transition-colors hover:bg-white/5 focus-visible:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40";
-  const advisoryDropdownIconClass =
-    "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/5 text-slate-500 transition-colors group-hover:bg-primary/10 group-hover:text-primary group-focus-visible:bg-primary/10 group-focus-visible:text-primary";
   const mobileDropdownItemClass =
     "flex gap-3 pl-5 pr-3 py-3 min-h-[44px] rounded-md transition-colors duration-200 text-gray-300 hover:text-primary hover:bg-white/5 focus-visible:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40";
 
@@ -899,8 +793,8 @@ const Header = ({
     : "flex items-center gap-1.5 text-sm font-medium text-slate-700 hover:text-slate-900 bg-slate-900/5 hover:bg-slate-900/10 border border-slate-300/70 rounded-lg px-2.5 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors";
 
   const clientPortalLinkClass = overDark
-    ? "text-sm font-medium text-gray-300 hover:text-primary whitespace-nowrap transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black rounded-md px-1 py-2"
-    : "text-sm font-medium text-slate-600 hover:text-primary whitespace-nowrap transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white rounded-md px-1 py-2";
+    ? "hidden 2xl:inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md text-gray-300 transition-colors duration-200 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black"
+    : "hidden 2xl:inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md text-slate-600 transition-colors duration-200 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white";
 
   const mobileToggleClass = overDark
     ? "mobile-nav-toggle p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black min-h-[44px] min-w-[44px] flex items-center justify-center"
@@ -1078,7 +972,7 @@ const Header = ({
                     >
                       {t("helpMorePathsHeading")}
                     </p>
-                    <div className="mt-3 grid grid-cols-5 gap-x-4">
+                    <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-4 sm:grid-cols-3 xl:grid-cols-6">
                       {capabilityGroups.map((group) => (
                         <div key={group.headingKey} className="min-w-0">
                           <p className="px-2 pb-1 text-[11px] font-bold uppercase tracking-[0.12em] text-primary">
@@ -1277,136 +1171,6 @@ const Header = ({
                       </Link>
                     );
                   })}
-                </div>
-              </div>
-
-              <div className="relative" ref={workshopsDropdownDesktopRef}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    closeOtherDesktopDropdowns("workshops");
-                    setWorkshopsDropdownOpen((o) => !o);
-                  }}
-                  aria-expanded={workshopsDropdownOpen}
-                  aria-haspopup="menu"
-                  id="workshops-dropdown-desktop"
-                  className={`text-sm font-medium transition-colors duration-200 relative group whitespace-nowrap flex items-center gap-1 py-2 rounded-md px-1 ${
-                    isAdvisoryActive || isWorkshopsActive || workshopsDropdownOpen
-                      ? "text-primary"
-                      : navIdleClass
-                  } ${workshopsDropdownOpen ? navOpenBgClass : ""}`}
-                >
-                  {t("businessAdvisoryWorkshops")}
-                  <ChevronDown
-                    className={`w-4 h-4 transition-transform ${workshopsDropdownOpen ? "rotate-180" : ""}`}
-                  />
-                  <span
-                    className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
-                      isAdvisoryActive || isWorkshopsActive ? "w-full" : "w-0 group-hover:w-full"
-                    }`}
-                  />
-                </button>
-                <div
-                  role="menu"
-                  aria-labelledby="workshops-dropdown-desktop"
-                  className={`absolute right-0 top-full mt-2 w-[min(44rem,calc(100vw-2rem))] overflow-hidden rounded-xl bg-zinc-950 border border-white/10 shadow-2xl shadow-black/60 z-50 ${dropdownPanelClass(workshopsDropdownOpen)}`}
-                >
-                  <div className="px-4 py-2.5 border-b border-white/10 bg-white/[0.03]">
-                    <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                      {t("businessAdvisoryWorkshopsMenuLabel")}
-                    </p>
-                  </div>
-                  <div className="grid grid-cols-[1.1fr_0.9fr] divide-x divide-white/10">
-                    <section role="group" aria-labelledby="business-outcomes-heading" className="p-2">
-                      <p id="business-outcomes-heading" className="px-3 pb-1.5 pt-1 text-[11px] font-bold uppercase tracking-[0.15em] text-primary">
-                        {t("businessOutcomesHeading")}
-                      </p>
-                      {businessOutcomeLinks.map((item) => {
-                        const Icon = item.icon;
-                        return (
-                          <Link
-                            key={item.nameKey}
-                            href={item.href}
-                            role="menuitem"
-                            onClick={() => {
-                              setWorkshopsDropdownOpen(false);
-                              closeMenu();
-                            }}
-                            className={advisoryDropdownItemClass}
-                          >
-                            <div className={advisoryDropdownIconClass}>
-                              <Icon className="h-4 w-4" aria-hidden />
-                            </div>
-                            <div className="min-w-0 text-left">
-                              <p className="text-sm font-semibold leading-snug text-gray-200 transition-colors group-hover:text-primary">
-                                {t(item.nameKey)}
-                              </p>
-                              <p className="mt-0.5 text-xs leading-snug text-slate-500 group-hover:text-slate-400">
-                                {t(item.descKey)}
-                              </p>
-                            </div>
-                          </Link>
-                        );
-                      })}
-                    </section>
-                    <section role="group" aria-labelledby="business-options-heading" className="p-2">
-                      <p id="business-options-heading" className="px-3 pb-1.5 pt-1 text-[11px] font-bold uppercase tracking-[0.15em] text-primary">
-                        {t("businessOptionsHeading")}
-                      </p>
-                      <Link
-                        href="/services/business-advisory"
-                        role="menuitem"
-                        aria-current={isAdvisoryActive ? "page" : undefined}
-                        onClick={() => {
-                          setWorkshopsDropdownOpen(false);
-                          closeMenu();
-                        }}
-                        className={`${advisoryDropdownItemClass} ${isAdvisoryActive ? "bg-primary/10" : ""}`}
-                      >
-                        <div className={advisoryDropdownIconClass}>
-                          <Briefcase className="h-4 w-4" aria-hidden />
-                        </div>
-                        <div className="min-w-0 text-left">
-                          <p className={`text-sm font-semibold leading-snug transition-colors ${isAdvisoryActive ? "text-primary" : "text-gray-200 group-hover:text-primary"}`}>
-                            {t("businessEnablement")}
-                          </p>
-                          <p className="mt-0.5 text-xs leading-snug text-slate-500 group-hover:text-slate-400">
-                            {t("businessEnablementDesc")}
-                          </p>
-                        </div>
-                      </Link>
-                      <div role="separator" className="mx-3 my-1.5 border-t border-white/10" />
-                      {workshopLinks.map((item) => {
-                        const Icon = item.icon;
-                        const current = isCurrentHref(item.href);
-                        return (
-                          <Link
-                            key={item.nameKey}
-                            href={item.href}
-                            role="menuitem"
-                            aria-current={current ? "page" : undefined}
-                            onClick={() => {
-                              setWorkshopsDropdownOpen(false);
-                              closeMenu();
-                            }}
-                            className={`${advisoryDropdownItemClass} ${current ? "bg-primary/10" : ""}`}
-                          >
-                            <div className={advisoryDropdownIconClass}>
-                              <Icon className="h-4 w-4" aria-hidden />
-                            </div>
-                            <div className="min-w-0 text-left">
-                              <p className={`text-sm font-semibold leading-snug transition-colors ${current ? "text-primary" : "text-gray-200 group-hover:text-primary"}`}>
-                                {t(item.nameKey)}
-                              </p>
-                              <p className="mt-0.5 text-xs leading-snug text-slate-500 group-hover:text-slate-400">
-                                {t(item.descKey)}
-                              </p>
-                            </div>
-                          </Link>
-                        );
-                      })}
-                    </section>
-                  </div>
                 </div>
               </div>
 
@@ -1616,10 +1380,11 @@ const Header = ({
             )}
             <a
               href={CLIENT_PORTAL_URL}
-              className={`${clientPortalLinkClass} hidden 2xl:block`}
+              className={clientPortalLinkClass}
               aria-label={t("clientPortalAria")}
+              title={t("clientPortal")}
             >
-              {t("clientPortal")}
+              <LogIn className="h-5 w-5" aria-hidden />
             </a>
             <div className="flex items-center">
               <ScheduleButton
@@ -1954,95 +1719,6 @@ const Header = ({
                             ) : null}
                           </span>
                           <ArrowRight className="h-4 w-4 shrink-0 opacity-60" aria-hidden />
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-
-              <div className="border-t border-white/10 pt-1">
-                <button
-                  type="button"
-                  onClick={() => setWorkshopsMobileExpanded((o) => !o)}
-                  aria-expanded={workshopsMobileExpanded}
-                  aria-controls="business-outcomes-mobile-panel"
-                  className={`w-full flex items-center justify-between px-3 py-3 min-h-[44px] rounded-md text-base font-medium transition-colors duration-200 ${
-                    isAdvisoryActive || isWorkshopsActive
-                      ? "text-primary bg-primary/10"
-                      : "text-gray-300 hover:text-primary hover:bg-white/5"
-                  }`}
-                >
-                  {t("businessAdvisoryWorkshops")}
-                  <ChevronDown
-                    className={`w-5 h-5 transition-transform ${workshopsMobileExpanded ? "rotate-180" : ""}`}
-                  />
-                </button>
-                <div
-                  id="business-outcomes-mobile-panel"
-                  className={`collapse-grid ${workshopsMobileExpanded ? "collapse-grid-open" : "collapse-grid-closed"}`}
-                >
-                  <div className="overflow-hidden min-h-0">
-                    <p className="px-5 pb-1 pt-2 text-[11px] font-bold uppercase tracking-[0.15em] text-primary">
-                      {t("businessOutcomesHeading")}
-                    </p>
-                    {businessOutcomeLinks.map((item) => {
-                      const Icon = item.icon;
-                      return (
-                        <Link
-                          key={item.nameKey}
-                          href={item.href}
-                          className={mobileDropdownItemClass}
-                          onClick={(e) => handleMobileNavClick(e, item.href)}
-                        >
-                          <Icon className="h-4 w-4 shrink-0 mt-0.5 opacity-70" aria-hidden />
-                          <span>
-                            <span className="block text-base font-medium">{t(item.nameKey)}</span>
-                            <span className="block text-xs text-slate-500 mt-0.5">{t(item.descKey)}</span>
-                          </span>
-                        </Link>
-                      );
-                    })}
-                    <div role="separator" className="mx-3 my-1.5 border-t border-white/10" />
-                    <p className="px-5 pb-1 pt-2 text-[11px] font-bold uppercase tracking-[0.15em] text-primary">
-                      {t("businessOptionsHeading")}
-                    </p>
-                    <Link
-                      href="/services/business-advisory"
-                      aria-current={isAdvisoryActive ? "page" : undefined}
-                      className={`${mobileDropdownItemClass} ${isAdvisoryActive ? "text-primary bg-primary/10" : ""}`}
-                      onClick={(e) => handleMobileNavClick(e, "/services/business-advisory")}
-                    >
-                      <Briefcase className="h-4 w-4 shrink-0 mt-0.5 opacity-70" aria-hidden />
-                      <span>
-                        <span className="block text-base font-medium">{t("businessEnablement")}</span>
-                        <span className="block text-xs text-slate-500 mt-0.5">{t("businessEnablementDesc")}</span>
-                      </span>
-                    </Link>
-                    <div role="separator" className="mx-3 my-1.5 border-t border-white/10" />
-                    {workshopLinks.map((item) => {
-                      const Icon = item.icon;
-                      const current = isCurrentHref(item.href);
-                      return (
-                        <Link
-                          key={item.nameKey}
-                          href={item.href}
-                          aria-current={current ? "page" : undefined}
-                          className={`${mobileDropdownItemClass} ${current ? "text-primary bg-primary/10" : ""}`}
-                          onClick={(e) => handleMobileNavClick(e, item.href)}
-                        >
-                          <Icon
-                            className="h-4 w-4 shrink-0 mt-0.5 opacity-70"
-                            aria-hidden
-                          />
-                          <span>
-                            <span className="block text-base font-medium">
-                              {t(item.nameKey)}
-                            </span>
-                            <span className="block text-xs text-slate-500 mt-0.5">
-                              {t(item.descKey)}
-                            </span>
-                          </span>
                         </Link>
                       );
                     })}

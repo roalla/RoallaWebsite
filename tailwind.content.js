@@ -11,6 +11,7 @@ const homeContent = [
   './src/components/ConditionalLayout.tsx',
   './src/components/Footer.tsx',
   './src/components/Header.tsx',
+  './src/components/hero/**/*.{js,ts,jsx,tsx}',
   './src/components/ScheduleButton.tsx',
   './src/components/StickyMobileCTA.tsx',
   './src/components/TechnologyDecisionFramework.tsx',

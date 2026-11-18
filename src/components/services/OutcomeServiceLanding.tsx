@@ -7,6 +7,7 @@ import ServiceTrends2027 from "@/components/services/ServiceTrends2027";
 import type { ServiceLandingCopy } from "@/lib/service-landing-types";
 import type { ServiceActionServiceId } from "@/lib/service-action-tiles";
 import { attributedServiceTileHref } from "@/lib/service-action-tiles";
+import { DigitalTransformationVisual } from "@/components/hero/RoallaHeroVisuals";
 
 export type OutcomeServiceId =
   | "automation"
@@ -190,7 +191,14 @@ export default function OutcomeServiceLanding({
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
       <header className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-7 py-12 lg:px-12 lg:py-16 text-white">
-        {heroImage ? (
+        {service === "automation" ? (
+          <>
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_42%,rgba(0,180,197,0.22),transparent_33%),radial-gradient(circle_at_88%_78%,rgba(245,197,24,0.1),transparent_22%)]" aria-hidden />
+            <div className="mx-auto mb-8 h-[19rem] w-full max-w-[25rem] sm:h-[21rem] lg:absolute lg:right-8 lg:top-1/2 lg:mb-0 lg:w-[24rem] lg:-translate-y-1/2">
+              <DigitalTransformationVisual className="relative h-full w-full" />
+            </div>
+          </>
+        ) : heroImage ? (
           <>
             <Image
               src={heroImage}
@@ -208,7 +216,7 @@ export default function OutcomeServiceLanding({
             <div className="pointer-events-none absolute inset-y-0 right-0 w-[55%] bg-gradient-to-l from-slate-950/45 via-slate-950/15 to-transparent" aria-hidden />
           </>
         ) : null}
-        <div className="relative max-w-3xl">
+        <div className={`relative max-w-3xl ${service === "automation" ? "lg:max-w-[55%]" : ""}`}>
           <p className="text-xs font-semibold uppercase tracking-[.18em] text-primary-light">
             {content.eyebrow}
           </p>

@@ -11,7 +11,7 @@ export default function HomeHeroContent() {
 
   return (
     <div className="container relative z-10 mx-auto px-4 pb-14 sm:px-6 sm:pb-16 lg:px-8 lg:pb-20">
-      <div className="max-w-2xl lg:max-w-3xl">
+      <div className="max-w-2xl lg:max-w-[39rem]">
         <p className="mb-5 font-serif text-3xl font-bold tracking-[-0.02em] text-white sm:text-4xl">
           {tCommon('companyName')}
         </p>

@@ -12,7 +12,6 @@ import { getHeaderInsightSlugs } from '@/lib/header-insights-store'
 import { organizationJsonLd, websiteJsonLd } from '@/lib/structured-data'
 import { OG_IMAGE, OG_IMAGE_ALT, SITE_URL } from '@/lib/site'
 import { trustedTypesBootstrap } from '@/lib/security-headers'
-import { HERO_MOBILE_MAX_WIDTH_PX, HERO_SLIDES } from '@/lib/heroSlideshow'
 
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
 const bingVerification = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
@@ -113,32 +112,10 @@ export default async function RootLayout({
   const featuredInsightSlugs = await getHeaderInsightSlugs()
   const requestHeaders = await headers()
   const nonce = requestHeaders.get('x-nonce') ?? undefined
-  const pathname = requestHeaders.get('x-pathname') ?? ''
-  const preloadDesktopHero = pathname === '/' || pathname === '/en' || pathname === '/fr'
 
   return (
     <html lang={locale} className="font-sans">
       <head>
-        {preloadDesktopHero ? (
-          <>
-            <link
-              rel="preload"
-              as="image"
-              href={HERO_SLIDES[0].mobileAvifSrcSet}
-              type="image/avif"
-              fetchPriority="high"
-              media={`(max-width: ${HERO_MOBILE_MAX_WIDTH_PX}px)`}
-            />
-            <link
-              rel="preload"
-              as="image"
-              href={HERO_SLIDES[0].desktopAvif}
-              type="image/avif"
-              fetchPriority="high"
-              media={`(min-width: ${HERO_MOBILE_MAX_WIDTH_PX + 1}px)`}
-            />
-          </>
-        ) : null}
         <link
           rel="preload"
           as="font"

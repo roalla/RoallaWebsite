@@ -244,7 +244,7 @@ export default function UnifiedCommunicationsLanding({ locale }: { locale: strin
           <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
             <p className="max-w-3xl text-sm leading-6 text-slate-600">{c.allianceLine}</p>
             <Link
-              href="/partners/strategic-relationships#alliance-network"
+              href={{ pathname: '/partners/strategic-relationships', hash: 'alliance-network' }}
               className="inline-flex shrink-0 items-center text-sm font-semibold text-primary-dark hover:underline"
             >
               {c.allianceCta}

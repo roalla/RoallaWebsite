@@ -915,6 +915,104 @@
     100% { left: var(--particle-target-x); top: var(--particle-target-y); opacity: 0; transform: scale(0.35); }
   }
 
+  /* Route-specific cinematic artwork. Motion lives in the interface, network,
+     security, and telemetry objects; the photographic foundation stays still. */
+  .route-cinematic-hero {
+    isolation: isolate;
+    overflow: hidden;
+    pointer-events: none;
+    background: #02070d;
+  }
+
+  .route-cinematic-image,
+  .route-cinematic-grid,
+  .route-cinematic-svg,
+  .route-cinematic-vignette {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+  }
+
+  .route-cinematic-image { object-fit: cover; object-position: 72% center; opacity: 0.32; filter: saturate(0.55) contrast(1.15); }
+  .route-cinematic-grid {
+    background-image: linear-gradient(rgb(0 180 197 / 0.045) 1px, transparent 1px), linear-gradient(90deg, rgb(0 180 197 / 0.045) 1px, transparent 1px);
+    background-position: right center;
+    background-size: 38px 38px;
+    mask-image: linear-gradient(90deg, transparent 31%, black 58%);
+  }
+  .route-cinematic-svg { z-index: 1; overflow: visible; }
+  .route-cinematic-vignette { z-index: 2; background: radial-gradient(circle at 77% 48%, transparent 0 21%, rgb(0 180 197 / 0.055) 42%, transparent 66%); }
+
+  .cinematic-flow path {
+    stroke: #72f3ff;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-dasharray: 2 98;
+    animation: cinematic-flow 5.4s linear infinite;
+  }
+  .cinematic-orbits circle, .cinematic-radar circle { stroke: rgb(114 243 255 / 0.22); stroke-width: 1.3; stroke-dasharray: 5 9; transform-origin: center; animation: cinematic-spin 18s linear infinite; }
+  .cinematic-orbits circle:nth-child(2), .cinematic-radar circle:nth-child(2) { animation-direction: reverse; animation-duration: 25s; }
+  .cinematic-orbits path { stroke: #72f3ff; stroke-width: 1.5; }
+  .cinematic-search circle, .cinematic-search path { stroke: #e9fdff; stroke-width: 8; filter: drop-shadow(0 0 9px rgb(0 180 197 / 0.85)); animation: cinematic-search-pulse 4.4s ease-in-out infinite; }
+  .cinematic-rank-bars rect { fill: rgb(0 180 197 / 0.3); stroke: rgb(114 243 255 / 0.7); transform-box: fill-box; transform-origin: bottom; animation: cinematic-bars 3.6s ease-in-out infinite alternate; }
+  .cinematic-rank-bars rect:nth-child(2) { animation-delay: -1.2s; }.cinematic-rank-bars rect:nth-child(3) { animation-delay: -2.1s; }
+
+  .cinematic-workflow rect, .cinematic-tools rect, .cinematic-approval rect { fill: rgb(2 16 28 / 0.82); stroke: rgb(114 243 255 / 0.42); }
+  .cinematic-workflow circle, .cinematic-tools circle { fill: #00b4c5; filter: drop-shadow(0 0 6px #00b4c5); }
+  .cinematic-workflow path, .cinematic-tools path { stroke: rgb(233 253 255 / 0.65); stroke-width: 2; stroke-linecap: round; }
+  .cinematic-workflow > g, .cinematic-tools > g { transform-box: fill-box; transform-origin: center; animation: cinematic-node 3.2s ease-in-out infinite; }
+  .cinematic-workflow > g:nth-child(even), .cinematic-tools > g:nth-child(even) { animation-delay: -1.55s; }
+  .cinematic-gear { transform-box: fill-box; transform-origin: center; animation: cinematic-spin 14s linear infinite; }
+  .cinematic-gear circle, .cinematic-gear path { stroke: #72f3ff; stroke-width: 6; filter: drop-shadow(0 0 7px rgb(0 180 197 / 0.7)); }
+
+  .cinematic-dashboard rect, .cinematic-telemetry > rect { fill: rgb(2 14 25 / 0.76); stroke: rgb(114 243 255 / 0.27); }
+  .cinematic-dashboard > path:not(.cinematic-chart), .cinematic-telemetry > path:not(.cinematic-chart) { stroke: rgb(114 243 255 / 0.15); }
+  .cinematic-bars rect { fill: url('#none'); fill: rgb(0 180 197 / 0.34); stroke: rgb(114 243 255 / 0.56); transform-box: fill-box; transform-origin: bottom; animation: cinematic-bars 3.1s ease-in-out infinite alternate; }
+  .cinematic-bars rect:nth-child(2n) { animation-delay: -1.4s; }
+  .cinematic-chart, .cinematic-card-chart { stroke: #72f3ff; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; path-length: 1; animation: cinematic-chart 4.2s ease-in-out infinite; }
+  .cinematic-hotspot { fill: #e9fdff !important; stroke: #72f3ff !important; filter: drop-shadow(0 0 9px #00b4c5); animation: cinematic-node 2.2s ease-in-out infinite; }
+
+  .cinematic-card { animation: cinematic-card-float 6s ease-in-out infinite; }
+  .cinematic-card-b { animation-delay: -2.8s; }
+  .cinematic-card > rect:first-child { fill: rgb(2 14 25 / 0.86); stroke: rgb(114 243 255 / 0.36); }
+  .cinematic-card > circle { fill: #00b4c5; }.cinematic-card > path:not(.cinematic-card-chart) { stroke: rgb(114 243 255 / 0.22); }
+  .cinematic-card-block { fill: rgb(0 180 197 / 0.12) !important; stroke: rgb(114 243 255 / 0.32) !important; animation: cinematic-block 3.7s ease-in-out infinite; }
+  .cinematic-cursor { fill: #e9fdff; stroke: #00b4c5; stroke-width: 2; filter: drop-shadow(0 0 8px #00b4c5); animation: cinematic-cursor 5s ease-in-out infinite; }
+
+  .cinematic-shield > path:first-child { fill: rgb(0 180 197 / 0.1); stroke: #72f3ff; stroke-width: 3; filter: drop-shadow(0 0 12px rgb(0 180 197 / 0.65)); animation: cinematic-shield 4.2s ease-in-out infinite; }
+  .cinematic-shield > path:last-child, .cinematic-approval path { stroke: #e9fdff; stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; animation: cinematic-chart 4s ease-in-out infinite; }
+  .cinematic-radar path { stroke: rgb(114 243 255 / 0.4); stroke-width: 2; transform-origin: center; animation: cinematic-spin 5s linear infinite; }
+  .cinematic-control-grid rect { fill: rgb(0 180 197 / 0.1); stroke: rgb(114 243 255 / 0.4); animation: cinematic-block 2.8s ease-in-out infinite; }
+  .cinematic-control-grid rect:nth-child(2n) { animation-delay: -1.4s; }
+
+  .cinematic-agent > circle { fill: rgb(0 180 197 / 0.08); stroke: rgb(114 243 255 / 0.55); stroke-width: 2; transform-origin: center; animation: cinematic-agent-ring 5s ease-in-out infinite; }
+  .cinematic-agent > circle:nth-child(2) { fill: rgb(2 14 25 / 0.82); animation-delay: -2s; }
+  .cinematic-agent path { stroke: #e9fdff; stroke-width: 4; stroke-linecap: round; }
+  .cinematic-agent circle:not(:first-child):not(:nth-child(2)) { fill: #72f3ff; filter: drop-shadow(0 0 8px #00b4c5); animation: cinematic-node 2.5s ease-in-out infinite; }
+  .cinematic-approval path { stroke-width: 6; }
+
+  .cinematic-metrics circle { fill: none; stroke: #00b4c5; stroke-width: 6; stroke-dasharray: 90 60; transform-origin: center; animation: cinematic-spin 7s linear infinite; }
+  .cinematic-loop path { stroke: #72f3ff; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; transform-origin: center; animation: cinematic-spin 7s linear infinite; }
+
+  @keyframes cinematic-flow { to { stroke-dashoffset: -100; } }
+  @keyframes cinematic-spin { to { transform: rotate(360deg); } }
+  @keyframes cinematic-search-pulse { 50% { opacity: 0.55; transform: scale(1.04); } }
+  @keyframes cinematic-bars { to { opacity: 0.55; transform: scaleY(0.56); } }
+  @keyframes cinematic-node { 50% { opacity: 0.52; transform: scale(0.9); } }
+  @keyframes cinematic-chart { 0%, 18% { stroke-dasharray: 0 1; } 55%, 100% { stroke-dasharray: 1 0; } }
+  @keyframes cinematic-card-float { 50% { transform: translate3d(0, -10px, 0); } }
+  @keyframes cinematic-block { 50% { opacity: 0.35; } }
+  @keyframes cinematic-cursor { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-115px, 75px); } }
+  @keyframes cinematic-shield { 50% { fill: rgb(0 180 197 / 0.2); stroke-width: 4; } }
+  @keyframes cinematic-agent-ring { 50% { opacity: 0.58; transform: scale(1.07); } }
+
+  @media (max-width: 767px) {
+    .route-cinematic-image { object-position: 78% center; opacity: 0.22; }
+    .route-cinematic-svg { width: 150%; transform: translateX(-32%); }
+    .route-cinematic-grid { opacity: 0.55; mask-image: linear-gradient(90deg, transparent 12%, black 68%); }
+  }
+
   @media (max-width: 767px) {
     .roalla-artwork-overlay,
     .roalla-particle-field { display: none; }
@@ -992,6 +1090,13 @@
     .roalla-artwork-motion *,
     .roalla-artwork-motion *::before,
     .roalla-artwork-motion *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    .route-cinematic-hero *,
+    .route-cinematic-hero *::before,
+    .route-cinematic-hero *::after {
       animation: none !important;
       transition: none !important;
     }

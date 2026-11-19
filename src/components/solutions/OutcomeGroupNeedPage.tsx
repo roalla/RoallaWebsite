@@ -9,6 +9,7 @@ import type { SolutionPathId } from '@/lib/solutions-by-need'
 import OutcomeGroupPanel from '@/components/solutions/OutcomeGroupPanel'
 import AutomationAiNeedExtras from '@/components/solutions/AutomationAiNeedExtras'
 import NeedSituationSummary from '@/components/solutions/NeedSituationSummary'
+import RouteCinematicHero from '@/components/hero/RouteCinematicHero'
 
 type Props = {
   groupId: OutcomeGroupId
@@ -75,10 +76,9 @@ export default function OutcomeGroupNeedPage({
         data-header-tone="dark"
         className="relative isolate overflow-hidden bg-slate-950 px-4 pb-16 pt-32 text-white sm:px-6 lg:px-8 lg:pb-20 lg:pt-36"
       >
-        <div className="absolute inset-0 -z-10" aria-hidden>
-          <div className="absolute -right-24 top-10 h-80 w-80 rounded-full bg-primary/20 blur-3xl" />
-          <div className="absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-cyan-400/10 blur-3xl" />
-        </div>
+        <RouteCinematicHero variant={groupId} priority className="absolute inset-0 -z-20" />
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-r from-slate-950 via-slate-950/95 to-slate-950/25" aria-hidden />
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-black/25 via-transparent to-slate-950/80" aria-hidden />
         <div className="relative mx-auto max-w-5xl">
           <Link
             href="/solutions"

@@ -16,8 +16,8 @@ import { Link } from "@/i18n/navigation";
 import ServiceActionTiles from "@/components/services/ServiceActionTiles";
 import ServiceTrends2027 from "@/components/services/ServiceTrends2027";
 import type { AgenticServiceCopy } from "@/lib/agentic-service-content";
-import { AgentWorkflowMotion } from "@/components/motion/OperationalMotion";
 import { attributedServiceTileHref } from "@/lib/service-action-tiles";
+import RouteCinematicHero from "@/components/hero/RouteCinematicHero";
 
 const capabilityIcons = [Bot, Workflow, Network, UserCheck] as const;
 const layerIcons = [GitBranch, BrainCircuit, Library] as const;
@@ -46,15 +46,13 @@ export default function AgenticLanding({
         className="relative overflow-hidden rounded-3xl border border-slate-700/80 bg-slate-950 px-7 py-12 text-white shadow-xl lg:px-12 lg:py-16"
         data-header-tone="dark"
       >
+        <RouteCinematicHero variant="ai-agents" priority className="absolute inset-0" />
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_18%,rgba(34,211,238,0.14),transparent_32%),radial-gradient(circle_at_92%_78%,rgba(242,193,78,0.10),transparent_30%)]"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/94 to-slate-950/25"
           aria-hidden
         />
-        <div
-          className="pointer-events-none absolute inset-0 bg-gradient-to-br from-slate-950/40 via-transparent to-slate-950/65"
-          aria-hidden
-        />
-        <div className="relative grid gap-10 lg:grid-cols-[minmax(0,1.12fr)_minmax(20rem,.88fr)] lg:items-center">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-slate-950/75" aria-hidden />
+        <div className="relative lg:max-w-[58%]">
           <div className="max-w-4xl">
             <p className="text-xs font-bold uppercase tracking-[.2em] text-cyan-300">{content.eyebrow}</p>
             <h1 className="mt-4 text-4xl font-serif font-bold leading-tight text-white md:text-6xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.55)]">{content.title}</h1>
@@ -83,7 +81,6 @@ export default function AgenticLanding({
               </Link>
             </div>
           </div>
-          <AgentWorkflowMotion locale={locale} />
         </div>
       </header>
 

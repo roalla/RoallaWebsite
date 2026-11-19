@@ -7,6 +7,7 @@ import ServiceTrends2027 from "@/components/services/ServiceTrends2027";
 import type { ServiceLandingCopy } from "@/lib/service-landing-types";
 import type { ServiceActionServiceId } from "@/lib/service-action-tiles";
 import { attributedServiceTileHref } from "@/lib/service-action-tiles";
+import RouteCinematicHero, { type CinematicHeroVariant } from "@/components/hero/RouteCinematicHero";
 import { DigitalTransformationVisual } from "@/components/hero/RoallaHeroVisuals";
 
 export type OutcomeServiceId =
@@ -187,6 +188,13 @@ export default function OutcomeServiceLanding({
     },
   ];
   const currentJourneyHref = service ? serviceHrefs[service] : undefined;
+  const cinematicVariant: CinematicHeroVariant | undefined = service === "digital-products"
+    ? "digital-products"
+    : service === "security"
+      ? "security-risk-compliance"
+      : service === "managed-optimization"
+        ? "managed-optimization"
+        : undefined;
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28 pb-16">
@@ -196,6 +204,12 @@ export default function OutcomeServiceLanding({
             <DigitalTransformationVisual priority className="absolute inset-0" />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/92 to-slate-950/35" aria-hidden />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/25 via-transparent to-slate-950/65" aria-hidden />
+          </>
+        ) : cinematicVariant ? (
+          <>
+            <RouteCinematicHero variant={cinematicVariant} priority className="absolute inset-0" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/94 to-slate-950/25" aria-hidden />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/25 via-transparent to-slate-950/70" aria-hidden />
           </>
         ) : heroImage ? (
           <>
@@ -215,7 +229,7 @@ export default function OutcomeServiceLanding({
             <div className="pointer-events-none absolute inset-y-0 right-0 w-[55%] bg-gradient-to-l from-slate-950/45 via-slate-950/15 to-transparent" aria-hidden />
           </>
         ) : null}
-        <div className={`relative max-w-3xl ${service === "automation" ? "lg:max-w-[55%]" : ""}`}>
+        <div className={`relative max-w-3xl ${cinematicVariant ? "lg:max-w-[58%]" : ""}`}>
           <p className="text-xs font-semibold uppercase tracking-[.18em] text-primary-light">
             {content.eyebrow}
           </p>

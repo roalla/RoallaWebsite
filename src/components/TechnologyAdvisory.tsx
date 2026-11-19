@@ -153,17 +153,14 @@ const TechnologyAdvisory = () => {
         data-header-tone="dark"
         className="relative isolate overflow-hidden bg-slate-950 px-4 pb-14 pt-28 text-white sm:px-6 lg:px-8 lg:pb-16 lg:pt-32"
       >
-        <div className="absolute inset-0 -z-30 bg-[radial-gradient(circle_at_78%_38%,rgba(0,180,197,0.22),transparent_31%),radial-gradient(circle_at_91%_74%,rgba(245,197,24,0.1),transparent_22%),linear-gradient(135deg,#07111f_0%,#0b1d31_58%,#07111f_100%)]" aria-hidden />
+        <DigitalCommandCentreVisual priority className="absolute inset-0 -z-30" />
         <div
-          className="absolute inset-0 -z-20 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/55"
+          className="absolute inset-0 -z-20 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/35"
           aria-hidden
         />
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/25 via-transparent to-slate-950/85" aria-hidden />
 
         <div className="relative mx-auto max-w-6xl lg:pr-[25rem]">
-          <div className="mx-auto mb-8 h-[19rem] w-full max-w-[25rem] sm:h-[21rem] lg:absolute lg:right-0 lg:top-1/2 lg:mb-0 lg:w-[23rem] lg:-translate-y-1/2">
-            <DigitalCommandCentreVisual className="relative h-full w-full" />
-          </div>
           <Reveal when="mount">
             <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-cyan-300">
               <span className="h-2 w-2 rounded-full bg-cyan-300" aria-hidden />

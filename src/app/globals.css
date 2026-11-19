@@ -792,6 +792,134 @@
     72%, 100% { left: 84%; top: 50%; opacity: 0; transform: scale(0.4); }
   }
 
+  /* Artwork-preserving hero motion. The optimized originals remain the base layer;
+     these overlays only illuminate details that already exist in each composition. */
+  .roalla-artwork-motion {
+    isolation: isolate;
+    overflow: hidden;
+    pointer-events: none;
+    background: #031426;
+  }
+
+  .roalla-artwork-motion.roalla-connected-intelligence,
+  .roalla-artwork-motion.roalla-command-centre,
+  .roalla-artwork-motion.roalla-transformation {
+    overflow: hidden;
+    border: 0;
+    border-radius: 0;
+    background: #031426;
+    box-shadow: none;
+    perspective: none;
+  }
+
+  .roalla-home-artwork,
+  .roalla-hero-artwork,
+  .roalla-artwork-overlay,
+  .roalla-particle-field {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+  }
+
+  .roalla-home-artwork { display: block; }
+  .roalla-hero-artwork { object-fit: cover; object-position: center; }
+  .roalla-artwork-overlay { z-index: 1; }
+  .roalla-particle-field { z-index: 2; }
+
+  .roalla-network-traces path {
+    stroke: rgb(114 243 255 / 0.9);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-dasharray: 1.5 98.5;
+    filter: drop-shadow(0 0 5px rgb(0 180 197 / 0.95));
+    animation: roalla-artwork-flow 5.8s linear infinite;
+  }
+
+  .roalla-network-node-glows > g {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: roalla-artwork-node 3.2s ease-in-out infinite;
+  }
+
+  .roalla-node-halo { fill: rgb(0 180 197 / 0.12); stroke: rgb(114 243 255 / 0.42); stroke-width: 1.5; }
+  .roalla-node-core { fill: #e9fdff; stroke: #72f3ff; stroke-width: 2; }
+
+  .roalla-command-flow path,
+  .roalla-automation-streams path {
+    stroke: #72f3ff;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 1 99;
+    filter: drop-shadow(0 0 5px rgb(0 180 197 / 0.95));
+    animation: roalla-artwork-flow 4.6s linear infinite;
+  }
+
+  .roalla-command-indicators > g {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: roalla-artwork-node 2.8s ease-in-out infinite;
+  }
+
+  .roalla-command-indicators circle:first-child { fill: #e9fdff; filter: drop-shadow(0 0 5px #00b4c5); }
+  .roalla-command-ring { fill: rgb(0 180 197 / 0.08); stroke: rgb(114 243 255 / 0.48); stroke-width: 1.5; }
+
+  .roalla-command-dashboard rect,
+  .roalla-command-readout rect {
+    fill: rgb(2 16 28 / 0.72);
+    stroke: rgb(114 243 255 / 0.3);
+    stroke-width: 1;
+    backdrop-filter: blur(5px);
+  }
+
+  .roalla-dashboard-grid { stroke: rgb(114 243 255 / 0.11); stroke-width: 0.8; }
+  .roalla-dashboard-chart { stroke: #72f3ff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; animation: roalla-chart-draw 3s ease-in-out infinite; }
+  .roalla-dashboard-cursor { fill: #f5c518; filter: drop-shadow(0 0 4px #f5c518); animation: roalla-artwork-node 2s ease-in-out infinite; }
+  .roalla-command-readout path { stroke: rgb(114 243 255 / 0.72); stroke-width: 2; stroke-linecap: round; animation: roalla-readout 3.2s ease-in-out infinite; }
+  .roalla-command-readout circle { fill: #47e1a8; filter: drop-shadow(0 0 4px #47e1a8); animation: roalla-artwork-node 2.2s ease-in-out infinite; }
+  .roalla-command-core-glow { fill: rgb(114 243 255 / 0.72); animation: roalla-core-light 3.4s ease-in-out infinite; }
+
+  .roalla-automation-hub {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: roalla-hub-reorganize 4.8s ease-in-out infinite;
+  }
+  .roalla-automation-hub path:first-child { fill: rgb(0 180 197 / 0.14); stroke: rgb(114 243 255 / 0.72); stroke-width: 1.5; }
+  .roalla-automation-hub path:last-child { fill: rgb(114 243 255 / 0.32); stroke: #e9fdff; stroke-width: 1; }
+
+  .roalla-artwork-motion .roalla-transform-particle {
+    --particle-target-x: 78%;
+    --particle-target-y: 50%;
+    position: absolute;
+    left: var(--particle-x);
+    top: var(--particle-y);
+    height: var(--particle-size);
+    width: var(--particle-size);
+    border-radius: 999px;
+    background: #e9fdff;
+    box-shadow: 0 0 8px #00b4c5;
+    opacity: 0;
+    animation: roalla-particle-reorganize 5.7s cubic-bezier(0.55, 0, 0.3, 1) var(--particle-delay) infinite;
+  }
+
+  @keyframes roalla-artwork-flow { to { stroke-dashoffset: -100; } }
+  @keyframes roalla-artwork-node { 50% { opacity: 0.5; transform: scale(0.72); } }
+  @keyframes roalla-core-light { 50% { opacity: 0.2; r: 29px; } }
+  @keyframes roalla-readout { 50% { opacity: 0.35; stroke-dasharray: 8 5; } }
+  @keyframes roalla-hub-reorganize { 50% { filter: drop-shadow(0 0 13px rgb(0 180 197 / 0.85)); transform: rotate(60deg) scale(1.08); } }
+  @keyframes roalla-particle-reorganize {
+    0%, 12% { left: var(--particle-x); top: var(--particle-y); opacity: 0; transform: scale(0.5); }
+    24% { opacity: 0.9; }
+    58% { left: 66%; top: 51%; opacity: 1; transform: scale(1.35); }
+    76% { left: var(--particle-target-x); top: var(--particle-target-y); opacity: 0.85; transform: scale(0.85); }
+    100% { left: var(--particle-target-x); top: var(--particle-target-y); opacity: 0; transform: scale(0.35); }
+  }
+
+  @media (max-width: 767px) {
+    .roalla-artwork-overlay,
+    .roalla-particle-field { display: none; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal-hidden,
     .reveal-visible {
@@ -852,6 +980,18 @@
     .roalla-hero-visual *,
     .roalla-hero-visual *::before,
     .roalla-hero-visual *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    .roalla-artwork-overlay,
+    .roalla-particle-field {
+      display: none !important;
+    }
+
+    .roalla-artwork-motion *,
+    .roalla-artwork-motion *::before,
+    .roalla-artwork-motion *::after {
       animation: none !important;
       transition: none !important;
     }

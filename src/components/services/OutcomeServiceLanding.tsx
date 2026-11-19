@@ -193,10 +193,9 @@ export default function OutcomeServiceLanding({
       <header className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-7 py-12 lg:px-12 lg:py-16 text-white">
         {service === "automation" ? (
           <>
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_42%,rgba(0,180,197,0.22),transparent_33%),radial-gradient(circle_at_88%_78%,rgba(245,197,24,0.1),transparent_22%)]" aria-hidden />
-            <div className="mx-auto mb-8 h-[19rem] w-full max-w-[25rem] sm:h-[21rem] lg:absolute lg:right-8 lg:top-1/2 lg:mb-0 lg:w-[24rem] lg:-translate-y-1/2">
-              <DigitalTransformationVisual className="relative h-full w-full" />
-            </div>
+            <DigitalTransformationVisual priority className="absolute inset-0" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/92 to-slate-950/35" aria-hidden />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/25 via-transparent to-slate-950/65" aria-hidden />
           </>
         ) : heroImage ? (
           <>

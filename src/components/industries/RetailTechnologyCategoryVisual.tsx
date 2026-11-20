@@ -46,7 +46,7 @@ export default function RetailTechnologyCategoryVisual({ locale }: { locale: str
           <p className="mt-4 text-base leading-7 text-slate-300">{copy.lead}</p>
         </div>
 
-        <picture className="mx-auto mt-10 hidden max-w-6xl md:block">
+        <picture className="retail-category-visual mx-auto mt-10 max-w-6xl">
           <source
             media="(prefers-reduced-motion: reduce)"
             srcSet={`${visualBase}.webp`}
@@ -64,7 +64,7 @@ export default function RetailTechnologyCategoryVisual({ locale }: { locale: str
           />
         </picture>
 
-        <ul className="mt-10 grid gap-4 md:hidden">
+        <ul className="retail-category-cards mt-10 grid gap-4">
           {copy.categories.map(([title, description], index) => (
             <li key={title} className="rounded-2xl border border-cyan-300/20 bg-white/[0.06] p-5">
               <div className="flex items-start gap-4">

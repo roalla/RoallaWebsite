@@ -8,6 +8,24 @@
 @tailwind utilities;
 
 @layer components {
+  .retail-category-visual.retail-category-visual {
+    display: none;
+  }
+
+  .retail-category-cards.retail-category-cards {
+    display: grid;
+  }
+
+  @media (min-width: 768px) {
+    .retail-category-visual.retail-category-visual {
+      display: block;
+    }
+
+    .retail-category-cards.retail-category-cards {
+      display: none;
+    }
+  }
+
   /*
    * Article contrast safeguard.
    * Global typography assigns dark colours directly to headings and body copy,

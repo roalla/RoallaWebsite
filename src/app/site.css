@@ -274,6 +274,78 @@
     animation: hero-rule-draw 0.8s ease-out 0.25s both;
   }
 
+  /* Legal and manufacturing retain their real photography while adding a
+     route-specific operational layer above the shared hero scrims. */
+  .industry-hero-motion {
+    position: absolute;
+    inset: 0 0 0 auto;
+    z-index: 1;
+    width: min(68%, 980px);
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0.92;
+    mask-image: linear-gradient(90deg, transparent 0%, rgb(0 0 0 / 0.78) 25%, black 48%);
+  }
+
+  .industry-hero-motion::before {
+    content: '';
+    position: absolute;
+    inset: 12% 5% 8% 18%;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgb(0 180 197 / 0.16), transparent 68%);
+    animation: industry-hero-ambient 5.8s ease-in-out infinite;
+  }
+
+  .industry-hero-motion svg { position: absolute; inset: 0; height: 100%; width: 100%; }
+  .industry-hero-motion path,
+  .industry-hero-motion rect,
+  .industry-hero-motion circle { vector-effect: non-scaling-stroke; }
+
+  .industry-legal-document > rect:first-child,
+  .industry-manufacturing-dashboard > rect:first-child { stroke: rgb(114 243 255 / 0.48); stroke-width: 1.6; }
+  .industry-legal-document path,
+  .industry-manufacturing-dashboard path { fill: none; stroke: rgb(233 253 255 / 0.82); stroke-width: 2; stroke-linecap: round; }
+  .industry-legal-document path,
+  .industry-manufacturing-dashboard path:first-of-type { stroke-dasharray: 1; animation: industry-hero-draw 4.8s ease-in-out infinite; }
+  .industry-legal-document > rect:last-child { fill: rgb(0 180 197 / 0.26); stroke: rgb(114 243 255 / 0.75); animation: industry-hero-status 3.2s ease-in-out infinite; }
+
+  .industry-legal-shield > path:first-child { fill: rgb(0 180 197 / 0.16); stroke: #72f3ff; stroke-width: 2.8; animation: industry-hero-shield 4s ease-in-out infinite; }
+  .industry-legal-shield > path:last-child { fill: none; stroke: #e9fdff; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; animation: industry-hero-draw 4s ease-in-out infinite; }
+  .industry-legal-balance path { fill: none; stroke: rgb(233 253 255 / 0.72); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .industry-legal-balance circle { fill: #72f3ff; opacity: 0.9; }
+  .industry-legal-balance { transform-origin: 381px 214px; animation: industry-hero-balance 5.2s ease-in-out infinite; }
+
+  .industry-legal-signals path,
+  .industry-manufacturing-signals path { fill: none; stroke: #72f3ff; stroke-width: 2; stroke-linecap: round; stroke-dasharray: 0.04 0.96; animation: industry-hero-flow 4.8s linear infinite; }
+  .industry-legal-signals circle,
+  .industry-manufacturing-signals circle { fill: #e9fdff; stroke: #00b4c5; stroke-width: 2; animation: industry-hero-node 2.8s ease-in-out infinite; }
+
+  .industry-manufacturing-dashboard > path:not(:first-of-type) { opacity: 0.52; }
+  .industry-manufacturing-dashboard > circle { fill: #e9fdff; stroke: #72f3ff; stroke-width: 2; animation: industry-hero-node 2.2s ease-in-out infinite; }
+  .industry-manufacturing-arm path { fill: none; stroke: rgb(233 253 255 / 0.82); stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; }
+  .industry-manufacturing-arm circle { fill: rgb(0 180 197 / 0.3); stroke: #72f3ff; stroke-width: 3; }
+  .industry-manufacturing-arm { transform-origin: 332px 389px; animation: industry-hero-arm 5.4s ease-in-out infinite; }
+  .industry-manufacturing-conveyor path { fill: none; stroke: rgb(114 243 255 / 0.66); stroke-width: 2; }
+  .industry-manufacturing-conveyor rect { fill: rgb(0 180 197 / 0.22); stroke: rgb(114 243 255 / 0.78); stroke-width: 2; animation: industry-hero-package 5.2s linear infinite; }
+  .industry-manufacturing-conveyor rect:nth-of-type(2) { animation-delay: -2.6s; }
+  .industry-manufacturing-conveyor circle { fill: rgb(2 14 25 / 0.78); stroke: rgb(114 243 255 / 0.72); stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: industry-hero-wheel 4s linear infinite; }
+
+  @keyframes industry-hero-ambient { 50% { opacity: 0.48; transform: scale(1.08); } }
+  @keyframes industry-hero-draw { 0%, 18% { stroke-dasharray: 0 1; } 55%, 100% { stroke-dasharray: 1 0; } }
+  @keyframes industry-hero-status { 50% { fill: rgb(0 180 197 / 0.46); } }
+  @keyframes industry-hero-shield { 50% { fill: rgb(0 180 197 / 0.28); stroke-width: 3.6; } }
+  @keyframes industry-hero-balance { 0%, 100% { transform: rotate(-1.4deg); } 50% { transform: rotate(1.4deg); } }
+  @keyframes industry-hero-flow { to { stroke-dashoffset: -1; } }
+  @keyframes industry-hero-node { 50% { opacity: 0.42; transform: scale(0.72); } }
+  @keyframes industry-hero-arm { 0%, 100% { transform: rotate(-1deg); } 50% { transform: rotate(4deg); } }
+  @keyframes industry-hero-package { 0%, 100% { transform: translateX(-14px); opacity: 0.56; } 50% { transform: translateX(18px); opacity: 1; } }
+  @keyframes industry-hero-wheel { to { transform: rotate(360deg); } }
+
+  @media (max-width: 767px) {
+    .industry-hero-motion { width: 112%; opacity: 0.58; transform: translateX(28%); }
+    .industry-hero-motion--legal { transform: translateX(34%); }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .animate-fade-in,
     .animate-skeleton-pulse,
@@ -285,6 +357,13 @@
     .about-shimmer-text,
     .about-rule {
       animation: none;
+    }
+
+    .industry-hero-motion *,
+    .industry-hero-motion *::before,
+    .industry-hero-motion *::after {
+      animation: none !important;
+      transition: none !important;
     }
 
     .about-card,

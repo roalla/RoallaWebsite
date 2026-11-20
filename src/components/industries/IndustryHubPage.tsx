@@ -16,6 +16,7 @@ import {
   type IndustryHubServiceKey,
 } from '@/lib/industry-hub-content'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
+import IndustryHeroMotion from '@/components/industries/IndustryHeroMotion'
 
 const PATH_HASH_PREFIX = 'path='
 
@@ -234,6 +235,7 @@ export default function IndustryHubPage({
           />
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/88 to-slate-950/55" />
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-transparent to-slate-950/75" />
+          <IndustryHeroMotion industry={hub.id} />
         </div>
         <div className="relative mx-auto max-w-7xl">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-light">{hub.hero.eyebrow}</p>

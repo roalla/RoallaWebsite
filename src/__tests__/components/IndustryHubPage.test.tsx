@@ -90,6 +90,25 @@ describe('Industry hub contrast and imagery', () => {
     expect(closerTitle.className).toContain('text-white')
   })
 
+  it.each(['legal', 'manufacturing'] as const)(
+    'adds a route-specific animated visual to the %s hero',
+    (industry) => {
+      const hub = getIndustryHub('en', industry)!
+      const { container } = render(<IndustryHubPage locale="en" hub={hub} />)
+
+      const visual = container.querySelector(`[data-industry-hero-motion="${industry}"]`)
+      expect(visual).toBeInTheDocument()
+      expect(visual?.querySelector('svg')).toBeInTheDocument()
+    },
+  )
+
+  it('does not add an industry animation to unrelated hero routes', () => {
+    const hub = getIndustryHub('en', 'it-msp')!
+    const { container } = render(<IndustryHubPage locale="en" hub={hub} />)
+
+    expect(container.querySelector('[data-industry-hero-motion]')).not.toBeInTheDocument()
+  })
+
   it('renders lead service tiles with opt.webp assets', () => {
     const hub = getIndustryHub('en', 'it-msp')!
     const { container } = render(<IndustryHubPage locale="en" hub={hub} />)

@@ -109,22 +109,32 @@ describe('Industry hub contrast and imagery', () => {
     expect(container.querySelector('[data-industry-hero-motion]')).not.toBeInTheDocument()
   })
 
-  it('renders the retail technology categories with animated, reduced-motion, fallback, and mobile treatments', () => {
-    const hub = getIndustryHub('en', 'retail')!
-    const { container } = render(<IndustryHubPage locale="en" hub={hub} />)
+  it.each([
+    ['legal', 'One legal practice, five connected technology outcomes'],
+    ['manufacturing', 'One manufacturing operation, five connected technology outcomes'],
+    ['retail', 'One retail experience, five connected technology outcomes'],
+  ] as const)(
+    'renders explicit %s technology categories with animated, reduced-motion, fallback, and mobile treatments',
+    (industry, heading) => {
+      const hub = getIndustryHub('en', industry)!
+      const { container } = render(<IndustryHubPage locale="en" hub={hub} />)
 
-    const title = screen.getByRole('heading', {
-      name: 'One retail experience, five connected technology outcomes',
-    })
-    const section = title.closest('section')!
-    const sources = Array.from(section.querySelectorAll('picture source'))
-    expect(sources).toHaveLength(2)
-    expect(sources[0]).toHaveAttribute('media', '(prefers-reduced-motion: reduce)')
-    expect(sources[0]).toHaveAttribute('srcset', expect.stringContaining('.webp'))
-    expect(sources[1]).toHaveAttribute('srcset', expect.stringContaining('.svg'))
-    expect(section.querySelectorAll('ul h3')).toHaveLength(5)
-    expect(container.innerHTML).toContain('Attract &amp; Convert')
-    expect(container.innerHTML).toContain('Connect Teams &amp; Locations')
+      const title = screen.getByRole('heading', { name: heading })
+      const section = title.closest('section')!
+      const sources = Array.from(section.querySelectorAll('picture source'))
+      expect(section).toHaveAttribute('data-industry-category-visual', industry)
+      expect(sources).toHaveLength(2)
+      expect(sources[0]).toHaveAttribute('media', '(prefers-reduced-motion: reduce)')
+      expect(sources[0]).toHaveAttribute('srcset', expect.stringContaining(`${industry}-technology-categories.webp`))
+      expect(sources[1]).toHaveAttribute('srcset', expect.stringContaining(`${industry}-technology-categories.svg`))
+      expect(section.querySelectorAll('ul h3')).toHaveLength(5)
+    },
+  )
+
+  it('does not render a category diagram on an unrelated industry route', () => {
+    const hub = getIndustryHub('en', 'it-msp')!
+    const { container } = render(<IndustryHubPage locale="en" hub={hub} />)
+    expect(container.querySelector('[data-industry-category-visual]')).not.toBeInTheDocument()
   })
 
   it('renders lead service tiles with opt.webp assets', () => {

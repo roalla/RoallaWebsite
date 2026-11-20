@@ -79,33 +79,7 @@ export default function FocusCirclePresentation({ copy }: { copy: FocusCircleCop
     return () => document.removeEventListener("fullscreenchange", onFullscreen);
   }, []);
 
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
-      const target = event.target as HTMLElement | null;
-      if (target?.closest("input, textarea, select, [contenteditable='true']")) return;
-      if (event.key === "ArrowLeft") {
-        event.preventDefault();
-        goTo(index - 1);
-      }
-      if (event.key === "ArrowRight") {
-        event.preventDefault();
-        goTo(index + 1);
-      }
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [goTo, index]);
-
-  useEffect(() => {
-    const nav = chaptersRef.current;
-    const current = nav?.querySelector<HTMLElement>("[data-current='true']");
-    if (!nav || !current) return;
-    const navBox = nav.getBoundingClientRect();
-    const buttonBox = current.getBoundingClientRect();
-    nav.scrollBy({ left: buttonBox.left - navBox.left - (navBox.width - buttonBox.width) / 2, behavior: "smooth" });
-  }, [index]);
-
-  async function toggleFullscreen() {
+  const toggleFullscreen = useCallback(async () => {
     setFullscreenBlocked(false);
     try {
       if (document.fullscreenElement) {
@@ -124,7 +98,37 @@ export default function FocusCirclePresentation({ copy }: { copy: FocusCircleCop
       setFullscreen(true);
       setFullscreenBlocked(true);
     }
-  }
+  }, []);
+
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (target?.closest("input, textarea, select, [contenteditable='true']")) return;
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        goTo(index - 1);
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        goTo(index + 1);
+      }
+      if (event.key === "f" || event.key === "F") {
+        event.preventDefault();
+        void toggleFullscreen();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [goTo, index, toggleFullscreen]);
+
+  useEffect(() => {
+    const nav = chaptersRef.current;
+    const current = nav?.querySelector<HTMLElement>("[data-current='true']");
+    if (!nav || !current) return;
+    const navBox = nav.getBoundingClientRect();
+    const buttonBox = current.getBoundingClientRect();
+    nav.scrollBy({ left: buttonBox.left - navBox.left - (navBox.width - buttonBox.width) / 2, behavior: "smooth" });
+  }, [index]);
 
   function finishSwipe(x: number) {
     if (touchStart.current === null) return;
@@ -135,6 +139,7 @@ export default function FocusCirclePresentation({ copy }: { copy: FocusCircleCop
 
   const slide = slides[index];
   const presenting = mode === "present" || fullscreen;
+  const cssFullscreen = fullscreen && typeof document !== "undefined" && !document.fullscreenElement;
   const currentChapter = [...copy.chapters].reverse().find((chapter) => index >= chapter.slide);
   const stageLabels = copy.deckFooter.split("→").map((stage) => stage.trim());
 
@@ -168,10 +173,14 @@ export default function FocusCirclePresentation({ copy }: { copy: FocusCircleCop
           tabIndex={0}
           onTouchStart={(event) => { touchStart.current = event.changedTouches[0]?.clientX ?? null; }}
           onTouchEnd={(event) => finishSwipe(event.changedTouches[0]?.clientX ?? 0)}
-          className={`mx-4 mt-4 overflow-hidden rounded-xl border border-white/10 bg-[#07111f] outline-none focus-visible:ring-2 focus-visible:ring-brand-gold sm:mx-6 ${fullscreen && !document.fullscreenElement ? "fixed inset-4 z-50 shadow-2xl" : ""}`}
+          className={`mt-4 flex flex-col overflow-hidden bg-[#07111f] outline-none focus-visible:ring-2 focus-visible:ring-brand-gold ${
+            fullscreen
+              ? `h-dvh w-full rounded-none border-0 ${cssFullscreen ? "fixed inset-0 z-50 shadow-2xl" : ""}`
+              : "mx-4 rounded-xl border border-white/10 sm:mx-6"
+          }`}
         >
-          <SlideBody slide={slide} presenting={presenting} index={index} total={slides.length} stageLabels={stageLabels} qrSrc={qrSrc} qrAlt={copy.qrAlt} />
-          <div className="flex flex-wrap items-center gap-3 border-t border-white/10 bg-[#07111f] px-4 py-4 sm:px-6">
+          <SlideBody slide={slide} presenting={presenting} fullscreen={fullscreen} index={index} total={slides.length} stageLabels={stageLabels} qrSrc={qrSrc} qrAlt={copy.qrAlt} />
+          <div className="flex shrink-0 flex-wrap items-center gap-3 border-t border-white/10 bg-[#07111f] px-4 py-3 sm:px-6">
             <button type="button" onClick={() => goTo(index - 1)} disabled={index === 0} className={controlClass()}>
               <ChevronLeft className="h-4 w-4" aria-hidden /> {copy.previous}
             </button>
@@ -202,9 +211,10 @@ export default function FocusCirclePresentation({ copy }: { copy: FocusCircleCop
   );
 }
 
-function SlideBody({ slide, presenting, index, total, stageLabels, qrSrc, qrAlt }: {
+function SlideBody({ slide, presenting, fullscreen, index, total, stageLabels, qrSrc, qrAlt }: {
   slide: FocusSlide;
   presenting: boolean;
+  fullscreen: boolean;
   index: number;
   total: number;
   stageLabels: string[];
@@ -215,7 +225,17 @@ function SlideBody({ slide, presenting, index, total, stageLabels, qrSrc, qrAlt 
   const isClose = slide.visual === "close";
 
   return (
-    <article className={`relative flex min-h-[30rem] flex-col overflow-hidden bg-[#07111f] text-white ${presenting ? "md:min-h-[min(76vh,52rem)]" : "md:min-h-[34rem]"}`} aria-roledescription="slide" aria-label={`${index + 1}: ${slide.title}`}>
+    <article
+      className={`relative flex min-h-0 flex-1 flex-col overflow-hidden bg-[#07111f] text-white ${
+        fullscreen
+          ? "h-full"
+          : presenting
+            ? "min-h-[30rem] md:min-h-[70vh]"
+            : "min-h-[30rem] md:min-h-[34rem]"
+      }`}
+      aria-roledescription="slide"
+      aria-label={`${index + 1}: ${slide.title}`}
+    >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,180,197,0.18),transparent_52%)]" aria-hidden />
       {isPhotoLead && slide.imageSrc ? (
         <>
@@ -239,11 +259,11 @@ function SlideBody({ slide, presenting, index, total, stageLabels, qrSrc, qrAlt 
           <h3 className={`${presenting ? "text-4xl sm:text-5xl lg:text-6xl" : "text-3xl sm:text-4xl lg:text-5xl"} max-w-3xl font-serif font-bold leading-[1.03] tracking-tight text-white`}>{slide.title}</h3>
           <p className={`${presenting ? "text-lg sm:text-xl" : "text-base sm:text-lg"} mt-4 max-w-2xl leading-relaxed text-slate-200`}>{slide.body}</p>
           {slide.statement ? <p className="mt-5 max-w-2xl border-l-2 border-brand-gold pl-4 font-serif text-xl leading-snug text-white sm:text-2xl">{slide.statement}</p> : null}
-          {!presenting && slide.points?.length ? (
-            <ul className="mt-5 grid max-w-2xl gap-2 sm:grid-cols-2">
+          {slide.points?.length ? (
+            <ul className={`mt-5 grid max-w-2xl gap-2 sm:grid-cols-2 ${presenting ? "gap-3" : ""}`}>
               {slide.points.slice(0, 4).map((point) => {
                 const [label, ...detail] = point.split("|");
-                return <li key={point} className="rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm text-slate-300"><span className="font-semibold text-white">{label}</span>{detail.length ? ` — ${detail.join("|")}` : ""}</li>;
+                return <li key={point} className={`rounded-lg border border-white/10 bg-black/20 text-slate-300 ${presenting ? "px-3 py-2.5 text-sm sm:text-base" : "px-3 py-2 text-sm"}`}><span className="font-semibold text-white">{label}</span>{detail.length ? ` — ${detail.join("|")}` : ""}</li>;
               })}
             </ul>
           ) : null}

@@ -47,6 +47,7 @@ export type CompanionWorkshopCopy = {
   next: string;
   fullscreen: string;
   exitFullscreen: string;
+  fullscreenUnavailable: string;
   slideOf: string;
   stages: string[];
   storyEyebrow: string;
@@ -71,6 +72,7 @@ export type CompanionWorkshopCopy = {
   planSaved: string;
   planPrint: string;
   planClear: string;
+  planTakeaway?: string;
   toolsEyebrow: string;
   toolsTitle: string;
   tools: { title: string; body: string; points: string[]; href?: string }[];
@@ -81,6 +83,13 @@ export type CompanionWorkshopCopy = {
   faqs: { q: string; a: string }[];
   slides: WorkshopSlide[];
   practice: WorkshopPractice[];
+  outcomes?: string[];
+  formatsEyebrow?: string;
+  formatsTitle?: string;
+  formats?: { label: string; duration: string; body: string; ctaLabel: string }[];
+  seasonEyebrow?: string;
+  seasonTitle?: string;
+  seasonBody?: string;
 };
 
 const commonEn = {
@@ -95,6 +104,7 @@ const commonEn = {
   next: "Next",
   fullscreen: "Full screen",
   exitFullscreen: "Exit full screen",
+  fullscreenUnavailable: "Full screen is unavailable in this browser. Present mode is on.",
   slideOf: "Slide {current} of {total}",
   stages: ["Prepare", "Transform", "Emerge", "Soar"],
   practiceEyebrow: "Practice",
@@ -124,6 +134,7 @@ const commonFr = {
   next: "Suivant",
   fullscreen: "Plein écran",
   exitFullscreen: "Quitter le plein écran",
+  fullscreenUnavailable: "Le plein écran n’est pas disponible dans ce navigateur. Le mode présentation est activé.",
   slideOf: "Diapositive {current} sur {total}",
   stages: ["Préparer", "Transformer", "Émerger", "S’élever"],
   practiceEyebrow: "Pratique",

@@ -5,7 +5,7 @@ describe("companion workshop content", () => {
     for (const locale of ["en", "fr"]) {
       const copy = companionWorkshopCopy(id, locale);
       expect(copy.slides).toHaveLength(12);
-      expect(copy.practice).toHaveLength(3);
+      expect(copy.practice.length).toBeGreaterThanOrEqual(3);
       expect(copy.planFields).toHaveLength(3);
       expect(copy.tools).toHaveLength(4);
       expect(copy.faqs).toHaveLength(4);

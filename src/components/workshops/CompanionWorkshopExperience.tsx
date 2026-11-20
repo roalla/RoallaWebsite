@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Image from "next/image";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -13,7 +13,6 @@ import {
   Layers3,
   Maximize2,
   Minimize2,
-  MoveRight,
   ShieldCheck,
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -78,9 +77,39 @@ export default function CompanionWorkshopExperience({ copy }: { copy: CompanionW
           <h1 className="mt-4 text-4xl font-serif font-bold leading-tight text-white md:text-6xl">{copy.title}</h1>
           <p className="mt-5 text-xl leading-relaxed text-slate-100">{copy.promise}</p>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-300">{copy.intro}</p>
+          <p className="mt-4 text-sm font-medium text-primary-light">{copy.audienceLine}</p>
+          {copy.outcomes?.length ? (
+            <ul className="mt-5 space-y-2">
+              {copy.outcomes.map((item) => (
+                <li key={item} className="flex gap-2 text-sm text-slate-200">
+                  <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-brand-gold" aria-hidden />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          ) : null}
           <div className="mt-8"><ScheduleButton variant="primary" size="lg" icon intent="workshop" need={copy.id}>{copy.hostCta}</ScheduleButton></div>
         </div>
       </header>
+
+      {copy.formats?.length ? (
+        <section className="mb-12">
+          <Eyebrow>{copy.formatsEyebrow}</Eyebrow>
+          <h2 className="mt-3 text-3xl font-serif font-bold text-slate-900">{copy.formatsTitle}</h2>
+          <div className="mt-8 grid gap-5 md:grid-cols-2">
+            {copy.formats.map((format) => (
+              <article key={format.label} className="workshop-tile flex h-full flex-col rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary-dark">{format.duration}</p>
+                <h3 className="mt-2 font-serif text-xl font-bold text-slate-900">{format.label}</h3>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-slate-600">{format.body}</p>
+                <div className="mt-5">
+                  <ScheduleButton variant="secondary" size="md" icon intent="workshop" need={copy.id}>{format.ctaLabel}</ScheduleButton>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <WorkshopPresentation copy={copy} />
 
@@ -135,6 +164,7 @@ export default function CompanionWorkshopExperience({ copy }: { copy: CompanionW
         <Eyebrow>{copy.planEyebrow}</Eyebrow>
         <h2 id={`${copy.id}-plan-title`} className="mt-3 text-3xl font-serif font-bold text-slate-900">{copy.planTitle}</h2>
         <p className="mt-3 text-slate-600">{copy.planIntro}</p>
+        {copy.planTakeaway ? <p className="mt-3 rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 text-sm font-medium text-slate-800">{copy.planTakeaway}</p> : null}
         <div className="mt-6 grid gap-5">
           {copy.planFields.map((field, index) => (
             <label key={field.label} className="block">
@@ -150,6 +180,15 @@ export default function CompanionWorkshopExperience({ copy }: { copy: CompanionW
           {saved ? <p className="text-sm text-slate-500" role="status">{copy.planSaved}</p> : null}
         </div>
       </section>
+
+      {copy.seasonTitle ? (
+        <section className="mt-16 rounded-2xl border border-brand-gold/30 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-6 py-10 text-white lg:px-8">
+          <Eyebrow><span className="text-brand-gold">{copy.seasonEyebrow}</span></Eyebrow>
+          <h2 className="mt-3 font-serif text-3xl font-bold text-white">{copy.seasonTitle}</h2>
+          <p className="mt-3 max-w-3xl text-slate-300">{copy.seasonBody}</p>
+          <div className="mt-6"><ScheduleButton variant="secondary" size="lg" icon intent="workshop" need={copy.id} className="border-0 bg-brand-gold text-slate-950 hover:bg-brand-gold-light">{copy.hostCta}</ScheduleButton></div>
+        </section>
+      ) : null}
 
       <section className="mt-16">
         <h2 className="text-3xl font-serif font-bold text-slate-900">{copy.faqTitle}</h2>
@@ -173,34 +212,66 @@ function WorkshopPresentation({ copy }: { copy: CompanionWorkshopCopy }) {
   const [index, setIndex] = useState(0);
   const [mode, setMode] = useState<"read" | "present">("read");
   const [fullscreen, setFullscreen] = useState(false);
+  const [fullscreenBlocked, setFullscreenBlocked] = useState(false);
   const viewerRef = useRef<HTMLDivElement>(null);
   const touchStart = useRef<number | null>(null);
 
   const goTo = useCallback((next: number) => setIndex(Math.max(0, Math.min(copy.slides.length - 1, next))), [copy.slides.length]);
 
+  const toggleFullscreen = useCallback(async () => {
+    setFullscreenBlocked(false);
+    try {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+        return;
+      }
+      setMode("present");
+      if (viewerRef.current?.requestFullscreen) {
+        await viewerRef.current.requestFullscreen();
+        viewerRef.current.focus();
+        return;
+      }
+      setFullscreen(true);
+    } catch {
+      setMode("present");
+      setFullscreen(true);
+      setFullscreenBlocked(true);
+    }
+  }, []);
+
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
-      if ((event.target as HTMLElement | null)?.closest("input, textarea, select")) return;
-      if (event.key === "ArrowLeft") goTo(index - 1);
-      if (event.key === "ArrowRight") goTo(index + 1);
+      if ((event.target as HTMLElement | null)?.closest("input, textarea, select, [contenteditable='true']")) return;
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        goTo(index - 1);
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        goTo(index + 1);
+      }
+      if (event.key === "f" || event.key === "F") {
+        event.preventDefault();
+        void toggleFullscreen();
+      }
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [goTo, index]);
+  }, [goTo, index, toggleFullscreen]);
 
   useEffect(() => {
-    const onFullscreen = () => setFullscreen(document.fullscreenElement === viewerRef.current);
+    const onFullscreen = () => {
+      const active = document.fullscreenElement === viewerRef.current;
+      setFullscreen(active);
+      if (active) setMode("present");
+    };
     document.addEventListener("fullscreenchange", onFullscreen);
     return () => document.removeEventListener("fullscreenchange", onFullscreen);
   }, []);
 
-  async function toggleFullscreen() {
-    if (document.fullscreenElement) await document.exitFullscreen();
-    else if (viewerRef.current?.requestFullscreen) { setMode("present"); await viewerRef.current.requestFullscreen(); }
-  }
-
   const slide = copy.slides[index];
   const presenting = mode === "present" || fullscreen;
+  const cssFullscreen = fullscreen && typeof document !== "undefined" && !document.fullscreenElement;
 
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-800 bg-[#07111f] pb-5 text-white shadow-xl">
@@ -212,29 +283,66 @@ function WorkshopPresentation({ copy }: { copy: CompanionWorkshopCopy }) {
       </div>
       <nav className="mt-4 flex gap-2 overflow-x-auto px-5 pb-1 sm:px-6" aria-label={copy.viewerLabel}>{copy.slides.map((item, itemIndex) => <button key={`${item.kicker}-${itemIndex}`} type="button" onClick={() => goTo(itemIndex)} aria-current={itemIndex === index ? "step" : undefined} className={`h-2.5 w-8 shrink-0 rounded-full ${itemIndex === index ? "bg-brand-gold" : "bg-white/15 hover:bg-white/30"}`}><span className="sr-only">{itemIndex + 1}: {item.title}</span></button>)}</nav>
 
-      <div ref={viewerRef} tabIndex={0} onTouchStart={(event) => { touchStart.current = event.changedTouches[0]?.clientX ?? null; }} onTouchEnd={(event) => { if (touchStart.current !== null && Math.abs(event.changedTouches[0].clientX - touchStart.current) > 48) goTo(index + (event.changedTouches[0].clientX < touchStart.current ? 1 : -1)); touchStart.current = null; }} className="mx-4 mt-4 overflow-hidden rounded-xl border border-white/10 bg-[#07111f] outline-none focus-visible:ring-2 focus-visible:ring-brand-gold sm:mx-6">
-        <Slide slide={slide} copy={copy} presenting={presenting} index={index} />
-        <div className="flex flex-wrap items-center gap-3 border-t border-white/10 px-4 py-4 sm:px-6">
+      <div
+        ref={viewerRef}
+        tabIndex={0}
+        onTouchStart={(event) => { touchStart.current = event.changedTouches[0]?.clientX ?? null; }}
+        onTouchEnd={(event) => { if (touchStart.current !== null && Math.abs(event.changedTouches[0].clientX - touchStart.current) > 48) goTo(index + (event.changedTouches[0].clientX < touchStart.current ? 1 : -1)); touchStart.current = null; }}
+        className={`mt-4 flex flex-col overflow-hidden bg-[#07111f] outline-none focus-visible:ring-2 focus-visible:ring-brand-gold ${
+          fullscreen
+            ? `h-dvh w-full rounded-none border-0 ${cssFullscreen ? "fixed inset-0 z-50" : ""}`
+            : "mx-4 rounded-xl border border-white/10 sm:mx-6"
+        }`}
+      >
+        <Slide slide={slide} copy={copy} presenting={presenting} fullscreen={fullscreen} index={index} />
+        <div className="flex shrink-0 flex-wrap items-center gap-3 border-t border-white/10 px-4 py-3 sm:px-6">
           <button type="button" onClick={() => goTo(index - 1)} disabled={index === 0} className={controlClass()}><ChevronLeft className="h-4 w-4" />{copy.previous}</button>
           <p className="text-sm text-slate-300">{index + 1} / {copy.slides.length}</p>
           <button type="button" onClick={() => goTo(index + 1)} disabled={index === copy.slides.length - 1} className={controlClass()}>{copy.next}<ChevronRight className="h-4 w-4" /></button>
           <button type="button" onClick={() => void toggleFullscreen()} className={`${controlClass()} sm:ml-auto`}>{fullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}{fullscreen ? copy.exitFullscreen : copy.fullscreen}</button>
         </div>
       </div>
-      <details className="mx-4 mt-4 rounded-lg border border-white/10 px-4 py-3 sm:mx-6"><summary className="cursor-pointer text-sm font-semibold text-white">{copy.notesLabel}</summary><p className="mt-2 text-sm text-slate-300">{slide.notes}</p></details>
+      {fullscreenBlocked ? <p className="px-5 pt-3 text-sm text-slate-300 sm:px-6" role="status">{copy.fullscreenUnavailable}</p> : null}
+      {!fullscreen ? (
+        <details className="mx-4 mt-4 rounded-lg border border-white/10 px-4 py-3 sm:mx-6"><summary className="cursor-pointer text-sm font-semibold text-white">{copy.notesLabel}</summary><p className="mt-2 text-sm text-slate-300">{slide.notes}</p></details>
+      ) : null}
     </div>
   );
 }
 
-function Slide({ slide, copy, presenting, index }: { slide: WorkshopSlide; copy: CompanionWorkshopCopy; presenting: boolean; index: number }) {
+function Slide({ slide, copy, presenting, fullscreen, index }: { slide: WorkshopSlide; copy: CompanionWorkshopCopy; presenting: boolean; fullscreen: boolean; index: number }) {
   const points = (slide.points ?? []).map((point) => { const [label, ...detail] = point.split("|"); return { label, detail: detail.join("|") }; });
   const photo = slide.visual === "photo";
   return (
-    <article className={`relative flex min-h-[31rem] flex-col overflow-hidden ${presenting ? "md:min-h-[min(76vh,52rem)]" : "md:min-h-[34rem]"}`} aria-roledescription="slide" aria-label={`${index + 1}: ${slide.title}`}>
+    <article
+      className={`relative flex min-h-0 flex-1 flex-col overflow-hidden ${
+        fullscreen
+          ? "h-full"
+          : presenting
+            ? "min-h-[31rem] md:min-h-[70vh]"
+            : "min-h-[31rem] md:min-h-[34rem]"
+      }`}
+      aria-roledescription="slide"
+      aria-label={`${index + 1}: ${slide.title}`}
+    >
       {photo ? <><Image src={copy.heroImage} alt="" fill unoptimized sizes="(max-width: 768px) 100vw, 640px" className="object-cover" /><div className="absolute inset-0 bg-gradient-to-r from-[#07111f] via-[#07111f]/90 to-[#07111f]/20" /></> : <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,180,197,0.18),transparent_50%)]" />}
       <div className="relative flex items-center justify-between px-5 pt-5 sm:px-8"><p className="flex items-center gap-2 text-[11px] font-semibold tracking-[0.32em] text-white"><Image src="/roalla-logo-2027.svg" alt="" width={20} height={20} className="h-5 w-5" />ROALLA</p><p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-light">{slide.kicker}</p></div>
       <div className={`relative grid flex-1 items-center gap-8 px-5 py-8 sm:px-8 md:grid-cols-[0.9fr_1.1fr] ${photo ? "md:grid-cols-[0.75fr_1.25fr]" : ""}`}>
-        <div className="z-10"><div className="mb-4 h-0.5 w-12 bg-brand-gold" /><h3 className={`${presenting ? "text-4xl sm:text-6xl" : "text-3xl sm:text-5xl"} max-w-3xl font-serif font-bold leading-[1.04] text-white`}>{slide.title}</h3><p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-200 sm:text-lg">{slide.body}</p>{slide.statement ? <p className="mt-5 border-l-2 border-brand-gold pl-4 font-serif text-xl text-white sm:text-2xl">{slide.statement}</p> : null}{!presenting && points.length ? <ul className="mt-5 grid gap-2 sm:grid-cols-2">{points.map((point) => <li key={point.label} className="rounded-lg border border-white/10 bg-black/20 p-2.5 text-sm text-slate-300"><strong className="text-white">{point.label}</strong>{point.detail ? ` — ${point.detail}` : ""}</li>)}</ul> : null}</div>
+        <div className="z-10">
+          <div className="mb-4 h-0.5 w-12 bg-brand-gold" />
+          <h3 className={`${presenting ? "text-4xl sm:text-5xl lg:text-6xl" : "text-3xl sm:text-5xl"} max-w-3xl font-serif font-bold leading-[1.04] text-white`}>{slide.title}</h3>
+          <p className={`mt-4 max-w-2xl leading-relaxed text-slate-200 ${presenting ? "text-base sm:text-lg" : "text-base sm:text-lg"}`}>{slide.body}</p>
+          {slide.statement ? <p className="mt-5 border-l-2 border-brand-gold pl-4 font-serif text-xl text-white sm:text-2xl">{slide.statement}</p> : null}
+          {points.length && (photo || slide.visual === "close" || !presenting) ? (
+            <ul className={`mt-5 grid gap-2 sm:grid-cols-2 ${presenting ? "max-w-3xl" : ""}`}>
+              {points.map((point) => (
+                <li key={point.label} className={`rounded-lg border border-white/10 bg-black/20 text-slate-300 ${presenting ? "p-3 text-sm sm:text-base" : "p-2.5 text-sm"}`}>
+                  <strong className="text-white">{point.label}</strong>{point.detail ? ` — ${point.detail}` : ""}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
         <div className={photo ? "hidden md:block" : "min-h-[15rem]"}><SlideVisual visual={slide.visual} points={points} /></div>
       </div>
       <StageMotif labels={copy.stages} active={slide.stage} />

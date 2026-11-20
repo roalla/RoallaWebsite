@@ -16,6 +16,7 @@ type AddedWorkshopFields = Omit<
   | "next"
   | "fullscreen"
   | "exitFullscreen"
+  | "fullscreenUnavailable"
   | "slideOf"
   | "stages"
   | "practiceEyebrow"
@@ -221,6 +222,7 @@ function withCommon(base: AddedWorkshopFields, slides: WorkshopSlide[], practice
         next: "Suivant",
         fullscreen: "Plein écran",
         exitFullscreen: "Quitter le plein écran",
+        fullscreenUnavailable: "Le plein écran n’est pas disponible dans ce navigateur. Le mode présentation est activé.",
         slideOf: "Diapositive {current} sur {total}",
         stages: ["Préparer", "Transformer", "Émerger", "S’élever"],
         practiceEyebrow: "Pratique",
@@ -249,6 +251,7 @@ function withCommon(base: AddedWorkshopFields, slides: WorkshopSlide[], practice
         next: "Next",
         fullscreen: "Full screen",
         exitFullscreen: "Exit full screen",
+        fullscreenUnavailable: "Full screen is unavailable in this browser. Present mode is on.",
         slideOf: "Slide {current} of {total}",
         stages: ["Prepare", "Transform", "Emerge", "Soar"],
         practiceEyebrow: "Practice",

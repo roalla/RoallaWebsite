@@ -12,22 +12,24 @@ import {
 } from '@/lib/industry-hub-content'
 
 describe('industry hub content', () => {
-  it('exposes all fifteen industry hub ids', () => {
-    expect(listIndustryHubIds()).toHaveLength(15)
+  it('exposes all sixteen industry hub ids', () => {
+    expect(listIndustryHubIds()).toHaveLength(16)
     expect(INDUSTRY_HUB_IDS).toContain('legal')
+    expect(INDUSTRY_HUB_IDS).toContain('retail')
     expect(isIndustryHubId('legal')).toBe(true)
     expect(isIndustryHubId('not-real')).toBe(false)
   })
 
   it('exposes a featured subset for the header', () => {
-    expect(FEATURED_INDUSTRY_HUB_IDS).toHaveLength(8)
-    expect(getFeaturedIndustryHubNav('en')).toHaveLength(8)
+    expect(FEATURED_INDUSTRY_HUB_IDS).toHaveLength(9)
+    expect(getFeaturedIndustryHubNav('en')).toHaveLength(9)
+    expect(getFeaturedIndustryHubNav('en').map((item) => item.id)).toContain('retail')
     expect(getFeaturedIndustryHubNav('en').map((item) => item.id)).not.toContain('warehouses')
   })
 
   it.each(['en', 'fr'] as const)('builds complete hubs for every industry in %s', (locale) => {
     const index = getIndustryHubIndex(locale)
-    expect(index.items).toHaveLength(15)
+    expect(index.items).toHaveLength(16)
     expect(index.title).toBeTruthy()
     expect(index.lead).toBeTruthy()
 

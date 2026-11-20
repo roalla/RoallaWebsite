@@ -1,4 +1,4 @@
-import { aiEmployeeContent } from './ai-employee-content'
+import { aiEmployeeContent, type AiEmployeeIndustry } from './ai-employee-content'
 import {
   INDUSTRY_HUB_PRIORITY,
   FEATURED_INDUSTRY_HUB_IDS,
@@ -16,6 +16,7 @@ export const INDUSTRY_HUB_IDS = [
   'transportation-logistics',
   'warehouses',
   'care-practices',
+  'retail',
   'manufacturing',
   'legal',
   'accounting-tax',
@@ -142,6 +143,11 @@ export const INDUSTRY_HERO_IMAGES: Record<IndustryHubId, { src: string; alt: str
     src: '/images/industries/care-practices.hero.webp',
     alt: 'Care practice front desk with secure patient intake and appointment phone',
     altFr: 'Réception de clinique avec admission sécurisée et téléphone de rendez-vous',
+  },
+  retail: {
+    src: '/images/industries/retail.hero.webp',
+    alt: 'Retail team connecting customer experience, sales, fulfilment, and store operations',
+    altFr: 'Équipe de détail reliant expérience client, ventes, exécution et opérations en magasin',
   },
   manufacturing: {
     src: '/images/industries/manufacturing.hero.webp',
@@ -334,6 +340,7 @@ const START_HERE_LEAD: Record<HubLocale, Record<IndustryHubId, string>> = {
     'transportation-logistics': 'Stabilize shipper and exception communications, then layer AI coverage on the highest-volume questions.',
     warehouses: 'Clear the inventory and appointment questions that interrupt the floor, then migrate fragile warehouse systems deliberately.',
     'care-practices': 'Protect patient access and privacy boundaries first—then expand automation only where clinic rules allow.',
+    retail: 'Connect customer response and order fulfilment first, then strengthen the systems shared across locations.',
     manufacturing: 'Protect plant-adjacent IT and keep the order desk reachable before broader modernization.',
     legal: 'Cover intake without giving advice, then harden confidentiality controls clients and insurers expect.',
     'accounting-tax': 'Absorb seasonal intake and document chase first, with sober controls around client financial data.',
@@ -351,6 +358,7 @@ const START_HERE_LEAD: Record<HubLocale, Record<IndustryHubId, string>> = {
     'transportation-logistics': 'Stabilisez les communications expéditeurs et exceptions, puis ajoutez la couverture IA sur les questions les plus fréquentes.',
     warehouses: 'Clarifiez les questions d’inventaire et de rendez-vous qui interrompent le plancher, puis migrez les systèmes fragiles avec méthode.',
     'care-practices': 'Protégez d’abord l’accès patients et les limites de confidentialité—puis étendez l’automatisation seulement où les règles cliniques le permettent.',
+    retail: 'Reliez d’abord la réponse client et l’exécution des commandes, puis renforcez les systèmes partagés entre établissements.',
     manufacturing: 'Protégez les TI proches de l’usine et gardez le bureau des commandes joignable avant une modernisation plus large.',
     legal: 'Couvrez l’accueil sans donner de conseils, puis renforcez les contrôles de confidentialité attendus par clients et assureurs.',
     'accounting-tax': 'Absorbez d’abord l’accueil saisonnier et les relances de documents, avec des contrôles sobres sur les données financières.',
@@ -371,6 +379,7 @@ const PROOF_LABEL: Record<HubLocale, Record<IndustryHubId, string>> = {
     'transportation-logistics': 'Modernize communications for operations teams',
     warehouses: 'Automate the workflows that stall the floor',
     'care-practices': 'Stop collecting personal information you do not need',
+    retail: 'Which customers are actually profitable?',
     manufacturing: 'A twelve-month technology roadmap that respects production',
     legal: 'Set client boundaries without damaging relationships',
     'accounting-tax': 'Measure whether your software stack creates value',
@@ -388,6 +397,7 @@ const PROOF_LABEL: Record<HubLocale, Record<IndustryHubId, string>> = {
     'transportation-logistics': 'Moderniser les communications pour les équipes d’exploitation',
     warehouses: 'Automatiser les flux qui bloquent le plancher',
     'care-practices': 'Cesser de collecter des renseignements personnels inutiles',
+    retail: 'Quels clients sont réellement rentables?',
     manufacturing: 'Une feuille de route technologique de douze mois qui respecte la production',
     legal: 'Fixer des limites clients sans nuire aux relations',
     'accounting-tax': 'Mesurer si votre pile logicielle crée de la valeur',
@@ -2729,19 +2739,182 @@ const FR_5: HubDataMap = {
     },
   },
 }
-const EN_DATA: Record<IndustryHubId, HubData> = { ...EN_1, ...EN_2, ...EN_3, ...EN_4, ...EN_5 } as Record<
+const EN_RETAIL: HubDataMap = {
+  retail: {
+    blurb: 'Connected customer journeys, store operations, fulfilment, and secure growth.',
+    metaTitle: 'Retail Technology, AI & Connected Store Solutions | Roalla',
+    metaDescription:
+      'Retail technology strategy, AI customer response, commerce automation, connected communications, cybersecurity, visibility, and websites for stores and multi-location retailers.',
+    heroTitle: 'Connect every customer moment to the team and system that can complete it',
+    heroLead:
+      'Retailers win when discovery, response, checkout, fulfilment, and service feel like one journey. Roalla connects the technology behind that journey without losing sight of store teams, margins, or operational reality.',
+    pressuresTitle: 'What creates friction across retail operations',
+    pressures: [
+      'Customer questions arriving across calls, social messages, email, and web chat with no shared response path',
+      'Inventory, orders, promotions, and customer records split across systems that do not agree',
+      'Store and location teams relying on personal phones or informal group chats to coordinate',
+      'Payment, identity, account, and availability risks that can interrupt both trust and revenue',
+    ],
+    closerTitle: 'Make the retail journey easier to find, buy from, operate, and improve',
+    closerLead:
+      'Show us how a customer moves from first discovery to fulfilment and follow-up. We will identify the smallest connected improvement that removes friction without disrupting the business.',
+    s: {
+      aiEmployee: sv(
+        'Answer product and order questions while the store team serves customers',
+        'An AI Employee covers calls and messages, answers approved product and policy questions, captures sales opportunities, and hands exceptions to the right person with context.',
+        'Availability, hours, location, promotion, and policy answers grounded in approved information.',
+        'Structured intake for product questions, appointments, special orders, and service needs.',
+        'Order, return, and complaint handoffs that include customer, purchase, and urgency details.',
+      ),
+      security: sv(
+        'Protect payments, identities, locations, and continuity',
+        'Retail risk spans payment terminals, ecommerce accounts, staff access, customer data, and store connectivity. We prioritize the controls that protect trading first.',
+        'Strong identity and role-based access across commerce, payment, and back-office systems.',
+        'Segmented store networks with secure device and guest access practices.',
+        'Tested recovery and incident paths for payment, account, and availability disruptions.',
+      ),
+      ucaas: sv(
+        'Connect every location without losing the local customer experience',
+        'Unified communications gives stores, warehouses, offices, and mobile leaders one managed calling and collaboration layer.',
+        'Shared business numbers and intelligent routing by location, department, and schedule.',
+        'Managed team messaging that replaces personal group chats for operations.',
+        'Location failover and mobile calling that keeps the business reachable during disruption.',
+      ),
+      ccaas: sv(
+        'Turn customer conversations into completed retail outcomes',
+        'A contact-centre layer brings calls, messages, and digital inquiries into one queue with customer context and measurable ownership.',
+        'Channel and intent routing for sales, order service, returns, and location questions.',
+        'Conversation history and callback ownership visible across locations.',
+        'Demand and response reporting that shows where customers wait or abandon.',
+      ),
+      cloudMigration: sv(
+        'Build a dependable foundation for commerce and store systems',
+        'We help retailers reduce fragile local dependencies and connect cloud platforms without treating every replacement as a big-bang project.',
+        'Phased migration for files, identity, reporting, and location services.',
+        'Resilient connectivity designed around checkout and fulfilment priorities.',
+        'Integration requirements that keep customer, product, and order data consistent.',
+      ),
+      automation: sv(
+        'Move orders, inventory, and customer follow-up without rekeying',
+        'We connect repeatable handoffs across commerce, inventory, fulfilment, communications, and reporting while preserving approval for exceptions.',
+        'Order and fulfilment updates shared automatically with customers and teams.',
+        'Low-stock, failed-payment, abandoned-cart, and service exceptions routed to owners.',
+        'Consistent follow-up after purchases, appointments, returns, and service recovery.',
+      ),
+      visibility: sv(
+        'Help nearby customers find the right product, service, and location',
+        'We structure local and product information so search engines and AI assistants can return useful, accurate retail answers.',
+        'Accurate location, hours, service, and inventory guidance across discovery channels.',
+        'Category and buying-guide content built around real customer decisions.',
+        'Measurement that connects visibility to qualified visits, inquiries, and sales actions.',
+      ),
+      websites: sv(
+        'Create a commerce experience that earns the next action',
+        'We design fast, accessible retail sites that help customers discover, compare, inquire, buy, book, or visit with less friction.',
+        'Mobile-first product, service, and location journeys with clear calls to action.',
+        'Accessible content and privacy-aware forms designed for customer trust.',
+        'Practical integration with approved commerce, payment, CRM, and booking tools.',
+      ),
+    },
+  },
+}
+
+const FR_RETAIL: HubDataMap = {
+  retail: {
+    blurb: 'Parcours clients, opérations, exécution et croissance sécurisée connectés.',
+    metaTitle: 'Technologie, IA et magasins connectés pour le détail | Roalla',
+    metaDescription:
+      'Stratégie technologique, réponse client IA, automatisation commerciale, communications, cybersécurité, visibilité et sites web pour détaillants.',
+    heroTitle: 'Reliez chaque moment client à l’équipe et au système qui peuvent le compléter',
+    heroLead:
+      'Les détaillants gagnent lorsque découverte, réponse, paiement, exécution et service forment un seul parcours. Roalla relie la technologie derrière ce parcours sans perdre de vue les équipes, les marges ni la réalité opérationnelle.',
+    pressuresTitle: 'Ce qui crée de la friction dans les opérations de détail',
+    pressures: [
+      'Des questions clients réparties entre appels, réseaux sociaux, courriel et clavardage sans parcours de réponse partagé',
+      'Inventaire, commandes, promotions et dossiers clients divisés entre des systèmes qui ne concordent pas',
+      'Des équipes en magasin qui dépendent de téléphones personnels ou de groupes informels pour se coordonner',
+      'Des risques liés aux paiements, identités, comptes et disponibilités qui menacent confiance et revenus',
+    ],
+    closerTitle: 'Facilitez la découverte, l’achat, l’exploitation et l’amélioration du parcours de détail',
+    closerLead:
+      'Montrez-nous le parcours d’un client, de la découverte à l’exécution et au suivi. Nous cernerons la plus petite amélioration connectée qui retire la friction sans perturber l’entreprise.',
+    s: {
+      aiEmployee: sv('Répondez aux questions pendant que l’équipe sert les clients','Un Employé IA couvre appels et messages, répond à partir de renseignements approuvés, saisit les occasions et transfère les exceptions avec leur contexte.','Réponses sur disponibilité, heures, établissements, promotions et politiques.','Accueil structuré pour questions produit, rendez-vous, commandes spéciales et service.','Transferts de commandes, retours et plaintes avec détails client, achat et urgence.'),
+      security: sv('Protégez paiements, identités, établissements et continuité','Le risque touche terminaux, commerce en ligne, accès du personnel, données clients et connectivité. Nous priorisons les contrôles qui protègent d’abord les activités.','Identité forte et accès par rôle dans les systèmes commerciaux et administratifs.','Réseaux de magasin segmentés avec pratiques sécurisées pour appareils et invités.','Reprise et intervention testées pour incidents de paiement, compte et disponibilité.'),
+      ucaas: sv('Reliez chaque établissement en préservant l’expérience locale','Les communications unifiées donnent aux magasins, entrepôts, bureaux et leaders mobiles une couche gérée commune.','Numéros partagés et acheminement intelligent par établissement, service et horaire.','Messagerie gérée qui remplace les groupes personnels pour les opérations.','Relève entre établissements et appels mobiles qui maintiennent l’accessibilité.'),
+      ccaas: sv('Transformez les conversations en résultats complétés','Une couche de centre de contact rassemble appels, messages et demandes numériques dans une file avec contexte client et responsabilité mesurable.','Acheminement par canal et intention pour ventes, commandes, retours et établissements.','Historique et responsabilité de rappel visibles entre établissements.','Rapports sur la demande et la réponse qui montrent l’attente et l’abandon.'),
+      cloudMigration: sv('Bâtissez une fondation fiable pour le commerce et les magasins','Nous réduisons les dépendances locales fragiles et relions les plateformes infonuagiques sans imposer un remplacement massif.','Migration progressive des fichiers, identités, rapports et services locaux.','Connectivité résiliente conçue selon les priorités de paiement et d’exécution.','Exigences d’intégration qui gardent cohérentes les données clients, produits et commandes.'),
+      automation: sv('Faites circuler commandes, inventaire et suivi sans ressaisie','Nous relions les transferts répétables entre commerce, inventaire, exécution, communications et rapports tout en gardant l’approbation des exceptions.','Mises à jour de commandes et d’exécution partagées automatiquement.','Exceptions de stock, paiement, panier et service acheminées à un responsable.','Suivi cohérent après achats, rendez-vous, retours et reprise de service.'),
+      visibility: sv('Aidez les clients proches à trouver le bon produit et établissement','Nous structurons l’information locale et produit pour que moteurs de recherche et assistants IA retournent des réponses utiles et exactes.','Données exactes sur établissements, heures et services dans les canaux de découverte.','Contenu de catégories et guides d’achat fondés sur de vraies décisions clients.','Mesure qui relie visibilité, visites qualifiées, demandes et actions de vente.'),
+      websites: sv('Créez une expérience commerciale qui mérite la prochaine action','Nous concevons des sites rapides et accessibles qui aident à découvrir, comparer, demander, acheter, réserver ou visiter.','Parcours mobiles produits, services et établissements avec appels à l’action clairs.','Contenu accessible et formulaires respectueux de la vie privée.','Intégration pratique avec les outils approuvés de commerce, paiement, CRM et réservation.'),
+    },
+  },
+}
+
+const EN_DATA: Record<IndustryHubId, HubData> = { ...EN_1, ...EN_2, ...EN_3, ...EN_4, ...EN_5, ...EN_RETAIL } as Record<
   IndustryHubId,
   HubData
 >
-const FR_DATA: Record<IndustryHubId, HubData> = { ...FR_1, ...FR_2, ...FR_3, ...FR_4, ...FR_5 } as Record<
+const FR_DATA: Record<IndustryHubId, HubData> = { ...FR_1, ...FR_2, ...FR_3, ...FR_4, ...FR_5, ...FR_RETAIL } as Record<
   IndustryHubId,
   HubData
 >
 const DATA: Record<HubLocale, Record<IndustryHubId, HubData>> = { en: EN_DATA, fr: FR_DATA }
+const RETAIL_AI_INDUSTRY: Record<HubLocale, AiEmployeeIndustry> = {
+  en: {
+    id: 'retail', label: 'Retail', shortLabel: 'Retail',
+    image: { src: '/images/insights/library/which-customers-are-actually-profitable.opt.webp', alt: 'Retail customer response and store operations' },
+    positioning: 'The AI front line for customers and store teams',
+    promise: 'Answer product, location, order, and service questions; capture buying intent; and route exceptions with the context needed to complete the customer journey.',
+    audiences: [
+      { id: 'retail-customers', label: 'Customers & commerce', lead: 'Keep customer questions moving across calls and digital channels.', uses: [
+        { title: 'Product and location questions', description: 'Answer from approved catalogues, availability guidance, hours, services, and policies.' },
+        { title: 'Sales and appointment intake', description: 'Capture the product, need, location, timing, and contact details before a team member follows up.' },
+        { title: 'Order and fulfilment support', description: 'Provide approved status and collect the details needed for delivery, pickup, return, or service exceptions.' },
+        { title: 'Service recovery', description: 'Recognize complaints, gather the facts, and escalate to an accountable person before trust erodes.' },
+      ] },
+      { id: 'retail-operations', label: 'Stores & operations', lead: 'Give store and location teams a consistent front door for routine questions and exceptions.', uses: [
+        { title: 'Store and policy guidance', description: 'Surface approved operating answers without forcing teams to search scattered documents.' },
+        { title: 'Inventory and order exceptions', description: 'Capture shortages, transfers, damaged goods, and fulfilment issues with location and order context.' },
+        { title: 'Location handoffs', description: 'Route customer and operational work to the right store, department, or on-call owner.' },
+        { title: 'Shift summaries', description: 'Summarize open customer and operational issues for the next team without relying on informal chat history.' },
+      ] },
+    ],
+    startTitle: 'Strongest place to begin', startLead: 'Begin with high-volume product, location, and order questions where approved answers and escalation rules are clear.',
+    startWith: ['Calls and messages after hours', 'Product and location questions', 'Sales and appointment intake', 'Order and fulfilment exceptions', 'Customer-service handoffs with a complete summary'],
+    boundaryTitle: 'Clear limits build trust', boundaryLead: 'An AI Employee can support the retail journey without making unapproved pricing, payment, inventory, or customer-remedy decisions.',
+    boundaries: ['Payment credentials and sensitive customer data stay inside approved systems and controlled workflows.', 'Price exceptions, refunds, fraud concerns, and consequential inventory changes require human approval.', 'Availability and policy answers must come from current approved sources, with uncertainty handed to a person.'],
+  },
+  fr: {
+    id: 'retail', label: 'Commerce de détail', shortLabel: 'Détail',
+    image: { src: '/images/insights/library/which-customers-are-actually-profitable.opt.webp', alt: 'Réponse client et opérations de commerce de détail' },
+    positioning: 'La première ligne IA pour les clients et les équipes en magasin',
+    promise: 'Répondre aux questions de produits, établissements, commandes et service, saisir l’intention d’achat et acheminer les exceptions avec le contexte nécessaire.',
+    audiences: [
+      { id: 'retail-customers', label: 'Clients et commerce', lead: 'Faites avancer les questions clients dans les appels et canaux numériques.', uses: [
+        { title: 'Questions produit et établissement', description: 'Répondre à partir des catalogues, heures, services, politiques et indications de disponibilité approuvés.' },
+        { title: 'Accueil ventes et rendez-vous', description: 'Saisir produit, besoin, établissement, moment et coordonnées avant le suivi humain.' },
+        { title: 'Soutien commandes et exécution', description: 'Donner le statut approuvé et recueillir les détails des exceptions de livraison, cueillette, retour ou service.' },
+        { title: 'Reprise de service', description: 'Reconnaître les plaintes, recueillir les faits et escalader vers un responsable avant que la confiance diminue.' },
+      ] },
+      { id: 'retail-operations', label: 'Magasins et opérations', lead: 'Offrez aux équipes une porte d’entrée cohérente pour les questions et exceptions.', uses: [
+        { title: 'Guidance magasin et politiques', description: 'Faire ressortir les réponses approuvées sans chercher dans des documents dispersés.' },
+        { title: 'Exceptions inventaire et commandes', description: 'Saisir ruptures, transferts, dommages et enjeux d’exécution avec contexte.' },
+        { title: 'Transferts entre établissements', description: 'Acheminer le travail au bon magasin, service ou responsable de garde.' },
+        { title: 'Résumés de quart', description: 'Résumer les dossiers ouverts pour la prochaine équipe sans dépendre d’un historique informel.' },
+      ] },
+    ],
+    startTitle: 'Le meilleur point de départ', startLead: 'Commencez par les questions fréquentes sur produits, établissements et commandes lorsque réponses et règles d’escalade sont claires.',
+    startWith: ['Appels et messages hors des heures', 'Questions produits et établissements', 'Accueil ventes et rendez-vous', 'Exceptions de commandes et exécution', 'Transferts de service avec résumé complet'],
+    boundaryTitle: 'Des limites claires créent la confiance', boundaryLead: 'Un Employé IA soutient le parcours sans prendre de décisions non approuvées sur prix, paiement, inventaire ou recours client.',
+    boundaries: ['Les données de paiement et données clients sensibles restent dans des systèmes approuvés.', 'Les exceptions de prix, remboursements, soupçons de fraude et changements importants exigent une approbation humaine.', 'Les réponses de disponibilité et de politique proviennent de sources approuvées à jour; l’incertitude est transférée à une personne.'],
+  },
+}
 function toLocale(locale: string): HubLocale {
   return locale === 'fr' ? 'fr' : 'en'
 }
 function lookupAiIndustry(locale: HubLocale, id: IndustryHubId) {
+  if (id === 'retail') return RETAIL_AI_INDUSTRY[locale]
   const industry = aiEmployeeContent[locale].industries.find((entry) => entry.id === id)
   if (!industry) {
     throw new Error(`Industry hub "${id}" has no matching AI Employee industry (${locale}).`)

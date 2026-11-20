@@ -189,13 +189,14 @@ describe('Header', () => {
     expect(within(menu).getByRole('menuitem', { name: 'Legal' })).toHaveAttribute(
       'href',
       '/industries/legal',
+      '/industries/retail',
     )
     expect(within(menu).queryByRole('menuitem', { name: 'Warehouses' })).not.toBeInTheDocument()
     expect(within(menu).getByRole('menuitem', { name: 'industryBrowseAll' })).toHaveAttribute(
       'href',
       '/industries',
     )
-    expect(within(menu).getAllByRole('menuitem')).toHaveLength(9)
+    expect(within(menu).getAllByRole('menuitem')).toHaveLength(10)
   })
 
   it('exposes featured Industry destinations in the mobile navigation', () => {

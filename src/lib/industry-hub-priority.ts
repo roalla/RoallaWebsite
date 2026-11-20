@@ -8,6 +8,7 @@ export const FEATURED_INDUSTRY_HUB_IDS = [
   'legal',
   'accounting-tax',
   'care-practices',
+  'retail',
   'manufacturing',
   'real-estate-property',
   'insurance-brokerage',
@@ -74,6 +75,11 @@ export const INDUSTRY_HUB_PRIORITY: Record<IndustryHubId, IndustryHubPriority> =
     leadServices: ['aiEmployee', 'security'],
     startHereTarget: 'fit-brief',
     proof: { kind: 'insight', slug: 'personal-information-stop-collecting' },
+  },
+  retail: {
+    leadServices: ['aiEmployee', 'automation'],
+    startHereTarget: 'ai-employee',
+    proof: { kind: 'insight', slug: 'which-customers-are-actually-profitable' },
   },
   manufacturing: {
     leadServices: ['aiEmployee', 'cloudMigration'],

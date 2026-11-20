@@ -109,6 +109,24 @@ describe('Industry hub contrast and imagery', () => {
     expect(container.querySelector('[data-industry-hero-motion]')).not.toBeInTheDocument()
   })
 
+  it('renders the retail technology categories with animated, reduced-motion, fallback, and mobile treatments', () => {
+    const hub = getIndustryHub('en', 'retail')!
+    const { container } = render(<IndustryHubPage locale="en" hub={hub} />)
+
+    const title = screen.getByRole('heading', {
+      name: 'One retail experience, five connected technology outcomes',
+    })
+    const section = title.closest('section')!
+    const sources = Array.from(section.querySelectorAll('picture source'))
+    expect(sources).toHaveLength(2)
+    expect(sources[0]).toHaveAttribute('media', '(prefers-reduced-motion: reduce)')
+    expect(sources[0]).toHaveAttribute('srcset', expect.stringContaining('.webp'))
+    expect(sources[1]).toHaveAttribute('srcset', expect.stringContaining('.svg'))
+    expect(section.querySelectorAll('ul h3')).toHaveLength(5)
+    expect(container.innerHTML).toContain('Attract &amp; Convert')
+    expect(container.innerHTML).toContain('Connect Teams &amp; Locations')
+  })
+
   it('renders lead service tiles with opt.webp assets', () => {
     const hub = getIndustryHub('en', 'it-msp')!
     const { container } = render(<IndustryHubPage locale="en" hub={hub} />)
@@ -302,7 +320,7 @@ describe('Industry hub contrast and imagery', () => {
     expect(title.className).toContain('text-white')
 
     const imgs = Array.from(container.querySelectorAll('img'))
-    expect(imgs.length).toBe(15)
+    expect(imgs.length).toBe(16)
     expect(imgs.every((img) => (img.getAttribute('src') || '').endsWith('.opt.webp'))).toBe(true)
   })
 })

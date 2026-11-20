@@ -178,6 +178,7 @@ describe('consultation-request', () => {
     expect(parseWorkshopTopic('focus-circle')).toBe('focus-circle')
     expect(parseWorkshopTopic('workload-conversation')).toBe('workload-conversation')
     expect(parseWorkshopTopic('digital-calm')).toBe('digital-calm')
+    expect(parseWorkshopTopic('performance-review')).toBe('performance-review')
     expect(parseWorkshopTopic('decision-hour')).toBe('decision-hour')
     expect(parseWorkshopTopic('offer-page')).toBe('offer-page')
     expect(parseWorkshopTopic('first-offer')).toBe('first-offer')

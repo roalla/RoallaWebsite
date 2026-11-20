@@ -513,6 +513,7 @@ const Header = ({
     pathname === "/programs/workshops/focus-circle" ||
     pathname === "/programs/workshops/workload-conversation" ||
     pathname === "/programs/workshops/digital-calm" ||
+    pathname === "/programs/workshops/performance-review" ||
     pathname === "/programs/workshops/decision-hour" ||
     pathname === "/programs/workshops/offer-page" ||
     pathname === "/programs/workshops/ideation" ||

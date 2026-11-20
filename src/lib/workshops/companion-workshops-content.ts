@@ -1,6 +1,7 @@
 import { decisionHourCopy, firstOfferCopy, ideationCopy, offerPageCopy } from "@/lib/workshops/added-workshops-content";
+import { performanceReviewCopy } from "@/lib/workshops/performance-review-content";
 
-export type CompanionWorkshopId = "workload-conversation" | "digital-calm" | "decision-hour" | "offer-page" | "ideation" | "first-offer";
+export type CompanionWorkshopId = "workload-conversation" | "digital-calm" | "performance-review" | "decision-hour" | "offer-page" | "ideation" | "first-offer";
 export type WorkshopStage = "prepare" | "transform" | "emerge" | "soar";
 
 export type WorkshopSlide = {
@@ -431,10 +432,11 @@ digitalFr.slides = digitalEn.slides.map((slide, index) => ({ ...slide, ...(digit
 export function companionWorkshopCopy(id: CompanionWorkshopId, locale: string): CompanionWorkshopCopy {
   if (id === "workload-conversation") return locale === "fr" ? workloadFr : workloadEn;
   if (id === "digital-calm") return locale === "fr" ? digitalFr : digitalEn;
+  if (id === "performance-review") return performanceReviewCopy(locale);
   if (id === "decision-hour") return decisionHourCopy(locale);
   if (id === "offer-page") return offerPageCopy(locale);
   if (id === "ideation") return ideationCopy(locale);
   return firstOfferCopy(locale);
 }
 
-export const companionWorkshopIds: CompanionWorkshopId[] = ["workload-conversation", "digital-calm", "decision-hour", "offer-page", "ideation", "first-offer"];
+export const companionWorkshopIds: CompanionWorkshopId[] = ["workload-conversation", "performance-review", "digital-calm", "decision-hour", "offer-page", "ideation", "first-offer"];

@@ -1,6 +1,7 @@
 export const focusCirclePath = "/programs/workshops/focus-circle" as const;
 export const workloadConversationPath = "/programs/workshops/workload-conversation" as const;
 export const digitalCalmPath = "/programs/workshops/digital-calm" as const;
+export const performanceReviewPath = "/programs/workshops/performance-review" as const;
 export const decisionHourPath = "/programs/workshops/decision-hour" as const;
 export const offerPagePath = "/programs/workshops/offer-page" as const;
 export const ideationPath = "/programs/workshops/ideation" as const;
@@ -50,6 +51,12 @@ export const hostedWorkshops = [
     id: "digital-calm",
     path: digitalCalmPath,
     featured: false,
+    group: "teamRhythm" as const,
+  },
+  {
+    id: "performance-review",
+    path: performanceReviewPath,
+    featured: true,
     group: "teamRhythm" as const,
   },
   {

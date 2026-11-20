@@ -135,6 +135,7 @@ export const workshopTopicValues = [
   "focus-circle",
   "workload-conversation",
   "digital-calm",
+  "performance-review",
   "decision-hour",
   "offer-page",
   "branding",

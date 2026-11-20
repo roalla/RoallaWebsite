@@ -9,6 +9,7 @@ const matches = {
   focus: ["focus-circle", "Focus Circle", "Protect focused work and turn priorities into a practical weekly rhythm."],
   workload: ["workload-conversation", "The Workload Conversation", "Make workload tradeoffs visible and easier to discuss."],
   calm: ["digital-calm", "Digital Calm", "Reduce avoidable interruptions and set healthier communication norms."],
+  reviews: ["performance-review", "No Surprises: Performance Reviews", "Reduce year-end stress with clear expectations and regular feedback."],
   decisions: ["decision-hour", "The Decision Hour", "Move a stuck decision forward with clear criteria and ownership."],
   offer: ["offer-page", "The One-Page Offer", "Clarify an offer so a buyer can understand the value quickly."],
   ideas: ["ideation", "The Shortlist", "Turn many ideas into a focused, testable shortlist."],

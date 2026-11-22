@@ -110,6 +110,7 @@ describe('Industry hub contrast and imagery', () => {
   })
 
   it.each([
+    ['it-msp', 'One service desk, five connected technology outcomes'],
     ['legal', 'One legal practice, five connected technology outcomes'],
     ['manufacturing', 'One manufacturing operation, five connected technology outcomes'],
     ['recruiting-staffing', 'One recruiting operation, five connected technology outcomes'],
@@ -135,7 +136,7 @@ describe('Industry hub contrast and imagery', () => {
   )
 
   it('does not render a category diagram on an unrelated industry route', () => {
-    const hub = getIndustryHub('en', 'it-msp')!
+    const hub = getIndustryHub('en', 'care-practices')!
     const { container } = render(<IndustryHubPage locale="en" hub={hub} />)
     expect(container.querySelector('[data-industry-category-visual]')).not.toBeInTheDocument()
   })

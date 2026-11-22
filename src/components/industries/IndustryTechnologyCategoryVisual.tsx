@@ -1,4 +1,5 @@
 type SupportedIndustry =
+  | 'it-msp'
   | 'legal'
   | 'manufacturing'
   | 'recruiting-staffing'
@@ -15,6 +16,34 @@ type VisualCopy = {
 }
 
 const COPY: Record<SupportedIndustry, Record<'en' | 'fr', VisualCopy>> = {
+  'it-msp': {
+    en: {
+      eyebrow: 'Connected IT service technology',
+      title: 'One service desk, five connected technology outcomes',
+      lead: 'ROALLA connects how clients and users come onboard, how every request enters, how routine work resolves, how the service stack communicates, and how the provider proves its own security.',
+      imageAlt: 'ROALLA at the centre of five connected IT and managed service technology categories.',
+      categories: [
+        ['Win & Onboard', 'Visibility, assessments, agreements, client setup, and user onboarding.'],
+        ['Intake & Triage', 'Calls, chats, tickets, identity, impact, priority, and routing.'],
+        ['Resolve & Automate', 'Runbooks, Tier-1 fixes, orchestration, escalation, and technician handoff.'],
+        ['Connect Desk & Stack', 'PSA, RMM, documentation, communications, SLAs, and client updates.'],
+        ['Protect & Prove', 'Privileged access, MFA, evidence, incident readiness, and continuity.'],
+      ],
+    },
+    fr: {
+      eyebrow: 'Technologie de services TI connectée',
+      title: 'Un centre de services, cinq résultats technologiques connectés',
+      lead: 'ROALLA relie l’intégration des clients et utilisateurs, l’accueil des demandes, la résolution du travail courant, les outils de service et la démonstration de la posture de sécurité du fournisseur.',
+      imageAlt: 'ROALLA au centre de cinq catégories technologiques connectées pour les TI et services gérés.',
+      categories: [
+        ['Gagner et intégrer', 'Visibilité, évaluations, ententes, configuration client et accueil utilisateur.'],
+        ['Recevoir et trier', 'Appels, clavardages, billets, identité, impact, priorité et routage.'],
+        ['Résoudre et automatiser', 'Procédures, correctifs N1, orchestration, escalade et transfert technique.'],
+        ['Relier centre et outils', 'PSA, RMM, documentation, communications, SLA et suivis clients.'],
+        ['Protéger et démontrer', 'Accès privilégiés, MFA, preuves, préparation aux incidents et continuité.'],
+      ],
+    },
+  },
   legal: {
     en: {
       eyebrow: 'Connected legal technology',
@@ -189,6 +218,7 @@ export function supportsIndustryTechnologyCategoryVisual(
   industry: string,
 ): industry is SupportedIndustry {
   return (
+    industry === 'it-msp' ||
     industry === 'legal' ||
     industry === 'manufacturing' ||
     industry === 'recruiting-staffing' ||

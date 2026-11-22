@@ -1,4 +1,4 @@
-type SupportedIndustry = 'legal' | 'manufacturing' | 'retail'
+type SupportedIndustry = 'legal' | 'manufacturing' | 'recruiting-staffing' | 'retail' | 'warehouses'
 
 type VisualCopy = {
   eyebrow: string
@@ -65,6 +65,34 @@ const COPY: Record<SupportedIndustry, Record<'en' | 'fr', VisualCopy>> = {
       ],
     },
   },
+  'recruiting-staffing': {
+    en: {
+      eyebrow: 'Connected recruiting technology',
+      title: 'One recruiting operation, five connected technology outcomes',
+      lead: 'ROALLA connects how talent and clients find you, how requirements and candidates enter, how placements move, how people communicate, and how sensitive information stays protected.',
+      imageAlt: 'ROALLA at the centre of five connected recruiting and staffing technology categories.',
+      categories: [
+        ['Attract & Source', 'Search visibility, campaigns, talent pools, referrals, and outreach.'],
+        ['Capture & Qualify', 'Candidate and client intake, role requirements, availability, and fit.'],
+        ['Match & Place', 'ATS workflows, submissions, interviews, offers, and onboarding.'],
+        ['Connect Recruiters & Clients', 'Calling, messaging, collaboration, updates, and handoffs.'],
+        ['Protect & Improve', 'Privacy, identity, continuity, analytics, governance, and improvement.'],
+      ],
+    },
+    fr: {
+      eyebrow: 'Technologie de recrutement connectée',
+      title: 'Une opération de recrutement, cinq résultats technologiques connectés',
+      lead: 'ROALLA relie la découverte par les talents et les clients, l’accueil des besoins et candidats, les placements, les communications et la protection des renseignements sensibles.',
+      imageAlt: 'ROALLA au centre de cinq catégories technologiques connectées pour le recrutement et le placement.',
+      categories: [
+        ['Attirer et trouver', 'Visibilité, campagnes, bassins de talents, références et approche.'],
+        ['Saisir et qualifier', 'Accueil candidats et clients, exigences, disponibilité et adéquation.'],
+        ['Jumeler et placer', 'Flux ATS, présentations, entrevues, offres et intégration.'],
+        ['Relier recruteurs et clients', 'Appels, messagerie, collaboration, suivis et transferts.'],
+        ['Protéger et améliorer', 'Confidentialité, identité, continuité, analytique et gouvernance.'],
+      ],
+    },
+  },
   retail: {
     en: {
       eyebrow: 'Connected retail technology',
@@ -93,10 +121,46 @@ const COPY: Record<SupportedIndustry, Record<'en' | 'fr', VisualCopy>> = {
       ],
     },
   },
+  warehouses: {
+    en: {
+      eyebrow: 'Connected warehouse technology',
+      title: 'One warehouse operation, five connected technology outcomes',
+      lead: 'ROALLA connects inbound scheduling, inventory, fulfilment, floor communications, customer updates, and protection around the way goods actually move.',
+      imageAlt: 'ROALLA at the centre of five connected warehouse technology categories.',
+      categories: [
+        ['Receive & Schedule', 'Orders, advance notices, dock appointments, and inbound coordination.'],
+        ['Store & Locate', 'Inventory accuracy, bin visibility, scanning, and putaway.'],
+        ['Pick, Pack & Ship', 'Work queues, verification, labels, dispatch, and order status.'],
+        ['Connect Floor & Partners', 'Floor communications, alerts, customer updates, and handoffs.'],
+        ['Protect & Improve', 'Security, continuity, analytics, safety, and improvement.'],
+      ],
+    },
+    fr: {
+      eyebrow: 'Technologie d’entrepôt connectée',
+      title: 'Une opération d’entrepôt, cinq résultats technologiques connectés',
+      lead: 'ROALLA relie la planification des arrivages, l’inventaire, l’exécution, les communications au plancher, les suivis clients et la protection au mouvement réel des marchandises.',
+      imageAlt: 'ROALLA au centre de cinq catégories technologiques connectées pour les entrepôts.',
+      categories: [
+        ['Recevoir et planifier', 'Commandes, avis préalables, rendez-vous aux quais et coordination.'],
+        ['Ranger et localiser', 'Exactitude d’inventaire, emplacements, lecture et mise en stock.'],
+        ['Prélever, emballer et expédier', 'Files de travail, vérification, étiquettes, envoi et statut.'],
+        ['Relier plancher et partenaires', 'Communications, alertes, suivis clients et transferts.'],
+        ['Protéger et améliorer', 'Sécurité, continuité, analytique, sûreté et amélioration.'],
+      ],
+    },
+  },
 }
 
-function isSupportedIndustry(industry: string): industry is SupportedIndustry {
-  return industry === 'legal' || industry === 'manufacturing' || industry === 'retail'
+export function supportsIndustryTechnologyCategoryVisual(
+  industry: string,
+): industry is SupportedIndustry {
+  return (
+    industry === 'legal' ||
+    industry === 'manufacturing' ||
+    industry === 'recruiting-staffing' ||
+    industry === 'retail' ||
+    industry === 'warehouses'
+  )
 }
 
 export default function IndustryTechnologyCategoryVisual({
@@ -106,7 +170,7 @@ export default function IndustryTechnologyCategoryVisual({
   locale: string
   industry: string
 }) {
-  if (!isSupportedIndustry(industry)) return null
+  if (!supportsIndustryTechnologyCategoryVisual(industry)) return null
 
   const language = locale === 'fr' ? 'fr' : 'en'
   const copy = COPY[industry][language]

@@ -17,7 +17,9 @@ import {
 } from '@/lib/industry-hub-content'
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion'
 import IndustryHeroMotion from '@/components/industries/IndustryHeroMotion'
-import IndustryTechnologyCategoryVisual from '@/components/industries/IndustryTechnologyCategoryVisual'
+import IndustryTechnologyCategoryVisual, {
+  supportsIndustryTechnologyCategoryVisual,
+} from '@/components/industries/IndustryTechnologyCategoryVisual'
 
 const PATH_HASH_PREFIX = 'path='
 
@@ -270,7 +272,9 @@ export default function IndustryHubPage({
         </div>
       </section>
 
-      <IndustryTechnologyCategoryVisual locale={language} industry={hub.id} />
+      {supportsIndustryTechnologyCategoryVisual(hub.id) ? (
+        <IndustryTechnologyCategoryVisual locale={language} industry={hub.id} />
+      ) : null}
 
       <section className="border-b border-slate-200 bg-slate-50 px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">

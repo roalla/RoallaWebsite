@@ -114,6 +114,7 @@ describe('Industry hub contrast and imagery', () => {
     ['manufacturing', 'One manufacturing operation, five connected technology outcomes'],
     ['recruiting-staffing', 'One recruiting operation, five connected technology outcomes'],
     ['retail', 'One retail experience, five connected technology outcomes'],
+    ['trades-field', 'One field service operation, five connected technology outcomes'],
     ['warehouses', 'One warehouse operation, five connected technology outcomes'],
   ] as const)(
     'renders explicit %s technology categories with animated, reduced-motion, fallback, and mobile treatments',

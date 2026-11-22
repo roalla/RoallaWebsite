@@ -1,4 +1,10 @@
-type SupportedIndustry = 'legal' | 'manufacturing' | 'recruiting-staffing' | 'retail' | 'warehouses'
+type SupportedIndustry =
+  | 'legal'
+  | 'manufacturing'
+  | 'recruiting-staffing'
+  | 'retail'
+  | 'trades-field'
+  | 'warehouses'
 
 type VisualCopy = {
   eyebrow: string
@@ -121,6 +127,34 @@ const COPY: Record<SupportedIndustry, Record<'en' | 'fr', VisualCopy>> = {
       ],
     },
   },
+  'trades-field': {
+    en: {
+      eyebrow: 'Connected field service technology',
+      title: 'One field service operation, five connected technology outcomes',
+      lead: 'ROALLA connects how local customers find you, how every job enters, how work moves from quote to invoice, how the office and crew communicate, and how field data stays protected.',
+      imageAlt: 'ROALLA at the centre of five connected trades and field service technology categories.',
+      categories: [
+        ['Get Found & Win Trust', 'Local visibility, service areas, reviews, proof, and conversion paths.'],
+        ['Answer & Qualify', 'Calls, texts, job details, urgency, booking, and follow-up.'],
+        ['Quote, Dispatch & Complete', 'Estimates, schedules, work orders, photos, invoices, and status.'],
+        ['Connect Office & Crew', 'One business number, mobile access, alerts, collaboration, and handoffs.'],
+        ['Protect & Improve', 'Devices, identities, payments, continuity, analytics, and improvement.'],
+      ],
+    },
+    fr: {
+      eyebrow: 'Technologie connectée pour services sur le terrain',
+      title: 'Une opération terrain, cinq résultats technologiques connectés',
+      lead: 'ROALLA relie la découverte locale, l’accueil de chaque chantier, le parcours de la soumission à la facture, les communications bureau-équipe et la protection des données terrain.',
+      imageAlt: 'ROALLA au centre de cinq catégories technologiques connectées pour les métiers et services sur le terrain.',
+      categories: [
+        ['Être trouvé et inspirer confiance', 'Visibilité locale, territoires, avis, preuves et conversion.'],
+        ['Répondre et qualifier', 'Appels, textos, détails, urgence, réservation et suivi.'],
+        ['Soumissionner, répartir et terminer', 'Estimations, horaires, bons de travail, photos, factures et statut.'],
+        ['Relier bureau et équipe', 'Numéro unique, accès mobile, alertes, collaboration et transferts.'],
+        ['Protéger et améliorer', 'Appareils, identités, paiements, continuité et analytique.'],
+      ],
+    },
+  },
   warehouses: {
     en: {
       eyebrow: 'Connected warehouse technology',
@@ -159,6 +193,7 @@ export function supportsIndustryTechnologyCategoryVisual(
     industry === 'manufacturing' ||
     industry === 'recruiting-staffing' ||
     industry === 'retail' ||
+    industry === 'trades-field' ||
     industry === 'warehouses'
   )
 }

@@ -21,7 +21,7 @@ type Props = {
 }
 
 const path = '/partners/delivery-platforms'
-const ogImage = '/images/partners/partner-outcome-access.webp'
+const ogImage = '/images/partners/partner-hero-delivery.jpg'
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: t('deliveryPlatformsMetadataTitle'),
     description: t('deliveryPlatformsMetadataDescription'),
     ogImage,
-    ogImageAlt: t('outcome1Alt'),
+    ogImageAlt: t('deliveryPlatformsTitle'),
   })
 }
 
@@ -65,11 +65,11 @@ export default async function DeliveryPlatformsPage({ params }: Props) {
         tone="slate"
         primaryCta={{
           label: t('deliveryPrimaryCta'),
-          href: '/services/digital',
+          href: { pathname: '/contact', query: { intent: 'consulting', focus: 'technology' } },
         }}
         secondaryCta={{
           label: t('deliverySecondaryCta'),
-          href: '/services/technology-advisory',
+          href: '/services/digital',
         }}
       />
 
@@ -98,8 +98,8 @@ export default async function DeliveryPlatformsPage({ params }: Props) {
           <PartnersProcurementMatrix groupId="delivery-platforms" />
         </div>
         <div className="mt-14 space-y-10 border-t border-slate-200 pt-12">
-          <PartnersProofVignette />
-          <PartnersOutcomeVignette />
+          <PartnersProofVignette imageSrc={ogImage} pagePath={path} />
+          <PartnersOutcomeVignette imageSrc="/images/partners/partner-outcome-access.webp" pagePath={path} />
         </div>
       </div>
 
@@ -116,18 +116,19 @@ export default async function DeliveryPlatformsPage({ params }: Props) {
         body={t('deliveryCloseBody')}
         primaryCta={{
           label: t('deliveryPrimaryCta'),
-          href: '/services/digital',
+          href: { pathname: '/contact', query: { intent: 'consulting', focus: 'technology' } },
         }}
         secondaryCta={{
           label: t('deliverySecondaryCta'),
-          href: '/services/technology-advisory',
+          href: '/services/digital',
         }}
       />
 
       <StickyMobileCTA
         label={t('deliveryPrimaryCta')}
         sublabel={tCommon('ctaSubtext')}
-        href="/services/digital"
+        intent="consulting"
+        focus="technology"
         brandMark
         analyticsEvent="partners_sticky_cta"
         analyticsParams={{ path }}

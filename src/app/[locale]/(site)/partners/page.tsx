@@ -12,13 +12,12 @@ import PartnersClosingCta from '@/components/partners/PartnersClosingCta'
 import PartnersHashRedirect from '@/components/partners/PartnersHashRedirect'
 import PartnersLogoStrip from '@/components/partners/PartnersLogoStrip'
 import PartnersSectionNav from '@/components/partners/PartnersSectionNav'
-import PartnersEnterpriseEngage from '@/components/partners/PartnersEnterpriseEngage'
 import PartnersGovernanceBands from '@/components/partners/PartnersGovernanceBands'
 import PartnersHubContinue from '@/components/partners/PartnersHubContinue'
 import PartnersOutcomesStrip from '@/components/partners/PartnersOutcomesStrip'
 import PartnersPageActions from '@/components/partners/PartnersPageActions'
 import PartnersProcurementMatrix from '@/components/partners/PartnersProcurementMatrix'
-import PartnersStartHere from '@/components/partners/PartnersStartHere'
+import PartnersSoftPrompt from '@/components/partners/PartnersSoftPrompt'
 import PartnersTrackLink from '@/components/partners/PartnersTrackLink'
 import { partnersSectionNav } from '@/lib/partners-sections'
 import { buildPageMetadata } from '@/lib/page-metadata'
@@ -138,8 +137,19 @@ export default async function PartnersPage({ params }: Props) {
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-16 lg:pb-24">
-        <PartnersStartHere />
         <PartnersOutcomesStrip />
+
+        <Reveal className="border-b border-slate-200 py-12 lg:py-14" aria-labelledby="who-for-heading">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{t('whoForEyebrow')}</p>
+          <h2 id="who-for-heading" className="mt-3 max-w-3xl font-serif text-3xl font-bold text-slate-950 lg:text-4xl">
+            {t('whoForTitle')}
+          </h2>
+          <p className="mt-3 max-w-3xl text-base leading-7 text-slate-600">{t('whoForBody')}</p>
+          <div className="mt-8 max-w-3xl border-l-4 border-slate-300 pl-5">
+            <p className="font-serif text-xl font-bold text-slate-950">{t('whoNotTitle')}</p>
+            <p className="mt-2 text-sm leading-6 text-slate-600">{t('whoNotBody')}</p>
+          </div>
+        </Reveal>
 
         <section className="border-b border-slate-200 py-12 lg:py-14" aria-labelledby="browse-sections-heading">
           <div className="max-w-3xl">
@@ -182,9 +192,14 @@ export default async function PartnersPage({ params }: Props) {
         <div className="pb-12 lg:pb-16">
           <PartnersGovernanceBands />
         </div>
-
-        <PartnersEnterpriseEngage />
       </div>
+
+      <PartnersSoftPrompt
+        title={t('softPromptTitle')}
+        body={t('softPromptBody')}
+        ctaLabel={t('softPromptCta')}
+        dismissLabel={t('softPromptDismiss')}
+      />
 
       <PartnersClosingCta pagePath="/partners" />
 

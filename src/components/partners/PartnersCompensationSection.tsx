@@ -58,10 +58,10 @@ export default async function PartnersCompensationSection() {
           <p className="mt-4 leading-relaxed text-slate-700">{t('compensationCommitment')}</p>
           <Link
             href="/terms"
-            className="mt-6 inline-flex items-center text-sm font-semibold text-primary-dark hover:underline"
+            className="mt-6 inline-flex items-center text-xs font-medium text-slate-500 underline-offset-4 hover:text-slate-700 hover:underline"
           >
-            {t('termsLink')}
-            <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
+            {t('compensationTermsLink')}
+            <ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden />
           </Link>
         </Reveal>
       </div>

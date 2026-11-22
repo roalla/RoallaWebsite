@@ -4,13 +4,14 @@ import Breadcrumb from '@/components/Breadcrumb'
 import JsonLd from '@/components/JsonLd'
 import StickyMobileCTA from '@/components/StickyMobileCTA'
 import PartnersClosingCta from '@/components/partners/PartnersClosingCta'
-import PartnersEnterpriseEngage from '@/components/partners/PartnersEnterpriseEngage'
 import PartnersEnterpriseFaq, { partnersEnterpriseFaqJsonLd } from '@/components/partners/PartnersEnterpriseFaq'
 import PartnersEvaluationSection from '@/components/partners/PartnersEvaluationSection'
 import PartnersHubContinue from '@/components/partners/PartnersHubContinue'
 import PartnersPageActions from '@/components/partners/PartnersPageActions'
+import PartnersProofVignette from '@/components/partners/PartnersProofVignette'
 import PartnersSectionHero from '@/components/partners/PartnersSectionHero'
 import PartnersSectionNav from '@/components/partners/PartnersSectionNav'
+import PartnersSoftPrompt from '@/components/partners/PartnersSoftPrompt'
 import { buildPageMetadata } from '@/lib/page-metadata'
 import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/structured-data'
 
@@ -19,7 +20,7 @@ type Props = {
 }
 
 const path = '/partners/evaluation-standard'
-const ogImage = '/images/partners/partner-outcome-evaluate.webp'
+const ogImage = '/images/partners/partner-hero-evaluation.jpg'
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
@@ -31,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: t('evaluationMetadataTitle'),
     description: t('evaluationMetadataDescription'),
     ogImage,
-    ogImageAlt: t('outcome2Alt'),
+    ogImageAlt: t('standardTitle'),
   })
 }
 
@@ -63,11 +64,11 @@ export default async function EvaluationStandardPage({ params }: Props) {
         imageSrc={ogImage}
         primaryCta={{
           label: t('evaluationPrimaryCta'),
-          href: '/tools/technology-decision-brief',
+          href: { pathname: '/contact', query: { intent: 'consulting', focus: 'technology' } },
         }}
         secondaryCta={{
           label: t('evaluationSecondaryCta'),
-          href: { pathname: '/contact', query: { intent: 'consulting', focus: 'technology' } },
+          href: '/tools/technology-decision-brief',
         }}
       />
 
@@ -91,9 +92,18 @@ export default async function EvaluationStandardPage({ params }: Props) {
 
       <div className="container mx-auto px-4 pb-12 sm:px-6 lg:px-8 lg:pb-16">
         <PartnersEvaluationSection />
+        <div className="mt-12">
+          <PartnersProofVignette imageSrc={ogImage} pagePath={path} />
+        </div>
         <PartnersEnterpriseFaq />
-        <PartnersEnterpriseEngage />
       </div>
+
+      <PartnersSoftPrompt
+        title={t('softPromptTitle')}
+        body={t('softPromptBody')}
+        ctaLabel={t('softPromptCta')}
+        dismissLabel={t('softPromptDismiss')}
+      />
 
       <PartnersClosingCta
         pagePath={path}
@@ -101,18 +111,19 @@ export default async function EvaluationStandardPage({ params }: Props) {
         body={t('evaluationCloseBody')}
         primaryCta={{
           label: t('evaluationPrimaryCta'),
-          href: '/tools/technology-decision-brief',
+          href: { pathname: '/contact', query: { intent: 'consulting', focus: 'technology' } },
         }}
         secondaryCta={{
           label: t('evaluationSecondaryCta'),
-          href: { pathname: '/contact', query: { intent: 'consulting', focus: 'technology' } },
+          href: '/tools/technology-decision-brief',
         }}
       />
 
       <StickyMobileCTA
         label={t('evaluationPrimaryCta')}
         sublabel={tCommon('ctaSubtext')}
-        href="/tools/technology-decision-brief"
+        intent="consulting"
+        focus="technology"
         brandMark
         analyticsEvent="partners_sticky_cta"
         analyticsParams={{ path }}

@@ -9,8 +9,10 @@ import PartnersEnterpriseFaq, { partnersEnterpriseFaqJsonLd } from '@/components
 import PartnersGovernanceBands from '@/components/partners/PartnersGovernanceBands'
 import PartnersHubContinue from '@/components/partners/PartnersHubContinue'
 import PartnersPageActions from '@/components/partners/PartnersPageActions'
+import PartnersProofVignette from '@/components/partners/PartnersProofVignette'
 import PartnersSectionHero from '@/components/partners/PartnersSectionHero'
 import PartnersSectionNav from '@/components/partners/PartnersSectionNav'
+import PartnersSoftPrompt from '@/components/partners/PartnersSoftPrompt'
 import { buildPageMetadata } from '@/lib/page-metadata'
 import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/structured-data'
 
@@ -19,7 +21,7 @@ type Props = {
 }
 
 const path = '/partners/compensation'
-const ogImage = '/images/partners/partner-outcome-disclose.webp'
+const ogImage = '/images/partners/partner-hero-compensation.jpg'
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
@@ -31,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: t('compensationMetadataTitle'),
     description: t('compensationMetadataDescription'),
     ogImage,
-    ogImageAlt: t('outcome3Alt'),
+    ogImageAlt: t('compensationTitle'),
   })
 }
 
@@ -68,7 +70,7 @@ export default async function CompensationPage({ params }: Props) {
         }}
         secondaryCta={{
           label: t('compensationSecondaryCta'),
-          href: '/terms',
+          href: '/tools/technology-decision-brief',
         }}
       />
 
@@ -93,10 +95,20 @@ export default async function CompensationPage({ params }: Props) {
       <div className="container mx-auto px-4 pb-12 sm:px-6 lg:px-8 lg:pb-16">
         <PartnersCompensationSection />
         <div className="mt-12">
+          <PartnersProofVignette imageSrc={ogImage} pagePath={path} />
+        </div>
+        <div className="mt-12">
           <PartnersGovernanceBands variant="disclosure" />
         </div>
         <PartnersEnterpriseFaq />
       </div>
+
+      <PartnersSoftPrompt
+        title={t('softPromptTitle')}
+        body={t('softPromptBody')}
+        ctaLabel={t('softPromptCta')}
+        dismissLabel={t('softPromptDismiss')}
+      />
 
       <PartnersClosingCta
         pagePath={path}
@@ -108,7 +120,7 @@ export default async function CompensationPage({ params }: Props) {
         }}
         secondaryCta={{
           label: t('compensationSecondaryCta'),
-          href: '/terms',
+          href: '/tools/technology-decision-brief',
         }}
       />
 

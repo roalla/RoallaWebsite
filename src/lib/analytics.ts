@@ -72,6 +72,8 @@ export type AnalyticsEventName =
   | "partners_directory_brief"
   | "partners_matrix_jump"
   | "partners_soft_prompt"
+  | "partners_proof_cta"
+  | "partners_outcome_vignette_cta"
   | "partners_evaluation_toggle"
   | "partners_evaluation_brief"
   | "partners_section_nav"

@@ -542,6 +542,16 @@ export default function IndustryHubPage({
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
             </div>
+            <Link
+              href={{ pathname: '/use-cases', query: { industry: hub.id } }}
+              onClick={() =>
+                trackAnalyticsEvent('industry_hub_cta', { industry: hub.id, slot: 'closer_use_cases' })
+              }
+              className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-cyan-200 underline-offset-4 hover:text-white hover:underline"
+            >
+              {french ? 'Voir les scénarios pour ce secteur' : 'See scenarios for this industry'}
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
           </Reveal>
         </div>
       </section>

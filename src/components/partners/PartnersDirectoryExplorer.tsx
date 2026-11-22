@@ -406,15 +406,6 @@ export default function PartnersDirectoryExplorer({
                       <p className="text-[0.65rem] font-bold uppercase tracking-[0.14em] text-primary-dark">
                         {item.relationship}
                       </p>
-                      <span
-                        className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 text-[0.65rem] font-semibold text-slate-600"
-                        title={`${accessLabels[item.accessType]} · ${geoLabels[item.geography]}`}
-                      >
-                        {accessLabels[item.accessType]}
-                      </span>
-                      <span className="inline-flex items-center rounded-full border border-slate-200 bg-white px-2 py-0.5 text-[0.65rem] font-semibold text-slate-600">
-                        {compLabels[item.compensation]}
-                      </span>
                     </div>
                     <h3 className="mt-1.5 font-serif text-xl font-bold text-slate-950">{item.name}</h3>
                     {item.portfolioLabels.length > 0 ? (
@@ -435,6 +426,16 @@ export default function PartnersDirectoryExplorer({
                         ))}
                       </ul>
                     ) : null}
+
+                    <div className="mt-4 space-y-2">
+                      <p className="text-sm leading-6 text-slate-600">
+                        <span className="font-semibold text-slate-800">{businessNeedLabel}:</span>{' '}
+                        {item.need}
+                      </p>
+                      <p className="text-sm leading-6 text-slate-700">
+                        <span className="font-semibold text-slate-900">{fitLabel}:</span> {item.fit}
+                      </p>
+                    </div>
 
                     <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
                       {item.externalCta ? (
@@ -484,13 +485,6 @@ export default function PartnersDirectoryExplorer({
                       </summary>
                       <div className="space-y-3 border-t border-slate-200 px-4 py-4">
                         <p className="text-sm leading-6 text-slate-600">{item.description}</p>
-                        <p className="text-sm leading-6 text-slate-600">
-                          <span className="font-semibold text-slate-800">{businessNeedLabel}:</span>{' '}
-                          {item.need}
-                        </p>
-                        <p className="text-sm leading-6 text-slate-700">
-                          <span className="font-semibold text-slate-900">{fitLabel}:</span> {item.fit}
-                        </p>
                         <dl className="grid gap-2 border-t border-slate-100 pt-3 text-xs text-slate-600 sm:grid-cols-2">
                           <div>
                             <dt className="font-semibold text-slate-800">{accessLabels[item.accessType]}</dt>

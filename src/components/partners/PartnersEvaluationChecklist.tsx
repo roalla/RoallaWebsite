@@ -106,18 +106,18 @@ export default function PartnersEvaluationChecklist({
 
       <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
         <PartnersTrackLink
-          href={briefHref}
-          event="partners_evaluation_brief"
-          eventParams={{ criteria_count: done }}
+          href={{ pathname: '/contact', query: { intent: 'consulting', focus: 'technology' } }}
+          event="partners_hero_cta"
+          eventParams={{ location: 'evaluation_primary' }}
           className="inline-flex min-h-12 items-center justify-center rounded-lg bg-primary px-6 text-sm font-semibold text-slate-950 transition-colors hover:bg-primary-light"
         >
           {primaryCtaLabel}
           <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
         </PartnersTrackLink>
         <PartnersTrackLink
-          href={{ pathname: '/contact', query: { intent: 'consulting', focus: 'technology' } }}
-          event="partners_hero_cta"
-          eventParams={{ location: 'evaluation_secondary' }}
+          href={briefHref}
+          event="partners_evaluation_brief"
+          eventParams={{ criteria_count: done }}
           className="inline-flex min-h-12 items-center justify-center px-2 text-sm font-semibold text-primary-dark underline-offset-4 hover:underline"
         >
           {secondaryCtaLabel}

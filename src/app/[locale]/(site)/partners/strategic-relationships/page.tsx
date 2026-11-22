@@ -11,6 +11,7 @@ import PartnersProofVignette from '@/components/partners/PartnersProofVignette'
 import PartnersRelationshipModel from '@/components/partners/PartnersRelationshipModel'
 import PartnersSectionHero from '@/components/partners/PartnersSectionHero'
 import PartnersSectionNav from '@/components/partners/PartnersSectionNav'
+import PartnersSoftPrompt from '@/components/partners/PartnersSoftPrompt'
 import PartnersTelarusSection from '@/components/partners/PartnersTelarusSection'
 import { buildPageMetadata } from '@/lib/page-metadata'
 import { breadcrumbJsonLd, webPageJsonLd } from '@/lib/structured-data'
@@ -20,7 +21,7 @@ type Props = {
 }
 
 const path = '/partners/strategic-relationships'
-const ogImage = '/images/partners/partner-outcome-access.webp'
+const ogImage = '/images/partners/partner-hero-strategic.jpg'
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
@@ -32,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: t('strategicMetadataTitle'),
     description: t('strategicMetadataDescription'),
     ogImage,
-    ogImageAlt: t('outcome1Alt'),
+    ogImageAlt: t('strategicRelationshipsTitle'),
   })
 }
 
@@ -90,13 +91,27 @@ export default async function StrategicRelationshipsPage({ params }: Props) {
       </div>
 
       <div className="container mx-auto px-4 pb-12 sm:px-6 lg:px-8 lg:pb-16">
+        <section className="mb-10 max-w-3xl" aria-labelledby="strategic-lead-heading">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">{t('strategicLeadEyebrow')}</p>
+          <h2 id="strategic-lead-heading" className="mt-2 font-serif text-2xl font-bold text-slate-950 sm:text-3xl">
+            {t('strategicLeadTitle')}
+          </h2>
+          <p className="mt-3 text-base leading-7 text-slate-600">{t('strategicLeadBody')}</p>
+        </section>
         <PartnersRelationshipModel />
         <PartnersTelarusSection />
         <div className="mt-10">
           <PartnersProcurementMatrix telarusOnly />
         </div>
-        <PartnersProofVignette />
+        <PartnersProofVignette imageSrc={ogImage} pagePath={path} />
       </div>
+
+      <PartnersSoftPrompt
+        title={t('softPromptTitle')}
+        body={t('softPromptBody')}
+        ctaLabel={t('softPromptCta')}
+        dismissLabel={t('softPromptDismiss')}
+      />
 
       <PartnersClosingCta
         pagePath={path}

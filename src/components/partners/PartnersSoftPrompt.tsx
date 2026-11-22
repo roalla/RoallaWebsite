@@ -17,6 +17,7 @@ type Props = {
 
 export default function PartnersSoftPrompt({ title, body, ctaLabel, dismissLabel }: Props) {
   const [open, setOpen] = useState(false)
+  const [entered, setEntered] = useState(false)
   const reduceMotion = usePrefersReducedMotion()
 
   useEffect(() => {
@@ -58,18 +59,34 @@ export default function PartnersSoftPrompt({ title, body, ctaLabel, dismissLabel
     }
   }, [])
 
+  useEffect(() => {
+    if (!open) return
+    if (reduceMotion) {
+      setEntered(true)
+      return
+    }
+    const id = window.requestAnimationFrame(() => setEntered(true))
+    return () => window.cancelAnimationFrame(id)
+  }, [open, reduceMotion])
+
   if (!open) return null
 
   return (
     <div
       role="dialog"
       aria-label={title}
-      className={
-        reduceMotion
-          ? 'fixed bottom-20 left-4 right-4 z-40 mx-auto max-w-md border border-slate-200 bg-white p-4 shadow-lg sm:bottom-6 sm:left-auto sm:right-6'
-          : 'fixed bottom-20 left-4 right-4 z-40 mx-auto max-w-md border border-slate-200 bg-white p-4 shadow-lg sm:bottom-6 sm:left-auto sm:right-6 animate-[reveal-fade-up_0.4s_ease-out]'
-      }
+      className={`fixed bottom-20 left-4 right-4 z-40 mx-auto max-w-md border border-slate-200 bg-white p-4 shadow-lg sm:bottom-6 sm:left-auto sm:right-6 motion-safe:transition-all motion-safe:duration-500 motion-safe:ease-out ${
+        entered
+          ? 'translate-y-0 opacity-100'
+          : 'translate-y-3 opacity-0 motion-reduce:translate-y-0 motion-reduce:opacity-100'
+      }`}
     >
+      <div
+        className={`mb-3 h-px origin-left bg-gradient-to-r from-brand-gold via-brand-gold/70 to-transparent motion-safe:transition-transform motion-safe:duration-700 ${
+          entered ? 'scale-x-100' : 'scale-x-40 motion-reduce:scale-x-100'
+        }`}
+        aria-hidden
+      />
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="font-serif text-lg font-bold text-slate-950">{title}</p>

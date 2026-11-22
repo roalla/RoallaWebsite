@@ -16,6 +16,7 @@ import {
   parseUseCaseFacets,
   serializeUseCaseFacets,
 } from '@/lib/use-case-facets'
+import { INDUSTRY_HUB_IDS } from '@/lib/industry-hub-content'
 import { OUTCOME_GROUP_IDS } from '@/lib/solution-outcome-pages'
 import { SOLUTION_PATH_IDS } from '@/lib/solutions-by-need'
 import { useCaseItemListJsonLd } from '@/lib/structured-data'
@@ -25,7 +26,7 @@ describe('outcome-led use cases', () => {
     const ids = USE_CASES.map((item) => item.id)
 
     expect(new Set(ids).size).toBe(ids.length)
-    expect(USE_CASES).toHaveLength(32)
+    expect(USE_CASES).toHaveLength(37)
 
     for (const category of USE_CASE_CATEGORIES) {
       expect(USE_CASES.some((item) => item.category === category)).toBe(true)
@@ -71,12 +72,16 @@ describe('outcome-led use cases', () => {
     for (const locale of ['en', 'fr'] as const) {
       for (const group of OUTCOME_GROUP_IDS) expect(OUTCOME_GROUP_FACET_LABELS[locale][group]).toBeTruthy()
       for (const industry of USE_CASE_INDUSTRIES) expect(INDUSTRY_FACET_LABELS[locale][industry]).toBeTruthy()
+    expect([...USE_CASE_INDUSTRIES]).toEqual([...INDUSTRY_HUB_IDS])
+    for (const industry of INDUSTRY_HUB_IDS) {
+      expect(USE_CASES.some((item) => (item.industries as readonly string[]).includes(industry))).toBe(true)
+    }
       for (const tech of USE_CASE_TECHNOLOGIES) expect(TECHNOLOGY_FACET_LABELS[locale][tech]).toBeTruthy()
     }
   })
 
   it('combines facet filters with AND and round-trips the URL query', () => {
-    expect(filterUseCases(DEFAULT_USE_CASE_FACETS)).toHaveLength(32)
+    expect(filterUseCases(DEFAULT_USE_CASE_FACETS)).toHaveLength(37)
 
     const state = parseUseCaseFacets('?group=growth-visibility&industry=trades-field&tech=websites')
     expect(state).toEqual({ group: 'growth-visibility', industry: 'trades-field', tech: 'websites' })
@@ -105,7 +110,7 @@ describe('outcome-led use cases', () => {
     )
 
     expect(schema['@type']).toBe('ItemList')
-    expect(schema.numberOfItems).toBe(32)
+    expect(schema.numberOfItems).toBe(37)
     expect(schema.itemListElement[0]).toMatchObject({
       '@type': 'ListItem',
       position: 1,

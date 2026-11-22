@@ -48,7 +48,7 @@ import type { CaseStudySlug } from '@/lib/portfolio-case-studies'
 type UseCaseItem = (typeof USE_CASES)[number]
 
 const MID_BAND_AFTER = 6
-const MAX_CARD_INDUSTRY_PILLS = 2
+const MAX_CARD_INDUSTRY_PILLS = 3
 const MAX_CARD_TECH_PILLS = 2
 
 /** Hover lift shared with the estimator builders. */
@@ -60,12 +60,14 @@ type FacetOption = { value: string; label: string; count: number }
 function FacetRow({
   label,
   allLabel,
+  allCount,
   options,
   active,
   onSelect,
 }: {
   label: string
   allLabel: string
+  allCount: number
   options: readonly FacetOption[]
   active: string
   onSelect: (value: string) => void
@@ -92,8 +94,6 @@ function FacetRow({
     )
   }
 
-  const allCount = options.reduce((max, option) => Math.max(max, option.count), 0)
-
   return (
     <div>
       <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-slate-500">{label}</p>
@@ -103,6 +103,67 @@ function FacetRow({
       </div>
     </div>
   )
+}
+
+function MarketGrid({
+  label,
+  hint,
+  allLabel,
+  allCount,
+  options,
+  active,
+  onSelect,
+}: {
+  label: string
+  hint: string
+  allLabel: string
+  allCount: number
+  options: readonly FacetOption[]
+  active: string
+  onSelect: (value: string) => void
+}) {
+  const cell = (value: string, text: string, count: number) => {
+    const selected = active === value
+    const empty = count === 0 && !selected
+    return (
+      <button
+        key={value}
+        type="button"
+        aria-pressed={selected}
+        disabled={empty}
+        onClick={() => onSelect(value)}
+        className={`flex min-h-11 items-center justify-between gap-2 rounded-xl border px-3 py-2 text-left text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
+          selected
+            ? 'border-primary bg-primary text-white shadow-md'
+            : 'border-slate-200 bg-slate-50 text-slate-800 hover:border-primary/40 hover:bg-white hover:text-primary-dark'
+        } ${empty ? 'cursor-not-allowed opacity-40' : ''}`}
+      >
+        <span className="truncate">{text}</span>
+        <span className={`shrink-0 text-xs font-medium tabular-nums ${selected ? 'text-cyan-100' : 'text-slate-500'}`}>{count}</span>
+      </button>
+    )
+  }
+
+  return (
+    <div>
+      <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+        <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-slate-500">{label}</p>
+        <p className="text-xs leading-relaxed text-slate-500">{hint}</p>
+      </div>
+      <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6" role="group" aria-label={label}>
+        {cell(ALL_FACET, allLabel, allCount)}
+        {options.map((option) => cell(option.value, option.label, option.count))}
+      </div>
+    </div>
+  )
+}
+
+const OUTCOME_ACCENT: Record<string, string> = {
+  'growth-visibility': 'bg-cyan-500',
+  'experience-products': 'bg-primary',
+  'automation-ai': 'bg-violet-500',
+  'security-compliance': 'bg-amber-500',
+  execution: 'bg-slate-600',
 }
 
 function PortfolioExamples({ slugs }: { slugs: readonly CaseStudySlug[] }) {
@@ -194,21 +255,25 @@ function UseCaseCard({ item, expanded, onToggle, delayMs }: {
       as="article"
       delayMs={delayMs}
       id={item.id}
-      className="scroll-mt-32 self-start rounded-2xl border border-slate-200 bg-white shadow-card transition-all duration-300 motion-safe:hover:-translate-y-1 hover:border-primary/25 hover:shadow-lg"
+      className="relative scroll-mt-32 self-start overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-card transition-all duration-300 motion-safe:hover:-translate-y-1 hover:border-primary/25 hover:shadow-lg"
     >
+      <span className={`absolute inset-y-0 left-0 w-1 ${OUTCOME_ACCENT[item.outcomeGroup] ?? 'bg-primary'}`} aria-hidden />
       <button
         type="button"
         onClick={onToggle}
         aria-expanded={expanded}
         aria-controls={detailsId}
-        className="w-full rounded-2xl p-5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+        className="w-full rounded-2xl p-5 pl-6 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
       >
-        <span className="block text-lg font-bold leading-snug text-slate-950">{t(`cases.${item.id}.title`)}</span>
-        <span className="mt-2 line-clamp-2 block text-sm leading-relaxed text-slate-600">{t(`cases.${item.id}.outcome`)}</span>
+        <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-primary-dark">{OUTCOME_GROUP_FACET_LABELS[locale][item.outcomeGroup]}</span>
+        <span className="mt-1.5 block text-lg font-bold leading-snug text-slate-950">{t(`cases.${item.id}.title`)}</span>
+        <span className="mt-3 block rounded-xl bg-slate-50 px-3 py-2.5 text-sm leading-relaxed text-slate-700">
+          <span className="mb-0.5 block text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">{t('recognizeLabel')}</span>
+          {t(`cases.${item.id}.need`)}
+        </span>
         <span className="mt-3 flex flex-wrap gap-1.5">
-          <MicroPill tone="primary">{OUTCOME_GROUP_FACET_LABELS[locale][item.outcomeGroup]}</MicroPill>
           {industries.slice(0, MAX_CARD_INDUSTRY_PILLS).map((industry) => (
-            <MicroPill key={industry}>{INDUSTRY_FACET_LABELS[locale][industry]}</MicroPill>
+            <MicroPill key={industry} tone="primary">{INDUSTRY_FACET_LABELS[locale][industry]}</MicroPill>
           ))}
           {extraIndustries > 0 ? <MicroPill>{`+${extraIndustries}`}</MicroPill> : null}
           {technologies.slice(0, MAX_CARD_TECH_PILLS).map((tech) => (
@@ -222,13 +287,29 @@ function UseCaseCard({ item, expanded, onToggle, delayMs }: {
       </button>
 
       <Collapse open={expanded}>
-        {expanded ? <div id={detailsId} role="region" aria-label={t('detailsLabel')} className="px-5 pb-6">
+        {expanded ? <div id={detailsId} role="region" aria-label={t('detailsLabel')} className="px-5 pb-6 pl-6">
           <dl className="grid gap-5 border-t border-slate-200 pt-5 text-sm leading-relaxed sm:grid-cols-2">
-            <div><dt className="font-semibold text-slate-950">{t('recognizeLabel')}</dt><dd className="mt-1 text-slate-600">{t(`cases.${item.id}.need`)}</dd></div>
+            <div className="sm:col-span-2"><dt className="font-semibold text-slate-950">{t('filterOutcomeLabel')}</dt><dd className="mt-1 text-slate-600">{t(`cases.${item.id}.outcome`)}</dd></div>
             <div><dt className="font-semibold text-slate-950">{t('fitLabel')}</dt><dd className="mt-1 text-slate-600">{t(`cases.${item.id}.fit`)}</dd></div>
             <div><dt className="font-semibold text-slate-950">{t('considerLabel')}</dt><dd className="mt-1 text-slate-600">{t(`cases.${item.id}.consider`)}</dd></div>
-            <div><dt className="font-semibold text-slate-950">{t('deliverLabel')}</dt><dd className="mt-1 text-slate-700">{t(`cases.${item.id}.deliver`)}</dd></div>
+            <div className="sm:col-span-2"><dt className="font-semibold text-slate-950">{t('deliverLabel')}</dt><dd className="mt-1 text-slate-700">{t(`cases.${item.id}.deliver`)}</dd></div>
           </dl>
+          <div className="mt-5">
+            <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">{t('marketsOnCase')}</p>
+            <ul className="flex flex-wrap gap-2">
+              {industries.map((industry) => (
+                <li key={industry}>
+                  <Link
+                    href={{ pathname: '/industries/[slug]', params: { slug: industry } }}
+                    className="inline-flex min-h-10 items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-800 transition-colors hover:border-primary/40 hover:text-primary-dark"
+                  >
+                    {INDUSTRY_FACET_LABELS[locale][industry]}
+                    <ArrowUpRight className="h-3 w-3" aria-hidden />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
           <div className="my-5 flex gap-3 rounded-xl border border-amber-200 bg-amber-50/70 p-4">
             <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" aria-hidden />
             <div><p className="text-sm font-semibold text-slate-950">{t('firstStepTitle')}</p><p className="mt-1 text-sm leading-relaxed text-slate-700">{t('firstStepBody')}</p></div>
@@ -362,9 +443,9 @@ export default function UseCasesExperience() {
   )
 
   return (
-    <section id="use-cases" className="section-padding bg-white py-20 pb-28 md:pb-20 lg:py-28">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <Reveal as="header" when="mount" className="relative mb-10 overflow-hidden rounded-2xl border border-slate-700/80 bg-slate-950 px-7 py-14 text-left text-white shadow-xl lg:px-12 lg:py-20">
+    <section id="use-cases" className="bg-white pb-28 md:pb-16">
+      <div>
+        <Reveal as="header" when="mount" className="relative mb-8 overflow-hidden rounded-2xl border border-slate-700/80 bg-slate-950 px-6 py-12 text-left text-white shadow-xl sm:px-8 lg:px-12 lg:py-16">
           <Image src="/images/services/use-cases-hero.opt.webp" alt="" fill priority fetchPriority="high" unoptimized sizes="(max-width: 1280px) 100vw, 1152px" className="pointer-events-none object-cover object-[72%_center] opacity-65" aria-hidden />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/94 to-slate-950/50" aria-hidden />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-slate-950/30 via-transparent to-slate-950/65" aria-hidden />
@@ -374,7 +455,7 @@ export default function UseCasesExperience() {
             <p className="mt-5 max-w-2xl text-lg leading-relaxed text-slate-200 md:text-xl">{t('subtitle')}</p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link href="/assessment" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-cyan-600">{t('heroAssessmentCta')}<ArrowRight className="h-4 w-4" aria-hidden /></Link>
-              <Link href="/solutions" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border border-white/30 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition-colors hover:border-white/60 hover:bg-white/10">{t('heroSolutionsCta')}<ArrowUpRight className="h-4 w-4" aria-hidden /></Link>
+              <Link href="/industries" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border border-white/30 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition-colors hover:border-white/60 hover:bg-white/10">{t('heroSolutionsCta')}<ArrowUpRight className="h-4 w-4" aria-hidden /></Link>
             </div>
           </div>
         </Reveal>
@@ -391,10 +472,30 @@ export default function UseCasesExperience() {
                 {active ? <button type="button" onClick={reset} className="min-h-10 text-sm font-semibold text-primary underline decoration-primary/30 underline-offset-4 hover:text-primary-dark">{t('clearFilters')}</button> : null}
               </div>
             </div>
-            <div className="space-y-4">
-              <FacetRow label={t('filterOutcomeLabel')} allLabel={t('facetAll')} options={groupOptions} active={facets.group} onSelect={(value) => select('group', value)} />
-              <FacetRow label={t('filterIndustryLabel')} allLabel={t('facetAll')} options={industryOptions} active={facets.industry} onSelect={(value) => select('industry', value)} />
-              <FacetRow label={t('filterTechLabel')} allLabel={t('facetAll')} options={techOptions} active={facets.tech} onSelect={(value) => select('tech', value)} />
+            <div className="space-y-6">
+              <MarketGrid
+                label={t('filterIndustryLabel')}
+                hint={t('filterMarketHint')}
+                allLabel={t('facetAll')}
+                allCount={industryCounts[ALL_FACET] ?? 0}
+                options={industryOptions}
+                active={facets.industry}
+                onSelect={(value) => select('industry', value)}
+              />
+              {facets.industry !== ALL_FACET ? (
+                <div className="flex flex-col gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="text-sm font-medium text-slate-800">{t('marketMatchLead', { market: INDUSTRY_FACET_LABELS[locale][facets.industry] })}</p>
+                  <Link
+                    href={{ pathname: '/industries/[slug]', params: { slug: facets.industry } }}
+                    className="inline-flex min-h-10 shrink-0 items-center gap-1 text-sm font-semibold text-primary-dark"
+                  >
+                    {t('marketHubCta', { market: INDUSTRY_FACET_LABELS[locale][facets.industry] })}
+                    <ArrowUpRight className="h-4 w-4" aria-hidden />
+                  </Link>
+                </div>
+              ) : null}
+              <FacetRow label={t('filterOutcomeLabel')} allLabel={t('facetAll')} allCount={groupCounts[ALL_FACET] ?? 0} options={groupOptions} active={facets.group} onSelect={(value) => select('group', value)} />
+              <FacetRow label={t('filterTechLabel')} allLabel={t('facetAll')} allCount={techCounts[ALL_FACET] ?? 0} options={techOptions} active={facets.tech} onSelect={(value) => select('tech', value)} />
             </div>
           </Reveal>
 

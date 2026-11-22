@@ -21,7 +21,7 @@ type Props = {
 }
 
 const path = '/partners/technology-providers'
-const ogImage = '/images/partners/partner-outcome-evaluate.webp'
+const ogImage = '/images/partners/partner-hero-providers.jpg'
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: t('technologyProvidersMetadataTitle'),
     description: t('technologyProvidersMetadataDescription'),
     ogImage,
-    ogImageAlt: t('outcome2Alt'),
+    ogImageAlt: t('technologyProvidersTitle'),
   })
 }
 
@@ -97,8 +97,8 @@ export default async function TechnologyProvidersPage({ params }: Props) {
           <PartnersProcurementMatrix groupId="technology-providers" />
         </div>
         <div className="mt-14 space-y-10 border-t border-slate-200 pt-12">
-          <PartnersProofVignette />
-          <PartnersOutcomeVignette />
+          <PartnersProofVignette imageSrc={ogImage} pagePath={path} />
+          <PartnersOutcomeVignette imageSrc="/images/partners/partner-outcome-evaluate.webp" pagePath={path} />
         </div>
       </div>
 

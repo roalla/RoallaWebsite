@@ -22,24 +22,24 @@ export const partnersHashRedirects: Record<string, PartnersSectionPath> = {
 export const partnersSectionNav = [
   {
     path: '/partners/strategic-relationships',
-    labelKey: 'strategicRelationshipsTitle',
+    labelKey: 'navJobStrategic',
     descriptionKey: 'strategicRelationshipsHubHint',
   },
   {
     path: '/partners/technology-providers',
-    labelKey: 'technologyProvidersTitle',
+    labelKey: 'navJobProviders',
   },
   {
     path: '/partners/delivery-platforms',
-    labelKey: 'deliveryPlatformsTitle',
+    labelKey: 'navJobDelivery',
   },
   {
     path: '/partners/evaluation-standard',
-    labelKey: 'standardTitle',
+    labelKey: 'navJobEvaluation',
   },
   {
     path: '/partners/compensation',
-    labelKey: 'compensationTitle',
+    labelKey: 'navJobCompensation',
   },
 ] as const
 

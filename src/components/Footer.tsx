@@ -17,12 +17,16 @@ const companyLinks = [
 ]
 
 const exploreLinks = [
-  { nameKey: 'solutions' as const, href: '/solutions' as const },
-  { nameKey: 'digitalEnablement' as const, href: '/services/digital' as const },
-  { nameKey: 'programs' as const, href: '/services/business-advisory' as const },
-  { nameKey: 'ourWork' as const, href: '/services/portfolio' as const },
+  { nameKey: 'websites' as const, href: '/website-design' as const },
+  { nameKey: 'digitalVisibility' as const, href: '/services/search-ai-visibility' as const },
   { nameKey: 'aiAutomation' as const, href: '/services/ai-agents' as const },
   { nameKey: 'security' as const, href: '/services/security-risk-compliance' as const },
+  { nameKey: 'industries' as const, href: '/industries' as const },
+  { nameKey: 'digitalEnablement' as const, href: '/services/digital' as const },
+  { nameKey: 'solutions' as const, href: '/solutions' as const },
+  { nameKey: 'workshops' as const, href: '/programs/workshops' as const },
+  { nameKey: 'programs' as const, href: '/services/business-advisory' as const },
+  { nameKey: 'ourWork' as const, href: '/services/portfolio' as const },
 ]
 
 const socialLinks = [

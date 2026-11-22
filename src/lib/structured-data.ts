@@ -61,17 +61,71 @@ export function ecosystemItemListJsonLd(
   };
 }
 
+/** Places ROALLA actually serves. Burlington is home; delivery is Canada-wide and beyond. */
+export const serviceAreaServed = [
+  { "@type": "City", name: "Burlington" },
+  { "@type": "AdministrativeArea", name: "Ontario" },
+  { "@type": "Country", name: "Canada" },
+  { "@type": "Place", name: "Worldwide" },
+] as const;
+
+const organizationServices = [
+  ["Business website design", "/website-design"],
+  ["SEO, AEO, and AI search visibility", "/services/search-ai-visibility"],
+  ["AI agents for business", "/services/ai-agents"],
+  ["Workflow automation and system integration", "/services/automation"],
+  ["Custom apps, portals, and digital products", "/services/digital-products"],
+  ["Cybersecurity, risk, and compliance", "/services/security-risk-compliance"],
+  ["Unified communications and contact centres", "/services/unified-communications-contact-centres-ai-employees"],
+  ["Team workshops", "/programs/workshops"],
+  ["Business advisory", "/services/business-advisory"],
+  ["Technology advisory and solution sourcing", "/services/technology-advisory"],
+] as const;
+
 export const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   "@id": `${SITE_URL}/#organization`,
   name: "Roalla Business Enablement Group",
+  alternateName: ["ROALLA", "Roalla"],
   url: SITE_URL,
-  logo: `${SITE_URL}/roalla-logo-2027.svg`,
+  logo: {
+    "@type": "ImageObject",
+    url: `${SITE_URL}/apple-touch-icon.png`,
+  },
   image: `${SITE_URL}${OG_IMAGE}`,
   description:
-    "ROALLA helps organizations assess, build, optimize, and evolve digital assets that drive visibility, revenue, operational efficiency, and customer value.",
-  areaServed: "Global",
+    "ROALLA, in Burlington, Ontario, designs websites, AI agents, automation, and search visibility for Canadian organizations and clients served worldwide.",
+  slogan: "Business outcomes first. Practical solutions delivered.",
+  email: CONTACT.email,
+  telephone: CONTACT.phone,
+  priceRange: "$$",
+  areaServed: serviceAreaServed,
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 43.3255,
+    longitude: -79.799,
+  },
+  founder: {
+    "@type": "Person",
+    "@id": `${SITE_URL}/#steven-robin`,
+    name: "Steven Robin",
+    jobTitle: "Founder & Principal Consultant",
+    url: `${SITE_URL}/en/about`,
+  },
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "ROALLA services",
+    itemListElement: organizationServices.map(([name, path]) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name,
+        url: pageUrl("en", path),
+        provider: { "@id": `${SITE_URL}/#organization` },
+      },
+    })),
+  },
   foundingDate: "1994",
   knowsAbout: [
     "website development",
@@ -111,8 +165,9 @@ export const organizationJsonLd = {
   contactPoint: {
     "@type": "ContactPoint",
     telephone: CONTACT.phone,
+    email: CONTACT.email,
     contactType: "sales",
-    areaServed: "Global",
+    areaServed: serviceAreaServed,
     availableLanguage: ["English", "French"],
   },
   address: {
@@ -188,8 +243,8 @@ export function homeServiceCatalogJsonLd(locale: string) {
           "Governed AI agents, agentic workflows, orchestration, integrations, and human approvals for practical business outcomes.",
         ],
         [
-          "Digital Visibility Optimization",
-          "Technical, content, and trust improvements that support discoverability.",
+          "SEO, AEO, and AI search visibility",
+          "Technical, content, and trust improvements that support discoverability in search and AI answers.",
         ],
         [
           "Security, Risk and Compliance",
@@ -266,7 +321,7 @@ export function servicePageJsonLd({
       description,
       url: pageUrl(locale, path),
       provider: { "@id": `${SITE_URL}/#organization` },
-      areaServed: "Global",
+      areaServed: serviceAreaServed,
       hasOfferCatalog: {
         "@type": "OfferCatalog",
         name,
@@ -518,7 +573,12 @@ export function articleJsonLd({
     datePublished,
     dateModified: dateModified ?? datePublished,
     image: imagePath.startsWith("http") ? imagePath : `${SITE_URL}${imagePath}`,
-    author: { "@id": `${SITE_URL}/#organization` },
+    author: {
+      "@type": "Person",
+      "@id": `${SITE_URL}/#steven-robin`,
+      name: "Steven Robin",
+      url: pageUrl(locale, "/about"),
+    },
     publisher: { "@id": `${SITE_URL}/#organization` },
     url: articleUrl,
     mainEntityOfPage: articleUrl,

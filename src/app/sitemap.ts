@@ -170,8 +170,6 @@ const priority = (path: string): number => {
 };
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date().toISOString();
-
   return paths.flatMap((path) =>
     locales.map((locale) => {
       const localizedPath = path ? `/${locale}${path}` : `/${locale}`;
@@ -183,7 +181,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
       return {
         url: `${baseUrl}${localizedPath}`,
-        lastModified,
         changeFrequency: changeFrequency(path),
         priority: priority(path),
         alternates: { languages },

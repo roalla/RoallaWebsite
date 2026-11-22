@@ -17,31 +17,25 @@ const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
 const bingVerification = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
 
 export const metadata: Metadata = {
-  title: 'Roalla Business Enablement Group',
+  title: {
+    default: 'Websites, AI Agents & Digital Enablement | ROALLA',
+    template: '%s',
+  },
   description:
-    'ROALLA helps organizations assess, build, optimize, and evolve digital assets that drive visibility, revenue, operational efficiency, and customer value.',
+    'ROALLA in Burlington, Ontario builds websites, AI agents, automation, and SEO for Canadian organizations. Outcome-led delivery. Reply in one business day.',
   keywords: [
-    'website development',
-    'digital product development',
-    'client portal development',
+    'business website design Canada',
+    'website design Burlington',
+    'AI agents for business',
     'workflow automation',
-    'system integration',
-    'AI workflow support',
-    'digital events',
-    'business workshops',
-    'Focus Circle workshop',
-    'workload conversation',
-    'digital calm',
-    'team workshops Burlington',
-    'bilingual websites',
-    'e-commerce websites',
-    'digital transformation',
-    'business website design',
-    'custom software development',
+    'SEO services Canada',
+    'answer engine optimization',
+    'cybersecurity compliance Canada',
     'digital enablement',
-    'digital visibility optimization',
-    'technical SEO',
-    'structured data',
+    'custom business apps',
+    'client portal development',
+    'bilingual websites',
+    'team workshops Burlington',
   ],
   authors: [{ name: 'Roalla Business Enablement Group' }],
   creator: 'Roalla Business Enablement Group',
@@ -65,9 +59,9 @@ export const metadata: Metadata = {
     locale: 'en_CA',
     url: `${SITE_URL}/en`,
     siteName: 'Roalla Business Enablement Group',
-    title: 'Roalla Business Enablement Group | Digital Assets for Business Value',
+    title: 'Websites, AI Agents & Digital Enablement | ROALLA',
     description:
-      'Websites, digital products, automation, AI, and visibility optimization designed to increase revenue, customer value, and operational capability.',
+      'ROALLA in Burlington, Ontario builds websites, AI agents, automation, and SEO for Canadian organizations.',
     images: [
       {
         url: OG_IMAGE,
@@ -79,9 +73,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Roalla Business Enablement Group | Digital Assets for Business Value',
+    title: 'Websites, AI Agents & Digital Enablement | ROALLA',
     description:
-      'Websites, digital products, automation, AI, and visibility optimization designed to increase revenue, customer value, and operational capability.',
+      'ROALLA in Burlington, Ontario builds websites, AI agents, automation, and SEO for Canadian organizations.',
     images: [OG_IMAGE],
     creator: '@roalla',
   },

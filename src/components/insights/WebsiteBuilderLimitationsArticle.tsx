@@ -118,7 +118,7 @@ export default function WebsiteBuilderLimitationsArticle({ locale, title, summar
         ['/services/technology-advisory', 'Conseil en technologie et préparation numérique', Network],
       ] as const
     : [
-        ['/services/search-ai-visibility', 'Digital Visibility Optimization', SearchCheck],
+        ['/services/search-ai-visibility', 'SEO and AI visibility', SearchCheck],
         ['/website-design', 'Website Design & Brand Presence', Network],
         ['/services/automation', 'Integrations & Workflow Automation', Workflow],
         ['/services/technology-advisory', 'Technology Advisory & Digital Readiness', Network],

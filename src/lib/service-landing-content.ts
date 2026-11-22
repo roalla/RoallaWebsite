@@ -102,9 +102,9 @@ export const serviceLandingContent: Record<
       finalTitle: "Turn the idea into a decision-ready product plan.",
       finalBody: "Begin with a free fit review. We will recommend validation, a focused build, or a simpler option when that creates better value.",
       cta: "Discuss a digital product",
-      metadataTitle: "Applications and Digital Products | ROALLA",
+      metadataTitle: "Custom Business Apps & Client Portals | ROALLA",
       metadataDescription:
-        "Customer portals, operational platforms, workflow systems, and digital services designed to create revenue, customer value, and operational capability.",
+        "Customer portals, operational platforms, and workflow systems for Canadian organizations—built to create revenue, customer value, or operational capability.",
     },
     automation: {
       eyebrow: "Automate",
@@ -194,9 +194,9 @@ export const serviceLandingContent: Record<
       finalTitle: "Find the first workflow worth improving.",
       finalBody: "Use the free calculator for a planning estimate, then let ROALLA validate the process, risks, and practical next step.",
       cta: "Review an automation opportunity",
-      metadataTitle: "Workflow Automation and Integration | ROALLA",
+      metadataTitle: "Workflow Automation & CRM Integration | ROALLA",
       metadataDescription:
-        "Connect systems, automate workflows, reduce manual handoffs, and improve operational flow with maintainable integrations.",
+        "Connect CRM, email, forms, and internal systems. Automate handoffs for Canadian teams with maintainable integrations and a named owner for exceptions.",
     },
     "managed-optimization": {
       eyebrow: "Evolve",
@@ -286,9 +286,9 @@ export const serviceLandingContent: Record<
       finalTitle: "Give your digital assets an accountable improvement rhythm.",
       finalBody: "Start with a baseline. ROALLA will recommend the monitoring and delivery level that fits the asset, risk, and pace of change.",
       cta: "Discuss managed optimization",
-      metadataTitle: "Managed Digital Optimization | ROALLA",
+      metadataTitle: "Website Maintenance & Ongoing SEO | ROALLA",
       metadataDescription:
-        "Ongoing website and application support, performance and visibility monitoring, conversion improvement, product enhancement, and advisory.",
+        "Ongoing website and application care for Canadian organizations: performance, SEO, conversion, product improvement, and a named review rhythm.",
     },
   },
   fr: {
@@ -379,9 +379,9 @@ export const serviceLandingContent: Record<
       finalTitle: "Transformez l’idée en plan de produit prêt à décider.",
       finalBody: "Commencez par une revue gratuite. Nous recommanderons une validation, un développement ciblé ou une solution plus simple si elle crée plus de valeur.",
       cta: "Discuter d’un produit numérique",
-      metadataTitle: "Applications et produits numériques | ROALLA",
+      metadataTitle: "Applis d'affaires et portails clients | ROALLA",
       metadataDescription:
-        "Portails clients, plateformes opérationnelles, systèmes de flux et services numériques conçus pour créer revenus, valeur client et capacité opérationnelle.",
+        "Portails clients, plateformes opérationnelles et systèmes de flux pour les organisations canadiennes—conçus pour les revenus, la valeur client ou les opérations.",
     },
     automation: {
       eyebrow: "Automatiser",
@@ -469,9 +469,9 @@ export const serviceLandingContent: Record<
       finalTitle: "Trouvez le premier flux qui mérite une amélioration.",
       finalBody: "Utilisez le calculateur gratuit, puis laissez ROALLA valider le processus, les risques et la prochaine étape pratique.",
       cta: "Examiner une possibilité d’automatisation",
-      metadataTitle: "Automatisation des flux et intégration | ROALLA",
+      metadataTitle: "Automatisation des flux et intégration CRM | ROALLA",
       metadataDescription:
-        "Reliez vos systèmes, automatisez les flux, réduisez les transferts manuels et améliorez les opérations avec des intégrations maintenables.",
+        "Reliez CRM, courriel, formulaires et systèmes internes. Automatisez les transferts pour les équipes canadiennes, avec un responsable des exceptions.",
     },
     "managed-optimization": {
       eyebrow: "Évoluer",
@@ -559,9 +559,9 @@ export const serviceLandingContent: Record<
       finalTitle: "Donnez à vos actifs numériques un rythme d’amélioration responsable.",
       finalBody: "Commencez par une référence. ROALLA recommandera le niveau de suivi et de livraison adapté à l’actif, au risque et au rythme de changement.",
       cta: "Discuter d’optimisation gérée",
-      metadataTitle: "Optimisation numérique gérée | ROALLA",
+      metadataTitle: "Entretien de site Web et SEO continu | ROALLA",
       metadataDescription:
-        "Soutien continu des sites et applications, suivi de performance et visibilité, conversion, évolution produit et conseil.",
+        "Entretien continu des sites et applications pour les organisations canadiennes : performance, SEO, conversion, évolution produit et revue nommée.",
     },
   },
 };

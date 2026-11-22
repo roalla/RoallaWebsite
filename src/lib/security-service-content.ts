@@ -93,9 +93,9 @@ export const securityServiceContent: Record<"en" | "fr", ServiceLandingCopy> = {
       { label: "Explore the security outcome", href: "/solutions/security" },
       { label: "Review security providers and disclosures", href: "/partners" },
     ],
-    metadataTitle: "Security, Risk and Compliance Services | ROALLA",
+    metadataTitle: "Cybersecurity & Compliance Services | ROALLA",
     metadataDescription:
-      "Security gap reviews, prioritized remediation, SOC 2 readiness support, managed security sourcing, continuity planning, and accountable implementation.",
+      "Security gap reviews, prioritized remediation, SOC 2 readiness, managed-security sourcing, and continuity planning for Canadian organizations.",
   },
   fr: {
     eyebrow: "Sécuriser",
@@ -173,7 +173,7 @@ export const securityServiceContent: Record<"en" | "fr", ServiceLandingCopy> = {
       { label: "Explorer le résultat sécurité", href: "/solutions/security" },
       { label: "Voir les fournisseurs et divulgations", href: "/partners" },
     ],
-    metadataTitle: "Services de sécurité, risque et conformité | ROALLA",
-    metadataDescription: "Revues des écarts, remédiation priorisée, préparation SOC 2, recherche de sécurité gérée, continuité et mise en œuvre responsable.",
+    metadataTitle: "Cybersécurité et services de conformité | ROALLA",
+    metadataDescription: "Revues des écarts, remédiation priorisée, préparation SOC 2, recherche de sécurité gérée et continuité pour les organisations canadiennes.",
   },
 };

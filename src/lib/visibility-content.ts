@@ -1,10 +1,10 @@
 export const visibilityContent = {
   en: {
-    metadataTitle: "Digital Visibility Optimization | ROALLA",
+    metadataTitle: "SEO, AEO & AI Search Visibility | ROALLA",
     metadataDescription:
-      "Coordinate SEO, direct answers, AI-readable facts, accessibility, and conversion. ROALLA does not guarantee rankings or AI citations.",
-    breadcrumb: "Digital Visibility Optimization",
-    eyebrow: "Digital Visibility Optimization",
+      "SEO, answer-engine, and AI-search visibility for Canadian businesses. Technical health, content clarity, accessibility, and conversion. No ranking guarantees.",
+    breadcrumb: "SEO & AI Visibility",
+    eyebrow: "SEO, AEO, and AI visibility",
     title:
       "Help more people—and intelligent systems—find and understand your business.",
     subtitle:
@@ -186,11 +186,11 @@ export const visibilityContent = {
       "Start with the free website and AI review, or request a visibility evaluation when you want a guided next step.",
   },
   fr: {
-    metadataTitle: "Optimisation de la visibilité numérique | ROALLA",
+    metadataTitle: "SEO, AEO et visibilité recherche IA | ROALLA",
     metadataDescription:
-      "Coordonnez le référencement, les réponses directes, les faits lisibles par l’IA, l’accessibilité et la conversion. Aucune garantie de classement ou de citation.",
-    breadcrumb: "Optimisation de la visibilité numérique",
-    eyebrow: "Optimisation de la visibilité numérique",
+      "SEO, réponses directes et visibilité dans la recherche IA pour les entreprises canadiennes. Santé technique, clarté, accessibilité et conversion. Aucune garantie de classement.",
+    breadcrumb: "SEO et visibilité IA",
+    eyebrow: "SEO, AEO et visibilité IA",
     title:
       "Aidez plus de personnes—et de systèmes intelligents—à trouver et comprendre votre entreprise.",
     subtitle:

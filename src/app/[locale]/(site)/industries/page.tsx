@@ -15,8 +15,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return buildPageMetadata({
     locale,
     path,
-    title: locale === 'fr' ? 'Secteurs | ROALLA' : 'Industries | ROALLA',
-    description: copy.lead,
+    title:
+      locale === 'fr'
+        ? 'Solutions numériques par secteur au Canada | ROALLA'
+        : 'Digital Solutions by Industry in Canada | ROALLA',
+    description:
+      locale === 'fr'
+        ? 'Sites Web, employés IA, sécurité, communications et automatisation selon le secteur, pour les organisations canadiennes.'
+        : 'Industry-specific websites, AI employees, security, communications, and automation for Canadian organizations.',
   })
 }
 

@@ -38,6 +38,16 @@ const situations = [
   },
 ] as const
 
+const serviceLinks = [
+  { key: 'serviceWebsite', href: '/website-design' },
+  { key: 'serviceVisibility', href: '/services/search-ai-visibility' },
+  { key: 'serviceAi', href: '/services/ai-agents' },
+  { key: 'serviceAutomation', href: '/services/automation' },
+  { key: 'serviceSecurity', href: '/services/security-risk-compliance' },
+  { key: 'serviceIndustries', href: '/industries' },
+  { key: 'serviceWorkshops', href: '/programs/workshops' },
+] as const
+
 export default function HomeBusinessOutcomes() {
   const t = useTranslations('home.businessOutcomes')
 
@@ -97,6 +107,18 @@ export default function HomeBusinessOutcomes() {
             <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
           </Link>
         </Reveal>
+        <nav className="mt-8 border-t border-slate-200 pt-8" aria-label={t('servicesLabel')}>
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">{t('servicesLabel')}</p>
+          <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-3">
+            {serviceLinks.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="text-sm font-semibold text-slate-800 underline-offset-4 hover:text-primary-dark hover:underline">
+                  {t(link.key)}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
     </section>
   )

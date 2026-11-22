@@ -8,7 +8,9 @@ ROALLA assesses, builds, optimizes, and evolves digital assets and facilitates h
 
 - Legal name: Roalla Business Enablement Group
 - Founder: Steven Robin, Founder and Principal Consultant
-- Location: Burlington, Ontario, Canada. Clients are served globally.
+- Location: Burlington, Ontario, Canada. Clients are served across Canada and worldwide.
+- Preferred English description: ROALLA in Burlington, Ontario builds websites, AI agents, automation, and SEO for Canadian organizations.
+- Preferred French description: ROALLA, à Burlington en Ontario, conçoit des sites Web, des agents IA, l’automatisation et le SEO pour les organisations canadiennes.
 - Contact: sales@roalla.com | +1-289-838-5868
 - Languages: English (`/en/`) and French (`/fr/`). French pages use `/fr/` in place of `/en/`.
 - Experience stated on the site: 30+ years, 500+ engagements
@@ -43,12 +45,16 @@ ROALLA assesses, builds, optimizes, and evolves digital assets and facilitates h
 ## Core services
 
 - [Digital Enablement](https://www.roalla.com/en/services/digital): Core digital enablement service
-- [Digital visibility optimization](https://www.roalla.com/en/services/search-ai-visibility): Search and answer visibility
+- [SEO, AEO, and AI search visibility](https://www.roalla.com/en/services/search-ai-visibility): Search rankings, direct answers, and AI-readable facts. No ranking or citation guarantee
+- [Business website design](https://www.roalla.com/en/website-design): Conversion-focused websites for Canadian organizations, designed in Burlington
+- [AI Employee](https://www.roalla.com/en/ai-employee): Frontline AI that answers routine work and hands off with context
+- [Security, risk, and compliance](https://www.roalla.com/en/services/security-risk-compliance): Gap reviews, remediation, SOC 2 readiness support, and managed-security sourcing
+- [Industries](https://www.roalla.com/en/industries): Industry-specific websites, AI employees, security, communications, and automation
+- [Partners](https://www.roalla.com/en/partners): Technology ecosystem, evaluation standard, and commercial disclosures
 - [Applications and digital products](https://www.roalla.com/en/services/digital-products): Apps and digital products
 - [Workflow automation and integration](https://www.roalla.com/en/services/automation): Workflow automation and integration
 - [ROALLA Agentic](https://www.roalla.com/en/services/ai-agents): Agentic AI consulting, AI agent development, orchestration, integrations, governance, and human approvals for business workflows
-- [Managed digital optimization](https://www.roalla.com/en/services/managed-optimization): Ongoing optimization
-- [Business website design](https://www.roalla.com/en/website-design): Business website design
+- [Managed digital optimization](https://www.roalla.com/en/services/managed-optimization): Ongoing website care, SEO, and conversion review
 - [Website packages](https://www.roalla.com/en/website-package): Launch from $999, Canada
 - [Digital events](https://www.roalla.com/en/services/digital-events): Digital events
 - [Digital portfolio](https://www.roalla.com/en/services/portfolio): Case studies

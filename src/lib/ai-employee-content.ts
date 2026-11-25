@@ -679,32 +679,32 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
       },
       {
         id: 'care-practices',
-        label: 'Care Practices',
-        shortLabel: 'Practices',
+        label: 'Health & Wellness Practices',
+        shortLabel: 'Health & wellness',
         image: {
           src: '/images/insights/library/authentic-professional-portrait-selection.card.webp',
-          alt: 'Care practice front desk for patient booking and care continuity',
+          alt: 'Health and wellness practice front desk for booking and client continuity',
         },
-        positioning: 'The AI front line for clinic reception',
+        positioning: 'The AI front line for practice and studio reception',
         promise:
-          'Answer every patient call and message, book the right visit type, and keep recalls and waitlists moving—while clinical judgment stays with your providers.',
+          'Answer every client call and message, book the right visit or session type, and keep recalls and waitlists moving—while clinical judgment and coaching boundaries stay with your providers.',
         audiences: [
           {
             id: 'patient-front-desk',
-            label: 'Patient calls & booking',
-            lead: 'For dental, physio, chiropractic, therapy, massage, and similar practices that lose bookings while the desk is with a patient—or after hours.',
+            label: 'Client calls & booking',
+            lead: 'For clinics, dental, physio, chiropractic, therapy, counselling, massage, wellness studios, and coaching practices that lose bookings while the desk is with a client—or after hours.',
             uses: [
               {
                 title: 'Always-on reception',
-                description: 'Answer calls, texts, and web chats under your practice name during busy clinics, lunch, and after hours.',
+                description: 'Answer calls, texts, and web chats under your practice name during busy clinics and sessions, lunch, and after hours.',
               },
               {
-                title: 'New-patient booking',
-                description: 'Collect reason for visit, preferred provider or location, insurance or funding basics, and book the correct first appointment length.',
+                title: 'New-client booking',
+                description: 'Collect reason for visit, preferred provider or location, insurance or funding basics, and book the correct first appointment or session length.',
               },
               {
                 title: 'Follow-up and care-plan visits',
-                description: 'Book hygiene, adjustments, treatment sessions, and reviews into the right chair, room, and provider calendar.',
+                description: 'Book hygiene, adjustments, treatment sessions, package visits, and reviews into the right chair, room, studio, and provider calendar.',
               },
               {
                 title: 'Reschedule and cancel rules',
@@ -731,7 +731,7 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
           {
             id: 'practice-continuity',
             label: 'Recalls & care continuity',
-            lead: 'Keep the schedule full and patients progressing through their plan without pulling providers out of treatment time.',
+            lead: 'Keep the schedule full and clients progressing through their plan without pulling providers out of session or treatment time.',
             uses: [
               {
                 title: 'Confirmations and reminders',
@@ -739,15 +739,15 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
               },
               {
                 title: 'No-show and cancellation fill',
-                description: 'Offer freed slots to a short-notice waitlist under your rules so chairs and rooms stay productive.',
+                description: 'Offer freed slots to a short-notice waitlist under your rules so chairs, rooms, and studios stay productive.',
               },
               {
                 title: 'Hygiene and checkup recalls',
-                description: 'Run recall outreach at the intervals you set for patients who have agreed to be contacted.',
+                description: 'Run recall outreach at the intervals you set for clients who have agreed to be contacted.',
               },
               {
                 title: 'Care-plan rebooking',
-                description: 'Rebook missed physio, chiro, or therapy visits and help patients complete the planned course of care.',
+                description: 'Rebook missed physio, chiro, therapy, or wellness visits and help clients complete the planned course of care.',
               },
               {
                 title: 'Forms and intake collection',
@@ -769,17 +769,17 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
           },
         ],
         startTitle: 'Strongest place to begin',
-        startLead: 'Start where missed calls and unfinished care plans cost revenue—and where clinical boundaries are easy to write down.',
+        startLead: 'Start where missed calls and unfinished care plans cost revenue—and where clinical or coaching boundaries are easy to write down.',
         startWith: [
           '24/7 call and message intake',
-          'New-patient and follow-up booking',
+          'New-client and follow-up booking',
           'Urgent vs routine routing with escalation',
           'Reminders, recalls, and waitlist fill',
           'Forms collection and conversation summaries for staff',
         ],
         boundaryTitle: 'Clear limits build trust',
         boundaryLead:
-          'An AI Employee is reception and coordination—not a clinician. Privacy, consent, and clinical accountability stay with your practice.',
+          'An AI Employee is reception and coordination—not a clinician or coach. Privacy, consent, and professional accountability stay with your practice.',
         boundaries: [
           'No diagnosis, treatment advice, prescription decisions, or answers about whether symptoms can wait—those escalate to qualified staff with a complete callback summary.',
           'Payment card numbers, sensitive clinical details beyond approved intake, and chart changes stay outside unsupervised automation unless tightly governed systems and consent rules exist.',
@@ -2428,32 +2428,32 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
       },
       {
         id: 'care-practices',
-        label: 'Cliniques de soins',
-        shortLabel: 'Cliniques',
+        label: 'Santé, mieux-être et pratiques de soins',
+        shortLabel: 'Santé & mieux-être',
         image: {
           src: '/images/insights/library/authentic-professional-portrait-selection.card.webp',
-          alt: 'Réception de clinique pour réservations patients et continuité des soins',
+          alt: 'Réception de pratique santé et mieux-être pour réservations et continuité client',
         },
-        positioning: 'La première ligne IA de la réception clinique',
+        positioning: 'La première ligne IA de la réception en clinique et en studio',
         promise:
-          'Répondre à chaque appel et message de patient, réserver le bon type de visite et faire avancer rappels et listes d’attente—pendant que le jugement clinique reste à vos professionnels.',
+          'Répondre à chaque appel et message de client, réserver le bon type de visite ou de séance et faire avancer rappels et listes d’attente—pendant que le jugement clinique et les limites de coaching restent à vos professionnels.',
         audiences: [
           {
             id: 'patient-front-desk',
-            label: 'Appels patients et réservations',
-            lead: 'Pour les cliniques dentaires, de physio, de chiropratique, de thérapie, de massage et similaires qui perdent des réservations pendant que le bureau est avec un patient—ou hors des heures.',
+            label: 'Appels clients et réservations',
+            lead: 'Pour les cliniques, dentaires, physio, chiropratique, thérapie, counselling, massage, studios de mieux-être et pratiques de coaching qui perdent des réservations pendant que le bureau est avec un client—ou hors des heures.',
             uses: [
               {
                 title: 'Réception toujours disponible',
-                description: 'Répondre aux appels, textos et clavardages sous le nom de votre clinique pendant les périodes chargées, le midi et hors des heures.',
+                description: 'Répondre aux appels, textos et clavardages sous le nom de votre pratique pendant les périodes chargées, le midi et hors des heures.',
               },
               {
-                title: 'Réservation de nouveaux patients',
-                description: 'Recueillir le motif de visite, le professionnel ou le site préféré, les bases d’assurance ou de financement, et réserver la bonne durée de première rencontre.',
+                title: 'Réservation de nouveaux clients',
+                description: 'Recueillir le motif de visite, le professionnel ou le site préféré, les bases d’assurance ou de financement, et réserver la bonne durée de première rencontre ou séance.',
               },
               {
                 title: 'Suivis et visites de plan de soins',
-                description: 'Réserver hygiène, ajustements, séances de traitement et revues dans le bon fauteuil, la bonne salle et le bon calendrier de professionnel.',
+                description: 'Réserver hygiène, ajustements, séances de traitement, forfaits et revues dans le bon fauteuil, la bonne salle, le studio et le bon calendrier de professionnel.',
               },
               {
                 title: 'Règles de report et d’annulation',
@@ -2480,7 +2480,7 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
           {
             id: 'practice-continuity',
             label: 'Rappels et continuité des soins',
-            lead: 'Gardez l’horaire rempli et les patients engagés dans leur plan sans sortir les professionnels du temps de traitement.',
+            lead: 'Gardez l’horaire rempli et les clients engagés dans leur plan sans sortir les professionnels du temps de séance ou de traitement.',
             uses: [
               {
                 title: 'Confirmations et rappels',
@@ -2488,15 +2488,15 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
               },
               {
                 title: 'Remplissage des absences et annulations',
-                description: 'Offrir les créneaux libérés à une liste d’attente de court préavis selon vos règles pour garder fauteuils et salles productifs.',
+                description: 'Offrir les créneaux libérés à une liste d’attente de court préavis selon vos règles pour garder fauteuils, salles et studios productifs.',
               },
               {
                 title: 'Rappels d’hygiène et de contrôle',
-                description: 'Lancer les rappels aux intervalles que vous fixez pour les patients qui ont accepté d’être contactés.',
+                description: 'Lancer les rappels aux intervalles que vous fixez pour les clients qui ont accepté d’être contactés.',
               },
               {
                 title: 'Reprise du plan de soins',
-                description: 'Replanifier les visites de physio, chiro ou thérapie manquées et aider les patients à compléter le parcours prévu.',
+                description: 'Replanifier les visites de physio, chiro, thérapie ou mieux-être manquées et aider les clients à compléter le parcours prévu.',
               },
               {
                 title: 'Collecte de formulaires et d’accueil',
@@ -2518,21 +2518,21 @@ export const aiEmployeeContent: Record<'en' | 'fr', AiEmployeeCopy> = {
           },
         ],
         startTitle: 'Le meilleur point de départ',
-        startLead: 'Commencez là où les appels manqués et les plans de soins incomplets coûtent du revenu—et où les limites cliniques sont faciles à écrire.',
+        startLead: 'Commencez là où les appels manqués et les plans de soins incomplets coûtent du revenu—et où les limites cliniques ou de coaching sont faciles à écrire.',
         startWith: [
           'Accueil 24/7 par appel et message',
-          'Réservation nouveaux patients et suivis',
+          'Réservation nouveaux clients et suivis',
           'Acheminement urgent vs courant avec escalation',
           'Rappels, rappels de suivi et remplissage de liste d’attente',
           'Collecte de formulaires et résumés de conversation pour le personnel',
         ],
         boundaryTitle: 'Des limites claires créent la confiance',
         boundaryLead:
-          'Un employé IA fait la réception et la coordination—pas le rôle de clinicien. La confidentialité, le consentement et la responsabilité clinique restent à votre pratique.',
+          'Un employé IA fait la réception et la coordination—pas le rôle de clinicien ou de coach. La confidentialité, le consentement et la responsabilité professionnelle restent à votre pratique.',
         boundaries: [
           'Aucun diagnostic, conseil de traitement, décision d’ordonnance ou réponse sur le fait qu’un symptôme peut attendre—ces sujets escaladent vers le personnel qualifié avec un résumé de rappel complet.',
           'Les numéros de carte de paiement, les détails cliniques sensibles au-delà de l’accueil approuvé et les changements au dossier restent hors d’une automatisation sans supervision sauf systèmes et règles de consentement étroitement gouvernés.',
-          'Sans accès d’écriture profond au logiciel de clinique, il demeure utile comme porte d’entrée : répondre à chaque demande, réserver ce qui est permis, recueillir les formulaires, lancer les rappels et transmettre un résumé utilisable à votre équipe.',
+          'Sans accès d’écriture profond au logiciel de pratique, il demeure utile comme porte d’entrée : répondre à chaque demande, réserver ce qui est permis, recueillir les formulaires, lancer les rappels et transmettre un résumé utilisable à votre équipe.',
         ],
       },
       {

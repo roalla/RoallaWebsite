@@ -210,7 +210,7 @@ export function ServicePageHero({
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-light mb-4">{eyebrow}</p>
           </Reveal>
           <Reveal when="mount" delayMs={50}>
-            <h1 className="text-4xl md:text-5xl lg:text-[3.25rem] font-serif font-bold text-white leading-tight tracking-tight">
+            <h1 className="service-dark-heading text-4xl md:text-5xl lg:text-[3.25rem] font-serif font-bold leading-tight tracking-tight">
               {title}
             </h1>
           </Reveal>

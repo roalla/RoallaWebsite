@@ -19,6 +19,8 @@ import {
 import ScheduleButton from "./ScheduleButton";
 import InquiryNextSteps from "@/components/conversion/InquiryNextSteps";
 import StickyMobileCTA from "./StickyMobileCTA";
+import { ConversionEntryLink } from "@/components/conversion/ConversionReviewLinks";
+import { CONVERSION_PATH } from "@/lib/customer-conversion";
 import TechnologyDecisionFramework from "./TechnologyDecisionFramework";
 import ServiceMiniFAQ from "./services/ServiceMiniFAQ";
 import ServiceTestimonialBand from "./services/ServiceTestimonialBand";
@@ -315,6 +317,17 @@ const DigitalBuilds = () => {
       link: t("outcomesGrowthLink"),
       href: "#platforms",
     },
+    {
+      image: "/images/insights/library/sales-pipeline-or-list-of-contacts.opt.webp",
+      alt: "",
+      kicker: locale === "fr" ? "Convertir" : "Convert",
+      title: locale === "fr" ? "Transformez vos demandes en rendez-vous." : "Turn inquiries into booked conversations.",
+      description: locale === "fr"
+        ? "Reliez vos sources de contacts au CRM, attribuez chaque suivi et mesurez ce qui mène à un rendez-vous."
+        : "Connect contact sources to your CRM, give every follow-up an owner, and measure what leads to a meeting.",
+      link: locale === "fr" ? "Explorer les systèmes de conversion client" : "Explore Customer Conversion Systems",
+      href: CONVERSION_PATH,
+    },
   ] as const;
 
   return (
@@ -396,8 +409,8 @@ const DigitalBuilds = () => {
               </p>
             </div>
 
-            <div className="mt-8 grid gap-5 lg:grid-cols-3">
-              {digitalOutcomes.map((outcome, index) => (
+            <div className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+              {digitalOutcomes.map((outcome) => (
                 <article
                   key={outcome.href}
                   className="group overflow-hidden rounded-2xl border border-white/10 bg-white text-slate-950 shadow-lg"
@@ -410,12 +423,9 @@ const DigitalBuilds = () => {
                       loading="lazy"
                       unoptimized
                       decoding="async"
-                      sizes="(min-width: 1024px) 33vw, 100vw"
+                      sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
                       className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
                     />
-                    <span className="absolute left-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/60 bg-slate-950/80 text-xs font-bold text-white backdrop-blur-sm">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
                   </div>
                   <div className="p-6">
                     <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary-dark">
@@ -427,13 +437,17 @@ const DigitalBuilds = () => {
                     <p className="mt-3 text-sm leading-6 text-slate-600">
                       {outcome.description}
                     </p>
-                    <a
+                    {outcome.href === CONVERSION_PATH ? (
+                      <ConversionEntryLink entry="digital-enablement" className="mt-5 inline-flex min-h-11 items-center text-sm font-bold text-primary-dark underline-offset-4 hover:underline focus-visible:ring-2 focus-visible:ring-cyan-600">
+                        {outcome.link}
+                      </ConversionEntryLink>
+                    ) : <a
                       href={outcome.href}
                       className="mt-5 inline-flex items-center text-sm font-bold text-primary-dark hover:underline"
                     >
                       {outcome.link}
                       <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden />
-                    </a>
+                    </a>}
                   </div>
                 </article>
               ))}
@@ -452,53 +466,6 @@ const DigitalBuilds = () => {
                 {t("outcomesCta")}
               </ScheduleButton>
             </div>
-          </div>
-        </Reveal>
-
-        <Reveal className="mb-12 overflow-hidden rounded-3xl border border-primary/25 bg-gradient-to-br from-white via-cyan-50/60 to-primary/[0.08] shadow-sm">
-          <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:p-10">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">
-                {locale === "fr" ? "Conversion client" : "Customer conversion"}
-              </p>
-              <h2 className="mt-3 text-3xl font-serif font-bold leading-tight text-slate-950 sm:text-4xl">
-                {locale === "fr"
-                  ? "Transformez les contacts dispersés en système de suivi mesurable."
-                  : "Turn scattered contacts into a measurable follow-up system."}
-              </h2>
-              <p className="mt-4 max-w-xl text-base leading-7 text-slate-700">
-                {locale === "fr"
-                  ? "Reliez les sources de contacts, un CRM simple, des campagnes utiles et des mesures claires, tout en gardant l’échange humain aux moments décisifs."
-                  : "Connect contact sources, a simple CRM, useful campaigns, and clear measurement while keeping human conversation at the decision points."}
-              </p>
-              <Link
-                href="/services/customer-conversion-systems"
-                className="mt-6 inline-flex items-center justify-center rounded-lg bg-primary px-5 py-3 text-sm font-bold text-slate-950 transition-colors hover:bg-cyan-300"
-              >
-                {locale === "fr"
-                  ? "Explorer les systèmes de conversion client"
-                  : "Explore Customer Conversion Systems"}
-              </Link>
-            </div>
-
-            <ol className="grid gap-3 sm:grid-cols-2">
-              {[
-                locale === "fr" ? "Sources de contacts" : "Contact sources",
-                locale === "fr" ? "CRM simple" : "Simple CRM",
-                locale === "fr" ? "Suivi de campagne" : "Campaign follow-up",
-                locale === "fr" ? "Mesure et conversation humaine" : "Measurement and human conversation",
-              ].map((step, index) => (
-                <li
-                  key={step}
-                  className="flex min-h-20 items-center gap-4 rounded-2xl border border-white/80 bg-white/90 p-4 shadow-sm"
-                >
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-950 text-xs font-bold text-white">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="text-sm font-bold text-slate-800">{step}</span>
-                </li>
-              ))}
-            </ol>
           </div>
         </Reveal>
 

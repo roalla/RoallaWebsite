@@ -10,6 +10,7 @@ import OutcomeGroupPanel from '@/components/solutions/OutcomeGroupPanel'
 import AutomationAiNeedExtras from '@/components/solutions/AutomationAiNeedExtras'
 import NeedSituationSummary from '@/components/solutions/NeedSituationSummary'
 import RouteCinematicHero from '@/components/hero/RouteCinematicHero'
+import { ConversionEntryLink } from '@/components/conversion/ConversionReviewLinks'
 
 type Props = {
   groupId: OutcomeGroupId
@@ -127,6 +128,23 @@ export default function OutcomeGroupNeedPage({
 
       <section className="px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <div className="mx-auto max-w-5xl">
+          {groupId === 'growth-visibility' && (
+            <div className="mb-8 rounded-2xl border border-primary/25 bg-cyan-50 p-6 sm:flex sm:items-center sm:justify-between sm:gap-6">
+              <div>
+                <h2 className="text-2xl font-bold text-slate-950">
+                  {locale === 'fr' ? 'Vous recevez déjà des demandes?' : 'Already getting inquiries?'}
+                </h2>
+                <p className="mt-2 max-w-xl text-slate-700">
+                  {locale === 'fr'
+                    ? 'Repérez où le suivi se perd et transformez plus de demandes en rendez-vous.'
+                    : 'Find where follow-up breaks down and turn more inquiries into booked conversations.'}
+                </p>
+              </div>
+              <ConversionEntryLink entry="growth-pathway" className="mt-4 inline-flex min-h-11 shrink-0 items-center rounded-lg bg-primary-dark px-5 py-2 text-sm font-semibold text-white hover:bg-primary-darker focus-visible:ring-2 focus-visible:ring-cyan-600 focus-visible:ring-offset-2 sm:mt-0">
+                {locale === 'fr' ? 'Explorer les systèmes de conversion client' : 'Explore Customer Conversion Systems'}
+              </ConversionEntryLink>
+            </div>
+          )}
           <OutcomeGroupPanel groupId={groupId} locale={locale} highlighted expandCommitment />
           {groupId === 'automation-ai' ? <AutomationAiNeedExtras locale={locale} /> : null}
         </div>

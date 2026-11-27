@@ -46,6 +46,10 @@
 }
 
 @layer utilities {
+  .service-dark-heading {
+    color: #fff;
+  }
+
   @keyframes fade-in {
     from {
       opacity: 0;

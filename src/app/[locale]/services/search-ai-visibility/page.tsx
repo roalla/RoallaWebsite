@@ -101,7 +101,7 @@ export default async function SearchAiVisibilityPage({
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-light mb-4">
                 {content.eyebrow}
               </p>
-              <h1 className="text-4xl md:text-5xl font-serif font-bold text-white leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.55)]">
+              <h1 className="service-dark-heading text-4xl md:text-5xl font-serif font-bold leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.55)]">
                 {content.title}
               </h1>
               <p className="mt-5 text-lg text-slate-200 leading-relaxed">
@@ -145,7 +145,7 @@ export default async function SearchAiVisibilityPage({
           </div>
         </header>
 
-        <main className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <ServiceActionTiles
             serviceId="search-ai-visibility"
             locale={locale === "fr" ? "fr" : "en"}
@@ -202,7 +202,7 @@ export default async function SearchAiVisibilityPage({
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-light">
                   {content.productEyebrow}
                 </p>
-                <h2 id="digital-product-visibility-title" className="mt-3 text-3xl font-serif font-bold text-white">
+                <h2 id="digital-product-visibility-title" className="service-dark-heading mt-3 text-3xl font-serif font-bold">
                   {content.productTitle}
                 </h2>
                 <p className="mt-4 leading-relaxed text-slate-300">{content.productBody}</p>
@@ -363,7 +363,7 @@ export default async function SearchAiVisibilityPage({
               />
             </div>
           </aside>
-        </main>
+        </div>
       </div>
     </div>
   );

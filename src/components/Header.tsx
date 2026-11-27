@@ -24,6 +24,7 @@ import ScheduleButton from "./ScheduleButton";
 import { CLIENT_PORTAL_URL } from "@/lib/site";
 import { HEADER_INSIGHT_SLUGS, headerInsightsForGroup, type InsightSlug } from "@/lib/insights";
 import { trackAnalyticsEvent } from "@/lib/analytics";
+import { LOCALE_SWITCH_EVENT } from "@/lib/customer-conversion";
 import { solutionsByNeedContent } from "@/lib/solutions-by-need";
 import { campaignReviewIds } from "@/lib/campaign-review-content";
 import { getFeaturedIndustryHubNav } from "@/lib/industry-hub-content";
@@ -539,9 +540,14 @@ const Header = ({
           : pathname.startsWith("/")
             ? pathname
             : `/${pathname}`;
-      window.location.href = `/${newLocale}${segment}`;
+      const { search, hash } = window.location;
+      const destination = `/${newLocale}${segment}${search}${hash}`;
+      if (newLocale !== locale) {
+        window.dispatchEvent(new CustomEvent(LOCALE_SWITCH_EVENT, { detail: destination }));
+      }
+      window.location.href = destination;
     },
-    [pathname],
+    [locale, pathname],
   );
 
   const handleMobileNavClick = useCallback(

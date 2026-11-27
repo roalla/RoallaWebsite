@@ -18,6 +18,7 @@ import ConsultationRequestForm, {
 import { isDigitalIntent } from '@/lib/consultation-request'
 import { getPortfolioItem, getPortfolioIndustryCategory, isValidPortfolioReference } from '@/lib/digitalPortfolio'
 import { isSolutionPathId } from '@/lib/solution-outcome-pages'
+import { CONVERSION_INTENT, CONVERSION_OFFER, conversionEntry, conversionPlacement, conversionReviewCopy } from '@/lib/customer-conversion'
 import type { PortfolioIndustryCategoryId, PortfolioItemId } from '@/lib/digitalPortfolio'
 
 const PORTFOLIO_NAME_KEYS = {
@@ -128,6 +129,12 @@ function ScheduleContent() {
   const needParam = searchParams.get('need')
   const referenceParam = searchParams.get('reference')
   const offerParam = searchParams.get('offer')
+  const conversionReview = offerParam === CONVERSION_OFFER
+  const reviewCopy = conversionReviewCopy[locale === 'fr' ? 'fr' : 'en']
+  const conversionReviewContext = conversionReview ? {
+    entry: conversionEntry(searchParams.get('entry')),
+    placement: conversionPlacement(searchParams.get('conversion_source')),
+  } : undefined
   const packageOffers = ['founding', 'visibility', 'growth', 'custom'] as const
   type PackageOffer = (typeof packageOffers)[number]
   const isPackageOffer = (value: string | null): value is PackageOffer =>
@@ -153,7 +160,7 @@ function ScheduleContent() {
     return tFounding('schedulePrefillGoal')
   })()
   const initialIntent =
-    resolveInitialIntent(
+    conversionReview ? CONVERSION_INTENT : resolveInitialIntent(
       searchParams.get('intent'),
       searchParams.get('service'),
       needParam,
@@ -187,10 +194,12 @@ function ScheduleContent() {
     !referenceGoal && !packagePrefillGoal && !searchParams.get('goal') && signalParam
       ? `Selected challenge: ${signalParam.replace(/-/g, ' ')}`
       : null
-  const initialGoal = referenceGoal ?? packagePrefillGoal ?? searchParams.get('goal') ?? signalGoal
+  const initialGoal = conversionReview
+    ? searchParams.get('goal') ?? reviewCopy.goal
+    : referenceGoal ?? packagePrefillGoal ?? searchParams.get('goal') ?? signalGoal
 
   const isDigital = isDigitalIntent(initialIntent)
-  const whatYouGetItems = visibilityReview
+  const whatYouGetItems = conversionReview ? reviewCopy.benefits : visibilityReview
     ? [
         t('visibilityReviewBenefit1'),
         t('visibilityReviewBenefit2'),
@@ -202,13 +211,13 @@ function ScheduleContent() {
     ? [t('whatYouGetDigital1'), t('whatYouGetDigital2'), t('whatYouGetDigital3'), t('whatYouGetDigital4')]
     : [t('whatYouGet1'), t('whatYouGet2'), t('whatYouGet3'), t('whatYouGet4')]
 
-  const title = visibilityReview ? t('visibilityReviewPageTitle') : t('title')
-  const subtitle = visibilityReview
+  const title = conversionReview ? reviewCopy.title : visibilityReview ? t('visibilityReviewPageTitle') : t('title')
+  const subtitle = conversionReview ? reviewCopy.formHint : visibilityReview
     ? t('visibilityReviewPageSubtitle')
     : isDigital
       ? t('subtitleDigital')
       : t('subtitle')
-  const expectation = visibilityReview
+  const expectation = conversionReview ? reviewCopy.next : visibilityReview
     ? t('visibilityReviewPageExpectation')
     : t('whatToExpect')
 
@@ -297,6 +306,7 @@ function ScheduleContent() {
               fromAssessment={fromAssessment}
               fromFoundingOffer={fromPackageOffer}
               visibilityReview={visibilityReview}
+              conversionReview={conversionReviewContext}
             />
             <aside className="sticky top-28 hidden rounded-2xl border border-primary/25 border-l-4 border-l-brand-gold bg-gradient-to-br from-primary/[0.08] via-cyan-50/90 to-white p-6 lg:block">
               <p className="text-sm font-semibold text-slate-900 mb-4">

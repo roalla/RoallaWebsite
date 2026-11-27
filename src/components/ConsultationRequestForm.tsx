@@ -1,6 +1,15 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import {
+  CONVERSION_GOAL_HANDOFF_KEY,
+  CONVERSION_OFFER,
+  CONVERSION_PATH,
+  LOCALE_SWITCH_EVENT,
+  conversionReviewCopy,
+  type conversionEntry,
+  type ConversionPlacement,
+} from "@/lib/customer-conversion";
 import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -174,6 +183,10 @@ type ConsultationRequestFormProps = {
   fromAssessment?: boolean;
   fromFoundingOffer?: boolean;
   visibilityReview?: boolean;
+  conversionReview?: {
+    entry: ReturnType<typeof conversionEntry>;
+    placement?: ConversionPlacement;
+  };
   initialQuickMode?: boolean;
 };
 
@@ -369,10 +382,19 @@ export default function ConsultationRequestForm({
   fromAssessment = false,
   fromFoundingOffer = false,
   visibilityReview = false,
+  conversionReview,
   initialQuickMode = false,
 }: ConsultationRequestFormProps) {
   const t = useTranslations("consultationRequest");
   const locale = useLocale();
+  const reviewCopy = conversionReview ? conversionReviewCopy[locale === "fr" ? "fr" : "en"] : null;
+  const reviewStarted = useRef(false);
+  const reviewAnalytics = conversionReview ? { offer: CONVERSION_OFFER, locale, ...conversionReview } : null;
+  const trackReviewStart = () => {
+    if (!reviewAnalytics || reviewStarted.current) return;
+    reviewStarted.current = true;
+    trackAnalyticsEvent("conversion_review_form_start", reviewAnalytics);
+  };
   const [submittedIntent, setSubmittedIntent] = useState<
     ConsultationIntent | ""
   >("");
@@ -390,7 +412,7 @@ export default function ConsultationRequestForm({
   };
 
   const startInDigitalLight =
-    !initialQuickMode &&
+    !initialQuickMode && !conversionReview &&
     shouldUseDigitalDiscoveryFunnel(initialIntent) &&
     !fromAssessment &&
     !fromFoundingOffer &&
@@ -418,7 +440,7 @@ export default function ConsultationRequestForm({
       : {};
 
   const [step, setStep] = useState(() => initialStep);
-  const [quickMode, setQuickMode] = useState(initialQuickMode);
+  const [quickMode, setQuickMode] = useState(initialQuickMode || Boolean(conversionReview));
   const [digitalLightMode, setDigitalLightMode] = useState(startInDigitalLight);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -438,6 +460,40 @@ export default function ConsultationRequestForm({
     currentSiteUrl: initialWebsiteUrl ?? "",
     ...skippedStep2Defaults,
   });
+
+  const isConversionReview = Boolean(conversionReview);
+  useEffect(() => {
+    if (!isConversionReview) return;
+    try {
+      const raw = sessionStorage.getItem(CONVERSION_GOAL_HANDOFF_KEY);
+      if (!raw) return;
+      sessionStorage.removeItem(CONVERSION_GOAL_HANDOFF_KEY);
+      const { destination, expires, goal } = JSON.parse(raw);
+      const { pathname, search, hash } = window.location;
+      if (destination === pathname + search + hash && expires > Date.now() && typeof goal === "string") {
+        setForm((current) => ({ ...current, goal }));
+      }
+    } catch {
+      // The localized default remains available when storage is disabled.
+    }
+  }, [isConversionReview]);
+
+  useEffect(() => {
+    if (!isConversionReview || submitted || form.goal === initialGoal) return;
+    const preserveGoal = (event: Event) => {
+      try {
+        sessionStorage.setItem(CONVERSION_GOAL_HANDOFF_KEY, JSON.stringify({
+          destination: (event as CustomEvent<string>).detail,
+          expires: Date.now() + 60_000,
+          goal: form.goal,
+        }));
+      } catch {
+        // Switching languages still preserves the offer and attribution in the URL.
+      }
+    };
+    window.addEventListener(LOCALE_SWITCH_EVENT, preserveGoal);
+    return () => window.removeEventListener(LOCALE_SWITCH_EVENT, preserveGoal);
+  }, [isConversionReview, submitted, form.goal, initialGoal]);
 
   const visibilityReport = visibilityReview ? initialGoal?.trim() ?? "" : "";
   const fromCommsBrief =
@@ -606,6 +662,7 @@ export default function ConsultationRequestForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    trackReviewStart();
     if (!digitalLightMode && !quickMode && step < 3) {
       const ready = step === 1 ? canContinueStep1 : canContinueStep2;
       if (ready) {
@@ -714,11 +771,12 @@ export default function ConsultationRequestForm({
       setSubmitted(true);
       trackAnalyticsEvent("consultation_request_submitted", {
         intent: submitIntent,
-        source: visibilityReview
+        source: conversionReview ? CONVERSION_PATH : visibilityReview
           ? "visibility-review"
           : sourcePage || initialSourcePage || undefined,
         outcome: initialOutcome ?? undefined,
         monitoring_interest: visibilityReview ? monitoringInterest : undefined,
+        ...reviewAnalytics,
       });
       if (visibilityReview) {
         trackAnalyticsEvent("visibility_review_submitted", {
@@ -754,15 +812,21 @@ export default function ConsultationRequestForm({
           <CheckCircle className="h-7 w-7 text-primary-dark" />
         </div>
         <h2 className="text-2xl font-serif font-bold text-slate-900">
-          {visibilityReview ? t("visibilityReviewSuccessTitle") : t("successTitle")}
+          {reviewCopy?.received ?? (visibilityReview ? t("visibilityReviewSuccessTitle") : t("successTitle"))}
         </h2>
         <p className="mt-3 text-slate-600 max-w-md mx-auto">
-          {visibilityReview ? t("visibilityReviewSuccessMessage") : t("successMessage")}
+          {reviewCopy?.confirmation ?? (visibilityReview ? t("visibilityReviewSuccessMessage") : t("successMessage"))}
         </p>
         <p className="mt-4 text-sm text-slate-500 max-w-md mx-auto">
-          {visibilityReview ? t("visibilityReviewSuccessNext") : t("successNextSteps")}
+          {reviewCopy?.next ?? (visibilityReview ? t("visibilityReviewSuccessNext") : t("successNextSteps"))}
         </p>
-        {discoveryUrl && !visibilityReview && (
+        {reviewCopy && (
+          <div className="mx-auto mt-5 max-w-md rounded-lg bg-slate-50 p-4 text-start">
+            <p className="text-sm font-semibold text-slate-900">{reviewCopy.submittedGoalLabel}</p>
+            <p className="mt-1 whitespace-pre-wrap break-words text-sm text-slate-700">{form.goal}</p>
+          </div>
+        )}
+        {discoveryUrl && !visibilityReview && !conversionReview && (
           <p className="mt-5 text-sm text-slate-600 max-w-md mx-auto">
             <a
               href={discoveryUrl}
@@ -832,13 +896,13 @@ export default function ConsultationRequestForm({
         )}
         {quickMode && (
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <p className="text-sm font-medium text-white">{t("quickInquiryToggle")}</p>
+            <p className="text-sm font-medium text-white">{reviewCopy?.title ?? t("quickInquiryToggle")}</p>
             <p className="text-xs text-slate-300">{t("digitalLightTimeHint")}</p>
           </div>
         )}
       </div>
 
-      <form noValidate onSubmit={handleSubmit} className="p-6 lg:p-8">
+      <form noValidate onChange={trackReviewStart} onSubmit={handleSubmit} className="p-6 lg:p-8">
         <input
           type="text"
           name="website"
@@ -1016,10 +1080,10 @@ export default function ConsultationRequestForm({
         ) : quickMode ? (
           <div key="quick" className="animate-fade-in space-y-5">
             <h2 className="text-xl font-serif font-bold text-slate-900">
-              {t("step3Title")}
+              {reviewCopy?.formTitle ?? t("step3Title")}
             </h2>
-            <p className="text-sm text-slate-600">{t("quickInquiryHint")}</p>
-            <Field label={t("quickInquiryMessageLabel")} required fieldId="field-goal">
+            <p className="text-sm text-slate-600">{reviewCopy?.formHint ?? t("quickInquiryHint")}</p>
+            <Field label={reviewCopy?.goalLabel ?? t("quickInquiryMessageLabel")} required fieldId="field-goal">
               <textarea
                 id="field-goal"
                 value={form.goal}
@@ -1067,13 +1131,13 @@ export default function ConsultationRequestForm({
               </select>
             </Field>
             <p className="text-xs text-slate-500">{t("privacyNote")}</p>
-            <button
+            {!reviewCopy && <button
               type="button"
               onClick={() => setQuickMode(false)}
               className="text-sm text-primary font-medium hover:underline"
             >
               {t("back")}
-            </button>
+            </button>}
           </div>
         ) : (
           <>
@@ -1769,7 +1833,7 @@ export default function ConsultationRequestForm({
                   {t("submitting")}
                 </>
               ) : (
-                visibilityReview ? t("visibilityReviewSubmit") : t("submit")
+                reviewCopy?.submit ?? (visibilityReview ? t("visibilityReviewSubmit") : t("submit"))
               )}
             </button>
           ) : step < 3 ? (

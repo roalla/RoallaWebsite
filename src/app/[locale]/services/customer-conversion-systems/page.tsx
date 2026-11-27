@@ -3,16 +3,14 @@ import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import JsonLd from "@/components/JsonLd";
-import StickyMobileCTA from "@/components/StickyMobileCTA";
+import { ConversionReviewCta } from "@/components/conversion/ConversionReviewLinks";
 import Reveal from "@/components/motion/Reveal";
 import { BRAND_PILLARS, PILLAR_TITLE_KEYS } from "@/lib/brand-journey";
+import { CONVERSION_PATH as path, conversionReviewCopy } from "@/lib/customer-conversion";
 import { buildPageMetadata } from "@/lib/page-metadata";
 import { breadcrumbJsonLd, servicePageJsonLd, webPageJsonLd } from "@/lib/structured-data";
 
 type Props = { params: Promise<{ locale: string }> };
-const path = "/services/customer-conversion-systems";
-const offer = "customer-conversion-review";
-const inquiryIntent = "automation";
 const reviewButton = "inline-flex items-center justify-center rounded-lg bg-cyan-300 px-5 py-3 text-center font-semibold text-slate-950 transition-colors hover:bg-cyan-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-500";
 
 const copy = {
@@ -24,7 +22,6 @@ const copy = {
     heroTitle: "Turn more inquiries into customer conversations.",
     heroBody:
       "Connect your website, referrals, and events to one follow-up process. Give every qualified inquiry an owner and a next step, and see which sources lead to opportunities.",
-    primaryCta: "Request a Customer Conversion Review",
     secondaryCta: "See what the review includes",
     strategyTitle: "Build around the customer journey you want to improve.",
     strategyBody: "ROALLA’s Digital Enablement strategy starts with a business outcome. Choose one journey, connect the tools that support it, and use real results to decide what to improve next.",
@@ -37,8 +34,6 @@ const copy = {
     exampleLabel: "Example: trade-show follow-up",
     exampleTitle: "What happens after someone scans your QR code?",
     exampleBody: "A prospect scans your booth code and asks for a demo. Their request lands in the CRM with the event source and permission recorded. The right person gets a follow-up task. After the event, you can see how many requests turned into booked demos.",
-    inquiryGoal: "I’d like a Customer Conversion Review to see where we miss inquiries or lose track of follow-up.",
-    mobileCta: "See the conversion review",
     frameworkEyebrow: "A practical operating model",
     frameworkTitle: "Connect the parts that make follow-up work.",
     frameworkBody:
@@ -53,11 +48,18 @@ const copy = {
     dependenciesEyebrow: "What we need to begin",
     dependencies: ["Contact data", "Consent and permissions", "Approved content", "CRM and booking access", "Reporting access"],
     offerEyebrow: "Recommended first step",
-    offerTitle: "Customer Conversion Review",
     offerBody:
       "A focused review of how contacts enter your business, how they are tracked, and where follow-up is being lost. You receive a practical starting point for CRM, campaigns, measurement, and next actions.",
     offerItems: ["Current journey and contact-source map", "CRM and pipeline recommendation", "Follow-up and campaign pilot plan", "Measurement plan for response and conversion"],
     timeline: "Typical timeline: 1–2 weeks",
+    sampleTitle: "Sample contact-to-meeting map",
+    sampleLabel: "Illustrative example · Trade-show demo requests",
+    sampleSteps: [
+      ["Capture the inquiry", "A trade-show visitor requests a demo. The CRM records the event source and permission to follow up."],
+      ["Flag where it gets lost", "Requests sit in the event inbox. Nobody owns the reply when the event team returns to regular work."],
+      ["Assign the next action", "The sales coordinator reviews the request the next business day and sends a personal reply with available times."],
+      ["Measure the handoff", "Track requests answered within one business day and demos booked as a share of qualified requests."],
+    ],
     packagesEyebrow: "Ways to engage",
     packages: [
       ["Review", "Find the gaps", "Map your current customer journey and identify the first measurable improvements."],
@@ -77,7 +79,6 @@ const copy = {
     heroTitle: "Transformez plus de demandes en conversations avec vos clients.",
     heroBody:
       "Reliez votre site Web, vos recommandations et vos événements à un même processus de suivi. Attribuez chaque demande qualifiée à un responsable, définissez la prochaine étape et repérez les sources qui génèrent des occasions.",
-    primaryCta: "Demander une revue de conversion client",
     secondaryCta: "Voir ce que comprend la revue",
     strategyTitle: "Partez du parcours client que vous voulez améliorer.",
     strategyBody: "La stratégie d’accompagnement numérique de ROALLA part d’un résultat d’affaires. Choisissez un parcours, reliez les outils qui le soutiennent et servez-vous des résultats pour décider quoi améliorer ensuite.",
@@ -90,8 +91,6 @@ const copy = {
     exampleLabel: "Exemple : suivi après un salon professionnel",
     exampleTitle: "Que se passe-t-il après la lecture de votre code QR?",
     exampleBody: "Une personne balaie le code de votre kiosque et demande une démonstration. Le CRM enregistre la demande, sa provenance et le consentement. La personne responsable reçoit une tâche de suivi. Après le salon, vous pouvez voir combien de demandes ont mené à une démonstration réservée.",
-    inquiryGoal: "J’aimerais une revue de conversion client pour repérer les demandes qui nous échappent et les suivis qui se perdent.",
-    mobileCta: "Voir la revue de conversion",
     frameworkEyebrow: "Un modèle de fonctionnement pratique",
     frameworkTitle: "Reliez les éléments qui rendent le suivi efficace.",
     frameworkBody:
@@ -106,11 +105,18 @@ const copy = {
     dependenciesEyebrow: "Ce qu’il faut pour commencer",
     dependencies: ["Données de contacts", "Consentements et permissions", "Contenu approuvé", "Accès CRM et réservation", "Accès aux rapports"],
     offerEyebrow: "Première étape recommandée",
-    offerTitle: "Revue de conversion client",
     offerBody:
       "Une revue ciblée de l’arrivée des contacts, de leur suivi et des points où les occasions se perdent. Vous recevez un point de départ concret pour le CRM, les campagnes, les mesures et les prochaines actions.",
     offerItems: ["Carte du parcours et des sources de contacts", "Recommandation CRM et pipeline", "Plan pilote de suivi et de campagne", "Plan de mesure des réponses et conversions"],
     timeline: "Délai habituel : 1 à 2 semaines",
+    sampleTitle: "Exemple de parcours, du contact au rendez-vous",
+    sampleLabel: "Exemple fictif · Demandes de démonstration après un salon",
+    sampleSteps: [
+      ["Enregistrer la demande", "Une personne demande une démonstration au salon. Le CRM note la provenance de la demande et le consentement au suivi."],
+      ["Repérer où le suivi se perd", "Les demandes restent dans la boîte du salon. Personne n’est chargé d’y répondre quand l’équipe reprend ses activités habituelles."],
+      ["Attribuer la prochaine action", "La personne responsable des ventes examine la demande le jour ouvrable suivant et répond personnellement en proposant des créneaux."],
+      ["Mesurer le suivi", "Suivez les réponses envoyées en un jour ouvrable et la proportion des demandes qualifiées qui mènent à une démonstration réservée."],
+    ],
     packagesEyebrow: "Façons de travailler ensemble",
     packages: [
       ["Revue", "Trouver les écarts", "Cartographier le parcours actuel et cibler les premières améliorations mesurables."],
@@ -134,16 +140,7 @@ export default async function Page({ params }: Props) {
   const { locale } = await params;
   const c = copy[locale === "fr" ? "fr" : "en"];
   const tJourney = await getTranslations({ locale, namespace: "brandJourney" });
-  const inquiryHref = {
-    pathname: "/contact",
-    query: {
-      intent: inquiryIntent,
-      need: "both",
-      offer,
-      from_page: `/${locale}${path}`,
-      goal: c.inquiryGoal,
-    },
-  } as const;
+  const reviewCopy = conversionReviewCopy[locale === "fr" ? "fr" : "en"];
   const homeLabel = locale === "fr" ? "Accueil" : "Home";
   const digitalLabel = locale === "fr" ? "Accompagnement numérique" : "Digital Enablement";
   return (
@@ -168,7 +165,7 @@ export default async function Page({ params }: Props) {
         ]}
       />
 
-        <section className="relative overflow-hidden bg-slate-950 px-6 pb-16 pt-28 sm:px-10 lg:px-16 lg:pb-24 lg:pt-36">
+        <section data-header-tone="dark" className="relative overflow-hidden bg-slate-950 px-6 pb-16 pt-28 sm:px-10 lg:px-16 lg:pb-24 lg:pt-36">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_15%,rgba(20,184,166,0.22),transparent_34%),radial-gradient(circle_at_10%_90%,rgba(245,183,77,0.14),transparent_30%)]" aria-hidden />
           <div className="relative mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1fr_0.9fr]">
             <Reveal when="mount">
@@ -177,10 +174,10 @@ export default async function Page({ params }: Props) {
                 <span aria-hidden>·</span>
                 <span>{c.title}</span>
               </p>
-              <h1 className="mt-5 text-4xl font-serif font-bold leading-tight text-white sm:text-5xl lg:text-6xl">{c.heroTitle}</h1>
+              <h1 className="service-dark-heading mt-5 text-4xl font-serif font-bold leading-tight sm:text-5xl lg:text-6xl">{c.heroTitle}</h1>
               <p className="mt-5 max-w-xl text-lg leading-8 text-slate-200">{c.heroBody}</p>
               <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-4">
-                <Link href={inquiryHref} className={reviewButton}>{c.primaryCta}</Link>
+                <ConversionReviewCta placement="hero" className={reviewButton} />
                 <a href="#conversion-review" className="font-semibold text-white underline decoration-white/60 underline-offset-4 hover:decoration-white">{c.secondaryCta}</a>
               </div>
             </Reveal>
@@ -254,14 +251,33 @@ export default async function Page({ params }: Props) {
           <div className="grid gap-8 rounded-3xl border border-primary/20 bg-primary/[0.05] p-7 lg:grid-cols-[1fr_0.8fr] lg:p-10">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">{c.offerEyebrow}</p>
-              <h2 className="mt-3 text-3xl font-serif font-bold text-slate-950">{c.offerTitle}</h2>
+              <h2 className="mt-3 text-3xl font-serif font-bold text-slate-950">{reviewCopy.title}</h2>
               <p className="mt-4 max-w-2xl leading-7 text-slate-700">{c.offerBody}</p>
+              <ul className="mt-5 space-y-2">
+                {c.offerItems.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-sm leading-6 text-slate-700">
+                    <span aria-hidden className="mt-2 h-2 w-2 shrink-0 rounded-full bg-primary-dark" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
               <p className="mt-5 text-sm font-bold text-primary-dark">{c.timeline}</p>
-              <Link href={inquiryHref} className={`mt-5 ${reviewButton}`}>{c.primaryCta}</Link>
+              <ConversionReviewCta placement="review" className={`mt-5 ${reviewButton}`} />
             </div>
-            <ul className="space-y-3 self-center">
-              {c.offerItems.map((item) => <li key={item} className="flex items-start gap-3 text-sm leading-6 text-slate-700"><span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-primary" />{item}</li>)}
-            </ul>
+            <figure className="min-w-0 rounded-2xl border border-slate-200 bg-white px-4 py-5 sm:p-6">
+              <figcaption>
+                <p className="text-sm font-semibold text-primary-dark">{c.sampleLabel}</p>
+                <h3 className="mt-2 text-xl font-bold text-slate-950">{c.sampleTitle}</h3>
+              </figcaption>
+              <ol role="list" className="mt-5 space-y-4">
+                {c.sampleSteps.map(([title, detail], index) => (
+                  <Reveal as="li" key={title} delayMs={index * 90} className="border-l-2 border-primary/40 pl-3">
+                    <p className="font-semibold text-slate-950">{title}</p>
+                    <p className="mt-1 text-sm leading-6 text-slate-700">{detail}</p>
+                  </Reveal>
+                ))}
+              </ol>
+            </figure>
           </div>
         </Reveal>
 
@@ -272,7 +288,7 @@ export default async function Page({ params }: Props) {
               {c.packages.map(([name, title, description]) => (
                 <article key={name} className="rounded-2xl border border-white/10 bg-white/[0.06] p-6">
                   <p className="text-sm font-semibold text-cyan-300">{name}</p>
-                  <h3 className="mt-3 text-xl font-serif font-bold text-white">{title}</h3>
+                  <h3 className="service-dark-heading mt-3 text-xl font-serif font-bold">{title}</h3>
                   <p className="mt-3 leading-7 text-slate-200">{description}</p>
                 </article>
               ))}
@@ -280,12 +296,12 @@ export default async function Page({ params }: Props) {
           </div>
         </section>
 
-        <section className="mx-auto max-w-6xl px-6 py-16 text-center sm:px-10 lg:px-16">
+        <section className="mx-auto max-w-6xl px-6 pb-24 pt-16 text-center sm:px-10 lg:px-16 xl:pb-16">
           <h2 className="text-3xl font-serif font-bold text-slate-950 sm:text-4xl">{c.finalTitle}</h2>
           <p className="mx-auto mt-4 max-w-2xl leading-7 text-slate-600">{c.finalBody}</p>
-          <Link href={inquiryHref} className={`mt-7 ${reviewButton}`}>{c.primaryCta}</Link>
+          <ConversionReviewCta placement="closing" className={`mt-7 ${reviewButton}`} />
         </section>
-      <StickyMobileCTA label={c.mobileCta} anchorHref="#conversion-review" />
+      <ConversionReviewCta placement="mobile" />
     </div>
   );
 }

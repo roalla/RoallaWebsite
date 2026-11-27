@@ -127,7 +127,7 @@ test.describe("Services brand journey", () => {
         level: 2,
       }),
     ).toBeVisible();
-    await expect(outcomes.locator("img")).toHaveCount(3);
+    await expect(outcomes.locator("img")).toHaveCount(4);
     await expect(
       outcomes.getByRole("link", {
         name: "Explore automation and integrations",

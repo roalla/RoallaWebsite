@@ -18,6 +18,7 @@ type StickyMobileCTAProps = {
     | '/assessment'
     | '/tools/technology-decision-brief'
   anchorHref?: string
+  contactQuery?: Record<string, string>
   intent?: ConsultationIntent
   focus?: ConsultingFocus
   service?: 'websites-brand' | 'custom-platforms'
@@ -34,6 +35,7 @@ export default function StickyMobileCTA({
   label,
   href = '/contact',
   anchorHref,
+  contactQuery,
   intent,
   focus,
   service,
@@ -46,6 +48,7 @@ export default function StickyMobileCTA({
   analyticsParams,
 }: StickyMobileCTAProps) {
   const linkHref = (() => {
+    if (contactQuery) return { pathname: '/contact', query: contactQuery } as const
     const query: Record<string, string> = {}
     if (intent) query.intent = intent
     if (focus) query.focus = focus

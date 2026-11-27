@@ -455,6 +455,53 @@ const DigitalBuilds = () => {
           </div>
         </Reveal>
 
+        <Reveal className="mb-12 overflow-hidden rounded-3xl border border-primary/25 bg-gradient-to-br from-white via-cyan-50/60 to-primary/[0.08] shadow-sm">
+          <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:p-10">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary-dark">
+                {locale === "fr" ? "Conversion client" : "Customer conversion"}
+              </p>
+              <h2 className="mt-3 text-3xl font-serif font-bold leading-tight text-slate-950 sm:text-4xl">
+                {locale === "fr"
+                  ? "Transformez les contacts dispersés en système de suivi mesurable."
+                  : "Turn scattered contacts into a measurable follow-up system."}
+              </h2>
+              <p className="mt-4 max-w-xl text-base leading-7 text-slate-700">
+                {locale === "fr"
+                  ? "Reliez les sources de contacts, un CRM simple, des campagnes utiles et des mesures claires, tout en gardant l’échange humain aux moments décisifs."
+                  : "Connect contact sources, a simple CRM, useful campaigns, and clear measurement while keeping human conversation at the decision points."}
+              </p>
+              <Link
+                href="/services/customer-conversion-systems"
+                className="mt-6 inline-flex items-center justify-center rounded-lg bg-primary px-5 py-3 text-sm font-bold text-slate-950 transition-colors hover:bg-cyan-300"
+              >
+                {locale === "fr"
+                  ? "Explorer les systèmes de conversion client"
+                  : "Explore Customer Conversion Systems"}
+              </Link>
+            </div>
+
+            <ol className="grid gap-3 sm:grid-cols-2">
+              {[
+                locale === "fr" ? "Sources de contacts" : "Contact sources",
+                locale === "fr" ? "CRM simple" : "Simple CRM",
+                locale === "fr" ? "Suivi de campagne" : "Campaign follow-up",
+                locale === "fr" ? "Mesure et conversation humaine" : "Measurement and human conversation",
+              ].map((step, index) => (
+                <li
+                  key={step}
+                  className="flex min-h-20 items-center gap-4 rounded-2xl border border-white/80 bg-white/90 p-4 shadow-sm"
+                >
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-950 text-xs font-bold text-white">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-sm font-bold text-slate-800">{step}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </Reveal>
+
         <Reveal className="mb-12 rounded-2xl border border-primary/20 bg-primary/[0.04] p-6 lg:p-8">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary-dark">
             {t("lifecycleEyebrow")}

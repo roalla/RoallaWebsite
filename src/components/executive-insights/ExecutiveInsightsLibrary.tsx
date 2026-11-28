@@ -111,7 +111,11 @@ export default function ExecutiveInsightsLibrary({ locale, guides }: Props) {
   const [downloadUrl, setDownloadUrl] = useState("");
   const [emailSent, setEmailSent] = useState(true);
   const featured = guides.find((guide) => guide.featured) ?? guides[0];
-  const visible = useMemo(() => filter === "all" ? guides : guides.filter((guide) => guide.category === filter), [filter, guides]);
+  const orderedGuides = useMemo(
+    () => [...guides].sort((first, second) => first.number.localeCompare(second.number, "en", { numeric: true })),
+    [guides],
+  );
+  const visible = filter === "all" ? orderedGuides : orderedGuides.filter((guide) => guide.category === filter);
   const isWellbeingGuide = selected?.slug === "sustainable-performance-psychological-wellbeing";
   const toolkitContactHref = { pathname: "/contact" as const, query: { intent: "consulting", focus: "team", goal: c.toolkitGoal, from_page: "/executive-insights" } };
 

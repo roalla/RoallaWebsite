@@ -22,6 +22,14 @@ export type ExecutiveGuide = {
 
 export const EXECUTIVE_GUIDES: readonly ExecutiveGuide[] = [
   {
+    slug: "early-stage-board-governance-enterprise-trust",
+    number: "EI—50",
+    category: "value",
+    image: "/images/executive-insights/early-stage-board-governance.webp",
+    en: { title: "Early-Stage Board Governance & Enterprise Trust", summary: "Introduce proportionate board governance early to strengthen decisions, regulated-market credibility, certification readiness, continuity and buyer confidence.", categoryLabel: "Governance & enterprise value" },
+    fr: { title: "Gouvernance du conseil en phase initiale et confiance d’entreprise", summary: "Mettez en place tôt une gouvernance proportionnée pour renforcer les décisions, la crédibilité réglementaire, la préparation aux certifications, la continuité et la confiance des acheteurs.", categoryLabel: "Gouvernance et valeur d’entreprise" },
+  },
+  {
     slug: "bill-c8-critical-cyber-systems-readiness",
     number: "EI—49",
     category: "risk",
